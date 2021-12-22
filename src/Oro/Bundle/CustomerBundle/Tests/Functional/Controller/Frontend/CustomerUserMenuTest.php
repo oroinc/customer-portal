@@ -21,7 +21,7 @@ class CustomerUserMenuTest extends WebTestCase
         $this->client->useHashNavigation(true);
         $this->loadFixtures([LoadCustomerUserACLData::class]);
 
-        $this->configManager = self::getConfigManager('global');
+        $this->configManager = self::getConfigManager();
     }
 
     /**

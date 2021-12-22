@@ -192,13 +192,13 @@ class CustomerTest extends RestJsonApiTestCase
             ['entity' => 'customers'],
             ['filter[createdAt][gte]' => $customer->getCreatedAt()->format('c')]
         );
-        static::assertStringContainsString('customer created now', $response->getContent());
+        self::assertStringContainsString('customer created now', $response->getContent());
 
         $response = $this->cget(
             ['entity' => 'customers'],
             ['filter[createdAt][lt]' => $customer->getCreatedAt()->format('c')]
         );
-        static::assertStringNotContainsString('customer created now', $response->getContent());
+        self::assertStringNotContainsString('customer created now', $response->getContent());
     }
 
     public function testGetListFilteredByUpdatedAt()
@@ -210,7 +210,7 @@ class CustomerTest extends RestJsonApiTestCase
             ['entity' => 'customers'],
             ['filter[updatedAt][lt]' => $customer->getCreatedAt()->format('c')]
         );
-        static::assertStringNotContainsString('customer created now', $response->getContent());
+        self::assertStringNotContainsString('customer created now', $response->getContent());
 
         $this->patch(
             ['entity' => 'customers', 'id' => $customer->getId()],
@@ -228,7 +228,7 @@ class CustomerTest extends RestJsonApiTestCase
             ['entity' => 'customers'],
             ['filter[updatedAt][gte]' => $customer->getCreatedAt()->format('c')]
         );
-        static::assertStringContainsString('customer created now and updated', $response->getContent());
+        self::assertStringContainsString('customer created now and updated', $response->getContent());
     }
 
     public function testGet()

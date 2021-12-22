@@ -128,11 +128,12 @@ services:
             - { name: oro.api.processor, action: create, group: normalize_result, requestType: frontend&rest, class: Oro\Bundle\CustomerBundle\Api\Model\Login, priority: -29 }
 
     oro_customer.api.frontend.config.add_owner_validator:
-        class: Oro\Bundle\CustomerBundle\Api\Processor\GetConfig\AddFrontendOwnerValidator
+        class: Oro\Bundle\OrganizationBundle\Api\Processor\GetConfig\AddOwnerValidator
         arguments:
             - '@oro_api.doctrine_helper'
             - '@oro_customer.owner.frontend_ownership_metadata_provider'
             - '@oro_api.validation_helper'
+            - 'Oro\Bundle\CustomerBundle\Validator\Constraints\FrontendOwner'
         tags:
             - { name: oro.api.processor, action: get_config, extra: '!identifier_fields_only&!descriptions', requestType: frontend, targetAction: update|create|update_relationship|add_relationship|delete_relationship|update_subresource|add_subresource|delete_subresource, priority: -50 }
 

@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\JsTree;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers;
 use Oro\Component\Tree\Handler\AbstractTreeHandler;
 use Oro\Component\Tree\Test\AbstractTreeHandlerTestCase;
 
@@ -11,29 +12,26 @@ class CustomerTreeHandlerTest extends AbstractTreeHandlerTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
-        return 'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers';
+        return [LoadCustomers::class];
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getHandlerId()
+    protected function getHandlerId(): string
     {
         return 'oro_customer.customer_tree_handler';
     }
 
     /**
      * @dataProvider createDataProvider
-     * @param string|null $entityReference
-     * @param bool $includeRoot
-     * @param array $expectedData
      */
-    public function testCreateTree($entityReference, $includeRoot, array $expectedData)
+    public function testCreateTree(?string $entityReference, bool $includeRoot, array $expectedData)
     {
         $entity = null;
-        if ($entityReference !== null) {
+        if (null !== $entityReference) {
             /** @var Customer $entity */
             $entity = $this->getReference($entityReference);
         }
@@ -54,10 +52,7 @@ class CustomerTreeHandlerTest extends AbstractTreeHandlerTestCase
         $this->assertTreeCreated($expectedData, $entity, $includeRoot);
     }
 
-    /**
-     * @return array
-     */
-    public function createDataProvider()
+    public function createDataProvider(): array
     {
         return [
             [

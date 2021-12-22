@@ -223,7 +223,7 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
     protected function loadRoles(ObjectManager $manager)
     {
         $user = $this->getAdminUser($manager);
-        $repository = $manager->getRepository('OroCustomerBundle:CustomerUserRole');
+        $repository = $manager->getRepository(CustomerUserRole::class);
         $this->setReference(self::ROLE_FRONTEND_BUYER, $repository->findOneBy(['role' => 'ROLE_FRONTEND_BUYER']));
         $this->setReference(
             self::ROLE_FRONTEND_ADMINISTRATOR,

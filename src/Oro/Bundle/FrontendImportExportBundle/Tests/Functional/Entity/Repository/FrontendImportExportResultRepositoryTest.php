@@ -2,23 +2,17 @@
 
 namespace Oro\Bundle\FrontendImportExportBundle\Tests\Functional\Entity\Repository;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Oro\Bundle\FrontendImportExportBundle\Entity\FrontendImportExportResult;
-use Oro\Bundle\FrontendImportExportBundle\Entity\Repository\FrontendImportExportResultRepository;
 use Oro\Bundle\FrontendImportExportBundle\Tests\Functional\DataFixtures\LoadFrontendImportExportResultData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class FrontendImportExportResultRepositoryTest extends WebTestCase
 {
-    private FrontendImportExportResultRepository $repository;
-
     protected function setUp(): void
     {
         $this->initClient();
-
-        $this->loadFixtures([
-            LoadFrontendImportExportResultData::class
-        ]);
+        $this->loadFixtures([LoadFrontendImportExportResultData::class]);
     }
 
     public function testUpdateExpiredRecords()
@@ -38,11 +32,8 @@ class FrontendImportExportResultRepositoryTest extends WebTestCase
         $this->assertTrue($notExpiredResult->isExpired());
     }
 
-    /**
-     * @return EntityManager
-     */
-    private function getManager()
+    private function getManager(): EntityManagerInterface
     {
-        return $this->getContainer()->get('doctrine')->getManagerForClass(FrontendImportExportResult::class);
+        return self::getContainer()->get('doctrine')->getManagerForClass(FrontendImportExportResult::class);
     }
 }

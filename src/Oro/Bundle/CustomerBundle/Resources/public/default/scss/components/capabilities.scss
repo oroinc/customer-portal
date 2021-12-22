@@ -43,23 +43,10 @@
         display: inline-block;
         width: 30%;
         padding: 0 30px 10px 0;
-
-        input[type='checkbox'] {
-            vertical-align: top;
-            margin: 3px 0 0 -20px;
-            display: block;
-            float: left;
-        }
     }
 
     &__item-label {
         padding-right: 8px;
-    }
-
-    label.role-capability__item-label {
-        padding-left: 27px;
-        margin: 0 0 0 -8px;
-        display: inline-block;
     }
 
     &__item-label--no-access {

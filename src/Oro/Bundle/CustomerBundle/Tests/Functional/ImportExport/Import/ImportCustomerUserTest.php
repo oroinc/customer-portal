@@ -2,12 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\ImportExport\Import;
 
-use Doctrine\ORM\EntityManager;
 use Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM\LoadCustomerUserDemoData;
 use Oro\Bundle\ImportExportBundle\Job\JobExecutor;
 use Oro\Bundle\ImportExportBundle\Job\JobResult;
 use Oro\Bundle\ImportExportBundle\Processor\ProcessorRegistry;
-use Oro\Bundle\IntegrationBundle\Test\FakeRestClientFactory;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 /**
@@ -15,44 +13,23 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
  */
 class ImportCustomerUserTest extends WebTestCase
 {
-    /**
-     * @var EntityManager
-     */
-    protected $em;
-
-    /**
-     * @var FakeRestClientFactory
-     */
-    protected static $fakeRestClientFactory;
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->initClient();
-
-        $this->loadFixtures([
-            LoadCustomerUserDemoData::class
-        ]);
+        $this->loadFixtures([LoadCustomerUserDemoData::class]);
     }
 
     /**
      * @dataProvider getFixtureProvider
-     *
-     * @param string $fixtureName
      */
-    public function testImport($fixtureName)
+    public function testImport(string $fixtureName)
     {
         $jobResult = $this->executeJob($this->getImportFixture($fixtureName));
 
         $this->assertTrue($jobResult->isSuccessful());
     }
 
-    /**
-     * @return array
-     */
-    public function getFixtureProvider()
+    public function getFixtureProvider(): array
     {
         return [
             'customer_users_with_existing_id_and_not_valid_customer' => [
@@ -61,12 +38,7 @@ class ImportCustomerUserTest extends WebTestCase
         ];
     }
 
-    /**
-     * @param string $fileName
-     *
-     * @return JobResult
-     */
-    private function executeJob($fileName)
+    private function executeJob(string $fileName): JobResult
     {
         /** @var JobExecutor $executor */
         $executor = $this->getContainer()->get('oro_importexport.job_executor');
@@ -88,12 +60,7 @@ class ImportCustomerUserTest extends WebTestCase
         );
     }
 
-    /**
-     * @param string $fixtureName
-     *
-     * @return string
-     */
-    private function getImportFixture($fixtureName)
+    private function getImportFixture(string $fixtureName): string
     {
         return sprintf('%s/fixtures/%s.csv', __DIR__, $fixtureName);
     }

@@ -3,10 +3,10 @@
 namespace Oro\Bundle\FrontendImportExportBundle\Tests\Functional\Async\Export;
 
 use Oro\Bundle\FrontendImportExportBundle\Async\Export\FrontendExportMessageProcessor;
-use Oro\Bundle\ImportExportBundle\Async\Export\ExportMessageProcessor;
 use Oro\Bundle\ImportExportBundle\Handler\ExportHandler;
 use Oro\Bundle\ImportExportBundle\Processor\ProcessorRegistry;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
 use Oro\Component\MessageQueue\Job\JobProcessor;
 use Oro\Component\MessageQueue\Transport\Message;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
@@ -17,7 +17,7 @@ use Oro\Component\MessageQueue\Transport\SessionInterface;
 class FrontendExportMessageProcessorTest extends WebTestCase
 {
     /** @var ExportHandler|\PHPUnit\Framework\MockObject\MockObject */
-    private ExportHandler $exportHandler;
+    private $exportHandler;
 
     protected function setUp(): void
     {
@@ -58,7 +58,7 @@ class FrontendExportMessageProcessorTest extends WebTestCase
             'jobId' => $childJob->getId(),
             'jobName' => 'job_name',
             'processorAlias' => 'alias',
-        ]));
+        ], JSON_THROW_ON_ERROR));
 
         $exportResult = [
             'success' => $resultSuccess,
@@ -68,8 +68,7 @@ class FrontendExportMessageProcessorTest extends WebTestCase
             'entities' => 'User',
         ];
 
-        $this->exportHandler
-            ->expects($this->once())
+        $this->exportHandler->expects($this->once())
             ->method('getExportResult')
             ->with(
                 $this->equalTo('job_name'),
@@ -83,7 +82,7 @@ class FrontendExportMessageProcessorTest extends WebTestCase
 
         $processor = $this->getContainer()->get('oro_frontend_importexport.async.processor.export');
 
-        $result = $processor->process($message, $this->createSessionMock());
+        $result = $processor->process($message, $this->createMock(SessionInterface::class));
         $this->assertEquals($expectedResult, $result);
         $this->assertCount(5, $childJob->getData());
         $this->assertEquals($exportResult, $childJob->getData());
@@ -96,27 +95,19 @@ class FrontendExportMessageProcessorTest extends WebTestCase
                 'resultSuccess' => true,
                 'readsCount' => 100,
                 'errorsCount' => 0,
-                'processResult' => ExportMessageProcessor::ACK
+                'processResult' => MessageProcessorInterface::ACK
             ], [
                 'resultSuccess' => true,
                 'readsCount' => 0,
                 'errorsCount' => 0,
-                'processResult' => ExportMessageProcessor::ACK
+                'processResult' => MessageProcessorInterface::ACK
             ], [
                 'resultSuccess' => false,
                 'readsCount' => 0,
                 'errorsCount' => 5,
-                'processResult' => ExportMessageProcessor::REJECT
+                'processResult' => MessageProcessorInterface::REJECT
             ],
         ];
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|SessionInterface
-     */
-    private function createSessionMock()
-    {
-        return $this->createMock(SessionInterface::class);
     }
 
     private function getJobProcessor(): JobProcessor

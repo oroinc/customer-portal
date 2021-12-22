@@ -34,7 +34,7 @@ class AclPermissionControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertResponseStatusCodeEquals($result, $status);
         if ($status !== 401) {
-            $data = json_decode($result->getContent(), true);
+            $data = json_decode($result->getContent(), true, 512, JSON_THROW_ON_ERROR);
             $this->assertEquals($expected, $data);
         }
     }

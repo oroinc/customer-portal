@@ -58,7 +58,7 @@
         <h1{{ block('block_attributes') }}>
             {% if titleIcon is defined %}
             <span class="badge">
-                <i class="{{ titleIcon }}"></i>
+                <span class="{{ titleIcon }}" aria-hidden="true"></span>
             </span>
             {% endif %}
             <span class="page-title__text">{{ content|raw }}</span>

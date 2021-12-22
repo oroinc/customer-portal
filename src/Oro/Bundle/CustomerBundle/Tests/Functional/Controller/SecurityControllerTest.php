@@ -68,7 +68,7 @@ class SecurityControllerTest extends WebTestCase
             [
                 'redirectUrl' => $redirectUrl,
             ],
-            json_decode($response->getContent(), true)
+            json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR)
         );
     }
 }

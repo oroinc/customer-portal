@@ -140,7 +140,7 @@ class MenuUpdateWithBrokenItemsData extends AbstractFixture implements Dependent
         $manager->flush();
     }
 
-    protected function getMenuUpdateForCommerce($data, $entityClass)
+    private function getMenuUpdateForCommerce($data, $entityClass)
     {
         if (isset($data['content_node'])) {
             $data['content_node'] = $this->getReference($data['content_node']);

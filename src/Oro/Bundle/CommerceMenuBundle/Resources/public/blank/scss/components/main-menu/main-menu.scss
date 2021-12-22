@@ -13,6 +13,10 @@
         &.active {
             background: $main-menu-link-background-active;
         }
+
+        &--ancestor {
+            display: flex;
+        }
     }
 
     &__link {
@@ -26,8 +30,6 @@
         text-decoration: none;
 
         color: $main-menu-link-color;
-
-        @extend %base-transition;
 
         &:hover {
             color: $main-menu-link-color-hover;
@@ -43,14 +45,13 @@
     }
 
     &__button-arrow {
-        display: none;
-
         color: $main-menu-link-color;
-        text-align: left;
 
         border: none;
         background: none;
         outline: none;
+
+        @include fa-icon($main-menu-button-arrow-icon);
     }
 
     &__back-trigger {
@@ -87,25 +88,15 @@
         }
 
         .main-menu__button-arrow {
-            [class^='fa-'],
-            [class*=' fa-'] {
+            z-index: z('base') - 1;
+
+            flex-grow: 1;
+            padding-right: $main-menu-button-arrow-fullscreen-offset;
+            text-align: $main-menu-button-arrow-fullscreen-text-align;
+
+            &::before {
+                display: inline-flex;
                 transform: rotate(-90deg);
-            }
-        }
-    }
-}
-
-@include only-desktop {
-    .main-menu {
-        &__button-arrow {
-            display: none;
-        }
-
-        &__taptick {
-            display: inline-block;
-
-            .fa-angle-down {
-                display: block;
             }
         }
     }
@@ -140,28 +131,8 @@
                 vertical-align: middle;
             }
 
-            &__button-arrow {
-                display: flex;
-
-                width: $main-menu-button-arrow-d-width;
-
-                margin-left: $main-menu-button-arrow-d-offset-left;
-                padding: $main-menu-button-arrow-d-inner-offset;
-                align-items: $main-menu-button-arrow-d-align-items;
-            }
-
-            &__taptick {
-                display: none;
-            }
-
             &__item {
                 display: flex;
-
-                &--ancestor {
-                    .main-menu__link {
-                        padding-right: $main-menu-ancestor-link-inner-offset;
-                    }
-                }
 
                 &:hover {
                     .main-menu__button-arrow {
@@ -181,10 +152,6 @@
             border-bottom: $main-menu-tablet-border;
         }
 
-        &__taptick {
-            display: none;
-        }
-
         &__item {
             display: flex;
             justify-content: space-between;
@@ -201,15 +168,6 @@
             line-height: $main-menu-link-line-tablet-height;
 
             text-align: left;
-        }
-
-        &__button-arrow {
-            display: block;
-            flex-grow: 1;
-
-            padding: $main-menu-button-arrow-offset;
-
-            text-align: right;
         }
 
         &__sublist-container {

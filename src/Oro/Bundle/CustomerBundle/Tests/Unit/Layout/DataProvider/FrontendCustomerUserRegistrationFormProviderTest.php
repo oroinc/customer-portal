@@ -261,12 +261,10 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
     private function configureCurrentWebsite($website = null)
     {
         if ($website === null) {
-            $this->websiteManager
-                ->expects($this->never())
+            $this->websiteManager->expects($this->never())
                 ->method('getCurrentWebsite');
         } else {
-            $this->websiteManager
-                ->expects($this->once())
+            $this->websiteManager->expects($this->once())
                 ->method('getCurrentWebsite')
                 ->willReturn($website);
         }
@@ -279,12 +277,10 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
     private function configureUserRepoFind(User $owner = null, $ownerId = null)
     {
         if ($owner === null) {
-            $this->em
-                ->expects($this->never())
+            $this->em->expects($this->never())
                 ->method('find');
         } else {
-            $this->em
-                ->expects($this->once())
+            $this->em->expects($this->once())
                 ->method('find')
                 ->with(User::class, $ownerId)
                 ->willReturn($owner);
@@ -294,12 +290,10 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
     private function configureCreateForm(FormInterface $formToCreate = null)
     {
         if ($formToCreate === null) {
-            $this->formFactory
-                ->expects($this->never())
+            $this->formFactory->expects($this->never())
                 ->method('create');
         } else {
-            $this->formFactory
-                ->expects($this->once())
+            $this->formFactory->expects($this->once())
                 ->method('create')
                 ->with(FrontendCustomerUserRegistrationType::class)
                 ->willReturn($formToCreate);
@@ -312,12 +306,10 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
     private function configureRouterGenerator($action = null)
     {
         if ($action === null) {
-            $this->router
-                ->expects($this->never())
+            $this->router->expects($this->never())
                 ->method('generate');
         } else {
-            $this->router
-                ->expects($this->once())
+            $this->router->expects($this->once())
                 ->method('generate')
                 ->with(FrontendCustomerUserRegistrationFormProvider::ACCOUNT_USER_REGISTER_ROUTE_NAME, [])
                 ->willReturn($action);

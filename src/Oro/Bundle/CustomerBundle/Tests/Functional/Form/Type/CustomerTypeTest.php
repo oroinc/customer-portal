@@ -24,7 +24,7 @@ class CustomerTypeTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->initClient([], static::generateBasicAuthHeader());
+        $this->initClient([], self::generateBasicAuthHeader());
         $this->loadFixtures([LoadCustomers::class]);
 
         $this->updateRolePermissions(
@@ -50,8 +50,8 @@ class CustomerTypeTest extends WebTestCase
 
         self::assertCount(1, $addresses);
         self::assertTrue($addresses->first()->isPrimary());
-        static::assertStringContainsString('Customer has been saved', $crawler->html());
-        static::assertStringNotContainsString('One of the addresses must be set as primary.', $crawler->html());
+        self::assertStringContainsString('Customer has been saved', $crawler->html());
+        self::assertStringNotContainsString('One of the addresses must be set as primary.', $crawler->html());
     }
 
     public function formAddressTypeDataProvider(): array

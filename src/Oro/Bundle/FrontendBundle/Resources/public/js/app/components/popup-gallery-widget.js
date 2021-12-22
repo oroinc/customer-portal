@@ -214,14 +214,24 @@ define(function(require) {
                 success: data => {
                     _.each(data, function(item, key) {
                         const image = {
-                            src: item[this.options.galleryFilter],
                             alt: this.options.alt
                         };
+                        if (_.isArray(item[this.options.galleryFilter])) {
+                            image.src = _.toArray(item[this.options.galleryFilter]).slice(-1)[0].srcset || '';
+                            image.sources = _.toArray(item[this.options.galleryFilter]).slice(0, -1);
+                        } else {
+                            image.src = item[this.options.galleryFilter];
+                        }
                         if (_.has(item, 'isInitial') && item['isInitial']) {
                             this.options.initialSlide = key;
                         }
                         if (this.useThumb()) {
-                            image.thumb = item[this.options.thumbnailsFilter];
+                            if (_.isArray(item[this.options.thumbnailsFilter])) {
+                                image.thumb = _.toArray(item[this.options.thumbnailsFilter]).slice(-1)[0].srcset || '';
+                                image.thumbSources = _.toArray(item[this.options.thumbnailsFilter]).slice(0, -1);
+                            } else {
+                                image.thumb = item[this.options.thumbnailsFilter];
+                            }
                         }
                         this.options.galleryImages.push(image);
                     }, this);

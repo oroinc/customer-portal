@@ -21,17 +21,13 @@ class CustomerUserOperationsTest extends WebTestCase
     {
         $this->initClient([], self::generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
-        $this->loadFixtures(
-            [
-                LoadCustomerUserRoleData::class,
-            ]
-        );
+        $this->loadFixtures([LoadCustomerUserRoleData::class]);
     }
 
     public function testConfirm(): void
     {
         /** @var CustomerUser $user */
-        $user = $this->getReference(static::EMAIL);
+        $user = $this->getReference(self::EMAIL);
         self::assertNotNull($user);
 
         $id = $user->getId();
@@ -95,7 +91,7 @@ class CustomerUserOperationsTest extends WebTestCase
         $repository = $em->getRepository(CustomerUser::class);
 
         /** @var CustomerUser $user */
-        $user = $repository->findOneBy(['email' => static::EMAIL]);
+        $user = $repository->findOneBy(['email' => self::EMAIL]);
         $id = $user->getId();
 
         self::assertNotNull($user);
@@ -119,10 +115,7 @@ class CustomerUserOperationsTest extends WebTestCase
         self::assertTrue($user->isEnabled());
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function executeOperation(CustomerUser $customerUser, $operationName): void
+    private function executeOperation(CustomerUser $customerUser, string $operationName): void
     {
         $entityId = $customerUser->getId();
         $entityClass = CustomerUser::class;

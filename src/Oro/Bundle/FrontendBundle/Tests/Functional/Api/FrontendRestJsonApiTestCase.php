@@ -20,8 +20,8 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     use WebsiteManagerTrait;
 
     /** Default WSSE credentials */
-    const USER_NAME     = 'frontend_admin_api@example.com';
-    const USER_PASSWORD = 'frontend_admin_api_key';
+    protected const USER_NAME = 'frontend_admin_api@example.com';
+    protected const USER_PASSWORD = 'frontend_admin_api_key';
 
     /** @var bool */
     private $isVisitorEnabled = false;
@@ -134,7 +134,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         $cookieJar = $this->client->getCookieJar();
         $cookieJar->set(new Cookie(
             AnonymousCustomerUserAuthenticationListener::COOKIE_NAME,
-            base64_encode(json_encode([$visitor->getId(), $visitor->getSessionId()]))
+            base64_encode(json_encode([$visitor->getId(), $visitor->getSessionId()], JSON_THROW_ON_ERROR))
         ));
         // set "_csrf" cookie with domain to be sure it was rewritten after previous request
         $domain = str_replace('http://', '', Client::LOCAL_URL);

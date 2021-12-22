@@ -15,6 +15,7 @@ use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
 use Oro\Component\MessageQueue\Job\JobProcessor;
 use Oro\Component\MessageQueue\Transport\Message;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
+use Oro\Component\MessageQueue\Util\JSON;
 
 /**
  * @dbIsolationPerTest
@@ -37,13 +38,13 @@ class OwnerTreeCacheJobProcessorTest extends WebTestCase
 
         $message = new Message();
         $message->setMessageId('test_message');
-        $message->setBody(json_encode($messageData));
+        $message->setBody(JSON::encode($messageData));
 
         $this->updateCustomerUserLastLogin(LoadCustomerUserData::LEVEL_1_EMAIL, 100);
         $this->updateCustomerUserLastLogin(LoadCustomerUserData::LEVEL_1_1_EMAIL, 1100);
         $this->updateCustomerUserLastLogin(LoadCustomerUserData::GROUP2_EMAIL, 800);
 
-        $result = $processor->process($message, $this->createSessionMock());
+        $result = $processor->process($message, $this->createMock(SessionInterface::class));
 
         $this->assertMessagesCount(Topics::CALCULATE_BUSINESS_UNIT_OWNER_TREE_CACHE, 2);
         $this->assertMessageSentForCustomer($this->getReference(LoadCustomers::CUSTOMER_LEVEL_1));
@@ -59,9 +60,9 @@ class OwnerTreeCacheJobProcessorTest extends WebTestCase
 
         $message = new Message();
         $message->setMessageId('test_message');
-        $message->setBody(json_encode($messageData));
+        $message->setBody(JSON::encode($messageData));
 
-        $result = $processor->process($message, $this->createSessionMock());
+        $result = $processor->process($message, $this->createMock(SessionInterface::class));
 
         $this->assertMessagesEmpty(Topics::CALCULATE_BUSINESS_UNIT_OWNER_TREE_CACHE);
 
@@ -108,18 +109,7 @@ class OwnerTreeCacheJobProcessorTest extends WebTestCase
         return $this->getContainer()->get('oro_customer.tests.model.business_unit_message_factory');
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|SessionInterface
-     */
-    private function createSessionMock()
-    {
-        return $this->createMock(SessionInterface::class);
-    }
-
-    /**
-     * @throws \Exception
-     */
-    private function updateCustomerUserLastLogin(string $reference, int $secondsAgo)
+    private function updateCustomerUserLastLogin(string $reference, int $secondsAgo): void
     {
         $entityManager = $this->client->getContainer()->get('doctrine')->getManager();
         $customerUser = $this->getReference($reference);

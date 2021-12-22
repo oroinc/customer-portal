@@ -50,12 +50,7 @@ class GetTest extends FrontendRestJsonApiTestCase
         });
     }
 
-    /**
-     * @param array $content
-     *
-     * @return mixed
-     */
-    protected function getFirstEntityId($content)
+    private function getFirstEntityId(array $content): ?string
     {
         return array_key_exists(JsonApiDoc::DATA, $content) && count($content[JsonApiDoc::DATA]) === 1
             ? $content[JsonApiDoc::DATA][0][JsonApiDoc::ID]

@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\GridViewUser;
 use Oro\Bundle\DataGridBundle\Tests\Functional\DataFixtures\LoadGridViewUserData as BaseLoadGridViewUserData;
 
@@ -48,6 +49,6 @@ class LoadGridViewUserData extends BaseLoadGridViewUserData
      */
     protected function getUserClassName()
     {
-        return 'OroCustomerBundle:CustomerUser';
+        return CustomerUser::class;
     }
 }

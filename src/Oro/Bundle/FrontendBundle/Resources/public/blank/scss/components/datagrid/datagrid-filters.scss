@@ -18,9 +18,9 @@
     font: $datagrid-filters-state-font;
     text-align: center;
 
-    transition: all $datagrid-filters-state-animation-speed;
     border-width: 0;
     padding: 0;
+    cursor: pointer;
 
     &__ellipsis {
         display: block;

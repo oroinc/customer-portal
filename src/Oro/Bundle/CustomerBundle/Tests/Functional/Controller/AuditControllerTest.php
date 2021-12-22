@@ -34,15 +34,9 @@ class AuditControllerTest extends WebTestCase
         );
     }
 
-    /**
-     * @return CustomerUser
-     */
-    protected function getCurrentUser()
+    private function getCurrentUser(): CustomerUser
     {
-        return $this->getContainer()
-            ->get('doctrine')
-            ->getManagerForClass('OroCustomerBundle:CustomerUser')
-            ->getRepository('OroCustomerBundle:CustomerUser')
+        return $this->getContainer()->get('doctrine')->getRepository(CustomerUser::class)
             ->findOneBy(['username' => LoadCustomerUserData::AUTH_USER]);
     }
 }

@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\CustomerBundle\Doctrine\SoftDeleteableFilter;
 use Oro\Bundle\CustomerBundle\Doctrine\SoftDeleteableInterface;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\RFPBundle\Entity\Request;
 use Oro\Bundle\RFPBundle\Tests\Functional\DataFixtures\LoadRequestData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
@@ -14,36 +15,20 @@ use Oro\Component\Testing\QueryTracker;
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods).
  */
-class SoftDeleteableFilterTest extends WebTestCase
+class SoftDeletableFilterTest extends WebTestCase
 {
-    /**
-     * @var QueryTracker
-     */
-    protected $queryTracker;
+    /** @var QueryTracker */
+    private $queryTracker;
 
-    /**
-     * @var EntityManager
-     */
-    protected $em;
+    /** @var EntityManager */
+    private $em;
 
-    /**
-     * @var EntityRepository
-     */
-    protected $requestRepository;
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         parent::setUp();
         $this->initClient([], $this->generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
-        $this->loadFixtures(
-            [
-                'Oro\Bundle\RFPBundle\Tests\Functional\DataFixtures\LoadRequestData'
-            ]
-        );
+        $this->loadFixtures([LoadRequestData::class]);
 
         $this->em = $this->getContainer()->get('doctrine')->getManager();
         $this->queryTracker = new QueryTracker($this->em);
@@ -158,8 +143,8 @@ class SoftDeleteableFilterTest extends WebTestCase
         $this->enableFilter();
         $result = $this->em->createQueryBuilder()
             ->select('a')
-            ->from('OroCustomerBundle:Customer', 'a')
-            ->join('OroRFPBundle:Request', 'r', 'WITH', 'a = r.customer')
+            ->from(Customer::class, 'a')
+            ->join(Request::class, 'r', 'WITH', 'a = r.customer')
             ->where('r.firstName = :name')
             ->setParameter('name', 'John')
             ->getQuery()
@@ -171,8 +156,8 @@ class SoftDeleteableFilterTest extends WebTestCase
         $this->disableFilter();
         $result = $this->em->createQueryBuilder()
             ->select('a')
-            ->from('OroCustomerBundle:Customer', 'a')
-            ->join('OroRFPBundle:Request', 'r', 'WITH', 'a = r.customer')
+            ->from(Customer::class, 'a')
+            ->join(Request::class, 'r', 'WITH', 'a = r.customer')
             ->where('r.firstName = :name')
             ->setParameter('name', 'John')
             ->getQuery()
@@ -183,7 +168,7 @@ class SoftDeleteableFilterTest extends WebTestCase
         $this->checkQueries();
     }
 
-    protected function enableFilter()
+    private function enableFilter(): void
     {
         $filters = $this->em->getFilters();
         /** @var SoftDeleteableFilter $filter */
@@ -191,38 +176,29 @@ class SoftDeleteableFilterTest extends WebTestCase
         $filter->setEm($this->em);
     }
 
-    protected function disableFilter()
+    private function disableFilter(): void
     {
         $filters = $this->em->getFilters();
         $filters->disable(SoftDeleteableFilter::FILTER_ID);
     }
 
-    /**
-     * @param string $query
-     */
-    protected function assertQueryModified($query)
+    private function assertQueryModified(string $query): void
     {
         $needle = $this->getQueryNeedleString();
-        static::assertStringContainsString($needle, $query);
+        self::assertStringContainsString($needle, $query);
     }
 
-    /**
-     * @param string $query
-     */
-    protected function assertQueryNotModified($query)
+    private function assertQueryNotModified(string $query): void
     {
         $needle = $this->getQueryNeedleString();
-        static::assertStringNotContainsString($needle, $query);
+        self::assertStringNotContainsString($needle, $query);
     }
 
-    /**
-     * @return string
-     */
-    protected function getQueryNeedleString()
+    private function getQueryNeedleString(): string
     {
         $connection = $this->em->getConnection();
         $platform = $connection->getDatabasePlatform();
-        $metadata = $this->em->getClassMetadata('Oro\Bundle\RFPBundle\Entity\Request');
+        $metadata = $this->em->getClassMetadata(Request::class);
 
         $column = $this->em
             ->getConfiguration()
@@ -232,15 +208,12 @@ class SoftDeleteableFilterTest extends WebTestCase
         return $platform->getIsNullExpression($column);
     }
 
-    /**
-     * @return EntityRepository
-     */
-    protected function getRepository()
+    private function getRepository(): EntityRepository
     {
-        return $this->em->getRepository('OroRFPBundle:Request');
+        return $this->em->getRepository(Request::class);
     }
 
-    protected function checkQueries()
+    private function checkQueries(): void
     {
         $queries = $this->queryTracker->getExecutedQueries();
         $this->assertQueryModified($queries[0]);

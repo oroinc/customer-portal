@@ -26,8 +26,7 @@ class FrontendExportCleanupStorageCommandTest extends WebTestCase
 
     public function testExecuteWithoutExpiredFiles(): void
     {
-        $this->fileManager
-            ->expects(self::once())
+        $this->fileManager->expects(self::once())
             ->method('getFilesByPeriod')
             ->willReturn([]);
 
@@ -41,13 +40,11 @@ class FrontendExportCleanupStorageCommandTest extends WebTestCase
         $firstFile = $this->createMock(File::class);
         $secondFile = $this->createMock(File::class);
 
-        $this->fileManager
-            ->expects(self::once())
+        $this->fileManager->expects(self::once())
             ->method('getFilesByPeriod')
             ->willReturn(['firstFile' => $firstFile, 'secondFile' => $secondFile]);
 
-        $this->fileManager
-            ->expects(self::exactly(2))
+        $this->fileManager->expects(self::exactly(2))
             ->method('deleteFile')
             ->withConsecutive([$firstFile], [$secondFile]);
 

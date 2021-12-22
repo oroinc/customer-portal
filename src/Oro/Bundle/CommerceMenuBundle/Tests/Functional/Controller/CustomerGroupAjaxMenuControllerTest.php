@@ -11,11 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CustomerGroupAjaxMenuControllerTest extends WebTestCase
 {
-    const MENU_NAME = 'frontend_menu';
+    private const MENU_NAME = 'frontend_menu';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
@@ -160,18 +157,12 @@ class CustomerGroupAjaxMenuControllerTest extends WebTestCase
         $this->assertResponseStatusCodeEquals($result, Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     * @return integer
-     */
-    protected function getCustomerGroupId()
+    private function getCustomerGroupId(): int
     {
         return $this->getReference(LoadGroups::GROUP1)->getId();
     }
 
-    /**
-     * @return integer
-     */
-    protected function getWebsiteId()
+    private function getWebsiteId(): int
     {
         return $this->getReference(LoadWebsiteData::WEBSITE1)->getId();
     }

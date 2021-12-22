@@ -28,10 +28,6 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
     /**
      * @dataProvider getInvalidData
-     *
-     * @param string $firstPassword
-     * @param string $secondPassword
-     * @param string $message
      */
     public function testInvalidRegister(string $firstPassword, string $secondPassword, string $message): void
     {
@@ -64,9 +60,6 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         self::assertStringContainsString($message, $crawler->html());
     }
 
-    /**
-     * @return array
-     */
     public function getInvalidData(): array
     {
         return [
@@ -86,7 +79,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
     public function testRegisterWithoutConfirmation(): void
     {
         $email = 'adam.smith@example.com';
-        $configManager = self::getConfigManager('global');
+        $configManager = self::getConfigManager();
         $configManager->set('oro_customer.confirmation_required', false);
         $configManager->flush();
 
@@ -121,7 +114,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
     public function testRegisterWithConfirmation(): void
     {
-        $configManager = self::getConfigManager('global');
+        $configManager = self::getConfigManager();
         $configManager->set('oro_customer.confirmation_required', true);
         $configManager->flush();
 
@@ -322,10 +315,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
     private function getCustomerUser(array $criteria): ?CustomerUser
     {
-        return self::getContainer()
-            ->get('doctrine')
-            ->getManagerForClass('OroCustomerBundle:CustomerUser')
-            ->getRepository('OroCustomerBundle:CustomerUser')
+        return self::getContainer()->get('doctrine')->getRepository(CustomerUser::class)
             ->findOneBy($criteria);
     }
 

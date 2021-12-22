@@ -8,20 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GlobalAjaxMenuControllerTest extends WebTestCase
 {
-    const MENU_NAME = 'frontend_menu';
+    private const MENU_NAME = 'frontend_menu';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
-
-        $this->loadFixtures(
-            [
-                GlobalMenuUpdateData::class
-            ]
-        );
+        $this->loadFixtures([GlobalMenuUpdateData::class]);
     }
 
     public function testCreate()

@@ -54,7 +54,7 @@
 
         opacity: .65;
 
-        @extend %base-transition;
+        transition: opacity linear 100ms;
     }
 
     &__button {

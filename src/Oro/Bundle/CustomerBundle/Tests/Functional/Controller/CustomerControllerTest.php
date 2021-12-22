@@ -4,6 +4,9 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadInternalRating;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadUserData;
 use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
@@ -11,16 +14,14 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class CustomerControllerTest extends WebTestCase
 {
-    const ACCOUNT_NAME = 'Customer_name';
-    const UPDATED_NAME = 'Customer_name_UP';
+    private const ACCOUNT_NAME = 'Customer_name';
+    private const UPDATED_NAME = 'Customer_name_UP';
 
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
-        $this->loadFixtures(
-            $this->getFixtureList()
-        );
+        $this->loadFixtures($this->getFixtureList());
     }
 
     public function testIndex()
@@ -28,16 +29,13 @@ class CustomerControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_index'));
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        static::assertStringContainsString('customer-customers-grid', $crawler->html());
-        static::assertStringContainsString('Export', $result->getContent());
-        static::assertStringNotContainsString('Created at', $result->getContent());
-        static::assertStringNotContainsString('Updated at', $result->getContent());
+        self::assertStringContainsString('customer-customers-grid', $crawler->html());
+        self::assertStringContainsString('Export', $result->getContent());
+        self::assertStringNotContainsString('Created at', $result->getContent());
+        self::assertStringNotContainsString('Updated at', $result->getContent());
     }
 
-    /**
-     * @return int
-     */
-    public function testCreate()
+    public function testCreate(): int
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_create'));
         $result = $this->client->getResponse();
@@ -53,8 +51,7 @@ class CustomerControllerTest extends WebTestCase
 
         /** @var Customer $customer */
         $customer = $this->getContainer()->get('doctrine')
-            ->getManagerForClass('OroCustomerBundle:Customer')
-            ->getRepository('OroCustomerBundle:Customer')
+            ->getRepository(Customer::class)
             ->findOneBy(['name' => self::ACCOUNT_NAME]);
         $this->assertNotEmpty($customer);
         $this->assertNotEmpty($customer->getCreatedAt());
@@ -64,11 +61,9 @@ class CustomerControllerTest extends WebTestCase
     }
 
     /**
-     * @param int $id
-     * @return int
      * @depends testCreate
      */
-    public function testUpdate($id)
+    public function testUpdate(int $id): int
     {
         $crawler = $this->client->request(
             'GET',
@@ -90,9 +85,8 @@ class CustomerControllerTest extends WebTestCase
 
     /**
      * @depends testUpdate
-     * @param int $id
      */
-    public function testView($id)
+    public function testView(int $id)
     {
         $crawler = $this->client->request(
             'GET',
@@ -102,10 +96,10 @@ class CustomerControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $html = $crawler->html();
-        static::assertStringContainsString(self::UPDATED_NAME . ' - Customers - Customers', $html);
-        static::assertStringContainsString('Add attachment', $html);
-        static::assertStringContainsString('Add note', $html);
-        static::assertStringContainsString('Address Book', $html);
+        self::assertStringContainsString(self::UPDATED_NAME . ' - Customers - Customers', $html);
+        self::assertStringContainsString('Add attachment', $html);
+        self::assertStringContainsString('Add note', $html);
+        self::assertStringContainsString('Address Book', $html);
         /** @var Customer $newParent */
         $newParent = $this->getReference('customer.level_1.1');
         /** @var CustomerGroup $newGroup */
@@ -115,20 +109,13 @@ class CustomerControllerTest extends WebTestCase
         $this->assertViewPage($html, self::UPDATED_NAME, $newParent, $newGroup, $internalRating);
     }
 
-    /**
-     * @param Crawler           $crawler
-     * @param string            $name
-     * @param Customer           $parent
-     * @param CustomerGroup      $group
-     * @param AbstractEnumValue $internalRating
-     */
-    protected function assertCustomerSave(
+    private function assertCustomerSave(
         Crawler $crawler,
-        $name,
+        string $name,
         Customer $parent,
         CustomerGroup $group,
         AbstractEnumValue $internalRating
-    ) {
+    ): void {
         $form = $crawler->selectButton('Save and Close')->form(
             $this->prepareFormValues($name, $parent, $group, $internalRating)
         );
@@ -140,52 +127,37 @@ class CustomerControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $html = $crawler->html();
 
-        static::assertStringContainsString('Customer has been saved', $html);
+        self::assertStringContainsString('Customer has been saved', $html);
         $this->assertViewPage($html, $name, $parent, $group, $internalRating);
-        static::assertStringContainsString(
+        self::assertStringContainsString(
             $this->getReference(LoadUserData::USER1)->getFullName(),
             $result->getContent()
         );
-        static::assertStringContainsString(
+        self::assertStringContainsString(
             $this->getReference(LoadUserData::USER2)->getFullName(),
             $result->getContent()
         );
     }
 
-    /**
-     * @param string $html
-     * @param string $name
-     * @param Customer $parent
-     * @param CustomerGroup $group
-     * @param AbstractEnumValue $internalRating
-     */
-    protected function assertViewPage(
-        $html,
-        $name,
+    private function assertViewPage(
+        string $html,
+        string $name,
         Customer $parent,
         CustomerGroup $group,
         AbstractEnumValue $internalRating
-    ) {
-        static::assertStringContainsString($name, $html);
-        static::assertStringContainsString($parent->getName(), $html);
-        static::assertStringContainsString($group->getName(), $html);
-        static::assertStringContainsString($internalRating->getName(), $html);
+    ): void {
+        self::assertStringContainsString($name, $html);
+        self::assertStringContainsString($parent->getName(), $html);
+        self::assertStringContainsString($group->getName(), $html);
+        self::assertStringContainsString($internalRating->getName(), $html);
     }
 
-    /**
-     * @param $name
-     * @param Customer $parent
-     * @param CustomerGroup $group
-     * @param AbstractEnumValue $internalRating
-     *
-     * @return array
-     */
     protected function prepareFormValues(
-        $name,
+        string $name,
         Customer $parent,
         CustomerGroup $group,
         AbstractEnumValue $internalRating
-    ) {
+    ): array {
         return [
             'oro_customer_type[name]' => $name,
             'oro_customer_type[parent]' => $parent->getId(),
@@ -198,16 +170,13 @@ class CustomerControllerTest extends WebTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function getFixtureList()
+    protected function getFixtureList(): array
     {
         return [
-            'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers',
-            'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups',
-            'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadInternalRating',
-            'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadUserData'
+            LoadCustomers::class,
+            LoadGroups::class,
+            LoadInternalRating::class,
+            LoadUserData::class
         ];
     }
 }

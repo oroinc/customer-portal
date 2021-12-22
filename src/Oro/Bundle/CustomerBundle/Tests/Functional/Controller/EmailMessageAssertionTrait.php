@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller;
 
-use Doctrine\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Symfony\Component\Mime\Email as SymfonyEmail;
@@ -19,10 +19,8 @@ trait EmailMessageAssertionTrait
     {
         self::assertInstanceOf(SymfonyEmail::class, $welcomeMessage);
 
-        /** @var ObjectRepository $customerUserRepo */
-        $customerUserRepo = self::getContainer()->get('doctrine')
-            ->getManagerForClass(CustomerUser::class)
-            ->getRepository(CustomerUser::class);
+        /** @var EntityRepository $customerUserRepo */
+        $customerUserRepo = self::getContainer()->get('doctrine')->getRepository(CustomerUser::class);
 
         /** @var CustomerUser $user */
         $user = $customerUserRepo->findOneBy(['email' => $email]);

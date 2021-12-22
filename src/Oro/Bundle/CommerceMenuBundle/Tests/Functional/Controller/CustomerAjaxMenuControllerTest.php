@@ -11,15 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CustomerAjaxMenuControllerTest extends WebTestCase
 {
-    const MENU_NAME = 'frontend_menu';
+    private const MENU_NAME = 'frontend_menu';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
-
         $this->loadFixtures([GlobalMenuUpdateData::class, CustomerMenuUpdateData::class]);
     }
 
@@ -160,18 +156,12 @@ class CustomerAjaxMenuControllerTest extends WebTestCase
         $this->assertResponseStatusCodeEquals($result, Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     * @return integer
-     */
-    protected function getCustomerId()
+    private function getCustomerId(): int
     {
         return $this->getReference(LoadCustomers::CUSTOMER_LEVEL_1_1)->getId();
     }
 
-    /**
-     * @return integer
-     */
-    protected function getWebsiteId()
+    private function getWebsiteId(): int
     {
         return $this->getReference(LoadWebsiteData::WEBSITE1)->getId();
     }

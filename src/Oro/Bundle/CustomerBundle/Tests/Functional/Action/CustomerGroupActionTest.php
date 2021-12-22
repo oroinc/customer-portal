@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Action;
 use Oro\Bundle\ActionBundle\Tests\Functional\OperationAwareTestTrait;
 use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class CustomerGroupActionTest extends WebTestCase
@@ -16,11 +17,7 @@ class CustomerGroupActionTest extends WebTestCase
     {
         $this->initClient([], $this->generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
-        $this->loadFixtures(
-            [
-                'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups'
-            ]
-        );
+        $this->loadFixtures([LoadGroups::class]);
     }
 
     public function testDelete()
@@ -47,22 +44,20 @@ class CustomerGroupActionTest extends WebTestCase
 
         $this->assertJsonResponseStatusCodeEquals($this->client->getResponse(), 200);
 
-        static::getContainer()->get('doctrine')->getManagerForClass(CustomerGroup::class)->clear();
+        self::getContainer()->get('doctrine')->getManagerForClass(CustomerGroup::class)->clear();
 
-        $removedGroup = static::getContainer()
-            ->get('doctrine')
-            ->getRepository('OroCustomerBundle:CustomerGroup')
+        $removedGroup = self::getContainer()->get('doctrine')->getRepository(CustomerGroup::class)
             ->find($entityId);
 
-        static::assertNull($removedGroup);
+        self::assertNull($removedGroup);
     }
 
     public function testDeleteAnonymousUserGroup()
     {
-        $entityId = self::getConfigManager('global')->get('oro_customer.anonymous_customer_group');
+        $entityId = self::getConfigManager()->get('oro_customer.anonymous_customer_group');
 
         $operationName = 'oro_customer_groups_delete';
-        $entityClass   = CustomerGroup::class;
+        $entityClass = CustomerGroup::class;
         $this->client->request(
             'POST',
             $this->getUrl(

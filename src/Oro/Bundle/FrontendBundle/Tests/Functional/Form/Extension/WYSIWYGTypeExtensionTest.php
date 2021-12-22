@@ -23,7 +23,12 @@ class WYSIWYGTypeExtensionTest extends WebTestCase
 
         $form = $container->get('form.factory')->create(PageTypeStub::class, null, ['data_class' => Page::class]);
         $fieldView = $form->get('content')->createView();
-        $actualOptions = json_decode($fieldView->vars['attr']['data-page-component-options'], \JSON_OBJECT_AS_ARRAY);
+        $actualOptions = json_decode(
+            $fieldView->vars['attr']['data-page-component-options'],
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
 
         $layoutThemeName = self::getConfigManager(null)->get('oro_frontend.frontend_theme');
 

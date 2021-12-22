@@ -17,7 +17,7 @@
 
 .filter-criteria-selector-icon {
     height: $filter-criteria-selector-icon-height;
-    transition: all linear 250ms;
+    transition: transform linear 250ms;
     color: $filter-criteria-selector-icon-color;
     display: $filter-criteria-selector-icon-display;
 }

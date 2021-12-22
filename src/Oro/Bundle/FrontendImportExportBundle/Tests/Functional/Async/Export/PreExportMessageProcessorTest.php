@@ -25,7 +25,8 @@ class PreExportMessageProcessorTest extends WebTestCase
 {
     use MessageQueueExtension;
 
-    private FrontendExportHandler|\PHPUnit\Framework\MockObject\MockObject $exportHandler;
+    /** @var FrontendExportHandler|\PHPUnit\Framework\MockObject\MockObject */
+    private $exportHandler;
 
     protected function setUp(): void
     {
@@ -66,7 +67,7 @@ class PreExportMessageProcessorTest extends WebTestCase
 
         $processor = self::getContainer()->get('oro_frontend_importexport.async.processor.pre_export');
 
-        $result = $processor->process($message, $this->createSessionMock());
+        $result = $processor->process($message, $this->createMock(SessionInterface::class));
 
         $userId = $this->getCurrentUser()->getId();
 
@@ -105,7 +106,7 @@ class PreExportMessageProcessorTest extends WebTestCase
         self::assertArrayHasKey('dependentJobs', $dataExportJob);
         $dependentJob = current($dataExportJob['dependentJobs']);
         self::assertArrayHasKey('topic', $dependentJob);
-        self::assertEquals($dependentJob['topic'], Topics::POST_EXPORT);
+        self::assertEquals(Topics::POST_EXPORT, $dependentJob['topic']);
 
         self::assertEquals(MessageProcessorInterface::ACK, $result);
     }
@@ -115,15 +116,7 @@ class PreExportMessageProcessorTest extends WebTestCase
         return self::getContainer()->get('oro_message_queue.job.processor');
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|SessionInterface
-     */
-    private function createSessionMock()
-    {
-        return $this->createMock(SessionInterface::class);
-    }
-
-    protected function getCurrentUser(): CustomerUser
+    private function getCurrentUser(): CustomerUser
     {
         return self::getContainer()->get('doctrine')
             ->getRepository(CustomerUser::class)

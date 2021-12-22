@@ -24,32 +24,25 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
     private const REFERENCE_TYPE = 1;
     private const URL = 'sample-url';
     private const FILTER = 'sample-filter';
+    private const FORMAT = 'sample_format';
     private const WIDTH = 10;
     private const HEIGHT = 20;
 
-    /** @var FileUrlProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $innerFileUrlProvider;
+    private FileUrlProviderInterface|\PHPUnit\Framework\MockObject\MockObject $innerFileUrlProvider;
 
-    /** @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $urlGenerator;
+    private UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject $urlGenerator;
 
-    /** @var FileApplicationsProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $fileApplicationsProvider;
+    private FileApplicationsProvider|\PHPUnit\Framework\MockObject\MockObject $fileApplicationsProvider;
 
-    /** @var CurrentApplicationProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $currentApplicationProvider;
+    private CurrentApplicationProviderInterface|\PHPUnit\Framework\MockObject\MockObject $currentApplicationProvider;
 
-    /** @var FileAccessControlChecker|\PHPUnit\Framework\MockObject\MockObject */
-    private $fileAccessControlChecker;
+    private FileAccessControlChecker|\PHPUnit\Framework\MockObject\MockObject $fileAccessControlChecker;
 
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
+    private ConfigManager|\PHPUnit\Framework\MockObject\MockObject $configManager;
 
-    /** @var FileNameProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $filenameProvider;
+    private FileNameProviderInterface|\PHPUnit\Framework\MockObject\MockObject $filenameProvider;
 
-    /** @var FileUrlProvider */
-    private $provider;
+    private FileUrlProvider $provider;
 
     protected function setUp(): void
     {
@@ -76,7 +69,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
     {
         $file = new File();
 
-        $this->currentApplicationProvider->expects($this->once())
+        $this->currentApplicationProvider->expects(self::once())
             ->method('getCurrentApplication')
             ->willReturn(CurrentApplicationProviderInterface::DEFAULT_APPLICATION);
 
@@ -105,10 +98,10 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param array $appNames
+     * @param string[] $appNames
      * @param string|null $currentApplication
      */
-    private function mockApplications(array $appNames, $currentApplication): void
+    private function mockApplications(array $appNames, ?string $currentApplication): void
     {
         $this->fileApplicationsProvider
             ->method('getFileApplications')
@@ -132,12 +125,12 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
         $this->innerFileUrlProvider->expects(self::once())
             ->method('getResizedImageUrl')
-            ->with($file, self::WIDTH, self::HEIGHT, self::REFERENCE_TYPE)
+            ->with($file, self::WIDTH, self::HEIGHT, self::FORMAT, self::REFERENCE_TYPE)
             ->willReturn(self::URL);
 
         self::assertEquals(
             self::URL,
-            $this->provider->getResizedImageUrl($file, self::WIDTH, self::HEIGHT, self::REFERENCE_TYPE)
+            $this->provider->getResizedImageUrl($file, self::WIDTH, self::HEIGHT, self::FORMAT, self::REFERENCE_TYPE)
         );
     }
 
@@ -154,12 +147,12 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
         $this->innerFileUrlProvider->expects(self::once())
             ->method('getFilteredImageUrl')
-            ->with($file, self::FILTER, self::REFERENCE_TYPE)
+            ->with($file, self::FILTER, self::FORMAT, self::REFERENCE_TYPE)
             ->willReturn(self::URL);
 
         self::assertEquals(
             self::URL,
-            $this->provider->getFilteredImageUrl($file, self::FILTER, self::REFERENCE_TYPE)
+            $this->provider->getFilteredImageUrl($file, self::FILTER, self::FORMAT, self::REFERENCE_TYPE)
         );
     }
 
@@ -172,23 +165,20 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
         $this->innerFileUrlProvider->expects(self::once())
             ->method('getFilteredImageUrl')
-            ->with($file, self::FILTER, self::REFERENCE_TYPE)
+            ->with($file, self::FILTER, self::FORMAT, self::REFERENCE_TYPE)
             ->willReturn(self::URL);
 
         self::assertEquals(
             self::URL,
-            $this->provider->getFilteredImageUrl($file, self::FILTER, self::REFERENCE_TYPE)
+            $this->provider->getFilteredImageUrl($file, self::FILTER, self::FORMAT, self::REFERENCE_TYPE)
         );
     }
 
-    /**
-     * @dataProvider frontendOrPublicDataProvider
-     */
-    public function testGetFileUrlWhenFrontend(array $fileApplications, bool $isCoveredByAcl): void
+    public function testGetFileUrlWhenFrontend(): void
     {
         $file = $this->getFile(self::FILE_ID, self::FILENAME);
 
-        $this->currentApplicationProvider->expects($this->once())
+        $this->currentApplicationProvider->expects(self::once())
             ->method('getCurrentApplication')
             ->willReturn(FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
 
@@ -261,9 +251,9 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
         $this->mockGuestAccessMode(true);
         $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), $isCoveredByAcl);
 
-        $this->filenameProvider->expects($this->once())
+        $this->filenameProvider->expects(self::once())
             ->method('getFileName')
-            ->with($file)
+            ->with($file, self::FORMAT)
             ->willReturn(self::FILENAME);
         $this->mockApplications($fileApplications, FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
 
@@ -283,7 +273,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
         self::assertEquals(
             self::URL,
-            $this->provider->getResizedImageUrl($file, self::WIDTH, self::HEIGHT, self::REFERENCE_TYPE)
+            $this->provider->getResizedImageUrl($file, self::WIDTH, self::HEIGHT, self::FORMAT, self::REFERENCE_TYPE)
         );
     }
 
@@ -295,9 +285,9 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
         $this->mockGuestAccessMode(true);
         $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), $isCoveredByAcl);
 
-        $this->filenameProvider->expects($this->once())
+        $this->filenameProvider->expects(self::once())
             ->method('getFileName')
-            ->with($file)
+            ->with($file, self::FORMAT)
             ->willReturn(self::FILENAME);
         $this->mockApplications($fileApplications, FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
 
@@ -316,7 +306,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
         self::assertEquals(
             self::URL,
-            $this->provider->getFilteredImageUrl($file, self::FILTER, self::REFERENCE_TYPE)
+            $this->provider->getFilteredImageUrl($file, self::FILTER, self::FORMAT, self::REFERENCE_TYPE)
         );
     }
 
@@ -335,7 +325,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
         self::assertEquals(
             '',
-            $this->provider->getResizedImageUrl($file, self::WIDTH, self::HEIGHT, self::REFERENCE_TYPE)
+            $this->provider->getResizedImageUrl($file, self::WIDTH, self::HEIGHT, self::FORMAT, self::REFERENCE_TYPE)
         );
     }
 
@@ -371,7 +361,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
         self::assertEquals(
             '',
-            $this->provider->getFilteredImageUrl($file, self::FILTER, self::REFERENCE_TYPE)
+            $this->provider->getFilteredImageUrl($file, self::FILTER, self::FORMAT, self::REFERENCE_TYPE)
         );
     }
 }

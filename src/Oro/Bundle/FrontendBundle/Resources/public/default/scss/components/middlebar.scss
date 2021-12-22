@@ -5,15 +5,14 @@
     padding: 20px 0;
 
     &__center {
-        width: calc(100% - 320px * 2);
         display: flex;
-        flex: 0 0 auto;
+        flex: 1 0 auto;
         justify-content: center;
     }
 
     &__left,
     &__right {
-        width: 320px;
+        width: 340px;
         flex: 0 0 auto;
     }
 

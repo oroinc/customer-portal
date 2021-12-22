@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData as UserData;
 use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser;
 use Oro\Bundle\UserBundle\Entity\BaseUserManager;
@@ -129,7 +130,7 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
         $userManager = $this->container->get('oro_customer_user.manager');
         /** @var User $owner */
         $owner = $this->getReference('user');
-        $role = $manager->getRepository('OroCustomerBundle:CustomerUserRole')->findOneBy([
+        $role = $manager->getRepository(CustomerUserRole::class)->findOneBy([
             'role' => 'ROLE_FRONTEND_ADMINISTRATOR'
         ]);
         foreach (static::$users as $user) {
@@ -137,14 +138,14 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
                 /** @var Customer $customer */
                 $customer = $this->getReference($user['customer']);
             } else {
-                $customerUser = $manager->getRepository('OroCustomerBundle:CustomerUser')
+                $customerUser = $manager->getRepository(CustomerUser::class)
                     ->findOneBy(['username' => UserData::AUTH_USER]);
                 $customer = $customerUser->getCustomer();
             }
             $entity = new CustomerUser();
 
             $entity
-                ->setIsGuest(isset($user['isGuest']) ? $user['isGuest'] : false)
+                ->setIsGuest($user['isGuest'] ?? false)
                 ->setCustomer($customer)
                 ->setOwner($owner)
                 ->setFirstName($user['first_name'])

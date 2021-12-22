@@ -14,9 +14,6 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
  */
 class CustomerUserProviderTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->initClient(
@@ -49,11 +46,7 @@ class CustomerUserProviderTest extends WebTestCase
         $this->assertRoleHasPermission($roleName, [false, false, false, false, false, false, false]);
     }
 
-    /**
-     * @param string $roleName
-     * @param array $expected
-     */
-    protected function assertRoleHasPermission($roleName, array $expected)
+    private function assertRoleHasPermission(string $roleName, array $expected): void
     {
         $className = CustomerUserRole::class;
         $em = $this->getContainer()->get('doctrine')->getManagerForClass($className);

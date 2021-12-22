@@ -7,23 +7,16 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class CustomerMenuOnHomePageControllerTest extends WebTestCase
 {
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $this->initClient([]);
-
         $this->loadFixtures([MenuUserAgentConditionData::class]);
     }
 
     /**
      * @dataProvider userAgentDataProvider
-     *
-     * @param string  $userAgentValue
-     * @param boolean $contains
      */
-    public function testUserAgentConditions($userAgentValue, $contains)
+    public function testUserAgentConditions(string $userAgentValue, bool $contains)
     {
         $crawler = $this->client->request(
             'GET',
@@ -36,16 +29,13 @@ class CustomerMenuOnHomePageControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
         if ($contains) {
-            static::assertStringContainsString('global_menu_update.2_1.title', $crawler->html());
+            self::assertStringContainsString('global_menu_update.2_1.title', $crawler->html());
         } else {
-            static::assertStringNotContainsString('global_menu_update.2_1.title', $crawler->html());
+            self::assertStringNotContainsString('global_menu_update.2_1.title', $crawler->html());
         }
     }
 
-    /**
-     * @return array
-     */
-    public function userAgentDataProvider()
+    public function userAgentDataProvider(): array
     {
         return [
             'check visible menu' => [

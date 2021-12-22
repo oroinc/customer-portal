@@ -9,7 +9,7 @@
     height: 100%;
     opacity: 0;
     visibility: hidden;
-    transition: .4s all;
+    transition: opacity .4s;
 
     // Slick slider customization
     @include slick-arrow(
@@ -51,7 +51,7 @@
 
     &__images {
         margin-bottom: $popup-gallery-widget-images-offset-bottom;
-        transition: all .4s;
+        transition: opacity .4s;
         opacity: 0;
         visibility: hidden;
 

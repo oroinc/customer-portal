@@ -23,7 +23,7 @@ class WebsiteRepositoryTest extends WebTestCase
     {
         $websites = $this->getRepository()->getAllWebsites();
         foreach ($websites as $key => $website) {
-            static::assertEquals($key, $website->getId());
+            self::assertEquals($key, $website->getId());
         }
         $websites = array_map(
             function (Website $website) {
@@ -31,13 +31,10 @@ class WebsiteRepositoryTest extends WebTestCase
             },
             $websites
         );
-        $this->assertEquals($expectedData, array_values($websites));
+        self::assertEquals($expectedData, array_values($websites));
     }
 
-    /**
-     * @return array
-     */
-    public function getAllWebsitesProvider()
+    public function getAllWebsitesProvider(): array
     {
         return [
             [
@@ -103,23 +100,13 @@ class WebsiteRepositoryTest extends WebTestCase
     {
         $websiteIds = array_map(
             function ($websiteReference) {
-                if ($websiteReference === 'Default') {
-                    return $this->getRepository()->getDefaultWebsite()->getId();
-                } else {
-                    return $this->getReference($websiteReference)->getId();
-                }
+                return 'Default' === $websiteReference
+                    ? $this->getRepository()->getDefaultWebsite()->getId()
+                    : $this->getReference($websiteReference)->getId();
             },
             $websites
         );
         $this->assertEqualsCanonicalizing($websiteIds, $this->getRepository()->getWebsiteIdentifiers());
-    }
-
-    /**
-     * @return WebsiteRepository
-     */
-    protected function getRepository()
-    {
-        return $this->getContainer()->get('doctrine')->getRepository(Website::class);
     }
 
     public function testCheckWebsiteExists()
@@ -127,5 +114,10 @@ class WebsiteRepositoryTest extends WebTestCase
         $website = $this->getReference(LoadWebsiteData::WEBSITE1);
         $result = $this->getRepository()->checkWebsiteExists($website->getId());
         $this->assertNotEmpty($result);
+    }
+
+    private function getRepository(): WebsiteRepository
+    {
+        return self::getContainer()->get('doctrine')->getRepository(Website::class);
     }
 }

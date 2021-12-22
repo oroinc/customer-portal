@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional;
 
-use Doctrine\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\ActionBundle\Tests\Functional\OperationAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleACLData;
@@ -13,18 +13,11 @@ class CustomerUserRoleFrontendOperationsTest extends WebTestCase
 {
     use OperationAwareTestTrait;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->initClient();
         $this->client->useHashNavigation(true);
-        $this->loadFixtures(
-            [
-                LoadCustomerUserRoleACLData::class
-            ]
-        );
+        $this->loadFixtures([LoadCustomerUserRoleACLData::class]);
     }
 
     public function testDeletePredefinedRole()
@@ -43,13 +36,8 @@ class CustomerUserRoleFrontendOperationsTest extends WebTestCase
 
     /**
      * @dataProvider deleteDataProvider
-     *
-     * @param string $login
-     * @param string $resource
-     * @param int $status
-     * @param bool $shouldDelete
      */
-    public function testDeleteCustomizedRole($login, $resource, $status, $shouldDelete)
+    public function testDeleteCustomizedRole(string $login, string $resource, int $status, bool $shouldDelete)
     {
         $this->loginUser($login);
         /** @var CustomerUserRole $customizedRole */
@@ -70,10 +58,7 @@ class CustomerUserRoleFrontendOperationsTest extends WebTestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function deleteDataProvider()
+    public function deleteDataProvider(): array
     {
         return [
             'anonymous user' => [
@@ -121,20 +106,14 @@ class CustomerUserRoleFrontendOperationsTest extends WebTestCase
         ];
     }
 
-    /**
-     * @return ObjectRepository
-     */
-    private function getRepository()
+    private function getRepository(): EntityRepository
     {
-        return $this->getContainer()->get('doctrine')->getRepository(CustomerUserRole::class);
+        return self::getContainer()->get('doctrine')->getRepository(CustomerUserRole::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function executeOperation(CustomerUserRole $customerUserRole, $operationName)
+    private function executeOperation(CustomerUserRole $customerUserRole, string $operationName): void
     {
-        $entityClass = 'Oro\Bundle\CustomerBundle\Entity\CustomerUserRole';
+        $entityClass = CustomerUserRole::class;
         $id = $customerUserRole->getId();
         $this->client->request(
             'POST',

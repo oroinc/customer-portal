@@ -34,29 +34,19 @@ class CustomerUserControllerTest extends WebTestCase
     private const UPDATED_NAME_SUFFIX = 'UNameSuffix';
     private const UPDATED_EMAIL = 'updated@example.com';
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $this->initClient([], self::generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
-        $this->loadFixtures(
-            [
-                LoadCustomers::class,
-                LoadCustomerUserRoleData::class,
-                LoadUserData::class,
-            ]
-        );
+        $this->loadFixtures([
+            LoadCustomers::class,
+            LoadCustomerUserRoleData::class,
+            LoadUserData::class
+        ]);
     }
 
     /**
      * @dataProvider createDataProvider
-     * @param string $email
-     * @param string $password
-     * @param bool $isPasswordGenerate
-     * @param bool $isSendEmail
-     * @param int $emailsCount
      */
     public function testCreate(
         string $email,
@@ -138,14 +128,11 @@ class CustomerUserControllerTest extends WebTestCase
         );
     }
 
-    /**
-     * @return array
-     */
     public function createDataProvider(): array
     {
         return [
             'simple create' => [
-                'email' => $this->getEmail(),
+                'email' => self::EMAIL,
                 'password' => '123456',
                 'isPasswordGenerate' => false,
                 'isSendEmail' => false,
@@ -201,7 +188,6 @@ class CustomerUserControllerTest extends WebTestCase
 
     /**
      * @depends testCreate
-     * @return int
      */
     public function testUpdate(): int
     {
@@ -241,8 +227,6 @@ class CustomerUserControllerTest extends WebTestCase
 
     /**
      * @depends testUpdate
-     * @param int $id
-     * @return int
      */
     public function testView(int $id): int
     {
@@ -268,7 +252,6 @@ class CustomerUserControllerTest extends WebTestCase
 
     /**
      * @depends testUpdate
-     * @param int $id
      */
     public function testInfo(int $id): void
     {
@@ -323,7 +306,8 @@ class CustomerUserControllerTest extends WebTestCase
         $this->assertRoles($expectedRoles, $notExpectedRoles, $response->getContent());
 
         // With customer parameter
-        $expectedRoles = $notExpectedRoles = [];
+        $notExpectedRoles = [];
+        $expectedRoles = [];
         $expectedRoles[] = $foreignRole;
 
         $this->client->request(
@@ -341,18 +325,21 @@ class CustomerUserControllerTest extends WebTestCase
         $manager = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUserRole::class);
 
         $foreignCustomer = $this->createCustomer('User foreign customer');
-        $notExpectedRoles[] = $foreignRole = $this->createCustomerUserRole('Custom user foreign role');
+        $foreignRole = $this->createCustomerUserRole('Custom user foreign role');
+        $notExpectedRoles[] = $foreignRole;
         $foreignRole->setCustomer($foreignCustomer);
 
         $userCustomer = $this->createCustomer('User customer');
-        $expectedRoles[] = $userRole = $this->createCustomerUserRole('Custom user role');
+        $userRole = $this->createCustomerUserRole('Custom user role');
+        $expectedRoles[] = $userRole;
         $userRole->setCustomer($userCustomer);
 
         $customerUser = $this->createCustomerUser('test@example.com');
         $customerUser->setCustomer($userCustomer);
         $customerUser->addUserRole($userRole);
 
-        $expectedRoles[] = $predefinedRole = $this->createCustomerUserRole('User predefined role');
+        $predefinedRole = $this->createCustomerUserRole('User predefined role');
+        $expectedRoles[] = $predefinedRole;
         $customerUser->addUserRole($predefinedRole);
 
         $manager->flush();
@@ -375,7 +362,8 @@ class CustomerUserControllerTest extends WebTestCase
         $this->assertRoles($expectedRoles, $notExpectedRoles, $response->getContent(), $customerUser);
 
         // Without customer parameter
-        $expectedRoles = $notExpectedRoles = [];
+        $notExpectedRoles = [];
+        $expectedRoles = [];
         $notExpectedRoles[] = $userRole;
         $expectedRoles[] = $predefinedRole;
 
@@ -413,11 +401,7 @@ class CustomerUserControllerTest extends WebTestCase
         self::assertStringContainsString($errorMessage, $response->getContent());
     }
 
-    /**
-     * @param string $name
-     * @return Customer
-     */
-    protected function createCustomer(string $name): Customer
+    private function createCustomer(string $name): Customer
     {
         $customer = new Customer();
         $customer->setName($name);
@@ -429,11 +413,7 @@ class CustomerUserControllerTest extends WebTestCase
         return $customer;
     }
 
-    /**
-     * @param string $name
-     * @return CustomerUserRole
-     */
-    protected function createCustomerUserRole(string $name): CustomerUserRole
+    private function createCustomerUserRole(string $name): CustomerUserRole
     {
         $role = new CustomerUserRole($name);
         $role->setLabel($name);
@@ -445,11 +425,7 @@ class CustomerUserControllerTest extends WebTestCase
         return $role;
     }
 
-    /**
-     * @param string $email
-     * @return CustomerUser
-     */
-    protected function createCustomerUser(string $email): CustomerUser
+    private function createCustomerUser(string $email): CustomerUser
     {
         $customerUser = new CustomerUser();
         $customerUser->setEmail($email);
@@ -462,24 +438,13 @@ class CustomerUserControllerTest extends WebTestCase
         return $customerUser;
     }
 
-    /**
-     * @return Organization
-     */
-    protected function getDefaultOrganization(): Organization
+    private function getDefaultOrganization(): Organization
     {
-        return self::getContainer()->get('doctrine')
-            ->getManagerForClass(Organization::class)
-            ->getRepository(Organization::class)
+        return self::getContainer()->get('doctrine')->getRepository(Organization::class)
             ->findOneBy([]);
     }
 
-    /**
-     * @param CustomerUserRole[] $expectedRoles
-     * @param CustomerUserRole[] $notExpectedRoles
-     * @param string $content
-     * @param CustomerUser|null $customerUser
-     */
-    protected function assertRoles(
+    private function assertRoles(
         array $expectedRoles,
         array $notExpectedRoles,
         string $content,
@@ -499,10 +464,5 @@ class CustomerUserControllerTest extends WebTestCase
         foreach ($notExpectedRoles as $notExpectedRole) {
             self::assertStringNotContainsString($notExpectedRole->getLabel(), $content);
         }
-    }
-
-    private function getEmail(): string
-    {
-        return self::EMAIL;
     }
 }

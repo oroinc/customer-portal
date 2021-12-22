@@ -83,6 +83,7 @@ class FileUrlProvider implements FileUrlProviderInterface
         File $file,
         int $width,
         int $height,
+        string $format = '',
         int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
     ): string {
         if ($this->isPublicOrFrontend($file)) {
@@ -90,7 +91,7 @@ class FileUrlProvider implements FileUrlProviderInterface
                 'oro_frontend_attachment_resize_image',
                 [
                     'id' => $file->getId(),
-                    'filename' => $this->filenameProvider->getFileName($file),
+                    'filename' => $this->filenameProvider->getFileName($file, $format),
                     'width' => $width,
                     'height' => $height,
                 ],
@@ -98,7 +99,7 @@ class FileUrlProvider implements FileUrlProviderInterface
             );
         }
 
-        return $this->innerFileUrlProvider->getResizedImageUrl($file, $width, $height, $referenceType);
+        return $this->innerFileUrlProvider->getResizedImageUrl($file, $width, $height, $format, $referenceType);
     }
 
     /**
@@ -107,6 +108,7 @@ class FileUrlProvider implements FileUrlProviderInterface
     public function getFilteredImageUrl(
         File $file,
         string $filterName,
+        string $format = '',
         int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
     ): string {
         if ($this->isPublicOrFrontend($file)) {
@@ -114,14 +116,14 @@ class FileUrlProvider implements FileUrlProviderInterface
                 'oro_frontend_attachment_filter_image',
                 [
                     'id' => $file->getId(),
-                    'filename' => $this->filenameProvider->getFileName($file),
+                    'filename' => $this->filenameProvider->getFileName($file, $format),
                     'filter' => $filterName,
                 ],
                 $referenceType
             );
         }
 
-        return $this->innerFileUrlProvider->getFilteredImageUrl($file, $filterName, $referenceType);
+        return $this->innerFileUrlProvider->getFilteredImageUrl($file, $filterName, $format, $referenceType);
     }
 
     private function isPublicOrFrontend(File $file): bool

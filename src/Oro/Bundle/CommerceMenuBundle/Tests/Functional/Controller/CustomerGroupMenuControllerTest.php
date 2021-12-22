@@ -2,21 +2,17 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Functional\Controller;
 
+use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\CommerceMenuBundle\Tests\Functional\DataFixtures\CustomerGroupMenuUpdateData;
 use Oro\Bundle\CommerceMenuBundle\Tests\Functional\DataFixtures\GlobalMenuUpdateData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups;
-use Oro\Bundle\NavigationBundle\Entity\MenuUpdate;
-use Oro\Bundle\NavigationBundle\Entity\Repository\MenuUpdateRepository;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\WebsiteBundle\Tests\Functional\DataFixtures\LoadWebsiteData;
 
 class CustomerGroupMenuControllerTest extends WebTestCase
 {
-    const MENU_NAME = 'frontend_menu';
+    private const MENU_NAME = 'frontend_menu';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
@@ -51,7 +47,7 @@ class CustomerGroupMenuControllerTest extends WebTestCase
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        static::assertStringContainsString(
+        self::assertStringContainsString(
             'Select existing menu item or create new.',
             $crawler->filter('[data-role="content"] .tree-empty-content .no-data')->html()
         );
@@ -87,7 +83,7 @@ class CustomerGroupMenuControllerTest extends WebTestCase
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        static::assertStringContainsString('Menu item saved successfully.', $crawler->html());
+        self::assertStringContainsString('Menu item saved successfully.', $crawler->html());
     }
 
     public function testCreateChild()
@@ -121,7 +117,7 @@ class CustomerGroupMenuControllerTest extends WebTestCase
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        static::assertStringContainsString('Menu item saved successfully.', $crawler->html());
+        self::assertStringContainsString('Menu item saved successfully.', $crawler->html());
     }
 
     public function testUpdateCustom()
@@ -159,8 +155,8 @@ class CustomerGroupMenuControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
         $html = $crawler->html();
-        static::assertStringContainsString('Menu item saved successfully.', $html);
-        static::assertStringContainsString('menu_update.changed.title.default', $html);
+        self::assertStringContainsString('Menu item saved successfully.', $html);
+        self::assertStringContainsString('menu_update.changed.title.default', $html);
     }
 
     public function testUpdateNotCustom()
@@ -181,7 +177,7 @@ class CustomerGroupMenuControllerTest extends WebTestCase
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        static::assertStringContainsString(
+        self::assertStringContainsString(
             $this->getContainer()->get('translator')->trans('oro.navigation.menu.menu_list_default.label'),
             $crawler->html()
         );
@@ -196,8 +192,8 @@ class CustomerGroupMenuControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
         $html = $crawler->html();
-        static::assertStringContainsString('Menu item saved successfully.', $html);
-        static::assertStringContainsString('menu_update.changed.title.default', $html);
+        self::assertStringContainsString('Menu item saved successfully.', $html);
+        self::assertStringContainsString('menu_update.changed.title.default', $html);
     }
 
     public function testMove()
@@ -239,26 +235,17 @@ class CustomerGroupMenuControllerTest extends WebTestCase
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        /** @var MenuUpdateRepository $repository */
-        $repository = $this->getContainer()->get('doctrine')
-            ->getManagerForClass('OroCommerceMenuBundle:MenuUpdate')
-            ->getRepository('OroCommerceMenuBundle:MenuUpdate');
-        $menuUpdate = $repository->findOneBy(['key' => CustomerGroupMenuUpdateData::MENU_UPDATE_1_1]);
+        $menuUpdate = self::getContainer()->get('doctrine')->getRepository(MenuUpdate::class)
+            ->findOneBy(['key' => CustomerGroupMenuUpdateData::MENU_UPDATE_1_1]);
         $this->assertNull($menuUpdate->getParentKey());
     }
 
-    /**
-     * @return integer
-     */
-    protected function getCustomerGroupId()
+    private function getCustomerGroupId(): int
     {
         return $this->getReference(LoadGroups::GROUP1)->getId();
     }
 
-    /**
-     * @return integer
-     */
-    protected function getWebsiteId()
+    private function getWebsiteId(): int
     {
         return $this->getReference(LoadWebsiteData::WEBSITE1)->getId();
     }

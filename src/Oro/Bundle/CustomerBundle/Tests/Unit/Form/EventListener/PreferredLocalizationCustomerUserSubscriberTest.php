@@ -17,24 +17,16 @@ use Symfony\Component\Form\FormInterface;
 
 class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
     private $websiteManager;
 
-    /**
-     * @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
     private $configManager;
 
-    /**
-     * @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
     private $registry;
 
-    /**
-     * @var PreferredLocalizationCustomerUserSubscriber
-     */
+    /** @var PreferredLocalizationCustomerUserSubscriber */
     private $subscriber;
 
     protected function setUp(): void
@@ -42,6 +34,7 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->registry = $this->createMock(ManagerRegistry::class);
+
         $this->subscriber = new PreferredLocalizationCustomerUserSubscriber(
             $this->websiteManager,
             $this->configManager,
@@ -146,8 +139,7 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
             ->setWebsite($website)
             ->setWebsiteSettings(
                 (new CustomerUserSettings($website))->setLocalization($localization)
-            )
-        ;
+            );
         $event = new FormEvent($form, $customerUser);
         $this->subscriber->onPostSetData($event);
     }

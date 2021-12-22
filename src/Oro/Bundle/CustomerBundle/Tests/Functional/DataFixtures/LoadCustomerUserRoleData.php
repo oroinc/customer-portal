@@ -184,6 +184,6 @@ class LoadCustomerUserRoleData extends AbstractFixture implements DependentFixtu
      */
     protected function getDefaultOrganization($manager)
     {
-        return $manager->getRepository('OroOrganizationBundle:Organization')->findOneBy([]);
+        return $manager->getRepository(Organization::class)->findOneBy([]);
     }
 }

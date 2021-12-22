@@ -2,11 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller\Frontend;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerAddressACLData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerAddressesACLData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserAddressesACLData;
@@ -20,12 +20,10 @@ class CustomerAddressControllerTest extends WebTestCase
     {
         $this->initClient();
         $this->client->useHashNavigation(true);
-        $this->loadFixtures(
-            [
-                LoadCustomerAddressesACLData::class,
-                LoadCustomerUserAddressesACLData::class
-            ]
-        );
+        $this->loadFixtures([
+            LoadCustomerAddressesACLData::class,
+            LoadCustomerUserAddressesACLData::class
+        ]);
     }
 
     public function testCreate()
@@ -53,14 +51,10 @@ class CustomerAddressControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        static::assertStringContainsString('Customer Address has been saved', $crawler->html());
+        self::assertStringContainsString('Customer Address has been saved', $crawler->html());
     }
 
-    /**
-     * @param Form $form
-     * @return Form
-     */
-    protected function fillFormForCreate(Form $form)
+    private function fillFormForCreate(Form $form): Form
     {
         $form['oro_customer_frontend_typed_address[label]'] = 'Address Label';
         $form['oro_customer_frontend_typed_address[primary]'] = true;
@@ -83,7 +77,7 @@ class CustomerAddressControllerTest extends WebTestCase
         ];
         $form['oro_customer_frontend_typed_address[defaults][default]'] = [false, AddressType::TYPE_SHIPPING];
 
-        $doc = new \DOMDocument("1.0");
+        $doc = new \DOMDocument('1.0');
         $doc->loadHTML(
             '<select name="oro_customer_frontend_typed_address[country]" ' .
             'id="oro_customer_frontend_typed_address_country" ' .
@@ -132,7 +126,7 @@ class CustomerAddressControllerTest extends WebTestCase
         /** @var CustomerAddress $address */
         $address = $customer->getAddresses()->first();
 
-        $this->assertInstanceOf('Oro\Bundle\CustomerBundle\Entity\CustomerAddress', $address);
+        $this->assertInstanceOf(CustomerAddress::class, $address);
 
         $addressId = $address->getId();
 
@@ -159,11 +153,11 @@ class CustomerAddressControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        static::assertStringContainsString('Customer Address has been saved', $crawler->html());
+        self::assertStringContainsString('Customer Address has been saved', $crawler->html());
 
         $address = $this->getAddressById($addressId);
 
-        $this->assertInstanceOf('Oro\Bundle\CustomerBundle\Entity\CustomerAddress', $address);
+        $this->assertInstanceOf(CustomerAddress::class, $address);
 
         $this->assertEquals('Changed Label', $address->getLabel());
     }
@@ -180,37 +174,20 @@ class CustomerAddressControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 403);
     }
 
-    /**
-     * @param $addressId
-     * @return CustomerUserAddress
-     */
-    protected function getAddressById($addressId)
+    private function getAddressById(int $addressId): CustomerAddress
     {
-        $this->getObjectManager()->clear('OroCustomerBundle:CustomerAddress');
+        /** @var EntityManagerInterface $em */
+        $em = self::getContainer()->get('doctrine')->getManager();
+        $em->clear(CustomerAddress::class);
 
-        return $this->getObjectManager()
-            ->getRepository('OroCustomerBundle:CustomerAddress')
-            ->find($addressId);
-    }
-
-    /**
-     * @return \Doctrine\Persistence\ObjectManager
-     */
-    protected function getObjectManager()
-    {
-        return $this->getContainer()->get('doctrine')->getManager();
+        return $em->getRepository(CustomerAddress::class)->find($addressId);
     }
 
     /**
      * @group frontend-ACL
-     * @dataProvider ACLProvider
-     *
-     * @param string $route
-     * @param string $resource
-     * @param string $user
-     * @param int $status
+     * @dataProvider aclProvider
      */
-    public function testACL($route, $resource, $user, $status)
+    public function testAcl(string $route, string $resource, string $user, int $status)
     {
         $this->loginUser($user);
         /* @var CustomerUser $resource */
@@ -227,13 +204,10 @@ class CustomerAddressControllerTest extends WebTestCase
             )
         );
         $response = $this->client->getResponse();
-        static::assertHtmlResponseStatusCodeEquals($response, $status);
+        self::assertHtmlResponseStatusCodeEquals($response, $status);
     }
 
-    /**
-     * @return array
-     */
-    public function ACLProvider()
+    public function aclProvider(): array
     {
         return [
             'UPDATE (anonymous user)' => [
@@ -277,23 +251,20 @@ class CustomerAddressControllerTest extends WebTestCase
 
     /**
      * @group frontend-ACL
-     * @dataProvider gridACLProvider
-     *
-     * @param string $user
-     * @param string $indexResponseStatus
-     * @param string $gridResponseStatus
-     * @param array $data
+     * @dataProvider gridAclProvider
      */
-    public function testGridACL($user, $indexResponseStatus, $gridResponseStatus, array $data = [])
-    {
+    public function testGridAcl(
+        string $user,
+        int $indexResponseStatus,
+        int $gridResponseStatus,
+        array $data = []
+    ) {
         $this->loginUser($user);
         $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_address_index'));
         $this->assertSame($indexResponseStatus, $this->client->getResponse()->getStatusCode());
-        $response = $this->client->requestGrid(
-            [
-                'gridName' => 'frontend-customer-customer-address-grid',
-            ]
-        );
+        $response = $this->client->requestGrid([
+            'gridName' => 'frontend-customer-customer-address-grid',
+        ]);
 
         self::assertResponseStatusCodeEquals($response, $gridResponseStatus);
         if (200 === $gridResponseStatus) {
@@ -312,10 +283,7 @@ class CustomerAddressControllerTest extends WebTestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function gridACLProvider()
+    public function gridAclProvider(): array
     {
         return [
             'NOT AUTHORISED' => [
