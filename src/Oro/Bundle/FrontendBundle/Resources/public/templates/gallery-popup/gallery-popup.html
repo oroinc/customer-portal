@@ -7,11 +7,7 @@
                 <% _.each(images, function(image) { %>
                     <div class="popup-gallery-widget__image">
                         <picture>
-                            <% _.each(image.sources || [], function(source) { %>
-                                <source srcset="<%= source.srcset %>" type="<%= source.type %>">
-                            <% }); %>
-
-                            <img data-lazy="<%= image.src %>"
+                            <img data-lazy="<%- getSourceSrc(image) %>"
                                  alt="<%- image.alt %>"
                                  width="100%"
                                  height="100%"
