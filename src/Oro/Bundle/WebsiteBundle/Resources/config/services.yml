@@ -42,7 +42,7 @@ services:
         decorates: 'oro_website.website.provider'
         decoration_priority: -255 # the cacheable provider should be at the top of the decoration chain
         arguments:
-            - '@oro_website.cacheable_website_provider.inner'
+            - '@.inner'
             - '@oro_website.cache.website'
             - '@security.token_storage'
 

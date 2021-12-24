@@ -12,7 +12,7 @@ services:
         class: Oro\Bundle\CustomerBundle\Api\ApiDoc\SecurityContext
         decorates: oro_api.api_doc.security_context
         arguments:
-            - '@oro_customer.api_doc.security_context.inner'
+            - '@.inner'
             - '@oro_frontend.request.frontend_helper'
 
     oro_customer.api.sign_in_target_path_provider:
@@ -20,7 +20,7 @@ services:
         public: false
         decorates: oro_customer.provider.sign_in.target_path
         arguments:
-            - '@oro_customer.api.sign_in_target_path_provider.inner'
+            - '@.inner'
             - '@request_stack'
             - '@oro_api.rest.doc_url_generator'
 
@@ -29,7 +29,7 @@ services:
         public: false
         decorates: oro_api.entity_accessor
         arguments:
-            - '@oro_customer.api.entity_accessor.address.inner'
+            - '@.inner'
 
     oro_customer.api.mine_customer_user_entity_id_resolver:
         class: Oro\Bundle\CustomerBundle\Api\MineCustomerUserEntityIdResolver

@@ -62,14 +62,14 @@ services:
         class: Oro\Bundle\ApiBundle\EventListener\UpdateListBodyListenerDecorator
         decorates: 'fos_rest.body_listener'
         arguments:
-            - '@oro_frontend.api.rest.update_list_body_listener.inner'
+            - '@.inner'
             - '@oro_frontend.api.rest.routes'
 
     oro_frontend.api.rest.doc_url_generator:
         class: Oro\Bundle\FrontendBundle\Api\ApiDoc\RestDocUrlGenerator
         decorates: oro_api.rest.doc_url_generator
         arguments:
-            - '@oro_frontend.api.rest.doc_url_generator.inner'
+            - '@.inner'
             - '@router'
             - '%oro_frontend.api_doc.views%'
             - '%oro_frontend.api_doc.default_view%'
