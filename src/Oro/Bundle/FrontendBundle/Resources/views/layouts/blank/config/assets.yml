@@ -17,7 +17,6 @@ styles:
         - 'bundles/orofrontend/blank/scss/variables/breadcrumbs-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/layout/page-area-container-config.scss'
 
-        - 'bundles/orofrontend/blank/scss/variables/utilites-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/close-dialog-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/datagrid/datagrid-massaction-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/datagrid/launcher-item-config.scss'

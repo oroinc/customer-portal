@@ -23,8 +23,6 @@ define(function(require) {
      * @exports TitleView
      */
     const TitleView = BaseView.extend(/** @lends TitleView.prototype */{
-        showDefault: true,
-
         template: require('tpl-loader!orofrontend/templates/viewer/title-view.html'),
 
         listen: {
