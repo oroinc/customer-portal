@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\EventListener;
 
+use Oro\Bundle\ApiBundle\Request\ApiRequestHelper;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\EventListener\GuestAccessRequestListener;
 use Oro\Bundle\FrontendBundle\GuestAccess\GuestAccessDecisionMakerInterface;
@@ -30,6 +31,9 @@ class GuestAccessRequestListenerTest extends \PHPUnit\Framework\TestCase
     /** @var RouterInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $router;
 
+    /** @var ApiRequestHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $apiRequestHelper;
+
     /** @var RequestEvent|\PHPUnit\Framework\MockObject\MockObject */
     private $event;
 
@@ -45,6 +49,7 @@ class GuestAccessRequestListenerTest extends \PHPUnit\Framework\TestCase
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->guestAccessDecisionMaker = $this->createMock(GuestAccessDecisionMakerInterface::class);
         $this->router = $this->createMock(RouterInterface::class);
+        $this->apiRequestHelper = $this->createMock(ApiRequestHelper::class);
         $this->event = $this->createMock(RequestEvent::class);
         $this->request = $this->createMock(Request::class);
 
@@ -57,7 +62,7 @@ class GuestAccessRequestListenerTest extends \PHPUnit\Framework\TestCase
             $this->configManager,
             $this->guestAccessDecisionMaker,
             $this->router,
-            '/api/'
+            $this->apiRequestHelper
         );
     }
 
@@ -136,6 +141,11 @@ class GuestAccessRequestListenerTest extends \PHPUnit\Framework\TestCase
             ->with(self::REQUEST_URL)
             ->willReturn(GuestAccessDecisionMakerInterface::URL_DISALLOW);
 
+        $this->apiRequestHelper->expects(self::once())
+            ->method('isApiRequest')
+            ->with(self::REQUEST_URL)
+            ->willReturn(false);
+
         $this->router->expects(self::once())
             ->method('generate')
             ->with('oro_customer_customer_user_security_login')
@@ -158,10 +168,13 @@ class GuestAccessRequestListenerTest extends \PHPUnit\Framework\TestCase
             ->with(self::REQUEST_API_URL)
             ->willReturn(GuestAccessDecisionMakerInterface::URL_DISALLOW);
 
-        $this->router->expects(self::once())
-            ->method('generate')
-            ->with('oro_customer_customer_user_security_login')
-            ->willReturn(self::REDIRECT_URL);
+        $this->apiRequestHelper->expects(self::once())
+            ->method('isApiRequest')
+            ->with(self::REQUEST_API_URL)
+            ->willReturn(true);
+
+        $this->router->expects(self::never())
+            ->method('generate');
 
         $this->event->expects(self::once())
             ->method('setResponse')

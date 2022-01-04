@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\EventListener;
 
+use Oro\Bundle\ApiBundle\Request\ApiRequestHelper;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\GuestAccess\GuestAccessDecisionMakerInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
@@ -27,32 +28,25 @@ use Symfony\Component\Routing\RouterInterface;
 class GuestAccessRequestListener
 {
     private TokenAccessorInterface $tokenAccessor;
-
     private ConfigManager $configManager;
-
     private GuestAccessDecisionMakerInterface $guestAccessDecisionMaker;
-
     private RouterInterface $router;
-
-    private string $restApiPrefix;
+    private ApiRequestHelper $apiRequestHelper;
 
     public function __construct(
         TokenAccessorInterface $tokenAccessor,
         ConfigManager $configManager,
         GuestAccessDecisionMakerInterface $guestAccessDeniedDecisionMaker,
         RouterInterface $router,
-        string $restApiPrefix
+        ApiRequestHelper $apiRequestHelper
     ) {
         $this->tokenAccessor = $tokenAccessor;
         $this->configManager = $configManager;
         $this->guestAccessDecisionMaker = $guestAccessDeniedDecisionMaker;
         $this->router = $router;
-        $this->restApiPrefix = $restApiPrefix;
+        $this->apiRequestHelper = $apiRequestHelper;
     }
 
-    /**
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
     public function onKernelRequest(RequestEvent $event): void
     {
         if (!$event->isMasterRequest()) {
@@ -72,28 +66,14 @@ class GuestAccessRequestListener
         if ($decision === GuestAccessDecisionMakerInterface::URL_DISALLOW
             && $event->getRequest()->getMethod() !== Request::METHOD_OPTIONS
         ) {
-            $response = $this->createResponse(
-                $this->getCustomerUserLoginUrl(),
-                $this->isApiRequest($requestPathInfo) ? Response::HTTP_UNAUTHORIZED : Response::HTTP_FOUND
-            );
-            $event->setResponse($response);
+            if ($this->apiRequestHelper->isApiRequest($requestPathInfo)) {
+                $event->setResponse(new Response('', Response::HTTP_UNAUTHORIZED));
+            } else {
+                $event->setResponse(new RedirectResponse(
+                    $this->router->generate('oro_customer_customer_user_security_login'),
+                    Response::HTTP_FOUND
+                ));
+            }
         }
-    }
-
-    private function createResponse(string $url, int $status = Response::HTTP_FOUND): RedirectResponse|Response
-    {
-        return Response::HTTP_UNAUTHORIZED === $status
-            ? new Response('', $status)
-            : new RedirectResponse($url, $status);
-    }
-
-    private function getCustomerUserLoginUrl(): string
-    {
-        return $this->router->generate('oro_customer_customer_user_security_login');
-    }
-
-    private function isApiRequest(string $pathInfo): bool
-    {
-        return str_starts_with($pathInfo, $this->restApiPrefix);
     }
 }

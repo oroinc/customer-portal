@@ -7,6 +7,7 @@ use Oro\Bundle\FrontendBundle\EventListener\UnhandledApiErrorExceptionListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Configures frontend API processors and exception listener for unhandled API errors.
@@ -34,9 +35,9 @@ class FrontendApiPass implements CompilerPassInterface
 
         $container->getDefinition('oro_api.rest.unhandled_error_exception_listener')
             ->setClass(UnhandledApiErrorExceptionListener::class)
+            ->addArgument(new Reference(FrontendHelper::class))
             ->addArgument('%web_backend_prefix%')
             ->clearTag('container.service_subscriber')
-            ->addTag('container.service_subscriber', ['id' => FrontendHelper::class])
             ->addTag('container.service_subscriber', [
                 'id'  => 'oro_api.rest.request_action_handler',
                 'key' => 'handler'

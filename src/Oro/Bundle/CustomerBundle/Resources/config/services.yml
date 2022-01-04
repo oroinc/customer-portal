@@ -249,10 +249,10 @@ services:
         arguments:
             - '@security.token_storage'
             - '@security.authentication.manager'
-            - '@oro_security.csrf_request_manager'
+            - '@oro_security.csrf_protected_request_helper'
             - '@oro_customer.authentication.customer_visitor_cookie_factory'
             - '@oro_customer.authentication.anonymous_customer_user_roles_provider'
-            - '%oro_api.rest.pattern%'
+            - '@oro_api.request_helper'
             - '@logger'
         tags:
             - { name: monolog.logger, channel: security }

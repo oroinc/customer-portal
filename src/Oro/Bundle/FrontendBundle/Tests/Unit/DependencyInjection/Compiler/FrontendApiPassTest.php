@@ -3,6 +3,7 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\DependencyInjection\Compiler;
 
 use Oro\Bundle\ApiBundle\EventListener\UnhandledApiErrorExceptionListener as BaseUnhandledApiErrorExceptionListener;
+use Oro\Bundle\ApiBundle\Request\ApiRequestHelper;
 use Oro\Bundle\ApiBundle\Request\Rest\RequestActionHandler;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendApiPass;
 use Oro\Bundle\FrontendBundle\EventListener\UnhandledApiErrorExceptionListener;
@@ -40,7 +41,10 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
                 'oro_api.rest.unhandled_error_exception_listener',
                 BaseUnhandledApiErrorExceptionListener::class
             )
-            ->setArguments([new Reference(ContainerInterface::class), '%oro_api.rest.pattern%'])
+            ->setArguments([
+                new Reference(ContainerInterface::class),
+                new Reference(ApiRequestHelper::class)
+            ])
             ->addTag('kernel.event_listener', ['event' => 'kernel.exception', 'priority' => -10])
             ->addTag('container.service_subscriber', [
                 'id'  => 'oro_api.rest.request_action_handler',
@@ -123,7 +127,8 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(
             [
                 new Reference(ContainerInterface::class),
-                '%oro_api.rest.pattern%',
+                new Reference(ApiRequestHelper::class),
+                new Reference(FrontendHelper::class),
                 '%web_backend_prefix%'
             ],
             $listenerDefinition->getArguments()
@@ -134,7 +139,6 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
                     ['event' => 'kernel.exception', 'priority' => -10]
                 ],
                 'container.service_subscriber' => [
-                    ['id' => FrontendHelper::class],
                     ['id' => 'oro_api.rest.request_action_handler', 'key' => 'handler'],
                     ['id' => 'oro_frontend.api.rest.request_action_handler', 'key' => 'frontend_handler']
                 ]
