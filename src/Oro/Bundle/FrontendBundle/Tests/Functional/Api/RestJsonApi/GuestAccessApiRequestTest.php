@@ -12,8 +12,7 @@ class GuestAccessApiRequestTest extends FrontendRestJsonApiTestCase
 {
     private const GUEST_ACCESS_ENABLED_CONFIG_NAME = 'oro_frontend.guest_access_enabled';
 
-    /** @var bool */
-    private $originalGuestAccessEnabled;
+    private bool $originalGuestAccessEnabled;
 
     protected function setUp(): void
     {
@@ -24,18 +23,15 @@ class GuestAccessApiRequestTest extends FrontendRestJsonApiTestCase
 
     protected function tearDown(): void
     {
-        $configManager = $this->getConfigManager();
+        $configManager = self::getConfigManager();
         $configManager->set(self::GUEST_ACCESS_ENABLED_CONFIG_NAME, $this->originalGuestAccessEnabled);
         $configManager->flush();
         parent::tearDown();
     }
 
-    /**
-     * @param bool $guestAccessEnabled
-     */
-    private function setGuestAccess($guestAccessEnabled)
+    private function setGuestAccess(bool $guestAccessEnabled): void
     {
-        $configManager = $this->getConfigManager();
+        $configManager = self::getConfigManager();
         $this->originalGuestAccessEnabled = $configManager->get(self::GUEST_ACCESS_ENABLED_CONFIG_NAME);
         $configManager->set(self::GUEST_ACCESS_ENABLED_CONFIG_NAME, $guestAccessEnabled);
         $configManager->flush();
@@ -43,10 +39,8 @@ class GuestAccessApiRequestTest extends FrontendRestJsonApiTestCase
 
     /**
      * @dataProvider apiResourcesProvider
-     *
-     * @param string $entityResource
      */
-    public function testTryToGeResourcesWithDisallowedAccessForGuest($entityResource)
+    public function testTryToGeResourcesWithDisallowedAccessForGuest(string $entityResource): void
     {
         $this->setGuestAccess(false);
         $response = $this->cget(
@@ -57,14 +51,13 @@ class GuestAccessApiRequestTest extends FrontendRestJsonApiTestCase
         );
 
         self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
+        self::assertSame('', $response->getContent());
     }
 
     /**
      * @dataProvider apiResourcesProvider
-     *
-     * @param string $entityResource
      */
-    public function testGetResourcesWithAllowedAccessForGuest($entityResource)
+    public function testGetResourcesWithAllowedAccessForGuest(string $entityResource): void
     {
         $this->setGuestAccess(true);
         $response = $this->cget(
@@ -77,10 +70,7 @@ class GuestAccessApiRequestTest extends FrontendRestJsonApiTestCase
         self::assertResponseStatusCodeEquals($response, Response::HTTP_OK);
     }
 
-    /**
-     * @return array
-     */
-    public function apiResourcesProvider()
+    public function apiResourcesProvider(): array
     {
         return [
             ['countries'],
