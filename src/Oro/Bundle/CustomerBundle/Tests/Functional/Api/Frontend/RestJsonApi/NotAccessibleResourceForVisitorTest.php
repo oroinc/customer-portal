@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * The test case to test that 4xx responses for storefront visitors are correct.
- * For storefront visitors access denied errors should be returned as 401 (Unauthorized).
  * @see \Oro\Bundle\CustomerBundle\Tests\Functional\Environment\Api\Processor\HandleSpecialIdentifiers
  */
 class NotAccessibleResourceForVisitorTest extends FrontendRestJsonApiTestCase

@@ -11,11 +11,9 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class FrontendSessionPassTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var FrontendSessionPass */
-    private $compiler;
+    private FrontendSessionPass $compiler;
 
-    /** @var ContainerBuilder */
-    private $container;
+    private ContainerBuilder $container;
 
     protected function setUp(): void
     {
@@ -23,7 +21,7 @@ class FrontendSessionPassTest extends \PHPUnit\Framework\TestCase
         $this->compiler = new FrontendSessionPass();
     }
 
-    public function testFrontendSessionWasNotConfigured()
+    public function testFrontendSessionWasNotConfigured(): void
     {
         $this->container->setParameter('oro_frontend.session.storage.options', []);
 
@@ -32,12 +30,12 @@ class FrontendSessionPassTest extends \PHPUnit\Framework\TestCase
         self::assertFalse($this->container->hasDefinition('oro_frontend.http_kernel.dynamic_session'));
     }
 
-    public function testFrontendSessionWasConfigured()
+    public function testFrontendSessionWasConfigured(): void
     {
         $this->container
             ->register(SessionPass::HTTP_KERNEL_DECORATOR_SERVICE, SessionHttpKernelDecorator::class)
             ->setArguments([
-                new Reference(SessionPass::HTTP_KERNEL_DECORATOR_SERVICE . '.inner'),
+                new Reference('.inner'),
                 new Reference('service_container')
             ])
             ->setDecoratedService('http_kernel', null, 250)

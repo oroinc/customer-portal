@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class NotAccessibleResourceForUnauthorizedTest extends FrontendRestJsonApiTestCase
 {
+    private const WWW_AUTHENTICATE_HEADER_VALUE = 'WSSE realm="Secured Frontend API", profile="UsernameToken"';
+
     public function testAccessGranted()
     {
         $response = $this->get(
@@ -19,6 +21,8 @@ class NotAccessibleResourceForUnauthorizedTest extends FrontendRestJsonApiTestCa
             false
         );
         self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
+        self::assertSame('', $response->getContent());
+        self::assertResponseHeader($response, 'WWW-Authenticate', self::WWW_AUTHENTICATE_HEADER_VALUE);
     }
 
     public function testAccessDenied()
@@ -30,6 +34,8 @@ class NotAccessibleResourceForUnauthorizedTest extends FrontendRestJsonApiTestCa
             false
         );
         self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
+        self::assertSame('', $response->getContent());
+        self::assertResponseHeader($response, 'WWW-Authenticate', self::WWW_AUTHENTICATE_HEADER_VALUE);
     }
 
     public function testNotFound()
@@ -41,6 +47,8 @@ class NotAccessibleResourceForUnauthorizedTest extends FrontendRestJsonApiTestCa
             false
         );
         self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
+        self::assertSame('', $response->getContent());
+        self::assertResponseHeader($response, 'WWW-Authenticate', self::WWW_AUTHENTICATE_HEADER_VALUE);
     }
 
     public function testNotAccessible()
@@ -52,6 +60,8 @@ class NotAccessibleResourceForUnauthorizedTest extends FrontendRestJsonApiTestCa
             false
         );
         self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
+        self::assertSame('', $response->getContent());
+        self::assertResponseHeader($response, 'WWW-Authenticate', self::WWW_AUTHENTICATE_HEADER_VALUE);
     }
 
     public function testNotAllowed()
@@ -63,6 +73,8 @@ class NotAccessibleResourceForUnauthorizedTest extends FrontendRestJsonApiTestCa
             false
         );
         self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
+        self::assertSame('', $response->getContent());
+        self::assertResponseHeader($response, 'WWW-Authenticate', self::WWW_AUTHENTICATE_HEADER_VALUE);
     }
 
     public function testUnexpectedError()
@@ -74,5 +86,7 @@ class NotAccessibleResourceForUnauthorizedTest extends FrontendRestJsonApiTestCa
             false
         );
         self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
+        self::assertSame('', $response->getContent());
+        self::assertResponseHeader($response, 'WWW-Authenticate', self::WWW_AUTHENTICATE_HEADER_VALUE);
     }
 }

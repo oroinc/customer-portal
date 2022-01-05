@@ -16,28 +16,19 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class FileUrlProvider implements FileUrlProviderInterface
 {
-    /** @var FileUrlProviderInterface */
-    private $innerFileUrlProvider;
+    private FileUrlProviderInterface $innerFileUrlProvider;
 
-    /** @var UrlGeneratorInterface */
-    private $urlGenerator;
+    private UrlGeneratorInterface $urlGenerator;
 
-    /** @var FileApplicationsProvider */
-    private $fileApplicationsProvider;
+    private FileApplicationsProvider $fileApplicationsProvider;
 
-    /** @var CurrentApplicationProviderInterface */
-    private $currentApplicationProvider;
+    private CurrentApplicationProviderInterface $currentApplicationProvider;
 
-    /** @var FileAccessControlChecker */
-    private $fileAccessControlChecker;
+    private FileAccessControlChecker $fileAccessControlChecker;
 
-    /** @var ConfigManager */
-    private $configManager;
+    private ConfigManager $configManager;
 
-    /**
-     * @var FileNameProviderInterface
-     */
-    private $filenameProvider;
+    private FileNameProviderInterface $filenameProvider;
 
     public function __construct(
         FileUrlProviderInterface $innerFileUrlProvider,
@@ -68,7 +59,11 @@ class FileUrlProvider implements FileUrlProviderInterface
         if (!$this->isBackofficeApplication()) {
             return $this->urlGenerator->generate(
                 'oro_frontend_attachment_get_file',
-                ['id' => $file->getId(), 'filename' => $file->getFilename(), 'action' => $action],
+                [
+                    'id' => $file->getId(),
+                    'filename' => $this->filenameProvider->getFileName($file),
+                    'action' => $action,
+                ],
                 $referenceType
             );
         }
@@ -91,7 +86,7 @@ class FileUrlProvider implements FileUrlProviderInterface
                 'oro_frontend_attachment_resize_image',
                 [
                     'id' => $file->getId(),
-                    'filename' => $this->filenameProvider->getFileName($file, $format),
+                    'filename' => $this->filenameProvider->getResizedImageName($file, $width, $height, $format),
                     'width' => $width,
                     'height' => $height,
                 ],
@@ -116,8 +111,9 @@ class FileUrlProvider implements FileUrlProviderInterface
                 'oro_frontend_attachment_filter_image',
                 [
                     'id' => $file->getId(),
-                    'filename' => $this->filenameProvider->getFileName($file, $format),
+                    'filename' => $this->filenameProvider->getFilteredImageName($file, $filterName, $format),
                     'filter' => $filterName,
+                    'format' => $format,
                 ],
                 $referenceType
             );

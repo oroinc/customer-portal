@@ -182,6 +182,11 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
             ->method('getCurrentApplication')
             ->willReturn(FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
 
+        $this->filenameProvider->expects(self::once())
+            ->method('getFileName')
+            ->with($file)
+            ->willReturn(self::FILENAME);
+
         $this->urlGenerator
             ->method('generate')
             ->with(
@@ -252,9 +257,10 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
         $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), $isCoveredByAcl);
 
         $this->filenameProvider->expects(self::once())
-            ->method('getFileName')
-            ->with($file, self::FORMAT)
+            ->method('getResizedImageName')
+            ->with($file, self::WIDTH, self::HEIGHT, self::FORMAT)
             ->willReturn(self::FILENAME);
+
         $this->mockApplications($fileApplications, FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
 
         $this->urlGenerator
@@ -286,8 +292,8 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
         $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), $isCoveredByAcl);
 
         $this->filenameProvider->expects(self::once())
-            ->method('getFileName')
-            ->with($file, self::FORMAT)
+            ->method('getFilteredImageName')
+            ->with($file, self::FILTER, self::FORMAT)
             ->willReturn(self::FILENAME);
         $this->mockApplications($fileApplications, FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
 
@@ -299,6 +305,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
                     'id' => self::FILE_ID,
                     'filename' => self::FILENAME,
                     'filter' => self::FILTER,
+                    'format' => self::FORMAT,
                 ],
                 self::REFERENCE_TYPE
             )
@@ -340,7 +347,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
             ],
             [
                 'fileApplications' => [
-                    FrontendCurrentApplicationProvider::DEFAULT_APPLICATION
+                    FrontendCurrentApplicationProvider::DEFAULT_APPLICATION,
                 ],
             ],
         ];

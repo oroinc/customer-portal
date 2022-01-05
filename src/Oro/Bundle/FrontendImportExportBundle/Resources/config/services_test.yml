@@ -18,5 +18,5 @@ services:
         class: Oro\Bundle\GaufretteBundle\Tests\Functional\Environment\SkippedGaufretteFileSystemProvider
         decorates: oro_gaufrette.tests.skipped_file_systems
         arguments:
-            - '@oro_frontend_importexport.tests.skipped_file_systems.inner'
+            - '@.inner'
             - ['frontend_importexport']
