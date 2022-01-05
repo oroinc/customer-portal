@@ -9,6 +9,7 @@
     vertical-align: $btn-vertical-align;
     user-select: $btn-user-select;
     border: $btn-border;
+    margin: $btn-margin;
     text-decoration: $btn-text-decoration;
 
     @include appearance();

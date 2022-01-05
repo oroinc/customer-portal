@@ -3,13 +3,15 @@
 namespace Oro\Bundle\FrontendBundle\DependencyInjection\Compiler;
 
 use Oro\Bundle\FrontendBundle\Api\FrontendApiDependencyInjectionUtil;
+use Oro\Bundle\FrontendBundle\EventListener\UnauthorizedApiRequestListener;
 use Oro\Bundle\FrontendBundle\EventListener\UnhandledApiErrorExceptionListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Configures frontend API processors and exception listener for unhandled API errors.
+ * Configures frontend API processors, unauthorized request listener and exception listener for unhandled API errors.
  */
 class FrontendApiPass implements CompilerPassInterface
 {
@@ -32,11 +34,25 @@ class FrontendApiPass implements CompilerPassInterface
             FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi($container, $serviceId);
         }
 
-        $container->getDefinition('oro_api.rest.unhandled_error_exception_listener')
-            ->setClass(UnhandledApiErrorExceptionListener::class)
+        $container->getDefinition('oro_api.rest.unauthorized_api_request_listener')
+            ->setClass(UnauthorizedApiRequestListener::class)
+            ->addArgument(new Reference(FrontendHelper::class))
             ->addArgument('%web_backend_prefix%')
             ->clearTag('container.service_subscriber')
-            ->addTag('container.service_subscriber', ['id' => FrontendHelper::class])
+            ->addTag('container.service_subscriber', [
+                'id'  => 'oro_api.rest.request_action_handler',
+                'key' => 'handler'
+            ])
+            ->addTag('container.service_subscriber', [
+                'id'  => 'oro_frontend.api.rest.request_action_handler',
+                'key' => 'frontend_handler'
+            ]);
+
+        $container->getDefinition('oro_api.rest.unhandled_error_exception_listener')
+            ->setClass(UnhandledApiErrorExceptionListener::class)
+            ->addArgument(new Reference(FrontendHelper::class))
+            ->addArgument('%web_backend_prefix%')
+            ->clearTag('container.service_subscriber')
             ->addTag('container.service_subscriber', [
                 'id'  => 'oro_api.rest.request_action_handler',
                 'key' => 'handler'

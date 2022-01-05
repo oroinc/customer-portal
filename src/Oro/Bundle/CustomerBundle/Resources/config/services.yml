@@ -46,14 +46,14 @@ services:
         class: Oro\Bundle\CustomerBundle\Security\Guesser\OrganizationGuesser
         decorates: oro_security.authentication.organization_guesser
         arguments:
-            - '@oro_customer.security.authentication.organization_guesser.inner'
+            - '@.inner'
             - '@oro_frontend.request.frontend_helper'
             - '@oro_website.manager'
 
     oro_customer.security.authentication.trust_resolver_decorator:
         class: Oro\Bundle\CustomerBundle\Security\AuthenticationTrustResolver
         decorates: security.authentication.trust_resolver
-        arguments: ['@oro_customer.security.authentication.trust_resolver_decorator.inner']
+        arguments: ['@.inner']
 
     Oro\Bundle\CustomerBundle\JsTree\CustomerTreeHandler:
         alias: oro_customer.customer_tree_handler
@@ -249,10 +249,10 @@ services:
         arguments:
             - '@security.token_storage'
             - '@security.authentication.manager'
-            - '@oro_security.csrf_request_manager'
+            - '@oro_security.csrf_protected_request_helper'
             - '@oro_customer.authentication.customer_visitor_cookie_factory'
             - '@oro_customer.authentication.anonymous_customer_user_roles_provider'
-            - '%oro_api.rest.pattern%'
+            - '@oro_api.request_helper'
             - '@logger'
         tags:
             - { name: monolog.logger, channel: security }
@@ -715,7 +715,7 @@ services:
         decorates: oro_scope.scope_cache_key_builder
         decoration_priority: 90
         arguments:
-            - '@oro_customer.customer_user_scope_cache_key_builder.inner'
+            - '@.inner'
             - '@security.token_storage'
             - '@oro_website.manager'
             - '@oro_frontend.request.frontend_helper'
@@ -846,7 +846,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Entity\Manager\GridViewManagerComposite'
         decorates: oro_datagrid.grid_view.manager
         arguments:
-            - '@oro_customer.grid_view.manager.composite.inner'
+            - '@.inner'
             - '@oro_customer.grid_view.manager'
             - '@oro_security.token_accessor'
 
@@ -858,7 +858,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Datagrid\Extension\GridViewsExtensionComposite'
         decorates: oro_datagrid.extension.views
         arguments:
-            - '@oro_customer.extension.views.composite.inner'
+            - '@.inner'
             - '@oro_customer.extension.views'
             - '@oro_security.token_accessor'
         tags:
@@ -1048,7 +1048,7 @@ services:
         decorates: security.user_checker
         class: Oro\Bundle\CustomerBundle\Security\UserChecker
         arguments:
-            - '@oro_customer.security.user_checker.decorator.inner'
+            - '@.inner'
 
     oro_customer.handler.frontend_customer_user_handler:
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler'
@@ -1078,7 +1078,7 @@ services:
             - '@oro_security.owner.metadata_provider.chain'
             - '@oro_security.ownership_tree_provider.chain'
             - '@?security.acl.voter.basic_permissions'
-            - '@oro_customer.security.orm.ownership_sql_walker_builder.inner'
+            - '@.inner'
             - '@oro_security.acl.group_provider.chain'
 
     oro_customer.handler.customer_registration_handler:
@@ -1102,7 +1102,7 @@ services:
         class: Oro\Bundle\WebsiteBundle\Acl\ORM\Walker\WebsiteAccessRuleWalkerContextFactory
         decorates: oro_security.access_rule_walker_context_factory
         arguments:
-            - '@oro_customer.website_access_rule_walker_context_factory.inner'
+            - '@.inner'
             - '@oro_website.manager'
 
     oro_customer.frontend_access_rule_walker_context_factory:
@@ -1110,7 +1110,7 @@ services:
         decorates: oro_security.access_rule_walker_context_factory
         decoration_priority: 100
         arguments:
-            - '@oro_customer.frontend_access_rule_walker_context_factory.inner'
+            - '@.inner'
             - '@oro_frontend.request.frontend_helper'
 
     oro_customer.access_rule.self_managed_public_customer_user_role:
@@ -1163,7 +1163,7 @@ services:
         class: Oro\Bundle\CustomerBundle\Acl\Domain\PermissionGrantingStrategy
         decorates: oro_security.acl.permission_granting_strategy
         arguments:
-            - '@oro_customer.acl.permission_granting_strategy.inner'
+            - '@.inner'
 
     oro_customer.filter.privilege_entity_filter.grid_view:
         class: 'Oro\Bundle\SecurityBundle\Filter\AclPrivilegeEntityByConfigurableNameFilter'

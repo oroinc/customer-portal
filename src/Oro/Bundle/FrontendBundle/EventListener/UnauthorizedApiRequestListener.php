@@ -6,14 +6,18 @@ use Oro\Bundle\ApiBundle\Request\ApiRequestHelper;
 use Oro\Bundle\ApiBundle\Request\Rest\RequestActionHandler;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
 /**
- * Builds a response for case when an unexpected error happens before any public API action is started.
+ * Builds a response for an unauthorized API requests.
  */
-class UnhandledApiErrorExceptionListener implements ServiceSubscriberInterface
+class UnauthorizedApiRequestListener implements ServiceSubscriberInterface
 {
+    private const WWW_AUTHENTICATE_HEADER = 'WWW-Authenticate';
+
     private ContainerInterface $container;
     private ApiRequestHelper $apiRequestHelper;
     private FrontendHelper $frontendHelper;
@@ -42,8 +46,13 @@ class UnhandledApiErrorExceptionListener implements ServiceSubscriberInterface
         ];
     }
 
-    public function onKernelException(ExceptionEvent $event): void
+    public function onKernelResponse(ResponseEvent $event): void
     {
+        $response = $event->getResponse();
+        if (Response::HTTP_UNAUTHORIZED !== $response->getStatusCode()) {
+            return;
+        }
+
         $request = $event->getRequest();
         $pathInfo = $request->getPathInfo();
         $isFrontendRequest = $this->frontendHelper->isFrontendUrl($pathInfo);
@@ -55,7 +64,10 @@ class UnhandledApiErrorExceptionListener implements ServiceSubscriberInterface
         }
 
         $event->setResponse(
-            $this->getActionHandler($isFrontendRequest)->handleUnhandledError($request, $event->getThrowable())
+            $this->getActionHandler($isFrontendRequest)->handleUnhandledError(
+                $request,
+                $this->createUnauthorizedHttpException($response)
+            )
         );
     }
 
@@ -64,5 +76,15 @@ class UnhandledApiErrorExceptionListener implements ServiceSubscriberInterface
         return $isFrontendRequest
             ? $this->container->get('frontend_handler')
             : $this->container->get('handler');
+    }
+
+    private function createUnauthorizedHttpException(Response $response): HttpException
+    {
+        $headers = [];
+        if ($response->headers->has(self::WWW_AUTHENTICATE_HEADER)) {
+            $headers[self::WWW_AUTHENTICATE_HEADER] = $response->headers->get(self::WWW_AUTHENTICATE_HEADER);
+        }
+
+        return new HttpException(Response::HTTP_UNAUTHORIZED, $response->getContent() ?: '', null, $headers, 0);
     }
 }

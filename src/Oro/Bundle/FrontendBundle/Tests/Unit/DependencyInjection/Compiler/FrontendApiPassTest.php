@@ -2,9 +2,12 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\DependencyInjection\Compiler;
 
+use Oro\Bundle\ApiBundle\EventListener\UnauthorizedApiRequestListener as BaseUnauthorizedApiRequestListener;
 use Oro\Bundle\ApiBundle\EventListener\UnhandledApiErrorExceptionListener as BaseUnhandledApiErrorExceptionListener;
+use Oro\Bundle\ApiBundle\Request\ApiRequestHelper;
 use Oro\Bundle\ApiBundle\Request\Rest\RequestActionHandler;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendApiPass;
+use Oro\Bundle\FrontendBundle\EventListener\UnauthorizedApiRequestListener;
 use Oro\Bundle\FrontendBundle\EventListener\UnhandledApiErrorExceptionListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Psr\Container\ContainerInterface;
@@ -37,10 +40,27 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
         $this->container = new ContainerBuilder();
         $this->container
             ->register(
+                'oro_api.rest.unauthorized_api_request_listener',
+                BaseUnauthorizedApiRequestListener::class
+            )
+            ->setArguments([
+                new Reference(ContainerInterface::class),
+                new Reference(ApiRequestHelper::class)
+            ])
+            ->addTag('kernel.event_listener', ['event' => 'kernel.response', 'priority' => -100])
+            ->addTag('container.service_subscriber', [
+                'id'  => 'oro_api.rest.request_action_handler',
+                'key' => RequestActionHandler::class
+            ]);
+        $this->container
+            ->register(
                 'oro_api.rest.unhandled_error_exception_listener',
                 BaseUnhandledApiErrorExceptionListener::class
             )
-            ->setArguments([new Reference(ContainerInterface::class), '%oro_api.rest.pattern%'])
+            ->setArguments([
+                new Reference(ContainerInterface::class),
+                new Reference(ApiRequestHelper::class)
+            ])
             ->addTag('kernel.event_listener', ['event' => 'kernel.exception', 'priority' => -10])
             ->addTag('container.service_subscriber', [
                 'id'  => 'oro_api.rest.request_action_handler',
@@ -113,6 +133,36 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    public function testConfigureUnauthorizedApiRequestListener(): void
+    {
+        $this->registerProcessors();
+        $this->compilerPass->process($this->container);
+
+        $listenerDefinition = $this->container->getDefinition('oro_api.rest.unauthorized_api_request_listener');
+        self::assertEquals(UnauthorizedApiRequestListener::class, $listenerDefinition->getClass());
+        self::assertEquals(
+            [
+                new Reference(ContainerInterface::class),
+                new Reference(ApiRequestHelper::class),
+                new Reference(FrontendHelper::class),
+                '%web_backend_prefix%'
+            ],
+            $listenerDefinition->getArguments()
+        );
+        self::assertEquals(
+            [
+                'kernel.event_listener'        => [
+                    ['event' => 'kernel.response', 'priority' => -100]
+                ],
+                'container.service_subscriber' => [
+                    ['id' => 'oro_api.rest.request_action_handler', 'key' => 'handler'],
+                    ['id' => 'oro_frontend.api.rest.request_action_handler', 'key' => 'frontend_handler']
+                ]
+            ],
+            $listenerDefinition->getTags()
+        );
+    }
+
     public function testConfigureUnhandledApiErrorExceptionListener(): void
     {
         $this->registerProcessors();
@@ -123,7 +173,8 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(
             [
                 new Reference(ContainerInterface::class),
-                '%oro_api.rest.pattern%',
+                new Reference(ApiRequestHelper::class),
+                new Reference(FrontendHelper::class),
                 '%web_backend_prefix%'
             ],
             $listenerDefinition->getArguments()
@@ -134,7 +185,6 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
                     ['event' => 'kernel.exception', 'priority' => -10]
                 ],
                 'container.service_subscriber' => [
-                    ['id' => FrontendHelper::class],
                     ['id' => 'oro_api.rest.request_action_handler', 'key' => 'handler'],
                     ['id' => 'oro_frontend.api.rest.request_action_handler', 'key' => 'frontend_handler']
                 ]

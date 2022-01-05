@@ -22,8 +22,6 @@ define(function(require) {
      * @exports TextView
      */
     const TextView = BaseView.extend(/** @lends TextView.prototype */{
-        showDefault: true,
-
         template: require('tpl-loader!orofrontend/templates/viewer/text-view.html'),
 
         listen: {

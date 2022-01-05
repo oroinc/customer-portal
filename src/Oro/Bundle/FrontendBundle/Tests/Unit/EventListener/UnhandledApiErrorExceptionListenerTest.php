@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\EventListener;
 
+use Oro\Bundle\ApiBundle\Request\ApiRequestHelper;
 use Oro\Bundle\ApiBundle\Request\Rest\RequestActionHandler;
 use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\FrontendBundle\EventListener\UnhandledApiErrorExceptionListener;
@@ -21,6 +22,9 @@ class UnhandledApiErrorExceptionListenerTest extends \PHPUnit\Framework\TestCase
     /** @var RequestActionHandler|\PHPUnit\Framework\MockObject\MockObject */
     private $frontendHandler;
 
+    /** @var ApiRequestHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $apiRequestHelper;
+
     /** @var UnhandledApiErrorExceptionListener */
     private $listener;
 
@@ -30,6 +34,7 @@ class UnhandledApiErrorExceptionListenerTest extends \PHPUnit\Framework\TestCase
 
         $this->backendHandler = $this->createMock(RequestActionHandler::class);
         $this->frontendHandler = $this->createMock(RequestActionHandler::class);
+        $this->apiRequestHelper = $this->createMock(ApiRequestHelper::class);
 
         $applicationState = $this->createMock(ApplicationState::class);
         $applicationState->expects(self::any())
@@ -45,12 +50,12 @@ class UnhandledApiErrorExceptionListenerTest extends \PHPUnit\Framework\TestCase
         $container = TestContainerBuilder::create()
             ->add('handler', $this->backendHandler)
             ->add('frontend_handler', $this->frontendHandler)
-            ->add(FrontendHelper::class, $frontendHelper)
             ->getContainer($this);
 
         $this->listener = new UnhandledApiErrorExceptionListener(
             $container,
-            '^/api/(?!(rest|doc)($|/.*))',
+            $this->apiRequestHelper,
+            $frontendHelper,
             $backendPrefix
         );
     }
@@ -70,8 +75,7 @@ class UnhandledApiErrorExceptionListenerTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(
             [
                 'handler'          => RequestActionHandler::class,
-                'frontend_handler' => RequestActionHandler::class,
-                FrontendHelper::class
+                'frontend_handler' => RequestActionHandler::class
             ],
             UnhandledApiErrorExceptionListener::getSubscribedServices()
         );
@@ -81,6 +85,10 @@ class UnhandledApiErrorExceptionListenerTest extends \PHPUnit\Framework\TestCase
     {
         $request = Request::create('http://test.com/product/view/1');
 
+        $this->apiRequestHelper->expects(self::once())
+            ->method('isApiRequest')
+            ->with('/product/view/1')
+            ->willReturn(false);
         $this->backendHandler->expects(self::never())
             ->method('handleUnhandledError');
         $this->frontendHandler->expects(self::never())
@@ -97,6 +105,10 @@ class UnhandledApiErrorExceptionListenerTest extends \PHPUnit\Framework\TestCase
         $exception = new \Exception('some error');
         $response = $this->createMock(Response::class);
 
+        $this->apiRequestHelper->expects(self::once())
+            ->method('isApiRequest')
+            ->with('/api/products/1')
+            ->willReturn(true);
         $this->backendHandler->expects(self::once())
             ->method('handleUnhandledError')
             ->with(self::identicalTo($request), self::identicalTo($exception))
@@ -115,6 +127,10 @@ class UnhandledApiErrorExceptionListenerTest extends \PHPUnit\Framework\TestCase
         $exception = new \Exception('some error');
         $response = $this->createMock(Response::class);
 
+        $this->apiRequestHelper->expects(self::once())
+            ->method('isApiRequest')
+            ->with('/api/products/1')
+            ->willReturn(true);
         $this->backendHandler->expects(self::never())
             ->method('handleUnhandledError');
         $this->frontendHandler->expects(self::once())

@@ -8,6 +8,7 @@ define(function(require) {
     const routing = require('routing');
     const error = require('oroui/js/error');
     const manageFocus = require('oroui/js/tools/manage-focus').default;
+    const tools = require('oroui/js/tools');
     require('slick');
 
     const BROWSER_SCROLL_SIZE = mediator.execute('layout:scrollbarWidth');
@@ -59,6 +60,12 @@ define(function(require) {
                 rtl: _.isRTL()
             }
         },
+
+        /**
+         * Is browser support WebP
+         * @property boolean
+         */
+        supportWebp: tools.isSupportWebp(),
 
         /**
          * @inheritdoc
@@ -319,11 +326,24 @@ define(function(require) {
             return this.options.use_thumb;
         },
 
+        getSourceForLazyLoading(image) {
+            const webP = image.sources.find(({type}) => {
+                return type === 'image/webp';
+            });
+
+            if (webP && this.supportWebp) {
+                return webP.srcset;
+            }
+
+            return image.src;
+        },
+
         render: function() {
             if (!this.$galleryWidget) {
                 this.$galleryWidget = $(this.template({
                     images: this.options.galleryImages,
-                    use_thumb: this.useThumb()
+                    use_thumb: this.useThumb(),
+                    getSourceSrc: this.getSourceForLazyLoading.bind(this)
                 }));
 
                 this.$galleryWidgetClose = this.$galleryWidget.find('[data-trigger-gallery-close]');

@@ -45,7 +45,7 @@ services:
             - '@oro_config.manager'
             - '@oro_frontend.guest_access.guest_access_decision_maker'
             - '@router'
-            - '%oro_api.rest.prefix%'
+            - '@oro_api.request_helper'
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 5 }
 
@@ -67,7 +67,7 @@ services:
         decorates: error_renderer.html
         arguments:
             - '@Psr\Container\ContainerInterface'
-            - '@oro_frontend.error_renderer.html.inner'
+            - '@.inner'
             - '@error_handler.error_renderer.html'
             - '%kernel.debug%'
         tags:
@@ -149,7 +149,7 @@ services:
         class: 'Oro\Bundle\FrontendBundle\Provider\RouteProvider'
         decorates: oro_action.provider.route
         arguments:
-            - '@oro_frontend.provider.action_route.inner'
+            - '@.inner'
             - '@oro_frontend.request.frontend_helper'
             - 'oro_frontend_action_widget_form'
             - 'oro_frontend_action_widget_form'
@@ -160,7 +160,7 @@ services:
         class: 'Oro\Bundle\FrontendBundle\Provider\RouteProvider'
         decorates: oro_workflow.provider.start_transition_route
         arguments:
-            - '@oro_frontend.provider.start_transition_route.inner'
+            - '@.inner'
             - '@oro_frontend.request.frontend_helper'
             - 'oro_frontend_workflow_widget_start_transition_form'
             - 'oro_frontend_workflow_start_transition_form'
@@ -171,7 +171,7 @@ services:
         class: 'Oro\Bundle\FrontendBundle\Provider\RouteProvider'
         decorates: oro_workflow.provider.transition_route
         arguments:
-            - '@oro_frontend.provider.transition_route.inner'
+            - '@.inner'
             - '@oro_frontend.request.frontend_helper'
             - 'oro_frontend_workflow_widget_transition_form'
             - 'oro_frontend_workflow_transition_form'
@@ -244,7 +244,7 @@ services:
         decorates: oro_locale.settings
         decoration_priority: -10
         arguments:
-            - '@oro_frontend.locale_settings.inner'
+            - '@.inner'
             - '@oro_frontend.request.frontend_helper'
             - '@oro_frontend_localization.manager.user_localization'
             - '@oro_layout.layout_context_holder'
@@ -270,7 +270,7 @@ services:
         decorates: oro_message_queue.listener.authentication
         arguments:
             - '@kernel'
-            - '@oro_frontend.listener.authentication.inner'
+            - '@.inner'
             - '@oro_frontend.request.frontend_helper'
 
     oro_frontend.provider.file_url:
@@ -278,7 +278,7 @@ services:
         decorates: oro_attachment.provider.file_url
         decoration_priority: 500
         arguments:
-            - '@oro_frontend.provider.file_url.inner'
+            - '@.inner'
             - '@oro_attachment.url_generator'
             - '@oro_attachment.provider.file_applications'
             - '@oro_action.provider.current_application'
@@ -291,7 +291,7 @@ services:
         decorates: oro_attachment.provider.resized_image_path
         decoration_priority: 100
         arguments:
-            - '@oro_frontend.provider.resized_image_path.remove_backend_media_cache_prefix.inner'
+            - '@.inner'
             - '%web_backend_prefix%/media/cache'
 
     oro_frontend.event_listener.draftable_filter_listener:
@@ -339,7 +339,7 @@ services:
         class: Oro\Bundle\FrontendBundle\Datagrid\EventListener\DatagridContentTagsListener
         decorates: oro_sync.content.listener.datagrid_tag
         arguments:
-            - '@oro_frontend.datagrid.event_listener.datagrid_content_tags.inner'
+            - '@.inner'
             - '@oro_frontend.request.frontend_helper'
         tags:
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.after, method: buildAfter }

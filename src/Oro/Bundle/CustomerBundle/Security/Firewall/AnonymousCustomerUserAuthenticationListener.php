@@ -2,9 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Security\Firewall;
 
+use Oro\Bundle\ApiBundle\Request\ApiRequestHelper;
 use Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserRolesProvider;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
-use Oro\Bundle\SecurityBundle\Csrf\CsrfRequestManager;
+use Oro\Bundle\SecurityBundle\Request\CsrfProtectedRequestHelper;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -24,28 +25,28 @@ class AnonymousCustomerUserAuthenticationListener
 
     private TokenStorageInterface $tokenStorage;
     private AuthenticationManagerInterface $authenticationManager;
-    private CsrfRequestManager $csrfRequestManager;
+    private CsrfProtectedRequestHelper $csrfProtectedRequestHelper;
     private CustomerVisitorCookieFactory $cookieFactory;
     private AnonymousCustomerUserRolesProvider $rolesProvider;
-    private string $apiPattern;
+    private ApiRequestHelper $apiRequestHelper;
     private LoggerInterface $logger;
     private ?TokenInterface $rememberedToken = null;
 
     public function __construct(
         TokenStorageInterface $tokenStorage,
         AuthenticationManagerInterface $authenticationManager,
-        CsrfRequestManager $csrfRequestManager,
+        CsrfProtectedRequestHelper $csrfProtectedRequestHelper,
         CustomerVisitorCookieFactory $cookieFactory,
         AnonymousCustomerUserRolesProvider $rolesProvider,
-        string $apiPattern,
+        ApiRequestHelper $apiRequestHelper,
         LoggerInterface $logger,
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
-        $this->csrfRequestManager = $csrfRequestManager;
+        $this->csrfProtectedRequestHelper = $csrfProtectedRequestHelper;
         $this->cookieFactory = $cookieFactory;
         $this->rolesProvider = $rolesProvider;
-        $this->apiPattern = $apiPattern;
+        $this->apiRequestHelper = $apiRequestHelper;
         $this->logger = $logger;
     }
 
@@ -131,34 +132,12 @@ class AnonymousCustomerUserAuthenticationListener
     {
         if (null === $token) {
             return
-                !$this->isApiRequest($request)
-                || $this->isAjaxApiRequest($request);
+                !$this->apiRequestHelper->isApiRequest($request->getPathInfo())
+                || $this->csrfProtectedRequestHelper->isCsrfProtectedRequest($request);
         }
 
         return
             $token instanceof AnonymousCustomerUserToken
             && $token->getVisitor() === null;
-    }
-
-    private function isApiRequest(Request $request): bool
-    {
-        return preg_match('{' . $this->apiPattern . '}', $request->getPathInfo()) === 1;
-    }
-
-    /**
-     * Checks whether the request is AJAX request to API resource
-     * (cookies has the session cookie and the request has "X-CSRF-Header" header with valid CSRF token).
-     */
-    private function isAjaxApiRequest(Request $request): bool
-    {
-        $isGetRequest = $request->isMethod('GET');
-
-        return
-            $request->hasSession()
-            && $request->cookies->has($request->getSession()->getName())
-            && (
-                (!$isGetRequest && $this->csrfRequestManager->isRequestTokenValid($request))
-                || ($isGetRequest && $request->headers->has(CsrfRequestManager::CSRF_HEADER))
-            );
     }
 }
