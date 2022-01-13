@@ -6,7 +6,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\ResettableCustomerUserRepositoryInterface;
-use Oro\Bundle\DataAuditBundle\Async\Topics;
+use Oro\Bundle\DataAuditBundle\Async\Topic\AuditChangedEntitiesTopic;
 use Oro\Bundle\DataAuditBundle\Provider\AuditMessageBodyProvider;
 use Oro\Bundle\DataAuditBundle\Service\EntityToEntityChangeArrayConverter;
 use Oro\Component\MessageQueue\Client\Message;
@@ -142,7 +142,7 @@ class CustomerUserReassignEntityUpdater
             );
 
             $this->messageProducer->send(
-                Topics::ENTITIES_CHANGED,
+                AuditChangedEntitiesTopic::getName(),
                 new Message($body, MessagePriority::VERY_LOW)
             );
         }

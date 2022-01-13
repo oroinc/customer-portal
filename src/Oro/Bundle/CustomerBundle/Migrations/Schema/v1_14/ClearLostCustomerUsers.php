@@ -9,6 +9,7 @@ use Oro\Component\MessageQueue\Client\MessageProducerInterface;
 use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
 use Oro\Component\MessageQueue\Transport\MessageInterface;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
+use Oro\Component\MessageQueue\Util\JSON;
 
 /**
  * Deletes customer users without assigned customer
@@ -43,7 +44,7 @@ class ClearLostCustomerUsers implements MessageProcessorInterface
     {
         if ($message->getBody() !== '') {
             // we have page number we should process, so now process this page
-            $body = json_decode($message->getBody(), true);
+            $body = JSON::decode($message->getBody());
             $this->processBatch((int)$body['batch_number']);
         } else {
             // we have no page number we should process, so now split work to batches
