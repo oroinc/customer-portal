@@ -90,6 +90,10 @@ oro_behat_extension:
       selector:
         locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"Filter By Step")]/..'
         type: 'xpath'
+    Filter By Name:
+      selector:
+        locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"Filter By Name")]/..'
+        type: 'xpath'
     Filter By First Name:
       selector:
         locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"Filter By First Name")]/..'
