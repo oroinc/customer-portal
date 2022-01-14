@@ -144,6 +144,10 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
         $customerFieldName = $config->get('frontend_customer_field_name');
         $customerColumnName = $config->get('frontend_customer_column_name');
 
+        if (!$ownerType) {
+            $ownerType = '';
+        }
+
         return new FrontendOwnershipMetadata(
             $ownerType,
             $ownerFieldName,

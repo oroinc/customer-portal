@@ -59,9 +59,9 @@ use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwareInterface, \Serializable
+class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwareInterface
 {
-    const PREFIX_ROLE = 'ROLE_FRONTEND_';
+    public const PREFIX_ROLE = 'ROLE_FRONTEND_';
 
     /**
      * @var int
@@ -342,36 +342,28 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
         $this->public = $public;
     }
 
-    /**
-     * @return string
-     */
-    public function serialize()
+    public function __serialize(): array
     {
-        return serialize(
-            [
-                $this->id,
-                $this->role,
-                $this->label,
-                $this->selfManaged,
-                $this->public,
-                $this->organization
-            ]
-        );
-    }
-
-    /**
-     * @param string $serialized
-     */
-    public function unserialize($serialized)
-    {
-        list(
+        return [
             $this->id,
             $this->role,
             $this->label,
             $this->selfManaged,
             $this->public,
             $this->organization
-            ) = unserialize($serialized);
+        ];
+    }
+
+    public function __unserialize(array $serialized): void
+    {
+        [
+            $this->id,
+            $this->role,
+            $this->label,
+            $this->selfManaged,
+            $this->public,
+            $this->organization
+        ] = $serialized;
 
         $this->customerUsers = new ArrayCollection();
     }
