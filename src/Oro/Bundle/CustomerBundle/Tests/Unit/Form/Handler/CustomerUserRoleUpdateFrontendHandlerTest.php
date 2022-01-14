@@ -65,12 +65,35 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         $request = new Request();
         $request->setMethod('POST');
 
+        $isPredefinedRole = $role->isPredefined();
         $form = $this->createMock(FormInterface::class);
         $this->formFactory->expects(self::once())
             ->method('create')
             ->with(
                 $this->isType('string'),
-                $this->equalTo($expectedRole),
+                $this->logicalAnd(
+                    $this->isType('object'),
+                    $this->callback(
+                        function ($role) use ($isPredefinedRole, $expectedRole) {
+                            if ($isPredefinedRole) {
+                                // check if predefined role is duplicated properly
+                                self::assertNotEquals($role->getRole(), $expectedRole->getRole());
+                                self::assertMatchesRegularExpression(
+                                    sprintf('/%s_[A-Z0-9]{2,}/', preg_quote(CustomerUserRole::PREFIX_ROLE)),
+                                    $role->getRole()
+                                );
+
+                                $role = clone $role;
+                                $expectedRole = clone $expectedRole;
+                                $role->setRole('', false);
+                                $expectedRole->setRole('', false);
+                            }
+                            self::assertEquals($role, $expectedRole);
+
+                            return true;
+                        }
+                    )
+                ),
                 $this->logicalAnd(
                     $this->isType('array'),
                     $this->callback(

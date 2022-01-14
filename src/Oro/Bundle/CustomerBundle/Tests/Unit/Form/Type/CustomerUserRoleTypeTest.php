@@ -37,7 +37,12 @@ class CustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
         $this->assertTrue($form->isSynchronized());
 
         $actualData = $form->getData();
-        $this->assertEquals($expectedData, $actualData);
+
+        $actualDataWithDummyRole = clone $actualData;
+        $actualDataWithDummyRole->setRole('', false);
+        $expectedDataWithDummyRole = clone $expectedData;
+        $expectedDataWithDummyRole->setRole('', false);
+        $this->assertEquals($actualDataWithDummyRole, $expectedDataWithDummyRole);
 
         if ($defaultData && $defaultData->getRole()) {
             $this->assertEquals($expectedData->getRole(), $actualData->getRole());

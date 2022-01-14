@@ -552,28 +552,20 @@ class CustomerUser extends ExtendCustomerUser implements
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function serialize()
+    public function __serialize(): array
     {
-        return serialize(
-            [
-                $this->password,
-                $this->salt,
-                $this->username,
-                $this->enabled,
-                $this->confirmed,
-                $this->confirmationToken,
-                $this->id
-            ]
-        );
+        return [
+            $this->password,
+            $this->salt,
+            $this->username,
+            $this->enabled,
+            $this->confirmed,
+            $this->confirmationToken,
+            $this->id
+        ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function unserialize($serialized)
+    public function __unserialize(array $serialized): void
     {
         [
             $this->password,
@@ -583,7 +575,7 @@ class CustomerUser extends ExtendCustomerUser implements
             $this->confirmed,
             $this->confirmationToken,
             $this->id
-            ] = unserialize($serialized);
+        ] = $serialized;
     }
 
     /**

@@ -95,7 +95,7 @@ class CustomerUserTest extends AbstractUserTest
     public function testSerializing(): void
     {
         $user = $this->getUser();
-        $data = $user->serialize();
+        $data = $user->__serialize();
 
         self::assertNotEmpty($data);
 
@@ -104,7 +104,7 @@ class CustomerUserTest extends AbstractUserTest
             ->setConfirmationToken('token')
             ->setUsername('new-name');
 
-        $user->unserialize($data);
+        $user->__unserialize($data);
 
         self::assertEmpty($user->getPassword());
         self::assertEmpty($user->getConfirmationToken());
@@ -240,7 +240,7 @@ class CustomerUserTest extends AbstractUserTest
             'confirmation_token',
             10
         ];
-        $user->unserialize(serialize($serialized));
+        $user->__unserialize($serialized);
 
         self::assertEquals($serialized[0], $user->getPassword());
         self::assertEquals($serialized[1], $user->getSalt());
