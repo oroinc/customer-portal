@@ -69,6 +69,8 @@ class ValidateApiDocViewListener extends BaseValidateApiDocViewListener
 
         return
             RestDocUrlGenerator::ROUTE === $route
-            || RestDocUrlGenerator::RESOURCE_ROUTE === $route;
+            || RestDocUrlGenerator::RESOURCE_ROUTE === $route
+            || 'oro_frontend_rest_api_doc_not_allowed' === $route
+            || 'oro_frontend_rest_api_doc_resource_not_allowed' === $route;
     }
 }
