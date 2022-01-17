@@ -15,26 +15,34 @@ define(function(require) {
         optionNames: DialogWidget.prototype.optionNames.concat([
             'fullscreenViewport', 'fullscreenViewOptions', 'fullscreenDialogOptions',
             'fullscreenMode', 'actionsTemplate', 'simpleActionTemplate',
-            'contentElement', 'renderActionsFromTemplate', 'staticPage'
+            'contentElement', 'renderActionsFromTemplate', 'staticPage',
+            'excludeClasses'
         ]),
 
         /**
-         * @property {String}
+         * @property {string}
          */
         actionsTemplate: actionsTemplate,
 
         /**
-         * @property {Boolean}
+         * @property {boolean}
          */
         simpleActionTemplate: false,
 
         /**
-         * @property {String}
+         * @property {string}
          */
         contentElement: 'section.page-content',
 
         /**
-         * @property {Boolean}
+         * List of classes which will be removed from "contentElement"
+         *
+         * @property {string}
+         */
+        excludeClasses: 'page-content--has-sidebar page-content--has-sidebar-right',
+
+        /**
+         * @property {boolean}
          */
         renderActionsFromTemplate: false,
 
@@ -66,7 +74,7 @@ define(function(require) {
         },
 
         /**
-         * @property {Boolean}
+         * @property {boolean}
          */
         fullscreenMode: true,
 
@@ -87,12 +95,12 @@ define(function(require) {
         rendered: false,
 
         /**
-         * @property {Boolean}
+         * @property {boolean}
          */
         useDialog: false,
 
         /**
-         * @property {Boolean}
+         * @property {boolean}
          */
         staticPage: false,
 
@@ -257,11 +265,14 @@ define(function(require) {
          */
         _onContentLoad: function(content) {
             if (this.renderActionsFromTemplate) {
-                content = $(content).find(this.contentElement).addClass('widget-content');
+                content = $(content).find(this.contentElement);
 
-                content.append(this.actionsTemplate({
-                    simpleActionTemplate: this.simpleActionTemplate
-                }));
+                content
+                    .removeClass(this.excludeClasses)
+                    .addClass('widget-content')
+                    .append(this.actionsTemplate({
+                        simpleActionTemplate: this.simpleActionTemplate
+                    }));
 
                 content = content.parent().html();
             }

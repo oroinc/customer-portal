@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Oro\Bundle\CheckoutBundle\Entity\Repository\CheckoutRepository;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Handler\CustomerUserReassignEntityUpdater;
-use Oro\Bundle\DataAuditBundle\Async\Topics;
+use Oro\Bundle\DataAuditBundle\Async\Topic\AuditChangedEntitiesTopic;
 use Oro\Bundle\DataAuditBundle\Provider\AuditMessageBodyProvider;
 use Oro\Bundle\DataAuditBundle\Service\EntityToEntityChangeArrayConverter;
 use Oro\Bundle\UserBundle\Entity\User;
@@ -269,15 +269,15 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
             ->method('send')
             ->withConsecutive(
                 [
-                    Topics::ENTITIES_CHANGED,
+                    AuditChangedEntitiesTopic::getName(),
                     new Message($messageBody1, MessagePriority::VERY_LOW)
                 ],
                 [
-                    Topics::ENTITIES_CHANGED,
+                    AuditChangedEntitiesTopic::getName(),
                     new Message($messageBody2, MessagePriority::VERY_LOW)
                 ],
                 [
-                    Topics::ENTITIES_CHANGED,
+                    AuditChangedEntitiesTopic::getName(),
                     new Message($messageBody3, MessagePriority::VERY_LOW)
                 ]
             );
