@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Functional\Api;
 
+use Oro\Bundle\ApiBundle\Request\RequestType;
 use Oro\Bundle\ApiBundle\Tests\Functional\RestJsonApiTestCase;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
@@ -23,13 +24,12 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     protected const USER_NAME = 'frontend_admin_api@example.com';
     protected const USER_PASSWORD = 'frontend_admin_api_key';
 
-    /** @var bool */
-    private $isVisitorEnabled = false;
+    private bool $isVisitorEnabled = false;
 
     /**
      * Enables an authorization as a visitor.
      */
-    protected function enableVisitor()
+    protected function enableVisitor(): void
     {
         $this->isVisitorEnabled = true;
     }
@@ -37,7 +37,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     /**
      * Disables an authorization as a visitor.
      */
-    protected function disableVisitor()
+    protected function disableVisitor(): void
     {
         $this->isVisitorEnabled = false;
     }
@@ -73,7 +73,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     /**
      * Creates a visitor and adds it to cookies to execute API requests under this visitor.
      */
-    protected function loadVisitor()
+    protected function loadVisitor(): void
     {
         $this->assertVisitorEnabled();
 
@@ -91,7 +91,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     /**
      * @beforeResetClient
      */
-    public static function afterFrontendTest()
+    public static function afterFrontendTest(): void
     {
         self::getWebsiteManagerStub()->disableStub();
     }
@@ -112,7 +112,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getRequestType()
+    protected function getRequestType(): RequestType
     {
         $requestType = parent::getRequestType();
         $requestType->add('frontend');
@@ -120,14 +120,14 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         return $requestType;
     }
 
-    protected function assertVisitorEnabled()
+    protected function assertVisitorEnabled(): void
     {
         if (!$this->isVisitorEnabled) {
             throw new \LogicException('An authorization as a visitor is disabled. Call enableVisitor() method before');
         }
     }
 
-    protected function setVisitorCookie(CustomerVisitor $visitor)
+    protected function setVisitorCookie(CustomerVisitor $visitor): void
     {
         $this->assertVisitorEnabled();
 
@@ -146,7 +146,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getWsseAuthHeader()
+    protected function getWsseAuthHeader(): array
     {
         /**
          * WSSE header should be generated only if the customer user (an user with the email
@@ -168,7 +168,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getItemRouteName()
+    protected function getItemRouteName(): string
     {
         return 'oro_frontend_rest_api_item';
     }
@@ -176,7 +176,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getListRouteName()
+    protected function getListRouteName(): string
     {
         return 'oro_frontend_rest_api_list';
     }
@@ -184,7 +184,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getSubresourceRouteName()
+    protected function getSubresourceRouteName(): string
     {
         return 'oro_frontend_rest_api_subresource';
     }
@@ -192,7 +192,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getRelationshipRouteName()
+    protected function getRelationshipRouteName(): string
     {
         return 'oro_frontend_rest_api_relationship';
     }
