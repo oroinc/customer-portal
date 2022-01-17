@@ -365,7 +365,7 @@ class Customer extends ExtendCustomer implements DatesAwareInterface
     }
 
     /**
-     * @param Customer $parent
+     * @param Customer|null $parent
      *
      * @return $this
      */
@@ -391,7 +391,6 @@ class Customer extends ExtendCustomer implements DatesAwareInterface
      */
     public function addAddress(AbstractDefaultTypedAddress $address)
     {
-        /** @var AbstractDefaultTypedAddress $address */
         if (!$this->getAddresses()->contains($address)) {
             $this->getAddresses()->add($address);
             $address->setFrontendOwner($this);
@@ -474,7 +473,7 @@ class Customer extends ExtendCustomer implements DatesAwareInterface
     }
 
     /**
-     * @param CustomerGroup $group
+     * @param CustomerGroup|null $group
      *
      * @return $this
      */

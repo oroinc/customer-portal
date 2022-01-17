@@ -23,7 +23,7 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
      * {@inheritDoc}
      */
     public function __construct(
-        $ownerType = null,
+        $ownerType = '',
         $ownerFieldName = '',
         $ownerColumnName = '',
         $organizationFieldName = '',
@@ -108,30 +108,9 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
         return $this->customerColumnName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function serialize()
+    public function __serialize(): array
     {
-        return serialize(
-            [
-                $this->ownerType,
-                $this->ownerFieldName,
-                $this->ownerColumnName,
-                $this->organizationFieldName,
-                $this->organizationColumnName,
-                $this->customerFieldName,
-                $this->customerColumnName
-            ]
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function unserialize($serialized)
-    {
-        list(
+        return [
             $this->ownerType,
             $this->ownerFieldName,
             $this->ownerColumnName,
@@ -139,6 +118,19 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
             $this->organizationColumnName,
             $this->customerFieldName,
             $this->customerColumnName
-        ) = unserialize($serialized);
+        ];
+    }
+
+    public function __unserialize(array $serialized): void
+    {
+        [
+            $this->ownerType,
+            $this->ownerFieldName,
+            $this->ownerColumnName,
+            $this->organizationFieldName,
+            $this->organizationColumnName,
+            $this->customerFieldName,
+            $this->customerColumnName
+        ] = $serialized;
     }
 }
