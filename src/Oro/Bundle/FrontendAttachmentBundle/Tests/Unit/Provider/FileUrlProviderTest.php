@@ -11,6 +11,7 @@ use Oro\Bundle\AttachmentBundle\Provider\FileUrlProviderInterface;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendAttachmentBundle\Provider\FileUrlProvider;
 use Oro\Bundle\FrontendBundle\Provider\FrontendCurrentApplicationProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -28,19 +29,19 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
     private const WIDTH = 10;
     private const HEIGHT = 20;
 
-    private FileUrlProviderInterface|\PHPUnit\Framework\MockObject\MockObject $innerFileUrlProvider;
+    private FileUrlProviderInterface|MockObject $innerFileUrlProvider;
 
-    private UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject $urlGenerator;
+    private UrlGeneratorInterface|MockObject $urlGenerator;
 
-    private FileApplicationsProvider|\PHPUnit\Framework\MockObject\MockObject $fileApplicationsProvider;
+    private FileApplicationsProvider|MockObject $fileApplicationsProvider;
 
-    private CurrentApplicationProviderInterface|\PHPUnit\Framework\MockObject\MockObject $currentApplicationProvider;
+    private CurrentApplicationProviderInterface|MockObject $currentApplicationProvider;
 
-    private FileAccessControlChecker|\PHPUnit\Framework\MockObject\MockObject $fileAccessControlChecker;
+    private FileAccessControlChecker|MockObject $fileAccessControlChecker;
 
-    private ConfigManager|\PHPUnit\Framework\MockObject\MockObject $configManager;
+    private ConfigManager|MockObject $configManager;
 
-    private FileNameProviderInterface|\PHPUnit\Framework\MockObject\MockObject $filenameProvider;
+    private FileNameProviderInterface|MockObject $filenameProvider;
 
     private FileUrlProvider $provider;
 
@@ -231,11 +232,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
                 'isCoveredByAcl' => true,
             ],
             [
-                'fileApplications' => ['sample-app'],
-                'isCoveredByAcl' => true,
-            ],
-            [
-                'fileApplications' => [FrontendCurrentApplicationProvider::DEFAULT_APPLICATION],
+                'fileApplications' => [FrontendCurrentApplicationProvider::COMMERCE_APPLICATION],
                 'isCoveredByAcl' => false,
             ],
             [
@@ -255,27 +252,8 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
     {
         $this->mockGuestAccessMode(true);
         $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), $isCoveredByAcl);
-
-        $this->filenameProvider->expects(self::once())
-            ->method('getResizedImageName')
-            ->with($file, self::WIDTH, self::HEIGHT, self::FORMAT)
-            ->willReturn(self::FILENAME);
-
         $this->mockApplications($fileApplications, FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
-
-        $this->urlGenerator
-            ->method('generate')
-            ->with(
-                'oro_frontend_attachment_resize_image',
-                [
-                    'id' => self::FILE_ID,
-                    'filename' => self::FILENAME,
-                    'width' => self::WIDTH,
-                    'height' => self::HEIGHT,
-                ],
-                self::REFERENCE_TYPE
-            )
-            ->willReturn(self::URL);
+        $this->mockGenerateFrontendImageResizeUrl($file);
 
         self::assertEquals(
             self::URL,
@@ -290,26 +268,8 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
     {
         $this->mockGuestAccessMode(true);
         $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), $isCoveredByAcl);
-
-        $this->filenameProvider->expects(self::once())
-            ->method('getFilteredImageName')
-            ->with($file, self::FILTER, self::FORMAT)
-            ->willReturn(self::FILENAME);
         $this->mockApplications($fileApplications, FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
-
-        $this->urlGenerator
-            ->method('generate')
-            ->with(
-                'oro_frontend_attachment_filter_image',
-                [
-                    'id' => self::FILE_ID,
-                    'filename' => self::FILENAME,
-                    'filter' => self::FILTER,
-                    'format' => self::FORMAT,
-                ],
-                self::REFERENCE_TYPE
-            )
-            ->willReturn(self::URL);
+        $this->mockGenerateFrontendImageFilteredUrl($file);
 
         self::assertEquals(
             self::URL,
@@ -323,16 +283,35 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
     public function testResizedImageUrlWhenGuestModeDisabled(array $fileApplications): void
     {
         $this->mockGuestAccessMode(false);
-        $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), true);
-
+        $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), false);
         $this->mockApplications($fileApplications, FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
-
-        $this->urlGenerator->expects(self::never())
-            ->method('generate');
+        $this->mockGenerateFrontendImageResizeUrl($file);
 
         self::assertEquals(
-            '',
-            $this->provider->getResizedImageUrl($file, self::WIDTH, self::HEIGHT, self::FORMAT, self::REFERENCE_TYPE)
+            self::URL,
+            $this->provider->getResizedImageUrl(
+                $file,
+                self::WIDTH,
+                self::HEIGHT,
+                self::FORMAT,
+                self::REFERENCE_TYPE
+            )
+        );
+    }
+
+    /**
+     * @dataProvider frontendOrPublicWhenGuestModeDisabledDataProvider
+     */
+    public function testGetFilteredImageUrlWhenGuestModeDisabled(array $fileApplications): void
+    {
+        $this->mockGuestAccessMode(false);
+        $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), false);
+        $this->mockApplications($fileApplications, FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
+        $this->mockGenerateFrontendImageFilteredUrl($file);
+
+        self::assertEquals(
+            self::URL,
+            $this->provider->getFilteredImageUrl($file, self::FILTER, self::FORMAT, self::REFERENCE_TYPE)
         );
     }
 
@@ -347,28 +326,53 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
             ],
             [
                 'fileApplications' => [
-                    FrontendCurrentApplicationProvider::DEFAULT_APPLICATION,
+                    FrontendCurrentApplicationProvider::COMMERCE_APPLICATION,
                 ],
             ],
         ];
     }
 
-    /**
-     * @dataProvider frontendOrPublicWhenGuestModeDisabledDataProvider
-     */
-    public function testGetFilteredImageUrlWhenGuestModeDisabled(array $fileApplications): void
+    private function mockGenerateFrontendImageResizeUrl(File $file): void
     {
-        $this->mockGuestAccessMode(false);
-        $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), true);
+        $this->filenameProvider->expects(self::once())
+            ->method('getResizedImageName')
+            ->with($file, self::WIDTH, self::HEIGHT, self::FORMAT)
+            ->willReturn(self::FILENAME);
 
-        $this->mockApplications($fileApplications, FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
+        $this->urlGenerator
+            ->method('generate')
+            ->with(
+                'oro_frontend_attachment_resize_image',
+                [
+                    'id' => self::FILE_ID,
+                    'filename' => self::FILENAME,
+                    'width' => self::WIDTH,
+                    'height' => self::HEIGHT,
+                ],
+                self::REFERENCE_TYPE
+            )
+            ->willReturn(self::URL);
+    }
 
-        $this->urlGenerator->expects(self::never())
-            ->method('generate');
+    private function mockGenerateFrontendImageFilteredUrl(File $file): void
+    {
+        $this->filenameProvider->expects(self::once())
+            ->method('getFilteredImageName')
+            ->with($file, self::FILTER, self::FORMAT)
+            ->willReturn(self::FILENAME);
 
-        self::assertEquals(
-            '',
-            $this->provider->getFilteredImageUrl($file, self::FILTER, self::FORMAT, self::REFERENCE_TYPE)
-        );
+        $this->urlGenerator
+            ->method('generate')
+            ->with(
+                'oro_frontend_attachment_filter_image',
+                [
+                    'id' => self::FILE_ID,
+                    'filename' => self::FILENAME,
+                    'filter' => self::FILTER,
+                    'format' => self::FORMAT,
+                ],
+                self::REFERENCE_TYPE
+            )
+            ->willReturn(self::URL);
     }
 }
