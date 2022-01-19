@@ -9,6 +9,7 @@ use Oro\Bundle\AttachmentBundle\Provider\FileApplicationsProvider;
 use Oro\Bundle\AttachmentBundle\Provider\FileNameProviderInterface;
 use Oro\Bundle\AttachmentBundle\Provider\FileUrlProviderInterface;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\FrontendBundle\Provider\FrontendCurrentApplicationProvider;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -127,8 +128,8 @@ class FileUrlProvider implements FileUrlProviderInterface
     private function isPublicOrFrontend(File $file): bool
     {
         $fileApplications = $this->fileApplicationsProvider->getFileApplications($file);
-        if (!\in_array(CurrentApplicationProviderInterface::DEFAULT_APPLICATION, $fileApplications, false)) {
-            // File does not belong to backoffice.
+        if (in_array(FrontendCurrentApplicationProvider::COMMERCE_APPLICATION, $fileApplications, false)) {
+            // File have to belong to frontend.
             return true;
         }
 
