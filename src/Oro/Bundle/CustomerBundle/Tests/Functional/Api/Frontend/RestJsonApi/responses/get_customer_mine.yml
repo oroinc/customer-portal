@@ -9,7 +9,13 @@ data:
         parent:
             data: null
         children:
-            data: []
+            data:
+                -
+                    type: customers
+                    id: '<toString(@customer1->id)>'
+                -
+                    type: customers
+                    id: '<toString(@customer2->id)>'
         group:
             data:
                 type: customergroups
