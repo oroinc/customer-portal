@@ -74,8 +74,11 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
                 groups: [create, Default]
         birthday:
             - Type:
-                type: \DateTimeInterface
+                type: DateTimeInterface
                 message: oro.customer.customer_user.birthday.type.message
+                payload:
+                    jsValidation:
+                        type: Date
             - LessThanOrEqual:
                 value: now UTC
                 message: 'The birth date cannot be in the future.'
