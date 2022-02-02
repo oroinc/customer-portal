@@ -29,6 +29,8 @@ class GuestAccessAllowedUrlsProvider implements GuestAccessAllowedUrlsProviderIn
         '^/customer/user/registration$',
         '^/customer/user/confirm-email$',
         '^/customer/user/reset$',
+        '^/localization/set-current-localization$',
+        '^/productprice/set-current-currency$',
     ];
 
     /**
