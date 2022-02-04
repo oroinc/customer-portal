@@ -83,6 +83,8 @@ $skeleton-color: get-color('additional', 'base');
                 );
             }
 
+            margin-top: $offset-y-m;
+
             animation: 1s ease-in infinite alternate skeleton-pulse;
         }
 

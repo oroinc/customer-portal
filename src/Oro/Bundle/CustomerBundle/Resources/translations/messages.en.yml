@@ -558,6 +558,7 @@ oro.customer:
         customer_user.label:     Customer User
         website.label:          Website
         localization.label:     Localization
+        product_filters_sidebar_expanded.label: Is Product Filters Sidebar Expanded
 
     customervisitor:
         entity_label: Customer Visitor

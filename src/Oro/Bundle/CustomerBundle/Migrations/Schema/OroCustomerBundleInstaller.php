@@ -75,7 +75,7 @@ class OroCustomerBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_26';
+        return 'v1_27';
     }
 
     /**
@@ -596,6 +596,7 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('website_id', 'integer');
         $table->addColumn('currency', 'string', ['length' => 3, 'notnull' => false]);
         $table->addColumn('localization_id', 'integer', ['notnull' => false]);
+        $table->addColumn('product_filters_sidebar_expanded', 'boolean', ['notnull' => false]);
 
         $table->setPrimaryKey(['id']);
     }

@@ -9,6 +9,8 @@ use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
+ * Represents Customer User settings.
+ *
  * @Config()
  * @ORM\Entity
  * @ORM\Table(
@@ -59,6 +61,13 @@ class CustomerUserSettings extends ExtendCustomerUserSettings
      * @ORM\JoinColumn(name="localization_id", referencedColumnName="id", onDelete="SET NULL", nullable=true)
      */
     protected $localization;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="product_filters_sidebar_expanded", type="boolean", nullable=true)
+     */
+    protected $productFiltersSidebarExpanded;
 
     public function __construct(Website $website)
     {
@@ -135,6 +144,18 @@ class CustomerUserSettings extends ExtendCustomerUserSettings
     public function setLocalization(Localization $localization = null)
     {
         $this->localization = $localization;
+
+        return $this;
+    }
+
+    public function isProductFiltersSidebarExpanded(): ?bool
+    {
+        return $this->productFiltersSidebarExpanded;
+    }
+
+    public function setProductFiltersSidebarExpanded(bool $productFiltersSidebarExpanded): self
+    {
+        $this->productFiltersSidebarExpanded = $productFiltersSidebarExpanded;
 
         return $this;
     }
