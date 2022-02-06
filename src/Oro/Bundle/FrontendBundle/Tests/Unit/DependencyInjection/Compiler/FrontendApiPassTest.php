@@ -30,17 +30,14 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
         'oro_activity.api.get_config.add_activity_association_descriptions',
         'oro_attachment.api.get_config.add_attachment_associations',
         'oro_attachment.api.get_config.add_attachment_association_descriptions',
-        'oro_attachment.collect_subresources.exclude_change_attachment_subresources',
+        'oro_attachment.api.collect_subresources.exclude_change_attachment_subresources',
         'oro_comment.api.get_config.add_comment_associations',
         'oro_comment.api.get_config.add_comment_association_descriptions',
-        'oro_comment.collect_subresources.exclude_change_comment_subresources',
+        'oro_comment.api.collect_subresources.exclude_change_comment_subresources',
     ];
 
-    /** @var ContainerBuilder */
-    private $container;
-
-    /** @var FrontendApiPass */
-    private $compilerPass;
+    private ContainerBuilder $container;
+    private FrontendApiPass $compiler;
 
     protected function setUp(): void
     {
@@ -68,33 +65,29 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
                 'key' => RequestActionHandler::class
             ]);
 
-        $this->compilerPass = new FrontendApiPass();
+        $this->compiler = new FrontendApiPass();
     }
 
-    private function registerProcessor(string $serviceId): Definition
-    {
-        $definition = $this->container->setDefinition($serviceId, new Definition());
-        $definition->addTag('oro.api.processor');
-
-        return $definition;
-    }
-
-    /**
-     * @param string|null $serviceIdToBeSkipped
-     *
-     * @return Definition[]
-     */
-    private function registerProcessors(string $serviceIdToBeSkipped = null): array
+    private function registerProcessors(): array
     {
         $definitions = [];
         foreach (self::PROCESSORS as $serviceId) {
-            if ($serviceIdToBeSkipped && $serviceId === $serviceIdToBeSkipped) {
-                continue;
-            }
-            $definitions[] = $this->registerProcessor($serviceId);
+            $definitions[] = $this->container->register($serviceId)->addTag('oro.api.processor');
         }
 
         return $definitions;
+    }
+
+    public function testProcessWhenAllProcessorsExist(): void
+    {
+        $definitions = $this->registerProcessors();
+
+        $this->compiler->process($this->container);
+
+        /** @var Definition $definition */
+        foreach ($definitions as $definition) {
+            self::assertEquals([['requestType' => '!frontend']], $definition->getTag('oro.api.processor'));
+        }
     }
 
     /**
@@ -102,12 +95,16 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
      */
     public function testProcessWhenSomeProcessorDoesNotExist(string $processorServiceId): void
     {
-        $this->registerProcessors($processorServiceId);
+        foreach (self::PROCESSORS as $serviceId) {
+            if ($serviceId !== $processorServiceId) {
+                $this->container->register($serviceId)->addTag('oro.api.processor');
+            }
+        }
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionMessage(sprintf('non-existent service "%s"', $processorServiceId));
 
-        $this->compilerPass->process($this->container);
+        $this->compiler->process($this->container);
     }
 
     public function processorsDataProvider(): array
@@ -120,24 +117,10 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testProcessWhenAllProcessorsExist(): void
-    {
-        $definitions = $this->registerProcessors();
-
-        $this->compilerPass->process($this->container);
-
-        foreach ($definitions as $definition) {
-            self::assertEquals(
-                [['requestType' => '!frontend']],
-                $definition->getTag('oro.api.processor')
-            );
-        }
-    }
-
     public function testConfigureUnauthorizedApiRequestListener(): void
     {
         $this->registerProcessors();
-        $this->compilerPass->process($this->container);
+        $this->compiler->process($this->container);
 
         $listenerDefinition = $this->container->getDefinition('oro_api.rest.unauthorized_api_request_listener');
         self::assertEquals(UnauthorizedApiRequestListener::class, $listenerDefinition->getClass());
@@ -167,7 +150,7 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
     public function testConfigureUnhandledApiErrorExceptionListener(): void
     {
         $this->registerProcessors();
-        $this->compilerPass->process($this->container);
+        $this->compiler->process($this->container);
 
         $listenerDefinition = $this->container->getDefinition('oro_api.rest.unhandled_error_exception_listener');
         self::assertEquals(UnhandledApiErrorExceptionListener::class, $listenerDefinition->getClass());
