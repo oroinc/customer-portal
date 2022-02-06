@@ -13,63 +13,43 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
         'oro_organization.api.config.add_owner_validator'
     ];
 
-    /** @var ContainerBuilder */
-    private $container;
-
-    /** @var FrontendApiPass */
-    private $compilerPass;
-
-    protected function setUp(): void
+    public function testProcessWhenAllProcessorsExist(): void
     {
-        $this->container = new ContainerBuilder();
-        $this->compilerPass = new FrontendApiPass();
-    }
-
-    /**
-     * @param string $serviceId
-     *
-     * @return Definition
-     */
-    private function registerProcessor($serviceId)
-    {
-        $definition = $this->container->setDefinition($serviceId, new Definition());
-        $definition->addTag('oro.api.processor', []);
-
-        return $definition;
-    }
-
-    /**
-     * @param string|null $serviceIdToBeSkipped
-     *
-     * @return Definition[]
-     */
-    private function registerProcessors($serviceIdToBeSkipped = null)
-    {
+        $container = new ContainerBuilder();
         $definitions = [];
         foreach (self::PROCESSORS as $serviceId) {
-            if ($serviceIdToBeSkipped && $serviceId === $serviceIdToBeSkipped) {
-                continue;
-            }
-            $definitions[] = $this->registerProcessor($serviceId);
+            $definitions[] = $container->register($serviceId)->addTag('oro.api.processor');
         }
 
-        return $definitions;
+        $compiler = new FrontendApiPass();
+        $compiler->process($container);
+
+        /** @var Definition $definition */
+        foreach ($definitions as $definition) {
+            self::assertEquals([['requestType' => '!frontend']], $definition->getTag('oro.api.processor'));
+        }
     }
 
     /**
      * @dataProvider processorsDataProvider
      */
-    public function testProcessWhenSomeProcessorDoesNotExist($processorServiceId)
+    public function testProcessWhenSomeProcessorDoesNotExist(string $processorServiceId): void
     {
-        $this->registerProcessors($processorServiceId);
+        $container = new ContainerBuilder();
+        foreach (self::PROCESSORS as $serviceId) {
+            if ($serviceId !== $processorServiceId) {
+                $container->register($serviceId)->addTag('oro.api.processor');
+            }
+        }
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionMessage(sprintf('non-existent service "%s"', $processorServiceId));
 
-        $this->compilerPass->process($this->container);
+        $compiler = new FrontendApiPass();
+        $compiler->process($container);
     }
 
-    public function processorsDataProvider()
+    public function processorsDataProvider(): array
     {
         return array_map(
             function ($serviceId) {
@@ -77,19 +57,5 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
             },
             self::PROCESSORS
         );
-    }
-
-    public function testProcessWhenAllProcessorsExist()
-    {
-        $definitions = $this->registerProcessors();
-
-        $this->compilerPass->process($this->container);
-
-        foreach ($definitions as $definition) {
-            self::assertEquals(
-                [['requestType' => '!frontend']],
-                $definition->getTag('oro.api.processor')
-            );
-        }
     }
 }
