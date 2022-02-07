@@ -22,7 +22,7 @@ class ChainGuestAccessAllowedUrlsProvider implements GuestAccessAllowedUrlsProvi
     /**
      * {@inheritDoc}
      */
-    public function getAllowedUrlsPatterns()
+    public function getAllowedUrlsPatterns(): array
     {
         $allowedUrls = [];
         foreach ($this->providers as $provider) {
