@@ -56,7 +56,7 @@
 
         // All hidden filters should align for right side
         &:not([style]),
-        &[style*=hidden] {
+        &[style*='hidden'] {
             right: 0;
             left: auto;
         }

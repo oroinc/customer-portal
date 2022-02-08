@@ -1,6 +1,6 @@
 /* @theme: blank; */
 
-pre[class*=language-]::after,
-pre[class*=language-]::before {
+pre[class*='language-']::after,
+pre[class*='language-']::before {
     content: none;
 }

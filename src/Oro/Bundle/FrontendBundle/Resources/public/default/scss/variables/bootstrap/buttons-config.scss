@@ -1,6 +1,6 @@
 /* @theme: default; */
 
-$active-box-shadow: inset 0 3px 5px 0 rgba(0, 0, 0, .35) !default;
+$active-box-shadow: inset 0 3px 5px 0 rgba(0 0 0 / 35%) !default;
 
 /* Style for button without theme modificator */
 $btn-theme: (
@@ -42,7 +42,7 @@ $btn-theme-info: (
     'active-background': lighten(get-color('primary', 'base'), 5%),
     'active-border': lighten(get-color('primary', 'base'), 5%),
     'focus-border': lighten(get-color('primary', 'base'), 5%),
-    'divider-style': rgba(get-color('additional', 'ultra'), .3)
+    'divider-style': get-color('additional', 'ultra', 30%)
 ) !default;
 
 $btn-theme-primary: (
