@@ -31,6 +31,14 @@
         }
     }
 
+    &__inner {
+        &,
+        &-left,
+        &-right {
+            list-style-type: none;
+        }
+    }
+
     &--splited &__inner-left,
     &--splited &__inner-right {
         float: $main-menu-column-splited-inner-left-float;
