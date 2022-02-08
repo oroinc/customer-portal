@@ -30,7 +30,7 @@ $dropdown-color: get-color('additional', 'dark');
 $dropdown-link-active-bg: get-color('additional', 'base');
 $dropdown-link-active-color: get-color('additional', 'dark');
 $dropdown-border-color: darken(get-color('additional', light), 4%);
-$dropdown-box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+$dropdown-box-shadow: 0 2px 8px rgba(0 0 0 / 10%);
 
 $table-color: get-color('additional', 'dark');
 
@@ -47,7 +47,7 @@ $popover-max-width: 280px;
 $popover-border-width: 1px;
 $popover-border-color: get-color('additional', 'middle');
 $popover-border-radius: 4px;
-$popover-box-shadow: 0 2px 6px 1px rgba(0, 0, 0, .12);
+$popover-box-shadow: 0 2px 6px 1px rgba(0 0 0 / 12%);
 $popover-header-bg: $popover-bg;
 $popover-header-color: get-color('additional', 'dark');
 $popover-header-padding-y: $offset-y;
