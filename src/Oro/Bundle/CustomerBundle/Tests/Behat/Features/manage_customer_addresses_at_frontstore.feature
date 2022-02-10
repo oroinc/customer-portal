@@ -1,5 +1,6 @@
 @ticket-BB-12286
 @ticket-BB-12639
+@waf-skip
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 
 Feature: Manage Customer addresses at front-store
