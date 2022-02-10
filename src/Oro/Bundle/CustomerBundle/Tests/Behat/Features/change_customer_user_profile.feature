@@ -1,5 +1,6 @@
 @ticket-BB-17702
 @ticket-BAP-20232
+@waf-skip
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Change customer user profile
   In order to save profile data
