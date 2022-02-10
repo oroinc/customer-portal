@@ -1,4 +1,5 @@
 @ticket-BB-12286
+@waf-skip
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 @fixture-OroCustomerBundle:CustomerAddressFixtureBB12286.yml
 
