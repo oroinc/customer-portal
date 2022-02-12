@@ -102,10 +102,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function createValidator()
+    protected function createValidator(): FrontendOwnerValidator
     {
         return new FrontendOwnerValidator(
             $this->doctrine,
@@ -116,17 +113,6 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             $this->aclVoter,
             $this->aclGroupProvider
         );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function createContext()
-    {
-        $this->constraint = new FrontendOwner();
-        $this->propertyPath = '';
-
-        return parent::createContext();
     }
 
     private function createOwnershipMetadata(string $ownerType): FrontendOwnershipMetadata
@@ -192,7 +178,8 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->doctrine->expects(self::never())
             ->method('getManagerForClass');
 
-        $this->validator->validate(null, $this->constraint);
+        $constraint = new FrontendOwner();
+        $this->validator->validate(null, $constraint);
         $this->assertNoViolation();
     }
 
@@ -205,7 +192,8 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->ownershipMetadataProvider->expects(self::never())
             ->method('getMetadata');
 
-        $this->validator->validate($this->testEntity, $this->constraint);
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
         $this->assertNoViolation();
     }
 
@@ -222,7 +210,8 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with(Entity::class)
             ->willReturn($ownershipMetadata);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
         $this->assertNoViolation();
     }
 
@@ -253,7 +242,8 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->authorizationChecker->expects(self::never())
             ->method('isGranted');
 
-        $this->validator->validate($this->testEntity, $this->constraint);
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
         $this->assertNoViolation();
     }
 
@@ -284,7 +274,8 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->authorizationChecker->expects(self::never())
             ->method('isGranted');
 
-        $this->validator->validate($this->testEntity, $this->constraint);
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
         $this->assertNoViolation();
     }
 
@@ -319,9 +310,11 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with('ASSIGN', 'entity:' . Entity::class)
             ->willReturn(true);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
-        $this->buildViolation($this->constraint->message)
-            ->atPath('owner')
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
+
+        $this->buildViolation($constraint->message)
+            ->atPath('property.path.owner')
             ->setParameters(['{{ owner }}' => 'owner'])
             ->assertRaised();
     }
@@ -357,7 +350,8 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with('ASSIGN', 'entity:' . Entity::class)
             ->willReturn(true);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
         $this->assertNoViolation();
     }
 
@@ -392,7 +386,8 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with('ASSIGN', 'entity:' . Entity::class)
             ->willReturn(true);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
         $this->assertNoViolation();
     }
 
@@ -435,7 +430,8 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with($owner->getId(), $this->currentOrg->getId())
             ->willReturn([567]);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
         $this->assertNoViolation();
     }
 
@@ -474,7 +470,8 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with($this->currentUser->getId(), $this->currentOrg->getId())
             ->willReturn([$owner->getId()]);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
         $this->assertNoViolation();
     }
 
@@ -513,7 +510,8 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with($this->currentUser->getId(), $this->currentOrg->getId())
             ->willReturn([$owner->getId()]);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
         $this->assertNoViolation();
     }
 
@@ -548,9 +546,11 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with('ASSIGN', 'entity:' . Entity::class)
             ->willReturn(true);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
-        $this->buildViolation($this->constraint->message)
-            ->atPath('owner')
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
+
+        $this->buildViolation($constraint->message)
+            ->atPath('property.path.owner')
             ->setParameters(['{{ owner }}' => 'owner'])
             ->assertRaised();
     }
@@ -594,9 +594,11 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with($owner->getId(), $this->currentOrg->getId())
             ->willReturn([678]);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
-        $this->buildViolation($this->constraint->message)
-            ->atPath('owner')
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
+
+        $this->buildViolation($constraint->message)
+            ->atPath('property.path.owner')
             ->setParameters(['{{ owner }}' => 'owner'])
             ->assertRaised();
     }
@@ -636,9 +638,11 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with($this->currentUser->getId(), $this->currentOrg->getId())
             ->willReturn([567]);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
-        $this->buildViolation($this->constraint->message)
-            ->atPath('owner')
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
+
+        $this->buildViolation($constraint->message)
+            ->atPath('property.path.owner')
             ->setParameters(['{{ owner }}' => 'owner'])
             ->assertRaised();
     }
@@ -678,9 +682,11 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with($this->currentUser->getId(), $this->currentOrg->getId())
             ->willReturn([567]);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
-        $this->buildViolation($this->constraint->message)
-            ->atPath('owner')
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
+
+        $this->buildViolation($constraint->message)
+            ->atPath('property.path.owner')
             ->setParameters(['{{ owner }}' => 'owner'])
             ->assertRaised();
     }
@@ -723,7 +729,8 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with($owner->getId(), $this->currentOrg->getId())
             ->willReturn([345, 456]);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
         $this->assertNoViolation();
     }
 
@@ -761,7 +768,8 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with($this->currentUser->getId(), $this->currentOrg->getId())
             ->willReturn([234, $owner->getId()]);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
         $this->assertNoViolation();
     }
 
@@ -799,7 +807,8 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with($this->currentUser->getId(), $this->currentOrg->getId())
             ->willReturn([234, $owner->getId()]);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
         $this->assertNoViolation();
     }
 
@@ -841,9 +850,11 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with($owner->getId(), $this->currentOrg->getId())
             ->willReturn([345]);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
-        $this->buildViolation($this->constraint->message)
-            ->atPath('owner')
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
+
+        $this->buildViolation($constraint->message)
+            ->atPath('property.path.owner')
             ->setParameters(['{{ owner }}' => 'owner'])
             ->assertRaised();
     }
@@ -882,9 +893,11 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with($this->currentUser->getId(), $this->currentOrg->getId())
             ->willReturn([234]);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
-        $this->buildViolation($this->constraint->message)
-            ->atPath('owner')
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
+
+        $this->buildViolation($constraint->message)
+            ->atPath('property.path.owner')
             ->setParameters(['{{ owner }}' => 'owner'])
             ->assertRaised();
     }
@@ -923,9 +936,11 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with($this->currentUser->getId(), $this->currentOrg->getId())
             ->willReturn([234]);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
-        $this->buildViolation($this->constraint->message)
-            ->atPath('owner')
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
+
+        $this->buildViolation($constraint->message)
+            ->atPath('property.path.owner')
             ->setParameters(['{{ owner }}' => 'owner'])
             ->assertRaised();
     }
@@ -968,7 +983,8 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with('CREATE', 'entity:' . Entity::class)
             ->willReturn(true);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
         $this->assertNoViolation();
     }
 
@@ -1010,7 +1026,8 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with('CREATE', 'entity:' . Entity::class)
             ->willReturn(true);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
         $this->assertNoViolation();
     }
 
@@ -1052,9 +1069,11 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with('CREATE', 'entity:' . Entity::class)
             ->willReturn(true);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
-        $this->buildViolation($this->constraint->message)
-            ->atPath('owner')
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
+
+        $this->buildViolation($constraint->message)
+            ->atPath('property.path.owner')
             ->setParameters(['{{ owner }}' => 'owner'])
             ->assertRaised();
     }
@@ -1097,9 +1116,11 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->with('CREATE', 'entity:' . Entity::class)
             ->willReturn(true);
 
-        $this->validator->validate($this->testEntity, $this->constraint);
-        $this->buildViolation($this->constraint->message)
-            ->atPath('owner')
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
+
+        $this->buildViolation($constraint->message)
+            ->atPath('property.path.owner')
             ->setParameters(['{{ owner }}' => 'owner'])
             ->assertRaised();
     }
@@ -1151,7 +1172,8 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->ownerTree->expects(self::never())
             ->method('getUserBusinessUnitIds');
 
-        $this->validator->validate($this->testEntity, $this->constraint);
+        $constraint = new FrontendOwner();
+        $this->validator->validate($this->testEntity, $constraint);
         $this->assertNoViolation();
     }
 }
