@@ -7,31 +7,21 @@ use Oro\Bundle\CommerceMenuBundle\Form\DataTransformer\MenuUserAgentConditionsCo
 use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuUserAgentConditionsCollectionType;
 use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuUserAgentConditionType;
 use Oro\Bundle\FormBundle\Form\Type\CollectionType as OroCollectionType;
-use Oro\Bundle\NavigationBundle\Validator\Constraints\MaxNestedLevelValidator;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\ConstraintValidatorFactoryInterface;
 
 class MenuUserAgentConditionsCollectionTypeTest extends FormIntegrationTestCase
 {
-    /**
-     * @var MenuUserAgentConditionType
-     */
+    /** @var MenuUserAgentConditionType */
     private $formType;
 
-    /**
-     * @var MenuUserAgentConditionsCollectionTransformer
-     */
+    /** @var MenuUserAgentConditionsCollectionTransformer */
     private $transformer;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $this->transformer = new MenuUserAgentConditionsCollectionTransformer();
@@ -41,9 +31,9 @@ class MenuUserAgentConditionsCollectionTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return [
             new PreloadedExtension(
@@ -134,34 +124,5 @@ class MenuUserAgentConditionsCollectionTypeTest extends FormIntegrationTestCase
         ];
 
         self::assertEquals($expectedOptions, $actualOptions);
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|ConstraintValidatorFactoryInterface
-     */
-    protected function getConstraintValidatorFactory()
-    {
-        $factory = $this->createMock(ConstraintValidatorFactoryInterface::class);
-        $factory->expects($this->any())
-                ->method('getInstance')
-                ->willReturnCallback(
-                    function (Constraint $constraint) {
-                        $className = $constraint->validatedBy();
-
-                        if ($className === MaxNestedLevelValidator::class) {
-                            $this->validators[$className] = $this->createMock(MaxNestedLevelValidator::class);
-                        }
-
-                        if (!isset($this->validators[$className]) ||
-                            $className === 'Symfony\Component\Validator\Constraints\CollectionValidator'
-                        ) {
-                            $this->validators[$className] = new $className();
-                        }
-
-                        return $this->validators[$className];
-                    }
-                );
-
-        return $factory;
     }
 }

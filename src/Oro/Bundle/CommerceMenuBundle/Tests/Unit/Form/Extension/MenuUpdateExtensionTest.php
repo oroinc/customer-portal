@@ -17,7 +17,6 @@ use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuUserAgentConditionType;
 use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Entity\Stub\MenuUpdateStub;
 use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Type\Stub\ImageTypeStub;
 use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Type\Stub\MenuUpdateTypeStub;
-use Oro\Bundle\CommerceMenuBundle\Validator\Constraints\MenuUpdateExpressionValidator;
 use Oro\Bundle\EntityConfigBundle\Config\Config;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
@@ -32,8 +31,9 @@ use Oro\Bundle\FormBundle\Form\Type\OroJquerySelect2HiddenType;
 use Oro\Bundle\FrontendBundle\Provider\ScreensProviderInterface;
 use Oro\Bundle\NavigationBundle\Form\Type\RouteChoiceType;
 use Oro\Bundle\NavigationBundle\Tests\Unit\Form\Type\Stub\RouteChoiceTypeStub;
-use Oro\Bundle\NavigationBundle\Validator\Constraints\MaxNestedLevelValidator;
 use Oro\Bundle\ProductBundle\Entity\Product;
+use Oro\Bundle\SecurityBundle\Util\UriSecurityHelper;
+use Oro\Bundle\SecurityBundle\Validator\Constraints\NotDangerousProtocolValidator;
 use Oro\Bundle\TranslationBundle\Translation\Translator;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Bundle\WebCatalogBundle\Entity\WebCatalog;
@@ -45,15 +45,9 @@ use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\Constraints\CollectionValidator;
-use Symfony\Component\Validator\ConstraintValidatorFactoryInterface;
 
 class MenuUpdateExtensionTest extends FormIntegrationTestCase
 {
-    /**
-     * @internal
-     */
     private const SCREENS_CONFIG = [
         'desktop' => [
             'label' => 'Sample desktop label',
@@ -71,7 +65,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         $this->webCatalogProvider = $this->createMock(WebCatalogProvider::class);
 
@@ -117,7 +111,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
 
         $configManager->expects($this->any())
             ->method('getProvider')
-            ->willReturn($configProvider = $this->mockConfigProvider());
+            ->willReturn($configProvider = $this->getConfigProvider());
 
         return [
             new PreloadedExtension(
@@ -153,6 +147,17 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
                 ]
             ),
             $this->getValidatorExtension(true)
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getValidators(): array
+    {
+        return [
+            'oro_security.validator.constraints.not_dangerous_protocol' =>
+                new NotDangerousProtocolValidator(new UriSecurityHelper([]))
         ];
     }
 
@@ -257,37 +262,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
         ];
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|ConstraintValidatorFactoryInterface
-     */
-    protected function getConstraintValidatorFactory()
-    {
-        $factory = $this->createMock(ConstraintValidatorFactoryInterface::class);
-
-        $mockedValidators = [MaxNestedLevelValidator::class, MenuUpdateExpressionValidator::class];
-
-        $factory->expects($this->any())
-            ->method('getInstance')
-            ->willReturnCallback(
-                function (Constraint $constraint) use ($mockedValidators) {
-                    $className = $constraint->validatedBy();
-
-                    foreach ($mockedValidators as $mockedValidator) {
-                        $this->validators[$className] = $this->createMock($mockedValidator);
-                    }
-
-                    if (!isset($this->validators[$className]) || $className === CollectionValidator::class) {
-                        $this->validators[$className] = new $className();
-                    }
-
-                    return $this->validators[$className];
-                }
-            );
-
-        return $factory;
-    }
-
-    private function mockConfigProvider(): ConfigProvider
+    private function getConfigProvider(): ConfigProvider
     {
         $configProvider = $this->createMock(ConfigProvider::class);
 
