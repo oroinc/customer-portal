@@ -2,13 +2,27 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Provider;
 
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\LocaleBundle\DependencyInjection\Configuration;
+use Oro\Bundle\LocaleBundle\Entity\Localization;
+use Oro\Bundle\LocaleBundle\Manager\LocalizationManager;
 use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Provider\WebsiteLocalizationProvider;
+use Oro\Component\Testing\ReflectionUtil;
 
-class WebsiteLocalizationProviderTest extends AbstractWebsiteLocalizationProviderTest
+class WebsiteLocalizationProviderTest extends \PHPUnit\Framework\TestCase
 {
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $configManager;
+
+    /** @var LocalizationManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $localizationManager;
+
+    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $doctrineHelper;
+
     /** @var WebsiteRepository|\PHPUnit\Framework\MockObject\MockObject */
     private $websiteRepository;
 
@@ -17,8 +31,9 @@ class WebsiteLocalizationProviderTest extends AbstractWebsiteLocalizationProvide
 
     protected function setUp(): void
     {
-        parent::setUp();
-
+        $this->configManager = $this->createMock(ConfigManager::class);
+        $this->localizationManager = $this->createMock(LocalizationManager::class);
+        $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
         $this->websiteRepository = $this->createMock(WebsiteRepository::class);
 
         $this->provider = new WebsiteLocalizationProvider(
@@ -26,6 +41,22 @@ class WebsiteLocalizationProviderTest extends AbstractWebsiteLocalizationProvide
             $this->localizationManager,
             $this->doctrineHelper
         );
+    }
+
+    private function getWebsite(int $id): Website
+    {
+        $website = new Website();
+        ReflectionUtil::setId($website, $id);
+
+        return $website;
+    }
+
+    private function getLocalization(int $id): Localization
+    {
+        $localization = new Localization();
+        ReflectionUtil::setId($localization, $id);
+
+        return $localization;
     }
 
     public function testGetLocalizations()
