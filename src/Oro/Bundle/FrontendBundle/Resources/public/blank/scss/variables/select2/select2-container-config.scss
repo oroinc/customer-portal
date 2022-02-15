@@ -2,13 +2,13 @@
 
 $select2-container-arrow-height: 18px !default;
 $select2-container-arrow-size: 5px !default;
-$select2-container-arrow-border-top: ($select2-container-arrow-size + 1) solid get-color('additional', 'dark') !default;
+$select2-container-arrow-border-top: ($select2-container-arrow-size + 1) solid $select-arrow-color !default;
 $select2-container-arrow-border-start: $select2-container-arrow-size solid transparent !default;
 $select2-container-arrow-border-end: $select2-container-arrow-size solid transparent !default;
 
-$select2-container-size-l: 9px 11px 8px !default;
-$select2-container-size-m: 5px 8px !default;
-$select2-container-size-s: 5px 8px 4px !default;
+$select2-container-size-l: 9px 22px 8px 11px !default;
+$select2-container-size-m: 5px 22px 5px 8px !default;
+$select2-container-size-s: 5px 22px 4px 8px !default;
 $select2-container-input-inner-offset: 6px 8px !default;
 $select2-container-color: get-color('additional', 'dark');
 $select2-container-background: get-color('additional', 'ultra');

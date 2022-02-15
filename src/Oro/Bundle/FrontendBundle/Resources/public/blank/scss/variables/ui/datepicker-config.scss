@@ -12,6 +12,7 @@ $ui-datepicker-header-inner-offset: 0 $offset-y-s !default;
 $ui-datepicker-header-font-weight: font-weight('bold') !default;
 $ui-datepicker-title-offset: 0 30px !default;
 $ui-datepicker-title-line-height: 2 !default;
+$ui-datepicker-title-text-align: center !default;
 
 $ui-datepicker-calendar-border-spacing: $offset-y-s !default;
 $ui-datepicker-calendar-offset-top: $offset-y-s !default;
@@ -36,11 +37,6 @@ $ui-datepicker-td-inner-offset: 2px !default;
 $ui-datepicker-th-inner-offset: 2px !default;
 
 $ui-datepicker-header-color: get-color('additional', 'middle') !default;
-
-$ui-datepicker-select-offset: 0 2px !default;
-$ui-datepicker-select-inner-offset-top: 8px !default;
-$ui-datepicker-select-inner-offset-bottom: 8px !default;
-$ui-datepicker-select-size: 47%;
 
 $ui-datepicker-trigger-corner-size: 7px !default;
 $ui-datepicker-trigger-icon: $ui-datepicker-trigger-corner-size solid get-color('additional', 'middle') !default;
