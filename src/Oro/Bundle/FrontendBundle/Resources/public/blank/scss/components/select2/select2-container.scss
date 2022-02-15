@@ -7,6 +7,7 @@
     background: $select2-container-background;
 
     font-size: $base-font-size;
+    font-weight: $base-font-weight;
     line-height: $base-ui-element-line-height;
 
     border: $select2-container-border;
@@ -84,8 +85,6 @@
 
     .select2-chosen {
         max-width: inherit;
-        margin-right: 8px;
-        padding-right: $offset-x-s;
     }
 
     .select2-choices {

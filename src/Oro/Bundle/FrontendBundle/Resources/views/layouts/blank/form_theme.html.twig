@@ -184,7 +184,9 @@
             datePickerOptions: {
                 altFormat: 'yy-mm-dd',
                 changeMonth: false,
+                selectMonthClassName: 'select',
                 changeYear: false,
+                selectYearClassName: 'select',
                 yearRange: years|default('-80:+1'),
                 showButtonPanel: true,
                 maxDate: (attribute(datePickerOptions, 'maxDate') is defined ? datePickerOptions['maxDate'] : maxDate),
