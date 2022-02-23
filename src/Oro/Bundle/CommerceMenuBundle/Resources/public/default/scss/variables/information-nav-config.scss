@@ -17,3 +17,4 @@ $information-nav-title-text-transform: uppercase !default;
 $information-nav-item-offset: $offset-y 0 0;
 $information-nav-item-content-color: get-color('additional', 'dark');
 $information-nav-item-content-color-hover: get-color('additional', 'dark');
+$information-nav-item-content-text-color: $information-nav-item-content-color;
