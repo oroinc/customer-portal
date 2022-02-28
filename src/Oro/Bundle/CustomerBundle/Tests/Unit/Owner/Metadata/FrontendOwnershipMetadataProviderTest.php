@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Owner\Metadata;
 
-use Doctrine\Common\Cache\CacheProvider;
+use Oro\Bundle\CacheBundle\Generator\UniversalCacheKeyGenerator;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
@@ -14,6 +14,8 @@ use Oro\Bundle\EntityConfigBundle\Config\Id\EntityConfigId;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
@@ -30,7 +32,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
     /** @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface */
     protected $tokenAccessor;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|CacheProvider */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|CacheInterface */
     protected $cache;
 
     /** @var FrontendOwnershipMetadataProvider */
@@ -46,7 +48,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->entityClassResolver = $this->createMock(EntityClassResolver::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
-        $this->cache = $this->createMock(CacheProvider::class);
+        $this->cache = $this->createMock(CacheInterface::class);
 
         $this->provider = new FrontendOwnershipMetadataProvider(
             [
@@ -115,7 +117,12 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
             ->with('ownership', \stdClass::class)
             ->willReturn($config);
 
-        $this->cache = null;
+        $this->cache->expects(self::once())
+            ->method('get')
+            ->willReturnCallback(function ($cacheKey, $callback) {
+                $item = $this->createMock(ItemInterface::class);
+                return $callback($item);
+            });
 
         $this->assertEquals(
             new FrontendOwnershipMetadata('USER', 'test_field', 'test_column', '', '', 'customer', 'customer_id'),
@@ -125,7 +132,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetMetadataUndefinedClassWithCache(): void
     {
-        $this->configManager->expects($this->once())
+        $this->configManager->expects($this->never())
             ->method('hasConfig')
             ->with('UndefinedClass')
             ->willReturn(false);
@@ -133,12 +140,9 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
             ->method('getEntityConfig');
 
         $this->cache->expects($this->exactly(2))
-            ->method('fetch')
+            ->method('get')
             ->with('UndefinedClass')
-            ->willReturnOnConsecutiveCalls(false, true);
-        $this->cache->expects($this->once())
-            ->method('save')
-            ->with('UndefinedClass', true);
+            ->willReturn(true);
 
         $metadata = new FrontendOwnershipMetadata();
         $providerWithCleanCache = clone $this->provider;
@@ -257,7 +261,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
             }
 
             $this->cache->expects($this->any())
-                ->method('fetch')
+                ->method('get')
                 ->with($className)
                 ->willReturn($metadata);
         }
@@ -336,8 +340,8 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
             ->willReturnMap($configMap);
 
         $this->cache->expects($this->once())
-            ->method('fetch')
-            ->with($this->equalTo('AcmeBundle\Entity\Customer'));
+            ->method('get')
+            ->with($this->equalTo(UniversalCacheKeyGenerator::normalizeCacheKey('AcmeBundle\Entity\Customer')));
 
         $this->provider->warmUpCache();
     }

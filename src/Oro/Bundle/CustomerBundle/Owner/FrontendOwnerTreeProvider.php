@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Owner;
 
-use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -21,6 +20,8 @@ use Oro\Component\DoctrineUtils\ORM\QueryUtil;
 use Oro\Component\MessageQueue\Client\Message;
 use Oro\Component\MessageQueue\Client\MessageProducerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 /**
  * This class is used to build the tree of owners for customers.
@@ -29,33 +30,21 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements CustomerAwareOwnerTreeInterface
 {
     /**
-     * @var int
      * clear cache for inactive customers/customer users every hour
      */
     private const DEFAULT_CACHE_TTL = 86400;
 
-    /** @var ManagerRegistry */
-    private $doctrine;
-
-    /** @var TokenStorageInterface */
-    private $tokenStorage;
-
-    /** @var OwnershipMetadataProviderInterface */
-    private $ownershipMetadataProvider;
-
-    /** @var Customer */
-    private $currentCustomer;
-
-    /** @var MessageProducerInterface */
-    private $messageProducer;
-
-    /** @var OwnerTreeMessageFactory */
-    private $ownerTreeMessageFactory;
+    private ManagerRegistry $doctrine;
+    private TokenStorageInterface $tokenStorage;
+    private OwnershipMetadataProviderInterface $ownershipMetadataProvider;
+    private ?Customer $currentCustomer = null;
+    private MessageProducerInterface $messageProducer;
+    private OwnerTreeMessageFactory $ownerTreeMessageFactory;
 
     public function __construct(
         ManagerRegistry $doctrine,
         DatabaseChecker $databaseChecker,
-        CacheProvider $cache,
+        CacheInterface $cache,
         OwnershipMetadataProviderInterface $ownershipMetadataProvider,
         TokenStorageInterface $tokenStorage,
         MessageProducerInterface $messageProducer,
@@ -78,8 +67,7 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
     }
 
     /**
-     * Warms up cache for recent customer users visitors.
-     * {@inheritdoc}
+     * Warms up cache for recent customer users visitors
      */
     public function warmUpCache(): void
     {
@@ -87,9 +75,6 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         $this->messageProducer->send(Topics::CALCULATE_OWNER_TREE_CACHE, new Message($messageData));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getTree(): OwnerTreeInterface
     {
         $cacheKey = $this->getOwnerTreeCacheKey();
@@ -97,19 +82,12 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
             return $this->loadTree();
         }
 
-        $tree = $this->cache->fetch($cacheKey);
-        if (!$tree) {
-            $tree = $this->loadTree();
-            $this->cache->save($cacheKey, $tree, $this->getCacheTtl());
-        }
-
-        return $tree;
+        return $this->cache->get($cacheKey, function (ItemInterface $item) {
+            $item->expiresAfter($this->getCacheTtl());
+            return $this->loadTree();
+        });
     }
 
-    /**
-     * @param object $businessUnit
-     * @return OwnerTreeInterface
-     */
     public function getTreeByBusinessUnit($businessUnit): OwnerTreeInterface
     {
         $this->currentCustomer = $businessUnit;
@@ -124,9 +102,6 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         $this->cacheTtl = $cacheTtl;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function fillTree(OwnerTreeBuilderInterface $tree): void
     {
         $customerIds = $this->addAncestorCustomers($tree);
@@ -157,12 +132,6 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         return $id;
     }
 
-    /**
-     * @param Connection $connection
-     * @param Query      $query
-     *
-     * @return array [rows, columnMap]
-     */
     private function executeQuery(Connection $connection, Query $query): array
     {
         $parsedQuery = QueryUtil::parseQuery($query);
@@ -174,7 +143,7 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         ];
     }
 
-    protected function setSubordinateBusinessUnitIds(OwnerTreeBuilderInterface $tree, $businessUnits)
+    protected function setSubordinateBusinessUnitIds(OwnerTreeBuilderInterface $tree, $businessUnits): void
     {
         foreach ($businessUnits as $parentId => $businessUnitIds) {
             $tree->setSubordinateBusinessUnitIds($parentId, $businessUnitIds);
@@ -218,10 +187,7 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
     }
 
     /**
-     * Gets all ancestor customers including current top customer.
-     *
-     * @param OwnerTreeBuilderInterface $tree
-     * @return array|int[] ancestor customer ids
+     * Gets all ancestor customers including current top customer
      */
     private function addAncestorCustomers(OwnerTreeBuilderInterface $tree): array
     {
@@ -263,20 +229,10 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         }
 
         $cacheKey = $this->getCustomerUserCacheKey($customerUser);
-        $topCustomerId = $this->cache->fetch($cacheKey);
-
-        if (false === $topCustomerId) {
-            $topCustomerId = null;
+        return $this->cache->get($cacheKey, function () use ($customerUser) {
             $customer = $customerUser->getCustomer();
-
-            if ($customer) {
-                $topCustomerId = $this->getRootCustomer($customer);
-            }
-
-            $this->cache->save($cacheKey, $topCustomerId);
-        }
-
-        return $topCustomerId;
+            return $customer ? $this->getRootCustomer($customer) : null;
+        });
     }
 
     private function getRootCustomer(Customer $customer): int
@@ -361,13 +317,7 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
     }
 
     /**
-     * Adds customers subtree where topCustomerId is an id of the root customer node.
-     *
-     * @param OwnerTreeBuilderInterface $tree
-     * @param int|null $topCustomerId
-     * @param array $customers
-     * @param array $columnMap
-     * @return array
+     * Adds customers subtree where topCustomerId is an id of the root customer node
      */
     private function addCustomersSubtree(
         OwnerTreeBuilderInterface $tree,
