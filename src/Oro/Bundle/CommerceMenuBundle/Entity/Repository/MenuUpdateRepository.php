@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Entity\Repository;
 
-use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Oro\Bundle\NavigationBundle\Entity\Repository\MenuUpdateRepository as BaseMenuUpdateRepository;
 
@@ -12,12 +11,9 @@ use Oro\Bundle\NavigationBundle\Entity\Repository\MenuUpdateRepository as BaseMe
 class MenuUpdateRepository extends BaseMenuUpdateRepository
 {
     /**
-     * {@inheritDoc}
-     * Set uri, contentNode and systemPageRoute of dependent menu updates based on global version.
-     *
-     * @param MenuUpdateInterface|MenuUpdate $menuUpdate
+     * Set uri, contentNode and systemPageRoute of dependent menu updates based on global version
      */
-    public function updateDependentMenuUpdates(MenuUpdateInterface $menuUpdate)
+    public function updateDependentMenuUpdates(MenuUpdateInterface $menuUpdate): void
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->update($this->getEntityName(), 'u')

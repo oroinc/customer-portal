@@ -2,12 +2,12 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\EventListener;
 
-use Doctrine\Common\Cache\CacheProvider;
 use Oro\Bundle\CommerceMenuBundle\EventListener\ContentNodeDeleteListener;
+use Symfony\Component\Cache\Adapter\AbstractAdapter;
 
 class ContentNodeDeleteListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var CacheProvider|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var AbstractAdapter|\PHPUnit\Framework\MockObject\MockObject */
     private $cacheProvider;
 
     /** @var ContentNodeDeleteListener */
@@ -15,14 +15,14 @@ class ContentNodeDeleteListenerTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $this->cacheProvider = $this->createMock(CacheProvider::class);
+        $this->cacheProvider = $this->createMock(AbstractAdapter::class);
         $this->listener = new ContentNodeDeleteListener($this->cacheProvider);
     }
 
     public function testPostRemove(): void
     {
         $this->cacheProvider->expects($this->once())
-            ->method('deleteAll');
+            ->method('clear');
 
         $this->listener->postRemove();
     }
