@@ -13,30 +13,21 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class CustomerGroupScopeManager extends AbstractScopeManager
 {
-    private ?int $scopeId = 0;
+    private ?int $scopeId = null;
     private TokenStorageInterface $tokenStorage;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getScopedEntityName(): string
     {
         return 'customer_group';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getScopeId(): int
+    public function getScopeId(): ?int
     {
         $this->ensureScopeIdInitialized();
 
         return $this->scopeId;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setScopeId($scopeId): void
     {
         $this->dispatchScopeIdChangeEvent();
@@ -44,9 +35,6 @@ class CustomerGroupScopeManager extends AbstractScopeManager
         $this->scopeId = $scopeId;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function isSupportedScopeEntity($entity): bool
     {
         return
@@ -54,9 +42,6 @@ class CustomerGroupScopeManager extends AbstractScopeManager
             || ($entity instanceof Customer && null !== $entity->getGroup());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getScopeEntityIdValue($entity): int
     {
         if ($entity instanceof CustomerGroup) {
