@@ -18,15 +18,15 @@ class FrontendFieldConfiguration implements FieldConfigInterface
     public function configure(NodeBuilder $nodeBuilder): void
     {
         $nodeBuilder
-            ->booleanNode('use_in_export')
+            ->node('use_in_export', 'normalized_boolean')
                 ->info('`boolean` defines if field available for export.')
                 ->defaultFalse()
             ->end()
-            ->booleanNode('is_displayable')
+            ->node('is_displayable', 'normalized_boolean')
                 ->info('`boolean` defines if the field is visible or hidden.')
                 ->defaultTrue()
             ->end()
-            ->booleanNode('is_editable')
+            ->node('is_editable', 'normalized_boolean')
                 ->info('`boolean` defines if the field is enabled in the storefront forms.')
                 ->defaultTrue()
             ->end()
