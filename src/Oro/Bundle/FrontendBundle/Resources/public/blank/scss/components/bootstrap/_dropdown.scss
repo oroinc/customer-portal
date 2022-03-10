@@ -28,6 +28,14 @@
     ol {
         list-style: none;
     }
+
+    &.fullscreen {
+        position: static;
+        display: block;
+        width: 100%;
+        box-shadow: none;
+        border-width: 0;
+    }
 }
 
 .dropdown-toggle {
