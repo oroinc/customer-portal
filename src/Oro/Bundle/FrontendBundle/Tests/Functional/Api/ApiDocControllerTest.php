@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @group regression
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class ApiDocControllerTest extends WebTestCase
 {
@@ -118,5 +119,106 @@ class ApiDocControllerTest extends WebTestCase
             $this->enableApiFeature(self::API_FEATURE_NAME);
         }
         self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @dataProvider notAllowedMethods
+     */
+    public function testNotAllowedMethod(string $method)
+    {
+        $this->client->request($method, $this->getUrl(FrontendRestDocUrlGenerator::ROUTE));
+        $response = $this->client->getResponse();
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_METHOD_NOT_ALLOWED);
+        self::assertAllowResponseHeader($response, 'GET');
+    }
+
+    /**
+     * @dataProvider notAllowedMethods
+     */
+    public function testResourceNotAllowedMethod(string $method)
+    {
+        $this->client->request(
+            $method,
+            $this->getUrl(
+                FrontendRestDocUrlGenerator::RESOURCE_ROUTE,
+                ['view' => 'frontend_rest_json_api', 'resource' => 'test']
+            )
+        );
+        $response = $this->client->getResponse();
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_METHOD_NOT_ALLOWED);
+        self::assertAllowResponseHeader($response, 'GET');
+    }
+
+    /**
+     * @dataProvider notAllowedMethods
+     */
+    public function testNotAllowedMethodForUnknownView(string $method)
+    {
+        $this->client->request($method, $this->getUrl(FrontendRestDocUrlGenerator::ROUTE, ['view' => 'unknown']));
+        $response = $this->client->getResponse();
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @dataProvider notAllowedMethods
+     */
+    public function testResourceNotAllowedMethodForUnknownView(string $method)
+    {
+        $this->client->request(
+            $method,
+            $this->getUrl(
+                FrontendRestDocUrlGenerator::RESOURCE_ROUTE,
+                ['view' => 'unknown', 'resource' => 'test']
+            )
+        );
+        $response = $this->client->getResponse();
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @dataProvider notAllowedMethods
+     */
+    public function testNotAllowedMethodOnDisabledFeature(string $method)
+    {
+        $this->disableApiFeature(self::API_FEATURE_NAME);
+        try {
+            $this->client->request($method, $this->getUrl(FrontendRestDocUrlGenerator::ROUTE));
+            $response = $this->client->getResponse();
+        } finally {
+            $this->enableApiFeature(self::API_FEATURE_NAME);
+        }
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @dataProvider notAllowedMethods
+     */
+    public function testResourceNotAllowedMethodOnDisabledFeature(string $method)
+    {
+        $this->disableApiFeature(self::API_FEATURE_NAME);
+        try {
+            $this->client->request(
+                $method,
+                $this->getUrl(
+                    FrontendRestDocUrlGenerator::RESOURCE_ROUTE,
+                    ['view' => 'frontend_rest_json_api', 'resource' => 'test']
+                )
+            );
+            $response = $this->client->getResponse();
+        } finally {
+            $this->enableApiFeature(self::API_FEATURE_NAME);
+        }
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
+    }
+
+    public function notAllowedMethods(): array
+    {
+        return [
+            ['POST'],
+            ['PATCH'],
+            ['PUT'],
+            ['DELETE'],
+            ['OPTIONS'],
+        ];
     }
 }

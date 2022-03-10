@@ -3,6 +3,7 @@
 namespace Oro\Bundle\WebsiteBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Oro\Bundle\BatchBundle\ORM\Query\BufferedIdentityQueryResultIterator;
 use Oro\Bundle\EntityBundle\ORM\Repository\BatchIteratorInterface;
 use Oro\Bundle\EntityBundle\ORM\Repository\BatchIteratorTrait;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
@@ -44,6 +45,22 @@ class WebsiteRepository extends EntityRepository implements BatchIteratorInterfa
         return $result;
     }
 
+    public function getWebsitesNotInList(array $skipIds, Organization $organization = null): \Iterator
+    {
+        $qb = $this->createQueryBuilder('website');
+
+        if ($skipIds) {
+            $qb->where($qb->expr()->notIn('website.id', ':ids'))
+                ->setParameter('ids', $skipIds);
+        }
+        if ($organization) {
+            $qb->where($qb->expr()->eq('website.organization', ':organization'))
+                ->setParameter('organization', $organization);
+        }
+
+        return new BufferedIdentityQueryResultIterator($qb);
+    }
+
     /**
      * @param Organization|null $organization
      *
@@ -65,7 +82,7 @@ class WebsiteRepository extends EntityRepository implements BatchIteratorInterfa
 
         $result = $qb->getQuery()->getResult();
 
-        return array_map(fn ($value) => (int) $value['id'], $result);
+        return array_map(fn ($value) => (int)$value['id'], $result);
     }
 
     /**

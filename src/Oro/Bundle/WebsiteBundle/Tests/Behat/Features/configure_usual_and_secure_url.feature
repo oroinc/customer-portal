@@ -1,3 +1,5 @@
+# Should be fixed in BB-21069
+@skip
 @regression
 @ticket-BAP-12990
 @automatically-ticket-tagged

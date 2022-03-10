@@ -7,4 +7,4 @@ $loader-mask-loader-bg: get-color('additional', 'ultra') !default;
 $loader-mask-loader-content-offset-inner-left: 30px !default;
 $loader-mask-frame-border: 1px solid get-color('additional', 'base') !default;
 $loader-mask-frame-border-radius: $base-ui-element-border-radius !default;
-$loader-mask-frame-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05) !default;
+$loader-mask-frame-box-shadow: inset 0 1px 1px rgba(0 0 0 / 5%) !default;

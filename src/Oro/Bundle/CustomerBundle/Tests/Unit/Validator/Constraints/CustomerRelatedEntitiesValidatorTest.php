@@ -16,6 +16,7 @@ use Oro\Component\Testing\ReflectionUtil;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
@@ -49,7 +50,7 @@ class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
         parent::setUp();
     }
 
-    protected function createValidator()
+    protected function createValidator(): CustomerRelatedEntitiesValidator
     {
         return new CustomerRelatedEntitiesValidator(
             $this->authorizationChecker,
@@ -78,6 +79,12 @@ class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
         }
 
         return $customerUser;
+    }
+
+    public function testGetTargets()
+    {
+        $constraint = new CustomerRelatedEntities();
+        self::assertEquals(Constraint::CLASS_CONSTRAINT, $constraint->getTargets());
     }
 
     public function testValidateNotCustomerUser()

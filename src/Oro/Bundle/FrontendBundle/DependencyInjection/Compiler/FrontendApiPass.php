@@ -30,9 +30,12 @@ class FrontendApiPass implements CompilerPassInterface
             'oro_locale.api.complete_localized_values',
             'oro_activity.api.get_config.add_activity_associations',
             'oro_activity.api.get_config.add_activity_association_descriptions',
+            'oro_attachment.api.get_config.add_attachment_associations',
+            'oro_attachment.api.get_config.add_attachment_association_descriptions',
+            'oro_attachment.api.collect_subresources.exclude_change_attachment_subresources',
             'oro_comment.api.get_config.add_comment_associations',
             'oro_comment.api.get_config.add_comment_association_descriptions',
-            'oro_comment.collect_subresources.exclude_change_comment_subresources',
+            'oro_comment.api.collect_subresources.exclude_change_comment_subresources',
         ];
         foreach ($processorsToBeDisabled as $serviceId) {
             FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi($container, $serviceId);

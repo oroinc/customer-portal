@@ -5,6 +5,7 @@ define(function(require) {
     const ViewportManager = require('oroui/js/viewport-manager');
     const Popover = require('bootstrap-popover');
     const FullscreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
+    const template = require('tpl-loader!orocustomer/templates/datagrid/action/frontend-map-action.html');
 
     require('jquery');
 
@@ -12,8 +13,7 @@ define(function(require) {
         /**
          * @property {String}
          */
-        popoverTpl: '<div class="map-popover popover"><div class="arrow"></div>' +
-            '<div class="map-popover__content popover-body"></div></div>',
+        popoverTpl: template(),
 
         /**
          * @property {Object}

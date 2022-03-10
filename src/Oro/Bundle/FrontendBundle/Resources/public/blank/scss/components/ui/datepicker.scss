@@ -20,8 +20,14 @@
         margin: $ui-datepicker-title-offset;
 
         line-height: $ui-datepicker-title-line-height;
-        text-align: center;
+        text-align: $ui-datepicker-title-text-align;
 
+        .select {
+            width: 100%;
+            text-align: $ui-datepicker-title-text-align;
+        }
+
+        .select,
         .oro-select2 {
             &:first-child {
                 margin-right: $offset-x-s;
@@ -149,23 +155,6 @@
             vertical-align: middle;
 
             color: $ui-datepicker-header-color;
-        }
-    }
-
-    select {
-        @extend .select;
-
-        margin: $ui-datepicker-select-offset;
-        padding-top: $ui-datepicker-select-inner-offset-top;
-        padding-bottom: $ui-datepicker-select-inner-offset-bottom;
-    }
-
-    .selector {
-        width: 100%;
-        max-width: $ui-datepicker-select-size;
-
-        > span {
-            width: 100%;
         }
     }
 }

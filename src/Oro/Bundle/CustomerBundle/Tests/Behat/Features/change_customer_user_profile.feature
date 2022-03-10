@@ -1,5 +1,6 @@
 @ticket-BB-17702
 @ticket-BAP-20232
+@waf-skip
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Change customer user profile
   In order to save profile data
@@ -55,7 +56,10 @@ Feature: Change customer user profile
       | Middle Name | <script>alert("Middle Name")</script>       |
       | Last Name   | <script>alert("Last Name")</script>         |
       | Name Suffix | <script>alert("Name Suffix")</script>Suffix |
-      | Birthday    | 1/2/1954                                    |
+      | Birthday    | 5/55/5555                                   |
+    Then I should see "This value is not a valid date."
+    When I fill "Customer User Profile Form" with:
+      | Birthday | 1/2/1954 |
     And I click "Save"
     Then I should see "Customer User profile updated"
     And I should not see "Prefix Suffix"
