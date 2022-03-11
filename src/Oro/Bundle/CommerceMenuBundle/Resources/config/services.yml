@@ -139,20 +139,14 @@ services:
 
     oro_commerce_menu.expression_language.cache:
         public: false
-        parent: oro.cache.abstract
-        calls:
-            - [ setNamespace, [ 'oro_commerce_menu_expression_language' ] ]
-
-    oro_commerce_menu.expression_language.parsed_cache:
-        class: Symfony\Component\Cache\Adapter\DoctrineAdapter
-        arguments:
-            - '@oro_commerce_menu.expression_language.cache'
-            - 'oro_commerce_menu_expression_language'
+        parent: oro.data.cache
+        tags:
+            - { name: 'cache.pool', namespace: 'oro_commerce_menu_expression_language' }
 
     oro_commerce_menu.expression_language:
         class: Symfony\Component\ExpressionLanguage\ExpressionLanguage
         arguments:
-            - '@oro_commerce_menu.expression_language.parsed_cache'
+            - '@oro_commerce_menu.expression_language.cache'
             - []
 
     oro_commerce_menu.builder.menu_display_builder:

@@ -2,23 +2,22 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\EventListener;
 
-use Doctrine\Common\Cache\CacheProvider;
+use Symfony\Contracts\Cache\CacheInterface;
 
 /**
  * Deletes menuUpdate query cache when ContentNode is deleted.
  */
 class ContentNodeDeleteListener
 {
-    /** @var CacheProvider */
-    private $cacheProvider;
+    private CacheInterface $cacheProvider;
 
-    public function __construct(CacheProvider $cacheProvider)
+    public function __construct(CacheInterface $cacheProvider)
     {
         $this->cacheProvider = $cacheProvider;
     }
 
     public function postRemove(): void
     {
-        $this->cacheProvider->deleteAll();
+        $this->cacheProvider->clear();
     }
 }

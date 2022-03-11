@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Owner;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\Persistence\ManagerRegistry;
@@ -25,6 +24,7 @@ use Oro\Component\TestUtils\ORM\OrmTestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 /**
  * @SuppressWarnings(PHPMD)
@@ -39,7 +39,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
     /** @var \PHPUnit\Framework\MockObject\MockObject|DatabaseChecker */
     private $databaseChecker;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|CacheProvider */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|CacheInterface */
     private $cache;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|OwnershipMetadataProviderInterface */
@@ -80,20 +80,9 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
 
         $this->databaseChecker = $this->createMock(DatabaseChecker::class);
 
-        $this->cache = $this->getMockForAbstractClass(
-            CacheProvider::class,
-            [],
-            '',
-            true,
-            true,
-            true,
-            ['fetch', 'save']
-        );
+        $this->cache = $this->createMock(CacheInterface::class);
         $this->cache->expects($this->any())
-            ->method('fetch')
-            ->willReturn(false);
-        $this->cache->expects($this->any())
-            ->method('save');
+            ->method('get');
 
         $this->ownershipMetadataProvider = $this->createMock(OwnershipMetadataProviderInterface::class);
         $this->ownershipMetadataProvider->expects($this->any())

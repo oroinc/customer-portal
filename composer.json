@@ -9,18 +9,18 @@
         }
     ],
     "require": {
-        "oro/platform": "5.0.*",
-        "oro/platform-serialised-fields": "5.0.*",
-        "oro/calendar-bundle": "5.0.*",
-        "oro/marketing": "5.0.*",
-        "oro/commerce": "5.0.*"
+        "oro/platform": "5.1.*",
+        "oro/platform-serialised-fields": "5.1.*",
+        "oro/calendar-bundle": "5.1.*",
+        "oro/marketing": "5.1.*",
+        "oro/commerce": "5.1.*"
     },
     "extra": {
         "npm": {
             "prismjs": "^1.23.0"
         },
         "branch-alias": {
-            "dev-master": "5.0-dev"
+            "dev-master": "5.1-dev"
         }
     },
     "repositories": {

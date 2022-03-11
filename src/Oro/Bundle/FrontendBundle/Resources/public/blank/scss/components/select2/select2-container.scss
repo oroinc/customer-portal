@@ -272,6 +272,10 @@
 
     list-style: none;
 
+    .select2-result-selectable {
+        cursor: pointer;
+    }
+
     .select2-disabled {
         background: $select2-results-disabled-background;
         display: list-item;

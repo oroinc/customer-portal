@@ -1,7 +1,6 @@
 search:
     Oro\Bundle\CustomerBundle\Entity\Customer:
         alias:                          oro_customer_customer
-        title_fields:                   [name]
         route:
             name:                       oro_customer_customer_view
             parameters:
@@ -27,7 +26,6 @@ search:
 
     Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
         alias:                          oro_customer_group
-        title_fields:                   [name]
         route:
             name:                       oro_customer_customer_group_view
             parameters:
@@ -42,7 +40,6 @@ search:
     Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         alias: oro_customer_customer_user
         label: oro.customer.customeruser.entity_plural_label
-        title_fields: [email]
         route:
             name: oro_customer_customer_user_view
             parameters:
@@ -77,7 +74,6 @@ search:
     Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
         alias: oro_customer_customer_user_role
         label: oro.customer.customeruserrole.entity_plural_label
-        title_fields: [label]
         route:
             name: oro_customer_customer_user_role_view
             parameters:

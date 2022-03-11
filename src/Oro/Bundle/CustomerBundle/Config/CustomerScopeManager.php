@@ -13,31 +13,22 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class CustomerScopeManager extends AbstractScopeManager
 {
-    private ?int $scopeId = 0;
+    private ?int $scopeId = null;
 
     private TokenStorageInterface $tokenStorage;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getScopedEntityName(): string
     {
         return 'customer';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getScopeId(): int
+    public function getScopeId(): ?int
     {
         $this->ensureScopeIdInitialized();
 
         return $this->scopeId;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setScopeId($scopeId): void
     {
         $this->dispatchScopeIdChangeEvent();
@@ -45,9 +36,6 @@ class CustomerScopeManager extends AbstractScopeManager
         $this->scopeId = $scopeId;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function isSupportedScopeEntity($entity): bool
     {
         return
@@ -55,9 +43,6 @@ class CustomerScopeManager extends AbstractScopeManager
             || ($entity instanceof CustomerAwareInterface && null !== $entity->getCustomer());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getScopeEntityIdValue($entity): int
     {
         if ($entity instanceof Customer) {
