@@ -1,5 +1,5 @@
 <% if (style === 'validation') { %>
-    <span class="validation-<%- type %>"><%= message %></span>
+    <span class="validation-<%- type %>"><%- message %></span>
 <% } else { %>
     <% iconClass = 'fa-check' %>
     <% if (type === "error" || type === "warning") {

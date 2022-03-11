@@ -3,15 +3,15 @@
         <div class="color-palette">
             <h3 class="color-palette__palette-title">
                 <span class="color-palette__palette-title--key">$palette:</span>
-                <span class="color-palette__palette-title--value"><%= palette %></span>
+                <span class="color-palette__palette-title--value"><%- palette %></span>
             </h3>
             <div class="color-palette__collection">
                 <% _.each(colors, function(color, key) { %>
                     <div class="color-palette__color-box">
                         $key:
-                        <strong class="color-palette__name--title"><%= key %></strong>
-                        <div class="color-palette__name color-palette__name--<%= palette %>-<%= key %>" style="background: <%= color %>;"><%= color %></div>
-                        <code class="color-palette__usage language-css">get-color('<%= palette %>', '<%= key %>');</code>
+                        <strong class="color-palette__name--title"><%- key %></strong>
+                        <div class="color-palette__name color-palette__name--<%- palette %>-<%- key %>" style="background: <%- color %>;"><%- color %></div>
+                        <code class="color-palette__usage language-css">get-color('<%- palette %>', '<%- key %>');</code>
                     </div>
                 <% }); %>
             </div>

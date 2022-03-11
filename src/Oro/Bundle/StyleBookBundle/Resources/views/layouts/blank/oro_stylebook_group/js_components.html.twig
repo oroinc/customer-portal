@@ -572,17 +572,17 @@
                         contentSelector: '.selector', // is required or use 'contentElement', 'contentView'
                         contentView: SomeViewConstructor, // or
                         contentElement: $('#get-some-element-on-page'),
-                        contentTemplate: '<div><%= can use some underscore template %></div>',
+                        contentTemplate: '<div><%- can use some underscore template %></div>',
 
                         headerSelector: '.header-content', // or
                         headerView: SomeViewConstructor, // or
                         headerElement: $('#get-some-element-on-page'), // or
-                        headerTemplate: '<div><%= can use some underscore template %></div>',
+                        headerTemplate: '<div><%- can use some underscore template %></div>',
 
                         footerSelector: '.header-content', // or
                         footerView: SomeViewConstructor, // or
                         footerElement: $('#get-some-element-on-page'), // or
-                        footerTemplate: '<div><%= can use some underscore template %></div>'
+                        footerTemplate: '<div><%- can use some underscore template %></div>'
                         // options...
                     } ))
                 },
