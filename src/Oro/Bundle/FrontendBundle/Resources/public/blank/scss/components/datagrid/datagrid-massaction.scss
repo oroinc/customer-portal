@@ -12,28 +12,10 @@
 
     &__dropdown-menu {
         min-width: 0;
+        max-width: 300px;
 
         &--stretch {
             min-width: 100%;
-        }
-
-        .action,
-        .dropdown-item.action {
-            display: block;
-            padding: $datagrid-massaction-dropdown-menu-action-offset-inner;
-
-            text-decoration: none;
-
-            color: $datagrid-massaction-dropdown-menu-action-color;
-
-            white-space: nowrap;
-
-            @include element-state('hover') {
-                text-decoration: none;
-
-                background-color: $datagrid-massaction-dropdown-menu-action-hover-bg;
-                color: $datagrid-massaction-dropdown-menu-action-color;
-            }
         }
     }
 
@@ -53,5 +35,12 @@
 
     .dropdown-toggle {
         margin: auto;
+    }
+
+    &.sticky-mode {
+        display: flex;
+        padding: $datagrid-massaction-sticky-mode-offset;
+
+        background-color: $datagrid-massaction-sticky-mode-background-color;
     }
 }

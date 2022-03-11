@@ -24,9 +24,22 @@
         /* rtl:ignore */
     }
 
+    .dropdown-item:not(:disabled) {
+        // For `<button>`s
+        cursor: pointer;
+    }
+
     ul,
     ol {
         list-style: none;
+    }
+
+    &.fullscreen {
+        position: static;
+        display: block;
+        width: 100%;
+        box-shadow: none;
+        border-width: 0;
     }
 }
 

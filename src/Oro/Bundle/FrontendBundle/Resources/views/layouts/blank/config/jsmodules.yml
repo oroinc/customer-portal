@@ -33,6 +33,7 @@ dynamic-imports:
         - oro/frontend-dialog-widget
         - orofrontend/blank/js/app/views/fullscreen-popup-view
         - orofrontend/blank/js/app/views/proxy-focus-view
+        - orofrontend/blank/js/app/views/dropdown-search
         - orofrontend/blank/js/widgets/print-page-widget
         - orofrontend/default/js/app/views/scroll-top-view
         - orofrontend/default/js/app/views/sticky-panel-view
