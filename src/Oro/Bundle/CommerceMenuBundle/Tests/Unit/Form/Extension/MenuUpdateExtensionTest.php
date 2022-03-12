@@ -23,18 +23,17 @@ use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\FormBundle\Autocomplete\SearchHandlerInterface;
 use Oro\Bundle\FormBundle\Autocomplete\SearchRegistry;
-use Oro\Bundle\FormBundle\Form\Extension\TooltipFormExtension;
 use Oro\Bundle\FormBundle\Form\Type\CollectionType as OroCollectionType;
 use Oro\Bundle\FormBundle\Form\Type\EntityIdentifierType;
 use Oro\Bundle\FormBundle\Form\Type\LinkTargetType;
 use Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType;
 use Oro\Bundle\FormBundle\Form\Type\OroJquerySelect2HiddenType;
+use Oro\Bundle\FormBundle\Tests\Unit\Stub\TooltipFormExtensionStub;
 use Oro\Bundle\FrontendBundle\Provider\ScreensProviderInterface;
 use Oro\Bundle\NavigationBundle\Form\Type\RouteChoiceType;
 use Oro\Bundle\NavigationBundle\Tests\Unit\Form\Type\Stub\RouteChoiceTypeStub;
 use Oro\Bundle\NavigationBundle\Validator\Constraints\MaxNestedLevelValidator;
 use Oro\Bundle\ProductBundle\Entity\Product;
-use Oro\Bundle\TranslationBundle\Translation\Translator;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Bundle\WebCatalogBundle\Entity\WebCatalog;
 use Oro\Bundle\WebCatalogBundle\Form\Type\ContentNodeFromWebCatalogSelectType;
@@ -80,30 +79,31 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
             ->method('getScreens')
             ->willReturn(self::SCREENS_CONFIG);
 
+        $entityManager = $this->createMock(EntityManager::class);
+
         $managerRegistry = $this->createMock(ManagerRegistry::class);
         $managerRegistry->expects($this->any())
             ->method('getManagerForClass')
-            ->willReturn($entityManager = $this->createMock(EntityManager::class));
+            ->willReturn($entityManager);
 
+        $classMetadata = new ClassMetadata(WebCatalog::class);
+        $classMetadata->setIdentifier(['id']);
         $entityManager->expects($this->any())
             ->method('getClassMetadata')
-            ->willReturn($classMetadata = new ClassMetadata(WebCatalog::class));
+            ->willReturn($classMetadata);
 
-        $classMetadata->setIdentifier(['id']);
-
-        $entityManager->expects($this->any())
-            ->method('getRepository')
-            ->willReturn($repo = $this->createMock(EntityRepository::class));
-
+        $repo = $this->createMock(EntityRepository::class);
         $repo->expects($this->any())
             ->method('find')
             ->willReturn($this->createMock(ContentNode::class));
+        $entityManager->expects($this->any())
+            ->method('getRepository')
+            ->willReturn($repo);
 
         $handler = $this->createMock(SearchHandlerInterface::class);
         $handler->expects($this->any())
             ->method('getProperties')
             ->willReturn([]);
-
         $handler->expects($this->any())
             ->method('getEntityName')
             ->willReturn(Product::class);
@@ -114,7 +114,6 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
             ->willReturn($handler);
 
         $configManager = $this->createMock(ConfigManager::class);
-
         $configManager->expects($this->any())
             ->method('getProvider')
             ->willReturn($configProvider = $this->mockConfigProvider());
@@ -122,34 +121,27 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
         return [
             new PreloadedExtension(
                 [
-                    ImageType::class => new ImageTypeStub,
-                    CollectionType::class => new CollectionType(),
-                    OroCollectionType::class => new OroCollectionType(),
-                    MenuUserAgentConditionType::class => new MenuUserAgentConditionType(),
-                    MenuUserAgentConditionsCollectionType::class =>
-                        new MenuUserAgentConditionsCollectionType(new MenuUserAgentConditionsCollectionTransformer()),
-                    MenuScreensConditionType::class => new MenuScreensConditionType($screensProvider),
-                    OroEntitySelectOrCreateInlineType::class => new OroEntitySelectOrCreateInlineType(
+                    new CollectionType(),
+                    new OroCollectionType(),
+                    new MenuUserAgentConditionType(),
+                    new MenuUserAgentConditionsCollectionType(new MenuUserAgentConditionsCollectionTransformer()),
+                    new MenuScreensConditionType($screensProvider),
+                    new OroEntitySelectOrCreateInlineType(
                         $this->createMock(AuthorizationCheckerInterface::class),
                         $configManager,
                         $entityManager,
                         $searchRegistry
                     ),
-                    OroJquerySelect2HiddenType::class => new OroJquerySelect2HiddenType(
-                        $entityManager,
-                        $searchRegistry,
-                        $configProvider
-                    ),
-                    ContentNodeFromWebCatalogSelectType::class =>
-                        new ContentNodeFromWebCatalogSelectType($this->createMock(ContentNodeTreeHandler::class)),
-                    EntityIdentifierType::class => new EntityIdentifierType($managerRegistry),
+                    new OroJquerySelect2HiddenType($entityManager, $searchRegistry, $configProvider),
+                    new ContentNodeFromWebCatalogSelectType($this->createMock(ContentNodeTreeHandler::class)),
+                    new EntityIdentifierType($managerRegistry),
+                    new LinkTargetType(),
+                    ImageType::class => new ImageTypeStub,
                     RouteChoiceType::class => new RouteChoiceTypeStub(['sample_route' => 'sample_route']),
-                    LinkTargetType::class => new LinkTargetType()
                 ],
                 [
                     MenuUpdateTypeStub::class => [new MenuUpdateExtension($this->webCatalogProvider)],
-                    FormType::class =>
-                        [new TooltipFormExtension($configProvider, $this->createMock(Translator::class))],
+                    FormType::class => [new TooltipFormExtensionStub($this)]
                 ]
             ),
             $this->getValidatorExtension(true)
@@ -206,7 +198,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
     {
         $this->webCatalogProvider->expects($this->once())
             ->method('getWebCatalog')
-            ->willReturn($webCatalog = $this->createMock(WebCatalog::class));
+            ->willReturn($this->createMock(WebCatalog::class));
 
         $menuUpdate = new MenuUpdateStub();
         $menuUpdate->setCustom(true);
