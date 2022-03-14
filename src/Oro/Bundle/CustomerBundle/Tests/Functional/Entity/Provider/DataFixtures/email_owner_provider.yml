@@ -1,0 +1,53 @@
+dependencies:
+    - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization
+    - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser
+
+Oro\Bundle\OrganizationBundle\Entity\Organization:
+    another_organization:
+        name: 'Another Organization'
+        enabled: true
+        users: ['@user']
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+    customerUser1:
+        firstName: 'John'
+        lastName: 'Smith'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        email: 'john.smith@example.com'
+        organization: '@organization'
+        owner: '@user'
+    customerUser2:
+        firstName: 'Nancy'
+        lastName: 'Sallee'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        email: 'test@example.com'
+        organization: '@organization'
+        owner: '@user'
+    customerUser3:
+        firstName: 'Marlene'
+        lastName: 'Bradley'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        email: 'test@example.com'
+        organization: '@organization'
+        owner: '@user'
+    customerUser4:
+        firstName: 'Jane'
+        lastName: 'Smith'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        email: 'jane.smith@example.com'
+        organization: '@organization'
+        owner: '@user'
+    customerUser5:
+        firstName: 'Charlie'
+        lastName: 'Smith'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        email: 'charlie.smith@example.com'
+        organization: '@another_organization'
+        owner: '@user'
+    customerUser6:
+        firstName: 'John'
+        lastName: 'Smith'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        email: 'john.smith@example.com'
+        organization: '@another_organization'
+        owner: '@user'
