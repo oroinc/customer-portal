@@ -73,3 +73,7 @@ doctrine:
             soft_deleteable:
                 class:      Oro\Bundle\CustomerBundle\Doctrine\SoftDeleteableFilter
                 enabled:    false
+
+oro_email:
+    public_email_owners:
+        - Oro\Bundle\CustomerBundle\Entity\CustomerUser
