@@ -26,7 +26,7 @@ const DropdownSearch = BaseView.extend({
 
     searchContainerSelector: '[data-role="search"]',
 
-    searchClassName: 'dropdown-search',
+    searchClassName: 'dropdown-search-container',
 
     inputClassName: 'input input--full input--size-s',
 
