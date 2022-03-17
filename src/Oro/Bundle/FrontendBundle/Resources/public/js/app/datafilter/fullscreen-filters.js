@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import {pick} from 'underscore';
 import __ from 'orotranslation/js/translator';
 import mediator from 'oroui/js/mediator';
 import filterSettings from 'oro/filter-settings';
@@ -167,6 +168,16 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
 
         this.filterManager.render();
         this.filterManager.$el.addClass('fullscreen');
+
+        const datetimeFilters = pick(this.filterManager.filters, filter => filter.type === 'datetime');
+
+        for (const filter of Object.values(datetimeFilters)) {
+            filter.timePickerOptions = {
+                ...filter.timePickerOptions || {},
+                // Append the time-picker dropdown into a root filter element to make sure that it is visible on fullscreen dialog
+                appendTo: filter.$el
+            };
+        }
 
         this.restoreFiltersAppearance();
         this.openNotEmptyFilters();
