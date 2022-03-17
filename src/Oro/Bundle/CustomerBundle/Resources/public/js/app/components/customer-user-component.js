@@ -59,6 +59,23 @@ define(function(require) {
                     params.customerUserId = customerUserId;
                 }
 
+                widget.once('beforeContentLoad', $el => {
+                    widget._checkboxesState = {};
+
+                    $el.find('.choice-widget-expanded input:checkbox').each(function(i, el) {
+                        const key = `[name="${el.getAttribute('name')}"]` +
+                            `[data-name="${el.getAttribute('data-name')}"]` +
+                            `[value="${el.getAttribute('value')}"]`;
+
+                        widget._checkboxesState[key] = el.checked;
+                    });
+                });
+                widget.once('widgetRender', $el => {
+                    for (const [selector, value] of Object.entries(widget._checkboxesState)) {
+                        $el.find(selector).attr('checked', value);
+                    }
+                    delete widget._checkboxesState;
+                });
                 widget.setUrl(
                     routing.generate('oro_customer_customer_user_roles', params)
                 );

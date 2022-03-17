@@ -20,8 +20,9 @@ Feature: Create customer user
     And fill form with:
       | Password           | CustomerUser1@example.org |
       | Confirm Password   | CustomerUser1@example.org |
-      | Customer           | WithCustomerUser          |
       | Buyer (Predefined) | true                      |
+      | Customer           | WithCustomerUser          |
+    And the "Buyer (Predefined)" checkbox should be checked
     And save form
     Then I should see validation errors:
       | Email Address | This value is not a valid email address. |
