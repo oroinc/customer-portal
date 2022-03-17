@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\WebsiteBundle\Provider;
 
-use Doctrine\Common\Cache\CacheProvider;
 use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 /**
  * The provider that uses a cache to prevent unneeded loading of website identifiers from the database.
@@ -13,18 +13,13 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
 {
     private const WEBSITE_CACHE_KEY = 'oro_website';
 
-    /** @var WebsiteProviderInterface */
-    private $websiteProvider;
-
-    /** @var CacheProvider */
-    private $cacheProvider;
-
-    /** @var TokenStorageInterface */
-    private $tokenStorage;
+    private WebsiteProviderInterface $websiteProvider;
+    private CacheInterface $cacheProvider;
+    private TokenStorageInterface $tokenStorage;
 
     public function __construct(
         WebsiteProviderInterface $websiteProvider,
-        CacheProvider $cacheProvider,
+        CacheInterface $cacheProvider,
         TokenStorageInterface $tokenStorage
     ) {
         $this->websiteProvider = $websiteProvider;
@@ -32,40 +27,21 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
         $this->tokenStorage = $tokenStorage;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getWebsites()
+    public function getWebsites(): array
     {
-        $cacheKey = $this->getCacheKey('entities');
-        $websites = $this->cacheProvider->fetch($cacheKey);
-        if (false === $websites) {
-            $websites = $this->websiteProvider->getWebsites();
-            $this->cacheProvider->save($cacheKey, $websites);
-        }
-
-        return $websites;
+        return $this->cacheProvider->get($this->getCacheKey('entities'), function () {
+            return $this->websiteProvider->getWebsites();
+        });
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getWebsiteIds()
+    public function getWebsiteIds(): array
     {
-        $cacheKey = $this->getCacheKey('ids');
-        $websiteIds = $this->cacheProvider->fetch($cacheKey);
-        if (false === $websiteIds) {
-            $websiteIds = $this->websiteProvider->getWebsiteIds();
-            $this->cacheProvider->save($cacheKey, $websiteIds);
-        }
-
-        return $websiteIds;
+        return $this->cacheProvider->get($this->getCacheKey('ids'), function () {
+            return $this->websiteProvider->getWebsiteIds();
+        });
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getWebsiteChoices()
+    public function getWebsiteChoices(): array
     {
         $websiteChoices = [];
         foreach ($this->getWebsites() as $website) {
@@ -78,9 +54,9 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
     /**
      * Removes all data from the internal cache.
      */
-    public function clearCache()
+    public function clearCache(): void
     {
-        $this->cacheProvider->deleteAll();
+        $this->cacheProvider->clear();
     }
 
     private function getCacheKey(string $postfix): string
@@ -88,10 +64,7 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
         return self::WEBSITE_CACHE_KEY . '_' . $this->getOrganizationId() . '_' . $postfix;
     }
 
-    /**
-     * @return int|string
-     */
-    private function getOrganizationId()
+    private function getOrganizationId(): int|string
     {
         $token = $this->tokenStorage->getToken();
         if ($token instanceof OrganizationAwareTokenInterface) {

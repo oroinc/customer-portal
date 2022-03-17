@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Functional\Stub;
 
-use Doctrine\Common\Cache\CacheProvider;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use Symfony\Contracts\Cache\CacheInterface;
 
 /**
  * The decorator for WebsiteManager that allows to substitute
@@ -27,10 +27,10 @@ class WebsiteManagerStub extends WebsiteManager
     /** @var Website|null */
     private $stubDefaultWebsite;
 
-    /** @var CacheProvider */
+    /** @var CacheInterface */
     private $cacheProvider;
 
-    public function __construct(WebsiteManager $websiteManager, CacheProvider $cacheProvider)
+    public function __construct(WebsiteManager $websiteManager, CacheInterface $cacheProvider)
     {
         $this->cacheProvider = $cacheProvider;
         $this->websiteManager = $websiteManager;
@@ -52,7 +52,7 @@ class WebsiteManagerStub extends WebsiteManager
         $this->stubbingSetCurrentWebsiteEnabled = false;
         $this->stubCurrentWebsite = null;
         $this->stubDefaultWebsite = null;
-        $this->cacheProvider->deleteAll();
+        $this->cacheProvider->clear();
     }
 
     /**

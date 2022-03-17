@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Provider;
 
-use Doctrine\Common\Cache\CacheProvider;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
 use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
@@ -10,7 +9,11 @@ use Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider;
 use Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface;
 use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Cache\CacheTrait;
+use PHPUnit\Framework\MockObject\Stub\ReturnCallback;
+use Symfony\Component\Cache\Adapter\AbstractAdapter;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,6 +25,9 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
     /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenStorage;
 
+    /** @var CacheInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $cacheProvider;
+
     /** @var CacheableWebsiteProvider */
     private $cacheableProvider;
 
@@ -29,9 +35,10 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
     {
         $this->websiteProvider = $this->createMock(WebsiteProviderInterface::class);
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $this->cacheProvider = $this->createMock(CacheInterface::class);
         $this->cacheableProvider = new CacheableWebsiteProvider(
             $this->websiteProvider,
-            $this->getArrayCache(),
+            $this->cacheProvider,
             $this->tokenStorage
         );
     }
@@ -58,6 +65,14 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
             ->method('getWebsites')
             ->willReturn([$websiteId => $website]);
 
+        $saveCallback = function ($cacheKey, $callback) {
+            $item = $this->createMock(ItemInterface::class);
+            return $callback($item);
+        };
+        $this->cacheProvider->expects($this->exactly(2))
+            ->method('get')
+            ->willReturnOnConsecutiveCalls(new ReturnCallback($saveCallback), [$websiteId => $website]);
+
         $this->assertEquals([$website->getId() => $website], $this->cacheableProvider->getWebsites());
         // test the result is cached
         $this->assertEquals([$website->getId() => $website], $this->cacheableProvider->getWebsites());
@@ -77,6 +92,14 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
             ->method('getWebsites')
             ->willReturn([$websiteId => $website]);
 
+        $saveCallback = function ($cacheKey, $callback) {
+            $item = $this->createMock(ItemInterface::class);
+            return $callback($item);
+        };
+        $this->cacheProvider->expects($this->exactly(2))
+            ->method('get')
+            ->willReturnOnConsecutiveCalls(new ReturnCallback($saveCallback), [$websiteId => $website]);
+
         $this->assertEquals([$website->getName() => $website->getId()], $this->cacheableProvider->getWebsiteChoices());
         // test the result is cached
         $this->assertEquals([$website->getName() => $website->getId()], $this->cacheableProvider->getWebsiteChoices());
@@ -93,6 +116,14 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
         $this->websiteProvider->expects($this->once())
             ->method('getWebsiteIds')
             ->willReturn($ids);
+
+        $saveCallback = function ($cacheKey, $callback) {
+            $item = $this->createMock(ItemInterface::class);
+            return $callback($item);
+        };
+        $this->cacheProvider->expects($this->exactly(2))
+            ->method('get')
+            ->willReturnOnConsecutiveCalls(new ReturnCallback($saveCallback), $ids);
 
         $this->assertEquals($ids, $this->cacheableProvider->getWebsiteIds());
         // test the result is cached
@@ -134,6 +165,18 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
                 [1, 2, 3],
                 [41, 42, 43]
             );
+        $saveCallback = function ($cacheKey, $callback) {
+            $item = $this->createMock(ItemInterface::class);
+            return $callback($item);
+        };
+        $this->cacheProvider->expects($this->exactly(4))
+            ->method('get')
+            ->willReturnOnConsecutiveCalls(
+                new ReturnCallback($saveCallback),
+                new ReturnCallback($saveCallback),
+                [1, 2, 3],
+                [41, 42, 43]
+            );
 
         // Get websites for tokenA with organizationA
         $this->assertEquals([1, 2, 3], $this->cacheableProvider->getWebsiteIds());
@@ -148,8 +191,7 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testClearCache(): void
     {
-        $cacheProvider = $this->createMock(CacheProvider::class);
-
+        $cacheProvider = $this->createMock(AbstractAdapter::class);
         $this->cacheableProvider = new CacheableWebsiteProvider(
             $this->websiteProvider,
             $cacheProvider,
@@ -157,7 +199,7 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
         );
 
         $cacheProvider->expects($this->once())
-            ->method('deleteAll');
+            ->method('clear');
 
 
         $this->cacheableProvider->clearCache();
