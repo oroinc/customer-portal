@@ -99,7 +99,8 @@ define(function(require) {
                 options.productModel.trigger('backgrid:getVisibleState', state);
 
                 if (!_.isEmpty(state)) {
-                    this.toggleGalleryTrigger(state.visible);
+                    // Show gallery trigger if mobile view row selection is turned off
+                    this.toggleGalleryTrigger(!state.visible);
                 }
             }
 
