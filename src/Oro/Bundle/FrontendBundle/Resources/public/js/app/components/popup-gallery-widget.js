@@ -8,6 +8,7 @@ define(function(require) {
     const routing = require('routing');
     const error = require('oroui/js/error');
     const manageFocus = require('oroui/js/tools/manage-focus').default;
+    const viewportManager = require('oroui/js/viewport-manager');
     require('slick');
 
     const BROWSER_SCROLL_SIZE = mediator.execute('layout:scrollbarWidth');
@@ -94,14 +95,23 @@ define(function(require) {
                     this.toggleGalleryTrigger(checked);
                 });
 
-                const state = {};
+                // Show gallery trigger on desktop view by default
+                let hideGalleryTrigger = false;
 
-                options.productModel.trigger('backgrid:getVisibleState', state);
+                // Hide gallery trigger if mobile view row selection is turned on
+                if (
+                    options.productModel.collection &&
+                    viewportManager.isApplicable({
+                        maxScreenType: options.productModel.collection.options.optimizedScreenSize
+                    })
+                ) {
+                    const state = {};
+                    options.productModel.trigger('backgrid:getVisibleState', state);
 
-                if (!_.isEmpty(state)) {
-                    // Show gallery trigger if mobile view row selection is turned off
-                    this.toggleGalleryTrigger(!state.visible);
+                    hideGalleryTrigger = Boolean(state.visible);
                 }
+
+                this.toggleGalleryTrigger(hideGalleryTrigger);
             }
 
             if (this.options.ajaxMode) {
