@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
-use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,6 +17,7 @@ use Oro\Bundle\ProductBundle\Entity\Product;
 use Oro\Bundle\SecurityBundle\Model\AclPermission;
 use Oro\Bundle\SecurityBundle\Model\AclPrivilege;
 use Oro\Bundle\SecurityBundle\Model\AclPrivilegeIdentity;
+use Symfony\Component\Cache\Adapter\AbstractAdapter;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -284,7 +284,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             ->willReturn($objectManager);
 
         $configuration = $this->createMock(Configuration::class);
-        $cache = $this->createMock(CacheProvider::class);
+        $cache = $this->createMock(AbstractAdapter::class);
         $this->managerRegistry->expects(self::once())
             ->method('getManager')
             ->willReturn($objectManager);
@@ -292,10 +292,10 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             ->method('getConfiguration')
             ->willReturn($configuration);
         $configuration->expects(self::once())
-            ->method('getQueryCacheImpl')
+            ->method('getQueryCache')
             ->willReturn($cache);
         $cache->expects(self::once())
-            ->method('deleteAll');
+            ->method('clear');
 
         $expectedFirstEntityPrivilege = $this->createPrivilege('entity', 'entity:FirstClass', 'VIEW');
         $expectedFirstEntityPrivilege->setGroup(CustomerUser::SECURITY_GROUP);

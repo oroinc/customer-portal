@@ -2,10 +2,11 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Provider;
 
-use Doctrine\Common\Cache\Cache;
 use Oro\Bundle\FrontendBundle\Provider\ScreensProvider;
 use Oro\Component\Layout\Extension\Theme\Model\Theme;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class ScreensProviderTest extends \PHPUnit\Framework\TestCase
 {
@@ -48,7 +49,7 @@ class ScreensProviderTest extends \PHPUnit\Framework\TestCase
         ],
     ];
 
-    /** @var Cache|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var CacheInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $cache;
 
     /** @var ThemeManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -59,7 +60,7 @@ class ScreensProviderTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $this->cache = $this->createMock(Cache::class);
+        $this->cache = $this->createMock(CacheInterface::class);
         $this->themeManager = $this->createMock(ThemeManager::class);
         $this->screensProvider = new ScreensProvider($this->themeManager, $this->cache);
     }
@@ -67,13 +68,12 @@ class ScreensProviderTest extends \PHPUnit\Framework\TestCase
     public function testGetScreensWhenNoCache()
     {
         $this->cache->expects(self::once())
-            ->method('fetch')
+            ->method('get')
             ->with(self::SCREENS_CACHE_KEY)
-            ->willReturn(false);
-
-        $this->cache->expects(self::once())
-            ->method('save')
-            ->with(self::SCREENS_CACHE_KEY, self::SCREENS_CONFIG_RESULT);
+            ->willReturnCallback(function ($cacheKey, $callback) {
+                $item = $this->createMock(ItemInterface::class);
+                return $callback($item);
+            });
 
         $allThemes = [
             $this->getTheme(self::SCREENS_CONFIG_1),
@@ -91,7 +91,7 @@ class ScreensProviderTest extends \PHPUnit\Framework\TestCase
     public function testGetScreensFromCache()
     {
         $this->cache->expects(self::once())
-            ->method('fetch')
+            ->method('get')
             ->with(self::SCREENS_CACHE_KEY)
             ->willReturn(self::SCREENS_CONFIG_RESULT);
 
@@ -106,7 +106,7 @@ class ScreensProviderTest extends \PHPUnit\Framework\TestCase
     public function testGetScreen(string $screenName, ?array $expectedScreen)
     {
         $this->cache->expects(self::atLeastOnce())
-            ->method('fetch')
+            ->method('get')
             ->with(self::SCREENS_CACHE_KEY)
             ->willReturn(self::SCREENS_CONFIG_RESULT);
 
@@ -135,7 +135,7 @@ class ScreensProviderTest extends \PHPUnit\Framework\TestCase
     public function testHasScreen(string $screenName, bool $expectedResult)
     {
         $this->cache->expects(self::once())
-            ->method('fetch')
+            ->method('get')
             ->with(self::SCREENS_CACHE_KEY)
             ->willReturn(self::SCREENS_CONFIG_RESULT);
 

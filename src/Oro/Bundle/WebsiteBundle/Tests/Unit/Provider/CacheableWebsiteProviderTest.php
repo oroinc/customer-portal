@@ -8,7 +8,6 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider;
 use Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface;
 use Oro\Component\Testing\ReflectionUtil;
-use Oro\Component\Testing\Unit\Cache\CacheTrait;
 use PHPUnit\Framework\MockObject\Stub\ReturnCallback;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -17,7 +16,6 @@ use Symfony\Contracts\Cache\ItemInterface;
 
 class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
 {
-    use CacheTrait;
 
     /** @var WebsiteProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $websiteProvider;
