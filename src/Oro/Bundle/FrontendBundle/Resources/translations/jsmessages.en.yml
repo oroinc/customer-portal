@@ -107,3 +107,10 @@ oro_frontend:
         ungroup_similar:
             aria_label: 'Show similar products separately'
             label: 'Ungroup Similar'
+
+    dropdown:
+        quick_search:
+            clear: 'Clear field'
+            placeholder: 'Quick Search'
+            aria_label: 'Search shopping lists'
+            no_match: 'No matches found'

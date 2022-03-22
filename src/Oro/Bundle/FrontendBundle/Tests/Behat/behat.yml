@@ -51,6 +51,8 @@ oro_behat_extension:
       selector: '#select2-drop-mask + .select2-drop .select2-results'
     Active Sticky Panel:
       selector: ".sticky-panel.sticky-panel--top.has-content"
+    Bottom Active Sticky Panel:
+      selector: ".sticky-panel.sticky-panel--bottom.has-content"
     Main Menu Into Header:
       selector: ".page-header .header-row"
     Main Menu Into Sticky Panel:

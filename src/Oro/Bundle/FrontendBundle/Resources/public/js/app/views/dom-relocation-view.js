@@ -5,6 +5,7 @@ define(function(require, exports, module) {
     const BaseView = require('oroui/js/app/views/base/view');
     const _ = require('underscore');
     const $ = require('jquery');
+    const mediator = require('oroui/js/mediator');
     let config = require('module-config').default(module.id);
 
     config = _.extend({
@@ -114,6 +115,8 @@ define(function(require, exports, module) {
                 } else if (options._moved) {
                     this.returnByIndex($el);
                 }
+
+                mediator.trigger('layout:content-relocated', $el);
             }, this);
         },
 

@@ -93,6 +93,7 @@ define(function(require) {
         delegateListeners: function() {
             StickyPanelView.__super__.delegateListeners.call(this);
             this.listenTo(mediator, 'layout:reposition', _.debounce(this.onScroll, this.options.layoutTimeout));
+            this.listenTo(mediator, 'layout:content-relocated', _.debounce(this.onScroll, this.options.layoutTimeout));
             this.listenTo(mediator, 'page:afterChange', this.onAfterPageChange);
         },
 
@@ -450,7 +451,11 @@ define(function(require) {
 
             $element.data('sticky', options);
 
-            mediator.trigger('sticky-panel:toggle-state', {$element: $element, state: state});
+            mediator.trigger('sticky-panel:toggle-state', {
+                $element: $element,
+                state: state,
+                stickTo: this.$el.data('stick-to')
+            });
 
             const select2Widgets = inputWidgetManager.findWidgetsInContainer($element, Select2InputWidget);
 

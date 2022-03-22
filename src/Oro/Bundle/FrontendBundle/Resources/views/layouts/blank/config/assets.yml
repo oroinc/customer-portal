@@ -53,6 +53,7 @@ styles:
         - 'bundles/orofrontend/blank/scss/variables/skip-to-content.scss'
         - 'bundles/orofrontend/blank/scss/variables/notes-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/sticky-panel-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/dropdown-search-config.scss'
 
         # Bootstrap Optional Components
         - 'bundles/orofrontend/blank/scss/components/bootstrap/bootstrap.scss'
@@ -66,6 +67,7 @@ styles:
         - 'bundles/orofrontend/blank/scss/components/datagrid-manager.scss'
         - 'bundles/orofrontend/blank/scss/components/datagrid-manager-search.scss'
         - 'bundles/orofrontend/blank/scss/components/datagrid-manager-table.scss'
+        - 'bundles/orofrontend/blank/scss/components/dropdown-search.scss'
 
         - 'bundles/orofrontend/blank/scss/styles.scss'
         - 'bundles/orofrontend/blank/scss/components/select2/select2-container.scss'
