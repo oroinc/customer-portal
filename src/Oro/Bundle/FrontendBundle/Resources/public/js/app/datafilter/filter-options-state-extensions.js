@@ -29,6 +29,11 @@ const FilterOptionsStateExtensions = BaseClass.extend({
                     outerHintContainer: filter.outerHintContainer,
                     initiallyOpened: filter.initiallyOpened
                 };
+
+                if (filter.type === 'datetime') {
+                    obj[name]['timePickerOptions'] = {...filter.timePickerOptions || {}};
+                }
+
                 return obj;
             }, {})
         };

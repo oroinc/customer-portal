@@ -5,7 +5,7 @@ layout:
         - '@addTree':
             items:
                 __page_wrapper:
-                    blockType: vertical_container
+                    blockType: container
                 __page:
                     blockType: container
                 __label_wrapper:

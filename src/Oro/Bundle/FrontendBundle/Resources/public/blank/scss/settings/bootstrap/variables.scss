@@ -17,6 +17,8 @@ $nav-tabs-link-right-offset: null !default;
 
 $nav-tabs-link-hover-background-color: null !default;
 
+$dropdown-item-padding-y: $offset-y-m;
+$dropdown-item-padding-x: $offset-x;
 $dropdown-font-size: 1rem;
 $dropdown-color: get-color('additional', 'dark');
 $dropdown-link-active-bg: get-color('additional', 'base');
