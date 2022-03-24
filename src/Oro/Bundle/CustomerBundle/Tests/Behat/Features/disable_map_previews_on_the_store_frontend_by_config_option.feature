@@ -176,7 +176,7 @@ Feature: Disable map previews on the store frontend by config option
   Scenario: Check that map previews and map icons are hidden when disabled (mobile view)
     Given I continue as the Buyer
     And I follow "Account"
-    And I set window size to 320x640
+    And I set window size to 375x640
     Then I should not see "Map Container" element inside "Default Addresses" element
     And I should not see "Map Icon" element inside "Default Addresses" element
 
@@ -191,7 +191,7 @@ Feature: Disable map previews on the store frontend by config option
     And I save form
     Then I continue as the Buyer
     And I follow "Account"
-    And I set window size to 320x640
+    And I set window size to 375x640
     Then I should see "Map Icon" element inside "Default Addresses" element
     When I click on "Map Icon"
     And I should see an "Fullscreen Popup" element

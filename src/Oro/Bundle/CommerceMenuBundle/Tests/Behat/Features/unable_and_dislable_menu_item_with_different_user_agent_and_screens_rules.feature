@@ -45,7 +45,7 @@ Feature: Unable and dislable menu item with different User Agent and screens rul
     Then I should see "Screens Menu Item"
 
   Scenario: Check menu item visible with screen rule (mobile version)
-    Given I set window size to 320x640
+    Given I set window size to 375x640
     And I click on "Information"
     Then I should see "Screens Menu Item"
 
@@ -79,7 +79,7 @@ Feature: Unable and dislable menu item with different User Agent and screens rul
     And I save form
     Then I should see "Menu item saved successfully." flash message
     When I proceed as the User
-    Given I set window size to 320x640
+    Given I set window size to 375x640
     And I am on homepage
     And I click on "Information"
     Then I should not see "Screens Menu Item"

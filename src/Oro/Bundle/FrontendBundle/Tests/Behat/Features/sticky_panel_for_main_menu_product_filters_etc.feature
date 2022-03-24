@@ -20,8 +20,8 @@ Feature: Sticky panel for main menu, product filters etc
     And I should see an "Catalog Switcher Into Sticky Panel" element
 
   Scenario: Check is sticky panel visible and has main menu content (mobile version)
-    Given here is the "User" under "320_session"
-    And I set window size to 320x640
+    Given here is the "User" under "375_session"
+    And I set window size to 375x640
     And I am on homepage
     Then I should not see an "Active Sticky Panel" element
     And I should see a "Main Menu Into Header" element
@@ -33,8 +33,8 @@ Feature: Sticky panel for main menu, product filters etc
     And I should see a "Main Menu Into Header" element
 
   Scenario: Check is sticky panel visible and has product filter
-    Given here is the "User" under "320_session"
-    And I set window size to 320x640
+    Given here is the "User" under "375_session"
+    And I set window size to 375x640
     And I am on "/product/?grid"
     Then I should not see an "Active Sticky Panel" element
     And I click "GridFiltersButton"
