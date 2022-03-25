@@ -643,7 +643,7 @@ datagrids:
                     type:      boolean
                     data_name: self_managed
                 isRolePredefined:
-                    enabled: false
+                    renderable: false
         properties:
             view_link:
                 route: oro_customer_customer_user_role_view
