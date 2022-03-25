@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Dumps exposed storefront routes into a file.
+ * @deprecated {@see NewFrontendJsRoutingDumpCommand} used instead.
  */
 class FrontendJsRoutingDumpCommand extends DumpCommand
 {
