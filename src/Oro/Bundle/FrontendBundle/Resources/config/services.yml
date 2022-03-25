@@ -2,6 +2,14 @@ parameters:
     oro_platform.collector.template: '@@OroFrontend/Collector/commerce.html.twig'
 
 services:
+    oro_frontend.listener.js_routing_route_collection_listener:
+        class: Oro\Bundle\NavigationBundle\EventListener\JsRoutingRouteCollectionListener
+        arguments:
+            - 'oro_frontend_js_routing_js'
+            - '%kernel.debug%'
+        tags:
+            - { name: kernel.event_listener, event: oro_distribution.route_collection.autoload, method: onCollectionAutoload }
+
     oro_frontend.listener.js_routing_dump:
         class: 'Oro\Bundle\FrontendBundle\EventListener\JsRoutingDumpListener'
         tags:
@@ -209,15 +217,6 @@ services:
             - []
             - '%kernel.cache_dir%/oro'
             - '%kernel.bundles%'
-
-    oro_frontend.js_routing_controller:
-       class: '%fos_js_routing.controller.class%'
-       public: true
-       arguments:
-            - '@fos_js_routing.serializer'
-            - '@oro_frontend.extractor.frontend_exposed_routes_extractor'
-            - '%fos_js_routing.cache_control%'
-            - '%kernel.debug%'
 
     oro_frontend.screens.cache:
         public: false

@@ -20,11 +20,32 @@ class JsRoutingDumpListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener = new JsRoutingDumpListener();
     }
 
+    private function getEvent(string $commandName, Application $app): ConsoleTerminateEvent
+    {
+        $command = $this->createMock(Command::class);
+        $command->expects(self::once())
+            ->method('getName')
+            ->willReturn($commandName);
+        $command->expects(self::any())
+            ->method('getApplication')
+            ->willReturn($app);
+
+        $input = $this->createMock(InputInterface::class);
+        $input->expects(self::never())
+            ->method(self::anything());
+
+        $output = $this->createMock(OutputInterface::class);
+        $output->expects(self::never())
+            ->method(self::anything());
+
+        return new ConsoleTerminateEvent($command, $input, $output, 0);
+    }
+
     public function testAfterConsoleCommandForUnsupportedCommand(): void
     {
         $app = $this->createMock(Application::class);
-        $app->expects($this->never())
-            ->method($this->anything());
+        $app->expects(self::never())
+            ->method(self::anything());
 
         $this->listener->afterConsoleCommand($this->getEvent('test', $app));
     }
@@ -33,42 +54,22 @@ class JsRoutingDumpListenerTest extends \PHPUnit\Framework\TestCase
     {
         $app = $this->createMock(Application::class);
 
+        $exitCode = 123;
         $event = $this->getEvent('fos:js-routing:dump', $app);
 
         $frontendCommand = $this->createMock(FrontendJsRoutingDumpCommand::class);
-        $frontendCommand->expects($this->once())
+        $frontendCommand->expects(self::once())
             ->method('run')
-            ->with($event->getInput(), $event->getOutput())
-            ->willReturn(123);
+            ->with(self::identicalTo($event->getInput()), self::identicalTo($event->getOutput()))
+            ->willReturn($exitCode);
 
-        $app->expects($this->once())
+        $app->expects(self::once())
             ->method('find')
             ->with('oro:frontend:js-routing:dump')
             ->willReturn($frontendCommand);
 
         $this->listener->afterConsoleCommand($event);
 
-        $this->assertEquals(123, $event->getExitCode());
-    }
-
-    private function getEvent(string $commandName, Application $app): ConsoleTerminateEvent
-    {
-        $command = $this->createMock(Command::class);
-        $command->expects($this->once())
-            ->method('getName')
-            ->willReturn($commandName);
-        $command->expects($this->any())
-            ->method('getApplication')
-            ->willReturn($app);
-
-        $input = $this->createMock(InputInterface::class);
-        $input->expects($this->never())
-            ->method($this->anything());
-
-        $output = $this->createMock(OutputInterface::class);
-        $output->expects($this->never())
-            ->method($this->anything());
-
-        return new ConsoleTerminateEvent($command, $input, $output, 0);
+        $this->assertEquals($exitCode, $event->getExitCode());
     }
 }

@@ -3,76 +3,60 @@ declare(strict_types=1);
 
 namespace Oro\Bundle\FrontendBundle\Command;
 
-use FOS\JsRoutingBundle\Command\DumpCommand;
-use FOS\JsRoutingBundle\Extractor\ExposedRoutesExtractorInterface;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Serializer\SerializerInterface;
+use Oro\Bundle\NavigationBundle\Command\JsRoutingDumpCommand;
 
 /**
  * Dumps exposed storefront routes into a file.
  */
-class FrontendJsRoutingDumpCommand extends DumpCommand
+class FrontendJsRoutingDumpCommand extends JsRoutingDumpCommand
 {
     /** @var string */
     protected static $defaultName = 'oro:frontend:js-routing:dump';
 
-    private string $projectDir;
-    private string $backendFilenamePrefix;
+    private const FRONTEND_FILENAME_PREFIX = 'frontend_';
 
-    public function __construct(
-        ExposedRoutesExtractorInterface $extractor,
-        SerializerInterface $serializer,
-        string $projectDir,
-        ?string $requestContextBaseUrl = null,
-        string $backendFilenamePrefix = ''
-    ) {
-        parent::__construct($extractor, $serializer, $projectDir, $requestContextBaseUrl);
-
-        $this->projectDir = $projectDir;
-        $this->backendFilenamePrefix = $backendFilenamePrefix;
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     protected function configure()
     {
         parent::configure();
 
         $this->setHidden(true);
         $this->setDescription('Dumps exposed storefront routes into a file.');
-        $this->getDefinition()->getOption('format')->setDefault('json');
+        $this->getDefinition()->getOption('target')->setDefault(
+            $this->fileManager->getFilePath(self::FRONTEND_FILENAME_PREFIX . 'routes.json')
+        );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * {@inheritDoc}
+     */
+    protected function normalizeTargetPath(string $targetPath): string
     {
-        $target = $input->getOption('target');
-        if ($target) {
-            $parts = explode(DIRECTORY_SEPARATOR, $target);
-            $parts[] = $this->getFilename(array_pop($parts));
-
-            $input->setOption('target', implode(DIRECTORY_SEPARATOR, $parts));
-        } else {
-            $input->setOption(
-                'target',
-                implode(
-                    DIRECTORY_SEPARATOR,
-                    [
-                        $this->projectDir,
-                        'public',
-                        'media',
-                        'js',
-                        'frontend_routes.' . $input->getOption('format')
-                    ]
-                )
-            );
+        $targetPath = parent::normalizeTargetPath($targetPath);
+        $pos = strrpos($targetPath, DIRECTORY_SEPARATOR);
+        if (false === $pos && DIRECTORY_SEPARATOR !== '/') {
+            $pos = strrpos($targetPath, '/');
         }
 
-        return parent::execute($input, $output);
+        if (false === $pos) {
+            return $this->getFrontendFileName($targetPath);
+        }
+
+        return substr($targetPath, 0, $pos + 1) . $this->getFrontendFileName(substr($targetPath, $pos + 1));
     }
 
-    private function getFilename(string $backendFilename): string
+    private function getFrontendFileName(string $fileName): string
     {
-        $filename = ltrim(str_replace($this->backendFilenamePrefix, '', $backendFilename), '_');
+        $result = $fileName;
+        if (str_starts_with($result, $this->filenamePrefix)) {
+            return self::FRONTEND_FILENAME_PREFIX . substr($result, \strlen($this->filenamePrefix));
+        }
+        if (!str_starts_with($result, self::FRONTEND_FILENAME_PREFIX)) {
+            $result = self::FRONTEND_FILENAME_PREFIX . $result;
+        }
 
-        return sprintf('frontend_%s', $filename);
+        return $result;
     }
 }
