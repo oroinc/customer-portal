@@ -237,7 +237,7 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
         const changedFilters = this.getChangedFiltersState().filters;
 
         for (const [name, filter] of Object.entries(this.filterManager.filters)) {
-            if (!filter.enabled) {
+            if (!filter.renderable) {
                 continue;
             }
 
@@ -279,7 +279,7 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
 
     openNotEmptyFilters() {
         for (const filter of Object.values(this.filterManager.filters)) {
-            if (!filter.enabled) {
+            if (!filter.renderable) {
                 continue;
             }
 
