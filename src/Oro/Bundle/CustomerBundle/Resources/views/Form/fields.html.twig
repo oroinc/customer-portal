@@ -60,11 +60,11 @@
             disableDefaultWithoutType: true,
             disableRepeatedTypes: true
         } %}
-    <span
+    <div
       data-page-component-module="orocustomer/js/app/components/customer-address-component"
       data-page-component-options="{{ options|json_encode }}">
     {{ block('oro_collection_widget') }}
-    </span>
+    </div>
 {% endblock %}
 
 {% block _customer_users_oro_customer___case_insensitive_email_addresses_enabled_value_errors %}
