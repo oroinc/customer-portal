@@ -1,8 +1,9 @@
 @regression
+@ticket-BB-21165
 Feature: Featured menu, displayed on the main front page
-  In order to ...
-  As an ...
-  I should be able to ...
+  In order to check functionalities of frontend menu like creating, editing and nested level constraints
+  As an Administrator
+  I should be able to create, edit a menu item without any error and have proper visibility in frontstore
 
   Scenario: Create different window session
     Given sessions active:
@@ -74,3 +75,32 @@ Feature: Featured menu, displayed on the main front page
     Given I proceed as the Guest
     When I am on the homepage
     Then I should not see "FEATURED ITEM_0"
+
+  Scenario: Check the functionality of max nested level for a menu under a specified website scope
+    Given I proceed as the Admin
+    When I go to System/Websites
+    And click View Default in grid
+    And I click "Edit Frontend Menu"
+    And I click view "featured_menu" in grid
+    And I click "Create Menu Item"
+    When I fill "Commerce Menu Form" with:
+      | Title       | Test Item Default Website       |
+      | Target Type | URI                             |
+      | URI         | /test_website_featured_menu_url |
+      | Description | test description                |
+    And I save form
+    Then I should see "Menu item saved successfully." flash message
+    When I click "Test Item Default Website"
+    And I click "Create Menu Item"
+    And I fill "Commerce Menu Form" with:
+      | Title       | Test Item level 2                |
+      | Target Type | URI                              |
+      | URI         | /test2_website_featured_menu_url |
+      | Description | test description 2               |
+    And I save form
+    Then I should see "Item \"Test Item level 2\" can't be saved. Max nesting level is reached." error message
+    When I click "Test Item Default Website"
+    And I Create Divider
+    Then I should see "Item \"---------------\" can't be saved. Max nesting level is reached." error message
+    When I click "featured_menu"
+    Then I should see "Select existing menu item or create new."
