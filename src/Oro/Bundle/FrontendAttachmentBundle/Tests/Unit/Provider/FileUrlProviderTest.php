@@ -198,6 +198,11 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
             ->method('getCurrentApplication')
             ->willReturn(FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
 
+        $this->filenameProvider->expects(self::once())
+            ->method('getFileName')
+            ->with($file)
+            ->willReturn(self::FILENAME);
+
         $this->urlGenerator
             ->method('generate')
             ->with(

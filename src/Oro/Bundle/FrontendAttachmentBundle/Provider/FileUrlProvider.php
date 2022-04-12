@@ -69,7 +69,11 @@ class FileUrlProvider implements FileUrlProviderInterface
         if (!$this->isBackofficeApplication()) {
             return $this->urlGenerator->generate(
                 'oro_frontend_attachment_get_file',
-                ['id' => $file->getId(), 'filename' => $file->getFilename(), 'action' => $action],
+                [
+                    'id' => $file->getId(),
+                    'filename' => $this->filenameProvider->getFileName($file),
+                    'action' => $action
+                ],
                 $referenceType
             );
         }
