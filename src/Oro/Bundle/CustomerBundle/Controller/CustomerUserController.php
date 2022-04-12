@@ -18,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -110,6 +111,7 @@ class CustomerUserController extends AbstractController
         $customerUser->setCustomer($customer);
 
         $form = $this->createForm(CustomerUserType::class, $customerUser);
+        $form->handleRequest($this->get(RequestStack::class)->getMainRequest());
 
         if (($error = $request->get('error', '')) && $form->has('userRoles')) {
             $form
@@ -210,6 +212,7 @@ class CustomerUserController extends AbstractController
                 TokenAccessorInterface::class,
                 CustomerUserManager::class,
                 LoggerInterface::class,
+                RequestStack::class,
             ]
         );
     }
