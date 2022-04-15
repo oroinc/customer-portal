@@ -62,6 +62,16 @@ class CustomerUserController extends AbstractController
     }
 
     /**
+     * @Route("/login-attempts", name="oro_customer_login_attempts")
+     * @Template
+     * @AclAncestor("oro_customer_view_user_login_attempt")
+     */
+    public function loginAttemptsAction()
+    {
+        return [];
+    }
+
+    /**
      * @Route("/info/{id}", name="oro_customer_customer_user_info", requirements={"id"="\d+"})
      * @Template
      * @AclAncestor("oro_customer_customer_user_view")

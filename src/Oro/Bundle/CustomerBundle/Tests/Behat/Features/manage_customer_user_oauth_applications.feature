@@ -1,17 +1,17 @@
 @regression
 @fixture-OroCustomerBundle:CustomerUserFixture.yml
 
-Feature: Manage Storefront OAuth Applications
+Feature: Manage Customer User OAuth Applications
   In order to use OAuth authorization
   As an Administrator
-  I need to be able to manage storefront OAuth applications with different grant types
+  I need to be able to manage customer user OAuth applications with different grant types
 
   Scenario: Feature Background
     Given I enable storefront API
     And I login as administrator
 
   Scenario: Create Client Credentials grant OAuth application
-    When I go to System/Storefront OAuth Applications
+    When I go to Customers/Customer User OAuth Applications
     And I click "Create OAuth Application"
     And I fill form with:
       | Application Name | Client App         |
@@ -39,7 +39,6 @@ Feature: Manage Storefront OAuth Applications
     And I should see "There are no oauth applications"
 
   Scenario: New OAuth application name validation
-    System/Storefront OAuth Applications
     And I click "Create OAuth Application"
     And I fill form with:
       | Grant Type    | Client Credentials |
@@ -60,12 +59,11 @@ Feature: Manage Storefront OAuth Applications
     Then I click "Cancel"
 
   Scenario: Create Password grant OAuth application
-    When I go to System/Storefront OAuth Applications
+    When I go to Customers/Customer User OAuth Applications
     And I click "Create OAuth Application"
     And I fill form with:
       | Application Name | Client App |
       | Grant Type       | Password   |
-    And I should not see "Customer User"
     And I click "Save and Close"
     Then I should see "OAuth application has been created." flash message
     And I should see "Please copy Client Secret and save it somewhere safe. For security reasons, we cannot show it to you again."
@@ -74,7 +72,6 @@ Feature: Manage Storefront OAuth Applications
 
   Scenario: Edit Password grant OAuth application
     When I click "Edit"
-    Then I should not see "Customer User"
     And I should see "Client ID"
     When I fill form with:
       | Application Name | Client App edited |
@@ -85,7 +82,7 @@ Feature: Manage Storefront OAuth Applications
       | Grant Type       | Password          |
 
   Scenario: Deactivate OAuth application
-    When I go to System/Storefront OAuth Applications
+    When I go to Customers/Customer User OAuth Applications
     And I click "Deactivate" on row "Client App edited" in grid
     Then I should see "Are you sure you want to deactivate the application?"
     When I click "Yes, do it"
@@ -107,7 +104,7 @@ Feature: Manage Storefront OAuth Applications
     And I should see "There are no oauth applications"
 
   Scenario: New Auth Code grant OAuth application Redirect URLs validation
-    When I go to System/Storefront OAuth Applications
+    When I go to Customers/Customer User OAuth Applications
     And I click "Create OAuth Application"
     And I fill form with:
       | Application Name | Auth Code App      |
@@ -117,7 +114,7 @@ Feature: Manage Storefront OAuth Applications
     Then I click "Cancel"
 
   Scenario: Create Auth Code grant OAuth application
-    When I go to System/Storefront OAuth Applications
+    When I go to Customers/Customer User OAuth Applications
     And I click "Create OAuth Application"
     And I fill form with:
       | Application Name | Auth Code App                           |
