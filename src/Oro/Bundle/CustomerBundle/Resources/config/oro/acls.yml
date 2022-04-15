@@ -179,3 +179,8 @@ acls:
         description: oro.customer.action.update_profile.description
         group_name: "commerce"
         category: "application"
+
+    oro_customer_view_user_login_attempt:
+        type: entity
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerUserLoginAttempt
+        permission: VIEW

@@ -59,14 +59,6 @@ security:
                 httponly:                   true
             anonymous_customer_user:        true
 
-monolog:
-    channels: ['oro_customer_user_security']
-    handlers:
-        database_handler:
-            type: service
-            id: oro_logger.monolog.db_logs.handler
-            channels: ['oro_customer_user_security']
-
 doctrine:
     orm:
         resolve_target_entities:
@@ -75,6 +67,18 @@ doctrine:
             soft_deleteable:
                 class:      Oro\Bundle\CustomerBundle\Doctrine\SoftDeleteableFilter
                 enabled:    false
+
+oro_customer:
+    login_sources:
+        default:
+            label: oro.user.login_source.default
+            code: 1
+        impersonation:
+            label: oro.user.login_source.impersonation
+            code: 10
+        wsse:
+            label: oro.wsse.login_source
+            code: 40
 
 oro_email:
     public_email_owners:

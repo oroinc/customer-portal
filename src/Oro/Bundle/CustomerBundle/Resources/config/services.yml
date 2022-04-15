@@ -104,6 +104,14 @@ services:
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: oro_customer_customer, acl_resource: oro_customer_customer_view }
 
+    oro_customer_customer.form.autocomplete.customer_user.search_handler:
+        parent: oro_form.autocomplete.search_handler
+        arguments:
+            - 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
+            - ["fullName"]
+        tags:
+            - { name: oro_form.autocomplete.search_handler, alias: oro_customer_user, acl_resource: oro_customer_user_view }
+
     oro_customer.form.autocomplete.customer_parent.search_handler:
         parent: oro_form.autocomplete.search_handler
         class: 'Oro\Bundle\CustomerBundle\Autocomplete\ParentCustomerSearchHandler'
@@ -228,10 +236,10 @@ services:
         class: Oro\Bundle\UserBundle\Security\LoginAttemptsHandler
         arguments:
             - '@oro_customer_user.manager'
-            - '@oro_customer.provider.user_logging_info_provider'
-            - '@logger'
-        tags:
-            - { name: monolog.logger, channel: oro_customer_user_security }
+            - '@oro_customer.logger.customer_user_login_attempt'
+            - '@oro_user.security.skipped_log_attempts_firewalls_provider'
+            - !tagged_iterator oro_security.login_source_provider.success
+            - !tagged_iterator oro_security.login_source_provider.fail
 
     oro_customer.customer_visitor_manager:
         class: 'Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager'
@@ -1269,3 +1277,22 @@ services:
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: oro_enabled_localization, acl_resource: oro_locale_localization_view }
 
+    oro_customer.logger.customer_user_login_attempt:
+        class: Oro\Bundle\UserBundle\Security\UserLoginAttemptLogger
+        public: true
+        arguments:
+            - '@doctrine'
+            - '@oro_customer.provider.user_logging_info_provider'
+            - '@translator'
+            - '@logger'
+            - Oro\Bundle\CustomerBundle\Entity\CustomerUserLoginAttempt
+            - '%oro_customer_user.login_sources%'
+        tags:
+            - { name: monolog.logger, channel: security }
+
+    oro_customer.event_listener.wsse_authentication:
+        class: Oro\Bundle\CustomerBundle\EventListener\WsseAuthenticationListener
+        arguments:
+            - "@oro_customer.logger.customer_user_login_attempt"
+        tags:
+            - { name: kernel.event_listener, event: security.authentication.success, method: onAuthenticationSuccess }

@@ -432,6 +432,39 @@ oro.customer:
             label: Updated
             description: The date and time of the last update of the customer user address.
 
+    customeruserloginattempt:
+        entity_label: Customer User Login Attempt
+        entity_plural_label: Customer User Login Attempts
+        entity_grid_all_view_label: All %entity_plural_label%
+        entity_description: A list of customer user login attempts
+        id:
+            label: Id
+            description: The unique identifier of record.
+        attempt_at:
+            label: Attempt at
+            description: The time when the login attempt has been produced.
+        success:
+            label: Success
+            description: Is the login was success.
+        source:
+            label: Source
+            description: The login type source (default, OAuth, WSSE, impersonation, …).
+        username:
+            label: Username
+            description: The tracked username.
+        user:
+            label: Customer user
+            description: The tracked customer user that logged to the system.
+        ip:
+            label: IP
+            description: The user's IP address.
+        user_agent:
+            label: User agent
+            description: The user agent string.
+        context:
+            label: Context
+            description: Additional user info was tracked during loging.
+
     action:
         customer_user:
             enable:  'Enable'

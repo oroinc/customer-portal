@@ -109,7 +109,8 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
                         'cookie_secure' => 'auto',
                         'cookie_httponly' => true,
                         'cookie_samesite' => 'lax'
-                    ]
+                    ],
+                    'login_sources' => []
                 ]
             ]
         ];

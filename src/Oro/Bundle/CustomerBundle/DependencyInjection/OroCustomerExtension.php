@@ -35,6 +35,7 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
         $loader->load('commands.yml');
 
         $container->prependExtensionConfig($this->getAlias(), array_intersect_key($config, array_flip(['settings'])));
+        $container->setParameter('oro_customer_user.login_sources', $config['login_sources']);
 
         if ('test' === $container->getParameter('kernel.environment')) {
             $loader->load('services_test.yml');
