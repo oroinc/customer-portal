@@ -9,6 +9,7 @@ $select2-container-multi-search-choice-background-image: linear-gradient(
 $select2-container-multi-search-choice-color: get-color('additional', 'dark') !default;
 
 $select2-container-multi-input-color: get-color('additional', 'middle') !default;
+$select2-container-multi-input-radius: $base-ui-popup-border-radius !default;
 
 $select2-container-multi-disabled-choices-background: get-color('additional', 'middle') !default;
 

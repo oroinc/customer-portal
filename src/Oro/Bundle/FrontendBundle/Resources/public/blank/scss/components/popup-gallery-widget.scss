@@ -1,12 +1,6 @@
 /* @theme: blank; */
 
 .popup-gallery-widget {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: z('popup');
-    width: 100%;
-    height: 100%;
     opacity: 0;
     visibility: hidden;
     transition: opacity .4s;
@@ -29,38 +23,16 @@
         $slick-arrow-next-icon-offset: $popup-gallery-widget-arrow-next-icon-offset
     );
 
-    // Gallery styles
-    &__overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: $popup-gallery-widget-overlay-bg;
-    }
-
-    &__wrapper {
-        position: relative;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        max-width: $popup-gallery-widget-wrapper-max-width;
-        max-height: $popup-gallery-widget-wrapper-max-height;
-        padding: 0;
+    .modal-dialog {
+        max-width: $popup-gallery-widget-dialog-max-width;
+        max-height: $popup-gallery-widget-dialog-max-width;
+        margin: auto;
     }
 
     &__images {
-        margin-bottom: $popup-gallery-widget-images-offset-bottom;
         transition: opacity .4s;
         opacity: 0;
         visibility: hidden;
-
-        .slick-list {
-            border: $popup-gallery-widget-slick-list-border;
-            background: $popup-gallery-widget-slick-list-bg;
-
-            @include border-top-radius($popup-gallery-widget-slick-list-radius);
-        }
 
         @include slick-dots();
 
@@ -77,6 +49,7 @@
         img {
             width: 100%;
             height: 100%;
+            border-radius: $base-ui-popup-border-radius;
         }
 
         .slick-loading {
@@ -122,6 +95,8 @@
     .slick-no-slide {
         max-width: $popup-gallery-widget-no-slide-max-width;
         padding: 0;
+        position: absolute;
+        top: $popup-gallery-widget-no-slide-top;
 
         .slick-track {
             // stylelint-disable-next-line declaration-no-important
@@ -143,20 +118,15 @@
         }
     }
 
-    &--opened,
-    &--opened &__images.slick-initialized,
-    &--opened &__thumbnails.slick-initialized {
+    &.opened,
+    &.opened &__images.slick-initialized,
+    &.opened &__thumbnails.slick-initialized {
         opacity: 1;
         visibility: visible;
     }
-}
 
-.gallery-popup-opened {
-    // stylelint-disable-next-line declaration-no-important
-    overflow: hidden !important;
-
-    .zoomContainer {
-        display: none;
+    .modal-dialog__body {
+        padding: $popup-gallery-widget-body-offset;
     }
 }
 
@@ -193,7 +163,7 @@
             }
         }
 
-        &__wrapper {
+        .modal-dialog {
             // square popup wrapper and compensation url bar on safari iOS
             max-width: 75vmin;
             max-height: 75vmin;

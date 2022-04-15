@@ -82,7 +82,7 @@ oro_behat_extension:
     Popover Image:
       selector: "div.popover img"
     Popup Gallery Widget Close:
-      selector: ".popup-gallery-widget button[data-trigger-gallery-close]"
+      selector: ".popup-gallery-widget button.close-dialog"
     Filter Settings Form:
       selector: 'form[name="theme"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form

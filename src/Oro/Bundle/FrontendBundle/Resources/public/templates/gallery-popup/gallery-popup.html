@@ -1,47 +1,43 @@
-<div class="popup-gallery-widget" role="dialog" aria-modal="true" aria-label="<%-_.__('oro_frontend.gallery_popup.label') %>">
-    <div class="popup-gallery-widget__overlay" data-trigger-gallery-close></div>
-    <div class="popup-gallery-widget__wrapper">
-        <button class="close-dialog" data-trigger-gallery-close aria-label="<%-_.__('oro_frontend.fullscreen_popup.actions.labels.close') %>"></button>
-        <div class="popup-gallery-widget__images" data-gallery-images>
-            <% if (images && images.length) { %>
-                <% _.each(images, function(image) { %>
-                    <div class="popup-gallery-widget__image">
-                        <picture>
-                            <% _.each(image.sources || [], function(source) { %>
-                                <% if (source.srcset !== image.src) { %>
-                                    <source srcset="<%- source.srcset %>" type="<%- source.type %>">
-                                <% } %>
-                            <% }); %>
-                            <img src="<%- image.src %>"
-                                 alt="<%- image.alt %>"
-                                 width="100%"
-                                 height="100%"
-                                 loading="lazy"
-                            >
-                        </picture>
-                    </div>
-                <% }); %>
-            <% } %>
-        </div>
-        <% if (use_thumb && images && images.length) { %>
-            <div class="popup-gallery-widget__thumbnails" data-gallery-thumbnails>
-                <% _.each(images, function(image) { %>
-                    <div class="popup-gallery-widget__thumbnails-img">
-                        <picture>
-                            <% _.each(image.thumbSources || [], function(source) { %>
+<div class="popup-gallery-widget__content">
+    <div class="popup-gallery-widget__images" data-gallery-images>
+        <% if (images && images.length) { %>
+            <% _.each(images, function(image) { %>
+                <div class="popup-gallery-widget__image">
+                    <picture>
+                        <% _.each(image.sources || [], function(source) { %>
+                            <% if (source.srcset !== image.src) { %>
                                 <source srcset="<%- source.srcset %>" type="<%- source.type %>">
-                            <% }); %>
-
-                            <img src="<%- image.thumb %>"
-                                 alt="<%- image.alt %>"
-                                 width="80"
-                                 height="80"
-                                 loading="lazy"
-                            >
-                        </picture>
-                    </div>
-                <% }); %>
-            </div>
+                            <% } %>
+                        <% }); %>
+                        <img src="<%- image.src %>"
+                             alt="<%- image.alt %>"
+                             width="100%"
+                             height="100%"
+                             loading="lazy"
+                        >
+                    </picture>
+                </div>
+            <% }); %>
         <% } %>
     </div>
+    <% if (use_thumb && images && images.length) { %>
+        <div class="popup-gallery-widget__thumbnails" data-gallery-thumbnails>
+            <% _.each(images, function(image) { %>
+                <div class="popup-gallery-widget__thumbnails-img">
+                    <picture>
+                        <% _.each(image.thumbSources || [], function(source) { %>
+                            <source srcset="<%- source.srcset %>" type="<%- source.type %>">
+                        <% }); %>
+
+                        <img src="<%- image.thumb %>"
+                             alt="<%- image.alt %>"
+                             width="80"
+                             height="80"
+                             loading="lazy"
+                        >
+                    </picture>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
 </div>

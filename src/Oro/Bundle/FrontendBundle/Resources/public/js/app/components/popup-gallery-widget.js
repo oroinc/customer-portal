@@ -9,9 +9,9 @@ define(function(require) {
     const error = require('oroui/js/error');
     const manageFocus = require('oroui/js/tools/manage-focus').default;
     const viewportManager = require('oroui/js/viewport-manager');
-    require('slick');
+    const Modal = require('oroui/js/modal');
 
-    const BROWSER_SCROLL_SIZE = mediator.execute('layout:scrollbarWidth');
+    require('slick');
 
     const PopupGalleryWidget = AbstractWidget.extend({
         /**
@@ -58,6 +58,13 @@ define(function(require) {
                 variableWidth: true,
                 infinite: true,
                 rtl: _.isRTL()
+            },
+            modalOptions: {
+                // do not render (show) the "Ok" button
+                allowCancel: false,
+                // do not render (show) the "Cancel" button
+                allowOk: false,
+                className: 'modal oro-modal-normal popup-gallery-widget'
             }
         },
 
@@ -72,9 +79,8 @@ define(function(require) {
          * @constructor
          * @param {Object} options
          */
-        initialize: function(options) {
+        initialize(options) {
             this.options = {...this.options, ...options};
-
             this.$triggerGalleryOpen = this.$('[data-trigger-gallery-open]');
 
             if (this.options.uniqueTriggerToOpenGallery) {
@@ -119,76 +125,28 @@ define(function(require) {
             }
         },
 
-        bindEvents: function() {
-            $(document).on(`keydown${this.eventNamespace()}`, e => {
-                if (e.keyCode === 37) {
-                    this.$gallery.slick('slickPrev');
-                }
-
-                if (e.keyCode === 39) {
-                    this.$gallery.slick('slickNext');
-                }
-
-                // ESC
-                if (e.keyCode === 27) {
-                    this.$galleryWidgetClose.trigger('click');
-                }
-            });
-
-            this.$galleryWidget
-                .one(`transitionend${this.eventNamespace()}`,
-                    () => manageFocus.focusTabbable(this.$galleryWidget)
-                )
-                .on(`keydown${this.eventNamespace()}`,
-                    event => manageFocus.preventTabOutOfContainer(event, this.$galleryWidget)
-                );
-
-            this.listenTo(mediator, 'layout:reposition', this.onResize);
-        },
-
-        unbindEvents: function() {
-            if (this.$galleryWidget) {
-                this.$galleryWidget.off(`transitionend${this.eventNamespace()} keydown${this.eventNamespace()}`);
-            }
-
-            $(document).off(`keydown${this.eventNamespace()}`);
-
-            this.stopListening(mediator, 'layout:reposition');
-        },
-
-        toggleGalleryTrigger: function(state) {
+        toggleGalleryTrigger(state) {
             this.$triggerGalleryOpen.toggleClass('hidden', state);
         },
 
-        onOpen: function() {
-            this.unbindEvents();
-            this.render();
-            $('html').css('margin-right', BROWSER_SCROLL_SIZE);
-            $('body').addClass('gallery-popup-opened');
-            this.$galleryWidget.addClass('popup-gallery-widget--opened');
-            this.renderImages();
-            if (this.useThumb()) {
-                this.renderThumbnails();
-            }
-            this.setDependentSlide();
+        onOpen() {
+            const modal = new Modal({
+                ...this.options.modalOptions,
+                content: this.template({
+                    images: this.options.galleryImages,
+                    use_thumb: this.useThumb()
+                })
+            });
 
-            if ($(document.activeElement).hasClass('focus-visible')) {
-                this.beforeOpenFocusedElement = document.activeElement;
-            }
-
-            manageFocus.focusTabbable(this.$galleryWidget);
-            this.$galleryWidget
-                .one(`transitionend${this.eventNamespace()}`,
-                    () => manageFocus.focusTabbable(this.$galleryWidget)
-                )
-                .on(`keydown${this.eventNamespace()}`,
-                    event => manageFocus.preventTabOutOfContainer(event, this.$galleryWidget)
-                );
-            this.refreshPositions();
-            this.bindEvents();
+            this.subview('modal', modal);
+            this.listenTo(modal, {
+                shown: this.onModalShown.bind(this, modal),
+                close: this.onModalClose.bind(this, modal)
+            });
+            modal.open();
         },
 
-        onOpenTriggerClick: function(e) {
+        onOpenTriggerClick(e) {
             e.preventDefault();
 
             if (!this.options.ajaxMode || this.options.galleryImages.length) {
@@ -254,123 +212,104 @@ define(function(require) {
             });
         },
 
-        onClose: function() {
-            this.$galleryWidget.one('transitionend', () => {
-                this.unbindEvents();
-                this.setDependentSlide();
-                this.$galleryWidget.detach();
-                $('html').css('margin-right', '');
-                $('body').removeClass('gallery-popup-opened');
-                if (this.beforeOpenFocusedElement) {
-                    this.beforeOpenFocusedElement.focus();
+        onModalShown(modal) {
+            const $gallery = modal.$('[data-gallery-images]');
+            const $thumbnails = modal.$('[data-gallery-thumbnails]');
 
-                    delete this.beforeOpenFocusedElement;
+            if ($gallery.length === 0) {
+                throw new Error('The template should contain an element with "data-gallery-images" attribute');
+            }
+
+            if ($(document.activeElement).hasClass('focus-visible')) {
+                this.beforeOpenFocusedElement = document.activeElement;
+            }
+
+            if (!this.options.navOptions.asNavFor) {
+                this.options.navOptions.asNavFor = `.${$gallery.attr('class')}`;
+            }
+
+            if (!this.options.imageOptions.asNavFor && this.useThumb()) {
+                this.options.imageOptions.asNavFor = `.${$thumbnails.attr('class')}`;
+            }
+
+            // Initialize main slider
+            $gallery.not('.slick-initialized').slick(this.options.imageOptions);
+
+            let extraSlick = null;
+            // Initialize extra slider if necessary
+            if (this.useThumb() && $thumbnails.length) {
+                $thumbnails.not('.slick-initialized').slick(this.options.navOptions);
+
+                extraSlick = $thumbnails.slick('getSlick');
+
+                $thumbnails
+                    .toggleClass('slick-no-slide', extraSlick.slideCount <= extraSlick.options.slidesToShow);
+            }
+
+            const dependentSlider = this.options.bindWithSlider;
+            let slideIndex = 0;
+
+            if (dependentSlider && $(dependentSlider).find('.slick-slide').length) {
+                slideIndex = $(dependentSlider).slick('slickCurrentSlide');
+            } else if (typeof this.options.initialSlide === 'number') {
+                slideIndex = this.options.initialSlide;
+            }
+
+            $gallery.slick('slickGoTo', slideIndex, true);
+
+            if (extraSlick) {
+                $thumbnails.slick('slickGoTo', slideIndex, true);
+            }
+
+            // Manually refresh positioning of slick
+            const refreshPositions = () => {
+                $gallery.slick('setPosition');
+
+                if (extraSlick) {
+                    $thumbnails.slick('setPosition');
+                }
+            };
+
+            refreshPositions();
+            this.listenTo(mediator, 'layout:reposition', () => {
+                _.delay(() => refreshPositions(), 100);
+            });
+            $(document).on(`keydown${this.eventNamespace()}`, e => {
+                if (e.keyCode === 37) {
+                    $gallery.slick('slickPrev');
+                } else if (e.keyCode === 39) {
+                    $gallery.slick('slickNext');
                 }
             });
-
-            this.$galleryWidget.removeClass('popup-gallery-widget--opened');
+            modal.$el.addClass('opened');
+            manageFocus.focusTabbable($gallery);
         },
 
-        renderImages: function() {
-            this.$gallery.not('.slick-initialized').slick(
-                this.options.imageOptions
-            );
-        },
+        onModalClose(modal) {
+            if (this.beforeOpenFocusedElement) {
+                this.beforeOpenFocusedElement.focus();
 
-        renderThumbnails: function() {
-            if (this.$thumbnails) {
-                this.$thumbnails.not('.slick-initialized').slick(
-                    this.options.navOptions
-                );
-                this.checkSlickNoSlide();
+                delete this.beforeOpenFocusedElement;
             }
+
+            this.stopListening(mediator);
+            $(document).off(this.eventNamespace());
         },
 
-        setDependentSlide: function() {
-            const dependentSlider = this.options.bindWithSlider;
-            const dependentSliderItems = $(dependentSlider).find('.slick-slide');
-            if (dependentSlider && dependentSliderItems.length) {
-                const dependentSlide = $(dependentSlider).slick('slickCurrentSlide');
-                this.$gallery.slick('slickGoTo', dependentSlide, true);
-                if (this.useThumb()) {
-                    this.$thumbnails.slick('slickGoTo', dependentSlide, true);
-                }
-            } else if (_.isNumber(this.options.initialSlide)) {
-                this.$gallery.slick('slickGoTo', this.options.initialSlide, true);
-                if (this.useThumb()) {
-                    this.$thumbnails.slick('slickGoTo', this.options.initialSlide, true);
-                }
-            }
-        },
-
-        checkSlickNoSlide: function() {
-            if (this.$thumbnails.length) {
-                const getSlick = this.$thumbnails.slick('getSlick');
-                if (this.$thumbnails && getSlick.slideCount <= getSlick.options.slidesToShow) {
-                    this.$thumbnails.addClass('slick-no-slide');
-                } else {
-                    this.$thumbnails.removeClass('slick-no-slide');
-                }
-            }
-        },
-
-        onResize: function() {
-            this.refreshPositions();
-            _.delay(this.refreshPositions.bind(this), 500);
-        },
-
-        refreshPositions: function() {
-            this.$gallery.slick('setPosition');
-            if (this.useThumb()) {
-                this.$thumbnails.slick('setPosition');
-            }
-        },
-
-        useThumb: function() {
+        useThumb() {
             return this.options.use_thumb;
         },
 
-        render: function() {
-            if (!this.$galleryWidget) {
-                this.$galleryWidget = $(this.template({
-                    images: this.options.galleryImages,
-                    use_thumb: this.useThumb()
-                }));
-
-                this.$galleryWidgetClose = this.$galleryWidget.find('[data-trigger-gallery-close]');
-                this.$galleryWidgetClose.on('click' + this.eventNamespace(), this.onClose.bind(this));
-
-                this.$gallery = this.$galleryWidget.find('[data-gallery-images]');
-                if (this.useThumb()) {
-                    this.$thumbnails = this.$galleryWidget.find('[data-gallery-thumbnails]');
-                }
-
-                if (!this.options.navOptions.asNavFor) {
-                    this.options.navOptions.asNavFor = '.' + this.$gallery.attr('class');
-                }
-                if (!this.options.imageOptions.asNavFor && this.useThumb()) {
-                    this.options.imageOptions.asNavFor = '.' + this.$thumbnails.attr('class');
-                }
-            }
-            $('body').append(this.$galleryWidget);
-            // Force DOM redraw/refresh
-            this.$galleryWidget.hide().show();
+        render() {
+            return this;
         },
 
-        dispose: function() {
-            this.unbindEvents();
+        dispose() {
+            if (this.disposed) {
+                return;
+            }
 
             this.$triggerGalleryOpen.off(this.eventNamespace());
-
-            if (this.$galleryWidgetClose) {
-                this.$galleryWidgetClose.off(this.eventNamespace());
-            }
-
-            if (this.$galleryWidget && this.$galleryWidget.length) {
-                this.$galleryWidget.remove();
-            }
-
-            delete this.$galleryWidget;
             delete this.beforeOpenFocusedElement;
 
             PopupGalleryWidget.__super__.dispose.call(this);
