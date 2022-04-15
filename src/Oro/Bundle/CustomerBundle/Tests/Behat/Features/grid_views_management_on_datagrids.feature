@@ -1,4 +1,5 @@
 @ticket-BB-15402
+@ticket-BB-20879
 @fixture-OroLocaleBundle:ZuluLocalization.yml
 @fixture-OroCustomerBundle:CustomerUserAddressFixture.yml
 Feature: grid views management on datagrids
@@ -34,6 +35,22 @@ Feature: grid views management on datagrids
     And I click "Save"
     And I should see "View has been successfully updated" flash message
     Then I should see "Test view 02"
+
+  Scenario: Create a gridview with existing name
+    When I click on empty space
+    And I click grid view list on "Customer Company Addresses Grid" grid
+    And I click "Save As New"
+    And I set "Test view 02" as grid view name for "Customer Company Addresses Grid" grid on frontend
+    And I click "Add"
+    Then I should see "This name already exists."
+
+  Scenario: Create a gridview with a name that is too long
+    When I click on empty space
+    And I click grid view list on "Customer Company Addresses Grid" grid
+    And I click "Save As New"
+    And I set "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" as grid view name for "Customer Company Addresses Grid" grid on frontend
+    And I click "Add"
+    Then I should see "This value is too long. It should have 255 characters or less."
 
   Scenario: Add translation for Saved Views grid action
     Given I login as administrator
