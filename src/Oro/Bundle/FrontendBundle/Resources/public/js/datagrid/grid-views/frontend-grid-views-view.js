@@ -5,6 +5,7 @@ define(function(require) {
     const _ = require('underscore');
     const __ = require('orotranslation/js/translator');
     const tools = require('oroui/js/tools');
+    const errorHandler = require('oroui/js/error');
     const manageFocus = require('oroui/js/tools/manage-focus').default;
     const GridViewsView = require('orodatagrid/js/datagrid/grid-views/view');
     const DeleteConfirmation = require('oroui/js/delete-confirmation');
@@ -128,9 +129,6 @@ define(function(require) {
 
         /** @property */
         hideTitle: null,
-
-        /** @property */
-        showErrorMessage: false,
 
         /**
          * @inheritdoc
@@ -286,7 +284,9 @@ define(function(require) {
             } else {
                 const model = this._createBaseViewModel(data);
 
-                this._onSaveAsModel(model);
+                if (model.isValid()) {
+                    this._onSaveAsModel(model);
+                }
             }
         },
 
@@ -564,17 +564,21 @@ define(function(require) {
             this.restoreDropdownState();
 
             if (response.status === 400) {
-                const jsonResponse = JSON.parse(response.responseText);
-                const errors = jsonResponse.errors.children.label.errors;
+                const responseJSON = response.responseJSON;
+                const errors = responseJSON.errors ? responseJSON.errors.children.label.errors : null;
+                const message = responseJSON.message;
+                const err = errors ? errors[0] : message;
 
-                if (errors) {
+                if (err) {
                     this.fillForm({
                         name: model.previous('label')
                     });
-                    this.setNameError(_.first(errors));
+                    this.setNameError(err);
                     this.toggleEditForm('show');
                     this.$gridViewName.trigger('focus');
                 }
+            } else {
+                errorHandler.showErrorInUI(response);
             }
         },
 
