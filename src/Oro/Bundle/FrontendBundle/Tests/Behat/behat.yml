@@ -72,7 +72,9 @@ oro_behat_extension:
     Popup Gallery Widget:
       selector: ".popup-gallery-widget"
     Popup Gallery Widget Image:
-      selector: ".popup-gallery-widget img"
+      selector:
+        type: 'xpath'
+        locator: '//div[contains(@class,"popup-gallery-widget")]//img'
     Popup Gallery Widget Picture:
       selector: ".popup-gallery-widget picture"
     Popover Image:

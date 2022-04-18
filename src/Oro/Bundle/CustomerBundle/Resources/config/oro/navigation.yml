@@ -103,6 +103,12 @@ navigation:
                         - 'oro_customer_customer_user_create'
                     description: 'oro.customer.menu.customer_users.description'
 
+            customer_users_login_attempts:
+                label: 'oro.customer.customeruserloginattempt.entity_plural_label'
+                route: 'oro_customer_login_attempts'
+                extras:
+                    description: 'oro.customer.customeruserloginattempt.entity_description'
+
             shortcut_new_customer_user:
                 label: 'oro.customer.menu.shortcut_new_customer_user.label'
                 route: 'oro_customer_customer_user_create'
@@ -257,6 +263,7 @@ navigation:
                             customer_list: ~
                             customer_group_list: ~
                             customer_users: ~
+                            customer_users_login_attempts: ~
                             customer_user_roles: ~
 
             frontend_dots_menu:
@@ -376,3 +383,5 @@ navigation:
         oro_customer_frontend_customer_user_address_create: 'oro.customer.frontend.address.title.create'
         oro_customer_frontend_customer_user_address_update: 'oro.customer.frontend.address.title.edit'
         oro_customer_frontend_customer_user_address_index: 'oro.customer.frontend.customer_user.address.label'
+
+        oro_customer_login_attempts: 'oro.customer.customeruserloginattempt.entity_plural_label'

@@ -8,7 +8,9 @@
                     <div class="popup-gallery-widget__image">
                         <picture>
                             <% _.each(image.sources || [], function(source) { %>
-                                <source srcset="<%- source.srcset %>" type="<%- source.type %>">
+                                <% if (source.srcset !== image.src) { %>
+                                    <source srcset="<%- source.srcset %>" type="<%- source.type %>">
+                                <% } %>
                             <% }); %>
                             <img src="<%- image.src %>"
                                  alt="<%- image.alt %>"

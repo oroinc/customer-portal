@@ -2,24 +2,21 @@
 
 namespace Oro\Bundle\FrontendBundle\EventListener;
 
-use Oro\Bundle\FrontendBundle\Command\FrontendJsRoutingDumpCommand;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 
 /**
- * Execute the frontend routing command right after FOS routing command.
+ * Executes the dumping of exposed storefront routes right after the dumping of exposed backend routes.
  */
 class JsRoutingDumpListener
 {
     public function afterConsoleCommand(ConsoleTerminateEvent $event): void
     {
         $command = $event->getCommand();
-        if (!$command || 'fos:js-routing:dump' !== $command->getName()) {
+        if (null === $command || 'fos:js-routing:dump' !== $command->getName()) {
             return;
         }
 
-        $command = $command->getApplication()
-            ->find(FrontendJsRoutingDumpCommand::getDefaultName());
-
-        $event->setExitCode($command->run($event->getInput(), $event->getOutput()));
+        $frontendJsRoutingDumpCommand = $command->getApplication()->find('oro:frontend:js-routing:dump');
+        $event->setExitCode($frontendJsRoutingDumpCommand->run($event->getInput(), $event->getOutput()));
     }
 }

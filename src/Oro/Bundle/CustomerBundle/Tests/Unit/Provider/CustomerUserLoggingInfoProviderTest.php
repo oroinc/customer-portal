@@ -7,6 +7,7 @@ use Oro\Bundle\CustomerBundle\Provider\CustomerUserLoggingInfoProvider;
 use Oro\Component\Testing\ReflectionUtil;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\ServerBag;
 
 class CustomerUserLoggingInfoProviderTest extends \PHPUnit\Framework\TestCase
 {
@@ -34,23 +35,33 @@ class CustomerUserLoggingInfoProviderTest extends \PHPUnit\Framework\TestCase
             ->method('getClientIp')
             ->willReturn('127.0.0.1');
 
-        $this->assertEquals([
-            'customer_user' => [
-                'id' => 123,
-                'email' => 'john@example.com',
-                'fullname' => 'John Doe',
-                'enabled' => true,
-                'confirmed' => true,
-                'lastlogin' => new \DateTime('01-01-2010'),
-                'createdat' => new \DateTime('01-01-2000'),
+        $request->server = new ServerBag([
+            'HTTP_SEC_CH_UA_PLATFORM' => '"macOS"',
+            'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36'
+        ]);
+
+        $this->assertEquals(
+            [
+                'customer_user' => [
+                    'id' => 123,
+                    'email' => 'john@example.com',
+                    'fullname' => 'John Doe',
+                    'enabled' => true,
+                    'confirmed' => true,
+                    'lastlogin' => new \DateTime('01-01-2010'),
+                    'createdat' => new \DateTime('01-01-2000'),
+                ],
+                'ipaddress' => '127.0.0.1',
+                'platform' => 'macOS',
+                'user agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36'
             ],
-            'ipaddress' => '127.0.0.1',
-        ], $this->provider->getUserLoggingInfo($this->getCustomerUserWithData()));
+            $this->provider->getUserLoggingInfo($this->getCustomerUserWithData())
+        );
     }
 
     public function testGetUserLoggingInfoWithoutRequest(): void
     {
-        $this->requestStack->expects($this->once())
+        $this->requestStack->expects($this->exactly(2))
             ->method('getCurrentRequest')
             ->willReturn(null);
 

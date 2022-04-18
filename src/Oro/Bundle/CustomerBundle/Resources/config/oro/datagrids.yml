@@ -643,7 +643,7 @@ datagrids:
                     type:      boolean
                     data_name: self_managed
                 isRolePredefined:
-                    enabled: false
+                    renderable: false
         properties:
             view_link:
                 route: oro_customer_customer_user_role_view
@@ -1298,3 +1298,105 @@ datagrids:
         options:
             entity_pagination: false
         actions: ~
+
+    customer-user-login-attempts-grid:
+        acl_resource: oro_customer_view_user_login_attempt
+        source:
+            type: orm
+            query:
+                select:
+                    - partial ul.{ id }
+                    - ul.id
+                    - ul.attemptAt
+                    - ul.success
+                    - ul.source
+                    - ul.username
+                    - ul.ip
+                    - ul.userAgent
+                    - CONCAT_WS(' ', user.firstName, user.lastName) as userInfo
+                    - user
+                from:
+                    - { table: 'Oro\Bundle\CustomerBundle\Entity\CustomerUserLoginAttempt', alias: ul }
+                join:
+                    left:
+                        - { join: ul.user, alias: user }
+        columns:
+            id:
+                label: oro.customer.customeruserloginattempt.id.label
+                renderable: false
+            attemptAt:
+                label: oro.customer.customeruserloginattempt.attempt_at.label
+                frontend_type: datetime
+            success:
+                label: oro.customer.customeruserloginattempt.success.label
+                frontend_type: boolean
+            source:
+                label: oro.customer.customeruserloginattempt.source.label
+                frontend_type: select
+                choices: '@oro_customer.logger.customer_user_login_attempt->getSourceChoices()'
+            username:
+                label: oro.customer.customeruserloginattempt.username.label
+            user:
+                label: oro.customer.customeruserloginattempt.user.label
+                type: twig
+                frontend_type: html
+                template: '@OroCustomer/Datagrid/Column/customerUser.html.twig'
+            ip:
+                label: oro.customer.customeruserloginattempt.ip.label
+            userAgent:
+                label: oro.customer.customeruserloginattempt.user_agent.label
+                type: twig
+                frontend_type: html
+                template: '@OroUser/Datagrid/Column/userAgentColumn.html.twig'
+        sorters:
+            columns:
+                attemptAt:
+                    data_name: ul.attemptAt
+                success:
+                    data_name: ul.updatedAt
+                username:
+                    data_name: ul.username
+                user:
+                    data_name: userInfo
+                source:
+                    data_name: ul.source
+                ip:
+                    data_name: ul.ip
+                userAgent:
+                    data_name: ul.userAgent
+            default:
+                attemptAt: DESC
+        filters:
+            columns:
+                id:
+                    type: string
+                    data_name: ul.id
+                success:
+                    data_name: ul.success
+                    type: boolean
+                attemptAt:
+                    type: datetime
+                    data_name: ul.createdAt
+                username:
+                    type: string
+                    data_name: ul.username
+                source:
+                    type: choice
+                    data_name: ul.source
+                    options:
+                        field_options:
+                            choices: '@oro_customer.logger.customer_user_login_attempt->getSourceChoices()'
+                            multiple: true
+                user:
+                    type: choice-tree
+                    label: oro.customer.customeruserloginattempt.user.label
+                    data_name: ul.user
+                    autocomplete_alias: oro_customer_user
+                    renderedPropertyName: 'fullName'
+                    className: 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
+                ip:
+                    type: string
+                    data_name: ul.ip
+                userAgent:
+                    type: string
+                    data_name: ul.userAgent
