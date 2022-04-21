@@ -1,5 +1,6 @@
 @fixture-OroCustomerBundle:CustomerUserFixture.yml
 @ticket-BAP-11576
+@ticket-BAP-21323
 
 Feature: Customer User Login Attempts
   In order to have ability to manage customer user logins
@@ -51,3 +52,56 @@ Feature: Customer User Login Attempts
       | Yes     | Default | AmandaRCole@example.org        | Amanda Cole   |
     When I reset "Customer user" filter
     Then there are 2 records in grid
+
+  Scenario: Sort by Success field
+    When I sort grid by "Success"
+    Then I should see following grid:
+      | Success | Source  | Username                       | Customer User |
+      | No      | Default | NotExistingAddress@example.com |               |
+      | Yes     | Default | AmandaRCole@example.org        | Amanda Cole   |
+    When I sort grid by "Success"
+    Then I should see following grid:
+      | Success | Source  | Username                       | Customer User |
+      | Yes     | Default | AmandaRCole@example.org        | Amanda Cole   |
+      | No      | Default | NotExistingAddress@example.com |               |
+
+  Scenario: Sort by Username field
+    When I sort grid by "Username"
+    Then I should see following grid:
+      | Success | Source  | Username                       | Customer User |
+      | Yes     | Default | AmandaRCole@example.org        | Amanda Cole   |
+      | No      | Default | NotExistingAddress@example.com |               |
+    When I sort grid by "Username"
+    Then I should see following grid:
+      | Success | Source  | Username                       | Customer User |
+      | No      | Default | NotExistingAddress@example.com |               |
+      | Yes     | Default | AmandaRCole@example.org        | Amanda Cole   |
+    When I sort grid by "Username"
+    Then I should see following grid:
+      | Success | Source  | Username                       | Customer User |
+      | Yes     | Default | AmandaRCole@example.org        | Amanda Cole   |
+      | No      | Default | NotExistingAddress@example.com |               |
+
+  Scenario: Sort by Attempt at field
+    When I sort grid by "Attempt at"
+    Then I should see following grid:
+      | Success | Source  | Username                       | Customer User |
+      | No      | Default | NotExistingAddress@example.com |               |
+      | Yes     | Default | AmandaRCole@example.org        | Amanda Cole   |
+    When I sort grid by "Attempt at"
+    Then I should see following grid:
+      | Success | Source  | Username                       | Customer User |
+      | Yes     | Default | AmandaRCole@example.org        | Amanda Cole   |
+      | No      | Default | NotExistingAddress@example.com |               |
+
+  Scenario: Sort by Customer User field
+    When I sort grid by "Customer User"
+    Then I should see following grid:
+      | Success | Source  | Username                       | Customer User |
+      | No      | Default | NotExistingAddress@example.com |               |
+      | Yes     | Default | AmandaRCole@example.org        | Amanda Cole   |
+    When I sort grid by "Customer User"
+    Then I should see following grid:
+      | Success | Source  | Username                       | Customer User |
+      | Yes     | Default | AmandaRCole@example.org        | Amanda Cole   |
+      | No      | Default | NotExistingAddress@example.com |               |
