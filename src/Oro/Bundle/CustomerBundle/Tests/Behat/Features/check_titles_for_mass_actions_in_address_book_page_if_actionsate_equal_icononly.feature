@@ -3,9 +3,6 @@
 @fixture-OroCustomerBundle:MassActionsCustomerAddressFixture.yml
 
 Feature: Check titles for mass actions in Address Book page if action-sate equal icon-only
-  In order to ...
-  As an ...
-  I should be able to ...
 
     Scenario: Check titles for mass actions
         Given I signed in as AmandaRCole@example.org on the store frontend

@@ -2,9 +2,6 @@
 @ticket-BB-16157
 @fixture-OroCustomerBundle:CustomerUserFixture.yml
 Feature: Customer user reset password link expire
-  In order to ...
-  As an ...
-  I should be able to ...
 
   Scenario: Feature Background
     Given sessions active:

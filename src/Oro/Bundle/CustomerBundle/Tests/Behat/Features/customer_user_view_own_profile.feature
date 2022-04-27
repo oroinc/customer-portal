@@ -1,9 +1,6 @@
 @ticket-BB-16410
 @fixture-OroCustomerBundle:CustomerUserAddressNancyJSalleeFixture.yml
 Feature: Customer user view own profile
-  In order to ...
-  As an ...
-  I should be able to ...
 
   Scenario: Anonymous user can not see any profile
     Given I go to "/customer/profile"
