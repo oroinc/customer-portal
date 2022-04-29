@@ -1,8 +1,6 @@
 @fixture-OroCustomerBundle:ActionsInGridLineItemsFixture.yml
 Feature: Checked actions in grid line items
-  In order to ...
-  As an ...
-  I should be able to ...
+
     # Pay attention to:
     # fonts and spacing
     # total records

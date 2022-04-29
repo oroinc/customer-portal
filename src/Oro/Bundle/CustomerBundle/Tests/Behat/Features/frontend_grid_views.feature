@@ -1,8 +1,6 @@
 @fixture-OroCustomerBundle:FrontendGridViewsFixture.yml
 Feature: Frontend Grid Views
-  In order to ...
-  As an ...
-  I should be able to ...
+
   #Implement frontend grid views.
   #The functionality should work exactly like in the admin.
   #Also we should remember current grid state (filters, sorters, etc) for each page, and restore it when the user comes back to this page again.
