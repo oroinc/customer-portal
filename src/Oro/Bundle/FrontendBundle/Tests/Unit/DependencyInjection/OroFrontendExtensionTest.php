@@ -36,7 +36,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension = new OroFrontendExtension();
         $extension->load([$config], $container);
 
-        $extensionConfig = $container->getExtensionConfig($extension->getAlias());
+        $extensionConfig = $container->getExtensionConfig('oro_frontend');
         self::assertCount(6, $extensionConfig[0]['settings']);
         self::assertEquals(
             $config['routes_to_expose'],
@@ -237,13 +237,6 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
             $config['frontend_api']['cors']['expose_headers'],
             $corsSettingsDef->getArgument(4)
         );
-    }
-
-    public function testGetAlias()
-    {
-        $extension = new OroFrontendExtension();
-
-        $this->assertEquals(OroFrontendExtension::ALIAS, $extension->getAlias());
     }
 
     public function testPrependSecurity()

@@ -3,7 +3,6 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Layout\Extension;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
 use Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplateContextConfigurator;
 use Oro\Component\Layout\LayoutContext;
 
@@ -35,7 +34,7 @@ class PageTemplateContextConfiguratorTest extends \PHPUnit\Framework\TestCase
     {
         $this->configManagerMock->expects($this->once())
             ->method('get')
-            ->with(OroFrontendExtension::ALIAS . ConfigManager::SECTION_MODEL_SEPARATOR . 'page_templates')
+            ->with('oro_frontend.page_templates')
             ->willReturn(['some_route' => 'some_page_template']);
 
         $context = new LayoutContext();
@@ -49,7 +48,7 @@ class PageTemplateContextConfiguratorTest extends \PHPUnit\Framework\TestCase
     {
         $this->configManagerMock->expects($this->once())
             ->method('get')
-            ->with(OroFrontendExtension::ALIAS . ConfigManager::SECTION_MODEL_SEPARATOR . 'page_templates')
+            ->with('oro_frontend.page_templates')
             ->willReturn(['some_route' => 'some_page_template']);
 
         $context = new LayoutContext();

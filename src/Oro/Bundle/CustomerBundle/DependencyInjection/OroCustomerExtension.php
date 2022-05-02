@@ -12,15 +12,12 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class OroCustomerExtension extends Extension implements PrependExtensionInterface
 {
-    const ALIAS = 'oro_customer';
-
     /**
      * {@inheritDoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $config = $this->processConfiguration(new Configuration(), $configs);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
@@ -52,14 +49,6 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
         /** @var ExtendedContainerBuilder $container */
         SecurityExtensionHelper::makeFirewallLatest($container, 'frontend_secure');
         SecurityExtensionHelper::makeFirewallLatest($container, 'frontend');
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getAlias()
-    {
-        return self::ALIAS;
     }
 
     private function configureCustomerVisitorCookieFactory(ContainerBuilder $container, array $config): void

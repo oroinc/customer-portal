@@ -3,8 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
-use Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension;
-use Oro\Bundle\CustomerBundle\EventListener\SystemConfigListener;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
 use Oro\Bundle\UserBundle\Provider\DefaultUserProvider;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
@@ -73,10 +71,7 @@ class GuestCustomerUserManager
         $customerUser->setEnabled(false);
         $customerUser->setConfirmed(false);
 
-        $owner = $this->defaultUserProvider->getDefaultUser(
-            OroCustomerExtension::ALIAS,
-            SystemConfigListener::SETTING
-        );
+        $owner = $this->defaultUserProvider->getDefaultUser('oro_customer', 'default_customer_owner');
         $customerUser->setOwner($owner);
         $website = $this->websiteManager->getCurrentWebsite();
         $customerUser->setWebsite($website);

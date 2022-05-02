@@ -378,8 +378,7 @@ services:
     oro_customer.event_listener.system_config:
         class: 'Oro\Bundle\CustomerBundle\EventListener\SystemConfigListener'
         arguments:
-            - "@doctrine"
-            - 'Oro\Bundle\UserBundle\Entity\User'
+            - '@doctrine'
         tags:
             - { name: kernel.event_listener, event: oro_config.settings_form_preset, method: onFormPreSetData }
             - { name: kernel.event_listener, event: oro_config.settings_before_save.oro_customer.default_customer_owner, method: onSettingsSaveBefore }

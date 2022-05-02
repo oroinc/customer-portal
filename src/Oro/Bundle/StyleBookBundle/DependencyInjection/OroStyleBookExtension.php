@@ -7,13 +7,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-/**
- * This is the class that loads and manages StyleBookBundle service configuration
- */
 class OroStyleBookExtension extends Extension
 {
-    const ALIAS = 'oro_stylebook';
-
     /**
      * {@inheritdoc}
      */
@@ -27,8 +22,8 @@ class OroStyleBookExtension extends Extension
     /**
      * {@inheritDoc}
      */
-    public function getAlias()
+    public function getAlias(): string
     {
-        return self::ALIAS;
+        return 'oro_stylebook';
     }
 }

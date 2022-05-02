@@ -19,8 +19,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class OroFrontendExtension extends Extension implements PrependExtensionInterface
 {
-    public const ALIAS = 'oro_frontend';
-
     public const FRONTEND_SESSION_STORAGE_OPTIONS_PARAMETER_NAME = 'oro_frontend.session.storage.options';
 
     public const API_DOC_VIEWS_PARAMETER_NAME        = 'oro_frontend.api_doc.views';
@@ -76,14 +74,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
                 $container->prependExtensionConfig($name, $config);
             }
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getAlias()
-    {
-        return self::ALIAS;
     }
 
     /**
@@ -287,10 +277,9 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         foreach ($frontendViewNames as $name) {
             if (!\array_key_exists($name, $apiDocViews)) {
                 throw new LogicException(sprintf(
-                    'The view "%s" defined in %s.frontend_api.api_doc_views is unknown.'
+                    'The view "%s" defined in oro_frontend.frontend_api.api_doc_views is unknown.'
                     . ' Check that it is configured in oro_api.api_doc_views.',
-                    $name,
-                    self::ALIAS
+                    $name
                 ));
             }
             if (empty($apiDocViews[$name]['html_formatter'])

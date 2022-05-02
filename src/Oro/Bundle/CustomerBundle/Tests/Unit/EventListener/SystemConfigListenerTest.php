@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ConfigBundle\Event\ConfigSettingsUpdateEvent;
 use Oro\Bundle\CustomerBundle\EventListener\SystemConfigListener;
@@ -11,44 +11,36 @@ use Oro\Bundle\UserBundle\Entity\User;
 
 class SystemConfigListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry
-     */
-    protected $registry;
+    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
+    private $doctrine;
 
-    /**
-     * @var string
-     */
-    protected $userClass;
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $configManager;
 
-    /**
-     * @var SystemConfigListener
-     */
-    protected $listener;
-
-    /**
-     * @var ConfigManager
-     */
-    protected $configManager;
+    /** @var SystemConfigListener */
+    private $listener;
 
     protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);
-        $this->registry = $this->createMock(ManagerRegistry::class);
-        $this->userClass = User::class;
+        $this->doctrine = $this->createMock(ManagerRegistry::class);
 
-        $this->listener = new SystemConfigListener($this->registry, $this->userClass);
+        $this->listener = new SystemConfigListener($this->doctrine);
+    }
+
+    private function getEvent(array $settings): ConfigSettingsUpdateEvent
+    {
+        return new ConfigSettingsUpdateEvent($this->configManager, $settings);
     }
 
     /**
      * @dataProvider invalidSettingsDataProvider
-     * @param mixed $settings
      */
-    public function testOnFormPreSetDataInvalidSettings($settings)
+    public function testOnFormPreSetDataInvalidSettings(array $settings)
     {
         $event = $this->getEvent($settings);
 
-        $this->registry->expects($this->never())
+        $this->doctrine->expects($this->never())
             ->method($this->anything());
 
         $this->listener->onFormPreSetData($event);
@@ -56,22 +48,18 @@ class SystemConfigListenerTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider invalidSettingsDataProvider
-     * @param mixed $settings
      */
-    public function testOnSettingsSaveBeforeInvalidSettings($settings)
+    public function testOnSettingsSaveBeforeInvalidSettings(array $settings)
     {
         $event = $this->getEvent($settings);
 
-        $this->registry->expects($this->never())
+        $this->doctrine->expects($this->never())
             ->method($this->anything());
 
         $this->listener->onSettingsSaveBefore($event);
     }
 
-    /**
-     * @return array
-     */
-    public function invalidSettingsDataProvider()
+    public function invalidSettingsDataProvider(): array
     {
         return [
             [[null]],
@@ -86,20 +74,20 @@ class SystemConfigListenerTest extends \PHPUnit\Framework\TestCase
         $id = 1;
         $key = 'oro_customer___default_customer_owner';
 
-        $user = $this->createMock($this->userClass);
+        $user = $this->createMock(User::class);
 
         $event = $this->getEvent([$key => ['value' => $id]]);
 
-        $manager = $this->createMock(ObjectManager::class);
-        $manager->expects($this->once())
+        $em = $this->createMock(EntityManagerInterface::class);
+        $em->expects($this->once())
             ->method('find')
-            ->with($this->userClass, $id)
+            ->with(User::class, $id)
             ->willReturn($user);
 
-        $this->registry->expects($this->once())
+        $this->doctrine->expects($this->once())
             ->method('getManagerForClass')
-            ->with($this->userClass)
-            ->willReturn($manager);
+            ->with(User::class)
+            ->willReturn($em);
 
         $this->listener->onFormPreSetData($event);
 
@@ -113,11 +101,11 @@ class SystemConfigListenerTest extends \PHPUnit\Framework\TestCase
 
         $event = $this->getEvent([$key => ['value' => $id]]);
 
-        $manager = $this->createMock(ObjectManager::class);
-        $manager->expects($this->never())
+        $em = $this->createMock(EntityManagerInterface::class);
+        $em->expects($this->never())
             ->method('find');
 
-        $this->registry->expects($this->never())
+        $this->doctrine->expects($this->never())
             ->method('getManagerForClass');
 
         $this->listener->onFormPreSetData($event);
@@ -128,7 +116,7 @@ class SystemConfigListenerTest extends \PHPUnit\Framework\TestCase
     public function testOnSettingsSaveBefore()
     {
         $id = 1;
-        $user = $this->createMock($this->userClass);
+        $user = $this->createMock(User::class);
         $user->expects($this->once())
             ->method('getId')
             ->willReturn($id);
@@ -138,14 +126,5 @@ class SystemConfigListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener->onSettingsSaveBefore($event);
 
         $this->assertEquals(['value' => $id], $event->getSettings());
-    }
-
-    /**
-     * @param array $settings
-     * @return ConfigSettingsUpdateEvent
-     */
-    protected function getEvent(array $settings)
-    {
-        return new ConfigSettingsUpdateEvent($this->configManager, $settings);
     }
 }

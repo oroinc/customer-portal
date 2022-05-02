@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Cookie;
 
 class Configuration implements ConfigurationInterface
 {
+    const ROOT_NODE = 'oro_frontend';
     const FILTER_VALUE_SELECTORS_ALL_AT_ONCE = 'all_at_once';
     const FILTER_VALUE_SELECTORS_DROPDOWN = 'dropdown';
 
@@ -18,7 +19,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder(OroFrontendExtension::ALIAS);
+        $treeBuilder = new TreeBuilder(self::ROOT_NODE);
         $rootNode = $treeBuilder->getRootNode();
 
         SettingsBuilder::append(

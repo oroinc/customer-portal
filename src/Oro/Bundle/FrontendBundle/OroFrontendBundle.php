@@ -10,15 +10,11 @@ use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendApiPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendCurrentApplicationProviderPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendDebugRoutesPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendSessionPass;
-use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
 use Oro\Component\DependencyInjection\Compiler\PriorityNamedTaggedServiceWithHandlerCompilerPass;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-/**
- * The FrontendBundle bundle class.
- */
 class OroFrontendBundle extends Bundle
 {
     use ApiTaggedServiceTrait;
@@ -26,7 +22,7 @@ class OroFrontendBundle extends Bundle
     /**
      * {@inheritdoc}
      */
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         parent::build($container);
 
@@ -61,17 +57,5 @@ class OroFrontendBundle extends Bundle
             $container->addCompilerPass(new FrontendApiDocPass());
             $container->moveCompilerPassBefore(ApiDocCompilerPass::class, FrontendApiDocPass::class);
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getContainerExtension()
-    {
-        if (!$this->extension) {
-            $this->extension = new OroFrontendExtension();
-        }
-
-        return $this->extension;
     }
 }
