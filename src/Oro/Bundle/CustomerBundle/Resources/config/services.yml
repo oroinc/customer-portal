@@ -1246,3 +1246,7 @@ services:
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: oro_enabled_localization, acl_resource: oro_locale_localization_view }
 
+    oro_customer.listener.file_listener:
+        class: Oro\Bundle\CustomerBundle\EventListener\FileListener
+        decorates: 'oro_attachment.listener.file_listener'
+        parent: 'oro_attachment.listener.file_listener'
