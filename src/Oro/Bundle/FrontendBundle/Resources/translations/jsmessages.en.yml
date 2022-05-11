@@ -16,17 +16,17 @@ oro_frontend:
     datagrid:
         pagination:
             totalRecords:
-                totalRecordsShort: "{{ totalRecords }} items"
-                products: "{{ totalRecords }} Total Products"
-                companyAddresses: "{{ totalRecords }} Total Company Addresses"
-                addresses: "{{ totalRecords }} Total Addresses"
-                users: "{{ totalRecords }} Total Users"
-                roles: "{{ totalRecords }} Total Roles"
-                rfq: "{{ totalRecords }} Total Requests For Quote"
-                orders: "{{ totalRecords }} Total Orders"
-                quotes: "{{ totalRecords }} Total Quotes"
-                shopping_lists: "{{ totalRecords }} Total Shopping Lists"
-                shopping_list_line_items: "{{ totalRecords }} Total Items"
+                totalRecordsShort: "{1}{{ totalRecords }} item|]1,Inf[{{ totalRecords }} items"
+                products: "{1}{{ totalRecords }} Total Product|]1,Inf[{{ totalRecords }} Total Products"
+                companyAddresses: "{1}{{ totalRecords }} Total Company Address|]1,Inf[{{ totalRecords }} Total Company Addresses"
+                addresses: "{1}{{ totalRecords }} Total Address|]1,Inf[{{ totalRecords }} Total Addresses"
+                users: "{1}{{ totalRecords }} Total User|]1,Inf[{{ totalRecords }} Total Users"
+                roles: "{1}{{ totalRecords }} Total Role|]1,Inf[{{ totalRecords }} Total Roles"
+                rfq: "{1}{{ totalRecords }} Total Request For Quote|]1,Inf[{{ totalRecords }} Total Requests For Quote"
+                orders: "{1}{{ totalRecords }} Total Order|]1,Inf[{{ totalRecords }} Total Orders"
+                quotes: "{1}{{ totalRecords }} Total Quote|]1,Inf[{{ totalRecords }} Total Quotes"
+                shopping_lists: "{1}{{ totalRecords }} Total Shopping List|]1,Inf[{{ totalRecords }} Total Shopping Lists"
+                shopping_list_line_items: "{1}{{ totalRecords }} Total Item|]1,Inf[{{ totalRecords }} Total Items"
         manage_grid: 'Manage grid'
         requires:
             data: 'Data attribute "data-server-render" must be defined'

@@ -48,7 +48,7 @@ Feature: Checked actions in grid line items
       Given I signed in as AmandaRCole@example.org on the store frontend
       And I follow "Account"
       When I click "Address Book"
-      Then I should see "1 Total Company Addresses"
+      Then I should see "1 Total Company Address"
       And I should see following elements in "Customer Company Addresses Grid":
           | FrontendGridActionRefreshButton |
           | FrontendGridActionResetButton   |
