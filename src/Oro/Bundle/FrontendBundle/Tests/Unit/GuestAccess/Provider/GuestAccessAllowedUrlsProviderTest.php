@@ -36,6 +36,7 @@ class GuestAccessAllowedUrlsProviderTest extends \PHPUnit\Framework\TestCase
             '^/customer/user/reset$',
             '^/localization/set-current-localization$',
             '^/productprice/set-current-currency$',
+            '^/cookies-accepted$',
             '^/api/',
         ];
         $this->guestAccessAllowedUrlsProvider->addAllowedUrlPattern('^/api/');
