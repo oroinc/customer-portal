@@ -5,7 +5,6 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\AddressBundle\Form\Type\AddressType as AddressFormType;
-use Oro\Bundle\AddressBundle\Validator\Constraints\NameOrOrganization;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressWithDefaultType;
@@ -177,9 +176,6 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
 
         $this->assertEquals(
             [
-                'constraints' => [
-                    new NameOrOrganization()
-                ],
                 'owner_field_label' => 'oro.customer.frontend.customer.entity_label',
                 'data_class' => CustomerAddress::class,
                 'single_form' => true,

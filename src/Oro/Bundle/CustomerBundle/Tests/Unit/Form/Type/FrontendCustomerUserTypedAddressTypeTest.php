@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\AddressBundle\Entity\AddressType;
-use Oro\Bundle\AddressBundle\Validator\Constraints\NameOrOrganization;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserTypedAddressType;
@@ -39,9 +38,6 @@ class FrontendCustomerUserTypedAddressTypeTest extends FrontendCustomerTypedAddr
 
         $this->assertEquals(
             [
-                'constraints' => [
-                    new NameOrOrganization()
-                ],
                 'owner_field_label' => 'oro.customer.frontend.customer_user.entity_label',
                 'data_class' => CustomerAddress::class,
                 'single_form' => true,

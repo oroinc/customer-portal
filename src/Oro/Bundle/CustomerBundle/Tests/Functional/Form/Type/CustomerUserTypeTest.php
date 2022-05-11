@@ -127,6 +127,20 @@ class CustomerUserTypeTest extends WebTestCase
                     'organization' => 'organization'
                 ]
             ],
+            '0 as Organization' => [
+                'data' => [
+                    'firstName' => '',
+                    'lastName' => '',
+                    'organization' => '0'
+                ]
+            ],
+            '0 as FirstName And LastName' => [
+                'data' => [
+                    'firstName' => '0',
+                    'lastName' => '0',
+                    'organization' => ''
+                ]
+            ],
             'set all fields' => [
                 'data' => [
                     'firstName' => 'Amanda',
