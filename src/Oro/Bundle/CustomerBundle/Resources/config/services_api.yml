@@ -17,7 +17,6 @@ services:
 
     oro_customer.api.sign_in_target_path_provider:
         class: Oro\Bundle\CustomerBundle\Api\ApiDoc\SignInTargetPathProvider
-        public: false
         decorates: oro_customer.provider.sign_in.target_path
         arguments:
             - '@.inner'
@@ -26,7 +25,6 @@ services:
 
     oro_customer.api.entity_accessor.address:
         class: Oro\Bundle\CustomerBundle\Api\AddressEntityDataAccessor
-        public: false
         decorates: oro_api.entity_accessor
         arguments:
             - '@.inner'
@@ -47,7 +45,6 @@ services:
 
     oro_customer.api.frontend.authentication_provider:
         alias: oro_security.authentication.provider.username_password_organization.frontend
-        public: false
 
     oro_customer.api.resource_type_resolver.customer_user:
         class: Oro\Bundle\FrontendBundle\Api\ResourceTypeResolver
