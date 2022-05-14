@@ -10,7 +10,6 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadAdminCustomerUserData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\RestJsonApi\AddressTypeTestTrait;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @dbIsolationPerTest
@@ -529,14 +528,6 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-
-        $this->assertResponseValidationError(
-            [
-                'title'  => 'relationship constraint',
-                'detail' => 'Unsupported subresource.'
-            ],
-            $response,
-            Response::HTTP_NOT_FOUND
-        );
+        $this->assertUnsupportedSubresourceResponse($response);
     }
 }

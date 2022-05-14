@@ -72,11 +72,7 @@ class NotAccessibleResourceForVisitorTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        $this->assertResponseValidationError(
-            ['title' => 'resource not accessible exception'],
-            $response,
-            Response::HTTP_NOT_FOUND
-        );
+        $this->assertResourceNotAccessibleResponse($response);
     }
 
     public function testNotAllowed()
