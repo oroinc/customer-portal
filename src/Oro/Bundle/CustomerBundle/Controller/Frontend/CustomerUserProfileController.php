@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\SecurityBundle\Util\SameSiteUrlHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,19 +62,12 @@ class CustomerUserProfileController extends AbstractController
             return $resultHandler;
         }
 
-        $referer = $request->headers->get('referer');
-        $parsedReferer = parse_url($referer);
-
-        if (isset($parsedReferer['host']) && $request->getHost() === $parsedReferer['host']) {
-            $fromUrl = $referer;
-        } else {
-            $fromUrl = $this->get('router')->generate('oro_customer_frontend_customer_user_profile');
-        }
+        $fallbackUrl = $this->get('router')->generate('oro_customer_frontend_customer_user_profile');
 
         return [
             'data' => [
-                'backToUrl' => $fromUrl,
-                'entity' => $customerUser
+                'backToUrl' => $this->get(SameSiteUrlHelper::class)->getSameSiteReferer($request, $fallbackUrl),
+                'entity' => $customerUser,
             ]
         ];
     }

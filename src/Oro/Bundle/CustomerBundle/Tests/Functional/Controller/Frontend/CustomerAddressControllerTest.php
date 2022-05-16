@@ -28,6 +28,28 @@ class CustomerAddressControllerTest extends WebTestCase
         );
     }
 
+    public function testCreatePageHasSameSiteCancelUrl(): void
+    {
+        $this->loginUser(LoadCustomerAddressACLData::USER_ACCOUNT_2_ROLE_LOCAL);
+        $user = $this->getReference(LoadCustomerAddressACLData::USER_ACCOUNT_2_ROLE_LOCAL);
+        $referer = 'http://example.org';
+        $crawler = $this->client->request(
+            'GET',
+            $this->getUrl(
+                'oro_customer_frontend_customer_address_create',
+                ['entityId' => $user->getCustomer()->getId()]
+            ),
+            [],
+            [],
+            ['HTTP_REFERER' => $referer]
+        );
+
+        self::assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
+
+        $backToUrl = $crawler->selectLink('Cancel')->attr('href');
+        self::assertNotEquals($referer, $backToUrl);
+    }
+
     public function testCreate()
     {
         $this->loginUser(LoadCustomerAddressACLData::USER_ACCOUNT_2_ROLE_LOCAL);

@@ -7,6 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\SecurityBundle\Util\SameSiteUrlHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -96,13 +97,9 @@ class CustomerAddressController extends AbstractController
             $this->get('translator')->trans('oro.customer.controller.customeraddress.saved.message'),
             $handler,
             function (CustomerAddress $customerAddress, FormInterface $form, Request $request) {
-                $url = $request->getUri();
-                if ($request->headers->get('referer')) {
-                    $url = $request->headers->get('referer');
-                }
-
                 return [
-                    'backToUrl' => $url
+                    'backToUrl' => $this->get(SameSiteUrlHelper::class)
+                        ->getSameSiteReferer($request, $request->getUri()),
                 ];
             }
         );

@@ -42,6 +42,28 @@ class CustomerUserAddressControllerTest extends WebTestCase
         $this->assertCount(2, $addressLists);
     }
 
+    public function testCreatePageHasSameSiteCancelUrl(): void
+    {
+        $this->loginUser(LoadCustomerUserAddressACLData::USER_ACCOUNT_2_ROLE_LOCAL);
+        $user = $this->getReference(LoadCustomerUserAddressACLData::USER_ACCOUNT_2_ROLE_LOCAL);
+        $referer = 'http://example.org';
+        $crawler = $this->client->request(
+            'GET',
+            $this->getUrl(
+                'oro_customer_frontend_customer_user_address_create',
+                ['entityId' => $user->getId()]
+            ),
+            [],
+            [],
+            ['HTTP_REFERER' => $referer]
+        );
+
+        self::assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
+
+        $backToUrl = $crawler->selectLink('Cancel')->attr('href');
+        self::assertNotEquals($referer, $backToUrl);
+    }
+
     public function testCreate()
     {
         $this->loginUser(LoadCustomerUserAddressACLData::USER_ACCOUNT_2_ROLE_LOCAL);

@@ -51,6 +51,23 @@ class CustomerUserProfileControllerTest extends WebTestCase
         );
     }
 
+    public function testEditProfilePageHasSameSiteCancelUrl(): void
+    {
+        $referer = 'http://example.org';
+        $crawler = $this->client->request(
+            'GET',
+            $this->getUrl('oro_customer_frontend_customer_user_profile_update'),
+            [],
+            [],
+            ['HTTP_REFERER' => $referer]
+        );
+
+        self::assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
+
+        $backToUrl = $crawler->selectLink('Cancel')->attr('href');
+        self::assertNotEquals($referer, $backToUrl);
+    }
+
     public function testEditProfile()
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_profile_update'));
