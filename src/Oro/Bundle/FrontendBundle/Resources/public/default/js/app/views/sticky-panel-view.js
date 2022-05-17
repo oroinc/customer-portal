@@ -373,9 +373,9 @@ define(function(require) {
 
         /**
          * Check if element into viewport
-         * @param $element
-         * @param backMargin
-         * @param affixed
+         * @param $element - The element to check if it is in the viewport
+         * @param backMargin - Flag for enable/disable back margin correction
+         * @param affixed - Flag if panel is stick all time
          * @returns {boolean}
          */
         inViewport: function($element, backMargin, affixed) {
@@ -389,9 +389,19 @@ define(function(require) {
                 return true;
             }
 
+            // Sticky panel has just one item
+            let topViewportThreshold = this.viewport.top + stick.stickTop;
+
+            // In case of few items in sticky.
+            // its height might be bigger then a position of appropriate element which should go back to the original position.
+            // Therefore, necessary to skip a sticky panel height in calculation
+            if (elementTop > this.viewport.top) {
+                topViewportThreshold = this.viewport.top;
+            }
+
             return (
                 (elementBottom <= this.viewport.bottom - stick.stickBottom + backMarginValue) &&
-                (elementTop + backMarginValue >= this.viewport.top + stick.stickTop)
+                (elementTop + backMarginValue >= topViewportThreshold)
             );
         },
 
