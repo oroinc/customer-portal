@@ -163,6 +163,17 @@ define(function(require, exports, module) {
                     Object.values(this.datagrid.filterManager.filters)
                         .forEach(filter => filter.animationDuration = config.animationDuration);
                 }
+
+                Object.values(this.datagrid.filterManager.filters)
+                    .forEach(filter => {
+                        if (filter.type === 'datetime') {
+                            filter.timePickerOptions = {
+                                ...filter.timePickerOptions || {},
+                                // Append the time-picker dropdown into a root filter element to make sure that it is visible on fullscreen dialog
+                                appendTo: filter.$el
+                            };
+                        }
+                    });
             }, this);
 
             this.fullscreenView.on('close', function() {
