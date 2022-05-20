@@ -1,6 +1,6 @@
 entity_config:
     entity:
-        # You can find out more about attributes in the documentation: https://doc.oroinc.com/backend/configuration/annotation/config.html#entity
+        # You can find out more about attributes in the documentation: https://doc.oroinc.com/backend/configuration/annotation/config/#entity
         entity:
             items:
                 frontend_grid_all_view_label:
@@ -13,7 +13,7 @@ entity_config:
                               min:            2
                               max:            55
     frontend:
-        # You can find out more about attributes in the documentation: https://doc.oroinc.com/backend/configuration/annotation/config-field.html#frontend
+        # You can find out more about attributes in the documentation: https://doc.oroinc.com/backend/configuration/annotation/config-field/#frontend
         field:
             form:
                 block_config:
@@ -25,7 +25,7 @@ entity_config:
                     options:
                         value_type:         boolean
                     form:
-                        type:               Symfony\Component\Form\Extension\Core\Type\ChoiceType
+                        type:               Oro\Bundle\EntityConfigBundle\Form\Type\ChoiceType
                         options:
                             choices:
                                 No:         false
@@ -43,7 +43,7 @@ entity_config:
                             code:           owner
                             value:          Custom
                     form:
-                        type:               Symfony\Component\Form\Extension\Core\Type\ChoiceType
+                        type:               Oro\Bundle\EntityConfigBundle\Form\Type\ChoiceType
                         options:
                             choices:
                                 No:         false

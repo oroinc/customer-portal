@@ -30,6 +30,11 @@ class FrontendFieldConfiguration implements FieldConfigInterface
                 ->info('`boolean` defines if the field is enabled in the storefront forms.')
                 ->defaultTrue()
             ->end()
+            ->node('immutable', 'normalized_boolean')
+                ->info('`boolean` this attribute can be used to prohibit changing the frontend state (no matter ' .
+                    'whether it is enabled or not) for the entity. If TRUE than the current state cannot be changed.')
+                ->defaultFalse()
+            ->end()
         ;
     }
 }
