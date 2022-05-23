@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Api\Processor;
 
+use Oro\Bundle\ApiBundle\Form\FormUtil;
 use Oro\Bundle\ApiBundle\Processor\CustomizeFormData\CustomizeFormDataContext;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
@@ -14,14 +15,9 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
  */
 class SetCustomerUser implements ProcessorInterface
 {
-    /** @var PropertyAccessorInterface */
-    private $propertyAccessor;
-
-    /** @var TokenAccessorInterface */
-    private $tokenAccessor;
-
-    /** @var string */
-    private $customerUserFieldName;
+    private PropertyAccessorInterface $propertyAccessor;
+    private TokenAccessorInterface $tokenAccessor;
+    private string $customerUserFieldName;
 
     public function __construct(
         PropertyAccessorInterface $propertyAccessor,
@@ -36,7 +32,7 @@ class SetCustomerUser implements ProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContextInterface $context)
+    public function process(ContextInterface $context): void
     {
         /** @var CustomizeFormDataContext $context */
 
@@ -45,7 +41,9 @@ class SetCustomerUser implements ProcessorInterface
             || !$customerUserFormField->isSubmitted()
             || !$customerUserFormField->getConfig()->getMapped()
         ) {
-            $this->setCustomerUser($context->getData());
+            if ($this->setCustomerUser($context->getData())) {
+                FormUtil::removeAccessGrantedValidationConstraint($context->getForm(), $this->customerUserFieldName);
+            }
         }
     }
 
@@ -66,17 +64,19 @@ class SetCustomerUser implements ProcessorInterface
      * Assigns the given entity to a customer user returned by getCustomerUser() method.
      * The entity's customer user property will not be changed if the getCustomerUser() method returns NULL
      * or the entity is already assigned to a customer user.
-     *
-     * @param object $entity
      */
-    private function setCustomerUser($entity): void
+    private function setCustomerUser(object $entity): bool
     {
+        $changed = false;
         $entityCustomerUser = $this->propertyAccessor->getValue($entity, $this->customerUserFieldName);
         if (null === $entityCustomerUser) {
             $customerUser = $this->getCustomerUser();
             if (null !== $customerUser) {
                 $this->propertyAccessor->setValue($entity, $this->customerUserFieldName, $customerUser);
+                $changed = true;
             }
         }
+
+        return $changed;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Api\Processor;
 
+use Oro\Bundle\ApiBundle\Form\FormUtil;
 use Oro\Bundle\ApiBundle\Processor\CustomizeFormData\CustomizeFormDataContext;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
@@ -14,14 +15,9 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
  */
 class SetSystemOrganization implements ProcessorInterface
 {
-    /** @var PropertyAccessorInterface */
-    private $propertyAccessor;
-
-    /** @var TokenAccessorInterface */
-    private $tokenAccessor;
-
-    /** @var OwnershipMetadataProviderInterface */
-    private $ownershipMetadataProvider;
+    private PropertyAccessorInterface $propertyAccessor;
+    private TokenAccessorInterface $tokenAccessor;
+    private OwnershipMetadataProviderInterface $ownershipMetadataProvider;
 
     public function __construct(
         PropertyAccessorInterface $propertyAccessor,
@@ -36,7 +32,7 @@ class SetSystemOrganization implements ProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContextInterface $context)
+    public function process(ContextInterface $context): void
     {
         /** @var CustomizeFormDataContext $context */
 
@@ -44,19 +40,18 @@ class SetSystemOrganization implements ProcessorInterface
         if ($ownershipMetadata->hasOwner()) {
             $entity = $context->getData();
             if ($ownershipMetadata->isUserOwned() || $ownershipMetadata->isBusinessUnitOwned()) {
-                $this->setOrganization($entity, $ownershipMetadata->getOrganizationFieldName());
+                $this->setOrganization($entity, $ownershipMetadata->getOrganizationFieldName(), $context);
             } elseif ($ownershipMetadata->isOrganizationOwned()) {
-                $this->setOrganization($entity, $ownershipMetadata->getOwnerFieldName());
+                $this->setOrganization($entity, $ownershipMetadata->getOwnerFieldName(), $context);
             }
         }
     }
 
-    /**
-     * @param object      $entity
-     * @param string|null $organizationFieldName
-     */
-    private function setOrganization($entity, ?string $organizationFieldName): void
-    {
+    private function setOrganization(
+        object $entity,
+        ?string $organizationFieldName,
+        CustomizeFormDataContext $context
+    ): void {
         if (!$organizationFieldName) {
             return;
         }
@@ -66,6 +61,7 @@ class SetSystemOrganization implements ProcessorInterface
             $organization = $this->tokenAccessor->getOrganization();
             if (null !== $organization) {
                 $this->propertyAccessor->setValue($entity, $organizationFieldName, $organization);
+                FormUtil::removeAccessGrantedValidationConstraint($context->getForm(), $organizationFieldName);
             }
         }
     }

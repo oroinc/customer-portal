@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Api\Processor;
 
+use Oro\Bundle\ApiBundle\Form\FormUtil;
 use Oro\Bundle\ApiBundle\Processor\CustomizeFormData\CustomizeFormDataContext;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
@@ -15,14 +16,9 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
  */
 class SetCustomer implements ProcessorInterface
 {
-    /** @var PropertyAccessorInterface */
-    private $propertyAccessor;
-
-    /** @var TokenAccessorInterface */
-    private $tokenAccessor;
-
-    /** @var string */
-    private $customerFieldName;
+    private PropertyAccessorInterface $propertyAccessor;
+    private TokenAccessorInterface $tokenAccessor;
+    private string $customerFieldName;
 
     public function __construct(
         PropertyAccessorInterface $propertyAccessor,
@@ -37,7 +33,7 @@ class SetCustomer implements ProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContextInterface $context)
+    public function process(ContextInterface $context): void
     {
         /** @var CustomizeFormDataContext $context */
 
@@ -46,7 +42,9 @@ class SetCustomer implements ProcessorInterface
             || !$customerFormField->isSubmitted()
             || !$customerFormField->getConfig()->getMapped()
         ) {
-            $this->setCustomer($context->getData());
+            if ($this->setCustomer($context->getData())) {
+                FormUtil::removeAccessGrantedValidationConstraint($context->getForm(), $this->customerFieldName);
+            }
         }
     }
 
@@ -67,17 +65,19 @@ class SetCustomer implements ProcessorInterface
      * Assigns the given entity to a customer returned by getCustomer() method.
      * The entity's customer property will not be changed if the getCustomer() method returns NULL
      * or the entity is already assigned to a customer.
-     *
-     * @param object $entity
      */
-    private function setCustomer($entity): void
+    private function setCustomer(object $entity): bool
     {
+        $changed = false;
         $entityCustomer = $this->propertyAccessor->getValue($entity, $this->customerFieldName);
         if (null === $entityCustomer) {
             $customer = $this->getCustomer();
             if (null !== $customer) {
                 $this->propertyAccessor->setValue($entity, $this->customerFieldName, $customer);
+                $changed = true;
             }
         }
+
+        return $changed;
     }
 }
