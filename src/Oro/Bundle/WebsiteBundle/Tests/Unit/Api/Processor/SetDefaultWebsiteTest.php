@@ -3,19 +3,21 @@
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Api\Processor;
 
 use Oro\Bundle\ApiBundle\Tests\Unit\Processor\CustomizeFormData\CustomizeFormDataProcessorTestCase;
+use Oro\Bundle\ApiBundle\Validator\Constraints\AccessGranted;
 use Oro\Bundle\WebsiteBundle\Api\Processor\SetDefaultWebsite;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\WebsiteBundle\Tests\Unit\Entity\Stub\WebsiteAwareStub;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class SetDefaultWebsiteTest extends CustomizeFormDataProcessorTestCase
 {
     private const WEBSITE_FIELD_NAME = 'website';
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|WebsiteManager */
+    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
     private $websiteManager;
 
     /** @var SetDefaultWebsite */
@@ -43,14 +45,31 @@ class SetDefaultWebsiteTest extends CustomizeFormDataProcessorTestCase
         );
     }
 
+    private function getForm(
+        WebsiteAwareStub $entity,
+        array $websiteFieldOptions = [],
+        string $websiteFieldName = self::WEBSITE_FIELD_NAME
+    ): FormInterface {
+        $formBuilder = $this->getFormBuilder();
+        $formBuilder->add(
+            $websiteFieldName,
+            FormType::class,
+            array_merge(
+                ['data_class' => Website::class, 'constraints' => [new AccessGranted(['groups' => ['api']])]],
+                $websiteFieldOptions
+            )
+        );
+        $form = $formBuilder->getForm();
+        $form->setData($entity);
+
+        return $form;
+    }
+
     public function testProcessWhenFormHasSubmittedWebsiteField()
     {
         $entity = new WebsiteAwareStub();
 
-        $formBuilder = $this->getFormBuilder();
-        $formBuilder->add(self::WEBSITE_FIELD_NAME, FormType::class, ['data_class' => Website::class]);
-        $form = $formBuilder->getForm();
-        $form->setData($entity);
+        $form = $this->getForm($entity);
         $form->submit([self::WEBSITE_FIELD_NAME => []], false);
         self::assertTrue($form->isSynchronized());
 
@@ -62,6 +81,11 @@ class SetDefaultWebsiteTest extends CustomizeFormDataProcessorTestCase
         $this->processor->process($this->context);
 
         self::assertInstanceOf(Website::class, $entity->getWebsite());
+
+        self::assertEquals(
+            [new AccessGranted(['groups' => ['api']])],
+            $form->get(self::WEBSITE_FIELD_NAME)->getConfig()->getOption('constraints')
+        );
     }
 
     public function testProcessWhenFormHasSubmittedWebsiteFieldButItIsNotMapped()
@@ -69,14 +93,7 @@ class SetDefaultWebsiteTest extends CustomizeFormDataProcessorTestCase
         $entity = new WebsiteAwareStub();
         $website = new Website();
 
-        $formBuilder = $this->getFormBuilder();
-        $formBuilder->add(
-            self::WEBSITE_FIELD_NAME,
-            FormType::class,
-            ['data_class' => Website::class, 'mapped' => false]
-        );
-        $form = $formBuilder->getForm();
-        $form->setData($entity);
+        $form = $this->getForm($entity, ['mapped' => false]);
         $form->submit([self::WEBSITE_FIELD_NAME => []], false);
         self::assertTrue($form->isSynchronized());
 
@@ -89,6 +106,11 @@ class SetDefaultWebsiteTest extends CustomizeFormDataProcessorTestCase
         $this->processor->process($this->context);
 
         self::assertSame($website, $entity->getWebsite());
+
+        self::assertEquals(
+            [],
+            $form->get(self::WEBSITE_FIELD_NAME)->getConfig()->getOption('constraints')
+        );
     }
 
     public function testProcessWhenFormDoesNotHaveWebsiteField()
@@ -116,10 +138,7 @@ class SetDefaultWebsiteTest extends CustomizeFormDataProcessorTestCase
         $entity = new WebsiteAwareStub();
         $website = new Website();
 
-        $formBuilder = $this->getFormBuilder();
-        $formBuilder->add(self::WEBSITE_FIELD_NAME, FormType::class, ['data_class' => Website::class]);
-        $form = $formBuilder->getForm();
-        $form->setData($entity);
+        $form = $this->getForm($entity);
 
         $this->websiteManager->expects(self::once())
             ->method('getDefaultWebsite')
@@ -130,6 +149,11 @@ class SetDefaultWebsiteTest extends CustomizeFormDataProcessorTestCase
         $this->processor->process($this->context);
 
         self::assertSame($website, $entity->getWebsite());
+
+        self::assertEquals(
+            [],
+            $form->get(self::WEBSITE_FIELD_NAME)->getConfig()->getOption('constraints')
+        );
     }
 
     public function testProcessWhenFormHasNotSubmittedRenamedWebsiteField()
@@ -137,14 +161,7 @@ class SetDefaultWebsiteTest extends CustomizeFormDataProcessorTestCase
         $entity = new WebsiteAwareStub();
         $website = new Website();
 
-        $formBuilder = $this->getFormBuilder();
-        $formBuilder->add(
-            'renamedWebsite',
-            FormType::class,
-            ['data_class' => Website::class, 'property_path' => self::WEBSITE_FIELD_NAME]
-        );
-        $form = $formBuilder->getForm();
-        $form->setData($entity);
+        $form = $this->getForm($entity, ['property_path' => self::WEBSITE_FIELD_NAME], 'renamedWebsite');
 
         $this->websiteManager->expects(self::once())
             ->method('getDefaultWebsite')
@@ -155,16 +172,18 @@ class SetDefaultWebsiteTest extends CustomizeFormDataProcessorTestCase
         $this->processor->process($this->context);
 
         self::assertSame($website, $entity->getWebsite());
+
+        self::assertEquals(
+            [],
+            $form->get('renamedWebsite')->getConfig()->getOption('constraints')
+        );
     }
 
     public function testProcessWhenFormHasNotSubmittedWebsiteFieldAndNoWebsiteInWebsiteManager()
     {
         $entity = new WebsiteAwareStub();
 
-        $formBuilder = $this->getFormBuilder();
-        $formBuilder->add(self::WEBSITE_FIELD_NAME, FormType::class, ['data_class' => Website::class]);
-        $form = $formBuilder->getForm();
-        $form->setData($entity);
+        $form = $this->getForm($entity);
 
         $this->websiteManager->expects(self::once())
             ->method('getDefaultWebsite')
@@ -175,6 +194,11 @@ class SetDefaultWebsiteTest extends CustomizeFormDataProcessorTestCase
         $this->processor->process($this->context);
 
         self::assertNull($entity->getWebsite());
+
+        self::assertEquals(
+            [new AccessGranted(['groups' => ['api']])],
+            $form->get(self::WEBSITE_FIELD_NAME)->getConfig()->getOption('constraints')
+        );
     }
 
     public function testProcessWhenFormHasNotSubmittedWebsiteFieldButWebsiteAlreadySetToEntity()
@@ -183,10 +207,7 @@ class SetDefaultWebsiteTest extends CustomizeFormDataProcessorTestCase
         $website = new Website();
         $entity->setWebsite($website);
 
-        $formBuilder = $this->getFormBuilder();
-        $formBuilder->add(self::WEBSITE_FIELD_NAME, FormType::class, ['data_class' => Website::class]);
-        $form = $formBuilder->getForm();
-        $form->setData($entity);
+        $form = $this->getForm($entity);
 
         $this->websiteManager->expects(self::never())
             ->method('getDefaultWebsite');
@@ -196,5 +217,10 @@ class SetDefaultWebsiteTest extends CustomizeFormDataProcessorTestCase
         $this->processor->process($this->context);
 
         self::assertSame($website, $entity->getWebsite());
+
+        self::assertEquals(
+            [new AccessGranted(['groups' => ['api']])],
+            $form->get(self::WEBSITE_FIELD_NAME)->getConfig()->getOption('constraints')
+        );
     }
 }

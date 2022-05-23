@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\WebsiteBundle\Api\Processor;
 
+use Oro\Bundle\ApiBundle\Form\FormUtil;
 use Oro\Bundle\ApiBundle\Processor\CustomizeFormData\CustomizeFormDataContext;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
@@ -14,14 +15,9 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
  */
 class SetWebsite implements ProcessorInterface
 {
-    /** @var PropertyAccessorInterface */
-    private $propertyAccessor;
-
-    /** @var WebsiteManager */
-    private $websiteManager;
-
-    /** @var string */
-    private $websiteFieldName;
+    private PropertyAccessorInterface $propertyAccessor;
+    private WebsiteManager $websiteManager;
+    private string $websiteFieldName;
 
     public function __construct(
         PropertyAccessorInterface $propertyAccessor,
@@ -36,7 +32,7 @@ class SetWebsite implements ProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContextInterface $context)
+    public function process(ContextInterface $context): void
     {
         /** @var CustomizeFormDataContext $context */
 
@@ -45,7 +41,9 @@ class SetWebsite implements ProcessorInterface
             || !$websiteFormField->isSubmitted()
             || !$websiteFormField->getConfig()->getMapped()
         ) {
-            $this->setWebsite($context->getData());
+            if ($this->setWebsite($context->getData())) {
+                FormUtil::removeAccessGrantedValidationConstraint($context->getForm(), $this->websiteFieldName);
+            }
         }
     }
 
@@ -61,17 +59,19 @@ class SetWebsite implements ProcessorInterface
      * Assigns the given entity to a website returned by getWebsite() method.
      * The entity's website property will not be changed if the getWebsite() method returns NULL
      * or the entity is already assigned to a website.
-     *
-     * @param object $entity
      */
-    private function setWebsite($entity): void
+    private function setWebsite(object $entity): bool
     {
+        $changed = false;
         $entityWebsite = $this->propertyAccessor->getValue($entity, $this->websiteFieldName);
         if (null === $entityWebsite) {
             $website = $this->getWebsite();
             if (null !== $website) {
                 $this->propertyAccessor->setValue($entity, $this->websiteFieldName, $website);
+                $changed = true;
             }
         }
+
+        return $changed;
     }
 }

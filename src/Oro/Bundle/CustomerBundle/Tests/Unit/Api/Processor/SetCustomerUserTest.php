@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Api\Processor;
 
 use Oro\Bundle\ApiBundle\Tests\Unit\Processor\CustomizeFormData\CustomizeFormDataProcessorTestCase;
+use Oro\Bundle\ApiBundle\Validator\Constraints\AccessGranted;
 use Oro\Bundle\CustomerBundle\Api\Processor\SetCustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
@@ -10,13 +11,14 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class SetCustomerUserTest extends CustomizeFormDataProcessorTestCase
 {
     private const CUSTOMER_USER_FIELD_NAME = 'frontendOwner';
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface */
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenAccessor;
 
     /** @var SetCustomerUser */
@@ -44,14 +46,31 @@ class SetCustomerUserTest extends CustomizeFormDataProcessorTestCase
         );
     }
 
+    private function getForm(
+        CustomerUserAddress $entity,
+        array $customerUserFieldOptions = [],
+        string $customerUserFieldName = self::CUSTOMER_USER_FIELD_NAME
+    ): FormInterface {
+        $formBuilder = $this->getFormBuilder();
+        $formBuilder->add(
+            $customerUserFieldName,
+            FormType::class,
+            array_merge(
+                ['data_class' => CustomerUser::class, 'constraints' => [new AccessGranted(['groups' => ['api']])]],
+                $customerUserFieldOptions
+            )
+        );
+        $form = $formBuilder->getForm();
+        $form->setData($entity);
+
+        return $form;
+    }
+
     public function testProcessWhenFormHasSubmittedCustomerUserField()
     {
         $entity = new CustomerUserAddress();
 
-        $formBuilder = $this->getFormBuilder();
-        $formBuilder->add(self::CUSTOMER_USER_FIELD_NAME, FormType::class, ['data_class' => CustomerUser::class]);
-        $form = $formBuilder->getForm();
-        $form->setData($entity);
+        $form = $this->getForm($entity);
         $form->submit([self::CUSTOMER_USER_FIELD_NAME => []], false);
         self::assertTrue($form->isSynchronized());
 
@@ -63,6 +82,11 @@ class SetCustomerUserTest extends CustomizeFormDataProcessorTestCase
         $this->processor->process($this->context);
 
         self::assertInstanceOf(CustomerUser::class, $entity->getFrontendOwner());
+
+        self::assertEquals(
+            [new AccessGranted(['groups' => ['api']])],
+            $form->get(self::CUSTOMER_USER_FIELD_NAME)->getConfig()->getOption('constraints')
+        );
     }
 
     public function testProcessWhenFormHasSubmittedCustomerUserFieldButItIsNotMapped()
@@ -70,14 +94,7 @@ class SetCustomerUserTest extends CustomizeFormDataProcessorTestCase
         $entity = new CustomerUserAddress();
         $user = new CustomerUser();
 
-        $formBuilder = $this->getFormBuilder();
-        $formBuilder->add(
-            self::CUSTOMER_USER_FIELD_NAME,
-            FormType::class,
-            ['data_class' => CustomerUser::class, 'mapped' => false]
-        );
-        $form = $formBuilder->getForm();
-        $form->setData($entity);
+        $form = $this->getForm($entity, ['mapped' => false]);
         $form->submit([self::CUSTOMER_USER_FIELD_NAME => []], false);
         self::assertTrue($form->isSynchronized());
 
@@ -90,6 +107,11 @@ class SetCustomerUserTest extends CustomizeFormDataProcessorTestCase
         $this->processor->process($this->context);
 
         self::assertSame($user, $entity->getFrontendOwner());
+
+        self::assertEquals(
+            [],
+            $form->get(self::CUSTOMER_USER_FIELD_NAME)->getConfig()->getOption('constraints')
+        );
     }
 
     public function testProcessWhenFormDoesNotHaveCustomerUserField()
@@ -118,10 +140,7 @@ class SetCustomerUserTest extends CustomizeFormDataProcessorTestCase
         $entity = new CustomerUserAddress();
         $user = new CustomerUser();
 
-        $formBuilder = $this->getFormBuilder();
-        $formBuilder->add(self::CUSTOMER_USER_FIELD_NAME, FormType::class, ['data_class' => CustomerUser::class]);
-        $form = $formBuilder->getForm();
-        $form->setData($entity);
+        $form = $this->getForm($entity);
 
         $this->tokenAccessor->expects(self::once())
             ->method('getUser')
@@ -132,6 +151,11 @@ class SetCustomerUserTest extends CustomizeFormDataProcessorTestCase
         $this->processor->process($this->context);
 
         self::assertSame($user, $entity->getFrontendOwner());
+
+        self::assertEquals(
+            [],
+            $form->get(self::CUSTOMER_USER_FIELD_NAME)->getConfig()->getOption('constraints')
+        );
     }
 
     public function testProcessWhenFormHasNotSubmittedRenamedCustomerUserField()
@@ -139,14 +163,7 @@ class SetCustomerUserTest extends CustomizeFormDataProcessorTestCase
         $entity = new CustomerUserAddress();
         $user = new CustomerUser();
 
-        $formBuilder = $this->getFormBuilder();
-        $formBuilder->add(
-            'renamedCustomerUser',
-            FormType::class,
-            ['data_class' => CustomerUser::class, 'property_path' => self::CUSTOMER_USER_FIELD_NAME]
-        );
-        $form = $formBuilder->getForm();
-        $form->setData($entity);
+        $form = $this->getForm($entity, ['property_path' => self::CUSTOMER_USER_FIELD_NAME], 'renamedCustomerUser');
 
         $this->tokenAccessor->expects(self::once())
             ->method('getUser')
@@ -157,16 +174,18 @@ class SetCustomerUserTest extends CustomizeFormDataProcessorTestCase
         $this->processor->process($this->context);
 
         self::assertSame($user, $entity->getFrontendOwner());
+
+        self::assertEquals(
+            [],
+            $form->get('renamedCustomerUser')->getConfig()->getOption('constraints')
+        );
     }
 
     public function testProcessWhenFormHasNotSubmittedCustomerUserFieldAndNoCustomerUserInSecurityContext()
     {
         $entity = new CustomerUserAddress();
 
-        $formBuilder = $this->getFormBuilder();
-        $formBuilder->add(self::CUSTOMER_USER_FIELD_NAME, FormType::class, ['data_class' => CustomerUser::class]);
-        $form = $formBuilder->getForm();
-        $form->setData($entity);
+        $form = $this->getForm($entity);
 
         $this->tokenAccessor->expects(self::once())
             ->method('getUser')
@@ -177,16 +196,18 @@ class SetCustomerUserTest extends CustomizeFormDataProcessorTestCase
         $this->processor->process($this->context);
 
         self::assertNull($entity->getFrontendOwner());
+
+        self::assertEquals(
+            [new AccessGranted(['groups' => ['api']])],
+            $form->get(self::CUSTOMER_USER_FIELD_NAME)->getConfig()->getOption('constraints')
+        );
     }
 
     public function testProcessWhenFormHasNotSubmittedCustomerUserFieldAndSecurityContextContainsNotCustomerUser()
     {
         $entity = new CustomerUserAddress();
 
-        $formBuilder = $this->getFormBuilder();
-        $formBuilder->add(self::CUSTOMER_USER_FIELD_NAME, FormType::class, ['data_class' => CustomerUser::class]);
-        $form = $formBuilder->getForm();
-        $form->setData($entity);
+        $form = $this->getForm($entity);
 
         $this->tokenAccessor->expects(self::once())
             ->method('getUser')
@@ -197,6 +218,11 @@ class SetCustomerUserTest extends CustomizeFormDataProcessorTestCase
         $this->processor->process($this->context);
 
         self::assertNull($entity->getFrontendOwner());
+
+        self::assertEquals(
+            [new AccessGranted(['groups' => ['api']])],
+            $form->get(self::CUSTOMER_USER_FIELD_NAME)->getConfig()->getOption('constraints')
+        );
     }
 
     public function testProcessWhenFormHasNotSubmittedCustomerUserFieldButCustomerUserAlreadySetToEntity()
@@ -205,10 +231,7 @@ class SetCustomerUserTest extends CustomizeFormDataProcessorTestCase
         $user = new CustomerUser();
         $entity->setFrontendOwner($user);
 
-        $formBuilder = $this->getFormBuilder();
-        $formBuilder->add(self::CUSTOMER_USER_FIELD_NAME, FormType::class, ['data_class' => CustomerUser::class]);
-        $form = $formBuilder->getForm();
-        $form->setData($entity);
+        $form = $this->getForm($entity);
 
         $this->tokenAccessor->expects(self::never())
             ->method('getUser');
@@ -218,5 +241,10 @@ class SetCustomerUserTest extends CustomizeFormDataProcessorTestCase
         $this->processor->process($this->context);
 
         self::assertSame($user, $entity->getFrontendOwner());
+
+        self::assertEquals(
+            [new AccessGranted(['groups' => ['api']])],
+            $form->get(self::CUSTOMER_USER_FIELD_NAME)->getConfig()->getOption('constraints')
+        );
     }
 }
