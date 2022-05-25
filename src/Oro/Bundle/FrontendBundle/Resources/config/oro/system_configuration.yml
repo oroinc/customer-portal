@@ -5,7 +5,6 @@ system_configuration:
         theme:
             title: oro_frontend.system_configuration.groups.theme.title
             icon: 'fa-picture-o'
-            configurator: '@oro_frontend.form.configurator.theme::configure'
         theme_settings:
             title: oro_frontend.system_configuration.groups.theme_settings.title
         commerce:
@@ -38,8 +37,6 @@ system_configuration:
             options:
                 required: false
                 label: oro_frontend.system_configuration.fields.page_template_routes.label
-                block: theme
-                subblock: page_templates
 
         oro_frontend.guest_access_enabled:
             data_type: boolean
@@ -91,7 +88,8 @@ system_configuration:
                                         children:
                                             - oro_frontend.frontend_theme
                                     page_templates:
-                                        children: []
+                                        children:
+                                            - oro_frontend.page_templates
                                     filter_settings:
                                         children:
                                             - oro_frontend.filter_value_selectors

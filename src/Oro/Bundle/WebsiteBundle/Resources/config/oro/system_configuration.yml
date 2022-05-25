@@ -5,7 +5,6 @@ system_configuration:
         routing:
             title: oro.website.system_configuration.groups.routing.title
             icon: 'fa-sitemap'
-            configurator: '@oro_website.config.use_default_configurator::buildForm'
         websites_routing_general:
             title: oro.website.system_configuration.groups.general.title
     fields:

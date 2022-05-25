@@ -1218,12 +1218,12 @@ services:
 
     oro_customer.provider.customer_config_form_provider:
         class: Oro\Bundle\CustomerBundle\Provider\CustomerConfigurationFormProvider
-        parent: 'oro_config.provider.abstract_provider'
+        parent: oro_config.provider.abstract_provider
         lazy: true
 
     oro_customer.provider.customer_group_config_form_provider:
         class: Oro\Bundle\CustomerBundle\Provider\CustomerGroupConfigurationFormProvider
-        parent: 'oro_config.provider.abstract_provider'
+        parent: oro_config.provider.abstract_provider
         lazy: true
 
     Oro\Bundle\CustomerBundle\Provider\CustomerConfigurationFormProvider:

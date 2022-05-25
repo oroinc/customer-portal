@@ -175,11 +175,10 @@ services:
         arguments:
             - "@oro_website.manager"
 
-    oro_website.config.use_default_configurator:
-        parent: oro_config.form.configurator.use_default_configurator.abstract
-        calls:
-            - ['disableUseDefaultFor', ['app', 'oro_website', 'url']]
-            - ['disableUseDefaultFor', ['app', 'oro_website', 'secure_url']]
+    oro_website.event_listener.theme_system_config_form_options_listener:
+        class: Oro\Bundle\WebsiteBundle\EventListener\RoutingSystemConfigFormOptionsListener
+        tags:
+            - { name: kernel.event_listener, event: oro_config.settings_form_options_set, method: onFormOptions }
 
     oro_website.event_listener.redirect:
         class: 'Oro\Bundle\WebsiteBundle\EventListener\RedirectListener'

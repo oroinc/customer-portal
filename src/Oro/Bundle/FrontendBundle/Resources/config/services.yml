@@ -230,13 +230,6 @@ services:
             - '@oro_layout.theme_manager'
             - '@oro_frontend.screens.cache'
 
-    oro_frontend.form.configurator.theme:
-        class: 'Oro\Bundle\FrontendBundle\Form\Configurator\ThemeConfigurator'
-        public: true
-        arguments:
-            - '@oro_config.config_bag'
-            - '@security.authorization_checker'
-
     oro_frontend.datagrid.extension.frontend_datagrid:
         class: Oro\Bundle\FrontendBundle\Datagrid\Extension\FrontendDatagridExtension
         arguments:
@@ -317,6 +310,11 @@ services:
             - '@translator'
         tags:
             - { name: kernel.event_listener, event: oro_datagrid.grid_views_load, method: onViewsLoad }
+
+    oro_frontend.event_listener.theme_system_config_form_options_listener:
+        class: Oro\Bundle\FrontendBundle\EventListener\ThemeSystemConfigFormOptionsListener
+        tags:
+            - { name: kernel.event_listener, event: oro_config.settings_form_options_set, method: onFormOptions }
 
     oro_frontend.twig.frontend:
         class: Oro\Bundle\FrontendBundle\Twig\FrontendExtension

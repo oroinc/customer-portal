@@ -16,11 +16,6 @@ services:
         tags:
             - { name: form.type, alias: oro_frontend_region }
 
-    oro_frontend.form.type.page_template_form_field:
-        class: 'Oro\Bundle\FrontendBundle\Form\Type\PageTemplateFormFieldType'
-        tags:
-            - { name: form.type, alias: 'oro_frontend_page_template_form_field' }
-
     oro_frontend.form.type.page_template_collection:
         class: 'Oro\Bundle\FrontendBundle\Form\Type\PageTemplateCollectionType'
         arguments:

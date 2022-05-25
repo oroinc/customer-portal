@@ -6,6 +6,8 @@ use Oro\Bundle\ConfigBundle\Config\ConfigBag;
 use Oro\Bundle\ConfigBundle\Provider\ChainSearchProvider;
 use Oro\Bundle\ConfigBundle\Tests\Unit\Provider\AbstractProviderTest;
 use Oro\Bundle\CustomerBundle\Provider\CustomerGroupConfigurationFormProvider;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -13,12 +15,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CustomerGroupConfigurationFormProviderTest extends AbstractProviderTest
 {
-    protected const CONFIG_NAME = 'customer_group_configuration';
+    protected const CONFIG_SCOPE = 'customer_group';
+    protected const TREE_NAME = 'customer_group_configuration';
 
     /**
      * {@inheritdoc}
      */
-    public function getParentCheckboxLabel(): string
+    protected function getParentCheckboxLabel(): string
     {
         return 'oro.customer.customergroup.customer_group_configuration.use_default';
     }
@@ -30,17 +33,21 @@ class CustomerGroupConfigurationFormProviderTest extends AbstractProviderTest
         ConfigBag $configBag,
         TranslatorInterface $translator,
         FormFactoryInterface $formFactory,
+        FormRegistryInterface $formRegistry,
         AuthorizationCheckerInterface $authorizationChecker,
         ChainSearchProvider $searchProvider,
-        FormRegistryInterface $formRegistry
+        FeatureChecker $featureChecker,
+        EventDispatcherInterface $eventDispatcher
     ): CustomerGroupConfigurationFormProvider {
         return new CustomerGroupConfigurationFormProvider(
             $configBag,
             $translator,
             $formFactory,
+            $formRegistry,
             $authorizationChecker,
             $searchProvider,
-            $formRegistry
+            $featureChecker,
+            $eventDispatcher
         );
     }
 
