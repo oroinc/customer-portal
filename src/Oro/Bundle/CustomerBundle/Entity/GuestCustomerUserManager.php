@@ -71,7 +71,7 @@ class GuestCustomerUserManager
         $customerUser->setEnabled(false);
         $customerUser->setConfirmed(false);
 
-        $owner = $this->defaultUserProvider->getDefaultUser('oro_customer', 'default_customer_owner');
+        $owner = $this->defaultUserProvider->getDefaultUser('oro_customer.default_customer_owner');
         $customerUser->setOwner($owner);
         $website = $this->websiteManager->getCurrentWebsite();
         $customerUser->setWebsite($website);

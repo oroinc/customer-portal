@@ -375,13 +375,15 @@ services:
         tags:
             - { name: twig.extension }
 
-    oro_customer.event_listener.system_config:
-        class: 'Oro\Bundle\CustomerBundle\EventListener\SystemConfigListener'
+    oro_customer.event_listener.system_config.default_customer_owner:
+        class: Oro\Bundle\ConfigBundle\EventListener\EntitySystemConfigListener
         arguments:
             - '@doctrine'
+            - 'Oro\Bundle\UserBundle\Entity\User'
+            - 'oro_customer.default_customer_owner'
         tags:
             - { name: kernel.event_listener, event: oro_config.settings_form_preset, method: onFormPreSetData }
-            - { name: kernel.event_listener, event: oro_config.settings_before_save.oro_customer.default_customer_owner, method: onSettingsSaveBefore }
+            - { name: kernel.event_listener, event: oro_config.settings_before_save, method: onSettingsSaveBefore }
 
     oro_frontend.listener.ormdatasource_acl:
         class: 'Oro\Bundle\CustomerBundle\EventListener\OrmDatasourceAclListener'

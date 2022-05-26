@@ -72,7 +72,7 @@ class GuestCustomerUserManagerTest extends \PHPUnit\Framework\TestCase
 
         $this->defaultUserProvider->expects(self::once())
             ->method('getDefaultUser')
-            ->with('oro_customer', 'default_customer_owner')
+            ->with('oro_customer.default_customer_owner')
             ->willReturn($owner);
 
         $this->websiteManager->expects(self::once())
