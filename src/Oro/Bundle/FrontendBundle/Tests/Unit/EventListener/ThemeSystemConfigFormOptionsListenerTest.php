@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\EventListener;
 
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ConfigBundle\Event\ConfigSettingsFormOptionsEvent;
 use Oro\Bundle\FrontendBundle\EventListener\ThemeSystemConfigFormOptionsListener;
 
@@ -18,7 +19,7 @@ class ThemeSystemConfigFormOptionsListenerTest extends \PHPUnit\Framework\TestCa
     public function testOnFormOptionsWhenNoPageTemplatesField(): void
     {
         $allFormOptions = ['key1' => ['option1' => 'value1']];
-        $event = new ConfigSettingsFormOptionsEvent('test_config', $allFormOptions);
+        $event = new ConfigSettingsFormOptionsEvent($this->createMock(ConfigManager::class), $allFormOptions);
         $this->listener->onFormOptions($event);
         self::assertEquals($allFormOptions, $event->getAllFormOptions());
     }
@@ -31,7 +32,7 @@ class ThemeSystemConfigFormOptionsListenerTest extends \PHPUnit\Framework\TestCa
         ];
         $expected = $allFormOptions;
         $expected['oro_frontend.page_templates']['block_prefix'] = 'oro_frontend_page_template_form_field';
-        $event = new ConfigSettingsFormOptionsEvent('test_config', $allFormOptions);
+        $event = new ConfigSettingsFormOptionsEvent($this->createMock(ConfigManager::class), $allFormOptions);
         $this->listener->onFormOptions($event);
         self::assertEquals($expected, $event->getAllFormOptions());
     }

@@ -12,14 +12,6 @@ class CustomerConfigurationFormProvider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getConfigScope(): string
-    {
-        return 'customer';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getTreeName(): string
     {
         return 'customer_configuration';

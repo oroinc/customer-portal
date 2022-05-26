@@ -19,14 +19,6 @@ class CustomerGroupConfigurationFormProvider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getConfigScope(): string
-    {
-        return 'customer_group';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getTreeName(): string
     {
         return 'customer_group_configuration';

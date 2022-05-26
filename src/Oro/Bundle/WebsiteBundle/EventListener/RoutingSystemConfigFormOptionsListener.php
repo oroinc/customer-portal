@@ -13,7 +13,7 @@ class RoutingSystemConfigFormOptionsListener
 {
     public function onFormOptions(ConfigSettingsFormOptionsEvent $event): void
     {
-        if ('app' === $event->getConfigScope()) {
+        if ('app' === $event->getConfigManager()->getScopeEntityName()) {
             $this->makeFieldNotResettableIfExists($event, 'oro_website.url');
             $this->makeFieldNotResettableIfExists($event, 'oro_website.secure_url');
         }
