@@ -16,6 +16,7 @@ use Oro\Component\DoctrineUtils\ORM\QueryBuilderUtil;
 class EnabledLocalizationsSearchHandler extends SearchHandler
 {
     private const DELIMITER = ';';
+
     private ConfigManager $configManager;
 
     public function __construct(string $entityName, array $properties, ConfigManager $configManager)

@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Validator\Constraints;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\UnitOfWork;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Handler\CustomerUserReassignUpdaterInterface;
@@ -13,7 +14,6 @@ use Oro\Bundle\EntityBundle\Provider\EntityClassNameProviderInterface;
 use Oro\Bundle\SaleBundle\Entity\Quote;
 use Oro\Bundle\ShoppingListBundle\Entity\ShoppingList;
 use Oro\Component\Testing\ReflectionUtil;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Constraint;
@@ -28,7 +28,7 @@ class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
     private $customerUserReassignUpdater;
 
     /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $registry;
+    private $doctrine;
 
     /** @var EntityClassNameProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $entityClassNameProvider;
@@ -43,7 +43,7 @@ class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
     {
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->customerUserReassignUpdater = $this->createMock(CustomerUserReassignUpdaterInterface::class);
-        $this->registry = $this->createMock(ManagerRegistry::class);
+        $this->doctrine = $this->createMock(ManagerRegistry::class);
         $this->entityClassNameProvider = $this->createMock(EntityClassNameProviderInterface::class);
         $this->em = $this->createMock(EntityManager::class);
         $this->uow = $this->createMock(UnitOfWork::class);
@@ -55,7 +55,7 @@ class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
         return new CustomerRelatedEntitiesValidator(
             $this->authorizationChecker,
             $this->customerUserReassignUpdater,
-            $this->registry,
+            $this->doctrine,
             $this->entityClassNameProvider
         );
     }
@@ -94,7 +94,7 @@ class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
             'Expected argument of type "Oro\Bundle\CustomerBundle\Entity\CustomerUser", "stdClass" given'
         );
 
-        $this->registry->expects(self::never())
+        $this->doctrine->expects(self::never())
             ->method('getManagerForClass');
 
         $this->customerUserReassignUpdater->expects(self::never())
@@ -114,7 +114,7 @@ class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
     {
         $customerUser = $this->getCustomerUser();
 
-        $this->registry->expects(self::never())
+        $this->doctrine->expects(self::never())
             ->method('getManagerForClass');
 
         $this->customerUserReassignUpdater->expects(self::never())
@@ -140,7 +140,7 @@ class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
             'id' => 34,
         ];
 
-        $this->registry->expects(self::once())
+        $this->doctrine->expects(self::once())
             ->method('getManagerForClass')
             ->with(CustomerUser::class)
             ->willReturn($this->em);
@@ -178,7 +178,7 @@ class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
             'customer' => $originalCustomer,
         ];
 
-        $this->registry->expects(self::once())
+        $this->doctrine->expects(self::once())
             ->method('getManagerForClass')
             ->with(CustomerUser::class)
             ->willReturn($this->em);
@@ -217,7 +217,7 @@ class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
             'customer' => $originalCustomer,
         ];
 
-        $this->registry->expects(self::once())
+        $this->doctrine->expects(self::once())
             ->method('getManagerForClass')
             ->with(CustomerUser::class)
             ->willReturn($this->em);
@@ -271,7 +271,7 @@ class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
             'customer' => $originalCustomer,
         ];
 
-        $this->registry->expects(self::once())
+        $this->doctrine->expects(self::once())
             ->method('getManagerForClass')
             ->with(CustomerUser::class)
             ->willReturn($this->em);

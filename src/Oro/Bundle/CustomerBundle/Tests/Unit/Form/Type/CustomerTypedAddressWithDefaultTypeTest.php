@@ -2,13 +2,13 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\AddressBundle\Entity\Repository\AddressTypeRepository;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressWithDefaultType;
 use Oro\Component\Testing\Unit\PreloadedExtension;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -18,30 +18,44 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
 {
     /** @var CustomerTypedAddressWithDefaultType */
-    protected $formType;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry */
-    protected $registry;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|EntityManager */
-    protected $em;
-
-    /** @var AddressTypeRepository|\PHPUnit\Framework\MockObject\MockObject */
-    private $addressTypeRepository;
+    private $formType;
 
     protected function setUp(): void
     {
-        $this->addressTypeRepository = $this->createRepositoryMock([
+        $addressTypeRepository = $this->getAddressTypeRepository([
             new AddressType(AddressType::TYPE_BILLING),
             new AddressType(AddressType::TYPE_SHIPPING)
         ]);
 
-        $this->em       = $this->createEntityManagerMock($this->addressTypeRepository);
-        $this->registry = $this->createManagerRegistryMock($this->em);
+        $em = $this->createMock(EntityManagerInterface::class);
+        $em->expects($this->any())
+            ->method('getRepository')
+            ->willReturn($addressTypeRepository);
+        $em->expects($this->any())
+            ->method('getClassMetadata')
+            ->willReturn($this->getClassMetadata());
 
-        $translator = $this->createTranslatorMock();
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $doctrine->expects($this->any())
+            ->method('getManagerForClass')
+            ->willReturn($em);
+        $doctrine->expects($this->any())
+            ->method('getManager')
+            ->with('EntityManager')
+            ->willReturn($em);
+        $doctrine->expects($this->any())
+            ->method('getManager')
+            ->willReturn($em);
+
+        $translator = $this->createMock(TranslatorInterface::class);
+        $translator->expects($this->any())
+            ->method('trans')
+            ->willReturnCallback(function ($message) {
+                return $message . uniqid('trans', true);
+            });
+
         $this->formType = new CustomerTypedAddressWithDefaultType($translator);
-        $this->formType->setRegistry($this->registry);
+        $this->formType->setRegistry($doctrine);
 
         parent::setUp();
     }
@@ -58,19 +72,13 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
 
     /**
      * @dataProvider submitDataProvider
-     *
-     * @param array $options
-     * @param mixed $defaultData
-     * @param mixed $viewData
-     * @param mixed $submittedData
-     * @param mixed $expectedData
      */
     public function testSubmit(
         array $options,
-        $defaultData,
-        $viewData,
-        $submittedData,
-        $expectedData
+        mixed $defaultData,
+        mixed $viewData,
+        mixed $submittedData,
+        mixed $expectedData
     ) {
         $form = $this->factory->create(CustomerTypedAddressWithDefaultType::class, $defaultData, $options);
 
@@ -83,10 +91,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
         $this->assertEquals($expectedData, $form->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function submitDataProvider()
+    public function submitDataProvider(): array
     {
         return [
             'without defaults' => [
@@ -140,11 +145,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
         ];
     }
 
-    /**
-     * @param array $entityModels
-     * @return AddressTypeRepository|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function createRepositoryMock(array $entityModels = [])
+    private function getAddressTypeRepository(array $entityModels = []): AddressTypeRepository
     {
         $repo = $this->createMock(AddressTypeRepository::class);
         $repo->expects($this->any())
@@ -172,48 +173,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
         return $repo;
     }
 
-    /**
-     * @param $repo
-     * @return \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function createEntityManagerMock($repo)
-    {
-        $em = $this->createMock(EntityManager::class);
-        $em->expects($this->any())
-            ->method('getRepository')
-            ->willReturn($repo);
-        $em->expects($this->any())
-            ->method('getClassMetadata')
-            ->willReturn($this->createClassMetadataMock());
-
-        return $em;
-    }
-
-    /**
-     * @param $em
-     * @return \PHPUnit\Framework\MockObject\MockObject
-     */
-    private function createManagerRegistryMock($em)
-    {
-        $registry = $this->createMock(\Doctrine\Persistence\ManagerRegistry::class);
-        $registry->expects($this->any())
-            ->method('getManagerForClass')
-            ->willReturn($em);
-        $registry->expects($this->any())
-            ->method('getManager')
-            ->with($this->equalTo('EntityManager'))
-            ->willReturn($em);
-        $registry->expects($this->any())
-            ->method('getManager')
-            ->willReturn($em);
-
-        return $registry;
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
-     */
-    private function createClassMetadataMock()
+    private function getClassMetadata(): ClassMetadataInfo
     {
         $classMetadata = $this->createMock(ClassMetadataInfo::class);
         $classMetadata->expects($this->any())
@@ -222,17 +182,13 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
         $classMetadata->expects($this->any())
             ->method('getReflectionProperty')
             ->willReturnCallback(function ($field) {
-                return $this->createReflectionProperty($field);
+                return $this->getReflectionProperty($field);
             });
 
         return $classMetadata;
     }
 
-    /**
-     * @param $field
-     * @return \PHPUnit\Framework\MockObject\MockObject
-     */
-    public function createReflectionProperty($field)
+    private function getReflectionProperty(string $field): \ReflectionProperty
     {
         $class = $this->createMock(\ReflectionProperty::class);
         $class->expects($this->any())
@@ -244,20 +200,5 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
             });
 
         return $class;
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface
-     */
-    private function createTranslatorMock()
-    {
-        $translator = $this->createMock(TranslatorInterface::class);
-        $translator->expects($this->any())
-            ->method('trans')
-            ->willReturnCallback(function ($message) {
-                return $message . uniqid('trans', true);
-            });
-
-        return $translator;
     }
 }

@@ -2,39 +2,31 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Provider;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\CustomerBundle\Provider\EmailRecipientsProvider;
 use Oro\Bundle\EmailBundle\Model\EmailRecipientsProviderArgs;
 use Oro\Bundle\EmailBundle\Provider\EmailRecipientsHelper;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 
-class EmailRecipientsProviderTest extends TestCase
+class EmailRecipientsProviderTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var Registry|MockObject
-     */
-    protected $registry;
+    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
+    private $doctrine;
 
-    /**
-     * @var EmailRecipientsHelper|MockObject
-     */
-    protected $emailRecipientsHelper;
+    /** @var EmailRecipientsHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $emailRecipientsHelper;
 
-    /**
-     * @var EmailRecipientsProvider|MockObject
-     */
-    protected $emailRecipientsProvider;
+    /** @var EmailRecipientsProvider */
+    private $emailRecipientsProvider;
 
     protected function setUp(): void
     {
-        $this->registry = $this->createMock(Registry::class);
+        $this->doctrine = $this->createMock(ManagerRegistry::class);
         $this->emailRecipientsHelper = $this->createMock(EmailRecipientsHelper::class);
 
         $this->emailRecipientsProvider = new EmailRecipientsProvider(
-            $this->registry,
+            $this->doctrine,
             $this->emailRecipientsHelper
         );
     }
@@ -46,7 +38,7 @@ class EmailRecipientsProviderTest extends TestCase
     {
         $customerUserRepository = $this->createMock(CustomerUserRepository::class);
 
-        $this->registry->expects($this->once())
+        $this->doctrine->expects($this->once())
             ->method('getRepository')
             ->with(CustomerUser::class)
             ->willReturn($customerUserRepository);
@@ -59,10 +51,7 @@ class EmailRecipientsProviderTest extends TestCase
         $this->assertEquals($recipients, $this->emailRecipientsProvider->getRecipients($args));
     }
 
-    /**
-     * @return array
-     */
-    public function dataProvider()
+    public function dataProvider(): array
     {
         return [
             [

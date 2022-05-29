@@ -17,9 +17,7 @@ class EnabledLocalizationsSearchHandlerTest extends WebTestCase
 {
     use ConfigManagerAwareTestTrait;
 
-    /**
-     * @var EnabledLocalizationsSearchHandler
-     */
+    /** @var EnabledLocalizationsSearchHandler */
     private $searchHandler;
 
     protected function setUp(): void

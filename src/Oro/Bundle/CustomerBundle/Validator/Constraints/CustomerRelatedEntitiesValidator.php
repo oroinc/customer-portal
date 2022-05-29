@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Validator\Constraints;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Handler\CustomerUserReassignUpdaterInterface;
 use Oro\Bundle\EntityBundle\Provider\EntityClassNameProviderInterface;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Constraint;
@@ -18,27 +18,20 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class CustomerRelatedEntitiesValidator extends ConstraintValidator
 {
-    /** @var AuthorizationCheckerInterface */
-    private $authorizationChecker;
-
-    /** @var CustomerUserReassignUpdaterInterface */
-    private $customerUserReassignUpdater;
-
-    /** @var ManagerRegistry */
-    private $registry;
-
-    /** @var EntityClassNameProviderInterface */
-    private $entityClassNameProvider;
+    private AuthorizationCheckerInterface $authorizationChecker;
+    private CustomerUserReassignUpdaterInterface $customerUserReassignUpdater;
+    private ManagerRegistry $doctrine;
+    private EntityClassNameProviderInterface $entityClassNameProvider;
 
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         CustomerUserReassignUpdaterInterface $customerUserReassignUpdater,
-        ManagerRegistry $registry,
+        ManagerRegistry $doctrine,
         EntityClassNameProviderInterface $entityClassNameProvider
     ) {
         $this->authorizationChecker = $authorizationChecker;
         $this->customerUserReassignUpdater = $customerUserReassignUpdater;
-        $this->registry = $registry;
+        $this->doctrine = $doctrine;
         $this->entityClassNameProvider = $entityClassNameProvider;
     }
 
@@ -56,7 +49,7 @@ class CustomerRelatedEntitiesValidator extends ConstraintValidator
             return;
         }
 
-        $em = $this->registry->getManagerForClass(CustomerUser::class);
+        $em = $this->doctrine->getManagerForClass(CustomerUser::class);
 
         /** @var array $originalCustomerUser */
         $originalCustomerUser = $em->getUnitOfWork()

@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Provider;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\EmailBundle\Model\EmailRecipientsProviderArgs;
 use Oro\Bundle\EmailBundle\Provider\EmailRecipientsHelper;
 use Oro\Bundle\EmailBundle\Provider\EmailRecipientsProviderInterface;
@@ -14,17 +13,12 @@ use Oro\Bundle\EmailBundle\Provider\EmailRecipientsProviderInterface;
  */
 class EmailRecipientsProvider implements EmailRecipientsProviderInterface
 {
-    /** @var Registry */
-    protected $registry;
+    private ManagerRegistry $doctrine;
+    private EmailRecipientsHelper $emailRecipientsHelper;
 
-    /** @var EmailRecipientsHelper */
-    protected $emailRecipientsHelper;
-
-    public function __construct(
-        Registry $registry,
-        EmailRecipientsHelper $emailRecipientsHelper
-    ) {
-        $this->registry = $registry;
+    public function __construct(ManagerRegistry $doctrine, EmailRecipientsHelper $emailRecipientsHelper)
+    {
+        $this->doctrine = $doctrine;
         $this->emailRecipientsHelper = $emailRecipientsHelper;
     }
 
@@ -35,7 +29,7 @@ class EmailRecipientsProvider implements EmailRecipientsProviderInterface
     {
         return $this->emailRecipientsHelper->getRecipients(
             $args,
-            $this->getCustomerUserRepository(),
+            $this->doctrine->getRepository(CustomerUser::class),
             'cu',
             CustomerUser::class
         );
@@ -47,13 +41,5 @@ class EmailRecipientsProvider implements EmailRecipientsProviderInterface
     public function getSection(): string
     {
         return 'oro.customer.customeruser.entity_plural_label';
-    }
-
-    /**
-     * @return CustomerUserRepository
-     */
-    protected function getCustomerUserRepository()
-    {
-        return $this->registry->getRepository(CustomerUser::class);
     }
 }

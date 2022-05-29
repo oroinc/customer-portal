@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Handler;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CheckoutBundle\Entity\Repository\CheckoutRepository;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Handler\CustomerUserReassignEntityUpdater;
@@ -14,7 +15,6 @@ use Oro\Component\MessageQueue\Client\Message;
 use Oro\Component\MessageQueue\Client\MessagePriority;
 use Oro\Component\MessageQueue\Client\MessageProducerInterface;
 use Oro\Component\Testing\Unit\EntityTrait;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -22,11 +22,8 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /** @var CustomerUserReassignEntityUpdater */
-    private $updater;
-
     /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $registry;
+    private $doctrine;
 
     /** @var EntityToEntityChangeArrayConverter|\PHPUnit\Framework\MockObject\MockObject */
     private $entityToArrayConverter;
@@ -46,12 +43,12 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
     /** @var CheckoutRepository|\PHPUnit\Framework\MockObject\MockObject */
     private $checkoutRepository;
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @var CustomerUserReassignEntityUpdater */
+    private $updater;
+
     protected function setUp(): void
     {
-        $this->registry = $this->createMock(ManagerRegistry::class);
+        $this->doctrine = $this->createMock(ManagerRegistry::class);
         $this->entityToArrayConverter = $this->createMock(EntityToEntityChangeArrayConverter::class);
         $this->auditMessageBodyProvider = $this->createMock(AuditMessageBodyProvider::class);
         $this->messageProducer = $this->createMock(MessageProducerInterface::class);
@@ -60,7 +57,7 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
         $this->checkoutRepository = $this->createMock(CheckoutRepository::class);
 
         $this->updater = new CustomerUserReassignEntityUpdater(
-            $this->registry,
+            $this->doctrine,
             $this->entityToArrayConverter,
             $this->auditMessageBodyProvider,
             $this->messageProducer,
@@ -110,7 +107,7 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getEntity(CustomerUser::class, ['id' => 35]);
 
-        $this->registry->expects(self::atLeastOnce())
+        $this->doctrine->expects(self::atLeastOnce())
             ->method('getManagerForClass')
             ->with($entityClass)
             ->willReturn($this->em);
@@ -154,18 +151,9 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
         $this->checkoutRepository->expects(self::exactly(3))
             ->method('resetCustomerUser')
             ->withConsecutive(
-                [
-                    $customerUser,
-                    [$updatedEntity1, $updatedEntity100,]
-                ],
-                [
-                    $customerUser,
-                    [$updatedEntity101, $updatedEntity200,]
-                ],
-                [
-                    $customerUser,
-                    [$updatedEntity201,]
-                ]
+                [$customerUser, [$updatedEntity1, $updatedEntity100,]],
+                [$customerUser, [$updatedEntity101, $updatedEntity200,]],
+                [$customerUser, [$updatedEntity201,]]
             )
             ->willReturnOnConsecutiveCalls(
                 2,
@@ -325,7 +313,7 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
 
     private function expectRepository(string $entityClass)
     {
-        $this->registry->expects(self::once())
+        $this->doctrine->expects(self::once())
             ->method('getManagerForClass')
             ->with($entityClass)
             ->willReturn($this->em);
