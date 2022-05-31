@@ -41,9 +41,6 @@ Feature: Checking the address types at different locales
     Then I should see following records in grid:
       | Shipping - Zulu |
 
-    When I click "Update Cache"
-    Then I should see "Translation Cache has been updated" flash message
-
   Scenario: Check address type on Zulu localization
     Given I proceed as the User
     And I signed in as AmandaRCole@example.org on the store frontend

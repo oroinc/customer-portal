@@ -62,8 +62,6 @@ Feature: grid views management on datagrids
     When I edit "oro_frontend.datagrid_views.saved_views" Translated Value as "Saved Views - Zulu"
     Then I should see following records in grid:
       | Saved Views - Zulu |
-    When I click "Update Cache"
-    Then I should see "Translation Cache has been updated" flash message
 
   Scenario: Check translations for grid view list
     Given I signed in as AmandaRCole@example.org on the store frontend

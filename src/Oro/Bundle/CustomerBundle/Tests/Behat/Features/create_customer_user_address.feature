@@ -16,9 +16,6 @@ Feature: Create customer user address
       | Enabled Localizations | [English, Zulu_Loc] |
       | Default Localization  | Zulu_Loc            |
     And I submit form
-    When I go to System / Localization / Translations
-    And I click "Update Cache"
-    Then I should see "Translation Cache has been updated" flash message
 
   Scenario: Create customer user address and see validation errors
     Given I go to Customers / Customer Users
