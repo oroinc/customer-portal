@@ -668,7 +668,9 @@ class CustomerUser extends ExtendCustomerUser implements
         parent::setUsername($username);
 
         $this->email = $username;
-        $this->emailLowercase = mb_strtolower($username);
+        $this->emailLowercase = $this->email
+            ? mb_strtolower($this->email)
+            : $this->email;
 
         return $this;
     }
@@ -687,9 +689,11 @@ class CustomerUser extends ExtendCustomerUser implements
      */
     public function setEmail($email)
     {
-        $this->email = $email;
         $this->username = $email;
-        $this->emailLowercase = mb_strtolower($email);
+        $this->email = $email;
+        $this->emailLowercase = $this->email
+            ? mb_strtolower($this->email)
+            : $this->email;
 
         return $this;
     }
