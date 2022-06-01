@@ -84,7 +84,6 @@ define(function(require, exports, module) {
          */
         _initializeSelectWidget() {
             this.widgetOptions = Object.assign({}, this.widgetOptions, {
-                hideHeader: !this.isToggleMode(),
                 additionalClass: !this.isToggleMode()
             });
 
