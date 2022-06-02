@@ -79,7 +79,8 @@ define(function(require) {
          * @param {Object} options
          */
         initialize: function(options) {
-            this.options = {...this.options, ...options};
+            const {_initEvent: initEvent, ...restOptions} = options;
+            this.options = {...this.options, ...restOptions};
 
             this.$triggerGalleryOpen = this.$('[data-trigger-gallery-open]');
 
@@ -112,6 +113,15 @@ define(function(require) {
 
             if (this.options.ajaxMode) {
                 this.options.galleryImages = [];
+            }
+
+            if (
+                initEvent && initEvent.type === 'click' && (
+                    this.$triggerGalleryOpen.is(initEvent.target) ||
+                    $.contains(this.$triggerGalleryOpen[0], initEvent.target)
+                )
+            ) {
+                this.onOpenTriggerClick(initEvent);
             }
         },
 
