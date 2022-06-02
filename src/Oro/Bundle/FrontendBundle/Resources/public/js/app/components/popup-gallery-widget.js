@@ -8,7 +8,6 @@ define(function(require) {
     const routing = require('routing');
     const error = require('oroui/js/error');
     const manageFocus = require('oroui/js/tools/manage-focus').default;
-    const viewportManager = require('oroui/js/viewport-manager');
     const Modal = require('oroui/js/modal');
 
     require('slick');
@@ -80,7 +79,8 @@ define(function(require) {
          * @param {Object} options
          */
         initialize(options) {
-            this.options = {...this.options, ...options};
+            const {_initEvent: initEvent, ...restOptions} = options;
+            this.options = {...this.options, ...restOptions};
             this.$triggerGalleryOpen = this.$('[data-trigger-gallery-open]');
 
             if (this.options.uniqueTriggerToOpenGallery) {
@@ -96,37 +96,18 @@ define(function(require) {
                 })
                 .on(`click${this.eventNamespace()}`, this.onOpenTriggerClick.bind(this));
 
-            if (_.has(options, 'productModel')) {
-                options.productModel.on('backgrid:canSelected', checked => {
-                    this.toggleGalleryTrigger(checked);
-                });
-
-                // Show gallery trigger on desktop view by default
-                let hideGalleryTrigger = false;
-
-                // Hide gallery trigger if mobile view row selection is turned on
-                if (
-                    options.productModel.collection &&
-                    viewportManager.isApplicable({
-                        maxScreenType: options.productModel.collection.options.optimizedScreenSize
-                    })
-                ) {
-                    const state = {};
-                    options.productModel.trigger('backgrid:getVisibleState', state);
-
-                    hideGalleryTrigger = Boolean(state.visible);
-                }
-
-                this.toggleGalleryTrigger(hideGalleryTrigger);
-            }
-
             if (this.options.ajaxMode) {
                 this.options.galleryImages = [];
             }
-        },
 
-        toggleGalleryTrigger(state) {
-            this.$triggerGalleryOpen.toggleClass('hidden', state);
+            if (
+                initEvent && initEvent.type === 'click' && (
+                    this.$triggerGalleryOpen.is(initEvent.target) ||
+                    $.contains(this.$triggerGalleryOpen[0], initEvent.target)
+                )
+            ) {
+                this.onOpenTriggerClick(initEvent);
+            }
         },
 
         onOpen() {
