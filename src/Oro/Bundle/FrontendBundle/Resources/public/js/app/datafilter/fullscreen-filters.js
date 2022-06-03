@@ -26,7 +26,6 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
         popupBadge: true,
         popupIcon: 'fa-filter',
         popupLabel: __('oro.filter.datagrid-toolbar.filters'),
-        stopEventsPropagation: false,
         footerOptions: {
             templateData: {
                 buttons: [
