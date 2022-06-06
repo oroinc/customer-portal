@@ -157,12 +157,10 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         $ownerId = $this->getReference('user')->getId();
         $organizationId = $this->getReference('organization')->getId();
         $customerId = $this->getReference('customer')->getId();
+        $customerUserRoleId = $this->getReference('buyer')->getId();
 
         $data = $this->getRequestData('create_customer_user_min.yml');
-        $response = $this->post(
-            ['entity' => 'customerusers'],
-            $data
-        );
+        $response = $this->post(['entity' => 'customerusers'], $data);
 
         $customerUserId = (int)$this->getResourceId($response);
         $responseContent = $data;
@@ -170,11 +168,14 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             'type' => 'customers',
             'id'   => (string)$customerId
         ];
+        $responseContent['data']['relationships']['userRoles']['data'][] = [
+            'type' => 'customeruserroles',
+            'id'   => (string)$customerUserRoleId
+        ];
         $this->assertResponseContains($responseContent, $response);
 
         /** @var CustomerUser $customerUser */
-        $customerUser = $this->getEntityManager()
-            ->find(CustomerUser::class, $customerUserId);
+        $customerUser = $this->getEntityManager()->find(CustomerUser::class, $customerUserId);
         self::assertEquals($data['data']['attributes']['firstName'], $customerUser->getFirstName());
         self::assertEquals($data['data']['attributes']['lastName'], $customerUser->getLastName());
         self::assertEquals($data['data']['attributes']['email'], $customerUser->getEmail());
@@ -183,6 +184,8 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         self::assertEquals($organizationId, $customerUser->getOrganization()->getId());
         self::assertEquals($ownerId, $customerUser->getOwner()->getId());
         self::assertEquals($customerId, $customerUser->getCustomer()->getId());
+        self::assertCount(1, $customerUser->getUserRoles());
+        self::assertEquals($customerUserRoleId, $customerUser->getUserRoles()[0]->getId());
 
         self::assertEmpty($customerUser->getPlainPassword());
         self::assertNotEmpty($customerUser->getPassword());

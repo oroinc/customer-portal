@@ -1,9 +1,6 @@
 @fix-BB-9401
 @automatically-ticket-tagged
 Feature: Registration flow and error messages
-  In order to ...
-  As an ...
-  I should be able to ...
 
   Scenario: Registration page is visible and after successful registration user should see correct message
     Given I am on homepage

@@ -3,9 +3,6 @@
 @automatically-ticket-tagged
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Update default grid views on page with more than one datagrids
-  In order to ...
-  As an ...
-  I should be able to ...
 
   Scenario: Edit create new default grid view
     Given I signed in as AmandaRCole@example.org on the store frontend

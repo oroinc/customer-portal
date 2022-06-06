@@ -7,7 +7,7 @@ entity_config:
                         value_type: boolean
                         allowed_type: [string, text, integer, smallint, bigint, boolean, datetime, date, time, float, decimal, enum, multiEnum, simple_array]
                     form:
-                        type: Symfony\Component\Form\Extension\Core\Type\ChoiceType
+                        type: Oro\Bundle\EntityConfigBundle\Form\Type\ChoiceType
                         options:
                             choices:
                                 No: false
