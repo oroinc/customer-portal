@@ -7,6 +7,7 @@ use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Async\Topics;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Model\OwnerTreeMessageFactory;
 use Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider;
@@ -26,13 +27,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
-/**
- * @SuppressWarnings(PHPMD)
- */
 class FrontendOwnerTreeProviderTest extends OrmTestCase
 {
-    private const ENTITY_NAMESPACE = 'Oro\Bundle\CustomerBundle\Tests\Unit\Owner\Fixtures\Entity';
-
     /** @var EntityManagerMock */
     private $em;
 
@@ -65,13 +61,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
         $conn = new ConnectionMock([], new DriverMock());
         $conn->setDatabasePlatform(new MySqlPlatform());
         $this->em = $this->getTestEntityManager($conn);
-        $this->em->getConfiguration()->setMetadataDriverImpl(new AnnotationDriver(
-            new AnnotationReader(),
-            self::ENTITY_NAMESPACE
-        ));
-        $this->em->getConfiguration()->setEntityNamespaces([
-            'Test' => self::ENTITY_NAMESPACE
-        ]);
+        $this->em->getConfiguration()->setMetadataDriverImpl(new AnnotationDriver(new AnnotationReader()));
 
         $doctrine = $this->createMock(ManagerRegistry::class);
         $doctrine->expects($this->any())
@@ -87,10 +77,10 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
         $this->ownershipMetadataProvider = $this->createMock(OwnershipMetadataProviderInterface::class);
         $this->ownershipMetadataProvider->expects($this->any())
             ->method('getUserClass')
-            ->willReturn(self::ENTITY_NAMESPACE . '\TestCustomerUser');
+            ->willReturn(CustomerUser::class);
         $this->ownershipMetadataProvider->expects($this->any())
             ->method('getBusinessUnitClass')
-            ->willReturn(self::ENTITY_NAMESPACE . '\TestCustomer');
+            ->willReturn(Customer::class);
 
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
         $this->messageProducer = $this->createMock(MessageProducer::class);
@@ -243,10 +233,8 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
                     5 => [6]
                 ],
                 [
-
-                    'businessUnitClass' => self::ENTITY_NAMESPACE . '\TestCustomer',
+                    'businessUnitClass' => Customer::class,
                     'buId' => 2
-
                 ]
             ]
         ];
@@ -274,15 +262,15 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
                 ],
                 [
                     [
-                        'businessUnitClass' => self::ENTITY_NAMESPACE . '\TestCustomer',
+                        'businessUnitClass' => Customer::class,
                         'buId' => 5
                     ],
                     [
-                        'businessUnitClass' => self::ENTITY_NAMESPACE . '\TestCustomer',
+                        'businessUnitClass' => Customer::class,
                         'buId' => 8
                     ],
                     [
-                        'businessUnitClass' => self::ENTITY_NAMESPACE . '\TestCustomer',
+                        'businessUnitClass' => Customer::class,
                         'buId' => 12
                     ]
                 ]
