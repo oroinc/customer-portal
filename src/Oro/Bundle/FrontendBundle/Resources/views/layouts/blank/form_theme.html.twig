@@ -89,9 +89,6 @@
 {%- endblock choice_widget_expanded -%}
 
 {%- block choice_widget_collapsed %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' select select--full'
-    }) %}
     {% if attr.placeholder is defined  %}
         {% set attr = layout_attr_defaults(attr, {
             'data-placeholder': translation_domain is same as(false) ? attr.placeholder : attr.placeholder|trans(attr_translation_parameters, translation_domain)

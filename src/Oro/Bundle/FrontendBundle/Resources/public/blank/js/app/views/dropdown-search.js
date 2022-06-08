@@ -64,7 +64,8 @@ const DropdownSearch = BaseView.extend({
             notFoundClass: 'hide',
             alwaysDisplaySelector: '.dropdown-search',
             highlightSelectors: [
-                'a.dropdown-item'
+                'a.dropdown-item',
+                'button.dropdown-item'
             ],
             toggleSelectors: {
                 'li[role="menuitem"]': '.items-group',
