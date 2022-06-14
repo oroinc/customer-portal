@@ -22,6 +22,10 @@ entity_config:
                             subblock: properties
                             label: oro.frontendattachment.entity_config.attachment.field.items.acl_protected.label
                             tooltip: oro.frontendattachment.entity_config.attachment.field.items.acl_protected.tooltip
+                    import_export:
+                        import_template:
+                            use_in_template: true
+                            value: Yes
                 file_applications:
                     options:
                         allowed_type: [file, image, wysiwyg, wysiwyg_styles, multiFile, multiImage]
