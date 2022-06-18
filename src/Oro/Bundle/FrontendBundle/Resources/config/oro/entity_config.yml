@@ -34,6 +34,10 @@ entity_config:
                             block:          frontend
                             label:          oro_frontend.entity_config.fields.frontend.is_displayable.label
                             tooltip:        oro_frontend.entity_config.fields.frontend.is_displayable.tooltip
+                    import_export:
+                        import_template:
+                            use_in_template: true
+                            value: Yes
                 is_editable:
                     options:
                         value_type:         boolean
@@ -52,3 +56,7 @@ entity_config:
                             block:          frontend
                             label:          oro_frontend.entity_config.fields.frontend.is_editable.label
                             tooltip:        oro_frontend.entity_config.fields.frontend.is_editable.tooltip
+                    import_export:
+                        import_template:
+                            use_in_template: true
+                            value: No
