@@ -59,6 +59,13 @@ class EmailOwnerProviderTest extends WebTestCase
         self::assertNull($owner);
     }
 
+    public function testFindEmailOwnerWhenEmailDuplicated(): void
+    {
+        $owner = $this->getProvider()->findEmailOwner($this->getEntityManager(), 'test@example.com');
+        self::assertInstanceOf(CustomerUser::class, $owner);
+        self::assertSame($this->getReference('customerUser2')->getId(), $owner->getId());
+    }
+
     /**
      * @dataProvider caseInsensitiveSearchDataProvider
      */
