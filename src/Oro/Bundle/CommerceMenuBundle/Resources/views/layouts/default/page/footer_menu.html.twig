@@ -24,7 +24,7 @@
         {% apply spaceless %}
             {% for child in item.children %}
                 {% if child.displayed and child.extras.isAllowed %}
-                    <div class="information-nav information-nav--responsive">
+                    <section class="information-nav information-nav--responsive">
                         <div class="collapse-view"
                             data-page-component-module="oroui/js/app/components/viewport-component"
                             data-page-component-options="{{ collapseView|json_encode }}">
@@ -35,12 +35,12 @@
                                 <span class="information-nav__icon collapse-view__trigger-icon fa-caret-right" aria-hidden="true"></span>
                                 {{- label -}}
                             </h6>
-                            <div id="{{ footerSectionId }}" role="region" data-collapse-container-footer="true">
+                            <div id="{{ footerSectionId }}" data-collapse-container-footer="true">
                                 {% set item = child %}
                                 {{ block('menu_widget') }}
                             </div>
                         </div>
-                    </div>
+                    </section>
                 {% endif %}
             {% endfor %}
         {% endapply %}

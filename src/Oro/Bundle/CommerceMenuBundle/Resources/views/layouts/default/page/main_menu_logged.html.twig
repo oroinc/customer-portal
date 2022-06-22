@@ -19,6 +19,7 @@
         keepAttrs: ['aria-label']
     } %}
     <button{% if togglerId is defined %} id="{{ togglerId }}"{% endif %}
+        type="button"
         class="header-row__trigger nav-trigger"
         data-toggle="dropdown"
         data-popper="false"
