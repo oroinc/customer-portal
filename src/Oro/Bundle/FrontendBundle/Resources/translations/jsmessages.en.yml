@@ -52,7 +52,6 @@ oro_frontend:
             aria_label: 'Close the Filter Management drop-down'
 
     filters:
-        apply: 'Apply'
         apply_all: 'Apply Filters'
         aria_label: 'Expand or Collapse Filters'
         no_found: 'No matches found'
