@@ -28,6 +28,7 @@ define(function(require) {
             this.redirect = options.redirect;
             this.confirmMessage = options.confirmMessage;
             this.successMessage = options.successMessage || __('item_deleted');
+            this.successMessageOptions = options.successMessageOptions || {};
             this.okButtonClass = options.okButtonClass;
             this.cancelButtonClass = options.cancelButtonClass;
             this.triggerData = options.triggerData || null;
@@ -94,12 +95,14 @@ define(function(require) {
         },
 
         deleteWithRedirect: function(e) {
-            mediator.execute('showFlashMessage', 'success', this.successMessage);
+            const messageOptions = this.successMessageOptions;
+            mediator.execute('showFlashMessage', 'success', this.successMessage, messageOptions);
             mediator.execute('redirectTo', {url: this.redirect}, {redirect: true});
         },
 
         deleteWithoutRedirect: function(e) {
-            mediator.execute('showMessage', 'success', this.successMessage, {flash: true});
+            const messageOptions = this.successMessageOptions;
+            mediator.execute('showMessage', 'success', this.successMessage, {flash: true, ...messageOptions});
             mediator.trigger('frontend:item:delete', this.triggerData || e);
         }
     });
