@@ -1,11 +1,10 @@
 <% var togglerId = _.uniqueId('dropdown-') %>
 <div class="datagrid-massaction">
     <div class="btn-group dropdown">
-        <label class="btn btn--default btn--size-s custom-checkbox">
-            <input type="checkbox" name="is_default" class="custom-checkbox__input"
+        <label class="btn btn--default btn--size-s">
+            <input type="checkbox" name="is_default"
                    data-input-widget-options="<%- JSON.stringify({checkedParentCssClass:null}) %>"
                    data-select>
-            <span class="custom-checkbox__icon" aria-hidden="true"></span>
             <span class="sr-only"><%- _.__('oro.datagrid.headerCell.selectAll.input.aria_label') %></span>
         </label>
         <button class="btn btn--default btn--size-s dropdown-toggle dropdown-toggle--no-offset"

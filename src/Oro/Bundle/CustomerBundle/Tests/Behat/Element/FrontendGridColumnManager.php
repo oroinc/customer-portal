@@ -67,7 +67,7 @@ class FrontendGridColumnManager extends GridColumnManager
 
         $rows = $this->getDataGridManagerRows();
         foreach ($rows as $row) {
-            $name = $row->find('css', '.custom-checkbox__text')->getText();
+            $name = $row->find('css', '.checkbox-label')->getText();
 
             // Skip exceptions
             if (in_array($name, $exceptions, true)) {
@@ -95,11 +95,11 @@ class FrontendGridColumnManager extends GridColumnManager
      */
     protected function getVisibilityCheckbox($title)
     {
-        $field = $this->find('xpath', '//span[@class="custom-checkbox__text"][text()="' . $title . '"]');
+        $field = $this->find('xpath', '//label[@class="checkbox-label"][contains(.,"' . $title . '")]');
 
         self::assertNotNull($field, 'Can not find visibility cell for ' . $title);
 
-        $input = $field->getParent()->find('css', 'input.custom-checkbox__input');
+        $input = $field->find('css', 'input[type=checkbox]');
 
         self::assertNotNull($input, 'Can not find visibility checkbox for ' . $title);
 

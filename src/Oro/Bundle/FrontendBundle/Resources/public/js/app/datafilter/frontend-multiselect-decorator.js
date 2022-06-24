@@ -121,9 +121,6 @@ define(function(require, exports, module) {
          * @param {object} instance
          */
         setDesignForCheckboxesDefaultTheme: function(instance) {
-            const className = instance.options.multiple ? 'checkbox' : 'radio';
-            const $icon = instance.labels.find(`.custom-${className}__icon`);
-
             instance.menu
                 .children('.ui-multiselect-checkboxes')
                 .removeClass('ui-helper-reset')
@@ -131,20 +128,7 @@ define(function(require, exports, module) {
                 .find('li')
                 .addClass('datagrid-manager__list-item');
 
-            instance.labels
-                .addClass(`custom-${className} absolute`)
-                .find('span')
-                .addClass(`custom-${className}__text`);
-
-            if (!$icon.length) {
-                instance.inputs
-                    .addClass(`custom-${className}__input ui-rewrite`)
-                    .removeAttr('aria-selected')
-                    .after($('<i></i>', {
-                        'class': `custom-${className}__icon`,
-                        'aria-hidden': true
-                    }));
-            }
+            instance.labels.addClass('checkbox-label');
         },
 
         /**

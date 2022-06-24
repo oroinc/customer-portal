@@ -103,22 +103,17 @@
     }) %}
     <li {{ block('block_attributes') }}>
         <div class="grid-views__label">
-            <label class="custom-radio absolute">
+            <label class="checkbox-label">
                 <span class="sr-only"><%- _.__('oro_frontend.datagrid_views.choice.aria_text', {choiceName: choice.label}) %></span>
                 <input type="radio"
                        name="grid-view-<%- gridViewId %>"
-                       class="custom-radio__control"
                        value="<%- choice.value %>"
                        data-change-grid-view
                     <% if (current === choice.value) { %>
                         checked
                     <% } %>
                 >
-                <span class="custom-radio__text" aria-hidden="true">
-                    <span class="grid-views__text-line line-clamp">
-                        <%- choice.label %>
-                    </span>
-                </span>
+                <span class="grid-views__text-line line-clamp" aria-hidden="true"><%- choice.label %></span>
             </label>
         </div>
         <% if (showActions[iterate]) { %>
@@ -198,10 +193,9 @@
                         </div>
 
                         <div class="grid__column" data-checkbox-container>
-                            <label class="custom-checkbox" aria-label="<%- _.__('oro_frontend.datagrid_views.set_as_default.aria_label') %>">
-                                <input type="checkbox" name="is_default" class="custom-checkbox__input">
-                                <span class="custom-checkbox__icon" aria-hidden="true"></span>
-                                <span class="custom-checkbox__text"><%- _.__("oro_frontend.datagrid_views.set_as_default") %></span>
+                            <label class="checkbox-label grid-views__set-default" aria-label="<%- _.__('oro_frontend.datagrid_views.set_as_default.aria_label') %>">
+                                <input type="checkbox" name="is_default">
+                                <%- _.__("oro_frontend.datagrid_views.set_as_default") %>
                             </label>
                         </div>
                     </div>

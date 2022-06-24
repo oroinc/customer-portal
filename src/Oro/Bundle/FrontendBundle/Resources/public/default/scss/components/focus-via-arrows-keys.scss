@@ -20,28 +20,5 @@
                 box-shadow: $active-box-shadow;
             }
         }
-
-        &.custom-checkbox__input ~ .custom-checkbox__icon {
-            box-shadow: $focus-via-arrows-keys-checkbox-icon-style;
-        }
-
-        &.custom-radio__input,
-        &.custom-radio__control {
-            ~ .custom-radio__text {
-                &::before {
-                    box-shadow: $focus-via-arrows-keys-radio-icon-style;
-                }
-            }
-
-            &:checked {
-                ~ .custom-radio__text {
-                    &::before {
-                        box-shadow:
-                                $custom-radio-icon-checked-box-shadow,
-                                $focus-via-arrows-keys-radio-icon-style;
-                    }
-                }
-            }
-        }
     }
 }

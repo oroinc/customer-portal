@@ -64,10 +64,6 @@
     &__sku-value {
         color: $customer-line-items-sku-value-color;
     }
-
-    .custom-radio__text {
-        vertical-align: top;
-    }
 }
 
 @include breakpoint('tablet') {

@@ -107,11 +107,11 @@ oro_behat_extension:
     Customer Grid Settings Created At:
       selector:
         type: xpath
-        locator: '//label[contains(., "Created At")]/../../td/span[contains(@class, "checkbox-view")]'
+        locator: '//label[contains(., "Created At")]/../../td/input[@type="checkbox"]'
     Customer Grid Settings Updated At:
       selector:
         type: xpath
-        locator: '//label[contains(., "Updated At")]/../../td/span[contains(@class, "checkbox-view")]'
+        locator: '//label[contains(., "Updated At")]/../../td/input[@type="checkbox"]'
     Routing General form:
       selector: '[id^="routing-uid"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -212,7 +212,7 @@ oro_behat_extension:
       selector: 'li.grid-views__item'
 
     FrontendGridViewsItemLabel:
-      selector: 'label.custom-radio'
+      selector: 'label.checkbox-label'
 
     Frontend Grid Filter Dropdown:
       selector: 'div.filter-container div.datagrid-manager div.filter-default.dropdown-menu'
@@ -308,7 +308,7 @@ oro_behat_extension:
 
     Frontend Address Default Billing Checkbox Label:
       selector:
-        locator: '//*[contains(@class,"custom-checkbox__text") and contains(text(), "Default Billing")]'
+        locator: '//*[contains(@class,"checkbox-label") and contains(text(), "Default Billing")]'
         type: xpath
 
     Frontend Address Default Billing Checkbox:
@@ -316,7 +316,7 @@ oro_behat_extension:
 
     Frontend Address Default Shipping Checkbox Label:
       selector:
-        locator: '//*[contains(@class,"custom-checkbox__text") and contains(text(), "Default Shipping")]'
+        locator: '//*[contains(@class,"checkbox-label") and contains(text(), "Default Shipping")]'
         type: xpath
 
     Frontend Address Default Shipping Checkbox:
@@ -324,7 +324,7 @@ oro_behat_extension:
 
     Frontend Address Billing Checkbox Label:
       selector:
-        locator: '//*[contains(@class,"custom-checkbox__text") and contains(text(), "Billing")]'
+        locator: '//*[contains(@class,"checkbox-label") and contains(text(), "Billing")]'
         type: xpath
 
     Frontend Address Billing Checkbox:
@@ -332,7 +332,7 @@ oro_behat_extension:
 
     Frontend Address Shipping Checkbox Label:
       selector:
-        locator: '//*[contains(@class,"custom-checkbox__text") and contains(text(), "Shipping")]'
+        locator: '//*[contains(@class,"checkbox-label") and contains(text(), "Shipping")]'
         type: xpath
 
     Frontend Address Shipping Checkbox:

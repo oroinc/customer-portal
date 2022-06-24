@@ -106,28 +106,21 @@
 {% endblock %}
 
 {%- block checkbox_widget -%}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' custom-checkbox__input'
-    }) %}
     {%- if label is empty -%}
         {% set label = id|humanize %}
     {%- endif -%}
 
-    <label for="{{ id }}" class="custom-checkbox">
+    <label for="{{ id }}" class="checkbox-label">
         {{- parent() -}}
-        <span class="custom-checkbox__icon"></span>
-        <span class="custom-checkbox__text">{{ label|block_text(translation_domain) }}</span>
+        {{- label|block_text(translation_domain) -}}
     </label>
 {%- endblock checkbox_widget -%}
 
 {%- block radio_widget -%}
     {% set class_prefix = form.vars.class_prefix|default(class_prefix|default('radio')) %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' custom-radio__control'
-    }) %}
 
     {% set label_attr = layout_attr_defaults(label_attr, {
-        '~class': ' custom-radio',
+        '~class': ' checkbox-label',
         'data-radio': true,
         'for': id
     }) %}
@@ -147,7 +140,7 @@
     <label {{ block('attributes') }}>
         {% set attr = widget_attr %}
         {{- parent() -}}
-        <span class="custom-radio__text">{{ label|block_text(translation_domain) }}</span>
+        {{- label|block_text(translation_domain) -}}
     </label>
     {{- form_errors(form, {'class_prefix': class_prefix}) -}}
 {%- endblock radio_widget -%}

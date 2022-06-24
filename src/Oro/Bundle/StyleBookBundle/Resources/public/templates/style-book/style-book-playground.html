@@ -2,10 +2,9 @@
 <div class="form-row">
     <% if (prop.type === 'input') { %>
     <% if(_.isBoolean(prop.value)) { %>
-    <label for="form_checkbox-<%- key %>" class="custom-checkbox">
-        <input type="checkbox" id="form_checkbox-<%- key %>" name="form[<%- key %>]" data-ftid="form_checkbox" data-name="<%- key %>" class="custom-checkbox__input" <%= (prop.value ? 'checked' : '') %> data-bind="<%- prop.bind %>"/>
-        <span class="custom-checkbox__icon"></span>
-        <span class="custom-checkbox__text"><%- prop.label %></span>
+    <label for="form_checkbox-<%- key %>" class="checkbox-label">
+        <input type="checkbox" id="form_checkbox-<%- key %>" name="form[<%- key %>]" data-ftid="form_checkbox" data-name="<%- key %>" <%= (prop.value ? 'checked' : '') %> data-bind="<%- prop.bind %>">
+        <%- prop.label %>
     </label>
     <% } %>
 

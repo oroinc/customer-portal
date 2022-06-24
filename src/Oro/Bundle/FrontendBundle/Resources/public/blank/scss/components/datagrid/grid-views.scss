@@ -122,8 +122,8 @@
         }
     }
 
-    .custom-checkbox {
-        padding-top: 4px;
+    &__set-default {
+        padding-top: $offset-y-m;
     }
 }
 

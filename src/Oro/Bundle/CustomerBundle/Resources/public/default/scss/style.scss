@@ -1,9 +1,13 @@
+/* @theme: default; */
+
 .customer_user_form {
     @extend %customer-form;
 
-    .form-field-userRoles label,
-    .form-field-choose-list label {
-        display: block;
+    .form-field-userRoles,
+    .form-field-choose-list {
+        .checkbox-label {
+            display: flex;
+        }
     }
 }
 

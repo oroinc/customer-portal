@@ -158,12 +158,6 @@
         }
     }
 
-    // Rewrite ui-* styles
-    .custom-checkbox__input.ui-rewrite {
-        position: absolute;
-        top: 0;
-    }
-
     &.ui-widget-fullscreen {
         padding: 0 $offset-y;
 
@@ -290,7 +284,6 @@
             &.focus-visible,
             &.focus {
                 + span {
-                    box-shadow: $checkbox-icon-box-shadow-focus-state;
                     background-color: $datagrid-manager-filters-dropdown-content-hover-bg-color;
                 }
             }
@@ -304,7 +297,6 @@
 
             &:disabled {
                 + span {
-                    color: $checkbox-icon-color-disabled-state;
                     box-shadow: none;
 
                     @include base-disabled-style(.55, true) {
