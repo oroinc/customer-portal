@@ -389,7 +389,7 @@ oro_behat_extension:
     Cookies Banner Name English Use Default:
       selector:
         type: xpath
-        locator: '//input[@type="checkbox"][@name="customer_users[oro_cookie_consent___localized_banner_text][value][localizations][1][use_fallback]"]/../../span[contains(@class, "checkbox-view")]'
+        locator: '//input[@type="checkbox"][@name="customer_users[oro_cookie_consent___localized_banner_text][value][localizations][1][use_fallback]"]'
 
     Cookies Banner Default Value:
       selector:
