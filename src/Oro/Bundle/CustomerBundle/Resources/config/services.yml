@@ -1203,13 +1203,6 @@ services:
             - { name: kernel.event_listener, event: oro_ui.scroll_data.before.customer-user-edit, method: onEntityEdit }
             - { name: kernel.event_listener, event: oro_ui.scroll_data.before.customer-user-view, method: onEntityView }
 
-    oro_customer.provider.customer_entity_name:
-        class: Oro\Bundle\CustomerBundle\Provider\CustomerEntityNameProvider
-        arguments:
-            - '@oro_entity.entity_name_provider.default'
-        tags:
-            - { name: oro_entity.name_provider }
-
     oro_customer.listener.email_body_add:
         class: Oro\Bundle\CustomerBundle\EventListener\EmailBodyAddListener
         arguments:

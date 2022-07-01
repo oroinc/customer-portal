@@ -83,3 +83,12 @@ oro_customer:
 oro_email:
     public_email_owners:
         - Oro\Bundle\CustomerBundle\Entity\CustomerUser
+
+oro_entity:
+    entity_name_representation:
+        Oro\Bundle\CustomerBundle\Entity\Customer:
+            full: [ name ]
+            short: [ name ]
+        Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
+            full: [ label ]
+            short: [ label ]
