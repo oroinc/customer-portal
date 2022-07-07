@@ -16,3 +16,7 @@ entity_config:
                             block: frontend
                             label: oro.frontendimportexport.entity_config.fields.frontend.use_in_export.label
                             tooltip: oro.frontendimportexport.entity_config.fields.frontend.use_in_export.tooltip
+                    import_export:
+                        import_template:
+                            use_in_template: true
+                            value: No

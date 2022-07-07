@@ -381,6 +381,36 @@ oro_behat_extension:
       selector: ".import-widget-content .tab-pane.active input[id^='oro_importexport_import_file']"
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\FileField
 
+    Cookies Banner Text Fallbacks:
+      selector:
+        type: xpath
+        locator: '//label[text()="Cookies Banner Text"]/../..//button[contains(@class, "fallback-status")]'
+
+    Cookies Banner Name English Use Default:
+      selector:
+        type: xpath
+        locator: '//input[@type="checkbox"][@name="customer_users[oro_cookie_consent___localized_banner_text][value][localizations][1][use_fallback]"]/../../span[contains(@class, "checkbox-view")]'
+
+    Cookies Banner Default Value:
+      selector:
+        type: xpath
+        locator: '//select[@name="customer_users[oro_cookie_consent___localized_banner_text][value][localizations][1][fallback]"][not(@disabled)]/../../div[contains(@class, "selector")]'
+
+    Cookies Banner Default Value Disabled:
+      selector:
+        type: xpath
+        locator: '//select[@name="customer_users[oro_cookie_consent___localized_banner_text][value][localizations][1][fallback]"][@disabled]/../../div[contains(@class, "selector")]'
+
+    Cookies Banner Name English:
+      selector:
+        type: xpath
+        locator: '//textarea[@name="customer_users[oro_cookie_consent___localized_banner_text][value][localizations][1][value]"][not(@disabled)]'
+
+    Cookies Banner Name English Disabled:
+      selector:
+        type: xpath
+        locator: '//textarea[@name="customer_users[oro_cookie_consent___localized_banner_text][value][localizations][1][value]"][@disabled]'
+
   pages:
     Customer User Role View:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserRoleView

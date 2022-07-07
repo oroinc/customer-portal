@@ -25,7 +25,10 @@ class EmailOwnerProvider implements EmailOwnerProviderInterface
      */
     public function findEmailOwner(EntityManager $em, $email)
     {
-        return $em->getRepository(CustomerUser::class)->findOneBy(['emailLowercase' => mb_strtolower($email)]);
+        $results = $em->getRepository(CustomerUser::class)
+            ->findBy(['emailLowercase' => mb_strtolower($email)], null, 1);
+
+        return array_shift($results);
     }
 
     /**

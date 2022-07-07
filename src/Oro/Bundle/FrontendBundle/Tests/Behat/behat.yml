@@ -124,6 +124,8 @@ oro_behat_extension:
         type: xpath
         # when should be clicked second button on the page, because it visible after changes on page
         locator: '(//div[@data-bottom-actions]/button[contains(text(), "Save") or contains(text(), "Create")])'
+    Catalog Switcher:
+      selector: '.oro-datagrid .catalog-switcher'
     Sticky Filters Dropdown:
       selector: '[data-sticky-name="top-sticky-panel"] a.action[title="Filter Toggle"]'
     Mass Actions Into Sticky Panel:

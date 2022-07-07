@@ -20,8 +20,8 @@ $frontend-datagrid-responsive-row-swipe-active-tablet-background-color: get-colo
 
 $frontend-datagrid-responsive-body-cell-tablet-display: block !default;
 $frontend-datagrid-responsive-body-cell-tablet-border: none !default;
-$frontend-datagrid-responsive-body-cell-tablet-offset: 5px 0 !default;
-$frontend-datagrid-responsive-body-cell-tablet-inner-offset: 0 !default;
+$frontend-datagrid-responsive-body-cell-tablet-offset: 0 !default;
+$frontend-datagrid-responsive-body-cell-tablet-inner-offset: $offset-x-s 0 !default;
 $frontend-datagrid-responsive-body-cell-tablet-word-wrap: break-word !default;
 
 $frontend-datagrid-responsive-body-cell-before-tablet-content: attr(data-column-label) ': ' !default;
