@@ -20,7 +20,7 @@ ComponentShortcutsManager.add('print-page', {
     moduleName: 'oroui/js/app/components/jquery-widget-component',
     scalarOption: 'printPage',
     options: {
-        widgetModule: 'orofrontend/blank/js/widgets/print-page-widget'
+        widgetModule: 'orofrontend/default/js/widgets/print-page-widget'
     }
 });
 
@@ -36,6 +36,6 @@ ComponentShortcutsManager.add('proxy-focus', {
     moduleName: 'oroui/js/app/components/view-component',
     scalarOption: 'focusElementSelector',
     options: {
-        view: 'orofrontend/blank/js/app/views/proxy-focus-view'
+        view: 'orofrontend/default/js/app/views/proxy-focus-view'
     }
 });
