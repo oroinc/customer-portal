@@ -1,6 +1,9 @@
 /* @theme: default; */
 
-$top-bar-font-size: 12px;
+$top-bar-menu-item-offset-right: 40px !default;
+$top-bar-menu-item-line-height: 16px !default;
+
+$top-bar-font-size: 12px !default;
 $top-bar-background: get-color('additional', 'light') !default;
 $top-bar-color: null !default;
 $top-bar-font-size: null !default;
