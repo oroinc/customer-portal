@@ -401,7 +401,7 @@ class CustomerUser extends ExtendCustomerUser implements
      *          }
      *      }
      * )
-     **/
+     */
     protected $salesRepresentatives;
 
     /**
