@@ -1,0 +1,102 @@
+/* @theme: default; */
+
+.customer-profile {
+    margin-top: $customer-profile-container-offset-top;
+
+    &--no-offset {
+        margin-top: 0;
+    }
+
+    &__container {
+        display: $customer-profile-container-display;
+    }
+
+    &__data {
+        padding: $customer-profile-data-offset-inner;
+        width: $customer-profile-data-width;
+    }
+
+    &__controls-wrapper {
+        display: $customer-profile-controls-wrapper-display;
+        margin-bottom: $customer-profile-controls-wrapper-offset-bottom;
+
+        justify-content: $customer-profile-controls-wrapper-justify-content;
+    }
+
+    .controls-list {
+        vertical-align: middle;
+        margin-bottom: $page-subtitle-bottom-offset;
+
+        ul {
+            line-height: $customer-profile-controls-list-line-height;
+            list-style: $customer-profile-controls-list-style;
+        }
+
+        li {
+            vertical-align: baseline;
+        }
+    }
+
+    &__header {
+        display: flex;
+        flex-wrap: wrap;
+
+        border-bottom: $customer-profile-data-border;
+    }
+
+    &__title-wrapper {
+        display: inline-flex;
+        align-items: center;
+        flex-grow: 1;
+        max-width: 100%;
+    }
+
+    .page-title {
+        margin-bottom: 10px;
+    }
+
+    .page-title,
+    .page-subtitle {
+        flex-grow: 1;
+    }
+
+    .page-subtitle {
+        margin-right: $offset-x;
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .customer-profile {
+        &__container {
+            display: $customer-profile-container-mobile-big-display;
+        }
+
+        &__data {
+            padding: $customer-profile-mobile-data-offset-inner;
+
+            &:not(:first-child) {
+                border-top: $customer-profile-mobile-big-border-top;
+            }
+        }
+    }
+}
+
+@include breakpoint('mobile') {
+    .customer-profile {
+        margin-top: $customer-profile-mobile-offset-top;
+
+        &--no-offset {
+            margin-top: 0;
+        }
+
+        &__controls-wrapper {
+            display: $customer-profile-mobile-controls-wrapper-display;
+        }
+
+        &__controls {
+            margin-top: $customer-profile-mobile-controls-offset-top;
+
+            text-align: $customer-profile-mobile-controls-text-align;
+        }
+    }
+}

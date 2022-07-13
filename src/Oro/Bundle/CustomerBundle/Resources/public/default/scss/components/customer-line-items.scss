@@ -1,0 +1,146 @@
+/* @theme: default; */
+
+.customer-line-items {
+    margin-bottom: $customer-line-items-offset-bottom;
+
+    &__title {
+        margin-bottom: $customer-line-items-title-offset-bottom;
+
+        font-size: $customer-line-items-title-font-size;
+        text-transform: $customer-line-items-title-text-transform;
+    }
+
+    &__notes {
+        padding-left: $customer-line-items-notes-offset-inner-left;
+    }
+
+    .grid-cell {
+        vertical-align: $customer-line-items-table-cell-vertical-align;
+
+        &--offset-l-none {
+            padding-left: $customer-line-items-grid-cell--offset-l-none;
+        }
+
+        &:last-child {
+            text-align: $customer-line-items-grid-cell-last-text-align;
+        }
+
+        &.notes-cell {
+            padding: $customer-line-items-grid-cell-last-notes-cell-offset-inner;
+
+            text-align: $customer-line-items-grid-cell-last-notes-cell-text-align;
+        }
+
+        &.qty-cell {
+            white-space: nowrap;
+
+            .input {
+                vertical-align: $customer-line-items-table-cell-vertical-align;
+                margin-right: $offset-y-m;
+            }
+
+            .fields-row-error {
+                white-space: normal;
+            }
+        }
+    }
+
+    .grid-row {
+        &:first-child {
+            > .grid-cell {
+                padding-top: $customer-line-items-grid-row-first-grid-cell-offset-inner-top;
+            }
+        }
+
+        &:last-child {
+            .customer-line-items__notes {
+                padding: $customer-line-items-grid-row-last-notes-offset-inner;
+
+                border-bottom: $customer-line-items-grid-row-last-notes-border-bottom;
+            }
+        }
+    }
+
+    &__sku-value {
+        color: $customer-line-items-sku-value-color;
+    }
+}
+
+@include breakpoint('tablet') {
+    .customer-line-items {
+        .grid-cell {
+            &.qty-cell {
+                width: 160px;
+            }
+        }
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .customer-line-items {
+        &__title {
+            padding-bottom: $customer-line-items-title-offset-inner-bottom-tablet-small;
+
+            border-bottom: $customer-line-items-title-border-bottom-tablet-small;
+        }
+
+        &__table {
+            table-layout: $customer-line-items-table-layout-tablet-small;
+        }
+
+        &__notes {
+            padding-left: $customer-line-items-notes-offset-inner-left-tablet-small;
+        }
+
+        .grid-cell {
+            width: $customer-line-items-grid-cell-width-tablet-small;
+
+            text-align: $customer-line-items-grid-cell-align-tablet-small;
+
+            &:last-child {
+                text-align: $customer-line-items-grid-cell-last-text-align-tablet-small;
+            }
+
+            &--offset-none-mobile {
+                padding: $customer-line-items-grid-cell--offset-none-mobile;
+            }
+
+            &--offset-l-none-mobile {
+                padding-left: $customer-line-items-grid-cell--offset-l-none-mobile;
+            }
+
+            &.primary-cell {
+                width: $customer-line-items-primary-cell-width-tablet-small;
+            }
+
+            &.notes-cell {
+                width: $customer-line-items-notes-cell-width-tablet-small;
+            }
+        }
+
+        .grid-row {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            &:first-child {
+                > .grid-cell {
+                    padding-top: $customer-line-items-grid-row-first-grid-cell-offset-inner-top-tablet-small;
+                }
+            }
+
+            &:last-child {
+                .customer-line-items__notes {
+                    padding-bottom: $customer-line-items-notes-offset-inner-bottom-tablet-small;
+                    padding-left: $customer-line-items-notes-offset-inner-left-tablet-small;
+                }
+            }
+        }
+
+        .grid-head {
+            width: $customer-line-items-grid-head-width-tablet-small;
+
+            padding: $customer-line-items-grid-head-inner-offset-tablet-small;
+        }
+    }
+}

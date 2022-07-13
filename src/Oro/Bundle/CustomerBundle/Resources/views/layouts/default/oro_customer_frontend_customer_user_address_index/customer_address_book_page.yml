@@ -1,6 +1,8 @@
 layout:
     imports:
         -
+            id: oro_customer_page
+        -
             id: oro_customer_address_grid
             root: customer_address_book_addresses
             namespace: customer_address_book

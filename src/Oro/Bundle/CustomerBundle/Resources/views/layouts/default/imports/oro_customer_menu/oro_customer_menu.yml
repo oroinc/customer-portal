@@ -2,3 +2,19 @@ layout:
     actions:
         - '@setBlockTheme':
             themes: '@OroCustomer/layouts/default/imports/oro_customer_menu/oro_customer_menu.html.twig'
+        - '@addTree':
+            items:
+                __container:
+                    blockType: container
+                    prepend: true
+                __list:
+                    blockType: container
+                __oro_customer_menu:
+                    blockType: menu
+                    options:
+                        item: '=data["menu"].getMenu("oro_customer_menu")'
+            tree:
+                __root:
+                    __container:
+                        __list:
+                            __oro_customer_menu: ~
