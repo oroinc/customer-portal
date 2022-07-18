@@ -26,7 +26,7 @@ Feature: Parent Customer Autocomplete
     And I click Edit Company 111 in grid
     And I type "Company 111" in "Parent Customer"
     Then I should see the following options for "Parent Customer" select:
-      | Company 11111 |
+      | Company 1111 |
     And I type "Company 111" into Parent Customer field to get all suggestions and see 12 suggestions
 
   Scenario: Check Parent Customer Suggestion On Edit Customer Page When Customer Has Children
