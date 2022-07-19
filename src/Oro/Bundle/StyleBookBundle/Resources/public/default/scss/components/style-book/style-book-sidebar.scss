@@ -1,0 +1,30 @@
+/* @theme: default; */
+
+.style-book-sidebar {
+    width: $style-book-sidebar-width;
+    flex: $style-book-sidebar-flex;
+
+    &--main {
+        display: $style-book-sidebar-main-display;
+    }
+}
+
+@include breakpoint('tablet') {
+    .style-book-sidebar {
+        position: $style-book-sidebar-tablet-position;
+        left: $style-book-sidebar-tablet-left;
+        transform: $style-book-sidebar-tablet-transform;
+        transition: $style-book-sidebar-tablet-transition;
+        overflow: $style-book-sidebar-tablet-overflow;
+        z-index: $style-book-sidebar-tablet-z-index;
+
+        &--main {
+            display: $style-book-sidebar-main-tablet-display;
+        }
+
+        &.open {
+            transform: $style-book-sidebar-open-tablet-transform;
+            box-shadow: $style-book-sidebar-open-tablet-box-shadow;
+        }
+    }
+}

@@ -17,7 +17,7 @@
             &.checked,
             &.active,
             &.pressed {
-                box-shadow: $active-box-shadow;
+                box-shadow: $btn-active-box-shadow;
             }
         }
     }

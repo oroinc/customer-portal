@@ -1,0 +1,9 @@
+/* @theme: default; */
+
+.loading-blur {
+    @include loading-blur();
+}
+
+.loading-blur-overlay {
+    @include loading-blur-overlay();
+}

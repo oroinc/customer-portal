@@ -1,0 +1,12 @@
+/* @theme: default; */
+
+.datagrid-toggle-group {
+    display: flex;
+    align-items: center;
+
+    &:first-child {
+        .datagrid-divider {
+            display: none;
+        }
+    }
+}

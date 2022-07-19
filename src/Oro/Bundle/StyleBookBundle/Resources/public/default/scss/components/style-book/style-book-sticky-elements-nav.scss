@@ -1,0 +1,26 @@
+/* @theme: default; */
+
+.style-book-sticky-elements-nav {
+    position: $style-book-sticky-position;
+
+    display: $style-book-sticky-display;
+    justify-content: $style-book-sticky-justify-content;
+
+    max-width: $style-book-sticky-max-width;
+    margin: $style-book-sticky-outer-offset;
+    padding: $style-book-sticky-inner-offset;
+
+    &:empty {
+        display: $style-book-sticky-empty-display;
+    }
+
+    &__sidebar {
+        position: $style-book-sticky-sidebar-position;
+        left: $style-book-sticky-sidebar-left;
+
+        width: $style-book-sticky-sidebar-width;
+        max-height: $style-book-sticky-sidebar-max-height;
+
+        overflow-y: $style-book-sticky-sidebar-overflow-y;
+    }
+}

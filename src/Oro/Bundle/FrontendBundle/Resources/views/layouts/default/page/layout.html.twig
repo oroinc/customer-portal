@@ -66,6 +66,17 @@
     {% endif %}
 {% endblock %}
 
+{% block _wrapper_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' wrapper',
+    }) %}
+
+    <div{{ block('block_attributes') }}>
+        <div data-page-component-view="orofrontend/js/app/views/dom-relocation-view"></div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
 {% block _notification_widget %}
     {% import '@OroUI/macros.html.twig' as UI %}
 

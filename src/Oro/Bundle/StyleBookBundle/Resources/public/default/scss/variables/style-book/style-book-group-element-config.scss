@@ -1,3 +1,42 @@
 /* @theme: default; */
 
+$style-book-group-element-description-border-start: 5px solid get-color('primary', 'base') !default;
+
+$style-book-group-element-preview-border: 5px solid get-color('additional', 'base') !default;
 $style-book-group-element-preview-base-font-minor-color: get-color('additional', 'dark') !default;
+
+$style-book-group-element-preview-grid-row-background: get-color('additional', 'base') !default;
+
+$style-book-group-element-preview-grid-column-border: 1px solid get-color('additional', 'middle') !default;
+$style-book-group-element-preview-grid-column-background: get-color('additional', 'light') !default;
+
+$style-book-group-element-color-palette-border: 1px solid get-color('additional', 'middle') !default;
+
+$style-book-group-element-color-name-color: get-color('additional', 'ultra') !default;
+
+$style-book-group-element-color-additional-ultra-color: get-color('primary', 'main') !default;
+$style-book-group-element-color-additional-ultra-border: 1px solid get-color('additional', 'middle') !default;
+
+$style-book-group-element-color-additional-base-color: get-color('primary', 'main') !default;
+
+$style-book-group-element-color-additional-light-color: get-color('primary', 'main') !default;
+
+$style-book-group-element-color-additional-light-color: get-color('primary', 'main') !default;
+
+$style-book-group-element-color-additional-middle-color: get-color('primary', 'main') !default;
+
+$style-book-group-element-color-ui-error-color: get-color('primary', 'main') !default;
+
+$style-book-group-element-color-ui-success-color: get-color('primary', 'main') !default;
+
+$style-book-group-element-color-ui-warning-color: get-color('primary', 'main') !default;
+
+$style-book-group-element-typography-color: darken(get-color('additional', 'middle'), 10%) !default;
+
+$style-book-group-element-base-font-color: get-color('additional', 'dark') !default;
+
+$style-book-group-element-base-line-height-color: get-color('additional', 'dark') !default;
+
+$style-book-group-element-base-font-icons-color: get-color('additional', 'dark') !default;
+
+$style-book-group-element-code-color: get-color('additional', 'base') !default;

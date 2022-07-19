@@ -1,0 +1,5 @@
+/* @theme: default; */
+
+.line-clamp {
+    @include line-clamp($line-clamp-line-clamp);
+}

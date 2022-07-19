@@ -1,0 +1,22 @@
+/* @theme: default; */
+
+$oro-pagination-pager-display: flex !default;
+$oro-pagination-pager-align-items: center !default;
+
+$oro-pagination-total-offset: 0 $offset-x-s !default;
+$oro-pagination-total-font-size: $base-font-size - 1px !default;
+
+$oro-pagination-input-width: 35px !default;
+$oro-pagination-input-offset: 0 $offset-x-s !default;
+$oro-pagination-input-text-align: center !default;
+$oro-pagination-input-color: get-color('additional', 'dark') !default;
+
+$oro-pagination-btn-icon-offset: 0 ($offset-x-s - 2px) !default;
+$oro-pagination-btn-prev-offset-right: $offset-x-s !default;
+$oro-pagination-btn-next-offset-left: $offset-x-s !default;
+
+// tablet-small
+$oro-pagination-total-display-tablet-small: none !default;
+
+// mobile-landscape
+$oro-pagination-label-display-mobile-landscape: none !default;

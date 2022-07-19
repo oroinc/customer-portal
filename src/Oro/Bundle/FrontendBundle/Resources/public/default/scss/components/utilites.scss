@@ -1,0 +1,87 @@
+/* @theme: default; */
+
+.hidden,
+.hide {
+    // override inline styles
+    // stylelint-disable-next-line declaration-no-important
+    display: none !important;
+}
+
+.invisible {
+    opacity: 0;
+}
+
+.disabled {
+    @include base-disabled-style();
+}
+
+.bold {
+    font-weight: font-weight('bold');
+}
+
+.no-scroll {
+    overflow: hidden;
+}
+
+.disable-touch-scrolling {
+    overflow: hidden;
+    visibility: hidden;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+.text-capitalize {
+    text-transform: capitalize;
+}
+
+.img-fluid {
+    @include img-fluid;
+}
+
+.break-all {
+    word-break: break-all;
+}
+
+// Need to refactor after removal less from frontend
+.hide-text {
+    &[class^='fa-'],
+    &[class*=' fa-'] {
+        font-family: $icon-font;
+        color: inherit;
+
+        &::after,
+        &::before {
+            font-size: $base-font-size;
+        }
+    }
+
+    &.fa--small,
+    &.fa--medium,
+    &.fa--large {
+        &::before {
+            font-size: inherit;
+        }
+    }
+}
+
+.list-unstyled {
+    @include list-unstyled;
+}

@@ -1,9 +1,53 @@
 /* @theme: default; */
 
-$datagrid-manager-dropdown-menu-border-radius: $base-ui-element-border-radius;
+$datagrid-manager-title-offset: $offset-y-m !default;
+$datagrid-manager-separator-inner-offset: 0 2px !default;
+$datagrid-manager-separator-color: darken(get-color('additional', 'light'), 12%) !default;
+$datagrid-manager-container-offset: 0 -#{$offset-y-s} !default;
+$datagrid-manager-container-inner-offset: $offset-y-s 0 !default;
 
-$datagrid-manager-dropdown-menu-border-radius: 0;
-$datagrid-manager-dropdown-menu-color: get-color('additional', 'dark');
+$datagrid-manager-actions-item-icon-display: none !default;
+
+$datagrid-manager-after-position-r: 0 !default;
+$datagrid-manager-after-position-b: 3px !default;
+$datagrid-manager-after-border--size: 8px !default;
+$datagrid-manager-after-border-color: get-color('additional', 'light') !default;
+
+$datagrid-manager-handle-width: 10px !default;
+$datagrid-manager-handle-height: 33px !default;
+$datagrid-manager-handle-offset: 8px !default;
+$datagrid-manager-handle-border: 4px dotted get-color('additional', 'light') !default;
+
+$datagrid-manager-dropdown-menu-width: 320px !default;
+$datagrid-manager-dropdown-menu-inner-offset: 16px !default;
+$datagrid-manager-dropdown-menu-border-radius: 0 !default;
+$datagrid-manager-dropdown-menu-color: get-color('additional', 'dark') !default;
+
+$datagrid-manager-disabled-color: darken(get-color('additional', 'middle'), 7%) !default;
+
+$datagrid-manager-no-columns-border: 1px solid get-color('additional', 'light') !default;
 
 // Full Screen mode
-$datagrid-manager-fullscreen-reset-btn-border-radius: $base-ui-element-border-radius;
+$datagrid-manager-fullscreen-reset-btn-inner-offset: 7px !default;
+$datagrid-manager-fullscreen-reset-btn-text-align: center !default;
+$datagrid-manager-fullscreen-reset-btn-border: 1px solid get-color('additional', 'light') !default;
+$datagrid-manager-fullscreen-reset-btn-border-radius: $base-ui-element-border-radius !default;
+
+$datagrid-manager-fullscreen-handle-offset: 12px !default;
+
+$datagrid-manager-fullscreen-actions-inner-offset: $offset-y $offset-x $offset-y-s !default;
+
+$datagrid-manager-fullscreen-table-inner-offset: 0 $offset-x-m 0 0 !default;
+
+$datagrid-manager-fullscreen-footer-inner-offset: $offset-y-s $offset-x-m !default;
+
+// Datagrid Manager Filters
+$datagrid-manager-filters-dropdown-size: 1px !default;
+$datagrid-manager-filters-dropdown-max-height: 350px !default;
+
+$datagrid-manager-filters-dropdown-items-b-color: get-color('additional', 'middle') !default;
+$datagrid-manager-filters-dropdown-content-inner-offset: $offset-y-m $offset-x-s !default;
+$datagrid-manager-filters-dropdown-content-line-height: 1 !default;
+$datagrid-manager-filters-dropdown-content-hover-bg-color: get-color('additional', 'light') !default;
+$datagrid-manager-filters-dropdown-content-checked-background-color: get-color('additional', 'darker') !default;
+$datagrid-manager-filters-dropdown-content-checked-color: get-color('additional', 'ultra') !default;

@@ -1,0 +1,15 @@
+/* @theme: default; */
+
+$ui-multiselect-menu-min-width: 200px !default;
+$ui-multiselect-menu-bg: get-color('additional', 'ultra');
+$ui-multiselect-menu-header-offset-bottom: $offset-y-s !default;
+$ui-multiselect-menu-header-li-offset-inner-right: $offset-x-s !default;
+$ui-multiselect-menu-header-div-offset-inner: 13px 20px $offset-y-m !default;
+$ui-multiselect-menu-header-div-offset-bottom: $offset-y-m !default;
+$ui-multiselect-menu-header-div-border-bottom: 1px solid get-color('additional', 'base') !default;
+$ui-multiselect-menu-header-input-offset-inner: $offset-y-m 9px !default;
+$ui-multiselect-menu-header-input-line-height: 1 !default;
+$ui-multiselect-menu-header-input-border-color-hover: get-color('ui', 'normal') !default;
+$ui-multiselect-menu-header-input-box-shadow-hover: inset
+    0 1px 1px transparentize(get-color('additional', 'ultra'), .75),
+    0 0 8px transparentize(get-color('ui', 'focus'), .6) !default;

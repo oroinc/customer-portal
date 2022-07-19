@@ -1,0 +1,24 @@
+// @theme: default;
+
+@import '~@oroinc/bootstrap/scss/tooltip';
+
+.tooltip {
+    .arrow {
+        &::before {
+            @include base-disabled-style(.75);
+        }
+    }
+}
+
+.tooltip-inner {
+    &:not(.not-expand) {
+        text-align: left;
+    }
+
+    @include base-disabled-style(.75);
+}
+
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+}

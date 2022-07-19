@@ -1,0 +1,46 @@
+/* @theme: default; */
+
+.datagrid-massaction {
+    &__dots {
+        display: inline-block;
+        vertical-align: middle;
+        height: 12px;
+
+        font-size: 20px;
+        line-height: 0;
+    }
+
+    &__dropdown-menu {
+        min-width: 0;
+        max-width: 300px;
+
+        &--stretch {
+            min-width: 100%;
+        }
+    }
+
+    &__action-trigger {
+        color: inherit;
+
+        @include hover-focus {
+            text-decoration: inherit;
+
+            color: inherit;
+        }
+    }
+
+    .dropdown-menu__placeholder {
+        display: none;
+    }
+
+    .dropdown-toggle {
+        margin: auto;
+    }
+
+    &.sticky-mode {
+        display: flex;
+        padding: $datagrid-massaction-sticky-mode-offset;
+
+        background-color: $datagrid-massaction-sticky-mode-background-color;
+    }
+}

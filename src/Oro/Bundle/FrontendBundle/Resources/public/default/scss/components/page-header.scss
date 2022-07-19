@@ -2,10 +2,17 @@
 
 .page-header {
     position: relative;
+    padding: $page-header-inner-offset;
+
+    @include clearfix();
 
     &-content {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+    }
+
+    &__inner {
+        padding: $page-header-inner-inner-offset;
     }
 }

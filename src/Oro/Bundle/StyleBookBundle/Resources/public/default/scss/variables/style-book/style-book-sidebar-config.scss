@@ -1,0 +1,18 @@
+/* @theme: default; */
+
+$style-book-sidebar-width: 255px !default;
+$style-book-sidebar-flex: none !default;
+
+$style-book-sidebar-main-display: none !default;
+
+$style-book-sidebar-main-tablet-display: block !default;
+
+$style-book-sidebar-tablet-position: fixed !default;
+$style-book-sidebar-tablet-left: 0 !default;
+$style-book-sidebar-tablet-transform: translateX(-100%) !default;
+$style-book-sidebar-tablet-transition: all .3s !default;
+$style-book-sidebar-tablet-overflow: auto !default;
+$style-book-sidebar-tablet-z-index: z('fixed') !default;
+
+$style-book-sidebar-open-tablet-transform: translateX(0) !default;
+$style-book-sidebar-open-tablet-box-shadow: 2px 4px 5px rgba(0 0 0 / 30%) !default;

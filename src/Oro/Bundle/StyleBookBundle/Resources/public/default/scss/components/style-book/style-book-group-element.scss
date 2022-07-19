@@ -1,7 +1,163 @@
 /* @theme: default; */
 
+@use 'sass:math';
+
 .style-book-group-element {
+    margin-bottom: 30px;
+
+    &:last-child {
+        margin-bottom: 20px;
+    }
+
+    &__title {
+        margin: 0 0 10px;
+
+        font-size: $base-font-size + 1;
+    }
+
+    &__description {
+        margin: 20px 0;
+        padding: $offset-x;
+
+        border-left: $style-book-group-element-description-border-start;
+
+        line-height: 1.7;
+
+        strong,
+        b {
+            font-weight: font-weight('bold');
+        }
+
+        em {
+            font-style: italic;
+        }
+
+        [class*='language-'] {
+            padding: 1px 2px;
+        }
+    }
+
+    &__item {
+        margin-bottom: 25px;
+        padding-left: 25px;
+    }
+
     &__preview {
+        margin-bottom: 10px;
+        padding: 15px;
+
+        border: $style-book-group-element-preview-border;
+
+        .grid__row {
+            line-height: 2.5;
+            background: $style-book-group-element-preview-grid-row-background;
+
+            .grid__column {
+                overflow: hidden;
+                white-space: nowrap;
+                border: $style-book-group-element-preview-grid-column-border;
+                background: $style-book-group-element-preview-grid-column-background;
+            }
+        }
+
+        .checkbox-label {
+            padding-right: $offset-y;
+        }
+
+        .color-palette {
+            &:not(:first-child) {
+                padding-top: 40px;
+                margin-top: 40px;
+
+                border-top: $style-book-group-element-color-palette-border;
+            }
+
+            &__collection {
+                font-size: 0;
+            }
+
+            &__palette-title {
+                font-weight: font-weight('bold');
+                text-transform: uppercase;
+                font-size: $base-font-size--m;
+
+                margin: 0 0 10px;
+
+                &--key {
+                    text-transform: none;
+                    font-weight: font-weight('light');
+                }
+            }
+
+            &__color-box {
+                display: inline-block;
+                width: math.div(100, 3) * 1%;
+                margin-bottom: 20px;
+                padding: 0 5px;
+
+                font-size: 12px;
+
+                vertical-align: top;
+            }
+
+            &__usage {
+                margin-top: 5px;
+                margin-bottom: 0;
+                display: block;
+            }
+
+            &__name {
+                padding: 10px;
+                margin-top: 5px;
+
+                color: $style-book-group-element-color-name-color;
+
+                &--title {
+                    font-weight: font-weight('bold');
+                }
+
+                &--additional-ultra {
+                    color: $style-book-group-element-color-additional-ultra-color;
+
+                    border: $style-book-group-element-color-additional-ultra-border;
+                }
+
+                &--additional-base {
+                    color: $style-book-group-element-color-additional-base-color;
+                }
+
+                &--additional-light {
+                    color: $style-book-group-element-color-additional-light-color;
+                }
+
+                &--additional-middle {
+                    color: $style-book-group-element-color-additional-middle-color;
+                }
+
+                &--ui-error {
+                    color: $style-book-group-element-color-ui-error-color;
+                }
+
+                &--ui-success {
+                    color: $style-book-group-element-color-ui-success-color;
+                }
+
+                &--ui-warning {
+                    color: $style-book-group-element-color-ui-warning-color;
+                }
+            }
+        }
+
+        .example-typography {
+            line-height: $base-line-height;
+            margin: 0;
+
+            &::after {
+                margin-left: 10px;
+                color: $style-book-group-element-typography-color;
+            }
+        }
+
         .base-font-minor {
             &::after {
                 content: '#{$base-font-minor}';
@@ -9,19 +165,96 @@
             }
         }
 
+        .base-font {
+            &::after {
+                content: '#{$base-font}';
+                color: $style-book-group-element-base-font-color;
+            }
+        }
+
+        .base-line-height {
+            &::after {
+                content: '#{$base-line-height}';
+                color: $style-book-group-element-base-line-height-color;
+            }
+        }
+
         .base-font-icons {
             &::after {
                 content: '#{$base-font-icon}';
+                color: $style-book-group-element-base-font-icons-color;
+            }
+        }
+
+        .root-font-size {
+            font-size: $root-font-size;
+
+            &::after {
+                content: '(#{$root-font-size})';
             }
         }
 
         .base-font-size {
+            font-size: $base-font-size;
+
+            &::after {
+                content: '(#{$base-font-size})';
+            }
+
+            &--s {
+                font-size: $base-font-size--s;
+
+                &::after {
+                    content: '(#{$base-font-size--s})';
+                }
+            }
+
+            &--m {
+                font-size: $base-font-size--m;
+
+                &::after {
+                    content: '(#{$base-font-size--m})';
+                }
+            }
+
+            &--l {
+                font-size: $base-font-size--l;
+
+                &::after {
+                    content: '(#{$base-font-size--l})';
+                }
+            }
+
             &--large {
                 font-size: $base-font-size--large;
 
                 &::after {
                     content: '(#{$base-font-size--large})';
                 }
+            }
+        }
+    }
+
+    &__code {
+        display: block;
+
+        padding: $offset-x;
+        margin: 0;
+
+        word-break: break-all;
+        word-wrap: break-word;
+
+        background-color: $style-book-group-element-code-color;
+
+        white-space: pre-wrap;
+
+        .token {
+            &.tag {
+                white-space: normal;
+            }
+
+            &.attr-name {
+                white-space: nowrap;
             }
         }
     }

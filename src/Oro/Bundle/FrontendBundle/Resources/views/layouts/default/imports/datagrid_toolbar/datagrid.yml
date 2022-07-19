@@ -1,0 +1,69 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroFrontend/layouts/default/imports/datagrid_toolbar/datagrid.html.twig'
+        - '@setOption':
+            id: __datagrid_toolbar_sorting
+            optionName: visible
+            optionValue: false
+        - '@setOption':
+            id: __datagrid_toolbar_mass_actions
+            optionName: visible
+            optionValue: false
+        - '@setOption':
+            id: __datagrid_toolbar_extra_actions
+            optionName: visible
+            optionValue: false
+        - '@move':
+            id: __datagrid_toolbar_sorting
+            parentId: __datagrid_toolbar_leftside_container
+        - '@move':
+            id: __datagrid_toolbar_mass_actions
+            parentId: __datagrid_toolbar_leftside_container
+        - '@move':
+            id: __datagrid_toolbar_extra_actions
+            parentId: __datagrid_toolbar_leftside_container
+            siblingId: __datagrid_toolbar_mass_actions
+        - '@move':
+            id: __datagrid_toolbar_pagination
+            parentId: __datagrid_toolbar_base_container
+        - '@move':
+            id: __datagrid_toolbar_page_size
+            parentId: __datagrid_toolbar_rightside_container
+        - '@move':
+            id: __datagrid_toolbar_actions
+            parentId: __datagrid_toolbar_rightside_container
+        - '@move':
+            id: __datagrid_toolbar_items_counter
+            parentId: __datagrid_toolbar_leftside_container
+        - '@move':
+            id: __datagrid_items_counter
+            parentId: __datagrid_toolbar_leftside_container
+            siblingId: __datagrid_toolbar_sorting
+        - '@remove':
+            id: __datagrid_toolbar_actions_container
+        - '@remove':
+            id: __datagrid_toolbar_tools_container
+        - '@add':
+            id: __datagrid_toolbar_button_container
+            parentId: __datagrid_toolbar_leftside_container
+            blockType: container
+            options:
+                visible: false
+                class_prefix: datagrid_toolbar_button_container
+        - '@addTree':
+            items:
+                __datagrid_toolbar_leftside_container:
+                    blockType: container
+                __datagrid_toolbar_base_container:
+                    blockType: container
+                __datagrid_toolbar_rightside_container:
+                    blockType: container
+                __datagrid_toolbar_filter_container:
+                    blockType: container
+            tree:
+                __datagrid_toolbar:
+                    __datagrid_toolbar_leftside_container: ~
+                    __datagrid_toolbar_base_container: ~
+                    __datagrid_toolbar_rightside_container: ~
+                    __datagrid_toolbar_filter_container: ~

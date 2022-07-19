@@ -1,7 +1,7 @@
 import __ from 'orotranslation/js/translator';
 import {debounce, pick} from 'underscore';
 import BaseView from 'oroui/js/app/views/base/view';
-import searchTemplate from 'tpl-loader!orofrontend/blank/templates/dropdown-search.html';
+import searchTemplate from 'tpl-loader!orofrontend/default/templates/dropdown-search.html';
 import HighlightTextView from 'oroui/js/app/views/highlight-text-view';
 
 const ESC_KEY_CODE = 27;

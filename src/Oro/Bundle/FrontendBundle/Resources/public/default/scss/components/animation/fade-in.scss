@@ -1,0 +1,17 @@
+/* @theme: default; */
+
+.fade-in {
+    animation-name: fade-in;
+    animation-duration: $fade-in-duration;
+    animation-fill-mode: both;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
