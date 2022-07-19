@@ -203,7 +203,11 @@ define(function(require) {
 
             const oldElements = this.elements;
             this.getElements();
-            if (!_.isEqual(oldElements, this.elements)) {
+
+            if (// compare each element in lists, disregarding their order
+                oldElements.length !== this.elements.length ||
+                this.elements.some(el => oldElements.indexOf(el) === -1)
+            ) {
                 this.resetElement();
                 this.render();
 
