@@ -15,6 +15,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/actions-row-config.scss'
         - 'bundles/orofrontend/default/scss/variables/custom-icons-config.scss'
         - 'bundles/orofrontend/default/scss/variables/close-dialog-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/grid-config.scss'
         - 'bundles/orofrontend/default/scss/variables/breadcrumbs-config.scss'
         - 'bundles/orofrontend/default/scss/variables/dropdown-menu-calendar-config.scss'
         - 'bundles/orofrontend/default/scss/variables/expand-text-config.scss'

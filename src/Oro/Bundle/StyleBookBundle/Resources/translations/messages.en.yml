@@ -183,26 +183,32 @@ oro_stylebook:
             content: 'This section provides a preview and code sample for every UI element that is available out-of-the box in your Oro application. When UI and layout customization affects these elements, the preview dynamically updates after you refresh the page and clear the Oro application cache.'
             text_content: 'This section provides a preview and code sample for every UI element that is available out-of-the box in your Oro application.'
             text_content_first: 'When UI and layout customization affects these elements, the preview dynamically updates after you refresh the page and clear the Oro application cache.'
-            column_size:
-                title: Column Size
-                description: 'A grid or table may contain up to 12 columns. Every column is designed using <code class="language-html">&lt;div&gt;</code> element that takes proportional share of the screen in the desktop view and stretches to occupy the 100% width of the screen in mobile view. You can control relative width of the columns (like in 1/X) using <code class="language-html">grid__column--X</code> prefix. <br>The schematic wireframe samples below illustrate how OroCommerce with your active theme aligns the cells in the row and the text inside the cells depending on the number of the columns.'
-            row_offset:
-                title: Row Spacing
-                description: 'To control a spare space between the rows, you can use the <code class="language-html">grid_row--%offset-mode%</code> class that modifies the bottom margin of the row container. Supported offset modes (and their default bottom margin) are <code class="language-html">--has-twin-row</code> (50px), <code class="language-html">--offset-l</code> (20px), <code class="language-html">--offset-m</code> (10px), <code class="language-html">--offset-s</code> (5px), <code class="language-html">--offset-none</code> (0px). The default offset for the <code class="language-html">grid__row</code> class is 15px, in between the <code class="language-html">--offset-l</code> and <code class="language-html">--offset-m</code>.'
-            column_offset:
-                title: Column Spacing
-                right:
-                    title: Right
-                    description: 'Spare space between columns may be controlled using the <code class="language-html">grid_column--%offset-mode%</code> class that modifies the right margin of the cell container. Supported offset modes are <code class="language-html">--offset-l</code> (20px), <code class="language-html">--offset-m</code> (10px), <code class="language-html">--offset-s</code> (5px). The default offset for the <code class="language-html">grid__column</code> class is 0px.'
-                bottom:
-                    title: Bottom
-                    description: 'The <code class="language-html">grid__column--offset-y</code> class modifies the bottom margin of the cell that is applied when the grid/table columns do not fit the screen width, and overflow to the next line (Default theme).'
-            columns_equal:
-                title: Two Symmetric Columns
-                description: 'To quickly design the layout (grid/table) with two equally sized columns, use the <code class="language-html">grid__column-half</code> class.'
-            multi_line_row:
-                title: Multi-Line Row
-                description: 'To force the column to move to a new line, use the <code class="language-html">grid__column</code> with <code class="language-html">--both</code> prefix.'
+            how_it_works:
+                title: How it works
+                description: 'A grid or table may contain up to 12 columns. Every column is designed using <code class="language-html">&lt;div&gt;</code> element that takes proportional share of the screen in the desktop view and stretches to occupy the 100% width of the screen in mobile view. You can control relative width of the columns (like in 1/X) using <code class="language-html">grid-col-X</code> prefix. <br>The schematic wireframe samples below illustrate how OroCommerce with your active theme aligns the cells in the row and the text inside the cells depending on the number of the columns.'
+            grid_gap:
+                title: Grid gap
+                description: 'To control a spare space between the columns and the rows, you can use the <code class="language-html">$grid-gap</code> scss variable that modifies vertical or horizontal spaces between items globally. Also you can use css-variable <code class="language-html">--grid-gap</code> for local spaces modification.'
+            columns:
+                title: Columns
+                three_columns:
+                    title: Three columns
+                    description: 'Three equal-width columns can be created by using the <code class="language-html">.grid-col-4</code> class.'
+                columns_count:
+                    title: Columns count
+                    description: 'By default grid provide a 12-column grid template, but developer can change this value globally via the <code class="language-html">$grid-column-count</code> scss variable. Also can be override column count with css-variable <code class="language-html">--grid-column-count</code> locally'
+            starts:
+                title: Starts
+                description: 'The start classes aim to provide additional offset between grid items, but they are not the same as margin. CSS Grid creates a grid template through styles. The start classes tell the browser which column the grid item should start from. For that developer can use special classes like <code class="language-html">.grid-start-x</code>'
+            template:
+                title: Grid column template
+                description: 'For implement custom grid column proportions you need to use the <code class="language-html">$grid-template-columns</code> scss variable or css variable <code class="language-html">--grid-template-columns</code> to override template locally'
+            alignment:
+                title: Alignment
+                description: 'Use speciall classes to align grid items. With <code class="language-html">.grid-place-items-%align%</code> class you can align all items in a grid and with <code class="language-html">.grid-place-self-%align%</code> class on a specific item you can set alignment for this item'
+            responsive:
+                title: Responsive
+                description: 'Use responsive classes to adjust grid layout across viewports. With <code class="language-html">.grid-col-%breakpoint%-X</code> class you can set column span for specific viewport.'
         configs:
             title: 'General Look and Feel'
             content: 'This section provides a preview and code sample for every UI element that is available out-of-the box in your Oro application.'

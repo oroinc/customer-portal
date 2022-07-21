@@ -102,8 +102,8 @@ layout:
                             __customer_user_role_form_actions_top:
                                 __customer_user_role_form_actions_update_top: ~
                                 __customer_user_role_form_actions_cancel_top: ~
-                        __customer_user_role_form_users: ~
-                        __customer_user_role_form_actions_bottom:
-                            __customer_user_role_form_actions_update_bottom: ~
-                            __customer_user_role_form_actions_cancel_bottom: ~
+                            __customer_user_role_form_users: ~
+                            __customer_user_role_form_actions_bottom:
+                                __customer_user_role_form_actions_update_bottom: ~
+                                __customer_user_role_form_actions_cancel_bottom: ~
                         __customer_user_role_form_end: ~

@@ -1,124 +1,56 @@
 /* @theme: default; */
 
-@use 'sass:math';
-
 .grid {
-    &__group-column {
-        padding-left: $offset-x;
-    }
+    display: grid;
+    grid-template-columns: $grid-template-columns;
+    gap: $grid-gap;
 
-    &__row {
-        margin-bottom: $offset-y;
-
-        @include clearfix;
-
-        &--offset {
-            &-none {
-                margin-bottom: 0;
-            }
-
-            &-s {
-                margin-bottom: $offset-y-s;
-            }
-
-            &-m {
-                margin-bottom: $offset-y-m;
-            }
-
-            &-l {
-                margin-bottom: 20px;
-            }
-
-            &-top {
-                margin-top: $offset-y;
-            }
-        }
-
-        &--has-twin-row {
-            &:not(:last-child) {
-                margin-bottom: 50px;
+    &-col {
+        @for $i from 1 through $grid-column-count {
+            &-#{$i} {
+                grid-column-end: span $i;
             }
         }
     }
 
-    &__column {
-        float: left;
-
-        padding: 0 $offset-x-m;
-
-        &-half {
-            float: left;
-
-            width: (100% - $grid-offset) * .5;
-
-            &:first-child {
-                margin-right: $grid-offset;
+    &-start {
+        @for $i from 1 through $grid-column-count {
+            &-#{$i} {
+                grid-column-start: $i;
             }
-        }
-
-        &--both {
-            clear: both;
-        }
-
-        &--offset {
-            &-y {
-                margin-bottom: $offset-y;
-            }
-
-            &-m {
-                margin-right: $grid-offset;
-            }
-        }
-
-        &--gutter {
-            &-l-none {
-                padding-left: 0;
-            }
-
-            &-l-s {
-                padding-left: $offset-x-s;
-            }
-
-            &-r-none {
-                padding-right: 0;
-            }
-
-            &-r-s {
-                padding-right: $offset-x-s;
-            }
-        }
-
-        &--no-gutters {
-            padding: 0;
-        }
-
-        &--no-gutters-l {
-            padding-left: 0;
-        }
-
-        &--no-gutters-r {
-            padding-right: 0;
-        }
-
-        .select {
-            width: 100%;
         }
     }
 
-    @for $i from 1 through $grid-count {
-        &__column--#{$i} {
-            width: math.div($i* 100%, $grid-count);
-        }
-    }
+    &-place {
+        @each $place in (items, self) {
+            &-#{$place} {
+                @each $align in $grid-aligns {
+                    &-#{$align} {
+                        place-#{$place}: $align;
 
-    &--offset-m {
-        margin-bottom: $offset-x-m;
+                        @each $justify in $grid-aligns {
+                            @if $align != $justify {
+                                &-#{$justify} {
+                                    place-#{$place}: $align $justify;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
 @include breakpoint('tablet') {
-    .grid__column--2 {
-        width: 50%;
+    .grid {
+        &-col-tablet {
+            @for $i from 1 through $grid-column-count {
+                &-#{$i} {
+                    grid-column-end: span $i;
+                }
+            }
+        }
     }
 }
 
@@ -149,9 +81,11 @@
 
 @include breakpoint('mobile-landscape') {
     .grid {
-        @for $i from 1 through $grid-count {
-            &__column--#{$i} {
-                width: 100%;
+        &-col-mobile-landscape {
+            @for $i from 1 through $grid-column-count {
+                &-#{$i} {
+                    grid-column-end: span $i;
+                }
             }
         }
 

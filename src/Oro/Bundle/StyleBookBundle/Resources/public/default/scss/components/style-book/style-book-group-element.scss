@@ -48,16 +48,17 @@
 
         border: $style-book-group-element-preview-border;
 
-        .grid__row {
-            line-height: 2.5;
-            background: $style-book-group-element-preview-grid-row-background;
+        [class^='grid-col'] {
+            overflow: hidden;
+            white-space: nowrap;
+            border: $style-book-group-element-preview-grid-item-border;
+            background: $style-book-group-element-preview-grid-item-background;
+            padding: $style-book-group-element-preview-grid-item-padding;
+        }
 
-            .grid__column {
-                overflow: hidden;
-                white-space: nowrap;
-                border: $style-book-group-element-preview-grid-column-border;
-                background: $style-book-group-element-preview-grid-column-background;
-            }
+        .grid-place-items-start-center,
+        .grid-place-items-center {
+            height: 150px;
         }
 
         .checkbox-label {

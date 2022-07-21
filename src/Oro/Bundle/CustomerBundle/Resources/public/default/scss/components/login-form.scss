@@ -2,4 +2,8 @@
 
 .login-form {
     @extend %single-form-page;
+
+    .notifications {
+        margin: 0;
+    }
 }

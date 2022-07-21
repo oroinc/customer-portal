@@ -96,6 +96,10 @@
         }
     }
 
+    &-section {
+        margin-bottom: $offset-y;
+    }
+
     &__manage-link {
         @include fa-icon(var(--fa-var-angle-right), after, true, true) {
             display: inline-block;
