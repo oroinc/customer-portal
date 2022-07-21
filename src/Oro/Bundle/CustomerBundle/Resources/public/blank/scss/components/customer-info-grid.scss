@@ -1,6 +1,8 @@
 /* @theme: blank; */
 
 .customer-info-grid {
+    margin-bottom: $offset-x;
+
     &__title {
         margin: $customer-info-grid-title-offset;
 

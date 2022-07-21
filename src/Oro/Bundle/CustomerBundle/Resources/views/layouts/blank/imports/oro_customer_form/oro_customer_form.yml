@@ -2,6 +2,8 @@ layout:
     actions:
         - '@setBlockTheme':
             themes: '@OroCustomer/layouts/blank/imports/oro_customer_form/oro_customer_form.html.twig'
+        - '@setFormTheme':
+            themes: '@OroCustomer/layouts/blank/imports/oro_customer_form/form.html.twig'
         - '@addTree':
             items:
                 __page_wrapper:
@@ -23,6 +25,12 @@ layout:
                     blockType: form
                 __form_submit_wrapper:
                     blockType: container
+                    siblingId: __form_additional
+                    prepend: true
+                __form_additional:
+                    blockType: container
+                    siblingId: __form_end
+                    prepend: true
                 __form_submit:
                     blockType: button
                     options:
@@ -41,14 +49,9 @@ layout:
                             __label_wrapper:
                                 __label: ~
                             __description: ~
-                            __form: ~
-                            __form_submit_wrapper:
-                                __form_submit: ~
-                            __links: ~
-                            __required_label: ~
-
-        - '@move':
-            id: __form_submit_wrapper
-            parentId: __form
-            siblingId: __form_end
-            prepend: true
+                            __form:
+                                __form_submit_wrapper:
+                                    __form_submit: ~
+                                __form_additional:
+                                    __links: ~
+                                    __required_label: ~

@@ -1,9 +1,9 @@
 {% block block_row -%}
-    <div class="form-row">
+    <div class="grid-col-12">
         {% if type != 'checkbox' %}
-            <div class="form-row__label">{{ block_label(block) -}}</div>
+            {{ block_label(block) -}}
         {% endif %}
-        <div class="form-row__content">{{ block_widget(block) -}}</div>
+        {{ block_widget(block) -}}
     </div>
 {%- endblock %}
 
@@ -51,7 +51,7 @@
         {% set text = text.messageKey|trans(text.messageData, 'security') %}
     {% endif %}
 
-    <div class="form-row">
+    <div class="grid-col-12">
         <div class="notifications notifications--error">{{ block_widget(block, {text: text}) }}</div>
     </div>
 {% endblock %}
@@ -70,7 +70,7 @@
     }) %}
 
     {% set label_attr = layout_attr_defaults(label_attr, {
-        '~class': " label"
+        '~class': " label label--full"
     }) %}
 
     {{ block_row(block, {
@@ -88,7 +88,7 @@
     }) %}
 
     {% set label_attr = layout_attr_defaults(label_attr, {
-        '~class': " label"
+        '~class': " label label--full"
     }) %}
 
     {{ block_row(block, {

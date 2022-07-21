@@ -1,34 +1,66 @@
 /* @theme: default; */
 
-// original component package/platform/src/Oro/Bundle/UIBundle/Resources/public/blank/scss/components/grid.scss
-
 .grid {
-    &--offset-m {
-        margin-bottom: $offset-x-m;
-    }
+    display: grid;
+    grid-template-columns: $grid-template-columns;
+    gap: $grid-gap;
 
-    &__column {
-        .select {
-            width: 100%;
+    &-col {
+        @for $i from 1 through $grid-column-count {
+            &-#{$i} {
+                grid-column-end: span $i;
+            }
         }
     }
 
-    &__group-column {
-        padding-left: $offset-x;
+    &-start {
+        @for $i from 1 through $grid-column-count {
+            &-#{$i} {
+                grid-column-start: $i;
+            }
+        }
+    }
+
+    &-place {
+        @each $place in (items, self) {
+            &-#{$place} {
+                @each $align in $grid-aligns {
+                    &-#{$align} {
+                        place-#{$place}: $align;
+
+                        @each $justify in $grid-aligns {
+                            @if $align != $justify {
+                                &-#{$justify} {
+                                    place-#{$place}: $align $justify;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
 @include breakpoint('tablet') {
-    .grid__column--2 {
-        width: 50%;
+    .grid {
+        &-col-tablet {
+            @for $i from 1 through $grid-column-count {
+                &-#{$i} {
+                    grid-column-end: span $i;
+                }
+            }
+        }
     }
 }
 
 @include breakpoint('mobile-landscape') {
     .grid {
-        @for $i from 1 through $grid-count {
-            &__column--#{$i} {
-                width: 100%;
+        &-col-mobile-landscape {
+            @for $i from 1 through $grid-column-count {
+                &-#{$i} {
+                    grid-column-end: span $i;
+                }
             }
         }
     }

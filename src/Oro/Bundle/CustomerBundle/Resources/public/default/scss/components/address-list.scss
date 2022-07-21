@@ -62,6 +62,10 @@
             color: $address-list-button-hover-color;
         }
     }
+
+    &-section {
+        margin-bottom: $offset-y;
+    }
 }
 
 @include breakpoint('tablet-small') {

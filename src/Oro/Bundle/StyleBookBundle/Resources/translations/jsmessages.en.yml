@@ -170,20 +170,24 @@ oro_stylebook:
                 title: Animation
 
         grid:
-            column_size:
-                title: Column Size
-            row_offset:
-                title: Row Spacing
-            column_offset:
-                title: Column Spacing
-                right:
-                    title: Right
-                bottom:
-                    title: Bottom
-            columns_equal:
-                title: Two Symmetric Columns
-            multi_line_row:
-                title: Multi-Line Row
+            how_it_works:
+                title: How it works
+            grid_gap:
+                title: Grid gap
+            columns:
+                title: Columns
+                three_columns:
+                    title: Three columns
+                columns_count:
+                    title: Columns count
+            starts:
+                title: Starts
+            template:
+                title: Grid column template
+            alignment:
+                title: Alignemnts
+            responsive:
+                title: Responsive
 
         jscomponent:
             modal:

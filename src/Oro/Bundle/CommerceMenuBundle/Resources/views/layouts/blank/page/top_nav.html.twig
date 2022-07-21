@@ -1,6 +1,6 @@
 {% block _top_nav_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " topbar grid__row"
+        '~class': " topbar grid"
     }) %}
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
@@ -25,7 +25,7 @@
 
 {% block _top_nav_menu_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " grid__column grid__column--7"
+        '~class': " grid-col-7 grid-col-mobile-landscape-12"
     }) %}
     <div {{ block('block_attributes') }}>
         <div class="topbar-nav-menu">

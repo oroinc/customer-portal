@@ -6,8 +6,9 @@ $style-book-group-element-preview-border: 5px solid get-color('additional', 'bas
 
 $style-book-group-element-preview-grid-row-background: get-color('additional', 'base') !default;
 
-$style-book-group-element-preview-grid-column-border: 1px solid get-color('additional', 'middle') !default;
-$style-book-group-element-preview-grid-column-background: get-color('additional', 'light') !default;
+$style-book-group-element-preview-grid-item-border: 1px solid get-color('additional', 'middle') !default;
+$style-book-group-element-preview-grid-item-background: get-color('additional', 'light') !default;
+$style-book-group-element-preview-grid-item-padding: $offset-x-m !default;
 
 $style-book-group-element-color-palette-border: 1px solid get-color('additional', 'middle') !default;
 

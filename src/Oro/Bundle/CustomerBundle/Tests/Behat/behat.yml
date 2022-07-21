@@ -90,7 +90,7 @@ oro_behat_extension:
     Customer Company Address Button:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"] .grid-views .grid-views__aditional .btn'
     Customer User Registration Error Container:
-      selector: ".form-row span.validation-failed"
+      selector: ".input + span.validation-failed"
     Customer User Responsive Datagrid:
       selector: ".frontend-datagrid--responsive"
     Customer Users Registration form:

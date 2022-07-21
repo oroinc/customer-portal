@@ -39,3 +39,15 @@ layout:
                 name: input_action
                 value:
                     route: oro_customer_customer_user_security_login
+        - '@add':
+            id: registration_footer
+            blockType: container
+            parentId: registration_form
+            siblingId: registration_form_end
+            prepend: true
+        - '@move':
+            id: registration_form_submit_wrapper
+            parentId: registration_footer
+        - '@move':
+            id: registration_form_additional
+            parentId: registration_footer

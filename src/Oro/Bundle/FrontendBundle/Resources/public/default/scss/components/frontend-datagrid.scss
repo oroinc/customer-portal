@@ -16,9 +16,11 @@
 @include breakpoint('tablet') {
     .frontend-datagrid {
         &--responsive {
-            .grid {
+            .grid-main-container {
                 display: $frontend-datagrid-responsive-grid-tablet-display;
+            }
 
+            .grid {
                 &-header {
                     &-cell {
                         &:not(.action-column):not(.grid-header-cell-massAction) {

@@ -19,72 +19,100 @@ layout:
                     blockType: group_element
                     options:
                         anchor: grid
-                        label: oro_stylebook.groups.grid.column_size.title
+                        label: oro_stylebook.groups.grid.how_it_works.title
                 group_element_item_grid:
                     blockType: group_element_item
                     options:
-                        description: oro_stylebook.groups.grid.column_size.description
+                        description: oro_stylebook.groups.grid.how_it_works.description
                 style_book_grid_element_grid:
                     blockType: block
 
                 group_element_grid_view_row:
                     blockType: group_element
                     options:
-                        anchor: row_offset
-                        label: oro_stylebook.groups.grid.row_offset.title
+                        anchor: grid_gap
+                        label: oro_stylebook.groups.grid.grid_gap.title
                 group_element_item_grid_offset_row:
                     blockType: group_element_item
                     options:
-                        description: oro_stylebook.groups.grid.row_offset.description
+                        description: oro_stylebook.groups.grid.grid_gap.description
                 style_book_grid_element_offset_row:
                     blockType: block
 
                 group_element_grid_view_columns:
                     blockType: group_element
                     options:
-                        anchor: columns_offset
-                        label: oro_stylebook.groups.grid.column_offset.title
+                        anchor: columns
+                        label: oro_stylebook.groups.grid.columns.title
                 group_element_item_offset_holder:
                     blockType: group_element_item
                     options:
-                        anchor: columns_offset_right
-                        label: oro_stylebook.groups.grid.column_offset.right.title
+                        anchor: three_columns
+                        label: oro_stylebook.groups.grid.columns.three_columns.title
                         subTreeLvl: 1
-                        description: oro_stylebook.groups.grid.column_offset.right.description
-                style_book_grid_element_offset:
+                        description: oro_stylebook.groups.grid.columns.three_columns.description
+                style_book_grid_element_three_columns:
                     blockType: block
-                group_element_item_offset_bottom_holder:
+                group_element_item_columns_count_holder:
                     blockType: group_element_item
                     options:
-                        anchor: columns_offset_bottom
-                        label: oro_stylebook.groups.grid.column_offset.bottom.title
+                        anchor: columns_count
+                        label: oro_stylebook.groups.grid.columns.columns_count.title
                         subTreeLvl: 1
-                        description: oro_stylebook.groups.grid.column_offset.bottom.description
-                style_book_grid_element_offset_bottom:
+                        description: oro_stylebook.groups.grid.columns.columns_count.description
+                style_book_grid_element_columns_count:
                     blockType: block
-
-                group_element_grid_view_columns_equal:
+                group_element_grid_view_responsive:
                     blockType: group_element
                     options:
-                        anchor: columns_equal
-                        label: oro_stylebook.groups.grid.columns_equal.title
-                group_element_item_half_holder:
+                        anchor: grid_column_responsive
+                        label: oro_stylebook.groups.grid.responsive.title
+                group_element_item_responsive_holder:
                     blockType: group_element_item
                     options:
-                        description: oro_stylebook.groups.grid.columns_equal.description
-                style_book_grid_element_half:
+                        description: oro_stylebook.groups.grid.responsive.description
+                style_book_grid_element_responsive:
                     blockType: block
-
-                group_element_grid_view_clear:
+                group_element_grid_view_starts:
                     blockType: group_element
                     options:
-                        anchor: multi_line_row
-                        label: oro_stylebook.groups.grid.multi_line_row.title
-                group_element_item_clear_holder:
+                        anchor: starts
+                        label: oro_stylebook.groups.grid.starts.title
+                group_element_item_starts_holder:
                     blockType: group_element_item
                     options:
-                        description: oro_stylebook.groups.grid.multi_line_row.description
-                style_book_grid_element_clear:
+                        description: oro_stylebook.groups.grid.starts.description
+                style_book_grid_element_starts:
+                    blockType: block
+                group_element_grid_view_template:
+                    blockType: group_element
+                    options:
+                        anchor: grid_column_template
+                        label: oro_stylebook.groups.grid.template.title
+                group_element_item_template_holder:
+                    blockType: group_element_item
+                    options:
+                        description: oro_stylebook.groups.grid.template.description
+                style_book_grid_element_template:
+                    blockType: block
+                group_element_grid_view_alignment:
+                    blockType: group_element
+                    options:
+                        anchor: grid_column_alignment
+                        label: oro_stylebook.groups.grid.alignment.title
+                group_element_item_alignment_holder:
+                    blockType: group_element_item
+                    options:
+                        description: oro_stylebook.groups.grid.alignment.description
+                style_book_grid_element_alignment:
+                    blockType: block
+                group_element_item_alignment_start_center_holder:
+                    blockType: group_element_item
+                style_book_grid_element_alignment_start_center:
+                    blockType: block
+                group_element_item_alignment_center_holder:
+                    blockType: group_element_item
+                style_book_grid_element_alignment_center:
                     blockType: block
             tree:
                 style_book_content:
@@ -96,14 +124,24 @@ layout:
                             style_book_grid_element_offset_row: ~
                     group_element_grid_view_columns:
                         group_element_item_offset_holder:
-                            style_book_grid_element_offset: ~
-                        group_element_item_offset_bottom_holder:
-                            style_book_grid_element_offset_bottom: ~
-                    group_element_grid_view_columns_equal:
-                        group_element_item_half_holder:
-                            style_book_grid_element_half: ~
-                    group_element_grid_view_clear:
-                        group_element_item_clear_holder:
-                            style_book_grid_element_clear: ~
+                            style_book_grid_element_three_columns: ~
+                        group_element_item_columns_count_holder:
+                            style_book_grid_element_columns_count: ~
+                    group_element_grid_view_responsive:
+                        group_element_item_responsive_holder:
+                            style_book_grid_element_responsive: ~
+                    group_element_grid_view_starts:
+                        group_element_item_starts_holder:
+                            style_book_grid_element_starts: ~
+                    group_element_grid_view_template:
+                        group_element_item_template_holder:
+                            style_book_grid_element_template: ~
+                    group_element_grid_view_alignment:
+                        group_element_item_alignment_holder:
+                            style_book_grid_element_alignment: ~
+                        group_element_item_alignment_start_center_holder:
+                            style_book_grid_element_alignment_start_center: ~
+                        group_element_item_alignment_center_holder:
+                            style_book_grid_element_alignment_center: ~
 
     conditions: 'context["group"]=="grid"'

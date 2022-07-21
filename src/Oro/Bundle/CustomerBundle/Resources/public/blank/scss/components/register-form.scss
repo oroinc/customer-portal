@@ -3,3 +3,7 @@
 .register-form {
     @extend %single-form-page;
 }
+
+.register-form-description {
+    margin-bottom: $offset-y;
+}

@@ -27,13 +27,26 @@
     </div>
 {% endblock %}
 
+{% block  __oro_customer_form__form_start_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid'
+    }) %}
+
+    {{ parent_block_widget(block) }}
+{% endblock %}
+
 {% block __oro_customer_form__form_fields_widget %}
-    {{ form_widget(form, {id: null}) }}
+    {{ form_widget(form, {
+        id: null,
+        'attr': {
+            'class': 'grid grid-col-12'
+        }
+    }) }}
 {% endblock %}
 
 {% block __oro_customer_form__form_submit_wrapper_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' form-row'
+        '~class': ' grid-col-12'
     }) %}
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
@@ -47,6 +60,15 @@
     {{ block_widget(block, {attr: attr}) }}
 {% endblock %}
 
+{% block __oro_customer_form__form_additional_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid-col-12'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
 {% block __oro_customer_form__links_widget %}
     {% set childs = [] %}
     {% for child in block %}
@@ -55,7 +77,7 @@
         {% endif %}
     {% endfor %}
     {% for child in childs %}
-        <div class="form-row form-row--offset-s {{ loop.last ? 'form-row--offset-none' }}">
+        <div>
             {% set attr = layout_attr_defaults(child.vars.attr, {
                 '~class': ' link'
             }) %}
