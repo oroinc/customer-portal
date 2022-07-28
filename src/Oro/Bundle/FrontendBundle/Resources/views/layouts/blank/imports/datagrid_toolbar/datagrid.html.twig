@@ -91,13 +91,18 @@
 {% endblock %}
 
 {% block __datagrid_toolbar__datagrid_toolbar_actions_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' datagrid-tool actions-panel-container'
+    }) %}
+    <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+{% endblock %}
+
+{% block __datagrid_toolbar__datagrid_toolbar_actions_panel_widget %}
     {% set attr = attr|merge({
         class: attr.class|default('') ~ " actions-panel pull-right form-horizontal",
         'data-grid-actions-panel': ''
     }) %}
-    <div class="datagrid-tool actions-panel-container">
-        <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
-    </div>
+    <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
 {% endblock %}
 
 {% block __datagrid_toolbar__datagrid_toolbar_button_container_widget %}
