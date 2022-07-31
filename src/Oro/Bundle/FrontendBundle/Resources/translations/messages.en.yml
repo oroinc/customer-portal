@@ -36,7 +36,9 @@ oro_frontend:
             page_template_collection.label: 'Page Templates'
             no_page_template.label: 'Default template'
             page_template_routes.label: 'Page Template'
-            guest_access_enabled.label: 'Enable Guest Access'
+            guest_access_enabled:
+                label: 'Enable Guest Access'
+                tooltip: 'Only registered, enabled and signed-in customer users can access the website when guest access is turned off. New users may still be able to register if self-registration is enabled (COMMERCE → Customer → Customer Users → Registration Allowed).'
             filter_value_selectors:
                 label: 'Value Selectors'
                 tooltip: 'The drop-down selector is better optimized for selecting from a long list of values.'

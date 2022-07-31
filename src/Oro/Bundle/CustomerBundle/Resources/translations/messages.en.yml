@@ -686,14 +686,28 @@ oro.customer:
             responsive_grid_settings.title: 'Grid Settings'
             rest_api.title: 'REST API'
         fields:
-            default_customer_owner.label: 'Default Customer Owner'
-            registration_allowed.label: 'Registration Allowed'
-            confirmation_required.label: 'Confirmation Required'
-            auto_login_after_registration.label: 'Auto login'
-            registration_link_enabled.label: 'Show Registration Link'
-            registration_instructions_enabled.label: 'Show Registration Instructions'
+            default_customer_owner:
+                label: 'Default Customer Owner'
+                tooltip: 'Default Customer Owner is a user that is provided by default as the owner of the new customer user. Applies to the customers created in the management console as well as to those who register on the OroCommerce website.'
+            registration_allowed:
+                label: 'Registration Allowed'
+                tooltip: 'Allow customer user registration on the OroCommerce website.'
+            confirmation_required:
+                label: 'Confirmation Required'
+                tooltip: 'This option defines whether or not the user receives an email prompting to confirm their registration.'
+            auto_login_after_registration:
+                label: 'Auto login'
+                tooltip: 'Auto login customer user after registration or email confirmation'
+            registration_link_enabled:
+                label: 'Show Registration Link'
+                tooltip: 'When registration link is enabled, it is shown next to the Sign In link in the top bar on the OroCommerce website.'
+            registration_instructions_enabled:
+                label: 'Show Registration Instructions'
+                tooltip: 'This option defines whether or not the registration instructions are shown on the OroCommerce website login page'
             registration_instructions_text.label: 'Registration Instructions Text'
-            company_name_field_enabled.label: 'Require Company Name'
+            company_name_field_enabled:
+                label: 'Require Company Name'
+                tooltip: 'This option defines whether or not the Company Name field is displayed in the registration form on the OroCommerce website'
             user_menu_show_items:
                 label: 'User Menu'
                 option:
@@ -713,7 +727,9 @@ oro.customer:
                 option:
                     yes.label: 'Yes'
                     no.label: 'No'
-            api_key_generation_enabled.label: 'Enable API key generation'
+            api_key_generation_enabled:
+                label: 'Enable API key generation'
+                tooltip: 'This option defines whether or not the automatic generation of API access key is enabled for new customer users.'
             oro_customer_confirmation_required.label: 'Enables customer user email confirmation'
             oro_customer_confirmation_required.description: 'Enables customer user email confirmation'
             case_insensitive_email_addresses_enabled:
