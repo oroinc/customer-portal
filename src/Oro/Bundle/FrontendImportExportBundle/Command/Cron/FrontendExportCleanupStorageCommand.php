@@ -28,6 +28,9 @@ class FrontendExportCleanupStorageCommand extends CleanupStorageCommandAbstract
         parent::__construct();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getDefaultDefinition(): string
     {
         return '0 0 */1 * *';
