@@ -1,0 +1,23 @@
+Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
+    marleneAddress1:
+        region: '@new_york'
+        frontendOwner: '@marlene'
+        country: '@united_states'
+        owner: '@admin'
+        systemOrganization: '@organization'
+        primary: false
+        label: 'Address 4'
+        street: '2849 Junkins Avenue'
+        city: 'Albany'
+        postalCode: '31707'
+        organization: '@organization'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType:
+    marleneAddress1ShippingDefault:
+        address: '@marleneAddress1'
+        type: '@shippingType'
+        default: true
+    marleneAddress1BillingDefault:
+        address: '@marleneAddress1'
+        type: '@billingType'
+        default: true
