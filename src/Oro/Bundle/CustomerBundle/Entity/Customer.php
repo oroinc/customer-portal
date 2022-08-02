@@ -257,7 +257,7 @@ class Customer extends ExtendCustomer implements DatesAwareInterface
      *          }
      *      }
      * )
-     **/
+     */
     protected $salesRepresentatives;
 
     /**
