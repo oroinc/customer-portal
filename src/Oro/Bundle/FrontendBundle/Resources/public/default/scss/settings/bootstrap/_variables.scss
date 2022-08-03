@@ -1,0 +1,237 @@
+/* @theme: default; */
+
+// https://getbootstrap.com/docs/4.6/getting-started/theming/#variable-defaults
+// https://github.com/twbs/bootstrap/blob/v4.6.1/scss/_variables.scss
+@import '~@oroinc/bootstrap/scss/variables';
+
+// Default variable overrides
+
+// Color system
+
+// Options
+
+// Body
+// Settings for the `<body>` element.
+
+// Links
+// Style anchor elements.
+
+$link-color: get-color('ui', 'normal');
+$link-hover-color: get-color('ui', 'normal');
+
+// Paragraphs
+// Style p element.
+
+// Grid breakpoints
+// Define the minimum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+
+$grid-gutter-width: 16px;
+
+// Components
+// Define common padding and border radius sizes and more.
+
+$border-radius: $base-ui-element-border-radius;
+$border-radius-xs: 3px;
+$border-radius-s: 4px;
+$border-radius-m: $base-ui-element-border-radius;
+$border-radius-l: $base-ui-element-border-radius;
+
+// Typography
+// Font, line-height, and color for body text, headings, and more.
+
+$font-family-base: $base-font;
+$font-size-base: 14px;
+
+$line-height-base: $base-line-height--s;
+
+$dt-font-weight: $font-weight-normal;
+
+// Tables
+// Customizes the `.table` component with basic values, each used across all table variations.
+
+$table-color: get-color('additional', 'dark');
+
+// Buttons + Forms
+// Shared variables that are reassigned to `$input-` and `$btn-` specific variables.
+
+$input-btn-padding-y: 10px;
+$input-btn-padding-x: 13px;
+$input-btn-padding-y-sm: $offset-y-s;
+$input-btn-padding-y-lg: $offset-y-m;
+
+// Buttons
+// For each of Bootstrap's buttons, define text, background, and border color.
+
+$btn-padding-y: $input-btn-padding-y;
+$btn-padding-x: $input-btn-padding-x;
+$btn-font-family: $base-font;
+$btn-font-size: 1rem;
+$btn-line-height--s: 1.6;
+$btn-white-space: nowrap;
+$btn-padding-y-xs: 3px;
+$btn-padding-x-xs: 4px;
+$btn-xs-min-size: 26px;
+$btn-padding-y-s: 4px;
+$btn-padding-x-s: 8px;
+$btn-padding-y-m: 12px;
+$btn-padding-x-m: 16px;
+$btn-padding-y-l: 20px;
+$btn-padding-x-l: 15px;
+$btn-disabled-opacity: .65;
+$btn-active-box-shadow: inset 0 3px 5px 0 rgba(0 0 0 / 35%);
+
+// Allows for customizing button radius independently from global border radius
+$btn-border-radius: $border-radius;
+$btn-border-radius-xs: $border-radius-xs;
+$btn-border-radius-s: $border-radius-s;
+$btn-border-radius-m: $border-radius-m;
+$btn-border-radius-l: $border-radius-l;
+
+// Forms
+
+$input-padding-y: 11px;
+$input-line-height: $base-ui-element-line-height;
+$input-border-radius: $border-radius;
+
+// Z-index master list
+// Warning: Avoid customizing these values. They're used for a bird's eye view
+// of components dependent on the z-axis and are designed to all work together.
+
+$zindex-dropdown-backdrop: z('dropdown');
+$zindex-navbar: z('dropdown') + 1;
+$zindex-dropdown: z('dropdown') + 1;
+$zindex-popover: z('dropdown') + 6;
+$zindex-tooltip: z('dropdown') + 7;
+$zindex-navbar-fixed: z('dropdown') + 3;
+$zindex-navbar-sticky: z('dropdown') + 3;
+$zindex-modal-bg: z('popup');
+$zindex-modal: z('popup') + 1;
+
+// Navs
+
+$nav-link-padding-y: 7px;
+$nav-link-padding-x: 14px;
+
+$nav-tabs-link-hover-background-color: null;
+$nav-tabs-link-right-offset: null;
+$nav-tabs-link-border: null;
+$nav-tabs-link-active-color-focus-visible: $base-ui-bth-focus-style;
+
+// Navbar
+// Compute the navbar-brand padding-y so the navbar-brand will have the same height as navbar-text and nav-link
+
+// Dropdowns
+// Dropdown menu container and contents.
+
+$dropdown-font-size: 1rem;
+$dropdown-border-radius: $border-radius;
+$dropdown-color: get-color('additional', 'dark');
+$dropdown-border-color: darken(get-color('additional', light), 4%);
+$dropdown-box-shadow: 0 2px 8px rgba(0 0 0 / 10%);
+$dropdown-link-active-color: get-color('additional', 'dark');
+$dropdown-link-active-bg: get-color('additional', 'base');
+$dropdown-item-padding-y: $offset-y-m;
+$dropdown-item-padding-x: $offset-x;
+
+// Pagination
+
+// Jumbotron
+
+// Cards
+
+// Tooltips
+
+$tooltip-font-size: .875rem;
+$tooltip-max-width: 316px;
+$tooltip-border-radius: $border-radius-xs;
+$tooltip-padding-y: $offset-y-s;
+$tooltip-padding-x: $offset-x-m;
+$tooltip-arrow-width: 12px;
+$tooltip-arrow-height: 6px;
+
+// Form tooltips must come after regular tooltips
+
+// Popovers
+
+$popover-font-size: 1rem;
+$popover-bg: get-color('additional', 'ultra');
+$popover-max-width: 280px;
+$popover-min-width: 188px;
+$popover-border-width: 1px;
+$popover-border-color: get-color('additional', 'middle');
+$popover-border-radius: 4px;
+$popover-box-shadow: 0 2px 6px 1px rgba(0 0 0 / 12%);
+$popover-header-bg: $popover-bg;
+$popover-header-color: get-color('additional', 'dark');
+$popover-header-padding-y: $offset-y;
+$popover-header-padding-x: $offset-x;
+$popover-body-color: get-color('additional', 'dark');
+$popover-body-light-color: lighten(get-color('additional', 'dark'), 21%);
+$popover-body-padding-y: $popover-header-padding-y;
+$popover-body-padding-x: $popover-header-padding-x;
+$popover-arrow-width: 16px;
+$popover-arrow-height: 8px;
+$popover-arrow-color: $popover-bg;
+
+$popover-arrow-outer-color: $popover-border-color;
+
+// Toasts
+
+// Badges
+
+// Use a higher than normal value to ensure completely rounded edges when
+// customizing padding or font-size on labels.
+
+// Modals
+
+// Padding applied to the modal body
+$modal-inner-padding: 15px;
+
+// Margin between elements in footer, must be lower than or equal to 2 * $modal-inner-padding
+
+$modal-dialog-margin: 10px;
+$modal-dialog-sm-up-margin-y: 30px;
+$modal-title-padding: 15px;
+$modal-title-line-height: $line-height-base;
+$modal-content-bg: #fff;
+$modal-content-border-color: rgba(0 0 0 / 20%);
+$modal-content-border-width: $border-width;
+$modal-content-border-radius: $base-ui-popup-border-radius;
+$modal-content-xs-box-shadow: 0 3px 9px rgba(0 0 0 / 50%);
+$modal-content-sm-up-box-shadow: 0 5px 15px rgba(0 0 0 / 50%);
+$modal-backdrop-bg: #000;
+$modal-backdrop-opacity: .5;
+$modal-header-border-color: #e5e5e5;
+$modal-footer-border-color: $modal-header-border-color;
+$modal-header-border-width: $modal-content-border-width;
+$modal-footer-border-width: $modal-header-border-width;
+
+$modal-lg: 900px;
+$modal-md: 600px;
+$modal-sm: 300px;
+
+// Alerts
+// Define alert colors, border radius, and padding.
+
+// Progress bars
+
+// List group
+
+// Image thumbnails
+
+// Figures
+
+// Breadcrumbs
+
+// Carousel
+
+// Spinners
+
+// Close
+
+// Code
+
+// Utilities
+
+// Printing

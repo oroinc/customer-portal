@@ -1,6 +1,8 @@
 layout:
     imports:
         -
+            id: oro_customer_page
+        -
             id: oro_customer_user_role_grid
             root: page_content
             namespace: customer_user_roles

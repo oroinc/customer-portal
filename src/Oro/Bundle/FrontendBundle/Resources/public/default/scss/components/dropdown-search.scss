@@ -1,0 +1,97 @@
+/* @theme: default; */
+
+.dropdown-menu {
+    .dropdown-search-container {
+        position: relative;
+
+        .quick-search-icon {
+            display: none;
+            position: absolute;
+            right: $dropdown-search-search-icon-offset-right;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .clear-search-button {
+            right: $dropdown-search-clear-search-button-offset-right;
+
+            &:disabled {
+                display: none;
+
+                + .quick-search-icon {
+                    display: inline-block;
+                }
+            }
+        }
+
+        .input {
+            padding-right: $dropdown-search-input-offset;
+        }
+
+        .no-matches {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: $offset-y-m $offset-x;
+        }
+    }
+
+    .item-container {
+        max-height: $dropdown-search-item-container-height;
+        overflow-y: auto;
+
+        // Prevent to crop focusable children
+        padding: $dropdown-search-item-container-offset;
+
+        .dropdown-item {
+            position: relative;
+            padding-left: $dropdown-search-item-container-item-offset;
+            white-space: normal;
+
+            .fa {
+                position: absolute;
+                left: $dropdown-search-item-container-icon-offset;
+            }
+
+            &[data-label]::after {
+                content: attr(data-label);
+                padding-left: $dropdown-search-item-container-item-content-offset;
+                color: $dropdown-search-item-container-item-color;
+                font-style: $dropdown-search-item-container-item-font-style;
+                font-size: $dropdown-search-item-container-item-font-size;
+            }
+        }
+    }
+
+    .items-group {
+        list-style: none;
+
+        &:not(:first-of-type) {
+            margin-top: $offset-y-m;
+
+            &::before {
+                content: '';
+                display: block;
+                margin: $dropdown-search-items-group-offset;
+
+                border-top: $dropdown-search-items-group-border;
+            }
+        }
+
+        &.hide {
+            + .items-group {
+                &::before {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    &.fullscreen {
+        .item-container {
+            max-height: initial;
+        }
+    }
+}

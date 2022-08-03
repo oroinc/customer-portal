@@ -1,0 +1,119 @@
+/* @theme: default; */
+
+.launcher-item {
+    @mixin launcher-separator($enabled: false) {
+        @include list-separator(
+            $enabled: $enabled,
+            $top: $launcher-item-separator-top,
+            $bottom: $launcher-item-separator-bottom,
+            $left: $launcher-item-separator-left,
+            $border: $launcher-item-separator-border-left
+        );
+    }
+
+    position: relative;
+    display: block;
+    margin: $launcher-item-offset;
+
+    &.mode-text-only,
+    &.mode-icon-only {
+        display: inline-block;
+        margin: 0;
+    }
+
+    &.mode-text-only {
+        padding: $launcher-item-action-text-only-inner-offset;
+
+        @include launcher-separator($enabled: $launcher-item-separator-text-only);
+
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+
+    &.mode-icon-only {
+        padding: $launcher-item-action-icon-only-inner-offset;
+
+        @include launcher-separator($enabled: $launcher-item-separator-icon-only);
+
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+
+    &.mode-icon-text {
+        @include launcher-separator($enabled: $launcher-item-separator-icon-text);
+    }
+
+    .action {
+        display: block;
+        color: $launcher-item-icon-action-color;
+
+        &.mode-icon-only {
+            min-width: $btn-xs-min-size;
+            color: $launcher-item-icon-color;
+            text-align: center;
+
+            @include hover-focus {
+                text-decoration: none;
+                color: $launcher-item-icon-hover-focus-color;
+            }
+
+            .icon {
+                &::before {
+                    font-size: $launcher-item-icon-size;
+                    line-height: 0;
+                }
+            }
+        }
+    }
+
+    .dropdown-item.action {
+        @include link();
+
+        text-decoration: $link-link-normal-text-decoration;
+
+        @include element-state('focus') {
+            background-color: initial;
+        }
+
+        @include element-state('hover') {
+            text-decoration: $link-link-hover-text-decoration;
+            background-color: initial;
+        }
+    }
+
+    .dropdown-menu & {
+        .action {
+            &.mode-icon-text,
+            &.mode-text-only {
+                padding: $launcher-item-action-text-only-inner-offset;
+            }
+        }
+
+        &.mode-text-only {
+            display: block;
+            padding: 0;
+
+            @include launcher-separator($enabled: $launcher-item-separator-dropdown-text-only);
+        }
+
+        &.mode-icon-only {
+            @include launcher-separator($enabled: $launcher-item-separator-dropdown-icon-only);
+
+            .action {
+                padding: $offset-x-m $offset-x-s;
+                color: $launcher-item-icon-color;
+
+                @include hover-focus {
+                    text-decoration: none;
+                    color: $launcher-item-icon-hover-focus-color;
+                }
+            }
+        }
+
+        &.mode-icon-text {
+            @include launcher-separator($enabled: $launcher-item-separator-dropdown-icon-text);
+        }
+    }
+}

@@ -1,0 +1,51 @@
+/* @theme: default; */
+
+.style-book-header {
+    border-bottom: $style-book-header-border-bottom;
+
+    &__inner {
+        display: $style-book-header-inner-display;
+        align-items: $style-book-header-inner-align-items;
+        padding: $style-book-header-inner-inner-offset;
+    }
+
+    &__side {
+        flex-shrink: $style-book-header-side-flex-shrink;
+        flex-grow: $style-book-header-side-flex-grow;
+    }
+
+    &__base {
+        flex-shrink: $style-book-header-base-flex-shrink;
+        flex-grow: $style-book-header-base-flex-grow;
+
+        display: $style-book-header-base-display;
+        justify-content: $style-book-header-base-justify-content;
+    }
+
+    &__mobile_actions {
+        display: $style-book-header-mobile-actions-display;
+    }
+}
+
+@include breakpoint('tablet') {
+    .style-book-header {
+        &__side {
+            flex-grow: $style-book-header-side-tablet-flex-grow;
+            order: $style-book-header-side-tablet-order;
+            display: $style-book-header-side-tablet-display;
+            justify-content: $style-book-header-side-tablet-justify-content;
+        }
+
+        &__base {
+            flex-grow: $style-book-header-base-tablet-flex-grow;
+
+            .style-book-menu--main {
+                display: $style-book-header-side-base-tablet-display;
+            }
+        }
+
+        &__mobile_actions {
+            display: $style-book-header-tablet-actions-display;
+        }
+    }
+}

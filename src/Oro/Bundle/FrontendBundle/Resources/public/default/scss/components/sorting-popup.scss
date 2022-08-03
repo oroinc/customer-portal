@@ -1,0 +1,14 @@
+/* @theme: default; */
+
+.sorting-popup {
+    padding: $sorting-popup-inner-offset;
+
+    &__title {
+        padding: $sorting-popup-title-inner-offset;
+    }
+
+    &__radio {
+        width: 100%;
+        padding: $sorting-popup-radio-inner-offset;
+    }
+}

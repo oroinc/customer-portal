@@ -1,5 +1,7 @@
 {% block _header_row_widget %}
     {% set attr = layout_attr_defaults(attr, {
+        'data-page-component-module': 'oroui/js/app/components/view-component',
+        'data-page-component-options': {view: 'orocommercemenu/js/app/views/header-row-view'},
         'data-sticky-target': 'top-sticky-panel',
         '~data-sticky': {
             isSticky: true,
@@ -10,11 +12,24 @@
                 maxScreenType: 'tablet',
             },
         },
-        '~class': (blocks.header_row.children|length > 2 ? ' header-row--from-left')
+        '~class': 'header-row' ~ (blocks.header_row.children|length > 2 ? ' header-row--from-left')
     }) %}
 
     <div class="page-area-container">
-        {{ parent_block_widget(block, {attr: attr}) }}
+        <div {{ block('block_attributes') }}>
+            {{ block_widget(block) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block _main_menu_extra_container_widget %}
+    {% set attr =  layout_attr_defaults(attr, {
+    'data-main-menu-extra-container': '',
+    'data-header-row-toggle': ''
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
     </div>
 {% endblock %}
 
@@ -29,7 +44,7 @@
                         maxScreenType: 'tablet'
                     },
                     component: 'oroui/js/app/components/view-component',
-                    view: 'orofrontend/blank/js/app/views/fullscreen-popup-view',
+                    view: 'orofrontend/default/js/app/views/fullscreen-popup-view',
                     contentElement: '[data-main-menu-extra-container]',
                     popupLabel: 'oro_frontend.fullscreen_popup.menu.label'|trans,
                     popupIcon: 'fa-navicon fa--gray fa--x-large',

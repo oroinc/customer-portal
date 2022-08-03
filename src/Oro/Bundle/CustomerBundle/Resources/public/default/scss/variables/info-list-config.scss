@@ -1,0 +1,25 @@
+/* @theme: default; */
+
+$info-list-width: 100% !default;
+$info-list-offset: 0 !default;
+$info-list-inner-offset: 0 !default;
+$info-list-border: 1px solid get-color('additional', 'light') !default;
+$info-list-border-top: none !default;
+
+$info-list-item-display: flex !default;
+$info-list-item-inner-offset: 5px 0 6px 0 !default;
+
+$info-list-name-width: 115px !default;
+$info-list-name-min-width: $info-list-name-width !default;
+$info-list-name-offset: 0 30px 0 0 !default;
+
+$info-list-name-after-content: ':' !default;
+$info-list-name-after-offset-left: 1px !default;
+$info-list-name-after-position: absolute !default;
+
+// Mobile
+$info-list-mobile-offset: 0 !default;
+
+$info-list-name-mobile-width: 100px !default;
+$info-list-name-mobile-max-width: $info-list-name-mobile-width !default;
+$info-list-name-mobile-offset: 0 10px 0 0 !default;

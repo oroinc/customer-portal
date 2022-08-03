@@ -23,6 +23,7 @@ CustomerBundle
 
 FrontendBundle
 --------------
+* The `blank` theme was removed and all appropriate files were moved to default theme. Recommended to use the `default` theme as base for any customizations.
 * The `OroFrontendBundle::getContainerExtension`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/5.0.0/src/Oro/Bundle/FrontendBundle/OroFrontendBundle.php#L69 "Oro\Bundle\FrontendBundle\OroFrontendBundle::getContainerExtension")</sup> method was removed.
 * The `OroFrontendExtension::getAlias`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/5.0.0/src/Oro/Bundle/FrontendBundle/DependencyInjection/OroFrontendExtension.php#L84 "Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension::getAlias")</sup> method was removed.
 * The following methods in class `FrontendJsRoutingDumpCommand`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/5.0.0/src/Oro/Bundle/FrontendBundle/Command/FrontendJsRoutingDumpCommand.php#L23 "Oro\Bundle\FrontendBundle\Command\FrontendJsRoutingDumpCommand")</sup> were removed:

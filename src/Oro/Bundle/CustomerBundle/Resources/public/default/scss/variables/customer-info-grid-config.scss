@@ -1,0 +1,22 @@
+/* @theme: default; */
+
+$customer-info-grid-title-offset: 23px 0 $offset-y-m !default;
+$customer-info-grid-title-font-size: $base-font-size--large !default;
+$customer-info-grid-title-text-transform: uppercase !default;
+
+$customer-info-grid-element-label-offest-inner: $offset-y-s $offset-y-m 2px 0 !default;
+$customer-info-grid-element-label-font-weight: font-weight('bold') !default;
+
+$customer-info-grid-element-label-white-space: nowrap !default;
+
+$customer-info-grid-element-content-offest-inner: $offset-y-s $offset-y-m 2px !default;
+$customer-info-grid-element-content-font-style: italic !default;
+$customer-info-grid-element-content-word-wrap: break-word !default;
+
+// Specific line height to make same line-height in Firefox and Chrome
+$customer-info-grid-table-line-height: 1.1429 !default;
+
+// tablet-small
+$customer-info-grid-element-label-white-space-tablet-small: normal !default;
+$customer-info-grid-column-offset-inner-left: 0 !default;
+$customer-info-grid-element-label-width-tablet-small: 150px !default;

@@ -57,8 +57,17 @@
 }
 
 .topbar-navigation {
+    @include list-normalize();
+
+    display: flex;
+    justify-content: flex-end;
+
     &--has-sibling {
         margin-right: 10px;
+    }
+
+    &--align-end {
+        margin-left: auto;
     }
 
     &__link {
@@ -77,9 +86,13 @@
     }
 
     &__item {
+        margin-right: $top-bar-menu-item-offset-right;
+        line-height: $top-bar-menu-item-line-height;
         padding: $top-bar-menu-item-offset-inner;
 
-        line-height: 16px;
+        &:last-child {
+            margin-right: 0;
+        }
     }
 
     &__separator {
@@ -110,9 +123,19 @@
 @include breakpoint('tablet') {
     .topbar {
         display: none;
+
+        .grid__column {
+            display: block;
+            float: none;
+
+            padding: 0;
+            width: 100%;
+        }
     }
 
     .topbar-navigation {
+        display: block;
+
         &__item {
             display: block;
             margin-right: 0;

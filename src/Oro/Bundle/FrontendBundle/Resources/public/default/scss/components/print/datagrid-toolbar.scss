@@ -1,0 +1,15 @@
+/* @theme: default; */
+
+.datagrid-toolbar {
+    display: block;
+
+    &__side {
+        float: right;
+    }
+
+    &__rightside,
+    &__base {
+        // stylelint-disable-next-line declaration-no-important
+        display: none !important;
+    }
+}

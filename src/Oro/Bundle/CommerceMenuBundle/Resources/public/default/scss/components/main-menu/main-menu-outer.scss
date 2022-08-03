@@ -1,3 +1,13 @@
+/* @theme: default; */
+
+.main-menu-outer {
+    &__container {
+        display: flex;
+
+        justify-content: center;
+    }
+}
+
 @include breakpoint('desktop') {
     .main-menu-outer {
         display: flex;
@@ -9,6 +19,12 @@
         margin-bottom: 10px;
 
         border-bottom: $main-menu-outer-tablet-border;
+
+        &__container {
+            display: block;
+
+            overflow: hidden;
+        }
 
         &__text {
             display: inline-block;

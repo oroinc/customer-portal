@@ -1,8 +1,126 @@
+aliases:
+    oro/frontend-dialog-widget$: orofrontend/js/app/components/frontend-dialog-widget
+    orofrontend/js/app/filter-count-helper$: orofrontend/default/js/app/filter-count-helper
+    orofrontend/js/app/views/frontend-abstract-filter$: orofrontend/default/js/app/views/frontend-abstract-filter
+    orofrontend/js/app/views/frontend-multiselect-filter$: orofrontend/default/js/app/views/frontend-multiselect-filter
+    orofrontend/js/app/views/frontend-search-boolean-filter$: orofrontend/default/js/app/views/frontend-search-boolean-filter
+    orofrontend/js/app/views/frontend-select-filter$: orofrontend/default/js/app/views/frontend-select-filter
+    slick$: slick-carousel/slick/slick
+app-modules:
+    - orofrontend/default/js/app/modules/input-widgets
+    - orofrontend/default/js/app/modules/modals-module
+    - orofrontend/default/js/app/modules/object-fit-polyfill-module
+    - orofrontend/default/js/app/modules/zoom-disable
+    - orofrontend/js/app/modules/component-shortcuts-module
+    - orofrontend/js/app/modules/inline-editor-types-map-module
+configs:
+    orofrontend/default/js/app/views/frontend-abstract-filter: {}
+    orofrontend/default/js/app/views/frontend-select-filter: {}
+    orofrontend/default/js/app/views/scroll-top-view: {}
+    orofrontend/js/app/components/frontend-datagrid-component: {}
+    orofrontend/js/app/datafilter/actions/fullscreen-filters-action: {}
+    orofrontend/js/app/datafilter/frontend-collection-filters-manager: {}
+    orofrontend/js/app/datafilter/frontend-manage-filters-decorator: {}
+    orofrontend/js/app/datafilter/frontend-multiselect-decorator: {}
+    orofrontend/js/app/datafilter/fullscreen-filters: {}
+    orofrontend/js/app/datafilter/plugins/frontend-filters-plugin: {}
+    orofrontend/js/app/plugins/frontend-datagrid-settings-plugin: {}
+    orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-column-view: {}
+    orofrontend/js/app/views/dom-relocation-view: {}
+    orofrontend/js/datagrid/cell/frontend-action-cell: {}
 dynamic-imports:
     commons:
+        - oro/frontend-dialog-widget
+        - orofrontend/default/js/app/views/dropdown-search
         - orofrontend/default/js/app/views/fake-masked-input-view
+        - orofrontend/default/js/app/views/fullscreen-popup-view
+        - orofrontend/default/js/app/views/proxy-focus-view
+        - orofrontend/default/js/app/views/scroll-top-view
+        - orofrontend/default/js/app/views/sticky-panel-view
+        - orofrontend/default/js/widgets/elastic-area-widget
+        - orofrontend/default/js/widgets/expand-text-widget
+        - orofrontend/default/js/widgets/print-page-widget
+        - orofrontend/default/js/widgets/rows-collapse-widget
+        - orofrontend/js/app/components/delete-item-component
+        - orofrontend/js/app/components/embedded-list-component
+        - orofrontend/js/app/components/empty-items-component
+        - orofrontend/js/app/components/frontend-dialog-widget
+        - orofrontend/js/app/components/list-slider-component
+        - orofrontend/js/app/components/popup-gallery-widget
+        - orofrontend/js/app/components/switchable-editable-view-component
+        - orofrontend/js/app/components/widget-form-component
+        - orofrontend/js/app/views/dom-relocation-view
+        - orofrontend/js/app/views/page/content-view
+        - orofrontend/js/app/views/scroll-view
+    orodatagrid:
+        - orofrontend/default/js/app/views/choice-filter
+        - orofrontend/js/app/components/frontend-datagrid-component
+        - orofrontend/js/app/datafilter/frontend-collection-filters-manager
+        - orofrontend/js/app/datafilter/plugins/frontend-filters-plugin
+        - orofrontend/js/app/plugins/frontend-datagrid-settings-plugin
+        - orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-column-view
+        - orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-view
+        - orofrontend/js/datagrid/cell/frontend-action-cell
+        - orofrontend/js/datagrid/cell/frontend-action-header-cell
+        - orofrontend/js/datagrid/frontend-grid
+        - orofrontend/js/datagrid/grid-views/frontend-grid-views-view
+entry:
+    app:
+        - oroui/js/app
+        - oroui/js/app/services/app-ready-load-modules
 map:
-    "*":
+    '*':
+        oro/filter-settings: orofrontend/default/js/app/views/filter-settings
+        oro/datagrid/cell/action-cell: orofrontend/js/datagrid/cell/frontend-action-cell
+        oro/filter/abstract-filter: orofrontend/default/js/app/views/frontend-abstract-filter
+        oro/filter/choice-filter: orofrontend/default/js/app/views/choice-filter
+        oro/filter/multiselect-filter: orofrontend/js/app/views/frontend-multiselect-filter
+        oro/filter/search-boolean-filter: orofrontend/js/app/views/frontend-search-boolean-filter
+        oro/filter/select-filter: orofrontend/js/app/views/frontend-select-filter
+        orodatagrid/js/app/components/datagrid-component: orofrontend/js/app/components/frontend-datagrid-component
+        orodatagrid/js/app/plugins/grid/datagrid-settings-plugin: orofrontend/js/app/plugins/frontend-datagrid-settings-plugin
+        orodatagrid/js/datagrid/grid: orofrontend/js/datagrid/frontend-grid
+        orodatagrid/js/datagrid/header-cell/action-header-cell: orofrontend/js/datagrid/cell/frontend-action-header-cell
+        orodatagrid/templates/datagrid-settings/datagrid-settings-collection.html: orofrontend/default/templates/datagrid/datagrid-settings-collection.html
+        orodatagrid/templates/datagrid-settings/datagrid-settings-filter.html: orofrontend/default/templates/datagrid/datagrid-settings-filter.html
+        orodatagrid/templates/datagrid-settings/datagrid-settings-item.html: orofrontend/default/templates/datagrid/datagrid-settings-item.html
+        orodatagrid/templates/datagrid-settings/datagrid-settings.html: orofrontend/default/templates/datagrid/datagrid-settings.html
+        orodatagrid/templates/datagrid/action-header-cell.html: orofrontend/default/templates/datagrid/action-header-cell.html
+        orodatagrid/templates/datagrid/grid-view-label.html: orofrontend/default/templates/datagrid/grid-view-label.html
+        orodatagrid/templates/datagrid/page-size.html: orofrontend/default/templates/datagrid/page-size.html
+        orodatagrid/templates/datagrid/pagination-input.html: orofrontend/default/templates/datagrid/pagination-input.html
+        orodatagrid/templates/datagrid/select-all-header-cell.html: orofrontend/default/templates/datagrid/select-all-header-cell.html
+        orodatagrid/templates/datagrid/select-row-cell.html: orofrontend/default/templates/datagrid/select-row-cell.html
         orodatagrid/templates/datagrid/visible-items-counter.html: orofrontend/default/templates/datagrid/visible-items-counter.html
+        orofilter/js/plugins/filters-toggle-plugin: orofrontend/js/app/datafilter/plugins/frontend-filters-plugin
         orofilter/templates/filters-no-found.html: orofrontend/templates/multiselect-no-found.html
         orofilter/templates/multiselect-clear-search.html: orofrontend/templates/multiselect-clear-search.html
+        oroui/js/app/views/page/content-view: orofrontend/js/app/views/page/content-view
+        oroui/templates/delete-confirmation.html: orofrontend/default/templates/ui/modal-dialog.html
+        oroui/templates/loading-mask-view.html: orofrontend/templates/ui/loading-mask-view.html
+        oroui/templates/message-item.html: orofrontend/default/templates/ui/message-item.html
+        oroui/templates/modal-dialog.html: orofrontend/default/templates/ui/modal-dialog.html
+    orofrontend/default/js/app/views/choice-filter:
+        oro/filter/choice-filter: oro/filter/choice-filter
+    orofrontend/default/js/app/views/frontend-abstract-filter:
+        oro/filter/abstract-filter: oro/filter/abstract-filter
+    orofrontend/js/app/components/frontend-datagrid-component:
+        orodatagrid/js/app/components/datagrid-component: orodatagrid/js/app/components/datagrid-component
+    orofrontend/js/app/datafilter/plugins/frontend-filters-plugin:
+        orofilter/js/plugins/filters-toggle-plugin: orofilter/js/plugins/filters-toggle-plugin
+    orofrontend/js/app/plugins/frontend-datagrid-settings-plugin:
+        orodatagrid/js/app/plugins/grid/datagrid-settings-plugin: orodatagrid/js/app/plugins/grid/datagrid-settings-plugin
+    orofrontend/js/app/views/frontend-multiselect-filter:
+        oro/filter/multiselect-filter: oro/filter/multiselect-filter
+    orofrontend/js/app/views/frontend-search-boolean-filter:
+        oro/filter/search-boolean-filter: oro/filter/search-boolean-filter
+    orofrontend/js/app/views/frontend-select-filter:
+        oro/filter/select-filter: oro/filter/select-filter
+    orofrontend/js/app/views/page/content-view:
+        oroui/js/app/views/page/content-view: oroui/js/app/views/page/content-view
+    orofrontend/js/datagrid/cell/frontend-action-cell:
+        oro/datagrid/cell/action-cell: oro/datagrid/cell/action-cell
+    orofrontend/js/datagrid/cell/frontend-action-header-cell:
+        orodatagrid/js/datagrid/header-cell/action-header-cell: orodatagrid/js/datagrid/header-cell/action-header-cell
+    orofrontend/js/datagrid/frontend-grid:
+        orodatagrid/js/datagrid/grid: orodatagrid/js/datagrid/grid

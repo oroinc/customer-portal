@@ -3,7 +3,7 @@ import {pick} from 'underscore';
 import __ from 'orotranslation/js/translator';
 import mediator from 'oroui/js/mediator';
 import filterSettings from 'oro/filter-settings';
-import FullScreenPopupView from 'orofrontend/blank/js/app/views/fullscreen-popup-view';
+import FullScreenPopupView from 'orofrontend/default/js/app/views/fullscreen-popup-view';
 import FilterOptionsStateExtensions from 'orofrontend/js/app/datafilter/filter-options-state-extensions';
 
 import moduleConfig from 'module-config';

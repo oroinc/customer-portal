@@ -4,7 +4,7 @@ define(function(require) {
     const MapAction = require('oro/datagrid/action/map-action');
     const ViewportManager = require('oroui/js/viewport-manager');
     const Popover = require('bootstrap-popover');
-    const FullscreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
+    const FullscreenPopupView = require('orofrontend/default/js/app/views/fullscreen-popup-view');
     const template = require('tpl-loader!orocustomer/templates/datagrid/action/frontend-map-action.html');
 
     require('jquery');

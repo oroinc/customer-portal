@@ -1,6 +1,10 @@
 /* @theme: default; */
 
 .page-footer {
+    padding: $page-footer-inner-offset;
+
+    border: 0 $page-footer-border-style;
+    border-width: $page-footer-border-width;
     background: $page-footer-background;
 
     &-container {

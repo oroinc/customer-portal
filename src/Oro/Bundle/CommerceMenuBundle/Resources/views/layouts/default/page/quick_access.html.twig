@@ -1,3 +1,12 @@
+{% block _quick_access_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " quick-access-container"
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
 {% block _quick_access_menu_widget %}
     {% import '@OroNavigation/Menu/menu.html.twig' as oro_menu %}
     {% if item.displayed and item.extras.isAllowed %}

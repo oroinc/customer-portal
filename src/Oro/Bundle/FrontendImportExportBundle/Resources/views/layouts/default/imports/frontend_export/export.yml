@@ -1,0 +1,15 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroFrontendImportExport/layouts/default/imports/frontend_export/export.html.twig'
+
+        - '@addTree':
+            items:
+                __export_button_container:
+                    blockType: container
+                __export_button:
+                    blockType: importexport_button
+            tree:
+                __root:
+                    __export_button_container:
+                        __export_button: ~

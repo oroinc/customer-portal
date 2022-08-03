@@ -1,10 +1,9 @@
-$page-footer-background: get-color('additional', 'base');
-$page-footer-container-offset: null;
+/* @theme: default; */
 
-$page-footer-inner-offset: 50px 0 $offset-y;
-$page-footer-border-style: solid get-color('additional', 'base');
+$page-footer-background: get-color('additional', 'base') !default;
+$page-footer-container-offset: null !default;
+$page-footer-inner-offset: 50px 0 $offset-y !default;
+$page-footer-border-style: solid get-color('additional', 'base') !default;
 $page-footer-border-width: 1px 0 0 0 !default;
-
-$page-footer-container-offset-tablet: null;
-
+$page-footer-container-offset-tablet: null !default;
 $footer-collapse-view-trigger-icon-tablet-color: null !default;

@@ -1,3 +1,8 @@
-$section-title-offset: 0 0 15px;
-$section-title-offset--m: 0 0 10px;
-$section-title-offset--s: 0 0 5px;
+/* @theme: default; */
+
+$section-title-font-size: $base-font-size--m !default;
+$section-title-font-size-m: 16px !default;
+$section-title-font-family: $base-font !default;
+$section-title-offset: 0 0 15px !default;
+$section-title-offset--m: 0 0 10px !default;
+$section-title-offset--s: 0 0 5px !default;

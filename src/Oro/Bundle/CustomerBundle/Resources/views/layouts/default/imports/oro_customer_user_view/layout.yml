@@ -1,0 +1,79 @@
+layout:
+    imports:
+        -
+            id: oro_customer_user_address_list
+            root: __customer_user_address_book
+
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_user_view/layout.html.twig'
+
+        - '@setOption':
+            id: customer_user_address_book
+            optionName: visible
+            optionValue: '=data["acl"].isGranted("oro_customer_frontend_customer_user_address_view")'
+
+        - '@setOption':
+            id: user_addresses_list_template_item_actions_edit
+            optionName: visible
+            optionValue: '=data["acl"].isGranted("oro_customer_frontend_customer_user_address_update")'
+
+        - '@setOption':
+            id: user_addresses_list_template_item_actions_remove
+            optionName: visible
+            optionValue: '=data["acl"].isGranted("oro_customer_frontend_customer_user_address_remove")'
+
+        - '@setOption':
+            id: page_title
+            optionName: defaultValue
+            optionValue: 'oro.customer.frontend.title.customer_user.my_profile'
+
+        - '@setOption':
+            id: customer_user_view_information_title
+            optionName: text
+            optionValue: 'oro.customer.frontend.sections.customer_user.account_info'
+
+        - '@add':
+            id: __customer_user_view_information_content
+            parentId: __customer_user_view_information
+            blockType: customer_user_awere_block
+            prepend: false
+            options:
+                customerUser: '=data["entity"]'
+                vars:
+                    companyNameEnabled: '=data["system_config_provider"].getValue("oro_customer.company_name_field_enabled")'
+
+        - '@addTree':
+            items:
+                __customer_user_view_page:
+                    blockType: container
+                    options:
+                        class_prefix: 'customer-profile'
+                __customer_user_profile_controls_wrapper:
+                    blockType: container
+                __customer_user_profile_controls:
+                    blockType: line_buttons
+                    options:
+                        visible: '=data["entity"]!=null'
+                        buttons: '=data["buttons"].getAll(data["entity"])'
+                __customer_user_view_information:
+                    blockType: container
+                __customer_user_view_information_title_wrapper:
+                    blockType: container
+                __customer_user_view_information_title:
+                    blockType: page_subtitle
+                    options:
+                        text: 'oro.customer.frontend.sections.customer_user.user_profile'
+                        icon: 'user'
+                        badge: 'light'
+                __customer_user_address_book:
+                    blockType: container
+            tree:
+                __root:
+                    __customer_user_view_page:
+                        __customer_user_profile_controls_wrapper: ~
+                        __customer_user_view_information:
+                            __customer_user_view_information_title_wrapper:
+                                __customer_user_view_information_title: ~
+                                __customer_user_profile_controls: ~
+                        __customer_user_address_book: ~

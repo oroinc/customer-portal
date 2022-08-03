@@ -1,0 +1,11 @@
+/* @theme: default; */
+
+.style-book-title {
+    margin: $style-book-title-offset;
+    padding: $style-book-title-inner-offset;
+
+    font-size: $style-book-title-font-size;
+
+    border-bottom: $style-book-title-border-bottom;
+    background-color: $style-book-title-b-color;
+}

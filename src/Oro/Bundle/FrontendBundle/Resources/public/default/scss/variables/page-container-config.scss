@@ -1,6 +1,7 @@
-/* @theme: defaut; */
+/* @theme: default; */
 
-$page-container-config-width: null;
-$page-container-config-max-width: 100%;
-$page-container-config-inner-offset: 0;
-$page-container-config-offset: 0;
+$page-container-config-min-height: 100vh !default;
+$page-container-config-width: null !default;
+$page-container-config-max-width: 100% !default;
+$page-container-config-inner-offset: 0 !default;
+$page-container-config-offset: 0 !default;

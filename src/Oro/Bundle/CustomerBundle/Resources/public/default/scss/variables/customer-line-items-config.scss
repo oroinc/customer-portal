@@ -1,0 +1,34 @@
+/* @theme: default; */
+
+$customer-line-items-offset-bottom: 20px !default;
+$customer-line-items-title-offset-bottom: $offset-y-m !default;
+$customer-line-items-title-font-size: $base-font-size--large !default;
+$customer-line-items-title-text-transform: uppercase !default;
+$customer-line-items-notes-offset-inner-left: $offset-x-m + 2px !default;
+$customer-line-items-grid-row-first-grid-cell-offset-inner-top: $offset-y !default;
+$customer-line-items-grid-row-last-notes-offset-inner: $offset-y-m ($offset-x-m + 2px) $offset-y !default;
+$customer-line-items-grid-row-last-notes-border-bottom: 1px solid get-color('additional', 'light') !default;
+$customer-line-items-grid-cell--offset-l-none: 0 !default;
+$customer-line-items-table-cell-vertical-align: baseline !default;
+$customer-line-items-grid-cell-last-text-align: right !default;
+$customer-line-items-grid-cell-last-notes-cell-offset-inner: 0 !default;
+$customer-line-items-grid-cell-last-notes-cell-text-align: left !default;
+$customer-line-items-sku-value-color: get-color('primary', 'dark') !default;
+
+// tablet-small
+$customer-line-items-title-offset-inner-bottom-tablet-small: $offset-y-m !default;
+$customer-line-items-title-border-bottom-tablet-small: 1px solid get-color('additional', 'light') !default;
+$customer-line-items-table-layout-tablet-small: fixed !default;
+$customer-line-items-notes-offset-inner-left-tablet-small: 0 !default;
+$customer-line-items-notes-offset-inner-bottom-tablet-small: $offset-y-m !default;
+$customer-line-items-grid-row-first-grid-cell-offset-inner-top-tablet-small: $offset-y-m !default;
+$customer-line-items-grid-cell-width-tablet-small: 50% !default;
+$customer-line-items-grid-cell-align-tablet-small: left !default;
+$customer-line-items-grid-cell-last-text-align-tablet-small: $customer-line-items-grid-cell-align-tablet-small !default;
+$customer-line-items-grid-cell--offset-none-mobile: 0 !default;
+$customer-line-items-grid-cell--offset-l-none-mobile: 0 !default;
+$customer-line-items-primary-cell-offset-inner-left-tablet-small: 0 !default;
+$customer-line-items-primary-cell-width-tablet-small: 100% !default;
+$customer-line-items-notes-cell-width-tablet-small: $customer-line-items-primary-cell-width-tablet-small !default;
+$customer-line-items-grid-head-width-tablet-small: 50% !default;
+$customer-line-items-grid-head-inner-offset-tablet-small: 8px 10px 3px !default;

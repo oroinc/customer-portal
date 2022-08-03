@@ -1,0 +1,36 @@
+/* @theme: default; */
+
+.sticky-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: $sticky-panel-z-index;
+
+    display: none;
+    width: 100%;
+
+    background: $sticky-panel-background;
+
+    &--bottom {
+        top: auto;
+        bottom: 0;
+    }
+
+    &--background-less {
+        background: transparent;
+    }
+
+    &__content {
+        width: $sticky-panel-width;
+        margin: 0 auto;
+    }
+
+    &__toolbar {
+        background: $sticky-panel-background;
+        box-shadow: $sticky-panel-box-shadow;
+    }
+
+    &.has-content {
+        display: block;
+    }
+}

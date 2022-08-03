@@ -1,0 +1,9 @@
+/* @theme: default; */
+
+$sticky-panel-z-index: z('fixed') !default;
+$sticky-panel-background: get-color('additional', 'ultra') !default;
+
+// Inner container
+$sticky-panel-width: 100% !default;
+$sticky-panel-box-shadow: 0 2px 5px 0 rgba(0 0 0 / 20%) !default;
+$sticky-panel-background: get-color('additional', 'base') !default;

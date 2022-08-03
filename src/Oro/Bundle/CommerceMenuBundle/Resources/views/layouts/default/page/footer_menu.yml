@@ -2,3 +2,13 @@ layout:
     actions:
         - '@setBlockTheme':
             themes: '@OroCommerceMenu/layouts/default/page/footer_menu.html.twig'
+        - '@addTree':
+            items:
+                footer_menu:
+                    blockType: menu
+                    options:
+                        item: '=data["menu"].getMenu("commerce_footer_links")'
+                        depth: 2
+            tree:
+                page_footer_base:
+                    footer_menu: ~

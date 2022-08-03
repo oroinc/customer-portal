@@ -1,0 +1,26 @@
+/* @theme: default; */
+
+.style-book-main {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+    padding: $offset-y + 10px 0;
+
+    .content-section {
+        margin-bottom: $offset-y + 10px;
+
+        &__text {
+            &:not(:first-child) {
+                margin-top: $offset-y-m;
+            }
+        }
+
+        &__sub-title {
+            margin-bottom: $offset-y-m;
+
+            font-size: $base-font-size--m;
+            text-transform: uppercase;
+        }
+    }
+}

@@ -1,0 +1,20 @@
+/* @theme: default; */
+
+:root {
+    $palette-index: 0;
+    $key-index: 0;
+
+    @each $palette, $colors in $color-palette {
+        $key-index: 0;
+
+        --style-book-color-palette-#{$palette-index}: #{$palette};
+
+        @each $key, $color in $colors {
+            --style-book-color-#{$palette}-#{$key-index}: #{$key};
+            --style-book-color-#{$palette}-#{$key}: #{$color};
+            $key-index: $key-index + 1;
+        }
+
+        $palette-index: $palette-index + 1;
+    }
+}

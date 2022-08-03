@@ -1,0 +1,26 @@
+/* @theme: default; */
+
+$table-font-family: $base-font !default;
+$table-margin-bottom: $offset-y !default;
+$table-text-align: left !default;
+$table-row-padding: $offset-y-s !default;
+$table-head-padding: $offset-y-m !default;
+
+$base-table-border: 1px solid get-color('additional', 'light') !default;
+
+$table-border-top: $base-table-border !default;
+$table-width: 100% !default;
+
+$table-thead-background-color: get-color('additional', 'base') !default;
+$table-thead-font-weight: font-weight('bold') !default;
+$table-thead-th-border: $base-table-border !default;
+$table-thead-th-vertical-align: middle !default;
+
+$table-td-inner-offset: 19px 12px 18px !default;
+$table-th-inner-offset: 10px 12px 10px !default;
+$table-th-border-top: none !default;
+$table-th-border-bottom: $base-table-border !default;
+$table-th-text-align: left !default;
+$table-th-vertical-align: middle !default;
+
+$table-caption-bottom-offset: 12px !default;

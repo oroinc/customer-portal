@@ -1,1 +1,11 @@
 /* @theme: default; */
+
+$page-content-width: 100%;
+$page-content-with-sidebar-inner-offset-start: 24px;
+$page-content-with-sidebar-inner-offset-end: 24px;
+$page-content-with-sidebar-inner-offset: 0 0 0 $page-content-with-sidebar-inner-offset-start;
+
+$page-content-with-sidebar-right-inner-offset: 0 $page-content-with-sidebar-inner-offset-end 0 0;
+
+// Tablet
+$page-content-with-sidebar-tables-s-inner-offset: 0;

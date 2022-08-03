@@ -1,7 +1,9 @@
 /* @theme: default; */
 
 .middlebar {
-    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 20px 0;
 
     &__center {
@@ -40,6 +42,18 @@
         &__center {
             width: 100%;
             display: none;
+        }
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .middlebar {
+        flex-wrap: wrap;
+
+        &__left,
+        &__right,
+        &__center {
+            width: 100%;
         }
     }
 }

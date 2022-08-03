@@ -1,0 +1,27 @@
+/* @theme: default; */
+
+$style-book-header-border-bottom: 1px solid get-color('additional', 'light') !default;
+
+$style-book-header-inner-display: flex !default;
+$style-book-header-inner-align-items: center !default;
+$style-book-header-inner-inner-offset: 20px 0 !default;
+
+$style-book-header-side-flex-shrink: 0 !default;
+$style-book-header-side-flex-grow: 0 !default;
+
+$style-book-header-base-flex-shrink: 0 !default;
+$style-book-header-base-flex-grow: 1 !default;
+$style-book-header-base-display: flex !default;
+$style-book-header-base-justify-content: flex-end !default;
+
+// Tablet
+$style-book-header-side-tablet-flex-grow: 1 !default;
+$style-book-header-side-tablet-order: 1 !default;
+$style-book-header-side-tablet-display: flex !default;
+$style-book-header-side-base-tablet-display: none !default;
+$style-book-header-side-tablet-justify-content: center !default;
+
+$style-book-header-base-tablet-flex-grow: 0 !default;
+
+$style-book-header-tablet-actions-display: block !default;
+$style-book-header-mobile-actions-display: none !default;

@@ -1,0 +1,21 @@
+/* @theme: default; */
+
+@import '~@oroinc/bootstrap/scss/button-group';
+
+.btn-group {
+    .dropdown-toggle {
+        margin: auto;
+    }
+
+    &--flex {
+        display: flex;
+    }
+
+    &--block {
+        display: block;
+    }
+
+    &--full {
+        width: 100%;
+    }
+}

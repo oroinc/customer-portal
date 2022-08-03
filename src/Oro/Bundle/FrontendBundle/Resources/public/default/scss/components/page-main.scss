@@ -1,6 +1,7 @@
 /* @theme: default; */
 
 .page-main {
+    flex-grow: 1;
     padding-top: $page-main-offset-top;
 
     &.offset-none {
@@ -8,9 +9,25 @@
     }
 
     &__content {
+        display: flex;
+        flex-wrap: wrap;
+
         max-width: $page-main-max-width;
         margin: $page-main-content-offset;
 
+        @include safe-area-offset(padding, $page-main-inner-offset);
         @include clearfix();
+    }
+
+    &__header {
+        width: 100%;
+    }
+}
+
+@include breakpoint('tablet') {
+    .page-main {
+        &__content {
+            flex-direction: column;
+        }
     }
 }
