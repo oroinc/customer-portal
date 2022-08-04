@@ -13,6 +13,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Test\Functional\RolePermissionExtension;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @group CommunityEdition
@@ -529,7 +530,6 @@ class CustomerAddressTest extends RestJsonApiTestCase
         /** @var CustomerAddress $address */
         $address = $this->getReference('customer.level_1.address_1');
         $addressId = $address->getId();
-        $organizationId = $address->getSystemOrganization()->getId();
 
         $response = $this->patch(
             ['entity' => self::ENTITY_TYPE, 'id' => $addressId],
@@ -546,14 +546,18 @@ class CustomerAddressTest extends RestJsonApiTestCase
                         ]
                     ]
                 ]
-            ]
+            ],
+            [],
+            false
         );
 
-        $data['data']['relationships']['systemOrganization']['data']['id'] = (string)$organizationId;
-        $this->assertResponseContains($data, $response);
-        self::assertSame(
-            $organizationId,
-            $this->getEntityManager()->find(self::ENTITY_CLASS, $addressId)->getSystemOrganization()->getId()
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'access denied exception',
+                'detail' => 'No access to the entity.',
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
         );
     }
 
