@@ -6,6 +6,3 @@ services:
             - "@oro_security.acl_helper"
         tags:
             - { name: form.type, alias: oro_website_scoped_data_type }
-        calls:
-            - [setWebsiteClass,['Oro\Bundle\WebsiteBundle\Entity\Website']]
-
