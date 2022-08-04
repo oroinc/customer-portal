@@ -298,8 +298,6 @@ Example of data: **\[{"addressType": "billing", "default": false}, {"addressType
 
 {@inheritdoc}
 
-**The read-only field. A passed value will be ignored.**
-
 ## FILTERS
 
 ### addressType
