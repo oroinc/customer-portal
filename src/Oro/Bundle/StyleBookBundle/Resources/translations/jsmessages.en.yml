@@ -66,6 +66,14 @@ oro_stylebook:
             title: keyframe
         mixins-grid-cell-align:
             title: grid-cell-align
+        mixins-font-smoothing:
+            title: font-smoothing
+        mixins-flexible-arrow:
+            title: flexible-arrow
+        mixins-line-clamp:
+            title: line-clamp
+        mixins-skeleton:
+            title: skeleton
     groups:
         forms:
             form_text:

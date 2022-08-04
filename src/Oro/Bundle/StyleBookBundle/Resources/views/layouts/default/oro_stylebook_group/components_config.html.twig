@@ -16,14 +16,14 @@
 {% endblock %}
 
 {% block _style_book_components_sizes_widget %}
-    {% set sourcePath = sourcePath|default('@OroFrontendBundle/Resources/public/default/scss/settings/_sizes.scss') %}
+    {% set sourcePath = sourcePath|default('@OroFrontendBundlePublic/default/scss/settings/_sizes.scss') %}
     
     {{ parent_block_widget(block) }}
 {% endblock %}
 
 {% block _style_book_scss_mixins_widget %}
     {% set list = list|default([])|merge([
-        '@OroFrontendBundle/Resources/public/default/scss/settings/_mixins.scss'
+        '@OroFrontendBundlePublic/default/scss/settings/_mixins.scss'
     ]) %}
 
     {{ parent_block_widget(block) }}

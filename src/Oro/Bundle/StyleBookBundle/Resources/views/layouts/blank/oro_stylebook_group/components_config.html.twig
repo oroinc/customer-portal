@@ -60,28 +60,28 @@
 {% endblock %}
 
 {% block _style_book_components_headings_widget %}
-    {% set sourcePath = sourcePath|default('@OroFrontendBundle/Resources/public/blank/scss/variables/headings-config.scss') %}
+    {% set sourcePath = sourcePath|default('@OroFrontendBundlePublic/blank/scss/variables/headings-config.scss') %}
 
     {{ parent_block_widget(block) }}
 {% endblock %}
 
 {% block _style_book_components_sizes_widget %}
-    {% set sourcePath = sourcePath|default('@OroUIBundle/Resources/public/blank/scss/settings/partials/_sizes.scss') %}
+    {% set sourcePath = sourcePath|default('@OroUIBundlePublic/blank/scss/settings/partials/_sizes.scss') %}
 
     {{ parent_block_widget(block) }}
 {% endblock %}
 
 {% block _style_book_components_functions_widget %}
-    {% set sourcePath = sourcePath|default('@OroUIBundle/Resources/public/blank/scss/settings/partials/_functions.scss') %}
+    {% set sourcePath = sourcePath|default('@OroUIBundlePublic/blank/scss/settings/partials/_functions.scss') %}
 
     {{ parent_block_widget(block) }}
 {% endblock %}
 
 {% block _style_book_scss_mixins_widget %}
     {% set list = list|default([])|merge([
-        '@OroFormBundle/Resources/public/blank/scss/settings/mixins.scss',
-        '@OroUIBundle/Resources/public/blank/scss/settings/partials/_mixins.scss',
-        '@OroFrontendBundle/Resources/public/blank/scss/settings/_mixins.scss'
+        '@OroFormBundlePublic/blank/scss/settings/mixins.scss',
+        '@OroUIBundlePublic/blank/scss/settings/partials/_mixins.scss',
+        '@OroFrontendBundlePublic/blank/scss/settings/_mixins.scss'
     ]) %}
 
     {{ parent_block_widget(block) }}
