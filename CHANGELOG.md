@@ -2,66 +2,72 @@ The upgrade instructions are available at [Oro documentation website](https://do
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
+## UNRELEASED
+
 ### Changed
 #### FrontendBundle
 The oro grid system was modernized and uses CSS grid under the hood.
-  - As a result, you need to update your `html`:
+- As a result, you need to update your `html`:
 
-    **layout.twig**
-      ```diff
-      - <div class="grid">
-      -   <div class="grid__row">
-      -     <div class="grid__column grid__column--1">grid__column--1</div>
-      -     <div class="grid__column grid__column--1">grid__column--1</div>
-      -     <div class="grid__column grid__column--1">grid__column--1</div>
-      -     <div class="grid__column grid__column--1">grid__column--1</div>
-      -     <div class="grid__column grid__column--1">grid__column--1</div>
-      -     <div class="grid__column grid__column--1">grid__column--1</div>
-      -     <div class="grid__column grid__column--1">grid__column--1</div>
-      -     <div class="grid__column grid__column--1">grid__column--1</div>
-      -     <div class="grid__column grid__column--1">grid__column--1</div>
-      -     <div class="grid__column grid__column--1">grid__column--1</div>
-      -     <div class="grid__column grid__column--1">grid__column--1</div>
-      -     <div class="grid__column grid__column--1">grid__column--1</div>
-      -   </div>
-      -   <div class="grid__row">
-      -     <div class="grid__column grid__column--3">grid__column--3</div>
-      -     <div class="grid__column grid__column--9">grid__column--9</div>
-      -   </div>
-      -   <div class="grid__row">
-      -     <div class="grid__column grid__column--4">grid__column--4</div>
-      -     <div class="grid__column grid__column--4">grid__column--4</div>
-      -     <div class="grid__column grid__column--4">grid__column--4</div>
-      -   </div>
-      -   <div class="grid__row">
-      -     <div class="grid__column grid__column--12">grid__column--12</div>
-      -   </div>
-      - </div>
-      + <div class="grid">
-      +   <div class="grid-col">1/12</div>
-      +   <div class="grid-col">1/12</div>
-      +   <div class="grid-col">1/12</div>
-      +   <div class="grid-col">1/12</div>
-      +   <div class="grid-col">1/12</div>
-      +   <div class="grid-col">1/12</div>
-      +   <div class="grid-col">1/12</div>
-      +   <div class="grid-col">1/12</div>
-      +   <div class="grid-col">1/12</div>
-      +   <div class="grid-col">1/12</div>
-      +   <div class="grid-col">1/12</div>
-      +   <div class="grid-col">1/12</div>
+  **layout.twig**
+    ```diff
+    - <div class="grid">
+    -   <div class="grid__row">
+    -     <div class="grid__column grid__column--1">grid__column--1</div>
+    -     <div class="grid__column grid__column--1">grid__column--1</div>
+    -     <div class="grid__column grid__column--1">grid__column--1</div>
+    -     <div class="grid__column grid__column--1">grid__column--1</div>
+    -     <div class="grid__column grid__column--1">grid__column--1</div>
+    -     <div class="grid__column grid__column--1">grid__column--1</div>
+    -     <div class="grid__column grid__column--1">grid__column--1</div>
+    -     <div class="grid__column grid__column--1">grid__column--1</div>
+    -     <div class="grid__column grid__column--1">grid__column--1</div>
+    -     <div class="grid__column grid__column--1">grid__column--1</div>
+    -     <div class="grid__column grid__column--1">grid__column--1</div>
+    -     <div class="grid__column grid__column--1">grid__column--1</div>
+    -   </div>
+    -   <div class="grid__row">
+    -     <div class="grid__column grid__column--3">grid__column--3</div>
+    -     <div class="grid__column grid__column--9">grid__column--9</div>
+    -   </div>
+    -   <div class="grid__row">
+    -     <div class="grid__column grid__column--4">grid__column--4</div>
+    -     <div class="grid__column grid__column--4">grid__column--4</div>
+    -     <div class="grid__column grid__column--4">grid__column--4</div>
+    -   </div>
+    -   <div class="grid__row">
+    -     <div class="grid__column grid__column--12">grid__column--12</div>
+    -   </div>
+    - </div>
+    + <div class="grid">
+    +   <div class="grid-col">1/12</div>
+    +   <div class="grid-col">1/12</div>
+    +   <div class="grid-col">1/12</div>
+    +   <div class="grid-col">1/12</div>
+    +   <div class="grid-col">1/12</div>
+    +   <div class="grid-col">1/12</div>
+    +   <div class="grid-col">1/12</div>
+    +   <div class="grid-col">1/12</div>
+    +   <div class="grid-col">1/12</div>
+    +   <div class="grid-col">1/12</div>
+    +   <div class="grid-col">1/12</div>
+    +   <div class="grid-col">1/12</div>
 
-      +   <div class="grid-col-3">3/12</div>
-      +   <div class="grid-col-9">9/12</div>
+    +   <div class="grid-col-3">3/12</div>
+    +   <div class="grid-col-9">9/12</div>
 
-      +   <div class="grid-col-4">4/12</div>
-      +   <div class="grid-col-4">4/12</div>
-      +   <div class="grid-col-4">4/12</div>
+    +   <div class="grid-col-4">4/12</div>
+    +   <div class="grid-col-4">4/12</div>
+    +   <div class="grid-col-4">4/12</div>
 
-      +   <div class="grid-col-12">12/12</div>
-      + </div>
-      ```
+    +   <div class="grid-col-12">12/12</div>
+    + </div>
+    ```
 More details are available at [Oro Frontend Stylebook](https://doc.oroinc.com/frontend/storefront/css/frontend-stylebook/).
+
+
+## 5.1.0-alpha.2 (2022-08-01)
+[Show detailed list of changes](incompatibilities-5-1-alpha-2.md)
 
 ### Removed
 #### FrontendBundle
