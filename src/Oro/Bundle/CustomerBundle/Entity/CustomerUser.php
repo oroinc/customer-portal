@@ -1166,12 +1166,6 @@ class CustomerUser extends ExtendCustomerUser implements
     }
 
     /** {@inheritdoc} */
-    public function getClass()
-    {
-        return self::class;
-    }
-
-    /** {@inheritdoc} */
     public function getEmailFields()
     {
         return ['email'];
