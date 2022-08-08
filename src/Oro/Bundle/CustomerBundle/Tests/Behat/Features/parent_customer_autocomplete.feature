@@ -16,16 +16,14 @@ Feature: Parent Customer Autocomplete
 
   Scenario: Check Parent Customer Suggestion On Create Customer Page
     Given I click "Create Customer"
-    And I type "Company 111" in "Parent Customer"
-    Then I should see the following options for "Parent Customer" select:
+    Then I should see the following options for "Parent Customer" select pre-filled with "Company 111":
       | Company 111 |
     And I type "Company 111" into Parent Customer field to get all suggestions and see 13 suggestions
 
   Scenario: Check Parent Customer Suggestion On Edit Customer Page
     Given I go to Customers/Customers
     And I click Edit Company 111 in grid
-    And I type "Company 111" in "Parent Customer"
-    Then I should see the following options for "Parent Customer" select:
+    Then I should see the following options for "Parent Customer" select pre-filled with "Company 111":
       | Company 11111 |
     And I type "Company 111" into Parent Customer field to get all suggestions and see 12 suggestions
 
@@ -38,7 +36,6 @@ Feature: Parent Customer Autocomplete
     Then I should see "Customer has been saved" flash message
     When I go to Customers/Customers
     And I click Edit Company 111 in grid
-    And I type "Company 111" in "Parent Customer"
-    Then I should see the following options for "Parent Customer" select:
+    Then I should see the following options for "Parent Customer" select pre-filled with "Company 111":
       | Company 11111 |
     And I type "Company 111" into Parent Customer field to get all suggestions and see 11 suggestions
