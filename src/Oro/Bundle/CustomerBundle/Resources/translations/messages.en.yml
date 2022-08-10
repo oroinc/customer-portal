@@ -81,6 +81,10 @@ oro.customer:
         has_group.label: 'Has group'
         users.label: 'Users'
         addresses.label: 'Addresses'
+        feature:
+            manage:
+                label: Customer Management
+                description: Enables creating and managing customers.
         form.choose: 'Choose a customer...'
         form.choose_parent: 'Choose parent customer...'
         address_book.label: 'Address Book'
@@ -137,6 +141,10 @@ oro.customer:
         customers:
             label:              'Customers'
             description:        Customers that are included into the customer group and are affected by the customer group configuration and use shared content enabed by the cusotmer group (like price lists, product visibility, etc.)
+        feature:
+            manage:
+                label: Customer Group Management
+                description: Enables creating and managing customer groups.
         form.choose:            'Choose a customer group...'
         organization.label:     'Organization'
         owner.label:            'Owner'
@@ -247,7 +255,16 @@ oro.customer:
         preferred_localization:
             label: 'Preferred Localization'
             placeholder: 'Select enabled localization...'
-
+        feature:
+            manage:
+                label: Customer User Management
+                description: Enables creating and managing customer users.
+            confirmation:
+                label: Confirmation Required Registration
+                description: Enables the email confirmation step following user registration.
+            registration:
+                label: Registration Allowed
+                description: Enables registration of new customers from the storefront login screen.
         profile:
             company_name: 'Company Name'
             company: 'Company'
@@ -339,6 +356,10 @@ oro.customer:
             description:            The flag that indicates whether the customer user role may be used in other organizations.
             value.true.label:       'Yes'
             value.false.label:      'No'
+        feature:
+            manage:
+                label: Customer User Role Management
+                description: Enables creating and managing customer user roles.
 
     customeruseraddress:
         entity_description:         A customer user address is an address created for customer user in their address book. Customer user address contains information about the customer user formal name and their postal address. Customer user address may be flagged as billing and/or shipping address, marked as default for billing and/or shipping, and/or marked as a primary address.
@@ -464,6 +485,9 @@ oro.customer:
         context:
             label: Context
             description: Additional user info was tracked during loging.
+        feature:
+            label: Customer User Login Attempts
+            description: Enables access to view successful and unsuccessful login attempts of customer users.
 
     action:
         customer_user:

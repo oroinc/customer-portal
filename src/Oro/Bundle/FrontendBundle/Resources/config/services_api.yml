@@ -8,6 +8,38 @@ parameters:
     oro_frontend.api_doc.default_view: ~
 
 services:
+    oro_frontend.api.resource_checker:
+        class: Oro\Bundle\ApiBundle\Provider\ResourceChecker
+        arguments:
+            - '@oro_featuretoggle.checker.feature_checker'
+            - '@oro_frontend.api.resource_checker_config_provider'
+            - 'frontend_api_resources'
+
+    oro_frontend.api.resource_checker_config_provider:
+        class: Oro\Bundle\ApiBundle\Provider\ResourceCheckerConfigProvider
+        arguments:
+            - '%kernel.cache_dir%/oro/feature_frontend_api_resources.php'
+
+    oro_frontend.api.config_extension.feature:
+        class: Oro\Bundle\ApiBundle\Config\Extension\FeatureConfigurationExtension
+        arguments:
+            - '@oro_api.action_processor_bag'
+            - '@oro_frontend.api.resource_checker_config_provider'
+            - 'frontend_api_resources'
+            - 'A list of entity FQCNs that are available as the storefront API resources.'
+        tags:
+            - { name: oro_feature.config_extension }
+
+    oro_frontend.api.resource_checker.frontend:
+        abstract: true
+        tags:
+            -
+                name: oro.api.resource_checker
+                requestType: frontend
+                resourceType: frontend_api_resources
+                resourceChecker: oro_frontend.api.resource_checker
+                resourceCheckerConfigProvider: oro_frontend.api.resource_checker_config_provider
+
     oro_frontend.api.rest.request_handler:
         class: Oro\Bundle\ApiBundle\Request\Rest\RequestHandler
         arguments:

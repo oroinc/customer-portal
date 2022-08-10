@@ -8,6 +8,10 @@ oro:
             text: OroCommerce reduces the complexity for custom eCommerce projects
 
 oro_frontend:
+    web_api:
+        feature:
+            label: Storefront API
+            description: Enables the storefront API feature for the application.
     logo:
         alt:
             label: 'OroCommerce'
