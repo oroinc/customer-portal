@@ -688,26 +688,26 @@ oro.customer:
         fields:
             default_customer_owner:
                 label: 'Default Customer Owner'
-                tooltip: 'Default Customer Owner is a user that is provided by default as the owner of the new customer user. Applies to the customers created in the management console as well as to those who register on the OroCommerce website.'
+                tooltip: 'Service information that determines which user has full access to managing and viewing customer information. Applies to the customers created in the back-office as well as to those who register on the OroCommerce website.'
             registration_allowed:
                 label: 'Registration Allowed'
-                tooltip: 'Allow customer user registration on the OroCommerce website.'
+                tooltip: 'Select the option to enable registration of new customer users from the OroCommerce storefront. '
             confirmation_required:
                 label: 'Confirmation Required'
-                tooltip: 'This option defines whether or not the user receives an email prompting to confirm their registration.'
+                tooltip: 'Select the option to enable the email confirmation step after user registration.'
             auto_login_after_registration:
                 label: 'Auto login'
-                tooltip: 'Auto login customer user after registration or email confirmation'
+                tooltip: 'Select the option to enable customer users to login after registration or email confirmation.'
             registration_link_enabled:
                 label: 'Show Registration Link'
-                tooltip: 'When registration link is enabled, it is shown next to the Sign In link in the top bar on the OroCommerce website.'
+                tooltip: 'Enable the option to display the registration link next to the Sign In link in the top bar on the OroCommerce storefront login page.'
             registration_instructions_enabled:
                 label: 'Show Registration Instructions'
-                tooltip: 'This option defines whether or not the registration instructions are shown on the OroCommerce website login page'
+                tooltip: 'Select the option to enable the registration instructions on the storefront login page.'
             registration_instructions_text.label: 'Registration Instructions Text'
             company_name_field_enabled:
                 label: 'Require Company Name'
-                tooltip: 'This option defines whether or not the Company Name field is displayed in the registration form on the OroCommerce website'
+                tooltip: 'Enable the option to display the company name field in the registration form in the storefront. Required for individual customers who do not belong to any company.'
             user_menu_show_items:
                 label: 'User Menu'
                 option:
@@ -715,26 +715,26 @@ oro.customer:
                     subitems_in_popup.label: 'Show subitems in a popup'
             enable_responsive_grids:
                 label: 'Responsive grids'
-                tooltip: 'This option makes frontend grids responsible, realigning row cells to fit various screen sizes.'
+                tooltip: 'Enable the option to make storefront grids responsible, realigning row cells to fit various screen sizes.'
             enable_swipe_actions_grids:
                 label: 'Swipe actions grids'
-                tooltip: 'This option makes frontend swipe actions grids on mobile devices'
+                tooltip: 'Select the option to enable swipe actions for the storefront grids on mobile devices.'
             customer_visitor_cookie_lifetime_days.label: 'Customer visitor cookie lifetime (days)'
-            customer_visitor_cookie_lifetime_days.tooltip: 'Determines how many days customer visitor (anonymous user) session will be active until reset'
+            customer_visitor_cookie_lifetime_days.tooltip: 'Set the interval in days to keep the session for a customer visitor (anonymous user) active. Once the period expires, the session is reset.'
             maps_enabled:
                 label: 'Enable Map Preview'
-                tooltip: 'When the Map Preview is enabled, the addresses in the store frontend will be shown on the map.'
+                tooltip: "Select the option to display addresses on the map in the customer users' storefront accounts."
                 option:
                     yes.label: 'Yes'
                     no.label: 'No'
             api_key_generation_enabled:
                 label: 'Enable API key generation'
-                tooltip: 'This option defines whether or not the automatic generation of API access key is enabled for new customer users.'
+                tooltip: 'Select the option to enable the automatic generation of API access keys for new customer users.'
             oro_customer_confirmation_required.label: 'Enables customer user email confirmation'
             oro_customer_confirmation_required.description: 'Enables customer user email confirmation'
             case_insensitive_email_addresses_enabled:
                 label: 'Case-Insensitive Email Addresses'
-                tooltip: 'If this option is enabled, the letter case will be ignored when comparing email addresses. For example, john.doe@example.com and John.Doe@example.com will be considered equal.'
+                tooltip: 'Enable the option to ignore the letter case when comparing email addresses. In this case, john.doe@example.com and John.Doe@example.com are considered equal.'
 
     security:
         permissions: 'Action Permissions'
