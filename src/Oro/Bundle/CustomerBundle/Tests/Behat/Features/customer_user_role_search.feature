@@ -30,5 +30,6 @@ Feature: Customer User Role search
       | Administrator | Customer User Role |
 
   Scenario: View entity from search results
-    Given I follow "Administrator"
+    Given I filter result by "Customer User Roles" type
+    Then I follow "Administrator"
     Then I should be on Customer User Role View page
