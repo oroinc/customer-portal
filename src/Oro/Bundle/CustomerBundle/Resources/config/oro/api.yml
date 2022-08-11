@@ -165,9 +165,6 @@ api:
                                 property_path: type
                     form_options:
                         property_path: addressTypes
-                systemOrganization:
-                    form_options:
-                        mapped: false
             filters:
                 fields:
                     country:

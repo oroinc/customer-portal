@@ -21,6 +21,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         - Oro\Bundle\AddressBundle\Validator\Constraints\RegionText: ~
         - Oro\Bundle\AddressBundle\Validator\Constraints\RequiredRegion: ~
         - Oro\Bundle\AddressBundle\Validator\Constraints\NameOrOrganization: ~
+        - Oro\Bundle\AddressBundle\Validator\Constraints\ValidOrganization:
+            groups: [api]
     properties:
         country:
             - NotBlank: ~
@@ -92,6 +94,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
         - Oro\Bundle\AddressBundle\Validator\Constraints\RegionText: ~
         - Oro\Bundle\AddressBundle\Validator\Constraints\RequiredRegion: ~
         - Oro\Bundle\AddressBundle\Validator\Constraints\NameOrOrganization: ~
+        - Oro\Bundle\AddressBundle\Validator\Constraints\ValidOrganization:
+            groups: [api]
     properties:
         country:
             - NotBlank: ~
