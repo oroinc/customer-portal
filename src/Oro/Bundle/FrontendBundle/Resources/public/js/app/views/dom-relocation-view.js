@@ -192,8 +192,7 @@ define(function(require, exports, module) {
          * Init and collect all element on page with relocation rules
          */
         collectElements: function() {
-            // data-dom-relocation deprecated, keep fo BC
-            this.$elements = $('[data-dom-relocation], [data-dom-relocation-options]');
+            this.$elements = $('[data-dom-relocation-options]');
             _.each(this.$elements, function(el) {
                 const $el = $(el);
                 const options = $el.data('dom-relocation-options');

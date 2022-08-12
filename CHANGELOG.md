@@ -6,6 +6,9 @@ The current file describes significant changes in the code that may affect the u
 
 ### Changed
 #### FrontendBundle
+
+The 'data-dom-relocation' selector to specify options for `dom-relocation-view` was removed, use 'data-dom-relocation-options' instead.   
+
 The oro grid system was modernized and uses CSS grid under the hood.
 - As a result, you need to update your `html`:
 
