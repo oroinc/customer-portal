@@ -205,7 +205,7 @@ oro_stylebook:
                 description: 'For implement custom grid column proportions you need to use the <code class="language-html">$grid-template-columns</code> scss variable or css variable <code class="language-html">--grid-template-columns</code> to override template locally'
             alignment:
                 title: Alignment
-                description: 'Use speciall classes to align grid items. With <code class="language-html">.grid-place-items-%align%</code> class you can align all items in a grid and with <code class="language-html">.grid-place-self-%align%</code> class on a specific item you can set alignment for this item'
+                description: 'Use speciall classes to align grid items. With <code class="language-html">.grid-place-content-%align%</code> or <code class="language-html">.grid-place-items-%align%</code> class you can align all items in a grid and with <code class="language-html">.grid-place-self-%align%</code> class on a specific item you can set alignment for this item'
             responsive:
                 title: Responsive
                 description: 'Use responsive classes to adjust grid layout across viewports. With <code class="language-html">.grid-col-%breakpoint%-X</code> class you can set column span for specific viewport.'

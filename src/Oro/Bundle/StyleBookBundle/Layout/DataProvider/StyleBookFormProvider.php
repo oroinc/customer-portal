@@ -34,19 +34,31 @@ class StyleBookFormProvider extends AbstractFormProvider
                 'label' => 'You have no choice but select this option. This is also irreversible.',
             ])
             ->add('checkboxes', ChoiceType::class, [
-                'choices' => ['Cup of coffee', 'Doughnut'],
+                'choices' => [
+                    'Cup of coffee' => 0,
+                    'Doughnut' => 1
+                ],
                 'expanded' => true,
                 'multiple' => true
             ])
             ->add('radios', ChoiceType::class, [
-                'choices' => ['Dine In', 'To Go'],
+                'choices' => [
+                    'Dine In' => 0,
+                    'To Go' => 1
+                ],
                 'expanded' => true,
             ])
             ->add('select', ChoiceType::class, [
-                'choices' => ['Dine In', 'To Go'],
+                'choices' => [
+                    'Dine In' => 0,
+                    'To Go' => 1
+                ],
             ])
             ->add('multiselect', ChoiceType::class, [
-                'choices' => ['Cup of coffee', 'Doughnut'],
+                'choices' => [
+                    'Cup of coffee' => 0,
+                    'Doughnut' => 1
+                ],
                 'multiple' => true,
             ])
             ->add('datetime', OroDateType::class)
