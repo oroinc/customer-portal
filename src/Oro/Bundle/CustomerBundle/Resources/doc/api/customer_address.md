@@ -292,12 +292,6 @@ The **default** property is a boolean and defines whether the address is used as
 
 Example of data: **\[{"addressType": "billing", "default": false}, {"addressType": "shipping", "default": true}\]**
 
-### systemOrganization
-
-#### create, update
-
-{@inheritdoc}
-
 ## FILTERS
 
 ### addressType

@@ -98,13 +98,18 @@ define(function(require) {
          */
         scrollToElement: function(anchor) {
             const $element = $(anchor);
-            const scrollPos = $element.offset().top - this.offset;
+            if ($element.length) {
+                const scrollPos = $element.offset().top - this.offset;
 
-            $('body, html').animate({
-                scrollTop: scrollPos
-            }, this.pageScrollDuration);
+                $('body, html').animate({
+                    scrollTop: scrollPos
+                }, this.pageScrollDuration);
 
-            window.location.hash = anchor;
+                window.location.hash = anchor;
+            } else {
+                // Clear hash from browser URI field
+                history.replaceState(null, null, ' ');
+            }
         },
 
         /**

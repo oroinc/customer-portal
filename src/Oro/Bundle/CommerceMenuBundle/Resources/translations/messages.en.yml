@@ -69,6 +69,9 @@ oro:
                     menu_list_frontend:
                         label: Frontend Menus
                         description: Manage frontend menus in default scope type
+        feature:
+            label: Frontend Menu
+            description: Enables managing the storefront navigation of the website, adding new items to the main storefront, quick access and featured menus, populating the customer account menu, building the proper breadcrumbs, and setting the required visibility conditions.
         frontend:
             navigation:
                 items:

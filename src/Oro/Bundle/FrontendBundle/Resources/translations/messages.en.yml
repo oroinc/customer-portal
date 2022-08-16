@@ -8,6 +8,10 @@ oro:
             text: OroCommerce reduces the complexity for custom eCommerce projects
 
 oro_frontend:
+    web_api:
+        feature:
+            label: Storefront API
+            description: Enables the storefront API feature for the application.
     logo:
         alt:
             label: 'OroCommerce'
@@ -38,10 +42,10 @@ oro_frontend:
             page_template_routes.label: 'Page Template'
             guest_access_enabled:
                 label: 'Enable Guest Access'
-                tooltip: 'Only registered, enabled and signed-in customer users can access the website when guest access is turned off. New users may still be able to register if self-registration is enabled (COMMERCE → Customer → Customer Users → Registration Allowed).'
+                tooltip: 'Select the option to enable guest users to access the website storefront. Clear the option to disable guest access and enable it to registered and signed-in users only. To allow guest users to register in the storefront, enable the self-registration option under Commerce>Customer>Customer Users>Registration Allowed.'
             filter_value_selectors:
                 label: 'Value Selectors'
-                tooltip: 'The drop-down selector is better optimized for selecting from a long list of values.'
+                tooltip: 'Specify the way to display the multi-select filters in the storefront. The drop-down selector is better optimized for selecting from a long list of values.'
                 option:
                     dropdown: 'Drop-down'
                     all_at_once: 'All at once'

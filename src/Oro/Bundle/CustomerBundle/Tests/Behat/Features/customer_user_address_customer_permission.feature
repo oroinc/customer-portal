@@ -98,7 +98,7 @@ Feature: Customer user address customer permission
     And click "Search Button"
     Then I should see "Phone"
     When I click "Add to Shopping List" for "Phone" product
-    Then I should see "Product has been added to" flash message
+    Then I should see "Product has been added to" flash message and I close it
     When I open shopping list widget
     And click "View Details"
     Then I should see "Phone"

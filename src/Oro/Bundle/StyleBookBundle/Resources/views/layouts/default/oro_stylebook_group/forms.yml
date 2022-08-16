@@ -1,5 +1,8 @@
 layout:
     actions:
+        - '@setFormTheme':
+            themes: '@OroStyleBook/layouts/default/oro_stylebook_group/forms.html.twig'
+
         - '@setOption':
             id: style_book_page_title
             optionName: defaultValue

@@ -2,7 +2,7 @@
 
 {% block _style_book_grid_element_modal_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid js-component-container',
+        '~class': ' js-component-container',
         'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
             viewConstructor: 'oroui/js/modal',
@@ -40,14 +40,10 @@
         <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
     </div>
 
-    <div class="playground-props" data-props></div>
+    <div class="playground-props grid" data-props></div>
 {% endblock %}
 
 {% block _style_book_grid_element_modal_html_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         <div class="example-container">
             <button class="btn btn--info" id="modal-toggle">Open Some Modal</button>
@@ -92,10 +88,6 @@
 {% endblock %}
 
 {% block _style_book_grid_element_modal_js_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         define(function(require) {
             'use strict';
@@ -165,7 +157,7 @@
 
 {% block _style_book_grid_element_loading_mask_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid js-component-container',
+        '~class': ' js-component-container',
         'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
             viewConstructor: 'orostylebook/js/style-book/loading-mask-playground-view',
@@ -194,14 +186,10 @@
         <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
     </div>
 
-    <div class="playground-props" data-props></div>
+    <div class="playground-props grid" data-props></div>
 {% endblock %}
 
 {% block _style_book_grid_element_loading_mask_js_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
     define(function(require) {
         'use strict';
@@ -251,10 +239,6 @@
 {% endblock %}
 
 {% block _style_book_grid_element_loading_mask_mediator_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         define(function(require) {
             'use strict';
@@ -299,7 +283,7 @@
 
 {% block _style_book_grid_element_dialog_widget_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid js-component-container',
+        '~class': ' js-component-container',
         'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
             viewConstructor: 'orostylebook/js/style-book/style-book-dialog-widget',
@@ -337,14 +321,10 @@
         <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
     </div>
 
-    <div class="playground-props" data-props></div>
+    <div class="playground-props grid" data-props></div>
 {% endblock %}
 
 {% block _style_book_grid_element_dialog_widget_js_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         define(function(require) {
             'use strict';
@@ -419,7 +399,7 @@
 
 {% block _style_book_grid_element_collapse_widget_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid js-component-container collapse-view expanded',
+        '~class': ' js-component-container collapse-view expanded',
         'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
             viewConstructor: 'oroui/js/widget/collapse-widget',
@@ -442,14 +422,10 @@
         <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
     </div>
 
-    <div class="playground-props" data-props></div>
+    <div class="playground-props grid" data-props></div>
 {% endblock %}
 
 {% block _style_book_grid_element_collapse_widget_html_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
     <!-- Use shortcut manager data attribute -->
     {{ block('_style_book_grid_element_collapse_widget_template_widget') }}
@@ -467,10 +443,6 @@
 {% endblock %}
 
 {% block _style_book_grid_element_collapse_widget_js_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         <script>
         define(function(require) {
@@ -542,14 +514,10 @@
         <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
     </div>
 
-    <div class="playground-props" data-props></div>
+    <div class="playground-props grid" data-props></div>
 {% endblock %}
 
 {% block _style_book_grid_element_fullscreen_popup_view_js_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         <script>
         define(function(require) {
@@ -618,7 +586,7 @@
 
 {% block _style_book_scroll_view_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid js-component-container',
+        '~class': ' js-component-container',
         'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
             viewConstructor: 'orofrontend/js/app/views/scroll-view',
@@ -662,14 +630,10 @@
         <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
     </div>
 
-    <div class="playground-props" data-props></div>
+    <div class="playground-props grid" data-props></div>
 {% endblock %}
 
 {% block _style_book_grid_element_scroll_view_html_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         <div data-page-component-view="orofrontend/js/app/views/scroll-view">
             <div class="scroll-view">
@@ -702,10 +666,6 @@
 {% endblock %}
 
 {% block _style_book_grid_element_scroll_view_js_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         <script>
             define(function(require) {
@@ -745,7 +705,7 @@
 
 {% block _style_book_googlemaps_view_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid js-component-container',
+        '~class': ' js-component-container',
         'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
             viewConstructor: 'orostylebook/js/style-book/style-book-googlemaps-view',
@@ -776,14 +736,10 @@
         <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
     </div>
 
-    <div class="playground-props" data-props></div>
+    <div class="playground-props grid" data-props></div>
 {% endblock %}
 
 {% block _style_book_grid_element_googlemaps_view_html_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set options = "
     {% set viewOptions = layout_attr_defaults(attr, {
         view: 'oroaddress/js/mapservice/googlemaps',
@@ -821,10 +777,6 @@
 {% endblock %}
 
 {% block _style_book_grid_element_googlemaps_view_js_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         <script>
             define(function(require) {
@@ -911,16 +863,20 @@
                 title: 'Slide 3'
             }
         ] %}
-        <div class="promo-slider" data-example-view>
-            {% for imageSlide in imageSlides|merge(imageSlides) %}
-                <div class="promo-slider__item">
-                    <div class="promo-slider__picture">
-                        <img src="{{ imageSlide.main }}" class="promo-slider__img" alt="{{ imageSlide.title }}" loading="lazy">
+        <div class="grid-col-12">
+            <div class="promo-slider" data-example-view>
+                {% for imageSlide in imageSlides|merge(imageSlides) %}
+                    <div class="promo-slider__item">
+                        <div class="promo-slider__picture">
+                            <img src="{{ imageSlide.main }}" class="promo-slider__img" alt="{{ imageSlide.title }}" loading="lazy">
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
-        {{ block_widget(block) }}
+        <div class="grid-col-12">
+            {{ block_widget(block) }}
+        </div>
     </div>
 {% endblock %}
 
@@ -929,14 +885,10 @@
         <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
     </div>
 
-    <div class="playground-props" data-props></div>
+    <div class="playground-props grid" data-props></div>
 {% endblock %}
 
 {% block _style_book_grid_element_list_slider_html_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set options = "{% set imageListOptions = {
             component: 'orofrontend/js/app/components/list-slider-component',
             slidesToShow: 1,
@@ -1010,10 +962,6 @@
 {% endblock %}
 
 {% block _style_book_grid_element_list_slider_js_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         define(function(require) {
             'use strict';
@@ -1074,10 +1022,12 @@
     }) %}
 
     <div {{ block('block_attributes') }}>
-        <div class="dom-relocation-example" data-example-view>
-            <button data-relocation-trigger class="btn btn--info">Trigger Move</button>
+        <div class="dom-relocation-example grid-col-12 grid" data-example-view>
+            <div class="grid-col-12">
+                <button data-relocation-trigger class="btn btn--info">Trigger Move</button>
+            </div>
 
-            <div class="dom-relocation">
+            <div class="dom-relocation grid-col-12">
                 <div class="dom-relocation-point">
                     <div class="sibling-1">.sibling-1</div>
                     <div data-relocate>Relocated Element</div>
@@ -1089,7 +1039,9 @@
                 </div>
             </div>
         </div>
-        {{ block_widget(block) }}
+        <div class="grid-col-12">
+            {{ block_widget(block) }}
+        </div>
     </div>
 {% endblock %}
 
@@ -1098,14 +1050,10 @@
         <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
     </div>
 
-    <div class="playground-props" data-props></div>
+    <div class="playground-props grid" data-props></div>
 {% endblock %}
 
 {% block _style_book_grid_element_dom_relocation_html_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         <!-- Add view somewhere on page -->
         <div data-page-component-view="orofrontend/js/app/views/dom-relocation-view"></div>
@@ -1152,7 +1100,7 @@
 
 {% block _style_book_sticky_panel_view_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid js-component-container ',
+        '~class': ' js-component-container ',
         'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
             viewConstructor: 'orostylebook/js/style-book/style-book-sticky-panel-view',
@@ -1172,10 +1120,6 @@
 {% endblock %}
 
 {% block _style_book_grid_element_sticky_panel_view_html_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set options = "
     {% import '@OroUI/macros.html.twig' as UI %}
 
@@ -1210,20 +1154,12 @@
 {# Mediator #}
 
 {% block _style_book_grid_element_mediator_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
 {% endblock %}
 
 {% block _style_book_mediator_common_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         <script>
             // Call execute to show loading
@@ -1461,10 +1397,6 @@
 {% endblock %}
 
 {% block _style_book_mediator_grid_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         <script>
             /**
@@ -1533,10 +1465,6 @@
 {% endblock %}
 
 {% block _style_book_mediator_message_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         <script>
             /**
@@ -1572,7 +1500,7 @@
 
 {% block _style_book_grid_element_popup_gallery_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid js-component-container ',
+        '~class': ' js-component-container ',
         'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
             viewConstructor: 'orostylebook/js/style-book/style-book-popup-gallery-widget',
@@ -1610,14 +1538,10 @@
         <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
     </div>
 
-    <div class="playground-props" data-props></div>
+    <div class="playground-props grid" data-props></div>
 {% endblock %}
 
 {% block _style_book_grid_element_popup_gallery_html_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set options = "
     {% set viewOptions = {
         widget: 'orofrontend/js/app/components/popup-gallery-widget',
@@ -1669,10 +1593,6 @@
 {% endblock %}
 
 {% block _style_book_grid_element_popup_gallery_js_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         define(function(require) {
             'use strict';
@@ -1743,10 +1663,6 @@
 {% endblock %}
 
 {% block _style_book_grid_element_viewport_manager_require_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         {% import '@OroAsset/Asset.html.twig' as Asset %}
         {{ Asset.js_modules_config({
@@ -1813,10 +1729,6 @@
 {% endblock %}
 
 {% block _style_book_grid_element_viewport_manager_js_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         <script>
         define(function(require) {
@@ -1872,10 +1784,6 @@
 {% endblock %}
 
 {% block _style_book_grid_element_lazy_init_html_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         <div data-layout="separate" data-page-component-view="oroproduct/js/app/datagrid/datagrid-product-lazy-init-view">
 
@@ -1916,24 +1824,20 @@
     }) %}
 
     <div {{ block('block_attributes') }}>
-        <div class="form-row" data-example-view>
+        <div class="grid-col-12" data-example-view>
             <label class="label label--full required" for="form_text-number">Number Widget field</label>
-            <input type="number" id="form_text-number" data-precision="3" name="form[text]" required="required" data-ftid="form_text" data-name="field__text" class=" form-field-text input input--full" placeholder="" />
+            <input type="number" id="form_text-number" data-precision="3" name="form[text]" required="required" data-ftid="form_text" data-name="field__text" class=" form-field-text input input--full" placeholder="">
         </div>
-        {{ block_widget(block) }}
+        <div class="grid-col-12">
+            {{ block_widget(block) }}
+        </div>
     </div>
 {% endblock %}
 
 {% block _style_book_grid_element_input_widget_number_html_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
-        <div class="form-row">
-            <label class="label label--full required" for="form_text-number">Number Widget field</label>
-            <input type="number" id="form_text-number" data-precision="3" name="form[text]" required="required" data-ftid="form_text" data-name="field__text" class=" form-field-text input input--full" placeholder="" />
-        </div>
+        <label class="label label--full required" for="form_text-number">Number Widget field</label>
+        <input type="number" id="form_text-number" data-precision="3" name="form[text]" required="required" data-ftid="form_text" data-name="field__text" class=" form-field-text input input--full" placeholder="">
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -1948,10 +1852,6 @@
 {% endblock %}
 
 {% block _style_book_grid_element_input_widget_number_js_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         define(function(require) {
             'use strict';
@@ -1990,13 +1890,13 @@
 
 {# Select2 Widget Number #}
 {% block _style_book_input_widget_select2_template_widget %}
-    <div class="form-row" >
+    <div class="grid-col-12">
         <label class="label label--full required" for="form_select-select2">Select2 Widget Number</label>
 
         <select data-example-view id="form_select-select2" name="form[select]" class="select select--full" data-ftid="form_select" data-name="field__select" placeholder="">
             <option></option>
             {% for letter in 'a'..'z' %}
-                <option value="{{ letter }}">Option {{ letter|upper }}</option>
+            <option value="{{ letter }}">Option {{ letter|upper }}</option>
             {% endfor %}
         </select>
     </div>
@@ -2017,8 +1917,12 @@
     }) %}
 
     <div {{ block('block_attributes') }}>
-        {{ block('_style_book_input_widget_select2_template_widget') }}
-        {{ block_widget(block) }}
+        <div class="grid-col-12">
+            {{ block('_style_book_input_widget_select2_template_widget') }}
+        </div>
+        <div class="grid-col-12">
+            {{ block_widget(block) }}
+        </div>
     </div>
 {% endblock %}
 
@@ -2027,14 +1931,10 @@
         <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
     </div>
 
-    <div class="playground-props" data-props></div>
+    <div class="playground-props grid" data-props></div>
 {% endblock %}
 
 {% block _style_book_grid_element_input_widget_select2_html_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         {{ block('_style_book_input_widget_select2_template_widget') }}
     {% endset %}
@@ -2079,23 +1979,21 @@
     }) %}
 
    <div {{ block('block_attributes') }}>
-       <img data-example-view class="product-view-media-gallery__image"
-            alt="Image"
-            data-zoom-image="/bundles/orostylebook/images/promo-slider/promo-slider-small-2.jpg"
-            src="/bundles/orostylebook/images/promo-slider/promo-slider-small-2.jpg"
-            itemprop="image"
-            data-lazy="/bundles/orostylebook/images/promo-slider/promo-slider-small-2.jpg"
-            />
-       <div id="zoom-container"></div>
-       {{ block_widget(block) }}
+        <div class="grid-col-12">
+            <img data-example-view class="product-view-media-gallery__image"
+                alt="Image"
+                data-zoom-image="/bundles/orostylebook/images/promo-slider/promo-slider-small-2.jpg"
+                src="/bundles/orostylebook/images/promo-slider/promo-slider-small-2.jpg"
+                itemprop="image">
+            <div id="zoom-container"></div>
+        </div>
+        <div class="grid-col-12">
+            {{ block_widget(block) }}
+        </div>
    </div>
 {% endblock %}
 
 {% block _style_book_grid_element_zoom_widget_html_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set source_code %}
         {% set zoomOptions = "
         {% set options = layout_attr_defaults(attr, {
@@ -2115,8 +2013,7 @@
                 src="path/to/origin/image"
                 data-page-component-viewport="{{ "{{ zoomOptions|json_encode }}"|raw }}"
                 itemprop="image"
-                data-lazy="path/to/lazy/image"
-                />
+                data-lazy="path/to/lazy/image">
            <div id="zoom-container"></div>
         </div>
     {% endset %}
@@ -2137,16 +2034,12 @@
         <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
     </div>
 
-    <div class="playground-props" data-props></div>
+    <div class="playground-props grid" data-props></div>
 {% endblock %}
 
 {# Datagrid #}
 
 {% block _style_book_grid_element_datagrid_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container',
         'data-page-component-view': 'orostylebook/js/style-book/style-book-datagrid-playground',
@@ -2159,8 +2052,12 @@
     }) %}
 
     <div {{ block('block_attributes') }}>
-        <div data-example-view id="grid-frontend-customer-customer-address-grid"></div>
-        {{ block_widget(block) }}
+        <div class="grid-col-12">
+            <div data-example-view id="grid-frontend-customer-customer-address-grid"></div>
+        </div>
+        <div class="grid-col-12">
+            {{ block_widget(block) }}
+        </div>
     </div>
 
     <script type="text/html" id="template-customer-address-book-addresses-grid-toolbar">
@@ -2200,14 +2097,10 @@
         <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
     </div>
 
-    <div class="playground-props" data-props></div>
+    <div class="playground-props grid" data-props></div>
 {% endblock %}
 
 {% block _style_book_grid_element_datagrid_html_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
     {% set options = "{% set gridParams = {
             gridName: 'some-grid-name',
             themeOptions,

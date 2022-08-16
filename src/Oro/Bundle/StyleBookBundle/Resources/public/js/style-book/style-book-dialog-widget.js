@@ -22,6 +22,10 @@ define(function(require) {
             StyleBookDialogWidget.__super__.initialize.call(this, options);
         },
 
+        isActual: function() {
+            return !this.disposed;
+        },
+
         _onContentLoad: function(content) {
             content = $(content).wrapAll('<div />');
 

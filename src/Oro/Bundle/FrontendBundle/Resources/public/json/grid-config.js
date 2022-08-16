@@ -6,13 +6,11 @@ define(function() {
         gridName: 'frontend-customer-customer-address-grid',
         builders: [
             'orofilter\/js\/datafilter-builder',
-            'orosync\/js\/content\/grid-builder',
             'orodatagrid\/js\/totals-builder'
         ],
         metadata: {
             jsmodules: [
                 'orofilter\/js\/datafilter-builder',
-                'orosync\/js\/content\/grid-builder',
                 'orodatagrid\/js\/totals-builder'
             ],
             options: {

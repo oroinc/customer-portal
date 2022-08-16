@@ -1,6 +1,7 @@
 features:
     frontend_web_api:
-        label: oro_frontend.system_configuration.fields.web_api.label
+        label: oro_frontend.web_api.feature.label
+        description: oro_frontend.web_api.feature.description
         toggle: oro_frontend.web_api
         routes:
             - oro_frontend_rest_api_doc

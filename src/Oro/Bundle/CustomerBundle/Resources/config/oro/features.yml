@@ -1,10 +1,101 @@
 features:
     oro_customer_confirmation_required:
-        label: oro.customer.system_configuration.fields.oro_customer_confirmation_required.label
-        description: oro.customer.system_configuration.fields.oro_customer_confirmation_required.description
+        label: oro.customer.customeruser.feature.confirmation.label
+        description: oro.customer.customeruser.feature.confirmation.description
         toggle: oro_customer.confirmation_required
 
     oro_customer_registration_allowed:
-        label: oro.customer.system_configuration.fields.registration_allowed.label
-        description: oro.customer.system_configuration.fields.registration_allowed.label
+        label: oro.customer.customeruser.feature.registration.label
+        description: oro.customer.customeruser.feature.registration.description
         toggle: oro_customer.registration_allowed
+
+    manage_customers:
+        label: oro.customer.customer.feature.manage.label
+        description: oro.customer.customer.feature.manage.description
+        allow_if_all_abstain: true
+        routes:
+            - oro_customer_customer_index
+            - oro_customer_customer_view
+            - oro_customer_customer_create
+            - oro_customer_customer_update
+            - oro_customer_customer_info
+            - oro_customer_config
+        entities:
+            - Oro\Bundle\CustomerBundle\Entity\Customer
+            - Oro\Bundle\CustomerBundle\Entity\CustomerAddress
+            - Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType
+        api_resources:
+            - [Oro\Bundle\CustomerBundle\Entity\Customer, [create, update, delete, delete_list]]
+            - [Oro\Bundle\CustomerBundle\Entity\CustomerAddress, [create, update, delete, delete_list]]
+            - [Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType, [create, update, delete, delete_list]]
+        navigation_items:
+            - application_menu.customers_tab.customer_list
+
+    manage_customer_users:
+        label: oro.customer.customeruser.feature.manage.label
+        description: oro.customer.customeruser.feature.manage.description
+        allow_if_all_abstain: true
+        routes:
+            - oro_customer_customer_user_view
+            - oro_customer_customer_user_index
+            - oro_customer_customer_user_info
+            - oro_customer_customer_user_create
+            - oro_customer_customer_user_update
+            - oro_customer_customer_user_get_customer
+            - oro_api_get_search_customers
+            - oro_api_options_search_customers
+            - oro_customer_customer_user_unlock
+        entities:
+            - Oro\Bundle\CustomerBundle\Entity\CustomerUser
+            - Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
+            - Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType
+        api_resources:
+            - [Oro\Bundle\CustomerBundle\Entity\CustomerUser, [create, update, delete, delete_list]]
+            - [Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress, [create, update, delete, delete_list]]
+            - [Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType, [create, update, delete, delete_list]]
+        navigation_items:
+            - application_menu.customers_tab.customer_users
+
+    manage_customer_groups:
+        label: oro.customer.customergroup.feature.manage.label
+        description: oro.customer.customergroup.feature.manage.description
+        allow_if_all_abstain: true
+        routes:
+            - oro_customer_customer_group_index
+            - oro_customer_customer_group_view
+            - oro_customer_customer_group_create
+            - oro_customer_customer_group_update
+            - oro_customer_customer_group_info
+            - oro_customer_group_config
+        entities:
+            - Oro\Bundle\CustomerBundle\Entity\CustomerGroup
+        api_resources:
+            - [Oro\Bundle\CustomerBundle\Entity\CustomerGroup, [create, update, delete, delete_list]]
+        navigation_items:
+            - application_menu.customers_tab.customer_group_list
+
+    manage_customer_user_roles:
+        label: oro.customer.customeruserrole.feature.manage.label
+        description: oro.customer.customeruserrole.feature.manage.description
+        allow_if_all_abstain: true
+        routes:
+            - oro_customer_customer_user_role_index
+            - oro_customer_customer_user_role_view
+            - oro_customer_customer_user_role_create
+            - oro_customer_customer_user_role_update
+            - oro_customer_customer_user_roles
+        entities:
+            - Oro\Bundle\CustomerBundle\Entity\CustomerUserRole
+        api_resources:
+            - [Oro\Bundle\CustomerBundle\Entity\CustomerUserRole, [create, update, delete, delete_list]]
+        navigation_items:
+            - application_menu.customers_tab.customer_user_roles
+
+    customer_users_login_attempts:
+        label: oro.customer.customeruserloginattempt.feature.label
+        description: oro.customer.customeruserloginattempt.feature.description
+        allow_if_all_abstain: true
+        routes:
+            - oro_customer_login_attempts
+        navigation_items:
+            - application_menu.customers_tab.customer_users_login_attempts
