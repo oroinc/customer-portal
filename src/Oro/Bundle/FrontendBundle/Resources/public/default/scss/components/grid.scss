@@ -22,7 +22,7 @@
     }
 
     &-place {
-        @each $place in (items, self) {
+        @each $place in (content, items, self) {
             &-#{$place} {
                 @each $align in $grid-aligns {
                     &-#{$align} {
@@ -93,6 +93,18 @@
             &--mobile-landscape {
                 &-no-gutters {
                     padding: 0;
+                }
+            }
+        }
+    }
+}
+
+@include breakpoint('mobile') {
+    .grid {
+        &-col-mobile {
+            @for $i from 1 through $grid-column-count {
+                &-#{$i} {
+                    grid-column-end: span $i;
                 }
             }
         }
