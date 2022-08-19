@@ -72,7 +72,7 @@ define(function(require, exports, module) {
          * @returns {boolean}
          */
         toEnableElasticSwipeActionsPlugin: function() {
-            return _.isMobile() &&
+            return _.isTouchDevice() &&
                 (this.metadata.responsiveGrids && this.metadata.responsiveGrids.enable) &&
                 (this.metadata.swipeActionsGrid && this.metadata.swipeActionsGrid.enable);
         }

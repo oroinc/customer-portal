@@ -56,23 +56,10 @@
 
 @include breakpoint('tablet-small') {
     .grid {
-        &__column {
-            &-half {
-                clear: left;
-
-                width: 100%;
-                margin-right: auto;
-            }
-
-            &--tablet-small {
-                &-gutter {
-                    &-l-none {
-                        padding-left: 0;
-                    }
-
-                    &-r-none {
-                        padding-right: 0;
-                    }
+        &-col-tablet-small {
+            @for $i from 1 through $grid-column-count {
+                &-#{$i} {
+                    grid-column-end: span $i;
                 }
             }
         }
@@ -85,14 +72,6 @@
             @for $i from 1 through $grid-column-count {
                 &-#{$i} {
                     grid-column-end: span $i;
-                }
-            }
-        }
-
-        &__column {
-            &--mobile-landscape {
-                &-no-gutters {
-                    padding: 0;
                 }
             }
         }

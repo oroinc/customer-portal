@@ -172,6 +172,7 @@ $popup-gallery-widget-wrapper-background-color: get-color('additional', 'ultra')
 .dom-relocation-example {
     .dom-relocation {
         display: flex;
+        gap: 16px;
     }
 
     .dom-relocation-point,
@@ -181,17 +182,17 @@ $popup-gallery-widget-wrapper-background-color: get-color('additional', 'ultra')
         border: $dom-relocation-example-point-border;
         position: relative;
         display: flex;
-        margin-right: 10px;
+        gap: 10px;
+        padding: 10px;
     }
 
     [data-relocate] {
         background-color: $dom-relocation-relocate-background-color;
         color: $dom-relocation-relocate-color;
         font-weight: font-weight('bold');
-        margin: 10px 5px;
         line-height: 178px;
         text-align: center;
-        width: 180px;
+        width: 160px;
 
         &.relocated {
             background-color: $dom-relocation-relocate-relocated-background-color;
@@ -204,7 +205,6 @@ $popup-gallery-widget-wrapper-background-color: get-color('additional', 'ultra')
         background-color: $dom-relocation-sibling-background-color;
         line-height: 178px;
         text-align: center;
-        margin: 10px 5px;
     }
 }
 

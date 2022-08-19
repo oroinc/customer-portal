@@ -27,6 +27,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/logo-config.scss'
         - 'bundles/orofrontend/default/scss/variables/line-clamp-config.scss'
         - 'bundles/orofrontend/default/scss/variables/loading-bar-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/middlebar-config.scss'
 
         - 'bundles/orofrontend/default/scss/variables/filters/filters-config.scss'
         - 'bundles/orofrontend/default/scss/variables/filters/filters-dropdown-mode-config.scss'
@@ -34,7 +35,6 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/filters/filters-fullscreen-popup-mode-config.scss'
 
         - 'bundles/orofrontend/default/scss/variables/responsive-video-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/grid-config.scss'
         - 'bundles/orofrontend/default/scss/variables/highlight-text-config.scss'
         - 'bundles/orofrontend/default/scss/variables/page-title-config.scss'
         - 'bundles/orofrontend/default/scss/variables/page-subtitle-config.scss'

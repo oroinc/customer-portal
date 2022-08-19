@@ -1,5 +1,5 @@
 <% _(props).mapObject(function(prop, key) { %>
-<div class="form-row">
+<div class="grid-col-12">
     <% if (prop.type === 'input') { %>
     <% if(_.isBoolean(prop.value)) { %>
     <label for="form_checkbox-<%- key %>" class="checkbox-label">
