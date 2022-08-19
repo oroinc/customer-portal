@@ -49,6 +49,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/controls-list-config.scss'
         - 'bundles/orofrontend/default/scss/variables/uploader-config.scss'
         - 'bundles/orofrontend/default/scss/variables/switcher-info-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/oro-css-grid-config.scss'
 
         # Bootstrap Optional Components
         - 'bundles/orofrontend/default/scss/components/bootstrap/bootstrap.scss'
@@ -57,6 +58,7 @@ styles:
         - 'bundles/orofrontend/default/scss/components/focus-via-arrows-keys.scss'
         - 'bundles/orofrontend/default/scss/components/clear-search-button.scss'
         - 'bundles/orofrontend/default/scss/components/toggle-filters-action.scss'
+        - 'bundles/orofrontend/default/scss/components/oro-css-grid.scss'
         - 'bundles/orofrontend/default/scss/styles.scss'
     output: 'css/styles.css'
     auto_rtl_inputs:
