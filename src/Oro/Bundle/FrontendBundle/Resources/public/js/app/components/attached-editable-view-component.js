@@ -5,7 +5,7 @@ define(function(require) {
     const BaseModel = require('oroui/js/app/models/base/model');
     const BaseView = require('oroui/js/app/views/base/view');
     const $ = require('jquery');
-    const tools = require('oroui/js/tools');
+    const loadModules = require('oroui/js/app/services/load-modules');
     const frontendTypeMap = require('oroform/js/tools/frontend-type-map');
     const _ = require('underscore');
 
@@ -36,7 +36,7 @@ define(function(require) {
             this.model.set(this.fieldName, options.value);
 
             const waitors = [];
-            waitors.push(tools.loadModuleAndReplace(this.inlineEditingOptions.save_api_accessor, 'class').then(
+            waitors.push(loadModules.fromObjectProp(this.inlineEditingOptions.save_api_accessor, 'class').then(
                 () => {
                     const ConcreteApiAccessor = this.inlineEditingOptions.save_api_accessor['class'];
                     this.saveApiAccessor = new ConcreteApiAccessor(
