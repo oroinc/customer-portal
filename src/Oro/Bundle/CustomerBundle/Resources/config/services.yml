@@ -92,7 +92,7 @@ services:
         parent: oro_form.autocomplete.search_handler
         arguments:
             - 'Oro\Bundle\CustomerBundle\Entity\CustomerGroup'
-            - ["name"]
+            - ['name']
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: oro_customer_group, acl_resource: oro_customer_customer_group_view }
 
@@ -100,7 +100,7 @@ services:
         parent: oro_form.autocomplete.search_handler
         arguments:
             - 'Oro\Bundle\CustomerBundle\Entity\Customer'
-            - ["name"]
+            - ['name']
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: oro_customer_customer, acl_resource: oro_customer_customer_view }
 
@@ -108,7 +108,7 @@ services:
         parent: oro_form.autocomplete.search_handler
         arguments:
             - 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
-            - ["fullName"]
+            - ['fullName']
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: oro_customer_user, acl_resource: oro_customer_user_view }
 
@@ -117,7 +117,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Autocomplete\ParentCustomerSearchHandler'
         arguments:
             - 'Oro\Bundle\CustomerBundle\Entity\Customer'
-            - ["name"]
+            - ['name']
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: oro_customer_parent, acl_resource: oro_customer_customer_view }
 
@@ -126,7 +126,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Autocomplete\CustomerUserSearchHandler'
         arguments:
             - 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
-            - ["firstname", "lastname"]
+            - ['firstname', 'lastname']
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType, acl_resource: oro_customer_customer_user_view }
 
@@ -135,7 +135,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Autocomplete\CustomerUserSearchHandler'
         arguments:
             - 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
-            - ["firstname", "lastname"]
+            - ['firstname', 'lastname']
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserType, acl_resource: oro_customer_frontend_customer_user_view }
 
@@ -144,7 +144,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Autocomplete\CustomerUserRoleSearchHandler'
         arguments:
             - 'Oro\Bundle\CustomerBundle\Entity\CustomerUserRole'
-            - ["label"]
+            - ['label']
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: customer_user_role_select_or_create_type, acl_resource: oro_customer_customer_user_role_view }
 
