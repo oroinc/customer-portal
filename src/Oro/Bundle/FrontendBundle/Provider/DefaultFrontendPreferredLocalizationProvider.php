@@ -3,9 +3,9 @@
 namespace Oro\Bundle\FrontendBundle\Provider;
 
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManagerInterface;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\LocaleBundle\Provider\AbstractPreferredLocalizationProvider;
+use Oro\Bundle\LocaleBundle\Provider\LocalizationProviderInterface;
 
 /**
  * Default frontend localization provider is used as a fallback for entities which are not supported by other providers.
@@ -13,25 +13,15 @@ use Oro\Bundle\LocaleBundle\Provider\AbstractPreferredLocalizationProvider;
  */
 class DefaultFrontendPreferredLocalizationProvider extends AbstractPreferredLocalizationProvider
 {
-    /**
-     * @var UserLocalizationManagerInterface|null
-     */
-    private $userLocalizationManager;
+    private ?LocalizationProviderInterface $localizationProvider;
 
-    /**
-     * @var FrontendHelper|null
-     */
-    private $frontendHelper;
+    private ?FrontendHelper $frontendHelper;
 
-    /**
-     * @param UserLocalizationManagerInterface $userLocalizationManager
-     * @param FrontendHelper $frontendHelper
-     */
     public function __construct(
-        ?UserLocalizationManagerInterface $userLocalizationManager,
+        ?LocalizationProviderInterface $localizationProvider,
         ?FrontendHelper $frontendHelper
     ) {
-        $this->userLocalizationManager = $userLocalizationManager;
+        $this->localizationProvider = $localizationProvider;
         $this->frontendHelper = $frontendHelper;
     }
 
@@ -40,12 +30,12 @@ class DefaultFrontendPreferredLocalizationProvider extends AbstractPreferredLoca
      */
     public function supports($entity): bool
     {
-        return $this->userLocalizationManager && $this->frontendHelper
+        return $this->localizationProvider && $this->frontendHelper
             && $this->frontendHelper->isFrontendRequest();
     }
 
     protected function getPreferredLocalizationForEntity($entity): ?Localization
     {
-        return $this->userLocalizationManager->getCurrentLocalization();
+        return $this->localizationProvider->getCurrentLocalization();
     }
 }

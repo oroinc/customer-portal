@@ -4,53 +4,49 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Model;
 
 use Oro\Bundle\FrontendBundle\Model\LocaleSettings;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManager;
 use Oro\Bundle\LayoutBundle\Layout\LayoutContextHolder;
 use Oro\Bundle\LocaleBundle\DependencyInjection\Configuration as LocaleConfiguration;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\LocaleBundle\Model\Calendar;
 use Oro\Bundle\LocaleBundle\Model\LocaleSettings as BaseLocaleSettings;
+use Oro\Bundle\LocaleBundle\Provider\LocalizationProviderInterface;
 use Oro\Bundle\ThemeBundle\Model\Theme;
 use Oro\Bundle\TranslationBundle\Entity\Language;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
 use Oro\Component\Layout\Tests\Unit\Stubs\LayoutContextStub;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
+class LocaleSettingsTest extends TestCase
 {
-    /** @var BaseLocaleSettings|\PHPUnit\Framework\MockObject\MockObject */
-    private $inner;
+    private BaseLocaleSettings|MockObject $inner;
 
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
+    private FrontendHelper|MockObject $frontendHelper;
 
-    /** @var UserLocalizationManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $localizationManager;
+    private LocalizationProviderInterface|MockObject $localizationProvider;
 
-    /** @var LayoutContextHolder|\PHPUnit\Framework\MockObject\MockObject */
-    private $layoutContextHolder;
+    private LayoutContextHolder|MockObject $layoutContextHolder;
 
-    /** @var ThemeManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $themeManager;
+    private ThemeManager|MockObject $themeManager;
 
-    /** @var LocaleSettings */
-    private $localeSettings;
+    private LocaleSettings $localeSettings;
 
     protected function setUp(): void
     {
         $this->inner = $this->createMock(BaseLocaleSettings::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
-        $this->localizationManager = $this->createMock(UserLocalizationManager::class);
+        $this->localizationProvider = $this->createMock(LocalizationProviderInterface::class);
         $this->layoutContextHolder = $this->createMock(LayoutContextHolder::class);
         $this->themeManager = $this->createMock(ThemeManager::class);
 
         $this->localeSettings = new LocaleSettings(
             $this->inner,
             $this->frontendHelper,
-            $this->localizationManager,
+            $this->localizationProvider,
             $this->layoutContextHolder,
             $this->themeManager
         );
@@ -183,7 +179,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
         $localization = new Localization();
         $localization->setFormattingCode($expectedLocale);
 
-        $this->localizationManager->expects($this->once())
+        $this->localizationProvider->expects($this->once())
             ->method('getCurrentLocalization')
             ->willReturn($localization);
 
@@ -210,7 +206,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
             ->method('getLocale')
             ->willReturn($expectedLocale);
 
-        $this->localizationManager->expects($this->once())
+        $this->localizationProvider->expects($this->once())
             ->method('getCurrentLocalization')
             ->willReturn(null);
 
@@ -245,7 +241,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
         $localization = new Localization();
         $localization->setFormattingCode('de_DE');
 
-        $this->localizationManager->expects($this->once())
+        $this->localizationProvider->expects($this->once())
             ->method('getCurrentLocalization')
             ->willReturn($localization);
 
@@ -265,7 +261,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
             ->method('getLocale')
             ->willReturn('en_GB');
 
-        $this->localizationManager->expects($this->once())
+        $this->localizationProvider->expects($this->once())
             ->method('getCurrentLocalization')
             ->willReturn(null);
 
@@ -309,7 +305,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
         $localization = new Localization();
         $localization->setLanguage($language);
 
-        $this->localizationManager->expects($this->once())
+        $this->localizationProvider->expects($this->once())
             ->method('getCurrentLocalization')
             ->willReturn($localization);
 
@@ -326,7 +322,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
             ->method('getLanguage')
             ->willReturn('en_GB');
 
-        $this->localizationManager->expects($this->once())
+        $this->localizationProvider->expects($this->once())
             ->method('getCurrentLocalization')
             ->willReturn(null);
 
@@ -345,7 +341,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
         $this->themeManager->expects(self::never())
             ->method('hasTheme');
 
-        $this->localizationManager->expects(self::never())
+        $this->localizationProvider->expects(self::never())
             ->method('getCurrentLocalization');
 
         $this->inner->expects(self::once())
@@ -373,7 +369,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
         $localization = new Localization();
         $localization->setRtlMode(true);
 
-        $this->localizationManager->expects(self::any())
+        $this->localizationProvider->expects(self::any())
             ->method('getCurrentLocalization')
             ->willReturn($localization);
 
@@ -400,7 +396,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
         $localization = new Localization();
         $localization->setRtlMode(true);
 
-        $this->localizationManager->expects(self::any())
+        $this->localizationProvider->expects(self::any())
             ->method('getCurrentLocalization')
             ->willReturn($localization);
 
@@ -436,7 +432,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
             ->method('getContext')
             ->willReturn($context);
 
-        $this->localizationManager->expects(self::any())
+        $this->localizationProvider->expects(self::any())
             ->method('getCurrentLocalization')
             ->willReturn(null);
 
@@ -475,7 +471,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
         $localization = new Localization();
         $localization->setRtlMode(true);
 
-        $this->localizationManager->expects(self::any())
+        $this->localizationProvider->expects(self::any())
             ->method('getCurrentLocalization')
             ->willReturn($localization);
 
@@ -514,7 +510,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
         $localization = new Localization();
         $localization->setRtlMode(false);
 
-        $this->localizationManager->expects(self::any())
+        $this->localizationProvider->expects(self::any())
             ->method('getCurrentLocalization')
             ->willReturn($localization);
 
@@ -553,7 +549,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
         $localization = new Localization();
         $localization->setRtlMode(true);
 
-        $this->localizationManager->expects(self::any())
+        $this->localizationProvider->expects(self::any())
             ->method('getCurrentLocalization')
             ->willReturn($localization);
 
