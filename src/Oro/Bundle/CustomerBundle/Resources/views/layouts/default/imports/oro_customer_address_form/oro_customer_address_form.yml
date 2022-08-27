@@ -35,12 +35,19 @@ layout:
                             'class': 'btn '
                 __form_required_label:
                     blockType: block
+                __form_actions_input_action:
+                    blockType: input
+                    options:
+                        type: hidden
+                        name: input_action
+                        value: '=data["input_action"]'
             tree:
                 __root:
                     __container:
                         __form_errors: ~
                         __form: ~
                         __form_actions:
+                            __form_actions_input_action: ~
                             __form_actions_update: ~
                             __form_actions_cancel: ~
                         __form_required_label: ~

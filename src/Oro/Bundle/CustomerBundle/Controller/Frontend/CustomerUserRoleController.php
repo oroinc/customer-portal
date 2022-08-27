@@ -4,7 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateFrontendHandler;
-use Oro\Bundle\FormBundle\Model\UpdateHandler;
+use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,9 +29,8 @@ class CustomerUserRoleController extends AbstractController
      *      permission="VIEW",
      *      group_name="commerce"
      * )
-     * @return array
      */
-    public function indexAction()
+    public function indexAction(): array
     {
         return [
             'entity_class' => CustomerUserRole::class,
@@ -41,11 +40,8 @@ class CustomerUserRoleController extends AbstractController
     /**
      * @Route("/view/{id}", name="oro_customer_frontend_customer_user_role_view", requirements={"id"="\d+"})
      * @Layout()
-     *
-     * @param CustomerUserRole $role
-     * @return array
      */
-    public function viewAction(CustomerUserRole $role)
+    public function viewAction(CustomerUserRole $role): array
     {
         $isGranted = $role->isPredefined()
             ? $this->isGranted('oro_customer_frontend_customer_user_role_view')
@@ -72,10 +68,8 @@ class CustomerUserRoleController extends AbstractController
      *      permission="CREATE",
      *      group_name="commerce"
      * )
-     *
-     * @return array
      */
-    public function createAction()
+    public function createAction(): array|RedirectResponse
     {
         return $this->update(new CustomerUserRole());
     }
@@ -83,12 +77,8 @@ class CustomerUserRoleController extends AbstractController
     /**
      * @Route("/update/{id}", name="oro_customer_frontend_customer_user_role_update", requirements={"id"="\d+"})
      * @Layout()
-     *
-     * @param CustomerUserRole $role
-     * @param Request $request
-     * @return array
      */
-    public function updateAction(CustomerUserRole $role, Request $request)
+    public function updateAction(CustomerUserRole $role, Request $request): array|RedirectResponse
     {
         $isGranted = $role->isPredefined()
             ? $this->isGranted('oro_customer_frontend_customer_user_role_create')
@@ -109,11 +99,7 @@ class CustomerUserRoleController extends AbstractController
         return $this->update($role);
     }
 
-    /**
-     * @param CustomerUserRole $role
-     * @return array|RedirectResponse
-     */
-    protected function update(CustomerUserRole $role)
+    protected function update(CustomerUserRole $role): array|RedirectResponse
     {
         $handler = $this->get(CustomerUserRoleUpdateFrontendHandler::class);
         $form = $handler->createForm($role);
@@ -121,23 +107,14 @@ class CustomerUserRoleController extends AbstractController
         // This is cloned role in case of original role was predefined
         $customizableRole = $form->getData();
 
-        $response = $this->get(UpdateHandler::class)->handleUpdate(
+        $response = $this->get(UpdateHandlerFacade::class)->update(
             $customizableRole,
             $form,
-            function (CustomerUserRole $role) {
-                return [
-                    'route' => 'oro_customer_frontend_customer_user_role_update',
-                    'parameters' => ['id' => $role->getId()],
-                ];
-            },
-            function (CustomerUserRole $role) {
-                return [
-                    'route' => 'oro_customer_frontend_customer_user_role_view',
-                    'parameters' => ['id' => $role->getId()],
-                ];
-            },
             $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruserrole.saved.message'),
-            $handler
+            null,
+            function (CustomerUserRole $role) use ($handler) {
+                return $handler->process($role);
+            }
         );
 
         if ($response instanceof Response) {
@@ -147,13 +124,17 @@ class CustomerUserRoleController extends AbstractController
         return [
             'data' => [
                 'entity' => $role,
-                'customizableRole' => $customizableRole
+                'customizableRole' => $customizableRole,
+                'input_action' => \json_encode([
+                    'route' => 'oro_customer_frontend_customer_user_role_view',
+                    'params' => ['id' => '$id']
+                ])
             ]
         ];
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function getSubscribedServices()
     {
@@ -161,8 +142,8 @@ class CustomerUserRoleController extends AbstractController
             parent::getSubscribedServices(),
             [
                 TranslatorInterface::class,
-                UpdateHandler::class,
-                CustomerUserRoleUpdateFrontendHandler::class
+                CustomerUserRoleUpdateFrontendHandler::class,
+                UpdateHandlerFacade::class
             ]
         );
     }

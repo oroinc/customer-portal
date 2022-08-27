@@ -78,6 +78,9 @@ class CustomerUserControllerTest extends WebTestCase
         self::assertNotNull($role);
 
         $form = $crawler->selectButton('Save and Close')->form();
+        $redirectAction = $crawler->selectButton('Save and Close')->attr('data-action');
+        $form->setValues(['input_action' => $redirectAction]);
+
         $form['oro_customer_customer_user[enabled]'] = true;
         $form['oro_customer_customer_user[namePrefix]'] = self::NAME_PREFIX;
         $form['oro_customer_customer_user[firstName]'] = self::FIRST_NAME;

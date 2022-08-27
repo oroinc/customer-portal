@@ -6,7 +6,7 @@ use Doctrine\Common\Util\ClassUtils;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerGroupHandler;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupType;
-use Oro\Bundle\FormBundle\Model\UpdateHandler;
+use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -26,10 +26,8 @@ class CustomerGroupController extends AbstractController
      * @Route("/", name="oro_customer_customer_group_index")
      * @Template
      * @AclAncestor("oro_customer_customer_group_view")
-     *
-     * @return array
      */
-    public function indexAction()
+    public function indexAction(): array
     {
         return [
             'entity_class' => CustomerGroup::class
@@ -38,7 +36,6 @@ class CustomerGroupController extends AbstractController
 
     /**
      * @Route("/view/{id}", name="oro_customer_customer_group_view", requirements={"id"="\d+"})
-     *
      * @Acl(
      *      id="oro_customer_customer_group_view",
      *      type="entity",
@@ -46,11 +43,8 @@ class CustomerGroupController extends AbstractController
      *      permission="VIEW"
      * )
      * @Template()
-     *
-     * @param CustomerGroup $group
-     * @return array
      */
-    public function viewAction(CustomerGroup $group)
+    public function viewAction(CustomerGroup $group): array
     {
         return [
             'entity' => $group
@@ -66,10 +60,8 @@ class CustomerGroupController extends AbstractController
      *      class="OroCustomerBundle:CustomerGroup",
      *      permission="CREATE"
      * )
-     * @param Request $request
-     * @return array
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): array|RedirectResponse
     {
         return $this->update($request, new CustomerGroup());
     }
@@ -83,46 +75,25 @@ class CustomerGroupController extends AbstractController
      *      class="OroCustomerBundle:CustomerGroup",
      *      permission="EDIT"
      * )
-     * @param Request $request
-     * @param CustomerGroup $group
-     * @return array
      */
-    public function updateAction(Request $request, CustomerGroup $group)
+    public function updateAction(Request $request, CustomerGroup $group): array|RedirectResponse
     {
         return $this->update($request, $group);
     }
 
-    /**
-     * @param Request $request
-     * @param CustomerGroup $group
-     * @return array|RedirectResponse
-     */
-    protected function update(Request $request, CustomerGroup $group)
+    protected function update(Request $request, CustomerGroup $group): array|RedirectResponse
     {
         $form = $this->createForm(CustomerGroupType::class, $group);
         $handler = new CustomerGroupHandler(
-            $form,
-            $request,
             $this->getDoctrine()->getManagerForClass(ClassUtils::getClass($group)),
             $this->get(EventDispatcherInterface::class)
         );
 
-        return $this->get(UpdateHandler::class)->handleUpdate(
+        return $this->get(UpdateHandlerFacade::class)->update(
             $group,
             $form,
-            function (CustomerGroup $group) {
-                return [
-                    'route' => 'oro_customer_customer_group_update',
-                    'parameters' => ['id' => $group->getId()]
-                ];
-            },
-            function (CustomerGroup $group) {
-                return [
-                    'route' => 'oro_customer_customer_group_view',
-                    'parameters' => ['id' => $group->getId()]
-                ];
-            },
             $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customergroup.saved.message'),
+            $request,
             $handler
         );
     }
@@ -131,11 +102,8 @@ class CustomerGroupController extends AbstractController
      * @Route("/info/{id}", name="oro_customer_customer_group_info", requirements={"id"="\d+"})
      * @Template("@OroCustomer/CustomerGroup/widget/info.html.twig")
      * @AclAncestor("oro_customer_customer_group_view")
-     *
-     * @param CustomerGroup $group
-     * @return array
      */
-    public function infoAction(CustomerGroup $group)
+    public function infoAction(CustomerGroup $group): array
     {
         return [
             'entity' => $group
@@ -143,7 +111,7 @@ class CustomerGroupController extends AbstractController
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function getSubscribedServices()
     {
@@ -151,8 +119,8 @@ class CustomerGroupController extends AbstractController
             parent::getSubscribedServices(),
             [
                 TranslatorInterface::class,
-                UpdateHandler::class,
                 EventDispatcherInterface::class,
+                UpdateHandlerFacade::class
             ]
         );
     }

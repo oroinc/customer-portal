@@ -92,12 +92,19 @@ layout:
                         text: oro.customer.action.customer_user_role.cancel_label
                         attr:
                             'class': 'btn btn-primary '
+                __customer_user_role_form_actions_input_action:
+                    blockType: input
+                    options:
+                        type: hidden
+                        name: input_action
+                        value: '=data["input_action"]'
             tree:
                 __root:
                     __customer_user_role_container:
                         __customer_user_role_form_errors: ~
                         __customer_user_role_form_start: ~
                         __customer_user_role_form_container:
+                            __customer_user_role_form_actions_input_action: ~
                             __customer_user_role_form_fields: ~
                             __customer_user_role_form_actions_top:
                                 __customer_user_role_form_actions_update_top: ~
