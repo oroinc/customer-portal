@@ -136,4 +136,26 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
         $this->patch(['entity' => 'customerusers', 'id' => $user->getId()], $data);
         $this->assertRequestSuccess($data);
     }
+
+    public function testFindCustomerUserByEmail()
+    {
+        $this->markTestSkipped('Regular CI build issue');
+
+        $this->setCaseInsensitiveEmailAddresses(true);
+        $response = $this->cget(['entity' => 'customerusers'], [
+            'filter[email]' => 'Test@test.com'
+        ]);
+        $content = self::jsonToArray($response->getContent());
+        $this->assertNotEmpty($content);
+        $this->assertArrayHasKey('data', $content);
+        $this->assertIsArray($content['data']);
+        $this->assertCount(1, $content['data']);
+        $this->assertEquals('test@test.com', $content['data'][0]['attributes']['email']);
+
+        $this->setCaseInsensitiveEmailAddresses(false);
+        $response = $this->cget(['entity' => 'customerusers'], [
+            'filter[email]' => 'Test@test.com'
+        ]);
+        $this->assertResponseCount(0, $response);
+    }
 }
