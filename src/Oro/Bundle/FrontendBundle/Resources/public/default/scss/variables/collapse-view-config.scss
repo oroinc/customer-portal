@@ -11,6 +11,7 @@ $collapse-view-trigger-border: none !default;
 $collapse-view-trigger-bg: none !default;
 $collapse-view-trigger-icon-color: get-color('additional', 'dark') !default;
 $collapse-view-trigger-icon-size: 16px !default;
+$collapse-view-trigger-icon-offset: -2px $offset-x-s 0 !default;
 $collapse-view-trigger-border: none !default;
 $collapse-view-trigger-background: none !default;
 $collapse-view-trigger-icon-transition: transform 200ms linear !default;

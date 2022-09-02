@@ -1,0 +1,13 @@
+/* @theme: default; */
+
+$accordion-group-trigger-font-size: inherit !default;
+
+$accordion-group-trigger-expanded-color: get-color('additional', 'dark') !default;
+$accordion-group-container-offset: 0 0 $offset-y 0 !default;
+
+$accordion-group-trigger-icon-color: $collapse-view-trigger-icon-color !default;
+$accordion-group-trigger-icon-offset: $collapse-view-trigger-icon-offset !default;
+$accordion-group-trigger-icon-size: $collapse-view-trigger-icon-size !default;
+$accordion-group-trigger-icon-transition: $collapse-view-trigger-icon-transition !default;
+
+$accordion-group-container-offset: $offset-y !default;
