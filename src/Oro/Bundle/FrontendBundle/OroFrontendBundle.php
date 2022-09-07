@@ -8,6 +8,7 @@ use Oro\Bundle\ApiBundle\DependencyInjection\Compiler\ProcessorBagCompilerPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendApiDocPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendApiPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendCurrentApplicationProviderPass;
+use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendDatagridTagsFeaturePass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendDebugRoutesPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendSessionPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
@@ -33,6 +34,7 @@ class OroFrontendBundle extends Bundle
         $container->addCompilerPass(new FrontendDebugRoutesPass());
         $container->addCompilerPass(new FrontendSessionPass());
         $container->addCompilerPass(new FrontendCurrentApplicationProviderPass());
+        $container->addCompilerPass(new FrontendDatagridTagsFeaturePass());
         $container->addCompilerPass(new PriorityNamedTaggedServiceWithHandlerCompilerPass(
             'oro_frontend.api.resource_type_resolver',
             'oro_frontend.api.resource_type_resolver',

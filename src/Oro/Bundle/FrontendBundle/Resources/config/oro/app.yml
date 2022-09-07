@@ -58,6 +58,8 @@ twig:
     globals:
         commerce:
             layout: '@OroFrontend/base.html.twig'
+    paths:
+        '%kernel.project_dir%/vendor/oro/customer-portal/src/Oro/Bundle/FrontendBundle/Resources/public': 'OroFrontendBundlePublic'
 
 security:
     firewalls:

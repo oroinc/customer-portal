@@ -97,6 +97,9 @@ class Website extends ExtendWebsite implements OrganizationAwareInterface, Websi
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *         "importexport"={
+     *              "identity"=true,
      *          }
      *      }
      * )

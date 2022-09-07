@@ -18,9 +18,6 @@
     }
 
     .entity-name {
-        float: $permissions-grid-first-entity-name-float;
-        width: $permissions-grid-first-entity-name-width;
-
         font-weight: $permissions-grid-first-entity-name-font-weight;
     }
 
@@ -29,8 +26,8 @@
     }
 
     .entity-permission-container {
-        display: flex;
-        align-items: stretch;
+        display: grid;
+        grid-template-columns: $entity-permission-container-template;
 
         // Fix position of actions row when permission items are not enough
         .entity-row-action {
@@ -75,5 +72,20 @@
 
     .action-permissions {
         margin-left: $permissions-grid-field-permission-container-action-permissions-offset-left;
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .inner-permissions-grid {
+        .grid-header-cell,
+        .permissions-cell {
+            &:first-child {
+                width: $permissions-grid-first-header-cell-mobile-landscape-width;
+            }
+        }
+
+        .entity-permission-container {
+            grid-template-columns: $entity-permission-container-mobile-landscape-template;
+        }
     }
 }
