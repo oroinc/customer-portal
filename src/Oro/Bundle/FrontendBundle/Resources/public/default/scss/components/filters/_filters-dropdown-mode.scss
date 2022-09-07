@@ -118,14 +118,14 @@
         flex-basis: 0;
         justify-content: flex-start;
         align-items: baseline;
+        gap: 4px;
 
-        padding: $filter-dropdown-mode-items-offset-inner;
+        + .filter-actions {
+            margin-left: $offset-x-m;
+        }
     }
 
     .filter-item {
-        margin: $filter-dropdown-mode-item-offset;
-        padding: $filter-dropdown-mode-item-offset-inner;
-
         position: relative;
 
         flex-basis: $filter-dropdown-mode-item-flex-basis;
@@ -133,7 +133,7 @@
 
     .filter-items-hint {
         min-width: 100%;
-        padding: $filter-dropdown-mode-items-hint-inner-offset;
+        padding: $filter-dropdown-mode-items-hint-offset-inner;
 
         line-height: $filter-dropdown-mode-items-hint-line-height;
         font-size: $filter-dropdown-mode-items-hint-font-size;
@@ -162,7 +162,6 @@
 
     .ui-multiselect {
         align-self: flex-start;
-        margin: $filter-dropdown-mode-ui-multiselect-offset;
     }
 
     .timepicker-input {

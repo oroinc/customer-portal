@@ -2063,33 +2063,28 @@
     </div>
 
     <script type="text/html" id="template-customer-address-book-addresses-grid-toolbar">
-        <div class="datagrid-toolbar extended datagrid-toolbar--offset-s">    <% if (toolbarPosition !== 'bottom') { %>
-            <div class="datagrid-toolbar__side" data-section="left-side">
-
-                <div class=" pull-left form-horizontal" data-grid-items-counter=""></div>
-
+        <div class="datagrid-toolbar extended datagrid-toolbar--offset-s">
+            <% if (toolbarPosition !== 'bottom') { %>
+            <div class="datagrid-toolbar__start" data-section="left-side">
+                <div class="form-horizontal" data-grid-items-counter=""></div>
             </div>
             <% } %>
-            <div class="datagrid-toolbar__base" data-section="base-side">
+            <div class="datagrid-toolbar__center" data-section="base-side">
                 <div class="datagrid-tool oro-pagination">
                     <div class="" data-grid-pagination=""></div>
                 </div>
-
             </div>
             <% if (toolbarPosition !== 'bottom') { %>
-            <div class="datagrid-toolbar__rightside" data-section="right-side">
+            <div class="datagrid-toolbar__end" data-section="right-side">
                 <div class="datagrid-tool">
-                    <div class=" page-size pull-right form-horizontal" data-grid-pagesize=""></div>
+                    <div class=" page-size form-horizontal" data-grid-pagesize=""></div>
                 </div>
                 <div class="datagrid-tool">
-                    <div class=" actions-panel pull-right form-horizontal" data-grid-actions-panel=""></div>
+                    <div class=" actions-panel form-horizontal" data-grid-actions-panel=""></div>
                 </div>
-
             </div>
             <% } %>
-
-            <div class=" frontend-datagrid__filter" data-role="filter-container"></div>
-
+            <div class=" datagrid-toolbar__panel frontend-datagrid__filter" data-role="filter-container"></div>
         </div>
     </script>
 {% endblock %}

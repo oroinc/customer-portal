@@ -76,6 +76,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/datagrid/datagrid-massaction-config.scss'
         - 'bundles/orofrontend/default/scss/variables/datagrid/launcher-item-config.scss'
         - 'bundles/orofrontend/default/scss/variables/datagrid/grid-views-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/datagrid/datagrid-toolbar-config.scss'
         - 'bundles/orofrontend/default/scss/variables/datagrid/datagrid-filters-config.scss'
         - 'bundles/orofrontend/default/scss/variables/controls-list-config.scss'
         - 'bundles/orofrontend/default/scss/variables/uploader-config.scss'

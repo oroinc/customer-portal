@@ -2,13 +2,8 @@
 
 .frontend-datagrid {
     &__filter {
-        display: none;
-        flex-shrink: 0;
-
-        width: 100%;
-
-        &:not(:empty) {
-            display: block;
+        &:empty {
+            display: none;
         }
     }
 }

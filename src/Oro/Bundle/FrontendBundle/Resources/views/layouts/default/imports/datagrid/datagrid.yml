@@ -38,7 +38,5 @@ layout:
                 toolbarOptions:
                     actionsPanel:
                         className: 'btn-group not-expand frontend-datagrid__panel'
-                    itemsCounter:
-                        className: 'datagrid-tool'
                     hideItemsCounter: false
                 filterContainerSelector: '[data-grid-toolbar="top"] [data-role="filter-container"]'

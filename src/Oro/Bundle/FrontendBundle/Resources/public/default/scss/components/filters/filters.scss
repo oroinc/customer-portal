@@ -87,6 +87,7 @@
 
     .filter-actions {
         display: flex;
+        gap: $filter-actions-gap;
         align-self: $filter-actions-align-self;
         align-items: $filter-actions-align-items;
     }
@@ -242,7 +243,7 @@
     }
 
     &.dropdown-mode {
-        margin: $filter-box-dropdown-mode-offset;
+        margin: $filter-box-dropdown-mode-margin;
         padding: $filter-box-dropdown-mode-inner-offset;
 
         background: $filter-box-dropdown-mode-background;

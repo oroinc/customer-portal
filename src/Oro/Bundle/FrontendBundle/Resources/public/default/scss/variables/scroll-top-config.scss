@@ -1,7 +1,7 @@
 /* @theme: default; */
 
 $scroll-top-position: fixed !default;
-$scroll-top-z-index: z('fixed') - 10 !default;
+$scroll-top-z-index: z('fixed') + 1 !default;
 $scroll-top-size: 44px !default;
 $scroll-top-color: get-color('additional', 'middle') !default;
 $scroll-top-background-color: $body-bg-color !default;

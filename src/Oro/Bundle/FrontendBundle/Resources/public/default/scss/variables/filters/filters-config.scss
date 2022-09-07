@@ -8,8 +8,6 @@ $filter-criteria-hint-item-color: get-color('additional', 'ultra') !default;
 $filter-criteria-hint-item-bg: get-color('additional', 'middle') !default;
 $filter-criteria-hint-label-offset-end: 2px !default;
 
-$filter-dropdown-mode-items-hint-inner-offset: 7px 130px 2px 10px !default;
-
 $filter-trigger-wrapper-display: inline-block !default;
 $filter-trigger-wrapper-dropdown-toggle-background-color: get-color('additional', 'ultra') !default;
 $filter-trigger-wrapper-dropdown-toggle-color: get-color('primary', 'dark') !default;
@@ -47,13 +45,14 @@ $filter-container-manager-flex-grow: 0 !default;
 $filter-container-manager-flex-shrink: 0 !default;
 $filter-container-manager-offset-top: $offset-y-m !default;
 
+$filter-actions-gap: $offset-x-m !default;
 $filter-actions-align-self: flex-start !default;
 $filter-actions-align-items: flex-start !default;
 
 // Filters Dropdown Mode
-$filter-box-dropdown-mode-offset: 10px 0 !default;
 $filter-box-dropdown-mode-in-sticky-offset: auto !default;
-$filter-box-dropdown-mode-inner-offset: 8px 0 0 !default;
+$filter-box-dropdown-mode-margin: 4px 0 0 !default;
+$filter-box-dropdown-mode-inner-offset: 8px !default;
 $filter-box-dropdown-mode-background: get-color('additional', 'base') !default;
 $filter-box-dropdown-mode-use-corner: true !default;
 $filter-box-dropdown-mode-corner-position-r: 15px !default;
