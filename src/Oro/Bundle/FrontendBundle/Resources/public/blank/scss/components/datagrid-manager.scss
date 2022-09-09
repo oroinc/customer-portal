@@ -226,6 +226,12 @@
                 .close-dialog {
                     display: none;
                 }
+
+                &.settings {
+                    .datagrid-manager__header {
+                        display: none;
+                    }
+                }
             }
         }
     }

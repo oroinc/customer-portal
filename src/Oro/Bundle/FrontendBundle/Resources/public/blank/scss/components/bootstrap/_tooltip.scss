@@ -1,8 +1,13 @@
-// @theme: blank;
+/* @theme: default; */
 
 @import '~@oroinc/bootstrap/scss/tooltip';
 
 .tooltip {
+    // Tooltip can be over of any fixed element
+    &--high {
+        z-index: z('fixed') + 10;
+    }
+
     .arrow {
         &::before {
             @include base-disabled-style(.75);

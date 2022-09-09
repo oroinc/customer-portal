@@ -1,10 +1,10 @@
 /* @theme: default; */
 
 $permissions-grid-first-header-cell-width: 200px !default;
-$permissions-grid-first-entity-name-float: left !default;
-$permissions-grid-first-entity-name-width: $permissions-grid-first-header-cell-width !default;
 $permissions-grid-first-entity-name-font-weight: font-weight('bold') !default;
 $permissions-grid-first-datagrid-offset-top: $offset-y !default;
+
+$entity-permission-container-template: 200px 1fr $datagrid-body-cell-action-cell-width !default;
 
 $permissions-grid-field-permission-container-offset-left: 40px !default;
 $permissions-grid-field-permission-container-offset-inner: $offset-x-s 0 !default;
@@ -21,3 +21,7 @@ $permissions-grid-entity-row-action-offset: (
     $datagrid-body-cell-offset
     $datagrid-body-cell-offset
 ) !default;
+
+// Mobile Landscape
+$permissions-grid-first-header-cell-mobile-landscape-width: 110px !default;
+$entity-permission-container-mobile-landscape-template: 110px 1fr $datagrid-body-cell-action-cell-width !default;
