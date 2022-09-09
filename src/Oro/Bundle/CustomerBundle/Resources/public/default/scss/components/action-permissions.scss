@@ -2,18 +2,13 @@
 
 .action-permissions {
     list-style: none;
-
-    @include clearfix();
+    display: $action-permissions-display;
+    grid-template-columns: $action-permissions-grid-template-columns;
+    gap: $action-permissions-gap;
 
     &-contaier {
         margin-left: $action-permissions-offset-left;
         margin-right: $action-permissions-offset-right;
-    }
-
-    &__item {
-        float: $action-permissions-item-float;
-        width: $action-permissions-item-width;
-        margin-right: $action-permissions-item-offset-right;
     }
 
     &__item-wrapper {
@@ -22,7 +17,6 @@
         display: inline-block;
         max-width: $action-permissions-item-wrapper-max-width;
         padding: $action-permissions-item-wrapper-offset-inner;
-        box-sizing: content-box;
 
         @include ellipsis();
 
@@ -71,5 +65,11 @@
 .dropdown-menu__permissions-item {
     &.dropdown-menu {
         z-index: $action-permissions-dropdown-z-index;
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .action-permissions {
+        grid-template-columns: $action-permissions-mobile-landscape-grid-template-columns;
     }
 }

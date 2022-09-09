@@ -4,28 +4,27 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Provider;
 
 use Oro\Bundle\FrontendBundle\Provider\DefaultFrontendPreferredLocalizationProvider;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManager;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
+use Oro\Bundle\LocaleBundle\Provider\LocalizationProviderInterface;
 use Oro\Bundle\UserBundle\Entity\User;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class DefaultFrontendPreferredLocalizationProviderTest extends \PHPUnit\Framework\TestCase
+class DefaultFrontendPreferredLocalizationProviderTest extends TestCase
 {
-    /** @var UserLocalizationManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $userLocalizationManager;
+    private LocalizationProviderInterface|MockObject $localizationProvider;
 
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
+    private FrontendHelper|MockObject $frontendHelper;
 
-    /** @var DefaultFrontendPreferredLocalizationProvider */
-    private $provider;
+    private DefaultFrontendPreferredLocalizationProvider $provider;
 
     protected function setUp(): void
     {
-        $this->userLocalizationManager = $this->createMock(UserLocalizationManager::class);
+        $this->localizationProvider = $this->createMock(LocalizationProviderInterface::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
 
         $this->provider = new DefaultFrontendPreferredLocalizationProvider(
-            $this->userLocalizationManager,
+            $this->localizationProvider,
             $this->frontendHelper
         );
     }
@@ -74,7 +73,7 @@ class DefaultFrontendPreferredLocalizationProviderTest extends \PHPUnit\Framewor
             ->willReturn(true);
 
         $localization = new Localization();
-        $this->userLocalizationManager->expects($this->atLeastOnce())
+        $this->localizationProvider->expects($this->atLeastOnce())
             ->method('getCurrentLocalization')
             ->willReturn($localization);
 

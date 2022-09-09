@@ -6,7 +6,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
-use Oro\Bundle\FormBundle\Model\UpdateHandler;
+use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
@@ -34,11 +34,8 @@ class CustomerUserController extends AbstractController
      *      permission="VIEW",
      *      group_name="commerce"
      * )
-     *
-     * @param CustomerUser $customerUser
-     * @return array
      */
-    public function viewAction(CustomerUser $customerUser)
+    public function viewAction(CustomerUser $customerUser): array
     {
         return [
             'data' => [
@@ -51,10 +48,8 @@ class CustomerUserController extends AbstractController
      * @Route("/", name="oro_customer_frontend_customer_user_index")
      * @Layout(vars={"entity_class"})
      * @AclAncestor("oro_customer_frontend_customer_user_view")
-     *
-     * @return array
      */
-    public function indexAction()
+    public function indexAction(): array
     {
         return [
             'entity_class' => CustomerUser::class
@@ -73,10 +68,8 @@ class CustomerUserController extends AbstractController
      *      permission="CREATE",
      *      group_name="commerce"
      * )
-     * @param Request $request
-     * @return array|RedirectResponse
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): array|RedirectResponse
     {
         return $this->update(new CustomerUser(), $request);
     }
@@ -93,38 +86,28 @@ class CustomerUserController extends AbstractController
      *      permission="EDIT",
      *      group_name="commerce"
      * )
-     * @param CustomerUser $customerUser
-     * @param Request $request
-     *
-     * @return array|RedirectResponse
      */
-    public function updateAction(CustomerUser $customerUser, Request $request)
+    public function updateAction(CustomerUser $customerUser, Request $request): array|RedirectResponse
     {
         return  $this->update($customerUser, $request);
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     * @param Request $request
-     * @return array|RedirectResponse
-     */
-    protected function update(CustomerUser $customerUser, Request $request)
+    protected function update(CustomerUser $customerUser, Request $request): array|RedirectResponse
     {
         $form = $this->get(FrontendCustomerUserFormProvider::class)
             ->getCustomerUserForm($customerUser);
         $handler = new CustomerUserHandler(
-            $form,
-            $request,
             $this->get(CustomerUserManager::class),
             $this->get(TokenAccessorInterface::class),
             $this->get(TranslatorInterface::class),
             $this->get(LoggerInterface::class)
         );
 
-        $result = $this->get(UpdateHandler::class)->update(
+        $result = $this->get(UpdateHandlerFacade::class)->update(
             $customerUser,
             $form,
             $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruser.saved.message'),
+            $request,
             $handler
         );
 
@@ -140,7 +123,7 @@ class CustomerUserController extends AbstractController
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function getSubscribedServices()
     {
@@ -149,10 +132,10 @@ class CustomerUserController extends AbstractController
             [
                 TranslatorInterface::class,
                 LoggerInterface::class,
-                UpdateHandler::class,
                 CustomerUserManager::class,
                 TokenAccessorInterface::class,
                 FrontendCustomerUserFormProvider::class,
+                UpdateHandlerFacade::class
             ]
         );
     }

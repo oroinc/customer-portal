@@ -40,15 +40,10 @@ $filter-dropdown-mode-filters-manager-trigger-width: 32px !default;
 
 $filter-dropdown-mode-fields-row-min-width: 225px !default;
 
-$filter-dropdown-mode-items-offset-inner: 0 $offset-y-m $offset-x-s $offset-y-m !default;
-$filter-dropdown-mode-item-offset: 0 $offset-x-s 0 0 !default;
-$filter-dropdown-mode-item-offset-inner: 0 0 $offset-x-s !default;
 $filter-dropdown-mode-item-flex-basis: 225px !default;
-$filter-dropdown-mode-items-hint-offset-inner: 7px 130px 2px 10px !default;
+$filter-dropdown-mode-items-hint-offset-inner: 8px 130px 0 0 !default;
 $filter-dropdown-mode-items-hint-line-height: 20px !default;
 $filter-dropdown-mode-items-hint-font-size: 13px !default;
-
-$filter-dropdown-mode-ui-multiselect-offset: 0 $offset-x-m $offset-y-m auto !default;
 
 $filter-dropdown-mode-timepicker-input-max-width: 80px !default;
 

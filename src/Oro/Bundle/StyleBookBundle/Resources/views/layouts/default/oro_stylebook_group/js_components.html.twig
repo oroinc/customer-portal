@@ -383,15 +383,17 @@
 {# Collapse Widget #}
 
 {% block _style_book_grid_element_collapse_widget_template_widget %}
-<div class="collapse-preview" data-page-component-collapse="{}">
-    <h3 class="collapse-preview__title" data-collapse-trigger>
-        <span class="collapse-preview__icon">
-            <i class="collapse-view__trigger-icon fa-caret-right"></i>
-        </span>
-        Toggle Title
-    </h3>
+<div class="collapse-view" data-page-component-collapse="{}">
+    <h4 class="heading-bottom-offset">
+        <button class="collapse-view__trigger btn--no-x-offset" type="button" data-collapse-trigger>
+            <span class="collapse-view__trigger-icon fa-caret-right" aria-hidden="true"></span>
+            <span class="collapse-view__trigger-text">
+                Toggle Title
+            </span>
+        </button>
+    </h4>
 
-    <div class="collapse-preview__content" data-collapse-container>
+    <div class="collapse-view__container collapse-view__container--bottom-offset" data-collapse-container>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec laoreet nisl. Suspendisse et tincidunt libero. Aenean pulvinar quam vitae sapien porttitor, non tempor orci dictum. Mauris nisl diam, fringilla eu lectus sed, accumsan congue tellus. Cras quis dui eget dui fermentum gravida non et erat. Proin id fringilla nunc. Ut ullamcorper pulvinar ligula eu pulvinar. Nullam egestas cursus magna placerat bibendum. Nam iaculis elit ac massa bibendum, id dapibus nisl mattis.
     </div>
 </div>
@@ -399,7 +401,7 @@
 
 {% block _style_book_grid_element_collapse_widget_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' js-component-container collapse-view expanded',
+        '~class': ' js-component-container',
         'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
             viewConstructor: 'oroui/js/widget/collapse-widget',
@@ -2061,33 +2063,28 @@
     </div>
 
     <script type="text/html" id="template-customer-address-book-addresses-grid-toolbar">
-        <div class="datagrid-toolbar extended datagrid-toolbar--offset-s">    <% if (toolbarPosition !== 'bottom') { %>
-            <div class="datagrid-toolbar__side" data-section="left-side">
-
-                <div class=" pull-left form-horizontal" data-grid-items-counter=""></div>
-
+        <div class="datagrid-toolbar extended datagrid-toolbar--offset-s">
+            <% if (toolbarPosition !== 'bottom') { %>
+            <div class="datagrid-toolbar__start" data-section="left-side">
+                <div class="form-horizontal" data-grid-items-counter=""></div>
             </div>
             <% } %>
-            <div class="datagrid-toolbar__base" data-section="base-side">
+            <div class="datagrid-toolbar__center" data-section="base-side">
                 <div class="datagrid-tool oro-pagination">
                     <div class="" data-grid-pagination=""></div>
                 </div>
-
             </div>
             <% if (toolbarPosition !== 'bottom') { %>
-            <div class="datagrid-toolbar__rightside" data-section="right-side">
+            <div class="datagrid-toolbar__end" data-section="right-side">
                 <div class="datagrid-tool">
-                    <div class=" page-size pull-right form-horizontal" data-grid-pagesize=""></div>
+                    <div class=" page-size form-horizontal" data-grid-pagesize=""></div>
                 </div>
                 <div class="datagrid-tool">
-                    <div class=" actions-panel pull-right form-horizontal" data-grid-actions-panel=""></div>
+                    <div class=" actions-panel form-horizontal" data-grid-actions-panel=""></div>
                 </div>
-
             </div>
             <% } %>
-
-            <div class=" frontend-datagrid__filter" data-role="filter-container"></div>
-
+            <div class=" datagrid-toolbar__panel frontend-datagrid__filter" data-role="filter-container"></div>
         </div>
     </script>
 {% endblock %}

@@ -8,7 +8,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
-use Oro\Bundle\FormBundle\Model\UpdateHandler;
+use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
@@ -36,11 +36,8 @@ class CustomerUserController extends AbstractController
      *      class="OroCustomerBundle:CustomerUser",
      *      permission="VIEW"
      * )
-     *
-     * @param CustomerUser $customerUser
-     * @return array
      */
-    public function viewAction(CustomerUser $customerUser)
+    public function viewAction(CustomerUser $customerUser): array
     {
         return [
             'entity' => $customerUser
@@ -51,10 +48,8 @@ class CustomerUserController extends AbstractController
      * @Route("/", name="oro_customer_customer_user_index")
      * @Template
      * @AclAncestor("oro_customer_customer_user_view")
-     *
-     * @return array
      */
-    public function indexAction()
+    public function indexAction(): array
     {
         return [
             'entity_class' => CustomerUser::class
@@ -66,7 +61,7 @@ class CustomerUserController extends AbstractController
      * @Template
      * @AclAncestor("oro_customer_view_user_login_attempt")
      */
-    public function loginAttemptsAction()
+    public function loginAttemptsAction(): array
     {
         return [];
     }
@@ -75,11 +70,8 @@ class CustomerUserController extends AbstractController
      * @Route("/info/{id}", name="oro_customer_customer_user_info", requirements={"id"="\d+"})
      * @Template
      * @AclAncestor("oro_customer_customer_user_view")
-     *
-     * @param CustomerUser $customerUser
-     * @return array
      */
-    public function infoAction(CustomerUser $customerUser)
+    public function infoAction(CustomerUser $customerUser): array
     {
         return [
             'entity' => $customerUser
@@ -94,13 +86,8 @@ class CustomerUserController extends AbstractController
      * )
      * @Template("@OroCustomer/CustomerUser/widget/roles.html.twig")
      * @AclAncestor("oro_customer_customer_user_view")
-     *
-     * @param Request $request
-     * @param string $customerUserId
-     * @param string $customerId
-     * @return array
      */
-    public function getRolesAction(Request $request, $customerUserId, $customerId)
+    public function getRolesAction(Request $request, string $customerUserId, string $customerId): array
     {
         /** @var DoctrineHelper $doctrineHelper */
         $doctrineHelper = $this->get(DoctrineHelper::class);
@@ -143,10 +130,8 @@ class CustomerUserController extends AbstractController
      *      class="OroCustomerBundle:CustomerUser",
      *      permission="CREATE"
      * )
-     * @param Request $request
-     * @return array|RedirectResponse
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): array|RedirectResponse
     {
         return $this->update(new CustomerUser(), $request);
     }
@@ -162,54 +147,33 @@ class CustomerUserController extends AbstractController
      *      class="OroCustomerBundle:CustomerUser",
      *      permission="EDIT"
      * )
-     * @param CustomerUser $customerUser
-     * @param Request     $request
-     * @return array|RedirectResponse
      */
-    public function updateAction(CustomerUser $customerUser, Request $request)
+    public function updateAction(CustomerUser $customerUser, Request $request): array|RedirectResponse
     {
         return $this->update($customerUser, $request);
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     * @param Request     $request
-     * @return array|RedirectResponse
-     */
-    protected function update(CustomerUser $customerUser, Request $request)
+    protected function update(CustomerUser $customerUser, Request $request): array|RedirectResponse
     {
         $form = $this->createForm(CustomerUserType::class, $customerUser);
         $handler = new CustomerUserHandler(
-            $form,
-            $request,
             $this->get(CustomerUserManager::class),
             $this->get(TokenAccessorInterface::class),
             $this->get(TranslatorInterface::class),
             $this->get(LoggerInterface::class)
         );
 
-        return $this->get(UpdateHandler::class)->handleUpdate(
+        return $this->get(UpdateHandlerFacade::class)->update(
             $customerUser,
             $form,
-            function (CustomerUser $customerUser) {
-                return [
-                    'route'      => 'oro_customer_customer_user_update',
-                    'parameters' => ['id' => $customerUser->getId()]
-                ];
-            },
-            function (CustomerUser $customerUser) {
-                return [
-                    'route'      => 'oro_customer_customer_user_view',
-                    'parameters' => ['id' => $customerUser->getId()]
-                ];
-            },
             $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruser.saved.message'),
+            $request,
             $handler
         );
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function getSubscribedServices()
     {
@@ -218,11 +182,11 @@ class CustomerUserController extends AbstractController
             [
                 DoctrineHelper::class,
                 TranslatorInterface::class,
-                UpdateHandler::class,
                 TokenAccessorInterface::class,
                 CustomerUserManager::class,
                 LoggerInterface::class,
                 RequestStack::class,
+                UpdateHandlerFacade::class
             ]
         );
     }

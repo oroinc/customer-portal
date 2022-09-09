@@ -7,13 +7,14 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserAddressFormProvider;
 use Oro\Bundle\CustomerBundle\Provider\FrontendAddressProvider;
-use Oro\Bundle\FormBundle\Model\UpdateHandler;
+use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SecurityBundle\Util\SameSiteUrlHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -29,10 +30,8 @@ class CustomerUserAddressController extends AbstractController
     /**
      * @Route("/", name="oro_customer_frontend_customer_user_address_index")
      * @Layout(vars={"entity_class", "customer_address_count", "customer_user_address_count"})
-     *
-     * @return array
      */
-    public function indexAction()
+    public function indexAction(): array
     {
         if (!$this->isGranted('oro_customer_frontend_customer_address_view')
             && !$this->isGranted('oro_customer_frontend_customer_user_address_view')
@@ -60,14 +59,9 @@ class CustomerUserAddressController extends AbstractController
      * )
      * @AclAncestor("oro_customer_frontend_customer_user_address_create")
      * @Layout
-     *
      * @ParamConverter("customerUser", options={"id" = "entityId"})
-     *
-     * @param CustomerUser $customerUser
-     * @param Request $request
-     * @return array
      */
-    public function createAction(CustomerUser $customerUser, Request $request)
+    public function createAction(CustomerUser $customerUser, Request $request): array|RedirectResponse
     {
         return $this->update($customerUser, new CustomerUserAddress(), $request);
     }
@@ -80,63 +74,55 @@ class CustomerUserAddressController extends AbstractController
      * )
      * @AclAncestor("oro_customer_frontend_customer_user_address_update")
      * @Layout
-     *
      * @ParamConverter("customerUser", options={"id" = "entityId"})
-     *
-     * @param CustomerUser $customerUser
-     * @param CustomerUserAddress $customerAddress
-     * @param Request $request
-     * @return array
      */
-    public function updateAction(CustomerUser $customerUser, CustomerUserAddress $customerAddress, Request $request)
-    {
+    public function updateAction(
+        CustomerUser $customerUser,
+        CustomerUserAddress $customerAddress,
+        Request $request
+    ): array|RedirectResponse {
         return $this->update($customerUser, $customerAddress, $request);
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     * @param CustomerUserAddress $customerAddress
-     * @param Request $request
-     * @return array
-     */
-    private function update(CustomerUser $customerUser, CustomerUserAddress $customerAddress, Request $request)
+    private function resolveInputAction(CustomerUser $customerUser): string
     {
+        $currentUser = $this->getUser();
+
+        if ($currentUser instanceof CustomerUser && $currentUser->getId() === $customerUser->getId()) {
+            return \json_encode(['route' => 'oro_customer_frontend_customer_user_address_index']);
+        }
+
+        return \json_encode([
+            'route' => 'oro_customer_frontend_customer_user_view',
+            'params' => ['id' => $customerUser->getId()],
+        ]);
+    }
+
+    private function update(
+        CustomerUser $customerUser,
+        CustomerUserAddress $customerAddress,
+        Request $request
+    ): array|RedirectResponse {
         $this->prepareEntities($customerUser, $customerAddress, $request);
 
         $form = $this->get(FrontendCustomerUserAddressFormProvider::class)
             ->getAddressForm($customerAddress, $customerUser);
 
-        $currentUser = $this->getUser();
-
         $manager = $this->getDoctrine()->getManagerForClass(CustomerUserAddress::class);
 
-        $handler = new AddressHandler($form, $this->get('request_stack'), $manager);
+        $handler = new AddressHandler($manager);
 
-        $result = $this->get(UpdateHandler::class)->handleUpdate(
+        $result = $this->get(UpdateHandlerFacade::class)->update(
             $form->getData(),
             $form,
-            function (CustomerUserAddress $customerAddress) use ($customerUser) {
-                return [
-                    'route' => 'oro_customer_frontend_customer_user_address_update',
-                    'parameters' => ['id' => $customerAddress->getId(), 'entityId' => $customerUser->getId()],
-                ];
-            },
-            function (CustomerUserAddress $customerAddress) use ($customerUser, $currentUser) {
-                if ($currentUser instanceof CustomerUser && $currentUser->getId() === $customerUser->getId()) {
-                    return ['route' => 'oro_customer_frontend_customer_user_address_index'];
-                } else {
-                    return [
-                        'route' => 'oro_customer_frontend_customer_user_view',
-                        'parameters' => ['id' => $customerUser->getId()],
-                    ];
-                }
-            },
             $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruseraddress.saved.message'),
+            $request,
             $handler,
-            function (CustomerUserAddress $customerAddress, FormInterface $form, Request $request) {
+            function (CustomerUserAddress $customerAddress, FormInterface $form, Request $request) use ($customerUser) {
                 return [
                     'backToUrl' => $this->get(SameSiteUrlHelper::class)
                         ->getSameSiteReferer($request, $request->getUri()),
+                    'input_action' => $this->resolveInputAction($customerUser)
                 ];
             }
         );
@@ -154,7 +140,7 @@ class CustomerUserAddressController extends AbstractController
         CustomerUser $customerUser,
         CustomerUserAddress $customerUserAddress,
         Request $request
-    ) {
+    ): void {
         if ($request->getMethod() === 'GET' && !$customerUserAddress->getId()) {
             $customerUserAddress->setFirstName($customerUser->getFirstName());
             $customerUserAddress->setLastName($customerUser->getLastName());
@@ -171,18 +157,18 @@ class CustomerUserAddressController extends AbstractController
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function getSubscribedServices()
     {
         return array_merge(
             parent::getSubscribedServices(),
             [
-                UpdateHandler::class,
                 TranslatorInterface::class,
                 FrontendAddressProvider::class,
                 FrontendCustomerUserAddressFormProvider::class,
                 SameSiteUrlHelper::class,
+                UpdateHandlerFacade::class
             ]
         );
     }

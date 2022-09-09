@@ -44,13 +44,13 @@
             icon: 'gear',
             wrapperClassName: 'datagrid-manager btn-group ',
             className: 'btn btn--default btn--size-s dropdown-toggle--expanded ',
-            iconHideText: true,
+            launcherMode: 'icon-only',
             attributes: {
                 'data-placement': 'bottom-end'
             }
         },
         'orodatagrid/js/datagrid/action-launcher': {
-            iconHideText: false
+            launcherMode: 'icon-text'
         },
         'orodatagrid/js/grid-views-builder': {
             GridViewsView: 'orofrontend/js/datagrid/grid-views/frontend-grid-views-view'
@@ -90,7 +90,7 @@
         'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin': {
             launcherOptions: {
                 className: 'toggle-filters-action btn btn--default btn--size-s',
-                iconHideText: true,
+                launcherMode: 'icon-only',
                 icon: 'filter'
             },
             order: 650

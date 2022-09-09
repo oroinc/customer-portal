@@ -27,18 +27,16 @@ layout:
                             launcherOptions:
                                 className: 'btn btn--default btn--size-s refresh-action'
                                 icon: 'undo fa--no-offset'
-                                iconHideText: true
+                                launcherMode: 'icon-only'
                         resetAction:
                             launcherOptions:
                                 className: 'btn btn--default btn--size-s reset-action'
                                 icon: 'refresh fa--no-offset'
-                                iconHideText: true
+                                launcherMode: 'icon-only'
                     customModules:
                         datagridSettingsComponent: 'orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-view'
                 toolbarOptions:
                     actionsPanel:
                         className: 'btn-group not-expand frontend-datagrid__panel'
-                    itemsCounter:
-                        className: 'datagrid-tool'
                     hideItemsCounter: false
                 filterContainerSelector: '[data-grid-toolbar="top"] [data-role="filter-container"]'

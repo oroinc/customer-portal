@@ -41,10 +41,10 @@ class CustomerGroupHandlerTest extends \PHPUnit\Framework\TestCase
         $this->dispatcher = $this->createMock(EventDispatcherInterface::class);
         $this->entity  = new CustomerGroup();
 
-        $this->handler = new CustomerGroupHandler($this->form, $this->request, $this->manager, $this->dispatcher);
+        $this->handler = new CustomerGroupHandler($this->manager, $this->dispatcher);
     }
 
-    public function testProcessValidData()
+    public function testProcessValidData(): void
     {
         $appendedCustomer = new Customer();
 
@@ -108,19 +108,19 @@ class CustomerGroupHandlerTest extends \PHPUnit\Framework\TestCase
                 ]
             );
 
-        $this->assertTrue($this->handler->process($this->entity));
+        $this->assertTrue($this->handler->process($this->entity, $this->form, $this->request));
 
         $this->assertEquals($this->entity, $appendedCustomer->getGroup());
         $this->assertNull($removedCustomer->getGroup());
     }
 
-    public function testBadMethod()
+    public function testBadMethod(): void
     {
         $this->request->setMethod('GET');
-        $this->assertFalse($this->handler->process($this->entity));
+        $this->assertFalse($this->handler->process($this->entity, $this->form, $this->request));
     }
 
-    public function testProcessInvalid()
+    public function testProcessInvalid(): void
     {
         $this->request->setMethod('POST');
         $this->form->expects($this->once())
@@ -133,6 +133,6 @@ class CustomerGroupHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('isValid')
             ->willReturn(false);
 
-        $this->assertFalse($this->handler->process($this->entity));
+        $this->assertFalse($this->handler->process($this->entity, $this->form, $this->request));
     }
 }
