@@ -1,5 +1,7 @@
 /* @theme: default; */
 
+@use 'sass:list';
+
 // https://getbootstrap.com/docs/4.6/getting-started/theming/#variable-defaults
 // https://github.com/twbs/bootstrap/blob/v4.6.1/scss/_variables.scss
 @import '~@oroinc/bootstrap/scss/variables';
@@ -133,6 +135,7 @@ $dropdown-link-active-color: get-color('additional', 'dark');
 $dropdown-link-active-bg: get-color('additional', 'base');
 $dropdown-item-padding-y: $offset-y-m;
 $dropdown-item-padding-x: $offset-x;
+$dropdown-item-font: list.slash($base-font-size, $base-line-height) $base-font;
 
 // Pagination
 
