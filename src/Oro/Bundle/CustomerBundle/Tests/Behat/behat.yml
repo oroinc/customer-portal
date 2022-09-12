@@ -370,6 +370,12 @@ oro_behat_extension:
     New Address Shipping Checkbox:
       selector: '[name="oro_customer_typed_address[types][]"][value="shipping"]'
 
+    Customer User First Address Billing Checkbox:
+      selector: '[name="oro_customer_customer_user[addresses][0][types][]"][value="billing"]'
+
+    Customer User First Address Shipping Checkbox:
+      selector: '[name="oro_customer_customer_user[addresses][0][types][]"][value="shipping"]'
+
     Subsidiaries Grid:
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
       selector: 'div[data-page-component-name="children-by-customer-grid"]'
