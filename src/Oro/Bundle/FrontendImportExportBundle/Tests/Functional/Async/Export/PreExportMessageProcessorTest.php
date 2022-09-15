@@ -9,7 +9,6 @@ use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserD
 use Oro\Bundle\ImportExportBundle\Processor\ProcessorRegistry;
 use Oro\Bundle\MessageQueueBundle\Test\Functional\MessageQueueExtension;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-use Oro\Component\MessageQueue\Client\Message as ClientMessage;
 use Oro\Component\MessageQueue\Client\MessagePriority;
 use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
 use Oro\Component\MessageQueue\Job\JobProcessor;
@@ -82,7 +81,7 @@ class PreExportMessageProcessorTest extends WebTestCase
         );
         $childJob = $this->getJobProcessor()->findOrCreateChildJob($childJobName, $exportJob);
 
-        $expectedMessage = new ClientMessage([
+        $expectedMessage = [
             'jobName' => 'oro:export:test_pre_export_message',
             'processorAlias' => 'test_processor',
             'outputFormat' => 'csv',
@@ -96,9 +95,10 @@ class PreExportMessageProcessorTest extends WebTestCase
             ],
             'jobId' => $childJob->getId(),
             'entity' => null,
-        ], MessagePriority::LOW);
+        ];
 
         self::assertMessageSent(Topics::EXPORT, $expectedMessage);
+        self::assertMessageSentWithPriority(Topics::EXPORT, MessagePriority::LOW);
 
         $dataExportJob = $exportJob->getData();
 
