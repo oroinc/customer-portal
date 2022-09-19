@@ -685,7 +685,7 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
             LoadOrganization::ORGANIZATION
         );
 
-        $this->assertGetTreeQueries(4);
+        $this->assertGetTreeQueries(8);
 
         $this->createToken(
             LoadCustomerUserData::LEVEL_1_1_EMAIL,
@@ -707,7 +707,7 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
             LoadOrganization::ORGANIZATION
         );
 
-        $this->assertGetTreeQueries(4);
+        $this->assertGetTreeQueries(8);
 
         $this->createToken(
             LoadCustomerUserData::ORPHAN_EMAIL,
@@ -715,7 +715,7 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
             LoadOrganization::ORGANIZATION
         );
 
-        $this->assertGetTreeQueries(4);
+        $this->assertGetTreeQueries(5);
     }
 
     public function testGetTreeCacheWhenNoCustomerUser(): void
@@ -733,7 +733,7 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
 
         $customer = $this->getReference(LoadCustomers::CUSTOMER_LEVEL_1);
 
-        $this->assertGetTreeByCustomerQueries($customer, 4);
+        $this->assertGetTreeByCustomerQueries($customer, 8);
 
         $this->assertGetTreeByCustomerQueries($customer, 1);
     }
