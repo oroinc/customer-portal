@@ -3,9 +3,9 @@
 namespace Oro\Bundle\FrontendBundle\Model;
 
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManagerInterface;
 use Oro\Bundle\LayoutBundle\Layout\LayoutContextHolder;
 use Oro\Bundle\LocaleBundle\Model\LocaleSettings as BaseLocaleSettings;
+use Oro\Bundle\LocaleBundle\Provider\LocalizationProviderInterface;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
 
 /**
@@ -13,41 +13,26 @@ use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
  */
 class LocaleSettings extends BaseLocaleSettings
 {
-    /**
-     * @var BaseLocaleSettings
-     */
-    protected $inner;
+    protected BaseLocaleSettings $inner;
 
-    /**
-     * @var FrontendHelper
-     */
-    protected $frontendHelper;
+    protected FrontendHelper $frontendHelper;
 
-    /**
-     * @var UserLocalizationManagerInterface
-     */
-    protected $localizationManager;
+    protected LocalizationProviderInterface $localizationProvider;
 
-    /**
-     * @var LayoutContextHolder
-     */
-    protected $layoutContextHolder;
+    protected LayoutContextHolder $layoutContextHolder;
 
-    /**
-     * @var ThemeManager
-     */
-    private $themeManager;
+    private ThemeManager $themeManager;
 
     public function __construct(
         BaseLocaleSettings $inner,
         FrontendHelper $frontendHelper,
-        UserLocalizationManagerInterface $localizationManager,
+        LocalizationProviderInterface $localizationProvider,
         LayoutContextHolder $layoutContextHolder,
         ThemeManager $themeManager
     ) {
         $this->inner = $inner;
         $this->frontendHelper = $frontendHelper;
-        $this->localizationManager = $localizationManager;
+        $this->localizationProvider = $localizationProvider;
         $this->layoutContextHolder = $layoutContextHolder;
         $this->themeManager = $themeManager;
     }
@@ -134,7 +119,7 @@ class LocaleSettings extends BaseLocaleSettings
             if (!$this->frontendHelper->isFrontendRequest()) {
                 $this->locale = $this->inner->getLocale();
             } else {
-                $localization = $this->localizationManager->getCurrentLocalization();
+                $localization = $this->localizationProvider->getCurrentLocalization();
 
                 $this->locale = $localization ? $localization->getFormattingCode() : $this->inner->getLocale();
             }
@@ -152,7 +137,7 @@ class LocaleSettings extends BaseLocaleSettings
             return $this->inner->getLanguage();
         }
 
-        $localization = $this->localizationManager->getCurrentLocalization();
+        $localization = $this->localizationProvider->getCurrentLocalization();
 
         return $localization ? $localization->getLanguageCode() : $this->inner->getLanguage();
     }
@@ -188,9 +173,9 @@ class LocaleSettings extends BaseLocaleSettings
             return false;
         }
 
-        $localization = $this->localizationManager->getCurrentLocalization();
+        $localization = $this->localizationProvider->getCurrentLocalization();
 
-        return $localization ? $localization->isRtlMode() : false;
+        return $localization && $localization->isRtlMode();
     }
 
     /**

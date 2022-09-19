@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use Oro\Bundle\FormBundle\Form\Handler\FormHandlerInterface;
 use Oro\Bundle\FormBundle\Form\Handler\RequestHandlerTrait;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Psr\Log\LoggerInterface;
@@ -15,38 +15,21 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Form handler to process entity update/create
  */
-class CustomerUserHandler
+class CustomerUserHandler implements FormHandlerInterface
 {
     use RequestHandlerTrait;
 
-    /** @var FormInterface */
-    protected $form;
-
-    /** @var Request */
-    protected $request;
-
-    /** @var CustomerUserManager */
-    protected $userManager;
-
-    /** @var TokenAccessorInterface */
-    protected $tokenAccessor;
-
-    /** @var TranslatorInterface */
-    protected $translator;
-
-    /** @var LoggerInterface */
-    protected $logger;
+    protected CustomerUserManager $userManager;
+    protected TokenAccessorInterface $tokenAccessor;
+    protected TranslatorInterface $translator;
+    protected LoggerInterface $logger;
 
     public function __construct(
-        FormInterface $form,
-        Request $request,
         CustomerUserManager $userManager,
         TokenAccessorInterface $tokenAccessor,
         TranslatorInterface $translator,
         LoggerInterface $logger
     ) {
-        $this->form = $form;
-        $this->request = $request;
         $this->userManager = $userManager;
         $this->tokenAccessor = $tokenAccessor;
         $this->translator = $translator;
@@ -54,33 +37,30 @@ class CustomerUserHandler
     }
 
     /**
-     * Process form
-     *
-     * @param CustomerUser $customerUser
-     * @return bool True on successful processing, false otherwise
+     * {@inheritDoc}
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public function process(CustomerUser $customerUser)
+    public function process($customerUser, FormInterface $form, Request $request)
     {
         $isUpdated = false;
-        if (in_array($this->request->getMethod(), ['POST', 'PUT'], true)) {
-            $this->submitPostPutRequest($this->form, $this->request);
+        if (\in_array($request->getMethod(), ['POST', 'PUT'], true)) {
+            $this->submitPostPutRequest($form, $request);
 
-            if ($this->form->isValid()) {
+            if ($form->isValid()) {
                 if (!$customerUser->getId()) {
                     $this->userManager->updateWebsiteSettings($customerUser);
-                    if ($this->form->get('passwordGenerate')->getData()) {
+                    if ($form->get('passwordGenerate')->getData()) {
                         $generatedPassword = $this->userManager->generatePassword(10);
                         $customerUser->setPlainPassword($generatedPassword);
                     }
 
-                    if ($this->form->get('sendEmail')->getData()) {
+                    if ($form->get('sendEmail')->getData()) {
                         try {
                             $this->userManager->sendWelcomeRegisteredByAdminEmail($customerUser);
                         } catch (\Exception $ex) {
                             $this->logger->error('Welcome email sending failed.', ['exception' => $ex]);
                             /** @var Session $session */
-                            $session = $this->request->getSession();
+                            $session = $request->getSession();
                             $session->getFlashBag()->add(
                                 'error',
                                 $this->translator

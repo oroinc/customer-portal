@@ -1,6 +1,8 @@
 layout:
     imports:
         -
+            id: oro_customer_page
+        -
             id: oro_customer_user_role_permission_grid
             root: customer_user_role_items
             namespace: customer_user_role_items_view_privileges
@@ -87,4 +89,3 @@ layout:
         - '@move':
             id: customer_user_grid_datagrid
             siblingId: customer_user_role_items_view_privileges_datagrid
-

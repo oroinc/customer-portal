@@ -1,0 +1,36 @@
+/* @theme: default; */
+
+.close-dialog {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: z('base') + 1;
+
+    width: $close-dialog-size - ($close-dialog-offset * 2);
+    height: $close-dialog-size - ($close-dialog-offset * 2);
+    margin: $close-dialog-offset;
+    padding: 0;
+
+    border-width: 0;
+    background-color: transparent;
+    color: $close-dialog-color;
+
+    cursor: $close-dialog-cursor;
+
+    font-size: 0;
+    text-align: center;
+
+    &:hover,
+    &:focus {
+        color: $close-dialog-color-hover;
+    }
+
+    &:disabled {
+        @include base-disabled-style();
+    }
+
+    @include fa-icon($close-dialog-icon, before, true) {
+        font-size: $close-dialog-icon-size;
+        line-height: 1;
+    }
+}

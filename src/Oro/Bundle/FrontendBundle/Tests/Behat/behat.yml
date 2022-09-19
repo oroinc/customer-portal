@@ -29,7 +29,7 @@ oro_behat_extension:
       selector: '.grid-row'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridRow
     FrontendGridToolbarPaginator:
-      selector: '.oro-items-counter'
+      selector: '.visible-items-counter'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridToolbarPaginator
     FrontendMassActionHeadCheckbox:
       selector: 'th.select-all-header-cell button'
@@ -128,6 +128,8 @@ oro_behat_extension:
         locator: '(//div[@data-bottom-actions]/button[contains(text(), "Save") or contains(text(), "Create")])'
     Catalog Switcher:
       selector: '.oro-datagrid .catalog-switcher'
+    Catalog Switcher Toggle:
+      selector: '.catalog-switcher > .dropdown-toggle'
     Sticky Filters Dropdown:
       selector: '[data-sticky-name="top-sticky-panel"] a.action[title="Filter Toggle"]'
     Mass Actions Into Sticky Panel:

@@ -1,8 +1,16 @@
 /* @theme: default; */
 
 .section-title {
+    margin: $section-title-offset;
+
+    font-size: $section-title-font-size;
+    font-family: $section-title-font-family;
     line-height: 1.1;
     text-transform: uppercase;
+
+    &--size-m {
+        font-size: $section-title-font-size-m;
+    }
 
     &__text {
         vertical-align: middle;

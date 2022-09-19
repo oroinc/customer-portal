@@ -1,0 +1,9 @@
+{% block _customer_user_role_form_privileges_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid-col-12'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}

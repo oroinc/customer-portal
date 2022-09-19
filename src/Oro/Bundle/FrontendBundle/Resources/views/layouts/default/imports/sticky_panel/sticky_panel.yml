@@ -1,0 +1,13 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroFrontend/layouts/default/imports/sticky_panel/sticky_panel.html.twig'
+
+        - '@add':
+            id: __sticky_panel
+            parentId: __root
+            blockType: sticky_panel
+        - '@add':
+            id: __sticky_panel_content
+            parentId: __sticky_panel
+            blockType: container

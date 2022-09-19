@@ -1,6 +1,8 @@
 layout:
     imports:
         -
+            id: oro_customer_page
+        -
             id: oro_customer_user_role_form
             root: page_content
         -
@@ -9,6 +11,8 @@ layout:
             namespace: customer_user_role_form_privileges
 
     actions:
+        - '@setBlockTheme':
+            themes: '@OroCustomer/layouts/default/oro_customer_frontend_customer_user_role_update/layout.html.twig'
         - '@setFormTheme':
             themes: '@OroCustomer/layouts/default/oro_customer_frontend_customer_user_role_update/form.html.twig'
         - '@setOption':
@@ -21,6 +25,12 @@ layout:
             optionName: vars
             optionValue:
                 entity: '=data["entity"]'
+        - '@add':
+            id: customer_user_role_form_privileges_container
+            blockType: container
+            parentId: customer_user_role_form_container
+            siblingId: customer_user_role_form_actions_top
+
         - '@move':
             id: customer_user_role_form_privileges_datagrid
-            siblingId: customer_user_role_form_container
+            parentId: customer_user_role_form_privileges_container

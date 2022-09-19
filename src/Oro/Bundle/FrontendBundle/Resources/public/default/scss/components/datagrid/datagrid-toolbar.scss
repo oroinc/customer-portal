@@ -1,0 +1,159 @@
+/* @theme: default; */
+
+.datagrid-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: $datagrid-toolbar-gap;
+    margin: 6px 0;
+
+    &__start {
+        display: flex;
+        align-items: center;
+        gap: $datagrid-tool-gap;
+        flex-grow: 1;
+        padding: $offset-y-s 0;
+    }
+
+    &__center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: $datagrid-tool-gap;
+        padding: $offset-y-s 0;
+    }
+
+    &__end {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: $datagrid-tool-gap;
+        flex-grow: 1;
+        padding: $offset-y-s 0;
+    }
+
+    &__panel {
+        width: 100%;
+    }
+
+    &-sticky-container {
+        margin: 0 auto;
+        padding: 0 $offset-x-m;
+        max-width: $site-width;
+    }
+
+    .page-size {
+        flex-grow: 0;
+        display: flex;
+        align-items: center;
+
+        .select2-container {
+            min-width: 64px;
+        }
+
+        .select {
+            min-width: 64px;
+        }
+    }
+
+    .action-selectbox-custom-in-pager {
+        display: inline-block;
+    }
+
+    &.datagrid-toolbar-bottom {
+        .datagrid-toolbar__center {
+            flex-grow: 1;
+        }
+    }
+}
+
+.datagrid-tool {
+    &__label {
+        vertical-align: middle;
+    }
+}
+
+@include breakpoint('product-datagrid-toolbar-narrow') {
+    .datagrid-tool {
+        &__label {
+            display: none;
+        }
+    }
+}
+
+@include breakpoint('tablet') {
+    .datagrid-toolbar {
+        &.extended {
+            .datagrid-tool {
+                &:last-child {
+                    flex-basis: auto;
+                }
+            }
+        }
+
+        .grid-toolbar-mass-actions {
+            order: 3;
+            flex-basis: calc(100% - 138px);
+            margin: 0 0 10px;
+            text-align: right;
+        }
+    }
+}
+
+@include breakpoint('tablet-small') {
+    .datagrid-toolbar {
+        gap: $datagrid-toolbar-tablet-small-gap;
+
+        &__start {
+            gap: $datagrid-tool-tablet-small-gap;
+            padding: 2px 0;
+        }
+
+        &__center {
+            gap: $datagrid-tool-tablet-small-gap;
+            padding: 2px 0;
+        }
+
+        &__end {
+            gap: $datagrid-tool-tablet-small-gap;
+            padding: 2px 0;
+        }
+    }
+
+    .datagrid-tool {
+        &__label {
+            display: none;
+        }
+    }
+}
+
+@include breakpoint('mobile') {
+    .datagrid-toolbar {
+        gap: $datagrid-toolbar-mobile-gap;
+
+        &__start {
+            gap: $datagrid-tool-mobile-gap;
+            padding: 1px 0;
+        }
+
+        &__center {
+            gap: $datagrid-tool-mobile-gap;
+            padding: 1px 0;
+        }
+
+        &__end {
+            gap: $datagrid-tool-mobile-gap;
+            padding: 1px 0;
+        }
+
+        .page-size {
+            .select2-container {
+                min-width: 54px;
+            }
+
+            .select {
+                min-width: 54px;
+            }
+        }
+    }
+}

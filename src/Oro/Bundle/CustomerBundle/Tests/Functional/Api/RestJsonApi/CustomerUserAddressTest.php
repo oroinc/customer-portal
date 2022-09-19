@@ -34,6 +34,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
     protected const ENTITY_TYPE                    = 'customeruseraddresses';
     private const OWNER_ENTITY_TYPE                = 'customerusers';
     private const OWNER_RELATIONSHIP               = 'customerUser';
+    private const CREATE_REQUEST_DATA              = 'create_customer_user_address.yml';
     private const CREATE_MIN_REQUEST_DATA          = 'create_customer_user_address_min.yml';
     private const OWNER_CREATE_MIN_REQUEST_DATA    = 'create_customer_user_min.yml';
     private const IS_REGION_REQUIRED               = true;
@@ -230,6 +231,59 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
             ],
             $response
         );
+    }
+
+    public function testTryToCreateWhenCustomerOrganizationAndSystemOrganizationNotTheSame()
+    {
+        $data = $this->getRequestData(self::CREATE_REQUEST_DATA);
+
+        $data['data']['relationships']['systemOrganization'] = [
+            'data' => [
+                'type' => 'organizations',
+                'id' => '<toString(@another_organization->id)>',
+            ]
+        ];
+        $response = $this->post(
+            ['entity' => self::ENTITY_TYPE],
+            $data,
+            [],
+            false
+        );
+
+        $responseContent = json_decode($response->getContent(), true);
+        $errors = $responseContent['errors'] ?? [];
+
+        if (\count($errors) === 3) {
+            $this->assertResponseValidationErrors(
+                [
+                    [
+                        'title' => 'valid organization constraint',
+                        'detail' => 'Customer and its address belongs to different organizations.',
+                    ],
+                    [
+                        'title' => 'organization constraint',
+                        'detail' => 'You have no access to set this value as systemOrganization.',
+                        'source' => ['pointer' => '/data/relationships/systemOrganization/data']
+                    ],
+                    [
+                        'title' => 'access granted constraint',
+                        'detail' => 'The "VIEW" permission is denied for the related resource.',
+                        'source' => ['pointer' => '/data/relationships/systemOrganization/data']
+                    ]
+                ],
+                $response
+            );
+        } else {
+            $this->assertResponseValidationErrors(
+                [
+                    [
+                        'title' => 'valid organization constraint',
+                        'detail' => 'Customer and its address belongs to different organizations.',
+                    ]
+                ],
+                $response
+            );
+        }
     }
 
     public function testCreateWithRequiredDataOnlyAndOrganization()
@@ -559,11 +613,46 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
                         ]
                     ]
                 ]
-            ]
+            ],
+            [],
+            false
         );
 
-        $data['data']['relationships']['systemOrganization']['data']['id'] = (string)$organizationId;
-        $this->assertResponseContains($data, $response);
+        $responseContent = json_decode($response->getContent(), true);
+        $errors = $responseContent['errors'] ?? [];
+
+        if (\count($errors) === 3) {
+            $this->assertResponseValidationErrors(
+                [
+                    [
+                        'title' => 'valid organization constraint',
+                        'detail' => 'Customer and its address belongs to different organizations.',
+                    ],
+                    [
+                        'title' => 'organization constraint',
+                        'detail' => 'You have no access to set this value as systemOrganization.',
+                        'source' => ['pointer' => '/data/relationships/systemOrganization/data']
+                    ],
+                    [
+                        'title' => 'access granted constraint',
+                        'detail' => 'The "VIEW" permission is denied for the related resource.',
+                        'source' => ['pointer' => '/data/relationships/systemOrganization/data']
+                    ]
+                ],
+                $response
+            );
+        } else {
+            $this->assertResponseValidationErrors(
+                [
+                    [
+                        'title' => 'valid organization constraint',
+                        'detail' => 'Customer and its address belongs to different organizations.',
+                    ]
+                ],
+                $response
+            );
+        }
+
         self::assertSame(
             $organizationId,
             $this->getEntityManager()->find(self::ENTITY_CLASS, $addressId)->getSystemOrganization()->getId()

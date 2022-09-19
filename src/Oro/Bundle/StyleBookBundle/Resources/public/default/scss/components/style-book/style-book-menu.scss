@@ -1,0 +1,114 @@
+/* @theme: default; */
+
+%style-book-menu-element-active {
+    font-weight: $style-book-menu-link-font-weight-current;
+
+    &::before {
+        top: $style-book-menu-link-current-before-top;
+        left: $style-book-menu-link-current-before-left;
+
+        width: $style-book-menu-link-current-before-width;
+        height: $style-book-menu-link-current-before-height;
+
+        border-radius: $style-book-menu-link-current-before-border-radius;
+        background: $style-book-menu-link-current-before-background;
+
+        @include after();
+    }
+}
+
+.style-book-menu {
+    display: block;
+    list-style: none;
+
+    .style-book-menu {
+        display: none;
+
+        padding: $style-book-sub-menu-inner-offset;
+    }
+
+    &__link {
+        position: $style-book-menu-link-position;
+
+        display: block;
+        padding: $style-book-menu-link-inner-offset;
+
+        color: $style-book-menu-link-color;
+
+        @include element-state('hover') {
+            color: $style-book-menu-link-color-hover;
+        }
+
+        &--current {
+            color: $style-book-menu-link-color-current;
+
+            @include element-state('hover') {
+                color: $style-book-menu-link-color-current;
+            }
+        }
+    }
+
+    &__item {
+        &--current,
+        &.active {
+            > .style-book-menu__link {
+                @extend %style-book-menu-element-active;
+            }
+
+            > .style-book-menu {
+                display: block;
+            }
+        }
+    }
+
+    &__link.active {
+        @extend %style-book-menu-element-active;
+
+        + .style-book-menu {
+            display: block;
+        }
+    }
+}
+
+@include breakpoint('desktop') {
+    .style-book-menu {
+        $root: '.style-book-menu';
+
+        &--main {
+            display: $style-book-menu-main-display;
+
+            #{$root}__item {
+                padding: $style-book-menu-main-item-inner-offset;
+
+                text-transform: $style-book-menu-main-item-text-transform;
+
+                @include element-state('hover') {
+                    background: $style-book-menu-main-item-background-hover;
+                }
+
+                &--current,
+                &.active {
+                    background: $style-book-menu-main-item-current-background;
+
+                    > #{$root}__link {
+                        font-weight: $style-book-menu-main-link-font-weight-current;
+
+                        &::before {
+                            content: none;
+                        }
+                    }
+                }
+            }
+
+            #{$root}__link {
+                display: $style-book-menu-main-link-display;
+                padding: $style-book-menu-main-link-inner-offset;
+
+                @include element-state('hover') {
+                    color: $style-book-menu-main-link-color-hover;
+                    text-decoration: $style-book-menu-main-link-text-decoration-hover;
+                }
+            }
+        }
+    }
+}

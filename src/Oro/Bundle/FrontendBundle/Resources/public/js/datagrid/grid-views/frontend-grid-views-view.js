@@ -147,7 +147,7 @@ define(function(require) {
             if (!$selector.length) {
                 $selector = $(this.templateSelector);
             }
-            this.template = _.template($selector.html());
+            this.template = _.template($selector.html() ?? '');
             this.templateSelector = null;
 
             this.errorTemplate = this.getTemplateFunction('errorTemplate');

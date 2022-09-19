@@ -1,0 +1,15 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_registration_instructions/layout.html.twig'
+
+        - '@addTree':
+            items:
+                __text:
+                    blockType: text
+                    options:
+                        visible: '=data["system_config_provider"].getValue("oro_customer.registration_instructions_enabled")'
+                        text: '=data["system_config_provider"].getValue("oro_customer.registration_instructions_text")'
+            tree:
+                __root:
+                    __text: ~

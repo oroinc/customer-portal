@@ -1,0 +1,34 @@
+/* @theme: default; */
+
+// Desktop
+$popup-gallery-widget-body-offset: 0 !default;
+
+$popup-gallery-loader-url: '#{$global-url}/orofrontend/default/images/loader.gif' !default;
+
+$popup-gallery-widget-arrow-prev-icon: var(--fa-var-chevron-left) !default;
+$popup-gallery-widget-arrow-next-icon: var(--fa-var-chevron-right) !default;
+$popup-gallery-widget-arrow-prev-icon-offset: 0 2px 0 0 !default;
+$popup-gallery-widget-arrow-next-icon-offset: 0 0 0 2px !default;
+$popup-gallery-widget-arrow-width: 37px !default;
+$popup-gallery-widget-arrow-height: 37px !default;
+$popup-gallery-widget-arrow-side-position: -($popup-gallery-widget-arrow-width + $offset-x-m) !default;
+$popup-gallery-widget-arrow-bg: get-color('additional', 'darker', 60%) !default;
+$popup-gallery-widget-arrow-border-radius: 100% !default;
+$popup-gallery-widget-arrow-icon-size: 12px !default;
+$popup-gallery-widget-arrow-icon-color: get-color('additional', 'ultra') !default;
+
+$popup-gallery-widget-dialog-max-width: 610px !default;
+$popup-gallery-widget-dialog-max-height: 710px !default;
+
+$popup-gallery-widget-thumbnails-offset-inner: 0 13px !default;
+$popup-gallery-widget-thumbnails-img-offset: 0 2px !default;
+$popup-gallery-widget-thumbnails-img-border: 1px solid get-color('additional', 'middle') !default;
+$popup-gallery-widget-thumbnails-img-active-border: 2px solid get-color('ui', 'focus') !default;
+$popup-gallery-widget-thumbnail-arrow-width: 24px !default;
+$popup-gallery-widget-thumbnail-arrow-height: 24px !default;
+$popup-gallery-widget-thumbnail-arrow-side-position: -20px !default;
+$popup-gallery-widget-thumbnail-arrow-icon-size: 9px !default;
+
+$popup-gallery-widget-no-slide-max-width: 720px !default;
+$popup-gallery-widget-no-slide-top: calc(100% + #{$offset-y-m}) !default;
+$popup-gallery-widget-no-slide-list-max-width: $popup-gallery-widget-no-slide-max-width - 100px !default;

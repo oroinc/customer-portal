@@ -2,7 +2,7 @@ define(function(require) {
     'use strict';
 
     const BaseView = require('oroui/js/app/views/base/view');
-    const FullscreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
+    const FullscreenPopupView = require('orofrontend/default/js/app/views/fullscreen-popup-view');
     const _ = require('underscore');
     const $ = require('jquery');
 

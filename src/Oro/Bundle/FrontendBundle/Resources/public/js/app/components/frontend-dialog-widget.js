@@ -2,7 +2,7 @@ define(function(require) {
     'use strict';
 
     const DialogWidget = require('oro/dialog-widget');
-    const FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
+    const FullScreenPopupView = require('orofrontend/default/js/app/views/fullscreen-popup-view');
     const ViewportManager = require('oroui/js/viewport-manager');
     const actionsTemplate = require('tpl-loader!orofrontend/templates/frontend-dialog/dialog-actions.html');
     const _ = require('underscore');

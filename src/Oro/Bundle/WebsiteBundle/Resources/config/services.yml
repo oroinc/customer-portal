@@ -61,15 +61,6 @@ services:
         tags:
             - { name: oro_action.action, alias: assign_current_website }
 
-    oro_website.translation.strategy.frontend_fallback_strategy:
-        class: 'Oro\Bundle\WebsiteBundle\Translation\Strategy\FrontendFallbackStrategy'
-        public: false
-        arguments:
-            - '@oro_frontend.request.frontend_helper'
-            - '@oro_locale.translation.strategy.localization_fallback_strategy'
-        tags:
-            - { name: oro_translation.extension.translation_strategy, priority: 100 }
-
     oro_website.request_website_provider:
         class: 'Oro\Bundle\WebsiteBundle\Provider\RequestWebsiteProvider'
         arguments:

@@ -6,13 +6,11 @@ define(function() {
         gridName: 'frontend-customer-customer-address-grid',
         builders: [
             'orofilter\/js\/datafilter-builder',
-            'orosync\/js\/content\/grid-builder',
             'orodatagrid\/js\/totals-builder'
         ],
         metadata: {
             jsmodules: [
                 'orofilter\/js\/datafilter-builder',
-                'orosync\/js\/content\/grid-builder',
                 'orodatagrid\/js\/totals-builder'
             ],
             options: {
@@ -847,14 +845,14 @@ define(function() {
                     launcherOptions: {
                         className: 'btn btn--default btn--size-s refresh-action',
                         icon: 'undo fa--no-offset',
-                        iconHideText: true
+                        launcherMode: 'icon-only'
                     }
                 },
                 resetAction: {
                     launcherOptions: {
                         className: 'btn btn--default btn--size-s reset-action',
                         icon: 'refresh fa--no-offset',
-                        iconHideText: true
+                        launcherMode: 'icon-only'
                     }
                 }
             },

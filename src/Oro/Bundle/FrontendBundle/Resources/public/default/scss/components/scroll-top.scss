@@ -1,0 +1,92 @@
+/* @theme: default; */
+
+@use 'sass:math';
+
+.scroll-top {
+    position: $scroll-top-position;
+    z-index: $scroll-top-z-index;
+
+    display: none;
+    height: $scroll-top-size;
+    width: $scroll-top-size;
+
+    color: $scroll-top-color;
+    border-radius: 50%;
+    text-align: center;
+
+    cursor: pointer;
+
+    transition: color linear 100ms;
+
+    &:hover {
+        color: $scroll-top-hover-color;
+        text-decoration: none;
+    }
+
+    &-visible {
+        display: block;
+    }
+
+    &--bottom-left {
+        left: $scroll-top-bl-left;
+        bottom: $scroll-top-bl-bottom;
+
+        &.scroll-top--landed {
+            margin: (- $scroll-top-size) 0 0 0;
+        }
+    }
+
+    &--bottom-right {
+        right: $scroll-top-br-right;
+        bottom: $scroll-top-br-bottom;
+
+        &.scroll-top--landed {
+            float: right;
+
+            margin: (- $scroll-top-size) 0 0 0;
+        }
+    }
+
+    &--center {
+        left: $scroll-top-c-left;
+        bottom: $scroll-top-c-bottom;
+
+        transform: translateX(-#{$scroll-top-c-left});
+
+        &.scroll-top--landed {
+            margin: (- $scroll-top-size) 0 0 (- $scroll-top-size * .5);
+
+            transform: none;
+        }
+    }
+
+    &--landed {
+        position: relative;
+    }
+
+    span {
+        &::before {
+            z-index: 1;
+            position: relative;
+
+            display: block;
+            line-height: $scroll-top-size;
+        }
+
+        &::after {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+
+            width: $scroll-top-background-dumper-size;
+            height: $scroll-top-background-dumper-size;
+            margin: math.div($scroll-top-background-dumper-size, -2);
+
+            background-color: $scroll-top-background-color;
+
+            border-radius: $scroll-top-background-dumper-size * .5;
+            content: '';
+            z-index: 0;
+        }
+    }
+}

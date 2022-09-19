@@ -56,7 +56,7 @@
     {% set content = block_widget(block)|trim %}
     {% if content|length %}
         <h1{{ block('block_attributes') }}>
-            {% if titleIcon is defined %}
+            {% if titleIcon is defined and titleIcon != null %}
             <span class="badge">
                 <span class="{{ titleIcon }}" aria-hidden="true"></span>
             </span>
@@ -64,6 +64,17 @@
             <span class="page-title__text">{{ content|raw }}</span>
         </h1>
     {% endif %}
+{% endblock %}
+
+{% block _wrapper_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' wrapper',
+    }) %}
+
+    <div{{ block('block_attributes') }}>
+        <div data-page-component-view="orofrontend/js/app/views/dom-relocation-view"></div>
+        {{ block_widget(block) }}
+    </div>
 {% endblock %}
 
 {% block _notification_widget %}

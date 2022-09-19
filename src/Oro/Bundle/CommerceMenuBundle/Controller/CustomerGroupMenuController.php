@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Controller;
 
+use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerGroupMenuContextProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Provider\ScopeCustomerGroupCriteriaProvider;
@@ -141,7 +142,7 @@ class CustomerGroupMenuController extends AbstractFrontendMenuController
     /**
      * {@inheritDoc}
      */
-    protected function getMenu($menuName, array $context)
+    protected function getMenu(string $menuName, array $context): ItemInterface
     {
         if (array_key_exists(ScopeCustomerGroupCriteriaProvider::CUSTOMER_GROUP, $context)) {
             /** @var CustomerGroup $customerGroup */

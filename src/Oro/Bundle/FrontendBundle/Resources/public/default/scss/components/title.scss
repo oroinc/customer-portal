@@ -1,7 +1,7 @@
 /* @theme: default; */
 
 .title {
-    margin-bottom: $offset-y;
+    margin: $title-offset;
 
     font-size: $base-font-size--m;
     font-weight: font-weight('normal');

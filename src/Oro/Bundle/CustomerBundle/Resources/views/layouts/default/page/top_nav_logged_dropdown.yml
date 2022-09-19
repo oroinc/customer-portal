@@ -2,4 +2,44 @@ layout:
     actions:
         - '@setBlockTheme':
             themes: '@OroCustomer/layouts/default/page/top_nav_logged_dropdown.html.twig'
+        - '@addTree':
+            items:
+                top_nav_controls_dropdown_container:
+                    blockType: container
+                    prepend: true
+                    options:
+                        visible: '=data["system_config_provider"].getValue("oro_customer.user_menu_show_items")=="subitems_in_popup"'
+                top_nav_user_name:
+                    blockType: text
+                    options:
+                        text: '=data["current_user"].getCurrentUser().getFullName()'
+                top_nav_customer_menu:
+                      blockType: menu
+                      options:
+                          item: '=data["menu"].getMenu("oro_customer_menu")'
+                top_nav_customer_menu_list:
+                    blockType: container
+                top_nav_customer_dropdown_menu:
+                    blockType: container
+                top_nav_customer_dropdown_trigger:
+                    blockType: container
+                top_nav_customer_dropdown_trigger_welcome_label:
+                    blockType: text
+                    options:
+                        text: 'oro.customer.frontend.menu.customer_user_welcome.label'
+                top_nav_customer_dropdown_sign_out_link:
+                    blockType: link
+                    options:
+                        route_name: oro_customer_customer_user_security_logout
+                        text: 'oro.customer.frontend.menu.customer_user_sign_out.label'
+            tree:
+                top_nav_container:
+                    top_nav_controls_dropdown_container:
+                        top_nav_customer_dropdown_trigger:
+                            top_nav_customer_dropdown_trigger_welcome_label: ~
+                            top_nav_user_name: ~
+                        top_nav_customer_dropdown_menu:
+                            top_nav_customer_menu_list:
+                                top_nav_customer_menu: ~
+                            top_nav_customer_dropdown_sign_out_link: ~
     conditions: 'context["is_logged_in"]'

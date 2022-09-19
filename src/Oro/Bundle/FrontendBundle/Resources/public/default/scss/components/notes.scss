@@ -1,0 +1,29 @@
+/* @theme: default; */
+
+.notes {
+    margin-bottom: 35px;
+
+    &__item {
+        padding: $offset-y 0;
+
+        border-bottom: $notes-item-border-bottom;
+
+        &:first-of-type {
+            border-top: $notes-item-border-top;
+        }
+    }
+
+    &__count {
+        font-size: $base-font-size--s;
+    }
+
+    &__date {
+        padding-left: $offset-y-m;
+
+        color: $notes-date-color;
+    }
+
+    &__info {
+        margin-bottom: $offset-y-m;
+    }
+}

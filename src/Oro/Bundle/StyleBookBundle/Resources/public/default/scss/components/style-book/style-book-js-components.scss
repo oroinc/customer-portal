@@ -1,0 +1,188 @@
+/* @theme: default; */
+
+@use 'sass:math';
+
+$scroll-view-head-background-color: get-color('additional', 'base') !default;
+$scroll-view-side-head-background-color: get-color('additional', 'base') !default;
+
+$dom-relocation-example-point-border: 1px solid get-color('additional', 'light') !default;
+$dom-relocation-relocate-background-color: get-color('secondary', 'base') !default;
+$dom-relocation-relocate-color: get-color('additional', 'ultra') !default;
+$dom-relocation-relocate-relocated-background-color: get-color('secondary', 'lighten') !default;
+$dom-relocation-sibling-background-color: get-color('additional', 'light') !default;
+
+$sticky-panel-box-background-color: get-color('additional', 'light') !default;
+
+$popup-gallery-widget-wrapper-background-color: get-color('additional', 'ultra') !default;
+
+.map-visual {
+    min-height: 300px;
+    margin-bottom: 20px;
+}
+
+.js-component-container {
+    width: 100%;
+    position: relative;
+}
+
+.view-container {
+    margin: 30px 0;
+    min-height: 300px;
+}
+
+.scroll-view {
+    position: relative;
+    margin-bottom: 20px;
+
+    &__header {
+        overflow: hidden;
+        margin-left: 150px;
+
+        &--scrollable {
+            display: flex;
+        }
+    }
+
+    &__side {
+        width: 150px;
+        position: absolute;
+        top: 30px;
+        left: 0;
+        bottom: 0;
+        overflow: hidden;
+    }
+
+    &__body {
+        display: flex;
+        overflow: auto;
+        margin-left: 150px;
+        max-height: 300px;
+    }
+
+    &__cell {
+        width: 150px;
+        height: 30px;
+        text-align: center;
+        justify-content: center;
+        line-height: 30px;
+    }
+
+    &__head {
+        min-width: 150px;
+        height: 30px;
+        text-align: center;
+        background-color: $scroll-view-head-background-color;
+        line-height: 30px;
+    }
+
+    &__side-head {
+        width: 150px;
+        height: 30px;
+        text-align: center;
+        background-color: $scroll-view-side-head-background-color;
+        line-height: 30px;
+    }
+}
+
+.promo-slider {
+    margin: 0 36px 20px;
+
+    @include slick-arrow(
+        $slick-arrow-width: 37px,
+        $slick-arrow-height: 37px,
+        $slick-arrow-outline: none,
+        $slick-arrow-border-radius: 100%,
+        $slick-arrow-background: rgba(get-color('additional', 'darker'), .6),
+        $slick-arrow-icon-size: 12px,
+        $slick-arrow-icon-color: get-color('additional', 'ultra'),
+        $slick-arrow-icon-hover-color: null,
+        $slick-arrow-prev-left: -36px,
+        $slick-arrow-next-right: 36px,
+        $slick-arrow-prev-icon: var(--fa-var-chevron-left),
+        $slick-arrow-next-icon: var(--fa-var-chevron-right),
+        $slick-arrow-prev-icon-offset: 0 2px 0 0,
+        $slick-arrow-next-icon-offset: 0 0 0 2px
+    );
+
+    .slick-prev {
+        left: -36px;
+    }
+
+    .slick-next {
+        right: -36px;
+    }
+}
+
+.style-book-lazy-container {
+    height: 300px;
+    overflow: auto;
+}
+
+.dom-relocation-example {
+    .dom-relocation {
+        display: flex;
+        gap: 16px;
+    }
+
+    .dom-relocation-point,
+    .dom-relocation-target {
+        width: 400px;
+        height: 200px;
+        border: $dom-relocation-example-point-border;
+        position: relative;
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    [data-relocate] {
+        background-color: $dom-relocation-relocate-background-color;
+        color: $dom-relocation-relocate-color;
+        font-weight: font-weight('bold');
+        line-height: 178px;
+        text-align: center;
+        width: 160px;
+
+        &.relocated {
+            background-color: $dom-relocation-relocate-relocated-background-color;
+        }
+    }
+
+    .sibling-1,
+    .sibling-2 {
+        width: 100px;
+        background-color: $dom-relocation-sibling-background-color;
+        line-height: 178px;
+        text-align: center;
+    }
+}
+
+.sticky-panel-example {
+    margin-bottom: 20px;
+}
+
+.sticky-panel-box {
+    margin-top: 20px;
+    background-color: $sticky-panel-box-background-color;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}
+
+.popup-gallery {
+    max-width: 250px;
+    margin-bottom: 20px;
+}
+
+.popup-gallery-widget__wrapper {
+    max-width: 910px;
+    background-color: $popup-gallery-widget-wrapper-background-color;
+}
+
+.style-book-zoom {
+    position: relative;
+
+    #zoom-container {
+        left: 50%;
+    }
+}

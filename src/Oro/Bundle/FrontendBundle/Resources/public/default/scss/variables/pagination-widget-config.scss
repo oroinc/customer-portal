@@ -1,0 +1,23 @@
+/* @theme: default; */
+
+$oro-pagination-pager-display: flex !default;
+$oro-pagination-pager-align-items: center !default;
+$oro-pagination-pager-gap: $offset-x-m !default;
+
+$oro-pagination-total-font-size: $base-font-size - 1px !default;
+
+$oro-pagination-input-width: 35px !default;
+$oro-pagination-input-text-align: center !default;
+$oro-pagination-input-color: get-color('additional', 'dark') !default;
+
+$oro-pagination-btn-icon-offset: 0 ($offset-x-s - 2px) !default;
+
+// tablet-small
+$oro-pagination-total-display-tablet-small: none !default;
+$oro-pagination-pager-tablet-small-gap: $offset-x-s !default;
+
+// mobile-landscape
+$oro-pagination-label-display-mobile-landscape: none !default;
+
+// Mobile
+$oro-pagination-pager-mobile-gap: 2px !default;

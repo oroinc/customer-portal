@@ -1,0 +1,84 @@
+/* @theme: default; */
+
+@mixin button-custom-variant(
+    $background,
+    $border,
+    $color: color-yiq($background),
+    $hover-background: darken($background, 7.5%),
+    $hover-border: darken($border, 10%),
+    $hover-color: color-yiq($hover-background),
+    $active-background: darken($background, 10%),
+    $active-border: darken($border, 12.5%),
+    $active-color: color-yiq($active-background),
+    $active-box-shadow: null,
+    $focus-background: null,
+    $focus-border: null,
+    $focus-color: null,
+    $focus-box-shadow: null,
+    $disabled-color: color-yiq($background),
+    $disabled-background-color: $background,
+    $disabled-border-color: $border,
+    $disabled-opacity: null,
+    $divider-style: null
+) {
+    color: $color;
+
+    @include gradient-bg($background);
+
+    border-color: $border;
+
+    @include box-shadow($btn-box-shadow);
+
+    @include hover {
+        color: $hover-color;
+
+        @include gradient-bg($hover-background);
+
+        border-color: $hover-border;
+    }
+
+    &:focus,
+    &.focus {
+        color: $focus-color;
+        background-color: $focus-background;
+        border-color: $focus-border;
+
+        // Avoid using mixin so we can pass custom focus shadow properly
+        @if $enable-shadows {
+            box-shadow: $btn-box-shadow;
+        }
+    }
+
+    // Disabled comes first so active can properly restyle
+    &.disabled,
+    &:disabled {
+        color: $disabled-color;
+        background-color: $disabled-background-color;
+        border-color: $disabled-border-color;
+        opacity: $disabled-opacity;
+    }
+
+    &:not(.disabled):active,
+    &:not(.disabled).active,
+    // In case when buttons are rendered in datagrid toolbar
+    .show > &.dropdown-toggle {
+        color: $active-color;
+        background-color: $active-background;
+
+        @if $enable-gradients {
+            // Remove the gradient for the pressed/active state
+            background-image: none;
+        }
+
+        border-color: $active-border;
+        box-shadow: $active-box-shadow;
+
+        @if ($active-box-shadow and $btn-focus-visible-style) {
+            &.focus-visible:focus {
+                box-shadow: $active-box-shadow, $btn-focus-visible-style;
+            }
+        }
+    }
+
+    @include button-group-divider(&, $divider-style);
+}

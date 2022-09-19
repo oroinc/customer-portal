@@ -119,6 +119,8 @@ class CustomerControllerTest extends WebTestCase
         $form = $crawler->selectButton('Save and Close')->form(
             $this->prepareFormValues($name, $parent, $group, $internalRating)
         );
+        $redirectAction = $crawler->selectButton('Save and Close')->attr('data-action');
+        $form->setValues(['input_action' => $redirectAction]);
 
         $this->client->followRedirects(true);
         $crawler = $this->client->submit($form);

@@ -1,0 +1,9 @@
+/* @theme: default; */
+
+.page-area-container {
+    width: $page-area-container-width;
+    max-width: $page-area-container-max-width;
+
+    @include make-container();
+    @include clearfix();
+}

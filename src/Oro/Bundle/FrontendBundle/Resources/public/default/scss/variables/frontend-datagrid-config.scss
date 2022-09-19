@@ -5,11 +5,11 @@ $frontend-datagrid-responsive-header-tablet-display: none !default;
 $frontend-datagrid-responsive-body-tablet-display: block !default;
 $frontend-datagrid-responsive-body-tablet-disabled-display: none !default;
 
-$frontend-datagrid-responsive-row-tablet-column-count: 3 !default;
-$frontend-datagrid-responsive-row-tablet-column-width: 200px !default;
 $frontend-datagrid-responsive-row-tablet-min-height: 60px !default;
-$frontend-datagrid-responsive-row-tablet-display: block !default;
-$frontend-datagrid-responsive-row-tablet-inner-offset: 5px 0 !default;
+$frontend-datagrid-responsive-row-tablet-display: grid !default;
+$frontend-datagrid-responsive-row-tablet-grid-template-columns: repeat(3, 1fr) !default;
+$frontend-datagrid-responsive-row-tablet-gap: 8px 16px !default;
+$frontend-datagrid-responsive-row-tablet-inner-offset: 5px 0 10px !default;
 $frontend-datagrid-responsive-row-tablet-position: relative !default;
 $frontend-datagrid-responsive-row-tablet-border-top: 1px solid #eceeef !default;
 
@@ -58,3 +58,10 @@ $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-display: inline-f
 $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-flex-wrap: wrap !default;
 $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-last-offset: 8px !default;
 $frontend-datagrid-launchers-separator-height: 15px !default;
+
+// Tablet Small
+$frontend-datagrid-responsive-row-mobile-big-grid-template-columns: repeat(2, 1fr) !default;
+
+// Mobile Landscape
+$frontend-datagrid-responsive-row-mobile-landscape-grid-template-columns: none !default;
+$frontend-datagrid-responsive-row-mobile-landscape-gap: 0 !default;

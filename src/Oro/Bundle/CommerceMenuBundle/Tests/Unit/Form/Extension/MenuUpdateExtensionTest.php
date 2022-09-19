@@ -20,6 +20,7 @@ use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Type\Stub\MenuUpdateTypeStub;
 use Oro\Bundle\EntityConfigBundle\Config\Config;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\FormBundle\Autocomplete\SearchHandlerInterface;
 use Oro\Bundle\FormBundle\Autocomplete\SearchRegistry;
 use Oro\Bundle\FormBundle\Form\Type\CollectionType as OroCollectionType;
@@ -122,6 +123,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
                     new MenuScreensConditionType($screensProvider),
                     new OroEntitySelectOrCreateInlineType(
                         $this->createMock(AuthorizationCheckerInterface::class),
+                        $this->createMock(FeatureChecker::class),
                         $configManager,
                         $entityManager,
                         $searchRegistry

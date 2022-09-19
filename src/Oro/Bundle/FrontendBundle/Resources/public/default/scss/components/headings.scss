@@ -1,0 +1,65 @@
+/* @theme: default; */
+
+h1,
+.h1 {
+    font-size: $headline1-font-size;
+    font-family: $headline1-font-family;
+    font-weight: $headline1-font-weight;
+    line-height: $headline1-line-height;
+    text-transform: $headline1-text-transform;
+    color: $headline1-color;
+}
+
+h2,
+.h2 {
+    font-size: $headline2-font-size;
+    font-family: $headline2-font-family;
+    font-weight: $headline2-font-weight;
+    line-height: $headline2-line-height;
+    text-transform: $headline2-text-transform;
+    color: $headline2-color;
+}
+
+h3,
+.h3 {
+    font-size: $headline3-font-size;
+    font-family: $headline3-font-family;
+    font-weight: $headline3-font-weight;
+    line-height: $headline3-line-height;
+    text-transform: $headline3-text-transform;
+    color: $headline3-color;
+}
+
+h4,
+.h4 {
+    font-size: $headline4-font-size;
+    font-family: $headline4-font-family;
+    font-weight: $headline4-font-weight;
+    line-height: $headline4-line-height;
+    text-transform: $headline4-text-transform;
+    color: $headline4-color;
+
+    &.heading-bottom-offset {
+        margin-bottom: $headline-bottom-offset;
+    }
+}
+
+h5,
+.h5 {
+    font-size: $headline5-font-size;
+    font-family: $headline5-font-family;
+    font-weight: $headline5-font-weight;
+    line-height: $headline5-line-height;
+    text-transform: $headline5-text-transform;
+    color: $headline5-color;
+}
+
+h6,
+.h6 {
+    font-size: $headline6-font-size;
+    font-family: $headline6-font-family;
+    font-weight: $headline6-font-weight;
+    line-height: $headline6-line-height;
+    text-transform: $headline6-text-transform;
+    color: $headline6-color;
+}

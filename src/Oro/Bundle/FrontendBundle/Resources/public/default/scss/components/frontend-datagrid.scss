@@ -2,13 +2,8 @@
 
 .frontend-datagrid {
     &__filter {
-        display: none;
-        flex-shrink: 0;
-
-        width: 100%;
-
-        &:not(:empty) {
-            display: block;
+        &:empty {
+            display: none;
         }
     }
 }
@@ -16,9 +11,11 @@
 @include breakpoint('tablet') {
     .frontend-datagrid {
         &--responsive {
-            .grid {
+            .grid-main-container {
                 display: $frontend-datagrid-responsive-grid-tablet-display;
+            }
 
+            .grid {
                 &-header {
                     &-cell {
                         &:not(.action-column):not(.grid-header-cell-massAction) {
@@ -41,15 +38,12 @@
                 }
 
                 &-row {
-                    @include mosaic-grid(
-                        $frontend-datagrid-responsive-row-tablet-column-width,
-                        $frontend-datagrid-responsive-row-tablet-column-count
-                    );
-
                     min-height: $frontend-datagrid-responsive-row-tablet-min-height;
                     display: $frontend-datagrid-responsive-row-tablet-display;
                     padding: $frontend-datagrid-responsive-row-tablet-inner-offset;
                     position: $frontend-datagrid-responsive-row-tablet-position;
+                    grid-template-columns: $frontend-datagrid-responsive-row-tablet-grid-template-columns;
+                    gap: $frontend-datagrid-responsive-row-tablet-gap;
 
                     &:not(:first-child) {
                         border-top: $frontend-datagrid-responsive-row-tablet-border-top;
@@ -70,8 +64,6 @@
                 }
 
                 &-body-cell {
-                    @include mosaic-grid-break-inside();
-
                     display: $frontend-datagrid-responsive-body-cell-tablet-display;
                     border: $frontend-datagrid-responsive-body-cell-tablet-border;
                     margin: $frontend-datagrid-responsive-body-cell-tablet-offset;
@@ -173,6 +165,31 @@
                     &.mode-icon-only:last-child {
                         padding-right: $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-last-offset;
                     }
+                }
+            }
+        }
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .frontend-datagrid {
+        &--responsive {
+            .grid {
+                &-row {
+                    grid-template-columns: $frontend-datagrid-responsive-row-mobile-big-grid-template-columns;
+                }
+            }
+        }
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .frontend-datagrid {
+        &--responsive {
+            .grid {
+                &-row {
+                    grid-template-columns: $frontend-datagrid-responsive-row-mobile-landscape-grid-template-columns;
+                    gap: $frontend-datagrid-responsive-row-mobile-landscape-gap;
                 }
             }
         }

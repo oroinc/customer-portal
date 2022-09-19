@@ -1,0 +1,18 @@
+/* @theme: default; */
+
+.datagrid-toggle-pagination {
+    display: flex;
+    align-items: center;
+
+    &:first-child {
+        .datagrid-divider {
+            display: none;
+        }
+    }
+}
+
+@include breakpoint('mobile') {
+    .datagrid-toggle-pagination {
+        margin-left: auto;
+    }
+}

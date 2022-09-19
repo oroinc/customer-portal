@@ -24,11 +24,8 @@ class CustomerUserAddressController extends AbstractController
      * @Route("/address-book/{id}", name="oro_customer_customer_user_address_book", requirements={"id"="\d+"})
      * @Template("@OroCustomer/Address/widget/addressBook.html.twig")
      * @AclAncestor("oro_customer_customer_user_address_view")
-     * @param Request $request
-     * @param CustomerUser $customerUser
-     * @return array
      */
-    public function addressBookAction(Request $request, CustomerUser $customerUser)
+    public function addressBookAction(Request $request, CustomerUser $customerUser): array
     {
         return [
             'entity' => $customerUser,
@@ -45,11 +42,8 @@ class CustomerUserAddressController extends AbstractController
      * @Template("@OroCustomer/Address/widget/update.html.twig")
      * @AclAncestor("oro_customer_customer_user_address_create")
      * @ParamConverter("customerUser", options={"id" = "entityId"})
-     * @param Request $request
-     * @param CustomerUser $customerUser
-     * @return array
      */
-    public function createAction(Request $request, CustomerUser $customerUser)
+    public function createAction(Request $request, CustomerUser $customerUser): array
     {
         return $this->update($request, $customerUser, new CustomerUserAddress());
     }
@@ -63,24 +57,16 @@ class CustomerUserAddressController extends AbstractController
      * @Template("@OroCustomer/Address/widget/update.html.twig")
      * @AclAncestor("oro_customer_customer_user_address_update")
      * @ParamConverter("customerUser", options={"id" = "entityId"})
-     * @param Request $request
-     * @param CustomerUser        $customerUser
-     * @param CustomerUserAddress $address
-     * @return array
      */
-    public function updateAction(Request $request, CustomerUser $customerUser, CustomerUserAddress $address)
+    public function updateAction(Request $request, CustomerUser $customerUser, CustomerUserAddress $address): array
     {
         return $this->update($request, $customerUser, $address);
     }
 
     /**
-     * @param Request $request
-     * @param CustomerUser $customerUser
-     * @param CustomerUserAddress $address
-     * @return array
      * @throws BadRequestHttpException
      */
-    protected function update(Request $request, CustomerUser $customerUser, CustomerUserAddress $address)
+    protected function update(Request $request, CustomerUser $customerUser, CustomerUserAddress $address): array
     {
         $responseData = [
             'saved' => false,
@@ -105,9 +91,9 @@ class CustomerUserAddressController extends AbstractController
 
         $manager = $this->getDoctrine()->getManagerForClass(CustomerUserAddress::class);
 
-        $handler = new AddressHandler($form, $this->get('request_stack'), $manager);
+        $handler = new AddressHandler($manager);
 
-        if ($handler->process($address)) {
+        if ($handler->process($address, $form, $request)) {
             $this->getDoctrine()->getManager()->flush();
             $responseData['entity'] = $address;
             $responseData['saved'] = true;
@@ -121,12 +107,7 @@ class CustomerUserAddressController extends AbstractController
         return $responseData;
     }
 
-    /**
-     * @param Request $request
-     * @param CustomerUser $entity
-     * @return array
-     */
-    protected function getAddressBookOptions(Request $request, CustomerUser $entity)
+    protected function getAddressBookOptions(Request $request, CustomerUser $entity): array
     {
         $addressListUrl = $this->generateUrl('oro_api_customer_get_customeruser_addresses', [
             'entityId' => $entity->getId()
@@ -150,10 +131,7 @@ class CustomerUserAddressController extends AbstractController
         ];
     }
 
-    /**
-     * @return array
-     */
-    private function getAclResources()
+    private function getAclResources(): array
     {
         return [
             'addressEdit' => 'oro_customer_customer_user_address_update',
@@ -163,7 +141,7 @@ class CustomerUserAddressController extends AbstractController
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function getSubscribedServices()
     {

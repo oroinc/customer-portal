@@ -1,0 +1,42 @@
+/* @theme: default; */
+
+.datagrid-divider {
+    &::before {
+        content: '';
+        display: inline-flex;
+        width: 1px;
+        height: 16px;
+        margin: 0 $offset-x-m;
+
+        line-height: 1;
+
+        background: $datagrid-divider-background;
+    }
+
+    &:first-child {
+        &::before {
+            display: none;
+        }
+    }
+
+    &.empty {
+        &::before {
+            display: none;
+        }
+
+        + .datagrid-divider {
+            &::before {
+                display: none;
+            }
+        }
+    }
+}
+
+@include breakpoint('mobile') {
+    .datagrid-divider {
+        &::before {
+            margin: 0 $offset-x-s;
+            visibility: hidden;
+        }
+    }
+}

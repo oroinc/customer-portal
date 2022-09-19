@@ -1,0 +1,53 @@
+/* @theme: default; */
+
+.fullscreen-popup {
+    .filter-box {
+        padding: $offset-y-m 0;
+    }
+
+    .filter-criteria-selector {
+        padding: $filter-fullscreen-popup-mode-criteria-selector-offset-inner;
+        margin: $filter-fullscreen-popup-mode-criteria-selector-offset;
+    }
+
+    .filter-criteria {
+        padding: $filter-fullscreen-popup-mode-criteria-offset-inner;
+    }
+
+    .filter-criteria-selector-icon-wrap {
+        right: $filter-fullscreen-popup-mode-criteria-selector-icon-right-pos;
+    }
+
+    .reset-filter-button {
+        width: $filter-fullscreen-popup-mode-reset-filter-button-width;
+        padding: $filter-fullscreen-popup-mode-reset-filter-button-offset-inner;
+        margin-bottom: $filter-fullscreen-popup-mode-reset-filter-button-offset-bottom;
+        border: $filter-fullscreen-popup-mode-reset-filter-border;
+    }
+
+    .filter-criteria-hint-item {
+        display: inline-block;
+        margin: $filter-fullscreen-popup-mode-criteria-hint-item-offset;
+        padding: $filter-fullscreen-popup-mode-criteria-hint-item-offset-inner;
+        border-radius: $filter-fullscreen-popup-mode-criteria-hint-item-border-radius;
+        vertical-align: top;
+    }
+
+    .filter-items-hint {
+        padding: $filter-fullscreen-popup-mode-items-hint-offset-inner;
+    }
+
+    .filters-manager-trigger {
+        width: $filter-manager-fullscreen-popup-mode-trigger-width;
+        margin: $filter-manager-fullscreen-popup-mode-trigger-offset;
+
+        [class^='fa-'],
+        [class*=' fa-'] {
+            &::before {
+                content: none;
+            }
+
+            font: $filter-manager-fullscreen-popup-mode-trigger-font;
+        }
+    }
+}

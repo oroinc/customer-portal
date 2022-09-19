@@ -1,0 +1,98 @@
+{% block block_row -%}
+    <div class="grid-col-12">
+        {% if type != 'checkbox' %}
+            {{ block_label(block) -}}
+        {% endif %}
+        {{ block_widget(block) -}}
+    </div>
+{%- endblock %}
+
+{% block _login_page_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' login-form'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block('container_widget') }}
+    </div>
+{% endblock %}
+
+{% block __oro_customer_form_login__login_form_start_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'id': 'form-login',
+        'action': path('oro_customer_customer_user_security_check'),
+        'method': 'post',
+        'data-page-component-module': 'oroui/js/app/components/view-component',
+        '~data-page-component-options': {
+            view: 'oroform/js/app/views/form-validate-view',
+            validationOptions: {
+                onfocusout: false
+            }
+        },
+    }) %}
+    <form {{ block('block_attributes') }}>
+        <div class="grid">
+            {{ block_widget(block) }}
+ {% endblock %}
+
+{% block __oro_customer_form_login__login_form_end_widget %}
+            {{ block_widget(block) }}
+        </div>
+    </form>
+{% endblock %}
+
+{% block __oro_customer_form_login__login_form_notifications_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' notification'
+    }) %}
+
+    {% if text.message is defined and text.message is not empty %}
+        {% set text = text.message %}
+    {% elseif text.messageKey is defined and text.messageData is defined %}
+        {% set text = text.messageKey|trans(text.messageData, 'security') %}
+    {% endif %}
+
+    <div class="grid-col-12">
+        <div class="notifications notifications--error">{{ block_widget(block, {text: text}) }}</div>
+    </div>
+{% endblock %}
+
+{% block __oro_customer_form_login__login_form_remember_widget %}
+    {{ block_row(block) }}
+{% endblock %}
+
+{% block __oro_customer_form_login__login_form_username_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'required': 'required',
+        'autofocus': '',
+        'autocomplete': 'username',
+        'data-validation': {"NotBlank":{"payload":null}, "Email":{"payload": null}},
+        '~class': " input input--full"
+    }) %}
+
+    {% set label_attr = layout_attr_defaults(label_attr, {
+        '~class': " label label--full"
+    }) %}
+
+    {{ block_row(block, {
+        attr: attr,
+        label_attr: label_attr
+    }) }}
+{% endblock %}
+
+{% block __oro_customer_form_login__login_form_password_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'required': 'required',
+        'autocomplete': 'off',
+        'data-validation': {"NotBlank":{"payload":null}},
+        '~class': " input input--full"
+    }) %}
+
+    {% set label_attr = layout_attr_defaults(label_attr, {
+        '~class': " label label--full"
+    }) %}
+
+    {{ block_row(block, {
+        attr: attr,
+        label_attr: label_attr
+    }) }}
+{% endblock %}

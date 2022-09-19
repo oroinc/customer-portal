@@ -1,0 +1,5 @@
+/* @theme: default; */
+
+.hide-text {
+    @include text-hide($ignore-warning: true);
+}

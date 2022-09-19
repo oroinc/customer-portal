@@ -1,0 +1,7 @@
+{% block _form_datetime_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' input input--full'
+    }) %}
+
+    {{ form_widget(form, {'attr': attr }) }}
+{% endblock %}

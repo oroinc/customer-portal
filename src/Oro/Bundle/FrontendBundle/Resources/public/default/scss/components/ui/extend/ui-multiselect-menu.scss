@@ -1,0 +1,54 @@
+/* @theme: default; */
+
+.ui-multiselect-menu {
+    display: none;
+
+    // Break inline styles
+    // stylelint-disable-next-line declaration-no-important
+    min-width: $ui-multiselect-menu-min-width !important;
+
+    text-align: left;
+
+    background: $ui-multiselect-menu-bg;
+
+    .ui-multiselect-header {
+        margin-bottom: $ui-multiselect-menu-header-offset-bottom;
+
+        .ui-helper-reset {
+            @include clearfix;
+        }
+
+        li {
+            float: left;
+            padding-right: $ui-multiselect-menu-header-li-offset-inner-right;
+        }
+
+        div {
+            padding: $ui-multiselect-menu-header-div-offset-inner;
+            margin-bottom: $ui-multiselect-menu-header-div-offset-bottom;
+            border-bottom: $ui-multiselect-menu-header-div-border-bottom;
+        }
+
+        input {
+            @include base-ui-element(
+                $use-base-style: true,
+                $padding: $ui-multiselect-menu-header-input-offset-inner,
+                $line-height: $ui-multiselect-menu-header-input-line-height
+            );
+
+            @include element-state('hover') {
+                border-color: $ui-multiselect-menu-header-input-border-color-hover;
+                box-shadow: $ui-multiselect-menu-header-input-box-shadow-hover;
+            }
+
+            @include element-state('focus') {
+                border-color: $ui-multiselect-menu-header-input-border-color-hover;
+                box-shadow: $ui-multiselect-menu-header-input-box-shadow-hover;
+            }
+
+            // Break inline styles
+            // stylelint-disable-next-line declaration-no-important
+            width: 100% !important;
+        }
+    }
+}

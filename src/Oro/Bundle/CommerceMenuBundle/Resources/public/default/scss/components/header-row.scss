@@ -1,17 +1,48 @@
 /* @theme: default; */
 
 .header-row {
+    position: relative;
+    margin-top: $offset-y;
+    border: $header-row-border;
+    border-width: 1px 0;
     display: flex;
-
     max-width: $site-width;
     margin: 0 auto;
-
     justify-content: space-between;
 
     @include clearfix();
 
     &__trigger {
+        position: relative;
+        z-index: z('base');
+        width: 100%;
+        display: block;
+        margin: 0;
+        padding: 7px 10px;
+        background-color: $header-row-border-trigger-background-color;
+        border: 0;
         border-right: $header-row-trigger-border;
+
+        .main-menu__item:hover {
+            // stylelint-disable-next-line declaration-no-important
+            background-color: transparent !important;
+        }
+    }
+
+    &__toggle {
+        background-color: $header-row-border-toggle-background-color;
+    }
+
+    &.show {
+        .header-row__trigger {
+            background: $header-row-border-show-trigger-background;
+
+            z-index: auto;
+        }
+
+        .header-row__toggle {
+            display: block;
+        }
     }
 
     &__container {
@@ -77,10 +108,9 @@
 
 @include breakpoint('tablet') {
     .header-row {
+        border: $header-row-border-tablet;
         position: relative;
-
         z-index: z('base') + 2;
-
         margin: 0 (-$offset-x-m);
 
         &__container {
@@ -90,7 +120,14 @@
             flex-basis: auto;
         }
 
+        &__trigger {
+            background-color: $header-row-trigger-background-color-tablet;
+            border-right: $header-row-trigger-border-tablet;
+            text-align: center;
+        }
+
         &__toggle {
+            display: none;
             position: absolute;
             z-index: z('dropdown') + 1;
             right: 0;

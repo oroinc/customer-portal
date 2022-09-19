@@ -1,0 +1,34 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_toolbar_actions/layout.html.twig'
+        - '@addTree':
+            items:
+                __wrapper:
+                    blockType: container
+                __actions_container:
+                    blockType: container
+                __actions-list:
+                    blockType: list
+                    options:
+                        attr:
+                            'class': 'controls-list'
+                __print_item:
+                    blockType: list_item
+                __print_button:
+                    blockType: button
+                    options:
+                        type: button
+                        action: button
+                        icon: print
+                        attr:
+                            'data-page-component-print-page': ''
+                            'class': 'btn btn--link'
+
+            tree:
+                __root:
+                    __wrapper:
+                        __actions_container:
+                            __actions-list:
+                                __print_item:
+                                    __print_button: ~

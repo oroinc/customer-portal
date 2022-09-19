@@ -26,17 +26,12 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
     /** @var WebsiteScopedDataType */
     private $formType;
 
+    /**
+     * {@inheritDoc}
+     */
     protected function getExtensions()
     {
-        return [
-            new PreloadedExtension(
-                [
-                    $this->formType,
-                    StubType::class => new StubType(),
-                ],
-                []
-            )
-        ];
+        return [new PreloadedExtension([$this->formType, StubType::class => new StubType()], [])];
     }
 
     protected function setUp(): void
@@ -79,25 +74,25 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
             ->willReturn($websiteQuery);
 
         $this->formType = new WebsiteScopedDataType($registry, $aclHelper);
-        $this->formType->setWebsiteClass(Website::class);
+
         parent::setUp();
     }
 
     /**
      * @dataProvider submitDataProvider
      */
-    public function testSubmit(array $defaultData, array $options, array $submittedData, array $expectedData)
+    public function testSubmit(array $defaultData, array $options, array $submittedData, array $expectedData): void
     {
         $form = $this->factory->create(WebsiteScopedDataType::class, $defaultData, $options);
 
-        $this->assertEquals($defaultData, $form->getData());
+        self::assertEquals($defaultData, $form->getData());
         $form->submit($submittedData);
-        $this->assertTrue($form->isValid());
-        $this->assertTrue($form->isSynchronized());
+        self::assertTrue($form->isValid());
+        self::assertTrue($form->isSynchronized());
 
         $data = $form->getData();
 
-        $this->assertEquals($expectedData, $data);
+        self::assertEquals($expectedData, $data);
     }
 
     public function submitDataProvider(): array
@@ -119,14 +114,14 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
         ];
     }
 
-    public function testBuildView()
+    public function testBuildView(): void
     {
         $view = new FormView();
 
         $form = $this->createMock(FormInterface::class);
         $this->formType->buildView($view, $form, ['region_route' => 'test']);
 
-        $this->assertArrayHasKey('websites', $view->vars);
+        self::assertArrayHasKey('websites', $view->vars);
 
         $websiteIds = array_map(
             function (Website $website) {
@@ -135,7 +130,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
             $view->vars['websites']
         );
 
-        $this->assertEquals([self::WEBSITE_ID => self::WEBSITE_ID], $websiteIds);
+        self::assertEquals([self::WEBSITE_ID => self::WEBSITE_ID], $websiteIds);
     }
 
     public function finishViewDataProvider(): array

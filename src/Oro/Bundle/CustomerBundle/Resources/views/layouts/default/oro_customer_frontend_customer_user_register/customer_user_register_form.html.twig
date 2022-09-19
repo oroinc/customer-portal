@@ -1,0 +1,22 @@
+{% block _registration_page_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' register-form'
+    }) %}
+    {{ block_widget(block, {attr: attr}) }}
+{% endblock %}
+
+{% block _registration_description_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' register-form-description'
+    }) %}
+    {{ parent_block_widget(block) }}
+{% endblock %}
+
+{% block _registration_footer_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid grid-col-12 register-form-footer'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}

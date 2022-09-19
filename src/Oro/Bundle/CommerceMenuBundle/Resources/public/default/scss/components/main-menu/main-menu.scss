@@ -1,8 +1,23 @@
 /* @theme: default; */
 
 .main-menu {
+    display: flex;
+    flex-grow: 0;
+
+    @include list-normalize();
+
     &__link {
+        display: block;
+        padding: $main-menu-link-inner-offset;
+        line-height: $main-menu-link-line-height;
+        text-align: center;
+        text-decoration: none;
         text-transform: $main-menu-link-text-transform;
+        color: $main-menu-link-color;
+
+        &:hover {
+            color: $main-menu-link-color-hover;
+        }
 
         &:hover,
         &:focus {
@@ -22,6 +37,16 @@
     }
 
     &__item {
+        flex-grow: 0;
+
+        &.active {
+            background: $main-menu-link-background-active;
+        }
+
+        &--ancestor {
+            display: flex;
+        }
+
         &--nested {
             position: relative;
 
@@ -35,20 +60,80 @@
         }
     }
 
+    &__subcategory {
+        @include list-normalize();
+
+        &-item {
+            padding: $main-menu-subcategory-item-inner-offset;
+        }
+    }
+
     &__sublist {
         display: none;
     }
 
     &__button-arrow {
+        color: $main-menu-link-color;
+        border: none;
+        background: none;
+        outline: none;
         position: relative;
         z-index: z('base');
         width: $main-menu-button-arrow-width;
         padding: $main-menu-button-arrow-inner-offset;
         margin-left: $main-menu-button-arrow-offset;
-
         font-size: inherit;
         cursor: pointer;
         text-align: $main-menu-button-arrow-text-align;
+
+        @include fa-icon($main-menu-button-arrow-icon);
+    }
+
+    &__back-trigger {
+        text-transform: uppercase;
+        font-weight: font-weight('bold');
+
+        @include base-ui-element(
+            $use-base-style:   true,
+            $padding:          7px 0,
+            $border:           none,
+            $border-radius:    0,
+            $background-color: get-color('additional', 'ultra'),
+            $color:            lighten(get-color('additional', 'dark'), 41%),
+            $appearance:       true
+        );
+
+        margin: 0;
+        display: none;
+    }
+
+    @include fullscreen-mode {
+        .main-menu__back-trigger {
+            position: absolute;
+            top: 0;
+
+            @include safe-area-property-left(left, $offset-x);
+
+            z-index: z('base') + 1;
+
+            display: block;
+            width: $main-menu-back-trigger-width;
+
+            text-align: $main-menu-back-trigger-align;
+        }
+
+        .main-menu__button-arrow {
+            z-index: z('base') - 1;
+
+            flex-grow: 1;
+            padding-right: $main-menu-button-arrow-fullscreen-offset;
+            text-align: $main-menu-button-arrow-fullscreen-text-align;
+
+            &::before {
+                display: inline-flex;
+                transform: rotate(-90deg);
+            }
+        }
     }
 }
 
@@ -84,30 +169,17 @@
             display: none;
         }
 
-        &__item {
-            min-height: $main-menu-item-height;
-
-            &--nested {
-                padding: $main-menu-item--nested;
-            }
-        }
-
-        &__link {
-            min-height: $main-menu-item-height;
-
-            display: inline-block;
-        }
-
         &__sublist-container {
+            position: absolute;
+            // Must be above the dropdowns
+            z-index: z('dropdown') + 10;
+            top: 100%;
+            right: 0;
+            left: 0;
             display: none;
-
+            border: $main-menu-sublist-container-d-border;
             background: $main-menu-sublist-container-background;
             box-shadow: $main-menu-sublist-container-shadow;
-        }
-
-        &__item--floated-dropdown,
-        &__item--centered-dropdown {
-            position: relative;
         }
 
         &__item--floated-dropdown .main-menu__sublist-container {
@@ -119,6 +191,31 @@
             right: auto;
         }
 
+        &__item {
+            min-height: $main-menu-item-height;
+
+            &--nested {
+                padding: $main-menu-item--nested;
+            }
+
+            &.show {
+                .main-menu__sublist-container {
+                    display: block;
+                }
+            }
+        }
+
+        &__link {
+            min-height: $main-menu-item-height;
+
+            display: inline-block;
+        }
+
+        &__item--floated-dropdown,
+        &__item--centered-dropdown {
+            position: relative;
+        }
+
         > .main-menu__item {
             > .main-menu__link {
                 font-weight: $main-menu-item-first-level-desktop-font-weight;
@@ -126,11 +223,73 @@
         }
 
         .mobile-version & {
+            &__text {
+                vertical-align: middle;
+            }
+
             &__item {
+                display: flex;
+
+                &:hover {
+                    .main-menu__button-arrow {
+                        color: $main-menu-link-color-hover;
+                    }
+                }
+
                 &.show {
                     background: $main-menu-item-show-mobile-version-background;
                 }
             }
         }
+    }
+}
+
+@include breakpoint('tablet') {
+    .main-menu {
+        flex-direction: column;
+
+        &:not(:last-child) {
+            border-bottom: $main-menu-tablet-border;
+        }
+
+        &__item {
+            display: flex;
+            justify-content: space-between;
+
+            &:not(:last-child) {
+                border-bottom: $main-menu-item-tablet-border;
+            }
+
+            &--nested {
+                display: inline-block;
+            }
+        }
+
+        &__link {
+            flex-grow: 3;
+
+            padding: $main-menu-link-line-tablet-offset;
+            line-height: $main-menu-link-line-tablet-height;
+
+            text-align: left;
+        }
+
+        &__sublist-container {
+            position: absolute;
+            top: $fullscreen-popup-header-min-height - 1;
+            left: 100%;
+            z-index: z('base');
+
+            width: 100%;
+
+            background: $main-menu-sublist-container-tablet-background;
+
+            transition: $main-menu-sublist-container-transition;
+        }
+    }
+
+    .current + .main-menu__sublist-container {
+        left: 0;
+        overflow-y: scroll;
     }
 }

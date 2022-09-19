@@ -80,7 +80,7 @@ class MenuUpdateExtension extends AbstractTypeExtension
                 [
                     'required' => false,
                     'label' => 'oro.commercemenu.menuupdate.condition.label',
-                    'tooltip' => 'oro.commercemenu.form.tooltip.menu_item_condition',
+                    'tooltip' => 'oro.commercemenu.menuupdate.condition.tooltip',
                 ]
             )
             ->add(

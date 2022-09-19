@@ -15,67 +15,35 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * The form type to select websites.
- *
- * @deprecated use Oro\Bundle\ScopeBundle\Form\Type\ScopedDataType instead
+ * The form type for website scoped data.
  */
 class WebsiteScopedDataType extends AbstractType
 {
-    const NAME = 'oro_website_scoped_data_type';
-    const WEBSITE_OPTION = 'website';
+    public const WEBSITE_OPTION = 'website';
 
-    /**
-     * @return Website[]
-     */
-    protected $websites;
+    private ManagerRegistry $doctrine;
+    private AclHelper $aclHelper;
 
-    /**
-     * @var string
-     */
-    protected $websiteCLass = 'Oro\Bundle\WebsiteBundle\Entity\Website';
-
-    /**
-     * @var ManagerRegistry
-     */
-    protected $registry;
-
-    /**
-     * @var AclHelper
-     */
-    protected $aclHelper;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function __construct(ManagerRegistry $doctrine, AclHelper $aclHelper)
     {
-        return $this->getBlockPrefix();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return self::NAME;
-    }
-
-    public function __construct(ManagerRegistry $registry, AclHelper $aclHelper)
-    {
-        $this->registry = $registry;
+        $this->doctrine = $doctrine;
         $this->aclHelper = $aclHelper;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'oro_website_scoped_data_type';
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired(
-            [
-                'type',
-            ]
-        );
+        $resolver->setRequired(['type']);
 
         $resolver->setDefaults(
             [
@@ -86,7 +54,7 @@ class WebsiteScopedDataType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -110,81 +78,72 @@ class WebsiteScopedDataType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'preSubmit']);
     }
 
-    public function preSubmit(FormEvent $event)
-    {
-        $data = $event->getData();
-        $form = $event->getForm();
-
-        $formOptions = $form->getConfig()->getOptions();
-
-        $formOptions['options']['data'] = $form->getData();
-        $formOptions['options']['ownership_disabled'] = true;
-
-        if (!$data) {
-            return;
-        }
-        foreach ($data as $websiteId => $value) {
-            if ($form->has($websiteId)) {
-                continue;
-            }
-
-            /** @var EntityManager $em */
-            $em = $this->registry->getManagerForClass($this->websiteCLass);
-            $formOptions['options'][self::WEBSITE_OPTION] = $em
-                ->getReference($this->websiteCLass, $websiteId);
-
-            $form->add(
-                $websiteId,
-                $formOptions['type'],
-                $formOptions['options']
-            );
-        }
-    }
-
     /**
-     * @throws \Doctrine\ORM\ORMException
-     */
-    public function preSetData(FormEvent $event)
-    {
-        $form = $event->getForm();
-
-        $formOptions = $form->getConfig()->getOptions();
-
-        $formOptions['options']['ownership_disabled'] = true;
-
-        /** @var EntityManager $em */
-        $em = $this->registry->getManagerForClass($this->websiteCLass);
-        foreach ($event->getData() as $websiteId => $value) {
-            $formOptions['options']['data'] = [];
-
-            if (is_array($value)) {
-                $formOptions['options']['data'] = $value;
-            }
-
-            $formOptions['options'][self::WEBSITE_OPTION] = $em->getReference($this->websiteCLass, $websiteId);
-
-            $form->add(
-                $websiteId,
-                $formOptions['type'],
-                $formOptions['options']
-            );
-        }
-    }
-
-    /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['websites'] = $this->getWebsites();
     }
 
+    public function preSubmit(FormEvent $event): void
+    {
+        $data = $event->getData();
+
+        if (!$data) {
+            return;
+        }
+
+        $form = $event->getForm();
+        $formOptions = $form->getConfig()->getOptions();
+        $formOptions['options']['data'] = $form->getData();
+        $formOptions['options']['ownership_disabled'] = true;
+
+        foreach (array_keys($data) as $websiteId) {
+            if ($form->has($websiteId)) {
+                continue;
+            }
+
+            /** @var EntityManager $em */
+            $em = $this->doctrine->getManagerForClass(Website::class);
+            $formOptions['options'][self::WEBSITE_OPTION] = $em->getReference(
+                Website::class,
+                $websiteId
+            );
+
+            $form->add($websiteId, $formOptions['type'], $formOptions['options']);
+        }
+    }
+
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function preSetData(FormEvent $event): void
+    {
+        $form = $event->getForm();
+
+        $formOptions = $form->getConfig()->getOptions();
+        $formOptions['options']['ownership_disabled'] = true;
+
+        /** @var EntityManager $em */
+        $em = $this->doctrine->getManagerForClass(Website::class);
+        foreach ($event->getData() as $websiteId => $value) {
+            $formOptions['options']['data'] = [];
+            if (\is_array($value)) {
+                $formOptions['options']['data'] = $value;
+            }
+            $formOptions['options'][self::WEBSITE_OPTION] = $em->getReference(Website::class, $websiteId);
+
+            $form->add($websiteId, $formOptions['type'], $formOptions['options']);
+        }
+    }
+
     /**
      * @return Website[]
      */
-    protected function getWebsites()
+    private function getWebsites(): array
     {
-        $queryBuilder = $this->registry
+        $queryBuilder = $this->doctrine
             ->getRepository(Website::class)
             ->createQueryBuilder('website')
             ->addOrderBy('website.id', 'ASC');
@@ -197,13 +156,5 @@ class WebsiteScopedDataType extends AbstractType
         }
 
         return $result;
-    }
-
-    /**
-     * @param string $websiteCLass
-     */
-    public function setWebsiteClass($websiteCLass)
-    {
-        $this->websiteCLass = $websiteCLass;
     }
 }
