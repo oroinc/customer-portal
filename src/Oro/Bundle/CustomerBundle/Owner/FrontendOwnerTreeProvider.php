@@ -67,7 +67,8 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
     }
 
     /**
-     * Warms up cache for recent customer users visitors
+     * Warms up cache for recent customer users visitors.
+     * {@inheritDoc}
      */
     public function warmUpCache(): void
     {
@@ -75,6 +76,9 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         $this->messageProducer->send(Topics::CALCULATE_OWNER_TREE_CACHE, new Message($messageData));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getTree(): OwnerTreeInterface
     {
         $cacheKey = $this->getOwnerTreeCacheKey();
@@ -88,6 +92,9 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getTreeByBusinessUnit($businessUnit): OwnerTreeInterface
     {
         $this->currentCustomer = $businessUnit;
@@ -102,6 +109,9 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         $this->cacheTtl = $cacheTtl;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function fillTree(OwnerTreeBuilderInterface $tree): void
     {
         $customerIds = $this->addAncestorCustomers($tree);
@@ -132,6 +142,9 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         return $id;
     }
 
+    /**
+     * @return array [rows, columnMap]
+     */
     private function executeQuery(Connection $connection, Query $query): array
     {
         $parsedQuery = QueryUtil::parseQuery($query);
@@ -187,34 +200,22 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
     }
 
     /**
-     * Gets all ancestor customers including current top customer
+     * Gets all ancestor customers including current top customer.
+     *
+     * @return array|int[] ancestor customer ids
      */
     private function addAncestorCustomers(OwnerTreeBuilderInterface $tree): array
     {
-        $customerClass = $this->ownershipMetadataProvider->getBusinessUnitClass();
-        $connection = $this->getManagerForClass($customerClass)->getConnection();
-
-        [$customers, $columnMap] = $this->executeQuery(
-            $connection,
-            $this
-                ->getRepository($customerClass)
-                ->createQueryBuilder('a')
-                ->select(
-                    'a.id, IDENTITY(a.organization) orgId, IDENTITY(a.parent) parentId'
-                    . ', (CASE WHEN a.parent IS NULL THEN 0 ELSE 1 END) AS HIDDEN ORD'
-                )
-                ->addOrderBy('ORD, parentId, a.id', 'ASC')
-                ->getQuery()
-        );
-
         $topCustomerId = $this->getTopLevelCustomerId();
+
         if (!$topCustomerId) {
+            [$customers, $columnMap] = $this->getAncestorIterator();
             $this->addAllCustomers($tree, $customers, $columnMap);
 
             return [];
         }
 
-        return $this->addCustomersSubtree($tree, $topCustomerId, $customers, $columnMap);
+        return $this->addCustomersSubtree($tree, $topCustomerId);
     }
 
     private function getTopLevelCustomerId(): ?int
@@ -317,49 +318,93 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
     }
 
     /**
-     * Adds customers subtree where topCustomerId is an id of the root customer node
+     * Adds customers subtree where topCustomerId is an id of the root customer node.
      */
     private function addCustomersSubtree(
         OwnerTreeBuilderInterface $tree,
-        ?int $topCustomerId,
-        Iterable $customers,
-        array $columnMap
+        int $parentCustomerId
     ): array {
-        $customersToProcess = [$topCustomerId => true];
-        $businessUnitRelations = [];
-        $customerIds = [];
-        $hasChanges = true;
-
-        while ($hasChanges) {
-            $hasChanges = false;
-
-            foreach ($customers as $customer) {
-                $orgId = $this->getId($customer, $columnMap['orgId']);
-                if (!$orgId) {
-                    continue;
-                }
-
-                $buId = $this->getId($customer, $columnMap['id']);
-                $parentBuId = $this->getId($customer, $columnMap['parentId']);
-                if (isset($customersToProcess[$parentBuId]) && !isset($customersToProcess[$buId])) {
-                    $customersToProcess[$buId] = true;
-                    $hasChanges = true;
-                }
-
-                if (isset($customersToProcess[$buId]) && $customersToProcess[$buId]) {
-                    $tree->addBusinessUnit($buId, $orgId);
-                    $businessUnitRelations[$buId] = $parentBuId;
-                    $customersToProcess[$buId] = false;
-                    $customerIds[] = $buId;
-                }
-            }
-            $customers->execute();
-        }
-
         $customerClass = $this->ownershipMetadataProvider->getBusinessUnitClass();
-        $this->setSubordinateBusinessUnitIds($tree, $this->buildTree($businessUnitRelations, $customerClass));
+        $customerData = $this
+            ->getRepository($customerClass)
+            ->createQueryBuilder('a')
+            ->select('a.id, IDENTITY(a.organization) orgId, IDENTITY(a.parent) parentId')
+            ->where('a.id = :id')
+            ->setParameter('id', $parentCustomerId)
+            ->getQuery()
+            ->getScalarResult();
+        $businessUnitRelations[$parentCustomerId] = $customerData[0]['parentId'];
+        $customerIds[] = $parentCustomerId;
+        $tree->addBusinessUnit($parentCustomerId, $customerData[0]['orgId']);
+
+        $this->collectSubtree($tree, [$parentCustomerId], $businessUnitRelations, $customerIds);
+
+        $this->setSubordinateBusinessUnitIds(
+            $tree,
+            $this->buildTree($businessUnitRelations, $customerClass)
+        );
 
         return $customerIds;
+    }
+
+    private function collectSubtree(
+        OwnerTreeBuilderInterface $tree,
+        array $parentCustomerIds,
+        array &$businessUnitRelations,
+        array &$customerIds
+    ): void {
+        $parents = [];
+
+        [$customers, $columnMap] = $this->getAncestorIterator($parentCustomerIds);
+        foreach ($customers as $customer) {
+            $orgId = $this->getId($customer, $columnMap['orgId']);
+            if (!$orgId) {
+                continue;
+            }
+
+            $buId = $this->getId($customer, $columnMap['id']);
+            $parentBuId = $this->getId($customer, $columnMap['parentId']);
+
+            $tree->addBusinessUnit($buId, $orgId);
+            $businessUnitRelations[$buId] = $parentBuId;
+            $customerIds[] = $buId;
+            $parents[] = $buId;
+        }
+
+        $ids = [];
+        foreach ($parents as $customer) {
+            $ids[] = $customer;
+            if (count($ids) === 1000) {
+                $this->collectSubtree($tree, $ids, $businessUnitRelations, $customerIds);
+                $ids = [];
+            }
+        }
+        if ($ids) {
+            $this->collectSubtree($tree, $ids, $businessUnitRelations, $customerIds);
+        }
+    }
+
+    private function getAncestorIterator(array $parentIds = []): array
+    {
+        $customerClass = $this->ownershipMetadataProvider->getBusinessUnitClass();
+        $connection = $this->getManagerForClass($customerClass)->getConnection();
+
+        $qb = $this->getRepository($customerClass)
+            ->createQueryBuilder('a')
+            ->select('a.id, IDENTITY(a.organization) orgId, IDENTITY(a.parent) parentId'
+                . ', (CASE WHEN a.parent IS NULL THEN 0 ELSE 1 END) AS HIDDEN ORD')
+            ->addOrderBy('ORD, parentId, a.id', 'ASC');
+        if (count($parentIds)) {
+            $qb->where('a.parent in (:parent)')
+                ->setParameter('parent', $parentIds);
+        }
+
+        [$customers, $columnMap] = $this->executeQuery(
+            $connection,
+            $qb->getQuery()
+        );
+
+        return [$customers, $columnMap];
     }
 
     private function getCacheTtl(): int
