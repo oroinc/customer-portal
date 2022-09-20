@@ -2,7 +2,9 @@
 
 namespace Oro\Bundle\FrontendImportExportBundle\Async\Export;
 
-use Oro\Bundle\FrontendImportExportBundle\Async\Topics;
+use Oro\Bundle\FrontendImportExportBundle\Async\Topic\ExportTopic;
+use Oro\Bundle\FrontendImportExportBundle\Async\Topic\PostExportTopic;
+use Oro\Bundle\FrontendImportExportBundle\Async\Topic\PreExportTopic;
 use Oro\Bundle\ImportExportBundle\Async\Export\PreExportMessageProcessor as BasePreExportMessageProcessor;
 use Oro\Bundle\ImportExportBundle\Handler\ExportHandler;
 use Oro\Component\MessageQueue\Client\Message;
@@ -25,13 +27,16 @@ class PreExportMessageProcessor extends BasePreExportMessageProcessor
      */
     protected function getJobUniqueName(array $body)
     {
-        $userId = $this->getUser()->getId();
-        return sprintf('oro_frontend_importexport.pre_export.%s.user_%s', $body['jobName'], $userId);
+        return sprintf(
+            'oro_frontend_importexport.pre_export.%s.user_%s',
+            $body['jobName'],
+            $this->getUser()->getId()
+        );
     }
 
     public static function getSubscribedTopics(): array
     {
-        return [Topics::PRE_EXPORT];
+        return [PreExportTopic::getName()];
     }
 
     protected function addDependentJob(Job $rootJob, array $body)
@@ -39,7 +44,7 @@ class PreExportMessageProcessor extends BasePreExportMessageProcessor
         $context = $this->dependentJob->createDependentJobContext($rootJob);
         $user = $this->getUser();
 
-        $context->addDependentJob(Topics::POST_EXPORT, [
+        $context->addDependentJob(PostExportTopic::getName(), [
             'jobId' => $rootJob->getId(),
             'customerUserId' => $user->getId(),
             'jobName' => $body['jobName'],
@@ -64,7 +69,7 @@ class PreExportMessageProcessor extends BasePreExportMessageProcessor
         return function (JobRunner $jobRunner, Job $child) use ($body) {
             $body['jobId'] = $child->getId();
             $this->producer->send(
-                Topics::EXPORT,
+                ExportTopic::getName(),
                 new Message($body, MessagePriority::LOW)
             );
         };
