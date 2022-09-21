@@ -709,6 +709,13 @@ services:
             - { name: oro_scope.provider, scopeType: cms_content_block, priority: 250 }
             - { name: oro_scope.provider, scopeType: workflow_definition, priority: 30 }
 
+    oro_customer.anonymous_customer_scope_criteria_provider:
+        class: 'Oro\Bundle\CustomerBundle\Provider\ScopeAnonymousCustomerGroupCriteriaProvider'
+        arguments:
+            - '@oro_customer.provider.customer_user_relations_provider'
+        tags:
+            - { name: oro_scope.provider, scopeType: web_content_for_sitemap, priority: 250 }
+
     oro_customer.customer_group_scope_criteria_provider:
         class: 'Oro\Bundle\CustomerBundle\Provider\ScopeCustomerGroupCriteriaProvider'
         arguments:
@@ -1304,3 +1311,33 @@ services:
         class: Oro\Bundle\CustomerBundle\EventListener\FileListener
         decorates: 'oro_attachment.listener.file_listener'
         parent: 'oro_attachment.listener.file_listener'
+
+    oro_customer.entity_listener.send_changed_customer_address_type_to_message_queue:
+        class: Oro\Bundle\CustomerBundle\EventListener\Entity\SendChangedAddressTypeToMessageQueueListener
+        arguments:
+            - '@oro_message_queue.message_producer'
+            - '@security.token_storage'
+            - '@oro_dataaudit.converter.entity_to_entity_change_array'
+            - '@oro_dataaudit.audit_config_provider'
+            - '@oro_dataaudit.provider.audit_message_body_provider'
+            - '@oro_distribution.handler.application_status'
+            - 'Oro\Bundle\CustomerBundle\Entity\CustomerAddress'
+            - 'Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType'
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+            - { name: doctrine.event_listener, event: postFlush }
+
+    oro_customer.entity_listener.send_changed_customer_user_address_type_to_message_queue:
+        class: Oro\Bundle\CustomerBundle\EventListener\Entity\SendChangedAddressTypeToMessageQueueListener
+        arguments:
+            - '@oro_message_queue.message_producer'
+            - '@security.token_storage'
+            - '@oro_dataaudit.converter.entity_to_entity_change_array'
+            - '@oro_dataaudit.audit_config_provider'
+            - '@oro_dataaudit.provider.audit_message_body_provider'
+            - '@oro_distribution.handler.application_status'
+            - 'Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress'
+            - 'Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType'
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+            - { name: doctrine.event_listener, event: postFlush }

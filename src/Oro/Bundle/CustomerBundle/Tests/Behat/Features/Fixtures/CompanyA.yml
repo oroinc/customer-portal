@@ -1,0 +1,5 @@
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    company_A:
+        name: 'Company A'
+        organization: '@organization'
+        owner: '@admin'

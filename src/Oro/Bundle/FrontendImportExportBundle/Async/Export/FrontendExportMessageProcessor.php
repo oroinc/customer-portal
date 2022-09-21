@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\FrontendImportExportBundle\Async\Export;
 
-use Oro\Bundle\FrontendImportExportBundle\Async\Topics;
+use Oro\Bundle\FrontendImportExportBundle\Async\Topic\ExportTopic;
 use Oro\Bundle\ImportExportBundle\Async\Export\ExportMessageProcessor;
 use Oro\Bundle\ImportExportBundle\File\FileManager;
 
@@ -22,6 +22,6 @@ class FrontendExportMessageProcessor extends ExportMessageProcessor
      */
     public static function getSubscribedTopics(): array
     {
-        return [Topics::EXPORT];
+        return [ExportTopic::getName()];
     }
 }

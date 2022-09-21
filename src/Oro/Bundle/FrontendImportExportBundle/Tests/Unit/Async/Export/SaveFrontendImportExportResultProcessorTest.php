@@ -17,33 +17,33 @@ use Oro\Component\MessageQueue\Job\Job;
 use Oro\Component\MessageQueue\Job\JobProcessor;
 use Oro\Component\MessageQueue\Transport\Message;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
-use Oro\Component\MessageQueue\Util\JSON;
 
 class SaveFrontendImportExportResultProcessorTest extends \PHPUnit\Framework\TestCase
 {
     use LoggerAwareTraitTestTrait;
 
-    /** @var FrontendImportExportResultManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $importExportResultManager;
+    private FrontendImportExportResultManager|\PHPUnit\Framework\MockObject\MockObject $importExportResultManager;
 
-    /** @var JobProcessor|\PHPUnit\Framework\MockObject\MockObject */
-    private $jobProcessor;
+    private JobProcessor|\PHPUnit\Framework\MockObject\MockObject $jobProcessor;
 
-    /** @var ExportResultNotificationSender|\PHPUnit\Framework\MockObject\MockObject */
-    private $exportResultNotificationSender;
+    private ExportResultNotificationSender|\PHPUnit\Framework\MockObject\MockObject $exportResultNotificationSender;
 
-    /** @var ObjectManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $entityManager;
+    private ObjectManager|\PHPUnit\Framework\MockObject\MockObject $entityManager;
 
-    /** @var SaveFrontendExportResultProcessor */
-    private $saveExportResultProcessor;
+    private SaveFrontendExportResultProcessor $saveExportResultProcessor;
 
     protected function setUp(): void
     {
-        $managerRegistry = $this->createMock(ManagerRegistry::class);
+        $this->entityManager = $this->createMock(ObjectManager::class);
         $this->importExportResultManager = $this->createMock(FrontendImportExportResultManager::class);
         $this->jobProcessor = $this->createMock(JobProcessor::class);
         $this->exportResultNotificationSender = $this->createMock(ExportResultNotificationSender::class);
+
+        $managerRegistry = $this->createMock(ManagerRegistry::class);
+        $managerRegistry->expects(self::any())
+            ->method('getManagerForClass')
+            ->with(CustomerUser::class)
+            ->willReturn($this->entityManager);
 
         $this->saveExportResultProcessor = new SaveFrontendExportResultProcessor(
             $managerRegistry,
@@ -53,12 +53,6 @@ class SaveFrontendImportExportResultProcessorTest extends \PHPUnit\Framework\Tes
         );
 
         $this->setUpLoggerMock($this->saveExportResultProcessor);
-
-        $this->entityManager = $this->createMock(ObjectManager::class);
-        $managerRegistry->expects(self::any())
-            ->method('getManagerForClass')
-            ->with(CustomerUser::class)
-            ->willReturn($this->entityManager);
     }
 
     public function testProcessWithValidMessage(): void
@@ -92,7 +86,7 @@ class SaveFrontendImportExportResultProcessorTest extends \PHPUnit\Framework\Tes
             'customerUserId' => $customerUserId,
             'options' => ['sample_key' => 'sample_value'],
         ];
-        $message->setBody(JSON::encode($body));
+        $message->setBody($body);
 
         $importExportResult = $this->createMock(FrontendImportExportResult::class);
         $this->importExportResultManager->expects(self::once())
@@ -110,125 +104,5 @@ class SaveFrontendImportExportResultProcessorTest extends \PHPUnit\Framework\Tes
 
         $this->assertLoggerNotCalled();
         self::assertEquals(MessageProcessorInterface::ACK, $result);
-    }
-
-    /**
-     * @dataProvider getProcessWithInvalidMessageDataProvider
-     */
-    public function testProcessWithInvalidMessage(array $parameters, string $expectedError): void
-    {
-        $this->loggerMock->expects(self::once())
-            ->method('error')
-            ->with(self::stringContains($expectedError));
-
-        $message = new Message();
-        $message->setBody(JSON::encode($parameters));
-
-        $job = new Job();
-        $job->setId(11);
-
-        $this->jobProcessor->expects(self::any())
-            ->method('findJobById')
-            ->willReturn($job);
-
-        $this->entityManager->expects(self::any())
-            ->method('find')
-            ->willReturn(new CustomerUser());
-
-        $this->importExportResultManager->expects(self::never())
-            ->method('saveResult');
-
-        $this->exportResultNotificationSender->expects(self::never())
-            ->method('sendEmailNotification');
-
-        $result = $this->saveExportResultProcessor->process($message, $this->createMock(SessionInterface::class));
-
-        self::assertEquals(MessageProcessorInterface::REJECT, $result);
-    }
-
-    public function getProcessWithInvalidMessageDataProvider(): array
-    {
-        return [
-            'without jobId' => [
-                'parameters' => [
-                    'type' => ProcessorRegistry::TYPE_EXPORT,
-                    'entity' => \stdClass::class,
-                    'customerUserId' => 42,
-                    'options' => ['test1' => 'test2'],
-                ],
-                'expectedError' => 'Error occurred during save result: The required option "jobId" is missing.',
-            ],
-            'jobId not int' => [
-                'parameters' => [
-                    'jobId' => 'invalid',
-                    'type' => ProcessorRegistry::TYPE_EXPORT,
-                    'entity' => \stdClass::class,
-                    'customerUserId' => 42,
-                    'options' => ['test1' => 'test2'],
-                ],
-                'expectedError' => 'Error occurred during save result: The option "jobId" with value "invalid"'
-                    . ' is expected to be of type "int"',
-            ],
-            'without entity' => [
-                'parameters' => [
-                    'jobId' => 1,
-                    'type' => ProcessorRegistry::TYPE_EXPORT,
-                    'customerUserId' => 42,
-                    'options' => ['test1' => 'test2'],
-                ],
-                'expectedError' => 'Error occurred during save result: The required option "entity" is missing.',
-            ],
-            'without type' => [
-                'parameters' => [
-                    'jobId' => 1,
-                    'entity' => \stdClass::class,
-                    'customerUserId' => 42,
-                    'options' => ['test1' => 'test2'],
-                ],
-                'expectedError' => 'Error occurred during save result: The required option "type" is missing.',
-            ],
-            'invalid processor' => [
-                'parameters' => [
-                    'jobId' => 1,
-                    'type' => 'invalid_type',
-                    'entity' => \stdClass::class,
-                    'customerUserId' => 42,
-                    'options' => ['test1' => 'test2'],
-                ],
-                'expectedError' => 'Error occurred during save result: The option "type" with value "invalid_type" is'
-                    . ' invalid. Accepted values are: "export".',
-            ],
-            'options not array' => [
-                'parameters' => [
-                    'jobId' => 1,
-                    'type' => ProcessorRegistry::TYPE_EXPORT,
-                    'entity' => \stdClass::class,
-                    'customerUserId' => 42,
-                    'options' => 1,
-                ],
-                'expectedError' => 'is expected to be of type "array", but is of type',
-            ],
-            'customerUserId not int' => [
-                'parameters' => [
-                    'jobId' => 1,
-                    'type' => ProcessorRegistry::TYPE_EXPORT,
-                    'entity' => \stdClass::class,
-                    'customerUserId' => 'invalid',
-                    'options' => ['test1' => 'test2'],
-                ],
-                'expectedError' => 'Error occurred during save result: The option "customerUserId" with value'
-                    . ' "invalid" is expected to be of type "int"',
-            ],
-            'without customerUserId' => [
-                'parameters' => [
-                    'jobId' => 1,
-                    'type' => ProcessorRegistry::TYPE_EXPORT,
-                    'entity' => \stdClass::class,
-                    'options' => ['test1' => 'test2'],
-                ],
-                'expectedError' => 'Error occurred during save result: The required option "customerUserId"'
-                    . ' is missing.',
-            ],
-        ];
     }
 }
