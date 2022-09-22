@@ -3,7 +3,7 @@
 namespace Oro\Bundle\FrontendImportExportBundle\Tests\Functional\Async\Export;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\FrontendImportExportBundle\Async\Topics;
+use Oro\Bundle\FrontendImportExportBundle\Async\Topic\SaveExportResultTopic;
 use Oro\Bundle\FrontendImportExportBundle\Handler\FrontendExportHandler;
 use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData;
 use Oro\Bundle\ImportExportBundle\Exception\RuntimeException;
@@ -14,7 +14,6 @@ use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
 use Oro\Component\MessageQueue\Job\JobProcessor;
 use Oro\Component\MessageQueue\Transport\Message;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
-use Oro\Component\MessageQueue\Util\JSON;
 
 /**
  * @dbIsolationPerTest
@@ -73,7 +72,7 @@ class PostExportMessageProcessorTest extends WebTestCase
 
         $message = new Message();
         $message->setMessageId('test_import_message');
-        $message->setBody(JSON::encode($messageData));
+        $message->setBody($messageData);
 
         $this->exportHandler->expects(self::once())
             ->method('exportResultFileMerge')
@@ -84,7 +83,7 @@ class PostExportMessageProcessorTest extends WebTestCase
         $result = $processor->process($message, $this->createMock(SessionInterface::class));
 
         self::assertMessageSent(
-            Topics::SAVE_EXPORT_RESULT,
+            SaveExportResultTopic::getName(),
             [
                 'jobId' => $rootJob->getId(),
                 'type' => 'csv',
@@ -128,7 +127,7 @@ class PostExportMessageProcessorTest extends WebTestCase
 
         $message = new Message();
         $message->setMessageId('test_import_message');
-        $message->setBody(JSON::encode($messageData));
+        $message->setBody($messageData);
 
         $this->exportHandler->expects(self::once())
             ->method('exportResultFileMerge')
@@ -138,7 +137,7 @@ class PostExportMessageProcessorTest extends WebTestCase
 
         $result = $processor->process($message, $this->createMock(SessionInterface::class));
 
-        self::assertMessagesEmpty(Topics::SAVE_EXPORT_RESULT);
+        self::assertMessagesEmpty(SaveExportResultTopic::getName());
         self::assertEquals(MessageProcessorInterface::ACK, $result);
     }
 

@@ -75,7 +75,7 @@ class OroCustomerBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_28';
+        return 'v1_29';
     }
 
     /**
@@ -1213,9 +1213,10 @@ class OroCustomerBundleInstaller implements
             $schema->getTable('oro_customer_user'),
             ['customer_user_id'],
             ['id'],
-            ['onDelete' => 'SET NULL']
+            ['onDelete' => 'SET NULL', 'unique' => true, 'nullable' => true]
         );
-        $table->addUniqueIndex(['customer_user_id'], 'idx_customer_visitor_id_customer_user_id');
+        $table->dropIndex('IDX_F7961166BBB3772B');
+        $table->addUniqueIndex(['customer_user_id'], 'UNIQ_F7961166BBB3772B');
     }
 
     /**

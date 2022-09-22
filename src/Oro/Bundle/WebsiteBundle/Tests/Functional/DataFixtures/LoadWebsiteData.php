@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\DBAL\Event\ConnectionEventArgs;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectManager;
+use Oro\Bundle\LocaleBundle\Tests\Functional\DataFixtures\LoadLocalizationData;
 use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider;
@@ -37,7 +38,7 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
      */
     public function getDependencies()
     {
-        return ['Oro\Bundle\LocaleBundle\Tests\Functional\DataFixtures\LoadLocalizationData'];
+        return [LoadLocalizationData::class];
     }
 
     /**
