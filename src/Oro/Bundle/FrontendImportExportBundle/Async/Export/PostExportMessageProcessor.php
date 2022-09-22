@@ -2,18 +2,17 @@
 
 namespace Oro\Bundle\FrontendImportExportBundle\Async\Export;
 
-use Oro\Bundle\FrontendImportExportBundle\Async\Topics;
+use Oro\Bundle\FrontendImportExportBundle\Async\Topic\PostExportTopic;
+use Oro\Bundle\FrontendImportExportBundle\Async\Topic\SaveExportResultTopic;
 use Oro\Bundle\ImportExportBundle\Exception\RuntimeException;
 use Oro\Bundle\ImportExportBundle\Handler\ExportHandler;
 use Oro\Component\MessageQueue\Client\MessageProducerInterface;
 use Oro\Component\MessageQueue\Client\TopicSubscriberInterface;
 use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
-use Oro\Component\MessageQueue\Job\Job;
 use Oro\Component\MessageQueue\Job\JobManagerInterface;
 use Oro\Component\MessageQueue\Job\JobProcessor;
 use Oro\Component\MessageQueue\Transport\MessageInterface;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
-use Oro\Component\MessageQueue\Util\JSON;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;
@@ -51,27 +50,15 @@ class PostExportMessageProcessor implements MessageProcessorInterface, TopicSubs
      */
     public function process(MessageInterface $message, SessionInterface $session)
     {
-        $body = JSON::decode($message->getBody());
+        $messageBody = $message->getBody();
 
-        if (!isset(
-            $body['jobId'],
-            $body['jobName'],
-            $body['exportType'],
-            $body['outputFormat'],
-            $body['entity'],
-            $body['customerUserId']
-        )) {
-            $this->logger->error('Invalid message');
-            return self::REJECT;
-        }
-
-        if (!($job = $this->jobProcessor->findJobById((int)$body['jobId']))) {
+        $job = $this->jobProcessor->findJobById($messageBody['jobId']);
+        if ($job === null) {
             $this->logger->error('Job not found');
 
             return self::REJECT;
         }
 
-        /** @var Job $rootJob */
         $rootJob = $job->isRoot() ? $job : $job->getRootJob();
         $files = [];
         foreach ($rootJob->getChildJobs() as $childJob) {
@@ -83,9 +70,9 @@ class PostExportMessageProcessor implements MessageProcessorInterface, TopicSubs
         $fileName = null;
         try {
             $fileName = $this->exportHandler->exportResultFileMerge(
-                $body['jobName'],
-                $body['exportType'],
-                $body['outputFormat'],
+                $messageBody['jobName'],
+                $messageBody['exportType'],
+                $messageBody['outputFormat'],
                 $files
             );
         } catch (RuntimeException $e) {
@@ -97,17 +84,17 @@ class PostExportMessageProcessor implements MessageProcessorInterface, TopicSubs
 
         if ($fileName !== null) {
             $rootJob->setData(
-                array_merge($rootJob->getData(), ['file' => $fileName, 'refererUrl' => $body['refererUrl']])
+                array_merge($rootJob->getData(), ['file' => $fileName, 'refererUrl' => $messageBody['refererUrl']])
             );
             $this->jobManager->saveJob($rootJob);
 
             $this->producer->send(
-                Topics::SAVE_EXPORT_RESULT,
+                SaveExportResultTopic::getName(),
                 [
                     'jobId' => $rootJob->getId(),
-                    'type' => $body['exportType'],
-                    'entity' => $body['entity'],
-                    'customerUserId' => $body['customerUserId'],
+                    'type' => $messageBody['exportType'],
+                    'entity' => $messageBody['entity'],
+                    'customerUserId' => $messageBody['customerUserId'],
                 ]
             );
         }
@@ -120,6 +107,6 @@ class PostExportMessageProcessor implements MessageProcessorInterface, TopicSubs
      */
     public static function getSubscribedTopics(): array
     {
-        return [Topics::POST_EXPORT];
+        return [PostExportTopic::getName()];
     }
 }
