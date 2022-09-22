@@ -13,18 +13,15 @@ use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
 use Oro\Component\MessageQueue\Job\JobProcessor;
 use Oro\Component\MessageQueue\Transport\Message;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
-use Oro\Component\MessageQueue\Util\JSON;
 
 /**
  * @dbIsolationPerTest
  */
 class SaveFrontendExportResultProcessorTest extends WebTestCase
 {
-    /** @var ExportResultNotificationSender|\PHPUnit\Framework\MockObject\MockObject */
-    private $notificationSender;
+    private ExportResultNotificationSender|\PHPUnit\Framework\MockObject\MockObject $notificationSender;
 
-    /** @var SaveFrontendExportResultProcessor */
-    private $processor;
+    private SaveFrontendExportResultProcessor $processor;
 
     protected function setUp(): void
     {
@@ -52,14 +49,13 @@ class SaveFrontendExportResultProcessorTest extends WebTestCase
         $message = new Message();
         $message->setMessageId('abc');
         $message->setBody(
-            JSON::encode(
-                [
-                    'jobId' => $rootJob->getId(),
-                    'type' => ProcessorRegistry::TYPE_EXPORT,
-                    'entity' => FrontendImportExportResult::class,
-                    'customerUserId' => $customerUser->getId(),
-                ]
-            )
+            [
+                'jobId' => $rootJob->getId(),
+                'type' => ProcessorRegistry::TYPE_EXPORT,
+                'entity' => FrontendImportExportResult::class,
+                'customerUserId' => $customerUser->getId(),
+                'options' => [],
+            ]
         );
 
         $this->notificationSender->expects(self::once())
@@ -83,7 +79,9 @@ class SaveFrontendExportResultProcessorTest extends WebTestCase
     {
         $message = new Message();
         $message->setMessageId('abc');
-        $message->setBody(JSON::encode([]));
+        $message->setBody([
+            'jobId' => PHP_INT_MAX
+        ]);
 
         self::assertEquals(
             MessageProcessorInterface::REJECT,

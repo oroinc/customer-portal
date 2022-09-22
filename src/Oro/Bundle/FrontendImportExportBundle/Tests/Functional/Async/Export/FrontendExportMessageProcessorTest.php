@@ -16,22 +16,21 @@ use Oro\Component\MessageQueue\Transport\SessionInterface;
  */
 class FrontendExportMessageProcessorTest extends WebTestCase
 {
-    /** @var ExportHandler|\PHPUnit\Framework\MockObject\MockObject */
-    private $exportHandler;
+    private ExportHandler|\PHPUnit\Framework\MockObject\MockObject $exportHandler;
 
     protected function setUp(): void
     {
         $this->initClient();
 
         $this->exportHandler = $this->createMock(ExportHandler::class);
-        $this->getContainer()->set('oro_frontend_importexport.handler.export_handler.stub', $this->exportHandler);
+        self::getContainer()->set('oro_frontend_importexport.handler.export_handler.stub', $this->exportHandler);
     }
 
     public function testCouldBeConstructedByContainer(): void
     {
-        $instance = $this->getContainer()->get('oro_frontend_importexport.async.processor.export');
+        $instance = self::getContainer()->get('oro_frontend_importexport.async.processor.export');
 
-        $this->assertInstanceOf(FrontendExportMessageProcessor::class, $instance);
+        self::assertInstanceOf(FrontendExportMessageProcessor::class, $instance);
     }
 
     /**
@@ -42,7 +41,7 @@ class FrontendExportMessageProcessorTest extends WebTestCase
         int $readsCount,
         int $errorsCount,
         string $expectedResult
-    ) {
+    ): void {
         $rootJob = $this->getJobProcessor()->findOrCreateRootJob(
             'test_export_message',
             'oro:export:oro_test:test_import_message'
@@ -54,11 +53,15 @@ class FrontendExportMessageProcessorTest extends WebTestCase
 
         $message = new Message();
         $message->setMessageId('abc');
-        $message->setBody(json_encode([
+        $message->setBody([
             'jobId' => $childJob->getId(),
             'jobName' => 'job_name',
             'processorAlias' => 'alias',
-        ], JSON_THROW_ON_ERROR));
+            'exportType' => ProcessorRegistry::TYPE_EXPORT,
+            'outputFormat' => 'csv',
+            'outputFilePrefix' => null,
+            'options' => [],
+        ]);
 
         $exportResult = [
             'success' => $resultSuccess,
@@ -80,12 +83,12 @@ class FrontendExportMessageProcessorTest extends WebTestCase
             )
             ->willReturn($exportResult);
 
-        $processor = $this->getContainer()->get('oro_frontend_importexport.async.processor.export');
+        $processor = self::getContainer()->get('oro_frontend_importexport.async.processor.export');
 
         $result = $processor->process($message, $this->createMock(SessionInterface::class));
-        $this->assertEquals($expectedResult, $result);
-        $this->assertCount(5, $childJob->getData());
-        $this->assertEquals($exportResult, $childJob->getData());
+        self::assertEquals($expectedResult, $result);
+        self::assertCount(5, $childJob->getData());
+        self::assertEquals($exportResult, $childJob->getData());
     }
 
     public function exportProcessDataProvider(): array
@@ -112,6 +115,6 @@ class FrontendExportMessageProcessorTest extends WebTestCase
 
     private function getJobProcessor(): JobProcessor
     {
-        return $this->getContainer()->get('oro_message_queue.job.processor');
+        return self::getContainer()->get('oro_message_queue.job.processor');
     }
 }

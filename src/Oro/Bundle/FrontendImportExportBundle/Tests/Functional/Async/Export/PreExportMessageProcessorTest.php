@@ -3,7 +3,8 @@
 namespace Oro\Bundle\FrontendImportExportBundle\Tests\Functional\Async\Export;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\FrontendImportExportBundle\Async\Topics;
+use Oro\Bundle\FrontendImportExportBundle\Async\Topic\ExportTopic;
+use Oro\Bundle\FrontendImportExportBundle\Async\Topic\PostExportTopic;
 use Oro\Bundle\FrontendImportExportBundle\Handler\FrontendExportHandler;
 use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData;
 use Oro\Bundle\ImportExportBundle\Processor\ProcessorRegistry;
@@ -14,7 +15,6 @@ use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
 use Oro\Component\MessageQueue\Job\JobProcessor;
 use Oro\Component\MessageQueue\Transport\Message;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
-use Oro\Component\MessageQueue\Util\JSON;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
@@ -24,8 +24,7 @@ class PreExportMessageProcessorTest extends WebTestCase
 {
     use MessageQueueExtension;
 
-    /** @var FrontendExportHandler|\PHPUnit\Framework\MockObject\MockObject */
-    private $exportHandler;
+    private FrontendExportHandler|\PHPUnit\Framework\MockObject\MockObject $exportHandler;
 
     protected function setUp(): void
     {
@@ -47,7 +46,6 @@ class PreExportMessageProcessorTest extends WebTestCase
             'jobName' => 'oro:export:test_pre_export_message',
             'processorAlias' => 'test_processor',
             'outputFormat' => 'csv',
-            'organizationId' => null,
             'exportType' => ProcessorRegistry::TYPE_EXPORT,
             'options' => [
                 'currentLocalizationId' => 1,
@@ -58,7 +56,7 @@ class PreExportMessageProcessorTest extends WebTestCase
 
         $message = new Message();
         $message->setMessageId('test_export_message');
-        $message->setBody(JSON::encode($messageData));
+        $message->setBody($messageData);
 
         $this->exportHandler->expects(self::once())
             ->method('getExportingEntityIds')
@@ -85,7 +83,6 @@ class PreExportMessageProcessorTest extends WebTestCase
             'jobName' => 'oro:export:test_pre_export_message',
             'processorAlias' => 'test_processor',
             'outputFormat' => 'csv',
-            'organizationId' => null,
             'exportType' => 'export',
             'options' => [
                 'currentLocalizationId' => 1,
@@ -97,8 +94,8 @@ class PreExportMessageProcessorTest extends WebTestCase
             'entity' => null,
         ];
 
-        self::assertMessageSent(Topics::EXPORT, $expectedMessage);
-        self::assertMessageSentWithPriority(Topics::EXPORT, MessagePriority::LOW);
+        self::assertMessageSent(ExportTopic::getName(), $expectedMessage);
+        self::assertMessageSentWithPriority(ExportTopic::getName(), MessagePriority::LOW);
 
         $dataExportJob = $exportJob->getData();
 
@@ -106,7 +103,7 @@ class PreExportMessageProcessorTest extends WebTestCase
         self::assertArrayHasKey('dependentJobs', $dataExportJob);
         $dependentJob = current($dataExportJob['dependentJobs']);
         self::assertArrayHasKey('topic', $dependentJob);
-        self::assertEquals(Topics::POST_EXPORT, $dependentJob['topic']);
+        self::assertEquals(PostExportTopic::getName(), $dependentJob['topic']);
 
         self::assertEquals(MessageProcessorInterface::ACK, $result);
     }
