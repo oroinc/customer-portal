@@ -1,0 +1,10 @@
+/* @theme: default; */
+
+$oro-css-grid-column-count: 12 !default;
+$oro-css-grid-template-columns: var(
+    --grid-template-columns,
+    repeat(var(--grid-column-count, #{$oro-css-grid-column-count}), minmax(0, 1fr))
+) !default;
+$oro-css-grid-gap: var(--grid-gap, #{$offset-x}) !default;
+
+$oro-css-grid-aligns: start, center, end !default;

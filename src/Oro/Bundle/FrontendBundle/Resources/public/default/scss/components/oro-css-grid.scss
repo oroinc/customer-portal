@@ -1,0 +1,79 @@
+/* @theme: default; */
+
+.oro-css-grid {
+    display: grid;
+    grid-template-columns: $oro-css-grid-template-columns;
+    gap: $oro-css-grid-gap;
+
+    &-col {
+        @for $i from 1 through $oro-css-grid-column-count {
+            &-#{$i} {
+                grid-column-end: span $i;
+            }
+        }
+    }
+
+    &-start {
+        @for $i from 1 through $oro-css-grid-column-count {
+            &-#{$i} {
+                grid-column-start: $i;
+            }
+        }
+    }
+
+    &-place {
+        @each $place in (content, items, self) {
+            &-#{$place} {
+                @each $align in $oro-css-grid-aligns {
+                    &-#{$align} {
+                        place-#{$place}: $align;
+
+                        @each $justify in $oro-css-grid-aligns {
+                            @if $align != $justify {
+                                &-#{$justify} {
+                                    place-#{$place}: $align $justify;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include breakpoint('tablet') {
+    .oro-css-grid {
+        &-col-tablet {
+            @for $i from 1 through $oro-css-grid-column-count {
+                &-#{$i} {
+                    grid-column-end: span $i;
+                }
+            }
+        }
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .oro-css-grid {
+        &-col-mobile-landscape {
+            @for $i from 1 through $oro-css-grid-column-count {
+                &-#{$i} {
+                    grid-column-end: span $i;
+                }
+            }
+        }
+    }
+}
+
+@include breakpoint('mobile') {
+    .oro-css-grid {
+        &-col-mobile {
+            @for $i from 1 through $oro-css-grid-column-count {
+                &-#{$i} {
+                    grid-column-end: span $i;
+                }
+            }
+        }
+    }
+}
