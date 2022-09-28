@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -12,12 +13,17 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CustomerVisitorManager
 {
-    /** @var ManagerRegistry */
-    private $doctrine;
+    private ManagerRegistry $doctrine;
+    private ?string $writeConnectionName = null;
 
     public function __construct(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
+    }
+
+    public function setWriteConnectionName(string $writeConnectionName): void
+    {
+        $this->writeConnectionName = $writeConnectionName;
     }
 
     /**
@@ -28,13 +34,7 @@ class CustomerVisitorManager
      */
     public function findOrCreate($id = null, $sessionId = null)
     {
-        $user = $this->find($id, $sessionId);
-
-        if (null === $user) {
-            return $this->createUser();
-        }
-
-        return $user;
+        return $this->find($id, $sessionId) ?: $this->createUser();
     }
 
     /**
@@ -72,33 +72,44 @@ class CustomerVisitorManager
         }
     }
 
-    /**
-     * @return CustomerVisitor
-     */
-    private function createUser()
+    private function createUser(): CustomerVisitor
     {
-        $user = new CustomerVisitor;
+        $connection = $this->getWriteConnection();
+        $connection->insert('oro_customer_visitor', [
+            'last_visit' => new \DateTime('now', new \DateTimeZone('UTC')),
+            'session_id' => self::generateSessionId(),
+        ], [
+            'last_visit' => Types::DATETIME_MUTABLE,
+            'session_id' => Types::STRING,
+        ]);
 
-        $em = $this->getEntityManager();
-        $em->persist($user);
-        $em->flush();
-
-        return $user;
+        $id = $connection->lastInsertId('oro_customer_visitor_id_seq');
+        return $this->getRepository()->find($id);
     }
 
-    /**
-     * @return EntityManagerInterface
-     */
-    private function getEntityManager()
+    private function getEntityManager(): EntityManagerInterface
     {
         return $this->doctrine->getManagerForClass(CustomerVisitor::class);
     }
 
-    /**
-     * @return EntityRepository
-     */
-    private function getRepository()
+    private function getRepository(): EntityRepository
     {
         return $this->getEntityManager()->getRepository(CustomerVisitor::class);
+    }
+
+    private function getWriteConnection(): Connection
+    {
+        if ($this->writeConnectionName &&
+            \array_key_exists($this->writeConnectionName, $this->doctrine->getConnectionNames() ?: [])
+        ) {
+            return $this->doctrine->getConnection($this->writeConnectionName);
+        }
+
+        return $this->getEntityManager()->getConnection();
+    }
+
+    public static function generateSessionId(): string
+    {
+        return bin2hex(random_bytes(10));
     }
 }
