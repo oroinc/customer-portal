@@ -118,7 +118,7 @@ class CustomerVisitor extends ExtendCustomerVisitor
      */
     public function prePersist()
     {
-        $this->sessionId = bin2hex(random_bytes(10));
+        $this->sessionId = CustomerVisitorManager::generateSessionId();
     }
 
     /**
