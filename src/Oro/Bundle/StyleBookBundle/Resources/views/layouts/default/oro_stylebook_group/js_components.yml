@@ -108,25 +108,94 @@ layout:
                             - { anchor: 'dialog_widget-js', label: oro_stylebook.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_dialog_widget_js'}
 
                 # Collapse Widget
-                group_element_grid_view_collapse_widget:
+                group_element_grid_view_collapse_widgets:
                     blockType: group_element
                     options:
-                        anchor: collapse
-                        label: oro_stylebook.groups.jscomponent.collapse_widget.title
-                group_element_item_collapse_widget:
+                        anchor: collapse_widgets
+                        label: oro_stylebook.groups.jscomponent.collapse_widgets.title
+                group_element_grid_view_collapse_widgets_options:
+                    blockType: container
+                group_element_item_collapse_widgets_description:
                     blockType: group_js_element_item
                     options:
                         source: false
-                        description: oro_stylebook.groups.jscomponent.collapse_widget.description
-                style_book_grid_element_collapse_widget:
+                        description: oro_stylebook.groups.jscomponent.collapse_widgets.description
+
+                # Simple Collapse Widget
+                group_element_item_collapse_widget_simple:
+                    blockType: group_js_element_item
+                    options:
+                        source: false
+                        anchor: collapse_simple
+                        label: oro_stylebook.groups.jscomponent.collapse_widgets.simple.title
+                style_book_grid_element_collapse_widget_simple:
                     blockType: container
-                group_tabs_collapse_widget:
+                group_tabs_collapse_widget_simple:
                     blockType: group_tabs
                     options:
                         tabs:
-                            - { anchor: 'config-collapse_widget', label: oro_stylebook.groups.jscomponent.tabs.howtouse.config, active: true, widget: 'style_book_grid_element_collapse_widget_config'}
-                            - { anchor: 'collapse_widget-html', label: oro_stylebook.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_collapse_widget_html'}
-                            - { anchor: 'collapse_widget-js', label: oro_stylebook.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_collapse_widget_js'}
+                            - { anchor: 'collapse_widget-html', label: oro_stylebook.groups.jscomponent.tabs.howtouse.html, active: true, widget: 'style_book_grid_element_collapse_widget_simple_html'}
+
+                # Simple Collapse Hide Trigger Widget
+                group_element_item_collapse_widget_simple_hide_trigger:
+                    blockType: group_js_element_item
+                    options:
+                        source: false
+                        anchor: collapse_simple_hide_trigger
+                        label: oro_stylebook.groups.jscomponent.collapse_widgets.simple_hide_trigger.title
+                style_book_grid_element_collapse_widget_simple_hide_trigger:
+                    blockType: container
+                group_tabs_collapse_widget_simple_hide_trigger:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                            - { anchor: 'collapse_widget-html', label: oro_stylebook.groups.jscomponent.tabs.howtouse.html, active: true, widget: 'style_book_grid_element_collapse_widget_simple_hide_trigger_html'}
+
+                # Overflow Collapse Widget
+                group_element_item_collapse_widget_overflow:
+                    blockType: group_js_element_item
+                    options:
+                        source: false
+                        anchor: collapse_overflow
+                        label: oro_stylebook.groups.jscomponent.collapse_widgets.overflow.title
+                style_book_grid_element_collapse_widget_overflow:
+                    blockType: container
+                group_tabs_collapse_widget_overflow:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                            - { anchor: 'collapse_widget-html', label: oro_stylebook.groups.jscomponent.tabs.howtouse.html, active: true, widget: 'style_book_grid_element_collapse_widget_overflow_html'}
+
+                # Dynamic Collapse Widget
+                group_element_item_collapse_widget_dynamic:
+                    blockType: group_js_element_item
+                    options:
+                        source: false
+                        anchor: collapse_dynamic
+                        label: oro_stylebook.groups.jscomponent.collapse_widgets.dynamic.title
+                        description: oro_stylebook.groups.jscomponent.collapse_widgets.dynamic.description
+                style_book_grid_element_collapse_widget_dynamic:
+                    blockType: container
+                group_tabs_collapse_widget_dynamic:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                            - { anchor: 'collapse_widget-html', label: oro_stylebook.groups.jscomponent.tabs.howtouse.html, active: true, widget: 'style_book_grid_element_collapse_widget_dynamic_html'}
+
+                # Accordion Widget
+                group_element_item_accordion_widget:
+                    blockType: group_js_element_item
+                    options:
+                        source: false
+                        anchor: accordion_widget
+                        label: oro_stylebook.groups.jscomponent.collapse_widgets.accordion.title
+                style_book_grid_element_accordion_widget:
+                    blockType: container
+                group_tabs_accordion_widget:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                            - { anchor: 'collapse_widget-html', label: oro_stylebook.groups.jscomponent.tabs.howtouse.html, active: true, widget: 'style_book_grid_element_accordion_widget_html'}
 
                 # Fullscreen popup view
                 group_element_fullscreen_popup_view:
@@ -407,10 +476,24 @@ layout:
                             style_book_grid_element_dialog_widget:
                                 group_tabs_dialog_widget: ~
 
-                    group_element_grid_view_collapse_widget:
-                        group_element_item_collapse_widget:
-                            style_book_grid_element_collapse_widget:
-                                group_tabs_collapse_widget: ~
+                    group_element_grid_view_collapse_widgets:
+                        group_element_item_collapse_widgets_description:
+                            group_element_grid_view_collapse_widgets_options: ~
+                            group_element_item_collapse_widget_simple:
+                                style_book_grid_element_collapse_widget_simple:
+                                    group_tabs_collapse_widget_simple: ~
+                            group_element_item_collapse_widget_simple_hide_trigger:
+                                style_book_grid_element_collapse_widget_simple_hide_trigger:
+                                    group_tabs_collapse_widget_simple_hide_trigger: ~
+                            group_element_item_collapse_widget_overflow:
+                                style_book_grid_element_collapse_widget_overflow:
+                                    group_tabs_collapse_widget_overflow: ~
+                            group_element_item_collapse_widget_dynamic:
+                                style_book_grid_element_collapse_widget_dynamic:
+                                    group_tabs_collapse_widget_dynamic: ~
+                            group_element_item_accordion_widget:
+                                style_book_grid_element_accordion_widget:
+                                    group_tabs_accordion_widget: ~
 
                     group_element_fullscreen_popup_view:
                         group_element_item_fullscreen_popup_view:

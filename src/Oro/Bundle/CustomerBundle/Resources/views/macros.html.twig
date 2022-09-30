@@ -33,13 +33,17 @@
             {% endif %}
         {% endfor %}
         {{ first }}
-        <span class="collapse-view" data-page-component-collapse="{{ {open: false, animationSpeed: 1}|json_encode() }}">
-            <span class="collapse-view__trigger hide-on-expand" data-collapse-trigger>
-                <a href="#" title="{{ selfMacro.buildBreadcrumbTitleByParts(parts) }}">...</a>
-            </span>
-            <span class="collapse-view__container collapse-view__container--inline" data-collapse-container>
-                {{ selfMacro.buildBreadcrumbsByParts(collapsedParts) }}
-            </span>
+        {% set collapseId = 'collapse-'|uniqid %}
+        <a href="#"
+           title="{{ selfMacro.buildBreadcrumbTitleByParts(parts) }}"
+           class="collapse-toggle"
+           data-toggle="collapse"
+           data-target="{{ '#' ~ collapseId }}"
+           aria-expanded="false"
+           aria-controls="{{ collapseId }}"
+        >...</a>
+        <span id="{{ collapseId }}" class="collapse no-transition" data-toggle="false" data-trigger-show-class="hide">
+            {{ selfMacro.buildBreadcrumbsByParts(collapsedParts) }}
         </span>
         {{ last }}
     {% endapply %}

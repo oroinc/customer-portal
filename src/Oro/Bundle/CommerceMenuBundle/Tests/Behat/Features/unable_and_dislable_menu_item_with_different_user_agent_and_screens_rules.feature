@@ -57,7 +57,6 @@ Feature: Unable and dislable menu item with different User Agent and screens rul
     Then I should see "Menu item saved successfully." flash message
     When I proceed as the User
     And I am on the homepage
-    And I click on "Information"
     Then I should not see "Screens Menu Item"
 
   Scenario: Check menu item unvisible with screen rule (tablet version)

@@ -210,8 +210,18 @@ oro_stylebook:
                 title: 'Loading Mask'
             dialog_widget:
                 title: 'Dialog Widget'
-            collapse_widget:
-                title: 'Collapse Widget'
+            collapse_widgets:
+                title: 'Collapse Widgets'
+                simple:
+                    title: 'Simple Collapse'
+                simple_hide_trigger:
+                    title: 'Hide Trigger element'
+                overflow:
+                    title: 'Overflow Collapse'
+                dynamic:
+                    title: 'Dynamic Collapse'
+                accordion:
+                    title: 'Accordion'
             fullscreen_popup_view:
                 title: 'Fullscreen Popup View'
             scroll_view:
