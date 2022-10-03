@@ -29,7 +29,7 @@ class CustomerUserController extends AbstractController
 {
     /**
      * @Route("/view/{id}", name="oro_customer_customer_user_view", requirements={"id"="\d+"})
-     * @Template
+     * @Template("@OroCustomer/CustomerUser/view.html.twig")
      * @Acl(
      *      id="oro_customer_customer_user_view",
      *      type="entity",
@@ -49,7 +49,7 @@ class CustomerUserController extends AbstractController
 
     /**
      * @Route("/", name="oro_customer_customer_user_index")
-     * @Template
+     * @Template("@OroCustomer/CustomerUser/index.html.twig")
      * @AclAncestor("oro_customer_customer_user_view")
      *
      * @return array
@@ -63,7 +63,7 @@ class CustomerUserController extends AbstractController
 
     /**
      * @Route("/login-attempts", name="oro_customer_login_attempts")
-     * @Template
+     * @Template("@OroCustomer/CustomerUser/loginAttempts.html.twig")
      * @AclAncestor("oro_customer_view_user_login_attempt")
      */
     public function loginAttemptsAction()
@@ -73,7 +73,7 @@ class CustomerUserController extends AbstractController
 
     /**
      * @Route("/info/{id}", name="oro_customer_customer_user_info", requirements={"id"="\d+"})
-     * @Template
+     * @Template("@OroCustomer/CustomerUser/widget/info.html.twig")
      * @AclAncestor("oro_customer_customer_user_view")
      *
      * @param CustomerUser $customerUser
@@ -155,7 +155,7 @@ class CustomerUserController extends AbstractController
      * Edit customer user form
      *
      * @Route("/update/{id}", name="oro_customer_customer_user_update", requirements={"id"="\d+"})
-     * @Template
+     * @Template("@OroCustomer/CustomerUser/update.html.twig")
      * @Acl(
      *      id="oro_customer_customer_user_update",
      *      type="entity",
