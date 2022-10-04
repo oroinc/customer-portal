@@ -36,8 +36,7 @@ class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit\Framework
 
         $this->provider = new AnonymousCustomerUserAuthenticationProvider(
             $this->visitorManager,
-            $this->websiteManager,
-            self::UPDATE_LATENCY
+            $this->websiteManager
         );
     }
 
@@ -68,10 +67,6 @@ class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit\Framework
             ->method('findOrCreate')
             ->with(self::ENTITY_ID, self::SESSION_ID)
             ->willReturn($visitor);
-
-        $this->visitorManager->expects($this->once())
-            ->method('updateLastVisitTime')
-            ->with($visitor, self::UPDATE_LATENCY);
 
         $organization = new Organization();
         $website = new Website();

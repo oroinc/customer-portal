@@ -22,7 +22,7 @@
     }
 
     &-place {
-        @each $place in (content, content, items, self) {
+        @each $place in (content, items, self) {
             &-#{$place} {
                 @each $align in $grid-aligns {
                     &-#{$align} {

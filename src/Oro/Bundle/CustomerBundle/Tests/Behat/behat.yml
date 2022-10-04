@@ -229,6 +229,12 @@ oro_behat_extension:
     FrontendGridFilterManagerButton:
       selector: 'button.filters-manager-trigger'
 
+    FrontendGridFilterManagerButtonNone:
+      selector: '.ui-multiselect-all'
+
+    FrontendGridFilterManagerButtonAll:
+      selector: '.ui-multiselect-none'
+
     Customer User Form Admin:
       selector: '[id^="oro_customer_customer_user-uid"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form

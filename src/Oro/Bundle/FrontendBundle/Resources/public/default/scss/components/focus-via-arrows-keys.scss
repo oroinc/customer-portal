@@ -20,5 +20,10 @@
                 box-shadow: $btn-active-box-shadow;
             }
         }
+
+        &[type='checkbox'],
+        &[type='radio'] {
+            border-color: $focus-via-arrows-keys-checkbox-border-color;
+        }
     }
 }

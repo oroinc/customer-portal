@@ -16,3 +16,6 @@ $focus-via-arrows-keys-checkbox-icon-style: 0 0 0 2px $focus-via-arrows-keys-col
                                             0 0 6px lighten($focus-via-arrows-keys-color, 1%) !default;
 
 $focus-via-arrows-keys-radio-icon-style: $focus-via-arrows-keys-checkbox-icon-style !default;
+
+// Focus Visible
+$focus-via-arrows-keys-checkbox-border-color: get-color('primary', 'light') !default;

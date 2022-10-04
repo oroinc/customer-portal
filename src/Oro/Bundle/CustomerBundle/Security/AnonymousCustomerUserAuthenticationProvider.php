@@ -15,28 +15,13 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
  */
 class AnonymousCustomerUserAuthenticationProvider implements AuthenticationProviderInterface
 {
-    /** @var CustomerVisitorManager */
-    private $visitorManager;
+    private CustomerVisitorManager $visitorManager;
+    private WebsiteManager $websiteManager;
 
-    /** @var WebsiteManager */
-    private $websiteManager;
-
-    /** @var int */
-    private $updateLatency;
-
-    /**
-     * @param CustomerVisitorManager $visitorManager
-     * @param WebsiteManager         $websiteManager
-     * @param integer                $updateLatency
-     */
-    public function __construct(
-        CustomerVisitorManager $visitorManager,
-        WebsiteManager $websiteManager,
-        $updateLatency
-    ) {
+    public function __construct(CustomerVisitorManager $visitorManager, WebsiteManager $websiteManager)
+    {
         $this->visitorManager = $visitorManager;
         $this->websiteManager = $websiteManager;
-        $this->updateLatency = $updateLatency;
     }
 
     /**
@@ -64,7 +49,6 @@ class AnonymousCustomerUserAuthenticationProvider implements AuthenticationProvi
 
         $credentials = $token->getCredentials();
         $visitor = $this->visitorManager->findOrCreate($credentials['visitor_id'], $credentials['session_id']);
-        $this->visitorManager->updateLastVisitTime($visitor, $this->updateLatency);
 
         return new AnonymousCustomerUserToken(
             $token->getUser(),

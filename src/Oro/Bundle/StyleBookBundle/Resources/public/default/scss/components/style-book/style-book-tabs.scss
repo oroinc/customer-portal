@@ -13,14 +13,12 @@
     border-bottom: $style-book-nav-tabs-border;
 
     .nav-link {
-        color: $style-book-nav-tabs-link-color;
         border-radius: $style-book-nav-tabs-link-color-border-radius;
         background-color: $style-book-nav-tabs-link-bg;
         text-transform: $style-book-nav-tabs-link-text-transform;
 
-        &:focus,
         &:hover {
-            background-color: $style-book-nav-tabs-link-bg;
+            color: $style-book-nav-tabs-link-color;
         }
     }
 

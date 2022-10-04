@@ -45,13 +45,6 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
             $this->actualDefinitions['oro_customer.authentication.provider.anonymous_customer_user.fake_id']
                 ->getParent()
         );
-        self::assertEquals(
-            [
-                'index_2' => 300,
-            ],
-            $this->actualDefinitions['oro_customer.authentication.provider.anonymous_customer_user.fake_id']
-                ->getArguments()
-        );
 
         self::assertInstanceOf(
             ChildDefinition::class,
