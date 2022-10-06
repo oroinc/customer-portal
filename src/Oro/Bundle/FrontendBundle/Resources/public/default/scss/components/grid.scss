@@ -42,48 +42,42 @@
     }
 }
 
-@include breakpoint('tablet') {
-    .grid {
-        &-col-tablet {
-            @for $i from 1 through $grid-column-count {
-                &-#{$i} {
-                    grid-column-end: span $i;
+@each $_breakpoint in get-breakpoints-list() {
+    @include breakpoint(#{$_breakpoint}) {
+        .grid {
+            &-col-#{$_breakpoint} {
+                @for $i from 1 through $grid-column-count {
+                    &-#{$i} {
+                        grid-column-end: span $i;
+                    }
                 }
             }
-        }
-    }
-}
 
-@include breakpoint('tablet-small') {
-    .grid {
-        &-col-tablet-small {
-            @for $i from 1 through $grid-column-count {
-                &-#{$i} {
-                    grid-column-end: span $i;
+            &-start-#{$_breakpoint} {
+                @for $i from 1 through $grid-column-count {
+                    &-#{$i} {
+                        grid-column-start: $i;
+                    }
                 }
             }
-        }
-    }
-}
 
-@include breakpoint('mobile-landscape') {
-    .grid {
-        &-col-mobile-landscape {
-            @for $i from 1 through $grid-column-count {
-                &-#{$i} {
-                    grid-column-end: span $i;
-                }
-            }
-        }
-    }
-}
+            &-place-#{$_breakpoint} {
+                @each $place in (content, items, self) {
+                    &-#{$place} {
+                        @each $align in $grid-aligns {
+                            &-#{$align} {
+                                place-#{$place}: $align;
 
-@include breakpoint('mobile') {
-    .grid {
-        &-col-mobile {
-            @for $i from 1 through $grid-column-count {
-                &-#{$i} {
-                    grid-column-end: span $i;
+                                @each $justify in $grid-aligns {
+                                    @if $align != $justify {
+                                        &-#{$justify} {
+                                            place-#{$place}: $align $justify;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

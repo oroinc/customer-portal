@@ -132,6 +132,19 @@ layout:
                     blockType: group_element_item
                 style_book_grid_element_alignment_center:
                     blockType: block
+                group_element_tiles_view:
+                    blockType: group_element
+                    options:
+                        anchor: tiles
+                        label: oro_stylebook.groups.tiles.title
+                        attr:
+                            class: ' style-book-group-element--tiles'
+                group_element_tiles_description:
+                    blockType: group_element_item
+                    options:
+                        description: oro_stylebook.groups.tiles.description
+                style_book_tiles:
+                    blockType: block
             tree:
                 style_book_content:
                     group_element_grid_view:
@@ -163,5 +176,8 @@ layout:
                             style_book_grid_element_alignment_start_center: ~
                         group_element_item_alignment_center_holder:
                             style_book_grid_element_alignment_center: ~
+                    group_element_tiles_view:
+                        group_element_tiles_description:
+                            style_book_tiles: ~
 
     conditions: 'context["group"]=="grid"'
