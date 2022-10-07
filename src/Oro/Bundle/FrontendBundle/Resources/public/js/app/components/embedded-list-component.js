@@ -14,7 +14,7 @@ define(function(require) {
          * @property {Object}
          */
         options: {
-            itemSelector: '.embedded-list__item'
+            itemSelector: '[data-name="embedded-list-item"]'
         },
 
         /**

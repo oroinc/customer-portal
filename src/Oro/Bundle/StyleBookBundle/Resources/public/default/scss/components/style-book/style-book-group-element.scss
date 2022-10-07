@@ -227,6 +227,18 @@
         }
     }
 
+    &--tiles &__preview {
+        .tiles-item {
+            border: $style-book-group-element-preview-grid-item-border;
+            background: $style-book-group-element-preview-grid-item-background;
+            padding: $style-book-group-element-preview-grid-item-padding;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
     &__code {
         display: block;
 

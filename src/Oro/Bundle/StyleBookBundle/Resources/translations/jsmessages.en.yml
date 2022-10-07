@@ -200,6 +200,8 @@ oro_stylebook:
                 title: Alignemnts
             responsive:
                 title: Responsive
+        tiles:
+            title: 'Tiles'
 
         jscomponent:
             modal:

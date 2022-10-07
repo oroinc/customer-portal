@@ -83,6 +83,8 @@ oro_behat_extension:
       selector: "div.popover img"
     Popup Gallery Widget Close:
       selector: ".popup-gallery-widget button.close-dialog"
+    Fullscreen Popup Apply Filters:
+      selector: '.fullscreen-popup button[data-role="apply"]'
     Filter Settings Form:
       selector: 'form[name="theme"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
