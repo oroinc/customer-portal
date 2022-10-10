@@ -197,7 +197,7 @@ oro_stylebook:
             template:
                 title: Grid column template
             alignment:
-                title: Alignemnts
+                title: Alignments
             responsive:
                 title: Responsive
 

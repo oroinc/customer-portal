@@ -44,6 +44,8 @@
 
         @if $btn-focus-visible-style {
             &.focus-visible:focus {
+                position: relative;
+                z-index: z('base');
                 box-shadow: $btn-focus-visible-style;
             }
         }
