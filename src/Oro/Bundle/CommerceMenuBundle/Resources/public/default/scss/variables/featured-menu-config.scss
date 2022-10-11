@@ -1,10 +1,8 @@
 /* @theme: default; */
 
-$featured-menu-offset: 30px (-$offset-x-m) !default;
+$featured-menu-offset: 30px 0 !default;
 
-$featured-menu-item-items-row: 4 !default;
-$featured-menu-item-offset-x: $offset-x-m !default;
-$featured-menu-item-offset: 0 0 0 $featured-menu-item-offset-x !default;
+$featured-menu-tiles-column-count: 4 !default;
 
 $featured-menu-content-offset-inner: 30px !default;
 $featured-menu-content-text-align: center !default;
@@ -23,18 +21,18 @@ $featured-menu-item-icon-color: get-color('additional', 'middle') !default;
 
 $featured-menu-link-white-space: normal !default;
 
+// Tablet
+$featured-menu-tiles-tablet-column-count: 2 !default;
+
 // tablet small
 $featured-menu-item-offset-x-tablet-small: $offset-x !default;
 $featured-menu-item-offset-y-tablet-small: $offset-y !default;
 
 $featured-menu-offset-tablet-small: $offset-y 0 !default;
 
-$featured-menu-item-width-tablet-small: calc(50% - #{$featured-menu-item-offset-x-tablet-small * .5}) !default;
-$featured-menu-item-offset-tablet-small: $featured-menu-item-offset-y-tablet-small 0 0 !default;
-$featured-menu-item-offset-inner-tablet-small: 20px 15px !default;
 $featured-menu-item-description-font-size-tablet-small: $base-font-size--large !default;
 $featured-menu-item-description-font-size: $base-font-size !default;
 $featured-menu-item-description-line-height: $base-line-height !default;
 
-// mobile
-$featured-menu-item-width-mobile: 100% !default;
+// Mobile
+$featured-menu-tiles-mobile-column-count: 1 !default;

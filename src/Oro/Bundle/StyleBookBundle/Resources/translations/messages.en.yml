@@ -246,6 +246,9 @@ oro_stylebook:
             responsive:
                 title: Responsive
                 description: 'Use responsive classes to adjust grid layout across viewports. With <code class="language-html">.grid-col-%breakpoint%-X</code> class you can set column span for specific viewport.'
+        tiles:
+            title: 'Tiles'
+            description: 'The tiles system is designed for simple tasks where you need to build a responsive grid with similar items. There are several css variables to control the parameters of tiles. Use <code class="language-html">--tiles-column-count</code> to control the number of tiles in a row. There are also two variables to control the indentation between tiles: <code class="language-html">--tiles-row-gap</code> and <code class="language-html">--tiles-column-gap</code>'
         configs:
             title: 'General Look and Feel'
             content: 'This section provides a preview and code sample for every UI element that is available out-of-the box in your Oro application.'

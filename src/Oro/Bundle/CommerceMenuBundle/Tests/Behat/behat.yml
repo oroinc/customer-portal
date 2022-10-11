@@ -33,6 +33,8 @@ oro_behat_extension:
           User Agent Does Not Contain Value: 'menu_update[menuUserAgentConditions][1][0][value]'
           Does Not Match Operation: 'menu_update[menuUserAgentConditions][2][0][operation]'
           User Agent Does Not Match Value: 'menu_update[menuUserAgentConditions][2][0][value]'
+          User Agent First Operation: 'menu_update[menuUserAgentConditions][0][0][operation]'
+          User Agent First Value: 'menu_update[menuUserAgentConditions][0][0][value]'
           Exclude On Screens: 'menu_update[screens][]'
 
     Target Type:
@@ -93,6 +95,21 @@ oro_behat_extension:
       selector:
         locator: '//a[contains (@href,"/admin/config/user/") and @title="Configuration"]'
         type: xpath
+
+    Frontend Item Update:
+      selector:
+        type: xpath
+        locator: '//li[contains(@class, "jstree-node")]/a[contains(., "frontend_menu")]/parent::li/ul//li[contains(@class, "jstree-node")]/a[contains(., "Frontend Item Update")]'
+
+    Frontend Child Item:
+      selector:
+        type: xpath
+        locator: '//li[contains(@class, "jstree-node")]/a[contains(., "frontend_menu")]/parent::li/ul//li[contains(@class, "jstree-node")]/a[contains(., "Frontend Child Item")]'
+
+    Frontend Child Item Update:
+      selector:
+        type: xpath
+        locator: '//li[contains(@class, "jstree-node")]/a[contains(., "frontend_menu")]/parent::li/ul//li[contains(@class, "jstree-node")]/a[contains(., "Frontend Child Item Update")]'
 
   pages:
     Frontend Menus:
