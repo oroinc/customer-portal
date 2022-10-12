@@ -5,6 +5,8 @@ namespace Oro\Bundle\CustomerBundle\Async;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Oro\Bundle\CustomerBundle\Async\Topic\CustomerCalculateOwnerTreeCacheByBusinessUnitTopic;
+use Oro\Bundle\CustomerBundle\Async\Topic\CustomerCalculateOwnerTreeCacheTopic;
 use Oro\Bundle\CustomerBundle\Model\BusinessUnitMessageFactory;
 use Oro\Bundle\CustomerBundle\Model\OwnerTreeMessageFactory;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
@@ -15,48 +17,26 @@ use Oro\Component\MessageQueue\Job\Job;
 use Oro\Component\MessageQueue\Job\JobRunner;
 use Oro\Component\MessageQueue\Transport\MessageInterface;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
-use Oro\Component\MessageQueue\Util\JSON;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 
 /**
  * Warms up cache for all customer user's who logged in during cache ttl time period.
  */
-class OwnerTreeCacheJobProcessor implements MessageProcessorInterface, TopicSubscriberInterface
+class OwnerTreeCacheJobProcessor implements MessageProcessorInterface, TopicSubscriberInterface, LoggerAwareInterface
 {
-    /**
-     * @var JobRunner
-     */
-    private $jobRunner;
+    use LoggerAwareTrait;
 
-    /**
-     * @var MessageProducerInterface
-     */
-    private $producer;
+    private JobRunner $jobRunner;
 
-    /**
-     * @var ManagerRegistry
-     */
-    private $doctrine;
+    private MessageProducerInterface $producer;
 
-    /**
-     * @var OwnershipMetadataProviderInterface
-     */
-    private $ownershipMetadataProvider;
+    private ManagerRegistry $doctrine;
 
-    /**
-     * @var BusinessUnitMessageFactory
-     */
-    private $businessUnitMessageFactory;
+    private OwnershipMetadataProviderInterface $ownershipMetadataProvider;
 
-    /**
-     * @var OwnerTreeMessageFactory
-     */
-    private $ownerTreeMessageFactory;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private BusinessUnitMessageFactory $businessUnitMessageFactory;
 
     public function __construct(
         JobRunner $jobRunner,
@@ -76,79 +56,63 @@ class OwnerTreeCacheJobProcessor implements MessageProcessorInterface, TopicSubs
         $this->logger = $logger;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function process(MessageInterface $message, SessionInterface $session)
+    public function process(MessageInterface $message, SessionInterface $session): string
     {
-        $data = JSON::decode($message->getBody());
+        $messageBody = $message->getBody();
+        $cacheTtl = $messageBody[CustomerCalculateOwnerTreeCacheTopic::CACHE_TTL];
+        $result = $this->jobRunner->runUnique(
+            $message->getMessageId(),
+            CustomerCalculateOwnerTreeCacheTopic::getName(),
+            function (JobRunner $jobRunner) use ($cacheTtl) {
+                $userClass = $this->ownershipMetadataProvider->getUserClass();
 
-        try {
-            $cacheTtl = $this->ownerTreeMessageFactory->getCacheTtl($data);
-            $result = $this->jobRunner->runUnique(
-                $message->getMessageId(),
-                Topics::CALCULATE_OWNER_TREE_CACHE,
-                function (JobRunner $jobRunner) use ($cacheTtl) {
-                    $userClass = $this->ownershipMetadataProvider->getUserClass();
+                /** @var QueryBuilder $queryBuilder */
+                $queryBuilder = $this->doctrine->getRepository($userClass)->createQueryBuilder('cu');
 
-                    /** @var QueryBuilder $queryBuilder */
-                    $queryBuilder = $this->doctrine->getRepository($userClass)->createQueryBuilder('cu');
+                $dateTime = (new \DateTime())->sub(new \DateInterval(sprintf('PT%dS', $cacheTtl)));
 
-                    $dateTime = (new \DateTime())->sub(new \DateInterval(sprintf('PT%dS', $cacheTtl)));
+                $customerIds = $queryBuilder
+                    ->distinct()
+                    ->select('IDENTITY(cu.customer)')
+                    ->andWhere($queryBuilder->expr()->gt('cu.lastLogin', ':dateTime'))
+                    ->getQuery()
+                    ->setParameter('dateTime', $dateTime, Types::DATETIME_MUTABLE)
+                    ->getScalarResult();
 
-                    $customerIds = $queryBuilder
-                        ->distinct()
-                        ->select('IDENTITY(cu.customer)')
-                        ->andWhere($queryBuilder->expr()->gt('cu.lastLogin', ':dateTime', true))
-                        ->getQuery()
-                        ->setParameter('dateTime', $dateTime, Types::DATETIME_MUTABLE)
-                        ->getScalarResult();
-
-                    $businessUnitClass = $this->ownershipMetadataProvider->getBusinessUnitClass();
-                    foreach ($customerIds as $customerId) {
-                        $this->scheduleCacheRecalculationForCustomer(
-                            $jobRunner,
-                            $businessUnitClass,
-                            reset($customerId)
-                        );
-                    }
-
-                    return true;
+                $businessUnitClass = $this->ownershipMetadataProvider->getBusinessUnitClass();
+                foreach ($customerIds as $customerId) {
+                    $this->scheduleCacheRecalculationForCustomer(
+                        $jobRunner,
+                        $businessUnitClass,
+                        reset($customerId)
+                    );
                 }
-            );
-        } catch (\Exception $e) {
-            $this->logger->error(
-                'Unexpected exception occurred during queue message processing',
-                [
-                    'topic' => Topics::CALCULATE_OWNER_TREE_CACHE,
-                    'exception' => $e
-                ]
-            );
 
-            return self::REJECT;
-        }
+                return true;
+            }
+        );
 
         return $result ? self::ACK : self::REJECT;
     }
 
-    private function scheduleCacheRecalculationForCustomer(JobRunner $jobRunner, string $entityClass, int $entityId)
-    {
+    private function scheduleCacheRecalculationForCustomer(
+        JobRunner $jobRunner,
+        string $entityClass,
+        int $entityId
+    ): void {
         $jobRunner->createDelayed(
-            sprintf('%s:%s:%s', Topics::CALCULATE_OWNER_TREE_CACHE, $entityClass, $entityId),
+            sprintf('%s:%s:%s', CustomerCalculateOwnerTreeCacheTopic::getName(), $entityClass, $entityId),
             function (JobRunner $jobRunner, Job $child) use ($entityClass, $entityId) {
                 $messageData = $this->businessUnitMessageFactory
                     ->createMessage($child->getId(), $entityClass, $entityId);
 
-                $this->producer->send(Topics::CALCULATE_BUSINESS_UNIT_OWNER_TREE_CACHE, $messageData);
+                $this->producer->send(CustomerCalculateOwnerTreeCacheByBusinessUnitTopic::getName(), $messageData);
             }
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedTopics()
+    public static function getSubscribedTopics(): array
     {
-        return [Topics::CALCULATE_OWNER_TREE_CACHE];
+        return [CustomerCalculateOwnerTreeCacheTopic::getName()];
     }
 }
