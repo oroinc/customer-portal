@@ -979,14 +979,6 @@ services:
             - [addPriorityRelation, ['Oro\Bundle\CustomerBundle\Entity\Customer']]
             - [addPriorityRelation, ['Oro\Bundle\CustomerBundle\Entity\CustomerUserRole']]
 
-    oro_customer.clear_lost_customer_users_processor:
-        class: Oro\Bundle\CustomerBundle\Migrations\Schema\v1_14\ClearLostCustomerUsers
-        arguments:
-            - '@oro_message_queue.message_producer'
-            - '@oro_entity.orm.native_query_executor_helper'
-        tags:
-            - { name: 'oro_message_queue.client.message_processor', topicName: 'oro_customer.clear_lost_customer_users' }
-
     Oro\Bundle\CustomerBundle\Provider\FrontendAddressProvider:
         alias: oro_customer.provider.frontend.address
 

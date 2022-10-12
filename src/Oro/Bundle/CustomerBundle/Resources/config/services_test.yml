@@ -18,10 +18,6 @@ services:
         public: true
         alias: oro_customer.async.owner_tree_cache_job_processor
 
-    oro_customer.tests.model.owner_tree_message_factory:
-        public: true
-        alias: oro_customer.model.owner_tree_message_factory
-
     oro_customer.tests.model.business_unit_message_factory:
         public: true
         alias: oro_customer.model.business_unit_message_factory

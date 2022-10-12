@@ -3,21 +3,20 @@
 namespace Oro\Bundle\CustomerBundle\Owner;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
-use Oro\Bundle\CustomerBundle\Async\Topics;
+use Oro\Bundle\CustomerBundle\Async\Topic\CustomerCalculateOwnerTreeCacheTopic;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Model\OwnerTreeMessageFactory;
 use Oro\Bundle\EntityBundle\Tools\DatabaseChecker;
 use Oro\Bundle\SecurityBundle\Owner\AbstractOwnerTreeProvider;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeBuilderInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeInterface;
 use Oro\Component\DoctrineUtils\ORM\QueryUtil;
-use Oro\Component\MessageQueue\Client\Message;
 use Oro\Component\MessageQueue\Client\MessageProducerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -39,7 +38,6 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
     private OwnershipMetadataProviderInterface $ownershipMetadataProvider;
     private ?Customer $currentCustomer = null;
     private MessageProducerInterface $messageProducer;
-    private OwnerTreeMessageFactory $ownerTreeMessageFactory;
 
     public function __construct(
         ManagerRegistry $doctrine,
@@ -47,15 +45,13 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         CacheInterface $cache,
         OwnershipMetadataProviderInterface $ownershipMetadataProvider,
         TokenStorageInterface $tokenStorage,
-        MessageProducerInterface $messageProducer,
-        OwnerTreeMessageFactory $ownerTreeMessageFactory
+        MessageProducerInterface $messageProducer
     ) {
         parent::__construct($databaseChecker, $cache);
         $this->doctrine = $doctrine;
         $this->ownershipMetadataProvider = $ownershipMetadataProvider;
         $this->tokenStorage = $tokenStorage;
         $this->messageProducer = $messageProducer;
-        $this->ownerTreeMessageFactory = $ownerTreeMessageFactory;
     }
 
     /**
@@ -72,8 +68,10 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
      */
     public function warmUpCache(): void
     {
-        $messageData = $this->ownerTreeMessageFactory->createMessage($this->getCacheTtl());
-        $this->messageProducer->send(Topics::CALCULATE_OWNER_TREE_CACHE, new Message($messageData));
+        $this->messageProducer->send(
+            CustomerCalculateOwnerTreeCacheTopic::getName(),
+            [CustomerCalculateOwnerTreeCacheTopic::CACHE_TTL => $this->getCacheTtl()]
+        );
     }
 
     /**
@@ -152,7 +150,7 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
 
         return [
             $connection->executeQuery($executableQuery),
-            array_flip($parsedQuery->getResultSetMapping()->scalarMappings)
+            array_flip($parsedQuery->getResultSetMapping()->scalarMappings),
         ];
     }
 
@@ -265,7 +263,7 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
             ->where($queryBuilder->expr()->eq('c.id', ':id'))
             ->getQuery()
             ->setParameter('id', $customerId)
-            ->getSingleScalarResult();
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
     }
 
     private function getCustomerUserCacheKey(CustomerUser $customerUser): string
@@ -391,8 +389,10 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
 
         $qb = $this->getRepository($customerClass)
             ->createQueryBuilder('a')
-            ->select('a.id, IDENTITY(a.organization) orgId, IDENTITY(a.parent) parentId'
-                . ', (CASE WHEN a.parent IS NULL THEN 0 ELSE 1 END) AS HIDDEN ORD')
+            ->select(
+                'a.id, IDENTITY(a.organization) orgId, IDENTITY(a.parent) parentId'
+                . ', (CASE WHEN a.parent IS NULL THEN 0 ELSE 1 END) AS HIDDEN ORD'
+            )
             ->addOrderBy('ORD, parentId, a.id', 'ASC');
         if (count($parentIds)) {
             $qb->where('a.parent in (:parent)')

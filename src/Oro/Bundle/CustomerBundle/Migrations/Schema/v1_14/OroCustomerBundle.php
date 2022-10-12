@@ -38,8 +38,7 @@ class OroCustomerBundle implements
 
         // send migration message to queue. we should process this migration asynchronous because instances
         // could have a lot of customer user in system.
-        $this->container->get('oro_message_queue.message_producer')
-            ->send(ClearLostCustomerUsers::TOPIC_NAME, '');
+        $this->container->get('oro_message_queue.message_producer')->send(ClearLostCustomerUsersTopic::getName(), '');
     }
 
     /**
