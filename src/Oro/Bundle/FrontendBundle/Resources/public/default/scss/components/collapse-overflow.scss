@@ -26,6 +26,11 @@
             pointer-events: none;
         }
 
+        // Prevents all next focusable elements to be dimmed by a blur from a 'overflow-mode' element
+        + .focus-visible:focus {
+            position: relative;
+        }
+
         &.show {
             overflow: initial;
             max-height: initial;
