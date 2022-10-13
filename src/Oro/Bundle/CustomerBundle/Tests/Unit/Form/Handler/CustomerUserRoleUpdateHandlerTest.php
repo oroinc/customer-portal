@@ -13,7 +13,6 @@ use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateHandler;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleType;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;
-use Oro\Bundle\ProductBundle\Entity\Product;
 use Oro\Bundle\SecurityBundle\Model\AclPermission;
 use Oro\Bundle\SecurityBundle\Model\AclPrivilege;
 use Oro\Bundle\SecurityBundle\Model\AclPrivilegeIdentity;
@@ -192,7 +191,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
         $role = new CustomerUserRole('TEST');
         $roleSecurityIdentity = new RoleSecurityIdentity($role);
 
-        $productObjectIdentity = new ObjectIdentity('entity', Product::class);
+        $objectIdentity = new ObjectIdentity('entity', 'EntityClass');
 
         $appendForm = $this->createMock(FormInterface::class);
         $appendForm->expects(self::once())
@@ -322,8 +321,8 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
 
         $this->aclManager->expects(self::any())
             ->method('getOid')
-            ->with($productObjectIdentity->getIdentifier() . ':' . $productObjectIdentity->getType())
-            ->willReturn($productObjectIdentity);
+            ->with($objectIdentity->getIdentifier() . ':' . $objectIdentity->getType())
+            ->willReturn($objectIdentity);
 
         $this->chainMetadataProvider->expects(self::once())
             ->method('startProviderEmulation')
