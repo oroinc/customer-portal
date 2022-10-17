@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\Extension;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityConfigBundle\Config\Config;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityConfigBundle\Config\Id\FieldConfigId;
@@ -11,10 +12,7 @@ use Oro\Bundle\FrontendBundle\Form\Extension\DynamicFieldsExtension;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\FrontendBundle\Tests\Unit\Form\Extension\Stub\TestFormTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 
 class DynamicFieldsExtensionTest extends FormIntegrationTestCase
@@ -34,9 +32,6 @@ class DynamicFieldsExtensionTest extends FormIntegrationTestCase
     /** @var DynamicFieldsExtension */
     private $extension;
 
-    /** @var FormBuilderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $formBuilder;
-
     protected function setUp(): void
     {
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
@@ -46,10 +41,8 @@ class DynamicFieldsExtensionTest extends FormIntegrationTestCase
 
         parent::setUp();
 
-        $this->formBuilder = new FormBuilder(null, \stdClass::class, new EventDispatcher(), $this->factory);
-
         $this->extendConfigProvider = $this->createMock(ConfigProvider::class);
-        $this->frontendConfigProvider= $this->createMock(ConfigProvider::class);
+        $this->frontendConfigProvider = $this->createMock(ConfigProvider::class);
 
         $this->configManager->expects($this->any())
             ->method('getProvider')
@@ -84,11 +77,11 @@ class DynamicFieldsExtensionTest extends FormIntegrationTestCase
             ->willReturn(
                 [
                     new Config(new FieldConfigId('frontend', \stdClass::class, 'test'), $frontend),
-                    new Config(new FieldConfigId('frontend', \stdClass::class, 'unknown'), $frontend)
+                    new Config(new FieldConfigId('frontend', \stdClass::class, 'unknown'), $frontend),
                 ]
             );
 
-        $form = $this->factory->create(TestFormTypeStub::class);
+        $form = $this->factory->create(TestFormTypeStub::class, null, ['data_class' => CustomerUser::class]);
 
         $this->assertEquals($expected, $form->has('test'));
     }
@@ -100,27 +93,44 @@ class DynamicFieldsExtensionTest extends FormIntegrationTestCase
                 'isFrontendRequest' => true,
                 'extend' => ['owner' => ExtendScope::OWNER_CUSTOM],
                 'frontend' => ['is_editable' => false],
-                'expected' => false
+                'expected' => false,
             ],
             [
                 'isFrontendRequest' => true,
                 'extend' => ['owner' => ExtendScope::OWNER_SYSTEM],
                 'frontend' => ['is_editable' => false],
-                'expected' => true
+                'expected' => true,
             ],
             [
                 'isFrontendRequest' => true,
                 'extend' => ['owner' => ExtendScope::OWNER_CUSTOM],
                 'frontend' => ['is_editable' => true],
-                'expected' => true
+                'expected' => true,
             ],
             [
                 'isFrontendRequest' => false,
                 'extend' => ['owner' => ExtendScope::OWNER_CUSTOM],
                 'frontend' => ['is_editable' => false],
-                'expected' => true
+                'expected' => true,
             ],
         ];
+    }
+
+    public function testBuildFormWhenNoDataClass(): void
+    {
+        $this->frontendHelper->expects(self::any())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $this->extendConfigProvider->expects(self::never())
+            ->method(self::anything());
+
+        $this->frontendConfigProvider->expects(self::never())
+            ->method(self::anything());
+
+        $form = $this->factory->create(TestFormTypeStub::class);
+
+        self::assertTrue($form->has('test'));
     }
 
     /**
@@ -129,7 +139,7 @@ class DynamicFieldsExtensionTest extends FormIntegrationTestCase
     protected function getExtensions(): array
     {
         return [
-            new PreloadedExtension([], [FormType::class => [$this->extension]])
+            new PreloadedExtension([], [FormType::class => [$this->extension]]),
         ];
     }
 }

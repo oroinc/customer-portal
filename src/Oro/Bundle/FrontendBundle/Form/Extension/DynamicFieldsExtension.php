@@ -40,6 +40,11 @@ class DynamicFieldsExtension extends AbstractTypeExtension
                 function (PreSetDataEvent $event) {
                     $form = $event->getForm();
                     $className = $form->getConfig()->getOption('data_class');
+                    if (!$className) {
+                        // Skips callback as the form is not related to any entity class,
+                        // so there is no ability to check the availability of its fields.
+                        return;
+                    }
 
                     $frontendConfigProvider = $this->configManager->getProvider('frontend');
                     $extendConfigProvider = $this->configManager->getProvider('extend');
