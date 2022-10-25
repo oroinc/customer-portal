@@ -231,6 +231,10 @@ define(function(require) {
          * @private
          */
         _onStart: function(data, target) {
+            if (!this._isTargetBelongGrid(target)) {
+                return;
+            }
+
             const container = $(target).closest(this.containerSelector);
 
             if (this.sizerSelector) {
@@ -262,7 +266,11 @@ define(function(require) {
          * @param {Object} data
          * @private
          */
-        _onMove: function(data) {
+        _onMove: function(data, target) {
+            if (!this._isTargetBelongGrid(target)) {
+                return;
+            }
+
             const xAxe = data.x - this.storedPos;
 
             if (!this.elastic &&
@@ -286,7 +294,11 @@ define(function(require) {
          * @param {Object} data
          * @private
          */
-        _onEnd: function(data) {
+        _onEnd: function(data, target) {
+            if (!this._isTargetBelongGrid(target)) {
+                return;
+            }
+
             let xAxe = data.x - this.storedPos;
             if (data.direction === 'right' && xAxe > 0) {
                 xAxe = 0;
@@ -334,6 +346,15 @@ define(function(require) {
 
             this.currentSwipedContainer.removeClass(this.swipeDoneClassName);
             this.currentSwipedContainer.removeClass(this.swipeActionClassName);
+        },
+
+        /**
+         * Check if target element is belong to current grid
+         *
+         * @private
+         */
+        _isTargetBelongGrid: function(target) {
+            return !!$(target).closest(this.main.$grid).length;
         }
     });
 
