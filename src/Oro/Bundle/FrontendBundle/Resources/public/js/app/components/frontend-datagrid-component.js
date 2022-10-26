@@ -73,8 +73,8 @@ define(function(require, exports, module) {
          */
         toEnableElasticSwipeActionsPlugin: function() {
             return _.isTouchDevice() &&
-                (this.metadata.responsiveGrids && this.metadata.responsiveGrids.enable) &&
-                (this.metadata.swipeActionsGrid && this.metadata.swipeActionsGrid.enable);
+                this.metadata.responsiveGrids?.enable &&
+                this.metadata.swipeActionsGrid?.enable;
         }
     });
     return FrontendDataGridComponent;
