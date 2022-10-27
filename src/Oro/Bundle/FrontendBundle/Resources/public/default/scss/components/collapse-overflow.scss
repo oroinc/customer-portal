@@ -1,0 +1,65 @@
+/* @theme: default; */
+
+.collapse-overflow {
+    position: relative;
+
+    max-height: $collapse-overflow-max-height;
+
+    overflow: hidden;
+
+    &:not(.show) {
+        display: block;
+    }
+
+    &.overflow-mode {
+        &::after {
+            position: absolute;
+            bottom: 0;
+
+            display: block;
+            height: $collapse-overflow-blur-height;
+            width: 100%;
+
+            background-image: $collapse-overflow-blur-bg;
+
+            content: '';
+            pointer-events: none;
+        }
+
+        // Prevents all next focusable elements to be dimmed by a blur from a 'overflow-mode' element
+        + .focus-visible:focus {
+            position: relative;
+        }
+
+        &.show {
+            overflow: initial;
+            max-height: initial;
+
+            &::after {
+                content: none;
+            }
+        }
+    }
+
+    &:not(.overflow-mode) {
+        + .collapse-toggle {
+            display: none;
+        }
+    }
+
+    &.collapsing {
+        transition: none;
+        // Prevent blinking collapse after toggle it.
+        // Bootstrap adds the height property directly to the "style" attribute.
+        // stylelint-disable-next-line declaration-no-important
+        height: initial !important;
+    }
+
+    &.increased-overflow {
+        max-height: $collapse-overflow-increased-max-height;
+
+        &.overflow-mode::after {
+            height: $collapse-overflow-increased-blur-height;
+        }
+    }
+}

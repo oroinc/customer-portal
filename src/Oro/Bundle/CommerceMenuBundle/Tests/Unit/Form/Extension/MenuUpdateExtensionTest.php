@@ -32,7 +32,6 @@ use Oro\Bundle\FormBundle\Tests\Unit\Stub\TooltipFormExtensionStub;
 use Oro\Bundle\FrontendBundle\Provider\ScreensProviderInterface;
 use Oro\Bundle\NavigationBundle\Form\Type\RouteChoiceType;
 use Oro\Bundle\NavigationBundle\Tests\Unit\Form\Type\Stub\RouteChoiceTypeStub;
-use Oro\Bundle\ProductBundle\Entity\Product;
 use Oro\Bundle\SecurityBundle\Util\UriSecurityHelper;
 use Oro\Bundle\SecurityBundle\Validator\Constraints\NotDangerousProtocolValidator;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
@@ -101,7 +100,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
             ->willReturn([]);
         $handler->expects($this->any())
             ->method('getEntityName')
-            ->willReturn(Product::class);
+            ->willReturn('Test\Entity');
 
         $searchRegistry = $this->createMock(SearchRegistry::class);
         $searchRegistry->expects($this->any())
@@ -132,7 +131,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
                     new ContentNodeFromWebCatalogSelectType($this->createMock(ContentNodeTreeHandler::class)),
                     new EntityIdentifierType($managerRegistry),
                     new LinkTargetType(),
-                    ImageType::class => new ImageTypeStub,
+                    ImageType::class => new ImageTypeStub(),
                     RouteChoiceType::class => new RouteChoiceTypeStub(['sample_route' => 'sample_route']),
                 ],
                 [
@@ -258,21 +257,20 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
 
     private function getConfigProvider(): ConfigProvider
     {
-        $configProvider = $this->createMock(ConfigProvider::class);
-
-        $configProvider->expects($this->any())
-            ->method('getConfig')
-            ->willReturn($config = $this->createMock(Config::class));
-
+        $config = $this->createMock(Config::class);
         $config->expects($this->any())
             ->method('has')
             ->with('grid_name')
             ->willReturn(true);
-
         $config->expects($this->any())
             ->method('get')
             ->with('grid_name')
             ->willReturn('sample-grid');
+
+        $configProvider = $this->createMock(ConfigProvider::class);
+        $configProvider->expects($this->any())
+            ->method('getConfig')
+            ->willReturn($config);
 
         return $configProvider;
     }

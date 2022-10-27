@@ -1,4 +1,5 @@
 oro_stylebook:
+    options: 'Options'
     main_content:
           sub_title_main: 'Oro StyleBook'
           sub_title_one: 'Color Coding'
@@ -131,9 +132,45 @@ oro_stylebook:
             dialog_widget:
                 title: 'Dialog Widget'
                 description: 'The dialog widget provides more flexible configuration of the pop-up panel. You can optionally make the dialog modal to restrict interaction with the background page while the dialog is open. You can  control the text shown in the dialog, and the size.'
-            collapse_widget:
-                title: 'Collapse Widget'
-                description: 'The collapse widget renders an inline collapsible content area. If `hideSibling` is enabled, expanding the collapsed area hides the area that preceeds the widget if they reside on the same level. When the `Open` option is enabled, the content area is expanded by default.'
+            collapse_widgets:
+                title: 'Collapse Widgets'
+                description: 'The collapse widget toggles the content visibility of the content.'
+                definition: 'The collapse is base on bootstrap collapse. Options can be passed via data attributes or JavaScript. More details are available at <a href="https://getbootstrap.com/docs/4.6/components/collapse/">Bootstrap Collapse</a>.'
+                options:
+                    name: 'Name'
+                    type: 'Type'
+                    default: 'Default'
+                    description: 'Description'
+                    selector: 'selector'
+                    boolean: 'boolean'
+                    string: 'string'
+                    parent: 'If parent is provided, then all collapsible elements will work as accordion.'
+                    toggle: 'Toggles the collapsible element on initialization.'
+                    stateId: 'The unique key wil be used to save the collapse state to the Local Storage.'
+                    checkOverflow: 'If turned on, the trigger element will be shown only if the collapsible element overflows its bounds horizontally.<br>Requires adding <span class="bold">"collapse-overflow"</span> class to the collapsible element.'
+                    hideClass: 'An extra class will be added to the collapsible element if it is <span class="bold">hidden</span>.'
+                    showClass: 'An extra class will be added to the collapsible element if it is <span class="bold">visible</span>.'
+                    triggerHideClass: 'An extra class will be added to the trigger element if the collapsible one is <span class="bold">hidden</span>.'
+                    triggerShowClass: 'An extra class will be added to the trigger element if the collapsible one is <span class="bold">visible</span>.<br>Requires adding the <span class="bold">"data-icon"</span> attribute by an icon element.'
+                    triggerIconHideClass: 'An extra class will be added to the trigger icon element if the collapsible one is <span class="bold">hidden</span>.<br>Requires adding the <span class="bold">"data-icon"</span> attribute by an icon element.'
+                    triggerIconShowClass: 'An extra class will be added to the trigger icon element if the collapsible one is <span class="bold">visible</span>.'
+                    collapsedTitle: 'The provided value will be used as a <span class="bold">"title"</span> attribute of the trigger element if the collapsible one is <span class="bold">hidden</span>.'
+                    expandedTitle: 'The provided value will be used as a <span class="bold">"title"</span> attribute of the trigger element if the collapsible one is <span class="bold">visible</span>.'
+                    collapsedAriaLabel: 'The provided value will be used as a <span class="bold">"aria-label"</span> attribute of the trigger element if the collapsible one is <span class="bold">hidden</span>.'
+                    expandedAriaLabel: 'The provided value will be used as a <span class="bold">"aria-label"</span> attribute of the trigger element if the collapsible one is <span class="bold">visible</span>.'
+                    collapsedText: 'The provided value will be used as a <span class="bold">"tex"</span> for the trigger element if the collapsible one is <span class="bold">hidden</span>.<br>Requires wrapping the text by an element with a <span class="bold">"data-text"</span> attribute.'
+                    expandedText: 'The provided value will be used as a <span class="bold">"tex"</span> for the trigger element if the collapsible one is <span class="bold">visible</span>.<br>Requires wrapping the text by an element with a  <span class="bold">"data-text"</span> attribute.'
+                simple:
+                    title: 'Simple Collapse'
+                simple_hide_trigger:
+                    title: 'Hide Trigger element'
+                overflow:
+                    title: 'Overflow Collapse'
+                dynamic:
+                    title: 'Dynamic Collapse'
+                    description: 'The collapse may be initialized programmatically depending on use case. For example determined by the viewport.'
+                accordion:
+                    title: 'Accordion'
             fullscreen_popup_view:
                 title: 'Fullscreen Popup View'
                 description: 'The fullscreen popup view helps you show the rendered html content, view, and selector in a fullscreen pop-up. The page header renders with an icon specified as a `popupIcon`, the `popupLabel` as a title, and the Close button. The `contentTemplate` may contain raw html that you would expect inside the body tag.'

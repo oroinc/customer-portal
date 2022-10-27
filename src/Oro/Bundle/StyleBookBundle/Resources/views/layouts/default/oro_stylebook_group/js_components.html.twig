@@ -382,55 +382,159 @@
 
 {# Collapse Widget #}
 
-{% block _style_book_grid_element_collapse_widget_template_widget %}
-<div class="collapse-view" data-page-component-collapse="{}">
-    <h4 class="heading-bottom-offset">
-        <button class="collapse-view__trigger btn--no-x-offset" type="button" data-collapse-trigger>
-            <span class="collapse-view__trigger-icon fa-caret-right" aria-hidden="true"></span>
-            <span class="collapse-view__trigger-text">
-                Toggle Title
-            </span>
-        </button>
-    </h4>
-
-    <div class="collapse-view__container collapse-view__container--bottom-offset" data-collapse-container>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec laoreet nisl. Suspendisse et tincidunt libero. Aenean pulvinar quam vitae sapien porttitor, non tempor orci dictum. Mauris nisl diam, fringilla eu lectus sed, accumsan congue tellus. Cras quis dui eget dui fermentum gravida non et erat. Proin id fringilla nunc. Ut ullamcorper pulvinar ligula eu pulvinar. Nullam egestas cursus magna placerat bibendum. Nam iaculis elit ac massa bibendum, id dapibus nisl mattis.
-    </div>
-</div>
+{% block _group_element_grid_view_collapse_widgets_options_widget %}
+    <p>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.definition'|trans|oro_html_sanitize }}</p>
+    <h3 class="style-book-group-element__title">{{ 'oro_stylebook.options'|trans }}</h3>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th style="width:100px;">{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.name'|trans }}</th>
+            <th style="width:50px;">{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.type'|trans }}</th>
+            <th style="width:50px;">{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.default'|trans }}</th>
+            <th>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.description'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>parent</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.selector'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.parent'|trans }}</td>
+            </tr>
+            <tr>
+                <td>toggle</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.boolean'|trans }}</td>
+                <td>true</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.toggle'|trans }}</td>
+            </tr>
+            <tr>
+                <td>stateId</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.stateId'|trans }}</td>
+            </tr>
+            <tr>
+                <td>checkOverflow</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.boolean'|trans }}</td>
+                <td>false</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.checkOverflow'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>hideClass</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.hideClass'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>showClass</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.showClass'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>triggerHideClass</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerHideClass'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>triggerShowClass</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerShowClass'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>triggerIconHideClass</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerIconHideClass'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>triggerIconShowClass</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerIconShowClass'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>collapsedTitle</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.collapsedTitle'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>expandedTitle</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.expandedTitle'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>collapsedAriaLabel</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.collapsedAriaLabel'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>expandedAriaLabel</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.expandedAriaLabel'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>collapsedText</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.collapsedText'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>expandedText</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.expandedText'|trans|oro_html_sanitize }}</td>
+            </tr>
+        </tbody>
+    </table>
 {% endblock %}
 
-{% block _style_book_grid_element_collapse_widget_widget %}
+{# Simple Collapse Trigger #}
+{% block _style_book_grid_element_collapse_widget_simple_template_widget %}
+
+    {% set collapseId = 'collapse-'|uniqid %}
+    <button class="btn btn--link btn--size-s btn--no-x-offset"
+            data-toggle="collapse"
+            data-target="{{ '#' ~ collapseId }}"
+            aria-controls="{{ collapseId }}"
+    >
+        <span class="fa-plus-square-o fa--offset-l" aria-hidden="true" data-icon></span>
+        <span data-text>Open collapse</span>
+    </button>
+    <div id="{{ collapseId }}" class="collapse"
+         data-trigger-icon-show-class="fa-minus-square-o"
+         data-trigger-icon-hide-class="fa-plus-square-o"
+         data-collapsed-text="Open Collapse"
+         data-expanded-text="Close Collapse"
+         data-toggle="true"
+    >
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec laoreet nisl. Suspendisse et tincidunt libero. Aenean pulvinar quam vitae sapien porttitor, non tempor orci dictum. Mauris nisl diam, fringilla eu lectus sed, accumsan congue tellus. Cras quis dui eget dui fermentum gravida non et erat. Proin id fringilla nunc. Ut ullamcorper pulvinar ligula eu pulvinar. Nullam egestas cursus magna placerat bibendum. Nam iaculis elit ac massa bibendum, id dapibus nisl mattis.
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_collapse_widget_simple_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' js-component-container',
-        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
-        'data-page-component-options': {
-            viewConstructor: 'oroui/js/widget/collapse-widget',
-            props: {
-                animationSpeed: 250,
-                hideSibling: false,
-                open: true
-            }
-        }
+        '~class': ' js-component-container'
     }) %}
 
     <div {{ block('block_attributes') }}>
-        {{ block('_style_book_grid_element_collapse_widget_template_widget') }}
+        <div class="style-book-group-element__preview">
+            {{ block('_style_book_grid_element_collapse_widget_simple_template_widget') }}
+        </div>
         {{ block_widget(block) }}
     </div>
 {% endblock %}
 
-{% block _style_book_grid_element_collapse_widget_config_widget %}
-    <div class="playground-source">
-        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
-    </div>
-
-    <div class="playground-props grid" data-props></div>
-{% endblock %}
-
-{% block _style_book_grid_element_collapse_widget_html_widget %}
+{% block _style_book_grid_element_collapse_widget_simple_html_widget %}
     {% set source_code %}
     <!-- Use shortcut manager data attribute -->
-    {{ block('_style_book_grid_element_collapse_widget_template_widget') }}
+    {{ block('_style_book_grid_element_collapse_widget_simple_template_widget') }}
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -444,33 +548,286 @@
     </div>
 {% endblock %}
 
-{% block _style_book_grid_element_collapse_widget_js_widget %}
+{# Simple Collapse Hide Trigger Widget #}
+{% block _style_book_grid_element_collapse_widget_simple_hide_trigger_template_widget %}
+
+    {% set collapseId = 'collapse-'|uniqid %}
+    <button class="btn btn--action"
+            data-toggle="collapse"
+            data-target="{{ '#' ~ collapseId }}"
+            aria-controls="{{ collapseId }}"
+    ><span class="fa-caret-square-o-down" aria-hidden="true"></span>Toggle Elements</button>
+    <div id="{{ collapseId }}" class="collapse no-transition" data-toggle="false" data-trigger-show-class="hide">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec laoreet nisl. Suspendisse et tincidunt libero. Aenean pulvinar quam vitae sapien porttitor, non tempor orci dictum. Mauris nisl diam, fringilla eu lectus sed, accumsan congue tellus. Cras quis dui eget dui fermentum gravida non et erat. Proin id fringilla nunc. Ut ullamcorper pulvinar ligula eu pulvinar. Nullam egestas cursus magna placerat bibendum. Nam iaculis elit ac massa bibendum, id dapibus nisl mattis.
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_collapse_widget_simple_hide_trigger_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            {{ block('_style_book_grid_element_collapse_widget_simple_hide_trigger_template_widget') }}
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_collapse_widget_simple_hide_trigger_html_widget %}
     {% set source_code %}
-        <script>
-        define(function(require) {
-            'use strict';
-
-            var SomeExampleView;
-            var BaseView = require('oroui/js/app/views/base/view');
-            require('oroui/js/widget/collapse-widget');
-
-            SomeExampleView = BaseView.extend({
-                render: function() {
-                    this.$el.collapseWidget({
-                        // Options
-                    });
-                }
-            });
-
-            return SomeExampleView;
-        });
-        </script>
+        <!-- Use shortcut manager data attribute -->
+        {{ block('_style_book_grid_element_collapse_widget_simple_hide_trigger_template_widget') }}
     {% endset %}
 
     <div {{ block('block_attributes') }}>
         <div class="style-book-group-element__source">
             <pre>
-                <code class="style-book-group-element__code language-javascript">
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Overflow Collapse #}
+{% block _style_book_grid_element_collapse_widget_overflow_template_widget %}
+
+    {% set collapseId = 'collapse-'|uniqid %}
+    <div id="{{ collapseId }}"
+         class="collapse collapse-overflow no-transition"
+         data-trigger-icon-show-class="fa-angle-up"
+         data-trigger-icon-hide-class="fa-angle-down"
+         data-collapsed-text="{{ 'oro.ui.collapse.more'|trans }}"
+         data-expanded-text="{{ 'oro.ui.collapse.less'|trans }}"
+         data-check-overflow="true"
+         data-toggle="false"
+    >
+        There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+        If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
+        All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.
+        It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.
+        The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
+    </div>
+    <button class="btn btn--link btn--size-s btn--no-x-offset collapse-toggle"
+            data-toggle="collapse"
+            data-target="{{ '#' ~ collapseId }}"
+            aria-controls="{{ collapseId }}"
+    >
+        <span data-text>{{ 'oro.ui.collapse.more'|trans }}</span>
+        <span class="fa-angle-down fa--offset-l" aria-hidden="true" data-icon></span>
+    </button>
+{% endblock %}
+
+{% block _style_book_grid_element_collapse_widget_overflow_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            {{ block('_style_book_grid_element_collapse_widget_overflow_template_widget') }}
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_collapse_widget_overflow_html_widget %}
+    {% set source_code %}
+        <!-- Use shortcut manager data attribute -->
+        {{ block('_style_book_grid_element_collapse_widget_overflow_template_widget') }}
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Dynamic Collapse #}
+{% block _style_book_grid_element_collapse_widget_dynamic_template_widget %}
+<div class="grid">
+    <div class="grid-col-6">
+        {% set collapseButtonBeforeOptions = {
+            viewport: {
+                maxScreenType: 'tablet',
+            },
+            view: 'orofrontend/default/js/app/views/collapse-view',
+            toggleAttrs: {
+                'class': 'btn btn--link btn--size-s btn--no-x-offset',
+                'data-text': 'Open Collapse',
+                'data-icon': 'fa-plus-square-o',
+                'data-collapsed-text': 'Open Collapse',
+                'data-expanded-text': 'Close Collapse'
+            },
+            collapseAttrs: {
+                'class': 'collapse',
+                'data-trigger-icon-show-class': 'fa-minus-square-o',
+                'data-trigger-icon-hide-class': 'fa-plus-square-o',
+                'data-toggle': true
+            }
+        } %}
+        <div data-page-component-module="oroui/js/app/components/viewport-component"
+             data-page-component-options="{{ collapseButtonBeforeOptions|json_encode() }}"
+        >
+            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+            If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
+        </div>
+    </div>
+    <div class="grid-col-6">
+        {% set collapseButtonAfterOptions = {
+            viewport: {
+                maxScreenType: 'tablet',
+            },
+            view: 'orofrontend/default/js/app/views/collapse-view',
+            triggerIsFirst: false,
+            triggerIconIsFirst: false,
+            toggleAttrs: {
+                'class': 'btn btn--link btn--size-s btn--no-x-offset collapse-toggle',
+                'aria-label': 'oro.ui.collapse.more'|trans,
+                'data-icon': 'fa-angle-down fa--offset-l',
+                'data-text': 'oro.ui.collapse.more'|trans
+            },
+            collapseAttrs: {
+                'class': 'collapse collapse-overflow',
+                'data-check-overflow': true,
+                'data-trigger-icon-show-class': 'fa-angle-up',
+                'data-trigger-icon-hide-class': 'fa-angle-down',
+                'data-collapsed-text': 'oro.ui.collapse.more'|trans,
+                'data-expanded-text': 'oro.ui.collapse.less'|trans
+            }
+        } %}
+        <div data-page-component-module="oroui/js/app/components/viewport-component"
+             data-page-component-options="{{ collapseButtonAfterOptions|json_encode() }}"
+        >
+            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+            If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block _style_book_grid_element_collapse_widget_dynamic_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            {{ block('_style_book_grid_element_collapse_widget_dynamic_template_widget') }}
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_collapse_widget_dynamic_html_widget %}
+    {% set source_code %}
+        <!-- Use shortcut manager data attribute -->
+        {{ block('_style_book_grid_element_collapse_widget_dynamic_template_widget') }}
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Accordion Widget #}
+{% block _style_book_grid_element_accordion_widget_template_widget %}
+
+    {% set parentId = 'parent-'|uniqid %}
+    <div id="{{ parentId }}" class="accordion-group">
+        <div class="accordion-group__item">
+            {% set itemId1 = 'item-'|uniqid %}
+            <h4>
+                <button class="accordion-group__trigger btn--link btn--no-offset"
+                        type="button" data-toggle="collapse"
+                        data-target="{{ '#' ~ itemId1 }}"
+                        aria-controls="{{ itemId1 }}"
+                        aria-expanded="false"
+                >
+                    <span class="accordion-group__trigger-icon fa-caret-right" aria-hidden="true"></span>
+                    <span class="accordion-group__trigger-text">What is Lorem Ipsum?</span>
+                </button>
+            </h4>
+            <div class="collapse show" id="{{ itemId1 }}" data-parent="{{ '#' ~ parentId }}">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            </div>
+        </div>
+        <div class="accordion-group__item">
+            {% set itemId2 = 'item-'|uniqid %}
+            <h4>
+                <button class="accordion-group__trigger btn--link btn--no-offset collapsed"
+                        type="button" data-toggle="collapse"
+                        data-target="{{ '#' ~ itemId2 }}"
+                        aria-expanded="false"
+                        aria-controls="{{ itemId2 }}"
+                >
+                    <span class="accordion-group__trigger-icon fa-caret-right" aria-hidden="true"></span>
+                    <span class="accordion-group__trigger-text">Why do we use it?</span>
+                </button>
+            </h4>
+            <div class="collapse" id="{{ itemId2 }}" data-parent="{{ '#' ~ parentId }}">
+                It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+            </div>
+        </div>
+        <div class="accordion-group__item">
+            {% set itemId3 = 'item-'|uniqid %}
+            <h4>
+                <button class="accordion-group__trigger btn--link btn--no-offset collapsed"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="{{ '#' ~ itemId3 }}"
+                        aria-expanded="false"
+                        aria-controls="{{ itemId3 }}"
+                >
+                    <span class="accordion-group__trigger-icon fa-caret-right" aria-hidden="true"></span>
+                    <span class="accordion-group__trigger-text">Where can I get some?</span>
+                </button>
+            </h4>
+            <div class="collapse" id="{{ itemId3 }}" data-parent="{{ '#' ~ parentId }}">
+                There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+                If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_accordion_widget_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            {{ block('_style_book_grid_element_accordion_widget_template_widget') }}
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_accordion_widget_html_widget %}
+    {% set source_code %}
+        <!-- Use shortcut manager data attribute -->
+        {{ block('_style_book_grid_element_accordion_widget_template_widget') }}
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
                     {{ source_code|trim|escape }}
                 </code>
             </pre>
@@ -479,7 +836,6 @@
 {% endblock %}
 
 {# Fullscreen Popup #}
-
 {% block _style_book_fullscreen_popup_view_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' js-component-container',

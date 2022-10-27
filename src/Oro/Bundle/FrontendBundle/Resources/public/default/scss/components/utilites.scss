@@ -60,6 +60,11 @@
     word-break: break-all;
 }
 
+.no-transition {
+    // stylelint-disable-next-line declaration-no-important
+    transition: none;
+}
+
 // Need to refactor after removal less from frontend
 .hide-text {
     &[class^='fa-'],

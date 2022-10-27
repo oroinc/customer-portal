@@ -3,8 +3,6 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\OptionsConfigurator;
 
 use Oro\Bundle\FrontendBundle\Form\OptionsConfigurator\RuleEditorOptionsConfigurator;
-use Oro\Bundle\PricingBundle\Entity\PriceList;
-use Oro\Bundle\ProductBundle\Expression\Autocomplete\AutocompleteFieldsProviderInterface;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -37,10 +35,7 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
         $resolver->resolve($options);
     }
 
-    /**
-     * @return array
-     */
-    public function invalidOptionsDataProvider()
+    public function invalidOptionsDataProvider(): array
     {
         return [
             'entities type' => [['entities' => true]],
@@ -75,7 +70,7 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
     {
         $options = [
             'entities' => [
-                AutocompleteFieldsProviderInterface::ROOT_ENTITIES_KEY => [PriceList::class => 'price_list']
+                'root_entities' => ['App\Entity\PriceList' => 'price_list']
             ],
             'dataSource' => ['price_list' => 'test'],
             'pageComponent' => 'custom-component',
@@ -96,7 +91,7 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
             ],
             'dataSource' => ['price_list' => 'test'],
             'entities' => [
-                AutocompleteFieldsProviderInterface::ROOT_ENTITIES_KEY => [PriceList::class => 'price_list']
+                'root_entities' => ['App\Entity\PriceList' => 'price_list']
             ],
             'allowedOperations' => ['math']
         ];

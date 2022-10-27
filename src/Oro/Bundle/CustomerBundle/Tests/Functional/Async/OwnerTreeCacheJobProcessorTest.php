@@ -2,20 +2,16 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Async;
 
-use Oro\Bundle\CustomerBundle\Async\OwnerTreeCacheJobProcessor;
-use Oro\Bundle\CustomerBundle\Async\Topics;
+use Oro\Bundle\CustomerBundle\Async\Topic\CustomerCalculateOwnerTreeCacheByBusinessUnitTopic;
+use Oro\Bundle\CustomerBundle\Async\Topic\CustomerCalculateOwnerTreeCacheTopic;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Model\BusinessUnitMessageFactory;
-use Oro\Bundle\CustomerBundle\Model\OwnerTreeMessageFactory;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
+use Oro\Bundle\MessageQueueBundle\Test\Functional\JobsAwareTestTrait;
 use Oro\Bundle\MessageQueueBundle\Test\Functional\MessageQueueExtension;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
-use Oro\Component\MessageQueue\Job\JobProcessor;
-use Oro\Component\MessageQueue\Transport\Message;
-use Oro\Component\MessageQueue\Transport\SessionInterface;
-use Oro\Component\MessageQueue\Util\JSON;
 
 /**
  * @dbIsolationPerTest
@@ -23,6 +19,7 @@ use Oro\Component\MessageQueue\Util\JSON;
 class OwnerTreeCacheJobProcessorTest extends WebTestCase
 {
     use MessageQueueExtension;
+    use JobsAwareTestTrait;
 
     protected function setUp(): void
     {
@@ -33,80 +30,70 @@ class OwnerTreeCacheJobProcessorTest extends WebTestCase
 
     public function testProcessWithCustomerUsersToWarmUpCache(): void
     {
-        $processor = $this->getOwnerTreeCacheJobProcessor();
-        $messageData = $this->getOwnerTreeMessageFactory()->createMessage(1000);
-
-        $message = new Message();
-        $message->setMessageId('test_message');
-        $message->setBody(JSON::encode($messageData));
-
         $this->updateCustomerUserLastLogin(LoadCustomerUserData::LEVEL_1_EMAIL, 100);
         $this->updateCustomerUserLastLogin(LoadCustomerUserData::LEVEL_1_1_EMAIL, 1100);
         $this->updateCustomerUserLastLogin(LoadCustomerUserData::GROUP2_EMAIL, 800);
 
-        $result = $processor->process($message, $this->createMock(SessionInterface::class));
+        $sentMessage = self::sendMessage(
+            CustomerCalculateOwnerTreeCacheTopic::getName(),
+            [CustomerCalculateOwnerTreeCacheTopic::CACHE_TTL => 1000]
+        );
+        self::consumeMessage($sentMessage);
 
-        $this->assertMessagesCount(Topics::CALCULATE_BUSINESS_UNIT_OWNER_TREE_CACHE, 2);
-        $this->assertMessageSentForCustomer($this->getReference(LoadCustomers::CUSTOMER_LEVEL_1));
-        $this->assertMessageSentForCustomer($this->getReference(LoadCustomers::CUSTOMER_LEVEL_1_DOT_2));
+        self::assertProcessedMessageStatus(MessageProcessorInterface::ACK, $sentMessage);
+        self::assertProcessedMessageProcessor('oro_customer.async.owner_tree_cache_job_processor', $sentMessage);
 
-        $this->assertEquals(MessageProcessorInterface::ACK, $result);
+        self::assertMessagesCount(CustomerCalculateOwnerTreeCacheByBusinessUnitTopic::getName(), 2);
+        $this->assertMessageSentForCustomer(
+            $sentMessage->getMessageId(),
+            $this->getReference(LoadCustomers::CUSTOMER_LEVEL_1)
+        );
+        $this->assertMessageSentForCustomer(
+            $sentMessage->getMessageId(),
+            $this->getReference(LoadCustomers::CUSTOMER_LEVEL_1_DOT_2)
+        );
     }
 
     public function testProcessWithNoCustomerUsersToWarmUpCache(): void
     {
-        $processor = $this->getOwnerTreeCacheJobProcessor();
-        $messageData = $this->getOwnerTreeMessageFactory()->createMessage(1000);
+        $sentMessage = self::sendMessage(
+            CustomerCalculateOwnerTreeCacheTopic::getName(),
+            [CustomerCalculateOwnerTreeCacheTopic::CACHE_TTL => 1000]
+        );
+        self::consumeMessage($sentMessage);
 
-        $message = new Message();
-        $message->setMessageId('test_message');
-        $message->setBody(JSON::encode($messageData));
+        self::assertProcessedMessageStatus(MessageProcessorInterface::ACK, $sentMessage);
+        self::assertProcessedMessageProcessor('oro_customer.async.owner_tree_cache_job_processor', $sentMessage);
 
-        $result = $processor->process($message, $this->createMock(SessionInterface::class));
-
-        $this->assertMessagesEmpty(Topics::CALCULATE_BUSINESS_UNIT_OWNER_TREE_CACHE);
-
-        $this->assertEquals(MessageProcessorInterface::ACK, $result);
+        self::assertMessagesEmpty(CustomerCalculateOwnerTreeCacheByBusinessUnitTopic::getName());
     }
 
-    private function assertMessageSentForCustomer(Customer $customer)
+    private function assertMessageSentForCustomer(string $messageId, Customer $customer): void
     {
-        $rootJob = $this->getJobProcessor()->findOrCreateRootJob('test_message', Topics::CALCULATE_OWNER_TREE_CACHE);
+        $rootJob = $this->getJobProcessor()->findOrCreateRootJob(
+            $messageId,
+            CustomerCalculateOwnerTreeCacheTopic::getName()
+        );
         $childJob = $this->getJobProcessor()->findOrCreateChildJob(
             sprintf(
                 '%s:%s:%s',
-                Topics::CALCULATE_OWNER_TREE_CACHE,
+                CustomerCalculateOwnerTreeCacheTopic::getName(),
                 Customer::class,
                 $customer->getId()
             ),
             $rootJob
         );
 
-        $this->assertMessageSent(
-            Topics::CALCULATE_BUSINESS_UNIT_OWNER_TREE_CACHE,
+        self::assertMessageSent(
+            CustomerCalculateOwnerTreeCacheByBusinessUnitTopic::getName(),
             $this->getBusinessUnitMessageFactory()
                 ->createMessage($childJob->getId(), Customer::class, $customer->getId())
         );
     }
 
-    private function getJobProcessor(): JobProcessor
-    {
-        return $this->getContainer()->get('oro_message_queue.job.processor');
-    }
-
-    private function getOwnerTreeCacheJobProcessor(): OwnerTreeCacheJobProcessor
-    {
-        return $this->getContainer()->get('oro_customer.tests.async.owner_tree_cache_job_processor');
-    }
-
-    private function getOwnerTreeMessageFactory(): OwnerTreeMessageFactory
-    {
-        return $this->getContainer()->get('oro_customer.tests.model.owner_tree_message_factory');
-    }
-
     private function getBusinessUnitMessageFactory(): BusinessUnitMessageFactory
     {
-        return $this->getContainer()->get('oro_customer.tests.model.business_unit_message_factory');
+        return self::getContainer()->get('oro_customer.tests.model.business_unit_message_factory');
     }
 
     private function updateCustomerUserLastLogin(string $reference, int $secondsAgo): void

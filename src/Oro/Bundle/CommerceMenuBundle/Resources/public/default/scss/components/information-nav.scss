@@ -17,14 +17,15 @@
         position: relative;
         text-transform: $information-nav-title-text-transform;
         color: $information-nav-title-color;
+
+        .collapse &,
+        .collapsing & {
+            display: none;
+        }
     }
 
     &__list {
         @include list-normalize();
-    }
-
-    &__icon {
-        display: none;
     }
 
     &__item {
@@ -68,14 +69,13 @@
         &__list {
             margin-bottom: $offset-y-m * 2;
             padding-left: $information-nav-list-tablet-small-inner-offset-left;
-        }
 
-        &__icon {
-            display: inline-block;
+            display: none;
 
-            margin-right: $information-nav-icon-tablet-small-offset-right;
-
-            vertical-align: baseline;
+            .collapse &,
+            .collapsing & {
+                display: block;
+            }
         }
     }
 }

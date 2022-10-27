@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Async;
 
+use Oro\Bundle\CustomerBundle\Async\Topic\CustomerCalculateOwnerTreeCacheByBusinessUnitTopic;
 use Oro\Bundle\CustomerBundle\Model\BusinessUnitMessageFactory;
 use Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider;
 use Oro\Component\MessageQueue\Client\TopicSubscriberInterface;
@@ -9,89 +10,60 @@ use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
 use Oro\Component\MessageQueue\Job\JobRunner;
 use Oro\Component\MessageQueue\Transport\MessageInterface;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
-use Oro\Component\MessageQueue\Util\JSON;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\OptionsResolver\Exception\InvalidArgumentException;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\NullLogger;
 
 /**
  * Warms up cache for a given business unit entity by entityClass and entityId.
  */
-class BusinessUnitOwnerTreeCacheJobProcessor implements MessageProcessorInterface, TopicSubscriberInterface
+class BusinessUnitOwnerTreeCacheJobProcessor implements
+    MessageProcessorInterface,
+    TopicSubscriberInterface,
+    LoggerAwareInterface
 {
-    /**
-     * @var JobRunner
-     */
-    private $jobRunner;
+    use LoggerAwareTrait;
 
-    /**
-     * @var BusinessUnitMessageFactory
-     */
-    private $messageFactory;
+    private JobRunner $jobRunner;
 
-    /**
-     * @var FrontendOwnerTreeProvider
-     */
-    private $frontendOwnerTreeProvider;
+    private BusinessUnitMessageFactory $messageFactory;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private FrontendOwnerTreeProvider $frontendOwnerTreeProvider;
 
     public function __construct(
         JobRunner $jobRunner,
         FrontendOwnerTreeProvider $frontendOwnerTreeProvider,
-        BusinessUnitMessageFactory $businessUnitMessageFactory,
-        LoggerInterface $logger
+        BusinessUnitMessageFactory $businessUnitMessageFactory
     ) {
         $this->jobRunner = $jobRunner;
         $this->messageFactory = $businessUnitMessageFactory;
         $this->frontendOwnerTreeProvider = $frontendOwnerTreeProvider;
-        $this->logger = $logger;
+
+        $this->logger = new NullLogger();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function process(MessageInterface $message, SessionInterface $session)
+    public function process(MessageInterface $message, SessionInterface $session): string
     {
-        $data = JSON::decode($message->getBody());
-
-        try {
-            $jobId = $this->messageFactory->getJobIdFromMessage($data);
-            $businessUnit = $this->messageFactory->getBusinessUnitFromMessage($data);
-            $this->jobRunner->runDelayed($jobId, function () use ($businessUnit) {
-                $this->frontendOwnerTreeProvider->getTreeByBusinessUnit($businessUnit);
-
-                return true;
-            });
-        } catch (InvalidArgumentException $e) {
-            $this->logger->error(
-                'Queue Message is invalid',
-                ['exception' => $e]
-            );
-
-            return self::REJECT;
-        } catch (\Exception $exception) {
-            $this->logger->error(
-                'Unexpected exception occurred during queue message processing',
-                [
-                    'exception' => $exception,
-                    'topic' => Topics::CALCULATE_BUSINESS_UNIT_OWNER_TREE_CACHE
-                ]
-            );
+        $messageBody = $message->getBody();
+        $jobId = $this->messageFactory->getJobIdFromMessage($messageBody);
+        $businessUnit = $this->messageFactory->getBusinessUnitFromMessage($messageBody);
+        if (!$businessUnit) {
+            $this->logger->error('Business unit entity {entityClass} #{entityId} is not found', $messageBody);
 
             return self::REJECT;
         }
 
+        $this->jobRunner->runDelayed($jobId, function () use ($businessUnit) {
+            $this->frontendOwnerTreeProvider->getTreeByBusinessUnit($businessUnit);
+
+            return true;
+        });
+
         return self::ACK;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedTopics()
+    public static function getSubscribedTopics(): array
     {
-        return [Topics::CALCULATE_BUSINESS_UNIT_OWNER_TREE_CACHE];
+        return [CustomerCalculateOwnerTreeCacheByBusinessUnitTopic::getName()];
     }
 }

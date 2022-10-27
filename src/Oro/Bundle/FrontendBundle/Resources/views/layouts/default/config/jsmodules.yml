@@ -31,6 +31,7 @@ configs:
 dynamic-imports:
     commons:
         - oro/frontend-dialog-widget
+        - orofrontend/default/js/app/views/collapse-view
         - orofrontend/default/js/app/views/dropdown-search
         - orofrontend/default/js/app/views/fake-masked-input-view
         - orofrontend/default/js/app/views/fullscreen-popup-view
@@ -40,7 +41,6 @@ dynamic-imports:
         - orofrontend/default/js/widgets/elastic-area-widget
         - orofrontend/default/js/widgets/expand-text-widget
         - orofrontend/default/js/widgets/print-page-widget
-        - orofrontend/default/js/widgets/rows-collapse-widget
         - orofrontend/js/app/components/delete-item-component
         - orofrontend/js/app/components/embedded-list-component
         - orofrontend/js/app/components/empty-items-component

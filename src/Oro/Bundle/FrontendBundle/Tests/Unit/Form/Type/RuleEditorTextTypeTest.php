@@ -4,16 +4,15 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\FrontendBundle\Form\OptionsConfigurator\RuleEditorOptionsConfigurator;
 use Oro\Bundle\FrontendBundle\Form\Type\RuleEditorTextType;
-use Oro\Bundle\PayPalBundle\PayPal\Payflow\Option\OptionsResolver;
-use Oro\Bundle\PricingBundle\Form\Type\PriceRuleEditorType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RuleEditorTextTypeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RuleEditorOptionsConfigurator|\PHPUnit\Framework\MockObject\MockObject */
     private $optionsConfigurator;
 
-    /** @var PriceRuleEditorType */
+    /** @var RuleEditorTextType */
     private $type;
 
     protected function setUp(): void
@@ -39,7 +38,7 @@ class RuleEditorTextTypeTest extends \PHPUnit\Framework\TestCase
 
         $this->optionsConfigurator->expects($this->once())
             ->method('configureOptions')
-            ->with($resolver);
+            ->with($this->identicalTo($resolver));
 
         $this->type->configureOptions($resolver);
     }

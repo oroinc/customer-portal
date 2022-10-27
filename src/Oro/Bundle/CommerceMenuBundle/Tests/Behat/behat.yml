@@ -53,7 +53,7 @@ oro_behat_extension:
     Information:
       selector:
         type: xpath
-        locator: '//h6[contains(@class, "information-nav__title")]'
+        locator: '//div[contains(@class,"page-footer")]//button//span[contains(text(), "Information")]'
 
     Main Menu Button:
       selector:
