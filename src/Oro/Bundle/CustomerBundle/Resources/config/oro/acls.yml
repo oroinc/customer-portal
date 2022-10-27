@@ -101,6 +101,11 @@ acls:
         class: OroCustomerBundle:CustomerAddress
         group_name: "commerce"
         category: 'customer_management'
+        bindings:
+            - {class: Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerAddressController, method: getAction}
+            - {class: Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerAddressController, method: cgetAction}
+            - {class: Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerAddressController, method: getByTypeAction}
+            - {class: Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerAddressController, method: getPrimaryAction}
 
     oro_customer_frontend_customer_address_create:
         type: entity
@@ -122,6 +127,8 @@ acls:
         class: OroCustomerBundle:CustomerAddress
         group_name: "commerce"
         category: 'customer_management'
+        bindings:
+            - {class: Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerAddressController, method: deleteAction}
 
     oro_customer_frontend_customer_user_address_view:
         type: entity
@@ -129,6 +136,11 @@ acls:
         class: OroCustomerBundle:CustomerUserAddress
         group_name: "commerce"
         category: 'customer_management'
+        bindings:
+            - {class: Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerUserAddressController, method: getAction}
+            - {class: Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerUserAddressController, method: cgetAction}
+            - {class: Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerUserAddressController, method: getByTypeAction}
+            - {class: Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerUserAddressController, method: getPrimaryAction}
 
     oro_customer_frontend_customer_user_address_create:
         type: entity
@@ -150,6 +162,8 @@ acls:
         class: OroCustomerBundle:CustomerUserAddress
         group_name: "commerce"
         category: 'customer_management'
+        bindings:
+            - {class: Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerUserAddressController, method: deleteAction}
 
     oro_customer_frontend_gridview_publish:
         type: action
@@ -165,3 +179,8 @@ acls:
         description: oro.customer.action.update_profile.description
         group_name: "commerce"
         category: "application"
+
+    oro_customer_view_user_login_attempt:
+        type: entity
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerUserLoginAttempt
+        permission: VIEW

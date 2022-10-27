@@ -1,43 +1,90 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Extractor;
 
 use Oro\Bundle\FrontendBundle\Extractor\FrontendExposedRoutesExtractor;
+use Oro\Component\Testing\TempDirExtension;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 
 class FrontendExposedRoutesExtractorTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    use TempDirExtension;
+
+    private string $cacheDir;
+
+    /** @var FrontendExposedRoutesExtractor */
+    private $extractor;
+
+    protected function setUp(): void
     {
-        parent::setUp();
+        $router = $this->createMock(RouterInterface::class);
+
+        $routes = new RouteCollection();
+        foreach ($this->routeProvider() as $data) {
+            $routes->add($data['name'], $data['route']);
+        }
+        $router->expects(self::any())
+            ->method('getRouteCollection')
+            ->willReturn($routes);
+
+        $this->cacheDir = $this->getTempDir('exposed_routes');
+
+        $this->extractor = new FrontendExposedRoutesExtractor($router, ['route_.*'], $this->cacheDir);
     }
 
-    public function testGetExposedRoutes()
+    public function testGetRoutes(): void
     {
-        /** @var RouterInterface|\PHPUnit\Framework\MockObject\MockObject $router */
-        $router = $this->createMock(RouterInterface::class);
-        $routesCollection = new RouteCollection();
-
-        $frontendRoute = new Route('route_1', [], [], ['frontend' => true, 'expose' => true]);
-        $routesCollection->add('route_1', $frontendRoute);
-        $routesCollection->add('route_2', new Route('route_2', [], [], ['frontend' => false, 'expose' => true]));
-        $routesCollection->add('route_3', new Route('route_3', [], [], ['expose' => true]));
-        $routesCollection->add('route_4', new Route('route_4', [], [], ['frontend' => true, 'expose' => false]));
-
-        $router->method('getRouteCollection')->willReturn($routesCollection);
-
-        $extractor = new FrontendExposedRoutesExtractor($router, ['route_*'], '');
-        $resultRoutes = $extractor->getExposedRoutes();
-        $this->assertEquals(['route_1' => $frontendRoute], $resultRoutes);
+        // comparing route names
+        self::assertSame(
+            array_column(array_filter($this->routeProvider(), static fn ($d) => $d['should_be_exposed']), 'name'),
+            array_keys($this->extractor->getRoutes()->all())
+        );
     }
 
-    public function testGetCachePath()
+    /**
+     * @dataProvider routeProvider
+     */
+    public function testIsRouteExposed(Route $route, string $name, bool $shouldBeExposed): void
     {
-        /** @var RouterInterface|\PHPUnit\Framework\MockObject\MockObject $router */
-        $router = $this->createMock(RouterInterface::class);
-        $extractor = new FrontendExposedRoutesExtractor($router, ['route_*'], '/tmp');
-        $this->assertEquals('/tmp/fosJsRouting/frontend_data.json', $extractor->getCachePath(''));
+        self::assertEquals($shouldBeExposed, $this->extractor->isRouteExposed($route, $name));
+    }
+
+    public function routeProvider(): array
+    {
+        return [
+            [
+                'route' => new Route('route_1', [], [], ['frontend' => true, 'expose' => true]),
+                'name' => 'route_1',
+                'should_be_exposed' => true
+            ],
+            [
+                'route' => new Route('route_2', [], [], ['frontend' => false, 'expose' => true]),
+                'name' => 'route_2',
+                'should_be_exposed' => false
+            ],
+            [
+                'route' => new Route('route_3', [], [], ['expose' => true]),
+                'name' => 'route_3',
+                'should_be_exposed' => false
+            ],
+            [
+                'route' => new Route('route_5', [], [], ['frontend' => true]),
+                'name' => 'route_5',
+                'should_be_exposed' => true
+            ],
+            [
+                'route' => new Route('route_6', [], [], ['frontend' => true, 'expose' => false]),
+                'name' => 'route_6',
+                'should_be_exposed' => true
+            ]
+        ];
+    }
+
+    public function testGetCachePath(): void
+    {
+        self::assertEquals($this->cacheDir . '/fosJsRouting/frontend_data.json', $this->extractor->getCachePath(''));
     }
 }

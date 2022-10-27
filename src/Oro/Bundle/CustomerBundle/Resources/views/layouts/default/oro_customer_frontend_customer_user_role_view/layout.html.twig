@@ -16,7 +16,9 @@
     {% set attr = attr|merge({ class: attr.class|default('') ~ " box-toolbar__actions" }) %}
     <div {{ block('block_attributes') }}>
         <div class="controls-list">
+            {% apply spaceless %}
             {{ block_widget(block) }}
+            {% endapply %}
         </div>
     </div>
 {% endblock %}

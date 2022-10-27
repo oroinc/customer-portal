@@ -9,7 +9,7 @@
 
 {% block __oro_customer_user_role_form__customer_user_role_form_actions_top_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' pull-right customer-user-role-edit__buttons-top'
+        '~class': ' grid-col-7 grid-place-self-end grid-col-mobile-landscape-12'
     }) %}
     <div{{ block('block_attributes') }}>
         {{ block_widget(block) }}
@@ -18,7 +18,7 @@
 
 {% block __oro_customer_user_role_form__customer_user_role_form_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid__row'
+        '~class': ' grid'
     }) %}
     <div{{ block('block_attributes') }}>
         {{ block_widget(block) }}
@@ -30,12 +30,19 @@
         _parameters: {data_in: form.appendUsers.vars.value|split(',')|default([])}
     }) %}
 
-    {{ block_widget(block) }}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid-col-12'
+    }) %}
+
+    <div{{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
 {% endblock %}
 
 {% block __oro_customer_user_role_form__customer_user_role_form_actions_bottom_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' pull-right mt2-md'
+        '~class': ' grid-col-12 grid-place-self-end',
+        'data-bottom-actions': ''
     }) %}
     <div{{ block('block_attributes') }}>
         {{ block_widget(block) }}

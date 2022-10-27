@@ -41,8 +41,6 @@ class OroCommerceMenuBundle extends ParametrizedMigrationQuery implements Migrat
 
     /**
      * Make screens column nullable.
-     *
-     * @param Schema $schema
      */
     private function updateOroCommerceMenuUpdateTable(Schema $schema)
     {
@@ -68,7 +66,7 @@ class OroCommerceMenuBundle extends ParametrizedMigrationQuery implements Migrat
 
         $this->logQuery($logger, $query);
         if (!$dryRun) {
-            $this->connection->executeUpdate($query);
+            $this->connection->executeStatement($query);
         }
     }
 }

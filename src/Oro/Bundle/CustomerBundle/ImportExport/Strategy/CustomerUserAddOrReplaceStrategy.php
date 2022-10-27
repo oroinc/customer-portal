@@ -2,29 +2,28 @@
 
 namespace Oro\Bundle\CustomerBundle\ImportExport\Strategy;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\PersistentCollection;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmail;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ConfigurableAddOrReplaceStrategy;
 
 /**
  * Add or replace import strategy for CustomerUser entity.
  * Handles existing entity search by case insensitive email policy in accordance with system configuration.
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 {
+    public const PROCESSED_EMAILS = 'customer_user_processed_emails';
+
     /** @var ConfigManager */
     private $configManager;
 
     /** @var bool|null */
     private $isCaseSensitiveEmailEnabled;
 
-    /**
-     * @param ConfigManager $configManager
-     */
     public function setConfigManager(ConfigManager $configManager): void
     {
         $this->configManager = $configManager;
@@ -42,6 +41,27 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     }
 
     /**
+     * Add frontendOwner to addresses search context to prevent same addresses "stealing" by another customer user.
+     *
+     * {@inheritdoc}
+     */
+    protected function generateSearchContextForRelationsUpdate($entity, $entityName, $fieldName, $isPersistRelation)
+    {
+        $context = parent::generateSearchContextForRelationsUpdate(
+            $entity,
+            $entityName,
+            $fieldName,
+            $isPersistRelation
+        );
+
+        if ($fieldName === 'addresses') {
+            return array_merge($context, ['frontendOwner' => $entity]);
+        }
+
+        return $context;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function findExistingEntity($entity, array $searchContext = [])
@@ -50,18 +70,7 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
             $searchContext = [$entity];
         }
 
-        $existingEntity = parent::findExistingEntity($entity, $searchContext);
-
-        // we need to initialize customer users because of issue with UoW which tries to load old data
-        // from database and overrides customer users from imported file
-        if ($existingEntity instanceof Customer) {
-            $customerUsers = $existingEntity->getUsers();
-            if ($customerUsers instanceof PersistentCollection) {
-                $customerUsers->initialize();
-            }
-        }
-
-        return $existingEntity;
+        return parent::findExistingEntity($entity, $searchContext);
     }
 
     /**
@@ -69,10 +78,40 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
      */
     protected function findEntityByIdentityValues($entityName, array $identityValues)
     {
+        if (is_a($entityName, CustomerUserRole::class, true)) {
+            $entity = $this->findCustomerUserRoleByRoleWithUniqueSuffix($entityName, $identityValues);
+            if ($entity) {
+                return $entity;
+            }
+        }
+
         return parent::findEntityByIdentityValues(
             $entityName,
             $this->handleCaseInsensitiveEmail($entityName, $identityValues)
         );
+    }
+
+    /**
+     * This is a workaround to prevent the use of reflection to set 'role' field of the CustomerUserRole entity.
+     * It's necessary because we use the 'CustomerUserRole::setRole()' method during the entity denormalization
+     * which always calls the 'strtoupper()' function for the given value.
+     *
+     * @param string $entityName
+     * @param array $identityValues
+     * @return object|null
+     */
+    private function findCustomerUserRoleByRoleWithUniqueSuffix($entityName, array $identityValues): ?object
+    {
+        $role = $identityValues['role'] ?? null;
+        if (!$role) {
+            return null;
+        }
+
+        $position = strrpos($role, '_');
+
+        $identityValues['role'] = substr($role, 0, $position) . strtolower(substr($role, $position));
+
+        return parent::findEntityByIdentityValues($entityName, $identityValues);
     }
 
     /**
@@ -109,30 +148,20 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function getObjectValue($entity, $fieldName)
-    {
-        $value = parent::getObjectValue($entity, $fieldName);
-
-        if ($fieldName === 'roles' && !$value instanceof Collection) {
-            $value = new ArrayCollection($value);
-        }
-
-        return $value;
-    }
-
-    /**
+     * @param CustomerUser $entity
      * {@inheritdoc}
      */
     protected function validateAndUpdateContext($entity)
     {
-        /** @var CustomerUser $entity */
-        $entity = parent::validateAndUpdateContext($entity);
-        if ($entity !== null) {
-            $customer = $entity->getCustomer();
-            $customer->getUsers()->clear();
+        $validationErrors = $this->strategyHelper->validateEntity($entity) ?? [];
+        $validationErrors = array_merge($validationErrors, $this->validateEmailsInCurrentBatch($entity));
+        if ($validationErrors) {
+            $this->processValidationErrors($entity, $validationErrors);
+
+            return null;
         }
+
+        $this->updateContextCounters($entity);
 
         return $entity;
     }
@@ -179,6 +208,10 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
      */
     private function handleOwnerOfNewCustomerUser(CustomerUser $entity)
     {
+        if (null === $this->strategyHelper->getLoggedUser()) {
+            return $entity;
+        }
+
         $entityOwner = $entity->getOwner();
 
         if ($entityOwner === null) {
@@ -191,13 +224,9 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
             return $entity;
         }
 
-        if ($this->strategyHelper->isGranted('ASSIGN', $entity)
-            && $this->strategyHelper->isGranted('VIEW', $entityOwner)
-        ) {
+        if ($this->strategyHelper->checkEntityOwnerPermissions($this->context, $entity, true)) {
             return $entity;
         }
-
-        $this->addUnableToChangeOwnerError($entity->getFullName(), $entityOwner->getFullName());
 
         return null;
     }
@@ -213,35 +242,15 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 
         $owner = $entity->getOwner();
         $ownerChanged = $owner !== null && $originalEntity['owner'] !== $owner;
-        $userIsNotGrantedToAssign = !$this->strategyHelper->isGranted('ASSIGN', $entity)
-            || !$this->strategyHelper->isGranted('VIEW', $owner);
+        $userIsNotGrantedToAssign = !$this->strategyHelper->checkEntityOwnerPermissions($this->context, $entity, true);
 
         if ($ownerChanged && $userIsNotGrantedToAssign) {
             //User tries to change owner, but has no right to change owner of CustomerUser
             //or has no access to provided user.
-            $this->addUnableToChangeOwnerError($entity->getFullName(), $owner->getFullName());
-
             return null;
         }
 
         return $entity;
-    }
-
-    /**
-     * @param string $entityName
-     * @param string $ownerName
-     */
-    private function addUnableToChangeOwnerError($entityName, $ownerName)
-    {
-        $this->context->addError(
-            $this->translator->trans(
-                'oro.customer.importexport.customer_user.unable_to_change_owner',
-                [
-                    '%entity_name%' => $entityName,
-                    '%owner_name%' => $ownerName,
-                ]
-            )
-        );
     }
 
     /**
@@ -262,9 +271,6 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         return $identityValues;
     }
 
-    /**
-     * @return bool
-     */
     private function isCaseInsensitiveEmailEnabled(): bool
     {
         if ($this->isCaseSensitiveEmailEnabled === null) {
@@ -277,5 +283,48 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         }
 
         return $this->isCaseSensitiveEmailEnabled;
+    }
+
+    /**
+     * Remember and check emails processed in a current batch to guarantee uniqueness.
+     *
+     * @param CustomerUser $entity
+     * @return array|string[]
+     */
+    private function validateEmailsInCurrentBatch(CustomerUser $entity): array
+    {
+        $processedEntities = (array)$this->context->getValue(self::PROCESSED_EMAILS);
+        $email = $this->getEntityEmail($entity);
+
+        // Rise an error, if the email already processed for existing entity.
+        // Do not rise an error if same email in batch used by several new records
+        if (array_key_exists($email, $processedEntities)
+            && ($entity->getId() || $processedEntities[$email])
+            && $processedEntities[$email] !== $entity->getId()
+        ) {
+            $uniqueConstraint = new UniqueCustomerUserNameAndEmail();
+
+            return [
+                $this->translator->trans(
+                    $uniqueConstraint->message,
+                    [],
+                    'validators'
+                )
+            ];
+        }
+
+        $processedEntities[$email] = $entity->getId();
+        $this->context->setValue(self::PROCESSED_EMAILS, $processedEntities);
+
+        return [];
+    }
+
+    private function getEntityEmail(CustomerUser $entity): ?string
+    {
+        if ($this->isCaseInsensitiveEmailEnabled()) {
+            return $entity->getEmailLowercase();
+        }
+
+        return $entity->getEmail();
     }
 }

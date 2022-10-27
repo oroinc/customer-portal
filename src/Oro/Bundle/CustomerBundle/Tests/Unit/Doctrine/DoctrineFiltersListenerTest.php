@@ -4,30 +4,28 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Doctrine;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\FilterCollection;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Doctrine\DoctrineFiltersListener;
 use Oro\Bundle\CustomerBundle\Doctrine\SoftDeleteableFilter;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class DoctrineFiltersListenerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider onRequestDataProvider
-     *
-     * @param bool $isFrontEnd
      */
-    public function testOnRequest($isFrontEnd)
+    public function testOnRequest(bool $isFrontEnd)
     {
-        $registry = $this->getRegistryMock();
+        $registry = $this->createMock(ManagerRegistry::class);
 
-        $frontendHelper = $this->getFrontendHelperMock();
+        $frontendHelper = $this->createMock(FrontendHelper::class);
         $frontendHelper->expects($this->once())
             ->method('isFrontendRequest')
             ->willReturn($isFrontEnd);
 
         if ($isFrontEnd) {
-            $em = $this->getEmMock();
-            $filterCollection = $this->getFilterCollectionMock();
+            $em = $this->createMock(EntityManager::class);
+            $filterCollection = $this->createMock(FilterCollection::class);
             $filterCollection->expects($this->once())
                 ->method('enable')
                 ->willReturn(new SoftDeleteableFilter($em));
@@ -45,10 +43,7 @@ class DoctrineFiltersListenerTest extends \PHPUnit\Framework\TestCase
         $listener->onRequest();
     }
 
-    /**
-     * @return array
-     */
-    public function onRequestDataProvider()
+    public function onRequestDataProvider(): array
     {
         return [
             'frontend request' => [
@@ -58,45 +53,5 @@ class DoctrineFiltersListenerTest extends \PHPUnit\Framework\TestCase
                 'isFrontEnd' => false,
             ]
         ];
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|RegistryInterface
-     */
-    protected function getRegistryMock()
-    {
-        return $this->getMockBuilder('Symfony\Bridge\Doctrine\RegistryInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|EntityManager
-     */
-    protected function getEmMock()
-    {
-        return $this->getMockBuilder('Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|FrontendHelper
-     */
-    protected function getFrontendHelperMock()
-    {
-        return $this->getMockBuilder('Oro\Bundle\FrontendBundle\Request\FrontendHelper')
-            ->disableOriginalConstructor()
-            ->getMock();
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|FilterCollection
-     */
-    protected function getFilterCollectionMock()
-    {
-        return $this->getMockBuilder('Doctrine\ORM\Query\FilterCollection')
-            ->disableOriginalConstructor()
-            ->getMock();
     }
 }

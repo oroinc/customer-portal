@@ -3,84 +3,67 @@
 namespace Oro\Bundle\FrontendBundle\Provider;
 
 use Oro\Bundle\ActionBundle\Provider\RouteProviderInterface;
-use Oro\Bundle\ActionBundle\Provider\RouteProviderTrait;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
+/**
+ * The provider for action routes that returns storefront routes for storefront requests
+ * and default routes for management console requests.
+ */
 class RouteProvider implements RouteProviderInterface
 {
-    use RouteProviderTrait;
+    private RouteProviderInterface $routeProvider;
 
-    /** @var RouteProviderInterface */
-    protected $routeProvider;
+    private FrontendHelper $frontendHelper;
 
-    /** @var TokenStorageInterface */
-    protected $tokenStorage;
+    private string $formDialogRoute;
 
-    /**
-     * @param RouteProviderInterface $routeProvider
-     * @param TokenStorageInterface $tokenStorage
-     * @param string $formDialogRoute
-     * @param string $formPageRoute
-     * @param string $executionRoute
-     * @param string|null $widgetRoute
-     */
+    private string $formPageRoute;
+
+    private string $executionRoute;
+
+    private string $widgetRoute;
+
     public function __construct(
         RouteProviderInterface $routeProvider,
-        TokenStorageInterface $tokenStorage,
-        $formDialogRoute,
-        $formPageRoute,
-        $executionRoute,
-        $widgetRoute = null
+        FrontendHelper $frontendHelper,
+        string $formDialogRoute,
+        string $formPageRoute,
+        string $executionRoute,
+        string $widgetRoute = ''
     ) {
         $this->routeProvider = $routeProvider;
-        $this->tokenStorage = $tokenStorage;
+        $this->frontendHelper = $frontendHelper;
         $this->formDialogRoute = $formDialogRoute;
         $this->formPageRoute = $formPageRoute;
         $this->executionRoute = $executionRoute;
         $this->widgetRoute = $widgetRoute;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getWidgetRoute()
+    public function getWidgetRoute(): string
     {
-        return $this->isFrontend() ? $this->widgetRoute : $this->routeProvider->getWidgetRoute();
+        return $this->frontendHelper->isFrontendRequest()
+            ? $this->widgetRoute
+            : $this->routeProvider->getWidgetRoute();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFormDialogRoute()
+    public function getFormDialogRoute(): string
     {
-        return $this->isFrontend() ? $this->formDialogRoute : $this->routeProvider->getFormDialogRoute();
+        return $this->frontendHelper->isFrontendRequest()
+            ? $this->formDialogRoute
+            : $this->routeProvider->getFormDialogRoute();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFormPageRoute()
+    public function getFormPageRoute(): string
     {
-        return $this->isFrontend() ? $this->formPageRoute : $this->routeProvider->getFormPageRoute();
+        return $this->frontendHelper->isFrontendRequest()
+            ? $this->formPageRoute
+            : $this->routeProvider->getFormPageRoute();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExecutionRoute()
+    public function getExecutionRoute(): string
     {
-        return $this->isFrontend() ? $this->executionRoute : $this->routeProvider->getExecutionRoute();
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isFrontend()
-    {
-        $token = $this->tokenStorage->getToken();
-
-        return $token && ($token->getUser() instanceof CustomerUser || $token instanceof AnonymousCustomerUserToken);
+        return $this->frontendHelper->isFrontendRequest()
+            ? $this->executionRoute
+            : $this->routeProvider->getExecutionRoute();
     }
 }

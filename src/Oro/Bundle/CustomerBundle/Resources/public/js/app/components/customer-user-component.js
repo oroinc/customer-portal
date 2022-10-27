@@ -1,13 +1,12 @@
 define(function(require) {
     'use strict';
 
-    var CustomerUser;
-    var BaseComponent = require('oroui/js/app/components/base/component');
-    var _ = require('underscore');
-    var routing = require('routing');
-    var widgetManager = require('oroui/js/widget-manager');
+    const BaseComponent = require('oroui/js/app/components/base/component');
+    const _ = require('underscore');
+    const routing = require('routing');
+    const widgetManager = require('oroui/js/widget-manager');
 
-    CustomerUser = BaseComponent.extend({
+    const CustomerUser = BaseComponent.extend({
         /**
          * @property {Object}
          */
@@ -18,23 +17,23 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function CustomerUser() {
-            CustomerUser.__super__.constructor.apply(this, arguments);
+        constructor: function CustomerUser(options) {
+            CustomerUser.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.options = _.defaults(options || {}, this.options);
             this.options._sourceElement
-                .on('change', this.options.customerFormId, _.bind(this.reloadRoleWidget, this));
+                .on('change', this.options.customerFormId, this.reloadRoleWidget.bind(this));
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         dispose: function() {
             if (this.disposed) {
@@ -51,15 +50,32 @@ define(function(require) {
          * @param {Event} e
          */
         reloadRoleWidget: function(e) {
-            var customerUserId = this.options.customerUserId;
-            var customerId = e.target.value;
+            const customerUserId = this.options.customerUserId;
+            const customerId = e.target.value;
 
             widgetManager.getWidgetInstanceByAlias(this.options.widgetAlias, function(widget) {
-                var params = {customerId: customerId};
+                const params = {customerId: customerId};
                 if (customerUserId) {
                     params.customerUserId = customerUserId;
                 }
 
+                widget.once('beforeContentLoad', $el => {
+                    widget._checkboxesState = {};
+
+                    $el.find('.choice-widget-expanded input:checkbox').each(function(i, el) {
+                        const key = `[name="${el.getAttribute('name')}"]` +
+                            `[data-name="${el.getAttribute('data-name')}"]` +
+                            `[value="${el.getAttribute('value')}"]`;
+
+                        widget._checkboxesState[key] = el.checked;
+                    });
+                });
+                widget.once('widgetRender', $el => {
+                    for (const [selector, value] of Object.entries(widget._checkboxesState)) {
+                        $el.find(selector).attr('checked', value);
+                    }
+                    delete widget._checkboxesState;
+                });
                 widget.setUrl(
                     routing.generate('oro_customer_customer_user_roles', params)
                 );

@@ -1,4 +1,0 @@
-config:
-    map:
-        '*':
-            'orodatagrid/templates/datagrid/visible-items-counter.html': 'orofrontend/default/templates/datagrid/visible-items-counter.html'

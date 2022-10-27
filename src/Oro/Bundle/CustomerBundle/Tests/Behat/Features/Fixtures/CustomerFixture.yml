@@ -3,14 +3,14 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
         name: 'WithCustomerUser'
         organization: '@organization'
         owner: '@admin'
-        createdAt: '2017-10-01 12:00:00'
-        updatedAt: '2017-10-01 13:00:00'
+        createdAt: '<(new DateTime("2017-10-01 12:00:00 UTC"))>'
+        updatedAt: '<(new DateTime("2017-10-01 13:00:00 UTC"))>'
     customer2:
         name: 'NoCustomerUser'
         organization: '@organization'
         owner: '@admin'
-        createdAt: '2017-10-02 12:00:00'
-        updatedAt: '2017-10-02 13:00:00'
+        createdAt: '<(new DateTime("2017-10-02 12:00:00 UTC"))>'
+        updatedAt: '<(new DateTime("2017-10-02 13:00:00 UTC"))>'
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     test1:
@@ -24,7 +24,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: true
         customer: '@customer1'
         organization: '@organization'
-        role: ['@buyer']
+        userRoles: ['@buyer']
         owner: '@admin'
         website: '@website1'
     test2:
@@ -38,6 +38,6 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: true
         customer: '@customer1'
         organization: '@organization'
-        role: ['@front_admin']
+        userRoles: ['@front_admin']
         owner: '@admin'
         website: '@website1'

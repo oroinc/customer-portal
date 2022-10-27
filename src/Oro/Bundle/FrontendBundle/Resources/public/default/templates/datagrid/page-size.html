@@ -1,12 +1,13 @@
-<% if ((collectionState.totalRecords || 0) > Math.min.apply(null, items)) { %>
-    <span class="datagrid-tool__label"><%- _.__("Per page") %>: &nbsp;</span>
+<% if ((collectionState.totalRecords || 0) > Math.min.apply(null, items.map(function(item){return item.size || item}))) { %>
+    <% var labelId = _.uniqueId('datagrid-toolbar-label-') %>
+    <span id="<%- labelId %>" class="datagrid-tool__label"><%- _.__("Per page") %>: &nbsp;</span>
     <div class="action-selectbox-custom-in-pager">
-        <select class="select select--size-s oro-select2--size-s" name="action" data-grid-pagesize-selector>
+        <select class="select select--size-s oro-select2--size-s" name="action" data-grid-pagesize-selector aria-labelledby="<%- labelId %>">
             <% _.each(items, function (item) { %>
-                <option <% if (item === currentSizeLabel || (_.isUndefined(item.size) && item.size === currentSizeLabel)) { %>selected<% } %>
-                        value="<% if (_.isUndefined(item.size)) { %><%= item %><% } else { %><%= item.size %><% } %>"
+                <option <% if (item === currentPageSize || (!_.isUndefined(item.size) && item.size === currentPageSize)) { %>selected<% } %>
+                        value="<% if (_.isUndefined(item.size)) { %><%- item %><% } else { %><%- item.size %><% } %>"
                         data-grid-pagesize-trigger>
-                    <% if (_.isUndefined(item.label)) { %><%= item %><% } else { %><%= item.label %><% } %>
+                    <% if (_.isUndefined(item.label)) { %><%- item %><% } else { %><%- _.__(item.label) %><% } %>
                 </option>
             <% }); %>
         </select>

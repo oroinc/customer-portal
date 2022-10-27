@@ -1,25 +1,33 @@
 /* @theme: default; */
 
 .page-main {
-    padding-top: 15px;
+    flex-grow: 1;
+    padding-top: $page-main-offset-top;
 
     &.offset-none {
         padding-top: 0;
     }
 
     &__content {
+        display: flex;
+        flex-wrap: wrap;
+
         max-width: $page-main-max-width;
         margin: $page-main-content-offset;
 
+        @include safe-area-offset(padding, $page-main-inner-offset);
         @include clearfix();
+    }
+
+    &__header {
+        width: 100%;
     }
 }
 
-@include breakpoint('print') {
+@include breakpoint('tablet') {
     .page-main {
         &__content {
-            display: block;
-            margin: 0;
+            flex-direction: column;
         }
     }
 }

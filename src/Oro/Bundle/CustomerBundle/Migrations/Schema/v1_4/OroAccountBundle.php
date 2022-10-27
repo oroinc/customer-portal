@@ -3,7 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_4;
 
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
@@ -38,8 +38,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Create orob2b_ctgr_vsb_resolv table
-     *
-     * @param Schema $schema
      */
     protected function createOroCategoryVisibilityResolvedTable(Schema $schema)
     {
@@ -53,8 +51,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Create orob2b_acc_grp_ctgr_vsb_resolv table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountGroupCategoryVisibilityResolvedTable(Schema $schema)
     {
@@ -69,8 +65,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Create orob2b_acc_ctgr_vsb_resolv table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountCategoryVisibilityResolvedTable(Schema $schema)
     {
@@ -85,15 +79,13 @@ class OroAccountBundle implements Migration
 
     /**
      * Create orob2b_windows_state table
-     *
-     * @param Schema $schema
      */
     protected function createOrob2BWindowsStateTable(Schema $schema)
     {
         $table = $schema->createTable('orob2b_windows_state');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('customer_user_id', 'integer', []);
-        $table->addColumn('data', Type::JSON_ARRAY, ['comment' => '(DC2Type:json_array)']);
+        $table->addColumn('data', Types::JSON_ARRAY, ['comment' => '(DC2Type:json_array)']);
         $table->addColumn('created_at', 'datetime', ['comment' => '(DC2Type:datetime)']);
         $table->addColumn('updated_at', 'datetime', ['comment' => '(DC2Type:datetime)']);
         $table->addIndex(['customer_user_id'], 'orob2b_windows_state_acu_idx', []);
@@ -102,8 +94,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Add orob2b_ctgr_vsb_resolv foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCategoryVisibilityResolvedForeignKeys(Schema $schema)
     {
@@ -124,8 +114,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Add orob2b_acc_grp_ctgr_vsb_resolv foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountGroupCategoryVisibilityResolvedForeignKeys(Schema $schema)
     {
@@ -152,8 +140,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Add orob2b_acc_ctgr_vsb_resolv foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountCategoryVisibilityResolvedForeignKeys(Schema $schema)
     {
@@ -180,8 +166,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Add orob2b_windows_state foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOrob2BWindowsStateForeignKeys(Schema $schema)
     {
@@ -194,9 +178,6 @@ class OroAccountBundle implements Migration
         );
     }
 
-    /**
-     * @param QueryBag $queries
-     */
     protected function clearUnusedProcessDefinitions(QueryBag $queries)
     {
         $removedProcessDefinitions = [

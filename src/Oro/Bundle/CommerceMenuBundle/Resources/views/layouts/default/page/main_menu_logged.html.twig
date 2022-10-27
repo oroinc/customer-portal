@@ -9,16 +9,26 @@
 {% endblock %}
 
 {% block _header_row_shopping_trigger_widget %}
-    <div{% if togglerId is not empty %} id="{{ togglerId }}"{% endif %}
-         class="header-row__trigger"
-         data-toggle="dropdown"
-         data-popper="false"
-         role="button"
-         aria-haspopup="true" aria-expanded="false">
-        <div class="nav-trigger">
-            {{ block_widget(block) }}
-        </div>
-    </div>
+    {% set ariaLabel = is_one_shopping_list_enabled()
+        ? 'oro.frontend.shoppinglist.trigger.single_aria_label'|trans
+        : 'oro.frontend.shoppinglist.trigger.aria_label'|trans({'%count%': shoppingLists|length})
+    %}
+    {% set options = {
+        blockId: id,
+        reloadEvents: ['shopping-list:refresh', 'frontend:shopping-list-item-quantity:update', 'frontend:item:delete'],
+        keepAttrs: ['aria-label']
+    } %}
+    <button{% if togglerId is defined %} id="{{ togglerId }}"{% endif %}
+        type="button"
+        class="header-row__trigger nav-trigger"
+        data-toggle="dropdown"
+        data-popper="false"
+        aria-haspopup="true" aria-expanded="false"
+        aria-label="{{ ariaLabel }}"
+        data-page-component-view="oroui/js/app/views/layout-subtree-view"
+        data-page-component-options="{{ options|json_encode }}">
+        {{ block_widget(block) }}
+    </button>
 {% endblock %}
 
 {% block _main_menu_messages_widget %}

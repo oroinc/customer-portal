@@ -3,7 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_19;
 
 use Doctrine\DBAL\Schema\Schema;
-use Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension;
+use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedSqlMigrationQuery;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
@@ -29,7 +29,7 @@ class RemoveSendPasswordWelcomeEmailConfigValue implements Migration
     {
         $queries->addQuery(new ParametrizedSqlMigrationQuery(
             'DELETE FROM oro_config_value WHERE name = :name AND section = :section',
-            ['name' => $name, 'section' => OroCustomerExtension::ALIAS]
+            ['name' => $name, 'section' => Configuration::ROOT_NODE]
         ));
     }
 }

@@ -8,23 +8,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * The test case to test that 4xx responses for storefront visitors are correct.
- * For storefront visitors access denied errors should be returned as 401 (Unauthorized).
  * @see \Oro\Bundle\CustomerBundle\Tests\Functional\Environment\Api\Processor\HandleSpecialIdentifiers
  */
 class NotAccessibleResourceForVisitorTest extends FrontendRestJsonApiTestCase
 {
-    /**
-     * @param Response $response
-     */
-    public static function assertUnauthorizedResponse(Response $response)
+    protected function setUp(): void
     {
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
-        self::assertEquals(
-            [
-                'WSSE realm="Secured Frontend API", profile="UsernameToken"'
-            ],
-            $response->headers->get('WWW-Authenticate', [], false)
-        );
+        parent::setUp();
+        $this->enableVisitor();
+        $this->loadVisitor();
     }
 
     public function testAccessGranted()
@@ -54,18 +46,7 @@ class NotAccessibleResourceForVisitorTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertUnauthorizedResponse($response);
-    }
-
-    public function testForbidden()
-    {
-        $response = $this->get(
-            ['entity' => 'testapiunaccessiblemodel', 'id' => 'forbidden'],
-            [],
-            [],
-            false
-        );
-        self::assertUnauthorizedResponse($response);
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
     }
 
     public function testNotFound()
@@ -91,11 +72,7 @@ class NotAccessibleResourceForVisitorTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        $this->assertResponseValidationError(
-            ['title' => 'resource not accessible exception'],
-            $response,
-            Response::HTTP_NOT_FOUND
-        );
+        $this->assertResourceNotAccessibleResponse($response);
     }
 
     public function testNotAllowed()

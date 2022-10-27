@@ -1,0 +1,29 @@
+/* @theme: default; */
+
+$address-list-border: 1px solid get-color('additional', 'light') !default;
+
+$address-list-primary-color: get-color('additional', 'ultra') !default;
+$address-list-primary-background-color: get-color('primary', 'main') !default;
+
+$address-list-item-v-space: 20px !default;
+$address-list-item-offset: $offset-y-m $offset-x-m $offset-y $offset-x !default;
+$address-list-item-border-bottom: 1px solid get-color('additional', 'light') !default;
+
+$address-list-item-active-background: get-color('additional', 'base') !default;
+
+$address-list-item-border: 1px solid get-color('additional', 'light');
+$address-list-item-background-color: get-color('additional', 'base');
+
+$address-list-primary-border-radius: $base-ui-element-border-radius !default;
+
+$address-list-button-display: inline-flex !default;
+$address-list-button-offset: 1px 6px !default;
+
+$address-list-type-color: get-color('additional', 'middle') !default;
+
+$address-list-button-color: get-color('additional', 'middle') !default;
+$address-list-button-border: 1px solid get-color('additional', 'middle') !default;
+$address-list-button-hover-color: get-color('ui', 'normal') !default;
+
+// Tablet Small
+$address-list-item-v-space-tablet-small: 16px !default;

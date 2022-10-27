@@ -1,0 +1,157 @@
+{% block _style_book_grid_element_grid_widget %}
+    <div class="grid">
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+
+        <div class="grid-col-3">3/12</div>
+        <div class="grid-col-9">9/12</div>
+
+        <div class="grid-col-4">4/12</div>
+        <div class="grid-col-4">4/12</div>
+        <div class="grid-col-4">4/12</div>
+
+        <div class="grid-col-12">12/12</div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_offset_row_widget %}
+   <div class="grid" style="--grid-gap: 8px 4px;">
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+
+        <div class="grid-col-3">3/12</div>
+        <div class="grid-col-9">9/12</div>
+
+        <div class="grid-col-4">4/12</div>
+        <div class="grid-col-4">4/12</div>
+        <div class="grid-col-4">4/12</div>
+
+        <div class="grid-col-12">12/12</div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_three_columns_widget %}
+    <div class="grid">
+        <div class="grid-col-4">4/12</div>
+        <div class="grid-col-4">4/12</div>
+        <div class="grid-col-4">4/12</div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_columns_count_widget %}
+    <div class="grid" style="--grid-column-count: 3;">
+        <div class="grid-col">1/3</div>
+        <div class="grid-col">1/3</div>
+        <div class="grid-col">1/3</div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_responsive_widget %}
+    <div class="grid">
+        <div class="grid-col grid-col-tablet-4 grid-col-mobile-landscape-12">1/12</div>
+        <div class="grid-col grid-col-tablet-4 grid-col-mobile-landscape-12">1/12</div>
+        <div class="grid-col grid-col-tablet-4 grid-col-mobile-landscape-12">1/12</div>
+
+        <div class="grid-col grid-col-tablet-3 grid-col-mobile-landscape-12">1/12</div>
+        <div class="grid-col grid-col-tablet-3 grid-col-mobile-landscape-12">1/12</div>
+        <div class="grid-col grid-col-tablet-3 grid-col-mobile-landscape-12">1/12</div>
+        <div class="grid-col grid-col-tablet-3 grid-col-mobile-landscape-12">1/12</div>
+
+        <div class="grid-col grid-col-tablet-12">1/12</div>
+
+        <div class="grid-col grid-col-tablet-4 grid-col-mobile-landscape-12">1/12</div>
+        <div class="grid-col grid-col-tablet-4 grid-col-mobile-landscape-12">1/12</div>
+        <div class="grid-col grid-col-tablet-4 grid-col-mobile-landscape-12">1/12</div>
+        <div class="grid-col grid-col-tablet-4 grid-col-mobile-landscape-12">1/12</div>
+
+        <div class="grid-col-3 grid-col-mobile-landscape-12">3/12</div>
+        <div class="grid-col-9 grid-col-tablet-5 grid-col-mobile-landscape-12">9/12</div>
+
+        <div class="grid-col-4 grid-col-mobile-landscape-12">4/12</div>
+        <div class="grid-col-4 grid-col-mobile-landscape-12">4/12</div>
+        <div class="grid-col-4 grid-col-mobile-landscape-12">4/12</div>
+
+        <div class="grid-col-12">12/12</div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_starts_widget %}
+    <div class="grid">
+        <div class="grid-col grid-start-2">1/12</div>
+        <div class="grid-col-2 grid-start-4">2/12</div>
+        <div class="grid-col-4 grid-start-8">4/12</div>
+
+        <div class="grid-col-3">3/12</div>
+        <div class="grid-col-3">3/12</div>
+        <div class="grid-col-3">3/12</div>
+        <div class="grid-col-3">3/12</div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_template_widget %}
+    <div class="grid" style="--grid-template-columns: 1fr 2fr 1fr;">
+        <div class="grid-col">1/3</div>
+        <div class="grid-col">1/3</div>
+        <div class="grid-col">1/3</div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_alignment_widget %}
+    <div class="grid grid-place-items-start">
+        <div class="grid-col-4">4/12</div>
+        <div class="grid-col-4">4/12</div>
+        <div class="grid-col-4 grid-place-self-start-end">4/12</div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_alignment_content_start_center_widget %}
+    <div class="grid grid-place-content-start-center" style="--grid-template-columns: repeat(auto-fit, minmax(80px, max-content));">
+        <div class="grid-col">1/12 With some long content</div>
+        <div class="grid-col">1/12</div>
+        <div class="grid-col">1/12</div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_alignment_start_center_widget %}
+    <div class="grid grid-place-items-start-center">
+        <div class="grid-col-12">12/12</div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_alignment_center_widget %}
+    <div class="grid grid-place-items-center">
+        <div class="grid-col-12">12/12</div>
+    </div>
+{% endblock %}
+
+{% block _style_book_tiles_widget %}
+    <div class="tiles" style="--tiles-column-count: 4; --tiles-column-gap: 4px; --tiles-row-gap: 8px;">
+        <div class="tiles-item">1/4</div>
+        <div class="tiles-item">1/4</div>
+        <div class="tiles-item">1/4</div>
+        <div class="tiles-item">1/4</div>
+        <div class="tiles-item">1/4</div>
+        <div class="tiles-item">1/4</div>
+        <div class="tiles-item">1/4</div>
+    </div>
+{% endblock %}

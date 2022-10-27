@@ -40,8 +40,6 @@ class OroCommerceMenuBundle implements
 
     /**
      * Create oro_front_nav_menu_upd table.
-     *
-     * @param Schema $schema
      */
     protected function createOroFrontendNavigationMenuUpdateTable(Schema $schema)
     {
@@ -62,8 +60,6 @@ class OroCommerceMenuBundle implements
 
     /**
      * Create oro_front_nav_menu_upd_title table
-     *
-     * @param Schema $schema
      */
     protected function createOroFrontendNavigationMenuUpdateTitleTable(Schema $schema)
     {
@@ -76,8 +72,6 @@ class OroCommerceMenuBundle implements
 
     /**
      * Add oro_front_nav_menu_upd foreign keys
-     *
-     * @param Schema $schema
      */
     protected function addOroFrontendNavigationMenuUpdateForeignKeys(Schema $schema)
     {
@@ -92,8 +86,6 @@ class OroCommerceMenuBundle implements
 
     /**
      * Add oro_front_nav_menu_upd_title foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroFrontendNavigationMenuUpdateTitleForeignKeys(Schema $schema)
     {
@@ -112,9 +104,6 @@ class OroCommerceMenuBundle implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function addOroFrontendNavigationMenuUpdateImageAssociation(Schema $schema)
     {
         $this->attachmentExtension->addImageRelation(

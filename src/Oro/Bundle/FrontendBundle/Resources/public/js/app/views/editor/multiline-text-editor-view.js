@@ -1,6 +1,8 @@
 define(function(require) {
     'use strict';
 
+    const TextEditorView = require('oroform/js/app/views/editor/text-editor-view');
+
     /**
      * Multiline text cell content editor.
      *
@@ -45,15 +47,12 @@ define(function(require) {
      * @augments [TextEditorView](./text-editor-view.md)
      * @exports MultilineTextEditorView
      */
-    var MultilineTextEditorView;
-    var TextEditorView = require('oroform/js/app/views/editor/text-editor-view');
-
-    MultilineTextEditorView = TextEditorView.extend(/** @lends MultilineTextEditorView.prototype */{
+    const MultilineTextEditorView = TextEditorView.extend(/** @lends MultilineTextEditorView.prototype */{
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function MultilineTextEditorView() {
-            MultilineTextEditorView.__super__.constructor.apply(this, arguments);
+        constructor: function MultilineTextEditorView(options) {
+            MultilineTextEditorView.__super__.constructor.call(this, options);
         },
 
         /**

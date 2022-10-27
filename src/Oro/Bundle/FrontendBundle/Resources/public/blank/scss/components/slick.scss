@@ -1,8 +1,0 @@
-.slick-slider.no-transform .slick-track,
-.slick-slider.no-transform .slick-list { // transform in slick-slider breaks dropdowns
-    -webkit-transform: none;
-    -moz-transform: none;
-    -ms-transform: none;
-    -o-transform: none;
-    transform: none;
-}

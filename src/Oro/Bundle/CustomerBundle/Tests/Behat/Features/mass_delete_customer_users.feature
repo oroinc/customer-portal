@@ -7,20 +7,20 @@ Feature: Mass delete customer users
 
   Scenario: Delete mass action is disabled in Customer User grid for Buyer role
     When I signed in as NancyJSallee@example.org on the store frontend
-    And I click "Account"
+    And I follow "Account"
     And I click "Users"
     Then I shouldn't see Delete action in "Frontend Grid"
 
   Scenario: No records to delete selected
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I click "Account"
+    And I follow "Account"
     And I click "Users"
     And I don't select any record from "Customer Users Grid"
     And I click "Delete" link from select all mass action dropdown in "Customer Users Grid"
     Then I should see "Please select items to delete." flash message
 
   Scenario: Disable few manually selected records except current user
-    And I click "Account"
+    And I follow "Account"
     And I click "Users"
     And I keep in mind number of records in list in "Customer Users Grid"
     When I check first 2 records in "Customer Users Grid"
@@ -29,7 +29,7 @@ Feature: Mass delete customer users
     Then I should see "1 user(s) were disabled" flash message
 
   Scenario: Enable few manually selected records except current user
-    And I click "Account"
+    And I follow "Account"
     And I click "Users"
     And I keep in mind number of records in list in "Customer Users Grid"
     When I check first 2 records in "Customer Users Grid"
@@ -38,7 +38,7 @@ Feature: Mass delete customer users
     Then I should see "1 user(s) were enabled" flash message
 
   Scenario: Delete few manually selected records except current user
-    And I click "Account"
+    And I follow "Account"
     And I click "Users"
     And I keep in mind number of records in list in "Customer Users Grid"
     When I check first 2 records in "Customer Users Grid"
@@ -48,7 +48,7 @@ Feature: Mass delete customer users
     And the number of records in "Customer Users Grid" decreased by 1
 
   Scenario: Cancel Delete records
-    And I click "Account"
+    And I follow "Account"
     And I click "Users"
     And I keep in mind number of records in list in "Customer Users Grid"
     And I check first 1 records in "Customer Users Grid"
@@ -57,7 +57,7 @@ Feature: Mass delete customer users
     And the number of records in "Customer Users Grid" remained the same
 
   Scenario: Uncheck few records
-    And I click "Account"
+    And I follow "Account"
     And I click "Users"
     And I keep in mind number of records in list in "Customer Users Grid"
     When I check All Visible records in "Customer Users Grid"
@@ -67,7 +67,7 @@ Feature: Mass delete customer users
     Then the number of records in "Customer Users Grid" greater than or equal to 4
 
   Scenario: Select and delete All Visible records
-    And I click "Account"
+    And I follow "Account"
     And I click "Users"
     And I keep in mind number of records in list in "Customer Users Grid"
     When I check All Visible records in "Customer Users Grid"

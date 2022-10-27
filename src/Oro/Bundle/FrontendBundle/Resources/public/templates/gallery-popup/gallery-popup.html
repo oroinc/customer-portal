@@ -1,33 +1,43 @@
-<div class="popup-gallery-widget">
-    <div class="popup-gallery-widget__overlay" data-trigger-gallery-close></div>
-    <div class="popup-gallery-widget__wrapper">
-        <button class="popup-gallery-widget__close" data-trigger-gallery-close></button>
-        <div class="popup-gallery-widget__images" data-gallery-images>
-            <% if (images && images.length) { %>
-                <% _.each(images, function(image) { %>
-                    <div class="popup-gallery-widget__image">
-                        <img data-lazy="<%= image.src %>"
-                             alt="<%= image.alt %>"
+<div class="popup-gallery-widget__content">
+    <div class="popup-gallery-widget__images" data-gallery-images>
+        <% if (images && images.length) { %>
+            <% _.each(images, function(image) { %>
+                <div class="popup-gallery-widget__image">
+                    <picture>
+                        <% _.each(image.sources || [], function(source) { %>
+                            <% if (source.srcset !== image.src) { %>
+                                <source srcset="<%- source.srcset %>" type="<%- source.type %>">
+                            <% } %>
+                        <% }); %>
+                        <img src="<%- image.src %>"
+                             alt="<%- image.alt %>"
                              width="100%"
                              height="100%"
-                        />
-                    </div>
-                <% }); %>
-            <% } %>
-        </div>
-        <% if (use_thumb && images && images.length) { %>
-            <div class="popup-gallery-widget__thumbnails" data-gallery-thumbnails>
-                <% _.each(images, function(image) { %>
-                    <div class="popup-gallery-widget__thumbnails-img">
-                        <img
-                             src="<%= image.thumb %>"
-                             alt="<%= image.alt %>"
-                             width="80"
-                             height="80"
-                        />
-                    </div>
-                <% }); %>
-            </div>
+                             loading="lazy"
+                        >
+                    </picture>
+                </div>
+            <% }); %>
         <% } %>
     </div>
+    <% if (use_thumb && images && images.length) { %>
+        <div class="popup-gallery-widget__thumbnails" data-gallery-thumbnails>
+            <% _.each(images, function(image) { %>
+                <div class="popup-gallery-widget__thumbnails-img">
+                    <picture>
+                        <% _.each(image.thumbSources || [], function(source) { %>
+                            <source srcset="<%- source.srcset %>" type="<%- source.type %>">
+                        <% }); %>
+
+                        <img src="<%- image.thumb %>"
+                             alt="<%- image.alt %>"
+                             width="80"
+                             height="80"
+                             loading="lazy"
+                        >
+                    </picture>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
 </div>

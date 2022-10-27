@@ -1,0 +1,12 @@
+data:
+    type: customerusers
+    attributes:
+        email: test2341@test.com
+        firstName: Bob
+        lastName: Doo
+    relationships:
+        customer:
+            data:
+                type: customers
+                id: '<toString(@customer.level_1->id)>'
+

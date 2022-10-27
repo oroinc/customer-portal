@@ -1,28 +1,29 @@
 define(function(require) {
     'use strict';
 
-    var PopupGalleryWidget;
-    var AbstractWidget = require('oroui/js/widget/abstract-widget');
-    var $ = require('jquery');
-    var _ = require('underscore');
-    var mediator = require('oroui/js/mediator');
-    var routing = require('routing');
-    var error = require('oroui/js/error');
+    const AbstractWidget = require('oroui/js/widget/abstract-widget');
+    const $ = require('jquery');
+    const _ = require('underscore');
+    const mediator = require('oroui/js/mediator');
+    const routing = require('routing');
+    const error = require('oroui/js/error');
+    const manageFocus = require('oroui/js/tools/manage-focus').default;
+    const Modal = require('oroui/js/modal');
+
     require('slick');
 
-    var BROWSER_SCROLL_SIZE = mediator.execute('layout:scrollbarWidth');
-
-    PopupGalleryWidget = AbstractWidget.extend({
+    const PopupGalleryWidget = AbstractWidget.extend({
         /**
          * @property {Object}
          */
-        template: require('tpl!orofrontend/templates/gallery-popup/gallery-popup.html'),
+        template: require('tpl-loader!orofrontend/templates/gallery-popup/gallery-popup.html'),
 
         /**
          * @property {Object}
          */
         options: {
             bindWithSlider: '.product-view-media-gallery',
+            uniqueTriggerToOpenGallery: null,
             galleryImages: [],
             ajaxMode: false,
             ajaxRoute: 'oro_product_frontend_ajax_images_by_id',
@@ -31,6 +32,7 @@ define(function(require) {
             thumbnailsFilter: null,
             alt: '',
             use_thumb: false,
+            initialSlide: false,
             imageOptions: {
                 fade: true,
                 slidesToShow: 1,
@@ -40,7 +42,8 @@ define(function(require) {
                 asNavFor: null,
                 adaptiveHeight: false,
                 dots: true,
-                infinite: true
+                infinite: true,
+                rtl: _.isRTL()
             },
             navOptions: {
                 slidesToShow: 7,
@@ -52,108 +55,88 @@ define(function(require) {
                 arrows: true,
                 dots: false,
                 variableWidth: true,
-                infinite: true
+                infinite: true,
+                rtl: _.isRTL()
+            },
+            modalOptions: {
+                // do not render (show) the "Ok" button
+                allowCancel: false,
+                // do not render (show) the "Cancel" button
+                allowOk: false,
+                className: 'modal oro-modal-normal popup-gallery-widget'
             }
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function PopupGalleryWidget() {
-            PopupGalleryWidget.__super__.constructor.apply(this, arguments);
+        constructor: function PopupGalleryWidget(options) {
+            PopupGalleryWidget.__super__.constructor.call(this, options);
         },
 
         /**
          * @constructor
          * @param {Object} options
          */
-        initialize: function(options) {
-            this.options = _.defaults(options || {}, this.options);
-            this.$el = options._sourceElement;
-            this.$galleryWidgetOpen = this.$el.find('[data-trigger-gallery-open]');
+        initialize(options) {
+            const {_initEvent: initEvent, ...restOptions} = options;
+            this.options = {...this.options, ...restOptions};
+            this.$triggerGalleryOpen = this.$('[data-trigger-gallery-open]');
 
-            if (_.has(options, 'productModel')) {
-                var o = {};
-
-                options.productModel.on('backgrid:canSelected', _.bind(function(checked) {
-                    this.toggleGalleryTrigger(checked);
-                }, this));
-
-                options.productModel.trigger('backgrid:getVisibleState', o);
-
-                if (!_.isEmpty(o)) {
-                    this.toggleGalleryTrigger(o.visible);
-                }
+            if (this.options.uniqueTriggerToOpenGallery) {
+                this.$triggerGalleryOpen = $(this.options.uniqueTriggerToOpenGallery);
             }
+
+            this.$triggerGalleryOpen
+                .on(`keydown${this.eventNamespace()}`, e => {
+                    // Open gallery if SPACE or ENTER was pressed
+                    if (e.keyCode === 32 || e.keyCode === 13) {
+                        this.onOpenTriggerClick(e);
+                    }
+                })
+                .on(`click${this.eventNamespace()}`, this.onOpenTriggerClick.bind(this));
 
             if (this.options.ajaxMode) {
                 this.options.galleryImages = [];
             }
 
-            this.bindEvents();
-        },
-
-        bindEvents: function() {
-            if (this.options.ajaxMode) {
-                this.$galleryWidgetOpen.on('click', _.bind(this.ajaxOpenDecorator, this));
-            } else {
-                this.$galleryWidgetOpen.on('click', _.bind(this.onOpen, this));
+            if (
+                initEvent && initEvent.type === 'click' && (
+                    this.$triggerGalleryOpen.is(initEvent.target) ||
+                    $.contains(this.$triggerGalleryOpen[0], initEvent.target)
+                )
+            ) {
+                this.onOpenTriggerClick(initEvent);
             }
         },
 
-        unbindEvents: function() {
-            this.$galleryWidgetOpen.off('click');
-            if (this.$galleryWidgetClose) {
-                this.$galleryWidgetClose.off('click');
-            }
-            mediator.off('layout:reposition', this.onResize, this);
-        },
-
-        toggleGalleryTrigger: function(state) {
-            this.$galleryWidgetOpen.toggleClass('hidden', state);
-        },
-
-        onOpen: function(e) {
-            e.preventDefault();
-            var self = this;
-
-            this.render();
-            $('html').css('margin-right', BROWSER_SCROLL_SIZE);
-            $('body').addClass('gallery-popup-opened');
-            this.$galleryWidget.addClass('popup-gallery-widget--opened');
-            this.renderImages();
-            if (this.useThumb()) {
-                this.renderThumbnails();
-            }
-            this.setDependentSlide();
-
-            $(document).on('keydown.popup-gallery-widget', function(e) {
-                if (e.keyCode === 37) {
-                    self.$gallery.slick('slickPrev');
-                }
-
-                if (e.keyCode === 39) {
-                    self.$gallery.slick('slickNext');
-                }
-
-                // ESC
-                if (e.keyCode === 27) {
-                    self.$galleryWidgetClose.trigger('click');
-                }
+        onOpen() {
+            const modal = new Modal({
+                ...this.options.modalOptions,
+                content: this.template({
+                    images: this.options.galleryImages,
+                    use_thumb: this.useThumb()
+                })
             });
-            this.refreshPositions();
-            mediator.on('layout:reposition', this.onResize, this);
+
+            this.subview('modal', modal);
+            this.listenTo(modal, {
+                shown: this.onModalShown.bind(this, modal),
+                close: this.onModalClose.bind(this, modal)
+            });
+            modal.open();
         },
 
-        ajaxOpenDecorator: function(e) {
+        onOpenTriggerClick(e) {
             e.preventDefault();
 
-            if (this.options.galleryImages.length) {
-                this.onOpen(e);
+            if (!this.options.ajaxMode || this.options.galleryImages.length) {
+                this.onOpen();
+
                 return;
             }
 
-            var data = {
+            const data = {
                 id: this.options.id,
                 filters: []
             };
@@ -175,131 +158,140 @@ define(function(require) {
                 url: routing.generate(this.options.ajaxRoute, data),
                 method: this.options.ajaxMethod,
                 dataType: 'json',
-                beforeSend: _.bind(function() {
+                beforeSend: () => {
                     mediator.execute('showLoading');
-                }, this),
-                success: _.bind(function(data) {
-                    _.each(data, function(item) {
-                        var image = {
-                            src: item[this.options.galleryFilter],
+                },
+                success: data => {
+                    _.each(data, function(item, key) {
+                        const image = {
                             alt: this.options.alt
                         };
+                        if (_.isArray(item[this.options.galleryFilter])) {
+                            image.src = _.toArray(item[this.options.galleryFilter]).slice(-1)[0].srcset || '';
+                            image.sources = _.toArray(item[this.options.galleryFilter]).slice(0, -1);
+                        } else {
+                            image.src = item[this.options.galleryFilter];
+                        }
+                        if (_.has(item, 'isInitial') && item['isInitial']) {
+                            this.options.initialSlide = key;
+                        }
                         if (this.useThumb()) {
-                            image.thumb = item[this.options.thumbnailsFilter];
+                            if (_.isArray(item[this.options.thumbnailsFilter])) {
+                                image.thumb = _.toArray(item[this.options.thumbnailsFilter]).slice(-1)[0].srcset || '';
+                                image.thumbSources = _.toArray(item[this.options.thumbnailsFilter]).slice(0, -1);
+                            } else {
+                                image.thumb = item[this.options.thumbnailsFilter];
+                            }
                         }
                         this.options.galleryImages.push(image);
                     }, this);
-                    this.onOpen(e);
-                }, this),
-                complete: _.bind(function() {
+                    this.onOpen();
+                },
+                complete: () => {
                     mediator.execute('hideLoading');
-                }, this)
+                }
             });
         },
 
-        onClose: function() {
-            this.$galleryWidget.one('transitionend', _.bind(function() {
-                this.setDependentSlide();
-                this.$galleryWidget.detach();
-                $('html').css('margin-right', '');
-                $('body').removeClass('gallery-popup-opened');
-            }, this));
+        onModalShown(modal) {
+            const $gallery = modal.$('[data-gallery-images]');
+            const $thumbnails = modal.$('[data-gallery-thumbnails]');
 
-            $(document).off('keydown.popup-gallery-widget');
-            mediator.off('layout:reposition', this.onResize, this);
-
-            this.$galleryWidget.removeClass('popup-gallery-widget--opened');
-        },
-
-        renderImages: function() {
-            this.$gallery.not('.slick-initialized').slick(
-                this.options.imageOptions
-            );
-        },
-
-        renderThumbnails: function() {
-            if (this.$thumbnails) {
-                this.$thumbnails.not('.slick-initialized').slick(
-                    this.options.navOptions
-                );
-                this.checkSlickNoSlide();
+            if ($gallery.length === 0) {
+                throw new Error('The template should contain an element with "data-gallery-images" attribute');
             }
-        },
 
-        setDependentSlide: function() {
-            var dependentSlider = this.options.bindWithSlider;
-            var dependentSliderItems = $(dependentSlider).find('.slick-slide');
-            if (dependentSlider && dependentSliderItems.length) {
-                var dependentSlide = $(dependentSlider).slick('slickCurrentSlide');
-                this.$gallery.slick('slickGoTo', dependentSlide, true);
-                if (this.useThumb()) {
-                    this.$thumbnails.slick('slickGoTo', dependentSlide, true);
+            if ($(document.activeElement).hasClass('focus-visible')) {
+                this.beforeOpenFocusedElement = document.activeElement;
+            }
+
+            if (!this.options.navOptions.asNavFor) {
+                this.options.navOptions.asNavFor = `.${$gallery.attr('class')}`;
+            }
+
+            if (!this.options.imageOptions.asNavFor && this.useThumb()) {
+                this.options.imageOptions.asNavFor = `.${$thumbnails.attr('class')}`;
+            }
+
+            // Initialize main slider
+            $gallery.not('.slick-initialized').slick(this.options.imageOptions);
+
+            let extraSlick = null;
+            // Initialize extra slider if necessary
+            if (this.useThumb() && $thumbnails.length) {
+                $thumbnails.not('.slick-initialized').slick(this.options.navOptions);
+
+                extraSlick = $thumbnails.slick('getSlick');
+
+                $thumbnails
+                    .toggleClass('slick-no-slide', extraSlick.slideCount <= extraSlick.options.slidesToShow);
+            }
+
+            const dependentSlider = this.options.bindWithSlider;
+            let slideIndex = 0;
+
+            if (dependentSlider && $(dependentSlider).find('.slick-slide').length) {
+                slideIndex = $(dependentSlider).slick('slickCurrentSlide');
+            } else if (typeof this.options.initialSlide === 'number') {
+                slideIndex = this.options.initialSlide;
+            }
+
+            $gallery.slick('slickGoTo', slideIndex, true);
+
+            if (extraSlick) {
+                $thumbnails.slick('slickGoTo', slideIndex, true);
+            }
+
+            // Manually refresh positioning of slick
+            const refreshPositions = () => {
+                $gallery.slick('setPosition');
+
+                if (extraSlick) {
+                    $thumbnails.slick('setPosition');
                 }
-            }
-        },
+            };
 
-        checkSlickNoSlide: function() {
-            if (this.$thumbnails.length) {
-                var getSlick = this.$thumbnails.slick('getSlick');
-                if (this.$thumbnails && getSlick.slideCount <= getSlick.options.slidesToShow) {
-                    this.$thumbnails.addClass('slick-no-slide');
-                } else {
-                    this.$thumbnails.removeClass('slick-no-slide');
+            refreshPositions();
+            this.listenTo(mediator, 'layout:reposition', () => {
+                _.delay(() => refreshPositions(), 100);
+            });
+            $(document).on(`keydown${this.eventNamespace()}`, e => {
+                if (e.keyCode === 37) {
+                    $gallery.slick('slickPrev');
+                } else if (e.keyCode === 39) {
+                    $gallery.slick('slickNext');
                 }
+            });
+            modal.$el.addClass('opened');
+            manageFocus.focusTabbable($gallery);
+        },
+
+        onModalClose(modal) {
+            if (this.beforeOpenFocusedElement) {
+                this.beforeOpenFocusedElement.focus();
+
+                delete this.beforeOpenFocusedElement;
             }
+
+            this.stopListening(mediator);
+            $(document).off(this.eventNamespace());
         },
 
-        onResize: function() {
-            this.refreshPositions();
-            _.delay(_.bind(this.refreshPositions, this), 500);
-        },
-
-        refreshPositions: function() {
-            this.$gallery.slick('setPosition');
-            if (this.useThumb()) {
-                this.$thumbnails.slick('setPosition');
-            }
-        },
-
-        useThumb: function() {
+        useThumb() {
             return this.options.use_thumb;
         },
 
-        render: function() {
-            if (!this.$galleryWidget) {
-                this.$galleryWidget = $(this.template({
-                    images: this.options.galleryImages,
-                    use_thumb: this.useThumb()
-                }));
-
-                this.$galleryWidgetClose = this.$galleryWidget.find('[data-trigger-gallery-close]');
-                this.$galleryWidgetClose.on('click', _.bind(this.onClose, this));
-
-                this.$gallery = this.$galleryWidget.find('[data-gallery-images]');
-                if (this.useThumb()) {
-                    this.$thumbnails = this.$galleryWidget.find('[data-gallery-thumbnails]');
-                }
-
-                if (!this.options.navOptions.asNavFor) {
-                    this.options.navOptions.asNavFor = '.' + this.$gallery.attr('class');
-                }
-                if (!this.options.imageOptions.asNavFor && this.useThumb()) {
-                    this.options.imageOptions.asNavFor = '.' + this.$thumbnails.attr('class');
-                }
-            }
-            $('body').append(this.$galleryWidget);
-            // Force DOM redraw/refresh
-            this.$galleryWidget.hide().show();
+        render() {
+            return this;
         },
 
-        dispose: function() {
-            this.unbindEvents();
-            if (this.$galleryWidget && this.$galleryWidget.length) {
-                this.$galleryWidget.remove();
+        dispose() {
+            if (this.disposed) {
+                return;
             }
 
-            delete this.$galleryWidget;
-            delete this.$galleryWidgetOpen;
+            this.$triggerGalleryOpen.off(this.eventNamespace());
+            delete this.beforeOpenFocusedElement;
 
             PopupGalleryWidget.__super__.dispose.call(this);
         }

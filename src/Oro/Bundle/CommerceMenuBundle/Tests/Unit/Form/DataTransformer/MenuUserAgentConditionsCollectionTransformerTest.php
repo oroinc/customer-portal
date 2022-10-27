@@ -16,7 +16,7 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit\Framewor
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->transformer = new MenuUserAgentConditionsCollectionTransformer();
     }
@@ -31,7 +31,7 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit\Framewor
     {
         $groupedConditionsArray = $this->transformer->transform($menuUserAgentConditionsCollection);
 
-        static::assertSame($expectedGroupedConditionsArray, $groupedConditionsArray);
+        self::assertSame($expectedGroupedConditionsArray, $groupedConditionsArray);
     }
 
     /**
@@ -89,7 +89,7 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit\Framewor
     ) {
         $menuUserAgentConditionsCollection = $this->transformer->reverseTransform($groupedConditionsArray);
 
-        static::assertSame($expectedMenuUserAgentConditions, $menuUserAgentConditionsCollection->toArray());
+        self::assertSame($expectedMenuUserAgentConditions, $menuUserAgentConditionsCollection->toArray());
     }
 
     /**
@@ -148,13 +148,11 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit\Framewor
     private function mockMenuUserAgentCondition($conditionGroupIdentifier)
     {
         $menuUserAgentCondition = $this->createMock(MenuUserAgentCondition::class);
-        $menuUserAgentCondition
-            ->expects(static::any())
+        $menuUserAgentCondition->expects(self::any())
             ->method('getConditionGroupIdentifier')
             ->willReturn($conditionGroupIdentifier);
 
-        $menuUserAgentCondition
-            ->expects(static::any())
+        $menuUserAgentCondition->expects(self::any())
             ->method('setConditionGroupIdentifier')
             ->with($conditionGroupIdentifier);
 

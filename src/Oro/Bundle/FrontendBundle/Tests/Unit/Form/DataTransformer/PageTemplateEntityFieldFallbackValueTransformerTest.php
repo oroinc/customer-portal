@@ -10,7 +10,7 @@ class PageTemplateEntityFieldFallbackValueTransformerTest extends \PHPUnit\Frame
     /** @var PageTemplateEntityFieldFallbackValueTransformer */
     private $transformer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->transformer = new PageTemplateEntityFieldFallbackValueTransformer('route_name');
     }
@@ -37,6 +37,16 @@ class PageTemplateEntityFieldFallbackValueTransformerTest extends \PHPUnit\Frame
         $this->transformer->reverseTransform($value);
 
         $this->assertEquals(['route_name' => 'value'], $value->getArrayValue());
+        $this->assertNull($value->getScalarValue());
+    }
+
+    public function testReverseTransformEntityFieldFallbackValueWhenScalarValueIsNull()
+    {
+        $value = new EntityFieldFallbackValue();
+
+        $this->transformer->reverseTransform($value);
+
+        $this->assertNull($value->getArrayValue());
         $this->assertNull($value->getScalarValue());
     }
 }

@@ -6,7 +6,6 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
 class CustomerUserRoleTest extends \PHPUnit\Framework\TestCase
@@ -16,7 +15,7 @@ class CustomerUserRoleTest extends \PHPUnit\Framework\TestCase
     public function testRole()
     {
         $name = 'test role#$%';
-        $role = new CustomerUserRole();
+        $role = new CustomerUserRole('');
         $customer = new Customer();
         $organization = new Organization();
 
@@ -39,8 +38,8 @@ class CustomerUserRoleTest extends \PHPUnit\Framework\TestCase
 
         $role->setRole($name);
         $this->assertStringStartsWith(CustomerUserRole::PREFIX_ROLE . 'TEST_ROLE_', $role->getRole());
-
-        $this->assertEquals($name, (string)$role);
+        $this->assertStringStartsWith(CustomerUserRole::PREFIX_ROLE . 'TEST_ROLE_', (string)$role);
+        $this->assertMatchesRegularExpression('/_[[:upper:]\d]{13}/', substr($role->getRole(), strrpos($role, '_')));
     }
 
     /**
@@ -48,11 +47,11 @@ class CustomerUserRoleTest extends \PHPUnit\Framework\TestCase
      */
     public function testRelations()
     {
-        static::assertPropertyCollections(new CustomerUserRole(), [
+        self::assertPropertyCollections(new CustomerUserRole(''), [
             ['customerUsers', new CustomerUser()],
         ]);
 
-        static::assertPropertyAccessors(new CustomerUserRole(), [
+        self::assertPropertyAccessors(new CustomerUserRole(''), [
             ['customer', new Customer()],
             ['organization', new Organization()]
         ]);
@@ -64,7 +63,6 @@ class CustomerUserRoleTest extends \PHPUnit\Framework\TestCase
         $role = new CustomerUserRole($name);
         $this->assertEquals(CustomerUserRole::PREFIX_ROLE . 'ANOTHER_TEST_ROLE', $role->getRole());
     }
-
 
     public function testSelfManaged()
     {

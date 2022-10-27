@@ -9,8 +9,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class OroStyleBookExtension extends Extension
 {
-    const ALIAS = 'oro_stylebook';
-
     /**
      * {@inheritdoc}
      */
@@ -18,13 +16,14 @@ class OroStyleBookExtension extends Extension
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+        $loader->load('controllers.yml');
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getAlias()
+    public function getAlias(): string
     {
-        return self::ALIAS;
+        return 'oro_stylebook';
     }
 }

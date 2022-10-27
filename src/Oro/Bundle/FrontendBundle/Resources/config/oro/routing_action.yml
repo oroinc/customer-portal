@@ -1,17 +1,17 @@
 oro_frontend_action_widget_form:
     path: /actionwidget/form/{operationName}
-    defaults: { _controller: OroActionBundle:Widget:form }
+    defaults: { _controller: Oro\Bundle\ActionBundle\Controller\WidgetController::formAction }
     options:
         frontend: true
 
 oro_frontend_action_widget_buttons:
     path: /actionwidget/buttons
-    defaults: { _controller: OroActionBundle:Widget:buttons }
+    defaults: { _controller: Oro\Bundle\ActionBundle\Controller\WidgetController::buttonsAction }
     options:
         frontend: true
 
 oro_frontend_action_operation_execute:
     path: /ajax/operation/execute/{operationName}
-    defaults: { _controller: OroActionBundle:Ajax:execute }
+    defaults: { _controller: Oro\Bundle\ActionBundle\Controller\AjaxController::executeAction }
     options:
         frontend: true

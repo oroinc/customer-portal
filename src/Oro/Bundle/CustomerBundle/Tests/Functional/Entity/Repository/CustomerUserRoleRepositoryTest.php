@@ -8,46 +8,38 @@ use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 class CustomerUserRoleRepositoryTest extends WebTestCase
 {
-    /**
-     * @var CustomerUserRoleRepository
-     */
-    protected $repository;
+    private static ?int $defaultRolesCount = null;
 
-    /**
-     * @var int
-     */
-    protected static $defaultRolesCount;
-
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
-        $this->repository = $this->getContainer()
-            ->get('doctrine')
-            ->getRepository('OroCustomerBundle:CustomerUserRole');
-
         if (null === self::$defaultRolesCount) {
-            self::$defaultRolesCount = (int)$this->repository->createQueryBuilder('r')
+            self::$defaultRolesCount = (int)$this->getRepository()->createQueryBuilder('r')
                 ->select('count(r)')
                 ->getQuery()
                 ->getSingleScalarResult();
         }
-        $this->loadFixtures(['Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleData']);
+        $this->loadFixtures([LoadCustomerUserRoleData::class]);
+    }
+
+    private function getRepository(): CustomerUserRoleRepository
+    {
+        return self::getContainer()->get('doctrine')->getRepository(CustomerUserRole::class);
     }
 
     public function testIsDefaultOrGuestForWebsite()
     {
-        $this->assertTrue($this->repository->isDefaultOrGuestForWebsite(
+        $this->assertTrue($this->getRepository()->isDefaultOrGuestForWebsite(
             $this->getReference(LoadCustomerUserRoleData::ROLE_WITH_WEBSITE)
         ));
-        $this->assertTrue($this->repository->isDefaultOrGuestForWebsite(
+        $this->assertTrue($this->getRepository()->isDefaultOrGuestForWebsite(
             $this->getReference(LoadCustomerUserRoleData::ROLE_GUEST_FOR_WEBSITE)
         ));
-        $this->assertFalse($this->repository->isDefaultOrGuestForWebsite(
+        $this->assertFalse($this->getRepository()->isDefaultOrGuestForWebsite(
             $this->getReference(LoadCustomerUserRoleData::ROLE_EMPTY)
         ));
     }
@@ -57,7 +49,7 @@ class CustomerUserRoleRepositoryTest extends WebTestCase
         /** @var CustomerUserRole $role */
         $role = $this->getReference(LoadCustomerUserRoleData::ROLE_WITH_ACCOUNT_USER);
 
-        $hasAssignedUsers = $this->repository->hasAssignedUsers($role);
+        $hasAssignedUsers = $this->getRepository()->hasAssignedUsers($role);
         $this->assertTrue($hasAssignedUsers);
     }
 
@@ -65,7 +57,7 @@ class CustomerUserRoleRepositoryTest extends WebTestCase
     {
         /** @var CustomerUserRole $role */
         $role = $this->getReference(LoadCustomerUserRoleData::ROLE_WITH_ACCOUNT_USER);
-        $assignedUsers = $this->repository->getAssignedUsers($role);
+        $assignedUsers = $this->getRepository()->getAssignedUsers($role);
         $expectedUsers = [
             $this->getReference(LoadCustomerUserData::EMAIL)
         ];
@@ -78,24 +70,24 @@ class CustomerUserRoleRepositoryTest extends WebTestCase
         /** @var CustomerUserRole $role */
         $role = $this->getReference(LoadCustomerUserRoleData::ROLE_EMPTY);
 
-        $hasAssignedUsers = $this->repository->hasAssignedUsers($role);
+        $hasAssignedUsers = $this->getRepository()->hasAssignedUsers($role);
         $this->assertFalse($hasAssignedUsers);
 
-        $isDefaultForWebsite = $this->repository->isDefaultOrGuestForWebsite($role);
+        $isDefaultForWebsite = $this->getRepository()->isDefaultOrGuestForWebsite($role);
         $this->assertFalse($isDefaultForWebsite);
     }
 
     /**
      * @dataProvider customerUserRolesDataProvider
-     * @param string $customerUser
-     * @param array $expectedCustomerUserRoles
      */
-    public function testGetAvailableRolesByCustomerUserQueryBuilder($customerUser, array $expectedCustomerUserRoles)
-    {
+    public function testGetAvailableRolesByCustomerUserQueryBuilder(
+        string $customerUser,
+        array $expectedCustomerUserRoles
+    ) {
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getReference($customerUser);
         /** @var CustomerUserRole[] $actual */
-        $actual = $this->repository
+        $actual = $this->getRepository()
             ->getAvailableRolesByCustomerUserQueryBuilder(
                 $customerUser->getOrganization(),
                 $customerUser->getCustomer()
@@ -114,15 +106,14 @@ class CustomerUserRoleRepositoryTest extends WebTestCase
 
     /**
      * @dataProvider customerUserRolesDataProvider
-     * @param string $customerUser
      */
     public function testGetAvailableSelfManagedRolesByCustomerUserQueryBuilder(
-        $customerUser
+        string $customerUser
     ) {
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getReference($customerUser);
         /** @var CustomerUserRole[] $actual */
-        $actual = $this->repository
+        $actual = $this->getRepository()
             ->getAvailableSelfManagedRolesByCustomerUserQueryBuilder(
                 $customerUser->getOrganization(),
                 $customerUser->getCustomer()
@@ -142,10 +133,7 @@ class CustomerUserRoleRepositoryTest extends WebTestCase
         );
     }
 
-    /**
-     * @return array
-     */
-    public function customerUserRolesDataProvider()
+    public function customerUserRolesDataProvider(): array
     {
         return [
             'user from customer with custom role' => [

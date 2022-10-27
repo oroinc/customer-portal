@@ -15,19 +15,19 @@ oro_frontend_api:
 
 oro_frontend_dictionary_search:
     path: /dictionary/{dictionary}/search
-    defaults: { _controller: OroEntityBundle:Dictionary:search }
+    defaults: { _controller: Oro\Bundle\EntityBundle\Controller\DictionaryController::searchAction }
     options:
         frontend: true
 
 oro_frontend_dictionary_value:
     path: /dictionary/{dictionary}/values
-    defaults: { _controller: OroEntityBundle:Dictionary:values }
+    defaults: { _controller: Oro\Bundle\EntityBundle\Controller\DictionaryController::valuesAction }
     options:
         frontend: true
 
 oro_frontend_datagrid_index:
     path: /datagrid/{gridName}
-    defaults: { _controller: OroDataGridBundle:Grid:get }
+    defaults: { _controller: Oro\Bundle\DataGridBundle\Controller\GridController::getAction }
     requirements:
         gridName: '[\w\:-]+'
     options:
@@ -39,46 +39,52 @@ oro_frontend_action:
 oro_frontend_workflow:
     resource: "@OroFrontendBundle/Resources/config/oro/routing_workflow.yml"
 
-oro_filtered_attachment:
-    path: "media/cache/attachment/resize/{id}/{filter}/{filename}"
-    defaults: { _controller: OroAttachmentBundle:File:getFilteredImage}
-    requirements:
-        id: '\d+'
-    options:
-        frontend: true
-
-oro_resize_attachment:
-    path: "media/cache/attachment/resize/{id}/{width}/{height}/{filename}"
-    defaults: { _controller: OroAttachmentBundle:File:getResizedAttachmentImage}
-    requirements:
-        id: '\d+'
-        width: '\d+'
-        height: '\d+'
-    options:
-        frontend: true
-
-oro_frontend_attachment_file:
-    path: "attachment/{codedString}.{extension}"
-    defaults: { _controller: OroAttachmentBundle:File:getAttachment}
-    requirements:
-        extension: '\w+'
-    options:
-        frontend: true
-
 oro_frontend_js_routing_js:
-    path: "/js/frontend_routes.{_format}"
-    defaults: { _controller: oro_frontend.js_routing_controller:indexAction, _format: js }
+    path: "/media/js/frontend_routes.{_format}"
+    defaults: { _controller: oro_frontend.js_routing_controller:indexAction }
     requirements:
-        _format: js|json
+        _format: json
     options:
         frontend: true
 
 oro_datagrid_front_mass_action:
     path: '{gridName}/massFrontAction/{actionName}'
     defaults:
-        _controller: OroDataGridBundle:Grid:massAction
+        _controller: Oro\Bundle\DataGridBundle\Controller\GridController::massActionAction
     requirements:
-        gridName:   '[\w\:-]+'
-        actionName: '[\w-]+'
+        gridName:   '[\w\:\-]+'
+        actionName: '[\w\-]+'
+    options:
+        frontend: true
+
+
+#
+# OLD REST API ROUTES
+#
+
+oro_api_frontend_workflow_start:
+    path: '/api/rest/{version}/workflow/start/{workflowName}/{transitionName}.{_format}'
+    methods: [POST]
+    defaults:
+        _controller: 'Oro\Bundle\WorkflowBundle\Controller\Api\Rest\WorkflowController::startAction'
+        version: latest
+        _format: json
+    requirements:
+        version: latest|v1
+        _format: json
+    options:
+        frontend: true
+
+oro_api_frontend_workflow_transit:
+    path: '/api/rest/{version}/workflow/transit/{workflowItemId}/{transitionName}.{_format}'
+    methods: [POST]
+    defaults:
+        _controller: 'Oro\Bundle\WorkflowBundle\Controller\Api\Rest\WorkflowController::transitAction'
+        version: latest
+        _format: json
+    requirements:
+        workflowItemId: \d+
+        version: latest|v1
+        _format: json
     options:
         frontend: true

@@ -2,15 +2,14 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Functional\Entity\EntityListener;
 
-use Oro\Bundle\ScopeBundle\Entity\Repository\ScopeRepository;
-use Oro\Bundle\ScopeBundle\Entity\Scope;
-use Oro\Bundle\ScopeBundle\Model\ScopeCriteria;
+use Doctrine\ORM\EntityManagerInterface;
+use Oro\Bundle\ScopeBundle\Manager\ScopeManager;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 class WebsiteEntityListenerTest extends WebTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
@@ -18,18 +17,18 @@ class WebsiteEntityListenerTest extends WebTestCase
 
     public function testPrePersist()
     {
-        $em = $this->client->getContainer()->get('doctrine')->getManager();
+        /** @var EntityManagerInterface $em */
+        $em = $this->getContainer()->get('doctrine')->getManager();
         $website = new Website();
         $website->setName('test');
         $em->persist($website);
         $em->flush();
 
-        $criteria = new ScopeCriteria(['website' => $website], []);
-        /** @var ScopeRepository $repository */
-        $repository = $em->getRepository(Scope::class);
-
         // expect that new scope created
-        $scope = $repository->findOneByCriteria($criteria);
+        /** @var ScopeManager $scopeManager */
+        $scopeManager = $this->getContainer()->get('oro_scope.scope_manager');
+        $scope = $scopeManager->find(ScopeManager::BASE_SCOPE, ['website' => $website]);
         $this->assertNotNull($scope);
+        $this->assertSame($website->getId(), $scope->getWebsite()->getId());
     }
 }

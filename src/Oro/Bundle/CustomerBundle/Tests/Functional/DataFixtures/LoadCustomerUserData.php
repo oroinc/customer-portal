@@ -4,24 +4,24 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData as UserData;
-use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
+use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser;
 use Oro\Bundle\UserBundle\Entity\BaseUserManager;
+use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadCustomerUserData extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
 {
-    use UserUtilityTrait;
-
     const FIRST_NAME = 'Grzegorz';
     const LAST_NAME = 'Brzeczyszczykiewicz';
     const EMAIL = 'grzegorz.brzeczyszczykiewicz@example.com';
     const PASSWORD = 'test';
-    
+
     const LEVEL_1_FIRST_NAME = 'First';
     const LEVEL_1_LAST_NAME = 'Last';
     const LEVEL_1_EMAIL = 'other.user@test.com';
@@ -65,7 +65,7 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
             'email' => self::EMAIL,
             'enabled' => true,
             'password' => self::PASSWORD,
-            'customer' => 'customer.level_1'
+            'customer' => LoadCustomers::CUSTOMER_LEVEL_1
         ],
         [
             'first_name' => self::LEVEL_1_FIRST_NAME,
@@ -73,7 +73,7 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
             'email' => self::LEVEL_1_EMAIL,
             'enabled' => true,
             'password' => self::LEVEL_1_PASSWORD,
-            'customer' => 'customer.level_1'
+            'customer' => LoadCustomers::CUSTOMER_LEVEL_1
         ],
         [
             'first_name' => self::LEVEL_1_1_FIRST_NAME,
@@ -81,7 +81,7 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
             'email' => self::LEVEL_1_1_EMAIL,
             'enabled' => true,
             'password' => self::LEVEL_1_1_PASSWORD,
-            'customer' => 'customer.level_1.1'
+            'customer' => LoadCustomers::CUSTOMER_LEVEL_1_DOT_1
         ],
         [
             'first_name' => self::ORPHAN_FIRST_NAME,
@@ -104,7 +104,7 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
             'email' => self::GROUP2_EMAIL,
             'password' => self::GROUP2_PASSWORD,
             'enabled' => true,
-            'customer' => 'customer.level_1.2'
+            'customer' => LoadCustomers::CUSTOMER_LEVEL_1_DOT_2
         ],
         [
             'first_name' => self::RESET_FIRST_NAME,
@@ -124,15 +124,13 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
         $this->container = $container;
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
     public function load(ObjectManager $manager)
     {
         /** @var BaseUserManager $userManager */
         $userManager = $this->container->get('oro_customer_user.manager');
-        $owner = $this->getFirstUser($manager);
-        $role = $manager->getRepository('OroCustomerBundle:CustomerUserRole')->findOneBy([
+        /** @var User $owner */
+        $owner = $this->getReference('user');
+        $role = $manager->getRepository(CustomerUserRole::class)->findOneBy([
             'role' => 'ROLE_FRONTEND_ADMINISTRATOR'
         ]);
         foreach (static::$users as $user) {
@@ -140,14 +138,14 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
                 /** @var Customer $customer */
                 $customer = $this->getReference($user['customer']);
             } else {
-                $customerUser = $manager->getRepository('OroCustomerBundle:CustomerUser')
+                $customerUser = $manager->getRepository(CustomerUser::class)
                     ->findOneBy(['username' => UserData::AUTH_USER]);
                 $customer = $customerUser->getCustomer();
             }
             $entity = new CustomerUser();
 
             $entity
-                ->setIsGuest(isset($user['isGuest']) ? $user['isGuest'] : false)
+                ->setIsGuest($user['isGuest'] ?? false)
                 ->setCustomer($customer)
                 ->setOwner($owner)
                 ->setFirstName($user['first_name'])
@@ -156,7 +154,7 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
                 ->setEnabled($user['enabled'])
                 ->setOrganization($customer->getOrganization())
                 ->setConfirmationToken($user['confirmationToken'] ?? null)
-                ->addRole($role)
+                ->addUserRole($role)
                 ->setPlainPassword($user['password'])
                 ->setConfirmed(isset($user['confirmed']) ? $user['confirmed'] : true);
 
@@ -173,6 +171,6 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
      */
     public function getDependencies()
     {
-        return [LoadCustomers::class];
+        return [LoadUser::class, LoadCustomers::class];
     }
 }

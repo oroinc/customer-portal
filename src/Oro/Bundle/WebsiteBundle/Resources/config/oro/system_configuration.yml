@@ -16,6 +16,7 @@ system_configuration:
             options:
                 default_protocol: 'http'
                 label: oro.website.system_configuration.fields.url.label
+                required: true
                 constraints:
                     - Url: ~
                     - NotBlank: ~
@@ -27,6 +28,7 @@ system_configuration:
             options:
                 default_protocol: 'https'
                 label: oro.website.system_configuration.fields.secure_url.label
+                required: true
                 constraints:
                     - Url: ~
                     - NotBlank: ~

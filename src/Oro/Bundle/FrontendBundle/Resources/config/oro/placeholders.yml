@@ -7,18 +7,6 @@ placeholders:
                 frontend_logo:
                     order: 100
 
-        head_style:
-            items:
-                assets_css:
-                    order: 100
-                frontend_assets_css:
-                    order: 100
-
-        scripts_after:
-            items:
-                window_bundle_js:
-                    order: 200
-
         install_additional_configuration_fields:
             items:
                 web_settings:
@@ -26,28 +14,21 @@ placeholders:
 
     items:
         logo:
-            template: OroFrontendBundle:Organization:logo.html.twig
+            template: '@@OroFrontend/Organization/logo.html.twig'
             applicable: "@oro_frontend.placeholder.filter->isBackendRoute()"
         frontend_logo:
-            template: OroFrontendBundle:Organization:logo_frontend.html.twig
+            template: '@@OroFrontend/Organization/logo_frontend.html.twig'
             applicable: "@oro_frontend.placeholder.filter->isFrontendRoute()"
-        assets_css:
-            template: OroAsseticBundle:Assets:oro_css.html.twig
-            applicable: "@oro_frontend.placeholder.theme_filter->isDefaultTheme()"
-        frontend_assets_css:
-            template: OroFrontendBundle:Assets:demo_css.html.twig
-            applicable: "@oro_frontend.placeholder.theme_filter->isDemoTheme()"
-        window_bundle_js:
-            template: OroWindowsBundle:Include:javascript.html.twig
+        window_js_modules_config:
             applicable: "@oro_frontend.placeholder.filter->isBackendRoute()"
         view_oro_activity_list:
             applicable: '@oro_frontend.activity_list.placeholder.filter->isApplicable($entity$, Oro\Bundle\ActivityBundle\EntityConfig\ActivityScope::VIEW_PAGE)'
-            template: OroActivityListBundle:ActivityList:activities.html.twig
+            template: '@@OroActivityList/ActivityList/activities.html.twig'
         update_oro_activity_list:
             applicable: '@oro_frontend.activity_list.placeholder.filter->isApplicable($entity$, Oro\Bundle\ActivityBundle\EntityConfig\ActivityScope::UPDATE_PAGE)'
-            template: OroActivityListBundle:ActivityList:activities.html.twig
+            template: '@@OroActivityList/ActivityList/activities.html.twig'
         web_settings:
-            template: OroFrontendBundle:InstallConfiguration:web.html.twig
+            template: '@@OroFrontend/InstallConfiguration/web.html.twig'
         filter_embedded_templates:
             applicable: "@oro_layout.helper->isTemplateRequest()"
         widget_filter_templates:
@@ -56,9 +37,28 @@ placeholders:
             applicable: "@oro_layout.helper->isTemplateRequest()"
         email_filter_templates:
             applicable: "@oro_layout.helper->isTemplateRequest()"
+        ui_js_modules_config_public_path:
+            applicable: '@oro_frontend.placeholder.filter->isBackendRoute()'
         oro_reminder_subscribe_script:
-            applicable: "@oro_layout.helper->isTemplateRequest()"
+            applicable:
+                - "@oro_frontend.placeholder.filter->isBackendRoute()"
         sync_js:
             applicable:
                 - "@oro_security.token_accessor->hasUser()"
-                - "@oro_layout.helper->isTemplateRequest()"
+                - "@oro_frontend.placeholder.filter->isBackendRoute()"
+        maintenance_js:
+            applicable:
+                - "@oro_frontend.placeholder.filter->isBackendRoute()"
+        ping_js:
+            applicable:
+                - "@oro_frontend.placeholder.filter->isBackendRoute()"
+        oro_user_outdated_page:
+            applicable:
+                - "@oro_security.token_accessor->hasUser()"
+                - "@oro_frontend.placeholder.filter->isBackendRoute()"
+        oro_imap_sync_origin_credential_notifications_topic:
+            applicable:
+                - "@oro_frontend.placeholder.filter->isBackendRoute()"
+        oro_message_queue_consumer_heartbeat:
+            applicable:
+                - "@oro_frontend.placeholder.filter->isBackendRoute()"

@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_11;
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Oro\Bundle\MigrationBundle\Migration\ArrayLogger;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedMigrationQuery;
 use Psr\Log\LoggerInterface;
@@ -42,12 +42,12 @@ class UpdateAnonymousUserRoleQuery extends ParametrizedMigrationQuery
             'old_role' => self::IS_AUTHENTICATED_ANONYMOUSLY,
             'role' => self::ROLE_FRONTEND_ANONYMOUS
         ];
-        $types = ['old_role' => Type::STRING, 'role' => Type::STRING];
+        $types = ['old_role' => Types::STRING, 'role' => Types::STRING];
 
         $this->logQuery($logger, $sql, $parameters, $types);
 
         if (!$dryRun) {
-            $this->connection->executeUpdate($sql, $parameters, $types);
+            $this->connection->executeStatement($sql, $parameters, $types);
         }
     }
 }

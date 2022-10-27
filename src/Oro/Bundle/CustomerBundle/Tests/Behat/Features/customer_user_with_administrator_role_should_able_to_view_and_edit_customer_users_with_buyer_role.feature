@@ -1,5 +1,8 @@
 Feature: Customer User with administrator role should able to view and edit Customer Users with buyer role
-  ToDo: BAP-16103 Add missing descriptions to the Behat features
+  In order to check ACL for Customer Users
+  As an User
+  I want to be sure that Customer User with administrator role should able to view and edit Customer Users with buyer role
+
   Scenario: Create different window session
     Given sessions active:
       | User  | first_session  |
@@ -37,7 +40,7 @@ Feature: Customer User with administrator role should able to view and edit Cust
     And I proceed as the User
     And click "Sign Out"
     And I signed in as Testuser1@test.com on the store frontend
-    And click "Account"
+    And follow "Account"
     And click "Users"
     And click "Create User"
     And fill form with:

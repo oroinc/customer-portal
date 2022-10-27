@@ -6,7 +6,7 @@ layout:
             namespace: widget
     actions:
         - '@setBlockTheme':
-            themes: 'OroFrontendBundle:layouts:default/oro_frontend_datagrid_widget/datagrid.html.twig'
+            themes: '@OroFrontend/layouts/default/oro_frontend_datagrid_widget/datagrid.html.twig'
         - '@setOption':
             id: widget_datagrid
             optionName: grid_name

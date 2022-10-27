@@ -1,0 +1,8 @@
+/* @theme: default; */
+
+.box-toolbar {
+    &__actions {
+        // stylelint-disable-next-line declaration-no-important
+        display: none !important;
+    }
+}

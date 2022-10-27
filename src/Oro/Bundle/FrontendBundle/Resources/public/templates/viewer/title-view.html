@@ -1,14 +1,14 @@
-<h1 class="<%= additionalClass %>">
-    <span><%= value %></span>
-    <button class="btn btn--plain"
+<h1 class="<%- additionalClass %>">
+    <span><%- value %></span>
+    <button class="btn btn--plain start-editing-btn"
         data-role="start-editing"
+        aria-label="<%- tooltip %>"
     <% if (tooltip) { %>
         data-toggle="tooltip"
-        data-title="<%= tooltip %>"
-        data-html="true"
+        data-title="<%- tooltip %>"
         data-container="body"
     <% } %>
     >
-        <i class="fa-pencil fa--large fa--no-offset"></i>
+        <span class="fa-pencil fa--large fa--no-offset" aria-hidden="true"></span>
     </button>
 </h1>

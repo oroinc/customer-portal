@@ -2,7 +2,8 @@ oro:
     website:
         entity_label:                   Website
         entity_plural_label:            Websites
-        entity_description:             In OroCommerce, you can create multiple websites that target a particular audience, geography, or that segments the goods and services your company is selling. Every website may have:<ul><li>A dedicated web catalog that defines the website content (products, categories, web pages, etc)</li><li>A set of price lists that may be isolated from the other websites</li><li>Unique configuration that may (but not necessarily should) override the default system configuration</li></ul>For more information see <a href="https://www.oroinc.com/doc/orocommerce/current/user-guide/system/websites">OroCommerce documentation</a>.
+        entity_grid_all_view_label: All %entity_plural_label%
+        entity_description:             In OroCommerce, you can create multiple websites that target a particular audience, geography, or that segments the goods and services your company is selling. Every website may have:<ul><li>A dedicated web catalog that defines the website content (products, categories, web pages, etc)</li><li>A set of price lists that may be isolated from the other websites</li><li>Unique configuration that may (but not necessarily should) override the default system configuration</li></ul>For more information see <a href="https://doc.oroinc.com/user/back-office/system/websites/">OroCommerce documentation</a>.
         id.label:                       Id
         name:
             label:                      Name

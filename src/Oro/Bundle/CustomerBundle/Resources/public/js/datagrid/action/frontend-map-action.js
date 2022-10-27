@@ -1,21 +1,19 @@
 define(function(require) {
     'use strict';
 
-    var FrontendMapAction;
-    var _ = require('underscore');
-    var MapAction = require('oro/datagrid/action/map-action');
-    var ViewportManager = require('oroui/js/viewport-manager');
-    var Popover = require('bootstrap-popover');
-    var FullscreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
+    const MapAction = require('oro/datagrid/action/map-action');
+    const ViewportManager = require('oroui/js/viewport-manager');
+    const Popover = require('bootstrap-popover');
+    const FullscreenPopupView = require('orofrontend/default/js/app/views/fullscreen-popup-view');
+    const template = require('tpl-loader!orocustomer/templates/datagrid/action/frontend-map-action.html');
 
     require('jquery');
 
-    FrontendMapAction = MapAction.extend({
+    const FrontendMapAction = MapAction.extend({
         /**
          * @property {String}
          */
-        popoverTpl: '<div class="map-popover popover"><div class="arrow"></div>' +
-            '<div class="map-popover__content popover-body"></div></div>',
+        popoverTpl: template(),
 
         /**
          * @property {Object}
@@ -25,31 +23,31 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function FrontendMapAction() {
-            FrontendMapAction.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendMapAction(options) {
+            FrontendMapAction.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
-            FrontendMapAction.__super__.initialize.apply(this, arguments);
-            this.mapView.on('mapRendered', _.bind(this.onMapRendered, this));
+            FrontendMapAction.__super__.initialize.call(this, options);
+            this.mapView.on('mapRendered', this.onMapRendered.bind(this));
             this.listenTo(this.model, 'change:isDropdownActions', this.actionsDropdownListener);
         },
 
         onMapRendered: function() {
-            var placement = this.getPopoverConfig().placement;
-            var $popoverTrigger = this.subviews[0].$el;
-            var popover = $popoverTrigger.data(Popover.DATA_KEY);
+            const placement = this.getPopoverConfig().placement;
+            const $popoverTrigger = this.subviews[0].$el;
+            const popover = $popoverTrigger.data(Popover.DATA_KEY);
             if (popover !== void 0) {
                 popover.applyPlacement('', placement);
             }
         },
         /**
-        * @inheritDoc
+        * @inheritdoc
         */
         onActionClick: function(e) {
             e.preventDefault();
@@ -65,10 +63,10 @@ define(function(require) {
         },
 
         handleFullScreenView: function() {
-            var onClose = _.bind(function() {
+            const onClose = () => {
                 this.fullscreenView.dispose();
                 delete this.fullscreenView;
-            }, this);
+            };
 
             if (this.fullscreenView) {
                 onClose();
@@ -85,7 +83,7 @@ define(function(require) {
 
         actionsDropdownListener: function() {
             if (this.model.get('isDropdownActions')) {
-                this.subviews[0].$el.on('click', _.bind(this.handleFullScreenView, this));
+                this.subviews[0].$el.on('click', this.handleFullScreenView.bind(this));
             }
         }
     });

@@ -6,33 +6,36 @@ use Doctrine\Common\Util\ClassUtils;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerGroupHandler;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupType;
+use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CustomerGroupController extends Controller
+/**
+ * CRUD for customer groups.
+ */
+class CustomerGroupController extends AbstractController
 {
     /**
      * @Route("/", name="oro_customer_customer_group_index")
      * @Template
      * @AclAncestor("oro_customer_customer_group_view")
-     *
-     * @return array
      */
-    public function indexAction()
+    public function indexAction(): array
     {
         return [
-            'entity_class' => $this->container->getParameter('oro_customer.entity.customer_group.class')
+            'entity_class' => CustomerGroup::class
         ];
     }
 
     /**
      * @Route("/view/{id}", name="oro_customer_customer_group_view", requirements={"id"="\d+"})
-     *
      * @Acl(
      *      id="oro_customer_customer_group_view",
      *      type="entity",
@@ -40,11 +43,8 @@ class CustomerGroupController extends Controller
      *      permission="VIEW"
      * )
      * @Template()
-     *
-     * @param CustomerGroup $group
-     * @return array
      */
-    public function viewAction(CustomerGroup $group)
+    public function viewAction(CustomerGroup $group): array
     {
         return [
             'entity' => $group
@@ -53,17 +53,15 @@ class CustomerGroupController extends Controller
 
     /**
      * @Route("/create", name="oro_customer_customer_group_create")
-     * @Template("OroCustomerBundle:CustomerGroup:update.html.twig")
+     * @Template("@OroCustomer/CustomerGroup/update.html.twig")
      * @Acl(
      *      id="oro_customer_customer_group_create",
      *      type="entity",
      *      class="OroCustomerBundle:CustomerGroup",
      *      permission="CREATE"
      * )
-     * @param Request $request
-     * @return array
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): array|RedirectResponse
     {
         return $this->update($request, new CustomerGroup());
     }
@@ -77,62 +75,53 @@ class CustomerGroupController extends Controller
      *      class="OroCustomerBundle:CustomerGroup",
      *      permission="EDIT"
      * )
-     * @param Request $request
-     * @param CustomerGroup $group
-     * @return array
      */
-    public function updateAction(Request $request, CustomerGroup $group)
+    public function updateAction(Request $request, CustomerGroup $group): array|RedirectResponse
     {
         return $this->update($request, $group);
     }
 
-    /**
-     * @param Request $request
-     * @param CustomerGroup $group
-     * @return array|RedirectResponse
-     */
-    protected function update(Request $request, CustomerGroup $group)
+    protected function update(Request $request, CustomerGroup $group): array|RedirectResponse
     {
         $form = $this->createForm(CustomerGroupType::class, $group);
         $handler = new CustomerGroupHandler(
-            $form,
-            $request,
             $this->getDoctrine()->getManagerForClass(ClassUtils::getClass($group)),
-            $this->get('event_dispatcher')
+            $this->get(EventDispatcherInterface::class)
         );
 
-        return $this->get('oro_form.model.update_handler')->handleUpdate(
+        return $this->get(UpdateHandlerFacade::class)->update(
             $group,
             $form,
-            function (CustomerGroup $group) {
-                return [
-                    'route' => 'oro_customer_customer_group_update',
-                    'parameters' => ['id' => $group->getId()]
-                ];
-            },
-            function (CustomerGroup $group) {
-                return [
-                    'route' => 'oro_customer_customer_group_view',
-                    'parameters' => ['id' => $group->getId()]
-                ];
-            },
-            $this->get('translator')->trans('oro.customer.controller.customergroup.saved.message'),
+            $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customergroup.saved.message'),
+            $request,
             $handler
         );
     }
 
     /**
      * @Route("/info/{id}", name="oro_customer_customer_group_info", requirements={"id"="\d+"})
-     * @Template("OroCustomerBundle:CustomerGroup/widget:info.html.twig")
+     * @Template("@OroCustomer/CustomerGroup/widget/info.html.twig")
      * @AclAncestor("oro_customer_customer_group_view")
-     *
-     * @param CustomerGroup $group
-     * @return array
      */
-    public function infoAction(CustomerGroup $group)
+    public function infoAction(CustomerGroup $group): array
     {
         return [
             'entity' => $group
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                TranslatorInterface::class,
+                EventDispatcherInterface::class,
+                UpdateHandlerFacade::class
+            ]
+        );
     }
 }

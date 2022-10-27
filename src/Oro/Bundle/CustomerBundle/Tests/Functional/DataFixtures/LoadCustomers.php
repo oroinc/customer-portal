@@ -4,18 +4,28 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
-use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
+use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser;
 use Oro\Bundle\UserBundle\Entity\User;
 
 class LoadCustomers extends AbstractFixture implements DependentFixtureInterface
 {
-    use UserUtilityTrait;
-
     const DEFAULT_ACCOUNT_NAME = 'customer.orphan';
     const CUSTOMER_LEVEL_1_1 = 'customer.level_1_1';
+    const CUSTOMER_LEVEL_1_DOT_1 = 'customer.level_1.1';
+    const CUSTOMER_LEVEL_1_DOT_1_DOT_1 = 'customer.level_1.1.1';
+    const CUSTOMER_LEVEL_1_DOT_1_DOT_2 = 'customer.level_1.1.2';
+    const CUSTOMER_LEVEL_1_DOT_2 = 'customer.level_1.2';
+    const CUSTOMER_LEVEL_1_DOT_2_DOT_1 = 'customer.level_1.2.1';
+    const CUSTOMER_LEVEL_1_DOT_2_DOT_1_DOT_1 = 'customer.level_1.2.1.1';
+    const CUSTOMER_LEVEL_1_DOT_3 = 'customer.level_1.3';
+    const CUSTOMER_LEVEL_1_DOT_3_DOT_1 = 'customer.level_1.3.1';
+    const CUSTOMER_LEVEL_1_DOT_3_DOT_1_DOT_1 = 'customer.level_1.3.1.1';
+    const CUSTOMER_LEVEL_1_DOT_4 = 'customer.level_1.4';
+    const CUSTOMER_LEVEL_1_DOT_4_DOT_1 = 'customer.level_1.4.1';
+    const CUSTOMER_LEVEL_1_DOT_4_DOT_1_DOT_1 = 'customer.level_1.4.1.1';
     const CUSTOMER_LEVEL_1 = 'customer.level_1';
 
     /**
@@ -23,7 +33,7 @@ class LoadCustomers extends AbstractFixture implements DependentFixtureInterface
      */
     public function getDependencies()
     {
-        return [LoadGroups::class];
+        return [LoadUser::class, LoadGroups::class];
     }
 
     /**
@@ -47,7 +57,8 @@ class LoadCustomers extends AbstractFixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $owner = $this->getFirstUser($manager);
+        /** @var User $owner */
+        $owner = $this->getReference('user');
 
         $this->createCustomer($manager, self::DEFAULT_ACCOUNT_NAME, $owner);
 

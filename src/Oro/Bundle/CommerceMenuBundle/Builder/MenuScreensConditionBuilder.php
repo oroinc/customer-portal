@@ -13,9 +13,6 @@ class MenuScreensConditionBuilder implements BuilderInterface
      */
     private $screensProvider;
 
-    /**
-     * @param ScreensProviderInterface $screensProvider
-     */
     public function __construct(ScreensProviderInterface $screensProvider)
     {
         $this->screensProvider = $screensProvider;
@@ -29,10 +26,6 @@ class MenuScreensConditionBuilder implements BuilderInterface
         $this->applyScreensRecursively($menu, $options);
     }
 
-    /**
-     * @param ItemInterface $menu
-     * @param array         $options
-     */
     private function applyScreensRecursively(ItemInterface $menu, array $options)
     {
         $menuChildren = $menu->getChildren();
@@ -69,10 +62,6 @@ class MenuScreensConditionBuilder implements BuilderInterface
         return $classes;
     }
 
-    /**
-     * @param ItemInterface $menu
-     * @param array         $newClasses
-     */
     private function addClassesToMenuItem(ItemInterface $menu, array $newClasses)
     {
         if (!$newClasses) {

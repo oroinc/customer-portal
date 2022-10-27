@@ -1,17 +1,16 @@
 define(function(require) {
     'use strict';
 
-    var StyleBookListSliderView;
-    var BaseView = require('oroui/js/app/views/base/view');
-    var ListSliderComponent = require('orofrontend/js/app/components/list-slider-component');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const ListSliderComponent = require('orofrontend/js/app/components/list-slider-component');
 
-    StyleBookListSliderView = BaseView.extend({
-        constructor: function StyleBookListSliderView() {
-            return StyleBookListSliderView.__super__.constructor.apply(this, arguments);
+    const StyleBookListSliderView = BaseView.extend({
+        constructor: function StyleBookListSliderView(options) {
+            return StyleBookListSliderView.__super__.constructor.call(this, options);
         },
 
         initialize: function(options) {
-            StyleBookListSliderView.__super__.initialize.apply(this, arguments);
+            StyleBookListSliderView.__super__.initialize.call(this, options);
 
             this.subview('listSlider', new ListSliderComponent(options));
         },

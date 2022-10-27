@@ -1,0 +1,42 @@
+layout:
+    imports:
+        -
+            id: datagrid_views
+            root: __root
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroFrontend/layouts/default/imports/datagrid/datagrid.html.twig'
+
+        - '@setOption':
+            id: __datagrid
+            optionName: grid_render_parameters
+            optionValue:
+                cssClass: 'frontend-datagrid'
+                enableFloatingHeaderPlugin: false
+                enableToggleFilters: true
+                responsiveGrids:
+                    enable: '=data["system_config_provider"].getValue("oro_customer.enable_responsive_grids")'
+                    viewport:
+                        minScreenType: 'tablet'
+                swipeActionsGrid:
+                    enable: '=data["system_config_provider"].getValue("oro_customer.enable_swipe_actions_grids")'
+                themeOptions:
+                    actionsDropdown: 'auto'
+                    actionOptions:
+                        refreshAction:
+                            launcherOptions:
+                                className: 'btn btn--default btn--size-s refresh-action'
+                                icon: 'undo fa--no-offset'
+                                launcherMode: 'icon-only'
+                        resetAction:
+                            launcherOptions:
+                                className: 'btn btn--default btn--size-s reset-action'
+                                icon: 'refresh fa--no-offset'
+                                launcherMode: 'icon-only'
+                    customModules:
+                        datagridSettingsComponent: 'orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-view'
+                toolbarOptions:
+                    actionsPanel:
+                        className: 'btn-group not-expand frontend-datagrid__panel'
+                    hideItemsCounter: false
+                filterContainerSelector: '[data-grid-toolbar="top"] [data-role="filter-container"]'

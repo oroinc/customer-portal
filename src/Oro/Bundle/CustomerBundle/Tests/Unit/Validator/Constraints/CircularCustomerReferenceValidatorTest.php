@@ -2,90 +2,191 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Validator\Constraints;
 
-use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Fixtures\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReference;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReferenceValidator;
-use Oro\Component\Testing\Validator\AbstractConstraintValidatorTest;
+use Oro\Bundle\SecurityBundle\Owner\OwnerTreeInterface;
+use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProviderInterface;
+use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
-class CircularCustomerReferenceValidatorTest extends AbstractConstraintValidatorTest
+class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
 {
-    protected function setUp()
-    {
-        parent::setUp();
+    /** @var OwnerTreeInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $ownerTree;
 
-        $this->constraint = new CircularCustomerReference();
-        $this->context->setConstraint($this->constraint);
+    protected function setUp(): void
+    {
+        $this->ownerTree = $this->createMock(OwnerTreeInterface::class);
+        parent::setUp();
     }
 
-    public function testCircularReferenceValidationPassed()
+    protected function createValidator()
     {
-        $customer1 = new Customer();
-        $this->setCustomerId($customer1, 1);
+        $ownerTreeProvider = $this->createMock(OwnerTreeProviderInterface::class);
+        $ownerTreeProvider->expects($this->any())
+            ->method('getTree')
+            ->willReturn($this->ownerTree);
 
-        $customer2 = new Customer();
-        $this->setCustomerId($customer2, 2);
-        $customer2->setParent($customer1);
+        return new CircularCustomerReferenceValidator($ownerTreeProvider);
+    }
 
-        $customer3 = new Customer();
-        $this->setCustomerId($customer3, 3);
-        $customer3->setParent($customer2);
-
-        $this->object = $customer3;
-        $this->context->setNode($this->value, $this->object, $this->metadata, $this->propertyPath);
-
-        $this->validator->validate($customer2, $this->constraint);
+    public function testValidateWithEmptyOwnerCustomer()
+    {
+        $customer = new Customer();
+        $constraint = new CircularCustomerReference();
+        $this->validator->validate($customer, $constraint);
 
         $this->assertNoViolation();
     }
 
-    public function testCircularReferenceValidationFailed()
+    public function testValidateValidOwnerCustomer()
     {
-        $message = 'oro.customer.message.circular_customer_reference';
+        $customer = new Customer();
+        $customer->setId(1);
+        $parentCustomer = new Customer();
+        $parentCustomer->setId(5);
+        $customer->setParent($parentCustomer);
 
-        $customerName1 = 'Customer 1';
-        $customer1 = new Customer();
-        $this->setCustomerId($customer1, 1);
-        $customer1->setName($customerName1);
+        $this->ownerTree->expects($this->once())
+            ->method('getSubordinateBusinessUnitIds')
+            ->with(1)
+            ->willReturn([4, 6, 7]);
 
-        $this->object = $customer1;
-        $this->context->setNode($this->value, $this->object, $this->metadata, $this->propertyPath);
+        $constraint = new CircularCustomerReference();
+        $this->validator->validate($customer, $constraint);
 
-        $customer2 = new Customer();
-        $this->setCustomerId($customer2, 2);
-        $customer2->setParent($customer1);
+        $this->assertNoViolation();
+    }
 
-        $customerName3 = 'Customer 3';
-        $customer3 = new Customer();
-        $this->setCustomerId($customer3, 3);
-        $customer3->setName($customerName3);
-        $customer3->setParent($customer2);
+    public function testValidateNotValidOwnerCustomer()
+    {
+        $customer = new Customer();
+        $customer->setId(1);
+        $customer->setName('test customer');
+        $parentCustomer = new Customer();
+        $parentCustomer->setId(5);
+        $parentCustomer->setName('test parent customer');
+        $customer->setParent($parentCustomer);
 
-        $customer1->setParent($customer3);
+        $this->ownerTree->expects($this->once())
+            ->method('getSubordinateBusinessUnitIds')
+            ->with(1)
+            ->willReturn([4, 5, 6, 7]);
 
-        $this->validator->validate($customer3, $this->constraint);
+        $constraint = new CircularCustomerReference();
+        $this->validator->validate($customer, $constraint);
 
-        $this->buildViolation($message)
-            ->setParameter('{{ parentName }}', $customer3->getName())
-            ->setParameter('{{ customerName }}', $customer1->getName())
+        $this->buildViolation($constraint->messageCircular)
+            ->atPath('property.path.parent')
+            ->setParameter('{{ parentName }}', 'test parent customer')
+            ->setParameter('{{ customerName }}', 'test customer')
             ->assertRaised();
     }
 
-    /**
-     * @param Customer $customer
-     * @param $id
-     */
-    protected function setCustomerId(Customer $customer, $id)
+    public function testValidateCircularChildCustomer()
     {
-        $reflection = new \ReflectionProperty(Customer::class, 'id');
-        $reflection->setAccessible(true);
-        $reflection->setValue($customer, $id);
+        $customer = new Customer();
+        $customer->setId(1);
+        $customer->setName('test customer');
+
+        $parentCustomer = new Customer();
+        $parentCustomer->setId(10);
+
+        $customer->setParent($parentCustomer);
+
+        $cyclicCustomer = new Customer();
+        $cyclicCustomer->setId(5);
+        $cyclicCustomer->setName('test cyclic customer');
+        $customer->addChild($cyclicCustomer);
+
+        $this->ownerTree->expects($this->exactly(2))
+            ->method('getSubordinateBusinessUnitIds')
+            ->willReturnMap([
+                [1, [4, 6, 7]],
+                [5, [4, 1, 7]]
+            ]);
+
+        $constraint = new CircularCustomerReference();
+        $this->validator->validate($customer, $constraint);
+
+        $this->buildViolation($constraint->messageCircularChild)
+            ->atPath('property.path.children')
+            ->setParameter('{{ childName }}', 'test cyclic customer')
+            ->setParameter('{{ customerName }}', 'test customer')
+            ->assertRaised();
     }
 
-    /**
-     * @return CircularCustomerReferenceValidator
-     */
-    protected function createValidator()
+    public function testValidateCircularParentChildCustomer()
     {
-        return new CircularCustomerReferenceValidator();
+        $customer = new Customer();
+        $customer->setId(1);
+        $customer->setName('test customer');
+
+        $parentCustomer = new Customer();
+        $parentCustomer->setId(5);
+        $parentCustomer->setName('test parent customer');
+
+        $customer->setParent($parentCustomer);
+        $customer->addChild($parentCustomer);
+
+        $this->ownerTree->expects($this->once())
+            ->method('getSubordinateBusinessUnitIds')
+            ->with(1)
+            ->willReturn([4, 6, 7]);
+
+        $constraint = new CircularCustomerReference();
+        $this->validator->validate($customer, $constraint);
+
+        $this->buildViolation($constraint->messageCircularChild)
+            ->atPath('property.path.children')
+            ->setParameter('{{ childName }}', 'test parent customer')
+            ->setParameter('{{ customerName }}', 'test customer')
+            ->assertRaised();
+    }
+
+    public function testValidateNotValidOwnerCustomerPointingToItseld()
+    {
+        $customer = new Customer();
+        $customer->setId(1);
+        $customer->setName('test customer');
+        $customer->setParent($customer);
+
+        $this->ownerTree->expects($this->never())
+            ->method('getSubordinateBusinessUnitIds');
+
+        $constraint = new CircularCustomerReference();
+        $this->validator->validate($customer, $constraint);
+
+        $this->buildViolation($constraint->messageItself)
+            ->setParameter('{{ customerName }}', 'test customer')
+            ->assertRaised();
+    }
+
+    public function testValidateWithFrontendOwnerTreeProvider()
+    {
+        $ownerTreeProvider = $this->createMock(FrontendOwnerTreeProvider::class);
+        $ownerTreeProvider->expects($this->atLeastOnce())
+            ->method('getTreeByBusinessUnit')
+            ->willReturn($this->ownerTree);
+
+        $this->ownerTree->expects($this->once())
+            ->method('getSubordinateBusinessUnitIds')
+            ->with(1)
+            ->willReturn([4, 6, 7]);
+
+        $validator = new CircularCustomerReferenceValidator($ownerTreeProvider);
+        $validator->initialize($this->context);
+
+        $customer = new Customer();
+        $customer->setId(1);
+        $parentCustomer = new Customer();
+        $parentCustomer->setId(5);
+        $customer->setParent($parentCustomer);
+
+        $constraint = new CircularCustomerReference();
+        $validator->validate($customer, $constraint);
+
+        $this->assertNoViolation();
     }
 }

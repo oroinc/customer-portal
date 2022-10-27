@@ -3,61 +3,84 @@
 namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CustomerUserPasswordRequestHandler extends AbstractCustomerUserPasswordHandler
+/**
+ * Handles forgot password request.
+ */
+class CustomerUserPasswordRequestHandler
 {
-    /**
-     * @param FormInterface $form
-     * @param Request $request
-     * @return CustomerUser|bool
-     */
-    public function process(FormInterface $form, Request $request)
-    {
-        if ($request->isMethod('POST')) {
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $emailForm = $form->get('email');
-                $email = $emailForm->getData();
+    /** @var CustomerUserManager */
+    private $userManager;
 
-                /** @var CustomerUser $user */
-                $user = $this->userManager->findUserByUsernameOrEmail($email);
-                if ($this->validateUser($emailForm, $email, $user)) {
-                    if (null === $user->getConfirmationToken()) {
-                        $user->setConfirmationToken($user->generateToken());
-                    }
+    /** @var TranslatorInterface */
+    private $translator;
 
-                    try {
-                        $this->userManager->sendResetPasswordEmail($user);
-                        $user->setPasswordRequestedAt(new \DateTime('now', new \DateTimeZone('UTC')));
-                        $this->userManager->updateUser($user);
+    /** @var LoggerInterface */
+    private $logger;
 
-                        return $user;
-                    } catch (\Exception $e) {
-                        $this->addFormError($form, 'oro.email.handler.unable_to_send_email');
-                    }
-                }
-            }
-        }
-
-        return false;
+    public function __construct(
+        CustomerUserManager $userManager,
+        TranslatorInterface $translator,
+        LoggerInterface $logger
+    ) {
+        $this->userManager = $userManager;
+        $this->translator = $translator;
+        $this->logger = $logger;
     }
 
     /**
      * @param FormInterface $form
-     * @param string $email
-     * @param CustomerUser|null $user
-     * @return bool
+     * @param Request       $request
+     *
+     * @return string|null The requested email address for the reset password message
      */
-    protected function validateUser(FormInterface $form, $email, CustomerUser $user = null)
+    public function process(FormInterface $form, Request $request)
     {
-        if (!$user) {
-            $this->addFormError($form, 'oro.customer.customeruser.profile.email_not_exists', ['%email%' => $email]);
+        $result = null;
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $email = $form->get('email')->getData();
 
-            return false;
+                /** @var CustomerUser|null $user */
+                $user = $this->userManager->findUserByUsernameOrEmail($email);
+                if ($user) {
+                    if ($this->sendResetPasswordEmail($user, $email)) {
+                        $this->userManager->updateUser($user);
+                        $result = $email;
+                    } else {
+                        $form->addError(
+                            new FormError($this->translator->trans('oro.email.handler.unable_to_send_email'))
+                        );
+                    }
+                } else {
+                    $result = $email;
+                }
+            }
         }
 
-        return true;
+        return $result;
+    }
+
+    private function sendResetPasswordEmail(CustomerUser $user, string $email): bool
+    {
+        $result = true;
+        try {
+            $this->userManager->sendResetPasswordEmail($user);
+        } catch (\Exception $e) {
+            $result = false;
+            $this->logger->error(
+                'Unable to sent the reset password email.',
+                ['email' => $email, 'exception' => $e]
+            );
+        }
+
+        return $result;
     }
 }

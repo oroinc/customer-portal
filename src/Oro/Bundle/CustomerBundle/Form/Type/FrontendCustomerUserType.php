@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Form\Type;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -11,6 +12,9 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+/**
+ * Storefront Form Type for Customer User
+ */
 class FrontendCustomerUserType extends AbstractType
 {
     const NAME = 'oro_customer_frontend_customer_user';
@@ -24,16 +28,17 @@ class FrontendCustomerUserType extends AbstractType
     /** @var string */
     protected $customerUserClass;
 
-    /**
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param TokenAccessorInterface        $tokenAccessor
-     */
+    /** @var WebsiteManager */
+    protected $websiteManager;
+
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
-        TokenAccessorInterface $tokenAccessor
+        TokenAccessorInterface $tokenAccessor,
+        WebsiteManager $websiteManager
     ) {
         $this->authorizationChecker = $authorizationChecker;
         $this->tokenAccessor = $tokenAccessor;
+        $this->websiteManager = $websiteManager;
     }
 
     /**
@@ -50,11 +55,12 @@ class FrontendCustomerUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
+        $builder->addEventListener(FormEvents::SUBMIT, [$this, 'onSubmit']);
         $builder->remove('salesRepresentatives');
         $builder->remove('addresses');
         if ($this->authorizationChecker->isGranted('oro_customer_frontend_customer_user_role_view')) {
             $builder->add(
-                'roles',
+                'userRoles',
                 FrontendCustomerUserRoleSelectType::class,
                 [
                     'label' => 'oro.customer.customeruser.roles.label',
@@ -83,6 +89,17 @@ class FrontendCustomerUserType extends AbstractType
         ]);
 
         $data->setOrganization($user->getOrganization());
+    }
+
+    public function onSubmit(FormEvent $event)
+    {
+        $data = $event->getData();
+        if ($data instanceof CustomerUser && !$data->getId() && null === $data->getWebsite()) {
+            $currentWebsite = $this->websiteManager->getCurrentWebsite();
+            if ($currentWebsite) {
+                $data->setWebsite($currentWebsite);
+            }
+        }
     }
 
     /**

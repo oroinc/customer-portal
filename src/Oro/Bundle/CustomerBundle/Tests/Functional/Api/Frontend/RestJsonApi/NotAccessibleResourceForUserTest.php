@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\RestJsonApi;
 
-use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadFrontendApiCustomerUserData;
+use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadAdminCustomerUserData;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -12,10 +12,10 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class NotAccessibleResourceForUserTest extends FrontendRestJsonApiTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
-        $this->loadFixtures([LoadFrontendApiCustomerUserData::class]);
+        $this->loadFixtures([LoadAdminCustomerUserData::class]);
     }
 
     public function testAccessGranted()
@@ -49,21 +49,6 @@ class NotAccessibleResourceForUserTest extends FrontendRestJsonApiTestCase
         );
     }
 
-    public function testForbidden()
-    {
-        $response = $this->get(
-            ['entity' => 'testapiunaccessiblemodel', 'id' => 'forbidden'],
-            [],
-            [],
-            false
-        );
-        $this->assertResponseValidationError(
-            ['title' => 'forbidden exception'],
-            $response,
-            Response::HTTP_FORBIDDEN
-        );
-    }
-
     public function testNotFound()
     {
         $response = $this->get(
@@ -87,11 +72,7 @@ class NotAccessibleResourceForUserTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        $this->assertResponseValidationError(
-            ['title' => 'resource not accessible exception'],
-            $response,
-            Response::HTTP_NOT_FOUND
-        );
+        $this->assertResourceNotAccessibleResponse($response);
     }
 
     public function testNotAllowed()

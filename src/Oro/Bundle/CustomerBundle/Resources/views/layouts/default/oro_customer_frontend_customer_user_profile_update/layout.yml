@@ -1,0 +1,39 @@
+layout:
+    imports:
+        -
+            id: oro_customer_page
+        -
+            id: oro_customer_user_form
+            root: page_content
+    actions:
+        - '@setOption':
+            id: page_title
+            optionName: defaultValue
+            optionValue:
+                label: 'oro.customer.customeruser.profile.edit'
+
+        - '@setOption':
+            id: customer_user_form
+            optionName: form
+            optionValue: '=data["oro_customer_frontend_customer_user_form"].getProfileFormView(data["entity"])'
+        - '@setOption':
+            id: customer_user_form_errors
+            optionName: form
+            optionValue: '=data["oro_customer_frontend_customer_user_form"].getProfileFormView(data["entity"])'
+
+        - '@add':
+            id: customer_user_update_input_action
+            parentId: customer_user_form_actions
+            blockType: input
+            options:
+                type: hidden
+                name: input_action
+                value:
+                    route: oro_customer_frontend_customer_user_profile
+        - '@removeOption':
+            id: customer_user_form_actions_cancel
+            optionName: route_name
+        - '@appendOption':
+            id: customer_user_form_actions_cancel
+            optionName: path
+            optionValue: '=data["backToUrl"]'

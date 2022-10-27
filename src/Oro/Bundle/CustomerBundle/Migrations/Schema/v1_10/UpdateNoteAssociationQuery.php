@@ -27,9 +27,6 @@ class UpdateNoteAssociationQuery extends ParametrizedMigrationQuery
      */
     protected $targetClass;
 
-    /**
-     * @param Schema $schema
-     */
     public function __construct(Schema $schema)
     {
         $this->schema = $schema;
@@ -55,9 +52,6 @@ class UpdateNoteAssociationQuery extends ParametrizedMigrationQuery
         $this->doExecute($logger);
     }
 
-    /**
-     * @param LoggerInterface $logger
-     */
     protected function doExecute(LoggerInterface $logger)
     {
         $this->updateNoteEntityConfig($logger, $this->fieldName);
@@ -91,7 +85,7 @@ class UpdateNoteAssociationQuery extends ParametrizedMigrationQuery
         $types = ['data' => 'array', 'id' => 'integer'];
 
         $this->logQuery($logger, $sql, $params, $types);
-        $this->connection->executeUpdate($sql, $params, $types);
+        $this->connection->executeStatement($sql, $params, $types);
     }
 
     /**

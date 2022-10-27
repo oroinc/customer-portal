@@ -2,8 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Oro\Bundle\CustomerBundle\Acl\AccessRule\SelfManagedPublicCustomerUserRoleAccessRule;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
@@ -26,10 +25,6 @@ class FrontendCustomerUserRoleSelectType extends AbstractType
     /** @var string */
     protected $roleClass;
 
-    /**
-     * @param TokenAccessorInterface $tokenAccessor
-     * @param ManagerRegistry        $registry
-     */
     public function __construct(TokenAccessorInterface $tokenAccessor, ManagerRegistry $registry)
     {
         $this->tokenAccessor = $tokenAccessor;
@@ -84,10 +79,7 @@ class FrontendCustomerUserRoleSelectType extends AbstractType
                 $repo = $this->registry->getManagerForClass($this->roleClass)->getRepository($this->roleClass);
                 return $repo->createQueryBuilder('customer');
             },
-            'acl_options' => [
-                'permission' => 'ASSIGN',
-                'options' => [SelfManagedPublicCustomerUserRoleAccessRule::ENABLE_RULE => true]
-            ]
+            'acl_options' => ['permission' => 'VIEW']
         ]);
     }
 

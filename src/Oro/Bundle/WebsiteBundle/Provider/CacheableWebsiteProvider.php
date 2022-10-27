@@ -2,101 +2,75 @@
 
 namespace Oro\Bundle\WebsiteBundle\Provider;
 
-use Doctrine\Common\Cache\CacheProvider;
-use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
-use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 /**
  * The provider that uses a cache to prevent unneeded loading of website identifiers from the database.
  */
 class CacheableWebsiteProvider implements WebsiteProviderInterface
 {
-    const WEBSITE_IDS_CACHE_KEY = 'oro_website_entity_ids';
+    private const WEBSITE_CACHE_KEY = 'oro_website';
 
-    /** @var WebsiteProviderInterface */
-    private $websiteProvider;
+    private WebsiteProviderInterface $websiteProvider;
+    private CacheInterface $cacheProvider;
+    private TokenStorageInterface $tokenStorage;
 
-    /** @var CacheProvider */
-    private $cacheProvider;
-
-    /** @var DoctrineHelper */
-    private $doctrineHelper;
-
-    /**
-     * @param WebsiteProviderInterface $websiteProvider
-     * @param CacheProvider $cacheProvider
-     * @param DoctrineHelper $doctrineHelper
-     */
     public function __construct(
         WebsiteProviderInterface $websiteProvider,
-        CacheProvider $cacheProvider,
-        DoctrineHelper $doctrineHelper
+        CacheInterface $cacheProvider,
+        TokenStorageInterface $tokenStorage
     ) {
         $this->websiteProvider = $websiteProvider;
         $this->cacheProvider = $cacheProvider;
-        $this->doctrineHelper = $doctrineHelper;
+        $this->tokenStorage = $tokenStorage;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getWebsites()
+    public function getWebsites(): array
     {
-        $websites = [];
-        foreach ($this->getWebsiteIds() as $websiteId) {
-            $websites[$websiteId] = $this->doctrineHelper->getEntityReference(Website::class, $websiteId);
-        }
-        return $websites;
+        return $this->cacheProvider->get($this->getCacheKey('entities'), function () {
+            return $this->websiteProvider->getWebsites();
+        });
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getWebsiteIds()
+    public function getWebsiteIds(): array
     {
-        $websiteIds = $this->cacheProvider->fetch(self::WEBSITE_IDS_CACHE_KEY);
-        if (false === $websiteIds) {
-            $websiteIds = $this->websiteProvider->getWebsiteIds();
-            $this->cacheProvider->save(self::WEBSITE_IDS_CACHE_KEY, $websiteIds);
-        }
-
-        return $websiteIds;
+        return $this->cacheProvider->get($this->getCacheKey('ids'), function () {
+            return $this->websiteProvider->getWebsiteIds();
+        });
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getWebsiteChoices()
+    public function getWebsiteChoices(): array
     {
         $websiteChoices = [];
-        foreach ($this->getWebsiteIds() as $websiteId) {
-            /** @var Website $website */
-            $website = $this->doctrineHelper->getEntityReference(Website::class, $websiteId);
-            $websiteChoices[$website->getName()] = $websiteId;
+        foreach ($this->getWebsites() as $website) {
+            $websiteChoices[$website->getName()] = $website->getId();
         }
 
         return $websiteChoices;
     }
 
     /**
-     * Checks if this provider has data in the internal cache.
-     *
-     * @return bool
-     */
-    public function hasCache()
-    {
-        return $this->cacheProvider->contains(self::WEBSITE_IDS_CACHE_KEY);
-    }
-
-    /**
      * Removes all data from the internal cache.
      */
-    public function clearCache()
+    public function clearCache(): void
     {
-        if (!$this->hasCache()) {
-            return;
+        $this->cacheProvider->clear();
+    }
+
+    private function getCacheKey(string $postfix): string
+    {
+        return self::WEBSITE_CACHE_KEY . '_' . $this->getOrganizationId() . '_' . $postfix;
+    }
+
+    private function getOrganizationId(): int|string
+    {
+        $token = $this->tokenStorage->getToken();
+        if ($token instanceof OrganizationAwareTokenInterface) {
+            return $token->getOrganization()->getId();
         }
 
-        $this->cacheProvider->delete(self::WEBSITE_IDS_CACHE_KEY);
+        return 'all';
     }
 }

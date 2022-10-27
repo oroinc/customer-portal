@@ -4,7 +4,6 @@ namespace Oro\Bundle\CommerceMenuBundle\Migrations\Schema\v1_1;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\StringType;
-use Oro\Bundle\CommerceMenuBundle\Migrations\Schema\OroCommerceMenuBundleInstaller;
 use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtension;
 use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareInterface;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
@@ -39,8 +38,6 @@ class OroCommerceMenuBundle implements Migration, RenameExtensionAwareInterface
 
     /**
      * Update oro_commerce_menu_upd
-     *
-     * @param Schema $schema
      */
     protected function updateOroCommerceMenuUpdateTable(Schema $schema)
     {
@@ -58,8 +55,6 @@ class OroCommerceMenuBundle implements Migration, RenameExtensionAwareInterface
 
     /**
      * Create `oro_navigation_menu_upd_descr` table
-     *
-     * @param Schema $schema
      */
     protected function createOroCommerceMenuUpdateDescriptionTable(Schema $schema)
     {
@@ -72,8 +67,6 @@ class OroCommerceMenuBundle implements Migration, RenameExtensionAwareInterface
 
     /**
      * Add `oro_navigation_menu_upd_descr` foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCommerceMenuUpdateDescriptionForeignKeys(Schema $schema)
     {

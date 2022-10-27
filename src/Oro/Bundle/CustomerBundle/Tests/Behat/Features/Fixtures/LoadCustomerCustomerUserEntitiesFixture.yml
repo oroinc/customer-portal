@@ -10,7 +10,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         lastName: 'CustomerLN1'
         frontendOwner: '@customer'
         owner: '@admin'
-        setDefaults: ['@shippingType', '@billingType']
+        __calls:
+            - setDefaults: ['@shippingType', '@billingType']
         organization: '@organization'
         systemOrganization: '@organization'
         primary: true
@@ -25,7 +26,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         lastName: 'CustomerLN2'
         frontendOwner: '@customer2'
         owner: '@admin'
-        setDefaults: ['@shippingType', '@billingType']
+        __calls:
+            - setDefaults: ['@shippingType', '@billingType']
         organization: '@organization'
         systemOrganization: '@organization'
         primary: true
@@ -42,7 +44,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
         lastName: 'CustomerUserLN1'
         frontendOwner: '@amanda'
         owner: '@admin'
-        setDefaults: ['@shippingType', '@billingType']
+        __calls:
+            - setDefaults: ['@shippingType', '@billingType']
         organization: '@organization'
         systemOrganization: '@organization'
         primary: true
@@ -57,7 +60,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
         lastName: 'CustomerUserLN2'
         frontendOwner: '@amanda'
         owner: '@admin'
-        setDefaults: ['@shippingType', '@billingType']
+        __calls:
+            - setDefaults: ['@shippingType', '@billingType']
         organization: '@organization'
         systemOrganization: '@organization'
         primary: true
@@ -89,7 +93,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: true
         customer: '@customer'
         organization: '@organization'
-        role: ['@front_admin']
+        userRoles: ['@front_admin']
         owner: '@admin'
         addresses:
             - '@customer_user_address1'
@@ -104,7 +108,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: true
         customer: '@customer'
         organization: '@organization'
-        role: ['@buyer']
+        userRoles: ['@buyer']
         owner: '@admin'
         addresses:
             - '@customer_user_address2'

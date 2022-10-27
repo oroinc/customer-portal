@@ -5,7 +5,6 @@ system_configuration:
         theme:
             title: oro_frontend.system_configuration.groups.theme.title
             icon: 'fa-picture-o'
-            configurator: '@oro_frontend.form.configurator.theme::configure'
         theme_settings:
             title: oro_frontend.system_configuration.groups.theme_settings.title
         commerce:
@@ -27,6 +26,9 @@ system_configuration:
             priority: 100
             options:
                 label: oro_frontend.system_configuration.fields.frontend_theme.label
+                required: true
+                constraints:
+                    - NotBlank: ~
 
         oro_frontend.page_templates:
             data_type: array
@@ -35,8 +37,6 @@ system_configuration:
             options:
                 required: false
                 label: oro_frontend.system_configuration.fields.page_template_routes.label
-                block: theme
-                subblock: page_templates
 
         oro_frontend.guest_access_enabled:
             data_type: boolean
@@ -59,9 +59,24 @@ system_configuration:
                 choices:
                     oro_frontend.system_configuration.fields.filter_value_selectors.option.dropdown: dropdown
                     oro_frontend.system_configuration.fields.filter_value_selectors.option.all_at_once: all_at_once
+        oro_frontend.web_api:
+            data_type: boolean
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
+            priority: 10
+            options:
+                label: oro_frontend.system_configuration.fields.web_api.label
 
     tree:
         system_configuration:
+            platform:
+                children:
+                    general_setup:
+                        children:
+                            application_settings:
+                                children:
+                                    web_api_settings:
+                                        children:
+                                            - oro_frontend.web_api
             commerce:
                 children:
                     design:
@@ -73,7 +88,8 @@ system_configuration:
                                         children:
                                             - oro_frontend.frontend_theme
                                     page_templates:
-                                        children: []
+                                        children:
+                                            - oro_frontend.page_templates
                                     filter_settings:
                                         children:
                                             - oro_frontend.filter_value_selectors

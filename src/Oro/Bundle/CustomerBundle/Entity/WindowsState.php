@@ -7,6 +7,8 @@ use Oro\Bundle\WindowsBundle\Entity\AbstractWindowsState;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * Window state entity
+ *
  * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\WindowsStateRepository")
  * @ORM\Table(name="oro_cus_windows_state",
  *      indexes={@ORM\Index(name="oro_cus_windows_state_acu_idx", columns={"customer_user_id"})})

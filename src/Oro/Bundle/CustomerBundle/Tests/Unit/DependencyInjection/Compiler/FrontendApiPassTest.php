@@ -5,45 +5,57 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\DependencyInjection\Compiler;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\FrontendApiPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ContainerBuilder */
-    private $container;
+    private const PROCESSORS = [
+        'oro_organization.api.config.add_owner_validator'
+    ];
 
-    /** @var FrontendApiPass */
-    private $compilerPass;
-
-    protected function setUp()
+    public function testProcessWhenAllProcessorsExist(): void
     {
-        $this->container = new ContainerBuilder();
-        $this->compilerPass = new FrontendApiPass();
+        $container = new ContainerBuilder();
+        $definitions = [];
+        foreach (self::PROCESSORS as $serviceId) {
+            $definitions[] = $container->register($serviceId)->addTag('oro.api.processor');
+        }
+
+        $compiler = new FrontendApiPass();
+        $compiler->process($container);
+
+        /** @var Definition $definition */
+        foreach ($definitions as $definition) {
+            self::assertEquals([['requestType' => '!frontend']], $definition->getTag('oro.api.processor'));
+        }
     }
 
     /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
-     * @expectedExceptionMessage non-existent service "oro_organization.api.config.add_owner_validator"
+     * @dataProvider processorsDataProvider
      */
-    public function testProcessWhenAddOwnerValidatorProcessorDoesNotExist()
+    public function testProcessWhenSomeProcessorDoesNotExist(string $processorServiceId): void
     {
-        $this->compilerPass->process($this->container);
+        $container = new ContainerBuilder();
+        foreach (self::PROCESSORS as $serviceId) {
+            if ($serviceId !== $processorServiceId) {
+                $container->register($serviceId)->addTag('oro.api.processor');
+            }
+        }
+
+        $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionMessage(sprintf('non-existent service "%s"', $processorServiceId));
+
+        $compiler = new FrontendApiPass();
+        $compiler->process($container);
     }
 
-    public function testProcessWhenAddOwnerValidatorProcessorExists()
+    public function processorsDataProvider(): array
     {
-        $definition = $this->container->setDefinition(
-            'oro_organization.api.config.add_owner_validator',
-            new Definition()
-        );
-        $definition->addTag('oro.api.processor', []);
-
-        $this->compilerPass->process($this->container);
-
-        self::assertEquals(
-            [
-                ['requestType' => '!frontend']
-            ],
-            $definition->getTag('oro.api.processor')
+        return array_map(
+            function ($serviceId) {
+                return [$serviceId];
+            },
+            self::PROCESSORS
         );
     }
 }

@@ -32,8 +32,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface
     }
 
     /**
-     * @param Schema $schema
-     *
      * @throws SchemaException
      */
     protected function addAccountUserSettingsTable(Schema $schema, QueryBag $queries)
@@ -69,9 +67,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface
         $table->addUniqueIndex(['account_user_id', 'website_id'], 'unique_acc_user_website');
     }
 
-    /**
-     * @param QueryBag $queries
-     */
     protected function updateAccountUserRoles(QueryBag $queries)
     {
         $anonymousRoleName = 'IS_AUTHENTICATED_ANONYMOUSLY';
@@ -85,7 +80,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface
     }
 
     /**
-     * @param Schema $schema
      * @throws \Doctrine\DBAL\Schema\SchemaException
      */
     protected function removeAccountAddressSerializedDataColumn(Schema $schema)

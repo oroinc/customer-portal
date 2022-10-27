@@ -1,227 +1,260 @@
 <?php
 
-namespace Oro\Bundle\RedirectBundle\Tests\Unit\Security;
+namespace Oro\Bundle\FrontendBundle\Tests\Unit\EventListener;
 
+use Oro\Bundle\ApiBundle\Request\ApiRequestHelper;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\EventListener\GuestAccessRequestListener;
 use Oro\Bundle\FrontendBundle\GuestAccess\GuestAccessDecisionMakerInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Routing\RouterInterface;
 
 class GuestAccessRequestListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @internal
-     */
-    const REQUEST_URL = '/random-url';
+    private const REQUEST_URL = '/random-url';
+    private const REQUEST_API_URL = '/api/random-url';
+    private const REDIRECT_URL = '/customer/user/login';
 
-    /**
-     * @internal
-     */
-    const REDIRECT_URL = '/customer/user/login';
-
-    /**
-     * @internal
-     */
-    const REDIRECT_STATUS_CODE = 302;
-
-    /**
-     * @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenAccessor;
 
-    /**
-     * @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var ConfigManager */
     private $configManager;
 
-    /**
-     * @var GuestAccessDecisionMakerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var GuestAccessDecisionMakerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $guestAccessDecisionMaker;
 
-    /**
-     * @var RouterInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var RouterInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $router;
 
-    /**
-     * @var GetResponseEvent|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var ApiRequestHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $apiRequestHelper;
+
+    /** @var RequestEvent|\PHPUnit\Framework\MockObject\MockObject */
     private $event;
 
-    /**
-     * @var Request|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var Request|\PHPUnit\Framework\MockObject\MockObject */
     private $request;
 
-    /**
-     * @var GuestAccessRequestListener
-     */
+    /** @var GuestAccessRequestListener */
     private $listener;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->guestAccessDecisionMaker = $this->createMock(GuestAccessDecisionMakerInterface::class);
         $this->router = $this->createMock(RouterInterface::class);
-        $this->event = $this->createMock(GetResponseEvent::class);
+        $this->apiRequestHelper = $this->createMock(ApiRequestHelper::class);
+        $this->event = $this->createMock(RequestEvent::class);
         $this->request = $this->createMock(Request::class);
+
+        $this->event->expects(self::any())
+            ->method('getRequest')
+            ->willReturn($this->request);
 
         $this->listener = new GuestAccessRequestListener(
             $this->tokenAccessor,
             $this->configManager,
             $this->guestAccessDecisionMaker,
-            $this->router
+            $this->router,
+            $this->apiRequestHelper
         );
     }
 
-    public function testOnKernelRequestIfGuestAccessAllowed()
+    public function testOnKernelRequestIfGuestAccessAllowed(): void
     {
-        $this->event
-            ->expects(static::once())
+        $this->event->expects(self::once())
             ->method('isMasterRequest')
             ->willReturn(true);
 
-        $this->tokenAccessor
-            ->expects(static::once())
+        $this->tokenAccessor->expects(self::once())
             ->method('hasUser')
             ->willReturn(false);
 
-        $this->configManager
-            ->expects(static::once())
+        $this->configManager->expects(self::once())
             ->method('get')
             ->with('oro_frontend.guest_access_enabled')
             ->willReturn(true);
 
-        $this->guestAccessDecisionMaker
-            ->expects(static::never())
+        $this->guestAccessDecisionMaker->expects(self::never())
             ->method('decide');
 
         $this->listener->onKernelRequest($this->event);
     }
 
-    public function testOnKernelRequestIfNotMasterRequest()
+    public function testOnKernelRequestIfNotMasterRequest(): void
     {
-        $this->event
-            ->expects(static::once())
+        $this->event->expects(self::once())
             ->method('isMasterRequest')
             ->willReturn(false);
 
-        $this->tokenAccessor
-            ->expects(static::never())
+        $this->tokenAccessor->expects(self::never())
             ->method('hasUser');
 
         $this->listener->onKernelRequest($this->event);
     }
 
-    public function testOnKernelRequestIfAuthenticated()
+    public function testOnKernelRequestIfAuthenticated(): void
     {
-        $this->event
-            ->expects(static::once())
+        $this->event->expects(self::once())
             ->method('isMasterRequest')
             ->willReturn(true);
 
-        $this->tokenAccessor
-            ->expects(static::once())
+        $this->tokenAccessor->expects(self::once())
             ->method('hasUser')
             ->willReturn(true);
 
-        $this->configManager
-            ->expects(static::never())
+        $this->configManager->expects(self::never())
             ->method('get');
 
         $this->listener->onKernelRequest($this->event);
     }
 
-    public function testOnKernelRequestIfUrlAllowed()
+    public function testOnKernelRequestIfUrlAllowed(): void
     {
         $this->mockEventIsSupported();
         $this->mockRequest();
 
-        $this->guestAccessDecisionMaker
-            ->expects(static::once())
+        $this->guestAccessDecisionMaker->expects(self::once())
             ->method('decide')
             ->with(self::REQUEST_URL)
             ->willReturn(GuestAccessDecisionMakerInterface::URL_ALLOW);
 
-        $this->event
-            ->expects(static::never())
+        $this->event->expects(self::never())
             ->method('setResponse');
 
         $this->listener->onKernelRequest($this->event);
     }
 
-    public function testOnKernelRequestIfUrlDisallowed()
+    public function testOnKernelRequestIfUrlDisallowed(): void
     {
         $this->mockEventIsSupported();
         $this->mockRequest();
 
-        $this->guestAccessDecisionMaker
-            ->expects(static::once())
+        $this->guestAccessDecisionMaker->expects(self::once())
             ->method('decide')
             ->with(self::REQUEST_URL)
             ->willReturn(GuestAccessDecisionMakerInterface::URL_DISALLOW);
 
-        $this->router
-            ->expects(static::once())
+        $this->apiRequestHelper->expects(self::once())
+            ->method('isApiRequest')
+            ->with(self::REQUEST_URL)
+            ->willReturn(false);
+
+        $this->router->expects(self::once())
             ->method('generate')
             ->with('oro_customer_customer_user_security_login')
             ->willReturn(self::REDIRECT_URL);
 
-        $this->event
-            ->expects(static::once())
+        $this->event->expects(self::once())
             ->method('setResponse')
-            ->with(static::callback([$this, 'eventSetResponseCallback']));
+            ->with(self::callback([$this, 'eventSetRedirectResponseCallback']));
 
         $this->listener->onKernelRequest($this->event);
     }
 
-    /**
-     * @param RedirectResponse $response
-     *
-     * @return bool
-     */
-    public function eventSetResponseCallback($response)
+    public function testOnKernelRequestApiRequestWithNotOptionMethodIfUrlDisallowed(): void
     {
-        static::assertInstanceOf(RedirectResponse::class, $response);
-        static::assertEquals(self::REDIRECT_URL, $response->getTargetUrl());
-        static::assertEquals(self::REDIRECT_STATUS_CODE, $response->getStatusCode());
+        $this->mockEventIsSupported();
+        $this->mockRequest(self::REQUEST_API_URL);
+
+        $this->guestAccessDecisionMaker->expects(self::once())
+            ->method('decide')
+            ->with(self::REQUEST_API_URL)
+            ->willReturn(GuestAccessDecisionMakerInterface::URL_DISALLOW);
+
+        $this->apiRequestHelper->expects(self::once())
+            ->method('isApiRequest')
+            ->with(self::REQUEST_API_URL)
+            ->willReturn(true);
+
+        $this->router->expects(self::never())
+            ->method('generate');
+
+        $this->event->expects(self::once())
+            ->method('setResponse')
+            ->with(self::callback([$this, 'eventSetResponseCallback']));
+
+        $this->listener->onKernelRequest($this->event);
+    }
+
+    public function testOnKernelRequestApiRequestWithOptionMethodIfUrlDisallowed(): void
+    {
+        $this->mockEventIsSupported();
+        $this->mockRequest(self::REQUEST_API_URL, 'OPTIONS');
+
+        $this->guestAccessDecisionMaker->expects(self::once())
+            ->method('decide')
+            ->with(self::REQUEST_API_URL)
+            ->willReturn(GuestAccessDecisionMakerInterface::URL_DISALLOW);
+
+        $this->event->expects(self::never())
+            ->method('setResponse');
+
+        $this->listener->onKernelRequest($this->event);
+    }
+
+    public function testOnKernelRequestApiRequestIfUrlAllowed(): void
+    {
+        $this->mockEventIsSupported();
+        $this->mockRequest(self::REQUEST_API_URL);
+
+        $this->guestAccessDecisionMaker->expects(self::once())
+            ->method('decide')
+            ->with(self::REQUEST_API_URL)
+            ->willReturn(GuestAccessDecisionMakerInterface::URL_ALLOW);
+
+        $this->event->expects(self::never())
+            ->method('setResponse');
+
+        $this->listener->onKernelRequest($this->event);
+    }
+
+    public function eventSetRedirectResponseCallback(RedirectResponse $response): bool
+    {
+        self::assertInstanceOf(RedirectResponse::class, $response);
+        self::assertEquals(self::REDIRECT_URL, $response->getTargetUrl());
+        self::assertEquals(302, $response->getStatusCode());
 
         return true;
     }
 
-    private function mockRequest()
+    public function eventSetResponseCallback(Response $response): bool
     {
-        $this->event
-            ->expects(static::once())
-            ->method('getRequest')
-            ->willReturn($this->request);
+        self::assertInstanceOf(Response::class, $response);
+        self::assertEmpty($response->getContent());
+        self::assertEquals(401, $response->getStatusCode());
 
-        $this->request
-            ->expects(static::once())
-            ->method('getPathInfo')
-            ->willReturn(self::REQUEST_URL);
+        return true;
     }
 
-    private function mockEventIsSupported()
+    private function mockRequest(string $requestUrl = self::REQUEST_URL, string $requestMethod = 'GET'): void
     {
-        $this->event
-            ->expects(static::once())
+        $this->request->expects(self::any())
+            ->method('getMethod')
+            ->willReturn($requestMethod);
+
+        $this->request->expects(self::any())
+            ->method('getPathInfo')
+            ->willReturn($requestUrl);
+    }
+
+    private function mockEventIsSupported(): void
+    {
+        $this->event->expects(self::once())
             ->method('isMasterRequest')
             ->willReturn(true);
 
-        $this->tokenAccessor
-            ->expects(static::once())
+        $this->tokenAccessor->expects(self::once())
             ->method('hasUser')
             ->willReturn(false);
 
-        $this->configManager
-            ->expects(static::once())
+        $this->configManager->expects(self::once())
             ->method('get')
             ->with('oro_frontend.guest_access_enabled')
             ->willReturn(false);

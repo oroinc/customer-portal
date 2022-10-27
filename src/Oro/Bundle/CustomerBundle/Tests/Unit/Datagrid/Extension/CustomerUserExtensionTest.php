@@ -11,13 +11,13 @@ use Oro\Bundle\UserBundle\Entity\User;
 
 class CustomerUserExtensionTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected $tokenAccessor;
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $tokenAccessor;
 
     /** @var CustomerUserExtension */
-    protected $extension;
+    private $extension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
@@ -26,12 +26,9 @@ class CustomerUserExtensionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param mixed $user
-     * @param bool $expected
-     *
      * @dataProvider applicableDataProvider
      */
-    public function testIsApplicable($user, $expected)
+    public function testIsApplicable(?object $user, bool $expected)
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')
@@ -48,10 +45,7 @@ class CustomerUserExtensionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(CustomerUserExtension::ROUTE, $config->offsetGetByPath('[options][route]'));
     }
 
-    /**
-     * @return array
-     */
-    public function applicableDataProvider()
+    public function applicableDataProvider(): array
     {
         return [
             [new User(), false],

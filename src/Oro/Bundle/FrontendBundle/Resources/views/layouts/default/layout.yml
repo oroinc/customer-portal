@@ -1,0 +1,21 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroFrontend/layouts/default/layout.html.twig'
+
+        - '@setFormTheme':
+              themes: '@OroFrontend/layouts/default/form_theme.html.twig'
+
+        - '@addTree':
+            items:
+                switcher_info_trigger:
+                    prepend: false
+                    siblingId: header_row_customer
+                    blockType: block
+                    options:
+                        vars:
+                            items: []
+
+            tree:
+                header_row:
+                    switcher_info_trigger: ~

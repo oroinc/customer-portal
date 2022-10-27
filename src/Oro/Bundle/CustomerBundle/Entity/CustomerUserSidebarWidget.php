@@ -3,11 +3,10 @@
 namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\Exclude;
 use Oro\Bundle\SidebarBundle\Entity\AbstractWidget;
 
 /**
- * Widget
+ * Represents a sidebar widget.
  *
  * @ORM\Table(
  *      name="oro_customer_user_sdbar_wdg",
@@ -25,7 +24,6 @@ class CustomerUserSidebarWidget extends AbstractWidget
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser")
      * @ORM\JoinColumn(name="customer_user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * @Exclude
      */
     protected $user;
 }

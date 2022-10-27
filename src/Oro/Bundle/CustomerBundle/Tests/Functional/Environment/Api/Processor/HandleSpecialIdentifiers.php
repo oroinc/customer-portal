@@ -6,7 +6,6 @@ use Oro\Bundle\ApiBundle\Exception\ActionNotAllowedException;
 use Oro\Bundle\ApiBundle\Exception\ResourceNotAccessibleException;
 use Oro\Bundle\ApiBundle\Processor\SingleItemContext;
 use Oro\Bundle\ApiBundle\Tests\Functional\Environment\Model\TestUnaccessibleModel;
-use Oro\Bundle\SecurityBundle\Exception\ForbiddenException;
 use Oro\Component\ChainProcessor\ContextInterface;
 use Oro\Component\ChainProcessor\ProcessorInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -22,9 +21,6 @@ class HandleSpecialIdentifiers implements ProcessorInterface
     /** @var TokenStorageInterface */
     private $tokenStorage;
 
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     */
     public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
@@ -50,8 +46,6 @@ class HandleSpecialIdentifiers implements ProcessorInterface
                 break;
             case 'access_denied':
                 throw new AccessDeniedException('The access for this entity is denied.');
-            case 'forbidden':
-                throw new ForbiddenException('The access for this entity is forbidden.');
             case 'not_found':
                 throw new NotFoundHttpException('The resource does not exist.');
             case 'not_accessible':

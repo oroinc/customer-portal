@@ -17,12 +17,12 @@ class FrontendOwnershipMetadataTest extends \PHPUnit\Framework\TestCase
     public function testSetFrontendOwner(array $ownerType, $expectedOwnerType, array $exceptionDefinition = [])
     {
         if ($exceptionDefinition) {
-            list($exception, $message) = $exceptionDefinition;
+            [$exception, $message] = $exceptionDefinition;
             $this->expectException($exception);
             $this->expectExceptionMessage($message);
         }
 
-        list($frontendOwnerType, $frontendOwnerFieldName, $frontendOwnerColumnName) = $ownerType;
+        [$frontendOwnerType, $frontendOwnerFieldName, $frontendOwnerColumnName] = $ownerType;
         $metadata = new FrontendOwnershipMetadata(
             $frontendOwnerType,
             $frontendOwnerFieldName,
@@ -52,7 +52,7 @@ class FrontendOwnershipMetadataTest extends \PHPUnit\Framework\TestCase
                 ['UNKNOWN', 'FRONTEND_CUSTOMER', 'customer_id'],
                 FrontendOwnershipMetadata::OWNER_TYPE_FRONTEND_CUSTOMER,
                 [
-                    '\InvalidArgumentException',
+                    \InvalidArgumentException::class,
                     'Unknown owner type: UNKNOWN.',
                 ],
             ],
@@ -60,7 +60,7 @@ class FrontendOwnershipMetadataTest extends \PHPUnit\Framework\TestCase
                 ['UNKNOWN', 'FRONTEND_CUSTOMER', 'customer_id'],
                 FrontendOwnershipMetadata::OWNER_TYPE_FRONTEND_CUSTOMER,
                 [
-                    '\InvalidArgumentException',
+                    \InvalidArgumentException::class,
                     'Unknown owner type: UNKNOWN.',
                 ],
             ],
@@ -72,7 +72,7 @@ class FrontendOwnershipMetadataTest extends \PHPUnit\Framework\TestCase
                 ['FRONTEND_CUSTOMER', '', 'customer_id'],
                 FrontendOwnershipMetadata::OWNER_TYPE_FRONTEND_CUSTOMER,
                 [
-                    '\InvalidArgumentException',
+                    \InvalidArgumentException::class,
                     'The owner field name must not be empty.',
                 ],
             ],
@@ -80,7 +80,7 @@ class FrontendOwnershipMetadataTest extends \PHPUnit\Framework\TestCase
                 ['FRONTEND_CUSTOMER', 'FRONTEND_CUSTOMER', ''],
                 FrontendOwnershipMetadata::OWNER_TYPE_FRONTEND_CUSTOMER,
                 [
-                    '\InvalidArgumentException',
+                    \InvalidArgumentException::class,
                     'The owner column name must not be empty.',
                 ],
             ],
@@ -148,13 +148,11 @@ class FrontendOwnershipMetadataTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param array $arguments
-     * @param array $levels
      * @dataProvider getAccessLevelNamesDataProvider
      */
     public function testGetAccessLevelNames(array $arguments, array $levels)
     {
-        $reflection = new \ReflectionClass('Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata');
+        $reflection = new \ReflectionClass(FrontendOwnershipMetadata::class);
         /** @var FrontendOwnershipMetadata $metadata */
         $metadata = $reflection->newInstanceArgs($arguments);
         $this->assertEquals($levels, $metadata->getAccessLevelNames());
@@ -193,12 +191,11 @@ class FrontendOwnershipMetadataTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage Owner type 1 is not supported
-     */
     public function testGetAccessLevelNamesInvalidOwner()
     {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('Owner type 1 is not supported');
+
         $metadata = new FrontendOwnershipMetadata('ORGANIZATION', 'owner', 'owner_id');
         $metadata->getAccessLevelNames();
     }

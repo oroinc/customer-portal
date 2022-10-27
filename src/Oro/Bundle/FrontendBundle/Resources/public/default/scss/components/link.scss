@@ -1,4 +1,8 @@
+/* @theme: default; */
+
 .link {
+    @include link();
+
     text-decoration: none;
 
     &:hover {
@@ -9,5 +13,13 @@
         text-decoration: none;
 
         cursor: default;
+    }
+
+    &--none-decoration {
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: none;
+        }
     }
 }

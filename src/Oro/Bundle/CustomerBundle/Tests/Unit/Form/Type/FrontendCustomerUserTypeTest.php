@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
@@ -15,42 +16,39 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStu
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntitySelectTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Form\Forms;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Validation;
 
 class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
 {
-    const DATA_CLASS = 'Oro\Bundle\CustomerBundle\Entity\CustomerUser';
-
-    /**
-     * @var FrontendCustomerUserType
-     */
+    /** @var FrontendCustomerUserType */
     protected $formType;
 
-    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $authorizationChecker;
+    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $websiteManager;
 
-    /** @var  TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $tokenAccessor;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+        $this->websiteManager = $this->createMock(WebsiteManager::class);
 
-        $this->formType = new FrontendCustomerUserType($this->authorizationChecker, $this->tokenAccessor);
-        $this->formType->setCustomerUserClass(self::DATA_CLASS);
-        $this->factory = Forms::createFormFactoryBuilder()
-            ->addExtensions($this->getExtensions())
-            ->getFormFactory();
+        $this->formType = new FrontendCustomerUserType(
+            $this->authorizationChecker,
+            $this->tokenAccessor,
+            $this->websiteManager
+        );
+        $this->formType->setCustomerUserClass(CustomerUser::class);
+
+        FormIntegrationTestCase::setUp();
     }
 
     /**
@@ -61,7 +59,9 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         $customer = $this->getCustomer(1);
         $user = new CustomerUser();
         $user->setCustomer($customer);
-        $this->tokenAccessor->expects($this->any())->method('getUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->any())
+            ->method('getUser')
+            ->willReturn($user);
 
         $frontendUserRoleSelectType = new EntitySelectTypeStub(
             $this->getRoles(),
@@ -72,8 +72,8 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         $customerSelectType = new EntityType($this->getCustomers(), CustomerSelectType::NAME);
 
         $customerUserType = new CustomerUserType($this->authorizationChecker, $this->tokenAccessor);
-        $customerUserType->setDataClass(self::DATA_CLASS);
-        $customerUserType->setAddressClass(self::ADDRESS_CLASS);
+        $customerUserType->setDataClass(CustomerUser::class);
+        $customerUserType->setAddressClass(CustomerUserAddress::class);
 
         return [
             new PreloadedExtension(
@@ -120,8 +120,8 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
 
         $this->assertEquals($defaultData, $form->getData());
         $form->submit($submittedData);
-        $result = $form->isValid();
-        $this->assertTrue($result);
+        $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
         $this->assertEquals($expectedData, $form->getData());
     }
 
@@ -134,12 +134,7 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         $customer = new Customer();
         $newCustomerUser->setCustomer($customer);
         $existingCustomerUser = new CustomerUser();
-
-        $class = new \ReflectionClass($existingCustomerUser);
-        $prop = $class->getProperty('id');
-        $prop->setAccessible(true);
-        $prop->setValue($existingCustomerUser, 42);
-
+        ReflectionUtil::setId($existingCustomerUser, 42);
         $existingCustomerUser->setFirstName('John');
         $existingCustomerUser->setLastName('Doe');
         $existingCustomerUser->setEmail('johndoe@example.com');
@@ -152,7 +147,7 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         $alteredExistingCustomerUser->setCustomer($customer);
 
         $alteredExistingCustomerUserWithRole = clone $alteredExistingCustomerUser;
-        $alteredExistingCustomerUserWithRole->setRoles([$this->getRole(2, 'test02')]);
+        $alteredExistingCustomerUserWithRole->setUserRoles([$this->getRole(2, 'test02')]);
 
         $alteredExistingCustomerUserWithAddresses = clone $alteredExistingCustomerUser;
         $alteredExistingCustomerUserWithAddresses->addAddress($this->getAddresses()[2]);
@@ -181,7 +176,7 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
                         'lastName' => 'Doe',
                         'email' => 'johndoe@example.com',
                         'customer' => $existingCustomerUser->getCustomer()->getName(),
-                        'roles' => [2],
+                        'userRoles' => [2],
                     ],
                     'expectedData' => $alteredExistingCustomerUserWithRole,
                     'altered existing user with addresses' => [
@@ -215,31 +210,61 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         $authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
-        $formType = new FrontendCustomerUserType($authorizationChecker, $tokenAccessor);
+        $formType = new FrontendCustomerUserType(
+            $authorizationChecker,
+            $tokenAccessor,
+            $this->websiteManager
+        );
 
-        $event = $this->getMockBuilder('Symfony\Component\Form\FormEvent')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $event = $this->createMock(FormEvent::class);
 
-        $tokenAccessor->expects($this->any())->method('getUser')->willReturn(null);
+        $tokenAccessor->expects($this->any())
+            ->method('getUser')
+            ->willReturn(null);
 
         $formType->onPreSetData($event);
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface
+     * @dataProvider onSubmitDataProvider
+     * @param int|null $customerUserId
+     * @param Website|null $website
+     * @param Website|null $expectedWebsite
      */
-    private function createTranslator()
+    public function testOnSubmit($customerUserId, Website $website = null, Website $expectedWebsite = null)
     {
-        $translator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
-        $translator->expects($this->any())
-            ->method('trans')
-            ->willReturnCallback(
-                function ($message) {
-                    return $message . '.trans';
-                }
-            );
+        $this->authorizationChecker->expects($this->any())
+            ->method('isGranted')
+            ->willReturn(false);
 
-        return $translator;
+        $this->websiteManager->expects($this->any())
+            ->method('getCurrentWebsite')
+            ->willReturn($website);
+
+        $customer = new Customer();
+        $newCustomerUser = new CustomerUser();
+        ReflectionUtil::setId($newCustomerUser, $customerUserId);
+        $newCustomerUser->setCustomer($customer);
+        $form = $this->factory->create(FrontendCustomerUserType::class, $newCustomerUser, []);
+
+        $form->submit([]);
+        $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
+        $this->assertEquals($expectedWebsite, $form->getData()->getWebsite());
+    }
+
+    /**
+     * @return array
+     */
+    public function onSubmitDataProvider()
+    {
+        $website = new Website();
+
+        return [
+            'no id with website' => [null, $website, $website],
+            'id with website' => [1, new Website(), null],
+            'id without website' => [1, null, null],
+            'no id without website' => [null, null, null],
+        ];
     }
 }

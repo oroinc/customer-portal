@@ -8,38 +8,31 @@ use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\FormBundle\Event\FormHandler\AfterFormProcessEvent;
 use Oro\Bundle\FormBundle\Event\FormHandler\Events;
 use Oro\Bundle\FormBundle\Form\Handler\FormHandler;
-use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Provider\RequestWebsiteProvider;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Registers and updates customer user
+ * Registers and updates customer user.
  */
 class FrontendCustomerUserHandler extends FormHandler
 {
-    /** @var RequestStack */
-    private $requestStack;
+    /** @var RequestWebsiteProvider */
+    private $requestWebsiteProvider;
 
     /** @var CustomerUserManager */
     private $userManager;
 
-    /**
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param DoctrineHelper $doctrineHelper
-     * @param RequestStack $requestStack
-     * @param CustomerUserManager $userManager
-     */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         DoctrineHelper $doctrineHelper,
-        RequestStack $requestStack,
+        RequestWebsiteProvider $requestWebsiteProvider,
         CustomerUserManager $userManager
     ) {
         parent::__construct($eventDispatcher, $doctrineHelper);
 
-        $this->requestStack = $requestStack;
+        $this->requestWebsiteProvider = $requestWebsiteProvider;
         $this->userManager = $userManager;
     }
 
@@ -54,7 +47,7 @@ class FrontendCustomerUserHandler extends FormHandler
             throw new \InvalidArgumentException(sprintf(
                 'Data should be instance of %s, but %s is given',
                 CustomerUser::class,
-                gettype($customerUser) === 'object' ? get_class($customerUser) : gettype($customerUser)
+                is_object($customerUser) ? get_class($customerUser) : gettype($customerUser)
             ));
         }
 
@@ -78,12 +71,11 @@ class FrontendCustomerUserHandler extends FormHandler
         /** @var CustomerUser $customerUser */
         $customerUser = $data;
 
-        $this->eventDispatcher->dispatch(Events::BEFORE_FLUSH, new AfterFormProcessEvent($form, $customerUser));
+        $this->eventDispatcher->dispatch(new AfterFormProcessEvent($form, $customerUser), Events::BEFORE_FLUSH);
 
         if (!$customerUser->getId()) {
-            $request = $this->requestStack->getMasterRequest();
-            $website = $request->attributes->get('current_website');
-            if ($website instanceof Website) {
+            $website = $this->requestWebsiteProvider->getWebsite();
+            if (null !== $website) {
                 $customerUser->setWebsite($website);
             }
 
@@ -92,6 +84,6 @@ class FrontendCustomerUserHandler extends FormHandler
 
         $this->userManager->updateUser($customerUser);
 
-        $this->eventDispatcher->dispatch(Events::AFTER_FLUSH, new AfterFormProcessEvent($form, $customerUser));
+        $this->eventDispatcher->dispatch(new AfterFormProcessEvent($form, $customerUser), Events::AFTER_FLUSH);
     }
 }

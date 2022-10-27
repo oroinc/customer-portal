@@ -23,6 +23,7 @@
 
     &--xs {
         width: $badge-size-xs;
+        min-width: $badge-size-xs;
         height: $badge-size-xs;
 
         font-size: $badge-font-size-xs;
@@ -41,5 +42,23 @@
 
     &--offset-none {
         margin-right: 0;
+    }
+}
+
+.badge-rectangle {
+    display: inline-flex;
+    align-items: center;
+    padding: $offset-y-s $offset-x-m;
+
+    font-size: $base-font-size;
+    line-height: 1;
+    text-transform: none;
+    font-weight: font-weight('light');
+
+    border-radius: $badge-square-radius;
+    background: $badge-rectangle-background;
+
+    &--align-start {
+        margin-right: auto;
     }
 }

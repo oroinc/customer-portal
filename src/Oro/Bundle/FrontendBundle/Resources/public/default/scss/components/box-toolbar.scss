@@ -11,8 +11,7 @@
     &__content {
         padding: 0 $offset-x-m 0 0;
 
-        // 0px value for fix bug in IE11
-        flex: 1 0 0px;
+        flex: 1 0 auto;
     }
 
     &__actions {
@@ -27,14 +26,6 @@
 
         &__actions {
             flex-wrap: wrap;
-        }
-    }
-}
-
-@include breakpoint('print') {
-    .box-toolbar {
-        &__actions {
-            display: none !important;
         }
     }
 }

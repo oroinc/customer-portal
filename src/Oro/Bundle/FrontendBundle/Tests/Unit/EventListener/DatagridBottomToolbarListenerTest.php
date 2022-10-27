@@ -2,34 +2,36 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\EventListener;
 
+use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Event\BuildBefore;
 use Oro\Bundle\FrontendBundle\EventListener\DatagridBottomToolbarListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
-class DatagridBottomToolbarListenerTest extends FrontendDatagridListenerTestCase
+class DatagridBottomToolbarListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var DatagridBottomToolbarListener
-     */
-    protected $listener;
+    /** @var DatagridConfiguration|\PHPUnit\Framework\MockObject\MockObject */
+    private $datagridConfig;
 
-    /**
-     * @var BuildBefore|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $event;
+    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $frontendHelper;
 
-    public function setUp()
+    /** @var BuildBefore|\PHPUnit\Framework\MockObject\MockObject */
+    private $event;
+
+    /** @var DatagridBottomToolbarListener */
+    private $listener;
+
+    protected function setUp(): void
     {
-        parent::setUp();
-        $this->event = $this->getBuildBeforeEventMock($this->datagridConfig);
-    }
+        $this->frontendHelper = $this->createMock(FrontendHelper::class);
+        $this->datagridConfig = $this->createMock(DatagridConfiguration::class);
 
-    /**
-     * {@inheritDoc}
-     */
-    public function createListener(FrontendHelper $helper)
-    {
-        return new DatagridBottomToolbarListener($helper);
+        $this->event = $this->createMock(BuildBefore::class);
+        $this->event->expects($this->any())
+            ->method('getConfig')
+            ->willReturn($this->datagridConfig);
+
+        $this->listener = new DatagridBottomToolbarListener($this->frontendHelper);
     }
 
     public function testIsNotApplicableNotFrontendRequest()

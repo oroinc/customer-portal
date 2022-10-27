@@ -2,22 +2,20 @@
 
 namespace Oro\Bundle\WebsiteBundle\Provider;
 
-use Oro\Bundle\ScopeBundle\Manager\AbstractScopeCriteriaProvider;
+use Oro\Bundle\ScopeBundle\Manager\ScopeCriteriaProviderInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
-class ScopeCriteriaProvider extends AbstractScopeCriteriaProvider
+/**
+ * The scope criteria provider for the current website.
+ */
+class ScopeCriteriaProvider implements ScopeCriteriaProviderInterface
 {
-    const WEBSITE = 'website';
+    public const WEBSITE = 'website';
 
-    /**
-     * @var WebsiteManager
-     */
-    protected $websiteManager;
+    /** @var WebsiteManager */
+    private $websiteManager;
 
-    /**
-     * @param WebsiteManager $websiteManager
-     */
     public function __construct(WebsiteManager $websiteManager)
     {
         $this->websiteManager = $websiteManager;
@@ -26,17 +24,17 @@ class ScopeCriteriaProvider extends AbstractScopeCriteriaProvider
     /**
      * {@inheritdoc}
      */
-    public function getCriteriaForCurrentScope()
-    {
-        return [static::WEBSITE => $this->websiteManager->getCurrentWebsite()];
-    }
-
-    /**
-     * @return string
-     */
     public function getCriteriaField()
     {
         return self::WEBSITE;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCriteriaValue()
+    {
+        return $this->websiteManager->getCurrentWebsite();
     }
 
     /**

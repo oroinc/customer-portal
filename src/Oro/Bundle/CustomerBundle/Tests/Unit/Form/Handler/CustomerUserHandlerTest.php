@@ -3,264 +3,247 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
-use Oro\Component\Testing\Unit\EntityTrait;
-use Oro\Component\Testing\Unit\FormHandlerTestCase;
+use Oro\Component\Testing\ReflectionUtil;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CustomerUserHandlerTest extends FormHandlerTestCase
+class CustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTrait;
+    private const FORM_DATA = ['field' => 'value'];
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Oro\Bundle\CustomerBundle\Entity\CustomerUserManager
-     */
-    protected $userManager;
+    /** @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $userManager;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|FormInterface
-     */
-    protected $passwordGenerateForm;
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $tokenAccessor;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|FormInterface
-     */
-    protected $sendEmailForm;
+    /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $form;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface
-     */
-    protected $tokenAccessor;
+    /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $passwordGenerateForm;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface
-     */
-    protected $translator;
+    /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $sendEmailForm;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface
-     */
-    protected $logger;
+    /** @var CustomerUser */
+    private $entity;
 
-    /**
-     * @var CustomerUser
-     */
-    protected $entity;
+    /** @var CustomerUserHandler */
+    private $handler;
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
-
+        $this->userManager = $this->createMock(CustomerUserManager::class);
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+        $this->form = $this->createMock(Form::class);
+        $this->passwordGenerateForm = $this->createMock(FormInterface::class);
+        $this->sendEmailForm = $this->createMock(FormInterface::class);
         $this->entity = new CustomerUser();
 
-        $this->userManager = $this->getMockBuilder('Oro\Bundle\CustomerBundle\Entity\CustomerUserManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->passwordGenerateForm = $this->getMockBuilder('Symfony\Component\Form\FormInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->sendEmailForm = $this->getMockBuilder('Symfony\Component\Form\FormInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
-
-        $this->translator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
-        $this->logger = $this->createMock('Psr\Log\LoggerInterface');
-
         $this->handler = new CustomerUserHandler(
-            $this->form,
-            $this->request,
             $this->userManager,
             $this->tokenAccessor,
-            $this->translator,
-            $this->logger
+            $this->createMock(TranslatorInterface::class),
+            $this->createMock(LoggerInterface::class)
         );
     }
 
-    public function testProcessUnsupportedRequest()
+    private function getCustomerUser(int $id): CustomerUser
     {
-        $this->request->setMethod('GET');
+        $customerUser = new CustomerUser();
+        ReflectionUtil::setId($customerUser, $id);
 
-        $this->form->expects($this->never())
+        return $customerUser;
+    }
+
+    private function getOrganization(string $name): Organization
+    {
+        $organization = new Organization();
+        $organization->setName($name);
+
+        return $organization;
+    }
+
+    public function testProcessUnsupportedRequest(): void
+    {
+        $request = new Request();
+        $request->setMethod('GET');
+
+        $this->form->expects(self::never())
             ->method('submit');
 
-        $this->assertFalse($this->handler->process($this->entity));
+        self::assertFalse($this->handler->process($this->entity, $this->form, $request));
     }
 
     /**
-     * {@inheritdoc}
      * @dataProvider supportedMethods
      */
-    public function testProcessSupportedRequest($method, $isValid, $isProcessed)
+    public function testProcessSupportedRequest(string $method): void
     {
-        $organization = null;
-        if ($isValid) {
-            $organization = new Organization();
-            $organization->setName('test');
+        $request = new Request();
+        $request->initialize([], self::FORM_DATA);
+        $request->setMethod($method);
 
-            $this->tokenAccessor->expects($this->any())
-                ->method('getOrganization')
-                ->willReturn($organization);
+        $organization = $this->getOrganization('test');
 
-            $this->form->expects($this->at(4))
-                ->method('get')
-                ->with('passwordGenerate')
-                ->will($this->returnValue($this->passwordGenerateForm));
-
-            $this->form->expects($this->at(5))
-                ->method('get')
-                ->with('sendEmail')
-                ->will($this->returnValue($this->sendEmailForm));
-
-            $this->passwordGenerateForm->expects($this->once())
-                ->method('getData')
-                ->will($this->returnValue(false));
-
-            $this->sendEmailForm->expects($this->once())
-                ->method('getData')
-                ->will($this->returnValue(false));
-            $this->userManager->expects($this->once())
-                ->method('updateUser')
-                ->with($this->entity);
-        } else {
-            $this->userManager->expects($this->never())
-                ->method('updateUser')
-                ->with($this->entity);
-        }
-
-        $this->form->expects($this->any())
-            ->method('isValid')
-            ->will($this->returnValue($isValid));
-
-        $this->request->initialize([], self::FORM_DATA);
-        $this->request->setMethod($method);
-
-        $this->form->expects($this->once())
-            ->method('submit')
-            ->with(self::FORM_DATA);
-
-        $this->assertEquals($isProcessed, $this->handler->process($this->entity));
-        if ($organization) {
-            $this->assertEquals($organization, $this->entity->getOrganization());
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function testProcessValidData()
-    {
-        $this->request->initialize([], self::FORM_DATA);
-        $this->request->setMethod('POST');
-
-        $this->form->expects($this->once())
-            ->method('submit')
-            ->with(self::FORM_DATA);
-
-        $this->form->expects($this->at(4))
-            ->method('get')
-            ->with('passwordGenerate')
-            ->will($this->returnValue($this->passwordGenerateForm));
-
-        $this->form->expects($this->at(5))
-            ->method('get')
-            ->with('sendEmail')
-            ->will($this->returnValue($this->sendEmailForm));
-
-        $this->passwordGenerateForm->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue(true));
-
-        $this->sendEmailForm->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue(true));
-
-        $this->form->expects($this->once())
-            ->method('isValid')
-            ->will($this->returnValue(true));
-
-        $this->assertTrue($this->handler->process($this->entity));
-    }
-
-    public function testProcessCurrentUser()
-    {
-        /** @var CustomerUser $customerUser */
-        $customerUser = $this->getEntity(CustomerUser::class, ['id' => 1]);
-
-        $organization = new Organization();
-        $organization->setName('test');
-
-        $this->assertExistingUserSaveCalls($organization, $customerUser);
-
-        $this->tokenAccessor->expects($this->once())
-            ->method('getUserId')
-            ->willReturn(1);
-        $this->userManager->expects($this->once())
-            ->method('reloadUser')
-            ->with($customerUser);
-
-        $this->assertEquals(true, $this->handler->process($customerUser));
-        if ($organization) {
-            $this->assertEquals($organization, $customerUser->getOrganization());
-        }
-    }
-
-    public function testProcessAnotherUser()
-    {
-        /** @var CustomerUser $customerUser */
-        $customerUser = $this->getEntity(CustomerUser::class, ['id' => 2]);
-
-        $organization = new Organization();
-        $organization->setName('test');
-
-        $this->assertExistingUserSaveCalls($organization, $customerUser);
-
-        $this->tokenAccessor->expects($this->once())
-            ->method('getUserId')
-            ->willReturn(1);
-        $this->userManager->expects($this->never())
-            ->method('reloadUser')
-            ->with($customerUser);
-
-        $this->assertEquals(true, $this->handler->process($customerUser));
-        if ($organization) {
-            $this->assertEquals($organization, $customerUser->getOrganization());
-        }
-    }
-
-    /**
-     * @param Organization $organization
-     * @param CustomerUser $customerUser
-     */
-    protected function assertExistingUserSaveCalls(Organization $organization, CustomerUser $customerUser)
-    {
-        $this->tokenAccessor->expects($this->any())
+        $this->tokenAccessor->expects(self::once())
             ->method('getOrganization')
             ->willReturn($organization);
-        $this->userManager->expects($this->never())
-            ->method('sendWelcomeEmail');
-        $this->userManager->expects($this->once())
+        $this->userManager->expects(self::once())
+            ->method('updateWebsiteSettings')
+            ->with($this->entity);
+        $this->form->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap([
+                ['passwordGenerate', $this->passwordGenerateForm],
+                ['sendEmail', $this->sendEmailForm]
+            ]);
+        $this->passwordGenerateForm->expects(self::once())
+            ->method('getData')
+            ->willReturn(false);
+        $this->sendEmailForm->expects(self::once())
+            ->method('getData')
+            ->willReturn(false);
+        $this->userManager->expects(self::once())
             ->method('updateUser')
-            ->with($customerUser);
-        $this->form->expects($this->any())
+            ->with($this->entity);
+        $this->form->expects(self::once())
             ->method('isValid')
-            ->will($this->returnValue(true));
-
-        $this->request->initialize([], self::FORM_DATA);
-        $this->request->setMethod('POST');
-        $this->form->expects($this->once())
+            ->willReturn(true);
+        $this->form->expects(self::once())
             ->method('submit')
             ->with(self::FORM_DATA);
+
+        self::assertTrue($this->handler->process($this->entity, $this->form, $request));
+        self::assertSame($organization, $this->entity->getOrganization());
+    }
+
+    public function supportedMethods(): array
+    {
+        return [['POST'], ['PUT']];
+    }
+
+    public function testProcessSupportedRequestWithInvalidData(): void
+    {
+        $request = new Request();
+        $request->initialize([], self::FORM_DATA);
+        $request->setMethod('POST');
+
+        $this->userManager->expects(self::never())
+            ->method('updateUser')
+            ->with($this->entity);
+        $this->form->expects(self::once())
+            ->method('isValid')
+            ->willReturn(false);
+        $this->form->expects(self::once())
+            ->method('submit')
+            ->with(self::FORM_DATA);
+
+        self::assertFalse($this->handler->process($this->entity, $this->form, $request));
+    }
+
+    public function testProcessValidData(): void
+    {
+        $request = new Request();
+        $request->initialize([], self::FORM_DATA);
+        $request->setMethod('POST');
+
+        $this->form->expects(self::once())
+            ->method('submit')
+            ->with(self::FORM_DATA);
+        $this->form->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap([
+                ['passwordGenerate', $this->passwordGenerateForm],
+                ['sendEmail', $this->sendEmailForm]
+            ]);
+
+        $this->passwordGenerateForm->expects(self::once())
+            ->method('getData')
+            ->willReturn(true);
+        $this->sendEmailForm->expects(self::once())
+            ->method('getData')
+            ->willReturn(true);
+        $this->form->expects(self::once())
+            ->method('isValid')
+            ->willReturn(true);
+
+        self::assertTrue($this->handler->process($this->entity, $this->form, $request));
+    }
+
+    public function testProcessCurrentUser(): void
+    {
+        $request = new Request();
+        $request->initialize([], self::FORM_DATA);
+        $request->setMethod('POST');
+
+        $customerUser = $this->getCustomerUser(1);
+        $organization = $this->getOrganization('test');
+
+        $this->tokenAccessor->expects(self::once())
+            ->method('getOrganization')
+            ->willReturn($organization);
+        $this->userManager->expects(self::never())
+            ->method('sendWelcomeRegisteredByAdminEmail');
+        $this->userManager->expects(self::once())
+            ->method('updateUser')
+            ->with($customerUser);
+        $this->form->expects(self::once())
+            ->method('isValid')
+            ->willReturn(true);
+        $this->form->expects(self::once())
+            ->method('submit')
+            ->with(self::FORM_DATA);
+        $this->tokenAccessor->expects(self::once())
+            ->method('getUserId')
+            ->willReturn(1);
+        $this->userManager->expects(self::once())
+            ->method('reloadUser')
+            ->with($customerUser);
+
+        self::assertTrue($this->handler->process($customerUser, $this->form, $request));
+        self::assertSame($organization, $customerUser->getOrganization());
+    }
+
+    public function testProcessAnotherUser(): void
+    {
+        $request = new Request();
+        $request->initialize([], self::FORM_DATA);
+        $request->setMethod('POST');
+
+        $customerUser = $this->getCustomerUser(2);
+        $organization = $this->getOrganization('test');
+
+        $this->tokenAccessor->expects(self::once())
+            ->method('getOrganization')
+            ->willReturn($organization);
+        $this->userManager->expects(self::never())
+            ->method('sendWelcomeRegisteredByAdminEmail');
+        $this->userManager->expects(self::once())
+            ->method('updateUser')
+            ->with($customerUser);
+        $this->form->expects(self::once())
+            ->method('isValid')
+            ->willReturn(true);
+        $this->form->expects(self::once())
+            ->method('submit')
+            ->with(self::FORM_DATA);
+        $this->tokenAccessor->expects(self::once())
+            ->method('getUserId')
+            ->willReturn(1);
+        $this->userManager->expects(self::never())
+            ->method('reloadUser')
+            ->with($customerUser);
+
+        self::assertTrue($this->handler->process($customerUser, $this->form, $request));
+        self::assertSame($organization, $customerUser->getOrganization());
     }
 }

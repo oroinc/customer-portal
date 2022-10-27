@@ -2,6 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Entity\Repository;
 
+use Doctrine\ORM\EntityRepository;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\GridView;
 use Oro\Bundle\CustomerBundle\Entity\Repository\GridViewRepository;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserGridViewACLData;
@@ -13,7 +15,7 @@ class GridViewRepositoryTest extends BaseTest
     /** @var GridViewRepository */
     protected $repository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -25,7 +27,7 @@ class GridViewRepositoryTest extends BaseTest
     /**
      * {@inheritdoc}
      */
-    protected function getUsername()
+    protected function getUsername(): string
     {
         return LoadCustomerUserGridViewACLData::USER_ACCOUNT_2_ROLE_LOCAL;
     }
@@ -33,11 +35,8 @@ class GridViewRepositoryTest extends BaseTest
     /**
      * {@inheritdoc}
      */
-    protected function getUserRepository()
+    protected function getUserRepository(): EntityRepository
     {
-        return $this->getContainer()
-            ->get('doctrine')
-            ->getManagerForClass('OroCustomerBundle:CustomerUser')
-            ->getRepository('OroCustomerBundle:CustomerUser');
+        return self::getContainer()->get('doctrine')->getRepository(CustomerUser::class);
     }
 }

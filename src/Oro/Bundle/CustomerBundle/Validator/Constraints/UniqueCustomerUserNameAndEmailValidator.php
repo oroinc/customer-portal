@@ -17,9 +17,6 @@ class UniqueCustomerUserNameAndEmailValidator extends ConstraintValidator
      */
     private $customerUserManager;
 
-    /**
-     * @param CustomerUserManager $customerUserManager
-     */
     public function __construct(CustomerUserManager $customerUserManager)
     {
         $this->customerUserManager = $customerUserManager;
@@ -43,15 +40,17 @@ class UniqueCustomerUserNameAndEmailValidator extends ConstraintValidator
             $value = $value->getEmail();
         }
 
-        /** @var CustomerUser $existingCustomerUser */
-        $existingCustomerUser = $this->customerUserManager->findUserByEmail((string)$value);
+        if (!$value) {
+            return;
+        }
 
-        if ($existingCustomerUser && $id !== $existingCustomerUser->getId()) {
+        /** @var CustomerUser $existingCustomerUser */
+        $existingCustomerUser = $this->customerUserManager->findUserByEmail($value);
+        if (null !== $existingCustomerUser && $existingCustomerUser->getId() !== $id) {
             $this->context->buildViolation($constraint->message)
                 ->atPath('email')
                 ->setInvalidValue($value)
                 ->addViolation();
-            return;
         }
     }
 }

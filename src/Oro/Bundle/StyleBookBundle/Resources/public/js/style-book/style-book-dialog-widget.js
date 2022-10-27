@@ -1,18 +1,17 @@
 define(function(require) {
     'use string';
 
-    var StyleBookDialogWidget;
-    var DialogWidget = require('oro/dialog-widget');
-    var $ = require('jquery');
-    var _ = require('underscore');
+    const DialogWidget = require('oro/dialog-widget');
+    const $ = require('jquery');
+    const _ = require('underscore');
 
-    StyleBookDialogWidget = DialogWidget.extend({
+    const StyleBookDialogWidget = DialogWidget.extend({
         content: null,
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function StyleBookDialogWidget() {
-            StyleBookDialogWidget.__super__.constructor.apply(this, arguments);
+        constructor: function StyleBookDialogWidget(options) {
+            StyleBookDialogWidget.__super__.constructor.call(this, options);
         },
 
         initialize: function(options) {
@@ -20,13 +19,17 @@ define(function(require) {
 
             this.content = options.content;
 
-            StyleBookDialogWidget.__super__.initialize.apply(this, arguments);
+            StyleBookDialogWidget.__super__.initialize.call(this, options);
+        },
+
+        isActual: function() {
+            return !this.disposed;
         },
 
         _onContentLoad: function(content) {
             content = $(content).wrapAll('<div />');
 
-            var demoContent = $('<div />');
+            const demoContent = $('<div />');
             demoContent.text(this.content);
             demoContent.prependTo(content);
 

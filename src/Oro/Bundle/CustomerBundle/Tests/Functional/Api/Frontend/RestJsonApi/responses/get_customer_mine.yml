@@ -1,0 +1,27 @@
+data:
+    type: customers
+    id: '<toString(@customer->id)>'
+    attributes:
+        name: 'Customer'
+        createdAt: '@customer->createdAt->format("Y-m-d\TH:i:s\Z")'
+        updatedAt: '@customer->updatedAt->format("Y-m-d\TH:i:s\Z")'
+    relationships:
+        parent:
+            data: null
+        children:
+            data:
+                -
+                    type: customers
+                    id: '<toString(@customer1->id)>'
+                -
+                    type: customers
+                    id: '<toString(@customer2->id)>'
+        group:
+            data:
+                type: customergroups
+                id: '<toString(@customer_group->id)>'
+        users:
+            data:
+                -
+                    type: customerusers
+                    id: '<toString(@customer_user->id)>'

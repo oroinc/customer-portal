@@ -1,12 +1,11 @@
 define(function(require) {
     'use strict';
 
-    var ElasticSwipeActions;
-    var BasePlugin = require('oroui/js/app/plugins/base/plugin');
-    var ViewportManager = require('oroui/js/viewport-manager');
-    var mediator = require('oroui/js/mediator');
-    var _ = require('underscore');
-    var $ = require('jquery');
+    const BasePlugin = require('oroui/js/app/plugins/base/plugin');
+    const ViewportManager = require('oroui/js/viewport-manager');
+    const mediator = require('oroui/js/mediator');
+    const _ = require('underscore');
+    const $ = require('jquery');
 
     /**
      * Elastic swipe actions plugin for frontend grid
@@ -15,7 +14,7 @@ define(function(require) {
      * @augments BasePlugin
      * @exports ElasticSwipeActions
      */
-    ElasticSwipeActions = BasePlugin.extend({
+    const ElasticSwipeActions = BasePlugin.extend({
         /**
          * Current swiped element container
          * @property {jQuery}
@@ -26,7 +25,7 @@ define(function(require) {
          * Selector for find swiped container
          * @property {String}
          */
-        containerSelector: null,
+        containerSelector: '.grid-row',
 
         /**
          * Control point for moving to the end position
@@ -75,14 +74,14 @@ define(function(require) {
          * Dynamic size for container offset
          * @property {String}
          */
-        sizerSelector: null,
+        sizerSelector: '.action-cell',
 
         /**
          * Viewport manager options
          * @property {Object}
          */
         viewport: {
-            minScreenType: 'any'
+            maxScreenType: 'tablet'
         },
 
         /**
@@ -90,11 +89,17 @@ define(function(require) {
          */
         enabled: false,
 
+        events: {
+            swipestart: '_onStart',
+            swipemove: '_onMove',
+            swipeend: '_onEnd'
+        },
+
         /**
          * @Constructor
          */
-        constructor: function ElasticSwipeActions() {
-            ElasticSwipeActions.__super__.constructor.apply(this, arguments);
+        constructor: function ElasticSwipeActions(grid, options) {
+            ElasticSwipeActions.__super__.constructor.call(this, grid, options);
         },
         /**
          * @Initialize
@@ -112,7 +117,7 @@ define(function(require) {
             ));
 
             mediator.on('viewport:change', this.onViewportChange, this);
-            return ElasticSwipeActions.__super__.initialize.apply(this, arguments);
+            return ElasticSwipeActions.__super__.initialize.call(this, grid, options);
         },
 
         /**
@@ -132,9 +137,9 @@ define(function(require) {
                 return;
             }
 
-            this._bindEvents();
+            this.delegateEvents();
 
-            return ElasticSwipeActions.__super__.enable.apply(this, arguments);
+            return ElasticSwipeActions.__super__.enable.call(this);
         },
         /**
          * Disable swipe handler
@@ -145,12 +150,12 @@ define(function(require) {
             }
 
             this._revertState();
-            this._unbindEvents();
+            this.undelegateEvents();
 
             delete this.currentSwipedContainer;
             delete this.storedPos;
 
-            return ElasticSwipeActions.__super__.disable.apply(this, arguments);
+            return ElasticSwipeActions.__super__.disable.call(this);
         },
 
         /**
@@ -163,7 +168,7 @@ define(function(require) {
 
             this.disable();
 
-            return ElasticSwipeActions.__super__.dispose.apply(this, arguments);
+            return ElasticSwipeActions.__super__.dispose.call(this);
         },
 
         /**
@@ -186,13 +191,13 @@ define(function(require) {
          * @private
          */
         _applyDynamicOffset: function(container) {
-            var sizer = container.find(this.sizerSelector);
+            const sizer = container.find(this.sizerSelector);
 
             if (!sizer.length) {
                 return;
             }
 
-            var size = container.find(this.sizerSelector).outerWidth();
+            const size = container.find(this.sizerSelector).outerWidth();
 
             this.maxLimit = size;
             this.breakPointPosition = size * this.breakFactor;
@@ -203,36 +208,14 @@ define(function(require) {
         },
 
         /**
-         * Set touch swipe event handlers
-         *
-         * @private
-         */
-        _bindEvents: function() {
-            mediator.on('swipe-action-start', this._onStart, this);
-            mediator.on('swipe-action-move', this._onMove, this);
-            mediator.on('swipe-action-end', this._onEnd, this);
-        },
-
-        /**
-         * Remove touch swipe event handlers
-         *
-         * @private
-         */
-        _unbindEvents: function() {
-            mediator.off('swipe-action-start', this._onStart, this);
-            mediator.off('swipe-action-move', this._onMove, this);
-            mediator.off('swipe-action-end', this._onEnd, this);
-        },
-
-        /**
          * On start swipe action functionality
          *
          * @param {Object} data
          * @param {DOM.element} target
          * @private
          */
-        _onStart: function(data, target) {
-            var container = $(target).closest(this.containerSelector);
+        _onStart: function({target}) {
+            const container = $(target).closest(this.containerSelector);
 
             if (this.sizerSelector) {
                 this._applyDynamicOffset(container);
@@ -263,19 +246,19 @@ define(function(require) {
          * @param {Object} data
          * @private
          */
-        _onMove: function(data) {
-            var xAxe = data.x - this.storedPos;
+        _onMove: function({detail}) {
+            const xAxe = detail.x - this.storedPos;
 
             if (!this.elastic &&
                 (
-                    (data.direction === 'left' && Math.abs(xAxe) > this.maxLimit) ||
-                    (data.direction === 'right' && xAxe > 0)
+                    (detail.direction === 'left' && Math.abs(xAxe) > this.maxLimit) ||
+                    (detail.direction === 'right' && xAxe > 0)
                 )
             ) {
                 return;
             }
 
-            // this.currentSwipedContainer.data('offset', data.x);
+            // this.currentSwipedContainer.data('offset', detail.x);
             this.currentSwipedContainer.css({
                 transform: 'translateX(' + xAxe + 'px)'
             });
@@ -287,15 +270,15 @@ define(function(require) {
          * @param {Object} data
          * @private
          */
-        _onEnd: function(data) {
-            var xAxe = data.x - this.storedPos;
-            if (data.direction === 'right' && xAxe > 0) {
+        _onEnd: function({detail}) {
+            let xAxe = detail.x - this.storedPos;
+            if (detail.direction === 'right' && xAxe > 0) {
                 xAxe = 0;
             }
 
             if (
-                (data.direction === 'left' && Math.abs(xAxe) < this.breakPointPosition) ||
-                (data.direction === 'right' && Math.abs(xAxe) < (this.maxLimit - this.breakPointPosition))
+                (detail.direction === 'left' && Math.abs(xAxe) < this.breakPointPosition) ||
+                (detail.direction === 'right' && Math.abs(xAxe) < (this.maxLimit - this.breakPointPosition))
             ) {
                 this._revertState();
                 return;

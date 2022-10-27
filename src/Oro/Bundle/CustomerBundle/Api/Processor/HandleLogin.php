@@ -15,10 +15,10 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Checks whether the login credentials are valid
+ * Checks whether the login credentials are valid,
  * and if so, sets API access key of authenticated customer user to the model.
  */
 class HandleLogin implements ProcessorInterface
@@ -38,13 +38,6 @@ class HandleLogin implements ProcessorInterface
     /** @var TranslatorInterface */
     private $translator;
 
-    /**
-     * @param string                          $authenticationProviderKey
-     * @param AuthenticationProviderInterface $authenticationProvider
-     * @param ConfigManager                   $configManager
-     * @param DoctrineHelper                  $doctrineHelper
-     * @param TranslatorInterface             $translator
-     */
     public function __construct(
         string $authenticationProviderKey,
         AuthenticationProviderInterface $authenticationProvider,
@@ -88,11 +81,6 @@ class HandleLogin implements ProcessorInterface
         $model->setApiKey($apiKey);
     }
 
-    /**
-     * @param Login $model
-     *
-     * @return TokenInterface
-     */
     private function authenticate(Login $model): TokenInterface
     {
         $token = new UsernamePasswordToken(
@@ -112,7 +100,7 @@ class HandleLogin implements ProcessorInterface
         } catch (AuthenticationException $e) {
             throw new AccessDeniedException(sprintf(
                 'The user authentication fails. Reason: %s',
-                $this->translator->trans($e->getMessageKey(), [], 'security')
+                $this->translator->trans($e->getMessageKey(), $e->getMessageData(), 'security')
             ));
         }
     }

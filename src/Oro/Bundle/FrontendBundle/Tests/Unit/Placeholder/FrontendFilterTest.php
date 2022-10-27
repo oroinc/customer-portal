@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Placeholder;
 
+use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\FrontendBundle\Placeholder\FrontendFilter;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,67 +10,50 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class FrontendFilterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|FrontendHelper
-     */
-    protected $helper;
+    private const BACKEND_PREFIX = '/admin';
 
-    /**
-     * @var FrontendFilter
-     */
-    protected $filter;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
+    private function getFilter(Request $currentRequest = null): FrontendFilter
     {
-        $this->helper = $this->getMockBuilder('Oro\Bundle\FrontendBundle\Request\FrontendHelper')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $requestStack = new RequestStack();
+        if (null !== $currentRequest) {
+            $requestStack->push($currentRequest);
+        }
+        $applicationState = $this->createMock(ApplicationState::class);
+        $applicationState->expects(self::any())
+            ->method('isInstalled')
+            ->willReturn(true);
+
+        return new FrontendFilter(new FrontendHelper(self::BACKEND_PREFIX, $requestStack, $applicationState));
     }
 
     public function testNoRequestBehaviour()
     {
-        /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
-        $requestStack = $this->createMock('Symfony\Component\HttpFoundation\RequestStack');
-        $requestStack->expects($this->any())->method('getCurrentRequest')->willReturn(null);
-        $this->filter = new FrontendFilter($this->helper, $requestStack);
-        $this->assertTrue($this->filter->isBackendRoute());
-        $this->assertFalse($this->filter->isFrontendRoute());
+        $filter = $this->getFilter();
+        $this->assertTrue($filter->isBackendRoute());
+        $this->assertFalse($filter->isFrontendRoute());
     }
 
     /**
-     * @param bool $isFrontend
      * @dataProvider isBackendIsFrontendDataProvider
      */
-    public function testIsBackendIsFrontend($isFrontend)
+    public function testIsBackendIsFrontend(string $path, bool $isFrontend)
     {
-        $request = new Request();
-        /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
-        $requestStack = $this->createMock('Symfony\Component\HttpFoundation\RequestStack');
-        $requestStack->expects($this->any())->method('getCurrentRequest')->willReturn($request);
-        $this->filter = new FrontendFilter($this->helper, $requestStack);
+        $request = Request::create($path);
 
-        $this->helper->expects($this->any())
-            ->method('isFrontendRequest')
-            ->with($request)
-            ->willReturn($isFrontend);
-
-        $this->assertSame(!$isFrontend, $this->filter->isBackendRoute());
-        $this->assertSame($isFrontend, $this->filter->isFrontendRoute());
+        $filter = $this->getFilter($request);
+        $this->assertSame(!$isFrontend, $filter->isBackendRoute());
+        $this->assertSame($isFrontend, $filter->isFrontendRoute());
     }
 
-    /**
-     * @return array
-     */
-    public function isBackendIsFrontendDataProvider()
+    public function isBackendIsFrontendDataProvider(): array
     {
         return [
             'backend request' => [
+                'path' => self::BACKEND_PREFIX . '/backend',
                 'isFrontend' => false,
             ],
             'frontend request' => [
+                'path' => '/frontend',
                 'isFrontend' => true,
             ],
         ];

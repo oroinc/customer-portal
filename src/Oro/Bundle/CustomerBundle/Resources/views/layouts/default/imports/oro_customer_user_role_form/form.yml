@@ -1,9 +1,9 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:default/imports/oro_customer_user_role_form/layout.html.twig'
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_user_role_form/layout.html.twig'
         - '@setFormTheme':
-            themes: 'OroCustomerBundle:layouts:default/imports/oro_customer_user_role_form/form.html.twig'
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_user_role_form/form.html.twig'
         - '@addTree':
             items:
                 __customer_user_role_container:
@@ -29,20 +29,20 @@ layout:
                             customer: '=data["customizableRole"].getCustomer().getId()'
                         grid_render_parameters:
                             cssClass: 'frontend-datagrid'
-                            gridViewsOptions:
-                                text: 'oro.customer.customer_user.role.users'
                             themeOptions:
                                 actionOptions:
                                     refreshAction:
                                         launcherOptions:
                                             className: 'btn btn--default btn--size-s'
                                             icon: 'undo fa--no-offset'
-                                            iconHideText: true
+                                            launcherMode: 'icon-only'
                                     resetAction:
                                         launcherOptions:
                                             className: 'btn btn--default btn--size-s'
                                             icon: 'refresh fa--no-offset'
-                                            iconHideText: true
+                                            launcherMode: 'icon-only'
+                                customModules:
+                                    datagridSettingsComponent: 'orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-view'
                             toolbarOptions:
                                 actionsPanel:
                                     className: 'btn-group not-expand frontend-datagrid__panel'
@@ -50,7 +50,7 @@ layout:
                                     className: 'datagrid-tool'
                                     transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.users'
                                 hideItemsCounter: false
-                            filterContainerSelector: '[data-grid-toolbar="top"] [data-datafilter-container]'
+                            filterContainerSelector: '[data-grid-toolbar="top"] [data-role="filter-container"]'
                         form: '=data["oro_customer_frontend_customer_user_role_form"].getRoleFormView(data["entity"])'
                 __customer_user_role_form_end:
                     blockType: form_end
@@ -92,18 +92,25 @@ layout:
                         text: oro.customer.action.customer_user_role.cancel_label
                         attr:
                             'class': 'btn btn-primary '
+                __customer_user_role_form_actions_input_action:
+                    blockType: input
+                    options:
+                        type: hidden
+                        name: input_action
+                        value: '=data["input_action"]'
             tree:
                 __root:
                     __customer_user_role_container:
                         __customer_user_role_form_errors: ~
                         __customer_user_role_form_start: ~
                         __customer_user_role_form_container:
+                            __customer_user_role_form_actions_input_action: ~
                             __customer_user_role_form_fields: ~
                             __customer_user_role_form_actions_top:
                                 __customer_user_role_form_actions_update_top: ~
                                 __customer_user_role_form_actions_cancel_top: ~
-                        __customer_user_role_form_users: ~
-                        __customer_user_role_form_actions_bottom:
-                            __customer_user_role_form_actions_update_bottom: ~
-                            __customer_user_role_form_actions_cancel_bottom: ~
+                            __customer_user_role_form_users: ~
+                            __customer_user_role_form_actions_bottom:
+                                __customer_user_role_form_actions_update_bottom: ~
+                                __customer_user_role_form_actions_cancel_bottom: ~
                         __customer_user_role_form_end: ~

@@ -4,15 +4,16 @@ namespace Oro\Bundle\FrontendBundle\Tests\Behat\Element;
 
 use Behat\Mink\Element\NodeElement;
 use Oro\Bundle\NavigationBundle\Tests\Behat\Element\MainMenu;
+use Oro\Bundle\TestFrameworkBundle\Behat\Element\Element;
 
 class FrontendMainMenu extends MainMenu
 {
     /**
-     * @param NodeElement $link
+     * {@inheritDoc}
      */
-    protected function getDropDown($link)
+    protected function getDropDown(NodeElement $link): Element
     {
-        $this->dropDown = $this->elementFactory->wrapElement(
+        return $this->elementFactory->wrapElement(
             'FrontendMainMenuDropdown',
             $link->getParent()->find('css', '.main-menu__item--ancestor')
         );

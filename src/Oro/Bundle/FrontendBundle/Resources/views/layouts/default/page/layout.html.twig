@@ -1,11 +1,11 @@
 {% block root_widget %}
     {% if not oro_is_hash_navigation() %}
         <!DOCTYPE {{ doctype|default('html') }}>
-        <html lang="{{ languageCode|slice(0,2) }}">
+        <html lang="{{ languageCode|slice(0,2) }}"{% if dir is not empty %} dir="{{ dir }}"{% endif %}>
         {{ block_widget(block) }}
         </html>
     {% else %}
-        {% include 'OroNavigationBundle:HashNav:hashNavAjax.html.twig' with {
+        {% include '@OroNavigation/HashNav/hashNavAjax.html.twig' with {
             'data': {
                 'content': block_widget(blocks.wrapper),
             }
@@ -20,7 +20,7 @@
     {% endblock %}
 {% endblock %}
 
-{% block _requirejs_scripts_after_widget %}
+{% block _layout_js_build_scripts_after_widget %}
     {% placeholder scripts_after %}
     {{ block_widget(block) }}
 {% endblock %}
@@ -56,9 +56,9 @@
     {% set content = block_widget(block)|trim %}
     {% if content|length %}
         <h1{{ block('block_attributes') }}>
-            {% if titleIcon is defined %}
+            {% if titleIcon is defined and titleIcon != null %}
             <span class="badge">
-                <i class="{{ titleIcon }}"></i>
+                <span class="{{ titleIcon }}" aria-hidden="true"></span>
             </span>
             {% endif %}
             <span class="page-title__text">{{ content|raw }}</span>
@@ -66,8 +66,19 @@
     {% endif %}
 {% endblock %}
 
+{% block _wrapper_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' wrapper',
+    }) %}
+
+    <div{{ block('block_attributes') }}>
+        <div data-page-component-view="orofrontend/js/app/views/dom-relocation-view"></div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
 {% block _notification_widget %}
-    {% import 'OroUIBundle::macros.html.twig' as UI %}
+    {% import '@OroUI/macros.html.twig' as UI %}
 
     {% set attr = layout_attr_defaults(attr, {
         'id': 'flash-messages',

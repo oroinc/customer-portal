@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\DataTransformer;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Symfony\Component\Form\DataTransformerInterface;
 
@@ -11,9 +11,6 @@ class AddressTypeDefaultTransformer implements DataTransformerInterface
     /** @var ObjectManager */
     protected $om;
 
-    /**
-     * @param ObjectManager $om
-     */
     public function __construct(ObjectManager $om)
     {
         $this->om = $om;

@@ -2,8 +2,8 @@
 define(function(require) {
     'use strict';
 
-    var $ = require('jquery');
-    require('jquery-ui');
+    const $ = require('jquery');
+    require('jquery-ui/widget');
 
     $.widget('oroui.elasticAreaWidget', {
         _create: function() {

@@ -1,0 +1,27 @@
+Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
+    customer_assigned_not_self_managed:
+        role: ROLE_FRONTEND_CUSTOMER_NOT_SELF_MANAGED
+        customer: '@customer1'
+        organization: '@organization'
+        label: customer assigned not self managed
+        selfManaged: false
+        public: true
+    customer_assigned_self_managed:
+        role: ROLE_FRONTEND_CUSTOMER_SELF_MANAGED
+        customer: '@customer1'
+        organization: '@organization'
+        label: customer assigned self managed
+        selfManaged: true
+        public: true
+    customer_not_assigned_not_self_managed:
+        role: ROLE_FRONTEND_CUSTOMER_NA_NOT_SELF_MANAGED
+        organization: '@organization'
+        label: not customer not assigned not self managed
+        selfManaged: false
+        public: true
+    customer_not_assigned_self_managed:
+        role: ROLE_FRONTEND_CUSTOMER_NA_SELF_MANAGED
+        organization: '@organization'
+        label: customer not assigned self managed
+        selfManaged: true
+        public: true

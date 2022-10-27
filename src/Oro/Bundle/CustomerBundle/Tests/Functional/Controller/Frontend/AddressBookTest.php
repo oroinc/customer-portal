@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller\Frontend;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadAddressBookUserData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
@@ -10,11 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AddressBookTest extends WebTestCase
 {
-    /**
-     * @var CustomerUser
-     */
-    protected $currentUser;
-
     public function testAddressBookMenuItemHidden()
     {
         $this->initAddressBookClient(
@@ -26,7 +20,7 @@ class AddressBookTest extends WebTestCase
             'GET',
             $this->getUrl('oro_customer_frontend_customer_user_profile')
         );
-        $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertFalse($this->isAddressBookMenuVisible($crawler));
 
         $this->client->request(
@@ -139,11 +133,7 @@ class AddressBookTest extends WebTestCase
         $this->assertTrue($this->isAddressBookMenuVisible($crawler));
     }
 
-    /**
-     * @param string $username
-     * @param string $password
-     */
-    protected function initAddressBookClient($username, $password)
+    private function initAddressBookClient(string $username, string $password): void
     {
         $this->initClient(
             [],
@@ -153,45 +143,27 @@ class AddressBookTest extends WebTestCase
         $this->loadFixtures([LoadAddressBookUserData::class]);
     }
 
-    /**
-     * @param Crawler $crawler
-     * @return bool
-     */
-    protected function isAddUserAddressButtonVisible(Crawler $crawler)
+    private function isAddUserAddressButtonVisible(Crawler $crawler): bool
     {
         return $crawler->selectLink('New Address')->count() > 0;
     }
 
-    /**
-     * @param Crawler $crawler
-     * @return bool
-     */
-    protected function isAddCustomerAddressButtonVisible(Crawler $crawler)
+    private function isAddCustomerAddressButtonVisible(Crawler $crawler): bool
     {
         return $crawler->selectLink('New Company Address')->count() > 0;
     }
 
-    /**
-     * @return bool
-     */
-    protected function isCustomerUserAddressSectionVisible(Crawler $crawler)
+    private function isCustomerUserAddressSectionVisible(Crawler $crawler): bool
     {
         return $crawler->filter('[data-page-component-name=frontend-customer-customer-user-address-grid]')->count() > 0;
     }
 
-    /**
-     * @return bool
-     */
-    protected function isCustomerAddressSectionVisible(Crawler $crawler)
+    private function isCustomerAddressSectionVisible(Crawler $crawler): bool
     {
         return $crawler->filter('[data-page-component-name=frontend-customer-customer-address-grid]')->count() > 0;
     }
 
-    /**
-     * @param Crawler $crawler
-     * @return bool
-     */
-    protected function isAddressBookMenuVisible(Crawler $crawler)
+    private function isAddressBookMenuVisible(Crawler $crawler): bool
     {
         return $crawler->selectLink('Address Book')->count() > 0;
     }

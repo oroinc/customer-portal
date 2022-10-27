@@ -27,7 +27,7 @@ class OroCustomerBundle implements Migration
 
     /**
      * @param QueryBag $queries
-     * @param string
+     * @param string   $name
      */
     protected function removeFromConfig(QueryBag $queries, $name)
     {
@@ -37,9 +37,6 @@ class OroCustomerBundle implements Migration
         ));
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addOwnership(Schema $schema)
     {
         $table = $schema->getTable('oro_customer_group');

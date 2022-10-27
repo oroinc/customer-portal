@@ -24,10 +24,10 @@ class FrontendCustomerAddressFormProviderTest extends \PHPUnit\Framework\TestCas
      */
     protected $router;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->mockFormFactory = $this->getMockBuilder('Symfony\Component\Form\FormFactoryInterface')->getMock();
-        $this->router = $this->createMock('Symfony\Component\Routing\Generator\UrlGeneratorInterface');
+        $this->mockFormFactory = $this->createMock(FormFactoryInterface::class);
+        $this->router = $this->createMock(UrlGeneratorInterface::class);
 
         $this->provider = new FrontendCustomerAddressFormProvider($this->mockFormFactory, $this->router);
     }
@@ -47,27 +47,19 @@ class FrontendCustomerAddressFormProviderTest extends \PHPUnit\Framework\TestCas
      */
     private function actionTestWithId($id = null)
     {
-        /** @var CustomerAddress|\PHPUnit\Framework\MockObject\MockObject $mockCustomerUserAddress */
-        $mockCustomerUserAddress = $this->getMockBuilder(CustomerAddress::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $mockCustomerUserAddress = $this->createMock(CustomerAddress::class);
         $mockCustomerUserAddress->expects($this->any())
             ->method('getId')
             ->willReturn($id);
 
-        /** @var Customer|\PHPUnit\Framework\MockObject\MockObject $mockCustomerUser */
-        $mockCustomerUser = $this->getMockBuilder(Customer::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $mockCustomerUser = $this->createMock(Customer::class);
         $mockCustomerUser->expects($this->any())
             ->method('getId')
             ->willReturn(1);
 
         $mockFormView = $this->createMock(FormView::class);
 
-        $mockForm = $this->getMockBuilder(FormInterface::class)->getMock();
+        $mockForm = $this->createMock(FormInterface::class);
         $mockForm->expects($this->once())
             ->method('createView')
             ->willReturn($mockFormView);

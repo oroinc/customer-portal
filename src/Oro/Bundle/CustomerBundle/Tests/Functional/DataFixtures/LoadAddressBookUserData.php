@@ -2,7 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\UserBundle\Migrations\Data\ORM\LoadAdminUserData;
 
 class LoadAddressBookUserData extends AbstractLoadCustomerUserFixture
@@ -41,46 +42,46 @@ class LoadAddressBookUserData extends AbstractLoadCustomerUserFixture
     protected $roles = [
         self::ROLE1_V_AC_AD => [
             [
-                'class' => 'oro_customer.entity.customer_address.class',
+                'class' => CustomerAddress::class,
                 'acls' => ['VIEW_LOCAL'],
             ],
         ],
         self::ROLE2_V_ACU_AD => [
             [
-                'class' => 'oro_customer.entity.customer_user_address.class',
+                'class' => CustomerUserAddress::class,
                 'acls' => ['VIEW_BASIC'],
             ],
         ],
         self::ROLE3_V_AC_AD_V_ACU_AD => [
             [
-                'class' => 'oro_customer.entity.customer_user_address.class',
+                'class' => CustomerUserAddress::class,
                 'acls' => ['VIEW_BASIC'],
             ],
             [
-                'class' => 'oro_customer.entity.customer_address.class',
+                'class' => CustomerAddress::class,
                 'acls' => ['VIEW_LOCAL'],
             ],
         ],
         self::ROLE4_NONE => [],
         self::ROLE5_VCED_AC_AD_VCED_AU_AD => [
             [
-                'class' => 'oro_customer.entity.customer_user_address.class',
+                'class' => CustomerUserAddress::class,
                 'acls' => ['VIEW_BASIC', 'EDIT_BASIC', 'CREATE_BASIC'],
             ],
             [
-                'class' => 'oro_customer.entity.customer_address.class',
+                'class' => CustomerAddress::class,
                 'acls' => ['VIEW_LOCAL'],
             ],
         ],
         self::ROLE6_VC_AC_AD => [
             [
-                'class' => 'oro_customer.entity.customer_address.class',
+                'class' => CustomerAddress::class,
                 'acls' => ['VIEW_LOCAL', 'CREATE_LOCAL'],
             ],
         ],
         self::ROLE7_VC_AU_AD => [
             [
-                'class' => 'oro_customer.entity.customer_user_address.class',
+                'class' => CustomerUserAddress::class,
                 'acls' => ['VIEW_BASIC', 'CREATE_BASIC'],
             ],
         ]

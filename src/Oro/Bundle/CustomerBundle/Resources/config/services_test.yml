@@ -1,0 +1,23 @@
+services:
+    oro_customer.tests.security.provider:
+        alias: oro_customer.security.provider
+        public: true
+
+    oro_customer.tests.api.frontend.handle_special_identifiers:
+        class: Oro\Bundle\CustomerBundle\Tests\Functional\Environment\Api\Processor\HandleSpecialIdentifiers
+        arguments:
+            - '@security.token_storage'
+        tags:
+            - { name: oro.api.processor, action: get, group: resource_check, requestType: frontend&rest, class: Oro\Bundle\ApiBundle\Tests\Functional\Environment\Model\TestUnaccessibleModel }
+
+    oro_customer.tests.owner.tree_provider:
+        public: true
+        alias: oro_customer.owner.tree_provider
+
+    oro_customer.tests.async.owner_tree_cache_job_processor:
+        public: true
+        alias: oro_customer.async.owner_tree_cache_job_processor
+
+    oro_customer.tests.model.business_unit_message_factory:
+        public: true
+        alias: oro_customer.model.business_unit_message_factory

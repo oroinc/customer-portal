@@ -2,17 +2,20 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Controller;
 
+use Knp\Menu\ItemInterface;
+use Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerMenuContextProvider;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Provider\ScopeCustomerCriteriaProvider;
 use Oro\Bundle\CustomerBundle\Provider\ScopeCustomerGroupCriteriaProvider;
 use Oro\Bundle\OrganizationBundle\Provider\ScopeOrganizationCriteriaProvider;
 use Oro\Bundle\WebsiteBundle\Provider\ScopeCriteriaProvider;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * The controller for the customer menu.
  * @Route("/menu/customer")
  */
 class CustomerMenuController extends AbstractFrontendMenuController
@@ -26,7 +29,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
      */
     public function indexAction(Customer $customer)
     {
-        $contexts = $this->get('oro_commerce_menu.menu_context_provider.customer')->getContexts($customer);
+        $contexts = $this->get(CustomerMenuContextProvider::class)->getContexts($customer);
 
         return [
             'entity' => $customer,
@@ -41,7 +44,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
      *      name="oro_commerce_menu_customer_menu_context_index",
      *      requirements={"id"="\d+"}
      * )
-     * @Template("OroCommerceMenuBundle:CustomerMenu/widget:contextIndex.html.twig")
+     * @Template("@OroCommerceMenu/CustomerMenu/widget/contextIndex.html.twig")
      * @param Request $request
      * @return array
      */
@@ -70,7 +73,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
 
     /**
      * @Route("/{menuName}/create/{parentKey}", name="oro_commerce_menu_customer_menu_create")
-     * @Template("OroCommerceMenuBundle:CustomerMenu:update.html.twig")
+     * @Template("@OroCommerceMenu/CustomerMenu/update.html.twig")
      *
      * @param Request     $request
      * @param string      $menuName
@@ -122,7 +125,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
     {
         if (!$this->isGranted(
             'oro_customer_customer_update',
-            $context[ScopeCustomerCriteriaProvider::ACCOUNT]
+            $context[ScopeCustomerCriteriaProvider::CUSTOMER]
         )
         ) {
             throw $this->createAccessDeniedException();
@@ -133,13 +136,13 @@ class CustomerMenuController extends AbstractFrontendMenuController
     /**
      * {@inheritDoc}
      */
-    protected function getMenu($menuName, array $context)
+    protected function getMenu(string $menuName, array $context): ItemInterface
     {
-        if (array_key_exists(ScopeCustomerCriteriaProvider::ACCOUNT, $context)) {
+        if (array_key_exists(ScopeCustomerCriteriaProvider::CUSTOMER, $context)) {
             /** @var Customer $customer */
-            $customer = $context[ScopeCustomerCriteriaProvider::ACCOUNT];
-            $context[ScopeOrganizationCriteriaProvider::SCOPE_KEY] = $customer->getOrganization();
-            $context[ScopeCustomerGroupCriteriaProvider::FIELD_NAME] = $customer->getGroup();
+            $customer = $context[ScopeCustomerCriteriaProvider::CUSTOMER];
+            $context[ScopeOrganizationCriteriaProvider::ORGANIZATION] = $customer->getOrganization();
+            $context[ScopeCustomerGroupCriteriaProvider::CUSTOMER_GROUP] = $customer->getGroup();
         }
 
         return parent::getMenu($menuName, $context);
@@ -150,6 +153,19 @@ class CustomerMenuController extends AbstractFrontendMenuController
      */
     protected function getAllowedContextKeys()
     {
-        return [ScopeCustomerCriteriaProvider::ACCOUNT, ScopeCriteriaProvider::WEBSITE];
+        return [ScopeCustomerCriteriaProvider::CUSTOMER, ScopeCriteriaProvider::WEBSITE];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                CustomerMenuContextProvider::class,
+            ]
+        );
     }
 }

@@ -1,3 +1,29 @@
+/* @theme: default; */
+
 .page-footer {
-    background: get-color('additional', 'base');
+    padding: $page-footer-inner-offset;
+
+    border: 0 $page-footer-border-style;
+    border-width: $page-footer-border-width;
+    background: $page-footer-background;
+
+    &-container {
+        padding: $page-footer-container-offset;
+    }
+}
+
+@include breakpoint('tablet') {
+    .page-footer {
+        &-container {
+            padding: $page-footer-container-offset-tablet;
+        }
+
+        .collapse-view {
+            &__trigger {
+                &-icon {
+                    color: $footer-collapse-view-trigger-icon-tablet-color;
+                }
+            }
+        }
+    }
 }

@@ -20,7 +20,7 @@ class CustomerUserRoleSelectOrCreateType extends AbstractType
             [
                 'autocomplete_alias' => 'customer_user_role_select_or_create_type',
                 'create_form_route' => 'oro_customer_customer_user_role_create',
-                'grid_name' => 'customer-customer-user-roles-grid'
+                'grid_name' => 'predefined-customer-customer-user-roles-grid'
             ]
         );
     }

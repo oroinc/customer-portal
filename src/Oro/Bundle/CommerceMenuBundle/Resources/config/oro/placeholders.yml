@@ -7,8 +7,8 @@ placeholders:
 
     items:
         commerce_customer_menu_button:
-            template: OroCommerceMenuBundle:Placeholders:customerButton.html.twig
-            applicable: "@oro_ui.placeholder.filter->isInstanceOf($entity$, %oro_customer.entity.customer.class%)"
+            template: '@@OroCommerceMenu/Placeholders/customerButton.html.twig'
+            applicable: '@oro_ui.placeholder.filter->isInstanceOf($entity$, Oro\Bundle\CustomerBundle\Entity\Customer)'
         commerce_customer_group_menu_button:
-            template: OroCommerceMenuBundle:Placeholders:customerGroupButton.html.twig
-            applicable: "@oro_ui.placeholder.filter->isInstanceOf($entity$, %oro_customer.entity.customer_group.class%)"
+            template: '@@OroCommerceMenu/Placeholders/customerGroupButton.html.twig'
+            applicable: '@oro_ui.placeholder.filter->isInstanceOf($entity$, Oro\Bundle\CustomerBundle\Entity\CustomerGroup)'

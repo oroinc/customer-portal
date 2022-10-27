@@ -12,11 +12,11 @@
 
 {% block _search_row_trigger_widget %}
     {% set togglerId = 'dropdown-'|uniqid %}
-    <button id="{{ togglerId }}" class="header-row__trigger hidden-on-desktop" data-toggle="dropdown" data-popper="false"
+    <button id="{{ togglerId }}" class="header-row__trigger hidden-on-desktop" type="button" data-toggle="dropdown" data-popper="false"
             aria-haspopup="true" aria-expanded="false"
             aria-label="{{ 'oro.commercemenu.frontend.navigation.items.search_dropdown.label'|trans }}">
         <span class="nav-trigger__icon nav-trigger__icon--transparent nav-trigger__icon--large" aria-hidden="true">
-            <span class="fa-search fa--gray fa--no-offset"></span>
+            <span class="fa-search fa--no-offset"></span>
         </span>
     </button>
     <div class="header-row__toggle" data-header-row-toggle aria-labelledby="{{ togglerId }}">

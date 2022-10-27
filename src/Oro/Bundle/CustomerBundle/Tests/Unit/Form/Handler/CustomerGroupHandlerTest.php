@@ -2,65 +2,49 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
+use Oro\Bundle\CustomerBundle\Event\CustomerGroupEvent;
+use Oro\Bundle\CustomerBundle\Event\CustomerMassEvent;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerGroupHandler;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class CustomerGroupHandlerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var Request
-     */
-    protected $request;
+    /** @var Request */
+    private $request;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|FormInterface
-     */
-    protected $form;
+    /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $form;
 
-    /**
-     * @var CustomerGroupHandler
-     */
-    protected $handler;
+    /** @var CustomerGroupHandler */
+    private $handler;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|ObjectManager
-     */
-    protected $manager;
+    /** @var ObjectManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $manager;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|EventDispatcherInterface
-     */
-    protected $dispatcher;
+    /** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $dispatcher;
 
-    /**
-     * @var CustomerGroup
-     */
-    protected $entity;
+    /** @var CustomerGroup */
+    private $entity;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->manager = $this->getMockBuilder('Doctrine\Common\Persistence\ObjectManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->manager = $this->createMock(ObjectManager::class);
         $this->request = new Request();
-        $this->form = $this->getMockBuilder('Symfony\Component\Form\Form')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $this->form = $this->createMock(Form::class);
+        $this->dispatcher = $this->createMock(EventDispatcherInterface::class);
         $this->entity  = new CustomerGroup();
-        $this->handler = new CustomerGroupHandler($this->form, $this->request, $this->manager, $this->dispatcher);
+
+        $this->handler = new CustomerGroupHandler($this->manager, $this->dispatcher);
     }
 
-    public function testProcessValidData()
+    public function testProcessValidData(): void
     {
         $appendedCustomer = new Customer();
 
@@ -79,61 +63,64 @@ class CustomerGroupHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->form->expects($this->once())
             ->method('isSubmitted')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $this->form->expects($this->once())
             ->method('isValid')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
-        $appendForm = $this->getMockBuilder('Symfony\Component\Form\Form')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $appendForm = $this->createMock(Form::class);
         $appendForm->expects($this->once())
             ->method('getData')
-            ->will($this->returnValue([$appendedCustomer]));
-        $this->form->expects($this->at(4))
-            ->method('get')
-            ->with('appendCustomers')
-            ->will($this->returnValue($appendForm));
+            ->willReturn([$appendedCustomer]);
 
-        $removeForm = $this->getMockBuilder('Symfony\Component\Form\Form')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $removeForm = $this->createMock(Form::class);
         $removeForm->expects($this->once())
             ->method('getData')
-            ->will($this->returnValue([$removedCustomer]));
-        $this->form->expects($this->at(5))
+            ->willReturn([$removedCustomer]);
+
+        $this->form->expects($this->exactly(2))
             ->method('get')
-            ->with('removeCustomers')
-            ->will($this->returnValue($removeForm));
+            ->willReturnMap([
+                ['appendCustomers', $appendForm],
+                ['removeCustomers', $removeForm]
+            ]);
 
-        $this->manager->expects($this->at(0))
+        $this->manager->expects($this->exactly(3))
             ->method('persist')
-            ->with($appendedCustomer);
-
-        $this->manager->expects($this->at(1))
-            ->method('persist')
-            ->with($removedCustomer);
-
-        $this->manager->expects($this->at(2))
-            ->method('persist')
-            ->with($this->entity);
-
+            ->withConsecutive(
+                [$this->identicalTo($appendedCustomer)],
+                [$this->identicalTo($removedCustomer)],
+                [$this->identicalTo($this->entity)]
+            );
         $this->manager->expects($this->once())
             ->method('flush');
 
-        $this->assertTrue($this->handler->process($this->entity));
+        $this->dispatcher->expects($this->exactly(2))
+            ->method('dispatch')
+            ->withConsecutive(
+                [
+                    new CustomerGroupEvent($this->entity, $this->form),
+                    CustomerGroupEvent::BEFORE_FLUSH
+                ],
+                [
+                    new CustomerMassEvent([$appendedCustomer, $removedCustomer]),
+                    CustomerMassEvent::ON_CUSTOMER_GROUP_MASS_CHANGE
+                ]
+            );
+
+        $this->assertTrue($this->handler->process($this->entity, $this->form, $this->request));
 
         $this->assertEquals($this->entity, $appendedCustomer->getGroup());
         $this->assertNull($removedCustomer->getGroup());
     }
 
-    public function testBadMethod()
+    public function testBadMethod(): void
     {
         $this->request->setMethod('GET');
-        $this->assertFalse($this->handler->process($this->entity));
+        $this->assertFalse($this->handler->process($this->entity, $this->form, $this->request));
     }
 
-    public function testProcessInvalid()
+    public function testProcessInvalid(): void
     {
         $this->request->setMethod('POST');
         $this->form->expects($this->once())
@@ -141,11 +128,11 @@ class CustomerGroupHandlerTest extends \PHPUnit\Framework\TestCase
             ->with($this->entity);
         $this->form->expects($this->once())
             ->method('isSubmitted')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $this->form->expects($this->once())
             ->method('isValid')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
-        $this->assertFalse($this->handler->process($this->entity));
+        $this->assertFalse($this->handler->process($this->entity, $this->form, $this->request));
     }
 }

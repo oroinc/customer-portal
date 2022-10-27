@@ -2,13 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest;
 
-use FOS\RestBundle\Controller\Annotations\NamePrefix;
-use FOS\RestBundle\Controller\Annotations\RouteResource;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserSidebarState;
 use Oro\Bundle\SidebarBundle\Controller\Api\Rest\SidebarController as BaseController;
 
 /**
- * @RouteResource("sidebars")
- * @NamePrefix("oro_api_frontend_")
+ * REST API controller for the sidebar on the storefront.
  */
 class SidebarController extends BaseController
 {
@@ -17,6 +15,6 @@ class SidebarController extends BaseController
      */
     protected function getSidebarStateClass()
     {
-        return $this->getParameter('oro_customer.entity.sidebar_state.class');
+        return CustomerUserSidebarState::class;
     }
 }

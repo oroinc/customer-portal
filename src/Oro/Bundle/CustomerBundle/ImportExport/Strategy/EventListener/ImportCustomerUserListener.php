@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\ImportExport\Strategy\EventListener;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -10,7 +10,7 @@ use Oro\Bundle\ImportExportBundle\Context\ContextInterface;
 use Oro\Bundle\ImportExportBundle\Event\StrategyEvent;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ImportStrategyHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Listener that updates imported CustomerUser entity website, roles & password
@@ -37,12 +37,6 @@ class ImportCustomerUserListener
      */
     protected $strategyHelper;
 
-    /**
-     * @param ManagerRegistry $registry
-     * @param CustomerUserManager $customerUserManager
-     * @param TranslatorInterface $translator
-     * @param ImportStrategyHelper $strategyHelper
-     */
     public function __construct(
         ManagerRegistry $registry,
         CustomerUserManager $customerUserManager,
@@ -55,9 +49,6 @@ class ImportCustomerUserListener
         $this->strategyHelper = $strategyHelper;
     }
 
-    /**
-     * @param StrategyEvent $event
-     */
     public function onProcessAfter(StrategyEvent $event)
     {
         $entity = $event->getEntity();
@@ -111,7 +102,7 @@ class ImportCustomerUserListener
      */
     protected function updateRoleByWebsiteIfEmpty(CustomerUser $customerUser)
     {
-        if (count($customerUser->getRoles()) > 0) {
+        if (count($customerUser->getUserRoles()) > 0) {
             return true;
         }
 
@@ -124,16 +115,13 @@ class ImportCustomerUserListener
         $role = $website->getDefaultRole();
 
         if ($role) {
-            $customerUser->addRole($role);
+            $customerUser->addUserRole($role);
             return true;
         }
 
         return false;
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     */
     protected function updatePasswordIfEmpty(CustomerUser $customerUser)
     {
         if ($customerUser->getPassword()) {

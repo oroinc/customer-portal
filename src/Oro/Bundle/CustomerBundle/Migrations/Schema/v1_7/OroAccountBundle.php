@@ -38,10 +38,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface
         $queries->addPostQuery(new RenameConfigSectionQuery('oro_b2b_account', 'oro_account'));
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function renameEntityTables(Schema $schema, QueryBag $queries)
     {
         $extension = $this->renameExtension;
@@ -86,10 +82,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface
         $extension->renameTable($schema, $queries, 'orob2b_account_user_sales_reps', 'oro_account_user_sales_reps');
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function renameActivityTables(Schema $schema, QueryBag $queries)
     {
         $extension = $this->renameExtension;
@@ -106,9 +98,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface
     }
 
     /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     private function renameIndexes(Schema $schema, QueryBag $queries)
@@ -271,10 +260,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface
         );
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function updateAttachments(Schema $schema, QueryBag $queries)
     {
         $extension = $this->renameExtension;
@@ -325,9 +310,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface
         ));
     }
 
-    /**
-     * @param Schema $schema
-     */
     private function alterAccountUserSettingsTable(Schema $schema)
     {
         $table = $schema->getTable('orob2b_account_user_settings');
@@ -344,9 +326,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     private function addAccountUserWebsiteField(Schema $schema, QueryBag $queries)
     {
         $table = $schema->getTable('orob2b_account_user');

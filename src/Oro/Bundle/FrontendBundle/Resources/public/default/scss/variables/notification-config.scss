@@ -4,8 +4,20 @@ $notification-inner-offset: 5px 10px !default;
 $notification-xmd-inner-offset: 20px 15px !default;
 
 $notification-font-size: 13px !default;
-$notification-border-radius: 3px !default;
+$notification-border-radius: $base-ui-element-border-radius !default;
 $notification-icon-offset: 5px !default;
 $notification-xmd-icon-size: 20px !default;
 $notification-list-offset: 5px !default;
 $notification-vertical-align: middle !default;
+
+$notification-list-margin: $offset-y-m 0 !default;
+$notification-list-padding: 0 0 0 35px !default;
+
+$notification-success-background: get-color('ui', 'success');
+$notification-success-color: get-color('ui', 'success-dark');
+
+$notification-warning-background: get-color('ui', 'warning');
+$notification-warning-color: get-color('ui', 'warning-dark');
+
+$notification-error-background: get-color('ui', 'error') !default;
+$notification-error-color: get-color('ui', 'error-dark') !default;

@@ -3,7 +3,6 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Layout\Extension;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
 use Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplateContextConfigurator;
 use Oro\Component\Layout\LayoutContext;
 
@@ -15,11 +14,9 @@ class PageTemplateContextConfiguratorTest extends \PHPUnit\Framework\TestCase
     /** @var PageTemplateContextConfigurator */
     private $pageTemplateContextConfigurator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->configManagerMock = $this->getMockBuilder(ConfigManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->configManagerMock = $this->createMock(ConfigManager::class);
 
         $this->pageTemplateContextConfigurator = new PageTemplateContextConfigurator($this->configManagerMock);
     }
@@ -35,10 +32,9 @@ class PageTemplateContextConfiguratorTest extends \PHPUnit\Framework\TestCase
 
     public function testConfigureContextPageTemplateResolvedFromConfig()
     {
-        $this->configManagerMock
-            ->expects($this->once())
+        $this->configManagerMock->expects($this->once())
             ->method('get')
-            ->with(OroFrontendExtension::ALIAS . ConfigManager::SECTION_MODEL_SEPARATOR . 'page_templates')
+            ->with('oro_frontend.page_templates')
             ->willReturn(['some_route' => 'some_page_template']);
 
         $context = new LayoutContext();
@@ -50,16 +46,15 @@ class PageTemplateContextConfiguratorTest extends \PHPUnit\Framework\TestCase
 
     public function testConfigureContextPageTemplateNotAssigned()
     {
-        $this->configManagerMock
-            ->expects($this->once())
+        $this->configManagerMock->expects($this->once())
             ->method('get')
-            ->with(OroFrontendExtension::ALIAS . ConfigManager::SECTION_MODEL_SEPARATOR . 'page_templates')
+            ->with('oro_frontend.page_templates')
             ->willReturn(['some_route' => 'some_page_template']);
 
         $context = new LayoutContext();
         $context->getResolver()->setDefault('route_name', 'some_other_route');
         $this->pageTemplateContextConfigurator->configureContext($context);
         $context->resolve();
-        $this->assertSame(null, $context->get('page_template'));
+        $this->assertNull($context->get('page_template'));
     }
 }

@@ -7,6 +7,9 @@ use Oro\Bundle\ImportExportBundle\Configuration\ImportExportConfiguration;
 use Oro\Bundle\ImportExportBundle\Configuration\ImportExportConfigurationInterface;
 use Oro\Bundle\ImportExportBundle\Configuration\ImportExportConfigurationProviderInterface;
 
+/**
+ * Import-Export configuration for Customer User.
+ */
 class CustomerUserImportExportConfigurationProvider implements ImportExportConfigurationProviderInterface
 {
     /**
@@ -19,6 +22,7 @@ class CustomerUserImportExportConfigurationProvider implements ImportExportConfi
             ImportExportConfiguration::FIELD_EXPORT_PROCESSOR_ALIAS => 'oro_customer_customer_user',
             ImportExportConfiguration::FIELD_EXPORT_TEMPLATE_PROCESSOR_ALIAS => 'oro_customer_customer_user',
             ImportExportConfiguration::FIELD_IMPORT_PROCESSOR_ALIAS => 'oro_customer_customer_user',
+            ImportExportConfiguration::FIELD_IMPORT_JOB_NAME => 'oro_customer_user_entity_import_from_csv'
         ]);
     }
 }

@@ -15,6 +15,7 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Tests\Unit\Entity\AbstractUserTest;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Component\Testing\ReflectionUtil;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
@@ -24,39 +25,38 @@ class CustomerUserTest extends AbstractUserTest
 {
     use AddressEntityTestTrait;
 
-    /**
-     * @return CustomerUser
-     */
-    public function getUser()
+    public function getUser(): CustomerUser
     {
         return new CustomerUser();
     }
 
-    /**
-     * @return CustomerUserAddress
-     */
-    public function createAddressEntity()
+    public function createAddressEntity(): CustomerUserAddress
     {
         return new CustomerUserAddress();
     }
 
-    /**
-     * @return CustomerUser
-     */
-    protected function createTestedEntity()
+    protected function createTestedEntity(): CustomerUser
     {
         return $this->getUser();
     }
 
-    public function testCollections()
+    public function testCollections(): void
     {
-        $this->assertPropertyCollections(new CustomerUser(), [
+        self::assertPropertyCollections(new CustomerUser(), [
             ['addresses', $this->createAddressEntity()],
             ['salesRepresentatives', new User()],
         ]);
     }
 
-    public function testCreateCustomer()
+    public function getWebsite(int $id): Website
+    {
+        $website = new Website();
+        ReflectionUtil::setId($website, $id);
+
+        return $website;
+    }
+
+    public function testCreateCustomer(): void
     {
         $organization = new Organization();
         $organization->setName('test');
@@ -66,56 +66,53 @@ class CustomerUserTest extends AbstractUserTest
             ->setFirstName('John')
             ->setLastName('Doe')
             ->setOwner(new User());
-        $this->assertEmpty($user->getCustomer());
+        self::assertEmpty($user->getCustomer());
         $address = new CustomerAddress();
         $user->addAddress($address);
-        $this->assertContains($address, $user->getAddresses());
+        self::assertContains($address, $user->getAddresses());
         $backendUser = new User();
         $user->setOwner($backendUser);
-        $this->assertEquals($user->getOwner(), $backendUser);
+        self::assertEquals($user->getOwner(), $backendUser);
 
         // createCustomer is triggered on prePersist event
         $user->createCustomer();
         $customer = $user->getCustomer();
-        $this->assertInstanceOf('Oro\Bundle\CustomerBundle\Entity\Customer', $customer);
-        $this->assertEquals($organization, $customer->getOrganization());
-        $this->assertEquals('John Doe', $customer->getName());
+        self::assertInstanceOf(Customer::class, $customer);
+        self::assertEquals($organization, $customer->getOrganization());
+        self::assertEquals('John Doe', $customer->getName());
 
         // new customer created only if it not defined
         $user->setFirstName('Jane');
         $user->createCustomer();
-        $this->assertEquals('John Doe', $user->getCustomer()->getName());
+        self::assertEquals('John Doe', $user->getCustomer()->getName());
 
         //Creating an customer with company name parameter instead of use first and last name
         $user->setCustomer(null);
         $user->createCustomer('test company');
-        $this->assertEquals('test company', $user->getCustomer()->getName());
+        self::assertEquals('test company', $user->getCustomer()->getName());
     }
 
-    public function testSerializing()
+    public function testSerializing(): void
     {
         $user = $this->getUser();
-        $data = $user->serialize();
+        $data = $user->__serialize();
 
-        $this->assertNotEmpty($data);
+        self::assertNotEmpty($data);
 
         $user
             ->setPassword('new-pass')
             ->setConfirmationToken('token')
             ->setUsername('new-name');
 
-        $user->unserialize($data);
+        $user->__unserialize($data);
 
-        $this->assertEmpty($user->getPassword());
-        $this->assertEmpty($user->getConfirmationToken());
-        $this->assertEmpty($user->getUsername());
-        $this->assertEquals('new-name', $user->getEmail());
+        self::assertEmpty($user->getPassword());
+        self::assertEmpty($user->getConfirmationToken());
+        self::assertEmpty($user->getUsername());
+        self::assertEquals('new-name', $user->getEmail());
     }
 
-    /**
-     * @return array
-     */
-    public function provider()
+    public function provider(): array
     {
         return [
             ['customer', new Customer()],
@@ -142,17 +139,17 @@ class CustomerUserTest extends AbstractUserTest
         ];
     }
 
-    public function testPrePersist()
+    public function testPrePersist(): void
     {
         $user = $this->getUser();
         $user->prePersist();
-        $this->assertInstanceOf('\DateTime', $user->getCreatedAt());
-        $this->assertInstanceOf('\DateTime', $user->getUpdatedAt());
-        $this->assertEquals(0, $user->getLoginCount());
-        $this->assertNotEmpty($user->getCustomer());
+        self::assertInstanceOf(\DateTime::class, $user->getCreatedAt());
+        self::assertInstanceOf(\DateTime::class, $user->getUpdatedAt());
+        self::assertEquals(0, $user->getLoginCount());
+        self::assertNotEmpty($user->getCustomer());
     }
 
-    public function testPreUpdateUnChanged()
+    public function testPreUpdateUnChanged(): void
     {
         $changeSet = [
             'lastLogin' => null,
@@ -161,41 +158,77 @@ class CustomerUserTest extends AbstractUserTest
 
         $user = $this->getUser();
         $updatedAt = new \DateTime('2015-01-01');
-        $user->setUpdatedAt($updatedAt);
+        $user->setUpdatedAt($updatedAt)
+            ->setConfirmationToken('test_token')
+            ->setPasswordRequestedAt(new \DateTime());
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|PreUpdateEventArgs $event */
-        $event = $this->getMockBuilder('Doctrine\ORM\Event\PreUpdateEventArgs')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $event->expects($this->any())
+        $event = $this->createMock(PreUpdateEventArgs::class);
+        $event->expects(self::any())
             ->method('getEntityChangeSet')
-            ->will($this->returnValue($changeSet));
+            ->willReturn($changeSet);
 
+        self::assertEquals($updatedAt, $user->getUpdatedAt());
+        self::assertNotNull($user->getConfirmationToken());
+        self::assertNotNull($user->getPasswordRequestedAt());
         $user->preUpdate($event);
-        $this->assertEquals($updatedAt, $user->getUpdatedAt());
+        self::assertEquals($updatedAt, $user->getUpdatedAt());
+        self::assertNotNull($user->getConfirmationToken());
+        self::assertNotNull($user->getPasswordRequestedAt());
     }
 
-    public function testPreUpdateChanged()
+    /**
+     * @dataProvider preUpdateDataProvider
+     */
+    public function testPreUpdateChanged(array $changeSet): void
     {
-        $changeSet = ['lastname' => null];
-
         $user = $this->getUser();
         $updatedAt = new \DateTime('2015-01-01');
-        $user->setUpdatedAt($updatedAt);
+        $user->setUpdatedAt($updatedAt)
+            ->setConfirmationToken('test_token')
+            ->setPasswordRequestedAt(new \DateTime());
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|PreUpdateEventArgs $event */
-        $event = $this->getMockBuilder('Doctrine\ORM\Event\PreUpdateEventArgs')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $event->expects($this->any())
+        $event = $this->createMock(PreUpdateEventArgs::class);
+        $event->expects(self::any())
             ->method('getEntityChangeSet')
-            ->will($this->returnValue($changeSet));
+            ->willReturn($changeSet);
 
+        self::assertEquals($updatedAt, $user->getUpdatedAt());
+        self::assertNotNull($user->getConfirmationToken());
+        self::assertNotNull($user->getPasswordRequestedAt());
         $user->preUpdate($event);
-        $this->assertNotEquals($updatedAt, $user->getUpdatedAt());
+        self::assertNotEquals($updatedAt, $user->getUpdatedAt());
+        self::assertNull($user->getConfirmationToken());
+        self::assertNull($user->getPasswordRequestedAt());
     }
 
-    public function testUnserialize()
+    public function preUpdateDataProvider(): array
+    {
+        return [
+            [
+                'changeSet' => array_flip(['username'])
+            ],
+            [
+                'changeSet' => array_flip(['email'])
+            ],
+            [
+                'changeSet' => array_flip(['password'])
+            ],
+            [
+                'changeSet' => array_flip(['username', 'email'])
+            ],
+            [
+                'changeSet' => array_flip(['email', 'password'])
+            ],
+            [
+                'changeSet' => array_flip(['username', 'password'])
+            ],
+            [
+                'changeSet' => array_flip(['username', 'email', 'password'])
+            ],
+        ];
+    }
+
+    public function testUnserialize(): void
     {
         $user = $this->getUser();
         $serialized = [
@@ -207,96 +240,99 @@ class CustomerUserTest extends AbstractUserTest
             'confirmation_token',
             10
         ];
-        $user->unserialize(serialize($serialized));
+        $user->__unserialize($serialized);
 
-        $this->assertEquals($serialized[0], $user->getPassword());
-        $this->assertEquals($serialized[1], $user->getSalt());
-        $this->assertEquals($serialized[2], $user->getUsername());
-        $this->assertEquals($serialized[3], $user->isEnabled());
-        $this->assertEquals($serialized[4], $user->isConfirmed());
-        $this->assertEquals($serialized[5], $user->getConfirmationToken());
-        $this->assertEquals($serialized[6], $user->getId());
+        self::assertEquals($serialized[0], $user->getPassword());
+        self::assertEquals($serialized[1], $user->getSalt());
+        self::assertEquals($serialized[2], $user->getUsername());
+        self::assertEquals($serialized[3], $user->isEnabled());
+        self::assertEquals($serialized[4], $user->isConfirmed());
+        self::assertEquals($serialized[5], $user->getConfirmationToken());
+        self::assertEquals($serialized[6], $user->getId());
     }
 
-    public function testIsEnabledAndIsConfirmed()
+    public function testIsEnabled(): void
     {
         $user = $this->getUser();
 
-        $this->assertTrue($user->isEnabled());
-        $this->assertTrue($user->isConfirmed());
-        $this->assertTrue($user->isAccountNonExpired());
-        $this->assertTrue($user->isAccountNonLocked());
+        self::assertTrue($user->isEnabled());
 
         $user->setEnabled(false);
 
-        $this->assertFalse($user->isEnabled());
-        $this->assertFalse($user->isAccountNonLocked());
-
-        $user->setEnabled(true);
-        $user->setConfirmed(false);
-
-        $this->assertFalse($user->isConfirmed());
-        $this->assertFalse($user->isAccountNonLocked());
+        self::assertFalse($user->isEnabled());
     }
 
-    public function testGetFullName()
+    public function testIsConfirmed(): void
+    {
+        $user = $this->getUser();
+
+        self::assertTrue($user->isConfirmed());
+
+        $user->setConfirmed(false);
+
+        self::assertFalse($user->isConfirmed());
+    }
+
+    public function testGetFullName(): void
     {
         $user = $this->getUser();
         $user
             ->setFirstName('FirstName')
             ->setLastName('LastName');
 
-        $this->assertSame('FirstName LastName', $user->getFullName());
+        self::assertSame('FirstName LastName', $user->getFullName());
     }
 
-    public function testSettingsAccessors()
+    public function testSettingsAccessors(): void
     {
         $user = $this->getUser();
-        $website = new Website();
+        $website = $this->getWebsite(1);
 
-        $user->setWebsiteSettings(new CustomerUserSettings(new Website()))
+        $user->setWebsiteSettings(new CustomerUserSettings($this->getWebsite(2)))
             ->setWebsiteSettings(new CustomerUserSettings($website))
             ->setWebsiteSettings((new CustomerUserSettings($website))->setCurrency('USD'))
             ->setWebsiteSettings(new CustomerUserSettings(new Website()));
 
-        $this->assertSame('USD', $user->getWebsiteSettings($website)->getCurrency());
+        self::assertSame('USD', $user->getWebsiteSettings($website)->getCurrency());
     }
 
-    public function testSettingGetter()
+    public function testSettingGetter(): void
     {
         $user = $this->getUser();
-        $website = new Website();
+        $website1 = $this->getWebsite(1);
+        $website2 = $this->getWebsite(2);
+        $website3 = $this->getWebsite(3);
 
-        $this->assertEquals(0, $user->getSettings()->count());
+        self::assertEquals(0, $user->getSettings()->count());
 
-        $firstSetting = new CustomerUserSettings(new Website());
+        $firstSetting = new CustomerUserSettings($website2);
         $user->setWebsiteSettings($firstSetting);
-        $this->assertEquals(1, $user->getSettings()->count());
-        $this->assertTrue($user->getSettings()->contains($firstSetting));
+        self::assertEquals(1, $user->getSettings()->count());
+        self::assertTrue($user->getSettings()->contains($firstSetting));
 
-        $secondSetting = new CustomerUserSettings($website);
+        $secondSetting = new CustomerUserSettings($website1);
         $user->setWebsiteSettings($secondSetting);
-        $this->assertEquals(2, $user->getSettings()->count());
-        $this->assertTrue($user->getSettings()->contains($secondSetting));
+        self::assertEquals(2, $user->getSettings()->count());
+        self::assertTrue($user->getSettings()->contains($secondSetting));
 
-        $thirdSetting = new CustomerUserSettings($website);
+        $thirdSetting = new CustomerUserSettings($website1);
         $user->setWebsiteSettings($thirdSetting);
-        $this->assertEquals(2, $user->getSettings()->count());
-        $this->assertFalse($user->getSettings()->contains($secondSetting));
-        $this->assertTrue($user->getSettings()->contains($thirdSetting));
+        self::assertEquals(2, $user->getSettings()->count());
+        self::assertFalse($user->getSettings()->contains($secondSetting));
+        self::assertTrue($user->getSettings()->contains($thirdSetting));
 
-        $fourthSetting = new CustomerUserSettings(new Website());
+        $fourthSetting = new CustomerUserSettings($website3);
         $user->setWebsiteSettings($fourthSetting);
-        $this->assertEquals(3, $user->getSettings()->count());
-        $this->assertTrue($user->getSettings()->contains($fourthSetting));
+        self::assertEquals(3, $user->getSettings()->count());
+        self::assertTrue($user->getSettings()->contains($fourthSetting));
     }
 
-    public function testApiKeys()
+    public function testApiKeys(): void
     {
         $user = $this->getUser();
 
-        $this->assertInstanceOf(ArrayCollection::class, $user->getApiKeys());
-        $this->assertCount(0, $user->getApiKeys());
+        self::assertInstanceOf(ArrayCollection::class, $user->getApiKeys());
+        self::assertCount(0, $user->getApiKeys());
 
         $apiKey1 = new CustomerUserApi();
         $apiKey1->setApiKey('key1');
@@ -305,30 +341,30 @@ class CustomerUserTest extends AbstractUserTest
 
         $user->addApiKey($apiKey1);
         $user->addApiKey($apiKey2);
-        $this->assertCount(2, $user->getApiKeys());
-        $this->assertSame($apiKey1, $user->getApiKeys()->first());
-        $this->assertSame($apiKey2, $user->getApiKeys()->last());
-        $this->assertSame($user, $apiKey1->getUser());
-        $this->assertSame($user, $apiKey2->getUser());
+        self::assertCount(2, $user->getApiKeys());
+        self::assertSame($apiKey1, $user->getApiKeys()->first());
+        self::assertSame($apiKey2, $user->getApiKeys()->last());
+        self::assertSame($user, $apiKey1->getUser());
+        self::assertSame($user, $apiKey2->getUser());
 
         $user->removeApiKey($apiKey1);
-        $this->assertCount(1, $user->getApiKeys());
-        $this->assertSame($apiKey2, $user->getApiKeys()->first());
+        self::assertCount(1, $user->getApiKeys());
+        self::assertSame($apiKey2, $user->getApiKeys()->first());
     }
 
-    public function testSetEmailGetEmailLowercase()
+    public function testSetEmailGetEmailLowercase(): void
     {
         $user = $this->getUser();
         $user->setEmail('John.Doe@example.org');
 
-        $this->assertEquals('john.doe@example.org', $user->getEmailLowercase());
+        self::assertEquals('john.doe@example.org', $user->getEmailLowercase());
     }
 
-    public function testSetUsernameGetEmailLowercase()
+    public function testSetUsernameGetEmailLowercase(): void
     {
         $user = $this->getUser();
         $user->setUsername('John.Doe@example.org');
 
-        $this->assertEquals('john.doe@example.org', $user->getEmailLowercase());
+        self::assertEquals('john.doe@example.org', $user->getEmailLowercase());
     }
 }

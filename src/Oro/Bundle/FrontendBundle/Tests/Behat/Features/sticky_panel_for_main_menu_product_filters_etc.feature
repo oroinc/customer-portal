@@ -2,7 +2,9 @@
 @automatically-ticket-tagged
 @fixture-OroFrontendBundle:Products.yml
 Feature: Sticky panel for main menu, product filters etc
-  ToDo: BAP-16103 Add missing descriptions to the Behat features
+  As a User
+  I want to be sure that sticky panel is visible
+  So I start check visibility on different screen resolutions
 
   Scenario: Check filters in sticky panel
     Given I login as AmandaRCole@example.org buyer
@@ -18,8 +20,8 @@ Feature: Sticky panel for main menu, product filters etc
     And I should see an "Catalog Switcher Into Sticky Panel" element
 
   Scenario: Check is sticky panel visible and has main menu content (mobile version)
-    Given here is the "User" under "320_session"
-    And I set window size to 320x640
+    Given here is the "User" under "375_session"
+    And I set window size to 375x640
     And I am on homepage
     Then I should not see an "Active Sticky Panel" element
     And I should see a "Main Menu Into Header" element
@@ -31,15 +33,17 @@ Feature: Sticky panel for main menu, product filters etc
     And I should see a "Main Menu Into Header" element
 
   Scenario: Check is sticky panel visible and has product filter
-    Given here is the "User" under "320_session"
-    And I set window size to 320x640
+    Given here is the "User" under "375_session"
+    And I set window size to 375x640
     And I am on "/product/?grid"
     Then I should not see an "Active Sticky Panel" element
     And I click "GridFiltersButton"
-    And I should see a "Product Filter Into Page Content" element
+    Then I should see an "Fullscreen Popup" element
+    And I should see "Fullscreen Popup Header" element with text "Filter Toggle" inside "Fullscreen Popup" element
+    And click "Close Fullscreen Popup"
     When I click "Copyright"
     Then I should see an "Active Sticky Panel" element
-    And I should see a "Product Filter Into Sticky Panel" element
+    And I should see a "Grid Filters Button Into Sticky Panel" element
     When I click "Header"
     Then I should not see an "Active Sticky Panel" element
-    And I should see a "Product Filter Into Page Content" element
+    And I should see a "GridFiltersButton" element

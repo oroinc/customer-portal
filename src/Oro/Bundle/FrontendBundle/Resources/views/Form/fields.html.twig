@@ -27,12 +27,26 @@
             {% set label_attr = label_attr|merge({'for': form.value.vars.id}) %}
             {{ form_row(form, {'label_attr': label_attr}) }}
         {% else %}
-            {{ form_widget(form.value) }}
+            {{ form_widget(form.value, {'attr': {'class': 'control-subgroup'}}) }}
             {% if form.use_parent_scope_value is defined %}
-                <div class="parent-scope-checkbox oro-clearfix controls">
-                    {{ form_row(form.use_parent_scope_value, { 'attr': {'data-role': 'changeUseDefault'} }) }}
+                <div class="parent-scope-checkbox control-subgroup">
+                    <div class="parent-scope-checkbox__wrapper">
+                        {{ form_row(form.use_parent_scope_value, { 'attr': {'data-role': 'changeUseDefault'} }) }}
+                    </div>
                 </div>
             {% endif %}
         {% endif %}
+    </div>
+{% endblock %}
+
+{% block page_template_widget %}
+    <div data-page-component-module="oroui/js/app/components/view-component"
+         data-page-component-options="{{ {
+             view: 'orofrontend/js/app/views/page-template-select-view',
+             metadata: form.vars['page-template-metadata']
+         }|json_encode }}"
+    >
+        {{ form_widget(form) }}
+        <div class="description-container" style="display: none;"></div>
     </div>
 {% endblock %}

@@ -1,28 +1,27 @@
 define(function(require) {
     'use strict';
 
-    var HeaderRowComponent;
-    var BaseComponent = require('oroui/js/app/components/base/component');
-    var mediator = require('oroui/js/mediator');
-    var tools = require('oroui/js/tools');
-    var $ = require('jquery');
-    var _ = require('underscore');
+    const BaseComponent = require('oroui/js/app/components/base/component');
+    const mediator = require('oroui/js/mediator');
+    const tools = require('oroui/js/tools');
+    const $ = require('jquery');
+    const _ = require('underscore');
 
-    HeaderRowComponent = BaseComponent.extend({
+    const HeaderRowComponent = BaseComponent.extend({
         /**
          * @property {jQuery}
          */
         $el: null,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function HeaderRowComponent() {
-            HeaderRowComponent.__super__.constructor.apply(this, arguments);
+        constructor: function HeaderRowComponent(options) {
+            HeaderRowComponent.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.$el = $(options._sourceElement);
@@ -37,7 +36,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         delegateListeners: function() {
             if (tools.isMobile()) {
@@ -45,16 +44,16 @@ define(function(require) {
                 this.listenTo(mediator, 'sticky-panel:toggle-state', _.debounce(this.addScroll, 40));
             }
 
-            return HeaderRowComponent.__super__.delegateListeners.apply(this, arguments);
+            return HeaderRowComponent.__super__.delegateListeners.call(this);
         },
 
         addScroll: function() {
-            var windowHeight = $(window).innerHeight();
-            var headerRowHeight = this.$el.height();
-            var middleBarHeight = this.$el.closest('.page-container').find('.middlebar').outerHeight();
-            var menuHeight = windowHeight - headerRowHeight;
-            var isSticky = this.$el.hasClass('header-row--fixed');
-            var $dropdowns = this.$el.find('.header-row__dropdown');
+            const windowHeight = $(window).innerHeight();
+            const headerRowHeight = this.$el.height();
+            const middleBarHeight = this.$el.closest('.page-container').find('.middlebar').outerHeight();
+            let menuHeight = windowHeight - headerRowHeight;
+            const isSticky = this.$el.hasClass('header-row--fixed');
+            const $dropdowns = this.$el.find('.header-row__dropdown');
 
             if (!isSticky) {
                 menuHeight = windowHeight - headerRowHeight - middleBarHeight;
@@ -62,7 +61,7 @@ define(function(require) {
             $.each($dropdowns, function(index, dropdown) {
                 $(dropdown).parent().removeAttr('style');
 
-                var dropdownHeight = $(dropdown).height();
+                const dropdownHeight = $(dropdown).height();
 
                 if (dropdownHeight >= menuHeight) {
                     $(dropdown)

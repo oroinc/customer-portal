@@ -2,51 +2,110 @@
 
 namespace Oro\Bundle\FrontendBundle\Request;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
+use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * The helper class to check whether the current request is the storefront or management console request.
+ */
 class FrontendHelper
 {
-    /**
-     * @var string
-     */
-    protected $backendPrefix;
+    /** @var string */
+    private $backendPrefix;
+
+    /** @var RequestStack */
+    private $requestStack;
+
+    private ApplicationState $applicationState;
 
     /**
-     * @var ContainerInterface
+     * Used if the check should return that a request is the storefront or management console
+     * without any additional checks
+     * @var bool
      */
-    protected $container;
+    private $emulateFrontendRequest;
 
     /**
      * @param string $backendPrefix
-     * @param ContainerInterface $container
+     * @param RequestStack $requestStack
+     * @param ApplicationState $applicationState
      */
-    public function __construct($backendPrefix, ContainerInterface $container)
+    public function __construct($backendPrefix, RequestStack $requestStack, ApplicationState $applicationState)
     {
         $this->backendPrefix = $backendPrefix;
-        $this->container = $container;
+        $this->requestStack = $requestStack;
+        $this->applicationState = $applicationState;
     }
 
     /**
-     * @param Request|null $request
-     * @return bool
+     * Checks whether the current HTTP request is the storefront or management console request.
      */
-    public function isFrontendRequest(Request $request = null)
+    public function isFrontendRequest(): bool
     {
-        if (!$request) {
-            $request = $this->container->get('request_stack')->getCurrentRequest();
+        if (!$this->applicationState->isInstalled()) {
+            return false;
         }
 
-        return $request && $this->isFrontendUrl($request->getPathInfo());
+        if (null !== $this->emulateFrontendRequest) {
+            return $this->emulateFrontendRequest;
+        }
+
+        $request = $this->requestStack->getMainRequest();
+
+        return
+            null !== $request
+            && $this->isFrontendUrl($request->getPathInfo());
     }
 
     /**
-     * @param string $url
+     * Checks whether the given URL is the storefront or management console URL.
+     *
+     * @param string $pathinfo The path info to be checked (raw format, i.e. not urldecoded)
+     *                         {@see \Symfony\Component\HttpFoundation\Request::getPathInfo}
+     *
      * @return bool
      */
-    public function isFrontendUrl($url)
+    public function isFrontendUrl(string $pathinfo): bool
     {
+        if (!$this->applicationState->isInstalled()) {
+            return false;
+        }
+
         // the least time consuming method to check whether URL is frontend
-        return $this->container->getParameter('installed') && strpos($url, $this->backendPrefix) !== 0;
+        if (str_starts_with($pathinfo, $this->backendPrefix)) {
+            $prefixLength = \strlen($this->backendPrefix);
+
+            return
+                $prefixLength !== \strlen($pathinfo)
+                && '/' !== $pathinfo[$prefixLength];
+        }
+
+        return true;
+    }
+
+    /**
+     * Switches the {@see isFrontendRequest} check to return that a request is the storefront request
+     * without additional checks.
+     */
+    public function emulateFrontendRequest(): void
+    {
+        $this->emulateFrontendRequest = true;
+    }
+
+    /**
+     * Switches the {@see isFrontendRequest} check to return that a request is management console request
+     * without additional checks.
+     */
+    public function emulateBackendRequest(): void
+    {
+        $this->emulateFrontendRequest = false;
+    }
+
+    /**
+     * Removes the {@see isFrontendRequest} check emulation.
+     */
+    public function resetRequestEmulation(): void
+    {
+        $this->emulateFrontendRequest = null;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
-use Oro\Bundle\AddressBundle\Validator\Constraints\NameOrOrganization;
+use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserTypedAddressType;
@@ -14,15 +14,12 @@ class FrontendCustomerUserTypedAddressTypeTest extends FrontendCustomerTypedAddr
     /** @var FrontendCustomerUserTypedAddressType */
     protected $formType;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->formType = new FrontendCustomerUserTypedAddressType();
-        $this->formType->setAddressTypeDataClass('Oro\Bundle\AddressBundle\Entity\AddressType');
-        $this->formType->setDataClass('Oro\Bundle\CustomerBundle\Entity\CustomerAddress');
+        $this->formType->setAddressTypeDataClass(AddressType::class);
+        $this->formType->setDataClass(CustomerAddress::class);
         $this->factory = Forms::createFormFactoryBuilder()
             ->addExtensions($this->getExtensions())
             ->getFormFactory();
@@ -41,19 +38,11 @@ class FrontendCustomerUserTypedAddressTypeTest extends FrontendCustomerTypedAddr
 
         $this->assertEquals(
             [
-                'constraints' => [
-                    new NameOrOrganization()
-                ],
                 'owner_field_label' => 'oro.customer.frontend.customer_user.entity_label',
                 'data_class' => CustomerAddress::class,
                 'single_form' => true,
                 'all_addresses_property_path' => 'frontendOwner.addresses',
-                'ownership_disabled' => true,
-                'validation_groups' => [
-                    'Default',
-                    'RequireName',
-                    'RequireRegion'
-                ]
+                'ownership_disabled' => true
             ],
             $optionsResolver->resolve()
         );
@@ -68,9 +57,9 @@ class FrontendCustomerUserTypedAddressTypeTest extends FrontendCustomerTypedAddr
     }
 
     /**
-     * @return CustomerUser
+     * {@inheritdoc}
      */
-    protected function getCustomer()
+    protected function getCustomer(): object
     {
         return new CustomerUser();
     }

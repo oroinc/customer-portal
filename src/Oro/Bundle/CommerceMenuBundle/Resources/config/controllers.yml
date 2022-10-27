@@ -1,0 +1,45 @@
+services:
+    _defaults:
+        public: true
+
+    Oro\Bundle\CommerceMenuBundle\Controller\CustomerAjaxMenuController:
+        calls:
+            - [setContainer, ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: 'container.service_subscriber' }
+            - { name: 'container.service_subscriber', id: oro_commerce_menu.manager.menu_update, key: Oro\Bundle\NavigationBundle\Manager\MenuUpdateManager }
+
+    Oro\Bundle\CommerceMenuBundle\Controller\CustomerGroupAjaxMenuController:
+        calls:
+            - [setContainer, ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: 'container.service_subscriber' }
+            - { name: 'container.service_subscriber', id: oro_commerce_menu.manager.menu_update, key: Oro\Bundle\NavigationBundle\Manager\MenuUpdateManager }
+
+    Oro\Bundle\CommerceMenuBundle\Controller\GlobalAjaxMenuController:
+        calls:
+            - [setContainer, ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: 'container.service_subscriber' }
+            - { name: 'container.service_subscriber', id: oro_commerce_menu.manager.menu_update, key: Oro\Bundle\NavigationBundle\Manager\MenuUpdateManager }
+
+    Oro\Bundle\CommerceMenuBundle\Controller\GlobalMenuController:
+        calls:
+            - [setContainer, ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: 'container.service_subscriber' }
+            - { name: 'container.service_subscriber', id: oro_commerce_menu.manager.menu_update, key: Oro\Bundle\NavigationBundle\Manager\MenuUpdateManager }
+
+    Oro\Bundle\CommerceMenuBundle\Controller\CustomerMenuController:
+        calls:
+            - [setContainer, ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: 'container.service_subscriber' }
+            - { name: 'container.service_subscriber', id: oro_commerce_menu.manager.menu_update, key: Oro\Bundle\NavigationBundle\Manager\MenuUpdateManager }
+
+    Oro\Bundle\CommerceMenuBundle\Controller\CustomerGroupMenuController:
+        calls:
+            - [setContainer, ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: 'container.service_subscriber' }
+            - { name: 'container.service_subscriber', id: oro_commerce_menu.manager.menu_update, key: Oro\Bundle\NavigationBundle\Manager\MenuUpdateManager }

@@ -24,8 +24,6 @@ class OroCustomerBundle implements Migration
 
     /**
      * Update oro_grid_view table
-     *
-     * @param Schema $schema
      */
     private function updateOroGridViewTable(Schema $schema)
     {
@@ -36,8 +34,6 @@ class OroCustomerBundle implements Migration
 
     /**
      * Update oro_grid_view_user_rel table
-     *
-     * @param Schema $schema
      */
     private function updateOroGridViewUserTable(Schema $schema)
     {
@@ -48,8 +44,6 @@ class OroCustomerBundle implements Migration
 
     /**
      * Add oro_grid_view foreign keys
-     *
-     * @param Schema $schema
      */
     private function addOroGridViewForeignKeys(Schema $schema)
     {
@@ -64,8 +58,6 @@ class OroCustomerBundle implements Migration
 
     /**
      * Add oro_grid_view_user_rel foreign keys
-     *
-     * @param Schema $schema
      */
     private function addOroGridViewUserForeignKeys(Schema $schema)
     {

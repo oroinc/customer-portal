@@ -28,21 +28,20 @@ Example:
 ```JSON
 {
   "data": {
-    "type": "customer_users",    
+    "type": "customerusers",
     "attributes": {
       "confirmed": true,
-      "email": "AmandaFCole@example.org",      
+      "email": "AmandaFCole@example.org",
       "firstName": "Amanda",     
       "lastName": "Cole",     
-      "enabled": true,      
-      "username": "AmandaFCole@example.org",
+      "enabled": true,
       "password": "Password000!"
     },
     "relationships": {
-      "roles": {
+      "userRoles": {
         "data": [
           {
-            "type": "customer_user_roles",
+            "type": "customeruserroles",
             "id": "1"
           }
         ]
@@ -50,12 +49,6 @@ Example:
       "customer": {
         "data": {
           "type": "customers",
-          "id": "1"
-        }
-      },      
-      "website": {
-        "data": {
-          "type": "websites",
           "id": "1"
         }
       }
@@ -79,21 +72,20 @@ Example:
 ```JSON
 {
   "data": {
-    "type": "customer_users",
+    "type": "customerusers",
     "id": "1",    
     "attributes": {
       "confirmed": true,
-      "email": "AmandaMCole@example.org",      
+      "email": "AmandaMCole@example.org",
       "firstName": "Amanda",     
       "lastName": "Cole",     
-      "enabled": true,      
-      "username": "AmandaMCole@example.org"
+      "enabled": true
     },
     "relationships": {
-      "roles": {
+      "userRoles": {
         "data": [
           {
-            "type": "customer_user_roles",
+            "type": "customeruserroles",
             "id": "1"
           }
         ]
@@ -101,12 +93,6 @@ Example:
       "customer": {
         "data": {
           "type": "customers",
-          "id": "1"
-        }
-      },      
-      "website": {
-        "data": {
-          "type": "websites",
           "id": "1"
         }
       }
@@ -130,30 +116,22 @@ Delete a collection of customer user records.
 
 ## FIELDS
 
-### website
-
-#### create
-
-{@inheritdoc}
-
-**The required field**
-
 ### customer
 
 #### create
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
-### roles
+### userRoles
 
 #### create
 
 {@inheritdoc}
 
 **Conditionally required field:**
-This field is required when "enabled" field value is "true".
+This field is required when the **enabled** field value is `true`.
 
 ### enabled
 
@@ -161,7 +139,8 @@ This field is required when "enabled" field value is "true".
 
 {@inheritdoc}
 
-'true' by default
+**Note:**
+The default value is `true`.
 
 ### confirmed
 
@@ -169,7 +148,8 @@ This field is required when "enabled" field value is "true".
 
 {@inheritdoc}
 
-'true' by default
+**Note:**
+The default value is `true`.
 
 ### email
 
@@ -177,31 +157,13 @@ This field is required when "enabled" field value is "true".
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
 {@inheritdoc}
 
-**Please note:**
-
-*This field is **required** and must remain defined.*
-
-### username
-
-#### create
-
-{@inheritdoc}
-
-**The required field**
-
-#### update
-
-{@inheritdoc}
-
-**Please note:**
-
-*This field is **required** and must remain defined.*
+**This field must not be empty, if it is passed.**
 
 ### password
 
@@ -209,23 +171,19 @@ This field is required when "enabled" field value is "true".
 
 {@inheritdoc}
 
-**The required field**
-
 ### firstName
 
 #### create
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
 {@inheritdoc}
 
-**Please note:**
-
-*This field is **required** and must remain defined.*
+**This field must not be empty, if it is passed.**
 
 ### lastName
 
@@ -233,15 +191,45 @@ This field is required when "enabled" field value is "true".
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
 {@inheritdoc}
 
-**Please note:**
+**This field must not be empty, if it is passed.**
 
-*This field is **required** and must remain defined.*
+### passwordChangedAt
+
+#### create, update
+
+{@inheritdoc}
+
+**The read-only field. A passed value will be ignored.**
+
+### passwordRequestedAt
+
+#### create, update
+
+{@inheritdoc}
+
+**The read-only field. A passed value will be ignored.**
+
+### loginCount
+
+#### create, update
+
+{@inheritdoc}
+
+**The read-only field. A passed value will be ignored.**
+
+### lastLogin
+
+#### create, update
+
+{@inheritdoc}
+
+**The read-only field. A passed value will be ignored.**
 
 ## SUBRESOURCES
 
@@ -257,7 +245,7 @@ Retrieve the ID of the customer record which a specific customer user record is 
 
 #### update_relationship
 
-Replace customer record a specific customer user record is assigned to.
+Replace the customer record a specific customer user record is assigned to.
 
 {@request:json_api}
 Example:
@@ -326,34 +314,7 @@ Example:
 ```
 {@/request}
 
-### website
-
-#### get_subresource
-
-Retrieve a record of website assigned to a specific customer user record.
-
-#### get_relationship
-
-Retrieve IDs of website records assigned to a specific customer user record.
-
-#### update_relationship
-
-Replace a website assigned to a specific customer user record.
-
-{@request:json_api}
-Example:
-
-```JSON
-{
-  "data": {
-    "type": "websites",
-    "id": "1"
-  }
-}
-```
-{@/request}
-
-### roles
+### userRoles
 
 #### get_subresource
 
@@ -374,11 +335,11 @@ Example:
 {
   "data": [
     {
-      "type": "customer_user_roles",
+      "type": "customeruserroles",
       "id": "1"
     },
     {
-      "type": "customer_user_roles",
+      "type": "customeruserroles",
       "id": "2"
     }
   ]
@@ -397,7 +358,7 @@ Example:
 {
   "data": [
     {
-      "type": "customer_user_roles",
+      "type": "customeruserroles",
       "id": "2"
     }
   ]
@@ -416,7 +377,7 @@ Example:
 {
   "data": [
     {
-      "type": "customer_user_roles",
+      "type": "customeruserroles",
       "id": "2"
     }
   ]
@@ -512,60 +473,3 @@ Retrieve a record of address assigned to a specific customer user record.
 #### get_relationship
 
 Retrieve IDs of address records assigned to a specific customer user record.
-
-#### update_relationship
-
-Replace the list of addresses assigned to a specific customer user record.
-
-{@request:json_api}
-Example:
-
-```JSON
-{
-  "data": [
-    {
-      "type": "customer_user_addresses",
-      "id": "1"
-    }
-  ]
-}
-```
-{@/request}
-
-#### add_relationship
-
-Set address records for a specific customer user record.
-
-{@request:json_api}
-Example:
-
-```JSON
-{
-  "data": [
-    {
-      "type": "customer_user_addresses",
-      "id": "1"
-    }
-  ]
-}
-```
-{@/request}
-
-#### delete_relationship
-
-Remove address records from a specific customer user record.
-
-{@request:json_api}
-Example:
-
-```JSON
-{
-  "data": [
-    {
-      "type": "customer_user_addresses",
-      "id": "1"
-    }
-  ]
-}
-```
-{@/request}

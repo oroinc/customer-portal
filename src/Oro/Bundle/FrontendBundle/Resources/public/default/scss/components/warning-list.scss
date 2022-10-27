@@ -1,0 +1,13 @@
+/* @theme: default; */
+
+.warning-list {
+    &__item {
+        &:first-child {
+            margin-top: $warning-list-item-first-margin-top;
+        }
+    }
+
+    &__id-value {
+        color: $warning-list-id-value-color;
+    }
+}

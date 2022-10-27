@@ -1,0 +1,39 @@
+services:
+    _defaults:
+        public: true
+
+    oro_frontend.js_routing_controller:
+        class: '%fos_js_routing.controller.class%'
+        arguments:
+            - '@fos_js_routing.serializer'
+            - '@oro_frontend.extractor.frontend_exposed_routes_extractor'
+            - '%fos_js_routing.cache_control%'
+            - '%kernel.debug%'
+
+    Oro\Bundle\FrontendBundle\Controller\FrontendRestApiController:
+        arguments:
+            - '@oro_frontend.api.rest.request_handler'
+
+    Oro\Bundle\FrontendBundle\Controller\Workflow\WidgetController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+
+    Oro\Bundle\FrontendBundle\Controller\Workflow\WorkflowController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+
+    Oro\Bundle\FrontendBundle\Controller\FrontendController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+
+    Oro\Bundle\FrontendBundle\Controller\GridController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }

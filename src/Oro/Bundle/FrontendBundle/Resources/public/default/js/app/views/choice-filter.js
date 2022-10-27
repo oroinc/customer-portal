@@ -1,42 +1,61 @@
 define(function(require) {
     'use strict';
 
-    var ChoiceFilter;
-    var BaseChoiceFilter = require('oro/filter/choice-filter');
+    const _ = require('underscore');
+    const BaseChoiceFilter = require('oro/filter/choice-filter');
 
-    ChoiceFilter = BaseChoiceFilter.extend({
-        choiceDropdownSelector: 'select[data-choice-value-select]',
+    const ChoiceFilter = BaseChoiceFilter.extend({
+        /**
+         * @inheritdoc
+         */
+        criteriaValueSelectors: _.defaults({
+            type: 'select[data-choice-value-select]'
+        }, BaseChoiceFilter.prototype.criteriaValueSelectors),
 
         events: {
-            'change select[data-choice-value-select]': '_onClickChoiceValue'
+            'change select[data-choice-value-select]': '_onChangeChoiceValue'
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function ChoiceFilter() {
-            ChoiceFilter.__super__.constructor.apply(this, arguments);
+        constructor: function ChoiceFilter(options) {
+            ChoiceFilter.__super__.constructor.call(this, options);
+        },
+
+        _renderCriteria: function() {
+            ChoiceFilter.__super__._renderCriteria.call(this);
+
+            this.$el.inputWidget('seekAndCreate');
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        _onClickChoiceValue: function(e) {
-            var type = e.currentTarget.value;
-            this._onClickChoiceValueSetType(type);
-            this._updateValueField();
+        _onChangeChoiceValue: function(e) {
+            if (!this.changeChoiceValueHandling) {
+                this.changeChoiceValueHandling = true;
+                this._onClickChoiceValueSetType(e.currentTarget.value);
+                this._updateValueField();
+                delete this.changeChoiceValueHandling;
+            }
+            this._onValueChanged();
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         _onValueUpdated: function(newValue, oldValue) {
-            var $menu = this.$(this.choiceDropdownSelector);
-            var name = $menu.data('name') || 'type';
-            $menu.val(newValue[name]);
+            this.$(this.criteriaValueSelectors.type).each(function(i, elem) {
+                const $select = this.$(elem);
+                const name = $select.data('name') || 'type';
+                if (oldValue[name] !== newValue[name]) {
+                    $select.inputWidget('val', newValue[name]);
+                    $select.trigger('change');
+                }
+            }.bind(this));
 
-            this._updateCriteriaHint();
-            this._triggerUpdate(newValue, oldValue);
+            ChoiceFilter.__super__._onValueUpdated.call(this, newValue, oldValue);
         }
     });
 

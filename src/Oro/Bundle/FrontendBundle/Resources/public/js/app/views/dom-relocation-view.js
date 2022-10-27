@@ -1,23 +1,29 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
-    var DomRelocationView;
-    var viewportManager = require('oroui/js/viewport-manager');
-    var BaseView = require('oroui/js/app/views/base/view');
-    var _ = require('underscore');
-    var $ = require('jquery');
-    var module = require('module');
+    const viewportManager = require('oroui/js/viewport-manager');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const _ = require('underscore');
+    const $ = require('jquery');
+    const mediator = require('oroui/js/mediator');
+    let config = require('module-config').default(module.id);
 
-    var config = module.config();
     config = _.extend({
         resizeTimeout: 250,
         layoutTimeout: 250
     }, config);
 
-    DomRelocationView = BaseView.extend({
+    /**
+     * @DomRelocationView
+     *
+     *
+     */
+    const DomRelocationView = BaseView.extend({
         autoRender: true,
 
-        optionNames: BaseView.prototype.optionNames.concat(['resizeTimeout', 'layoutTimeout']),
+        optionNames: BaseView.prototype.optionNames.concat([
+            'resizeTimeout', 'layoutTimeout'
+        ]),
 
         resizeTimeout: config.resizeTimeout,
 
@@ -30,26 +36,37 @@ define(function(require) {
 
         $elements: null,
 
-        /**
-         * @inheritDoc
-         */
-        constructor: function DomRelocationView() {
-            DomRelocationView.__super__.constructor.apply(this, arguments);
+        defaultOptions: {
+            sibling: null,
+            moveTo: null,
+            endpointClass: 'relocated',
+            prepend: false,
+            responsive: [],
+            targetViewport: null,
+            _moved: false,
+            _addedClass: null
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
+         */
+        constructor: function DomRelocationView(options) {
+            DomRelocationView.__super__.constructor.call(this, options);
+        },
+
+        /**
+         * @inheritdoc
          */
         initialize: function(options) {
             this.$window = $(window);
-            this.onViewportChange = _.debounce(_.bind(this.onViewportChange, this), this.resizeTimeout);
-            this.onContentChange = _.debounce(_.bind(this.onContentChange, this), this.layoutTimeout);
+            this.onViewportChange = _.debounce(this.onViewportChange.bind(this), this.resizeTimeout);
+            this.onContentChange = _.debounce(this.onContentChange.bind(this), this.layoutTimeout);
 
-            return DomRelocationView.__super__.initialize.apply(this, arguments);
+            return DomRelocationView.__super__.initialize.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         render: function() {
             this.collectElements();
@@ -66,7 +83,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         dispose: function() {
             if (this.disposed) {
@@ -75,55 +92,121 @@ define(function(require) {
 
             delete this.$elements;
 
-            return DomRelocationView.__super__.dispose.apply(this, arguments);
+            return DomRelocationView.__super__.dispose.call(this);
         },
 
+        /**
+         * Move element action
+         */
         moveElements: function() {
             if (!this.$elements.length) {
                 return;
             }
-            var viewport = viewportManager.getViewport();
+            const viewport = viewportManager.getViewport();
             _.each(this.$elements, function(el) {
-                var $el = $(el);
-                var options = $el.data('dom-relocation-options');
-                var targetOptions = this.checkTargetOptions(viewport, options.responsive);
+                const $el = $(el);
+                const options = $el.data('dom-relocation-options');
+                const targetOptions = this.checkTargetOptions(viewport, options.responsive);
 
                 if (_.isObject(targetOptions)) {
                     if (!_.isEqual(options.targetViewport, targetOptions.viewport)) {
-                        $(targetOptions.moveTo).first().append($el);
-                        options.targetViewport = targetOptions.viewport;
-                        options._moved = true;
+                        this.moveToTarget($el, targetOptions);
                     }
                 } else if (options._moved) {
-                    options.$originalPosition.append($el);
-                    options.targetViewport = null;
-                    options._moved = false;
+                    this.returnByIndex($el);
                 }
+
+                mediator.trigger('layout:content-relocated', $el);
             }, this);
         },
 
+        /**
+         * Checking applicable relocation from viewport state
+         * @param {Object} viewport
+         * @param {Array} responsiveOptions
+         * @returns {Object}
+         */
         checkTargetOptions: function(viewport, responsiveOptions) {
-            for (var i = responsiveOptions.length - 1; i >= 0; i--) {
+            for (let i = responsiveOptions.length - 1; i >= 0; i--) {
                 if (viewport.isApplicable(responsiveOptions[i].viewport)) {
                     return responsiveOptions[i];
                 }
             }
         },
 
+        /**
+         * Return element to original position
+         * @param {jQuery.Element} $el
+         */
+        returnByIndex: function($el) {
+            const options = $el.data('dom-relocation-options');
+
+            if (options.originalOrder === 0) {
+                options.$originalPosition.prepend($el);
+            } else {
+                options.$originalPosition.children().eq(options.originalOrder - 1).after($el);
+            }
+
+            if (options._addedClass) {
+                $el.removeClass(options._addedClass);
+            }
+
+            options.targetViewport = null;
+            options._moved = false;
+        },
+
+        /**
+         * Move element to target parent
+         * @param $el
+         * @param targetOptions
+         */
+        moveToTarget: function($el, targetOptions) {
+            const options = $el.data('dom-relocation-options');
+            let $target = $(targetOptions.moveTo).first();
+
+            if (targetOptions.sibling) {
+                $target = $target.find(targetOptions.sibling).first();
+                targetOptions.prepend
+                    ? $target.before($el)
+                    : $target.after($el);
+            } else {
+                targetOptions.prepend
+                    ? $target.prepend($el)
+                    : $target.append($el);
+            }
+
+            if (options._addedClass) {
+                $el.removeClass(options._addedClass);
+            }
+
+            if (targetOptions.endpointClass) {
+                $el.addClass(targetOptions.endpointClass);
+                options._addedClass = targetOptions.endpointClass;
+            }
+
+            options.targetViewport = targetOptions.viewport;
+            options._moved = true;
+        },
+
+        /**
+         * Init and collect all element on page with relocation rules
+         */
         collectElements: function() {
-            // data-dom-relocation deprecated, keep fo BC
-            this.$elements = $('[data-dom-relocation], [data-dom-relocation-options]');
+            this.$elements = $('[data-dom-relocation-options]');
             _.each(this.$elements, function(el) {
-                var $el = $(el);
-                var options = $el.data('dom-relocation-options');
+                const $el = $(el);
+                const options = $el.data('dom-relocation-options');
                 if (options._loaded) {
                     return;
                 }
-
-                options._loaded = true;
-                options.$originalPosition = $el.parent();
-                options.responsive = options.responsive || [];
-                options.targetViewport = null;
+                _.extend(
+                    _.defaults(options, this.defaultOptions),
+                    {
+                        $originalPosition: $el.parent(),
+                        originalOrder: $el.index(),
+                        _loaded: true
+                    }
+                );
             }, this);
         }
     });

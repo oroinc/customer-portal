@@ -1,4 +1,27 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:default/page/top_nav_anonymous.html.twig'
+            themes: '@OroCustomer/layouts/default/page/top_nav_anonymous.html.twig'
+        - '@addTree':
+            items:
+                top_authorization_container:
+                    blockType: container
+                    prepend: true
+                top_sign_in_link:
+                    blockType: link
+                    options:
+                        route_name: oro_customer_customer_user_security_login
+                        text: oro.customer.customeruser.profile.login
+                top_registration_link:
+                    blockType: link
+                    options:
+                        visible: '=data["system_config_provider"].getValue("oro_customer.registration_link_enabled") && data["system_config_provider"].getValue("oro_customer.registration_allowed")'
+                        route_name: oro_customer_frontend_customer_user_register
+                        text: oro.customer.customeruser.profile.registration
+            tree:
+                top_nav_container:
+                    top_authorization_container:
+                        top_sign_in_link: ~
+                        top_registration_link: ~
+
+    conditions: '!context["is_logged_in"]'

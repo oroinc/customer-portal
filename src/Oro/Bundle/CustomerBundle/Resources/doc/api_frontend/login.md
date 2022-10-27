@@ -36,13 +36,13 @@ Example of the response:
 
 The customer user email.
 
-**The required field**
+**The required field.**
 
 ### password
 
 The customer user password.
 
-**The required field**
+**The required field.**
 
 ### apiKey
 

@@ -8,12 +8,15 @@ use Oro\Bundle\WorkflowBundle\Processor\Context\LayoutDialogResultType;
 use Oro\Bundle\WorkflowBundle\Processor\Context\TransitionContext;
 use Oro\Bundle\WorkflowBundle\Processor\TransitActionProcessor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-class WidgetController extends Controller
+/**
+ * Frontend workflow widget controller
+ */
+class WidgetController extends AbstractController
 {
     /**
      * @Route(
@@ -31,7 +34,7 @@ class WidgetController extends Controller
      */
     public function startTransitionFormAction($transitionName, $workflowName, Request $request)
     {
-        $processor = $this->getProcessor();
+        $processor = $this->get(TransitActionProcessor::class);
 
         $context = $this->createProcessorContext(
             $processor,
@@ -63,7 +66,7 @@ class WidgetController extends Controller
      */
     public function transitionFormAction($transitionName, WorkflowItem $workflowItem, Request $request)
     {
-        $processor = $this->getProcessor();
+        $processor = $this->get(TransitActionProcessor::class);
 
         $context = $this->createProcessorContext(
             $processor,
@@ -76,14 +79,6 @@ class WidgetController extends Controller
         $processor->process($context);
 
         return $context->getResult();
-    }
-
-    /**
-     * @return TransitActionProcessor
-     */
-    private function getProcessor()
-    {
-        return $this->get('oro_workflow.transit.action_processor');
     }
 
     /**
@@ -106,5 +101,15 @@ class WidgetController extends Controller
         $context->setResultType(new LayoutDialogResultType($formRouteName));
 
         return $context;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(parent::getSubscribedServices(), [
+            TransitActionProcessor::class,
+        ]);
     }
 }

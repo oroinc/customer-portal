@@ -1,0 +1,22 @@
+Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
+    amandaAddressSamoa:
+        frontendOwner: '@amanda'
+        country: '@samoa'
+        owner: '@admin'
+        systemOrganization: '@organization'
+        primary: false
+        label: 'American Samoa Address'
+        street: 'Eastern district'
+        city: 'Pago Pago'
+        postalCode: '96799'
+        organization: '@organization'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType:
+    amandaAddressSamoaShipping:
+        address: '@amandaAddressSamoa'
+        type: '@shippingType'
+        default: false
+    amandaAddress1Billing:
+        address: '@amandaAddressSamoa'
+        type: '@billingType'
+        default: false

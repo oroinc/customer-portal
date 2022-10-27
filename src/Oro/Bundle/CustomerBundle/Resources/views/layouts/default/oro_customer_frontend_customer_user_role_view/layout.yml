@@ -1,6 +1,8 @@
 layout:
     imports:
         -
+            id: oro_customer_page
+        -
             id: oro_customer_user_role_permission_grid
             root: customer_user_role_items
             namespace: customer_user_role_items_view_privileges
@@ -11,7 +13,7 @@ layout:
 
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:default/oro_customer_frontend_customer_user_role_view/layout.html.twig'
+            themes: '@OroCustomer/layouts/default/oro_customer_frontend_customer_user_role_view/layout.html.twig'
         - '@setOption':
             id: page_title
             optionName: defaultValue
@@ -73,11 +75,6 @@ layout:
 
         - '@setOption':
             id: customer_user_grid_datagrid
-            optionName: grid_render_parameters.gridViewsOptions.text
-            optionValue: 'oro.customer.customer_user.role.users'
-
-        - '@setOption':
-            id: customer_user_grid_datagrid
             optionName: grid_render_parameters.themeOptions.cellLauncherOptions
             optionValue:
                 launcherMode: 'icon-text'
@@ -92,4 +89,3 @@ layout:
         - '@move':
             id: customer_user_grid_datagrid
             siblingId: customer_user_role_items_view_privileges_datagrid
-

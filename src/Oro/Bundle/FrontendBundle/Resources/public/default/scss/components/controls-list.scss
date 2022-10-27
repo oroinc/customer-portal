@@ -1,8 +1,8 @@
 /* @theme: default; */
 
 .controls-list {
-    & + .controls-list {
-        border-left: 1px solid get-color('ui', 'normal');
+    + .controls-list {
+        border-left: $controls-list-separator-width solid $controls-list-separator-color;
         margin-left: $offset-x-m;
         padding-left: $offset-x-m;
     }
@@ -16,7 +16,7 @@
         font-size: $base-font-size;
         line-height: normal;
 
-        border-left: 1px solid get-color('ui', 'normal');
+        border-left: $controls-list-separator-width solid $controls-list-separator-color;
 
         &:first-child {
             margin-left: 0;
@@ -26,8 +26,8 @@
         }
     }
 
-    [class^="fa-"],
-    [class*=" fa-"] {
+    [class^='fa-'],
+    [class*=' fa-'] {
         vertical-align: baseline;
     }
 
@@ -41,11 +41,5 @@
         padding: 0;
 
         line-height: inherit;
-
-        border: 0;
-
-        @include element-state('hover') {
-            text-decoration: underline;
-        }
     }
 }

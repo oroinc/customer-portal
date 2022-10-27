@@ -4,7 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -34,9 +34,6 @@ class LoadCustomerUserRoleData extends AbstractFixture implements DependentFixtu
         ];
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
     public function load(ObjectManager $manager)
     {
         $this->loadRoleWithCustomerUser(
@@ -86,7 +83,7 @@ class LoadCustomerUserRoleData extends AbstractFixture implements DependentFixtu
 
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getReference($customerUser);
-        $customerUser->addRole($entity);
+        $customerUser->addUserRole($entity);
 
         $this->setReference($entity->getLabel(), $entity);
         $manager->persist($entity);
@@ -187,6 +184,6 @@ class LoadCustomerUserRoleData extends AbstractFixture implements DependentFixtu
      */
     protected function getDefaultOrganization($manager)
     {
-        return $manager->getRepository('OroOrganizationBundle:Organization')->findOneBy([]);
+        return $manager->getRepository(Organization::class)->findOneBy([]);
     }
 }

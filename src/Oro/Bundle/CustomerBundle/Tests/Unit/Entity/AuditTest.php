@@ -24,14 +24,14 @@ class AuditTest extends \PHPUnit\Framework\TestCase
     {
         $properties = [
             ['objectName', (string)(new CustomerUser())],
-            ['objectId', 2],
+            ['objectId', '2'],
             ['organization', new Organization()],
             ['id', 2],
             ['action', 'some_action'],
             ['version', 1],
         ];
 
-        static::assertPropertyAccessors(new Audit(), $properties);
+        self::assertPropertyAccessors(new Audit(), $properties);
     }
 
     public function testLoggedAt()

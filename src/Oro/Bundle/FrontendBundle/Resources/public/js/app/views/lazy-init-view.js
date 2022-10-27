@@ -1,23 +1,21 @@
 define(function(require) {
     'use strict';
 
-    var LazyInitView;
-    var $ = require('jquery');
-    var _ = require('underscore');
-    var BaseView = require('oroui/js/app/views/base/view');
-    var mediator = require('oroui/js/mediator');
+    const $ = require('jquery');
+    const _ = require('underscore');
+    const BaseView = require('oroui/js/app/views/base/view');
 
     /**
      * @class LazyInitView
      * @extends BaseView
      */
-    LazyInitView = BaseView.extend({
-        constructor: function LazyInitView() {
-            LazyInitView.__super__.constructor.apply(this, arguments);
+    const LazyInitView = BaseView.extend({
+        constructor: function LazyInitView(options) {
+            LazyInitView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         optionNames: BaseView.prototype.optionNames.concat(['lazy']),
 
@@ -27,7 +25,7 @@ define(function(require) {
         options: null,
 
         /**
-         * Can be "scroll", "page-init"
+         * On init dispatcher
          * @property String
          */
         lazy: 'scroll',
@@ -37,9 +35,6 @@ define(function(require) {
          */
         $window: null,
 
-        /**
-         * @inheritDoc
-         */
         listen: {
             'page:afterChange mediator': '_onPageAfterChange'
         },
@@ -52,48 +47,35 @@ define(function(require) {
         initialize: function(options) {
             this.options = options;
 
-            if (!this.lazy) {
-                this._onPageAfterChange();
-            }
-
             if (this.lazy === 'scroll') {
                 this.$window = $(window);
-                this.$window.on('scroll' + this.eventNamespace(), _.bind(this._onScrollDemand, this));
+                this.$window.on(`scroll${this.eventNamespace()}`, this._onScrollDemand.bind(this));
                 this._onScrollDemand();
             }
 
-            if (this.lazy === 'page-init') {
-                mediator.on('page:afterChange', this._onPageAfterChange, this);
-            }
-
-            return LazyInitView.__super__.initialize.apply(this, arguments);
+            return LazyInitView.__super__.initialize.call(this, options);
         },
 
         initLazyView: function() {
-            var layoutOptions = _.omit(this.options, 'el', 'name');
+            const layoutOptions = _.omit(this.options, 'el', 'name');
             return this.initLayout(layoutOptions);
         },
 
         _onScrollDemand: function() {
             if (this.$el.offset().top < (window.pageYOffset + window.innerHeight / 0.5)) {
                 this.initLazyView();
-                this.$window.off('scroll' + this.eventNamespace());
+                this.$window.off(`scroll${this.eventNamespace()}`);
             }
         },
 
         _onPageAfterChange: function() {
-            if (this.lazy === 'scroll') {
-                this._onScrollDemand();
+            switch (this.lazy) {
+                case 'scroll':
+                    this._onScrollDemand();
+                    break;
+                default:
+                    this.initLazyView();
             }
-            if (this.lazy === 'page-init') {
-                this.initLazyView();
-            }
-        },
-
-        _unbindEvents: function() {
-            this.$window.off('scroll' + this.eventNamespace());
-            this.stopListening();
-            mediator.off(null, null, this);
         },
 
         dispose: function() {
@@ -101,10 +83,10 @@ define(function(require) {
                 return;
             }
 
-            this._unbindEvents();
+            this.$window.off(`scroll${this.eventNamespace()}`);
             delete this.$window;
-            delete this.options;
-            delete this.$el;
+
+            LazyInitView.__super__.dispose.call(this);
         }
     });
 

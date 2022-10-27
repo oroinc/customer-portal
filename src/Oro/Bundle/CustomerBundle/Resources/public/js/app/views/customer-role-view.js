@@ -6,21 +6,19 @@ define([
 ], function($, _, mediator, RoleView) {
     'use strict';
 
-    var CustomerRoleView;
-
     /**
      * @export orocustomer/js/app/views/customer-role-view
      */
-    CustomerRoleView = RoleView.extend({
+    const CustomerRoleView = RoleView.extend({
         options: {
             customerSelector: ''
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function CustomerRoleView() {
-            CustomerRoleView.__super__.constructor.apply(this, arguments);
+        constructor: function CustomerRoleView(options) {
+            CustomerRoleView.__super__.constructor.call(this, options);
         },
 
         /**
@@ -30,14 +28,14 @@ define([
          */
         initialize: function(options) {
             this.options = _.defaults(options || {}, this.options);
-            CustomerRoleView.__super__.initialize.apply(this, arguments);
+            CustomerRoleView.__super__.initialize.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         getData: function() {
-            var data = CustomerRoleView.__super__.getData.apply(this, arguments);
+            const data = CustomerRoleView.__super__.getData.call(this);
 
             data[this.options.formName + '[customer]'] = $(this.options.customerSelector).inputWidget('val');
 

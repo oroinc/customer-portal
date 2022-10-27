@@ -6,7 +6,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FrontendOwnerSelectTypeStub extends AbstractType
 {
-    const NAME = 'oro_customer_frontend_owner_select';
+    private const NAME = 'oro_customer_frontend_owner_select';
 
     /**
      * {@inheritdoc}

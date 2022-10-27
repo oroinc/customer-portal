@@ -1,45 +1,62 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\Bundle\FrontendBundle\Command;
 
-use FOS\JsRoutingBundle\Command\DumpCommand;
-use FOS\JsRoutingBundle\Extractor\ExposedRoutesExtractorInterface;
-use Oro\Bundle\UIBundle\Command\JsRoutingDumpCommand;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Oro\Bundle\NavigationBundle\Command\JsRoutingDumpCommand;
 
+/**
+ * Dumps exposed storefront routes into a file.
+ */
 class FrontendJsRoutingDumpCommand extends JsRoutingDumpCommand
 {
-    /**
-     * @var ExposedRoutesExtractorInterface
-     */
-    protected $routesExtractor;
+    /** @var string */
+    protected static $defaultName = 'oro:frontend:js-routing:dump';
+
+    private const FRONTEND_FILENAME_PREFIX = 'frontend_';
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function configure()
     {
-        parent::execute($input, $output);
+        parent::configure();
 
-        $webRootDir = $this->getContainer()->getParameter('assetic.read_from');
-        if ($webRootDir) {
-            $input->setOption('target', $webRootDir . '/js/frontend_routes.js');
-        }
-        $this->routesExtractor = $this->getContainer()->get('oro_frontend.extractor.frontend_exposed_routes_extractor');
-        $this->initialize($input, $output);
-        parent::execute($input, $output);
+        $this->setHidden(true);
+        $this->setDescription('Dumps exposed storefront routes into a file.');
+        $this->getDefinition()->getOption('target')->setDefault(
+            $this->fileManager->getFilePath(self::FRONTEND_FILENAME_PREFIX . 'routes.json')
+        );
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getExposedRoutesExtractor()
+    protected function normalizeTargetPath(string $targetPath): string
     {
-        if ($this->routesExtractor === null) {
-            $this->routesExtractor = $this->getContainer()->get('fos_js_routing.extractor');
+        $targetPath = parent::normalizeTargetPath($targetPath);
+        $pos = strrpos($targetPath, DIRECTORY_SEPARATOR);
+        if (false === $pos && DIRECTORY_SEPARATOR !== '/') {
+            $pos = strrpos($targetPath, '/');
         }
 
-        return $this->routesExtractor;
+        if (false === $pos) {
+            return $this->getFrontendFileName($targetPath);
+        }
+
+        return substr($targetPath, 0, $pos + 1) . $this->getFrontendFileName(substr($targetPath, $pos + 1));
+    }
+
+    private function getFrontendFileName(string $fileName): string
+    {
+        $result = $fileName;
+        if (str_starts_with($result, $this->filenamePrefix)) {
+            return self::FRONTEND_FILENAME_PREFIX . substr($result, \strlen($this->filenamePrefix));
+        }
+        if (!str_starts_with($result, self::FRONTEND_FILENAME_PREFIX)) {
+            $result = self::FRONTEND_FILENAME_PREFIX . $result;
+        }
+
+        return $result;
     }
 }

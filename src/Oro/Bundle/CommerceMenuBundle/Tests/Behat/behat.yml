@@ -15,51 +15,63 @@ oro_behat_extension:
           Title Third: 'menu_update[titles][values][localizations][3][value]'
           Title Third Use Fallback: 'menu_update[titles][values][localizations][3][use_fallback]'
           Title Third Fallback: 'menu_update[titles][values][localizations][3][fallback]'
+          Title Fourth: 'menu_update[titles][values][localizations][4][value]'
+          Title Fourth Use Fallback: 'menu_update[titles][values][localizations][4][use_fallback]'
+          Title Fourth Fallback: 'menu_update[titles][values][localizations][4][fallback]'
+          Title Fifth: 'menu_update[titles][values][localizations][5][value]'
+          Title Fifth Use Fallback: 'menu_update[titles][values][localizations][5][use_fallback]'
+          Title Fifth Fallback: 'menu_update[titles][values][localizations][5][fallback]'
           URI: 'menu_update[uri]'
           Icon: 'menu_update[icon]'
           Description: 'menu_update[descriptions][values][default]'
           Condition: 'menu_update[condition]'
           Image: 'menu_update[image][file]'
-          User Agent Contains Value: 'menu_update[menuUserAgentConditions][1][0][value]'
-          Matches Operation: 'menu_update[menuUserAgentConditions][1][2][operation]'
-          User Agent Matches Value: 'menu_update[menuUserAgentConditions][1][2][value]'
-          Does Not Contain Operation: 'menu_update[menuUserAgentConditions][2][0][operation]'
-          User Agent Does Not Contain Value: 'menu_update[menuUserAgentConditions][2][0][value]'
-          Does Not Match Operation: 'menu_update[menuUserAgentConditions][3][0][operation]'
-          User Agent Does Not Match Value: 'menu_update[menuUserAgentConditions][3][0][value]'
+          User Agent Contains Value: 'menu_update[menuUserAgentConditions][0][0][value]'
+          Matches Operation: 'menu_update[menuUserAgentConditions][0][1][operation]'
+          User Agent Matches Value: 'menu_update[menuUserAgentConditions][0][1][value]'
+          Does Not Contain Operation: 'menu_update[menuUserAgentConditions][1][0][operation]'
+          User Agent Does Not Contain Value: 'menu_update[menuUserAgentConditions][1][0][value]'
+          Does Not Match Operation: 'menu_update[menuUserAgentConditions][2][0][operation]'
+          User Agent Does Not Match Value: 'menu_update[menuUserAgentConditions][2][0][value]'
+          User Agent First Operation: 'menu_update[menuUserAgentConditions][0][0][operation]'
+          User Agent First Value: 'menu_update[menuUserAgentConditions][0][0][value]'
           Exclude On Screens: 'menu_update[screens][]'
+
+    Target Type:
+      selector: 'select[name="menu_update[targetType]"]'
+      class: Oro\Bundle\FormBundle\Tests\Behat\Element\Select
+
+    Target Window:
+      selector: 'select[name="menu_update[linkTarget]"]'
+      class: Oro\Bundle\FormBundle\Tests\Behat\Element\Select
 
     Commerce Menu Form Title Fallbacks:
       selector:
         type: xpath
-        locator: '(//span[@class="fallback-status"])[1]'
+        locator: '(//button[contains(@class, "fallback-status")])[1]'
 
     Information:
       selector:
         type: xpath
-        locator: '//h3[contains(@class, "information-nav__title")]'
+        locator: '//div[contains(@class,"page-footer")]//button//span[contains(text(), "Information")]'
 
     Main Menu Button:
       selector:
         type: xpath
         locator: '//div[contains(@class,"header-row")]//button[contains(@class, "header-row__trigger")]//span[contains(@class, "fa-navicon")]/ancestor::button'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     And User Agent Condition:
       selector: '.control-group-collection .add-list-item'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     Add User Agent Condition:
       selector:
         type: xpath
         locator: '(//a[contains(@class,"add-list-item")])[last()]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     Main Menu Search Button:
       selector:
         type: xpath
         locator: '//div[contains(@class,"header-row")]//button[contains(@class, "header-row__trigger")]//span[contains(@class, "fa-search")]/ancestor::button'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     Customer Visible Contact Info Form:
       selector: 'form[name="sale_contact_info"]'
@@ -75,32 +87,52 @@ oro_behat_extension:
           Guest Contact Default: 'sale_contact_info[oro_sale___guest_contact_info_text][use_parent_scope_value]'
 
     Contacts:
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
       selector:
         locator: '//i[@class="fa-id-card-o"]/../../a[@href="/admin/config/system/commerce/sale_contact_info"]'
         type: xpath
 
     User Configuration:
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
       selector:
         locator: '//a[contains (@href,"/admin/config/user/") and @title="Configuration"]'
         type: xpath
+
+    Frontend Item Update:
+      selector:
+        type: xpath
+        locator: '//li[contains(@class, "jstree-node")]/a[contains(., "frontend_menu")]/parent::li/ul//li[contains(@class, "jstree-node")]/a[contains(., "Frontend Item Update")]'
+
+    Frontend Child Item:
+      selector:
+        type: xpath
+        locator: '//li[contains(@class, "jstree-node")]/a[contains(., "frontend_menu")]/parent::li/ul//li[contains(@class, "jstree-node")]/a[contains(., "Frontend Child Item")]'
+
+    Frontend Child Item Update:
+      selector:
+        type: xpath
+        locator: '//li[contains(@class, "jstree-node")]/a[contains(., "frontend_menu")]/parent::li/ul//li[contains(@class, "jstree-node")]/a[contains(., "Frontend Child Item Update")]'
+
+  pages:
+    Frontend Menus:
+      class: Oro\Bundle\CommerceMenuBundle\Tests\Behat\Page\FrontendMenus
+      route: 'oro_commerce_menu_global_menu_index'
 
   suites:
     OroCommerceMenuBundle:
       contexts:
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext
+        - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\BrowserTabContext
         - Oro\Bundle\FormBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\ConfigBundle\Tests\Behat\Context\FeatureContext
-        - OroDataGridBundle::GridContext
-        - OroApplicationBundle::CommerceMainContext
-        - OroShippingBundle::SingleCurrencyContext
-        - OroShoppingListBundle::ShoppingListContext
-        - OroCustomerBundle::CustomerUserContext
-        - OroCheckoutBundle::FeatureContext
-        - OroFormBundle::FormContext
-        - OroEntityExtendBundle::EntityExtendContext
-        - OroNavigationBundle::FeatureContext
-        - OroLocaleBundle::LocalizationContext
+        - Oro\Bundle\DataGridBundle\Tests\Behat\Context\GridContext
+        - Oro\Bundle\ApplicationBundle\Tests\Behat\Context\CommerceMainContext
+        - Oro\Bundle\ShippingBundle\Tests\Behat\Context\SingleCurrencyContext
+        - Oro\Bundle\ShoppingListBundle\Tests\Behat\Context\ShoppingListContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\CustomerUserContext
+        - Oro\Bundle\CheckoutBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\FormBundle\Tests\Behat\Context\FormContext
+        - Oro\Bundle\EntityExtendBundle\Tests\Behat\Context\EntityExtendContext
+        - Oro\Bundle\NavigationBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\LocaleBundle\Tests\Behat\Context\LocalizationContext
+        - Oro\Bundle\WebCatalogBundle\Tests\Behat\Context\FeatureContext
       paths:
         - '@OroCommerceMenuBundle/Tests/Behat/Features'

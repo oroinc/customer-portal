@@ -1,15 +1,31 @@
-/* @theme: blank; */
+/* @theme: default; */
 
 .datagrid-manager-search {
-    input {
-        @include element-state('hover') {
-            border-color: $input-border-color-hover-state;
-            box-shadow: $input-box-shadow-hover-state;
+    position: relative;
+
+    margin: 16px 0 12px;
+
+    &.empty {
+        @include fa-icon($fa-var-search, after);
+
+        &::after {
+            position: absolute;
+            top: 5px;
+            right: 8px;
+
+            z-index: z('base') - 1;
+
+            font-size: 15px;
+
+            color: $datagrid-manager-search-pseudo-color;
         }
 
-        @include element-state('focus') {
-            border-color: $input-border-color-focus-state;
-            box-shadow: $input-box-shadow-focus-state;
+        > .clear {
+            display: none;
         }
+    }
+
+    .input {
+        padding-right: 30px;
     }
 }

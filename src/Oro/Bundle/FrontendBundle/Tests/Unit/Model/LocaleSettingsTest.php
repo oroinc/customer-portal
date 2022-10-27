@@ -4,41 +4,51 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Model;
 
 use Oro\Bundle\FrontendBundle\Model\LocaleSettings;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManager;
+use Oro\Bundle\LayoutBundle\Layout\LayoutContextHolder;
 use Oro\Bundle\LocaleBundle\DependencyInjection\Configuration as LocaleConfiguration;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\LocaleBundle\Model\Calendar;
 use Oro\Bundle\LocaleBundle\Model\LocaleSettings as BaseLocaleSettings;
+use Oro\Bundle\LocaleBundle\Provider\LocalizationProviderInterface;
+use Oro\Bundle\ThemeBundle\Model\Theme;
 use Oro\Bundle\TranslationBundle\Entity\Language;
+use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
+use Oro\Component\Layout\Tests\Unit\Stubs\LayoutContextStub;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
+class LocaleSettingsTest extends TestCase
 {
-    /** @var BaseLocaleSettings|\PHPUnit\Framework\MockObject\MockObject */
-    private $inner;
+    private BaseLocaleSettings|MockObject $inner;
 
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
+    private FrontendHelper|MockObject $frontendHelper;
 
-    /** @var UserLocalizationManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $localizationManager;
+    private LocalizationProviderInterface|MockObject $localizationProvider;
 
-    /** @var LocaleSettings */
-    protected $localeSettings;
+    private LayoutContextHolder|MockObject $layoutContextHolder;
 
-    protected function setUp()
+    private ThemeManager|MockObject $themeManager;
+
+    private LocaleSettings $localeSettings;
+
+    protected function setUp(): void
     {
         $this->inner = $this->createMock(BaseLocaleSettings::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
-        $this->localizationManager = $this->createMock(UserLocalizationManager::class);
+        $this->localizationProvider = $this->createMock(LocalizationProviderInterface::class);
+        $this->layoutContextHolder = $this->createMock(LayoutContextHolder::class);
+        $this->themeManager = $this->createMock(ThemeManager::class);
 
         $this->localeSettings = new LocaleSettings(
             $this->inner,
             $this->frontendHelper,
-            $this->localizationManager
+            $this->localizationProvider,
+            $this->layoutContextHolder,
+            $this->themeManager
         );
     }
 
@@ -100,24 +110,6 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
             ->with($usDataModified);
 
         $this->localeSettings->addLocaleData($usDataModified);
-    }
-
-    public function testAddCurrencyData()
-    {
-        $usData = ['USD' => [LocaleSettings::CURRENCY_SYMBOL_KEY => '$']];
-        $usDataModified = ['USD' => [LocaleSettings::CURRENCY_SYMBOL_KEY => 'AU$']];
-
-        $this->inner->expects($this->once())
-            ->method('getCurrencyData')
-            ->willReturn($usData);
-
-        $this->assertEquals($usData, $this->localeSettings->getCurrencyData());
-
-        $this->inner->expects($this->once())
-            ->method('addCurrencyData')
-            ->with($usDataModified);
-
-        $this->localeSettings->addCurrencyData($usDataModified);
     }
 
     public function testIsFormatAddressByAddressCountry()
@@ -187,7 +179,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
         $localization = new Localization();
         $localization->setFormattingCode($expectedLocale);
 
-        $this->localizationManager->expects($this->once())
+        $this->localizationProvider->expects($this->once())
             ->method('getCurrentLocalization')
             ->willReturn($localization);
 
@@ -214,7 +206,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
             ->method('getLocale')
             ->willReturn($expectedLocale);
 
-        $this->localizationManager->expects($this->once())
+        $this->localizationProvider->expects($this->once())
             ->method('getCurrentLocalization')
             ->willReturn(null);
 
@@ -223,7 +215,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
 
     public function testGetLocale()
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')
             ->willReturn(false);
 
@@ -231,6 +223,9 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
             ->method('getLocale')
             ->willReturn('en_US');
 
+        $this->assertEquals('en_US', $this->localeSettings->getLocale());
+
+        // check local cache
         $this->assertEquals('en_US', $this->localeSettings->getLocale());
     }
 
@@ -246,10 +241,13 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
         $localization = new Localization();
         $localization->setFormattingCode('de_DE');
 
-        $this->localizationManager->expects($this->once())
+        $this->localizationProvider->expects($this->once())
             ->method('getCurrentLocalization')
             ->willReturn($localization);
 
+        $this->assertEquals('de_DE', $this->localeSettings->getLocale());
+
+        // check local cache
         $this->assertEquals('de_DE', $this->localeSettings->getLocale());
     }
 
@@ -263,7 +261,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
             ->method('getLocale')
             ->willReturn('en_GB');
 
-        $this->localizationManager->expects($this->once())
+        $this->localizationProvider->expects($this->once())
             ->method('getCurrentLocalization')
             ->willReturn(null);
 
@@ -307,7 +305,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
         $localization = new Localization();
         $localization->setLanguage($language);
 
-        $this->localizationManager->expects($this->once())
+        $this->localizationProvider->expects($this->once())
             ->method('getCurrentLocalization')
             ->willReturn($localization);
 
@@ -324,11 +322,238 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
             ->method('getLanguage')
             ->willReturn('en_GB');
 
-        $this->localizationManager->expects($this->once())
+        $this->localizationProvider->expects($this->once())
             ->method('getCurrentLocalization')
             ->willReturn(null);
 
         $this->assertEquals('en_GB', $this->localeSettings->getLanguage());
+    }
+
+    public function testIsRtlModeEnabledWhenBackendRequest(): void
+    {
+        $this->frontendHelper->expects(self::atLeastOnce())
+            ->method('isFrontendRequest')
+            ->willReturn(false);
+
+        $this->layoutContextHolder->expects(self::never())
+            ->method('getContext');
+
+        $this->themeManager->expects(self::never())
+            ->method('hasTheme');
+
+        $this->localizationProvider->expects(self::never())
+            ->method('getCurrentLocalization');
+
+        $this->inner->expects(self::once())
+            ->method('isRtlMode')
+            ->willReturn(true);
+
+        self::assertTrue($this->localeSettings->isRtlMode());
+    }
+
+    public function testIsRtlModeEnabledWhenNoThemeInContext(): void
+    {
+        $this->frontendHelper->expects($this->atLeastOnce())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $context = new LayoutContextStub([], true);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $this->themeManager->expects(self::never())
+            ->method('hasTheme');
+
+        $localization = new Localization();
+        $localization->setRtlMode(true);
+
+        $this->localizationProvider->expects(self::any())
+            ->method('getCurrentLocalization')
+            ->willReturn($localization);
+
+        self::assertFalse($this->localeSettings->isRtlMode());
+    }
+
+    public function testIsRtlModeEnabledWhenNoActiveTheme(): void
+    {
+        $this->frontendHelper->expects($this->atLeastOnce())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $context = new LayoutContextStub(['theme' => 'test'], true);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $this->themeManager->expects(self::any())
+            ->method('hasTheme')
+            ->with('test')
+            ->willReturn(false);
+
+        $localization = new Localization();
+        $localization->setRtlMode(true);
+
+        $this->localizationProvider->expects(self::any())
+            ->method('getCurrentLocalization')
+            ->willReturn($localization);
+
+        self::assertFalse($this->localeSettings->isRtlMode());
+    }
+
+    public function testIsRtlModeEnabledNoLocalization(): void
+    {
+        $this->frontendHelper->expects($this->atLeastOnce())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $theme = new Theme('test');
+        $theme->setRtlSupport(true);
+
+        $context = new LayoutContextStub(['theme' => $theme->getName()], true);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $this->themeManager->expects(self::any())
+            ->method('hasTheme')
+            ->with($theme->getName())
+            ->willReturn(true);
+
+        $this->themeManager->expects(self::any())
+            ->method('getTheme')
+            ->with($theme->getName())
+            ->willReturn($theme);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $this->localizationProvider->expects(self::any())
+            ->method('getCurrentLocalization')
+            ->willReturn(null);
+
+        self::assertFalse($this->localeSettings->isRtlMode());
+    }
+
+    public function testIsRtlModeEnabledWhenThemeWithoutRtl(): void
+    {
+        $this->frontendHelper->expects($this->atLeastOnce())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $theme = new Theme('test');
+        $theme->setRtlSupport(false);
+
+        $context = new LayoutContextStub(['theme' => $theme->getName()], true);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $this->themeManager->expects(self::any())
+            ->method('hasTheme')
+            ->with($theme->getName())
+            ->willReturn(true);
+
+        $this->themeManager->expects(self::any())
+            ->method('getTheme')
+            ->with($theme->getName())
+            ->willReturn($theme);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $localization = new Localization();
+        $localization->setRtlMode(true);
+
+        $this->localizationProvider->expects(self::any())
+            ->method('getCurrentLocalization')
+            ->willReturn($localization);
+
+        self::assertFalse($this->localeSettings->isRtlMode());
+    }
+
+    public function testIsRtlModeEnabledWhenLocalizationWithoutRtl(): void
+    {
+        $this->frontendHelper->expects($this->atLeastOnce())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $theme = new Theme('test');
+        $theme->setRtlSupport(true);
+
+        $context = new LayoutContextStub(['theme' => $theme->getName()], true);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $this->themeManager->expects(self::any())
+            ->method('hasTheme')
+            ->with($theme->getName())
+            ->willReturn(true);
+
+        $this->themeManager->expects(self::any())
+            ->method('getTheme')
+            ->with($theme->getName())
+            ->willReturn($theme);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $localization = new Localization();
+        $localization->setRtlMode(false);
+
+        $this->localizationProvider->expects(self::any())
+            ->method('getCurrentLocalization')
+            ->willReturn($localization);
+
+        self::assertFalse($this->localeSettings->isRtlMode());
+    }
+
+    public function testIsRtlModeEnabled(): void
+    {
+        $this->frontendHelper->expects($this->atLeastOnce())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $theme = new Theme('test');
+        $theme->setRtlSupport(true);
+
+        $context = new LayoutContextStub(['theme' => $theme->getName()], true);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $this->themeManager->expects(self::any())
+            ->method('hasTheme')
+            ->with($theme->getName())
+            ->willReturn(true);
+
+        $this->themeManager->expects(self::any())
+            ->method('getTheme')
+            ->with($theme->getName())
+            ->willReturn($theme);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $localization = new Localization();
+        $localization->setRtlMode(true);
+
+        $this->localizationProvider->expects(self::any())
+            ->method('getCurrentLocalization')
+            ->willReturn($localization);
+
+        self::assertTrue($this->localeSettings->isRtlMode());
     }
 
     public function testGetCountry()
@@ -541,19 +766,13 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getValidLocaleDataProvider
-     *
-     * @param string $locale
-     * @param string $expectedLocale
      */
-    public function testGetValidLocale($locale, $expectedLocale)
+    public function testGetValidLocale(?string $locale, string $expectedLocale)
     {
         $this->assertEquals($expectedLocale, LocaleSettings::getValidLocale($locale));
     }
 
-    /**
-     * @return array
-     */
-    public function getValidLocaleDataProvider()
+    public function getValidLocaleDataProvider(): array
     {
         return [
             ['ru_RU', 'ru_RU'],
@@ -568,19 +787,13 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getCountryByLocaleDataProvider
-     *
-     * @param string $locale
-     * @param string $expectedCountry
      */
-    public function testGetCountryByLocale($locale, $expectedCountry)
+    public function testGetCountryByLocale(string $locale, string $expectedCountry)
     {
         $this->assertEquals($expectedCountry, LocaleSettings::getCountryByLocale($locale));
     }
 
-    /**
-     * @return array
-     */
-    public function getCountryByLocaleDataProvider()
+    public function getCountryByLocaleDataProvider(): array
     {
         return [
             ['EN', LocaleConfiguration::DEFAULT_COUNTRY],
@@ -592,11 +805,8 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider localeProvider
-     *
-     * @param string $locale
-     * @param string $expectedCurrency
      */
-    public function testGetCountryByLocal($locale, $expectedCurrency)
+    public function testGetCountryByLocal(string $locale, string $expectedCurrency)
     {
         $currency = LocaleSettings::getCurrencyByLocale($locale);
 
@@ -605,44 +815,20 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * The USD is default currency
-     *
-     * @return array
      */
-    public function localeProvider()
+    public function localeProvider(): array
     {
         return [
-            [
-                'en',
-                'USD'
-            ],
-            [
-                'en_CA',
-                $this->getCurrencyBuLocale('en_CA')
-            ],
-            [
-                'it',
-                'USD'
-            ],
-            [
-                'it_IT',
-                $this->getCurrencyBuLocale('it_IT')
-            ],
-            [
-                'ua',
-                'USD'
-            ],
-            [
-                'ru_UA',
-                $this->getCurrencyBuLocale('ru_UA')
-            ]
+            ['en', 'USD'],
+            ['en_CA', $this->getCurrencyByLocale('en_CA')],
+            ['it', 'USD'],
+            ['it_IT', $this->getCurrencyByLocale('it_IT')],
+            ['ua', 'USD'],
+            ['ru_UA', $this->getCurrencyByLocale('ru_UA')]
         ];
     }
 
-    /**
-     * @param string $locale
-     * @return bool|string
-     */
-    protected function getCurrencyBuLocale($locale)
+    private function getCurrencyByLocale(string $locale): string
     {
         $formatter = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
 

@@ -4,33 +4,27 @@ namespace Oro\Bundle\FrontendBundle\DependencyInjection;
 
 use Oro\Bundle\ApiBundle\DependencyInjection\OroApiExtension;
 use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
-use Oro\Bundle\LayoutBundle\DependencyInjection\OroLayoutExtension;
-use Oro\Component\Config\CumulativeResourceInfo;
-use Oro\Component\Config\Loader\CumulativeConfigLoader;
-use Oro\Component\Config\Loader\FolderingCumulativeFileLoader;
-use Oro\Component\Config\Loader\YamlCumulativeFileLoader;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ */
 class OroFrontendExtension extends Extension implements PrependExtensionInterface
 {
-    public const ALIAS = 'oro_frontend';
+    public const FRONTEND_SESSION_STORAGE_OPTIONS_PARAMETER_NAME = 'oro_frontend.session.storage.options';
 
     public const API_DOC_VIEWS_PARAMETER_NAME        = 'oro_frontend.api_doc.views';
     public const API_DOC_DEFAULT_VIEW_PARAMETER_NAME = 'oro_frontend.api_doc.default_view';
 
-    private const API_CACHE_CONTROL_PROCESSOR_SERVICE_ID = 'oro_frontend.api.options.rest.set_cache_control';
-    private const API_MAX_AGE_PROCESSOR_SERVICE_ID       = 'oro_frontend.api.options.rest.cors.set_max_age';
-    private const API_ALLOW_ORIGIN_PROCESSOR_SERVICE_ID  = 'oro_frontend.api.rest.cors.set_allow_origin';
-    private const API_CORS_HEADERS_PROCESSOR_SERVICE_ID  = 'oro_frontend.api.rest.cors.set_allow_and_expose_headers';
-
-    private const RESOURCES_FOLDER_PLACEHOLDER = '{folder}';
-    private const RESOURCES_FOLDER_PATTERN     = '[a-zA-Z][a-zA-Z0-9_\-:]*';
+    private const CORS_SETTINGS_SERVICE_ID = 'oro_frontend.api.rest.cors_settings';
 
     /**
      * {@inheritdoc}
@@ -46,6 +40,7 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         $loader->load('form_type.yml');
         $loader->load('block_types.yml');
         $loader->load('commands.yml');
+        $loader->load('controllers.yml');
 
         $container->prependExtensionConfig($this->getAlias(), array_intersect_key($config, array_flip(['settings'])));
 
@@ -56,6 +51,7 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
 
         $container->setParameter('oro_frontend.debug_routes', $config['debug_routes']);
 
+        $this->configureFrontendSession($container, $config);
         $this->configureApiDocViews($container, $config);
         $this->configureApiCors($container, $config);
     }
@@ -66,96 +62,53 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     public function prepend(ContainerBuilder $container)
     {
         if ($container instanceof ExtendedContainerBuilder) {
+            $this->validateBackendPrefix($container);
             $this->modifySecurityConfig($container);
             $this->modifyFosRestConfig($container);
         }
 
-        $this->prependScreensConfigs($container);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getAlias()
-    {
-        return self::ALIAS;
-    }
-
-    /**
-     * Put screens configurations to oro_layout.themes.*.config.screens.
-     *
-     * @param ContainerBuilder $container
-     */
-    protected function prependScreensConfigs(ContainerBuilder $container)
-    {
-        $resources = $this->loadScreensConfigResources($container);
-        if ($resources) {
-            $screenConfigs = [];
-            foreach ($resources as $resource) {
-                $screenConfigs[] = $this->getScreensConfigArray($resource);
+        if ('test' === $container->getParameter('kernel.environment')) {
+            $fileLocator = new FileLocator(__DIR__ . '/../Tests/Functional/Environment');
+            $configData = Yaml::parse(file_get_contents($fileLocator->locate('app.yml')));
+            foreach ($configData as $name => $config) {
+                $container->prependExtensionConfig($name, $config);
             }
-
-            $layoutBundleConfiguration = new ScreensConfiguration();
-            $processedScreenConfigs = $this->processConfiguration($layoutBundleConfiguration, $screenConfigs);
-
-            $container->prependExtensionConfig(OroLayoutExtension::ALIAS, $processedScreenConfigs);
         }
     }
 
     /**
-     * Load screens config files.
-     *
-     * @param ContainerBuilder $container
-     *
-     * @return CumulativeResourceInfo[]
+     * Validates the web_backend_prefix parameter.
      */
-    protected function loadScreensConfigResources(ContainerBuilder $container)
+    private function validateBackendPrefix(ContainerBuilder $container): void
     {
-        $resourceLoaders = [];
-        $resourceLoaders[] = new FolderingCumulativeFileLoader(
-            self::RESOURCES_FOLDER_PLACEHOLDER,
-            self::RESOURCES_FOLDER_PATTERN,
-            [
-                new YamlCumulativeFileLoader('Resources/views/layouts/{folder}/config/screens.yml'),
-            ]
-        );
-
-        $configLoader = new CumulativeConfigLoader(OroLayoutExtension::ALIAS, $resourceLoaders);
-
-        return $configLoader->load($container);
+        $prefix = $container->getParameter('web_backend_prefix');
+        if (!$prefix) {
+            throw new InvalidConfigurationException(
+                'The "web_backend_prefix" parameter value should not be empty.'
+            );
+        }
+        if (!str_starts_with($prefix, '/')) {
+            throw new InvalidConfigurationException(
+                'The "web_backend_prefix" parameter should start with a "/" character.'
+            );
+        }
+        if (str_ends_with($prefix, '/')) {
+            throw new InvalidConfigurationException(
+                'The "web_backend_prefix" parameter should not end with a "/" character.'
+            );
+        }
     }
 
-    /**
-     * @param CumulativeResourceInfo $resource
-     *
-     * @return array
-     */
-    protected function getScreensConfigArray(CumulativeResourceInfo $resource)
-    {
-        $themeName = basename(dirname(dirname($resource->path)));
-
-        return [
-            'themes' => [
-                $themeName => [
-                    'config' => $resource->data,
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * @param ExtendedContainerBuilder $container
-     */
-    private function modifySecurityConfig(ExtendedContainerBuilder $container)
+    private function modifySecurityConfig(ExtendedContainerBuilder $container): void
     {
         $configs = $container->getExtensionConfig('security');
         $restApiPatternPlaceholder = '%' . OroApiExtension::REST_API_PATTERN_PARAMETER_NAME . '%';
         foreach ($configs as $configKey => $config) {
-            if (isset($config['firewalls']) && is_array($config['firewalls'])) {
+            if (isset($config['firewalls']) && \is_array($config['firewalls'])) {
                 foreach ($config['firewalls'] as $key => $firewall) {
                     if (!empty($firewall['pattern'])
                         && $firewall['pattern'] === $restApiPatternPlaceholder
-                        && 0 !== strpos($key, 'frontend_')
+                        && !str_starts_with($key, 'frontend_')
                     ) {
                         // add backend prefix to the pattern of the backend REST API firewall
                         $configs[$configKey]['firewalls'][$key]['pattern'] = $this->getBackendApiPattern($container);
@@ -166,42 +119,68 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         $container->setExtensionConfig('security', $configs);
     }
 
-    /**
-     * @param ExtendedContainerBuilder $container
-     */
-    private function modifyFosRestConfig(ExtendedContainerBuilder $container)
+    private function modifyFosRestConfig(ExtendedContainerBuilder $container): void
     {
         $configs = $container->getExtensionConfig('fos_rest');
+        $oldRestApiPattern = '^/api/rest';
         $restApiPatternPlaceholder = '%' . OroApiExtension::REST_API_PATTERN_PARAMETER_NAME . '%';
         foreach ($configs as $configKey => $config) {
-            if (isset($config['format_listener']['rules']) && is_array($config['format_listener']['rules'])) {
-                foreach ($config['format_listener']['rules'] as $key => $rule) {
-                    if (!empty($rule['path']) && $rule['path'] === $restApiPatternPlaceholder) {
-                        $rules = $config['format_listener']['rules'];
-                        // make a a copy of the backend REST API rule
-                        $frontendRule = $rule;
-                        // add backend prefix to the path of the backend REST API rule
-                        $rule['path'] = $this->getBackendApiPattern($container);
-                        $rules[$key] = $rule;
-                        // add the frontend REST API rule
-                        array_unshift($rules, $frontendRule);
-                        // save updated rules
-                        $configs[$configKey]['format_listener']['rules'] = $rules;
-
-                        break 2;
-                    }
+            if (!isset($config['format_listener']['rules']) || !\is_array($config['format_listener']['rules'])) {
+                continue;
+            }
+            $newRules = [];
+            foreach ($config['format_listener']['rules'] as $rule) {
+                if (empty($rule['path'])) {
+                    continue;
                 }
+                if ($rule['path'] === $oldRestApiPattern) {
+                    $backendRule = $rule;
+                    $backendRule['path'] = sprintf('^/%s/api/rest', $this->getBackendPrefix($container));
+                    $newRules[] = $backendRule;
+                } elseif ($rule['path'] === $restApiPatternPlaceholder) {
+                    $backendRule = $rule;
+                    $backendRule['path'] = $this->getBackendApiPattern($container);
+                    $newRules[] = $backendRule;
+                }
+            }
+            if ($newRules) {
+                $configs[$configKey]['format_listener']['rules'] = array_merge(
+                    $newRules,
+                    $config['format_listener']['rules']
+                );
             }
         }
 
         $container->setExtensionConfig('fos_rest', $configs);
     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param array            $config
-     */
-    private function configureApiDocViews(ContainerBuilder $container, array $config)
+    private function configureFrontendSession(ContainerBuilder $container, array $config): void
+    {
+        $options = [];
+        if (!empty($config['session']['name'])) {
+            $sessionConfig = $config['session'];
+            $keys = [
+                'name',
+                'cookie_lifetime',
+                'cookie_path',
+                'gc_maxlifetime',
+                'gc_probability',
+                'gc_divisor',
+                'cookie_secure',
+                'cookie_httponly',
+                'cookie_samesite'
+            ];
+            foreach ($keys as $key) {
+                if (isset($sessionConfig[$key])) {
+                    $options[$key] = $sessionConfig[$key];
+                }
+            }
+        }
+
+        $container->setParameter(self::FRONTEND_SESSION_STORAGE_OPTIONS_PARAMETER_NAME, $options);
+    }
+
+    private function configureApiDocViews(ContainerBuilder $container, array $config): void
     {
         $apiDocViews = $this->getApiDocViews($container);
         $frontendApiDocViews = $config['frontend_api']['api_doc_views'];
@@ -217,33 +196,25 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         $this->setDefaultHtmlFormatterForFrontendApiViews($container, $apiDocViews, $frontendApiDocViews);
     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param array            $config
-     */
-    private function configureApiCors(ContainerBuilder $container, array $config)
+    private function configureApiCors(ContainerBuilder $container, array $config): void
     {
         $corsConfig = $config['frontend_api']['cors'];
-        $container->getDefinition(self::API_CACHE_CONTROL_PROCESSOR_SERVICE_ID)
-            ->replaceArgument(0, $corsConfig['preflight_max_age']);
-        $container->getDefinition(self::API_MAX_AGE_PROCESSOR_SERVICE_ID)
-            ->replaceArgument(0, $corsConfig['preflight_max_age']);
-        $container->getDefinition(self::API_ALLOW_ORIGIN_PROCESSOR_SERVICE_ID)
-            ->replaceArgument(0, $corsConfig['allow_origins']);
-        $container->getDefinition(self::API_CORS_HEADERS_PROCESSOR_SERVICE_ID)
-            ->replaceArgument(0, $corsConfig['allow_headers'])
-            ->replaceArgument(1, $corsConfig['expose_headers'])
-            ->replaceArgument(2, $corsConfig['allow_credentials']);
+        $container->getDefinition(self::CORS_SETTINGS_SERVICE_ID)
+            ->replaceArgument(0, $corsConfig['preflight_max_age'])
+            ->replaceArgument(1, $corsConfig['allow_origins'])
+            ->replaceArgument(2, $corsConfig['allow_credentials'])
+            ->replaceArgument(3, $corsConfig['allow_headers'])
+            ->replaceArgument(4, $corsConfig['expose_headers']);
     }
 
-    /**
-     * @param ContainerBuilder $container
-     *
-     * @return string
-     */
-    private function getBackendApiPattern(ContainerBuilder $container)
+    private function getBackendPrefix(ContainerBuilder $container): string
     {
-        $backendPrefix = trim(trim($container->getParameter('web_backend_prefix')), '/');
+        return trim(trim($container->getParameter('web_backend_prefix')), '/');
+    }
+
+    private function getBackendApiPattern(ContainerBuilder $container): string
+    {
+        $backendPrefix = $this->getBackendPrefix($container);
         $prefix = $container->getParameter(OroApiExtension::REST_API_PREFIX_PARAMETER_NAME);
         $pattern = $container->getParameter(OroApiExtension::REST_API_PATTERN_PARAMETER_NAME);
 
@@ -301,15 +272,14 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         ContainerBuilder $container,
         array $apiDocViews,
         array $frontendViewNames
-    ) {
+    ): void {
         $config = DependencyInjectionUtil::getConfig($container);
         foreach ($frontendViewNames as $name) {
-            if (!array_key_exists($name, $apiDocViews)) {
+            if (!\array_key_exists($name, $apiDocViews)) {
                 throw new LogicException(sprintf(
-                    'The view "%s" defined in %s.frontend_api.api_doc_views is unknown.'
+                    'The view "%s" defined in oro_frontend.frontend_api.api_doc_views is unknown.'
                     . ' Check that it is configured in oro_api.api_doc_views.',
-                    $name,
-                    self::ALIAS
+                    $name
                 ));
             }
             if (empty($apiDocViews[$name]['html_formatter'])
@@ -321,11 +291,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         DependencyInjectionUtil::setConfig($container, $config);
     }
 
-    /**
-     * @param ContainerBuilder $container
-     *
-     * @return array
-     */
     private function getApiDocViews(ContainerBuilder $container): array
     {
         $config = DependencyInjectionUtil::getConfig($container);

@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\ORM;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\EmailBundle\Entity\EmailTemplate;
 use Oro\Bundle\EmailBundle\Migrations\Data\ORM\AbstractEmailFixture;
 use Oro\Bundle\MigrationBundle\Fixture\VersionedFixtureInterface;
@@ -26,7 +26,10 @@ class LoadEmailTemplates extends AbstractEmailFixture implements VersionedFixtur
      * @var array
      */
     protected $emailsUpdateConfig = [
-        'customer_user_welcome_email' => ['d970bd18538742a4702e70df6f14444d']
+        'customer_user_welcome_email' => ['d970bd18538742a4702e70df6f14444d', '6f2554689920e2d47ac6ea044fdd8e43'],
+        'customer_user_welcome_email_registered_by_admin' => ['e583b8b7cdea31f8f0ce0a4000b956b9'],
+        'customer_user_confirmation_email' => ['47e012b40cec188ad88dfb7e3379446d'],
+        'customer_user_reset_password' => ['4c987be76cdffc3ade87c9fca27a60be'],
     ];
 
     /**
@@ -34,7 +37,7 @@ class LoadEmailTemplates extends AbstractEmailFixture implements VersionedFixtur
      */
     public function getVersion()
     {
-        return '1.1';
+        return '1.2';
     }
 
     /**

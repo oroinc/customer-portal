@@ -4,18 +4,47 @@ layout:
             id: sticky_panel
             root: page_container
             namespace: top
+
+        -
+            id: sticky_panel
+            root: body
+            namespace: bottom
+
         -
             id: scroll_top
             root: page_main
 
     actions:
         - '@setBlockTheme':
-            themes: 'OroFrontendBundle:layouts:default/page/layout.html.twig'
+            themes: '@OroFrontend/layouts/default/page/layout.html.twig'
+
+        - '@add':
+            id: page_title_container
+            parentId: page_content
+            blockType: container
+
+        - '@add':
+            id: page_title
+            parentId: page_title_container
+            blockType: page_title
+            options:
+                defaultValue: ~
+                value: '=defaultValue'
 
         - '@setOption':
             id: top_sticky_panel
             optionName: sticky_name
             optionValue: top-sticky-panel
+
+        - '@setOption':
+            id: bottom_sticky_panel
+            optionName: sticky_name
+            optionValue: bottom-sticky-panel
+
+        - '@setOption':
+            id: bottom_sticky_panel
+            optionName: stick_to
+            optionValue: bottom
 
         - '@add':
             id: scripts_before
@@ -23,9 +52,9 @@ layout:
             parentId: head
 
         - '@add':
-            id: requirejs_scripts_after
+            id: layout_js_build_scripts_after
             blockType: container
-            parentId: require_js
+            parentId: layout_js
 
         - '@add':
             id: notification
@@ -52,3 +81,8 @@ layout:
             id: root
             optionName: languageCode
             optionValue: '=data["frontend_localization"].getCurrentLanguageCode()'
+
+        - '@setOption':
+            id: root
+            optionName: dir
+            optionValue: '=context["is_rtl_mode_enabled"] ? "rtl" : ""'

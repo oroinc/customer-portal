@@ -19,7 +19,6 @@ class SecurityControllerTest extends WebTestCase
 
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_user_security_login'));
 
-        /* @var $response Response */
         $response = $this->client->getResponse();
 
         $this->assertHtmlResponseStatusCodeEquals($response, 200);
@@ -36,7 +35,7 @@ class SecurityControllerTest extends WebTestCase
 
         $this->client->request('GET', $this->getUrl('oro_customer_customer_user_security_login'));
 
-        /* @var $response RedirectResponse */
+        /* @var RedirectResponse $response */
         $response = $this->client->getResponse();
 
         $this->assertHtmlResponseStatusCodeEquals($response, 302);
@@ -59,7 +58,7 @@ class SecurityControllerTest extends WebTestCase
             ['HTTP_X-Requested-With' => 'XMLHttpRequest']
         );
 
-        /* @var $response JsonResponse */
+        /* @var JsonResponse $response */
         $response = $this->client->getResponse();
 
         $this->assertJsonResponseStatusCodeEquals($response, 401);
@@ -69,7 +68,7 @@ class SecurityControllerTest extends WebTestCase
             [
                 'redirectUrl' => $redirectUrl,
             ],
-            json_decode($response->getContent(), true)
+            json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR)
         );
     }
 }

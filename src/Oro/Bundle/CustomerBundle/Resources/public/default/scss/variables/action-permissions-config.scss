@@ -1,20 +1,25 @@
 /* @theme: default; */
 
+$action-permissions-display: grid !default;
+$action-permissions-grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)) !default;
+$action-permissions-gap: 0 $offset-x !default;
+
 $action-permissions-offset-right: 24px !default;
-$action-permissions-offset-left: $permissions-grid-first-entity-name-width + 5px !default;
-$action-permissions-item-float: left !default;
-$action-permissions-item-width: 209px !default;
-$action-permissions-item-offset-right: $offset-x - 1px !default;
+$action-permissions-offset-left: 24px !default;
 $action-permissions-item-wrapper-max-width: 100% !default;
-$action-permissions-item-wrapper-offset-inner-right: $offset-x-m + 2px !default;
+$action-permissions-item-wrapper-offset-inner: 2px $offset-x-m + 2px 2px 2px !default;
 $action-permissions-item-wrapper-dropdown-toggle-right: 0 !default;
+$action-permissions-dropdown-toggle-offset: $offset-y-s !default;
 $action-permissions-item-wrapper-toggle-icon-right: 0 !default;
 $action-permissions-item-wrapper-toggle-icon-offset-top: $offset-y-m !default;
 $action-permissions-item-wrapper-toggle-icon-offset-left: 0 !default;
+$action-permissions-item-wrapper-toggle-icon-color: get-color('additional', 'darker') !default;
 $action-permissions-item-wrapper-no-access-opacity: .4 !default;
 $action-permissions-item-wrapper-changed-background: get-color('additional', 'base') !default;
 $action-permissions-item-wrapper-changed-box-shadow: 0 0 0 3px get-color('additional', 'base') !default;
-$action-permissions-dropdown-offset-inner: $offset-y-m 12px !default;
 $action-permissions-dropdown-min-width: 0 !default;
 $action-permissions-dropdown-white-space: nowrap !default;
 $action-permissions-dropdown-z-index: z('fixed') - 1 !default;
+
+// Mobile Landscape
+$action-permissions-mobile-landscape-grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)) !default;

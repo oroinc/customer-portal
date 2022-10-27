@@ -3,25 +3,22 @@
 namespace Oro\Bundle\CustomerBundle\Form\Extension;
 
 use Oro\Bundle\AddressBundle\Form\Type\AddressType;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+/**
+ * Substitutes "region_route" option if {@see \Oro\Bundle\AddressBundle\Form\Type\AddressType} form
+ * is used on the storefront.
+ */
 class AddressExtension extends AbstractTypeExtension
 {
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $tokenStorage;
+    /** @var FrontendHelper */
+    private $frontendHelper;
 
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     */
-    public function __construct(TokenStorageInterface $tokenStorage)
+    public function __construct(FrontendHelper $frontendHelper)
     {
-        $this->tokenStorage = $tokenStorage;
+        $this->frontendHelper = $frontendHelper;
     }
 
     /**
@@ -29,7 +26,7 @@ class AddressExtension extends AbstractTypeExtension
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        if ($this->isFrontend()) {
+        if ($this->frontendHelper->isFrontendRequest()) {
             $resolver->setDefault('region_route', 'oro_api_frontend_country_get_regions');
         }
     }
@@ -37,18 +34,8 @@ class AddressExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function getExtendedType()
+    public static function getExtendedTypes(): iterable
     {
-        return AddressType::class;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isFrontend()
-    {
-        $token = $this->tokenStorage->getToken();
-
-        return $token && ($token->getUser() instanceof CustomerUser || $token instanceof AnonymousCustomerUserToken);
+        return [AddressType::class];
     }
 }

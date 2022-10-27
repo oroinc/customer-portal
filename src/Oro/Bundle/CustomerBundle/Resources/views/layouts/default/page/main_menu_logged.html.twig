@@ -12,13 +12,15 @@
 
 {% block _header_row_customer_trigger_widget %}
     <button class="header-row__trigger hidden-on-desktop"
+            type="button"
+            aria-label="{{ 'oro.customer.menu.customer_user.label'|trans }}"
             data-page-component-module="oroui/js/app/components/viewport-component"
             data-page-component-options="{{ {
                 viewport: {
                     maxScreenType: 'tablet',
                 },
                 component: 'oroui/js/app/components/view-component',
-                view: 'orofrontend/blank/js/app/views/fullscreen-popup-view',
+                view: 'orofrontend/default/js/app/views/fullscreen-popup-view',
                 popupIcon: 'fa-user',
                 popupBadge: true,
                 popupLabel: 'oro.customer.menu.customer_user.label'|trans,
@@ -26,9 +28,8 @@
                 contentAttributes: {
                     'class': 'fullscreen-mode'
                 }
-            }|json_encode() }}"
-    >
-        <span class="nav-trigger__icon">
+            }|json_encode() }}">
+        <span class="nav-trigger__icon nav-trigger__icon--transparent nav-trigger__icon--large" aria-hidden="true">
             <span class="fa-user fa--no-offset"></span>
         </span>
     </button>

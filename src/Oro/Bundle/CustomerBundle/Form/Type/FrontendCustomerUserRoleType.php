@@ -9,6 +9,9 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Form type for customer user role on storefront.
+ */
 class FrontendCustomerUserRoleType extends AbstractCustomerUserRoleType
 {
     const NAME = 'oro_customer_frontend_customer_user_role';
@@ -43,8 +46,6 @@ class FrontendCustomerUserRoleType extends AbstractCustomerUserRoleType
 
     /**
      * PRE_SET_DATA event handler
-     *
-     * @param FormEvent $event
      */
     public function preSetData(FormEvent $event)
     {
@@ -54,17 +55,11 @@ class FrontendCustomerUserRoleType extends AbstractCustomerUserRoleType
         ]);
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function preSubmit(FormEvent $event)
     {
         $this->updateCustomerUsers($event);
     }
 
-    /**
-     * @param FormEvent $event
-     */
     protected function updateCustomerUsers(FormEvent $event)
     {
         $data = $event->getData();
@@ -109,9 +104,6 @@ class FrontendCustomerUserRoleType extends AbstractCustomerUserRoleType
         $event->setData($data);
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function postSubmit(FormEvent $event)
     {
         $role = $this->getRole($event);
@@ -135,7 +127,7 @@ class FrontendCustomerUserRoleType extends AbstractCustomerUserRoleType
 
         foreach ($addedUsers as $customerUser) {
             $predefinedRole->removeCustomerUser($customerUser);
-            $customerUser->removeRole($predefinedRole);
+            $customerUser->removeUserRole($predefinedRole);
         }
     }
 

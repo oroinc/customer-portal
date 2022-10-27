@@ -1,0 +1,27 @@
+# Configuration for https://github.com/oroinc/phpstan-rules/
+trusted_data:
+    variables:
+        Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerUserRoleDatagridListener:
+            onBuildAfter:
+                criteria: true
+        Oro\Bundle\CustomerBundle\Handler\CustomerAssignHelper:
+            hasAssignments:
+                association: true
+        Oro\Bundle\CustomerBundle\Form\Type\FrontendOwnerSelectType:
+            configureOptions:
+                criteria: true
+        Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository:
+            getBatchIterator:
+                fieldName: true
+        Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider:
+            executeQuery:
+                executableQuery: true
+        Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository:
+            getPrimaryEmailsQb:
+                fullNameQueryPart: true
+            getSecondaryEmailsQb:
+                fullNameQueryPart: true
+    properties:
+        Oro\Bundle\CustomerBundle\Autocomplete\CustomerUserSearchHandler:
+            searchEntities:
+                idFieldName: true

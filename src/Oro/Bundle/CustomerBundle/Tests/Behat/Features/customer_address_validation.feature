@@ -1,4 +1,5 @@
 @ticket-BB-14525
+@ticket-BB-20875
 @fixture-OroCustomerBundle:CustomerUserFixture.yml
 Feature: Customer address validation
   In order to to manage addresses for Customer
@@ -7,8 +8,8 @@ Feature: Customer address validation
 
   Scenario: Feature Background
     Given sessions active:
-      | Admin  |first_session |
-      | User   |second_session|
+      | Admin | first_session  |
+      | User  | second_session |
 
   Scenario: Create customer with address and see validation errors
     Given I proceed as the Admin
@@ -22,11 +23,16 @@ Feature: Customer address validation
       | City            | Test city     |
       | Zip/Postal Code | 111111        |
     And I save form
-    Then I should see "First Name and Last Name or Organization should not be blank."
-    And I should see "Last Name and First Name or Organization should not be blank."
-    And I should see "Organization or First Name and Last Name should not be blank."
+    Then I should see validation errors:
+      | First Name   | First Name and Last Name or Organization should not be blank. |
+      | Last Name    | Last Name and First Name or Organization should not be blank. |
+      | Organization | Organization or First Name and Last Name should not be blank. |
+
+  Scenario: Create customer with address
     When I fill form with:
-      | Organization | Test Organization |
+      | First Name   | 0 |
+      | Last Name    | 0 |
+      | Organization | 0 |
     And I save and close form
     Then I should see "Customer has been saved" flash message
 
@@ -40,18 +46,23 @@ Feature: Customer address validation
       | Zip/Postal Code | 111111       |
       | State           | Berlin       |
     And click "Save"
-    Then I should see "First Name and Last Name or Organization should not be blank."
-    And I should see "Last Name and First Name or Organization should not be blank."
-    And I should see "Organization or First Name and Last Name should not be blank."
+    Then I should see validation errors:
+      | First Name   | First Name and Last Name or Organization should not be blank. |
+      | Last Name    | Last Name and First Name or Organization should not be blank. |
+      | Organization | Organization or First Name and Last Name should not be blank. |
+
+  Scenario: Create customer address from customer view page
     When I fill form with:
-      | Organization | Test Organization |
+      | First Name   | 0 |
+      | Last Name    | 0 |
+      | Organization | 0 |
     And click "Save"
     Then I should see "Address saved" flash message
 
-  Scenario: Create customer address from fronstore Customer user address page and see validation errors
+  Scenario: Create customer address from storefront Customer user address page and see validation errors
     Given I proceed as the User
     And I signed in as AmandaRCole@example.org on the store frontend
-    And click "Account"
+    And follow "Account"
     And click "Address Book"
     When click "New Company Address"
     And I fill form with:
@@ -63,10 +74,15 @@ Feature: Customer address validation
       | First Name      |              |
       | Last Name       |              |
     And click "Save"
-    Then I should see "First Name and Last Name or Organization should not be blank."
-    And I should see "Last Name and First Name or Organization should not be blank."
-    And I should see "Organization or First Name and Last Name should not be blank."
+    Then I should see validation errors:
+      | First Name   | First Name and Last Name or Organization should not be blank. |
+      | Last Name    | Last Name and First Name or Organization should not be blank. |
+      | Organization | Organization or First Name and Last Name should not be blank. |
+
+  Scenario: Create customer address from storefront Customer user address page with 0 as First Name, Last Names and Organization
     When I fill form with:
-      | Organization | Test Organization |
+      | First Name   | 0 |
+      | Last Name    | 0 |
+      | Organization | 0 |
     And click "Save"
     Then I should see "Customer Address has been saved" flash message

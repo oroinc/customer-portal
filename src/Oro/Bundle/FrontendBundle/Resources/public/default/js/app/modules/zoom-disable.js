@@ -5,11 +5,10 @@ define(function(require) {
      * This component disable zoom ability on mobile devices when user tap on input, textarea, select etc.
      * If you want to bind disable zoom component for particular element just set attr: [data-zoom-disable]
      */
-    var ZoomDisable;
-    var _ = require('underscore');
-    var $ = require('jquery');
+    const _ = require('underscore');
+    const $ = require('jquery');
 
-    ZoomDisable = {
+    const ZoomDisable = {
         /**
          * @property {Object}
          */
@@ -52,7 +51,7 @@ define(function(require) {
          * Bind touchstart and touchend events
          */
         bindEvents: function() {
-            var self = this;
+            const self = this;
 
             if (_.isMobile()) {
                 $(document).on({
@@ -86,8 +85,8 @@ define(function(require) {
          * @param {boolean} state
          */
         toggleZoom: function(state) {
-            var enableZoom = this.metaEnableZoom;
-            var disableZoom = this.metaDisableZoom;
+            const enableZoom = this.metaEnableZoom;
+            const disableZoom = this.metaDisableZoom;
 
             if (_.isUndefined(state)) {
                 this.changeViewport(disableZoom);

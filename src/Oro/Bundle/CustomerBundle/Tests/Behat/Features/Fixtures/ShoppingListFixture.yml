@@ -1,0 +1,69 @@
+Oro\Bundle\ProductBundle\Entity\ProductUnitPrecision:
+    precision1:
+        unit: '@item'
+        precision: '1'
+        sell: true
+    precision2:
+        unit: '@set'
+        precision: '1'
+        sell: true
+
+Oro\Bundle\ProductBundle\Entity\ProductName:
+    locvalue1:
+        string: Product1
+
+Oro\Bundle\ProductBundle\Entity\Product:
+    product1:
+        organization: '@organization'
+        owner: '@business_unit'
+        sku: 'SKU123'
+        attributeFamily: '@defaultProductFamily'
+        primaryUnitPrecision: '@precision1'
+        additionalUnitPrecisions: ['@precision2']
+        __calls:
+            - addName: ['@locvalue1']
+        inventoryStatus: '@enumInventoryStatuses'
+        status: 'enabled'
+
+Oro\Bundle\ShoppingListBundle\Entity\ShoppingList:
+    shoppinglist1:
+        label: 'ShoppingList1'
+        customer: '@customer1'
+        customerUser: '@amanda'
+        organization: '@organization'
+        website: '@website1'
+    shoppinglist2:
+        label: 'ShoppingList2'
+        customerUser: '@marlene'
+        organization: '@organization'
+        website: '@website1'
+
+Oro\Bundle\ShoppingListBundle\Entity\LineItem:
+    lineitem1:
+        product: '@product1'
+        quantity: '5'
+        unit: '@item'
+        customerUser: '@amanda'
+        shoppingList: '@shoppinglist1'
+        organization: '@organization'
+    lineitem2:
+        product: '@product1'
+        quantity: '10'
+        unit: '@item'
+        customerUser: '@marlene'
+        shoppingList: '@shoppinglist2'
+        organization: '@organization'
+
+Oro\Bundle\ShoppingListBundle\Entity\ShoppingListTotal:
+    shoppinglisttotal1:
+        __construct: ['@shoppinglist1','USD']
+        shoppingList: '@shoppinglist1'
+        currency: 'USD'
+        subtotalValue: '10.2'
+        valid: true
+    shoppinglisttotal2:
+        __construct: ['@shoppinglist2','USD']
+        shoppingList: '@shoppinglist2'
+        currency: 'USD'
+        subtotalValue: '20.3'
+        valid: true

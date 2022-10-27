@@ -2,18 +2,19 @@
 
 namespace Oro\Bundle\FrontendBundle\EventListener;
 
-use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Event\BuildBefore;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\FrontendBundle\Request\FrontendHelperTrait;
 
+/**
+ * Makes the bottom toolbar for storefront grids enabled by default.
+ */
 class DatagridBottomToolbarListener
 {
-    use FrontendHelperTrait;
+    private const TOOLBAR_BOTTOM_PLACEMENT = '[options][toolbarOptions][placement][bottom]';
 
-    /**
-     * @param FrontendHelper $frontendHelper
-     */
+    /** @var FrontendHelper */
+    private $frontendHelper;
+
     public function __construct(FrontendHelper $frontendHelper)
     {
         $this->frontendHelper = $frontendHelper;
@@ -24,19 +25,13 @@ class DatagridBottomToolbarListener
      */
     public function onBuildBefore(BuildBefore $event)
     {
-        $config = $event->getConfig();
-        if ($this->isApplicable($config)) {
-            $config->offsetSetByPath('[options][toolbarOptions][placement][bottom]', true);
+        if (!$this->frontendHelper->isFrontendRequest()) {
+            return;
         }
-    }
 
-    /**
-     * @param DatagridConfiguration $config
-     * @return bool
-     */
-    protected function isApplicable(DatagridConfiguration $config)
-    {
-        return $this->isFrontendRequest() &&
-            $config->offsetGetByPath('[options][toolbarOptions][placement][bottom]') === null;
+        $config = $event->getConfig();
+        if (null === $config->offsetGetByPath(self::TOOLBAR_BOTTOM_PLACEMENT)) {
+            $config->offsetSetByPath(self::TOOLBAR_BOTTOM_PLACEMENT, true);
+        }
     }
 }

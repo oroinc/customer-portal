@@ -2,10 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_10;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\EntityBundle\ORM\DatabasePlatformInterface;
+use Oro\Bundle\EntityBundle\Tools\SafeDatabaseChecker;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityConfigBundle\Config\Id\ConfigIdInterface;
 
@@ -21,10 +22,6 @@ class ConfigMigration
      */
     private $configManager;
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param ConfigManager $configManager
-     */
     public function __construct(ManagerRegistry $managerRegistry, ConfigManager $configManager)
     {
         $this->managerRegistry = $managerRegistry;
@@ -40,8 +37,8 @@ class ConfigMigration
     {
         /** @var Connection $configConnection */
         $configConnection = $this->managerRegistry->getConnection('config');
-        $tables = $configConnection->getSchemaManager()->listTableNames();
-        if (!in_array('oro_entity_config', $tables, true)) {
+
+        if (!SafeDatabaseChecker::tablesExist($configConnection, 'oro_entity_config')) {
             return;
         }
 
@@ -107,17 +104,17 @@ class ConfigMigration
         $id = $entity['id'];
         $originalClassName = $entity['class_name'];
         $originalData = $entity['data'];
-        $originalData = $originalData ? $configConnection->convertToPHPValue($originalData, Type::TARRAY) : [];
+        $originalData = $originalData ? $configConnection->convertToPHPValue($originalData, Types::ARRAY) : [];
 
         $className = $this->replaceStringValue($originalClassName, $from, $to);
         $data = $this->replaceArrayValue($originalData, $from, $to);
 
         if ($className !== $originalClassName || $data !== $originalData) {
-            $data = $configConnection->convertToDatabaseValue($data, Type::TARRAY);
+            $data = $configConnection->convertToDatabaseValue($data, Types::ARRAY);
 
             $sql = 'UPDATE oro_entity_config SET class_name = ?, data = ? WHERE id = ?';
             $parameters = [$className, $data, $id];
-            $configConnection->executeUpdate($sql, $parameters);
+            $configConnection->executeStatement($sql, $parameters);
         }
     }
 
@@ -144,16 +141,16 @@ class ConfigMigration
         foreach ($fields as $field) {
             $id = $field['id'];
             $originalData = $field['data'];
-            $originalData = $originalData ? $configConnection->convertToPHPValue($originalData, Type::TARRAY) : [];
+            $originalData = $originalData ? $configConnection->convertToPHPValue($originalData, Types::ARRAY) : [];
 
             $data = $this->replaceArrayValue($originalData, $from, $to);
 
             if ($data !== $originalData) {
-                $data = $configConnection->convertToDatabaseValue($data, Type::TARRAY);
+                $data = $configConnection->convertToDatabaseValue($data, Types::ARRAY);
 
                 $sql = 'UPDATE oro_entity_config_field SET data = ? WHERE id = ?';
                 $parameters = [$data, $id];
-                $configConnection->executeUpdate($sql, $parameters);
+                $configConnection->executeStatement($sql, $parameters);
             }
         }
 
@@ -169,7 +166,7 @@ class ConfigMigration
             if ($value !== $originalValue) {
                 $sql = 'UPDATE oro_entity_config_index_value SET value = ? WHERE id = ?';
                 $parameters = [$value, $id];
-                $configConnection->executeUpdate($sql, $parameters);
+                $configConnection->executeStatement($sql, $parameters);
             }
         }
     }

@@ -9,44 +9,30 @@ use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadDuplicatedCustomer;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-use Oro\Bundle\VisibilityBundle\Entity\Visibility\CustomerCategoryVisibility;
+use Oro\Bundle\VisibilityBundle\Entity\Visibility\VisibilityInterface;
 
 class CustomerRepositoryTest extends WebTestCase
 {
-    /**
-     * @var CustomerRepository
-     */
-    protected $repository;
-
-    /**
-     * @var AclHelper
-     */
-    protected $aclHelper;
-
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
-        $this->client->useHashNavigation(true);
-        $this->repository = $this->getContainer()
-            ->get('doctrine')
-            ->getRepository('OroCustomerBundle:Customer');
+        $this->loadFixtures([LoadDuplicatedCustomer::class]);
+    }
 
-        $this->loadFixtures(
-            [
-                LoadDuplicatedCustomer::class,
-            ]
-        );
+    private function getRepository(): CustomerRepository
+    {
+        return self::getContainer()->get('doctrine')->getRepository(Customer::class);
+    }
 
-        $this->aclHelper = $this->getContainer()->get('oro_security.acl_helper');
+    private function getAclHelper(): AclHelper
+    {
+        return self::getContainer()->get('oro_security.acl_helper');
     }
 
     /**
      * @dataProvider customerReferencesDataProvider
-     * @param string $referenceName
-     * @param array $expectedReferences
-     * @param bool $withAclCheck
      */
-    public function testGetChildrenIds($referenceName, array $expectedReferences, $withAclCheck = true)
+    public function testGetChildrenIds(string $referenceName, array $expectedReferences, bool $withAclCheck = true)
     {
         /** @var Customer $customer */
         $customer = $this->getReference($referenceName);
@@ -55,17 +41,17 @@ class CustomerRepositoryTest extends WebTestCase
         foreach ($expectedReferences as $reference) {
             $expected[] = $this->getReference($reference)->getId();
         }
-        $childrenIds = $this->repository->getChildrenIds($customer->getId(), $withAclCheck ? $this->aclHelper : null);
+        $childrenIds = $this->getRepository()->getChildrenIds(
+            $customer->getId(),
+            $withAclCheck ? $this->getAclHelper() : null
+        );
         sort($expected);
         sort($childrenIds);
 
         $this->assertEquals($expected, $childrenIds);
     }
 
-    /**
-     * @return array
-     */
-    public function customerReferencesDataProvider()
+    public function customerReferencesDataProvider(): array
     {
         return [
             'orphan' => [
@@ -138,28 +124,25 @@ class CustomerRepositoryTest extends WebTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function getCategoryCustomerIdsByVisibilityDataProvider()
+    public function getCategoryCustomerIdsByVisibilityDataProvider(): array
     {
         return [
             'FIRST_LEVEL with VISIBLE' => [
                 'categoryName' => LoadCategoryData::FIRST_LEVEL,
-                'visibility' => CustomerCategoryVisibility::VISIBLE,
+                'visibility' => VisibilityInterface::VISIBLE,
                 'expectedCustomers' => [
                     'customer.level_1.4',
                 ]
             ],
             'FIRST_LEVEL with VISIBLE restricted' => [
                 'categoryName' => LoadCategoryData::FIRST_LEVEL,
-                'visibility' => CustomerCategoryVisibility::VISIBLE,
+                'visibility' => VisibilityInterface::VISIBLE,
                 'expectedCustomers' => [],
                 'restricted' => []
             ],
             'FIRST_LEVEL with HIDDEN' => [
                 'categoryName' => LoadCategoryData::FIRST_LEVEL,
-                'visibility' => CustomerCategoryVisibility::HIDDEN,
+                'visibility' => VisibilityInterface::HIDDEN,
                 'expectedCustomers' => [
                     'customer.level_1.1',
                 ]
@@ -170,7 +153,7 @@ class CustomerRepositoryTest extends WebTestCase
     public function testGetBatchIterator()
     {
         /** @var Customer[] $results */
-        $results  = $this->repository->findAll();
+        $results = $this->getRepository()->findAll();
         $customers = [];
 
         foreach ($results as $customer) {
@@ -178,7 +161,7 @@ class CustomerRepositoryTest extends WebTestCase
         }
 
         $customersQuantity = count($customers);
-        $customersIterator = $this->repository->getBatchIterator();
+        $customersIterator = $this->getRepository()->getBatchIterator();
         $iteratorQuantity = 0;
         foreach ($customersIterator as $customer) {
             ++$iteratorQuantity;
@@ -201,11 +184,11 @@ class CustomerRepositoryTest extends WebTestCase
         /** @var Customer $customer14 */
         $customer14 = $this->getReference('customer.level_1.4');
 
-        $actual = $this->repository->getIdsByCustomerGroup($customerGroup);
+        $actual = $this->getRepository()->getIdsByCustomerGroup($customerGroup);
 
         $this->assertCount(3, $actual);
-        $this->assertContains($customer131->getId(), $actual);
-        $this->assertContains($customer1311->getId(), $actual);
-        $this->assertContains($customer14->getId(), $actual);
+        self::assertContainsEquals($customer131->getId(), $actual, var_export($actual, true));
+        self::assertContainsEquals($customer1311->getId(), $actual, var_export($actual, true));
+        self::assertContainsEquals($customer14->getId(), $actual, var_export($actual, true));
     }
 }

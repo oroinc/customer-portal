@@ -4,65 +4,39 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Acl\Group;
 
 use Oro\Bundle\CustomerBundle\Acl\Group\AclGroupProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
 class AclGroupProviderTest extends \PHPUnit\Framework\TestCase
 {
-    const LOCAL_LEVEL = 'Oro\Bundle\CustomerBundle\Entity\Customer';
-    const BASIC_LEVEL = 'Oro\Bundle\CustomerBundle\Entity\CustomerUser';
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface */
-    protected $tokenAccessor;
+    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $frontendHelper;
 
     /** @var AclGroupProvider */
-    protected $provider;
+    private $provider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+        $this->frontendHelper = $this->createMock(FrontendHelper::class);
 
-        $this->provider = new AclGroupProvider($this->tokenAccessor);
+        $this->provider = new AclGroupProvider($this->frontendHelper);
     }
 
-    protected function tearDown()
+    public function testSupportsForFrontend()
     {
-        unset($this->tokenAccessor, $this->provider);
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $this->assertTrue($this->provider->supports());
     }
 
-    /**
-     * @dataProvider supportsDataProvider
-     *
-     * @param object|null $user
-     * @param bool $expectedResult
-     */
-    public function testSupports($user, $expectedResult)
+    public function testSupportsForBackend()
     {
-        $this->tokenAccessor->expects($this->once())
-            ->method('getUser')
-            ->willReturn($user);
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn(false);
 
-        $this->assertEquals($expectedResult, $this->provider->supports());
-    }
-
-    /**
-     * @return array
-     */
-    public function supportsDataProvider()
-    {
-        return [
-            'incorrect user object' => [
-                'user' => new \stdClass(),
-                'expectedResult' => false
-            ],
-            'customer user' => [
-                'user' => new CustomerUser(),
-                'expectedResult' => true
-            ],
-            'user is not logged in' => [
-                'user' => null,
-                'expectedResult' => true
-            ],
-        ];
+        $this->assertFalse($this->provider->supports());
     }
 
     public function testGetGroup()

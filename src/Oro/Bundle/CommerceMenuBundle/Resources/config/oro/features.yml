@@ -1,0 +1,48 @@
+features:
+    frontend_menu:
+        label: oro.commercemenu.feature.label
+        description: oro.commercemenu.feature.description
+        allow_if_all_abstain: true
+        routes:
+            - oro_commerce_menu_global_menu_index
+            - oro_commerce_menu_global_menu_view
+            - oro_commerce_menu_global_menu_create
+            - oro_commerce_menu_global_menu_update
+            - oro_commerce_menu_global_menu_move
+            - oro_commerce_menu_global_menu_ajax_reset
+            - oro_commerce_menu_global_menu_ajax_create
+            - oro_commerce_menu_global_menu_ajax_delete
+            - oro_commerce_menu_global_menu_ajax_show
+            - oro_commerce_menu_global_menu_ajax_hide
+            - oro_commerce_menu_global_menu_ajax_move
+            - oro_commerce_menu_customer_menu_index
+            - oro_commerce_menu_customer_menu_context_index
+            - oro_commerce_menu_customer_menu_view
+            - oro_commerce_menu_customer_menu_create
+            - oro_commerce_menu_customer_menu_update
+            - oro_commerce_menu_customer_menu_move
+            - oro_commerce_menu_global_menu_ajax_move
+            - oro_commerce_menu_customer_menu_ajax_create
+            - oro_commerce_menu_customer_menu_ajax_delete
+            - oro_commerce_menu_customer_menu_ajax_show
+            - oro_commerce_menu_customer_menu_ajax_hide
+            - oro_commerce_menu_customer_menu_ajax_move
+            - oro_commerce_menu_customer_group_menu_index
+            - oro_commerce_menu_customer_group_menu_context_index
+            - oro_commerce_menu_customer_group_menu_view
+            - oro_commerce_menu_customer_group_menu_create
+            - oro_commerce_menu_customer_group_menu_update
+            - oro_commerce_menu_customer_group_menu_move
+            - oro_commerce_menu_customer_group_menu_ajax_reset
+            - oro_commerce_menu_customer_group_menu_ajax_create
+            - oro_commerce_menu_customer_group_menu_ajax_delete
+            - oro_commerce_menu_customer_group_menu_ajax_show
+            - oro_commerce_menu_customer_group_menu_ajax_hide
+            - oro_commerce_menu_customer_group_menu_ajax_move
+        entities:
+            - Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate
+        navigation_items:
+            - application_menu.system_tab.menu_list_frontend
+        placeholder_items:
+            - commerce_customer_menu_button
+            - commerce_customer_group_menu_button

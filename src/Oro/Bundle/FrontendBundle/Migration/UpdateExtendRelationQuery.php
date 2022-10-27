@@ -2,12 +2,15 @@
 
 namespace Oro\Bundle\FrontendBundle\Migration;
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Oro\Bundle\EntityConfigBundle\Config\Id\FieldConfigId;
 use Oro\Bundle\MigrationBundle\Migration\ArrayLogger;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedMigrationQuery;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Migration query to clean outdated data in entity config.
+ */
 class UpdateExtendRelationQuery extends ParametrizedMigrationQuery
 {
     /**
@@ -85,7 +88,7 @@ class UpdateExtendRelationQuery extends ParametrizedMigrationQuery
         if ($row) {
             $id = $row['id'];
             $originalData = $row['data'];
-            $originalData = $originalData ? $this->connection->convertToPHPValue($originalData, Type::TARRAY) : [];
+            $originalData = $originalData ? $this->connection->convertToPHPValue($originalData, Types::ARRAY) : [];
 
             $data = $originalData;
             $fullRelationFrom = implode(
@@ -123,17 +126,17 @@ class UpdateExtendRelationQuery extends ParametrizedMigrationQuery
 
             if ($data !== $originalData) {
                 $query = 'UPDATE oro_entity_config SET data = ? WHERE id = ?';
-                $parameters = [$this->connection->convertToDatabaseValue($data, Type::TARRAY), $id];
+                $parameters = [$this->connection->convertToDatabaseValue($data, Types::ARRAY), $id];
 
                 $this->logQuery($logger, $query, $parameters);
                 if (!$dryRun) {
-                    $this->connection->executeUpdate($query, $parameters);
+                    $this->connection->executeStatement($query, $parameters);
                 }
 
                 $query = 'UPDATE oro_entity_config_field SET field_name = ? WHERE entity_id = ? and field_name = ?';
                 $parameters = [$this->relationTo, $id, $this->relationFrom];
                 if (!$dryRun) {
-                    $this->connection->executeUpdate($query, $parameters);
+                    $this->connection->executeStatement($query, $parameters);
                 }
             }
         }

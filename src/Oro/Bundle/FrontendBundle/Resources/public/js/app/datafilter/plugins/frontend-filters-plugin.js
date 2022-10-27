@@ -1,63 +1,73 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
-    var FrontendFiltersTogglePlugin;
-    var _ = require('underscore');
-    var __ = require('orotranslation/js/translator');
-    var ToggleFiltersAction = require('orofilter/js/actions/toggle-filters-action');
-    var FullScreenFiltersAction = require('orofrontend/js/app/datafilter/actions/fullscreen-filters-action');
-    var FiltersTogglePlugin = require('orofilter/js/plugins/filters-toggle-plugin');
-    var viewportManager = require('oroui/js/viewport-manager');
-    var config = require('module').config();
-    var launcherOptions = _.extend({
+    const _ = require('underscore');
+    const __ = require('orotranslation/js/translator');
+    const FullScreenFiltersAction = require('orofrontend/js/app/datafilter/actions/fullscreen-filters-action');
+    const FiltersTogglePlugin = require('orofilter/js/plugins/filters-toggle-plugin');
+    const FullscreenFilters = require('orofrontend/js/app/datafilter/fullscreen-filters').default;
+    const config = require('module-config').default(module.id);
+    const launcherOptions = _.extend({
         className: 'btn',
         icon: 'filter',
-        label: __('oro.filter.datagrid-toolbar.filters')
+        label: __('oro.filter.datagrid-toolbar.filters'),
+        ariaLabel: __('oro.filter.datagrid-toolbar.aria_label')
     }, config.launcherOptions || {});
 
-    FrontendFiltersTogglePlugin = FiltersTogglePlugin.extend({
+    const FrontendFiltersTogglePlugin = FiltersTogglePlugin.extend({
         /**
-         * {Object}
+         * @inheritdoc
          */
-        filtersActions: {
-            tablet: FullScreenFiltersAction
+        constructor: function FrontendFiltersTogglePlugin(main, options) {
+            FrontendFiltersTogglePlugin.__super__.constructor.call(this, main, options);
         },
 
-        /**
-         * @inheritDoc
-         */
-        constructor: function FrontendFiltersTogglePlugin() {
-            FrontendFiltersTogglePlugin.__super__.constructor.apply(this, arguments);
+        initialize(options) {
+            FrontendFiltersTogglePlugin.__super__.initialize.call(this, options);
+
+            this.fullscreenFilters = new FullscreenFilters({datagrid: this.main});
+            this.listenToOnce(this.main, 'filterManager:connected', () => {
+                this.fullscreenFilters.onceFilterManagerConnected();
+            });
         },
 
-        /**
-         * @returns {Function}
-         * @private
-         */
-        _getApplicableAction: function() {
-            var Action = this.filtersActions[viewportManager.getViewport().type];
-
-            if (_.isUndefined(Action)) {
-                Action = _.find(this.filtersActions, function(action, name) {
-                    if (viewportManager.isApplicable({maxScreenType: name})) {
-                        return action;
-                    }
-                });
-            }
-
-            return _.isMobile() && _.isFunction(Action) ? Action : ToggleFiltersAction;
+        onBeforeToolbarInit(toolbarOptions) {
+            this.addAction(toolbarOptions);
         },
 
-        onBeforeToolbarInit: function(toolbarOptions) {
-            var Action = this._getApplicableAction();
-
-            var options = {
+        addAction(toolbarOptions) {
+            let options = {
                 datagrid: this.main,
                 launcherOptions: launcherOptions,
-                order: config.order || 50
+                order: config.order || 50,
+                fullscreenFilters: this.fullscreenFilters
             };
+            let Action = FullScreenFiltersAction;
+
+            if (_.isObject(toolbarOptions.customAction)) {
+                if (toolbarOptions.customAction.constructor) {
+                    Action = toolbarOptions.customAction.constructor;
+                }
+
+                options = Object.assign({}, options, toolbarOptions.customAction.options);
+            }
 
             toolbarOptions.addToolbarAction(new Action(options));
+        },
+
+        dispose() {
+            if (this.disposed) {
+                return;
+            }
+
+            this.disable();
+
+            if (this.fullscreenFilters && !this.fullscreenFilters.disposed) {
+                this.fullscreenFilters.dispose();
+                delete this.fullscreenFilters;
+            }
+
+            FrontendFiltersTogglePlugin.__super__.dispose.call(this);
         }
     });
     return FrontendFiltersTogglePlugin;

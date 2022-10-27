@@ -1,0 +1,8 @@
+Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
+    customer_user_role:
+        __calls:
+            - setRole: ['ROLE_FRONTEND_TEST_5ec79db4eafcd', false]
+        label: Test
+        organization: '@organization'
+        selfManaged: true
+        public: true

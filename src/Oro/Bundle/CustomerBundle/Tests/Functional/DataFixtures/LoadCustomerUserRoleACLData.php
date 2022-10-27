@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -40,9 +40,6 @@ class LoadCustomerUserRoleACLData extends AbstractLoadACLData
         ]
     ];
 
-    /**
-     * @param ObjectManager $manager
-     */
     public function load(ObjectManager $manager)
     {
         parent::load($manager);
@@ -50,9 +47,6 @@ class LoadCustomerUserRoleACLData extends AbstractLoadACLData
         $this->loadCustomerPermissions($manager);
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
     protected function loadCustomerUserRoles(ObjectManager $manager)
     {
         foreach (self::$roles as $name => $role) {
@@ -71,7 +65,7 @@ class LoadCustomerUserRoleACLData extends AbstractLoadACLData
             //need to have role to get permission
             //role with users can't be deleted
             $entity->setLabel($entity->getLabel() . ' for user');
-            $customerUser->addRole($entity);
+            $customerUser->addUserRole($entity);
             $this->setReference($entity->getLabel(), $entity);
             $this->setReference($entityForDelete->getLabel(), $entityForDelete);
             $manager->persist($entityForDelete);
@@ -83,13 +77,11 @@ class LoadCustomerUserRoleACLData extends AbstractLoadACLData
 
     /**
      * Loads permissions for Customer entity class for the supported roles.
-     *
-     * @param ObjectManager $manager
      */
     protected function loadCustomerPermissions(ObjectManager $manager)
     {
         // Only one permission for Customer entity class is allowed on frontend - VIEW_SYSTEM.
-        $permissions = [['VIEW_SYSTEM'], []];
+        $permissions = ['VIEW_SYSTEM'];
         foreach ($this->getSupportedRoles() as $roleName) {
             /** @var CustomerUserRole $role */
             $role = $this->getReference($roleName);
@@ -100,7 +92,7 @@ class LoadCustomerUserRoleACLData extends AbstractLoadACLData
         }
 
         $manager->flush();
-        $this->container->get('oro_security.acl.manager')->flush();
+        $this->getAclManager()->flush();
     }
 
     /**

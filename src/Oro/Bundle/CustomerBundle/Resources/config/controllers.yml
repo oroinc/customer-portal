@@ -1,0 +1,136 @@
+services:
+    _defaults:
+        public: true
+
+    Oro\Bundle\CustomerBundle\Controller\AclPermissionController:
+        arguments:
+            - '@oro_entity.routing_helper'
+            - '@oro_security.acl.manager'
+            - '@oro_security.owner.metadata_provider.chain'
+            - '@oro_customer.acl.resolver.role_translation_prefix'
+
+    Oro\Bundle\CustomerBundle\Controller\CustomerAddressController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: 'fragment.handler' }
+
+    Oro\Bundle\CustomerBundle\Controller\CustomerUserAddressController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: 'fragment.handler' }
+
+    Oro\Bundle\CustomerBundle\Controller\CustomerUserController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer_user.manager, key: Oro\Bundle\CustomerBundle\Entity\CustomerUserManager }
+
+    Oro\Bundle\CustomerBundle\Controller\CustomerController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+
+    Oro\Bundle\CustomerBundle\Controller\CustomerGroupController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+
+    Oro\Bundle\CustomerBundle\Controller\SecurityController:
+        calls:
+            - [ 'setContainer', [ '@Psr\Container\ContainerInterface' ] ]
+        tags:
+            - { name: container.service_subscriber }
+
+    Oro\Bundle\CustomerBundle\Controller\CustomerUserRoleController:
+        calls:
+            - [ 'setContainer', [ '@Psr\Container\ContainerInterface' ] ]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: 'oro_user.provider.role_privilege_capability_provider_commerce', key: Oro\Bundle\UserBundle\Provider\RolePrivilegeCapabilityProvider }
+
+    Oro\Bundle\CustomerBundle\Controller\AjaxCustomerUserController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+
+    # Frontend controllers
+
+    Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerUserRoleController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+
+    Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerUserController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer_user.manager, key: Oro\Bundle\CustomerBundle\Entity\CustomerUserManager }
+            - { name: container.service_subscriber, id: oro_customer.provider.frontend_customer_user_form, key: Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider }
+
+    Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerUserAddressController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+
+    Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerUserRegisterController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer_user.manager, key: Oro\Bundle\CustomerBundle\Entity\CustomerUserManager }
+            - { name: container.service_subscriber, id: oro_customer.handler.customer_registration_handler, key: Oro\Bundle\CustomerBundle\Handler\CustomerRegistrationHandler }
+
+    Oro\Bundle\CustomerBundle\Controller\Frontend\ResetController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer_user.manager, key: Oro\Bundle\CustomerBundle\Entity\CustomerUserManager }
+            - { name: container.service_subscriber, id: oro_customer.provider.frontend_customer_user_form, key: Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider }
+            - { name: container.service_subscriber, id: oro_customer.customer_user.password_request.handler, key: Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler }
+            - { name: container.service_subscriber, id: oro_customer.customer_user.password_reset.handler, key: Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler }
+
+    Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerUserProfileController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer.provider.frontend_customer_user_form, key: Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider }
+            - { name: container.service_subscriber, id: oro_customer.handler.frontend_customer_user_handler, key: Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler }
+
+    Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerAddressController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+
+    Oro\Bundle\CustomerBundle\Controller\Frontend\AjaxCustomerUserController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+
+    Oro\Bundle\CustomerBundle\Controller\CustomerConfigurationController:
+        arguments:
+            - '@Psr\Container\ContainerInterface'
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_config.customer, key: Oro\Bundle\ConfigBundle\Config\ConfigManager }
+
+    Oro\Bundle\CustomerBundle\Controller\CustomerGroupConfigurationController:
+        arguments:
+            - '@Psr\Container\ContainerInterface'
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_config.customer_group, key: Oro\Bundle\ConfigBundle\Config\ConfigManager }

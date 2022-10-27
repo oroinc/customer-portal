@@ -4,7 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserApi;
-use Oro\Component\PhpUtils\ReflectionUtil;
+use Oro\Component\Testing\ReflectionUtil;
 
 class CustomerUserApiTest extends \PHPUnit\Framework\TestCase
 {
@@ -14,9 +14,7 @@ class CustomerUserApiTest extends \PHPUnit\Framework\TestCase
         self::assertNull($entity->getId());
 
         $id = 1;
-        $idProperty = ReflectionUtil::getProperty(new \ReflectionClass($entity), 'id');
-        $idProperty->setAccessible(true);
-        $idProperty->setValue($entity, $id);
+        ReflectionUtil::setId($entity, $id);
         self::assertEquals($id, $entity->getId());
     }
 

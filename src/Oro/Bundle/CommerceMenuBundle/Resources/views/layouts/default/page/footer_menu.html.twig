@@ -1,7 +1,6 @@
 {% block _footer_menu_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' information-nav__list',
-        'data-collapse-container-footer': true
+        '~class': ' information-nav__list'
     }) %}
     {% set child_attr = layout_attr_defaults(child_attr, {
         '~class': ' information-nav__item'
@@ -10,36 +9,37 @@
         '~class': ' information-nav__item-content'
     }) %}
 
-    {% set collapseView =  layout_attr_defaults(attr, {
-        viewport: {
-            maxScreenType: 'tablet-small',
-        },
-        component: 'oroui/js/app/components/jquery-widget-component',
-        widgetModule: 'oroui/js/widget/collapse-widget',
-        trigger: '[data-collapse-trigger-footer]',
-        container: '[data-collapse-container-footer]',
-        open: false
-    }) %}
-
-    {% spaceless %}
-        {% for child in item.children %}
-            {% if child.displayed and child.extras.isAllowed %}
-                <div class="information-nav information-nav--responsive">
-                    <div class="collapse-view"
-                        data-page-component-module="oroui/js/app/components/viewport-component"
-                        data-page-component-options="{{ collapseView|json_encode }}">
-                        {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
-                        <h3 class="information-nav__title" data-collapse-trigger-footer>
-                            <span class="information-nav__icon">
-                                <i class="collapse-view__trigger-icon fa-caret-right"></i>
-                            </span>
-                            {{- label -}}
-                        </h3>
-                        {% set item = child %}
-                        {{ block('menu_widget') }}
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
-    {% endspaceless %}
+    {% if item.displayed and item.extras.isAllowed %}
+        {% apply spaceless %}
+            {% for child in item.children %}
+                {% if child.displayed and child.extras.isAllowed %}
+                    {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
+                    {% set collapseOptions = {
+                        viewport: {
+                            maxScreenType: 'tablet-small',
+                        },
+                        view: 'orofrontend/default/js/app/views/collapse-view',
+                        toggleAttrs: {
+                            'class': 'btn btn--plain btn--default-color information-nav__title',
+                            'data-text': label,
+                            'data-icon': 'fa-caret-right fa--offset-xl-r'
+                        },
+                        collapseAttrs: {
+                            'class': 'collapse',
+                            'data-trigger-icon-show-class': 'fa-caret-down',
+                            'data-trigger-icon-hide-class': 'fa-caret-right'
+                        }
+                    } %}
+                    <section class="information-nav information-nav--responsive">
+                        <div data-page-component-module="oroui/js/app/components/viewport-component"
+                             data-page-component-options="{{ collapseOptions|json_encode() }}">
+                            <h6 class="information-nav__title">{{- label -}}</h6>
+                            {% set item = child %}
+                            {{ block('menu_widget') }}
+                        </div>
+                    </section>
+                {% endif %}
+            {% endfor %}
+        {% endapply %}
+    {% endif %}
 {% endblock %}

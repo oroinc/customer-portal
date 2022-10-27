@@ -1,0 +1,4 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroCustomer/layouts/default/page/layout.html.twig'

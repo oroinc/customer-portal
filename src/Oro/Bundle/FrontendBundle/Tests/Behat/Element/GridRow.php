@@ -18,7 +18,7 @@ class GridRow extends BaseGridRow
             return;
         }
 
-        $rowCheckbox->find('xpath', '../span[@class="custom-checkbox__icon"]')->click();
+        $rowCheckbox->click();
     }
 
     /**
@@ -33,6 +33,6 @@ class GridRow extends BaseGridRow
             return;
         }
 
-        $rowCheckbox->find('xpath', '../span[@class="custom-checkbox__icon"]')->click();
+        $rowCheckbox->click();
     }
 }

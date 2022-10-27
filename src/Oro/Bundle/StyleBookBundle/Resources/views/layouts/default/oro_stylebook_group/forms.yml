@@ -1,0 +1,164 @@
+layout:
+    actions:
+        - '@setFormTheme':
+            themes: '@OroStyleBook/layouts/default/oro_stylebook_group/forms.html.twig'
+
+        - '@setOption':
+            id: style_book_page_title
+            optionName: defaultValue
+            optionValue: 'oro_stylebook.groups.forms.title'
+
+        - '@setOption':
+            id: style_book_page_description
+            optionName: vars.description
+            optionValue: 'oro_stylebook.groups.forms.content'
+
+        - '@addTree':
+            items:
+                group_element_form_text:
+                    blockType: group_element
+                    options:
+                        anchor: form_text
+                        label: oro_stylebook.groups.forms.form_text.title
+                group_element_item_form_text:
+                    blockType: group_element_item
+                    options:
+                        anchor: form_text_one_line
+                        label: oro_stylebook.groups.forms.form_text.one_line.title
+                form_text:
+                    blockType: form_field
+                    options:
+                        form: '=data["style_book_form"].getStyleBookFormView()["text"]'
+
+                group_element_form_textarea:
+                    blockType: group_element_item
+                    options:
+                        anchor: form_text_textarea
+                        label: oro_stylebook.groups.forms.form_text.textarea.title
+                form_textarea:
+                    blockType: form_field
+                    options:
+                        form: '=data["style_book_form"].getStyleBookFormView()["textarea"]'
+
+                group_element_form_password:
+                    blockType: group_element_item
+                    options:
+                        anchor: form_text_password
+                        label: oro_stylebook.groups.forms.form_text.password.title
+                form_password:
+                    blockType: form_field
+                    options:
+                        form: '=data["style_book_form"].getStyleBookFormView()["password"]'
+
+                group_element_form_datetime:
+                    blockType: group_element
+                    options:
+                        anchor: form_datetime
+                        label: oro_stylebook.groups.forms.form_datetime.title
+                group_element_item_form_datetime:
+                    blockType: group_element_item
+                form_datetime:
+                    blockType: form_field
+                    options:
+                        form: '=data["style_book_form"].getStyleBookFormView()["datetime"]'
+
+                group_element_form_select:
+                    blockType: group_element
+                    options:
+                        anchor: form_select
+                        label: oro_stylebook.groups.forms.form_select.title
+                group_element_item_form_select:
+                    blockType: group_element_item
+                    options:
+                        anchor: form_drop_down
+                        label: oro_stylebook.groups.forms.form_select.drop_down.title
+                form_select:
+                    blockType: form_field
+                    options:
+                        form: '=data["style_book_form"].getStyleBookFormView()["select"]'
+
+                group_element_form_checkbox:
+                    blockType: group_element_item
+                    options:
+                        anchor: form_checkbox
+                        label: oro_stylebook.groups.forms.form_select.checkbox.title
+                form_checkbox: 
+                    blockType: form_field
+                    options:
+                        form: '=data["style_book_form"].getStyleBookFormView()["checkbox"]'
+
+                group_element_form_radio:
+                    blockType: group_element_item
+                    options:
+                        anchor: form_radio
+                        label: oro_stylebook.groups.forms.form_select.radio.title
+                form_radio:
+                    blockType: form_field
+                    options:
+                        form: '=data["style_book_form"].getStyleBookFormView()["radio"]'
+
+                group_element_form_radios:
+                    blockType: group_element_item
+                    options:
+                        anchor: form_radio_list
+                        label: oro_stylebook.groups.forms.form_select.radio_list.title
+                form_radios:
+                    blockType: form_field
+                    options:
+                        form: '=data["style_book_form"].getStyleBookFormView()["radios"]'
+
+                group_element_form_checkboxes:
+                    blockType: group_element
+                    options:
+                        anchor: form_checkboxes
+                        label: oro_stylebook.groups.forms.form_checkboxes.title
+                group_element_item_form_checkboxes:
+                    blockType: group_element_item
+                    options:
+                        anchor: form_checkbox_element
+                        label: oro_stylebook.groups.forms.form_checkboxes.checkbox.title
+                form_checkboxes:
+                    blockType: form_field
+                    options:
+                        form: '=data["style_book_form"].getStyleBookFormView()["checkboxes"]'
+
+                group_element_form_multiselect:
+                    blockType: group_element_item
+                    options:
+                        anchor: form_multiselect
+                        label: oro_stylebook.groups.forms.form_checkboxes.drop_down.title
+                form_multiselect:
+                    blockType: form_field
+                    options:
+                        form: '=data["style_book_form"].getStyleBookFormView()["multiselect"]'
+
+            tree:
+                style_book_content:
+                    group_element_form_text:
+                        group_element_item_form_text:
+                            form_text: ~
+                        group_element_form_textarea:
+                            form_textarea: ~
+                        group_element_form_password:
+                            form_password: ~
+                    group_element_form_datetime:
+                        group_element_item_form_datetime:
+                            form_datetime: ~
+
+                    group_element_form_select:
+                        group_element_item_form_select:
+                            form_select: ~
+                        group_element_form_checkbox:
+                            form_checkbox:  ~
+                        group_element_form_radio:
+                            form_radio: ~
+                        group_element_form_radios:
+                            form_radios: ~
+
+                    group_element_form_checkboxes:
+                        group_element_item_form_checkboxes:
+                            form_checkboxes: ~
+                        group_element_form_multiselect:
+                            form_multiselect: ~
+
+    conditions: 'context["group"]=="forms"'

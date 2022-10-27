@@ -1,16 +1,15 @@
 define(function(require) {
     'use strict';
 
-    var CustomerSelectionComponent;
-    var BaseComponent = require('oroui/js/app/components/base/component');
-    var LoadingMaskView = require('oroui/js/app/views/loading-mask-view');
-    var $ = require('jquery');
-    var _ = require('underscore');
-    var __ = require('orotranslation/js/translator');
-    var routing = require('routing');
-    var mediator = require('oroui/js/mediator');
+    const BaseComponent = require('oroui/js/app/components/base/component');
+    const LoadingMaskView = require('oroui/js/app/views/loading-mask-view');
+    const $ = require('jquery');
+    const _ = require('underscore');
+    const __ = require('orotranslation/js/translator');
+    const routing = require('routing');
+    const mediator = require('oroui/js/mediator');
 
-    CustomerSelectionComponent = BaseComponent.extend({
+    const CustomerSelectionComponent = BaseComponent.extend({
         /**
          * @property {Object}
          */
@@ -43,14 +42,14 @@ define(function(require) {
         loadingMask: null,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function CustomerSelectionComponent() {
-            CustomerSelectionComponent.__super__.constructor.apply(this, arguments);
+        constructor: function CustomerSelectionComponent(options) {
+            CustomerSelectionComponent.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.options = _.defaults(options || {}, this.options);
@@ -62,9 +61,9 @@ define(function(require) {
             this.$customerUserMultiSelect = this.$el.find(this.options.customerUserMultiSelect);
 
             this.$el
-                .on('change', this.options.customerSelect, _.bind(this.onCustomerChanged, this))
-                .on('change', this.options.customerUserSelect, _.bind(this.onCustomerUserChanged, this))
-                .on('change', this.options.customerUserMultiSelect, _.bind(this.onCustomerUserChanged, this))
+                .on('change', this.options.customerSelect, this.onCustomerChanged.bind(this))
+                .on('change', this.options.customerUserSelect, this.onCustomerUserChanged.bind(this))
+                .on('change', this.options.customerUserMultiSelect, this.onCustomerUserChanged.bind(this))
             ;
 
             this.updateCustomerUserSelectData({customer_id: this.$customerSelect.val()});
@@ -87,8 +86,8 @@ define(function(require) {
          * @param {jQuery.Event} e
          */
         onCustomerUserChanged: function(e) {
-            var customerId = this.$customerSelect.val();
-            var customerUserId = $(e.target).val();
+            const customerId = this.$customerSelect.val();
+            const customerUserId = $(e.target).val();
 
             if (customerId || !customerUserId) {
                 this.triggerChangeCustomerUserEvent();
@@ -96,7 +95,7 @@ define(function(require) {
                 return;
             }
 
-            var self = this;
+            const self = this;
             $.ajax({
                 url: routing.generate(this.options.customerRoute, {id: customerUserId}),
                 type: 'GET',

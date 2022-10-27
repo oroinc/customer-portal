@@ -48,8 +48,6 @@ oro_stylebook:
             title: nav-tabs
         mixins-list-separator:
             title: list-separator
-        mixins-list-separator:
-            title: list-separator
         mixins-base-transition:
             title: base-transition
         mixins-table-base:
@@ -68,6 +66,18 @@ oro_stylebook:
             title: keyframe
         mixins-grid-cell-align:
             title: grid-cell-align
+        mixins-font-smoothing:
+            title: font-smoothing
+        mixins-flexible-arrow:
+            title: flexible-arrow
+        mixins-line-clamp:
+            title: line-clamp
+        mixins-skeleton:
+            title: skeleton
+        mixins-loading-blur:
+            title: loading-blur
+        mixins-loading-blur-overlay:
+            title: loading-blur-overlay
     groups:
         forms:
             form_text:
@@ -158,6 +168,10 @@ oro_stylebook:
                 title: Colors
             typography:
                 title: Typography
+            custom_fonts:
+                title: Custom fonts
+            headings:
+                title: Headings
             sizes:
                 title: Sizes
             functions:
@@ -168,20 +182,26 @@ oro_stylebook:
                 title: Animation
 
         grid:
-            column_size:
-                title: Column Size
-            row_offset:
-                title: Row Spacing
-            column_offset:
-                title: Column Spacing
-                right:
-                    title: Right
-                bottom:
-                    title: Bottom
-            columns_equal:
-                title: Two Symmetric Columns
-            multi_line_row:
-                title: Multi-Line Row
+            how_it_works:
+                title: How it works
+            grid_gap:
+                title: Grid gap
+            columns:
+                title: Columns
+                three_columns:
+                    title: Three columns
+                columns_count:
+                    title: Columns count
+            starts:
+                title: Starts
+            template:
+                title: Grid column template
+            alignment:
+                title: Alignments
+            responsive:
+                title: Responsive
+        tiles:
+            title: 'Tiles'
 
         jscomponent:
             modal:
@@ -192,8 +212,18 @@ oro_stylebook:
                 title: 'Loading Mask'
             dialog_widget:
                 title: 'Dialog Widget'
-            collapse_widget:
-                title: 'Collapse Widget'
+            collapse_widgets:
+                title: 'Collapse Widgets'
+                simple:
+                    title: 'Simple Collapse'
+                simple_hide_trigger:
+                    title: 'Hide Trigger element'
+                overflow:
+                    title: 'Overflow Collapse'
+                dynamic:
+                    title: 'Dynamic Collapse'
+                accordion:
+                    title: 'Accordion'
             fullscreen_popup_view:
                 title: 'Fullscreen Popup View'
             scroll_view:

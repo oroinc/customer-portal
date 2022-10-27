@@ -12,9 +12,6 @@ class WebsiteAwareStub implements WebsiteAwareInterface
      */
     private $website;
 
-    /**
-     * @param Website|null $website
-     */
     public function __construct(Website $website = null)
     {
         $this->website = $website;

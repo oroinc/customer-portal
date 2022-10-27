@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\CustomerMenuBundle\Tests\Unit\Form\Type;
+namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuScreensConditionType;
 use Oro\Bundle\FrontendBundle\Provider\ScreensProviderInterface;
@@ -10,10 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuScreensConditionTypeTest extends FormIntegrationTestCase
 {
-    /**
-     * @internal
-     */
-    const SCREENS_CONFIG = [
+    private const SCREENS_CONFIG = [
         'desktop' => [
             'label' => 'Sample desktop label',
             'hidingCssClass' => 'sample-desktop-class',
@@ -23,36 +20,25 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
             'hidingCssClass' => 'sample-mobile-class',
         ],
     ];
-
-    /**
-     * @internal
-     */
-    const SCREENS_CHOICES = [
+    private const SCREENS_CHOICES = [
         'Sample desktop label' => 'desktop',
         'Sample mobile label' => 'mobile',
     ];
 
-    /**
-     * @var MenuScreensConditionType
-     */
-    private $formType;
-
-    /**
-     * @var ScreensProviderInterface
-     */
+    /** @var ScreensProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $screensProvider;
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp()
+    /** @var MenuScreensConditionType */
+    private $formType;
+
+    protected function setUp(): void
     {
         $this->screensProvider = $this->createMock(ScreensProviderInterface::class);
+
         $this->formType = new MenuScreensConditionType($this->screensProvider);
 
         parent::setUp();
     }
-
 
     /**
      * {@inheritDoc}
@@ -83,7 +69,7 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
 
     public function testGetBlockPrefix()
     {
-        static::assertEquals('oro_commerce_menu_screens_condition', $this->formType->getBlockPrefix());
+        self::assertEquals('oro_commerce_menu_screens_condition', $this->formType->getBlockPrefix());
     }
 
     public function testConfigureOptions()
@@ -100,13 +86,12 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
             'required' => false,
         ];
 
-        static::assertEquals($expectedOptions, $actualOptions);
+        self::assertEquals($expectedOptions, $actualOptions);
     }
 
     private function mockScreensProvider()
     {
-        $this->screensProvider
-            ->expects(static::once())
+        $this->screensProvider->expects(self::once())
             ->method('getScreens')
             ->willReturn(self::SCREENS_CONFIG);
     }

@@ -1,0 +1,9 @@
+data:
+    type: customerusers
+    id: 'mine'
+    relationships:
+        userRoles:
+            data:
+                -
+                    type: customeruserroles
+                    id: '<toString(@ROLE_FRONTEND_ADMINISTRATOR->id)>'

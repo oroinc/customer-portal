@@ -94,21 +94,6 @@ oro_customer_user_password_reset:
     options:
         frontend: true
 
-oro_customer_bundle_api:
-    resource:     "@OroCustomerBundle/Resources/config/oro/routing_api.yml"
-    prefix:       api/rest/{version}/
-    requirements:
-        version:  latest|v1
-        _format:  json
-    defaults:
-        version:  latest
-
-oro_customer_pinbar_help:
-    path: /pinbar/help
-    defaults: { _controller: FrameworkBundle:Template:template, template: "OroNavigationBundle:Pinbar:help.html.twig" }
-    options:
-        frontend: true
-
 oro_customer_frontend_customer_user_role:
     resource: "@OroCustomerBundle/Controller/Frontend/CustomerUserRoleController.php"
     type:     annotation
@@ -119,7 +104,7 @@ oro_customer_frontend_customer_user_role:
 oro_customer_frontend_acl_access_levels:
     path: /customer/roles/acl-access-levels/{oid}
     defaults:
-        _controller: OroCustomerBundle:AclPermission:aclAccessLevels
+        _controller: Oro\Bundle\CustomerBundle\Controller\AclPermissionController::aclAccessLevelsAction
         _format: json
     requirements:
         oid: '\w+:[\w\(\)]+'
@@ -128,33 +113,43 @@ oro_customer_frontend_acl_access_levels:
 
 oro_frontend_autocomplete_search:
     path: /autocomplete/search
-    defaults: { _controller: OroFormBundle:Autocomplete:search }
+    defaults: { _controller: Oro\Bundle\FormBundle\Controller\AutocompleteController::searchAction }
     options:
         frontend: true
 
 oro_customer_frontend_entity_pagination_first:
     path: /entity-pagination/first/{_entityName}/{_scope}/{_routeName}"
-    defaults: { _controller: OroEntityPaginationBundle:EntityPagination:first }
+    defaults: { _controller: Oro\Bundle\EntityPaginationBundle\Controller\EntityPaginationController::firstAction }
     options:
         frontend: true
 
 oro_customer_frontend_entity_pagination_previous:
     path: /entity-pagination/previous/{_entityName}/{_scope}/{_routeName}"
-    defaults: { _controller: OroEntityPaginationBundle:EntityPagination:previous }
+    defaults: { _controller: Oro\Bundle\EntityPaginationBundle\Controller\EntityPaginationController::previousAction }
     options:
         frontend: true
 
 oro_customer_frontend_entity_pagination_next:
     path: /entity-pagination/next/{_entityName}/{_scope}/{_routeName}"
-    defaults: { _controller: OroEntityPaginationBundle:EntityPagination:next }
+    defaults: { _controller: Oro\Bundle\EntityPaginationBundle\Controller\EntityPaginationController::nextAction }
     options:
         frontend: true
 
 oro_customer_frontend_entity_pagination_last:
     path: /entity-pagination/last/{_entityName}/{_scope}/{_routeName}"
-    defaults: { _controller: OroEntityPaginationBundle:EntityPagination:last }
+    defaults: { _controller: Oro\Bundle\EntityPaginationBundle\Controller\EntityPaginationController::lastAction }
     options:
         frontend: true
+
+oro_customer_config:
+    resource:     "@OroCustomerBundle/Controller/CustomerConfigurationController.php"
+    type:         annotation
+    prefix:       /config
+
+oro_customer_group_config:
+    resource:     "@OroCustomerBundle/Controller/CustomerGroupConfigurationController.php"
+    type:         annotation
+    prefix:       /config
 
 # Disabled as per BAP-9497.
 #oro_customer_audit:
@@ -162,3 +157,670 @@ oro_customer_frontend_entity_pagination_last:
 #    type:         annotation
 #    options:
 #        frontend: true
+
+
+#
+# OLD REST API ROUTES
+#
+
+oro_api_customer_get_commercecustomer_address:
+    path: '/api/rest/{version}/commercecustomers/{entityId}/addresses/{addressId}.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Api\Rest\CommerceCustomerAddressController::getAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        addressId: \d+
+        _format: json
+        version: latest|v1
+
+oro_api_customer_get_commercecustomer_addresses:
+    path: '/api/rest/{version}/commercecustomers/{entityId}/addresses.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Api\Rest\CommerceCustomerAddressController::cgetAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        _format: json
+        version: latest|v1
+
+oro_api_customer_delete_commercecustomer_address:
+    path: '/api/rest/{version}/commercecustomers/{entityId}/addresses/{addressId}.{_format}'
+    methods: [DELETE]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Api\Rest\CommerceCustomerAddressController::deleteAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        addressId: \d+
+        _format: json
+        version: latest|v1
+
+oro_api_customer_get_commercecustomer_address_by_type:
+    path: '/api/rest/{version}/commercecustomers/{entityId}/addresses/{typeName}/by/type.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Api\Rest\CommerceCustomerAddressController::getByTypeAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        _format: json
+        version: latest|v1
+
+oro_api_customer_get_commercecustomer_address_primary:
+    path: '/api/rest/{version}/commercecustomers/{entityId}/address/primary.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Api\Rest\CommerceCustomerAddressController::getPrimaryAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        _format: json
+        version: latest|v1
+
+oro_api_customer_get_customeruser_address:
+    path: '/api/rest/{version}/customerusers/{entityId}/addresses/{addressId}.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Api\Rest\CustomerUserAddressController::getAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        addressId: \d+
+        _format: json
+        version: latest|v1
+
+oro_api_customer_get_customeruser_addresses:
+    path: '/api/rest/{version}/customerusers/{entityId}/addresses.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Api\Rest\CustomerUserAddressController::cgetAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        _format: json
+        version: latest|v1
+
+oro_api_customer_delete_customeruser_address:
+    path: '/api/rest/{version}/customerusers/{entityId}/addresses/{addressId}.{_format}'
+    methods: [DELETE]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Api\Rest\CustomerUserAddressController::deleteAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        addressId: \d+
+        _format: json
+        version: latest|v1
+
+oro_api_customer_get_customeruser_address_by_type:
+    path: '/api/rest/{version}/customerusers/{entityId}/addresses/{typeName}/by/type.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Api\Rest\CustomerUserAddressController::getByTypeAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        _format: json
+        version: latest|v1
+
+oro_api_customer_get_customeruser_address_primary:
+    path: '/api/rest/{version}/customerusers/{entityId}/address/primary.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Api\Rest\CustomerUserAddressController::getPrimaryAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        _format: json
+        version: latest|v1
+
+oro_api_customer_frontend_get_customeruser_address:
+    path: '/api/rest/{version}/customerusers/{entityId}/addresses/{addressId}.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerUserAddressController::getAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        addressId: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_customer_frontend_get_customeruser_addresses:
+    path: '/api/rest/{version}/customerusers/{entityId}/addresses.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerUserAddressController::cgetAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_customer_frontend_delete_customeruser_address:
+    path: '/api/rest/{version}/customerusers/{entityId}/addresses/{addressId}.{_format}'
+    methods: [DELETE]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerUserAddressController::deleteAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        addressId: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_customer_frontend_get_customeruser_address_by_type:
+    path: '/api/rest/{version}/customerusers/{entityId}/addresses/{typeName}/by/type.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerUserAddressController::getByTypeAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_customer_frontend_get_customeruser_address_primary:
+    path: '/api/rest/{version}/customerusers/{entityId}/address/primary.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerUserAddressController::getPrimaryAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_customer_frontend_get_customer_address:
+    path: '/api/rest/{version}/customers/{entityId}/addresses/{addressId}.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerAddressController::getAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        addressId: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_customer_frontend_get_customer_addresses:
+    path: '/api/rest/{version}/customers/{entityId}/addresses.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerAddressController::cgetAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_customer_frontend_delete_customer_address:
+    path: '/api/rest/{version}/customers/{entityId}/addresses/{addressId}.{_format}'
+    methods: [DELETE]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerAddressController::deleteAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        addressId: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_customer_frontend_get_customer_address_by_type:
+    path: '/api/rest/{version}/customers/{entityId}/addresses/{typeName}/by/type.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerAddressController::getByTypeAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_customer_frontend_get_customer_address_primary:
+    path: '/api/rest/{version}/customers/{entityId}/address/primary.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\CustomerAddressController::getPrimaryAction'
+        _format: json
+        version: latest
+    requirements:
+        entityId: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_get_navigationitems:
+    path: '/api/rest/{version}/navigationitems/{type}.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\NavigationItemController::getAction'
+        _format: json
+        version: latest
+    requirements:
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_post_navigationitems:
+    path: '/api/rest/{version}/navigationitems/{type}.{_format}'
+    methods: [POST]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\NavigationItemController::postAction'
+        _format: json
+        version: latest
+    requirements:
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_put_navigationitems_id:
+    path: '/api/rest/{version}/navigationitems/{type}/ids/{itemId}.{_format}'
+    methods: [PUT]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\NavigationItemController::putIdAction'
+        _format: json
+        version: latest
+    requirements:
+        itemId: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_delete_navigationitems_id:
+    path: '/api/rest/{version}/navigationitems/{type}/ids/{itemId}.{_format}'
+    methods: [DELETE]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\NavigationItemController::deleteIdAction'
+        _format: json
+        version: latest
+    requirements:
+        itemId: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_get_sidebars:
+    path: '/api/rest/{version}/sidebars/{position}.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\SidebarController::getAction'
+        _format: json
+        version: latest
+    requirements:
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_post_sidebars:
+    path: '/api/rest/{version}/sidebars.{_format}'
+    methods: [POST]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\SidebarController::postAction'
+        _format: json
+        version: latest
+    requirements:
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_put_sidebars:
+    path: '/api/rest/{version}/sidebars/{stateId}.{_format}'
+    methods: [PUT]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\SidebarController::putAction'
+        _format: json
+        version: latest
+    requirements:
+        stateId: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_cget_sidebarwidgets:
+    path: '/api/rest/{version}/sidebarwidgets/{placement}.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\WidgetController::cgetAction'
+        _format: json
+        version: latest
+    requirements:
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_get_sidebarwidgets:
+    path: '/api/rest/{version}/sidebarwidgets/{placement}.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\WidgetController::cgetAction'
+        _format: json
+        version: latest
+    requirements:
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_post_sidebarwidgets:
+    path: '/api/rest/{version}/sidebarwidgets.{_format}'
+    methods: [POST]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\WidgetController::postAction'
+        _format: json
+        version: latest
+    requirements:
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_put_sidebarwidgets:
+    path: '/api/rest/{version}/sidebarwidgets/{widgetId}.{_format}'
+    methods: [PUT]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\WidgetController::putAction'
+        _format: json
+        version: latest
+    requirements:
+        widgetId: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_delete_sidebarwidgets:
+    path: '/api/rest/{version}/sidebarwidgets/{widgetId}.{_format}'
+    methods: [DELETE]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\WidgetController::deleteAction'
+        _format: json
+        version: latest
+    requirements:
+        widgetId: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_get_pagestates:
+    path: '/api/rest/{version}/pagestates.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\PagestateController::cgetAction'
+        _format: json
+        version: latest
+    requirements:
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_get_pagestate:
+    path: '/api/rest/{version}/pagestates/{id}.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\PagestateController::getAction'
+        _format: json
+        version: latest
+    requirements:
+        id: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_post_pagestate:
+    path: '/api/rest/{version}/pagestates.{_format}'
+    methods: [POST]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\PagestateController::postAction'
+        _format: json
+        version: latest
+    requirements:
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_put_pagestate:
+    path: '/api/rest/{version}/pagestates/{id}.{_format}'
+    methods: [PUT]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\PagestateController::putAction'
+        _format: json
+        version: latest
+    requirements:
+        id: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_delete_pagestate:
+    path: '/api/rest/{version}/pagestates/{id}.{_format}'
+    methods: [DELETE]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\PagestateController::deleteAction'
+        _format: json
+        version: latest
+    requirements:
+        id: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_get_pagestate_checkid:
+    path: '/api/rest/{version}/pagestate/checkid.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\PagestateController::getCheckidAction'
+        _format: json
+        version: latest
+    requirements:
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_country_get_regions:
+    path: '/api/rest/{version}/country/regions/{country}.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\AddressBundle\Controller\Api\Rest\CountryRegionsController::getAction'
+        _format: json
+        version: latest
+    requirements:
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_patch_entity_data:
+    path: '/api/rest/{version}/entity_data/{className}/{id}.{_format}'
+    methods: [PATCH]
+    defaults:
+        _controller: 'Oro\Bundle\EntityBundle\Controller\Api\Rest\EntityDataController::patchAction'
+        _format: json
+        version: latest
+    requirements:
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_customer_cget_windows:
+    path: '/api/rest/{version}/windows.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\WindowsBundle\Controller\Api\WindowsStateController::cgetAction'
+        _format: json
+        version: latest
+    requirements:
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_customer_get_windows:
+    path: '/api/rest/{version}/windows.{_format}'
+    methods: [GET]
+    defaults:
+        _controller: 'Oro\Bundle\WindowsBundle\Controller\Api\WindowsStateController::cgetAction'
+        _format: json
+        version: latest
+    requirements:
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_customer_post_windows:
+    path: '/api/rest/{version}/windows.{_format}'
+    methods: [POST]
+    defaults:
+        _controller: 'Oro\Bundle\WindowsBundle\Controller\Api\WindowsStateController::postAction'
+        _format: json
+        version: latest
+    requirements:
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_customer_put_windows:
+    path: '/api/rest/{version}/windows/{windowId}.{_format}'
+    methods: [PUT]
+    defaults:
+        _controller: 'Oro\Bundle\WindowsBundle\Controller\Api\WindowsStateController::putAction'
+        _format: json
+        version: latest
+    requirements:
+        windowId: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_customer_delete_windows:
+    path: '/api/rest/{version}/windows/{windowId}.{_format}'
+    methods: [DELETE]
+    defaults:
+        _controller: 'Oro\Bundle\WindowsBundle\Controller\Api\WindowsStateController::deleteAction'
+        _format: json
+        version: latest
+    requirements:
+        windowId: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_datagrid_gridview_post:
+    path: '/api/rest/{version}/gridviews.{_format}'
+    methods: [POST]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\GridViewController::postAction'
+        _format: json
+        version: latest
+    requirements:
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_datagrid_gridview_put:
+    path: '/api/rest/{version}/gridviews/{id}.{_format}'
+    methods: [PUT]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\GridViewController::putAction'
+        _format: json
+        version: latest
+    requirements:
+        id: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_datagrid_gridview_delete:
+    path: '/api/rest/{version}/gridviews/{id}.{_format}'
+    methods: [DELETE]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\GridViewController::deleteAction'
+        _format: json
+        version: latest
+    requirements:
+        id: \d+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true
+
+oro_api_frontend_datagrid_gridview_default:
+    path: '/api/rest/{version}/gridviews/{id}/default/{default}/gridName/{gridName}.{_format}'
+    methods: [POST]
+    defaults:
+        _controller: 'Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\GridViewController::defaultAction'
+        default: false
+        gridName: null
+        _format: json
+        version: latest
+    requirements:
+        id: .+
+        default: \d+
+        grid_name: .+
+        _format: json
+        version: latest|v1
+    options:
+        frontend: true

@@ -2,17 +2,16 @@
 
 namespace Oro\Bundle\FrontendBundle\GuestAccess;
 
+/**
+ * Represents a service that is used to decide whether an access is granted or not for a guest to a specific URL.
+ */
 interface GuestAccessDecisionMakerInterface
 {
-    const URL_ALLOW = 1;
-    const URL_DISALLOW = 2;
+    public const URL_ALLOW = 1;
+    public const URL_DISALLOW = 2;
 
     /**
-     * Detects whether a given url is allowed or disallowed.
-     *
-     * @param string $url
-     *
-     * @return bool
+     * Detects whether an access is granted or not for the given URL.
      */
-    public function decide($url);
+    public function decide(string $url): int;
 }

@@ -2,7 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Layout\DataProvider;
 
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRegistrationType;
@@ -10,7 +11,6 @@ use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRegistrati
 use Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Stub\WebsiteStub;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\UserBundle\Entity\UserManager;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\Unit\EntityTrait;
@@ -24,36 +24,37 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
     use EntityTrait;
 
     /** @var FrontendCustomerUserRegistrationFormProvider */
-    protected $dataProvider;
+    private $dataProvider;
 
     /** @var FormFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $formFactory;
+    private $formFactory;
 
-    /** @var ObjectRepository|\PHPUnit\Framework\MockObject\MockObject */
-    protected $userRepository;
+    /** @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $em;
 
     /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    protected $configManager;
+    private $configManager;
 
     /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    protected $websiteManager;
+    private $websiteManager;
 
     /** @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $router;
+    private $router;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->formFactory = $this->createMock(FormFactoryInterface::class);
 
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);
 
-        $this->userRepository = $this->createMock(ObjectRepository::class);
+        $this->em = $this->createMock(EntityManagerInterface::class);
 
-        $userManager = $this->createMock(UserManager::class);
-        $userManager->expects($this->any())
-            ->method('getRepository')
-            ->willReturn($this->userRepository);
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $doctrine->expects($this->any())
+            ->method('getManagerForClass')
+            ->with(User::class)
+            ->willReturn($this->em);
 
         $this->router = $this->createMock(UrlGeneratorInterface::class);
 
@@ -61,7 +62,7 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
             $this->formFactory,
             $this->configManager,
             $this->websiteManager,
-            $userManager,
+            $doctrine,
             $this->router
         );
     }
@@ -71,7 +72,7 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $action = 'form_action';
 
         $defaultOwnerId = 1;
-        $defaultRole = new CustomerUserRole();
+        $defaultRole = new CustomerUserRole('');
 
         $organization = $this->getEntity(Organization::class);
         $website = $this->getEntity(WebsiteStub::class, ['organization' => $organization]);
@@ -91,12 +92,11 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $this->assertInstanceOf(FormView::class, $actual);
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Application Owner is empty
-     */
     public function testGetRegisterFormViewOwnerEmpty()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Application Owner is empty');
+
         $defaultOwnerId = false;
 
         $this->prepare($defaultOwnerId);
@@ -104,12 +104,11 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $this->dataProvider->getRegisterFormView();
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Website is empty
-     */
     public function testGetRegisterFormViewWebsiteEmpty()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Website is empty');
+
         $defaultOwnerId = 1;
         $website = false;
 
@@ -118,12 +117,11 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $this->dataProvider->getRegisterFormView();
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Website organization is empty
-     */
     public function testGetRegisterFormViewOrganizationEmpty()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Website organization is empty');
+
         $defaultOwnerId = 1;
         $website = $this->getEntity(WebsiteStub::class);
 
@@ -132,12 +130,11 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $this->dataProvider->getRegisterFormView();
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Role "ROLE_USER" was not found
-     */
     public function testGetRegisterFormViewEmptyRole()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Role "ROLE_USER" was not found');
+
         $defaultOwnerId = 1;
         $defaultRole = false;
         $organization = $this->getEntity(Organization::class);
@@ -153,7 +150,7 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $action = 'form_action';
 
         $defaultOwnerId = 1;
-        $defaultRole = new CustomerUserRole();
+        $defaultRole = new CustomerUserRole('');
 
         $organization = $this->getEntity(Organization::class);
         $website = $this->getEntity(WebsiteStub::class, ['organization' => $organization]);
@@ -168,12 +165,11 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $this->assertInstanceOf(FormInterface::class, $actual);
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Application Owner is empty
-     */
     public function testGetRegisterFormOwnerEmpty()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Application Owner is empty');
+
         $defaultOwnerId = false;
 
         $this->prepare($defaultOwnerId);
@@ -181,12 +177,11 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $this->dataProvider->getRegisterForm();
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Website is empty
-     */
     public function testGetRegisterFormWebsiteEmpty()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Website is empty');
+
         $defaultOwnerId = 1;
         $website = false;
 
@@ -195,12 +190,11 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $this->dataProvider->getRegisterForm();
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Website organization is empty
-     */
     public function testGetRegisterFormOrganizationEmpty()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Website organization is empty');
+
         $defaultOwnerId = 1;
         $website = $this->getEntity(WebsiteStub::class);
 
@@ -209,12 +203,11 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $this->dataProvider->getRegisterForm();
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Role "ROLE_USER" was not found
-     */
     public function testGetRegisterFormEmptyRole()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Role "ROLE_USER" was not found');
+
         $defaultOwnerId = 1;
         $defaultRole = false;
         $organization = $this->getEntity(Organization::class);
@@ -233,7 +226,7 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
      * @param string $routerAction
      * @param User $owner
      */
-    protected function prepare(
+    private function prepare(
         $defaultOwnerId,
         $website = null,
         $defaultRole = null,
@@ -254,10 +247,9 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
     /**
      * @param int $ownerId
      */
-    protected function configureDefaultOwner($ownerId)
+    private function configureDefaultOwner($ownerId)
     {
-        $this->configManager
-            ->expects($this->once())
+        $this->configManager->expects($this->once())
             ->method('get')
             ->with('oro_customer.default_customer_owner')
             ->willReturn($ownerId);
@@ -266,15 +258,13 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
     /**
      * @param Website|bool|null $website
      */
-    protected function configureCurrentWebsite($website = null)
+    private function configureCurrentWebsite($website = null)
     {
         if ($website === null) {
-            $this->websiteManager
-                ->expects($this->never())
+            $this->websiteManager->expects($this->never())
                 ->method('getCurrentWebsite');
         } else {
-            $this->websiteManager
-                ->expects($this->once())
+            $this->websiteManager->expects($this->once())
                 ->method('getCurrentWebsite')
                 ->willReturn($website);
         }
@@ -284,33 +274,26 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
      * @param User|null $owner
      * @param int|null $ownerId
      */
-    protected function configureUserRepoFind(User $owner = null, $ownerId = null)
+    private function configureUserRepoFind(User $owner = null, $ownerId = null)
     {
         if ($owner === null) {
-            $this->userRepository
-                ->expects($this->never())
+            $this->em->expects($this->never())
                 ->method('find');
         } else {
-            $this->userRepository
-                ->expects($this->once())
+            $this->em->expects($this->once())
                 ->method('find')
-                ->with($ownerId)
+                ->with(User::class, $ownerId)
                 ->willReturn($owner);
         }
     }
 
-    /**
-     * @param FormInterface|null $formToCreate
-     */
-    protected function configureCreateForm(FormInterface $formToCreate = null)
+    private function configureCreateForm(FormInterface $formToCreate = null)
     {
         if ($formToCreate === null) {
-            $this->formFactory
-                ->expects($this->never())
+            $this->formFactory->expects($this->never())
                 ->method('create');
         } else {
-            $this->formFactory
-                ->expects($this->once())
+            $this->formFactory->expects($this->once())
                 ->method('create')
                 ->with(FrontendCustomerUserRegistrationType::class)
                 ->willReturn($formToCreate);
@@ -320,15 +303,13 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
     /**
      * @param string|null $action
      */
-    protected function configureRouterGenerator($action = null)
+    private function configureRouterGenerator($action = null)
     {
         if ($action === null) {
-            $this->router
-                ->expects($this->never())
+            $this->router->expects($this->never())
                 ->method('generate');
         } else {
-            $this->router
-                ->expects($this->once())
+            $this->router->expects($this->once())
                 ->method('generate')
                 ->with(FrontendCustomerUserRegistrationFormProvider::ACCOUNT_USER_REGISTER_ROUTE_NAME, [])
                 ->willReturn($action);

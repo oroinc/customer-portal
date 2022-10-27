@@ -1,7 +1,80 @@
-{% extends 'OroNavigationBundle:menuUpdate:update.html.twig' %}
+{% extends '@OroNavigation/menuUpdate/update.html.twig' %}
 
 {% set deletedMessage = 'oro.commercemenu.menuupdate.deleted_message' %}
 {% set hiddenMessage = 'oro.commercemenu.menuupdate.hide_success_message' %}
 {% set showedMessage = 'oro.commercemenu.menuupdate.show_success_message' %}
 {% set movedMessage = 'oro.commercemenu.menuupdate.moved_success_message' %}
 {% set dividerCreatedMessage = 'oro.commercemenu.menuupdate.divider_created' %}
+
+{% block content_column %}
+    {% set id = 'menu-update-edit' %}
+
+    {% set targetFields %}
+        {% if form.targetType is defined %}
+            {% import '@OroUI/macros.html.twig' as UI %}
+            <div data-role="target-fields" class="control-group-container" {{ UI.renderPageComponentAttributes({
+                'view': 'orocommercemenu/js/app/views/target-fields-view',
+                'options': {
+                    'targetTypeField': form.targetType.vars.full_name,
+                    'contentNodeField': '[data-role="content-node-field"]',
+                    'systemPageField': '[data-role="system-page-field"]',
+                    'uriField': '[data-role="uri-field"]'
+                }
+            }) }}>
+                {{ form_row(form.targetType) }}
+                <div data-role="content-node-field" {{ UI.renderPageComponentAttributes({
+                    'view': 'orowebcatalog/js/app/views/content-node-from-webcatalog-view',
+                    'options': {
+                        'listenedFieldName': form.webCatalog.vars.full_name,
+                        'triggeredFieldName': form.contentNode.vars.full_name
+                    }
+                }) }}>
+                    {{ form_row(form.webCatalog) }}
+                    {{ form_row(form.contentNode) }}
+                </div>
+                <div data-role="system-page-field" class="control-group-container">
+                    {{ form_row(form.systemPageRoute) }}
+                </div>
+                <div data-role="uri-field" class="control-group-container">
+                    {{ form_row(form.uri) }}
+                </div>
+            </div>
+        {% else %}
+            {{ form_row(form.uri) }}
+        {% endif %}
+    {% endset %}
+
+    {% set dataBlocks = [] %}
+    {% if entity.isDivider == false %}
+        {% set dataBlocks = dataBlocks|merge([{
+            'title': 'General Information'|trans,
+            'class': 'active',
+            'subblocks': [
+                {
+                    'title': '',
+                    'data': [
+                    form_row(form.titles),
+                    targetFields,
+                    form.aclResourceId is defined ? form_row(form.aclResourceId) : null,
+                    form_row(form.icon),
+                    form_row(form.descriptions),
+                    form_row(form.menuUserAgentConditions),
+                    form_row(form.screens),
+                    form_row(form.condition),
+                    form_row(form.linkTarget),
+                    form_row(form.image)
+                ]
+                }
+            ]
+        }]) %}
+    {% endif %}
+
+    {% set dataBlocks = dataBlocks|merge(oro_form_additional_data(form, 'Additional'|trans)) %}
+
+    {% set data = {
+        'formErrors': form_errors(form)? form_errors(form) : null,
+        'dataBlocks': dataBlocks,
+    } %}
+
+    {{ block('content_data', '@OroUI/actions/update.html.twig') }}
+{% endblock %}

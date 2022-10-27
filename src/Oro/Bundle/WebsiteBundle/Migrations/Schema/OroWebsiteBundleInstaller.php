@@ -53,7 +53,7 @@ class OroWebsiteBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_6';
+        return 'v1_7';
     }
 
     /**
@@ -75,8 +75,6 @@ class OroWebsiteBundleInstaller implements
 
     /**
      * Create oro_related_website table
-     *
-     * @param Schema $schema
      */
     protected function createOroRelatedWebsiteTable(Schema $schema)
     {
@@ -88,8 +86,6 @@ class OroWebsiteBundleInstaller implements
 
     /**
      * Create oro_website table
-     *
-     * @param Schema $schema
      */
     protected function createOroWebsiteTable(Schema $schema)
     {
@@ -104,15 +100,13 @@ class OroWebsiteBundleInstaller implements
 
         $table->setPrimaryKey(['id']);
 
-        $table->addUniqueIndex(['name']);
+        $table->addUniqueIndex(['name', 'organization_id'], 'uidx_oro_website_name_organization');
         $table->addIndex(['created_at'], 'idx_oro_website_created_at', []);
         $table->addIndex(['updated_at'], 'idx_oro_website_updated_at', []);
     }
 
     /**
      * Add oro_related_website foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroRelatedWebsiteForeignKeys(Schema $schema)
     {
@@ -133,8 +127,6 @@ class OroWebsiteBundleInstaller implements
 
     /**
      * Add oro_website foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroWebsiteForeignKeys(Schema $schema)
     {
@@ -153,17 +145,11 @@ class OroWebsiteBundleInstaller implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addNoteAssociations(Schema $schema)
     {
         $this->activityExtension->addActivityAssociation($schema, 'oro_note', self::WEBSITE_TABLE_NAME);
     }
 
-    /**
-     * @param Schema $schema
-     */
     private function addRelationsToScope(Schema $schema)
     {
         $this->scopeExtension->addScopeAssociation(

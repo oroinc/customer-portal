@@ -17,6 +17,9 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 
+/**
+ * Base class for the CustomerUserRole form type.
+ */
 abstract class AbstractCustomerUserRoleType extends AbstractType
 {
     /**
@@ -44,7 +47,7 @@ abstract class AbstractCustomerUserRoleType extends AbstractType
                 [
                     'label' => 'oro.customer.customeruserrole.role.label',
                     'required' => true,
-                    'constraints' => [new Length(['min' => 3, 'max' => 32])]
+                    'constraints' => [new Length(['min' => 3, 'max' => 32, 'allowEmptyString' => false])]
                 ]
             )
             ->add(

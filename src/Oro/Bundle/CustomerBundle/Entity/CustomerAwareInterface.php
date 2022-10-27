@@ -10,7 +10,6 @@ interface CustomerAwareInterface
     public function getCustomer();
 
     /**
-     *
      * @param Customer $account
      * @return $this
      */

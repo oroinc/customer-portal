@@ -90,6 +90,7 @@ Feature: Registration Instructions
     And go to System/ Websites
     And click "Set default" on row "NewSite" in grid
     And click "Configuration" on row "Default" in grid
+    And I follow "System Configuration/Websites/Routing" on configuration sidebar
     And I fill "Routing General form" with fictional website
     And submit form
     And I should see "Configuration saved" flash message
@@ -127,11 +128,13 @@ Feature: Registration Instructions
     And go to System/ Websites
     And click "Set default" on row "Default" in grid
     And click "Configuration" on row "Default" in grid
+    And I follow "System Configuration/Websites/Routing" on configuration sidebar
     And I fill "Routing General form" with actual website
     And submit form
     And I should see "Configuration saved" flash message
     And go to System/ Websites
     And click "Configuration" on row "NewSite" in grid
+    And I follow "System Configuration/Websites/Routing" on configuration sidebar
     And I fill "Routing General form" with fictional website
     And submit form
     And I should see "Configuration saved" flash message
@@ -143,11 +146,13 @@ Feature: Registration Instructions
     And go to System/ Websites
     And click "Set default" on row "NewSite" in grid
     And click "Configuration" on row "Default" in grid
+    And I follow "System Configuration/Websites/Routing" on configuration sidebar
     And I fill "Routing General form" with fictional website
     And submit form
     And I should see "Configuration saved" flash message
     And go to System/ Websites
     And click "Configuration" on row "NewSite" in grid
+    And I follow "System Configuration/Websites/Routing" on configuration sidebar
     And I fill "Routing General form" with actual website
     And submit form
     And I should see "Configuration saved" flash message

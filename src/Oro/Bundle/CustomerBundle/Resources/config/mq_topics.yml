@@ -1,0 +1,10 @@
+services:
+    _instanceof:
+        Oro\Component\MessageQueue\Topic\TopicInterface:
+            tags:
+                - { name: oro_message_queue.topic }
+
+    Oro\Bundle\CustomerBundle\Migrations\Schema\v1_14\ClearLostCustomerUsersTopic: ~
+
+    Oro\Bundle\CustomerBundle\Async\Topic\CustomerCalculateOwnerTreeCacheTopic: ~
+    Oro\Bundle\CustomerBundle\Async\Topic\CustomerCalculateOwnerTreeCacheByBusinessUnitTopic: ~

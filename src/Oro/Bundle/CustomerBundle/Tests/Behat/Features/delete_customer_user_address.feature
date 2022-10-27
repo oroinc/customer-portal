@@ -1,6 +1,8 @@
 @fixture-OroCustomerBundle:CustomerUserAddressFixture.yml
 Feature: Delete customer user address
-  ToDo: BAP-16103 Add missing descriptions to the Behat features
+  As an Administrator
+  I want to be sure that customer user address could be deleted from admin panel
+  So I delete customer user address
 
   Scenario: Delete customer user default address
     Given I login as administrator

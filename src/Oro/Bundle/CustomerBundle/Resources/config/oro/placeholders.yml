@@ -14,14 +14,6 @@ placeholders:
             items:
                 customer_dots_menu:
                     order: 100
-        pin_tabs_list:
-            items:
-                customer_pin_tabs_list:
-                    order: 100
-        pin_button:
-            items:
-                customer_pin_button:
-                    order: 100
         right_panel:
             items:
                 frontend_sidebar:
@@ -46,52 +38,51 @@ placeholders:
                 entity_pagination_frontend_edit:
                     order: 100
 
+        view_navButtons_before:
+            items:
+                customer_config_button: ~
+                customer_group_config_button: ~
+
 # Disabled as per BAP-9497
 #        change_history_block:
 #            items:
 #                frontend_change_history_link: ~
 
-        scripts_after:
-            items:
-                frontend_window_bundle_js:
-                    order: 200
     items:
         frontend_menu:
-            template: OroCustomerBundle:Menu:frontendMenu.html.twig
+            template: '@@OroCustomer/Menu/frontendMenu.html.twig'
             applicable: "@oro_customer.placeholder.filter->isFrontendApplicable()"
         customer_user_login:
-            template: OroCustomerBundle:Menu:menuLogin.html.twig
+            template: '@@OroCustomer/Menu/menuLogin.html.twig'
             applicable: "@oro_customer.placeholder.filter->isLoginRequired()"
         customer_menu_user:
-            template: OroCustomerBundle:Menu:menuProfile.html.twig
+            template: '@@OroCustomer/Menu/menuProfile.html.twig'
             applicable: "@oro_customer.placeholder.filter->isUserApplicable()"
         customer_dots_menu:
-            template: OroCustomerBundle:ApplicationMenu:dotsMenu.html.twig
-            applicable: "@oro_customer.placeholder.filter->isUserApplicable()"
-        customer_pin_tabs_list:
-            template: OroCustomerBundle:Menu:pinTabsList.html.twig
-            applicable: "@oro_customer.placeholder.filter->isUserApplicable()"
-        customer_pin_button:
-            template: OroCustomerBundle:ApplicationMenu:pinButton.html.twig
+            template: '@@OroCustomer/ApplicationMenu/dotsMenu.html.twig'
             applicable: "@oro_customer.placeholder.filter->isUserApplicable()"
         frontend_sidebar:
-            template: OroCustomerBundle:Sidebar:sidebar.html.twig
+            template: '@@OroCustomer/Sidebar/sidebar.html.twig'
             applicable: "@oro_customer.placeholder.filter->isUserApplicable()"
         page_state_routes:
-            template: OroCustomerBundle:Pagestate:pagestate.html.twig
+            template: '@@OroCustomer/Pagestate/pagestate.html.twig'
             applicable: "@oro_customer.placeholder.filter->isUserApplicable()"
         entity_pagination_frontend_view:
-            template: OroCustomerBundle:EntityPagination:viewPagination.html.twig
+            template: '@@OroCustomer/EntityPagination/viewPagination.html.twig'
             applicable: "@oro_customer.placeholder.filter->isUserApplicable()"
         entity_pagination_frontend_edit:
-            template: OroCustomerBundle:EntityPagination:editPagination.html.twig
+            template: '@@OroCustomer/EntityPagination/editPagination.html.twig'
             applicable: "@oro_customer.placeholder.filter->isUserApplicable()"
-        frontend_window_bundle_js:
-            template: OroCustomerBundle:Windows:javascript.html.twig
-            applicable: "@oro_frontend.placeholder.filter->isFrontendRoute()"
+        customer_config_button:
+            template: '@@OroCustomer/CustomerConfiguration/button.html.twig'
+            applicable: "@oro_customer.placeholder.filter->isCustomerPage($entity$)"
+        customer_group_config_button:
+            template: '@@OroCustomer/CustomerGroupConfiguration/button.html.twig'
+            applicable: "@oro_customer.placeholder.filter->isCustomerGroupPage($entity$)"
+
 # Disabled as per BAP-9497
 #        frontend_change_history_link:
-#            template: OroCustomerBundle:DataAudit:change_history_link.html.twig
+#            template: '@@OroCustomer/DataAudit/change_history_link.html.twig'
 #            applicable:
 #                - "@oro_dataaudit.placeholder.filter->isEntityAuditable($entity$, $audit_show_change_history$)"
 #                - "@oro_customer.placeholder.filter->isUserApplicable()"

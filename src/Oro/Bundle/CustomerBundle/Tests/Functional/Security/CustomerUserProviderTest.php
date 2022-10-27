@@ -14,10 +14,7 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
  */
 class CustomerUserProviderTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient(
             [],
@@ -41,7 +38,7 @@ class CustomerUserProviderTest extends WebTestCase
         $roleName = 'DENIED';
         $role = new CustomerUserRole(CustomerUserRole::PREFIX_ROLE . $roleName);
         $role->setLabel($roleName);
-        $className = $this->getContainer()->getParameter('oro_customer.entity.customer_user_role.class');
+        $className = CustomerUserRole::class;
         $em = $this->getContainer()->get('doctrine')->getManagerForClass($className);
         $em->persist($role);
         $em->flush();
@@ -49,32 +46,28 @@ class CustomerUserProviderTest extends WebTestCase
         $this->assertRoleHasPermission($roleName, [false, false, false, false, false, false, false]);
     }
 
-    /**
-     * @param string $roleName
-     * @param array $expected
-     */
-    protected function assertRoleHasPermission($roleName, array $expected)
+    private function assertRoleHasPermission(string $roleName, array $expected): void
     {
-        $className = $this->getContainer()->getParameter('oro_customer.entity.customer_user_role.class');
+        $className = CustomerUserRole::class;
         $em = $this->getContainer()->get('doctrine')->getManagerForClass($className);
         $repository = $em->getRepository($className);
 
         $role = $repository->findOneBy(['role' => CustomerUserRole::PREFIX_ROLE . $roleName]);
         $this->assertNotEmpty($role);
 
-        /* @var $securityProvider CustomerUserProvider */
+        /* @var CustomerUserProvider $securityProvider */
         $securityProvider = $this->getContainer()->get('oro_customer.security.customer_user_provider');
 
         /** @var CustomerUser $user */
         $user = $securityProvider->getLoggedUser();
         $this->assertNotEmpty($user);
 
-        $user->setRoles([$role]);
+        $user->setUserRoles([$role]);
         $em->flush();
 
-        $userClassName = $this->getContainer()->getParameter('oro_customer.entity.customer_user.class');
+        $userClassName = CustomerUser::class;
 
-        list(
+        [
             $isGrantedViewCustomerUser,
             $isGrantedViewBasic,
             $isGrantedViewLocal,
@@ -82,7 +75,7 @@ class CustomerUserProviderTest extends WebTestCase
             $isGrantedViewSystem,
             $isGrantedEditBasic,
             $isGrantedEditLocal
-        ) = $expected;
+        ] = $expected;
 
         $this->assertEquals(
             $isGrantedViewCustomerUser,

@@ -1,13 +1,12 @@
 define(function(require) {
     'use strict';
 
-    var StickySidebarView;
-    var BaseView = require('oroui/js/app/views/base/view');
-    var mediator = require('oroui/js/mediator');
-    var _ = require('underscore');
-    var $ = require('jquery');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const mediator = require('oroui/js/mediator');
+    const _ = require('underscore');
+    const $ = require('jquery');
 
-    StickySidebarView = BaseView.extend({
+    const StickySidebarView = BaseView.extend({
         /**
          * @property
          */
@@ -32,38 +31,38 @@ define(function(require) {
         scrollTimeout: 60,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function StickySidebarView() {
-            StickySidebarView.__super__.constructor.apply(this, arguments);
+        constructor: function StickySidebarView(options) {
+            StickySidebarView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.$el.addClass(this.toggleClass);
             this.setPosition();
 
-            StickySidebarView.__super__.initialize.apply(this, arguments);
+            StickySidebarView.__super__.initialize.call(this, options);
         },
 
         getExcludeTargetHeight: function() {
             return this.excludeTarget ? this.excludeTarget.outerHeight() : 0;
         },
 
-        setElement: function() {
+        setElement: function(element) {
             this.$document = $(document);
 
             if (this.excludeTarget) {
                 this.excludeTarget = $(this.excludeTarget);
             }
 
-            return StickySidebarView.__super__.setElement.apply(this, arguments);
+            return StickySidebarView.__super__.setElement.call(this, element);
         },
 
         setPosition: function() {
-            var top = this.getExcludeTargetHeight() + this.offsetTop;
+            const top = this.getExcludeTargetHeight() + this.offsetTop;
             this.$el.css({
                 top: top,
                 maxHeight: 'calc(100vh - ' + (top + this.offsetBottom) + 'px)'
@@ -71,16 +70,16 @@ define(function(require) {
         },
 
         delegateListeners: function() {
-            StickySidebarView.__super__.delegateListeners.apply(this, arguments);
-            this.listenTo(mediator, 'layout:reposition', _.bind(this.setPosition, this));
+            StickySidebarView.__super__.delegateListeners.call(this);
+            this.listenTo(mediator, 'layout:reposition', this.setPosition.bind(this));
         },
 
-        delegateEvents: function() {
-            StickySidebarView.__super__.delegateEvents.apply(this, arguments);
+        delegateEvents: function(events) {
+            StickySidebarView.__super__.delegateEvents.call(this, events);
 
             this.$document.on(
                 'scroll' + this.eventNamespace(),
-                _.throttle(_.bind(this.setPosition, this), this.scrollTimeout)
+                _.throttle(this.setPosition.bind(this), this.scrollTimeout)
             );
 
             return this;
@@ -91,7 +90,7 @@ define(function(require) {
                 this.$document.off(this.eventNamespace());
             }
 
-            StickySidebarView.__super__.undelegateEvents.apply(this, arguments);
+            StickySidebarView.__super__.undelegateEvents.call(this);
         },
 
         dispose: function() {
@@ -106,7 +105,7 @@ define(function(require) {
                 });
 
             this.undelegateEvents();
-            return StickySidebarView.__super__.dispose.apply(this, arguments);
+            return StickySidebarView.__super__.dispose.call(this);
         }
     });
 

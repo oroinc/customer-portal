@@ -10,65 +10,44 @@ use Oro\Bundle\FrontendBundle\Provider\ScreensProviderInterface;
 
 class MenuScreensConditionBuilderTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @internal
-     */
-    const SCREEN_NAME = 'desktop';
-
-    /**
-     * @internal
-     */
-    const SCREEN = [
+    private const SCREEN_NAME = 'desktop';
+    private const SCREEN = [
         'label' => 'Desktop',
         'hidingCssClass' => 'sample-desktop-class',
     ];
 
-    /**
-     * @var ScreensProviderInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var ScreensProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $screensProvider;
 
-    /**
-     * @var MenuScreensConditionBuilder
-     */
+    /** @var MenuScreensConditionBuilder */
     private $builder;
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->screensProvider = $this->createMock(ScreensProviderInterface::class);
+
         $this->builder = new MenuScreensConditionBuilder($this->screensProvider);
     }
 
     /**
      * @dataProvider buildDataProvider
-     *
-     * @param array|null $screen
-     * @param array      $attributes
-     * @param array      $expectedAttributes
      */
-    public function testBuild($screen, array $attributes, array $expectedAttributes)
+    public function testBuild(?array $screen, array $attributes, array $expectedAttributes)
     {
-        $this->screensProvider
-            ->expects(static::atLeastOnce())
+        $this->screensProvider->expects(self::atLeastOnce())
             ->method('getScreen')
             ->with(self::SCREEN_NAME)
             ->willReturn($screen);
 
-        $mainMenu = $this->mockMenuAndChildren($attributes, ['screens' => [self::SCREEN_NAME]]);
+        $mainMenu = $this->getMenuAndChildren($attributes, ['screens' => [self::SCREEN_NAME]]);
 
         $this->builder->build($mainMenu);
 
-        $expectedMainMenu = $this->mockMenuAndChildren($expectedAttributes, ['screens' => [self::SCREEN_NAME]]);
-        static::assertEquals($expectedMainMenu, $mainMenu);
+        $expectedMainMenu = $this->getMenuAndChildren($expectedAttributes, ['screens' => [self::SCREEN_NAME]]);
+        self::assertEquals($expectedMainMenu, $mainMenu);
     }
 
-    /**
-     * @return array
-     */
-    public function buildDataProvider()
+    public function buildDataProvider(): array
     {
         return [
             'existing screen, existing attributes' => [
@@ -107,33 +86,28 @@ class MenuScreensConditionBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testBuildWhenNoScreensInExtras()
     {
-        $this->screensProvider
-            ->expects(static::never())
+        $this->screensProvider->expects(self::never())
             ->method('getScreen');
 
-        $mainMenu = $this->mockMenuAndChildren([], []);
+        $mainMenu = $this->getMenuAndChildren([], []);
 
         $this->builder->build($mainMenu);
 
-        $expectedMainMenu = $this->mockMenuAndChildren([], []);
-        static::assertEquals(
+        $expectedMainMenu = $this->getMenuAndChildren([], []);
+        self::assertEquals(
             $expectedMainMenu,
             $mainMenu,
             'Menu should not be changed when screens are not set in menu item'
         );
     }
 
-    /**
-     * @param string $menuName
-     * @param array  $attributes
-     * @param array  $extras
-     * @param array  $children
-     * @param bool   $isDisplayed
-     *
-     * @return ItemInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function mockMenuItem($menuName, array $attributes, array $extras, array $children, $isDisplayed)
-    {
+    private function getMenuItem(
+        string $menuName,
+        array $attributes,
+        array $extras,
+        array $children,
+        bool $isDisplayed
+    ): ItemInterface {
         $factory = $this->createMock(FactoryInterface::class);
         $menuItem = new MenuItem($menuName, $factory);
         $menuItem->setAttributes($attributes);
@@ -144,17 +118,11 @@ class MenuScreensConditionBuilderTest extends \PHPUnit\Framework\TestCase
         return $menuItem;
     }
 
-    /**
-     * @param array $menuItem2Attributes
-     * @param array $menuItem2Extras
-     *
-     * @return ItemInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function mockMenuAndChildren(array $menuItem2Attributes, array $menuItem2Extras)
+    private function getMenuAndChildren(array $menuItem2Attributes, array $menuItem2Extras): ItemInterface
     {
-        return $this->mockMenuItem('main_menu', [], [], [
-            'menu_item_1' => $this->mockMenuItem('menu_item_1', [], [], [], false),
-            'menu_item_2' => $this->mockMenuItem('menu_item_2', $menuItem2Attributes, $menuItem2Extras, [], true),
+        return $this->getMenuItem('main_menu', [], [], [
+            'menu_item_1' => $this->getMenuItem('menu_item_1', [], [], [], false),
+            'menu_item_2' => $this->getMenuItem('menu_item_2', $menuItem2Attributes, $menuItem2Extras, [], true),
         ], true);
     }
 }

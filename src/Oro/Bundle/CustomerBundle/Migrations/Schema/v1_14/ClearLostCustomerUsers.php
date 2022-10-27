@@ -6,6 +6,7 @@ use Doctrine\DBAL\Connection;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityBundle\ORM\NativeQueryExecutorHelper;
 use Oro\Component\MessageQueue\Client\MessageProducerInterface;
+use Oro\Component\MessageQueue\Client\TopicSubscriberInterface;
 use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
 use Oro\Component\MessageQueue\Transport\MessageInterface;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
@@ -13,13 +14,8 @@ use Oro\Component\MessageQueue\Transport\SessionInterface;
 /**
  * Deletes customer users without assigned customer
  */
-class ClearLostCustomerUsers implements MessageProcessorInterface
+class ClearLostCustomerUsers implements MessageProcessorInterface, TopicSubscriberInterface
 {
-    /**
-     *  The topic name declared at processor because this is disposable topic that will be used
-     *  only during the system update.
-     */
-    const TOPIC_NAME = 'oro_customer.clear_lost_customer_users';
     const BATCH_SIZE = 200;
 
     /** @var MessageProducerInterface */
@@ -28,10 +24,6 @@ class ClearLostCustomerUsers implements MessageProcessorInterface
     /** @var NativeQueryExecutorHelper */
     protected $queryHelper;
 
-    /**
-     * @param MessageProducerInterface  $messageProducer
-     * @param NativeQueryExecutorHelper $queryHelper
-     */
     public function __construct(
         MessageProducerInterface $messageProducer,
         NativeQueryExecutorHelper $queryHelper
@@ -40,15 +32,12 @@ class ClearLostCustomerUsers implements MessageProcessorInterface
         $this->queryHelper = $queryHelper;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function process(MessageInterface $message, SessionInterface $session)
+    public function process(MessageInterface $message, SessionInterface $session): string
     {
         if ($message->getBody() !== '') {
             // we have page number we should process, so now process this page
-            $body = json_decode($message->getBody(), true);
-            $this->processBatch((int)$body['batch_number']);
+            $messageBody = $message->getBody();
+            $this->processBatch($messageBody[ClearLostCustomerUsersTopic::BATCH_NUMBER]);
         } else {
             // we have no page number we should process, so now split work to batches
             $this->scheduleMigrateProcesses();
@@ -73,7 +62,10 @@ class ClearLostCustomerUsers implements MessageProcessorInterface
             );
         $jobsCount = floor((int)$maxItemNumber / self::BATCH_SIZE);
         for ($i = 0; $i <= $jobsCount; $i++) {
-            $this->messageProducer->send(self::TOPIC_NAME, json_encode(['batch_number' => $i]));
+            $this->messageProducer->send(
+                ClearLostCustomerUsersTopic::getName(),
+                [ClearLostCustomerUsersTopic::BATCH_NUMBER => $i]
+            );
         }
     }
 
@@ -110,5 +102,10 @@ class ClearLostCustomerUsers implements MessageProcessorInterface
         }
 
         $em->flush();
+    }
+
+    public static function getSubscribedTopics(): array
+    {
+        return [ClearLostCustomerUsersTopic::getName()];
     }
 }

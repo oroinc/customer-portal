@@ -10,7 +10,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class RestDocUrlGenerator implements RestDocUrlGeneratorInterface
 {
-    public const ROUTE = 'oro_frontend_rest_api_doc';
+    public const ROUTE          = 'oro_frontend_rest_api_doc';
+    public const RESOURCE_ROUTE = 'oro_frontend_rest_api_doc_resource';
 
     /** @var RestDocUrlGeneratorInterface */
     private $innerGenerator;
@@ -59,11 +60,6 @@ class RestDocUrlGenerator implements RestDocUrlGeneratorInterface
         return $this->urlGenerator->generate(self::ROUTE, $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
     }
 
-    /**
-     * @param string $view
-     *
-     * @return bool
-     */
     private function isDefaultView(string $view): bool
     {
         return $this->defaultFrontendView && $view === $this->defaultFrontendView;

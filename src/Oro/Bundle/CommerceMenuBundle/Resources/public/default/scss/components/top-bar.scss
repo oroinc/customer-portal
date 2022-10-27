@@ -2,6 +2,8 @@
 
 .topbar {
     background: $top-bar-background;
+    color: $top-bar-color;
+    font-size: $top-bar-font-size;
 
     &__dropdown {
         position: absolute;
@@ -11,12 +13,13 @@
 
         display: none;
 
-        background: get-color('additional', 'ultra');
-        box-shadow: 0 4px 5px 0 rgba(0,0,0,.4);
+        background: $top-bar-dropdown-background;
+        box-shadow: $top-bar-dropdown-box-shadow;
         border-radius: 2px;
 
-        &:before, &:after {
-            content: "";
+        &::before,
+        &::after {
+            content: '';
             display: block;
             height: 0;
 
@@ -47,18 +50,28 @@
 
             a {
                 font-size: $base-font-size;
-                color: get-color('additional', 'dark');
+                color: $top-bar-list-link-color;
             }
         }
     }
 }
 
 .topbar-navigation {
+    @include list-normalize();
+
+    display: flex;
+    justify-content: flex-end;
+
     &--has-sibling {
         margin-right: 10px;
     }
 
+    &--align-end {
+        margin-left: auto;
+    }
+
     &__link {
+        display: inline-block;
         color: $top-bar-link-color;
         text-decoration: none;
 
@@ -67,15 +80,19 @@
             text-decoration: underline;
         }
 
-        span {
+        .decorated {
             color: $top-bar-promo-color;
         }
     }
 
     &__item {
+        margin-right: $top-bar-menu-item-offset-right;
+        line-height: $top-bar-menu-item-line-height;
         padding: $top-bar-menu-item-offset-inner;
 
-        line-height: 16px;
+        &:last-child {
+            margin-right: 0;
+        }
     }
 
     &__separator {
@@ -93,7 +110,7 @@
                     text-decoration: none;
 
                     cursor: default;
-                }                
+                }
             }
 
             &--user-name {
@@ -106,8 +123,19 @@
 @include breakpoint('tablet') {
     .topbar {
         display: none;
+
+        .grid__column {
+            display: block;
+            float: none;
+
+            padding: 0;
+            width: 100%;
+        }
     }
+
     .topbar-navigation {
+        display: block;
+
         &__item {
             display: block;
             margin-right: 0;
@@ -115,6 +143,7 @@
             border-bottom: $topbar-navigation-item-tablet-border-bottom;
             text-transform: $topbar-navigation-item-tablet-text-transform;
         }
+
         &__link {
             display: block;
             padding: $topbar-navigation-link-tablet-inner-offset;

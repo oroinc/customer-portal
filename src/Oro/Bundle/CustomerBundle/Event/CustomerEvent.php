@@ -3,7 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Event;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class CustomerEvent extends Event
 {
@@ -14,9 +14,6 @@ class CustomerEvent extends Event
      */
     protected $customer;
 
-    /**
-     * @param Customer $customer
-     */
     public function __construct(Customer $customer)
     {
         $this->customer = $customer;

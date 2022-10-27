@@ -9,66 +9,53 @@ use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
 class GuestAccessDecisionMakerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @internal
-     */
-    const ALLOWED_URLS = [
+    private const ALLOWED_URLS = [
         '^/customer/user/login$',
-        '^/customer/user/registration$',
+        '^/customer/user/registration$'
     ];
 
-    /**
-     * @internal
-     */
-    const NOT_FRONTEND_URL = '/admin/';
+    private const NOT_FRONTEND_URL = '/admin/';
 
-    /**
-     * @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $frontendHelper;
 
-    /**
-     * @var GuestAccessAllowedUrlsProviderInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var GuestAccessAllowedUrlsProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $guestAccessAllowedUrlsProvider;
 
-    protected function setUp()
+    /** @var GuestAccessDecisionMaker */
+    private $guestAccessDecisionMaker;
+
+    protected function setUp(): void
     {
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
         $this->guestAccessAllowedUrlsProvider = $this->createMock(GuestAccessAllowedUrlsProviderInterface::class);
+
+        $this->guestAccessDecisionMaker = new GuestAccessDecisionMaker(
+            $this->guestAccessAllowedUrlsProvider,
+            $this->frontendHelper
+        );
     }
 
     /**
      * @dataProvider decideDataProvider
-     *
-     * @param string $url
-     * @param int    $expectedDecision
      */
-    public function testDecide($url, $expectedDecision)
+    public function testDecide(string $url, int $expectedDecision)
     {
-        $installed = true;
-        $this->guestAccessAllowedUrlsProvider
-            ->expects(static::any())
+        $this->guestAccessAllowedUrlsProvider->expects(self::any())
             ->method('getAllowedUrlsPatterns')
             ->willReturn(self::ALLOWED_URLS);
 
-        $this->frontendHelper
-            ->expects(static::once())
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendUrl')
-            ->willReturnMap([
-                [self::NOT_FRONTEND_URL, false],
-                [static::anything(), true],
-            ]);
+            ->willReturnCallback(function ($urlToCheck) {
+                return self::NOT_FRONTEND_URL !== $urlToCheck;
+            });
 
-        $decision = $this->getGuestAccessDecisionMaker($installed)->decide($url);
-
-        static::assertSame($expectedDecision, $decision);
+        $decision = $this->guestAccessDecisionMaker->decide($url);
+        self::assertSame($expectedDecision, $decision);
     }
 
-    /**
-     * @return array
-     */
-    public function decideDataProvider()
+    public function decideDataProvider(): array
     {
         return [
             'not frontend url' => ['/admin/', GuestAccessDecisionMakerInterface::URL_ALLOW],
@@ -78,31 +65,5 @@ class GuestAccessDecisionMakerTest extends \PHPUnit\Framework\TestCase
             'disallowed parent url' => ['/customer/user', GuestAccessDecisionMakerInterface::URL_DISALLOW],
             'disallowed random url' => ['/some-random-url', GuestAccessDecisionMakerInterface::URL_DISALLOW],
         ];
-    }
-
-    public function testDecideWhenNotInstalled()
-    {
-        $installed = false;
-        $this->frontendHelper
-            ->expects(static::never())
-            ->method('isFrontendUrl');
-
-        $decision = $this->getGuestAccessDecisionMaker($installed)->decide('/random-url');
-
-        static::assertSame(GuestAccessDecisionMakerInterface::URL_ALLOW, $decision);
-    }
-
-    /**
-     * @param $installed
-     *
-     * @return GuestAccessDecisionMaker
-     */
-    protected function getGuestAccessDecisionMaker($installed)
-    {
-        return new GuestAccessDecisionMaker(
-            $this->guestAccessAllowedUrlsProvider,
-            $this->frontendHelper,
-            $installed
-        );
     }
 }

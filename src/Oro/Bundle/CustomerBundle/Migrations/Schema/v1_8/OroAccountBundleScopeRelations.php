@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_8;
 
 use Doctrine\DBAL\Schema\Schema;
-use Oro\Bundle\CustomerBundle\Migrations\Schema\OroCustomerBundleInstaller;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Oro\Bundle\ScopeBundle\Migration\Extension\ScopeExtensionAwareInterface;
@@ -21,9 +20,6 @@ class OroAccountBundleScopeRelations implements Migration, ScopeExtensionAwareIn
         $this->addRelationsToScope($schema);
     }
 
-    /**
-     * @param Schema $schema
-     */
     private function addRelationsToScope(Schema $schema)
     {
         $this->scopeExtension->addScopeAssociation(

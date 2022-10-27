@@ -28,7 +28,7 @@ Example:
 ```JSON
 {
   "data": {
-    "type": "customer_user_roles",
+    "type": "customeruserroles",
     "attributes": {
       "role": "ROLE_BACKEND_ADMINISTRATOR",
       "label": "Admin",
@@ -36,22 +36,14 @@ Example:
       "public": true
     },
     "relationships": {
-      "websites": {
-        "data": [         
-          {
-            "type": "websites",
-            "id": "7"
-          }
-        ]
-      },
       "customerUsers": {
         "data": [
           {
-            "type": "customer_users",
+            "type": "customerusers",
             "id": "9"
           },
           {
-            "type": "customer_users",
+            "type": "customerusers",
             "id": "4"
           }
         ]
@@ -76,7 +68,7 @@ Example:
 ```JSON
 {
   "data": {
-    "type": "customer_user_roles",
+    "type": "customeruserroles",
     "id": "11",
     "attributes": {
       "role": "ROLE_BACKEND_ADMINISTRATOR",
@@ -85,22 +77,14 @@ Example:
       "public": true
     },
     "relationships": {
-      "websites": {
-        "data": [         
-          {
-            "type": "websites",
-            "id": "7"
-          }
-        ]
-      },
       "customerUsers": {
         "data": [
           {
-            "type": "customer_users",
+            "type": "customerusers",
             "id": "9"
           },
           {
-            "type": "customer_users",
+            "type": "customerusers",
             "id": "4"
           }
         ]
@@ -131,15 +115,13 @@ Delete a collection of customer user role records.
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
 {@inheritdoc}
 
-**Please note:**
-
-*This field is **required** and must remain defined.*
+**This field must not be empty, if it is passed.**
 
 ### label
 
@@ -147,15 +129,13 @@ Delete a collection of customer user role records.
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
 {@inheritdoc}
 
-**Please note:**
-
-*This field is **required** and must remain defined.*
+**This field must not be empty, if it is passed.**
 
 ## SUBRESOURCES
 
@@ -207,11 +187,11 @@ Example:
 {
   "data": [
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "1"
     },
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "4"
     }
   ]
@@ -230,11 +210,11 @@ Example:
 {
   "data": [
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "1"
     },
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "4"
     }
   ]
@@ -253,11 +233,11 @@ Example:
 {
   "data": [
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "1"
     },
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "4"
     }
   ]
@@ -288,85 +268,6 @@ Example:
     "type": "organizations",
     "id": "1"
   }
-}
-```
-{@/request}
-
-### websites
-
-#### get_subresource
-
-Retrieve the website records assigned to a specific customer user role record.
-
-#### get_relationship
-
-Retrieve the IDs of website records assigned to a specific customer user role record.
-
-#### update_relationship
-
-Replace the list of website assigned to a specific customer user role record.
-
-{@request:json_api}
-Example:
-
-```JSON
-{
-  "data": [
-    {
-      "type": "websites",
-      "id": "2"
-    },
-    {
-      "type": "websites",
-      "id": "3"
-    }
-  ]
-}
-```
-{@/request}
-
-#### add_relationship
-
-Set website records for a specific customer user role record.
-
-{@request:json_api}
-Example:
-
-```JSON
-{
-  "data": [
-    {
-      "type": "websites",
-      "id": "2"
-    },
-    {
-      "type": "websites",
-      "id": "3"
-    }
-  ]
-}
-```
-{@/request}
-
-#### delete_relationship
-
-Remove website records from a specific customer user role record.
-
-{@request:json_api}
-Example:
-
-```JSON
-{
-  "data": [
-    {
-      "type": "websites",
-      "id": "2"
-    },
-    {
-      "type": "websites",
-      "id": "3"
-    }
-  ]
 }
 ```
 {@/request}

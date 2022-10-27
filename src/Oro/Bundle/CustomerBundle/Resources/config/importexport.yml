@@ -2,7 +2,13 @@ services:
     # Data converter
     oro_customer.importexport.data_converter.customer:
         parent: oro_importexport.data_converter.configurable
-        class: Oro\Bundle\CustomerBundle\ImportExport\Converter\CustomerDataConverter
+
+    oro_customer.importexport.event_listener.customer_headers:
+        class: Oro\Bundle\CustomerBundle\ImportExport\EventListener\CustomerHeadersListener
+        arguments:
+            - '@oro_entity.helper.field_helper'
+        tags:
+            - { name: kernel.event_listener, event: oro.import_export.after_load_entity_rules_and_backend_headers, method: afterLoadEntityRulesAndBackendHeaders }
 
     # Customer Export
     oro_customer.importexport.processor.export.customer:
@@ -11,7 +17,7 @@ services:
         calls:
             - [setDataConverter, ['@oro_customer.importexport.data_converter.customer']]
         tags:
-            - { name: oro_importexport.processor, type: export, entity: '%oro_customer.entity.customer.class%', alias: oro_customer_customer }
+            - { name: oro_importexport.processor, type: export, entity: 'Oro\Bundle\CustomerBundle\Entity\Customer', alias: oro_customer_customer }
 
     # Customer Import
     oro_customer.importexport.strategy.customer.add_or_replace:
@@ -26,11 +32,11 @@ services:
         tags:
             - name: oro_importexport.processor
               type: import
-              entity: '%oro_customer.entity.customer.class%'
+              entity: 'Oro\Bundle\CustomerBundle\Entity\Customer'
               alias: oro_customer_customer
             - name: oro_importexport.processor
               type: import_validation
-              entity: '%oro_customer.entity.customer.class%'
+              entity: 'Oro\Bundle\CustomerBundle\Entity\Customer'
               alias: oro_customer_customer
 
     # Customer Data Normalizer
@@ -43,7 +49,13 @@ services:
     # Customer User Data Converter
     oro_customer.importexport.data_converter.customer_user:
         parent: oro_importexport.data_converter.configurable
-        class: Oro\Bundle\CustomerBundle\ImportExport\Converter\CustomerUserDataConverter
+
+    oro_customer.importexport.event_listener.customer_user_headers:
+        class: Oro\Bundle\CustomerBundle\ImportExport\EventListener\CustomerUserHeadersListener
+        arguments:
+            - '@oro_entity.helper.field_helper'
+        tags:
+            - { name: kernel.event_listener, event: oro.import_export.after_load_entity_rules_and_backend_headers, method: afterLoadEntityRulesAndBackendHeaders }
 
     # Customer User Normalizer
     oro_customer.importexport.serializer.normalizer.customer_user:
@@ -61,7 +73,7 @@ services:
         tags:
             - name: oro_importexport.processor
               type: export
-              entity: '%oro_customer.entity.customer_user.class%'
+              entity: 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
               alias: oro_customer_customer_user
 
     # Customer User Import
@@ -73,11 +85,11 @@ services:
         tags:
             - name: oro_importexport.processor
               type: import
-              entity: '%oro_customer.entity.customer_user.class%'
+              entity: 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
               alias: oro_customer_customer_user
             - name: oro_importexport.processor
               type: import_validation
-              entity: '%oro_customer.entity.customer_user.class%'
+              entity: 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
               alias: oro_customer_customer_user
 
     # Customer User Import Strategy
@@ -87,6 +99,11 @@ services:
         parent: oro_importexport.strategy.configurable_add_or_replace
         calls:
             - [setConfigManager, ['@oro_config.manager']]
+
+    oro_customer.importexport.customer_user.writer:
+        class: Oro\Bundle\CustomerBundle\ImportExport\Writer\CustomerUserWriter
+        public: false
+        parent: oro_integration.writer.persistent_batch_writer
 
     # Customer User Import Listener
     oro_customer.importexport.strategy.event_listener.import_customer_user_listener:
@@ -114,7 +131,7 @@ services:
         tags:
             - name: oro_importexport.processor
               type: export_template
-              entity: '%oro_customer.entity.customer_user.class%'
+              entity: 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
               alias: oro_customer_customer_user
 
     # Customer Fixtures
@@ -132,7 +149,7 @@ services:
         calls:
             - [setDataConverter, ['@oro_customer.importexport.data_converter.customer']]
         tags:
-            - { name: oro_importexport.processor, type: export_template, entity: '%oro_customer.entity.customer.class%', alias: oro_customer_customer }
+            - { name: oro_importexport.processor, type: export_template, entity: 'Oro\Bundle\CustomerBundle\Entity\Customer', alias: oro_customer_customer }
 
     oro_customer.importexport.configuration_provider.customer:
         class: 'Oro\Bundle\CustomerBundle\ImportExport\Configuration\CustomerImportExportConfigurationProvider'

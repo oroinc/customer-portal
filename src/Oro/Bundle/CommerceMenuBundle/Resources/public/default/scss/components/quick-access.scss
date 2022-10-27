@@ -17,22 +17,26 @@
         font-size: $base-font-size;
     }
 
+    &__text {
+        vertical-align: middle;
+    }
+
     &__link {
         display: inline-block;
         vertical-align: middle;
 
-        font-weight: 400;
+        font-weight: font-weight('normal');
         text-overflow: ellipsis;
         white-space: nowrap;
 
-        color: get-color('additional', 'dark');
+        color: $quick-access-link-color;
 
         overflow: hidden;
 
         &:hover {
             text-decoration: none;
 
-            color: get-color('additional', 'darker');
+            color: $quick-access-link-hover-color;
 
             .quick-access__text {
                 text-decoration: underline;
@@ -40,28 +44,29 @@
         }
     }
 
-    &__text {
-        vertical-align: middle;
-    }
-
     &__icon {
         margin-right: 5px;
 
-        @include badge(20px, 11px, get-color('primary', 'light'), 3px);
+        @include badge(
+            $quick-access-icon-size,
+            $quick-access-icon-font-size,
+            $quick-access-icon-color,
+            $quick-access-icon-border-radius
+        );
 
         &--light {
-            background-color: get-color('secondary', 'main');
+            background-color: $quick-access-icon-light-background-color;
         }
 
         &--dark {
-            background-color: get-color('primary', 'base');
+            background-color: $quick-access-icon-dark-background-color;
         }
     }
 }
 
 @include breakpoint('tablet') {
     .quick-access {
-        border-bottom: 1px solid get-color('additional', 'light');
+        border-bottom: $quick-access-tablet-border;
         padding: $offset-y;
 
         &__list {
@@ -78,7 +83,7 @@
         }
 
         &__text {
-            font-weight: bold;
+            font-weight: font-weight('bold');
         }
 
         &__icon {

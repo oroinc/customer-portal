@@ -2,15 +2,16 @@
 
 namespace Oro\Bundle\CustomerBundle\Validator\Constraints;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use Doctrine\Persistence\ManagerRegistry;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\DataGridBundle\Tools\DatagridRouteHelper;
 use Oro\Bundle\FilterBundle\Form\Type\Filter\TextFilterType;
 use Oro\Bundle\FilterBundle\Grid\Extension\AbstractFilterExtension;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Validates a case insensitive option which can be edited in system configuration.
@@ -20,26 +21,16 @@ class EmailCaseInsensitiveOptionValidator extends ConstraintValidator
 {
     private const LIMIT = 10;
 
-    /** @var CustomerUserManager */
-    private $userManager;
+    private ManagerRegistry $doctrine;
+    private TranslatorInterface $translator;
+    private DatagridRouteHelper $datagridRouteHelper;
 
-    /** @var TranslatorInterface */
-    private $translator;
-
-    /** @var DatagridRouteHelper */
-    private $datagridRouteHelper;
-
-    /**
-     * @param CustomerUserManager $userManager
-     * @param TranslatorInterface $translator
-     * @param DatagridRouteHelper $datagridRouteHelper
-     */
     public function __construct(
-        CustomerUserManager $userManager,
+        ManagerRegistry $doctrine,
         TranslatorInterface $translator,
         DatagridRouteHelper $datagridRouteHelper
     ) {
-        $this->userManager = $userManager;
+        $this->doctrine = $doctrine;
         $this->translator = $translator;
         $this->datagridRouteHelper = $datagridRouteHelper;
     }
@@ -49,8 +40,8 @@ class EmailCaseInsensitiveOptionValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        if (!$constraint instanceof EmailCaseInsensitiveOptionConstraint) {
-            throw new UnexpectedTypeException($constraint, EmailCaseInsensitiveOptionConstraint::class);
+        if (!$constraint instanceof EmailCaseInsensitiveOption) {
+            throw new UnexpectedTypeException($constraint, EmailCaseInsensitiveOption::class);
         }
 
         if ($value) {
@@ -58,11 +49,7 @@ class EmailCaseInsensitiveOptionValidator extends ConstraintValidator
         }
     }
 
-    /**
-     * @param EmailCaseInsensitiveOptionConstraint $constraint
-     * @param bool $value
-     */
-    private function checkDuplicatedEmails(EmailCaseInsensitiveOptionConstraint $constraint, $value)
+    private function checkDuplicatedEmails(EmailCaseInsensitiveOption $constraint, mixed $value): void
     {
         $emails = $this->getRepository()->findLowercaseDuplicatedEmails(self::LIMIT);
         if (!$emails) {
@@ -81,10 +68,6 @@ class EmailCaseInsensitiveOptionValidator extends ConstraintValidator
             ->addViolation();
     }
 
-    /**
-     * @param array $emails
-     * @return string
-     */
     private function buildLink(array $emails): string
     {
         return $this->datagridRouteHelper->generate(
@@ -101,11 +84,8 @@ class EmailCaseInsensitiveOptionValidator extends ConstraintValidator
         );
     }
 
-    /**
-     * @return CustomerUserRepository
-     */
-    private function getRepository()
+    private function getRepository(): CustomerUserRepository
     {
-        return $this->userManager->getRepository();
+        return $this->doctrine->getRepository(CustomerUser::class);
     }
 }

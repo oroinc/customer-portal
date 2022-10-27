@@ -32,7 +32,7 @@ Example:
     "attributes": {
       "name": "Company AB"
     },
-    "relationships": {     
+    "relationships": { 
       "children": {
         "data": [
           {
@@ -47,18 +47,18 @@ Example:
       },
       "group": {
         "data": {
-          "type": "customer_groups",
+          "type": "customergroups",
           "id": "1"
         }
       },
       "users": {
         "data": [
           {
-            "type": "customer_users",
+            "type": "customerusers",
             "id": "1"
           },
           {
-            "type": "customer_users",
+            "type": "customerusers",
             "id": "2"
           }
         ]
@@ -88,7 +88,7 @@ Example:
     "attributes": {
       "name": "Company AC"
     },
-    "relationships": {     
+    "relationships": { 
       "children": {
         "data": [
           {
@@ -99,14 +99,14 @@ Example:
       },
       "group": {
         "data": {
-          "type": "customer_groups",
+          "type": "customergroups",
           "id": "1"
         }
       },
       "users": {
         "data": [
           {
-            "type": "customer_users",
+            "type": "customerusers",
             "id": "1"
           }
         ]
@@ -137,17 +137,25 @@ Delete a collection of customer records.
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
 {@inheritdoc}
 
-**Please note:**
-
-*This field is **required** and must remain defined.*
+**This field must not be empty, if it is passed.**
 
 ## SUBRESOURCES
+
+### addresses
+
+#### get_subresource
+
+Retrieve records of addresses assigned to a specific customer record.
+
+#### get_relationship
+
+Retrieve IDs of address records assigned to a specific customer record.
 
 ### children
 
@@ -248,7 +256,7 @@ Example:
 ```JSON
 {
   "data": {
-    "type": "customer_groups",
+    "type": "customergroups",
     "id": "2"
   }
 }
@@ -267,7 +275,7 @@ Retrieve the ID of internal rating record assigned to a specific customer record
 
 #### update_relationship
 
-Replace the internal rating record assigned to a specific customer record
+Replace the internal rating record assigned to a specific customer record.
 
 {@request:json_api}
 Example:
@@ -275,7 +283,7 @@ Example:
 ```JSON
 {
   "data": {
-    "type": "customer_rating",
+    "type": "customerratings",
     "id": "3_of_5"
   }
 }
@@ -384,11 +392,11 @@ Example:
 {
   "data": [
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "3"
     },
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "11"
     }
   ]
@@ -407,11 +415,11 @@ Example:
 {
   "data": [
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "3"
     },
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "11"
     }
   ]
@@ -430,11 +438,11 @@ Example:
 {
   "data": [
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "3"
     },
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "11"
     }
   ]

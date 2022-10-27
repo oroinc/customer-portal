@@ -1,0 +1,41 @@
+/* @theme: default; */
+
+.info-list {
+    width: $info-list-width;
+
+    margin: $info-list-offset;
+    padding: $info-list-inner-offset;
+
+    border-top: $info-list-border-top;
+
+    &__item {
+        display: $info-list-item-display;
+
+        padding: $info-list-item-inner-offset;
+    }
+
+    &__name {
+        width: $info-list-name-width;
+        min-width: $info-list-name-min-width;
+        margin: $info-list-name-offset;
+
+        &::after {
+            content: $info-list-name-after-content;
+
+            margin-left: $info-list-name-after-offset-left;
+            position: $info-list-name-after-position;
+        }
+    }
+}
+
+@include breakpoint('mobile') {
+    .info-list {
+        margin: $info-list-mobile-offset;
+
+        &__name {
+            width: $info-list-name-mobile-width;
+            max-width: $info-list-name-mobile-width;
+            margin: $info-list-name-mobile-offset;
+        }
+    }
+}

@@ -9,6 +9,8 @@ use Oro\Bundle\UIBundle\Event\BeforeViewRenderEvent;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
 {
@@ -18,9 +20,9 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
     /** @var RequestStack */
     private $requestStack;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $translator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
+        $translator = $this->createMock(TranslatorInterface::class);
         $translator->expects($this->any())
             ->method('trans')
             ->willReturnCallback(function ($value) {
@@ -34,9 +36,9 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
     public function testOnUpdatePageRenderWithoutRequest()
     {
         $event = new BeforeFormRenderEvent(
-            $this->createMock('Symfony\Component\Form\FormView'),
+            $this->createMock(FormView::class),
             [],
-            $this->createMock('\Twig_Environment'),
+            $this->createMock(Environment::class),
             null
         );
 
@@ -48,9 +50,9 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
     public function testOnUpdatePageRenderOnWrongPage()
     {
         $event = new BeforeFormRenderEvent(
-            $this->createMock('Symfony\Component\Form\FormView'),
+            $this->createMock(FormView::class),
             [],
-            $this->createMock('\Twig_Environment'),
+            $this->createMock(Environment::class),
             null
         );
 
@@ -64,9 +66,9 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
     public function testOnUpdatePageRenderOnNonCloneRolePage()
     {
         $event = new BeforeFormRenderEvent(
-            $this->createMock('Symfony\Component\Form\FormView'),
+            $this->createMock(FormView::class),
             [],
-            $this->createMock('\Twig_Environment'),
+            $this->createMock(Environment::class),
             null
         );
 
@@ -89,10 +91,10 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
      */
     public function testOnUpdatePageRender($routeName)
     {
-        $entity = new CustomerUserRole();
+        $entity = new CustomerUserRole('');
         $form = new FormView();
         $form->vars['value'] = $entity;
-        $twig = $this->createMock('\Twig_Environment');
+        $twig = $this->createMock(Environment::class);
         $event = new BeforeFormRenderEvent(
             $form,
             [
@@ -110,14 +112,13 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
         $twig->expects($this->once())
             ->method('render')
             ->with(
-                'OroCustomerBundle:CustomerUserRole:aclGrid.html.twig',
+                '@OroCustomer/CustomerUserRole/aclGrid.html.twig',
                 [
                     'entity'     => $entity,
                     'isReadonly' => false
                 ]
             )
             ->willReturn($renderedHtml);
-
 
         $this->requestStack->push(new Request([], [], ['_route' => $routeName]));
 
@@ -147,7 +148,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
     public function testOnViewPageRenderWithoutRequest()
     {
         $event = new BeforeViewRenderEvent(
-            $this->createMock('\Twig_Environment'),
+            $this->createMock(Environment::class),
             [],
             new \stdClass()
         );
@@ -160,7 +161,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
     public function testOnViewPageRenderOnNonUpdateRolePage()
     {
         $event = new BeforeViewRenderEvent(
-            $this->createMock('\Twig_Environment'),
+            $this->createMock(Environment::class),
             [],
             new \stdClass()
         );
@@ -174,8 +175,8 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testOnViewPageRender()
     {
-        $entity = new CustomerUserRole();
-        $twig = $this->createMock('\Twig_Environment');
+        $entity = new CustomerUserRole('');
+        $twig = $this->createMock(Environment::class);
         $event = new BeforeViewRenderEvent(
             $twig,
             [
@@ -188,19 +189,17 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
             $entity
         );
 
-
         $renderedHtml = '<div>Rendered datagrid position</div>';
         $twig->expects($this->once())
             ->method('render')
             ->with(
-                'OroCustomerBundle:CustomerUserRole:aclGrid.html.twig',
+                '@OroCustomer/CustomerUserRole/aclGrid.html.twig',
                 [
                     'entity'     => $entity,
                     'isReadonly' => true
                 ]
             )
             ->willReturn($renderedHtml);
-
 
         $this->requestStack->push(new Request([], [], ['_route' => 'oro_customer_customer_user_role_view']));
 

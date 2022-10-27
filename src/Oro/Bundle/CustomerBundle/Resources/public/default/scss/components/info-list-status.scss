@@ -1,0 +1,11 @@
+/* @theme: default; */
+
+.info-list-status {
+    margin-right: 3px;
+
+    color: $info-list-status-color;
+
+    &--disabled {
+        color: $info-list-status-disabled-color;
+    }
+}

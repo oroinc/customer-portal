@@ -1,0 +1,38 @@
+/* @theme: default; */
+
+@import '~@oroinc/bootstrap/scss/nav';
+
+.nav--block {
+    display: block;
+}
+
+.nav {
+    .dropdown-toggle::after {
+        content: none;
+    }
+
+    .active.dropdown-toggle::after,
+    .active > .dropdown-toggle::after {
+        content: '';
+    }
+}
+
+.nav-tabs {
+    .nav-link {
+        @if $nav-tabs-link-active-color-focus-visible {
+            &.focus-visible {
+                position: relative;
+
+                box-shadow: $nav-tabs-link-active-color-focus-visible;
+            }
+        }
+
+        border: $nav-tabs-link-border;
+        margin-right: $nav-tabs-link-right-offset;
+
+        &:hover,
+        &:focus {
+            background-color: $nav-tabs-link-hover-background-color;
+        }
+    }
+}

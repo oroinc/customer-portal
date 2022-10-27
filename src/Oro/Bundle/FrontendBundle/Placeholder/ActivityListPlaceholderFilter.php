@@ -5,35 +5,23 @@ namespace Oro\Bundle\FrontendBundle\Placeholder;
 use Oro\Bundle\ActivityListBundle\Placeholder\PlaceholderFilter;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\UIBundle\Event\BeforeGroupingChainWidgetEvent;
-use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * Helper class that can be used in placeholder configuration files (placeholders.yml)
+ * to check whether an entity can have activities.
+ */
 class ActivityListPlaceholderFilter
 {
-    /**
-     * @var PlaceholderFilter
-     */
-    protected $filter;
+    /** @var PlaceholderFilter */
+    private $filter;
 
-    /**
-     * @var FrontendHelper
-     */
-    protected $helper;
+    /** @var FrontendHelper */
+    private $helper;
 
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
-
-    /**
-     * @param PlaceholderFilter $filter
-     * @param FrontendHelper $helper
-     * @param RequestStack $requestStack
-     */
-    public function __construct(PlaceholderFilter $filter, FrontendHelper $helper, RequestStack $requestStack)
+    public function __construct(PlaceholderFilter $filter, FrontendHelper $helper)
     {
         $this->filter = $filter;
         $this->helper = $helper;
-        $this->requestStack = $requestStack;
     }
 
     /**
@@ -43,37 +31,19 @@ class ActivityListPlaceholderFilter
      */
     public function isApplicable($entity = null, $pageType = null)
     {
-        if ($this->isFrontendRoute()) {
-            return false;
-        }
-
-        return $this->filter->isApplicable($entity, $pageType);
+        return
+            !$this->helper->isFrontendRequest()
+            && $this->filter->isApplicable($entity, $pageType);
     }
 
-    /**
-     * @param BeforeGroupingChainWidgetEvent $event
-     */
     public function isAllowedButton(BeforeGroupingChainWidgetEvent $event)
     {
-        if ($this->isFrontendRoute()) {
+        if ($this->helper->isFrontendRequest()) {
             // Clear allowed widgets
             $event->setWidgets([]);
             $event->stopPropagation();
         } else {
             $this->filter->isAllowedButton($event);
         }
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isFrontendRoute()
-    {
-        $currentRequest = $this->requestStack->getCurrentRequest();
-        if (!$currentRequest) {
-            return false;
-        }
-
-        return $this->helper->isFrontendRequest($currentRequest);
     }
 }

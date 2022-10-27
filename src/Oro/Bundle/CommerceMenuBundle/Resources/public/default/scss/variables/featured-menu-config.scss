@@ -1,0 +1,38 @@
+/* @theme: default; */
+
+$featured-menu-offset: 30px 0 !default;
+
+$featured-menu-tiles-column-count: 4 !default;
+
+$featured-menu-content-offset-inner: 30px !default;
+$featured-menu-content-text-align: center !default;
+$featured-menu-content-bg: get-color('additional', 'base') !default;
+
+$featured-menu-item-title-offset-bottom: $offset-y-m !default;
+$featured-menu-item-title-font-size: $base-font-size--large !default;
+$featured-menu-item-title-font-weight: font-weight('bold') !default;
+$featured-menu-item-title-text-transform: uppercase !default;
+
+$featured-menu-item-description-offset-bottom: $offset-y !default;
+
+$featured-menu-item-img-wrap-offset-bottom: $offset-y-m !default;
+$featured-menu-item-icon-font-size: 90px !default;
+$featured-menu-item-icon-color: get-color('additional', 'middle') !default;
+
+$featured-menu-link-white-space: normal !default;
+
+// Tablet
+$featured-menu-tiles-tablet-column-count: 2 !default;
+
+// tablet small
+$featured-menu-item-offset-x-tablet-small: $offset-x !default;
+$featured-menu-item-offset-y-tablet-small: $offset-y !default;
+
+$featured-menu-offset-tablet-small: $offset-y 0 !default;
+
+$featured-menu-item-description-font-size-tablet-small: $base-font-size--large !default;
+$featured-menu-item-description-font-size: $base-font-size !default;
+$featured-menu-item-description-line-height: $base-line-height !default;
+
+// Mobile
+$featured-menu-tiles-mobile-column-count: 1 !default;

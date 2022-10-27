@@ -3,13 +3,14 @@
 namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
-use Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension;
-use Oro\Bundle\CustomerBundle\EventListener\SystemConfigListener;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
 use Oro\Bundle\UserBundle\Provider\DefaultUserProvider;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
+/**
+ * Provides a set of methods to simplify manage of the guest CustomerUser entities.
+ */
 class GuestCustomerUserManager
 {
     /**
@@ -37,13 +38,6 @@ class GuestCustomerUserManager
      */
     protected $propertyAccessor;
 
-    /**
-     * @param WebsiteManager $websiteManager
-     * @param CustomerUserManager $customerUserManager
-     * @param CustomerUserRelationsProvider $customerUserRelationsProvider
-     * @param DefaultUserProvider $defaultUserProvider
-     * @param PropertyAccessor $propertyAccessor
-     */
     public function __construct(
         WebsiteManager $websiteManager,
         CustomerUserManager $customerUserManager,
@@ -66,19 +60,24 @@ class GuestCustomerUserManager
     public function generateGuestCustomerUser(array $properties = [])
     {
         $customerUser = new CustomerUser();
+        $this->initializeGuestCustomerUser($customerUser, $properties);
+
+        return $customerUser;
+    }
+
+    public function initializeGuestCustomerUser(CustomerUser $customerUser, array $properties = [])
+    {
         $customerUser->setIsGuest(true);
         $customerUser->setEnabled(false);
         $customerUser->setConfirmed(false);
 
-        $owner = $this->defaultUserProvider->getDefaultUser(
-            OroCustomerExtension::ALIAS,
-            SystemConfigListener::SETTING
-        );
+        $owner = $this->defaultUserProvider->getDefaultUser('oro_customer.default_customer_owner');
         $customerUser->setOwner($owner);
         $website = $this->websiteManager->getCurrentWebsite();
         $customerUser->setWebsite($website);
         if ($website && $website->getOrganization()) {
             $customerUser->setOrganization($website->getOrganization());
+            $customerUser->addUserRole($website->getDefaultRole());
         }
 
         foreach ($properties as $propertyPath => $value) {
@@ -95,8 +94,6 @@ class GuestCustomerUserManager
 
         $anonymousGroup = $this->customerUserRelationsProvider->getCustomerGroup();
         $customerUser->getCustomer()->setGroup($anonymousGroup);
-
-        return $customerUser;
     }
 
     /**

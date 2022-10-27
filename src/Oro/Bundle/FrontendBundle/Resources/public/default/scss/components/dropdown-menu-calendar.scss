@@ -4,7 +4,7 @@
     min-width: 270px;
     padding: 0;
 
-    background: get-color('additional', 'ultra');
+    background: $dropdown-menu-calendar-background;
 
     .tab-content {
         padding: $offset-y-m ($offset-x-m - 2px) 0;
@@ -15,7 +15,7 @@
 
         .ui_date_variable {
             @include element-state('hover') {
-                color: get-color('additional', 'dark');
+                color: $dropdown-menu-calendar-date-variable-color;
 
                 text-decoration: underline;
             }
@@ -40,14 +40,16 @@
             > a {
                 display: block;
                 padding: 7px 0;
+                border: none;
 
                 text-decoration: none;
 
-                color: get-color('additional', 'dark');
-                background-color: get-color('additional', 'light');
+                color: $dropdown-menu-calendar-tabs-link-color;
+                background-color: $dropdown-menu-calendar-tabs-link-background-color;
 
-                &:before {
+                &::before {
                     margin-right: $offset-x-s;
+                    display: inline-block;
                 }
 
                 &.calendar {
@@ -59,18 +61,18 @@
                 }
 
                 @include element-state('active') {
-                    color: get-color('additional', 'dark');
+                    color: $dropdown-menu-calendar-tabs-link-active-color;
                 }
 
                 @include element-state('hover') {
-                    color: get-color('additional', 'dark');
-                    background-color: get-color('additional', 'base');
+                    color: $dropdown-menu-calendar-tabs-link-hover-color;
+                    background-color: $dropdown-menu-calendar-tabs-link-hover-background-color;
                 }
             }
-            
+
             &.active {
                 > a {
-                    background-color: get-color('additional', 'ultra');
+                    background-color: $dropdown-menu-calendar-tabs-active-link-hover-background-color;
                 }
             }
         }

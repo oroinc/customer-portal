@@ -1,0 +1,42 @@
+data:
+    type: customerusers
+    id: '<toString(@grzegorz.brzeczyszczykiewicz@example.com->id)>'
+    attributes:
+        confirmed: true
+        email: grzegorz.brzeczyszczykiewicz@example.com
+        namePrefix: null
+        firstName: Grzegorz
+        middleName: null
+        lastName: Brzeczyszczykiewicz
+        nameSuffix: null
+        birthday: null
+        createdAt: '@grzegorz.brzeczyszczykiewicz@example.com->createdAt->format("Y-m-d\TH:i:s\Z")'
+        updatedAt: '@grzegorz.brzeczyszczykiewicz@example.com->updatedAt->format("Y-m-d\TH:i:s\Z")'
+        enabled: true
+        loginCount: 0
+        isGuest: false
+        lastLogin: null
+        passwordRequestedAt: null
+        passwordChangedAt: null
+    relationships:
+        userRoles:
+            data:
+                -
+                    type: customeruserroles
+                    id: '<toString(@ROLE_FRONTEND_ADMINISTRATOR->id)>'
+        customer:
+            data:
+                type: customers
+                id: '<toString(@customer.level_1->id)>'
+        addresses:
+            data: []
+        owner:
+            data:
+                type: users
+                id: '<toString(@user->id)>'
+        salesRepresentatives:
+            data: []
+        organization:
+            data:
+                type: organizations
+                id: '<toString(@organization->id)>'

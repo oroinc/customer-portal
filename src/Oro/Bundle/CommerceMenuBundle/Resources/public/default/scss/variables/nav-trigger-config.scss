@@ -1,0 +1,17 @@
+/* @theme: default; */
+
+$nav-trigger-hover-background-color: lighten(get-color('additional', 'base'), 1.5%);
+
+$nav-trigger-icon-size: 33px !default;
+$nav-trigger-icon-font-size: 18px !default;
+$nav-trigger-icon-color: get-color('additional', 'ultra') !default;
+$nav-trigger-icon-background-color: get-color('additional', 'dark') !default;
+$nav-trigger-icon-radius: 50% !default;
+$nav-trigger-icon-transparent-color: get-color('additional', 'dark') !default;
+
+$nav-trigger-icon-chromatic-background-color: get-color('primary', 'base') !default;
+
+// Tablet
+
+$nav-trigger-tablet-strong-color: get-color('additional', 'ultra') !default;
+$nav-trigger-tablet-strong-background-color: transparentize(get-color('additional', 'dark'), .27) !default;

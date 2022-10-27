@@ -1,0 +1,120 @@
+dependencies:
+    - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization
+    - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser
+    - Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadWebsiteData
+    - Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerUserRoles
+    - Oro\Bundle\AddressBundle\Tests\Functional\DataFixtures\LoadCountriesAndRegions
+    - Oro\Bundle\AddressBundle\Tests\Functional\DataFixtures\LoadAddressTypes
+
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    customer1:
+        parent: '@customer'
+        name: 'Customer 1'
+        group: '@customer_group'
+        owner: '@user'
+        organization: '@organization'
+    another_customer:
+        name: 'Another Customer'
+        group: '@customer_group'
+        owner: '@user'
+        organization: '@organization'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+    customer_user1:
+        confirmed: true
+        enabled: true
+        email: 'user1@example.com'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        firstName: 'First Name 1'
+        lastName: 'Last Name 1'
+        userRoles: ['@admin']
+        customer: '@customer1'
+        website: '@website'
+        owner: '@user'
+        organization: '@organization'
+    another_customer_user:
+        confirmed: true
+        enabled: true
+        email: 'another_user@example.com'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        firstName: 'First Name 1'
+        lastName: 'Last Name 1'
+        userRoles: ['@admin']
+        customer: '@another_customer'
+        website: '@website'
+        owner: '@user'
+        organization: '@organization'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
+    customer_address1:
+        label: 'Address 1'
+        street: 'Street 1'
+        street2: 'Street 2'
+        city: 'Los Angeles'
+        postalCode: '90001'
+        country: '@country_usa'
+        region: '@region_usa_california'
+        organization: 'Acme'
+        namePrefix: 'Mr.'
+        nameSuffix: 'M.D.'
+        firstName: 'John'
+        middleName: 'Edgar'
+        lastName: 'Doo'
+        primary: true
+        phone: '123-456'
+        frontendOwner: '@customer'
+        owner: '@user'
+        systemOrganization: '@organization'
+    customer_address2:
+        label: 'Address 2'
+        street: 'Street 2'
+        city: 'Los Angeles'
+        postalCode: '90002'
+        country: '@country_usa'
+        region: '@region_usa_california'
+        firstName: 'John'
+        lastName: 'Smith'
+        primary: false
+        frontendOwner: '@customer'
+        owner: '@user'
+        systemOrganization: '@organization'
+    customer_address3:
+        label: 'Address 3'
+        street: 'Street 3'
+        city: 'Tel Aviv'
+        postalCode: '90003'
+        country: '@country_israel'
+        region: '@region_israel_telaviv'
+        firstName: 'John'
+        lastName: 'Smith'
+        primary: false
+        frontendOwner: '@customer1'
+        owner: '@user'
+        systemOrganization: '@organization'
+    another_customer_address1:
+        label: 'Another Customer Address 1'
+        street: 'Street 1'
+        city: 'Los Angeles'
+        postalCode: '90001'
+        country: '@country_usa'
+        region: '@region_usa_california'
+        firstName: 'John'
+        lastName: 'Doo'
+        primary: true
+        frontendOwner: '@another_customer'
+        owner: '@user'
+        systemOrganization: '@organization'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
+    customer_address1_billing:
+        address: '@customer_address1'
+        type: '@billing'
+        default: false
+    customer_address1_shipping:
+        address: '@customer_address1'
+        type: '@shipping'
+        default: true
+    customer_address3_billing:
+        address: '@customer_address3'
+        type: '@billing'
+        default: true

@@ -6,37 +6,22 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRoleCapabilitySetOptionsProvider;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCapabilityProvider;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
-use Oro\Component\Testing\Unit\EntityTrait;
 
 class FrontendCustomerUserRoleCapabilitySetOptionsProviderTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTrait;
-
-    /**
-     * @var RolePrivilegeCapabilityProvider|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var RolePrivilegeCapabilityProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $capabilityProvider;
 
-    /**
-     * @var RolePrivilegeCategoryProvider|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var RolePrivilegeCategoryProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $categoryProvider;
 
-    /**
-     * @var FrontendCustomerUserRoleCapabilitySetOptionsProvider
-     */
+    /** @var FrontendCustomerUserRoleCapabilitySetOptionsProvider */
     private $provider;
 
-    /**
-     * @var CustomerUserRole
-     */
-    private $role;
-
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->capabilityProvider = $this->createMock(RolePrivilegeCapabilityProvider::class);
         $this->categoryProvider = $this->createMock(RolePrivilegeCategoryProvider::class);
-        $this->role = $this->getEntity(CustomerUserRole::class);
 
         $this->provider = new FrontendCustomerUserRoleCapabilitySetOptionsProvider(
             $this->capabilityProvider,
@@ -46,25 +31,24 @@ class FrontendCustomerUserRoleCapabilitySetOptionsProviderTest extends \PHPUnit\
 
     public function testGetCapabilitySetOptions()
     {
-        $this->capabilityProvider->expects(static::once())
+        $role = $this->createMock(CustomerUserRole::class);
+        $capabilities = ['capabilities_data'];
+        $tabIds = ['test_tab'];
+
+        $this->capabilityProvider->expects(self::once())
             ->method('getCapabilities')
-            ->with($this->role)
-            ->willReturn(['capabilities_data']);
+            ->with(self::identicalTo($role))
+            ->willReturn($capabilities);
+        $this->categoryProvider->expects(self::once())
+            ->method('getTabIds')
+            ->willReturn($tabIds);
 
-        $this->categoryProvider->expects(static::once())
-            ->method('getTabList')
-            ->willReturn(['tab_list_data']);
+        $options = $this->provider->getOptions($role);
 
-        $firstResult = $this->provider->getOptions($this->role);
+        $expected = ['data' => $capabilities, 'tabIds' => $tabIds];
 
-        $this->assertArrayHasKey('data', $firstResult);
-        $this->assertArrayHasKey('tabIds', $firstResult);
-
-        $this->assertEquals(['capabilities_data'], $firstResult['data']);
-        $this->assertEquals(['tab_list_data'], $firstResult['tabIds']);
-
-        //expected result from cache
-        $secondResult = $this->provider->getOptions($this->role);
-        $this->assertEquals($secondResult, $firstResult);
+        self::assertEquals($expected, $options);
+        // test local cache
+        self::assertEquals($expected, $this->provider->getOptions($role));
     }
 }

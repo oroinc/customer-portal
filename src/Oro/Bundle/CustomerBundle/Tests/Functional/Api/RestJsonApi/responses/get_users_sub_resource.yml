@@ -1,0 +1,40 @@
+data:
+    -
+        type: customerusers
+        id: '<toString(@default_customer_user->id)>'
+        attributes:
+            confirmed: true
+            email: '@default_customer_user->email'
+            namePrefix: null
+            firstName: '@default_customer_user->firstName'
+            middleName: null
+            lastName: '@default_customer_user->lastName'
+            nameSuffix: null
+            birthday: null
+            createdAt: '@default_customer_user->createdAt->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@default_customer_user->updatedAt->format("Y-m-d\TH:i:s\Z")'
+            lastLogin: null
+            loginCount: 0
+            enabled: true
+            passwordRequestedAt: null
+            passwordChangedAt: null
+        relationships:
+            userRoles:
+                data:
+                    -
+                        type: customeruserroles
+                        id: '<toString(@ROLE_FRONTEND_ADMINISTRATOR->id)>'
+            customer:
+                data:
+                    type: customers
+                    id: '<toString(@default_customer->id)>'
+            owner:
+                data:
+                    type: users
+                    id: '<toString(@default_customer->owner->id)>'
+            salesRepresentatives:
+                data: {  }
+            organization:
+                data:
+                    type: organizations
+                    id: '<toString(@default_customer->organization->id)>'

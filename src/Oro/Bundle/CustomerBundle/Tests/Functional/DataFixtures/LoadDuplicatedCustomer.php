@@ -2,7 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
+use Oro\Bundle\UserBundle\Entity\User;
 
 class LoadDuplicatedCustomer extends LoadCustomers
 {
@@ -15,7 +16,8 @@ class LoadDuplicatedCustomer extends LoadCustomers
     {
         parent::load($manager);
 
-        $owner = $this->getFirstUser($manager);
+        /** @var User $owner */
+        $owner = $this->getReference('user');
         $this->createCustomer($manager, self::DUPLICATED_CUSTOMER_NAME, $owner);
 
         $manager->flush();

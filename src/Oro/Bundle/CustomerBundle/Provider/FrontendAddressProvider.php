@@ -2,51 +2,38 @@
 
 namespace Oro\Bundle\CustomerBundle\Provider;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerAddressRepository;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserAddressRepository;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
+/**
+ * Frontend provider for address entities.
+ */
 class FrontendAddressProvider
 {
-    /**
-     * @var ManagerRegistry
-     */
-    protected $registry;
+    /** @var ManagerRegistry */
+    private $registry;
 
-    /**
-     * @var AclHelper
-     */
-    protected $aclHelper;
+    /** @var AclHelper */
+    private $aclHelper;
 
-    /**
-     * @var string
-     */
-    protected $customerAddressClass;
+    /** @var string */
+    private $customerAddressClass;
 
-    /**
-     * @var string
-     */
-    protected $customerUserAddressClass;
+    /** @var string */
+    private $customerUserAddressClass;
 
-    /**
-     * @var array
-     */
-    protected $cache = [];
+    /** @var array */
+    private $cache = [];
 
-    /**
-     * @param ManagerRegistry $registry
-     * @param AclHelper $aclHelper
-     * @param string $customerAddressClass
-     * @param string $customerUserAddressClass
-     */
     public function __construct(
         ManagerRegistry $registry,
         AclHelper $aclHelper,
-        $customerAddressClass,
-        $customerUserAddressClass
+        string $customerAddressClass,
+        string $customerUserAddressClass
     ) {
         $this->registry = $registry;
         $this->aclHelper = $aclHelper;
@@ -107,23 +94,5 @@ class FrontendAddressProvider
     {
         return $this->registry->getManagerForClass($this->customerUserAddressClass)
             ->getRepository($this->customerUserAddressClass);
-    }
-
-    /**
-     * @param CustomerAddress $customerAddress
-     * @return bool
-     */
-    public function isCurrentCustomerAddressesContain(CustomerAddress $customerAddress)
-    {
-        return in_array($customerAddress, $this->getCurrentCustomerAddresses(), true);
-    }
-
-    /**
-     * @param CustomerUserAddress $customerUserAddress
-     * @return bool
-     */
-    public function isCurrentCustomerUserAddressesContain(CustomerUserAddress $customerUserAddress)
-    {
-        return in_array($customerUserAddress, $this->getCurrentCustomerUserAddresses(), true);
     }
 }

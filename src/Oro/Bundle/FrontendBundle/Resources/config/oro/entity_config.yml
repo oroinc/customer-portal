@@ -1,0 +1,62 @@
+entity_config:
+    entity:
+        # You can find out more about attributes in the documentation: https://doc.oroinc.com/backend/configuration/annotation/config/#entity
+        entity:
+            items:
+                frontend_grid_all_view_label:
+                    options:
+                        translatable:       true
+                        priority:           45
+                    constraints:
+                        - NotBlank:         ~
+                        - Length:
+                              min:            2
+                              max:            55
+    frontend:
+        # You can find out more about attributes in the documentation: https://doc.oroinc.com/backend/configuration/annotation/config-field/#frontend
+        field:
+            form:
+                block_config:
+                    frontend:
+                        title: oro_frontend.entity_config.block_titles.frontend.label
+                        priority: 60
+            items:
+                is_displayable:
+                    options:
+                        value_type:         boolean
+                    form:
+                        type:               Oro\Bundle\EntityConfigBundle\Form\Type\ChoiceType
+                        options:
+                            choices:
+                                No:         false
+                                Yes:        true
+                            placeholder:    false
+                            block:          frontend
+                            label:          oro_frontend.entity_config.fields.frontend.is_displayable.label
+                            tooltip:        oro_frontend.entity_config.fields.frontend.is_displayable.tooltip
+                    import_export:
+                        import_template:
+                            use_in_template: true
+                            value: Yes
+                is_editable:
+                    options:
+                        value_type:         boolean
+                        required_property:
+                            config_id:
+                                scope:      extend
+                            code:           owner
+                            value:          Custom
+                    form:
+                        type:               Oro\Bundle\EntityConfigBundle\Form\Type\ChoiceType
+                        options:
+                            choices:
+                                No:         false
+                                Yes:        true
+                            placeholder:    false
+                            block:          frontend
+                            label:          oro_frontend.entity_config.fields.frontend.is_editable.label
+                            tooltip:        oro_frontend.entity_config.fields.frontend.is_editable.tooltip
+                    import_export:
+                        import_template:
+                            use_in_template: true
+                            value: No

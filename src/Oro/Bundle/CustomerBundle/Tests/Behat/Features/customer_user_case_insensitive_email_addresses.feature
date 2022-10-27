@@ -28,6 +28,7 @@ Feature: Customer User Case Insensitive Email Addresses
       | First Name    | Branda                     |
       | Last Name     | Sanborn                    |
       | Email Address | BrandaJSanborn@example.org |
+    And I focus on "Birthday" field
     And I click "Today"
     And I fill form with:
       | Password                   | BrandaJSanborn1@example.org |
@@ -44,6 +45,7 @@ Feature: Customer User Case Insensitive Email Addresses
       | First Name    | Branda                     |
       | Last Name     | Sanborn                    |
       | Email Address | brandajsanborn@example.org |
+    And I focus on "Birthday" field
     And I click "Today"
     And I fill form with:
       | Password                   | BrandaJSanborn1@example.org |
@@ -127,6 +129,7 @@ Feature: Customer User Case Insensitive Email Addresses
       | First Name    | Ruth                    |
       | Last Name     | Maxwell                 |
       | Email Address | AmandaRCole@example.org |
+    And I focus on "Birthday" field
     And I click "Today"
     And I fill form with:
       | Password                   | amandarcolE@example.org1 |
@@ -144,6 +147,7 @@ Feature: Customer User Case Insensitive Email Addresses
       | First Name    | Marlene                     |
       | Last Name     | Bradley                     |
       | Email Address | MarleneSBradley@example.com |
+    And I focus on "Birthday" field
     And I click "Today"
     And I fill form with:
       | Password                   | MarleneSBradley@example.com1 |

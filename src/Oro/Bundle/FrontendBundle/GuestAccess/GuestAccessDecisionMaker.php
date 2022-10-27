@@ -5,72 +5,43 @@ namespace Oro\Bundle\FrontendBundle\GuestAccess;
 use Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProviderInterface;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
+/**
+ * The default implementation of the guest access decision maker
+ * that allow access to all management console urls and all allowed storefront urls.
+ */
 class GuestAccessDecisionMaker implements GuestAccessDecisionMakerInterface
 {
-    /**
-     * @var GuestAccessAllowedUrlsProviderInterface
-     */
+    /** @var GuestAccessAllowedUrlsProviderInterface */
     private $guestAccessAllowedUrlsProvider;
 
-    /**
-     * @var FrontendHelper
-     */
+    /** @var FrontendHelper */
     private $frontendHelper;
 
-    /**
-     * @var bool
-     */
-    private $installed;
-
-    /**
-     * @param GuestAccessAllowedUrlsProviderInterface $guestAccessAllowedUrlsProvider
-     * @param FrontendHelper                          $frontendHelper
-     * @param bool                                    $installed
-     */
     public function __construct(
         GuestAccessAllowedUrlsProviderInterface $guestAccessAllowedUrlsProvider,
-        FrontendHelper $frontendHelper,
-        $installed
+        FrontendHelper $frontendHelper
     ) {
         $this->guestAccessAllowedUrlsProvider = $guestAccessAllowedUrlsProvider;
         $this->frontendHelper = $frontendHelper;
-        $this->installed = $installed;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function decide($url)
+    public function decide(string $url): int
     {
-        switch (true) {
-            case ($this->installed === false):
-            case ($this->frontendHelper->isFrontendUrl($url) === false):
-            case ($this->isAllowedUrl($url) === true):
-                return GuestAccessDecisionMakerInterface::URL_ALLOW;
-                break;
-
-            default:
-                return GuestAccessDecisionMakerInterface::URL_DISALLOW;
+        if (!$this->frontendHelper->isFrontendUrl($url)) {
+            return self::URL_ALLOW;
         }
+
+        if ($this->matches($this->guestAccessAllowedUrlsProvider->getAllowedUrlsPatterns(), $url)) {
+            return self::URL_ALLOW;
+        }
+
+        return self::URL_DISALLOW;
     }
 
-    /**
-     * @param string $url
-     *
-     * @return bool
-     */
-    private function isAllowedUrl($url)
-    {
-        return $this->matches($this->guestAccessAllowedUrlsProvider->getAllowedUrlsPatterns(), $url);
-    }
-
-    /**
-     * @param array  $urlPatterns
-     * @param string $url
-     *
-     * @return bool
-     */
-    private function matches(array $urlPatterns, $url)
+    private function matches(array $urlPatterns, string $url): bool
     {
         foreach ($urlPatterns as $pattern) {
             if (preg_match('{' . $pattern . '}', rawurldecode($url))) {

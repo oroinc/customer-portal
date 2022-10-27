@@ -1,0 +1,51 @@
+Oro\Bundle\WebsiteBundle\Entity\Website:
+    website2:
+        name: Second
+        organization: '@organization'
+        owner: '@business_unit'
+        guestRole: '@buyer'
+        defaultRole: '@buyer'
+
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    company_A:
+        name: 'Company A'
+        organization: '@organization'
+        owner: '@admin'
+    company_A_west:
+        name: 'Company A - West Division'
+        organization: '@organization'
+        owner: '@admin'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+    amanda:
+        email: 'AmandaRCole@example.org'
+        username: 'AmandaRCole@example.org'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
+        firstName: 'Amanda'
+        lastName: 'Cole'
+        middleName: 'Middle Co'
+        namePrefix: 'Amanda Pre'
+        nameSuffix: 'Cole Suff'
+        enabled: '1'
+        confirmed: '1'
+        customer: '@company_A'
+        organization: '@organization'
+        userRoles: ['@front_admin', '@buyer']
+        owner: '@admin'
+        website: '@website1'
+    branda:
+        email: 'BrandaJSanborn@example.org'
+        username: 'BrandaJSanborn@example.org'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
+        firstName: 'Branda'
+        lastName: 'Sanborn'
+        birthday: <(new \DateTime('1990-10-02 12:00'))>
+        enabled: '1'
+        confirmed: '1'
+        customer: '@company_A'
+        organization: '@organization'
+        userRoles: ['@buyer']
+        owner: '@admin'
+        website: '@website2'

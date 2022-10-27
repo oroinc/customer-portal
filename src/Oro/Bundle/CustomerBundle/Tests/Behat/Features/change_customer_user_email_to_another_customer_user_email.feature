@@ -1,10 +1,9 @@
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Change customer user email to another customer user email
-  ToDo: BAP-16103 Add missing descriptions to the Behat features
 
   Scenario: Customer user email change
     Given I signed in as NancyJSallee@example.org on the store frontend
-    And I click "Account"
+    And I follow "Account"
     And I click "Edit"
     And I fill form with:
       | Email Address | AmandaRCole@example.org |

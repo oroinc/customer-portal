@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\WebsiteBundle\Provider;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 class WebsiteProvider implements WebsiteProviderInterface
@@ -11,10 +11,7 @@ class WebsiteProvider implements WebsiteProviderInterface
      * @var ManagerRegistry
      */
     protected $registry;
-    
-    /**
-     * @param ManagerRegistry $registry
-     */
+
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
@@ -26,7 +23,7 @@ class WebsiteProvider implements WebsiteProviderInterface
     public function getWebsites()
     {
         $website = $this->getDefaultWebsite();
-        
+
         return $website ? [$website->getId() => $website] : [];
     }
 

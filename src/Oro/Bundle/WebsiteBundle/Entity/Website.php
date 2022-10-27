@@ -14,12 +14,18 @@ use Oro\Bundle\WebsiteBundle\Model\ExtendWebsite;
 use Oro\Component\Website\WebsiteInterface;
 
 /**
+ * Website entity class.
+ *
  * @ORM\Table(
  *     name="oro_website",
  *     indexes={
  *          @ORM\Index(name="idx_oro_website_created_at", columns={"created_at"}),
  *          @ORM\Index(name="idx_oro_website_updated_at", columns={"updated_at"})
- *      }
+ *      },
+ *      uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="uidx_oro_website_name_organization",
+ *          columns={"name", "organization_id"})
+ *      },
  * )
  * @ORM\Entity(repositoryClass="Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository")
  * @Config(
@@ -86,11 +92,14 @@ class Website extends ExtendWebsite implements OrganizationAwareInterface, Websi
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      * @ConfigField(
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *         "importexport"={
+     *              "identity"=true,
      *          }
      *      }
      * )

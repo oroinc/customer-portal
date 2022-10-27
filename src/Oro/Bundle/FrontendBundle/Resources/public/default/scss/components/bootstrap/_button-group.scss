@@ -1,19 +1,21 @@
 /* @theme: default; */
 
+@import '~@oroinc/bootstrap/scss/button-group';
+
 .btn-group {
-    .btn + .btn,
-    .btn + .btn-group,
-    .btn-group + .btn,
-    .btn-group + .btn-group {
-        border-left-color: $btn-group-divider-border-color;
+    .dropdown-toggle {
+        margin: auto;
     }
 
-    > .btn:not(:last-child):not(.dropdown-toggle),
-    > .btn-group:not(:last-child) > .btn {
-        border-right-color: $btn-group-divider-border-color;
+    &--flex {
+        display: flex;
     }
-}
 
-.dropdown-toggle-split {
-    min-width: $dropdown-toggle-split-min-width;
+    &--block {
+        display: block;
+    }
+
+    &--full {
+        width: 100%;
+    }
 }

@@ -9,36 +9,28 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class CustomerUserIdPlaceholderTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var CustomerUserIdPlaceholder */
-    private $placeholder;
-
     /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenStorage;
 
-    protected function setUp()
+    /** @var CustomerUserIdPlaceholder */
+    private $placeholder;
+
+    protected function setUp(): void
     {
-        $this->tokenStorage = $this->getMockBuilder(TokenStorageInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
 
         $this->placeholder = new CustomerUserIdPlaceholder($this->tokenStorage);
     }
 
-    protected function tearDown()
-    {
-        unset($this->tokenStorage, $this->placeholder);
-    }
-
     public function testGetPlaceholder()
     {
-        $this->assertInternalType('string', $this->placeholder->getPlaceholder());
+        $this->assertIsString($this->placeholder->getPlaceholder());
         $this->assertEquals('CUSTOMER_USER_ID', $this->placeholder->getPlaceholder());
     }
 
     public function testGetValueWhenTokenIsNull()
     {
-        $this->tokenStorage
-            ->expects($this->once())
+        $this->tokenStorage->expects($this->once())
             ->method('getToken')
             ->willReturn(null);
 
@@ -48,13 +40,11 @@ class CustomerUserIdPlaceholderTest extends \PHPUnit\Framework\TestCase
     public function testGetValueWhenCustomerUserIsNotCustomerUser()
     {
         $token = $this->createMock(TokenInterface::class);
-        $token
-            ->expects($this->once())
+        $token->expects($this->once())
             ->method('getUser')
             ->willReturn('Anonymous');
 
-        $this->tokenStorage
-            ->expects($this->once())
+        $this->tokenStorage->expects($this->once())
             ->method('getToken')
             ->willReturn($token);
 
@@ -64,22 +54,18 @@ class CustomerUserIdPlaceholderTest extends \PHPUnit\Framework\TestCase
     public function testGetValueWhenCustomerUserIsGiven()
     {
         $customerUserId = 7;
-        $customerUser = $this->getMockBuilder(CustomerUser::class)
-            ->getMock();
+        $customerUser = $this->createMock(CustomerUser::class);
 
-        $customerUser
-            ->expects($this->once())
+        $customerUser->expects($this->once())
             ->method('getId')
             ->willReturn($customerUserId);
 
         $token = $this->createMock(TokenInterface::class);
-        $token
-            ->expects($this->any())
+        $token->expects($this->any())
             ->method('getUser')
             ->willReturn($customerUser);
 
-        $this->tokenStorage
-            ->expects($this->once())
+        $this->tokenStorage->expects($this->once())
             ->method('getToken')
             ->willReturn($token);
 

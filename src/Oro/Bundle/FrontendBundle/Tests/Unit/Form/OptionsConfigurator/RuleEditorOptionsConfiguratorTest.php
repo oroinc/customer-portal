@@ -3,8 +3,6 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\OptionsConfigurator;
 
 use Oro\Bundle\FrontendBundle\Form\OptionsConfigurator\RuleEditorOptionsConfigurator;
-use Oro\Bundle\PricingBundle\Entity\PriceList;
-use Oro\Bundle\ProductBundle\Expression\Autocomplete\AutocompleteFieldsProviderInterface;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,7 +23,6 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider invalidOptionsDataProvider
-     * @param array $options
      */
     public function testConfigureOptionsInvalid(array $options)
     {
@@ -38,10 +35,7 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
         $resolver->resolve($options);
     }
 
-    /**
-     * @return array
-     */
-    public function invalidOptionsDataProvider()
+    public function invalidOptionsDataProvider(): array
     {
         return [
             'rootEntities type' => [['rootEntities' => true]],
@@ -73,7 +67,7 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
     public function testConfigureOptionsFull()
     {
         $options = [
-            'rootEntities' => ['price_list'],
+            'rootEntities' => ['App\Entity\PriceList' => 'price_list'],
             'dataSource' => ['price_list' => 'test'],
             'dataProviderConfig' => [
                 'optionsFilter' =>  ['exclude' => false, 'unidirectional' => false]
@@ -95,7 +89,7 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
                 'view' => 'custom-view',
             ],
             'dataSource' => ['price_list' => 'test'],
-            'rootEntities' => ['price_list'],
+            'rootEntities' => ['App\Entity\PriceList' => 'price_list']
             'allowedOperations' => ['math'],
             'dataProviderConfig' => [
                 'optionsFilter' =>  ['exclude' => false, 'unidirectional' => false]

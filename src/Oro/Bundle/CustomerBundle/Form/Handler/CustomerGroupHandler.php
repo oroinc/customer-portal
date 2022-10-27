@@ -2,64 +2,49 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Event\CustomerGroupEvent;
+use Oro\Bundle\CustomerBundle\Event\CustomerMassEvent;
+use Oro\Bundle\FormBundle\Form\Handler\FormHandlerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class CustomerGroupHandler
+/**
+ * Form handler for customer group
+ * - process customer group form
+ * - save changes to customer group entity
+ * - assign/unassign customers to customer group
+ * - trigger oro_customer.customer_group.before_flush and oro_customer.customer.on_customer_group_mass_change events
+ */
+class CustomerGroupHandler implements FormHandlerInterface
 {
-    /** @var FormInterface */
-    protected $form;
+    protected ObjectManager $manager;
+    protected EventDispatcherInterface $dispatcher;
 
-    /** @var Request */
-    protected $request;
-
-    /** @var ObjectManager */
-    protected $manager;
-
-    /** @var EventDispatcherInterface */
-    protected $dispatcher;
-
-    /**
-     * @param FormInterface $form
-     * @param Request $request
-     * @param ObjectManager $manager
-     * @param EventDispatcherInterface $dispatcher
-     */
-    public function __construct(
-        FormInterface $form,
-        Request $request,
-        ObjectManager $manager,
-        EventDispatcherInterface $dispatcher
-    ) {
-        $this->form = $form;
-        $this->request = $request;
+    public function __construct(ObjectManager $manager, EventDispatcherInterface $dispatcher)
+    {
         $this->manager = $manager;
         $this->dispatcher = $dispatcher;
     }
 
     /**
-     * Process form
-     *
-     * @param CustomerGroup $entity
-     * @return bool  True on successful processing, false otherwise
+     * {@inheritDoc}
      */
-    public function process(CustomerGroup $entity)
+    public function process($entity, FormInterface $form, Request $request)
     {
-        $this->form->setData($entity);
+        $form->setData($entity);
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
 
-        if ($this->request->isMethod('POST')) {
-            $this->form->handleRequest($this->request);
-
-            if ($this->form->isSubmitted() && $this->form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $this->onSuccess(
                     $entity,
-                    $this->form->get('appendCustomers')->getData(),
-                    $this->form->get('removeCustomers')->getData()
+                    $form,
+                    $form->get('appendCustomers')->getData(),
+                    $form->get('removeCustomers')->getData()
                 );
 
                 return true;
@@ -73,17 +58,24 @@ class CustomerGroupHandler
      * "Success" form handler
      *
      * @param CustomerGroup $entity
+     * @param FormInterface $form
      * @param Customer[] $append
      * @param Customer[] $remove
      */
-    protected function onSuccess(CustomerGroup $entity, array $append, array $remove)
+    protected function onSuccess(CustomerGroup $entity, FormInterface $form, array $append, array $remove): void
     {
         $this->setGroup($entity, $append);
         $this->removeFromGroup($entity, $remove);
-        $event = new CustomerGroupEvent($entity, $this->form);
-        $this->dispatcher->dispatch(CustomerGroupEvent::BEFORE_FLUSH, $event);
+        $event = new CustomerGroupEvent($entity, $form);
+        $this->dispatcher->dispatch($event, CustomerGroupEvent::BEFORE_FLUSH);
         $this->manager->persist($entity);
         $this->manager->flush();
+
+        $changedCustomers = array_merge($append, $remove);
+        if ($changedCustomers) {
+            $customerMassEvent = new CustomerMassEvent($changedCustomers);
+            $this->dispatcher->dispatch($customerMassEvent, CustomerMassEvent::ON_CUSTOMER_GROUP_MASS_CHANGE);
+        }
     }
 
     /**
@@ -92,7 +84,7 @@ class CustomerGroupHandler
      * @param CustomerGroup $group
      * @param Customer[] $customers
      */
-    protected function setGroup(CustomerGroup $group, array $customers)
+    protected function setGroup(CustomerGroup $group, array $customers): void
     {
         foreach ($customers as $customer) {
             $customer->setGroup($group);
@@ -106,7 +98,7 @@ class CustomerGroupHandler
      * @param CustomerGroup $group
      * @param Customer[] $customers
      */
-    protected function removeFromGroup(CustomerGroup $group, array $customers)
+    protected function removeFromGroup(CustomerGroup $group, array $customers): void
     {
         foreach ($customers as $customer) {
             if ($customer->getGroup()->getId() === $group->getId()) {

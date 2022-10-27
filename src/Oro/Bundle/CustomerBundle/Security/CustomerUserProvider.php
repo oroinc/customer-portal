@@ -3,6 +3,8 @@
 namespace Oro\Bundle\CustomerBundle\Security;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\SecurityBundle\Acl\BasicPermission;
 use Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdentityFactory;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityAclExtension;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityMaskBuilder;
@@ -11,10 +13,13 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\Security\Acl\Domain\Entry;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\PermissionGrantingStrategy;
-use Symfony\Component\Security\Acl\Permission\BasicPermissionMap;
 use Symfony\Component\Security\Acl\Util\ClassUtils;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+/**
+ * This provider is responsible for providing current customer user and checking its access.
+ */
 class CustomerUserProvider
 {
     /** @var AuthorizationCheckerInterface */
@@ -32,11 +37,6 @@ class CustomerUserProvider
     /** @var EntityMaskBuilder[] */
     protected $maskBuilders = [];
 
-    /**
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param TokenAccessorInterface        $tokenAccessor
-     * @param AclManager                    $aclManager
-     */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         TokenAccessorInterface $tokenAccessor,
@@ -56,13 +56,26 @@ class CustomerUserProvider
     }
 
     /**
+     * @param bool $allowGuest
      * @return CustomerUser|null
      */
-    public function getLoggedUser()
+    public function getLoggedUser($allowGuest = false)
     {
-        $user = $this->tokenAccessor->getUser();
+        $token = $this->tokenAccessor->getToken();
+        if (!$token instanceof TokenInterface) {
+            return null;
+        }
+
+        $user = $token->getUser();
         if ($user instanceof CustomerUser) {
             return $user;
+        }
+
+        if ($allowGuest && $token instanceof AnonymousCustomerUserToken) {
+            $visitor = $token->getVisitor();
+            if ($visitor) {
+                return $visitor->getCustomerUser();
+            }
         }
 
         return null;
@@ -129,7 +142,7 @@ class CustomerUserProvider
     public function isGrantedViewCustomerUser($class)
     {
         $descriptor = sprintf('entity:%s@%s', CustomerUser::SECURITY_GROUP, $this->customerUserClass);
-        if (!$this->authorizationChecker->isGranted(BasicPermissionMap::PERMISSION_VIEW, $descriptor)) {
+        if (!$this->authorizationChecker->isGranted(BasicPermission::VIEW, $descriptor)) {
             return false;
         }
 
@@ -153,7 +166,7 @@ class CustomerUserProvider
     {
         return $this->isGrantedEntityMask(
             $class,
-            $this->getMaskBuilderForPermission($permission)->getMask('MASK_' . $permission . '_' . $level)
+            $this->getMaskBuilderForPermission($permission)->getMaskForPermission($permission . '_' . $level)
         );
     }
 
@@ -191,7 +204,7 @@ class CustomerUserProvider
         }
 
         $extension = $this->aclManager->getExtensionSelector()->select($oid);
-        foreach ($loggedUser->getRoles() as $role) {
+        foreach ($loggedUser->getUserRoles() as $role) {
             $sid = $this->aclManager->getSid($role);
 
             $aces = array_filter(
@@ -215,7 +228,7 @@ class CustomerUserProvider
                 return $this->isGrantedOidMask(
                     $rootOid,
                     $class,
-                    $this->getMaskBuilderForMask($requiredMask)->getMask('GROUP_DEEP')
+                    $this->getMaskBuilderForMask($requiredMask)->getMaskForGroup('DEEP')
                 );
             }
 

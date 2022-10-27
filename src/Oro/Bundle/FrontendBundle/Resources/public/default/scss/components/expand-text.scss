@@ -1,64 +1,59 @@
+/* @theme: default; */
+
 .expand-text {
-  height: $base-font-size--large;
-
-  overflow: hidden;
-
-  &__trigger {
-    display: inline-block;
-
-    margin-right: 3px;
-
-    cursor: pointer;
-
-    transition: all 200ms linear;
-
-    &:hover {
-      color: get-color('additional', 'dark');
-    }
-  }
-
-  &__container {
-    display: inline-block;
-
-    max-width: 100%;
-
-    text-overflow: ellipsis;
-
+    height: $base-font-size--large;
     overflow: hidden;
-    white-space: nowrap;
-  }
 
-  &__content {
-    &--long {
-      display: none;
-    }
-  }
+    &__trigger {
+        display: inline-block;
+        margin-right: 3px;
+        cursor: pointer;
+        transition: transform 200ms linear;
 
-  &.init {
-    height: auto;
-    overflow: inherit;
-  }
-
-  &.open {
-    .expand-text {
-      &__trigger {
-        transform: rotate(90deg);
-      }
-
-      &__container {
-        overflow: inherit;
-        white-space: normal;
-      }
-
-      &__content {
-        &--short {
-          display: none;
+        &:hover {
+            color: $expand-text-trigger-hover-color;
         }
+    }
 
+    &__container {
+        display: inline-block;
+        max-width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    &__content {
         &--long {
-          display: inline;
+            display: none;
         }
-      }
     }
-  }
+
+    &.init {
+        height: auto;
+        overflow: inherit;
+    }
+
+    &.open {
+        .expand-text {
+            &__trigger {
+                transform: rotate(90deg);
+            }
+
+            &__container {
+                overflow: inherit;
+                white-space: normal;
+            }
+
+            &__content {
+                &--short {
+                    display: none;
+                }
+
+                &--long {
+                    display: inline;
+                }
+            }
+        }
+    }
 }

@@ -2,13 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRegistrationType;
 use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\UserBundle\Entity\UserManager;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
@@ -16,44 +15,24 @@ use Symfony\Component\Validator\Validation;
 
 class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|ConfigManager
-     */
-    protected $configManager;
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $configManager;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|UserManager
-     */
-    protected $userManager;
+    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
+    private $doctrine;
 
-    /**
-     * @var FrontendCustomerUserRegistrationType
-     */
-    protected $formType;
+    /** @var FrontendCustomerUserRegistrationType */
+    private $formType;
 
-    /**
-     * @var Customer[]
-     */
-    protected static $customers = [];
-
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->configManager = $this->getMockBuilder('Oro\Bundle\ConfigBundle\Config\ConfigManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->configManager = $this->createMock(ConfigManager::class);
+        $this->doctrine = $this->createMock(ManagerRegistry::class);
 
-        $this->userManager = $this->getMockBuilder('Oro\Bundle\UserBundle\Entity\UserManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->formType = new FrontendCustomerUserRegistrationType($this->configManager, $this->doctrine);
+        $this->formType->setDataClass(CustomerUser::class);
 
-        $this->formType = new FrontendCustomerUserRegistrationType($this->configManager, $this->userManager);
-        $this->formType->setDataClass('Oro\Bundle\CustomerBundle\Entity\CustomerUser');
         parent::setUp();
-    }
-
-    protected function tearDown()
-    {
-        unset($this->configManager, $this->userManager, $this->formType);
     }
 
     /**
@@ -92,10 +71,14 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
             ->withConsecutive(['oro_customer.company_name_field_enabled'], ['oro_customer.default_customer_owner'])
             ->willReturnOnConsecutiveCalls($companyNameEnabled, 42);
 
-        $repository = $this->assertUserRepositoryCall();
-        $repository->expects($this->any())
+        $em = $this->createMock(EntityManagerInterface::class);
+        $this->doctrine->expects($this->any())
+            ->method('getManagerForClass')
+            ->with(User::class)
+            ->willReturn($em);
+        $em->expects($this->any())
             ->method('find')
-            ->with(42)
+            ->with(User::class, 42)
             ->willReturn($owner);
 
         $form = $this->factory->create(FrontendCustomerUserRegistrationType::class, clone $defaultData, $options);
@@ -103,6 +86,7 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
         $this->assertEquals($defaultData, $form->getData());
         $form->submit($submittedData);
         $this->assertEquals($isValid, $form->isValid());
+        $this->assertTrue($form->isSynchronized());
         $this->assertEquals($expectedData, $form->getData());
     }
 
@@ -206,39 +190,10 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|ObjectRepository
-     */
-    protected function assertUserRepositoryCall()
-    {
-        $repository = $this->getMockBuilder('Oro\Bundle\UserBundle\Entity\Repository\UserRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->userManager->expects($this->any())
-            ->method('getRepository')
-            ->willReturn($repository);
-
-        return $repository;
-    }
-
-    /**
-     * @param CustomerUser $existingCustomerUser
-     * @param string $property
-     * @param mixed $value
-     */
-    protected function setPropertyValue(CustomerUser $existingCustomerUser, $property, $value)
-    {
-        $class = new \ReflectionClass($existingCustomerUser);
-        $prop = $class->getProperty($property);
-        $prop->setAccessible(true);
-        $prop->setValue($existingCustomerUser, $value);
-    }
-
-    /**
      * @param User $owner
      * @return CustomerUser
      */
-    protected function createCustomerUserWithDefaultData(User $owner)
+    private function createCustomerUserWithDefaultData(User $owner)
     {
         $customerUser = new CustomerUser();
 

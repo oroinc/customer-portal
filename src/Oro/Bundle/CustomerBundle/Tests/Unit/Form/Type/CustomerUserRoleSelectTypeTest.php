@@ -9,34 +9,31 @@ use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as EntityTypeStub;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 {
-    const ROLE_CLASS = 'Oro\Bundle\CustomerBundle\Entity\CustomerUserRole';
+    private const ROLE_CLASS = CustomerUserRole::class;
 
-    /** @var  CustomerUserRoleSelectType */
-    protected $formType;
+    /** @var CustomerUserRoleSelectType */
+    private $formType;
 
-    /** @var string */
-    protected $roleClass;
-
-    public function setUp()
+    protected function setUp(): void
     {
-        $translator = $this->createTranslator();
+        $translator = $this->createMock(TranslatorInterface::class);
+        $translator->expects($this->any())
+            ->method('trans')
+            ->willReturnCallback(function ($message) {
+                return $message . '.trans';
+            });
+
         $this->formType = new CustomerUserRoleSelectType($translator);
         $this->formType->setRoleClass(self::ROLE_CLASS);
         parent::setUp();
     }
 
-    public function tearDown()
-    {
-        unset($this->formType);
-        parent::tearDown();
-    }
-
     /**
-     * @return array
+     * {@inheritDoc}
      */
     protected function getExtensions()
     {
@@ -57,20 +54,16 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
     {
         $form = $this->factory->create(CustomerUserRoleSelectType::class);
 
-        $expectedOptions = [
-            'class' => self::ROLE_CLASS,
-            'multiple' => true,
-            'expanded' => true,
-            'required' => false,
-        ];
-
         $formOptions = $form->getConfig()->getOptions();
+        $this->assertSame(self::ROLE_CLASS, $formOptions['class']);
+        $this->assertTrue($formOptions['multiple']);
+        $this->assertTrue($formOptions['expanded']);
+        $this->assertFalse($formOptions['required']);
 
-        $this->assertArraySubset($expectedOptions, $formOptions);
         $this->assertArrayHasKey('choice_label', $formOptions);
-        $this->assertInternalType('callable', $formOptions['choice_label']);
+        $this->assertIsCallable($formOptions['choice_label']);
 
-        $roleWithoutCustomer = new CustomerUserRole();
+        $roleWithoutCustomer = new CustomerUserRole('');
         $roleWithoutCustomer->setLabel('roleWithoutCustomer');
         $this->assertEquals(
             'roleWithoutCustomer (oro.customer.customeruserrole.type.predefined.label.trans)',
@@ -78,7 +71,7 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         );
 
         $customer = new Customer();
-        $roleWithCustomer = new CustomerUserRole();
+        $roleWithCustomer = new CustomerUserRole('');
         $roleWithCustomer->setCustomer($customer);
         $roleWithCustomer->setLabel('roleWithCustomer');
         $this->assertEquals(
@@ -89,22 +82,5 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         $testEntity = new Customer();
         $testEntity->setName('TestEntityValue');
         $this->assertEquals('TestEntityValue', $formOptions['choice_label']($testEntity));
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface
-     */
-    private function createTranslator()
-    {
-        $translator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
-        $translator->expects($this->any())
-            ->method('trans')
-            ->willReturnCallback(
-                function ($message) {
-                    return $message . '.trans';
-                }
-            );
-
-        return $translator;
     }
 }

@@ -27,10 +27,6 @@ class Processor
      */
     private $eventDispatcher;
 
-    /**
-     * @param UserTemplateEmailSender $userTemplateEmailSender
-     * @param EventDispatcherInterface $eventDispatcher
-     */
     public function __construct(
         UserTemplateEmailSender $userTemplateEmailSender,
         EventDispatcherInterface $eventDispatcher
@@ -91,19 +87,13 @@ class Processor
         );
     }
 
-    /**
-     * @param CustomerUser $user
-     * @param $emailTemplateName
-     * @param array $emailTemplateParams
-     * @return int
-     */
     private function getEmailTemplateAndSendEmail(
         CustomerUser $user,
         $emailTemplateName,
         array $emailTemplateParams
     ): int {
         $event = new CustomerUserEmailSendEvent($user, $emailTemplateName, $emailTemplateParams);
-        $this->eventDispatcher->dispatch(CustomerUserEmailSendEvent::NAME, $event);
+        $this->eventDispatcher->dispatch($event, CustomerUserEmailSendEvent::NAME);
 
         return $this->userTemplateEmailSender->sendUserTemplateEmail(
             $user,

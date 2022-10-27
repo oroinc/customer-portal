@@ -1,0 +1,4 @@
+data:
+    type: customers
+    attributes:
+        name: 'New Customer'

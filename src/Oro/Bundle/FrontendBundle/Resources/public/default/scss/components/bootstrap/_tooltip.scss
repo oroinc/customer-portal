@@ -1,0 +1,29 @@
+/* @theme: default; */
+
+@import '~@oroinc/bootstrap/scss/tooltip';
+
+.tooltip {
+    // Tooltip can be over of any fixed element
+    &--high {
+        z-index: z('fixed') + 10;
+    }
+
+    .arrow {
+        &::before {
+            @include base-disabled-style(.75);
+        }
+    }
+}
+
+.tooltip-inner {
+    &:not(.not-expand) {
+        text-align: left;
+    }
+
+    @include base-disabled-style(.75);
+}
+
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+}

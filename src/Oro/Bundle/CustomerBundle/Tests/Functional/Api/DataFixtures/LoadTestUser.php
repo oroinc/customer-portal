@@ -4,8 +4,9 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
+use Oro\Bundle\UserBundle\Entity\Role;
 use Oro\Bundle\UserBundle\Entity\UserManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
@@ -27,9 +28,7 @@ class LoadTestUser extends AbstractFixture implements ContainerAwareInterface, D
         /** @var UserManager $userManager */
         $userManager = $this->container->get('oro_user.manager');
 
-        $role = $userManager
-            ->getStorageManager()
-            ->getRepository('OroUserBundle:Role')
+        $role = $manager->getRepository(Role::class)
             ->findBy(['role' => 'ROLE_ADMINISTRATOR']);
 
         $organization = $this->getReference('organization');
@@ -40,7 +39,7 @@ class LoadTestUser extends AbstractFixture implements ContainerAwareInterface, D
             ->setPlainPassword(uniqid())
             ->setFirstName('Simple')
             ->setLastName('User')
-            ->addRole($role[0])
+            ->addUserRole($role[0])
             ->setEmail('test@test.com')
             ->setOrganization($organization)
             ->addOrganization($organization)

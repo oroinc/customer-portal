@@ -26,15 +26,10 @@ class CustomerUserRelationsProviderTest extends \PHPUnit\Framework\TestCase
      */
     protected $provider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->configManager = $this->getMockBuilder('Oro\Bundle\ConfigBundle\Config\ConfigManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->doctrineHelper = $this->getMockBuilder('Oro\Bundle\EntityBundle\ORM\DoctrineHelper')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->configManager = $this->createMock(ConfigManager::class);
+        $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
 
         $this->provider = new CustomerUserRelationsProvider(
             $this->configManager,
@@ -44,8 +39,6 @@ class CustomerUserRelationsProviderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider customerDataProvider
-     * @param CustomerUser|null $customerUser
-     * @param Customer|null $expectedCustomer
      */
     public function testGetCustomer(CustomerUser $customerUser = null, Customer $expectedCustomer = null)
     {
@@ -141,9 +134,6 @@ class CustomerUserRelationsProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($customer, $this->provider->getCustomerIncludingEmpty($customerUser));
     }
 
-    /**
-     * @param CustomerGroup $customerGroup
-     */
     protected function assertCustomerGroupConfigCall(CustomerGroup $customerGroup)
     {
         $this->configManager->expects($this->once())

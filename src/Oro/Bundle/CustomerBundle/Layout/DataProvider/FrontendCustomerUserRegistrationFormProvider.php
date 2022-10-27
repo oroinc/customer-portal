@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Layout\DataProvider;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -9,7 +10,6 @@ use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRegistrationType;
 use Oro\Bundle\LayoutBundle\Layout\DataProvider\AbstractFormProvider;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\UserBundle\Entity\UserManager;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -29,28 +29,21 @@ class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
     /** @var WebsiteManager */
     private $websiteManager;
 
-    /** @var UserManager */
-    private $userManager;
+    /** @var ManagerRegistry */
+    private $doctrine;
 
-    /**
-     * @param FormFactoryInterface    $formFactory
-     * @param ConfigManager           $configManager
-     * @param WebsiteManager          $websiteManager
-     * @param UserManager             $userManager
-     * @param UrlGeneratorInterface   $router
-     */
     public function __construct(
         FormFactoryInterface $formFactory,
         ConfigManager $configManager,
         WebsiteManager $websiteManager,
-        UserManager $userManager,
+        ManagerRegistry $doctrine,
         UrlGeneratorInterface $router
     ) {
         parent::__construct($formFactory, $router);
 
         $this->configManager = $configManager;
         $this->websiteManager = $websiteManager;
-        $this->userManager = $userManager;
+        $this->doctrine = $doctrine;
     }
 
     /**
@@ -108,13 +101,13 @@ class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
         }
 
         /** @var User $owner */
-        $owner = $this->userManager->getRepository()->find($defaultOwnerId);
+        $owner = $this->doctrine->getManagerForClass(User::class)->find(User::class, $defaultOwnerId);
 
         $customerUser
             ->setOwner($owner)
             ->setOrganization($organization)
             ->setWebsite($website)
-            ->addRole($defaultRole);
+            ->addUserRole($defaultRole);
 
         return $customerUser;
     }

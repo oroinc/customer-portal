@@ -1,14 +1,11 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
-    var ScrollTopView;
-    var viewportManager = require('oroui/js/viewport-manager');
-    var BaseView = require('oroui/js/app/views/base/view');
-    var _ = require('underscore');
-    var $ = require('jquery');
-    var module = require('module');
-
-    var config = module.config();
+    const viewportManager = require('oroui/js/viewport-manager');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const _ = require('underscore');
+    const $ = require('jquery');
+    let config = require('module-config').default(module.id);
 
     config = _.extend({
         togglePoint: 165,
@@ -21,7 +18,7 @@ define(function(require) {
         }
     }, config);
 
-    ScrollTopView = BaseView.extend({
+    const ScrollTopView = BaseView.extend({
         autoRender: true,
 
         options: {
@@ -47,22 +44,22 @@ define(function(require) {
         isApplicable: false,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function ScrollTopView() {
-            ScrollTopView.__super__.constructor.apply(this, arguments);
+        constructor: function ScrollTopView(options) {
+            ScrollTopView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.options = _.extend({}, this.options, options || {});
-            ScrollTopView.__super__.initialize.apply(this, arguments);
+            ScrollTopView.__super__.initialize.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         setElement: function(element) {
             this.$window = $(window);
@@ -71,25 +68,25 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        delegateEvents: function() {
-            ScrollTopView.__super__.delegateEvents.apply(this, arguments);
-            this.$window.on('scroll' + this.eventNamespace(), _.debounce(_.bind(this.toggle, this), 5));
+        delegateEvents: function(events) {
+            ScrollTopView.__super__.delegateEvents.call(this, events);
+            this.$window.on('scroll' + this.eventNamespace(), _.debounce(this.toggle.bind(this), 5));
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         undelegateEvents: function() {
             if (this.$window) {
                 this.$window.off(this.eventNamespace());
             }
-            ScrollTopView.__super__.undelegateEvents.apply(this, arguments);
+            ScrollTopView.__super__.undelegateEvents.call(this);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         render: function() {
             this.isApplicable = viewportManager.isApplicable(this.options.viewport);
@@ -101,12 +98,13 @@ define(function(require) {
                 return;
             }
 
-            if (this.isApplicable) {
-                var state = this.$window.scrollTop() > this.options.togglePoint;
-                this.$el.toggle(state);
+            if (this.isApplicable && this.$window.scrollTop() > this.options.togglePoint) {
+                this.$el.addClass('scroll-top-visible');
+                this.$el.attr('aria-hidden', false);
                 this.land();
             } else {
-                this.$el.hide();
+                this.$el.removeClass('scroll-top-visible');
+                this.$el.attr('aria-hidden', true);
             }
         },
 
@@ -120,16 +118,16 @@ define(function(require) {
             if (!this.options.allowLanding) {
                 return;
             }
-            var footerHeight = this.$document.find('[data-page-footer]').height();
-            var windowHeight = this.$window.height();
-            var elementHeight = this.$el.height() + this.options.bottomOffset;
-            var scrollY = this.$document.height() - this.$window.scrollTop();
-            var footerOffset = footerHeight + windowHeight + elementHeight;
+            const footerHeight = this.$document.find('[data-page-footer]').height();
+            const windowHeight = this.$window.height();
+            const elementHeight = this.$el.height() + this.options.bottomOffset;
+            const scrollY = this.$document.height() - this.$window.scrollTop();
+            const footerOffset = footerHeight + windowHeight + elementHeight;
             this.$el.toggleClass('scroll-top--landed', footerOffset >= scrollY);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         dispose: function() {
             if (this.disposed) {

@@ -2,34 +2,23 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Doctrine\Persistence\ObjectManager;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadCustomerUserDemoData extends AbstractFixture implements ContainerAwareInterface, DependentFixtureInterface
+/**
+ * Loads customer users.
+ */
+class LoadCustomerUserDemoData extends AbstractLoadCustomerUserDemoData
 {
-    const ACCOUNT_USERS_REFERENCE_PREFIX = 'customer_user_demo_data_';
-
-    /** @var ContainerInterface */
-    protected $container;
-
-    /** @var array */
-    public static $customerUsersReferencesNames = [];
+    /**
+     * @var Organization
+     */
+    private $organization;
 
     /**
      * {@inheritdoc}
      */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
-
-    /** @return array */
     public function getDependencies()
     {
         return [LoadCustomerDemoData::class];
@@ -38,82 +27,43 @@ class LoadCustomerUserDemoData extends AbstractFixture implements ContainerAware
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    protected function getOrganization(ObjectManager $manager)
     {
-        /** @var Website $website */
-        $website = $manager->getRepository(Website::class)->findOneBy(['default' => true]);
-
-        /** @var \Oro\Bundle\CustomerBundle\Entity\CustomerUserManager $userManager */
-        $userManager = $this->container->get('oro_customer_user.manager');
-
-        $locator = $this->container->get('file_locator');
-        $filePath = $locator->locate('@OroCustomerBundle/Migrations/Data/Demo/ORM/data/customer-users.csv');
-        if (is_array($filePath)) {
-            $filePath = current($filePath);
+        //Can not use reference here because this fixture is used in tests
+        if (!$this->organization) {
+            $this->organization = $manager->getRepository('OroOrganizationBundle:Organization')->findOneBy(
+                [],
+                ['id' => 'ASC']
+            );
         }
 
-        $handler = fopen($filePath, 'r');
-        $headers = fgetcsv($handler, 1000, ',');
-
-        $organization = $manager->getRepository('OroOrganizationBundle:Organization')->findOneBy([]);
-
-        $storageManager = $userManager->getStorageManager();
-
-        $roles = [];
-
-        while (($data = fgetcsv($handler, 1000, ',')) !== false) {
-            $row = array_combine($headers, array_values($data));
-
-            $customer = $this->getReference(LoadCustomerDemoData::ACCOUNT_REFERENCE_PREFIX . $row['customer']);
-            if (!$customer) {
-                continue;
-            }
-
-            // create/get customer user role
-            $roleLabel = $row['role'];
-            if (!array_key_exists($roleLabel, $roles)) {
-                $roles[$roleLabel] = $this->getCustomerUserRole($roleLabel);
-            }
-            $role = $roles[$roleLabel];
-
-            // create customer user
-            /** @var CustomerUser $customerUser */
-            $customerUser = $userManager->createUser();
-            $customerUser
-                ->setWebsite($website)
-                ->setUsername($row['email'])
-                ->setEmail($row['email'])
-                ->setFirstName($row['firstName'])
-                ->setLastName($row['lastName'])
-                ->setPlainPassword($row['email'])
-                ->setCustomer($customer)
-                ->setOwner($customer->getOwner())
-                ->setEnabled(true)
-                ->setOrganization($organization)
-                ->setLoginCount(0)
-                ->addRole($role)
-                ->setIsGuest($row['isGuest']);
-
-            $userManager->updateUser($customerUser, false);
-
-            $referenceName = self::ACCOUNT_USERS_REFERENCE_PREFIX . $row['email'];
-            $this->addReference($referenceName, $customerUser);
-            self::$customerUsersReferencesNames[] = $referenceName;
-        }
-
-        fclose($handler);
-        $storageManager->flush();
+        return $this->organization;
     }
 
     /**
-     * @param string $roleLabel
-     * @return CustomerUserRole
+     * {@inheritdoc}
      */
-    protected function getCustomerUserRole($roleLabel)
+    protected function getWebsite(ObjectManager $manager)
+    {
+        return $manager->getRepository(Website::class)->findOneBy(['default' => true]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCustomerUsersCSV()
+    {
+        return '@OroCustomerBundle/Migrations/Data/Demo/ORM/data/customer-users.csv';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCustomerUserRole($roleLabel, ObjectManager $manager)
     {
         return $this->container->get('doctrine')
             ->getManagerForClass('OroCustomerBundle:CustomerUserRole')
             ->getRepository('OroCustomerBundle:CustomerUserRole')
-            ->findOneBy(['label' => $roleLabel]);
+            ->findOneBy(['label' => $roleLabel, 'organization' => $this->getOrganization($manager)]);
     }
 }

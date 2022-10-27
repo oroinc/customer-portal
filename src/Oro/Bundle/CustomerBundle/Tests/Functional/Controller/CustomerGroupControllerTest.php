@@ -2,38 +2,28 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller;
 
-use Doctrine\ORM\EntityManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Migrations\Data\ORM\LoadAnonymousCustomerGroup;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
 class CustomerGroupControllerTest extends WebTestCase
 {
-    const NAME = 'Group_name';
-    const UPDATED_NAME = 'Group_name_UP';
-    const ADD_NOTE_BUTTON = 'Add note';
+    private const NAME = 'Group_name';
+    private const UPDATED_NAME = 'Group_name_UP';
+    private const ADD_NOTE_BUTTON = 'Add note';
 
-    /**
-     * @var EntityManager
-     */
-    protected $entityManager;
-
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
-        $this->entityManager = $this->getContainer()
-            ->get('doctrine')
-            ->getManagerForClass('OroCustomerBundle:CustomerGroup');
-
-        $this->loadFixtures(
-            [
-                'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers',
-                'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups'
-            ]
-        );
+        $this->loadFixtures([
+            LoadCustomers::class,
+            LoadGroups::class
+        ]);
     }
 
     public function testIndex()
@@ -41,7 +31,7 @@ class CustomerGroupControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_group_index'));
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertContains('customer-groups-grid', $crawler->html());
+        self::assertStringContainsString('customer-groups-grid', $crawler->html());
     }
 
     public function testGrid()
@@ -76,7 +66,7 @@ class CustomerGroupControllerTest extends WebTestCase
     /**
      * @depends testCreate
      */
-    public function testUpdate()
+    public function testUpdate(): int
     {
         $id = $this->getGroupId(self::NAME);
         $crawler = $this->client->request(
@@ -101,9 +91,8 @@ class CustomerGroupControllerTest extends WebTestCase
 
     /**
      * @depends testUpdate
-     * @param int $id
      */
-    public function testView($id)
+    public function testView(int $id)
     {
         $crawler = $this->client->request(
             'GET',
@@ -113,23 +102,17 @@ class CustomerGroupControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $html = $crawler->html();
-        $this->assertContains(self::UPDATED_NAME . ' - Customer Groups - Customers', $html);
-        $this->assertContains(self::ADD_NOTE_BUTTON, $html);
-        $this->assertViewPage($html, self::UPDATED_NAME);
+        self::assertStringContainsString(self::UPDATED_NAME . ' - Customer Groups - Customers', $html);
+        self::assertStringContainsString(self::ADD_NOTE_BUTTON, $html);
+        self::assertStringContainsString(self::UPDATED_NAME, $html);
     }
 
-    /**
-     * @param Crawler $crawler
-     * @param string $name
-     * @param Customer[] $appendCustomers
-     * @param Customer[] $removeCustomers
-     */
-    protected function assertCustomerGroupSave(
+    private function assertCustomerGroupSave(
         Crawler $crawler,
-        $name,
+        string $name,
         array $appendCustomers = [],
         array $removeCustomers = []
-    ) {
+    ): void {
         $appendCustomerIds = array_map(
             function (Customer $customer) {
                 return $customer->getId();
@@ -149,6 +132,8 @@ class CustomerGroupControllerTest extends WebTestCase
                 'oro_customer_group_type[removeCustomers]' => implode(',', $removeCustomerIds)
             ]
         );
+        $redirectAction = $crawler->selectButton('Save and Close')->attr('data-action');
+        $form->setValues(['input_action' => $redirectAction]);
 
         $this->client->followRedirects(true);
         $crawler = $this->client->submit($form);
@@ -157,36 +142,22 @@ class CustomerGroupControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $html = $crawler->html();
 
-        $this->assertContains('Customer group has been saved', $html);
-        $this->assertViewPage($html, $name);
+        self::assertStringContainsString('Customer group has been saved', $html);
+        self::assertStringContainsString($name, $html);
 
         foreach ($appendCustomers as $customer) {
-            $this->assertContains($customer->getName(), $html);
+            self::assertStringContainsString($customer->getName(), $html);
         }
         foreach ($removeCustomers as $customer) {
-            $this->assertNotContains($customer->getName(), $html);
+            self::assertStringNotContainsString($customer->getName(), $html);
         }
     }
 
-    /**
-     * @param string $html
-     * @param string $name
-     */
-    protected function assertViewPage($html, $name)
-    {
-        $this->assertContains($name, $html);
-    }
-
-    /**
-     * @param string $name
-     * @return int
-     */
-    protected function getGroupId($name)
+    private function getGroupId(string $name): int
     {
         /** @var CustomerGroup $customerGroup */
         $customerGroup = $this->getContainer()->get('doctrine')
-            ->getManagerForClass('OroCustomerBundle:CustomerGroup')
-            ->getRepository('OroCustomerBundle:CustomerGroup')
+            ->getRepository(CustomerGroup::class)
             ->findOneBy(['name' => $name]);
 
         return $customerGroup->getId();

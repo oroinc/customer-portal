@@ -2,17 +2,18 @@
 
 namespace Oro\Bundle\CustomerBundle\Placeholder;
 
+use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
+/**
+ * Placeholder filter responsible for handling availability to add elements in view placeholders.
+ */
 class PlaceholderFilter
 {
-    /** @var TokenAccessorInterface */
     protected $tokenAccessor;
 
-    /**
-     * @param TokenAccessorInterface $tokenAccessor
-     */
     public function __construct(TokenAccessorInterface $tokenAccessor)
     {
         $this->tokenAccessor = $tokenAccessor;
@@ -42,5 +43,15 @@ class PlaceholderFilter
         $user = $this->tokenAccessor->getUser();
 
         return !is_object($user) || $user instanceof CustomerUser;
+    }
+
+    public function isCustomerPage(?object $entity): bool
+    {
+        return $entity instanceof Customer;
+    }
+
+    public function isCustomerGroupPage(?object $entity): bool
+    {
+        return $entity instanceof CustomerGroup;
     }
 }

@@ -1,26 +1,28 @@
 Oro\Bundle\CustomerBundle\Entity\Customer:
+    constraints:
+        - Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReference: ~
     properties:
         name:
             - NotBlank: ~
             - Length:
                 max: 255
         addresses:
-            - Valid:
-                groups: [Default]
-            - Valid:
-                groups: [RequireName]
-            - Valid:
-                groups: [RequireRegion]
+            - Valid: ~
             # temporary disabled, because now this check does not make sense until BB-15134 is done
             #- Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
-            #    message: One of the addresses must be set as primary.
+            #    message: oro.address.validation.contains_primary
             - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes: ~
-        parent:
-            - Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReference: ~
         users:
-            - Valid: ~
+            - Oro\Bundle\PlatformBundle\Validator\Constraints\ValidLoadedItems: ~
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
+    constraints:
+        - Oro\Bundle\AddressBundle\Validator\Constraints\ValidRegion: ~
+        - Oro\Bundle\AddressBundle\Validator\Constraints\RegionText: ~
+        - Oro\Bundle\AddressBundle\Validator\Constraints\RequiredRegion: ~
+        - Oro\Bundle\AddressBundle\Validator\Constraints\NameOrOrganization: ~
+        - Oro\Bundle\AddressBundle\Validator\Constraints\ValidOrganization:
+            groups: [api]
     properties:
         country:
             - NotBlank: ~
@@ -33,8 +35,11 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         phone:
             - Length:
                 max: 255
-    constraints:
-        - Callback: isRegionValid
+        frontendOwner:
+            - NotBlank: ~
+            - Oro\Bundle\FormBundle\Validator\Constraints\UnchangeableField:
+                message: oro.address.validation.owner_changed
+                groups: [api]
 
 Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
     properties:
@@ -44,7 +49,9 @@ Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
 Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     constraints:
         - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmail: ~
-        - Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRole: ~
+        - Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRole:
+              groups: [ui]
+        - Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerRelatedEntities: ~
     properties:
         firstName:
             - NotBlank: ~
@@ -56,38 +63,45 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
                 max: 255
         email:
             - NotBlank: ~
-            - Email: ~
+            - Email:
+                mode: strict
             - Length:
                 min: 6
                 max: 255
+                allowEmptyString: false
         plainPassword:
             - NotBlank:
                 groups: [create]
             - Oro\Bundle\UserBundle\Validator\Constraints\PasswordComplexity:
                 groups: [create, Default]
-        username:
-            - NotBlank: ~
-            - Length:
-                min: 3
-                max: 255
         birthday:
-            - Date: ~
+            - Type:
+                type: DateTimeInterface
+                message: oro.customer.customer_user.birthday.type.message
+                payload:
+                    jsValidation:
+                        type: Date
+            - LessThanOrEqual:
+                value: now UTC
+                message: 'The birth date cannot be in the future.'
+        addresses:
+            - Valid: ~
+            # temporary disabled, because now this check does not make sense until BB-15134 is done
+            #- Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
+            #    message: oro.address.validation.contains_primary
+            - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes: ~
         customer:
             - NotBlank: ~
             - Valid: ~
-        addresses:
-            - Valid:
-                groups: [Default]
-            - Valid:
-                groups: [RequireName]
-            - Valid:
-                groups: [RequireRegion]
-            # temporary disabled, because now this check does not make sense until BB-15134 is done
-            #- Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
-            #    message: One of the addresses must be set as primary.
-            - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes: ~
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
+    constraints:
+        - Oro\Bundle\AddressBundle\Validator\Constraints\ValidRegion: ~
+        - Oro\Bundle\AddressBundle\Validator\Constraints\RegionText: ~
+        - Oro\Bundle\AddressBundle\Validator\Constraints\RequiredRegion: ~
+        - Oro\Bundle\AddressBundle\Validator\Constraints\NameOrOrganization: ~
+        - Oro\Bundle\AddressBundle\Validator\Constraints\ValidOrganization:
+            groups: [api]
     properties:
         country:
             - NotBlank: ~
@@ -100,13 +114,16 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
         phone:
             - Length:
                 max: 255
-    constraints:
-        - Callback: isRegionValid
+        frontendOwner:
+            - NotBlank: ~
+            - Oro\Bundle\FormBundle\Validator\Constraints\UnchangeableField:
+                message: oro.address.validation.owner_changed
+                groups: [api]
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
-            fields: [label, customer]
+            fields: [label, customer, organization]
             message: "Role with this name already exists"
             ignoreNull: false
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: role
@@ -116,11 +133,13 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
             - Length:
                 min: 3
                 max: 255
+                allowEmptyString: false
         label:
             - NotBlank: ~
             - Length:
                 min: 3
                 max: 255
+                allowEmptyString: false
         customerUsers:
             - Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserWithoutRole: ~
 
@@ -130,3 +149,36 @@ Oro\Bundle\WebsiteBundle\Entity\Website:
             - NotBlank: ~
         default_role:
             - NotBlank: ~
+
+Oro\Bundle\CustomerBundle\Entity\PinbarTab:
+    constraints:
+        - Oro\Bundle\NavigationBundle\Validator\Constraints\UniquePinbarTabUrl:
+              pinbarTabClass: 'Oro\Bundle\CustomerBundle\Entity\PinbarTab'
+    properties:
+        item:
+            - NotBlank: ~
+        title:
+            - Length:
+                  max: 255
+        titleShort:
+            - Length:
+                  max: 255
+
+Oro\Bundle\CustomerBundle\Entity\GridView:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length:
+                  max: 255
+        type:
+            - NotBlank: ~
+            - Length:
+                  max: 255
+            - Choice:
+                  callback: 'getTypes'
+        gridName:
+            - NotBlank: ~
+            - Length:
+                  max: 255
+        appearanceType:
+            - Valid: ~

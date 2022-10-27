@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Util\ClassUtils;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;
@@ -33,10 +33,6 @@ class FrontendOwnerSelectType extends AbstractType
      */
     protected $configProvider;
 
-    /**
-     * @param ManagerRegistry $registry
-     * @param ConfigProvider $configProvider
-     */
     public function __construct(ManagerRegistry $registry, ConfigProvider $configProvider)
     {
         $this->registry = $registry;
@@ -117,9 +113,9 @@ class FrontendOwnerSelectType extends AbstractType
      */
     private function getOwnerClass(ConfigInterface $config)
     {
-        $ownerType = $config->get('frontend_owner_type');
-        $ownerClass = ($ownerType == 'FRONTEND_CUSTOMER') ? Customer::class : CustomerUser::class;
-        return $ownerClass;
+        return 'FRONTEND_CUSTOMER' === $config->get('frontend_owner_type')
+            ? Customer::class
+            : CustomerUser::class;
     }
 
     /**

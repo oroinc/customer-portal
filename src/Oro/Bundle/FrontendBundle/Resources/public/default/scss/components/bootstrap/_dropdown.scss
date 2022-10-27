@@ -1,0 +1,66 @@
+/* @theme: default; */
+
+.dropdown-menu {
+    @if not $enable-shadows {
+        box-shadow: $dropdown-box-shadow;
+    }
+
+    &[x-adjusted-height] {
+        overflow-y: auto;
+    }
+
+    &[x-displayed-arrow] {
+        @include flexible-arrow();
+    }
+
+    .dropdown-item {
+        font: $dropdown-item-font;
+
+        &:not(:disabled) {
+            // For `<button>`s
+            cursor: pointer;
+        }
+    }
+
+    &[x-placement] {
+        .dropdown-item {
+            white-space: normal;
+        }
+
+        /* rtl:ignore */
+        right: auto;
+
+        /* rtl:ignore */
+    }
+
+    ul,
+    ol {
+        list-style: none;
+    }
+
+    &.fullscreen {
+        position: static;
+        display: block;
+        width: 100%;
+        box-shadow: none;
+        border-width: 0;
+    }
+}
+
+.dropdown-toggle {
+    &--no-caret::after {
+        content: none;
+    }
+
+    &--no-offset::after {
+        margin-left: 0;
+    }
+}
+
+@include breakpoint('tablet') {
+    .dropdown-toggle--expanded {
+        &::after {
+            content: none;
+        }
+    }
+}

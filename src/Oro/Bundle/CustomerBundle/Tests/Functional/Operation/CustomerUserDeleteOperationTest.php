@@ -2,28 +2,24 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Operation;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\ActionBundle\Tests\Functional\ActionTestCase;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 
 class CustomerUserDeleteOperationTest extends ActionTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
-        $this->loadFixtures(
-            [
-                'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData'
-            ]
-        );
+        $this->loadFixtures([LoadCustomerUserData::class]);
     }
 
     public function testDelete()
     {
-        /** @var \Oro\Bundle\CustomerBundle\Entity\CustomerUser $user */
+        /** @var CustomerUser $user */
         $user = $this->getUserRepository()->findOneBy(['email' => LoadCustomerUserData::EMAIL]);
 
         $this->assertNotNull($user);
@@ -31,29 +27,23 @@ class CustomerUserDeleteOperationTest extends ActionTestCase
 
         $this->assertDeleteOperation(
             $id,
-            'oro_customer.entity.customer_user.class',
+            CustomerUser::class,
             'oro_customer_customer_user_index'
         );
 
-        $this->getObjectManager()->clear();
+        $this->getEntityManager()->clear();
         $user = $this->getUserRepository()->find($id);
 
         $this->assertNull($user);
     }
 
-    /**
-     * @return \Doctrine\Common\Persistence\ObjectManager
-     */
-    protected function getObjectManager()
+    private function getEntityManager(): EntityManagerInterface
     {
         return $this->getContainer()->get('doctrine')->getManager();
     }
 
-    /**
-     * @return \Doctrine\Common\Persistence\ObjectRepository
-     */
-    protected function getUserRepository()
+    private function getUserRepository(): EntityRepository
     {
-        return $this->getObjectManager()->getRepository('OroCustomerBundle:CustomerUser');
+        return $this->getEntityManager()->getRepository(CustomerUser::class);
     }
 }

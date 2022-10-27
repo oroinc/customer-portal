@@ -1,0 +1,2493 @@
+{# Modal View #}
+
+{% block _style_book_grid_element_modal_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'oroui/js/modal',
+            renderAfter: 'action',
+            props: {
+                title: {
+                    label: 'Title',
+                    value: 'Confirmation'
+                },
+                okText: 'OK',
+                cancelText: 'Cancel',
+                okButtonClass: 'btn btn--info',
+                cancelButtonClass: 'btn cancel',
+                content: {
+                    type: 'textarea',
+                    value: 'Hello'
+                },
+                allowCancel: true,
+                allowOk: true
+            }
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            <button class="btn btn--info" data-action="click open">Open Modal</button>
+        </div>
+
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props grid" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_modal_html_widget %}
+    {% set source_code %}
+        <div class="example-container">
+            <button class="btn btn--info" id="modal-toggle">Open Some Modal</button>
+        </div>
+        <script>
+            loadModules(['jquery', 'oroui/js/modal'], function ($, Modal) {
+                $('#modal-toggle').on('click', function(event) {
+                    var ModalExample = new Modal({
+                        title: 'Some Title',
+                        okText: 'OK',
+                        cancelText: 'Cancel',
+                        content: 'Some content in modal'
+                    });
+
+                    ModalExample.on('ok', function(){
+                        // Make some actions when user press 'OK' button
+                    });
+
+                    ModalExample.on('cancel', function(){
+                        // Make some actions when user press 'Cancel' button
+                    });
+
+                    ModalExample.on('close', function(){
+                        // Make some actions when user close modal window
+                    });
+
+                    ModalExample.open();
+                });
+            });
+        </script>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-markup">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_modal_js_widget %}
+    {% set source_code %}
+        define(function(require) {
+            'use strict';
+
+            var SomeExampleView;
+            var BaseView = require('oroui/js/app/views/base/view');
+            var Modal = require('oroui/js/modal');
+
+            SomeExampleView = BaseView.extend({
+                /**
+                 * @property
+                 */
+                modal: null,
+
+                events: {
+                    'click #modal-toggle': 'openModal'
+                },
+
+                initialize: function() {
+                    SomeExampleView.__super__.initialize.apply(this);
+
+                    this.modal = new Modal({
+                        title: 'Some Title',
+                        okText: 'OK',
+                        cancelText: 'Cancel',
+                        content: 'Some content in modal'
+                    });
+                },
+
+                openModal: function() {
+                    this.modal.on('ok', this._onOKModal.bind(this));
+                    this.modal.on('cancel', this._onCancelModal.bind(this));
+                    this.modal.on('close', this._onCloseModal.bind(this));
+
+                    this.modal.open();
+                },
+
+                _onOKModal: function() {
+                    // Make some actions when user press 'OK' button
+                },
+
+                _onCancelModal: function() {
+                    // Make some actions when user press 'Cancel' button
+                },
+
+                _onCloseModal: function() {
+                    // Make some actions when user close modal window
+                }
+            });
+
+            return SomeExampleView;
+        });
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# LoadingMaskView #}
+
+{% block _style_book_grid_element_loading_mask_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'orostylebook/js/style-book/loading-mask-playground-view',
+            props: {
+                hideDelay: -1,
+                loadingHint: 'Loading...'
+            }
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div data-example-view>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn--info" data-toggle>Toggle Loading</button>
+                <button type="button" class="btn btn--info" data-toggle-full-page>Execute full-page loading</button>
+            </div>
+            <div class="view-container" data-loading-container></div>
+        </div>
+
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_loading_mask_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props grid" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_loading_mask_js_widget %}
+    {% set source_code %}
+    define(function(require) {
+        'use strict';
+
+        var SomeExampleView;
+        var BaseView = require('oroui/js/app/views/base/view');
+        var LoadingMaskView = require('oroui/js/app/views/loading-mask-view');
+
+        SomeExampleView = BaseView.extend({
+            events: {
+                'click [show-loading]': 'showLoading',
+                'click [hide-loading]': 'hideLoading'
+            },
+
+            initialize: function() {
+                SomeExampleView.__super__.initialize.apply(this);
+
+                this.subview('loadingMask', new LoadingMaskView({
+                    container: this.$('selector')
+                }));
+            },
+
+            showLoading: function() {
+                // Show loading mask on container after some action
+                this.subview('loadingMask').show();
+            },
+
+            hideLoading: function() {
+                // Hide loading mask on container after some action
+                this.subview('loadingMask').hide();
+            }
+        });
+
+        return SomeExampleView;
+    });
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_loading_mask_mediator_widget %}
+    {% set source_code %}
+        define(function(require) {
+            'use strict';
+
+            var SomeExampleView;
+            var BaseView = require('oroui/js/app/views/base/view');
+            var mediator = require('oroui/js/mediator');
+
+            SomeExampleView = BaseView.extend({
+                events: {
+                    'click [show-loading]': 'showLoading',
+                    'click [hide-loading]': 'hideLoading'
+                },
+
+                showLoading: function() {
+                    // Show loading mask on container after some action
+                    mediator.execute('showLoading');
+                },
+
+                hideLoading: function() {
+                    // Hide loading mask on container after some action
+                    mediator.execute('hideLoading');
+                }
+            });
+
+            return SomeExampleView;
+        });
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Dialog Widget #}
+
+{% block _style_book_grid_element_dialog_widget_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'orostylebook/js/style-book/style-book-dialog-widget',
+            renderAfter: 'action',
+            props: {
+                content: {
+                    type: 'textarea',
+                    value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sagittis egestas purus a congue. Praesent non velit orci. Donec sed iaculis ipsum, id dictum sapien. Donec sollicitudin auctor magna sit amet volutpat. Nulla gravida euismod ante, at varius nisl aliquet sit amet. Vestibulum varius libero lorem, quis condimentum purus malesuada sed. Suspendisse potenti. Nam ac dolor eget mauris volutpat pretium at eu turpis. Sed ac diam a turpis fringilla luctus eu ut ipsum. Sed tempus tincidunt mauris, eu dignissim ipsum fermentum quis.'
+                },
+                'dialogOptions.title': 'Title',
+                'dialogOptions.minWidth': 375,
+                'dialogOptions.minHeight': 150,
+                'messengerContainerClass': 'ui-dialog-messages',
+                'dialogOptions.modal': true,
+                loadingMaskEnabled: true,
+                preventModelRemoval: false,
+                elementFirst: true,
+                stateEnabled: false,
+                incrementalPosition: true
+            }
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            <button class="btn btn--info" data-action="click render">Open Dialog</button>
+        </div>
+
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_dialog_widget_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props grid" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_dialog_widget_js_widget %}
+    {% set source_code %}
+        define(function(require) {
+            'use strict';
+
+            var SomeExampleView;
+            var BaseView = require('oroui/js/app/views/base/view');
+            var _ = require('underscore');
+
+            SomeExampleView = BaseView.extend({
+                widget: null,
+
+                events: {
+                    'click [toggle-dialog]': 'openDialog'
+                },
+
+                initialize: function() {
+                    SomeExampleView.__super__.initialize.apply(this);
+
+                    this.widget = new DialogWidget({
+                        title: 'Dialog title',
+                        el: this.$el,
+                        stateEnabled: false,
+                        incrementalPosition: false,
+                        dialogOptions: {
+                            close: this.onCancel.bind(this),
+                            width: 800,
+                            modal: true
+                        }
+                    });
+                },
+
+                openDialog: function() {
+                    this.widget.render();
+                },
+
+                onCancel: function() {
+                    // Close handler
+                }
+            });
+
+            return SomeExampleView;
+        });
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Collapse Widget #}
+
+{% block _group_element_grid_view_collapse_widgets_options_widget %}
+    <p>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.definition'|trans|oro_html_sanitize }}</p>
+    <h3 class="style-book-group-element__title">{{ 'oro_stylebook.options'|trans }}</h3>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th style="width:100px;">{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.name'|trans }}</th>
+            <th style="width:50px;">{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.type'|trans }}</th>
+            <th style="width:50px;">{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.default'|trans }}</th>
+            <th>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.description'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>parent</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.selector'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.parent'|trans }}</td>
+            </tr>
+            <tr>
+                <td>toggle</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.boolean'|trans }}</td>
+                <td>true</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.toggle'|trans }}</td>
+            </tr>
+            <tr>
+                <td>stateId</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.stateId'|trans }}</td>
+            </tr>
+            <tr>
+                <td>checkOverflow</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.boolean'|trans }}</td>
+                <td>false</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.checkOverflow'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>hideClass</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.hideClass'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>showClass</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.showClass'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>triggerHideClass</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerHideClass'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>triggerShowClass</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerShowClass'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>triggerIconHideClass</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerIconHideClass'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>triggerIconShowClass</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerIconShowClass'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>collapsedTitle</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.collapsedTitle'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>expandedTitle</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.expandedTitle'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>collapsedAriaLabel</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.collapsedAriaLabel'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>expandedAriaLabel</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.expandedAriaLabel'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>collapsedText</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.collapsedText'|trans|oro_html_sanitize }}</td>
+            </tr>
+            <tr>
+                <td>expandedText</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
+                <td>-</td>
+                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.expandedText'|trans|oro_html_sanitize }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
+
+{# Simple Collapse Trigger #}
+{% block _style_book_grid_element_collapse_widget_simple_template_widget %}
+
+    {% set collapseId = 'collapse-'|uniqid %}
+    <button class="btn btn--link btn--size-s btn--no-x-offset"
+            data-toggle="collapse"
+            data-target="{{ '#' ~ collapseId }}"
+            aria-controls="{{ collapseId }}"
+    >
+        <span class="fa-plus-square-o fa--offset-l" aria-hidden="true" data-icon></span>
+        <span data-text>Open collapse</span>
+    </button>
+    <div id="{{ collapseId }}" class="collapse"
+         data-trigger-icon-show-class="fa-minus-square-o"
+         data-trigger-icon-hide-class="fa-plus-square-o"
+         data-collapsed-text="Open Collapse"
+         data-expanded-text="Close Collapse"
+         data-toggle="true"
+    >
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec laoreet nisl. Suspendisse et tincidunt libero. Aenean pulvinar quam vitae sapien porttitor, non tempor orci dictum. Mauris nisl diam, fringilla eu lectus sed, accumsan congue tellus. Cras quis dui eget dui fermentum gravida non et erat. Proin id fringilla nunc. Ut ullamcorper pulvinar ligula eu pulvinar. Nullam egestas cursus magna placerat bibendum. Nam iaculis elit ac massa bibendum, id dapibus nisl mattis.
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_collapse_widget_simple_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            {{ block('_style_book_grid_element_collapse_widget_simple_template_widget') }}
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_collapse_widget_simple_html_widget %}
+    {% set source_code %}
+    <!-- Use shortcut manager data attribute -->
+    {{ block('_style_book_grid_element_collapse_widget_simple_template_widget') }}
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Simple Collapse Hide Trigger Widget #}
+{% block _style_book_grid_element_collapse_widget_simple_hide_trigger_template_widget %}
+
+    {% set collapseId = 'collapse-'|uniqid %}
+    <button class="btn btn--action"
+            data-toggle="collapse"
+            data-target="{{ '#' ~ collapseId }}"
+            aria-controls="{{ collapseId }}"
+    ><span class="fa-caret-square-o-down" aria-hidden="true"></span>Toggle Elements</button>
+    <div id="{{ collapseId }}" class="collapse no-transition" data-toggle="false" data-trigger-show-class="hide">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec laoreet nisl. Suspendisse et tincidunt libero. Aenean pulvinar quam vitae sapien porttitor, non tempor orci dictum. Mauris nisl diam, fringilla eu lectus sed, accumsan congue tellus. Cras quis dui eget dui fermentum gravida non et erat. Proin id fringilla nunc. Ut ullamcorper pulvinar ligula eu pulvinar. Nullam egestas cursus magna placerat bibendum. Nam iaculis elit ac massa bibendum, id dapibus nisl mattis.
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_collapse_widget_simple_hide_trigger_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            {{ block('_style_book_grid_element_collapse_widget_simple_hide_trigger_template_widget') }}
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_collapse_widget_simple_hide_trigger_html_widget %}
+    {% set source_code %}
+        <!-- Use shortcut manager data attribute -->
+        {{ block('_style_book_grid_element_collapse_widget_simple_hide_trigger_template_widget') }}
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Overflow Collapse #}
+{% block _style_book_grid_element_collapse_widget_overflow_template_widget %}
+
+    {% set collapseId = 'collapse-'|uniqid %}
+    <div id="{{ collapseId }}"
+         class="collapse collapse-overflow no-transition"
+         data-trigger-icon-show-class="fa-angle-up"
+         data-trigger-icon-hide-class="fa-angle-down"
+         data-collapsed-text="{{ 'oro.ui.collapse.more'|trans }}"
+         data-expanded-text="{{ 'oro.ui.collapse.less'|trans }}"
+         data-check-overflow="true"
+         data-toggle="false"
+    >
+        There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+        If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
+        All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.
+        It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.
+        The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
+    </div>
+    <button class="btn btn--link btn--size-s btn--no-x-offset collapse-toggle"
+            data-toggle="collapse"
+            data-target="{{ '#' ~ collapseId }}"
+            aria-controls="{{ collapseId }}"
+    >
+        <span data-text>{{ 'oro.ui.collapse.more'|trans }}</span>
+        <span class="fa-angle-down fa--offset-l" aria-hidden="true" data-icon></span>
+    </button>
+{% endblock %}
+
+{% block _style_book_grid_element_collapse_widget_overflow_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            {{ block('_style_book_grid_element_collapse_widget_overflow_template_widget') }}
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_collapse_widget_overflow_html_widget %}
+    {% set source_code %}
+        <!-- Use shortcut manager data attribute -->
+        {{ block('_style_book_grid_element_collapse_widget_overflow_template_widget') }}
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Dynamic Collapse #}
+{% block _style_book_grid_element_collapse_widget_dynamic_template_widget %}
+<div class="grid">
+    <div class="grid-col-6">
+        {% set collapseButtonBeforeOptions = {
+            viewport: {
+                maxScreenType: 'tablet',
+            },
+            view: 'orofrontend/default/js/app/views/collapse-view',
+            toggleAttrs: {
+                'class': 'btn btn--link btn--size-s btn--no-x-offset',
+                'data-text': 'Open Collapse',
+                'data-icon': 'fa-plus-square-o',
+                'data-collapsed-text': 'Open Collapse',
+                'data-expanded-text': 'Close Collapse'
+            },
+            collapseAttrs: {
+                'class': 'collapse',
+                'data-trigger-icon-show-class': 'fa-minus-square-o',
+                'data-trigger-icon-hide-class': 'fa-plus-square-o',
+                'data-toggle': true
+            }
+        } %}
+        <div data-page-component-module="oroui/js/app/components/viewport-component"
+             data-page-component-options="{{ collapseButtonBeforeOptions|json_encode() }}"
+        >
+            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+            If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
+        </div>
+    </div>
+    <div class="grid-col-6">
+        {% set collapseButtonAfterOptions = {
+            viewport: {
+                maxScreenType: 'tablet',
+            },
+            view: 'orofrontend/default/js/app/views/collapse-view',
+            triggerIsFirst: false,
+            triggerIconIsFirst: false,
+            toggleAttrs: {
+                'class': 'btn btn--link btn--size-s btn--no-x-offset collapse-toggle',
+                'aria-label': 'oro.ui.collapse.more'|trans,
+                'data-icon': 'fa-angle-down fa--offset-l',
+                'data-text': 'oro.ui.collapse.more'|trans
+            },
+            collapseAttrs: {
+                'class': 'collapse collapse-overflow',
+                'data-check-overflow': true,
+                'data-trigger-icon-show-class': 'fa-angle-up',
+                'data-trigger-icon-hide-class': 'fa-angle-down',
+                'data-collapsed-text': 'oro.ui.collapse.more'|trans,
+                'data-expanded-text': 'oro.ui.collapse.less'|trans
+            }
+        } %}
+        <div data-page-component-module="oroui/js/app/components/viewport-component"
+             data-page-component-options="{{ collapseButtonAfterOptions|json_encode() }}"
+        >
+            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+            If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block _style_book_grid_element_collapse_widget_dynamic_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            {{ block('_style_book_grid_element_collapse_widget_dynamic_template_widget') }}
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_collapse_widget_dynamic_html_widget %}
+    {% set source_code %}
+        <!-- Use shortcut manager data attribute -->
+        {{ block('_style_book_grid_element_collapse_widget_dynamic_template_widget') }}
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Accordion Widget #}
+{% block _style_book_grid_element_accordion_widget_template_widget %}
+
+    {% set parentId = 'parent-'|uniqid %}
+    <div id="{{ parentId }}" class="accordion-group">
+        <div class="accordion-group__item">
+            {% set itemId1 = 'item-'|uniqid %}
+            <h4>
+                <button class="accordion-group__trigger btn--link btn--no-offset"
+                        type="button" data-toggle="collapse"
+                        data-target="{{ '#' ~ itemId1 }}"
+                        aria-controls="{{ itemId1 }}"
+                        aria-expanded="false"
+                >
+                    <span class="accordion-group__trigger-icon fa-caret-right" aria-hidden="true"></span>
+                    <span class="accordion-group__trigger-text">What is Lorem Ipsum?</span>
+                </button>
+            </h4>
+            <div class="collapse show" id="{{ itemId1 }}" data-parent="{{ '#' ~ parentId }}">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            </div>
+        </div>
+        <div class="accordion-group__item">
+            {% set itemId2 = 'item-'|uniqid %}
+            <h4>
+                <button class="accordion-group__trigger btn--link btn--no-offset collapsed"
+                        type="button" data-toggle="collapse"
+                        data-target="{{ '#' ~ itemId2 }}"
+                        aria-expanded="false"
+                        aria-controls="{{ itemId2 }}"
+                >
+                    <span class="accordion-group__trigger-icon fa-caret-right" aria-hidden="true"></span>
+                    <span class="accordion-group__trigger-text">Why do we use it?</span>
+                </button>
+            </h4>
+            <div class="collapse" id="{{ itemId2 }}" data-parent="{{ '#' ~ parentId }}">
+                It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+            </div>
+        </div>
+        <div class="accordion-group__item">
+            {% set itemId3 = 'item-'|uniqid %}
+            <h4>
+                <button class="accordion-group__trigger btn--link btn--no-offset collapsed"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="{{ '#' ~ itemId3 }}"
+                        aria-expanded="false"
+                        aria-controls="{{ itemId3 }}"
+                >
+                    <span class="accordion-group__trigger-icon fa-caret-right" aria-hidden="true"></span>
+                    <span class="accordion-group__trigger-text">Where can I get some?</span>
+                </button>
+            </h4>
+            <div class="collapse" id="{{ itemId3 }}" data-parent="{{ '#' ~ parentId }}">
+                There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+                If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_accordion_widget_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            {{ block('_style_book_grid_element_accordion_widget_template_widget') }}
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_accordion_widget_html_widget %}
+    {% set source_code %}
+        <!-- Use shortcut manager data attribute -->
+        {{ block('_style_book_grid_element_accordion_widget_template_widget') }}
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Fullscreen Popup #}
+{% block _style_book_fullscreen_popup_view_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'orostylebook/js/style-book/fullscreen-popup-demo-view',
+            renderAfter: 'action',
+            props: {
+                popupIcon: 'fa-cog',
+                popupLabel: 'Fullscreen popup',
+                contentTemplate: {
+                    type: 'textarea',
+                    value: '<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id turpis quam. Sed sodales metus ac leo scelerisque eleifend. Suspendisse ullamcorper libero mauris, a imperdiet risus consequat eu. Donec imperdiet id quam id hendrerit. Ut sed bibendum massa, vitae venenatis mi. Aliquam tellus risus, faucibus vitae quam id, consectetur accumsan ipsum. Sed at venenatis mauris. Donec finibus mollis libero, eu elementum enim tempus suscipit. Praesent in consectetur mauris. Aenean tristique tellus vitae ligula tristique tincidunt. Donec aliquam dapibus imperdiet. Vestibulum sagittis libero in ipsum semper ullamcorper. Nulla vitae convallis sapien. Nulla vitae est id neque fermentum molestie vulputate ut orci.Nulla eget tellus eget mi aliquam porta. Aliquam commodo tortor sed lacinia maximus. Mauris leo odio, vestibulum ut tortor et, malesuada eleifend sapien. Vivamus efficitur sem in urna viverra porta. Cras egestas mauris eget tristique fringilla. Phasellus a molestie ante. Suspendisse vel rhoncus nisi, ut varius leo. Quisque neque dolor, ullamcorper ut sem in, venenatis iaculis purus. In at lobortis tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel nisi id ante efficitur hendrerit bibendum porta augue. Cras ultricies bibendum lacus, non sollicitudin tellus ultricies nec. Vestibulum eget est leo. Proin non imperdiet ipsum, cursus gravida lorem. Aenean justo urna, fringilla ut pretium quis, pharetra nec velit.</div>'
+                },
+                stopEventsList: 'mousedown focusin',
+                popupBadge: true,
+                stopEventsPropagation: true,
+                keepElement: true
+            }
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            <button class="btn btn--info" data-action="click render">Open Fullscreen Popup</button>
+        </div>
+
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_fullscreen_popup_view_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props grid" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_fullscreen_popup_view_js_widget %}
+    {% set source_code %}
+        <script>
+        define(function(require) {
+            'use strict';
+
+            var SomeExampleView;
+            var BaseView = require('oroui/js/app/views/base/view');
+            var FullscreenPopupView = require('orofrontend/default/js/app/views/fullscreen-popup-view');
+
+            SomeExampleView = BaseView.extend({
+                events: {
+                    'click [show-popup]': 'showPopup',
+                    'click [hide-popup]': 'hidePopup'
+                },
+
+                initialize: function(options) {
+                    SomeExampleView.__super__.initialize.apply(this, arguments);
+
+                    this.subview('fullscreenPopup', new FullscreenPopupView( {
+                        contentSelector: '.selector', // is required or use 'contentElement', 'contentView'
+                        contentView: SomeViewConstructor, // or
+                        contentElement: $('#get-some-element-on-page'),
+                        contentTemplate: '<div><%- can use some underscore template %></div>',
+
+                        headerSelector: '.header-content', // or
+                        headerView: SomeViewConstructor, // or
+                        headerElement: $('#get-some-element-on-page'), // or
+                        headerTemplate: '<div><%- can use some underscore template %></div>',
+
+                        footerSelector: '.header-content', // or
+                        footerView: SomeViewConstructor, // or
+                        footerElement: $('#get-some-element-on-page'), // or
+                        footerTemplate: '<div><%- can use some underscore template %></div>'
+                        // options...
+                    } ))
+                },
+
+                showPopup: function() {
+                    // Show loading mask on container after some action
+                    this.subview('fullscreenPopup').show();
+                },
+
+                hidePopup: function() {
+                    // Hide loading mask on container after some action
+                    this.subview('fullscreenPopup').close();
+                }
+            });
+
+            return SomeExampleView;
+        });
+        </script>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# ScrollView #}
+
+{% block _style_book_scroll_view_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'orofrontend/js/app/views/scroll-view',
+            props: {}
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="scroll-view" data-example-view>
+            <div class="scroll-view__header">
+                <div class="scroll-view__header--scrollable" data-scroll-view-follow="x">
+                {% for i in 0..20 %}
+                    <div class="scroll-view__head">Column - {{ i }}</div>
+                {% endfor %}
+                </div>
+            </div>
+            <div class="scroll-view__side">
+                <div class="view__side--scrollable" data-scroll-view-follow="y">
+                {% for i in 0..20 %}
+                    <div class="scroll-view__side-head">Row - {{ i }}</div>
+                {% endfor %}
+                </div>
+            </div>
+            <div class="scroll-view__body" data-scroll-view>
+                {% for i in 0..10%}
+                <div class="scroll-view__row">
+                    {% for j in 0..20 %}
+                        <div class="scroll-view__cell">Cell - {{ i }}-{{ j }}</div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_scroll_view_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props grid" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_scroll_view_html_widget %}
+    {% set source_code %}
+        <div data-page-component-view="orofrontend/js/app/views/scroll-view">
+            <div class="scroll-view">
+                <div class="scroll-view__header">
+                    <div class="scroll-view__header--scrollable" data-scroll-view-follow="x">
+                        <!-- Some columns in the header -->
+                    </div>
+                </div>
+                <div class="scroll-view__side">
+                    <div class="view__side--scrollable" data-scroll-view-follow="y">
+                        <!-- Some columns in side -->
+                    </div>
+                </div>
+                <div class="scroll-view__body" data-scroll-view>
+                    <!-- Some scrollable content -->
+                </div>
+            </div>
+        </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_scroll_view_js_widget %}
+    {% set source_code %}
+        <script>
+            define(function(require) {
+                'use strict';
+
+                var SomeExampleView;
+                var BaseView = require('oroui/js/app/views/base/view');
+                var ScrollView = require('orofrontend/js/app/views/scroll-view');
+
+                SomeExampleView = BaseView.extend({
+                    initialize: function() {
+                        SomeExampleView.__super__.initialize.apply(this);
+
+                        this.subview('scrollView', new ScrollView({
+                            el: this.el
+                        }));
+                    }
+                });
+
+                return SomeExampleView;
+            });
+        </script>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Googlemap View #}
+
+{% block _style_book_googlemaps_view_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'orostylebook/js/style-book/style-book-googlemaps-view',
+            props: {
+                apiKey: {
+                    value: '',
+                    label: 'Google API key (required)'
+                },
+                'address.address': '67800 Junkins Avenue Albany, 31707, US-GA',
+                'mapOptions.zoom': 17,
+                sensor: false,
+                showWeather: true,
+                'mapOptions.mapTypeControl': true,
+                'mapOptions.panControl': false,
+                'mapOptions.zoomControl': true,
+            }
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div data-example-view></div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_googlemaps_view_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props grid" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_googlemaps_view_html_widget %}
+    {% set options = "
+    {% set viewOptions = layout_attr_defaults(attr, {
+        view: 'oroaddress/js/mapservice/googlemaps',
+        mapOptions: {
+            zoom: 17,
+            mapTypeControl: true,
+            panControl: false,
+            zoomControl: true
+        },
+        address: {
+            'address': '67800 Junkins Avenue Albany, 31707, US-GA'
+        },
+        apiVersion: '3.exp',
+        sensor: false,
+        apiKey: null,
+        showWeather: true
+    })%}
+    "|raw %}
+
+    {% set source_code %}
+    <!-- Use shortcut manager data attribute -->
+    {{ options|raw }}
+    <div class="collapse-preview" data-page-component-view="{{ "{{ viewOptions|json_encode }}"|raw }}"></div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_googlemaps_view_js_widget %}
+    {% set source_code %}
+        <script>
+            define(function(require) {
+                'use strict';
+
+                var SomeExampleView;
+                var BaseView = require('oroui/js/app/views/base/view');
+                var GooglemapsView = require('oroaddress/js/mapservice/googlemaps');
+                var options = {
+                    mapOptions: {
+                        zoom: 17,
+                        mapTypeControl: true,
+                        panControl: false,
+                        zoomControl: true
+                    },
+                    address: {
+                        'address': '67800 Junkins Avenue Albany, 31707, US-GA'
+                    },
+                    apiVersion: '3.exp',
+                    sensor: false,
+                    apiKey: null,
+                    showWeather: true
+                };
+
+                SomeExampleView = BaseView.extend({
+                    initialize: function(options) {
+                        SomeExampleView.__super__.initialize.apply(this, arguments);
+
+                        this.subview('googleMapView', new GooglemapsView(options));
+                    }
+                });
+
+                return SomeExampleView;
+            });
+        </script>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# List Slider View #}
+
+{% block _style_book_list_slider_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid js-component-container ',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'orostylebook/js/style-book/style-book-list-slider-view',
+            props: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: false,
+                autoplaySpeed: 2000,
+                additionalClass: "embedded-list__slider",
+                embeddedArrowsClass: "embedded-arrows",
+                arrows: true,
+                dots: false,
+                infinite: false,
+                mobileEnabled: true,
+            }
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {% set imageSlides = [
+            {
+                main: '/bundles/orostylebook/images/promo-slider/promo-slider-1.jpg',
+                title: 'Slide 1'
+            },
+            {
+                main: '/bundles/orostylebook/images/promo-slider/promo-slider-2.jpg',
+                title: 'Slide 2'
+            },
+            {
+                main: '/bundles/orostylebook/images/promo-slider/promo-slider-3.jpg',
+                title: 'Slide 3'
+            }
+        ] %}
+        <div class="grid-col-12">
+            <div class="promo-slider" data-example-view>
+                {% for imageSlide in imageSlides|merge(imageSlides) %}
+                    <div class="promo-slider__item">
+                        <div class="promo-slider__picture">
+                            <img src="{{ imageSlide.main }}" class="promo-slider__img" alt="{{ imageSlide.title }}" loading="lazy">
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="grid-col-12">
+            {{ block_widget(block) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_list_slider_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props grid" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_list_slider_html_widget %}
+    {% set options = "{% set imageListOptions = {
+            component: 'orofrontend/js/app/components/list-slider-component',
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            fade: true,
+            arrows: false,
+            asNavFor: '.product-view-media-gallery__nav',
+            lazyLoad: 'progressive',
+            infinite: false,
+            relatedComponent: 'zoom'
+        } %}" %}
+
+    {% set source_code %}
+        <!-- Use twig -->
+
+        {{ options|raw }}
+
+        <div class="promo-slider" data-page-component-module="{{ '{{ imageListOptions|json_encode }}'|raw }}">
+            {% set imageSlides = [
+                {
+                    main: '/bundles/orostylebook/images/promo-slider/promo-slider-1.jpg',
+                    medium: '/bundles/orostylebook/images/promo-slider/promo-slider-medium-1.jpg',
+                    small: '/bundles/orostylebook/images/promo-slider/promo-slider-small-1.jpg',
+                    title: 'Slide 1'
+                },
+                {
+                    main: '/bundles/orostylebook/images/promo-slider/promo-slider-2.jpg',
+                    medium: '/bundles/orostylebook/images/promo-slider/promo-slider-medium-2.jpg',
+                    small: '/bundles/orostylebook/images/promo-slider/promo-slider-small-2.jpg',
+                    title: 'Slide 2'
+                },
+                {
+                    main: '/bundles/orostylebook/images/promo-slider/promo-slider-3.jpg',
+                    medium: '/bundles/orostylebook/images/promo-slider/promo-slider-medium-3.jpg',
+                    small: '/bundles/orostylebook/images/promo-slider/promo-slider-small-3.jpg',
+                    title: 'Slide 3'
+                }
+
+            ] %}
+            <div class="promo-slider" data-example-view>
+                {% for imageSlide in imageSlides %}
+                    <div class="promo-slider__item">
+                        <div class="promo-slider__picture">
+                            <picture>
+                                <source srcset="{{ imageSlide.small }}"
+                                        media="(max-width: 414px)">
+                                <source srcset="{{ imageSlide.medium }}"
+                                        media="(max-width: 992px)">
+                                <img src="{{ imageSlide.main }}"
+                                     class="promo-slider__img"
+                                     alt="{{ imageSlide.title }}"
+                                     loading="lazy"
+                                >
+                            </picture>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_list_slider_js_widget %}
+    {% set source_code %}
+        define(function(require) {
+            'use strict';
+
+            var SomeExampleView;
+            var BaseView = require('oroui/js/app/views/base/view');
+            var ListSliderComponent = require('orofrontend/js/app/components/list-slider-component');
+
+            SomeExampleView = BaseView.extend({
+                sliderOptions: {
+                    mobileEnabled: true,
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    autoplay: false,
+                    autoplaySpeed: 2000,
+                    dots: false,
+                    infinite: false,
+                    additionalClass: 'embedded-list__slider',
+                    embeddedArrowsClass: 'embedded-arrows'
+                },
+
+                render: function() {
+                    new ListSliderComponent(_.extend({}, {
+                        _sourceElement: this.$el
+                    }, this.sliderOptions);
+                }
+            });
+
+            return SomeExampleView;
+        });
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# DOM Relocation View #}
+
+{% block _style_book_dom_relocation_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid js-component-container ',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'orostylebook/js/style-book/style-book-dom-relocation',
+            props: {
+                prepend: false,
+                sibling: '.sibling-1',
+                endpointClass: 'relocated'
+            }
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="dom-relocation-example grid-col-12 grid" data-example-view>
+            <div class="grid-col-12">
+                <button data-relocation-trigger class="btn btn--info">Trigger Move</button>
+            </div>
+
+            <div class="dom-relocation grid-col-12">
+                <div class="dom-relocation-point">
+                    <div class="sibling-1">.sibling-1</div>
+                    <div data-relocate>Relocated Element</div>
+                    <div class="sibling-2">.sibling-2</div>
+                </div>
+                <div class="dom-relocation-target">
+                    <div class="sibling-1">.sibling-1</div>
+                    <div class="sibling-2">.sibling-2</div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-col-12">
+            {{ block_widget(block) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_dom_relocation_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props grid" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_dom_relocation_html_widget %}
+    {% set source_code %}
+        <!-- Add view somewhere on page -->
+        <div data-page-component-view="orofrontend/js/app/views/dom-relocation-view"></div>
+
+        <!-- Define moved element options -->
+        {% set attr =  layout_attr_defaults(attr, {
+            '~class': ' some-element',
+            'data-dom-relocation-options': {
+                responsive: [
+                    {
+                        viewport: {
+                            maxScreenType: 'tablet',
+                        },
+                        moveTo: '[data-target-container]',
+                        sibling: '[data-target-container]',
+                        prepend: true,
+                        endpointClass: 'test-class'
+                    }
+                ]
+            }
+        }) %}
+
+        <div class="some-element" data-dom-relocation-options='{"responsive":[{"viewport":{"maxScreenType":"tablet"},"moveTo":"[data-target-container]", "sibling": "[data-target-container] > div:eq(1)"}]}'>Some content...</div>
+
+        <!-- Define target element -->
+
+        <div data-target-container>
+            <!-- The item will be moved inside this container -->
+        </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Sticky Panel View #}
+
+{% block _style_book_sticky_panel_view_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container ',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'orostylebook/js/style-book/style-book-sticky-panel-view',
+            props: {}
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="sticky-panel-example" data-example-view>
+            <button class="btn btn--info" data-toggle>{{ 'oro_stylebook.groups.jscomponent.sticky_panel_view.button.sticky_off'|trans }}</button>
+            <div class="sticky-panel-box" data-move-to-sticky>
+                That content will be move to sticky panel...
+            </div>
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_sticky_panel_view_html_widget %}
+    {% set options = "
+    {% import '@OroUI/macros.html.twig' as UI %}
+
+    {% set attributes = {
+        'data-sticky': {
+            'autoWidth': true,
+            'toggleClass': 'sticked',
+            'placeholderId': 'style-book-sticky-header'
+        },
+        'data-sticky-target': 'top-sticky-panel'
+    } %}" %}
+
+    {% set source_code %}
+        {{ options|raw }}
+
+    <div class="some-box" {{ "{{ UI.renderPageComponentAttributes(attributes) }}"|raw }}>
+        Content that should be sticky
+    </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Mediator #}
+
+{% block _style_book_grid_element_mediator_widget %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_mediator_common_widget %}
+    {% set source_code %}
+        <script>
+            // Call execute to show loading
+            mediator.execute('showLoading');
+
+            // Call execute to hide loading
+            mediator.execute('hideLoading');
+
+            /**
+             * allows to detect if controller is in action (period of time between 'page:beforeChange' and 'page:afterChange' events)
+             */
+            mediator.execute('isInAction');
+
+            // Call execute to redirect url
+            /**
+             * perform redirect to a new location, accepts two parameters: object with location information and navigation options
+             * @param {String} URL string
+             * @param {Boolean} redirect
+             */
+            mediator.execute('redirectTo',
+                {
+                    url: String // URL
+                },
+                {
+                    redirect: Boolean // true/false
+                }
+            );
+
+            // Refresh page
+            mediator.execute('refreshPage');
+
+            mediator.execute('layout:enablePageScroll');
+
+            mediator.on('layout:init', function() {});
+            mediator.on('layout:dispose', function() {});
+
+            /**
+             * performs submit form action via save call for a model, accepts options object with packed in data
+             * @param {String} Url string
+             * @param {String} method 'GET', 'POST', 'PUT', 'DELETE' etc.
+             * @param {Object} data
+             */
+            mediator.execute('submitPage', {
+                url: String,
+                type: String,
+                data: Object
+            });
+
+            /**
+             * @param {jQuery.Element} $element
+             */
+            mediator.execute('layout:disablePageScroll', $element);
+
+            /**
+             * Change page title
+             * @param {String} subtitle
+             * @param {Boolean} is raw
+             */
+            mediator.execute('adjustTitle', subtitle, raw);
+
+            mediator.trigger('page:beforeChange');
+            mediator.trigger('page:afterChange');
+
+            // Layouts
+            mediator.trigger('layout:adjustHeight');
+            mediator.trigger('layout:reposition');
+
+            // Shopping lists
+            mediator.trigger('checkout:shipping-method:rendered');
+            mediator.trigger('shopping-list:refresh');
+
+            /**
+             * Get shopping list content after shopping lists update
+             *
+             * @param {Backbone.Model} Shopping List Model
+             * @param {Object} Content from response
+             */
+            mediator.on('shopping-list:line-items:update-response', function(model, response) {});
+            mediator.trigger('shopping-list:line-items:update-response', ShoppingList.Model, {
+                message: String,
+                product: Product.Model,
+                shoppingList: shoppingList.Model
+            });
+
+            // Line Items
+            /**
+             * Fired after line item update
+             * @param {Event.Object} event context
+             * @param {Function.context} context
+             */
+            mediator.on('line-items-totals:update', function(Event) {
+                return context;
+            }, context);
+
+            /**
+             * Fired when get current totals in order
+             * @param {Object} totalsData
+             */
+            mediator.on('order:totals:get:current', function(totalsData) {});
+            mediator.trigger('order:totals:get:current', new Object());
+
+            // Checkout
+            /**
+             * Fired after refresh payments
+             */
+            mediator.on('checkout:payment:method:refresh', function() {});
+
+            /**
+             * @param {String} checked paymentMethod
+             */
+            mediator.on('checkout:payment:method:changed', function(paymentMethod) {});
+
+            /**
+             * @param {Boolean} State
+             */
+            mediator.on('checkout:payment:validate:change', function(state) {});
+
+            /**
+             * @param {Object} validateValueObject
+             */
+            mediator.on('checkout:payment:validate:get-value', function(validateValueObject) {});
+
+            /**
+             *
+             */
+            mediator.on('checkout:payment:save-for-later:change', function() {});
+
+            // Pricing
+            /**
+             * @param {Object} total pricing data
+             *
+             * totals = {
+             *      total: {},
+             *      subtotal: {}
+             *  }
+             */
+            mediator.on('totals:update', function(totals) {});
+
+            /**
+             * Fired when total change on order
+             */
+            mediator.on('line-items-totals:update', function() {});
+
+            /**
+             * @param {Array} Line items collection
+             */
+            mediator.on('pricing:collect:line-items', function(items) {});
+
+            /**
+             * @param {Array} product Ids
+             * @param {Function} Callback
+             */
+            mediator.on('pricing:load:products-tier-prices', function(productId, callback) {});
+
+            /**
+             * @param {Object} data
+             */
+            mediator.on('product:precision:add', function(data) {});
+
+            /**
+             * @param {Object} data
+             */
+            mediator.on('product:precision:remove', function(data) {});
+
+            /**
+             * Fired when product variant change
+             * @param {Object} layout subtree data
+             *
+             * layoutSubtree = {
+             *      layoutSubtreeUrl: Route,
+             *      layoutSubtreeCallback: function() {}
+             * }
+             *
+             layoutSubtreeCallback: this.afterProductChanged.bind(this)
+             */
+            mediator.on('layout-subtree:update:product', function(layoutSubtree) {});
+
+            /**
+             * Fired when product unit changed
+             */
+            mediator.on('unitChanged', function() {});
+
+            /**
+             * Fired when quantity change in line editing mode
+             * @param {String} value
+             */
+            mediator.on('product:quantity-unit:update', function(value) {});
+
+            // Widgets
+            /**
+             * @param {Object} widget options
+             */
+            mediator.on('widget_success:' + widgetAlias, function(options) {});
+
+            /**
+             * @param {Function.content} Dialog widget instance
+             */
+            mediator.on('widget_dialog:close', function(context) {});
+
+            /**
+             * @param {Function.content} Dialog widget instance
+             */
+            mediator.on('widget_dialog:open', function(context) {});
+
+            /**
+             * @param {Function.content} Dialog widget instance
+             * @param {Object} widget data
+             */
+            mediator.on('widget_dialog:stateChange', function(context, data) {});
+
+            /**
+             * asynchronously fetches widget instance by widget id
+             * @param {widget.id} widgetId
+             */
+            mediator.execute('widgets:getByIdAsync', widgetId, function(widget) {});
+
+            /**
+             * asynchronously fetches widget instance its alias
+             * @param {widget.alias} widgetAlias
+             */
+            mediator.execute('widgets:getByAliasAsync', widgetAlias, function(widget) {});
+
+        </script>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_mediator_grid_widget %}
+    {% set source_code %}
+        <script>
+            /**
+             * @param {Boolean} ignoreVisibility
+             */
+            mediator.on('datagrid:doRefresh' + datagridName,  function(ignoreVisibility) {});
+
+            /**
+             * @param {String} paramName
+             * @param {Any} value
+             */
+            mediator.on('datagrid:setParam:' + datagridName, function(param, value) {});
+            mediator.trigger('datagrid:setParam:' + datagridName, 'someValueKey', 'someValue');
+
+            /**
+             * @param {String} paramName
+             */
+            mediator.on('datagrid:removeParam:' + datagridName, function(param) {});
+            mediator.trigger('datagrid:removeParam:' + datagridName, 'someValueKey');
+
+            /**
+             * @param {Grid} Grid context
+             */
+            mediator.trigger('datagrid:rendered', gridInstanse);
+            mediator.on('datagrid:rendered', function(gridInstanse) {});
+
+            /**
+             * Execute reset grid collection
+             */
+            mediator.trigger('datagrid:doReset:' + datagridName);
+
+            /**
+             * Fired before remove grid row
+             * @param {Backbone.Model} Grid row model
+             */
+            mediator.trigger('datagrid:beforeRemoveRow:' + datagridName, model);
+            mediator.on('datagrid:beforeRemoveRow:' + datagridName, function(model) {});
+
+            /**
+             * Fired after remove grid row
+             */
+            mediator.trigger('datagrid:afterRemoveRow:' + datagridName);
+            mediator.on('datagrid:afterRemoveRow:' + datagridName, function() {});
+
+            /**
+             * Fired after remove grid rows using mass actions
+             */
+            mediator.trigger('datagrid:afterMassRemoveRow:' + datagridName);
+
+            mediator.on('change:' + datagridName, function(appendedIds, removedIds) {});
+            // Frontend mass actions execute
+            mediator.trigger('datagrid:mass:frontend:execute:' + datagridName);
+            mediator.trigger('get-selected-products-mass-action-run:' + datagridName);
+        </script>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_mediator_message_widget %}
+    {% set source_code %}
+        <script>
+            /**
+             * Execute to show info message
+             * @type 'error', 'success', 'info'
+             */
+            mediator.execute('showFlashMessage', 'type', 'Text message');
+            // or
+            mediator.execute('showMessage', 'type', 'Text message');
+
+            mediator.execute('addMessage', 'type', 'Text message');
+
+            /**
+             * Show certainly error message
+             */
+            mediator.execute('showErrorMessage', 'Text message');
+
+        </script>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Popup Gallery Widget #}
+
+{% block _style_book_grid_element_popup_gallery_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container ',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'orostylebook/js/style-book/style-book-popup-gallery-widget',
+            props: {
+                'imageOptions.slidesToShow': 1,
+                'imageOptions.slidesToScroll': 1,
+                'imageOptions.asNavFor': '.popup-gallery-widget__thumbnails',
+                'imageOptions.lazyLoad': 'progressive',
+                'navOptions.slidesToShow': 4,
+                'navOptions.slidesToScroll': 1,
+                'navOptions.asNavFor': '.popup-gallery-widget__images',
+                use_thumb: true,
+                'imageOptions.fade': true,
+                'imageOptions.arrows': true,
+                'imageOptions.infinite': false,
+                'navOptions.focusOnSelect': true,
+                'navOptions.infinite': false,
+                'navOptions.arrows': true
+            }
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div data-example-view>
+            <div class="popup-gallery" data-trigger-gallery-open>
+                <img class="promo-slider__img" src="/bundles/orostylebook/images/promo-slider/promo-slider-small-1.jpg" alt="Image 1" />
+            </div>
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_popup_gallery_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props grid" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_popup_gallery_html_widget %}
+    {% set options = "
+    {% set viewOptions = {
+        widget: 'orofrontend/js/app/components/popup-gallery-widget',
+        use_thumb: true,
+        galleryImages: [{
+            src: 'src_to_original_image',
+            thumb: 'src_to_thumbnail_image',
+            alt: 'Image alt text'
+        }],
+        imageOptions: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            fade: true,
+            arrows: false,
+            asNavFor: '.product-view-media-gallery__nav',
+            lazyLoad: 'progressive',
+            infinite: false,
+            relatedComponent: 'zoom'
+        },
+        navOptions: {
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            asNavFor: '.product-view-media-gallery',
+            focusOnSelect: true,
+            infinite: false,
+            arrows: true
+        }
+    }%}" %}
+
+    {% set source_code %}
+    {{ options|raw }}
+
+    <div class="popup-gallery" >
+        <div data-trigger-gallery-open data-page-component-widget="{{ "{{  viewOptions|json_encode }}"|raw }}">
+            <img src="url_path" alt="Alt">
+        </div>
+    </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_popup_gallery_js_widget %}
+    {% set source_code %}
+        define(function(require) {
+            'use strict';
+
+            var SomeExampleView;
+            var BaseView = require('oroui/js/app/views/base/view');
+            var PopupGalleryWidget = require('orofrontend/js/app/components/popup-gallery-widget');
+
+            SomeExampleView = BaseView.extend({
+                popupGallery: {
+                    use_thumb: true,
+                    galleryImages: [
+                        {
+                            thumb: 'url_to_image_thumbnail',
+                            src: 'url_to_image_original',
+                            alt: 'Image alt text'
+                        },
+                        ...
+                    ],
+                    imageOptions: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        fade: true,
+                        arrows: true,
+                        asNavFor: '.popup-gallery-widget__thumbnails',
+                        lazyLoad: 'progressive',
+                        infinite: false
+                    },
+                    navOptions: {
+                        slidesToShow: 4,
+                        slidesToScroll: 1,
+                        asNavFor: '.popup-gallery-widget__images',
+                        focusOnSelect: true,
+                        infinite: false,
+                        arrows: true
+                    }
+                },
+
+                initialize: function(options) {
+                    SomeExampleView.__super__.initialize.apply(this, arguments);
+
+                    this.subview('popupGallery', new PopupGalleryWidget(this.popupOptions))
+                }
+            });
+
+            return SomeExampleView;
+        });
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# ViewportManager #}
+
+{% block _style_book_grid_element_viewport_manager_widget %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_viewport_manager_require_widget %}
+    {% set source_code %}
+        {% import '@OroAsset/Asset.html.twig' as Asset %}
+        {{ Asset.js_modules_config({
+            'oroui/js/viewport-manager': {
+                screenMap: [
+                    {
+                        name: 'desktop',
+                        min: 1100
+                    },
+                    {
+                        name: 'tablet',
+                        max: 1099
+                    },
+                    {
+                        name: 'strict-tablet',
+                        max: 1099,
+                        min: 993
+                    },
+                    {
+                        name: 'tablet-small',
+                        max: 992
+                    },
+                    {
+                        name: 'strict-tablet-small',
+                        max: 992,
+                        min: 641
+                    },
+                    {
+                        name: 'mobile-big',
+                        max: 767
+                    },
+                    {
+                        name: 'strict-mobile-big',
+                        max: 767,
+                        min: 641,
+                    },
+                    {
+                        name: 'mobile-landscape',
+                        max: 640
+                    },
+                    {
+                        name: 'strict-mobile-landscape',
+                        max: 640,
+                        min: 415
+                    },
+                    {
+                        name: 'mobile',
+                        max: 414
+                    }
+                ]
+            }
+        }) }}
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_viewport_manager_js_widget %}
+    {% set source_code %}
+        <script>
+        define(function(require) {
+            'use strict';
+
+            var SomeExampleView;
+            var BaseView = require('oroui/js/app/views/base/view');
+            var viewportManager = require('oroui/js/viewport-manager');
+
+            SomeExampleView = BaseView.extend({
+                viewport: null,
+
+                initialize: function(options) {
+                    SomeExampleView.__super__.initialize.apply(this, arguments);
+
+                    this.viewport = viewportManager.getViewport();
+                },
+
+                render: function() {
+                    // Call somewhere if need check responsive rules
+                    if (this.viewport.isApplicable({ maxScreenType: 'tablet' })) {
+                        // Do something
+                    }
+
+                    if (this.viewport.isApplicable({ minScreenType: 'mobile' })) {
+                        // Do something
+                    }
+                }
+            });
+
+            return SomeExampleView;
+        });
+        </script>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Lazy Init View #}
+
+{% block _style_book_grid_element_lazy_init_widget %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_lazy_init_html_widget %}
+    {% set source_code %}
+        <div data-layout="separate" data-page-component-view="oroproduct/js/app/datagrid/datagrid-product-lazy-init-view">
+
+            <!-- Views should be initialize when user scroll to that views -->
+            <div data-page-component-view="path/to/some/view"></div>
+
+            <div data-page-component-view="path/to/some/view1"></div>
+
+            <div data-page-component-view="path/to/some/view2"></div>
+
+        </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Input Widget Number #}
+
+{% block _style_book_input_widget_number_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid js-component-container ',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground-widgets',
+        'data-page-component-options': {
+            viewConstructor: 'oroui/js/app/views/input-widget/number',
+            widget: true,
+            props: {
+                precision: 2
+            }
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="grid-col-12" data-example-view>
+            <label class="label label--full required" for="form_text-number">Number Widget field</label>
+            <input type="number" id="form_text-number" data-precision="3" name="form[text]" required="required" data-ftid="form_text" data-name="field__text" class=" form-field-text input input--full" placeholder="">
+        </div>
+        <div class="grid-col-12">
+            {{ block_widget(block) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_input_widget_number_html_widget %}
+    {% set source_code %}
+        <label class="label label--full required" for="form_text-number">Number Widget field</label>
+        <input type="number" id="form_text-number" data-precision="3" name="form[text]" required="required" data-ftid="form_text" data-name="field__text" class=" form-field-text input input--full" placeholder="">
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_input_widget_number_js_widget %}
+    {% set source_code %}
+        define(function(require) {
+            'use strict';
+
+            var SomeExtensionNumberInputWidget;
+            var NumberInputWidget = require('oroui/js/app/views/input-widget/number');
+
+            SomeExtensionNumberInputWidget = NumberInputWidget.extend({
+            // Extend properties
+            allowZero: false,
+
+            precision: 2, // Data attribute more priority
+
+            // Extend widget functionality
+            _normalizeNumberFieldValue: function(event) {
+            SomeExtensionNumberInputWidget.__super__._normalizeNumberFieldValue.apply(this, arguments)
+
+            // Make some ...
+            }
+            });
+
+            return SomeExtensionNumberInputWidget;
+        });
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Select2 Widget Number #}
+{% block _style_book_input_widget_select2_template_widget %}
+    <div class="grid-col-12">
+        <label class="label label--full required" for="form_select-select2">Select2 Widget Number</label>
+
+        <select data-example-view id="form_select-select2" name="form[select]" class="select select--full" data-ftid="form_select" data-name="field__select" placeholder="">
+            <option></option>
+            {% for letter in 'a'..'z' %}
+            <option value="{{ letter }}">Option {{ letter|upper }}</option>
+            {% endfor %}
+        </select>
+    </div>
+{% endblock %}
+
+{% block _style_book_input_widget_select2_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid js-component-container ',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground-widgets',
+        'data-page-component-options': {
+            viewConstructor: 'oroui/js/app/views/input-widget/select2',
+            props: {
+                'initializeOptions.placeholder': 'Test',
+                'initializeOptions.minimumInputLength': 0,
+                'initializeOptions.minimumResultsForSearch': 7
+            }
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="grid-col-12">
+            {{ block('_style_book_input_widget_select2_template_widget') }}
+        </div>
+        <div class="grid-col-12">
+            {{ block_widget(block) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_input_widget_select2_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props grid" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_input_widget_select2_html_widget %}
+    {% set source_code %}
+        {{ block('_style_book_input_widget_select2_template_widget') }}
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Zoom Widget #}
+
+{% block _style_book_grid_element_zoom_widget_widget %}
+
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid js-component-container style-book-zoom',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground-widgets',
+        'data-page-component-options': {
+            viewConstructor: 'orostylebook/js/style-book/style-book-zoom-widget-view',
+            props: {
+                zoomWindowPosition: 'zoom-container',
+                minZoomWindowWidth: 376,
+                maxZoomWindowWidth: 700,
+                zoomWindowWidth: 376,
+                zoomWindowHeight: 376,
+                zoomWindowFadeIn: 400,
+                zoomLevel: 0.4,
+                maxZoomLevel: 0.8,
+                borderSize: 1,
+                borderColour: '#ebebeb',
+                lensBorderColour: '#7d7d7d',
+                lensColour: '#000',
+                lensOpacity: 0.22,
+                scrollZoom: true,
+            }
+        }
+    }) %}
+
+   <div {{ block('block_attributes') }}>
+        <div class="grid-col-12">
+            <img data-example-view class="product-view-media-gallery__image"
+                alt="Image"
+                data-zoom-image="/bundles/orostylebook/images/promo-slider/promo-slider-small-2.jpg"
+                src="/bundles/orostylebook/images/promo-slider/promo-slider-small-2.jpg"
+                itemprop="image">
+            <div id="zoom-container"></div>
+        </div>
+        <div class="grid-col-12">
+            {{ block_widget(block) }}
+        </div>
+   </div>
+{% endblock %}
+
+{% block _style_book_grid_element_zoom_widget_html_widget %}
+    {% set source_code %}
+        {% set zoomOptions = "
+        {% set options = layout_attr_defaults(attr, {
+            viewport: {
+                minScreenType: 'desktop'
+            },
+            widgetModule: 'oroproduct/js/widget/zoom-widget',
+        })%}
+        "|raw %}
+
+        <!-- Use shortcut manager data attribute -->
+        {{ zoomOptions|raw }}
+        <div>
+           <img class="product-view-media-gallery__image"
+                alt="Image"
+                data-zoom-image="path/to/zoomimg/image"
+                src="path/to/origin/image"
+                data-page-component-viewport="{{ "{{ zoomOptions|json_encode }}"|raw }}"
+                itemprop="image"
+                data-lazy="path/to/lazy/image">
+           <div id="zoom-container"></div>
+        </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_zooo_widget_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props grid" data-props></div>
+{% endblock %}
+
+{# Datagrid #}
+
+{% block _style_book_grid_element_datagrid_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid js-component-container',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-datagrid-playground',
+        'data-page-component-options': {
+            viewConstructor: 'orodatagrid/js/app/components/datagrid-component',
+            props: {
+
+            }
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="grid-col-12">
+            <div data-example-view id="grid-frontend-customer-customer-address-grid"></div>
+        </div>
+        <div class="grid-col-12">
+            {{ block_widget(block) }}
+        </div>
+    </div>
+
+    <script type="text/html" id="template-customer-address-book-addresses-grid-toolbar">
+        <div class="datagrid-toolbar extended datagrid-toolbar--offset-s">
+            <% if (toolbarPosition !== 'bottom') { %>
+            <div class="datagrid-toolbar__start" data-section="left-side">
+                <div class="form-horizontal" data-grid-items-counter=""></div>
+            </div>
+            <% } %>
+            <div class="datagrid-toolbar__center" data-section="base-side">
+                <div class="datagrid-tool oro-pagination">
+                    <div class="" data-grid-pagination=""></div>
+                </div>
+            </div>
+            <% if (toolbarPosition !== 'bottom') { %>
+            <div class="datagrid-toolbar__end" data-section="right-side">
+                <div class="datagrid-tool">
+                    <div class=" page-size form-horizontal" data-grid-pagesize=""></div>
+                </div>
+                <div class="datagrid-tool">
+                    <div class=" actions-panel form-horizontal" data-grid-actions-panel=""></div>
+                </div>
+            </div>
+            <% } %>
+            <div class=" datagrid-toolbar__panel frontend-datagrid__filter" data-role="filter-container"></div>
+        </div>
+    </script>
+{% endblock %}
+
+{% block _style_book_grid_element_datagrid_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props grid" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_datagrid_html_widget %}
+    {% set options = "{% set gridParams = {
+            gridName: 'some-grid-name',
+            themeOptions,
+            toolbarOptions,
+            gridViewsOptions,
+            gridBuildersOptions,
+            enableViews,
+            filterContainerSelector,
+            filtersStateElement,
+        } %}" %}
+    {% set marcros = "
+        {% import '@OroDataGrid/macros.html.twig' as dataGrid %}
+
+        {{ dataGrid.renderGrid(gridName, gridParams) }}
+    " %}
+
+    {% set source_code %}
+        <!-- Use dataGrid.renderGrid macros in twig -->
+        <!-- gridName is required -->
+        <!-- params: additional parameters for url -->
+        <!-- renderParams: parameters for grid UI -->
+
+        {{ options|raw }}
+
+        {{ marcros|raw }}
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-markup">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}

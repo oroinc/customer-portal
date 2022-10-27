@@ -2,13 +2,18 @@
 
 namespace Oro\Bundle\FrontendBundle\CacheWarmer;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\Persistence\ManagerRegistry;
+use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\EntityBundle\ORM\DatabasePlatformInterface;
+use Oro\Bundle\EntityBundle\Tools\SafeDatabaseChecker;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityConfigBundle\Config\Id\ConfigIdInterface;
 
+/**
+ * Migrates class names from older to the newer variants in the tables containing references to such classes.
+ */
 class ClassMigration
 {
     /** @var ManagerRegistry */
@@ -17,8 +22,7 @@ class ClassMigration
     /** @var ConfigManager */
     private $configManager;
 
-    /** @var bool */
-    private $applicationInstalled;
+    private ApplicationState $applicationState;
 
     /** @var string[] */
     private $config = [];
@@ -26,13 +30,16 @@ class ClassMigration
     /**
      * @param ManagerRegistry $managerRegistry
      * @param ConfigManager $configManager
-     * @param bool $applicationInstalled
+     * @param ApplicationState $applicationState
      */
-    public function __construct(ManagerRegistry $managerRegistry, ConfigManager $configManager, $applicationInstalled)
-    {
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        ConfigManager $configManager,
+        ApplicationState $applicationState
+    ) {
         $this->managerRegistry = $managerRegistry;
         $this->configManager = $configManager;
-        $this->applicationInstalled = (bool)$applicationInstalled;
+        $this->applicationState = $applicationState;
     }
 
     public function migrate()
@@ -41,14 +48,14 @@ class ClassMigration
             throw new \InvalidArgumentException('Migration not configured');
         }
 
-        if (!$this->applicationInstalled) {
+        if (!$this->applicationState->isInstalled()) {
             return;
         }
 
         /** @var Connection $configConnection */
         $configConnection = $this->managerRegistry->getConnection('config');
-        $tables = $configConnection->getSchemaManager()->listTableNames();
-        if (!in_array('oro_entity_config', $tables, true)) {
+
+        if (!SafeDatabaseChecker::tablesExist($configConnection, 'oro_entity_config')) {
             return;
         }
 
@@ -115,10 +122,6 @@ class ClassMigration
     {
         try {
             $preparedFrom = $this->prepareFrom($defaultConnection, $from);
-            $aclCheck = $defaultConnection->fetchColumn(
-                'SELECT id FROM oro_navigation_title WHERE title LIKE :preparedFrom LIMIT 1',
-                ['preparedFrom' => "%$preparedFrom%"]
-            );
             $configCheck = $defaultConnection->fetchColumn(
                 'SELECT id FROM oro_entity_config WHERE class_name LIKE :preparedFrom LIMIT 1',
                 ['preparedFrom' => "%$preparedFrom%"]
@@ -127,7 +130,7 @@ class ClassMigration
             return false;
         }
 
-        return $aclCheck || $configCheck;
+        return $configCheck;
     }
 
     /**
@@ -158,17 +161,17 @@ class ClassMigration
             $id = $entity['id'];
             $originalClassName = $entity['class_name'];
             $originalData = $entity['data'];
-            $originalData = $originalData ? $configConnection->convertToPHPValue($originalData, Type::TARRAY) : [];
+            $originalData = $originalData ? $configConnection->convertToPHPValue($originalData, Types::ARRAY) : [];
 
             $className = $this->replaceStringValue($originalClassName, $from, $to);
             $data = $this->replaceArrayValue($originalData, $from, $to);
 
             if ($className !== $originalClassName || $data !== $originalData) {
-                $data = $configConnection->convertToDatabaseValue($data, Type::TARRAY);
+                $data = $configConnection->convertToDatabaseValue($data, Types::ARRAY);
 
                 $sql = 'UPDATE oro_entity_config SET class_name = ?, data = ? WHERE id = ?';
                 $parameters = [$className, $data, $id];
-                $configConnection->executeUpdate($sql, $parameters);
+                $configConnection->executeStatement($sql, $parameters);
             }
         }
     }
@@ -184,16 +187,16 @@ class ClassMigration
         foreach ($fields as $field) {
             $id = $field['id'];
             $originalData = $field['data'];
-            $originalData = $originalData ? $configConnection->convertToPHPValue($originalData, Type::TARRAY) : [];
+            $originalData = $originalData ? $configConnection->convertToPHPValue($originalData, Types::ARRAY) : [];
 
             $data = $this->replaceArrayValue($originalData, $from, $to);
 
             if ($data !== $originalData) {
-                $data = $configConnection->convertToDatabaseValue($data, Type::TARRAY);
+                $data = $configConnection->convertToDatabaseValue($data, Types::ARRAY);
 
                 $sql = 'UPDATE oro_entity_config_field SET data = ? WHERE id = ?';
                 $parameters = [$data, $id];
-                $configConnection->executeUpdate($sql, $parameters);
+                $configConnection->executeStatement($sql, $parameters);
             }
         }
 
@@ -209,7 +212,7 @@ class ClassMigration
             if ($value !== $originalValue) {
                 $sql = 'UPDATE oro_entity_config_index_value SET value = ? WHERE id = ?';
                 $parameters = [$value, $id];
-                $configConnection->executeUpdate($sql, $parameters);
+                $configConnection->executeStatement($sql, $parameters);
             }
         }
     }

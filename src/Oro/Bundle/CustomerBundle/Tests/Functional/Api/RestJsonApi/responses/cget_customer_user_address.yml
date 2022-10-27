@@ -1,0 +1,262 @@
+data:
+    -
+        type: customeruseraddresses
+        id: '<toString(@grzegorz.brzeczyszczykiewicz@example.com.address_1->id)>'
+        attributes:
+            phone: null
+            primary: true
+            label: 'grzegorz.brzeczyszczykiewicz@example.com.address_1'
+            street: '1215 Caldwell Road'
+            street2: null
+            city: 'Rochester'
+            postalCode: '14608'
+            organization: 'Test Org'
+            namePrefix: null
+            firstName: null
+            middleName: null
+            lastName: null
+            nameSuffix: null
+            createdAt: '@grzegorz.brzeczyszczykiewicz@example.com.address_1->created->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@grzegorz.brzeczyszczykiewicz@example.com.address_1->updated->format("Y-m-d\TH:i:s\Z")'
+            customRegion: null
+            types:
+                -
+                    default: false
+                    addressType: billing
+                -
+                    default: true
+                    addressType: shipping
+        relationships:
+            customerUser:
+                data:
+                    type: customerusers
+                    id: '<toString(@grzegorz.brzeczyszczykiewicz@example.com->id)>'
+            owner:
+                data: null
+            systemOrganization:
+                data:
+                    type: organizations
+                    id: '<toString(@organization->id)>'
+            country:
+                data:
+                    type: countries
+                    id: '<toString(@country.US->iso2Code)>'
+            region:
+                data:
+                    type: regions
+                    id: '<toString(@region.US-NY->combinedCode)>'
+    -
+        type: customeruseraddresses
+        id: '<toString(@grzegorz.brzeczyszczykiewicz@example.com.address_2->id)>'
+        attributes:
+            phone: null
+            primary: false
+            label: 'grzegorz.brzeczyszczykiewicz@example.com.address_2'
+            street: '2413 Capitol Avenue'
+            street2: null
+            city: 'Romney'
+            postalCode: '47981'
+            organization: 'Test Org'
+            namePrefix: null
+            firstName: null
+            middleName: null
+            lastName: null
+            nameSuffix: null
+            createdAt: '@grzegorz.brzeczyszczykiewicz@example.com.address_2->created->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@grzegorz.brzeczyszczykiewicz@example.com.address_2->updated->format("Y-m-d\TH:i:s\Z")'
+            customRegion: null
+            types:
+                -
+                    default: true
+                    addressType: billing
+        relationships:
+            customerUser:
+                data:
+                    type: customerusers
+                    id: '<toString(@grzegorz.brzeczyszczykiewicz@example.com->id)>'
+            owner:
+                data: null
+            systemOrganization:
+                data:
+                    type: organizations
+                    id: '<toString(@organization->id)>'
+            country:
+                data:
+                    type: countries
+                    id: '<toString(@country.US->iso2Code)>'
+            region:
+                data:
+                    type: regions
+                    id: '<toString(@region.US-IN->combinedCode)>'
+    -
+        type: customeruseraddresses
+        id: '<toString(@grzegorz.brzeczyszczykiewicz@example.com.address_3->id)>'
+        attributes:
+            phone: null
+            primary: false
+            label: 'grzegorz.brzeczyszczykiewicz@example.com.address_3'
+            street: '722 Harvest Lane'
+            street2: null
+            city: 'Sedalia'
+            postalCode: '65301'
+            organization: 'Test Org'
+            namePrefix: null
+            firstName: null
+            middleName: null
+            lastName: null
+            nameSuffix: null
+            createdAt: '@grzegorz.brzeczyszczykiewicz@example.com.address_3->created->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@grzegorz.brzeczyszczykiewicz@example.com.address_3->updated->format("Y-m-d\TH:i:s\Z")'
+            customRegion: null
+            types:
+                -
+                    default: false
+                    addressType: billing
+                -
+                    default: false
+                    addressType: shipping
+        relationships:
+            customerUser:
+                data:
+                    type: customerusers
+                    id: '<toString(@grzegorz.brzeczyszczykiewicz@example.com->id)>'
+            owner:
+                data: null
+            systemOrganization:
+                data:
+                    type: organizations
+                    id: '<toString(@organization->id)>'
+            country:
+                data:
+                    type: countries
+                    id: '<toString(@country.US->iso2Code)>'
+            region:
+                data:
+                    type: regions
+                    id: '<toString(@region.US-MO->combinedCode)>'
+    -
+        type: customeruseraddresses
+        id: '<toString(@grzegorz.brzeczyszczykiewicz@example.com.address_4->id)>'
+        attributes:
+            phone: null
+            primary: false
+            label: 'grzegorz.brzeczyszczykiewicz@example.com.address_4'
+            street: '1167 Marion Drive'
+            street2: null
+            city: 'Winter Haven'
+            postalCode: '33830'
+            organization: 'Test Org'
+            namePrefix: null
+            firstName: null
+            middleName: null
+            lastName: null
+            nameSuffix: null
+            createdAt: '@grzegorz.brzeczyszczykiewicz@example.com.address_4->created->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@grzegorz.brzeczyszczykiewicz@example.com.address_4->updated->format("Y-m-d\TH:i:s\Z")'
+            customRegion: null
+            types: {}
+        relationships:
+            customerUser:
+                data:
+                    type: customerusers
+                    id: '<toString(@grzegorz.brzeczyszczykiewicz@example.com->id)>'
+            owner:
+                data: null
+            systemOrganization:
+                data:
+                    type: organizations
+                    id: '<toString(@organization->id)>'
+            country:
+                data:
+                    type: countries
+                    id: '<toString(@country.US->iso2Code)>'
+            region:
+                data:
+                    type: regions
+                    id: '<toString(@region.US-FL->combinedCode)>'
+    -
+        type: customeruseraddresses
+        id: '<toString(@other.user@test.com.address_1->id)>'
+        attributes:
+            phone: null
+            primary: true
+            label: 'other.user@test.com.address_1'
+            street: '2849 Junkins Avenue'
+            street2: null
+            city: 'Albany'
+            postalCode: '31707'
+            organization: 'Test Org'
+            namePrefix: null
+            firstName: null
+            middleName: null
+            lastName: null
+            nameSuffix: null
+            createdAt: '@other.user@test.com.address_1->created->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@other.user@test.com.address_1->updated->format("Y-m-d\TH:i:s\Z")'
+            customRegion: null
+            types:
+                -
+                    default: false
+                    addressType: billing
+                -
+                    default: true
+                    addressType: shipping
+        relationships:
+            customerUser:
+                data:
+                    type: customerusers
+                    id: '<toString(@other.user@test.com->id)>'
+            owner:
+                data: null
+            systemOrganization:
+                data:
+                    type: organizations
+                    id: '<toString(@organization->id)>'
+            country:
+                data:
+                    type: countries
+                    id: '<toString(@country.US->iso2Code)>'
+            region:
+                data:
+                    type: regions
+                    id: '<toString(@region.US-GA->combinedCode)>'
+    -
+        type: customeruseraddresses
+        id: '<toString(@other.user@test.com.address_2->id)>'
+        attributes:
+            phone: null
+            primary: false
+            label: 'other.user@test.com.address_2'
+            street: 'Street 2'
+            street2: null
+            city: 'Los Angeles'
+            postalCode: '90001'
+            organization: 'Test Org'
+            namePrefix: null
+            firstName: null
+            middleName: null
+            lastName: null
+            nameSuffix: null
+            createdAt: '@other.user@test.com.address_2->created->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@other.user@test.com.address_2->updated->format("Y-m-d\TH:i:s\Z")'
+            customRegion: null
+            types: {}
+        relationships:
+            customerUser:
+                data:
+                    type: customerusers
+                    id: '<toString(@other.user@test.com->id)>'
+            owner:
+                data: null
+            systemOrganization:
+                data:
+                    type: organizations
+                    id: '<toString(@organization->id)>'
+            country:
+                data:
+                    type: countries
+                    id: '<toString(@country_usa->iso2Code)>'
+            region:
+                data:
+                    type: regions
+                    id: '<toString(@region_usa_california->combinedCode)>'

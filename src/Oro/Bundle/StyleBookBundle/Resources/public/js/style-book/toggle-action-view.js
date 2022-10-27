@@ -1,12 +1,10 @@
 define(function(require) {
     'use strict';
 
-    var ToggleActionView;
-    var BaseView = require('oroui/js/app/views/base/view');
-    var _ = require('underscore');
-    var $ = require('jquery');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const $ = require('jquery');
 
-    ToggleActionView = BaseView.extend({
+    const ToggleActionView = BaseView.extend({
         /**
          * @property
          */
@@ -30,35 +28,35 @@ define(function(require) {
         target: null,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function ToggleActionView() {
-            ToggleActionView.__super__.constructor.apply(this, arguments);
+        constructor: function ToggleActionView(options) {
+            ToggleActionView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
-            this.$el.on('click' + this.eventNamespace(), _.bind(this.toggle, this));
+            this.$el.on('click' + this.eventNamespace(), this.toggle.bind(this));
 
-            ToggleActionView.__super__.initialize.apply(this, arguments);
+            ToggleActionView.__super__.initialize.call(this, options);
         },
 
-        setElement: function() {
+        setElement: function(element) {
             this.$document = $(document);
 
             if (this.target) {
                 this.target = $(this.target);
             }
 
-            return ToggleActionView.__super__.setElement.apply(this, arguments);
+            return ToggleActionView.__super__.setElement.call(this, element);
         },
 
-        delegateEvents: function() {
-            ToggleActionView.__super__.delegateEvents.apply(this, arguments);
+        delegateEvents: function(events) {
+            ToggleActionView.__super__.delegateEvents.call(this, events);
 
-            this.$document.on('click' + this.eventNamespace(), _.bind(this.onClickOverlay, this));
+            this.$document.on('click' + this.eventNamespace(), this.onClickOverlay.bind(this));
 
             return this;
         },
@@ -68,7 +66,7 @@ define(function(require) {
                 this.$document.off(this.eventNamespace());
             }
 
-            ToggleActionView.__super__.undelegateEvents.apply(this, arguments);
+            ToggleActionView.__super__.undelegateEvents.call(this);
         },
 
         toggle: function(state) {
@@ -91,7 +89,7 @@ define(function(require) {
 
             this.$el.off(this.eventNamespace());
             this.undelegateEvents();
-            return ToggleActionView.__super__.dispose.apply(this, arguments);
+            return ToggleActionView.__super__.dispose.call(this);
         }
     });
 

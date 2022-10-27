@@ -15,9 +15,6 @@ class PageTemplateCollectionType extends AbstractType
      */
     protected $pageTemplatesManager;
 
-    /**
-     * @param PageTemplatesManager $pageTemplatesManager
-     */
     public function __construct(PageTemplatesManager $pageTemplatesManager)
     {
         $this->pageTemplatesManager = $pageTemplatesManager;

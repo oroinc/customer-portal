@@ -1,6 +1,96 @@
+{% block __oro_customer_form__page_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'data-focusable': true
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __oro_customer_form__label_wrapper_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' page-title-wrapper'
+    }) %}
+    <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+{% endblock %}
+
+{% block __oro_customer_form__label_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' page-title'
+    }) %}
+    <h1 {{ block('block_attributes') }}>{{ block_widget(block) }}</h1>
+{% endblock %}
+
+{% block __oro_customer_form__description_widget %}
+    <div class="form-row">
+        <p{{ block('block_attributes') }}>{{ block_widget(block) }}</p>
+    </div>
+{% endblock %}
+
+{% block __oro_customer_form__form_start_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid'
+    }) %}
+
+    {{ parent_block_widget(block) }}
+{% endblock %}
+
+{% block __oro_customer_form__form_fields_widget %}
+    {{ form_widget(form, {
+        id: null,
+        'attr': {
+            'class': 'grid grid-col-12'
+        }
+    }) }}
+{% endblock %}
+
+{% block __oro_customer_form__form_submit_wrapper_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid-col-12'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
 {% block __oro_customer_form__form_submit_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' btn--large btn--full-in-mobile '
     }) %}
     {{ block_widget(block, {attr: attr}) }}
+{% endblock %}
+
+{% block __oro_customer_form__form_additional_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid-col-12'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __oro_customer_form__links_widget %}
+    {% set childs = [] %}
+    {% for child in block %}
+        {% if child.vars.visible %}
+            {% set childs = childs|merge([child]) %}
+        {% endif %}
+    {% endfor %}
+    {% for child in childs %}
+        <div>
+            {% set attr = layout_attr_defaults(child.vars.attr, {
+                '~class': ' link'
+            }) %}
+            {{ block_widget(child, {attr: attr}) }}
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block __oro_customer_form__required_label_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' required-label',
+        'aria-hidden': 'true'
+    }) %}
+
+    <p {{ block('block_attributes') }}><sup>*</sup> {{ 'oro.customer.form.label.required'|trans }}</p>
 {% endblock %}

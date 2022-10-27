@@ -3,23 +3,18 @@
 namespace Oro\Bundle\CommerceMenuBundle\Controller;
 
 use Oro\Bundle\NavigationBundle\Controller\AbstractMenuController;
-use Oro\Bundle\NavigationBundle\Manager\MenuUpdateManager;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Abstract controller for the frontend menu.
+ */
 abstract class AbstractFrontendMenuController extends AbstractMenuController
 {
     /**
-     * @return MenuUpdateManager
-     */
-    protected function getMenuUpdateManager()
-    {
-        return $this->get('oro_commerce_menu.manager.menu_update');
-    }
-
-    /**
      * @return string
      */
-    protected function getSavedSuccessMessage()
+    protected function getSavedSuccessMessage(): string
     {
-        return $this->get('translator')->trans('oro.commercemenu.menuupdate.saved_message');
+        return $this->get(TranslatorInterface::class)->trans('oro.commercemenu.menuupdate.saved_message');
     }
 }

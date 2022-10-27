@@ -1,0 +1,35 @@
+oro:
+    frontendimportexport:
+        frontendimportexportresult:
+            entity_label: Import/Export Result for Storefront
+            entity_plural_label: Import/Export Results for Storefront
+            entity_grid_all_view_label: All %entity_plural_label%
+            id:
+                label: Id
+            filename:
+                label: Filename
+            job_id:
+                label: Job code
+            type:
+                label: Type
+            entity:
+                label: Entity name
+            options:
+                label: Options
+            expired:
+                label: Expired
+            owner:
+                label: Owner
+            customer_user:
+                label: Customer user
+            customer:
+                label: Customer
+            organization:
+                label: Organization
+
+        entity_config:
+            fields:
+                frontend:
+                    use_in_export:
+                        label: 'Exportable'
+                        tooltip: 'If enabled, the value of this field will be present in the product data export file in the storefront.'

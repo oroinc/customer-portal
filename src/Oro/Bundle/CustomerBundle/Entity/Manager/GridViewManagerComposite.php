@@ -20,11 +20,6 @@ class GridViewManagerComposite extends BaseGridViewManager
     /** @var TokenAccessorInterface */
     protected $tokenAccessor;
 
-    /**
-     * @param GridViewManager        $defaultGridViewManager
-     * @param GridViewManager        $frontendGridViewManager
-     * @param TokenAccessorInterface $tokenAccessor
-     */
     public function __construct(
         GridViewManager $defaultGridViewManager,
         GridViewManager $frontendGridViewManager,

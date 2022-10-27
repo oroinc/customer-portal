@@ -1,6 +1,6 @@
 @fixture-OroCustomerBundle:FrontendGridViewsFixture.yml
 Feature: Frontend Grid Views
-  ToDo: BAP-16103 Add missing descriptions to the Behat features
+
   #Implement frontend grid views.
   #The functionality should work exactly like in the admin.
   #Also we should remember current grid state (filters, sorters, etc) for each page, and restore it when the user comes back to this page again.
@@ -17,7 +17,7 @@ Feature: Frontend Grid Views
 
   Scenario: Create new grid view, checked that settings are saved, delete grid view
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I click "Account"
+    And I follow "Account"
     And I click "Users"
     When I hide all columns in "Customer Users Grid" except First Name, Last Name, Email Address
     When I filter Filter By First Name as contains "FirstName_3"

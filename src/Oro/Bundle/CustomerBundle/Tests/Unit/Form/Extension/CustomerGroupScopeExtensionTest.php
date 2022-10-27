@@ -15,17 +15,13 @@ use Symfony\Component\Validator\Validation;
 
 class CustomerGroupScopeExtensionTest extends FormIntegrationTestCase
 {
-    /**
-     * @var CustomerGroupScopeExtension
-     */
+    /** @var CustomerGroupScopeExtension */
     protected $customerGroupScopeExtension;
 
-    /**
-     * @var ScopeManager|\PHPUnit\Framework\MockObject\MockObject $scopeManager
-     */
+    /** @var ScopeManager|\PHPUnit\Framework\MockObject\MockObject */
     protected $scopeManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->customerGroupScopeExtension = new CustomerGroupScopeExtension();
 
@@ -48,9 +44,9 @@ class CustomerGroupScopeExtensionTest extends FormIntegrationTestCase
         $this->assertTrue($form->has('customerGroup'));
     }
 
-    public function testGetExtendedType()
+    public function testGetExtendedTypes()
     {
-        $this->assertEquals(ScopeType::class, $this->customerGroupScopeExtension->getExtendedType());
+        $this->assertEquals([ScopeType::class], CustomerGroupScopeExtension::getExtendedTypes());
     }
 
     /**
@@ -58,9 +54,7 @@ class CustomerGroupScopeExtensionTest extends FormIntegrationTestCase
      */
     protected function getExtensions()
     {
-        $this->scopeManager = $this->getMockBuilder(ScopeManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->scopeManager = $this->createMock(ScopeManager::class);
 
         return [
             new PreloadedExtension(

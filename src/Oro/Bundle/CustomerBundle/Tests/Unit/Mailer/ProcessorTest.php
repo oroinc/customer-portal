@@ -7,34 +7,25 @@ use Oro\Bundle\CustomerBundle\Event\CustomerUserEmailSendEvent;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
 use Oro\Bundle\UserBundle\Mailer\UserTemplateEmailSender;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
-use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ProcessorTest extends \PHPUnit\Framework\TestCase
 {
-    const PASSWORD = '123456';
+    private const PASSWORD = '123456';
 
-    /**
-     * @var CustomerUser
-     */
+    /** @var CustomerUser */
     private $user;
 
-    /**
-     * @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $eventDispatcher;
 
-    /**
-     * @var UserTemplateEmailSender|MockObject
-     */
+    /** @var UserTemplateEmailSender|\PHPUnit\Framework\MockObject\MockObject */
     private $userTemplateEmailSender;
 
-    /**
-     * @var Processor
-     */
+    /** @var Processor */
     private $mailProcessor;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->user = new CustomerUser();
         $website = new Website();
@@ -53,8 +44,7 @@ class ProcessorTest extends \PHPUnit\Framework\TestCase
     public function testSendWelcomeNotification(): void
     {
         $returnValue = 1;
-        $this->userTemplateEmailSender
-            ->expects($this->once())
+        $this->userTemplateEmailSender->expects($this->once())
             ->method('sendUserTemplateEmail')
             ->with(
                 $this->user,
@@ -76,8 +66,7 @@ class ProcessorTest extends \PHPUnit\Framework\TestCase
     {
         $returnValue = 1;
 
-        $this->userTemplateEmailSender
-            ->expects($this->once())
+        $this->userTemplateEmailSender->expects($this->once())
             ->method('sendUserTemplateEmail')
             ->with(
                 $this->user,
@@ -101,8 +90,7 @@ class ProcessorTest extends \PHPUnit\Framework\TestCase
     public function testSendConfirmationEmail(): void
     {
         $returnValue = 1;
-        $this->userTemplateEmailSender
-            ->expects($this->once())
+        $this->userTemplateEmailSender->expects($this->once())
             ->method('sendUserTemplateEmail')
             ->with(
                 $this->user,
@@ -123,8 +111,7 @@ class ProcessorTest extends \PHPUnit\Framework\TestCase
     public function testSendResetPasswordEmail(): void
     {
         $returnValue = 1;
-        $this->userTemplateEmailSender
-            ->expects($this->once())
+        $this->userTemplateEmailSender->expects($this->once())
             ->method('sendUserTemplateEmail')
             ->with(
                 $this->user,
@@ -142,15 +129,11 @@ class ProcessorTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($returnValue, $this->mailProcessor->sendResetPasswordEmail($this->user));
     }
 
-    /**
-     * @param string $template
-     * @param array $params
-     */
-    private function assertEventDispatched($template, array $params): void
+    private function assertEventDispatched(string $template, array $params): void
     {
         $event = new CustomerUserEmailSendEvent($this->user, $template, $params);
         $this->eventDispatcher->expects($this->once())
             ->method('dispatch')
-            ->with(CustomerUserEmailSendEvent::NAME, $event);
+            ->with($event, CustomerUserEmailSendEvent::NAME);
     }
 }

@@ -20,8 +20,6 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider processConfigurationDataProvider
-     * @param array $configs
-     * @param array $expected
      */
     public function testProcessConfiguration(array $configs, array $expected)
     {
@@ -106,7 +104,13 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
                             'value' => false,
                             'scope' => 'app',
                         ],
-                    ]
+                    ],
+                    'visitor_session' => [
+                        'cookie_secure' => 'auto',
+                        'cookie_httponly' => true,
+                        'cookie_samesite' => 'lax'
+                    ],
+                    'login_sources' => []
                 ]
             ]
         ];

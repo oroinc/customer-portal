@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Behat;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Nelmio\Alice\Instances\Collection as AliceCollection;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\TestFrameworkBundle\Behat\Isolation\ReferenceRepositoryInitializerInterface;
+use Oro\Bundle\TestFrameworkBundle\Test\DataFixtures\Collection;
 use Oro\Bundle\TranslationBundle\Entity\TranslationKey;
 
 /**
@@ -12,13 +12,13 @@ use Oro\Bundle\TranslationBundle\Entity\TranslationKey;
  */
 class ReferenceRepositoryInitializer implements ReferenceRepositoryInitializerInterface
 {
-    public function init(Registry $doctrine, AliceCollection $referenceRepository)
+    /**
+     * {@inheritdoc}
+     */
+    public function init(ManagerRegistry $doctrine, Collection $referenceRepository): void
     {
-        $translationKeyRepository = $doctrine->getRepository(TranslationKey::class);
-
-        $translationKey = $translationKeyRepository
+        $translationKey = $doctrine->getRepository(TranslationKey::class)
             ->findOneBy(['key' => 'oro.commercemenu.frontend.navigation.items.information.label']);
-
         $referenceRepository->set('informationTitleTranslationKey', $translationKey);
     }
 }

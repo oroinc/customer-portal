@@ -7,7 +7,7 @@ layout:
 
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:default/imports/oro_customer_address_grid/layout.html.twig'
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_address_grid/layout.html.twig'
 
         - '@addTree':
             items:
@@ -45,11 +45,6 @@ layout:
                 cellActionsHideCount: 4
                 cellLauncherOptions:
                     launcherMode: 'icon-only'
-
-        - '@setOption':
-            id: __addresses_datagrid
-            optionName: grid_render_parameters.gridViewsOptions.text
-            optionValue: 'oro.customer.customer_address_book.customer_addresses'
 
         - '@setOption':
             id: __addresses_datagrid

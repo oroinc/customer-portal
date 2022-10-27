@@ -1,7 +1,0 @@
-config:
-    paths:
-        'orofrontend/js/app/components/widget-form-component': 'bundles/orofrontend/js/app/components/widget-form-component.js'
-        'orofrontend/js/app/views/form-view': 'bundles/orofrontend/js/app/views/form-view.js'
-        'orofrontend/js/app/views/theme-select-view': 'bundles/orofrontend/js/app/views/theme-select-view.js'
-
-        'orofrontend/js/app/elements-helper': 'bundles/orofrontend/js/app/elements-helper.js'

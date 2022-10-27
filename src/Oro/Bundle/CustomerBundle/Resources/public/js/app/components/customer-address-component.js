@@ -1,27 +1,37 @@
 define(function(require) {
     'use strict';
 
-    var CustomerAddressComponent;
-    var BaseComponent = require('oroui/js/app/components/base/component');
-    var $ = require('jquery');
+    const BaseComponent = require('oroui/js/app/components/base/component');
+    const $ = require('jquery');
+    const _ = require('underscore');
 
-    CustomerAddressComponent = BaseComponent.extend({
+    const CustomerAddressComponent = BaseComponent.extend({
         /**
          * @property {Object}
          */
         targetElement: null,
 
         /**
-         * @inheritDoc
+         * @property {Object}
          */
-        constructor: function CustomerAddressComponent() {
-            CustomerAddressComponent.__super__.constructor.apply(this, arguments);
+        options: {
+            defaultsSelector: '[name$="[defaults][default][]"]',
+            typesSelector: '[name$="[types][]"]',
+            containerSelector: '[data-content="address-form"]'
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
+         */
+        constructor: function CustomerAddressComponent(options) {
+            CustomerAddressComponent.__super__.constructor.call(this, options);
+        },
+
+        /**
+         * @inheritdoc
          */
         initialize: function(options) {
+            this.options = _.defaults(options || {}, this.options);
             this.targetElement = $(options._sourceElement);
             if (options.disableDefaultWithoutType) {
                 this.disableDefaultWithoutType();
@@ -32,13 +42,16 @@ define(function(require) {
             }
         },
 
+        /**
+         * @inheritdoc
+         */
         dispose: function() {
             if (this.disposed || !this.targetElement) {
                 return;
             }
 
-            this.targetElement.off('click', '[name$="[defaults][default][]"]');
-            this.targetElement.off('click', '[name$="[types][]"]');
+            this.targetElement.off('click', this.options.defaultsSelector);
+            this.targetElement.off('click', this.options.typesSelector);
 
             CustomerAddressComponent.__super__.dispose.call(this);
         },
@@ -47,45 +60,53 @@ define(function(require) {
             /**
              * Switch off default checkbox when type unselected
              */
-            var self = this;
-            this.targetElement.on('click', '[name$="[defaults][default][]"]', function(event) {
-                if (this.checked) {
-                    var items = $(event.target.closest('*[data-content]'))
-                        .find('[name$="[types][]"][value="' + this.value + '"]');
+            _.each(this.targetElement.find(this.options.defaultsSelector), this.processDefaultsChange, this);
 
-                    items.each(function(idx, el) {
-                        el.checked = true;
-                    });
-                }
-            });
+            this.targetElement.on('click', this.options.defaultsSelector, function(event) {
+                this.processDefaultsChange(event.target);
+            }.bind(this));
 
-            this.targetElement.on('click', '[name$="[types][]"]', function() {
-                var defaultTypeName = this.name.replace('[types][]', '[defaults][default][]');
-                var selector = '[name$="' + defaultTypeName + '"][value="' + this.value + '"]';
-                var defaultCheckboxes = self.targetElement.find(selector);
+            _.each(this.targetElement.find(this.options.typesSelector), this.processTypeChange, this);
 
-                if (!this.checked) {
-                    defaultCheckboxes.each(function(idx, el) {
-                        el.checked = false;
-                    });
-                }
-            });
+            this.targetElement.on('click', this.options.typesSelector, function(event) {
+                this.processTypeChange(event.target);
+            }.bind(this));
+        },
+
+        /**
+         * @param {Element} el
+         */
+        processDefaultsChange: function(el) {
+            if (el.checked) {
+                $(el).closest(this.options.containerSelector)
+                    .find(this.options.typesSelector + '[value="' + el.value + '"]')
+                    .prop('checked', true);
+            }
+        },
+
+        /**
+         * @param {Element} el
+         */
+        processTypeChange: function(el) {
+            if (!el.checked) {
+                $(el).closest(this.options.containerSelector)
+                    .find(this.options.defaultsSelector + '[value="' + el.value + '"]')
+                    .prop('checked', false);
+            }
         },
 
         disableRepeatedTypes: function() {
             /**
              * Allow only 1 item with selected default type
              */
-            var self = this;
-            this.targetElement.on('click', '[name$="[defaults][default][]"]', function() {
-                if (this.checked) {
-                    var selector = '[name$="[defaults][default][]"][value="' + this.value + '"]';
-                    self.targetElement.find(selector).each(function(idx, el) {
-                        el.checked = false;
-                    });
-                    this.checked = true;
+            this.targetElement.on('click', this.options.defaultsSelector, function(event) {
+                if (event.target.checked) {
+                    this.targetElement
+                        .find(this.options.defaultsSelector + '[value="' + event.target.value + '"]')
+                        .not(event.target)
+                        .prop('checked', false);
                 }
-            });
+            }.bind(this));
         }
     });
 

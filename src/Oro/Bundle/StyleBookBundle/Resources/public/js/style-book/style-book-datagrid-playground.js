@@ -1,23 +1,22 @@
 define(function(require) {
     'use strict';
 
-    var StyleBookDatagridPlayground;
-    var StyleBookPlayground = require('orostylebook/js/style-book/style-book-playground');
-    var datagridData = require('orofrontend/json/grid-config');
-    var _ = require('underscore');
+    const StyleBookPlayground = require('orostylebook/js/style-book/style-book-playground');
+    const datagridData = require('orofrontend/json/grid-config');
+    const _ = require('underscore');
 
-    StyleBookDatagridPlayground = StyleBookPlayground.extend({
+    const StyleBookDatagridPlayground = StyleBookPlayground.extend({
         subviewContainer: '[data-example-view]',
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function StyleBookDatagridPlayground() {
-            return StyleBookDatagridPlayground.__super__.constructor.apply(this, arguments);
+        constructor: function StyleBookDatagridPlayground(options) {
+            return StyleBookDatagridPlayground.__super__.constructor.call(this, options);
         },
 
         initialize: function(options) {
             this.viewOptions = _.extend({}, this.viewOptions, datagridData);
-            StyleBookDatagridPlayground.__super__.initialize.apply(this, arguments);
+            StyleBookDatagridPlayground.__super__.initialize.call(this, options);
         },
 
         createView: function(View) {

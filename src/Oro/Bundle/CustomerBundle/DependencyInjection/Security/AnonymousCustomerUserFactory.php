@@ -15,15 +15,19 @@ class AnonymousCustomerUserFactory implements SecurityFactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)
-    {
+    public function create(
+        ContainerBuilder $container,
+        string $id,
+        array $config,
+        string $userProviderId,
+        ?string $defaultEntryPointId
+    ): array {
         $providerId = 'oro_customer.authentication.provider.anonymous_customer_user.'.$id;
         $container
             ->setDefinition(
                 $providerId,
                 new ChildDefinition('oro_customer.authentication.provider.anonymous_customer_user')
-            )
-            ->replaceArgument(2, $config['update_latency']);
+            );
 
         $listenerId = 'oro_customer.authentication.listener.anonymous_customer_user.'.$id;
         $container->setDefinition(
@@ -31,13 +35,13 @@ class AnonymousCustomerUserFactory implements SecurityFactoryInterface
             new ChildDefinition('oro_customer.authentication.listener.anonymous_customer_user')
         );
 
-        return [$providerId, $listenerId, $defaultEntryPoint];
+        return [$providerId, $listenerId, $defaultEntryPointId];
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getPosition()
+    public function getPosition(): string
     {
         return 'remember_me';
     }
@@ -45,15 +49,12 @@ class AnonymousCustomerUserFactory implements SecurityFactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function getKey()
+    public function getKey(): string
     {
         return 'anonymous_customer_user';
     }
 
-    /**
-     * @param NodeDefinition $builder
-     */
-    public function addConfiguration(NodeDefinition $builder)
+    public function addConfiguration(NodeDefinition $builder): void
     {
         $builder
             ->children()

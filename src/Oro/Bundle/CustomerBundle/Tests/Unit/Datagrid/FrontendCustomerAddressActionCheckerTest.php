@@ -7,27 +7,17 @@ use Oro\Bundle\CustomerBundle\Datagrid\FrontendCustomerAddressActionChecker;
 
 class FrontendCustomerAddressActionCheckerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var FrontendCustomerAddressActionChecker */
-    private $actionChecker;
-
     /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
     private $configManager;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setUp()
+    /** @var FrontendCustomerAddressActionChecker */
+    private $actionChecker;
+
+    protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);
-        $this->actionChecker = new FrontendCustomerAddressActionChecker($this->configManager);
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function tearDown()
-    {
-        unset($this->configManager, $this->actionChecker);
+        $this->actionChecker = new FrontendCustomerAddressActionChecker($this->configManager);
     }
 
     public function testCheckActionsEnabled()

@@ -2,42 +2,41 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
-use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * Provides a set of methods to simplify manage of the CustomerVisitor entity.
+ */
 class CustomerVisitorManager
 {
-    /**
-     * @var DoctrineHelper
-     */
-    private $doctrineHelper;
+    private ManagerRegistry $doctrine;
+    private ?string $writeConnectionName = null;
 
-    /**
-     * @param DoctrineHelper $doctrineHelper
-     */
-    public function __construct(DoctrineHelper $doctrineHelper)
+    public function __construct(ManagerRegistry $doctrine, ?string $writeConnectionName = null)
     {
-        $this->doctrineHelper = $doctrineHelper;
+        $this->doctrine = $doctrine;
+        $this->writeConnectionName = $writeConnectionName;
     }
 
     /**
-     * @param integer|null $id
-     * @param string|null  $sessionId
+     * @param int|null    $id
+     * @param string|null $sessionId
+     *
      * @return CustomerVisitor
      */
     public function findOrCreate($id = null, $sessionId = null)
     {
-        $user = $this->find($id, $sessionId);
-
-        if (null === $user) {
-            return $this->createUser();
-        }
-
-        return $user;
+        return $this->find($id, $sessionId) ?: $this->createUser();
     }
 
     /**
-     * @param integer|null $id
-     * @param string|null  $sessionId
+     * @param int|null    $id
+     * @param string|null $sessionId
+     *
      * @return CustomerVisitor|null
      */
     public function find($id = null, $sessionId = null)
@@ -46,46 +45,47 @@ class CustomerVisitorManager
             return null;
         }
 
-        $user = $this->doctrineHelper
-            ->getEntityRepositoryForClass(CustomerVisitor::class)
-            ->findOneBy(['id' => $id, 'sessionId' => $sessionId]);
-
-        return $user;
+        return $this->getRepository()->findOneBy(['id' => $id, 'sessionId' => $sessionId]);
     }
 
-    /**
-     * @param CustomerVisitor $user
-     * @param integer         $updateLatency
-     */
-    public function updateLastVisitTime(CustomerVisitor $user, $updateLatency)
+    private function createUser(): CustomerVisitor
     {
-        $now = new \DateTime('now', new \DateTimeZone('UTC'));
+        $connection = $this->getWriteConnection();
+        $connection->insert('oro_customer_visitor', [
+            'last_visit' => new \DateTime('now', new \DateTimeZone('UTC')),
+            'session_id' => self::generateSessionId(),
+        ], [
+            'last_visit' => Types::DATETIME_MUTABLE,
+            'session_id' => Types::STRING,
+        ]);
 
-        if ($updateLatency < $now->getTimestamp() - $user->getLastVisit()->getTimestamp()) {
-            $user->setLastVisit($now);
-            $this->getEntityManager()->flush();
+        $id = $connection->lastInsertId('oro_customer_visitor_id_seq');
+        return $this->getRepository()->find($id);
+    }
+
+    private function getEntityManager(): EntityManagerInterface
+    {
+        return $this->doctrine->getManagerForClass(CustomerVisitor::class);
+    }
+
+    private function getRepository(): EntityRepository
+    {
+        return $this->getEntityManager()->getRepository(CustomerVisitor::class);
+    }
+
+    private function getWriteConnection(): Connection
+    {
+        if ($this->writeConnectionName &&
+            \array_key_exists($this->writeConnectionName, $this->doctrine->getConnectionNames() ?: [])
+        ) {
+            return $this->doctrine->getConnection($this->writeConnectionName);
         }
+
+        return $this->getEntityManager()->getConnection();
     }
 
-    /**
-     * @return CustomerVisitor
-     */
-    private function createUser()
+    public static function generateSessionId(): string
     {
-        $user = new CustomerVisitor;
-
-        $em = $this->getEntityManager();
-        $em->persist($user);
-        $em->flush();
-
-        return $user;
-    }
-
-    /**
-     * @return \Doctrine\ORM\EntityManager
-     */
-    private function getEntityManager()
-    {
-        return $this->doctrineHelper->getEntityManagerForClass(CustomerVisitor::class);
+        return bin2hex(random_bytes(10));
     }
 }

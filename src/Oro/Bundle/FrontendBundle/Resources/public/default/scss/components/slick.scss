@@ -1,0 +1,12 @@
+/* @theme: default; */
+
+.slick-track {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.slick-slider.no-transform .slick-track,
+.slick-slider.no-transform .slick-list {
+    // transform in slick-slider breaks dropdowns
+    transform: none;
+}

@@ -20,7 +20,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: '1'
         customer: '@customer'
         organization: '@organization'
-        role: ['@front_admin']
+        userRoles: ['@front_admin']
         owner: '@admin'
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
@@ -33,7 +33,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         postalCode: '10115'
         frontendOwner: '@customer'
         owner: '@admin'
-        setDefaults: ['@shippingType', '@billingType']
+        __calls:
+            - setDefaults: ['@shippingType', '@billingType']
         systemOrganization: '@organization'
         primary: true
         organization: '@organization'
@@ -41,11 +42,11 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
 Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
     customerAddressShippingDefault:
         address: '@customerAddress'
-        type: 'shipping'
+        type: '@shippingType'
         default: true
     customerAddressBillingDefault:
         address: '@customerAddress'
-        type: 'billing'
+        type: '@billingType'
         default: true
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
@@ -58,7 +59,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
         postalCode: '10115'
         frontendOwner: '@amanda'
         owner: '@admin'
-        setDefaults: ['@shippingType', '@billingType']
+        __calls:
+            - setDefaults: ['@shippingType', '@billingType']
         systemOrganization: '@organization'
         primary: true
         organization: '@organization'

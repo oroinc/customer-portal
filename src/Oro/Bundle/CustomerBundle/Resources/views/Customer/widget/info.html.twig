@@ -1,13 +1,18 @@
-{% import 'OroUIBundle::macros.html.twig' as UI %}
-{% import 'OroEmailBundle::actions.html.twig' as EmailActions %}
-{% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
+{% import '@OroUI/macros.html.twig' as UI %}
+{% import '@OroEmail/actions.html.twig' as EmailActions %}
+{% import '@OroEntityConfig/macros.html.twig' as entityConfig %}
+{% import '@OroCustomer/macros.html.twig' as CustomerMacro %}
 
 <div class="widget-content">
     <div class="row-fluid form-horizontal">
         <div class="responsive-block">
             {{ UI.renderProperty('oro.customer.customer.name.label'|trans, entity.name) }}
-            {{ UI.renderProperty('oro.ui.created_at'|trans, entity.createdAt ? entity.createdAt|oro_format_datetime : 'N/A') }}
-            {{ UI.renderProperty('oro.ui.updated_at'|trans, entity.updatedAt ? entity.updatedAt|oro_format_datetime : 'N/A') }}
+            {{ UI.renderHtmlProperty(
+                'oro.customer.customer.parent.label'|trans,
+                CustomerMacro.buildCustomerParentBreadcrumbs(entity)
+            ) }}
+            {{ UI.renderProperty('oro.ui.created_at'|trans, entity.createdAt ? entity.createdAt|oro_format_datetime : 'N/A'|trans) }}
+            {{ UI.renderProperty('oro.ui.updated_at'|trans, entity.updatedAt ? entity.updatedAt|oro_format_datetime : 'N/A'|trans) }}
 
             {% if entity.group %}
                 {{ UI.renderHtmlProperty(
@@ -16,34 +21,8 @@
                 ) }}
             {% endif %}
 
-            {% if entity.parent %}
-                {{ UI.renderHtmlProperty(
-                    'oro.customer.customer.parent.label'|trans,
-                    UI.entityViewLink(entity.parent, entity.parent.name, 'oro_customer_customer_view')
-                ) }}
-            {% endif %}
-
-            {% if entity.users | length %}
-                {{ UI.renderHtmlProperty('oro.customer.customer.users.label'|trans, UI.entityViewLinks(entity.users, 'fullName', 'oro_customer_customer_user_view')) }}
-            {% endif %}
-
             {% if entity.salesRepresentatives | length %}
                 {{ UI.renderHtmlProperty('oro.customer.customer.sales_representatives.label'|trans, UI.entityViewLinks(entity.salesRepresentatives, 'fullName', 'oro_user_view')) }}
-            {% endif %}
-
-            {% if entity.children.count() %}
-                {% set customerTree %}
-                    <div class="customer-children">
-                        {{ UI.renderJsTree({
-                            'disableSearch': true,
-                            'disableActions': true,
-                            'treeOptions': {
-                                data: treeData
-                            }
-                        }) }}
-                    </div>
-                {% endset %}
-                {{ UI.renderHtmlProperty('oro.customer.customer.children.label'|trans, customerTree) }}
             {% endif %}
 
             {% if entity.getInternalRating and is_granted('VIEW', entity.getInternalRating)%}

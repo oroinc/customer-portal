@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\RestJsonApi;
 
-use Oro\Bundle\ApiBundle\Request\ApiActions;
+use Oro\Bundle\ApiBundle\Request\ApiAction;
 use Oro\Bundle\ApiBundle\Request\JsonApi\JsonApiDocumentBuilder as JsonApiDoc;
-use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadFrontendApiCustomerUserData;
+use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadAdminCustomerUserData;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 
 /**
@@ -14,48 +14,42 @@ use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
  */
 class GetTest extends FrontendRestJsonApiTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
-        $this->loadFixtures([LoadFrontendApiCustomerUserData::class]);
+        $this->loadFixtures([LoadAdminCustomerUserData::class]);
     }
 
-    /**
-     * @param string   $entityClass
-     * @param string[] $excludedActions
-     *
-     * @dataProvider getEntities
-     */
-    public function testRestRequests($entityClass, $excludedActions)
+    public function testRestRequests()
     {
-        if (in_array(ApiActions::GET_LIST, $excludedActions, true)) {
-            return;
-        }
-
-        $entityType = $this->getEntityType($entityClass);
-
-        // test "get list" request
-        $response = $this->cget(['entity' => $entityType, 'page[size]' => 1], [], [], false);
-        self::assertApiResponseStatusCodeEquals($response, 200, $entityType, ApiActions::GET_LIST);
-        self::assertResponseContentTypeEquals($response, self::JSON_API_CONTENT_TYPE);
-
-        $id = $this->getFirstEntityId(self::jsonToArray($response->getContent()));
-        if (null !== $id) {
-            // test "get" request
-            if (!in_array(ApiActions::GET, $excludedActions, true)) {
-                $response = $this->get(['entity' => $entityType, 'id' => $id], [], [], false);
-                self::assertApiResponseStatusCodeEquals($response, 200, $entityType, ApiActions::GET);
-                self::assertResponseContentTypeEquals($response, self::JSON_API_CONTENT_TYPE);
+        $this->runForEntities(function (string $entityClass, array $excludedActions) {
+            if (in_array(ApiAction::GET_LIST, $excludedActions, true)) {
+                return;
             }
-        }
+
+            $entityType = $this->getEntityType($entityClass);
+
+            // test "get list" request
+            $response = $this->cget(['entity' => $entityType], ['page[size]' => 1], [], false);
+            if ($response->getStatusCode() === 400) {
+                $response = $this->cget(['entity' => $entityType], [], [], false);
+            }
+            self::assertApiResponseStatusCodeEquals($response, 200, $entityType, ApiAction::GET_LIST);
+            self::assertResponseContentTypeEquals($response, self::JSON_API_CONTENT_TYPE);
+
+            $id = $this->getFirstEntityId(self::jsonToArray($response->getContent()));
+            if (null !== $id) {
+                // test "get" request
+                if (!in_array(ApiAction::GET, $excludedActions, true)) {
+                    $response = $this->get(['entity' => $entityType, 'id' => $id], [], [], false);
+                    self::assertApiResponseStatusCodeEquals($response, 200, $entityType, ApiAction::GET);
+                    self::assertResponseContentTypeEquals($response, self::JSON_API_CONTENT_TYPE);
+                }
+            }
+        });
     }
 
-    /**
-     * @param array $content
-     *
-     * @return mixed
-     */
-    protected function getFirstEntityId($content)
+    private function getFirstEntityId(array $content): ?string
     {
         return array_key_exists(JsonApiDoc::DATA, $content) && count($content[JsonApiDoc::DATA]) === 1
             ? $content[JsonApiDoc::DATA][0][JsonApiDoc::ID]

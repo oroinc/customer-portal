@@ -37,6 +37,27 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     }
 
     /**
+     * Add frontendOwner to addresses search context to prevent same addresses "stealing" by another customer.
+     *
+     * {@inheritdoc}
+     */
+    protected function generateSearchContextForRelationsUpdate($entity, $entityName, $fieldName, $isPersistRelation)
+    {
+        $context = parent::generateSearchContextForRelationsUpdate(
+            $entity,
+            $entityName,
+            $fieldName,
+            $isPersistRelation
+        );
+
+        if ($fieldName === 'addresses') {
+            return array_merge($context, ['frontendOwner' => $entity]);
+        }
+
+        return $context;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function findExistingEntity($entity, array $searchContext = [])
@@ -54,19 +75,6 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 
         return $existingEntity;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function processValidationErrors($entity, array $validationErrors)
-    {
-        parent::processValidationErrors($entity, $validationErrors);
-
-        // validation errors should clear all EM because wrong entities with MANAGED state are stored there
-        $this->doctrineHelper->getEntityManager($entity)->clear();
-        $this->databaseHelper->onClear();
-    }
-
 
     /**
      * {@inheritdoc}
@@ -94,14 +102,14 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     /**
      * {@inheritdoc}
      */
-    protected function isPermissionGrantedForEntity($permission, $entity, $entityClass)
+    protected function isPermissionGrantedForEntity($permission, $entity, $entityName)
     {
         // do not check permissions for ENUM entities
-        if ($entityClass === ExtendHelper::buildEnumValueClassName(Customer::INTERNAL_RATING_CODE)) {
+        if ($entityName === ExtendHelper::buildEnumValueClassName(Customer::INTERNAL_RATING_CODE)) {
             return true;
         }
 
-        return parent::isPermissionGrantedForEntity($permission, $entity, $entityClass);
+        return parent::isPermissionGrantedForEntity($permission, $entity, $entityName);
     }
 
     /**
@@ -114,6 +122,25 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
             $parent = $this->findExistingEntityByIdentityFields($entity->getParent());
 
             if ($parent === null) {
+                // Add validation error on the final attempt.
+                if ($this->context->hasOption('attempts') && $this->context->hasOption('max_attempts')
+                    && $this->context->getOption('attempts') === $this->context->getOption('max_attempts')
+                ) {
+                    $this->context->incrementErrorEntriesCount();
+                    $this->strategyHelper->addValidationErrors(
+                        [
+                            $this->translator->trans(
+                                'oro.customer.importexport.customer.parent_customer_not_found',
+                                ['%id%' => $entity->getParent()->getId()]
+                            )
+                        ],
+                        $this->context
+                    );
+
+                    return null;
+                }
+
+                // If there are available attempts - try to import item during the next iteration
                 $this->context->addPostponedRow($this->context->getValue('rawItemData'));
 
                 return null;
@@ -131,14 +158,16 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     private function verifyIfOwnerValid($entity)
     {
         if ($entity instanceof Customer && $entity->getOwner()) {
-            /** @var User $owner */
-            $owner = $this->findExistingEntity($entity->getOwner());
+            $owner = null;
+
+            $identifier = $this->doctrineHelper->getSingleEntityIdentifier($entity->getOwner(), false);
+            if ($identifier) {
+                $owner = $this->databaseHelper->find(User::class, $identifier, false);
+            }
+
             if ($owner) {
                 $entity->setOwner($owner);
-                if (false === $this->ownerChecker->isOwnerCanBeSet($entity)) {
-                    $error = $this->translator->trans('oro.importexport.import.errors.wrong_owner');
-                    $this->strategyHelper->addValidationErrors([$error], $this->context);
-
+                if (!$this->strategyHelper->checkEntityOwnerPermissions($this->context, $entity)) {
                     return null;
                 }
             }
@@ -163,7 +192,7 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 
         return $this->handleOwnerOfExistingCustomer($entity);
     }
-    
+
     /**
      * @param Customer $entity
      * @return bool
@@ -191,13 +220,9 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
             return $entity;
         }
 
-        if ($this->strategyHelper->isGranted('ASSIGN', $entity)
-            && $this->strategyHelper->isGranted('VIEW', $entityOwner)
-        ) {
+        if ($this->strategyHelper->checkEntityOwnerPermissions($this->context, $entity, true)) {
             return $entity;
         }
-
-        $this->addUnableToChangeOwnerError($entity->getName(), $entityOwner->getFullName());
 
         return null;
     }
@@ -213,14 +238,11 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 
         $owner = $entity->getOwner();
         $ownerChanged = $owner !== null && $originalEntity['owner'] !== $owner;
-        $userIsNotGrantedToAssign = !$this->strategyHelper->isGranted('ASSIGN', $entity)
-            || !$this->strategyHelper->isGranted('VIEW', $owner);
+        $userIsGrantedToAssign = $this->strategyHelper->checkEntityOwnerPermissions($this->context, $entity, true);
 
-        if ($ownerChanged && $userIsNotGrantedToAssign) {
+        if ($ownerChanged && !$userIsGrantedToAssign) {
             //User tries to change owner, but has no right to change owner of Customer
             //or has no access to provided user.
-            $this->addUnableToChangeOwnerError($entity->getName(), $owner->getFullName());
-
             return null;
         }
 
@@ -235,22 +257,5 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     {
         return $this->doctrineHelper->getEntityManagerForClass(Customer::class)
             ->getUnitOfWork()->getOriginalEntityData($entity);
-    }
-
-    /**
-     * @param string $entityName
-     * @param string $ownerName
-     */
-    private function addUnableToChangeOwnerError($entityName, $ownerName)
-    {
-        $this->context->addError(
-            $this->translator->trans(
-                'oro.customer.importexport.customer.unable_to_change_owner',
-                [
-                    '%entity_name%' => $entityName,
-                    '%owner_name%' => $ownerName,
-                ]
-            )
-        );
     }
 }

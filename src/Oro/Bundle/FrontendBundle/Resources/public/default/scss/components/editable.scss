@@ -1,8 +1,9 @@
+/* @theme: default; */
+
 .editable {
     padding: 6px 10px 3px;
 
-    background: get-color('additional', 'base');
-    border-radius: 3px;
+    background: $editable-background;
 
     &__trigger {
         margin-bottom: $offset-x-s;

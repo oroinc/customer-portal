@@ -1,4 +1,0 @@
-config:
-    paths:
-        'orocommercemenu/js/app/views/header-row-view': 'bundles/orocommercemenu/js/app/views/header-row-view.js'
-        'orocommercemenu/js/app/widgets/menu-traveling-widget': 'bundles/orocommercemenu/js/app/widgets/menu-traveling-widget.js'

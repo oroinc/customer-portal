@@ -1,4 +1,4 @@
-{% extends 'OroCommerceMenuBundle:menuUpdate:indexWithTabs.html.twig' %}
+{% extends '@OroCommerceMenu/menuUpdate/indexWithTabs.html.twig' %}
 
 {% oro_title_set({params : {"%customer%": entity.name }}) %}
 
@@ -14,5 +14,5 @@
     'entityTitle': 'oro.commercemenu.menuupdate.roots_plural_label'|trans
 } %}
 
-{% set gridTemplate = 'OroCommerceMenuBundle:CustomerMenu:widget/contextIndex.html.twig' %}
+{% set gridTemplate = '@OroCommerceMenu/CustomerMenu/widget/contextIndex.html.twig' %}
 {% set tabRoute = 'oro_commerce_menu_customer_menu_context_index' %}

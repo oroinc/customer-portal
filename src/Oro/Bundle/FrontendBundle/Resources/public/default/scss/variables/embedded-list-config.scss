@@ -1,0 +1,43 @@
+/* @theme: default; */
+
+$embedded-list-bottom-offset: 25px;
+
+$embedded-list-label-offset-bottom: 25px;
+$embedded-list-label-inner-offset: 0 16px !default;
+$embedded-list-label-background: get-color('additional', 'ultra') !default;
+$embedded-list-label-line-height: 20px !default;
+$embedded-list-label-line-background: get-color('additional', 'light');
+$embedded-list-label-font-size: 18px !default;
+$embedded-list-label-text-align: center !default;
+
+$embedded-list-item-offset-inner: 0 $offset-x-m !default;
+
+// Embeded Slider
+$embedded-list-slider-mobile-landscape-side-offset: $offset-x-s 0 0 !default;
+$embedded-list-slider-mobile-landscape-offset: $offset-y-m 0 0 !default;
+
+$embedded-list-slider-btn-arrow-width: 36px !default;
+$embedded-list-slider-btn-arrow-height: 100px !default;
+$embedded-list-slider-btn-arrow-top-pos: 35% !default;
+$embedded-list-slider-btn-arrow-side-pos: -($embedded-list-slider-btn-arrow-width) !default;
+$embedded-list-slider-btn-arrow-background: get-color('additional', 'light') !default;
+$embedded-list-slider-btn-arrow-transform: none !default;
+$embedded-list-slider-btn-arrow-hover-background: darken(get-color('additional', 'light'), 5%) !default;
+$embedded-list-slider-btn-arrow-focus-background: darken(get-color('additional', 'light'), 5%) !default;
+
+$embedded-list-slider-arrow-size: 40px !default;
+$embedded-list-slider-arrow-side-offset: 3px !default;
+$embedded-list-slider-icon-color: lighten(get-color('additional', 'dark'), 16.5%) !default;
+
+// Embeded Tiles
+$embedded-list-tiles-column-count: 4 !default;
+
+// tablet-small
+$embedded-list-tiles-tablet-small-column-count: 3 !default;
+
+// mobile-landscape
+$embedded-list-tiles-mobile-landscape-column-count: 2 !default;
+
+// mobile
+$embedded-list-label-mobile-font-size: $base-font-size !default;
+$embedded-list-tiles-mobile-column-count: 1 !default;

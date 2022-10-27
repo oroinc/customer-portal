@@ -38,8 +38,6 @@ services:
                         item_key: {default: item}
                         use_slider: {default: false}
                         slider_options: {default: {slidesToShow: 4}}
-                        use_footer_align: {default: false}
-                        footer_align_component_options: {default: ''}
             - [setName, ['embedded_list']]
         tags:
             - { name: layout.block_type, alias: embedded_list }

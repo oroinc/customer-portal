@@ -1,0 +1,24 @@
+dependencies:
+  - Oro\Bundle\AddressBundle\Tests\Functional\DataFixtures\LoadCountriesAndRegions
+  - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization
+  - Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerData
+  - Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserAddresses
+  - Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadWebsiteData
+
+Oro\Bundle\OrganizationBundle\Entity\Organization:
+    another_organization:
+        name: 'Another Organization'
+        enabled: true
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
+    other.user@test.com.address_2:
+        systemOrganization: '@organization'
+        frontendOwner: '@other.user@test.com'
+        primary: false
+        label: 'other.user@test.com.address_2'
+        street: 'Street 2'
+        city: 'Los Angeles'
+        postalCode: '90001'
+        country: '@country_usa'
+        region: '@region_usa_california'
+        organization: 'Test Org'

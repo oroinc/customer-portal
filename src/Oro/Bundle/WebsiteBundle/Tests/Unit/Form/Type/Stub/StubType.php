@@ -7,11 +7,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StubType extends TextType
 {
-    const NAME = 'stub_type';
-
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

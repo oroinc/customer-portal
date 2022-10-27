@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 class AuditControllerTest extends WebTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient(
             [],
@@ -34,15 +34,9 @@ class AuditControllerTest extends WebTestCase
         );
     }
 
-    /**
-     * @return CustomerUser
-     */
-    protected function getCurrentUser()
+    private function getCurrentUser(): CustomerUser
     {
-        return $this->getContainer()
-            ->get('doctrine')
-            ->getManagerForClass('OroCustomerBundle:CustomerUser')
-            ->getRepository('OroCustomerBundle:CustomerUser')
+        return $this->getContainer()->get('doctrine')->getRepository(CustomerUser::class)
             ->findOneBy(['username' => LoadCustomerUserData::AUTH_USER]);
     }
 }

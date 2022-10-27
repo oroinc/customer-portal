@@ -1,4 +1,4 @@
-{% extends 'OroUIBundle:actions:view.html.twig' %}
+{% extends '@OroUI/actions/view.html.twig' %}
 
 {% oro_title_set({params : {"%email%": entity.email }}) %}
 
@@ -13,25 +13,37 @@
 {% endblock pageHeader %}
 
 {% block breadcrumbs %}
+    {% import '@OroUI/macros.html.twig' as UI %}
+
     {{ parent() }}
-    <div class="pull-left">
+    <span class="page-title__status">
         {% if entity.enabled %}
-            <div class="badge badge-enabled status-enabled"><i class="fa-circle"></i>{{ 'oro.customer.customeruser.profile.statuses.active'|trans }}</div>
+            {{ UI.badge('oro.customer.customeruser.profile.statuses.active'|trans, 'enabled') }}
         {% else %}
-            <div class="badge badge-disabled status-disabled"><i class="fa-circle"></i>{{ 'oro.customer.customeruser.profile.statuses.inactive'|trans }}</div>
+            {{ UI.badge('oro.customer.customeruser.profile.statuses.inactive'|trans, 'disabled') }}
         {% endif %}
         {% if entity.confirmed %}
-            <div class="badge badge-enabled status-enabled"><i class="fa-circle"></i>{{ 'oro.customer.customeruser.profile.statuses.confirmed'|trans }}</div>
+            {{ UI.badge('oro.customer.customeruser.profile.statuses.confirmed'|trans, 'enabled') }}
         {% else %}
-            <div class="badge badge-disabled status-disabled"><i class="fa-circle"></i>{{ 'oro.customer.customeruser.profile.statuses.unconfirmed'|trans }}</div>
+            {{ UI.badge('oro.customer.customeruser.profile.statuses.unconfirmed'|trans, 'disabled') }}
         {% endif %}
-    </div>
+        {% placeholder view_page_title_status with {entity: entity} %}
+    </span>
 {% endblock breadcrumbs %}
 
 {% block stats %}
-    <li>{{ 'oro.ui.created_at'|trans }}: {{ entity.createdAt ? entity.createdAt|oro_format_datetime : 'N/A' }}</li>
-    <li>{{ 'oro.ui.updated_at'|trans }}: {{ entity.updatedAt ? entity.updatedAt|oro_format_datetime : 'N/A' }}</li>
-    <li>{{ 'oro.customer.customeruser.last_login.label'|trans }}: {{ entity.lastLogin ? entity.lastLogin|oro_format_datetime : 'N/A' }}</li>
+    {% if is_granted('oro_customer_view_user_login_attempt') %}
+        {% set loginAttempts %}
+            {{ 'oro.customer.customeruser.last_login.label'|trans }}: <a title="{{ 'oro.customer.customeruserloginattempt.entity_description'|trans }}" href="{{ oro_datagrid_link('oro_customer_login_attempts', 'customer-user-login-attempts-grid', {'f[user][value]': entity.id}) }}">{{ entity.lastLogin ? entity.lastLogin|oro_format_datetime : 'N/A'|trans }}</a>
+        {% endset %}
+    {% else %}
+        {% set loginAttempts %}
+            {{ 'oro.customer.customeruser.last_login.label'|trans }}: {{ entity.lastLogin ? entity.lastLogin|oro_format_datetime : 'N/A'|trans }}
+        {% endset %}
+    {% endif %}
+    <li>{{ 'oro.ui.created_at'|trans }}: {{ entity.createdAt ? entity.createdAt|oro_format_datetime : 'N/A'|trans }}</li>
+    <li>{{ 'oro.ui.updated_at'|trans }}: {{ entity.updatedAt ? entity.updatedAt|oro_format_datetime : 'N/A'|trans }}</li>
+    <li>{{ loginAttempts }}</li>
     <li>{{ 'oro.customer.customeruser.login_count.label'|trans }}: {{ entity.loginCount|default(0) }}</li>
 {% endblock stats %}
 

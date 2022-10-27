@@ -1,12 +1,11 @@
 define(function(require) {
     'use strict';
 
-    var StyleBookColorsView;
-    var template = require('tpl!orostylebook/templates/style-book/style-book-colors-view.html');
-    var BaseView = require('oroui/js/app/views/base/view');
-    var _ = require('underscore');
+    const template = require('tpl-loader!orostylebook/templates/style-book/style-book-colors-view.html');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const _ = require('underscore');
 
-    StyleBookColorsView = BaseView.extend({
+    const StyleBookColorsView = BaseView.extend({
         autoRender: true,
 
         /**
@@ -30,29 +29,29 @@ define(function(require) {
         computedStyle: null,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function StyleBookColorsView() {
+        constructor: function StyleBookColorsView(options) {
             this.computedStyle = getComputedStyle(document.documentElement);
 
-            StyleBookColorsView.__super__.constructor.apply(this, arguments);
+            StyleBookColorsView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          * @returns {{colorPalette: {}}}
          */
         getTemplateData: function() {
-            var colorPalette = {};
-            var paletteIndex = 0;
-            var paletteName = this._getProperty(['palette', paletteIndex]);
+            const colorPalette = {};
+            let paletteIndex = 0;
+            let paletteName = this._getProperty(['palette', paletteIndex]);
 
             while (paletteName.length) {
-                var keyIndex = 0;
+                let keyIndex = 0;
                 colorPalette[paletteName] = {};
 
                 while (this._getProperty([paletteName, keyIndex]).length) {
-                    var key = this._getProperty([paletteName, keyIndex]);
+                    const key = this._getProperty([paletteName, keyIndex]);
                     colorPalette[paletteName][key] = this._getProperty([paletteName, key]);
 
                     keyIndex++;
@@ -81,7 +80,7 @@ define(function(require) {
 
             props.unshift(this.prefix);
 
-            return this.computedStyle.getPropertyValue(props.join(this.separator));
+            return this.computedStyle.getPropertyValue(props.join(this.separator)).trim();
         }
     });
 

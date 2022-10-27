@@ -10,7 +10,7 @@ class ScopeCustomerCriteriaProviderServiceTest extends AbstractScopeProviderTest
     public function testProviderRegisteredWithScopeTypes()
     {
         self::assertProviderRegisteredWithScopeTypes(
-            ScopeCustomerCriteriaProvider::ACCOUNT,
+            ScopeCustomerCriteriaProvider::CUSTOMER,
             [
                 'customer_category_visibility',
                 'customer_product_visibility',

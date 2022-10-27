@@ -15,7 +15,7 @@ class CustomerUserEvents
      * @Event("Oro\Bundle\CustomerBundle\Event\FilterCustomerUserResponseEvent")
      */
     const REGISTRATION_COMPLETED = 'customer_user.registration.completed';
-    
+
     /**
      * The REGISTRATION_CONFIRMED event occurs after confirming the account.
      *

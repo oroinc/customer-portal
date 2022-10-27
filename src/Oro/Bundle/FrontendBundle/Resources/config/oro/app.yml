@@ -5,20 +5,61 @@ oro_api:
             request_type: ['frontend']
     api_doc_views:
         frontend_rest_json_api:
-            label: JSON.API
+            label: 'JSON:API'
             default: true
             headers:
-                Content-Type: application/vnd.api+json
+                Accept: application/vnd.api+json
+                Content-Type:
+                    -
+                        value: application/vnd.api+json
+                        actions:
+                            - create
+                            - update
+                            - update_list
+                            - delete
+                            - delete_list
+                            - add_subresource
+                            - update_subresource
+                            - delete_subresource
+                            - add_relationship
+                            - update_relationship
+                            - delete_relationship
+                X-Include:
+                    -
+                        value: noHateoas
+                        actions:
+                            - get
+                            - get_list
+                            - create
+                            - update
+                            - get_relationship
+                            - get_subresource
+                            - add_subresource
+                            - update_subresource
+                            - delete_subresource
+                    -
+                        value: totalCount
+                        actions: [get_list, delete_list, get_relationship, get_subresource]
+                    -
+                        value: deletedCount
+                        actions: [delete_list]
             request_type: ['rest', 'json_api', 'frontend']
+    api_doc_cache:
+        excluded_features: [ frontend_web_api ]
 
 oro_frontend:
     frontend_api:
         api_doc_views: [frontend_rest_json_api]
 
+oro_navigation:
+    js_routing_filename_prefix: '%web_backend_prefix%'
+
 twig:
     globals:
         commerce:
-            layout: OroFrontendBundle::base.html.twig
+            layout: '@OroFrontend/base.html.twig'
+    paths:
+        '%kernel.project_dir%/vendor/oro/customer-portal/src/Oro/Bundle/FrontendBundle/Resources/public': 'OroFrontendBundlePublic'
 
 security:
     firewalls:
@@ -49,7 +90,7 @@ security:
 
         # override pattern and config
         main:
-            pattern:                        '^%web_backend_prefix%/'
+            pattern:                        '^%web_backend_prefix%'
             organization-form-login:
                 default_target_path:        oro_default
             logout:
@@ -65,13 +106,8 @@ oro_theme:
         demo:
             logo: bundles/orofrontend/images/oro-commerce-logo.svg
 
-assetic:
-    filters:
-        scssphp:
-            file: '%kernel.project_dir%/vendor/leafo/scssphp/scss.inc.php'
-            apply_to: '\.scss$'
-            import_paths: ["%kernel.project_dir%/public/bundles"]
-
-fos_rest:
-    exception:
-        exception_controller: 'Oro\Bundle\FrontendBundle\Controller\ExceptionController::showAction'
+oro_translation:
+    package_names:
+        # The oro/customer-portal package was a part of oro/commerce package initially, and the translations
+        # have not been separated into a separate translation package after the split:
+        - OroCommerce

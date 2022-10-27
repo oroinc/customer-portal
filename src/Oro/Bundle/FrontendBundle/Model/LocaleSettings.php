@@ -3,42 +3,38 @@
 namespace Oro\Bundle\FrontendBundle\Model;
 
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManager;
+use Oro\Bundle\LayoutBundle\Layout\LayoutContextHolder;
 use Oro\Bundle\LocaleBundle\Model\LocaleSettings as BaseLocaleSettings;
+use Oro\Bundle\LocaleBundle\Provider\LocalizationProviderInterface;
+use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
 
 /**
  * Provides locale settings for store front.
  */
 class LocaleSettings extends BaseLocaleSettings
 {
-    /**
-     * @var BaseLocaleSettings
-     */
-    protected $inner;
+    protected BaseLocaleSettings $inner;
 
-    /**
-     * @var FrontendHelper
-     */
-    protected $frontendHelper;
+    protected FrontendHelper $frontendHelper;
 
-    /**
-     * @var UserLocalizationManager
-     */
-    protected $localizationManager;
+    protected LocalizationProviderInterface $localizationProvider;
 
-    /**
-     * @param BaseLocaleSettings $inner
-     * @param FrontendHelper $frontendHelper
-     * @param UserLocalizationManager $localizationManager
-     */
+    protected LayoutContextHolder $layoutContextHolder;
+
+    private ThemeManager $themeManager;
+
     public function __construct(
         BaseLocaleSettings $inner,
         FrontendHelper $frontendHelper,
-        UserLocalizationManager $localizationManager
+        LocalizationProviderInterface $localizationProvider,
+        LayoutContextHolder $layoutContextHolder,
+        ThemeManager $themeManager
     ) {
         $this->inner = $inner;
         $this->frontendHelper = $frontendHelper;
-        $this->localizationManager = $localizationManager;
+        $this->localizationProvider = $localizationProvider;
+        $this->layoutContextHolder = $layoutContextHolder;
+        $this->themeManager = $themeManager;
     }
 
     /**
@@ -92,22 +88,6 @@ class LocaleSettings extends BaseLocaleSettings
     /**
      * {@inheritdoc}
      */
-    public function addCurrencyData(array $data)
-    {
-        $this->inner->addCurrencyData($data);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCurrencyData()
-    {
-        return $this->inner->getCurrencyData();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function isFormatAddressByAddressCountry()
     {
         return $this->inner->isFormatAddressByAddressCountry();
@@ -135,13 +115,17 @@ class LocaleSettings extends BaseLocaleSettings
      */
     public function getLocale()
     {
-        if (!$this->frontendHelper->isFrontendRequest()) {
-            return $this->inner->getLocale();
+        if ($this->locale === null) {
+            if (!$this->frontendHelper->isFrontendRequest()) {
+                $this->locale = $this->inner->getLocale();
+            } else {
+                $localization = $this->localizationProvider->getCurrentLocalization();
+
+                $this->locale = $localization ? $localization->getFormattingCode() : $this->inner->getLocale();
+            }
         }
 
-        $localization = $this->localizationManager->getCurrentLocalization();
-
-        return $localization ? $localization->getFormattingCode() : $this->inner->getLocale();
+        return $this->locale;
     }
 
     /**
@@ -153,9 +137,45 @@ class LocaleSettings extends BaseLocaleSettings
             return $this->inner->getLanguage();
         }
 
-        $localization = $this->localizationManager->getCurrentLocalization();
+        $localization = $this->localizationProvider->getCurrentLocalization();
 
         return $localization ? $localization->getLanguageCode() : $this->inner->getLanguage();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isRtlMode(): bool
+    {
+        if ($this->rtlMode === null) {
+            $this->rtlMode = $this->frontendHelper->isFrontendRequest()
+                ? $this->isRtlModeForLayoutRequest()
+                : $this->inner->isRtlMode();
+        }
+
+        return $this->rtlMode;
+    }
+
+    private function isRtlModeForLayoutRequest(): bool
+    {
+        $context = $this->layoutContextHolder->getContext();
+        if (!$context || !$context->offsetExists('theme')) {
+            return false;
+        }
+
+        $themeName = $context->offsetGet('theme');
+        if (!$themeName || !$this->themeManager->hasTheme($themeName)) {
+            return false;
+        }
+
+        $theme = $this->themeManager->getTheme($themeName);
+        if (!$theme->isRtlSupport()) {
+            return false;
+        }
+
+        $localization = $this->localizationProvider->getCurrentLocalization();
+
+        return $localization && $localization->isRtlMode();
     }
 
     /**
@@ -195,9 +215,9 @@ class LocaleSettings extends BaseLocaleSettings
     /**
      * {@inheritdoc}
      */
-    public function getCurrencySymbolByCurrency($currencyCode = null)
+    public function getCurrencySymbolByCurrency(string $currencyCode = null, string $locale = null)
     {
-        return $this->inner->getCurrencySymbolByCurrency($currencyCode ?: $this->getCurrency());
+        return $this->inner->getCurrencySymbolByCurrency($currencyCode ?: $this->getCurrency(), $locale);
     }
 
     /**

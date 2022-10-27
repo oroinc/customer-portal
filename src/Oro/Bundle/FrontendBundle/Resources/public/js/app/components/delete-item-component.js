@@ -1,25 +1,24 @@
 define(function(require) {
     'use strict';
 
-    var DeleteItemComponent;
-    var BaseComponent = require('oroui/js/app/components/base/component');
-    var DeleteConfirmation = require('oroui/js/delete-confirmation');
-    var mediator = require('oroui/js/mediator');
-    var routing = require('routing');
-    var __ = require('orotranslation/js/translator');
-    var _ = require('underscore');
-    var $ = require('jquery');
+    const BaseComponent = require('oroui/js/app/components/base/component');
+    const DeleteConfirmation = require('oroui/js/delete-confirmation');
+    const mediator = require('oroui/js/mediator');
+    const routing = require('routing');
+    const __ = require('orotranslation/js/translator');
+    const _ = require('underscore');
+    const $ = require('jquery');
 
-    DeleteItemComponent = BaseComponent.extend({
+    const DeleteItemComponent = BaseComponent.extend({
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function DeleteItemComponent() {
-            DeleteItemComponent.__super__.constructor.apply(this, arguments);
+        constructor: function DeleteItemComponent(options) {
+            DeleteItemComponent.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.$elem = options._sourceElement;
@@ -29,6 +28,7 @@ define(function(require) {
             this.redirect = options.redirect;
             this.confirmMessage = options.confirmMessage;
             this.successMessage = options.successMessage || __('item_deleted');
+            this.successMessageOptions = options.successMessageOptions || {};
             this.okButtonClass = options.okButtonClass;
             this.cancelButtonClass = options.cancelButtonClass;
             this.triggerData = options.triggerData || null;
@@ -37,7 +37,7 @@ define(function(require) {
                 this.triggerData.lineItemId = parseInt(this.triggerData.lineItemId, 10);
             }
 
-            this.$elem.on('click', _.bind(this.deleteItem, this));
+            this.$elem.on('click', this.deleteItem.bind(this));
         },
 
         deleteItem: function() {
@@ -49,25 +49,18 @@ define(function(require) {
         },
 
         deleteWithConfirmation: function() {
-            var options = {
+            const options = _.extend(_.pick(this, 'okButtonClass', 'cancelButtonClass'), {
                 content: this.confirmMessage
-            };
+            });
+            const confirm = new DeleteConfirmation(options);
 
-            if (this.okButtonClass) {
-                options = _.extend(options, {okButtonClass: this.okButtonClass});
-            }
-
-            if (this.cancelButtonClass) {
-                options = _.extend(options, {cancelButtonClass: this.cancelButtonClass});
-            }
-
-            var confirm = new DeleteConfirmation(options);
-            confirm.on('ok', _.bind(this.deleteWithoutConfirmation, this));
-            confirm.open();
+            confirm
+                .on('ok', this.deleteWithoutConfirmation.bind(this))
+                .open();
         },
 
         deleteWithoutConfirmation: function(e) {
-            var self = this;
+            const self = this;
             $.ajax({
                 url: self.url,
                 type: this.requestMethod,
@@ -83,19 +76,33 @@ define(function(require) {
                             .trigger('content:remove').remove();
                     }
                 },
-                error: function() {
+                error: function(jqXHR) {
                     mediator.execute('hideLoading');
+
+                    const errorCode = 'responseJSON' in jqXHR ? jqXHR.responseJSON.code : jqXHR.status;
+                    const errors = 'responseJSON' in jqXHR ? jqXHR.responseJSON.errors.errors : [];
+                    if (errorCode === 403) {
+                        errors.push(__('oro.ui.forbidden_error'));
+                    } else {
+                        errors.push(__('oro.ui.unexpected_error'));
+                    }
+
+                    _.each(errors, function(value) {
+                        mediator.execute('showFlashMessage', 'error', value);
+                    });
                 }
             });
         },
 
         deleteWithRedirect: function(e) {
-            mediator.execute('showFlashMessage', 'success', this.successMessage);
+            const messageOptions = this.successMessageOptions;
+            mediator.execute('showFlashMessage', 'success', this.successMessage, messageOptions);
             mediator.execute('redirectTo', {url: this.redirect}, {redirect: true});
         },
 
         deleteWithoutRedirect: function(e) {
-            mediator.execute('showMessage', 'success', this.successMessage, {flash: true});
+            const messageOptions = this.successMessageOptions;
+            mediator.execute('showMessage', 'success', this.successMessage, {flash: true, ...messageOptions});
             mediator.trigger('frontend:item:delete', this.triggerData || e);
         }
     });

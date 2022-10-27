@@ -1,47 +1,29 @@
 /* @theme: default; */
 
 .middlebar {
-    margin: 0;
-    padding: 20px 0;
+    --grid-gap: #{$middlebar-grid-gap};
+    --grid-template-columns: #{$middlebar-grid-template-columns};
 
-    &__center {
-        width: calc(100% - 320px * 2);
-        display: flex;
-        flex: 0 0 auto;
-        justify-content: center;
-    }
-
-    &__left,
-    &__right {
-        width: 320px;
-        flex: 0 0 auto;
-    }
-
-    &__shopping-list {
-        padding: 0 !important;
-        background: transparent !important;
-    }
+    align-items: $middlebar-align-items;
+    padding: $middlebar-padding;
 }
-
 
 @include breakpoint('tablet') {
     .middlebar {
-        padding: 10px 0;
-        flex-wrap: wrap;
-        justify-content: center;
+        --grid-template-columns: #{$middlebar-tablet-grid-template-columns};
+
+        padding: $middlebar-tablet-padding;
 
         &__left {
-            width: 100%;
-
-            display: flex;
-            justify-content: center;
+            justify-self: $middlebar-left-tablet-justify-self;
         }
 
-        &__right,
-        &__center {
-            width: 100%;
+        &__right {
+            display: $middlebar-right-tablet-display;
+        }
 
-            display: none;
+        &__center {
+            display: $middlebar-center-tablet-display;
         }
     }
 }

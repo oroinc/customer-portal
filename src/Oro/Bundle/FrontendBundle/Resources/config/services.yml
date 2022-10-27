@@ -1,10 +1,24 @@
+parameters:
+    oro_platform.collector.template: '@@OroFrontend/Collector/commerce.html.twig'
+
 services:
-    oro_frontend.extension.transtation_packages_provider:
-        parent: oro_translation.extension.transtation_packages_provider.abstract
-        calls:
-            - ['addPackage', ['OroCustomerPortal', 'oro/customer-portal', '/src']]
+    oro_frontend.listener.js_routing_route_collection_listener:
+        class: Oro\Bundle\NavigationBundle\EventListener\JsRoutingRouteCollectionListener
+        arguments:
+            - 'oro_frontend_js_routing_js'
+            - '%kernel.debug%'
         tags:
-            - {name: oro_translation.extension.packages_provider}
+            - { name: kernel.event_listener, event: oro_distribution.route_collection.autoload, method: onCollectionAutoload }
+
+    oro_frontend.listener.js_routing_dump:
+        class: 'Oro\Bundle\FrontendBundle\EventListener\JsRoutingDumpListener'
+        tags:
+            - { name: kernel.event_listener, event: console.terminate, method: afterConsoleCommand }
+
+    oro_frontend.listener.asset_build:
+        class: Oro\Bundle\FrontendBundle\EventListener\AssetBuildCommandListener
+        tags:
+            - { name: kernel.event_listener, event: console.command, method: onConsoleCommand }
 
     oro_frontend.listener.frontend_route_collection:
         class: 'Oro\Bundle\FrontendBundle\EventListener\FrontendRouteCollectionListener'
@@ -14,7 +28,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_distribution.route_collection.expose, method: onCollectionAutoload, priority: 130 }
             - { name: kernel.event_listener, event: oro_distribution.route_collection.autoload, method: onCollectionAutoload, priority: 130 }
-        lazy: true
 
     oro_frontend.listener.route_collection:
         class: 'Oro\Bundle\FrontendBundle\EventListener\RouteCollectionListener'
@@ -23,15 +36,12 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_distribution.route_collection.expose, method: onCollectionAutoload, priority: 120 }
             - { name: kernel.event_listener, event: oro_distribution.route_collection.autoload, method: onCollectionAutoload, priority: 120 }
-        lazy: true
 
     oro_frontend.listener.theme:
         class: 'Oro\Bundle\FrontendBundle\EventListener\ThemeListener'
         arguments:
-            - '@oro_theme.registry'
             - '@oro_frontend.request.frontend_helper'
             - '@oro_config.manager'
-            - '%installed%'
         tags:
             - {name: kernel.event_listener, event: kernel.request, method: onKernelRequest}
             - {name: kernel.event_listener, event: kernel.view, method: onKernelView, priority: 20 }
@@ -43,63 +53,56 @@ services:
             - '@oro_config.manager'
             - '@oro_frontend.guest_access.guest_access_decision_maker'
             - '@router'
+            - '@oro_api.request_helper'
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 5 }
 
     oro_frontend.guest_access.guest_access_decision_maker:
         class: 'Oro\Bundle\FrontendBundle\GuestAccess\GuestAccessDecisionMaker'
         arguments:
-            - '@oro_frontend.guest_access.provider.guest_access_urls_provider'
+            - '@oro_frontend.guest_access.provider.chain_guest_access_urls_provider'
             - '@oro_frontend.request.frontend_helper'
-            - '%installed%'
-        public: false
 
     oro_frontend.guest_access.provider.guest_access_urls_provider:
         class: 'Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProvider'
-        public: false
         calls:
-            - [addAllowedUrlPattern, ['^%oro_api.rest.prefix%']]
+            - [addAllowedUrlPattern, ['^%oro_api.rest.prefix%doc($|/)']]
+            - [addAllowedUrlPattern, ['^%oro_api.rest.prefix%login$']]
+        tags: ['oro_frontend.guest_access_urls_provider']
 
-    oro_frontend.assetic.configuration:
-        class: '%oro_assetic.configuration.class%'
-        public: false
+    oro_frontend.error_renderer.html:
+        class: Oro\Bundle\FrontendBundle\ErrorRenderer\FrontendErrorRenderer
+        decorates: error_renderer.html
         arguments:
-            - '@event_dispatcher'
-            - '%oro_assetic.raw_configuration%'
-
-#    oro_frontend.twig_extension.demo_frontend_theme:
-#        class: 'Oro\Bundle\FrontendBundle\Twig\DemoThemeExtension'
-#        public: false
-#        arguments:
-#            - '@assetic.asset_factory'
-#            - '@oro_frontend.assetic.configuration'
-#            - '@oro_theme.registry'
-#        tags:
-#            - { name: twig.extension }
-
-    oro_frontend.placeholder.theme_filter:
-        class: 'Oro\Bundle\FrontendBundle\Placeholder\ThemeFilter'
-        arguments:
-            - '@oro_theme.registry'
+            - '@Psr\Container\ContainerInterface'
+            - '@.inner'
+            - '@error_handler.error_renderer.html'
+            - '%kernel.debug%'
+        tags:
+            - { name: container.service_subscriber }
 
     oro_frontend.placeholder.filter:
         class: 'Oro\Bundle\FrontendBundle\Placeholder\FrontendFilter'
+        public: true
         arguments:
             - '@oro_frontend.request.frontend_helper'
-            - '@request_stack'
 
     oro_frontend.request.frontend_helper:
         class: 'Oro\Bundle\FrontendBundle\Request\FrontendHelper'
         arguments:
             - '%web_backend_prefix%'
-            - '@service_container'
+            - '@request_stack'
+            - '@oro_distribution.handler.application_status'
+
+    Oro\Bundle\FrontendBundle\Request\FrontendHelper:
+        alias: oro_frontend.request.frontend_helper
 
     oro_frontend.activity_list.placeholder.filter:
         class: 'Oro\Bundle\FrontendBundle\Placeholder\ActivityListPlaceholderFilter'
+        public: true
         arguments:
             - '@oro_activity_list.placeholder.filter'
             - '@oro_frontend.request.frontend_helper'
-            - '@request_stack'
         tags:
             - { name: kernel.event_listener, event: oro.ui.grouping_chain_widget.before, method: isAllowedButton, priority: 10 }
 
@@ -130,7 +133,7 @@ services:
         arguments:
             - '@doctrine'
             - '@oro_entity_config.config_manager'
-            - '%installed%'
+            - '@oro_distribution.handler.application_status'
         calls:
             - ['append', ['OroB2B', 'Oro']]
             - ['append', ['orob2b', 'oro']]
@@ -150,29 +153,12 @@ services:
             # Must be executed before all listeners to change route for enum filters
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before, method: onBuildBefore, priority: 255 }
 
-    oro_frontend.namespace_migration_provider:
-        class: 'Oro\Bundle\FrontendBundle\CacheWarmer\NamespaceMigrationProvider'
-        tags:
-            - {name: oro_installer.namespace_migration_provider, priority: 10}
-
-    oro_frontend.namespace_migration_fix_product_provider:
-        class: 'Oro\Bundle\FrontendBundle\CacheWarmer\NamespaceMigrationFixProductProvider'
-        tags:
-            - {name: oro_installer.namespace_migration_provider, priority: 25}
-
-    oro_frontend.provider.current_application:
-        class: 'Oro\Bundle\FrontendBundle\Provider\ActionCurrentApplicationProvider'
-        decorates: oro_action.provider.current_application
-        arguments:
-            - '@oro_frontend.provider.current_application.inner'
-            - '@security.token_storage'
-
     oro_frontend.provider.action_route:
         class: 'Oro\Bundle\FrontendBundle\Provider\RouteProvider'
         decorates: oro_action.provider.route
         arguments:
-            - '@oro_frontend.provider.action_route.inner'
-            - '@security.token_storage'
+            - '@.inner'
+            - '@oro_frontend.request.frontend_helper'
             - 'oro_frontend_action_widget_form'
             - 'oro_frontend_action_widget_form'
             - 'oro_frontend_action_operation_execute'
@@ -182,8 +168,8 @@ services:
         class: 'Oro\Bundle\FrontendBundle\Provider\RouteProvider'
         decorates: oro_workflow.provider.start_transition_route
         arguments:
-            - '@oro_frontend.provider.start_transition_route.inner'
-            - '@security.token_storage'
+            - '@.inner'
+            - '@oro_frontend.request.frontend_helper'
             - 'oro_frontend_workflow_widget_start_transition_form'
             - 'oro_frontend_workflow_start_transition_form'
             - 'oro_api_frontend_workflow_start'
@@ -193,8 +179,8 @@ services:
         class: 'Oro\Bundle\FrontendBundle\Provider\RouteProvider'
         decorates: oro_workflow.provider.transition_route
         arguments:
-            - '@oro_frontend.provider.transition_route.inner'
-            - '@security.token_storage'
+            - '@.inner'
+            - '@oro_frontend.request.frontend_helper'
             - 'oro_frontend_workflow_widget_transition_form'
             - 'oro_frontend_workflow_transition_form'
             - 'oro_api_frontend_workflow_transit'
@@ -203,18 +189,19 @@ services:
     oro_frontend.extension.start_transition_button_provider:
         class: 'Oro\Bundle\FrontendBundle\Extension\FrontendStartTransitionButtonProviderExtension'
         parent: oro_workflow.extension.start_transition_button_provider
-        calls:
-            - ['setApplicationProvider',['@oro_frontend.provider.current_application']]
         tags:
-           - { name: oro.action.extension.button_provider, priority: 110 }
+           - { name: oro.action.extension.button_provider, priority: -110 }
 
     oro_frontend.extension.transition_button_provider:
         class: 'Oro\Bundle\FrontendBundle\Extension\FrontendTransitionButtonProviderExtension'
         parent: oro_workflow.extension.transition_button_provider
-        calls:
-            - ['setApplicationProvider',['@oro_frontend.provider.current_application']]
         tags:
-           - { name: oro.action.extension.button_provider, priority: 120 }
+           - { name: oro.action.extension.button_provider, priority: -120 }
+
+    oro_frontend.layout_theme_config_extension.screens:
+        class: 'Oro\Bundle\FrontendBundle\Layout\Extension\ScreensThemeConfigurationExtension'
+        tags:
+            - { name: layout.theme_config_extension }
 
     oro_frontend.layout_context_configurator.page_template:
         class: 'Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplateContextConfigurator'
@@ -223,50 +210,30 @@ services:
         tags:
             - { name: layout.context_configurator }
 
-    oro_frontend.attachment.manager:
-        class: 'Oro\Bundle\FrontendBundle\Manager\AttachmentManager'
-        parent: 'oro_attachment.manager'
-
-    oro_frontend.attachment.twig.file_extension:
-        class: 'Oro\Bundle\FrontendBundle\Twig\FileExtension'
-        public: false
-        arguments:
-            - '@service_container'
-        tags:
-            - { name: twig.extension }
-
     oro_frontend.extractor.frontend_exposed_routes_extractor:
         class: 'Oro\Bundle\FrontendBundle\Extractor\FrontendExposedRoutesExtractor'
         arguments:
             - '@router'
             - []
-            - '%kernel.cache_dir%'
+            - '%kernel.cache_dir%/oro'
             - '%kernel.bundles%'
 
-    oro_frontend.js_routing_controller:
-       class: '%fos_js_routing.controller.class%'
-       arguments:
-            - '@fos_js_routing.serializer'
-            - '@oro_frontend.extractor.frontend_exposed_routes_extractor'
-            - '%fos_js_routing.cache_control%'
-            - '%kernel.debug%'
+    oro_frontend.screens.cache:
+        public: false
+        parent: oro.data.cache
+        tags:
+            - { name: 'cache.pool', namespace: 'oro_frontend_screens' }
 
     oro_frontend.provider.screens:
         class: 'Oro\Bundle\FrontendBundle\Provider\ScreensProvider'
         arguments:
             - '@oro_layout.theme_manager'
-            - '@oro.cache.memory_cache_chain'
-
-    oro_frontend.form.configurator.theme:
-        class: 'Oro\Bundle\FrontendBundle\Form\Configurator\ThemeConfigurator'
-        arguments:
-            - '@oro_config.config_bag'
-            - '@security.authorization_checker'
+            - '@oro_frontend.screens.cache'
 
     oro_frontend.datagrid.extension.frontend_datagrid:
         class: Oro\Bundle\FrontendBundle\Datagrid\Extension\FrontendDatagridExtension
         arguments:
-            - '@security.token_storage'
+            - '@oro_frontend.request.frontend_helper'
         tags:
             - { name: oro_datagrid.extension }
 
@@ -275,16 +242,115 @@ services:
         decorates: oro_locale.settings
         decoration_priority: -10
         arguments:
-            - '@oro_frontend.locale_settings.inner'
+            - '@.inner'
             - '@oro_frontend.request.frontend_helper'
-            - '@oro_frontend_localization.manager.user_localization'
+            - '@oro_locale.provider.current_localization'
+            - '@oro_layout.layout_context_holder'
+            - '@oro_layout.theme_manager'
 
-    #  this provider should be run before the last one
-    oro_frontend.provider.default_frontend_preferred_language_provider:
-        class: Oro\Bundle\FrontendBundle\Provider\DefaultFrontendPreferredLanguageProvider
-        public: false
+    # Website default localization
+    # This provider should be run before the last one
+    oro_frontend.provider.default_frontend_preferred_localization_provider:
+        class: Oro\Bundle\FrontendBundle\Provider\DefaultFrontendPreferredLocalizationProvider
         arguments:
-            - '@oro_frontend_localization.manager.user_localization'
+            - '@oro_locale.provider.current_localization'
             - '@oro_frontend.request.frontend_helper'
         tags:
-            - { name: oro_locale.preferred_language_provider, priority: 254 }
+            - { name: oro_locale.preferred_localization_provider, priority: -254 }
+
+    oro_frontend.guest_access.provider.chain_guest_access_urls_provider:
+        class: Oro\Bundle\FrontendBundle\GuestAccess\Provider\ChainGuestAccessAllowedUrlsProvider
+        arguments:
+            - !tagged_iterator oro_frontend.guest_access_urls_provider
+
+    oro_frontend.listener.authentication:
+        class: 'Oro\Bundle\FrontendBundle\EventListener\FrontendLoginListenerDecorator'
+        decorates: oro_message_queue.listener.authentication
+        arguments:
+            - '@kernel'
+            - '@.inner'
+            - '@oro_frontend.request.frontend_helper'
+
+    oro_frontend.provider.file_url:
+        class: 'Oro\Bundle\FrontendAttachmentBundle\Provider\FileUrlProvider'
+        decorates: oro_attachment.provider.file_url
+        decoration_priority: 500
+        arguments:
+            - '@.inner'
+            - '@oro_attachment.url_generator'
+            - '@oro_attachment.provider.file_applications'
+            - '@oro_action.provider.current_application'
+            - '@oro_attachment.acl.file_access_control_checker'
+            - '@oro_config.manager'
+            - '@oro_attachment.provider.file_name'
+
+    oro_frontend.provider.resized_image_path.remove_backend_media_cache_prefix:
+        class: 'Oro\Bundle\AttachmentBundle\Provider\ResizedImagePathProviderDecorator'
+        decorates: oro_attachment.provider.resized_image_path
+        decoration_priority: 100
+        arguments:
+            - '@.inner'
+            - '%web_backend_prefix%/media/cache'
+
+    oro_frontend.event_listener.draftable_filter_listener:
+        class: Oro\Bundle\FrontendBundle\EventListener\DraftableFilterListener
+        decorates: oro_draft.event_listener.draftable_filter_listener
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - '@oro_frontend.request.frontend_helper'
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+    oro_frontend.event_listener.default_grid_view_load:
+        class: Oro\Bundle\FrontendBundle\EventListener\DefaultGridViewLoadListener
+        arguments:
+            - '@oro_entity.orm.entity_class_resolver'
+            - '@oro_search.provider.search_mapping'
+            - '@oro_entity_config.config_manager'
+            - '@translator'
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.grid_views_load, method: onViewsLoad }
+
+    oro_frontend.event_listener.theme_system_config_form_options_listener:
+        class: Oro\Bundle\FrontendBundle\EventListener\ThemeSystemConfigFormOptionsListener
+        tags:
+            - { name: kernel.event_listener, event: oro_config.settings_form_options_set, method: onFormOptions }
+
+    oro_frontend.twig.frontend:
+        class: Oro\Bundle\FrontendBundle\Twig\FrontendExtension
+        arguments:
+            - '@oro_platform.twig.service_locator'
+        tags:
+            - { name: twig.extension }
+
+    oro_frontend.layout.data_provider.frontend_config_provider:
+        class: Oro\Bundle\EntityConfigBundle\Layout\DataProvider\ConfigProvider
+        arguments:
+            - '@oro_entity_config.provider.frontend'
+        tags:
+            - { name: layout.data_provider, alias: frontend_config }
+
+    oro_frontend.block_type.attribute_text:
+        decorates: oro_entity_config.block_type.attribute_text
+        parent: oro_entity_config.block_type.attribute_text
+        calls:
+            - ['setDefaultVisible', ['=data["frontend_config"].getConfig(className,fieldName).is("is_displayable") && value !== null']]
+        tags:
+            - { name: layout.block_type, alias: attribute_text }
+
+    oro_frontend.datagrid.event_listener.datagrid_content_tags:
+        class: Oro\Bundle\FrontendBundle\Datagrid\EventListener\DatagridContentTagsListener
+        decorates: oro_sync.content.listener.datagrid_tag
+        arguments:
+            - '@.inner'
+            - '@oro_frontend.request.frontend_helper'
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.after, method: buildAfter }
+
+    Oro\Bundle\FrontendBundle\EntityConfig\EntityEntityConfiguration:
+        tags:
+            - oro_entity_config.validation.entity_config
+
+    Oro\Bundle\FrontendBundle\EntityConfig\FrontendFieldConfiguration:
+        tags:
+            - oro_entity_config.validation.entity_config

@@ -19,7 +19,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: '1'
         customer: '@customer1'
         organization: '@organization'
-        role: ['@front_admin']
+        userRoles: ['@front_admin']
         owner: '@admin'
         website: '@website1'
     nancy:
@@ -33,15 +33,15 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: '1'
         customer: '@customer1'
         organization: '@organization'
-        role: ['@buyer']
+        userRoles: ['@buyer']
         owner: '@admin'
         website: '@website1'
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
     amandaAddress1:
-        region: 'US-FL'
+        region: '@florida'
         frontendOwner: '@amanda'
-        country: 'US'
+        country: '@united_states'
         owner: '@admin'
         systemOrganization: '@organization'
         primary: false
@@ -51,21 +51,21 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
         postalCode: '33844'
         organization: '@organization'
     amandaAddress2:
-        region: 'US-NY'
+        region: '@new_york'
         frontendOwner: '@amanda'
-        country: 'US'
+        country: '@united_states'
         owner: '@admin'
         systemOrganization: '@organization'
-        primary: false
+        primary: true
         label: 'Address 2'
         street: '23400 Caldwell Road'
         city: 'Rochester'
         postalCode: '14608'
         organization: '@organization'
     amandaAddress3:
-        region: 'US-IN'
+        region: '@indiana'
         frontendOwner: '@amanda'
-        country: 'US'
+        country: '@united_states'
         owner: '@admin'
         systemOrganization: '@organization'
         primary: false
@@ -77,9 +77,9 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
     customerAddress1:
-        region: 'US-FL'
+        region: '@florida'
         frontendOwner: '@customer1'
-        country: 'US'
+        country: '@united_states'
         owner: '@admin'
         systemOrganization: '@organization'
         primary: false
@@ -89,21 +89,21 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         postalCode: '33844'
         organization: '@organization'
     customerAddress2:
-        region: 'US-NY'
+        region: '@new_york'
         frontendOwner: '@customer1'
-        country: 'US'
+        country: '@united_states'
         owner: '@admin'
         systemOrganization: '@organization'
-        primary: false
+        primary: true
         label: 'Address 2'
         street: '23400 Caldwell Road'
         city: 'Rochester'
         postalCode: '14608'
         organization: '@organization'
     customerAddress3:
-        region: 'US-IN'
+        region: '@indiana'
         frontendOwner: '@customer1'
-        country: 'US'
+        country: '@united_states'
         owner: '@admin'
         systemOrganization: '@organization'
         primary: false
@@ -116,27 +116,19 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
 Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType:
     amandaAddress1ShippingDefault:
         address: '@amandaAddress1'
-        type: 'shipping'
+        type: '@shippingType'
         default: true
     amandaAddress1BillingDefault:
         address: '@amandaAddress1'
-        type: 'billing'
-        default: true
-    amandaAddress2BillingDefault:
-        address: '@amandaAddress2'
-        type: 'billing'
+        type: '@billingType'
         default: true
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
     customerAddress1ShippingDefault:
         address: '@customerAddress1'
-        type: 'shipping'
+        type: '@shippingType'
         default: true
     customerAddress1BillingDefault:
         address: '@customerAddress1'
-        type: 'billing'
-        default: true
-    customerAddress2BillingDefault:
-        address: '@customerAddress2'
-        type: 'billing'
+        type: '@billingType'
         default: true
