@@ -89,7 +89,7 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
                 'view' => 'custom-view',
             ],
             'dataSource' => ['price_list' => 'test'],
-            'rootEntities' => ['App\Entity\PriceList' => 'price_list']
+            'rootEntities' => ['App\Entity\PriceList' => 'price_list'],
             'allowedOperations' => ['math'],
             'dataProviderConfig' => [
                 'optionsFilter' =>  ['exclude' => false, 'unidirectional' => false]
