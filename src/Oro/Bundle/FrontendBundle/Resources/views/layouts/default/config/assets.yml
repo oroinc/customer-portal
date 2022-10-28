@@ -16,6 +16,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/custom-icons-config.scss'
         - 'bundles/orofrontend/default/scss/variables/breadcrumbs-config.scss'
         - 'bundles/orofrontend/default/scss/variables/dropdown-menu-calendar-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/tiles-config.scss'
         - 'bundles/orofrontend/default/scss/variables/expand-text-config.scss'
         - 'bundles/orofrontend/default/scss/variables/collapse-view-config.scss'
         - 'bundles/orofrontend/default/scss/variables/link-config.scss'
@@ -59,6 +60,7 @@ styles:
         - 'bundles/orofrontend/default/scss/components/clear-search-button.scss'
         - 'bundles/orofrontend/default/scss/components/toggle-filters-action.scss'
         - 'bundles/orofrontend/default/scss/components/oro-css-grid.scss'
+        - 'bundles/orofrontend/default/scss/components/tiles.scss'
         - 'bundles/orofrontend/default/scss/styles.scss'
     output: 'css/styles.css'
     auto_rtl_inputs:
