@@ -6,6 +6,10 @@
     gap: $grid-gap;
 
     &-col {
+        --grid-column-span: auto;
+
+        grid-column-end: span var(--grid-column-span);
+
         @for $i from 1 through $grid-column-count {
             &-#{$i} {
                 grid-column-end: span $i;
