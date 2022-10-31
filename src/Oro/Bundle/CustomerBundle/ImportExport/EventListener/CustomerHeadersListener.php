@@ -24,7 +24,7 @@ class CustomerHeadersListener
 
     public function afterLoadEntityRulesAndBackendHeaders(LoadEntityRulesAndBackendHeadersEvent $event): void
     {
-        if ($event->getEntityName() !== Customer::class) {
+        if ($event->getEntityName() !== Customer::class || !$event->isFullData()) {
             return;
         }
 
