@@ -4,34 +4,29 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\ImportExport\Strategy;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\ImportExport\Strategy\CustomerAddOrReplaceStrategy;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers;
 use Oro\Bundle\CustomerBundle\Tests\Functional\ImportExport\Strategy\DataFixtures\LoadTestUser;
 use Oro\Bundle\ImportExportBundle\Context\Context;
-use Oro\Bundle\SecurityBundle\Authentication\Token\UsernamePasswordOrganizationToken;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\ReflectionUtil;
 
 /**
  * Checks the user for the possibility of using it as the owner of the entity
  */
 class CustomerAddOrReplaceStrategyTest extends WebTestCase
 {
-    use EntityTrait;
-
-    /**
-     * @var CustomerAddOrReplaceStrategy
-     */
+    /** @var CustomerAddOrReplaceStrategy */
     private $strategy;
 
-    /**
-     * @var Context
-     */
-    protected $context;
+    /** @var Context */
+    private $context;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
-        $this->loadFixtures([LoadTestUser::class]);
+        $this->loadFixtures([LoadTestUser::class, LoadCustomers::class]);
+
         $this->createToken();
         $this->strategy = $this->getContainer()->get('oro_customer.importexport.strategy.customer.add_or_replace');
 
@@ -57,34 +52,83 @@ class CustomerAddOrReplaceStrategyTest extends WebTestCase
 
     public function testWithInvalidOwner()
     {
+        $this->context->setValue('read_offset', 1);
         $customer = $this->createCustomer($this->getReference('user_without_main_organization_access'));
 
         $processedCustomer = $this->strategy->process($customer);
-        $this->assertEquals(['Error in row #. You have no access to set given owner'], $this->context->getErrors());
-        $this->assertTrue(null === $processedCustomer);
+        $this->assertEquals(['Error in row #1. You have no access to set given owner'], $this->context->getErrors());
+        $this->assertNull($processedCustomer);
+    }
+
+    public function testWithValidParent()
+    {
+        $parent = $this->getReference(LoadCustomers::CUSTOMER_LEVEL_1);
+        $customer = $this->createCustomer($this->getReference('user_with_main_organization_access'), $parent);
+
+        $processedCustomer = $this->strategy->process($customer);
+        $this->assertEquals([], $this->context->getErrors());
+        $this->assertNotNull($processedCustomer);
+        $this->assertInstanceOf(Customer::class, $processedCustomer);
+    }
+
+    public function testWithNotFoundParentNotLastAttempt()
+    {
+        $context = new Context([
+            'attempts' => 2,
+            'max_attempts' => 3
+        ]);
+        $data = ['name' => 'customer', 'parent' => '0'];
+        $context->setValue('itemData', $data);
+        $context->setValue('rawItemData', $data);
+        $this->strategy->setImportExportContext($context);
+
+        $parent = new Customer();
+        ReflectionUtil::setId($parent, 0);
+        $customer = $this->createCustomer($this->getReference('user_with_main_organization_access'), $parent);
+
+        $processedCustomer = $this->strategy->process($customer);
+        $this->assertNull($processedCustomer);
+        $this->assertEmpty($context->getErrors());
+        $this->assertEquals([$data], $context->getPostponedRows());
+    }
+
+    public function testWithNotFoundParentLastAttempt()
+    {
+        $context = new Context([
+            'attempts' => 3,
+            'max_attempts' => 3
+        ]);
+        $data = ['name' => 'customer', 'parent' => '0'];
+        $context->setValue('itemData', $data);
+        $context->setValue('rawItemData', $data);
+        $this->strategy->setImportExportContext($context);
+
+        $parent = new Customer();
+        ReflectionUtil::setId($parent, 0);
+        $customer = $this->createCustomer($this->getReference('user_with_main_organization_access'), $parent);
+
+        $processedCustomer = $this->strategy->process($customer);
+        $this->assertNull($processedCustomer);
+        $this->assertEquals(['Error in row #0. Parent customer with ID "0" was not found'], $context->getErrors());
+        $this->assertEmpty($context->getPostponedRows());
     }
 
     /**
      * The strategy use user data to verify access to the entity modification
      */
-    private function createToken()
+    private function createToken(): void
     {
-        $token = new UsernamePasswordOrganizationToken(
-            $this->getReference('user_with_main_organization_access'),
-            self::AUTH_PW,
-            'main',
-            $this->getReference('organization')
-        );
-        $this->client->getContainer()->get('security.token_storage')->setToken($token);
+        $user = $this->getReference('user_with_main_organization_access');
+        $this->updateUserSecurityToken($user->getEmail());
     }
 
-    /**
-     * @param User $owner
-     *
-     * @return Customer|object
-     */
-    private function createCustomer(User $owner)
+    private function createCustomer(User $owner, Customer $parent = null): Customer
     {
-        return $this->getEntity(Customer::class, ['name' => 'customer', 'owner' => $owner]);
+        $customer = new Customer();
+        $customer->setName('customer');
+        $customer->setOwner($owner);
+        $customer->setParent($parent);
+
+        return $customer;
     }
 }

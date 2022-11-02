@@ -5,9 +5,12 @@ namespace Oro\Bundle\CustomerBundle\DependencyInjection;
 use Oro\Bundle\ConfigBundle\DependencyInjection\SettingsBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class Configuration implements ConfigurationInterface
 {
+    public const ROOT_NODE = 'oro_customer';
+
     /**
      * @internal
      */
@@ -24,8 +27,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root(OroCustomerExtension::ALIAS);
+        $treeBuilder = new TreeBuilder(self::ROOT_NODE);
+        $rootNode = $treeBuilder->getRootNode();
 
         SettingsBuilder::append(
             $rootNode,
@@ -51,6 +54,53 @@ class Configuration implements ConfigurationInterface
                 'case_insensitive_email_addresses_enabled' => ['type' => 'boolean', 'value' => false],
             ]
         );
+
+        $rootNode
+            ->children()
+                ->arrayNode('visitor_session')
+                    // More info about visitor cookie configuration can be found at
+                    // https://doc.oroinc.com/backend/setup/post-install/cookies-configuration/#customer-visitor-cookie
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->enumNode('cookie_secure')->values([true, false, 'auto'])->defaultValue('auto')->end()
+                        ->booleanNode('cookie_httponly')->defaultTrue()->end()
+                        ->enumNode('cookie_samesite')
+                            ->values([null, Cookie::SAMESITE_LAX, Cookie::SAMESITE_STRICT, Cookie::SAMESITE_NONE])
+                            ->defaultValue(Cookie::SAMESITE_LAX)
+                            ->end()
+                        ->end()
+                ->end()
+                ->arrayNode('login_sources')
+                    ->validate()
+                        ->always(function (array $value) {
+                            foreach ($value as $name => $config) {
+                                foreach ($value as $innerName => $innerConfig) {
+                                    if ($name === $innerName) {
+                                        continue;
+                                    }
+                                    if ($config['code'] === $innerConfig['code']) {
+                                        throw new \LogicException(sprintf(
+                                            'The "code" option for "%s" and "%s" login sources are duplicated.',
+                                            $name,
+                                            $innerName
+                                        ));
+                                    }
+                                }
+                            }
+
+                            return $value;
+                        })
+                    ->end()
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('label')->end()
+                            ->integerNode('code')->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
 
         return $treeBuilder;
     }

@@ -1,13 +1,14 @@
 /* @theme: default; */
 
 .action-permissions {
-    margin-left: $action-permissions-offset-left;
-    margin-right: $action-permissions-offset-right;
+    list-style: none;
+    display: $action-permissions-display;
+    grid-template-columns: $action-permissions-grid-template-columns;
+    gap: $action-permissions-gap;
 
-    &__item {
-        float: $action-permissions-item-float;
-        width: $action-permissions-item-width;
-        margin-right: $action-permissions-item-offset-right;
+    &-contaier {
+        margin-left: $action-permissions-offset-left;
+        margin-right: $action-permissions-offset-right;
     }
 
     &__item-wrapper {
@@ -15,24 +16,9 @@
 
         display: inline-block;
         max-width: $action-permissions-item-wrapper-max-width;
-        padding-right: $action-permissions-item-wrapper-offset-inner-right;
-        box-sizing: content-box;
+        padding: $action-permissions-item-wrapper-offset-inner;
 
-        white-space: nowrap;
-
-        &.dropdown-toggle {
-            cursor: pointer;
-
-            &:after {
-                position: absolute;
-                right: $action-permissions-item-wrapper-toggle-icon-right;
-
-                margin-top: $action-permissions-item-wrapper-toggle-icon-offset-top;
-                margin-left: $action-permissions-item-wrapper-toggle-icon-offset-left;
-
-                vertical-align: top;
-            }
-        }
+        @include ellipsis();
 
         &--no-access {
             opacity: $action-permissions-item-wrapper-no-access-opacity;
@@ -43,11 +29,32 @@
             box-shadow: $action-permissions-item-wrapper-changed-box-shadow;
         }
     }
+
+    &__dropdown-toggle {
+        padding-right: $action-permissions-dropdown-toggle-offset;
+
+        cursor: pointer;
+
+        &::after {
+            position: absolute;
+            right: $action-permissions-item-wrapper-toggle-icon-right;
+
+            margin-top: $action-permissions-item-wrapper-toggle-icon-offset-top;
+            margin-left: $action-permissions-item-wrapper-toggle-icon-offset-left;
+
+            vertical-align: top;
+
+            color: $action-permissions-item-wrapper-toggle-icon-color;
+
+            content: '';
+
+            @include caret-down();
+        }
+    }
 }
 
 .dropdown-menu__role-permissions-action {
     &.dropdown-menu {
-        padding: $action-permissions-dropdown-offset-inner;
         min-width: $action-permissions-dropdown-min-width;
 
         white-space: $action-permissions-dropdown-white-space;
@@ -57,8 +64,12 @@
 
 .dropdown-menu__permissions-item {
     &.dropdown-menu {
-        padding: $action-permissions-dropdown-offset-inner;
-
         z-index: $action-permissions-dropdown-z-index;
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .action-permissions {
+        grid-template-columns: $action-permissions-mobile-landscape-grid-template-columns;
     }
 }

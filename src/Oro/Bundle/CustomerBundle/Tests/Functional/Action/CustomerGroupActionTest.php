@@ -2,20 +2,22 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Action;
 
+use Oro\Bundle\ActionBundle\Tests\Functional\OperationAwareTestTrait;
+use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class CustomerGroupActionTest extends WebTestCase
 {
-    protected function setUp()
+    use ConfigManagerAwareTestTrait;
+    use OperationAwareTestTrait;
+
+    protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
-        $this->loadFixtures(
-            [
-                'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups'
-            ]
-        );
+        $this->loadFixtures([LoadGroups::class]);
     }
 
     public function testDelete()
@@ -24,7 +26,7 @@ class CustomerGroupActionTest extends WebTestCase
         $entity = $this->getReference('customer_group.group1');
         $operationName = 'oro_customer_groups_delete';
         $entityId = $entity->getId();
-        $entityClass = $this->getContainer()->getParameter('oro_customer.entity.customer_group.class');
+        $entityClass = CustomerGroup::class;
         $this->client->request(
             'POST',
             $this->getUrl(
@@ -42,24 +44,20 @@ class CustomerGroupActionTest extends WebTestCase
 
         $this->assertJsonResponseStatusCodeEquals($this->client->getResponse(), 200);
 
-        static::getContainer()->get('doctrine')->getManagerForClass(CustomerGroup::class)->clear();
+        self::getContainer()->get('doctrine')->getManagerForClass(CustomerGroup::class)->clear();
 
-        $removedGroup = static::getContainer()
-            ->get('doctrine')
-            ->getRepository('OroCustomerBundle:CustomerGroup')
+        $removedGroup = self::getContainer()->get('doctrine')->getRepository(CustomerGroup::class)
             ->find($entityId);
 
-        static::assertNull($removedGroup);
+        self::assertNull($removedGroup);
     }
 
     public function testDeleteAnonymousUserGroup()
     {
-        $entityId = $this->getContainer()
-            ->get('oro_config.global')
-            ->get('oro_customer.anonymous_customer_group');
+        $entityId = self::getConfigManager()->get('oro_customer.anonymous_customer_group');
 
         $operationName = 'oro_customer_groups_delete';
-        $entityClass   = $this->getContainer()->getParameter('oro_customer.entity.customer_group.class');
+        $entityClass = CustomerGroup::class;
         $this->client->request(
             'POST',
             $this->getUrl(
@@ -76,30 +74,5 @@ class CustomerGroupActionTest extends WebTestCase
         );
         $result = $this->client->getResponse();
         $this->assertSame(403, $result->getStatusCode());
-    }
-
-    /**
-     * @param $operationName
-     * @param $entityId
-     * @param $entityClass
-     *
-     * @return array
-     */
-    protected function getOperationExecuteParams($operationName, $entityId, $entityClass)
-    {
-        $actionContext = [
-            'entityId'    => $entityId,
-            'entityClass' => $entityClass
-        ];
-        $container = $this->getContainer();
-        $operation = $container->get('oro_action.operation_registry')->findByName($operationName);
-        $actionData = $container->get('oro_action.helper.context')->getActionData($actionContext);
-
-        $tokenData = $this->getContainer()
-            ->get('oro_action.operation.execution.form_provider')
-            ->createTokenData($operation, $actionData);
-        $container->get('session')->save();
-
-        return $tokenData;
     }
 }

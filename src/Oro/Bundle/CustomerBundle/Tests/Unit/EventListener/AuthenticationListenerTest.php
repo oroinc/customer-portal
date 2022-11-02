@@ -12,10 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
 {
-    const FIREWALL_NAME = 'test_firewall';
-
-    /** @var AuthenticationListener */
-    private $listener;
+    private const FIREWALL_NAME = 'test_firewall';
 
     /** @var LoginManager|\PHPUnit\Framework\MockObject\MockObject */
     private $loginManager;
@@ -23,13 +20,14 @@ class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
     /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
     private $configManager;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
+    /** @var AuthenticationListener */
+    private $listener;
+
+    protected function setUp(): void
     {
         $this->loginManager = $this->createMock(LoginManager::class);
         $this->configManager = $this->createMock(ConfigManager::class);
+
         $this->listener = new AuthenticationListener($this->loginManager, $this->configManager, self::FIREWALL_NAME);
     }
 
@@ -39,13 +37,11 @@ class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
         $request = new Request();
         $response = new Response();
         $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
-        $this->configManager
-            ->expects($this->any())
+        $this->configManager->expects($this->any())
             ->method('get')
             ->with('oro_customer.auto_login_after_registration')
             ->willReturn(false);
-        $this->loginManager
-            ->expects($this->never())
+        $this->loginManager->expects($this->never())
             ->method('logInUser');
         $this->listener->authenticate($event);
     }
@@ -57,13 +53,11 @@ class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
         $request->query->set('_oro_customer_auto_login', true);
         $response = new Response();
         $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
-        $this->configManager
-            ->expects($this->any())
+        $this->configManager->expects($this->any())
             ->method('get')
             ->with('oro_customer.auto_login_after_registration')
             ->willReturn(false);
-        $this->loginManager
-            ->expects($this->once())
+        $this->loginManager->expects($this->once())
             ->method('logInUser')
             ->with(self::FIREWALL_NAME, $customerUser, $response);
         $this->listener->authenticate($event);
@@ -75,13 +69,11 @@ class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
         $response = new Response();
         $customerUser = new CustomerUser();
         $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
-        $this->configManager
-            ->expects($this->once())
+        $this->configManager->expects($this->once())
             ->method('get')
             ->with('oro_customer.auto_login_after_registration')
             ->willReturn(true);
-        $this->loginManager
-            ->expects($this->once())
+        $this->loginManager->expects($this->once())
             ->method('logInUser')
             ->with(self::FIREWALL_NAME, $customerUser, $response);
         $this->listener->authenticate($event);

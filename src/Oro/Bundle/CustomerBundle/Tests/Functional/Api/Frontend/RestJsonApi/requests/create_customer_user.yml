@@ -1,0 +1,17 @@
+data:
+    type: customerusers
+    attributes:
+        password: '123123123123'
+        email: 'test2341@test.com'
+        firstName: 'Bob'
+        lastName: 'Doo'
+    relationships:
+        customer:
+            data:
+                type: customers
+                id: '<toString(@customer->id)>'
+        userRoles:
+            data:
+                -
+                    type: customeruserroles
+                    id: '<toString(@admin->id)>'

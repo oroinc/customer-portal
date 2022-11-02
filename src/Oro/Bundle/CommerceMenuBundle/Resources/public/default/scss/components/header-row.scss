@@ -1,19 +1,60 @@
 /* @theme: default; */
 
 .header-row {
+    position: relative;
+    margin-top: $offset-y;
+    border: $header-row-border;
+    border-width: 1px 0;
     display: flex;
-
     max-width: $site-width;
     margin: 0 auto;
-
     justify-content: space-between;
 
     @include clearfix();
 
-    &__container {
-        flex-basis: $header-row-container-flex-basis;
+    &__trigger {
+        position: relative;
+        z-index: z('base');
+        width: 100%;
+        display: block;
+        margin: 0;
+        padding: 7px 10px;
+        background-color: $header-row-border-trigger-background-color;
+        border: 0;
+        border-right: $header-row-trigger-border;
 
+        .main-menu__item:hover {
+            // stylelint-disable-next-line declaration-no-important
+            background-color: transparent !important;
+        }
+    }
+
+    &__toggle {
+        background-color: $header-row-border-toggle-background-color;
+    }
+
+    &.show {
+        .header-row__trigger {
+            background: $header-row-border-show-trigger-background;
+
+            z-index: auto;
+        }
+
+        .header-row__toggle {
+            display: block;
+        }
+    }
+
+    &__container {
         &.show {
+            .header-row__trigger {
+                box-shadow: $header-row-show-trigger-box-shadow;
+
+                &.focus-visible {
+                    box-shadow: $header-row-show-trigger-focus;
+                }
+            }
+
             .header-row__toggle {
                 visibility: inherit;
 
@@ -22,10 +63,12 @@
                 opacity: 1;
             }
         }
-    }
 
-    &__trigger {
-        border-right: 1px solid get-color('additional', 'ultra');
+        &.show-by-hover {
+            .header-row__toggle {
+                display: block;
+            }
+        }
     }
 
     &--from-left .main-menu-outer {
@@ -36,6 +79,7 @@
 @include breakpoint('desktop') {
     %hidden-on-desktop {
         &.hidden-on-desktop {
+            // stylelint-disable-next-line declaration-no-important
             display: none !important;
         }
     }
@@ -46,7 +90,6 @@
 
             &--unstack {
                 flex-grow: 1;
-                width: $header-row-unstack-width;
             }
         }
 
@@ -54,6 +97,7 @@
             @extend %hidden-on-desktop;
 
             padding: 0;
+            border: none;
         }
 
         &__toggle {
@@ -64,29 +108,26 @@
 
 @include breakpoint('tablet') {
     .header-row {
+        border: $header-row-border-tablet;
         position: relative;
-
         z-index: z('base') + 2;
-
-        margin: 0 -($offset-x-m);
+        margin: 0 (-$offset-x-m);
 
         &__container {
             position: static;
 
             flex-grow: 1;
             flex-basis: auto;
+        }
 
-            &.show {
-                .header-row__trigger {
-                    background: get-color('additional', 'ultra');
-                    box-shadow: inset 0 4px 4px -2px rgba(0, 0, 0, .2);
-                }
-            }
+        &__trigger {
+            background-color: $header-row-trigger-background-color-tablet;
+            border-right: $header-row-trigger-border-tablet;
+            text-align: center;
         }
 
         &__toggle {
-            display: block;
-
+            display: none;
             position: absolute;
             z-index: z('dropdown') + 1;
             right: 0;
@@ -97,27 +138,31 @@
 
             transition: opacity .2s, visibility .2s;
 
-            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .3);
+            box-shadow: $header-row-tablet-toggle-box-shadow;
             opacity: 0;
+
+            &.show {
+                display: block;
+            }
         }
 
         &__dropdown {
             min-width: 260px;
 
-            background: get-color('additional', 'ultra');
-
+            background: $header-row-tablet-toggle-dropdown-background;
         }
 
         &--fixed {
             margin: 0;
         }
 
-        & .main-menu__sublist-container {
+        .main-menu__sublist-container {
             width: auto;
         }
     }
 
     .shown-on-desktop {
+        // stylelint-disable-next-line declaration-no-important
         display: none !important;
     }
 }

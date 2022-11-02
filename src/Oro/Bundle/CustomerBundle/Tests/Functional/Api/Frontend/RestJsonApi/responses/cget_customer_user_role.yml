@@ -1,0 +1,60 @@
+data:
+    -
+        type: customeruserroles
+        id: '<toString(@admin->id)>'
+        attributes:
+            role: ROLE_FRONTEND_ADMINISTRATOR
+            label: Administrator
+        relationships:
+            customer:
+                data: null
+            customerUsers:
+                data:
+                    -
+                        type: customerusers
+                        id: '<toString(@customer_user->id)>'
+    -
+        type: customeruserroles
+        id: '<toString(@buyer->id)>'
+        attributes:
+            role: ROLE_FRONTEND_BUYER
+            label: Buyer
+        relationships:
+            customer:
+                data: null
+            customerUsers:
+                data: []
+    -
+        type: customeruserroles
+        id: '<toString(@role_system_self_managed_public->id)>'
+        attributes:
+            label: 'System Role (Self Managed, Public)'
+        relationships:
+            customer:
+                data: null
+            customerUsers:
+                data: []
+    -
+        type: customeruserroles
+        id: '<toString(@role_customer_self_managed_public->id)>'
+        attributes:
+            label: 'Customer Role (Self Managed, Public)'
+        relationships:
+            customer:
+                data:
+                    type: customers
+                    id: '<toString(@customer->id)>'
+            customerUsers:
+                data: []
+    -
+        type: customeruserroles
+        id: '<toString(@role_child_customer_self_managed_public->id)>'
+        attributes:
+            label: 'Child Customer Role (Self Managed, Public)'
+        relationships:
+            customer:
+                data:
+                    type: customers
+                    id: '<toString(@child_customer->id)>'
+            customerUsers:
+                data: []

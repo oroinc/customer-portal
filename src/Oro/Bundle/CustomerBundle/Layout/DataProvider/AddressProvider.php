@@ -35,11 +35,6 @@ class AddressProvider
     /** @var bool */
     protected $defaultOnly;
 
-    /**
-     * @param UrlGeneratorInterface $router
-     * @param FragmentHandler $fragmentHandler
-     * @param ConfigManager $configManager
-     */
     public function __construct(
         UrlGeneratorInterface $router,
         FragmentHandler $fragmentHandler,
@@ -106,7 +101,7 @@ class AddressProvider
             );
             // @codingStandardsIgnoreEnd
         }
-        
+
         if (!$entity instanceof $this->entityClass) {
             throw new \UnexpectedValueException(
                 sprintf('Entity should be instanceof "%s", "%s" given.', $this->entityClass, gettype($entity))

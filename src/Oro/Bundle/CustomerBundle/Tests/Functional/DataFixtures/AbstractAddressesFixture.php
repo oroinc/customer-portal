@@ -3,39 +3,27 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\AddressBundle\Entity\Country;
 use Oro\Bundle\AddressBundle\Entity\Region;
 use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
 
 abstract class AbstractAddressesFixture extends AbstractFixture
 {
-    /**
-     * @param EntityManager $manager
-     * @param array $addressData
-     * @param AbstractDefaultTypedAddress $address
-     */
     protected function addAddress(EntityManager $manager, array $addressData, AbstractDefaultTypedAddress $address)
     {
         $defaults = [];
         foreach ($addressData['types'] as $type => $isDefault) {
             /** @var AddressType $addressType */
-            $addressType = $manager->getReference('Oro\Bundle\AddressBundle\Entity\AddressType', $type);
+            $addressType = $manager->getReference(AddressType::class, $type);
             $address->addType($addressType);
             if ($isDefault) {
                 $defaults[] = $addressType;
             }
         }
-
-        /** @var Country $country */
-        $country = $manager->getReference('OroAddressBundle:Country', $addressData['country']);
-        /** @var Region $region */
-        $region = $manager->getReference(
-            'OroAddressBundle:Region',
-            $addressData['country'] . '-' . $addressData['region']
-        );
 
         $address->setDefaults($defaults);
         $address->setPrimary($addressData['primary'])
@@ -43,8 +31,8 @@ abstract class AbstractAddressesFixture extends AbstractFixture
             ->setStreet($addressData['street'])
             ->setCity($addressData['city'])
             ->setPostalCode($addressData['postalCode'])
-            ->setCountry($country)
-            ->setRegion($region)
+            ->setCountry($this->getCountry($manager, $addressData['country']))
+            ->setRegion($this->getRegion($manager, $addressData['country'] . '-' . $addressData['region']))
             ->setOrganization('Test Org');
 
         $manager->persist($address);
@@ -52,11 +40,50 @@ abstract class AbstractAddressesFixture extends AbstractFixture
     }
 
     /**
+     * @param EntityManager $manager
+     * @param string        $countryCode
+     *
+     * @return Country
+     */
+    protected function getCountry(EntityManager $manager, $countryCode)
+    {
+        $referenceName = 'country.' . $countryCode;
+        if ($this->hasReference($referenceName)) {
+            return $this->getReference($referenceName);
+        }
+
+        $country = $manager->getReference(Country::class, $countryCode);
+        $this->addReference($referenceName, $country);
+
+        return $country;
+    }
+
+    /**
+     * @param EntityManager $manager
+     * @param string        $regionCode
+     *
+     * @return Region
+     */
+    protected function getRegion(EntityManager $manager, $regionCode)
+    {
+        $referenceName = 'region.' . $regionCode;
+        if ($this->hasReference($referenceName)) {
+            return $this->getReference($referenceName);
+        }
+
+        $region = $manager->getReference(Region::class, $regionCode);
+        $this->addReference($referenceName, $region);
+
+        return $region;
+    }
+
+    /**
      * @param ObjectManager $manager
-     * @return \Oro\Bundle\OrganizationBundle\Entity\Organization
+     *
+     * @return Organization
      */
     protected function getOrganization(ObjectManager $manager)
     {
-        return $manager->getRepository('OroOrganizationBundle:Organization')->getFirst();
+        return $manager->getRepository(Organization::class)->getFirst();
     }
 }

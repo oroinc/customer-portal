@@ -16,12 +16,11 @@ class GridViewUserTest extends \PHPUnit\Framework\TestCase
         $gridViewUser = new GridViewUser();
         $user = new CustomerUser();
 
-        $this->assertNull($gridViewUser->getUser());
-        $this->assertSame($gridViewUser, $gridViewUser->setUser($user));
-        $this->assertAttributeEquals($user, 'customerUser', $gridViewUser);
-        $this->assertSame($user, $gridViewUser->getUser());
+        self::assertNull($gridViewUser->getUser());
+        self::assertSame($gridViewUser, $gridViewUser->setUser($user));
+        self::assertSame($user, $gridViewUser->getUser());
 
-        $this->assertPropertyAccessors(
+        self::assertPropertyAccessors(
             $gridViewUser,
             [
                 ['gridView', new GridView()],

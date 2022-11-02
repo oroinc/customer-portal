@@ -12,9 +12,6 @@ class FrontendApiDependencyInjectionUtil
 {
     /**
      * Disables the specific API processor for the frontend API.
-     *
-     * @param ContainerBuilder $container
-     * @param string           $processorServiceId
      */
     public static function disableProcessorForFrontendApi(
         ContainerBuilder $container,

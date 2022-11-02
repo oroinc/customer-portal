@@ -1,9 +1,7 @@
-<div class="modal-dialog modal-dialog--centered" aria-hidden="false" role="document">
+<div class="modal-dialog modal-dialog-centered" aria-hidden="false" role="document">
     <div class="modal-content">
         <div class="modal-dialog__body">
-            <button class="close <%= closeButtonClass %>" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true" class="fa-close"></span>
-            </button>
+            <button class="close-dialog <%- closeButtonClass %>" data-dismiss="modal" data-emulate-btn-press aria-label="<%- _.__('oro.orowindows.dialog.close.aria_label') %>"></button>
             <% if (title) { %>
                 <div class="page-title-wrapper">
                     <h2 id="<%- modalId %>" class="page-title"><%= title %></h2>
@@ -13,10 +11,10 @@
             <% if (allowCancel || allowOk ) { %>
                 <div class="buttons-equal">
                     <% if (allowCancel && cancelText) { %>
-                        <button class="cancel <%= cancelButtonClass %>" data-dismiss="modal"><%= cancelText %></button>
+                        <button class="cancel <%- cancelButtonClass %>" data-dismiss="modal" data-emulate-btn-press><%- cancelText %></button>
                     <% } %>
                     <% if (allowOk && okText) { %>
-                        <button class="ok <%= okButtonClass %>"><%= okText %></button>
+                        <button class="ok <%- okButtonClass %>" data-emulate-btn-press><%- okText %></button>
                     <% } %>
                 </div>
             <% } %>

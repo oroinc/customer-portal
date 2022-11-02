@@ -40,7 +40,7 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
      */
     private $userAgentConditionsEvaluator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->menuItem = $this->createMock(ItemInterface::class);
         $this->userAgentProvider = $this->createMock(UserAgentProviderInterface::class);
@@ -53,14 +53,14 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
 
     public function testEvaluateWithoutExtras()
     {
-        $this->menuItem->expects(static::once())
+        $this->menuItem->expects(self::once())
             ->method('getExtra')
             ->with(UserAgentConditionsEvaluator::MENU_CONDITION_KEY_EXTRA)
             ->willReturn(null);
-        $this->userAgentProvider->expects(static::never())
+        $this->userAgentProvider->expects(self::never())
             ->method('getUserAgent')
             ->willReturn('userAgent');
-        static::assertTrue($this->userAgentConditionsEvaluator->evaluate($this->menuItem, []));
+        self::assertTrue($this->userAgentConditionsEvaluator->evaluate($this->menuItem, []));
     }
 
     public function testEvaluateWithEmptyExtra()
@@ -70,11 +70,11 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
             $this->metadata,
             new ArrayCollection([])
         );
-        $this->menuItem->expects(static::once())
+        $this->menuItem->expects(self::once())
             ->method('getExtra')
             ->with(UserAgentConditionsEvaluator::MENU_CONDITION_KEY_EXTRA)
             ->willReturn($collection);
-        static::assertTrue($this->userAgentConditionsEvaluator->evaluate($this->menuItem, []));
+        self::assertTrue($this->userAgentConditionsEvaluator->evaluate($this->menuItem, []));
     }
 
     /**
@@ -87,13 +87,13 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
     public function testEvaluate($operation, $value, $expectedData)
     {
         $menuUserAgentCondition = $this->createMock(MenuUserAgentCondition::class);
-        $menuUserAgentCondition->expects(static::once())
+        $menuUserAgentCondition->expects(self::once())
             ->method('getOperation')
             ->willReturn($operation);
-        $menuUserAgentCondition->expects(static::once())
+        $menuUserAgentCondition->expects(self::once())
             ->method('getValue')
             ->willReturn($value);
-        $menuUserAgentCondition->expects(static::once())
+        $menuUserAgentCondition->expects(self::once())
             ->method('getConditionGroupIdentifier')
             ->willReturn(1);
 
@@ -103,44 +103,43 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
             new ArrayCollection([$menuUserAgentCondition])
         );
 
-        $this->menuItem->expects(static::once())
+        $this->menuItem->expects(self::once())
             ->method('getExtra')
             ->with(UserAgentConditionsEvaluator::MENU_CONDITION_KEY_EXTRA)
             ->willReturn($collection);
 
         $userAgent = $this->createMock(UserAgentInterface::class);
-        $userAgent->expects(static::once())
+        $userAgent->expects(self::once())
             ->method('getUserAgent')
             ->willReturn('Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
-        $this->userAgentProvider->expects(static::once())
+        $this->userAgentProvider->expects(self::once())
             ->method('getUserAgent')
             ->willReturn($userAgent);
 
-        static::assertEquals($expectedData, $this->userAgentConditionsEvaluator->evaluate($this->menuItem, []));
+        self::assertEquals($expectedData, $this->userAgentConditionsEvaluator->evaluate($this->menuItem, []));
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Conditions collection was expected to contain only MenuUserAgentCondition
-     */
     public function testExceptionWhenAnotherCollection()
     {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Conditions collection was expected to contain only MenuUserAgentCondition');
+
         $collection = new PersistentCollection(
             $this->entityManager,
             $this->metadata,
             new ArrayCollection([new \stdClass])
         );
 
-        $this->menuItem->expects(static::once())
+        $this->menuItem->expects(self::once())
             ->method('getExtra')
             ->with(UserAgentConditionsEvaluator::MENU_CONDITION_KEY_EXTRA)
             ->willReturn($collection);
 
         $userAgent = $this->createMock(UserAgentInterface::class);
-        $userAgent->expects(static::once())
+        $userAgent->expects(self::once())
             ->method('getUserAgent')
             ->willReturn('test/UserAgent');
-        $this->userAgentProvider->expects(static::once())
+        $this->userAgentProvider->expects(self::once())
             ->method('getUserAgent')
             ->willReturn($userAgent);
         $this->userAgentConditionsEvaluator->evaluate($this->menuItem, []);

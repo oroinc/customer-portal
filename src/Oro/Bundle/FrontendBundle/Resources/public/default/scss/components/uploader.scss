@@ -1,7 +1,103 @@
 /* @theme: default; */
+@use 'sass:map';
 
 .uploader {
-  .action {
-    @extend .btn;
-  }
+    display: $uploader-display;
+    position: $uploader-position;
+    border-radius: $input-border-radius;
+
+    @include element-state('hover') {
+        border-color: $input-border-color-hover-state;
+
+        .action {
+            color: map.get($btn-theme, 'hover-color');
+
+            @include gradient-bg(map.get($btn-theme, 'hover-background'));
+
+            border-color: map.get($btn-theme, 'hover-border');
+            text-decoration: none;
+        }
+
+        .filename {
+            border-color: $input-border-color-hover-state;
+
+            &:hover {
+                border-color: $uploader-filename-focus-hover-border-color;
+            }
+        }
+    }
+
+    .filename {
+        @extend .input;
+
+        border-top-left-radius: $uploader-filename-border-top-left-radius;
+        border-bottom-left-radius: $uploader-filename-border-bottom-left-radius;
+        flex-grow: $uploader-filename-flex-grow;
+        padding-right: $uploader-filename-inner-offset-right;
+        order: $uploader-filename-order;
+        overflow: $uploader-filename-overflow;
+        text-overflow: $uploader-filename-text-overflow;
+        white-space: $uploader-filename-white-space;
+    }
+
+    .action {
+        @extend .btn;
+
+        border-top-right-radius: $uploader-action-border-top-right-radius;
+        border-bottom-right-radius: $uploader-action-border-bottom-right-radius;
+        padding: $uploader-action-inner-offset;
+    }
+
+    .input[type='file'] {
+        width: 100%;
+        height: 100%;
+        border: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    &.empty {
+        .filename {
+            color: $uploader-filename-placeholder-color;
+        }
+
+        .clear-search-button {
+            display: none;
+        }
+    }
+
+    &.focus {
+        box-shadow: $input-box-shadow-focus-state;
+
+        .filename {
+            &,
+            &:hover {
+                border-color: $uploader-filename-focus-hover-border-color;
+            }
+        }
+    }
+}
+
+.uploader-container {
+    > .input {
+        &[type='file']:not(.no-uniform) {
+            color: $uploader-filename-placeholder-color;
+
+            // Webkit
+            &::-webkit-file-upload-button {
+                display: none;
+            }
+
+            // Firefox
+            // stylelint-disable-next-line selector-pseudo-element-no-unknown
+            &::file-selector-button {
+                display: none;
+            }
+        }
+    }
 }

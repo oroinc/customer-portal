@@ -1,5 +1,16 @@
 <% if (!_.isUndefined(buttons)) { %>
     <% _.each(buttons, function(button) { %>
-        <button type="<%- button.type %>" class="<%- button.class %>" data-role="<%- button.role %>"><%- button.label %></button>
+<%
+    var attrs = '';
+    var omitList = ['label'];
+    for (const [key, value] of Object.entries(_.omit(button, omitList))) {
+        var attrName = _.escape(key);
+        if (key === 'role') {
+            attrName = `data-${attrName}`
+        }
+        attrs += ` ${attrName}="${_.escape(value)}"`
+    }
+%>
+    <button <%= attrs %>><%- button.label %></button>
     <% }) %>
 <% } %>

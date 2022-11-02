@@ -2,15 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Validator\Constraints;
 
-use Oro\Bundle\UserBundle\Validator\Constraints\UserWithoutRole;
+use Symfony\Component\Validator\Constraint;
 
-class CustomerUserWithoutRole extends UserWithoutRole
+/**
+ * This constraint is used to check whether all specified enabled customer users have at least one role.
+ */
+class CustomerUserWithoutRole extends Constraint
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function validatedBy()
-    {
-        return CustomerUserWithoutRoleValidator::class;
-    }
+    public string $message = 'oro.user.message.user_without_role';
 }

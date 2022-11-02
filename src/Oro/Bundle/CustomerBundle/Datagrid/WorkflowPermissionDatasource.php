@@ -8,21 +8,13 @@ use Oro\Bundle\SecurityBundle\Acl\Permission\PermissionManager;
 use Oro\Bundle\UserBundle\Form\Handler\AclRoleHandler;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
 use Oro\Bundle\WorkflowBundle\Datagrid\WorkflowPermissionDatasource as BaseDatasource;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class WorkflowPermissionDatasource extends BaseDatasource
 {
     /** @var RoleTranslationPrefixResolver */
     protected $roleTranslationPrefixResolver;
 
-    /**
-     * @param TranslatorInterface           $translator
-     * @param PermissionManager             $permissionManager
-     * @param AclRoleHandler                $aclRoleHandler
-     * @param RolePrivilegeCategoryProvider $categoryProvider
-     * @param ConfigManager                 $configEntityManager
-     * @param RoleTranslationPrefixResolver $roleTranslationPrefixResolver
-     */
     public function __construct(
         TranslatorInterface $translator,
         PermissionManager $permissionManager,

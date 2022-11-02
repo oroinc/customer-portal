@@ -1,0 +1,22 @@
+/* @theme: default; */
+
+$scroll-top-position: fixed !default;
+$scroll-top-z-index: z('fixed') + 1 !default;
+$scroll-top-size: 44px !default;
+$scroll-top-color: get-color('additional', 'middle') !default;
+$scroll-top-background-color: $body-bg-color !default;
+$scroll-top-background-dumper-size: 32px !default;
+
+$scroll-top-hover-color: get-color('additional', 'light') !default;
+
+// Bottom left
+$scroll-top-bl-left: 20px !default;
+$scroll-top-bl-bottom: 20px !default;
+
+// Bottom right
+$scroll-top-br-right: 20px !default;
+$scroll-top-br-bottom: 20px !default;
+
+// Center
+$scroll-top-c-left: 50% !default;
+$scroll-top-c-bottom: 20px !default;

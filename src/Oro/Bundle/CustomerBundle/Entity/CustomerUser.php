@@ -7,16 +7,17 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\CustomerBundle\Model\ExtendCustomerUser;
+use Oro\Bundle\EmailBundle\Entity\EmailInterface;
+use Oro\Bundle\EmailBundle\Entity\EmailOwnerInterface;
 use Oro\Bundle\EmailBundle\Model\EmailHolderInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-use Oro\Bundle\LocaleBundle\Model\FullNameInterface;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Security\AdvancedApiUserInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
-use Oro\Bundle\WebsiteBundle\Entity\WebsiteAwareInterface;
+use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
 /**
  * The entity that represents a person who acts on behalf of the company
@@ -37,7 +38,12 @@ use Oro\Bundle\WebsiteBundle\Entity\WebsiteAwareInterface;
  *      routeUpdate="oro_customer_customer_user_update",
  *      defaultValues={
  *          "entity"={
- *              "icon"="fa-briefcase"
+ *              "icon"="fa-briefcase",
+ *              "contact_information"={
+ *                  "email"={
+ *                      {"fieldName"="contactInformation"}
+ *                  }
+ *              }
  *          },
  *          "ownership"={
  *              "owner_type"="USER",
@@ -59,6 +65,9 @@ use Oro\Bundle\WebsiteBundle\Entity\WebsiteAwareInterface;
  *          },
  *          "dataaudit"={
  *              "auditable"=true
+ *          },
+ *          "grid"={
+ *              "context"="customer-customer-user-select-grid"
  *          }
  *      }
  * )
@@ -69,10 +78,10 @@ use Oro\Bundle\WebsiteBundle\Entity\WebsiteAwareInterface;
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class CustomerUser extends ExtendCustomerUser implements
-    FullNameInterface,
+    CustomerUserInterface,
     EmailHolderInterface,
-    WebsiteAwareInterface,
-    CustomerUserIdentity,
+    EmailOwnerInterface,
+    EmailInterface,
     AdvancedApiUserInterface
 {
     const SECURITY_GROUP = 'commerce';
@@ -106,6 +115,10 @@ class CustomerUser extends ExtendCustomerUser implements
      * )
      * @ConfigField(
      *      defaultValues={
+     *          "entity"={
+     *              "label"="oro.customer.customeruser.roles.label",
+     *              "description"="oro.customer.customeruser.roles.description"
+     *          },
      *          "dataaudit"={
      *              "auditable"=true
      *          },
@@ -115,7 +128,7 @@ class CustomerUser extends ExtendCustomerUser implements
      *      }
      * )
      */
-    protected $roles;
+    protected $userRoles;
 
     /**
      * @var Customer
@@ -388,7 +401,7 @@ class CustomerUser extends ExtendCustomerUser implements
      *          }
      *      }
      * )
-     **/
+     */
     protected $salesRepresentatives;
 
     /**
@@ -539,30 +552,9 @@ class CustomerUser extends ExtendCustomerUser implements
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function serialize()
+    public function __serialize(): array
     {
-        return serialize(
-            [
-                $this->password,
-                $this->salt,
-                $this->username,
-                $this->enabled,
-                $this->confirmed,
-                $this->confirmationToken,
-                $this->id
-            ]
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function unserialize($serialized)
-    {
-        list(
+        return [
             $this->password,
             $this->salt,
             $this->username,
@@ -570,7 +562,20 @@ class CustomerUser extends ExtendCustomerUser implements
             $this->confirmed,
             $this->confirmationToken,
             $this->id
-            ) = unserialize($serialized);
+        ];
+    }
+
+    public function __unserialize(array $serialized): void
+    {
+        [
+            $this->password,
+            $this->salt,
+            $this->username,
+            $this->enabled,
+            $this->confirmed,
+            $this->confirmationToken,
+            $this->id
+        ] = $serialized;
     }
 
     /**
@@ -635,14 +640,6 @@ class CustomerUser extends ExtendCustomerUser implements
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function isAccountNonLocked()
-    {
-        return $this->isEnabled() && $this->isConfirmed();
-    }
-
-    /**
      * @return bool
      */
     public function isConfirmed()
@@ -666,12 +663,14 @@ class CustomerUser extends ExtendCustomerUser implements
      * @param string $username
      * @return CustomerUser
      */
-    public function setUsername($username)
+    public function setUsername($username): self
     {
         parent::setUsername($username);
 
         $this->email = $username;
-        $this->emailLowercase = mb_strtolower($username);
+        $this->emailLowercase = $this->email
+            ? mb_strtolower($this->email)
+            : $this->email;
 
         return $this;
     }
@@ -690,9 +689,11 @@ class CustomerUser extends ExtendCustomerUser implements
      */
     public function setEmail($email)
     {
-        $this->email = $email;
         $this->username = $email;
-        $this->emailLowercase = mb_strtolower($email);
+        $this->email = $email;
+        $this->emailLowercase = $this->email
+            ? mb_strtolower($this->email)
+            : $this->email;
 
         return $this;
     }
@@ -800,19 +801,16 @@ class CustomerUser extends ExtendCustomerUser implements
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getBirthday()
+    public function getBirthday(): ?\DateTime
     {
         return $this->birthday;
     }
 
     /**
-     * @param \DateTime $birthday
+     * @param \DateTime|null $birthday
      * @return CustomerUser
      */
-    public function setBirthday($birthday)
+    public function setBirthday(\DateTime $birthday = null)
     {
         $this->birthday = $birthday;
 
@@ -912,9 +910,9 @@ class CustomerUser extends ExtendCustomerUser implements
     }
 
     /**
-     * @return User
+     * {@inheritdoc}
      */
-    public function getOwner()
+    public function getOwner(): ?User
     {
         return $this->owner;
     }
@@ -1063,7 +1061,7 @@ class CustomerUser extends ExtendCustomerUser implements
     public function getWebsiteSettings(Website $website)
     {
         foreach ($this->settings as $setting) {
-            if ($setting->getWebsite() === $website) {
+            if ($setting->getWebsite()->getId() === $website->getId()) {
                 return $setting;
             }
         }
@@ -1152,8 +1150,6 @@ class CustomerUser extends ExtendCustomerUser implements
      * Invoked before the entity is updated.
      *
      * @ORM\PreUpdate
-     *
-     * @param PreUpdateEventArgs $event
      */
     public function preUpdate(PreUpdateEventArgs $event)
     {
@@ -1162,5 +1158,63 @@ class CustomerUser extends ExtendCustomerUser implements
         if (array_diff_key($event->getEntityChangeSet(), array_flip($excludedFields))) {
             $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
         }
+
+        if (array_intersect_key($event->getEntityChangeSet(), array_flip(['username', 'email', 'password']))) {
+            $this->confirmationToken = null;
+            $this->passwordRequestedAt = null;
+        }
+    }
+
+    /** {@inheritdoc} */
+    public function getEmailFields()
+    {
+        return ['email'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEmailField()
+    {
+        return 'email';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEmailOwner()
+    {
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOrganizations(bool $onlyEnabled = false)
+    {
+        $organizations = new ArrayCollection();
+        if ($this->organization) {
+            if (!$onlyEnabled || $this->organization->isEnabled()) {
+                $organizations->add($this->organization);
+            }
+        }
+
+        return $organizations;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEqualTo(SymfonyUserInterface $user): bool
+    {
+        if (!parent::isEqualTo($user)) {
+            return false;
+        }
+
+        if ($user instanceof CustomerUser && $this->isConfirmed() !== $user->isConfirmed()) {
+            return false;
+        }
+
+        return true;
     }
 }

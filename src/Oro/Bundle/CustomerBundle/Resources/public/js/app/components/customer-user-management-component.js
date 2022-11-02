@@ -1,28 +1,27 @@
 define(function(require) {
     'use strict';
 
-    var CustomerUserManagementComponent;
-    var BaseComponent = require('oroui/js/app/components/base/component');
-    var mediator = require('oroui/js/mediator');
-    var $ = require('jquery');
+    const BaseComponent = require('oroui/js/app/components/base/component');
+    const mediator = require('oroui/js/mediator');
+    const $ = require('jquery');
 
-    CustomerUserManagementComponent = BaseComponent.extend({
+    const CustomerUserManagementComponent = BaseComponent.extend({
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function CustomerUserManagementComponent() {
-            CustomerUserManagementComponent.__super__.constructor.apply(this, arguments);
+        constructor: function CustomerUserManagementComponent(options) {
+            CustomerUserManagementComponent.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             options._sourceElement.find('a').on('click', function(e) {
                 e.preventDefault();
-                var el = $(this);
+                const el = $(this);
                 $.ajax({
-                    url: el.prop('href'),
+                    url: el.attr('href'),
                     type: 'GET',
                     success: function(response) {
                         if (response && response.message) {

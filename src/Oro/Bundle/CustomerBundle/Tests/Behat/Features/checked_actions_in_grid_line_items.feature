@@ -1,6 +1,6 @@
 @fixture-OroCustomerBundle:ActionsInGridLineItemsFixture.yml
 Feature: Checked actions in grid line items
-  ToDo: BAP-16103 Add missing descriptions to the Behat features
+
     # Pay attention to:
     # fonts and spacing
     # total records
@@ -46,27 +46,27 @@ Feature: Checked actions in grid line items
 
     Scenario: Checked actions in grid line items on Address Book page on "All Company Addresses" grid
       Given I signed in as AmandaRCole@example.org on the store frontend
-      And I click "Account"
+      And I follow "Account"
       When I click "Address Book"
-      Then I should see "1 Total Company Addresses"
+      Then I should see "1 Total Company Address"
       And I should see following elements in "Customer Company Addresses Grid":
           | FrontendGridActionRefreshButton |
           | FrontendGridActionResetButton   |
-          | FrontendGridActionFilterButton  |
+          | Frontend Grid Action Filter Button  |
       And I should see following actions for Company_Street_01 in grid:
           | Map    |
           | Edit   |
           | Delete |
 
     Scenario: Checked actions in grid line items on "All Users" grid
-      And I click "Account"
+      And I follow "Account"
       And I click "Users"
       And I should see "11 Total Users"
       And I should see "Create User" button
       And I should see following elements in "Frontend Grid":
           | FrontendGridActionRefreshButton |
           | FrontendGridActionResetButton   |
-          | FrontendGridActionFilterButton  |
+          | Frontend Grid Action Filter Button  |
       And I should see following actions for AmandaRCole@example.org in grid:
           | View |
           | Edit |
@@ -78,7 +78,7 @@ Feature: Checked actions in grid line items
       And I should not see following elements in "FrontendGridBottomToolbar" for "Frontend Grid":
           | FrontendGridActionRefreshButton |
           | FrontendGridActionResetButton   |
-          | FrontendGridActionFilterButton  |
+          | Frontend Grid Action Filter Button  |
       And I select 10 from per page list dropdown in "Frontend Grid"
       And I should see following elements in "Frontend Grid":
           | FrontendGridTopToolbar    |

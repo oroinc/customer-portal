@@ -1,23 +1,13 @@
-parameters:
-    oro_commerce_menu.entity.menu_update.class: 'Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate'
-
-    oro_commerce_menu.menu_update.scope_type: 'menu_frontend_visibility'
-
 services:
-    oro_commerce_menu.namespace_migration_provider:
-        class: 'Oro\Bundle\CommerceMenuBundle\CacheWarmer\NamespaceMigrationProvider'
-        tags:
-            - {name: oro_installer.namespace_migration_provider, priority: 15}
-
     oro_commerce_menu.scope_criteria_provider.customer:
         parent: oro_customer.customer_scope_criteria_provider
         tags:
-            - {name: oro_scope.provider, scopeType: '%oro_commerce_menu.menu_update.scope_type%', priority: 40}
+            - { name: oro_scope.provider, scopeType: menu_frontend_visibility, priority: 40 }
 
     oro_commerce_menu.scope_criteria_provider.customer_group:
         parent: oro_customer.customer_group_scope_criteria_provider
         tags:
-            - {name: oro_scope.provider, scopeType: '%oro_commerce_menu.menu_update.scope_type%', priority: 30}
+            - { name: oro_scope.provider, scopeType: menu_frontend_visibility, priority: 30 }
 
     oro_commerce_menu.menu_update.builder.menu_frontend_visibility:
         class: 'Oro\Bundle\NavigationBundle\Builder\MenuUpdateBuilder'
@@ -35,11 +25,13 @@ services:
 
     oro_commerce_menu.manager.menu_update:
         class: Oro\Bundle\NavigationBundle\Manager\MenuUpdateManager
+        public: true
         arguments:
             - "@doctrine"
             - "@oro_navigation.menu_helper.menu_update"
-            - '%oro_commerce_menu.entity.menu_update.class%'
-            - '%oro_commerce_menu.menu_update.scope_type%'
+            - "@property_accessor"
+            - 'Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate'
+            - 'menu_frontend_visibility'
 
     oro_commerce_menu.menu.condition.config_value_expression_language_provider:
         class: 'Oro\Bundle\CommerceMenuBundle\Menu\Condition\ConfigValueExpressionLanguageProvider'
@@ -61,7 +53,7 @@ services:
         class: 'Oro\Bundle\CommerceMenuBundle\Twig\MenuExtension'
         public: false
         arguments:
-            - '@service_container'
+            - '@oro_platform.twig.service_locator'
         tags:
             - { name: twig.extension }
 
@@ -82,25 +74,37 @@ services:
         arguments:
             - '@oro_scope.scope_manager'
             - '@oro_website.website.provider'
-            - '%oro_commerce_menu.menu_update.scope_type%'
+            - 'menu_frontend_visibility'
+
+    Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerMenuContextProvider:
+        alias: oro_commerce_menu.menu_context_provider.customer
 
     oro_commerce_menu.menu_context_provider.customer:
         class: 'Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerMenuContextProvider'
+        public: true
         arguments:
             - '@oro_website.manager'
 
+    Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerGroupMenuContextProvider:
+        alias: oro_commerce_menu.menu_context_provider.customer_group
+
     oro_commerce_menu.menu_context_provider.customer_group:
         class: 'Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerGroupMenuContextProvider'
+        public: true
         arguments:
             - '@oro_website.manager'
 
     oro_commerce_menu.repository.menu_update:
-        class: 'Oro\Bundle\NavigationBundle\Entity\Repository\MenuUpdateRepository'
+        alias: Oro\Bundle\CommerceMenuBundle\Entity\Repository\MenuUpdateRepository
+
+    Oro\Bundle\CommerceMenuBundle\Entity\Repository\MenuUpdateRepository:
         parent: oro_entity.abstract_repository
         arguments:
-            - '%oro_commerce_menu.entity.menu_update.class%'
+            - 'Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate'
         calls:
             - [ setQueryResultCache, [ '@oro_navigation.menu_update.cache' ] ]
+        tags:
+            - { name: doctrine.repository_service }
 
     oro_commerce_menu.event_listener.menu_update_cache_flusher:
         class: Oro\Bundle\NavigationBundle\EventListener\MenuUpdateCacheFlusher
@@ -108,14 +112,10 @@ services:
             - '@oro_navigation.repository.menu_update'
             - '@oro_navigation.menu_update.cache'
             - '@oro_scope.scope_manager'
-            - '%oro_commerce_menu.menu_update.scope_type%'
+            - 'menu_frontend_visibility'
         tags:
             - { name: kernel.event_listener, event: oro_menu.menu_update_change, method: onMenuUpdateScopeChange }
-
-    oro_commerce_menu.event_listener.pricelist_website_form_view:
-        class: 'Oro\Bundle\CommerceMenuBundle\EventListener\MenuUpdateFormViewListener'
-        tags:
-            - { name: kernel.event_listener, event: oro_ui.scroll_data.before.menu-update-edit, method: onEdit }
+            - { name: kernel.event_listener, event: oro_menu.menu_update_with_scope_change, method: onMenuUpdateWithScopeChange }
 
     oro_commerce_menu.event_listener.frontend_menu_item_listener:
         class: Oro\Bundle\CommerceMenuBundle\EventListener\MenuListFrontendItemNavigationListener
@@ -128,30 +128,25 @@ services:
     oro_commerce_menu.form.extension.menu_update_type:
         class: 'Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateExtension'
         arguments:
-            - "@oro_pricing.entity_listener.customer"
+            - '@oro_web_catalog.web_catalog_provider'
         tags:
             - { name: form.type_extension, extended_type: 'Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType' }
 
     oro_commerce_menu.scope_criteria_provider.website:
         parent: oro_website.website_scope_criteria_provider
         tags:
-            - {name: oro_scope.provider, scopeType: '%oro_commerce_menu.menu_update.scope_type%', priority: 20}
+            - { name: oro_scope.provider, scopeType: menu_frontend_visibility, priority: 20 }
 
     oro_commerce_menu.expression_language.cache:
         public: false
-        parent: oro.cache.abstract
-        calls:
-            - [ setNamespace, [ 'oro_commerce_menu_expression_language' ] ]
-
-    oro_commerce_menu.expression_language.parsed_cache:
-        class: Symfony\Bridge\Doctrine\ExpressionLanguage\DoctrineParserCache
-        arguments:
-            - '@oro_commerce_menu.expression_language.cache'
+        parent: oro.data.cache
+        tags:
+            - { name: 'cache.pool', namespace: 'oro_commerce_menu_expression_language' }
 
     oro_commerce_menu.expression_language:
         class: Symfony\Component\ExpressionLanguage\ExpressionLanguage
         arguments:
-            - '@oro_commerce_menu.expression_language.parsed_cache'
+            - '@oro_commerce_menu.expression_language.cache'
             - []
 
     oro_commerce_menu.builder.menu_display_builder:
@@ -199,3 +194,29 @@ services:
             - '@oro_commerce_menu.user_agent_conditions_evaluator'
         tags:
             - { name: oro_menu.builder, priority: 220 }
+
+    oro_commerce_menu.builder.content_node_target_builder:
+        class: Oro\Bundle\CommerceMenuBundle\Builder\ContentNodeTargetBuilder
+        arguments:
+            - '@oro_web_catalog.request_web_content_scope_provider'
+            - '@oro_scope.scope_manager'
+            - '@oro_locale.helper.localization'
+        tags:
+            - { name: oro_menu.builder, priority: 205 }
+
+    oro_commerce_menu.builder.system_page_target_builder:
+        class: Oro\Bundle\CommerceMenuBundle\Builder\SystemPageTargetBuilder
+        arguments:
+            - '@router'
+            - '@oro_featuretoggle.checker.feature_checker'
+        calls:
+            - ['setLogger', ['@logger']]
+        tags:
+            - { name: oro_menu.builder, priority: 207 }
+
+    oro_commerce_menu.listener.content_node_delete:
+        class: Oro\Bundle\CommerceMenuBundle\EventListener\ContentNodeDeleteListener
+        arguments:
+            - '@oro_navigation.menu_update.cache'
+        tags:
+            - { name: doctrine.event_listener, event: postRemove }

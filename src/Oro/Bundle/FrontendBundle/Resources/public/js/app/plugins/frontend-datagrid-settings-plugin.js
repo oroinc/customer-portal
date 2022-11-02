@@ -1,20 +1,21 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
-    var FrontendDatagridSettingsPlugin;
-    var _ = require('underscore');
-    var tools = require('oroui/js/tools');
-    var ShowComponentAction = require('oro/datagrid/action/show-component-action');
-    var DatagridSettingsPlugin = require('orodatagrid/js/app/plugins/grid/datagrid-settings-plugin');
-    var DatagridSettingView = require('orodatagrid/js/app/views/grid/datagrid-settings-view');
+    const _ = require('underscore');
+    const __ = require('orotranslation/js/translator');
+    const tools = require('oroui/js/tools');
+    const ShowComponentAction = require('oro/datagrid/action/show-component-action');
+    const DatagridSettingsPlugin = require('orodatagrid/js/app/plugins/grid/datagrid-settings-plugin');
+    const DatagridSettingView = require('orodatagrid/js/app/views/grid/datagrid-settings-view');
 
-    var config = require('module').config();
+    let config = require('module-config').default(module.id);
     config = _.extend({
         icon: 'cog',
         wrapperClassName: 'datagrid-settings',
-        label: _.__('oro.datagrid.settings.title'),
+        label: __('oro.datagrid.settings.title'),
+        ariaLabel: __('oro.datagrid.settings.title_aria_label'),
         attributes: {
-            'data-placement': (tools.isMobile() ? 'bottom-end': 'left-start')
+            'data-placement': (tools.isMobile() ? 'bottom-end' : 'left-start')
         }
     }, config);
 
@@ -22,12 +23,12 @@ define(function(require) {
      * @class FrontendDatagridSettingsPlugin
      * @extends DatagridSettingsPlugin
      */
-    FrontendDatagridSettingsPlugin = DatagridSettingsPlugin.extend({
+    const FrontendDatagridSettingsPlugin = DatagridSettingsPlugin.extend({
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         onBeforeToolbarInit: function(toolbarOptions) {
-            var options = {
+            const options = {
                 datagrid: this.main,
                 launcherOptions: _.extend(config, {
                     componentConstructor: toolbarOptions.componentConstructor || DatagridSettingView,

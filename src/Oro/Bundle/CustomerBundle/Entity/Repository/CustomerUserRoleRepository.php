@@ -46,7 +46,7 @@ class CustomerUserRoleRepository extends EntityRepository
         $findResult = $qb
             ->select('customerUser.id')
             ->from('OroCustomerBundle:CustomerUser', 'customerUser')
-            ->innerJoin('customerUser.roles', 'CustomerUserRole')
+            ->innerJoin('customerUser.userRoles', 'CustomerUserRole')
             ->where($qb->expr()->eq('CustomerUserRole', ':CustomerUserRole'))
             ->setParameter('CustomerUserRole', $role)
             ->setMaxResults(1)
@@ -68,7 +68,7 @@ class CustomerUserRoleRepository extends EntityRepository
         $findResult = $qb
             ->select('customerUser')
             ->from('OroCustomerBundle:CustomerUser', 'customerUser')
-            ->innerJoin('customerUser.roles', 'CustomerUserRole')
+            ->innerJoin('customerUser.userRoles', 'CustomerUserRole')
             ->where($qb->expr()->eq('CustomerUserRole', ':CustomerUserRole'))
             ->setParameter('CustomerUserRole', $role)
             ->getQuery()

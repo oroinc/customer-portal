@@ -1,0 +1,430 @@
+{% block __style_book__wrapper_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' wrapper'
+    }) %}
+
+    <div data-page-component-view="orofrontend/js/app/views/dom-relocation-view"></div>
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __style_book__container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' page-container'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="page-area-container">
+            {{ block_widget(block) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block __style_book__header_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-header',
+        'data-sticky': {
+            'autoWidth': true,
+            'toggleClass': 'sticked',
+            'placeholderId': 'style-book-sticky-header'
+        },
+        'data-sticky-target': 'top-sticky-panel'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __style_book__header_inner_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-header__inner'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __style_book__header_side_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-header__side'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __style_book__header_base_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-header__base'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __style_book__mobile_actions_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-header__mobile_actions'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __style_book__mobile_menu_action_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'data-page-component-viewport': {
+            viewport: {
+                maxScreenType: 'tablet',
+            },
+            view: 'orostylebook/js/style-book/toggle-action-view',
+            target: '[data-role=style-book-sidebar]'
+        }
+    }) %}
+
+    {{ parent_block_widget(block) }}
+{% endblock %}
+
+{% block __style_book__groups_menu_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-menu style-book-menu--main',
+        'data-dom-relocation-options': {
+            responsive: [
+                {
+                    viewport: {
+                        maxScreenType: 'tablet'
+                    },
+                    moveTo: '[data-header-menu-container]'
+                }
+            ]
+        }
+    }) %}
+
+    <ul {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </ul>
+{% endblock %}
+
+{% block __style_book__sticky_panel_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'data-page-component-module': 'oroui/js/app/components/view-component',
+        'data-page-component-options': {
+            'view': 'orofrontend/default/js/app/views/sticky-panel-view'
+        },
+        'data-sticky-name': 'top-sticky-panel',
+        'data-stick-to': 'top',
+        '~class': ' sticky-panel'
+    }) %}
+    <div{{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __style_book__sticky_panel_content_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' sticky-panel__content'
+    }) %}
+    <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+{% endblock %}
+
+{% block __style_book__sticky_header_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'id': 'style-book-sticky-header',
+        '~class': ' style-book-sticky-header'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __style_book__sticky_element_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-sticky-elements-nav'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __style_book__sticky_element_sidebar_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'id': 'style-book-sticky-elements-nav',
+        '~class': ' style-book-sticky-elements-nav__sidebar'
+    }) %}
+    <div {{ block('block_attributes') }}></div>
+{% endblock %}
+
+{% block __style_book__main_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-main'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __style_book__content_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' page-content'
+    }) %}
+
+    {% if blocks.style_book_sidebar_container is defined %}
+        {% set attr = layout_attr_defaults(attr, {
+        '~class': ' page-content--has-sidebar'
+        }) %}
+    {% endif %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __style_book__page_title_container_widget %}
+    {% set content = block_widget(block)|trim %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-page-title'
+    }) %}
+
+    {% if content|length %}
+        <h1{{ block('block_attributes') }}>{{ content|raw }}</h1>
+    {% endif %}
+{% endblock %}
+
+{% block __style_book__page_description_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-page-description'
+    }) %}
+
+    {% if description is defined %}
+        <div {{ block('block_attributes') }}>
+            {{ description|trans|raw }}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block __style_book__page_title_widget %}
+    {{ block_widget(block) }}
+{% endblock %}
+
+{# StyleBook BlockTypes #}
+{% block group_element_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-group-element',
+        'data-style-book-element': {
+            id: anchor,
+            label: label
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <h2 id="{{ anchor }}" class="style-book-title">{{ label|trans|raw }}</h2>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block group_element_item_widget %}
+    <div class="style-book-group-element__item">
+    {% if label and anchor %}
+        {% set attr = layout_attr_defaults(attr, {
+            'id': anchor,
+            '~class': ' style-book-group-element__title',
+            'data-style-book-element': {
+                id: anchor,
+                label: label,
+                subTreeLvl: subTreeLvl
+            }
+        }) %}
+        <h3 {{ block('block_attributes') }}>{{ label|trans|raw }}</h3>
+    {% endif %}
+    {% if description %}
+        <div class="style-book-group-element__description">
+            {{ description|trans|raw }}
+        </div>
+    {% endif %}
+
+    {% set content = block_widget(block) %}
+
+    {% if source == true %}
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-{{ source_language }}">
+                    {%- apply spaceless -%}
+                        {{ content|trim|escape }}
+                    {%- endapply -%}
+                </code>
+            </pre>
+        </div>
+    {% endif %}
+
+    {% if preview == true %}
+        <div class="style-book-group-element__preview">
+            {{ content|raw }}
+        </div>
+    {% endif %}
+    </div>
+{% endblock %}
+
+{% block groups_menu_item_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-menu__item' ~ (isActive ? ' active')
+    }) %}
+    <li {{ block('block_attributes') }}>
+        <a href="{{ path('oro_stylebook_group', {group: group}) }}" class="style-book-menu__link">
+            <span class="style-book-menu__text">{{ label|trans|raw }}</span>
+       </a>
+    </li>
+{% endblock %}
+
+{% block group_tabs_widget %}
+    {% set options = {
+        useDropdown: true,
+        verticalTabs: false,
+        subtitle: false
+    }|merge(options|default({})) %}
+
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' tab-collection',
+        'data-page-component-module': 'oroui/js/app/components/tabs-component',
+        'data-page-component-options': options
+    }) %}
+
+    {% if tabs|length %}
+        <div {{ block('block_attributes') }}>
+            <ul class="nav nav-tabs nav-tabs-dropdown" role="tablist">
+                {% set uniqueId = 'dropdown-'|uniqid %}
+
+                {% for item in tabs %}
+                    <li class="nav-item tab">
+                        <a id="{{ item.anchor ~ uniqueId ~ '-tab' }}"
+                           href="#{{ item.anchor ~ uniqueId }}"
+                           class="nav-link {{ item.active ? ' active' : ''}}"
+                           data-toggle="tab"
+                           role="tab"
+                           aria-selected="{{ item.active ? ' active' : 'false'}}"
+                           aria-controls="{{ item.anchor ~ uniqueId }}"
+                        >{{ item.label|trans|raw }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <div class="tab-content">
+                {% for item in tabs %}
+                    <div id="{{ item.anchor ~ uniqueId }}"
+                         class="tab-pane{{ item.active ? ' active' : '' }}"
+                         role="tabpanel"
+                         aria-labelledby="{{ item.anchor ~ uniqueId ~ '-tab' }}"
+                    >
+                        {{ block('_' ~ item.widget ~ '_widget') }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block group_js_element_item_widget %}
+    <div class="style-book-group-element__item">
+        {% if label and anchor %}
+            {% set attr = layout_attr_defaults(attr, {
+                'id': anchor,
+                '~class': ' style-book-group-element__title',
+                'data-style-book-element': {
+                    id: anchor,
+                    label: label,
+                    subTreeLvl: subTreeLvl
+                }
+            }) %}
+            <h3 {{ block('block_attributes') }}>{{ label|trans|raw }}</h3>
+        {% endif %}
+        {% if description %}
+            <div class="style-book-group-element__description">
+                {{ description|trans|raw }}
+            </div>
+        {% endif %}
+
+        {% set content = block_widget(block) %}
+
+        {% if source == true %}
+            <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-{{ source_language }}">
+                    {%- apply spaceless -%}
+                        {{ content|trim|escape }}
+                    {%- endapply -%}
+                </code>
+            </pre>
+            </div>
+        {% endif %}
+
+        {% if preview == true %}
+            {{ content|raw }}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block group_list_autogenerate_widget %}
+    {% set achorPrefix = achorPrefix|default('') %}
+    {% set list = list|default([]) %}
+
+    {% for url in list %}
+        {% set context = url|split('/')|slice(0, -1)|join('/') ~ '/' %}
+        {% set content = source(url, ignore_missing = true) %}
+
+        {% if content %}
+            {% set contentDirtArray = content|
+                trim|
+                oro_preg_replace('/\\/\\/.*/', '')|
+                oro_preg_replace('/\\/\\*.*\\*\\//', '')|
+                trim|
+                split('\n')
+            %}
+
+            {% for item in contentDirtArray %}
+                {% set item = item|trim|oro_preg_replace('/@import\\s+[\'\"](\\S+)[\'\"];/', '$1') %}
+                {% set title = item|split('/')|slice(-1)[0] %}
+                {% set source = source(context ~ item ~ '.scss', ignore_missing = true) %}
+
+                {% if source %}
+                    <div class="style-book-group-element__item">
+                        <h3
+                            id="{{ achorPrefix ~ title }}"
+                            class="style-book-group-element__title"
+                            data-style-book-element="{{ {
+                                id: achorPrefix ~ title,
+                                label: 'oro_stylebook.autogenerate.' ~ achorPrefix ~ title ~ '.title',
+                                subTreeLvl: 1
+                            }|json_encode }}"
+                        >{{ title }}</h3>
+
+                        <div class="style-book-group-element__source">
+                            <pre>
+                                <code class="style-book-group-element__code language-scss">
+                                    {%- apply spaceless -%}
+                                        {{ source|trim|escape }}
+                                    {%- endapply -%}
+                                </code>
+                            </pre>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block file_printer_widget %}
+    {% if sourcePath is defined %}
+        {% set source = source(sourcePath, ignore_missing = true) %}
+        {%- apply spaceless -%}
+            {{ source|trim|raw }}
+        {%- endapply -%}
+    {% endif %}
+{% endblock %}

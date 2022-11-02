@@ -4,23 +4,16 @@
     display: inline-block;
     vertical-align: middle;
 
-    padding: 16px 8px 15px 8px;
+    // has the same height as default button or input
+    padding: $input-padding;
+    padding-left: 0;
+    padding-right: 0;
 
-    cursor: pointer;
-
-    &:before {
-        content: '';
-
-        display: block;
-
-        border-top: 6px solid get-color('additional', 'dark');
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-    }
+    line-height: $base-ui-element-line-height;
 
     &.disabled {
-        cursor: default;
-
-        opacity: .5;
+        @include base-disabled-style(.5, true) {
+            cursor: default;
+        }
     }
 }

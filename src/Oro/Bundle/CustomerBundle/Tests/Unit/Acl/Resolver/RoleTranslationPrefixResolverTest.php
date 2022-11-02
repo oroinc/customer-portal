@@ -11,47 +11,36 @@ use Oro\Bundle\UserBundle\Entity\UserInterface;
 class RoleTranslationPrefixResolverTest extends \PHPUnit\Framework\TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface */
-    protected $tokenAccessor;
+    private $tokenAccessor;
 
     /** @var RoleTranslationPrefixResolver */
-    protected $resolver;
+    private $resolver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
         $this->resolver = new RoleTranslationPrefixResolver($this->tokenAccessor);
     }
 
-    protected function tearDown()
-    {
-        unset($this->resolver);
-    }
-
     /**
      * @dataProvider getPrefixDataProvider
-     *
-     * @param UserInterface|string|null $loggedUser
-     * @param string|null $expectedPrefix
      */
-    public function testGetPrefix($loggedUser, $expectedPrefix = null)
+    public function testGetPrefix(UserInterface|string|null $loggedUser, string $expectedPrefix = null)
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')
             ->willReturn($loggedUser);
 
         if (!$expectedPrefix) {
-            $this->expectException('\RuntimeException');
+            $this->expectException(\RuntimeException::class);
             $this->expectExceptionMessage('This method must be called only for logged User or CustomerUser');
         }
 
         $this->assertEquals($expectedPrefix, $this->resolver->getPrefix());
     }
 
-    /**
-     * @return array
-     */
-    public function getPrefixDataProvider()
+    public function getPrefixDataProvider(): array
     {
         return [
             [new User, RoleTranslationPrefixResolver::BACKEND_PREFIX],

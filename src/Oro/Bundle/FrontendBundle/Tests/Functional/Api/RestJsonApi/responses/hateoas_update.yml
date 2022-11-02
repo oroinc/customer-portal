@@ -1,0 +1,17 @@
+data:
+    type: testproducts
+    id: '{productId}'
+    links:
+        self: '{baseUrl}/testproducts/{productId}'
+    attributes:
+        name: 'Updated Name'
+    relationships:
+        productType:
+            links:
+                self: '{baseUrl}/testproducts/{productId}/relationships/productType'
+                related: '{baseUrl}/testproducts/{productId}/productType'
+            data:
+                type: testproducttypes
+                id: '<toString(@product_type1->name)>'
+links:
+    self: '{baseUrl}/testproducts'

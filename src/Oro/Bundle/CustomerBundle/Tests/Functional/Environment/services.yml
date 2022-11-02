@@ -1,7 +1,0 @@
-services:
-    oro_customer.tests.api.frontend.handle_special_identifiers:
-        class: Oro\Bundle\CustomerBundle\Tests\Functional\Environment\Api\Processor\HandleSpecialIdentifiers
-        arguments:
-            - '@security.token_storage'
-        tags:
-            - { name: oro.api.processor, action: get, group: resource_check, requestType: frontend&rest, class: Oro\Bundle\ApiBundle\Tests\Functional\Environment\Model\TestUnaccessibleModel }

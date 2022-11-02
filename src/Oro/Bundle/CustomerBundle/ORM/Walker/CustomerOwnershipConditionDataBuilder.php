@@ -6,46 +6,34 @@ use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Acl\Domain\OneShotIsGrantedObserver;
 use Oro\Bundle\SecurityBundle\Acl\Group\AclGroupProviderInterface;
-use Oro\Bundle\SecurityBundle\Acl\Voter\AclVoter;
-use Oro\Bundle\SecurityBundle\ORM\Walker\AbstractOwnershipConditionDataBuilder;
+use Oro\Bundle\SecurityBundle\Acl\Voter\AclVoterInterface;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclConditionDataBuilderInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProviderInterface;
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Allows access to to entities with frontend ownerwhip with deep access levels
+ * Allows access to entities with frontend ownership with deep access levels.
  */
-class CustomerOwnershipConditionDataBuilder extends AbstractOwnershipConditionDataBuilder
+class CustomerOwnershipConditionDataBuilder implements AclConditionDataBuilderInterface
 {
-    /** @var AclConditionDataBuilderInterface */
-    protected $ownerConditionBuilder;
+    protected AuthorizationCheckerInterface $authorizationChecker;
+    protected TokenStorageInterface $tokenStorage;
+    protected OwnershipMetadataProviderInterface $metadataProvider;
+    protected AclConditionDataBuilderInterface $ownerConditionBuilder;
+    protected AclVoterInterface $aclVoter;
+    protected OwnerTreeProviderInterface $treeProvider;
+    protected AclGroupProviderInterface $aclGroupProvider;
 
-    /** @var AclVoter */
-    protected $aclVoter;
-
-    /** @var OwnerTreeProviderInterface */
-    protected $treeProvider;
-
-    /** @var AclGroupProviderInterface */
-    protected $aclGroupProvider;
-
-    /**
-     * @param AuthorizationCheckerInterface      $authorizationChecker
-     * @param TokenStorageInterface              $tokenStorage
-     * @param OwnershipMetadataProviderInterface $metadataProvider
-     * @param OwnerTreeProviderInterface         $treeProvider
-     * @param AclVoter                           $aclVoter
-     * @param AclConditionDataBuilderInterface   $ownerConditionBuilder
-     * @param AclGroupProviderInterface          $aclGroupProvider
-     */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         TokenStorageInterface $tokenStorage,
         OwnershipMetadataProviderInterface $metadataProvider,
         OwnerTreeProviderInterface $treeProvider,
-        AclVoter $aclVoter,
+        AclVoterInterface $aclVoter,
         AclConditionDataBuilderInterface $ownerConditionBuilder,
         AclGroupProviderInterface $aclGroupProvider
     ) {
@@ -61,7 +49,7 @@ class CustomerOwnershipConditionDataBuilder extends AbstractOwnershipConditionDa
     /**
      * {@inheritDoc}
      */
-    public function getAclConditionData($entityClassName, $permissions = 'VIEW')
+    public function getAclConditionData(string $entityClassName, string|array $permissions = 'VIEW'): ?array
     {
         $constraint = $this->ownerConditionBuilder->getAclConditionData($entityClassName, $permissions);
 
@@ -90,15 +78,9 @@ class CustomerOwnershipConditionDataBuilder extends AbstractOwnershipConditionDa
         return $constraint;
     }
 
-    /**
-     * @param FrontendOwnershipMetadata $metadata
-     * @param int $accessLevel
-     *
-     * @return array
-     */
-    protected function getConstraintForAccessLevel(FrontendOwnershipMetadata $metadata, $accessLevel)
+    protected function getConstraintForAccessLevel(FrontendOwnershipMetadata $metadata, int $accessLevel): array
     {
-        if (!in_array($accessLevel, [AccessLevel::LOCAL_LEVEL, AccessLevel::DEEP_LEVEL], true)) {
+        if (AccessLevel::LOCAL_LEVEL !== $accessLevel && AccessLevel::DEEP_LEVEL !== $accessLevel) {
             return [];
         }
 
@@ -115,13 +97,31 @@ class CustomerOwnershipConditionDataBuilder extends AbstractOwnershipConditionDa
         ];
     }
 
-    /**
-     * @param array $constraint
-     *
-     * @return bool
-     */
-    private function isAccessAlreadyDenied(array $constraint)
+    private function isAccessAlreadyDenied(array $constraint): bool
     {
         return array_key_exists(1, $constraint) && $constraint[1] === null;
+    }
+
+    protected function isEntityGranted(string|array $permissions, string $entityType): bool
+    {
+        return $this->authorizationChecker->isGranted(
+            $permissions,
+            new ObjectIdentity('entity', $entityType)
+        );
+    }
+
+    protected function getUser(): ?UserInterface
+    {
+        $token = $this->tokenStorage->getToken();
+        if (!$token) {
+            return null;
+        }
+
+        $user = $token->getUser();
+        if (!is_object($user) || !is_a($user, $this->metadataProvider->getUserClass())) {
+            return null;
+        }
+
+        return $user;
     }
 }

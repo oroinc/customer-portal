@@ -1,0 +1,103 @@
+layout:
+    imports:
+        -
+            id: style_book_menu
+            root: __groups_menu
+            namespace: style_book_menu
+    actions:
+        - '@setBlockTheme':
+            themes: 'layout.html.twig'
+
+        - '@remove':
+            id: wrapper
+
+        - '@add':
+            id: __styles
+            parentId: head
+            blockType: style
+            options:
+                src: '=data["theme"].getStylesOutput(context["theme"], "stylebook_styles")'
+
+        - '@add':
+            id: __init_code_highlighter
+            parentId: body
+            blockType: script
+            options:
+                src: '=data["asset"].getUrl("build/" ~ context["theme"] ~ "/stylebook-highlighter.js")'
+
+        - '@addTree':
+            items:
+                __wrapper:
+                    blockType: container
+                __container:
+                    blockType: container
+                __header:
+                    blockType: container
+                __header_inner:
+                    blockType: container
+                __header_side:
+                    blockType: container
+                __logo:
+                    blockType: logo
+                    options:
+                        route: 'oro_stylebook'
+                __header_base:
+                    blockType: container
+                __mobile_actions:
+                    blockType: container
+                __mobile_menu_action:
+                    blockType: button
+                    options:
+                        type: button
+                        icon: navicon
+                        attr:
+                            class: 'btn btn--default'
+                __groups_menu:
+                    blockType: container
+                __sticky_panel:
+                    blockType: container
+                __sticky_panel_content:
+                    blockType: container
+                __sticky_header:
+                    blockType: container
+                __sticky_element:
+                    blockType: container
+                __sticky_element_sidebar:
+                    blockType: container
+                __main:
+                    blockType: container
+                __content:
+                    blockType: container
+                __page_description:
+                    blockType: container
+                    prepend: true
+                __page_title_container:
+                    blockType: container
+                    prepend: true
+                __page_title:
+                    blockType: page_title
+                    options:
+                        defaultValue: ~
+                        value: '=defaultValue'
+            tree:
+                __root:
+                    __wrapper:
+                        __container:
+                            __header:
+                                __header_inner:
+                                    __header_side:
+                                        __logo: ~
+                                    __header_base:
+                                        __mobile_actions:
+                                            __mobile_menu_action: ~
+                                        __groups_menu: ~
+                            __sticky_panel:
+                                __sticky_panel_content:
+                                    __sticky_header: ~
+                                    __sticky_element:
+                                        __sticky_element_sidebar: ~
+                            __main:
+                                __content:
+                                    __page_description: ~
+                                    __page_title_container:
+                                        __page_title: ~

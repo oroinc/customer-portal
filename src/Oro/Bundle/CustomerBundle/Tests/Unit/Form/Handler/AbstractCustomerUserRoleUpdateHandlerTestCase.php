@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -15,6 +15,7 @@ use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclPrivilegeRepository;
 use Oro\Bundle\SecurityBundle\Filter\AclPrivilegeConfigurableFilter;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainOwnershipMetadataProvider;
+use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
@@ -26,44 +27,28 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
 {
     use EntityTrait;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|FormFactory
-     */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|FormFactory */
     protected $formFactory;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|AclManager
-     */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|AclManager */
     protected $aclManager;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|AclPrivilegeRepository
-     */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|AclPrivilegeRepository */
     protected $privilegeRepository;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|ChainOwnershipMetadataProvider
-     */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|ChainOwnershipMetadataProvider */
     protected $chainMetadataProvider;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|ConfigProvider
-     */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|ConfigProvider */
     protected $ownershipConfigProvider;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry
-     */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry */
     protected $managerRegistry;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|DoctrineHelper
-     */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|DoctrineHelper */
     protected $doctrineHelper;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|CustomerUserRoleRepository
-     */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|CustomerUserRoleRepository */
     protected $roleRepository;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|AclCacheInterface */
@@ -72,83 +57,47 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
     /** @var \PHPUnit\Framework\MockObject\MockObject|AclPrivilegeConfigurableFilter */
     protected $configurableFilter;
 
-    /**
-     * @var array
-     */
-    protected $privilegeConfig = [
+    protected array $privilegeConfig = [
         'entity' => ['types' => ['entity'], 'fix_values' => false, 'show_default' => true],
         'action' => ['types' => ['action'], 'fix_values' => false, 'show_default' => true],
     ];
 
-    /**
-     * @var array
-     */
-    protected $permissionNames = [
+    protected array $permissionNames = [
         'entity' => ['entity_name'],
         'action' => ['action_name'],
     ];
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->formFactory = $this->getMockBuilder(FormFactory::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->aclManager = $this->getMockBuilder(AclManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->privilegeRepository =
-            $this->getMockBuilder(AclPrivilegeRepository::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-
-        $this->chainMetadataProvider =
-            $this->getMockBuilder(ChainOwnershipMetadataProvider::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-
-        $this->ownershipConfigProvider =
-            $this->getMockBuilder(ConfigProvider::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-
-        $this->roleRepository =
-            $this->getMockBuilder(CustomerUserRoleRepository::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-
+        $this->formFactory = $this->createMock(FormFactory::class);
+        $this->aclManager = $this->createMock(AclManager::class);
+        $this->privilegeRepository = $this->createMock(AclPrivilegeRepository::class);
+        $this->chainMetadataProvider = $this->createMock(ChainOwnershipMetadataProvider::class);
+        $this->ownershipConfigProvider = $this->createMock(ConfigProvider::class);
+        $this->roleRepository = $this->createMock(CustomerUserRoleRepository::class);
         $this->managerRegistry = $this->createMock(ManagerRegistry::class);
 
         $this->doctrineHelper = $this->getMockBuilder(DoctrineHelper::class)
             ->setConstructorArgs([$this->managerRegistry])
             ->getMock();
 
-        $this->doctrineHelper->expects($this->any())
+        $this->doctrineHelper->expects(self::any())
             ->method('getEntityRepository')
             ->willReturn($this->roleRepository);
 
-        $this->aclCache = $this->getMockBuilder(AclCacheInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->aclCache = $this->createMock(AclCacheInterface::class);
 
         $this->configurableFilter = $this->createMock(AclPrivilegeConfigurableFilter::class);
-        $this->configurableFilter->expects($this->any())
+        $this->configurableFilter->expects(self::any())
             ->method('filter')
             ->willReturnCallback(function ($privileges) {
                 return $privileges;
             });
     }
 
-    /**
-     * @return AbstractCustomerUserRoleHandler
-     */
-    abstract protected function getHandler();
+    abstract protected function getHandler(): AbstractCustomerUserRoleHandler;
 
-    /**
-     * @return array
-     */
-    abstract public function processWithCustomerProvider();
+    abstract public function processWithCustomerProvider(): array;
 
     /**
      * @param CustomerUserRole $role
@@ -163,20 +112,21 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
      */
     public function testProcessWithCustomer(
         CustomerUserRole $role,
-        $newCustomer,
+        Customer $newCustomer,
         array $appendUsers,
         array $removedUsers,
         array $assignedUsers,
         array $expectedUsersWithRole,
         array $expectedUsersWithoutRole,
-        $changeCustomerProcessed = true
+        bool $changeCustomerProcessed = true
     ) {
         $request = new Request();
         $request->setMethod('POST');
 
-        /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
         $requestStack = $this->createMock(RequestStack::class);
-        $requestStack->expects($this->once())->method('getCurrentRequest')->willReturn($request);
+        $requestStack->expects(self::once())
+            ->method('getCurrentRequest')
+            ->willReturn($request);
 
         $this->setUpMocksForProcessWithCustomer(
             $role,
@@ -193,26 +143,24 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
 
         $objectManager = $this->createMock(ObjectManager::class);
 
-        $objectManager->expects($this->any())
+        $objectManager->expects(self::any())
             ->method('persist')
-            ->willReturnCallback(
-                function ($entity) use (&$persistedUsers) {
-                    if ($entity instanceof CustomerUser) {
-                        $persistedUsers[$entity->getEmail()] = $entity;
-                    }
+            ->willReturnCallback(function ($entity) use (&$persistedUsers) {
+                if ($entity instanceof CustomerUser) {
+                    $persistedUsers[$entity->getEmail()] = $entity;
                 }
-            );
+            });
 
-        $this->managerRegistry->expects($this->any())
+        $this->managerRegistry->expects(self::any())
             ->method('getManagerForClass')
             ->with(CustomerUserRole::class)
             ->willReturn($objectManager);
 
         $handlerInstance = $this->getHandler();
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|AbstractCustomerUserRoleHandler $handler */
+        /** @var AbstractCustomerUserRoleHandler|\PHPUnit\Framework\MockObject\MockObject $handler */
         $handler = $this->getMockBuilder(get_class($handlerInstance))
-            ->setMethods(['processPrivileges'])
+            ->onlyMethods(['processPrivileges'])
             ->setConstructorArgs([$this->formFactory, $this->aclCache, $this->privilegeConfig])
             ->getMock();
         $this->setRequirementsForHandler($handler);
@@ -223,19 +171,16 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         $handler->process($role);
 
         foreach ($expectedUsersWithRole as $expectedUser) {
-            $this->assertContains($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
-            $this->assertEquals($persistedUsers[$expectedUser->getEmail()]->getRole($role->getRole()), $role);
+            self::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
+            self::assertEquals($persistedUsers[$expectedUser->getEmail()]->getUserRole($role->getRole()), $role);
         }
 
         foreach ($expectedUsersWithoutRole as $expectedUser) {
-            $this->assertContains($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
-            $this->assertEquals($persistedUsers[$expectedUser->getEmail()]->getRole($role->getRole()), null);
+            self::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
+            self::assertEquals($persistedUsers[$expectedUser->getEmail()]->getUserRole($role->getRole()), null);
         }
     }
 
-    /**
-     * @param AbstractCustomerUserRoleHandler $handler
-     */
     protected function setRequirementsForHandler(AbstractCustomerUserRoleHandler $handler)
     {
         $handler->setAclManager($this->aclManager);
@@ -252,21 +197,22 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
      * @param int $numberOfUsers
      * @param Customer $customer
      * @param int $offset
-     * @return \Oro\Bundle\CustomerBundle\Entity\CustomerUser[]
+     *
+     * @return CustomerUser[]
      */
     protected function createUsersWithRole(
         CustomerUserRole $role,
-        $numberOfUsers,
+        int $numberOfUsers,
         Customer $customer = null,
-        $offset = 0
-    ) {
+        int $offset = 0
+    ): array {
         /** @var CustomerUser[] $users */
         $users = [];
         for ($i = 0; $i < $numberOfUsers; $i++) {
             $userId = $offset + $i + 1;
             $user = new CustomerUser();
             $user->setUsername('user_id_' . $userId . '_role_' . $role->getRole());
-            $user->setRoles([$role]);
+            $user->setUserRoles([$role]);
             $user->setCustomer($customer);
             $users[$userId] = $user;
         }
@@ -274,81 +220,63 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         return $users;
     }
 
-    /**
-     * @param string   $role
-     * @param int|null $id
-     * @return CustomerUserRole
-     */
-    protected function createCustomerUserRole($role, $id = null)
+    protected function createCustomerUserRole(string $role, int $id = null): CustomerUserRole
     {
         $entity = new CustomerUserRole($role);
-        if ($id) {
-            $reflection = new \ReflectionProperty(CustomerUserRole::class, 'id');
-            $reflection->setAccessible(true);
-            $reflection->setValue($entity, $id);
-        }
+        ReflectionUtil::setId($entity, $id);
 
         return $entity;
     }
 
-    /**
-     * @param CustomerUserRole $role
-     * @param array            $appendUsers
-     * @param array            $removedUsers
-     * @param array            $assignedUsers
-     * @param Customer|null    $newCustomer
-     * @param bool             $changeCustomerProcessed
-     */
     protected function setUpMocksForProcessWithCustomer(
         CustomerUserRole $role,
         array $appendUsers,
         array $removedUsers,
         array $assignedUsers,
-        $newCustomer,
-        $changeCustomerProcessed
-    ) {
+        ?Customer $newCustomer,
+        bool $changeCustomerProcessed
+    ): void {
         $appendForm = $this->createMock(FormInterface::class);
-        $appendForm->expects($this->once())
+        $appendForm->expects(self::once())
             ->method('getData')
             ->willReturn($appendUsers);
 
         $removeForm = $this->createMock(FormInterface::class);
-        $removeForm->expects($this->once())
+        $removeForm->expects(self::once())
             ->method('getData')
             ->willReturn($removedUsers);
 
         $form = $this->createMock(FormInterface::class);
-        $form->expects($this->once())
+        $form->expects(self::any())
+            ->method('getName')
+            ->willReturn('formName');
+        $form->expects(self::once())
             ->method('submit')
-            ->willReturnCallback(
-                function () use ($role, $newCustomer) {
-                    $role->setCustomer($newCustomer);
-                    $role->setOrganization($newCustomer->getOrganization());
-                }
-            );
-        $form->expects($this->once())
+            ->willReturnCallback(function () use ($role, $newCustomer) {
+                $role->setCustomer($newCustomer);
+                $role->setOrganization($newCustomer->getOrganization());
+            });
+        $form->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
-        $form->expects($this->any())
+        $form->expects(self::any())
             ->method('get')
-            ->willReturnMap(
-                [
-                    ['appendUsers', $appendForm],
-                    ['removeUsers', $removeForm],
-                ]
-            );
+            ->willReturnMap([
+                ['appendUsers', $appendForm],
+                ['removeUsers', $removeForm],
+            ]);
 
-        $this->formFactory->expects($this->once())
+        $this->formFactory->expects(self::once())
             ->method('create')
             ->willReturn($form);
 
-        $this->roleRepository->expects($changeCustomerProcessed ? $this->once() : $this->never())
+        $this->roleRepository->expects($changeCustomerProcessed ? self::once() : self::never())
             ->method('getAssignedUsers')
             ->with($role)
             ->willReturn($assignedUsers);
     }
 
-    protected function prepareUsersAndRoles()
+    protected function prepareUsersAndRoles(): array
     {
         $oldCustomer = $this->getEntity(Customer::class, ['id' => 1]);
         $newCustomer1 = $this->getEntity(Customer::class, ['id' => 10]);

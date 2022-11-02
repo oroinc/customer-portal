@@ -2,20 +2,20 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleType;
 
 class CustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
 {
     /**
-     * @inheritdoc
      * @dataProvider submitDataProvider
      */
     public function testSubmit(
         array $options,
-        $defaultData,
-        $viewData,
+        ?CustomerUserRole $defaultData,
+        ?CustomerUserRole $viewData,
         array $submittedData,
-        $expectedData
+        ?CustomerUserRole $expectedData
     ) {
         $form = $this->factory->create(CustomerUserRoleType::class, $defaultData, $options);
 
@@ -25,7 +25,7 @@ class CustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
         $this->assertTrue($form->has('selfManaged'));
 
         $formConfig = $form->getConfig();
-        $this->assertEquals(self::DATA_CLASS, $formConfig->getOption('data_class'));
+        $this->assertEquals(CustomerUserRole::class, $formConfig->getOption('data_class'));
 
         $this->assertFalse($formConfig->getOption('hide_self_managed'));
 
@@ -34,9 +34,15 @@ class CustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
 
         $form->submit($submittedData);
         $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
 
         $actualData = $form->getData();
-        $this->assertEquals($expectedData, $actualData);
+
+        $actualDataWithDummyRole = clone $actualData;
+        $actualDataWithDummyRole->setRole('', false);
+        $expectedDataWithDummyRole = clone $expectedData;
+        $expectedDataWithDummyRole->setRole('', false);
+        $this->assertEquals($actualDataWithDummyRole, $expectedDataWithDummyRole);
 
         if ($defaultData && $defaultData->getRole()) {
             $this->assertEquals($expectedData->getRole(), $actualData->getRole());
@@ -46,11 +52,11 @@ class CustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
     }
 
     /**
-     * Create form type
+     * {@inheritDoc}
      */
-    protected function createCustomerUserRoleFormTypeAndSetDataClass()
+    protected function createCustomerUserRoleFormTypeAndSetDataClass(): void
     {
         $this->formType = new CustomerUserRoleType();
-        $this->formType->setDataClass(static::DATA_CLASS);
+        $this->formType->setDataClass(CustomerUserRole::class);
     }
 }

@@ -18,8 +18,7 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
 
     public function testConfigureOptions()
     {
-        /* @var $resolver \PHPUnit\Framework\MockObject\MockObject|OptionsResolver */
-        $resolver = $this->createMock('Symfony\Component\OptionsResolver\OptionsResolver');
+        $resolver = $this->createMock(OptionsResolver::class);
         $resolver->expects($this->once())
             ->method('setDefaults')
             ->with(
@@ -52,17 +51,22 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
      * @param array $defaultData
      * @param array $submittedData
      * @param bool $isValid
-     * @param array|null $expectedData
+     * @param array $expectedData
      */
-    public function testSubmit(array $defaultData, array $submittedData, $isValid = false, $expectedData = null)
-    {
+    public function testSubmit(
+        array $defaultData,
+        array $submittedData,
+        bool $isValid = false,
+        array $expectedData = []
+    ) {
         $form = $this->factory->create(CustomerUserMultiSelectType::class, $defaultData, []);
 
         $this->assertEquals($defaultData, $form->getData());
 
         $form->submit($submittedData);
 
-        $this->assertEquals($isValid, $form->isValid());
+        $this->assertEquals($isValid, $form->isValid(), $form->getErrors(true));
+        $this->assertTrue($form->isSynchronized());
         $this->assertEquals($expectedData, $form->getData());
     }
 

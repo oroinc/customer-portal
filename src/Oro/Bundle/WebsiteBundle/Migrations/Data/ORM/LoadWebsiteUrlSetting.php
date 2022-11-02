@@ -3,7 +3,7 @@
 namespace Oro\Bundle\WebsiteBundle\Migrations\Data\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -22,9 +22,6 @@ class LoadWebsiteUrlSetting extends AbstractFixture implements ContainerAwareInt
         $this->container = $container;
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
     public function load(ObjectManager $manager)
     {
         $configManager = $this->container->get('oro_config.global');

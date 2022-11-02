@@ -2,134 +2,105 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Functional;
 
+use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserACLData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class GuestAccessTest extends WebTestCase
 {
-    /**
-     * @internal
-     */
-    const CONFIG_GUEST_ACCESS_ENABLED = 'oro_frontend.guest_access_enabled';
+    use ConfigManagerAwareTestTrait;
 
-    /**
-     * @internal
-     */
-    const WEB_BACKEND_ = '/admin/user/login';
-
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
-
         $this->loadFixtures([LoadCustomerUserACLData::class]);
-
         $this->setGuestAccess(false);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->setGuestAccess(true);
     }
 
-    public function testBackOfficeIsAccessible()
+    private function setGuestAccess(bool $guestAccessEnabled): void
+    {
+        $configManager = self::getConfigManager();
+        $configManager->set('oro_frontend.guest_access_enabled', $guestAccessEnabled);
+        $configManager->flush();
+    }
+
+    private function getBackOfficeLoginUrl(): string
+    {
+        return $this->getUrl('oro_user_security_login');
+    }
+
+    public function testBackOfficeIsAccessible(): void
     {
         $this->client->request('GET', $this->getBackOfficeLoginUrl());
         $response = $this->client->getResponse();
 
-        static::assertResponseStatusCodeEquals($response, 200);
+        self::assertResponseStatusCodeEquals($response, 200);
     }
 
     /**
      * @dataProvider allowedUrlsDataProvider
-     *
-     * @param string $url
      */
-    public function testAllowedUrls($url)
+    public function testAllowedUrls(string $url): void
     {
         $this->client->request('GET', $url);
         $response = $this->client->getResponse();
 
-        static::assertResponseStatusCodeEquals($response, 200);
+        self::assertResponseStatusCodeEquals($response, 200);
     }
 
-    /**
-     * @return array
-     */
-    public function allowedUrlsDataProvider()
+    public function allowedUrlsDataProvider(): array
     {
         return [
             ['/customer/user/login'],
             ['/customer/user/reset-request'],
             ['/customer/user/registration'],
-            ['/customer/user/registration?ref=ref-id'],
+            ['/customer/user/registration?ref=ref-id']
         ];
     }
 
     /**
      * @dataProvider disallowedUrlsDataProvider
-     *
-     * @param string $url
      */
-    public function testDisallowedUrls($url)
+    public function testDisallowedUrls(string $url): void
     {
         $this->client->request('GET', $url);
         $response = $this->client->getResponse();
 
-        static::assertResponseStatusCodeEquals($response, 302);
-        static::assertTrue($response->isRedirect('/customer/user/login'));
+        self::assertResponseStatusCodeEquals($response, 302);
+        self::assertTrue($response->isRedirect('/customer/user/login'));
     }
 
-    /**
-     * @return array
-     */
-    public function disallowedUrlsDataProvider()
+    public function disallowedUrlsDataProvider(): array
     {
         return [
             ['/'],
-            ['/customer/profile/'],
+            ['/customer/profile/']
         ];
     }
 
     /**
      * @dataProvider allowedUrlsWhenAuthenticatedDataProvider
-     *
-     * @param string $url
      */
-    public function testAllowedUrlsWhenAuthenticated($url)
+    public function testAllowedUrlsWhenAuthenticated(string $url): void
     {
+        $this->markTestSkipped('BAP-20556');
         $this->loginUser(LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_LOCAL);
         $this->client->request('GET', $url);
         $response = $this->client->getResponse();
 
-        static::assertResponseStatusCodeEquals($response, 200);
+        self::assertResponseStatusCodeEquals($response, 200);
     }
 
-    /**
-     * @return array
-     */
-    public function allowedUrlsWhenAuthenticatedDataProvider()
+    public function allowedUrlsWhenAuthenticatedDataProvider(): array
     {
         return [
             ['/'],
-            ['/customer/profile/'],
+            ['/customer/profile/']
         ];
-    }
-
-    /**
-     * @return string
-     */
-    private function getBackOfficeLoginUrl()
-    {
-        return $this->getUrl('oro_user_security_login');
-    }
-
-    /**
-     * @param bool $guestAccessEnabled
-     */
-    private function setGuestAccess($guestAccessEnabled)
-    {
-        $configManager = static::getContainer()->get('oro_config.manager');
-        $configManager->set(self::CONFIG_GUEST_ACCESS_ENABLED, (bool) $guestAccessEnabled);
-        $configManager->flush();
     }
 }

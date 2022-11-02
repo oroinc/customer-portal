@@ -3,7 +3,7 @@
 namespace Oro\Bundle\FrontendBundle\GuestAccess\Provider;
 
 /**
- * Provides a list of patterns for URLs for which an access is granted for non-authenticated visitors.
+ * Provides a list of patterns for URLs for which access is granted for non-authenticated visitors.
  */
 class GuestAccessAllowedUrlsProvider implements GuestAccessAllowedUrlsProviderInterface
 {
@@ -16,6 +16,9 @@ class GuestAccessAllowedUrlsProvider implements GuestAccessAllowedUrlsProviderIn
         '^/_wdt',
         '^/_fragment',
         '^/js/',
+        '^/media/js/',
+        // Images
+        '^/media/cache/',
         // Allow embedded forms.
         '^/embedded-form',
         // Explicitly allowed URLs.
@@ -26,6 +29,9 @@ class GuestAccessAllowedUrlsProvider implements GuestAccessAllowedUrlsProviderIn
         '^/customer/user/registration$',
         '^/customer/user/confirm-email$',
         '^/customer/user/reset$',
+        '^/localization/set-current-localization$',
+        '^/productprice/set-current-currency$',
+        '^/cookies-accepted$',
     ];
 
     /**
@@ -41,7 +47,7 @@ class GuestAccessAllowedUrlsProvider implements GuestAccessAllowedUrlsProviderIn
     /**
      * {@inheritDoc}
      */
-    public function getAllowedUrlsPatterns()
+    public function getAllowedUrlsPatterns(): array
     {
         return $this->allowedUrls;
     }

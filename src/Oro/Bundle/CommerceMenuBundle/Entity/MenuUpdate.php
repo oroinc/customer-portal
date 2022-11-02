@@ -9,9 +9,12 @@ use Oro\Bundle\CommerceMenuBundle\Model\ExtendMenuUpdate;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateTrait;
+use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 
 /**
- * @ORM\Entity(repositoryClass="Oro\Bundle\NavigationBundle\Entity\Repository\MenuUpdateRepository")
+ * Commerce Menu Update entity
+ *
+ * @ORM\Entity(repositoryClass="Oro\Bundle\CommerceMenuBundle\Entity\Repository\MenuUpdateRepository")
  * @ORM\Table(
  *      name="oro_commerce_menu_upd",
  *      uniqueConstraints={
@@ -66,6 +69,7 @@ use Oro\Bundle\NavigationBundle\Entity\MenuUpdateTrait;
  *      )
  * })
  * @Config(
+ *      routeName="oro_commerce_menu_global_menu_index",
  *      defaultValues={
  *          "entity"={
  *              "icon"="fa-th"
@@ -80,6 +84,12 @@ class MenuUpdate extends ExtendMenuUpdate implements
     use MenuUpdateTrait {
         MenuUpdateTrait::__construct as traitConstructor;
     }
+
+    public const TARGET_URI = 'uri';
+    public const TARGET_SYSTEM_PAGE = 'system_page';
+    public const TARGET_CONTENT_NODE = 'content_node';
+    public const LINK_TARGET_NEW_WINDOW = 0;
+    public const LINK_TARGET_SAME_WINDOW = 1;
 
     /**
      * @var string
@@ -108,6 +118,29 @@ class MenuUpdate extends ExtendMenuUpdate implements
     protected $screens = [];
 
     /**
+     * @var ContentNode|null
+     *
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\WebCatalogBundle\Entity\ContentNode")
+     * @ORM\JoinColumn(name="content_node_id", referencedColumnName="id", onDelete="SET NULL", nullable=true)
+     */
+    protected $contentNode;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="system_page_route", type="string", length=255, nullable=true)
+     */
+    protected $systemPageRoute;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="link_target", type="smallint", nullable=false,
+     *     options={"default"=\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate::LINK_TARGET_SAME_WINDOW}))
+     */
+    protected $linkTarget = self::LINK_TARGET_SAME_WINDOW;
+
+    /**
      * {@inheritdoc}
      */
     public function __construct()
@@ -129,8 +162,16 @@ class MenuUpdate extends ExtendMenuUpdate implements
             'condition' => $this->getCondition(),
             'divider' => $this->isDivider(),
             'userAgentConditions' => $this->getMenuUserAgentConditions(),
-            'translate_disabled' => $this->getId() ? true : false
+            'translate_disabled' => $this->getId() ? true : false,
         ];
+
+        if ($this->getTargetType() === self::TARGET_CONTENT_NODE) {
+            $extras['content_node'] = $this->getContentNode();
+        }
+
+        if ($this->getTargetType() === self::TARGET_SYSTEM_PAGE) {
+            $extras['system_page_route'] = $this->getSystemPageRoute();
+        }
 
         if ($this->getPriority() !== null) {
             $extras['position'] = $this->getPriority();
@@ -141,6 +182,20 @@ class MenuUpdate extends ExtendMenuUpdate implements
         }
 
         return $extras;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLinkAttributes(): array
+    {
+        $linkAttributes = [];
+
+        if ($this->getLinkTarget() === self::LINK_TARGET_NEW_WINDOW) {
+            $linkAttributes['target'] = '_blank';
+        }
+
+        return $linkAttributes;
     }
 
     /**
@@ -212,6 +267,64 @@ class MenuUpdate extends ExtendMenuUpdate implements
     public function setScreens(array $screens)
     {
         $this->screens = $screens;
+
+        return $this;
+    }
+
+    public function setContentNode(?ContentNode $contentNode): self
+    {
+        $this->contentNode = $contentNode;
+
+        return $this;
+    }
+
+    public function getContentNode(): ?ContentNode
+    {
+        return $this->contentNode;
+    }
+
+    /**
+     * @param string|null $systemPageRoute
+     *
+     * @return MenuUpdate
+     */
+    public function setSystemPageRoute(?string $systemPageRoute): self
+    {
+        $this->systemPageRoute = $systemPageRoute;
+
+        return $this;
+    }
+
+    public function getSystemPageRoute(): ?string
+    {
+        return $this->systemPageRoute;
+    }
+
+    public function getTargetType(): ?string
+    {
+        if ($this->getContentNode()) {
+            return self::TARGET_CONTENT_NODE;
+        }
+
+        if ($this->getSystemPageRoute()) {
+            return self::TARGET_SYSTEM_PAGE;
+        }
+
+        if ($this->getUri()) {
+            return self::TARGET_URI;
+        }
+
+        return null;
+    }
+
+    public function getLinkTarget(): int
+    {
+        return $this->linkTarget;
+    }
+
+    public function setLinkTarget(int $linkTarget): self
+    {
+        $this->linkTarget = $linkTarget;
 
         return $this;
     }

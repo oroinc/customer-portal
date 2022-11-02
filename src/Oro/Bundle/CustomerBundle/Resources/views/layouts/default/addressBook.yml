@@ -1,4 +1,4 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:default/addressBook.html.twig'
+            themes: '@OroCustomer/layouts/default/addressBook.html.twig'

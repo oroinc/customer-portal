@@ -1,0 +1,55 @@
+{% block _featured_menu_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+    '~class': " featured-menu"
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _featured_menu_widget %}
+    {% import '@OroNavigation/Menu/menu.html.twig' as oro_menu %}
+    {% if item.displayed and item.extras.isAllowed %}
+        <div class="tiles featured-menu-tiles">
+            {% for child in item.children %}
+                {% if child.displayed and child.extras.isAllowed %}
+                    <div class="tiles-item">
+                        <div class="featured-menu-content">
+                            <div class="featured-menu-content__img-wrap">
+                                {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
+                                {% if child.extras.image is defined and child.extras.image is not empty %}
+                                    {% include '@OroAttachment/Twig/picture.html.twig' with {
+                                        sources: oro_resized_picture_sources(child.extras.image, 90, 90),
+                                        img_attrs: {
+                                            class: 'featured-menu-content__img img-fluid',
+                                            width: 90,
+                                            height: 90
+                                        }
+                                    } %}
+                                {% elseif child.extras.icon is defined and child.extras.icon is not empty %}
+                                    <span class="{{ child.extras.icon }} featured-menu-content__icon" aria-hidden="true"></span>
+                                {% else %}
+                                    <svg width="90" height="90">
+                                        <rect width="90" height="90" fill="none"/>
+                                    </svg>
+                                {% endif %}
+                            </div>
+                            <h2 class="featured-menu-content__title">{{ label }}</h2>
+                            <div class="featured-menu-content__description line-clamp">
+                                {% if child.extras.description is defined and child.extras.description is not empty %}
+                                    {{ child.extras.description }}
+                                {% endif %}
+                            </div>
+                            {% set linkAttributes = child.linkAttributes|merge({
+                                'class': 'btn btn--info btn--size-s featured-menu-content__link',
+                            }) %}
+                            <a href="{{ oro_commercemenu_get_url(child.uri) }}"{{ oro_menu.attributes(linkAttributes) }}>
+                                {{- 'oro.commercemenu.frontend.navigation.items.view.label'|trans ~ ' ' ~ label|upper -}}
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

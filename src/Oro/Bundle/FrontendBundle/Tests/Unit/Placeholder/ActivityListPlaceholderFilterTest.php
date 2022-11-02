@@ -3,46 +3,44 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Placeholder;
 
 use Oro\Bundle\ActivityListBundle\Placeholder\PlaceholderFilter;
+use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\FrontendBundle\Placeholder\ActivityListPlaceholderFilter;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\UIBundle\Event\BeforeGroupingChainWidgetEvent;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|PlaceholderFilter
-     */
-    protected $basicFilter;
+    private const BACKEND_PREFIX = '/admin';
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|FrontendHelper
-     */
-    protected $helper;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|PlaceholderFilter */
+    private $basicFilter;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|RequestStack
-     */
-    protected $requestStack;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|ApplicationState */
+    private $applicationState;
 
-    /**
-     * @var ActivityListPlaceholderFilter
-     */
-    protected $filter;
-
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->basicFilter = $this->getMockBuilder('Oro\Bundle\ActivityListBundle\Placeholder\PlaceholderFilter')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->helper = $this->getMockBuilder('Oro\Bundle\FrontendBundle\Request\FrontendHelper')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->requestStack = $this->getMockBuilder('Symfony\Component\HttpFoundation\RequestStack')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->basicFilter = $this->createMock(PlaceholderFilter::class);
+        $this->applicationState = $this->createMock(ApplicationState::class);
 
-        $this->filter = new ActivityListPlaceholderFilter($this->basicFilter, $this->helper, $this->requestStack);
+        $this->applicationState->expects(self::any())
+            ->method('isInstalled')
+            ->willReturn(true);
+    }
+
+    private function getFilter(Request $currentRequest = null): ActivityListPlaceholderFilter
+    {
+        $requestStack = new RequestStack();
+        if (null !== $currentRequest) {
+            $requestStack->push($currentRequest);
+        }
+
+        return new ActivityListPlaceholderFilter(
+            $this->basicFilter,
+            new FrontendHelper(self::BACKEND_PREFIX, $requestStack, $this->applicationState)
+        );
     }
 
     public function testIsApplicableNoRequest()
@@ -50,16 +48,13 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
         $entity = new \stdClass();
         $pageType = 'view';
 
-        $this->requestStack->expects($this->once())
-            ->method('getCurrentRequest')
-            ->will($this->returnValue(null));
-
         $this->basicFilter->expects($this->once())
             ->method('isApplicable')
             ->with($entity, $pageType)
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
-        $this->assertTrue($this->filter->isApplicable($entity, $pageType));
+        $filter = $this->getFilter();
+        $this->assertTrue($filter->isApplicable($entity, $pageType));
     }
 
     public function testIsApplicableNotFrontend()
@@ -67,14 +62,13 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
         $entity = new \stdClass();
         $pageType = 1;
 
-        $this->assertIsFrontendRouteCall(false);
-
         $this->basicFilter->expects($this->once())
             ->method('isApplicable')
             ->with($entity, $pageType)
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
-        $this->assertTrue($this->filter->isApplicable($entity, $pageType));
+        $filter = $this->getFilter(Request::create(self::BACKEND_PREFIX . '/backend'));
+        $this->assertTrue($filter->isApplicable($entity, $pageType));
     }
 
     public function testIsApplicable()
@@ -82,39 +76,28 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
         $entity = new \stdClass();
         $pageType = 1;
 
-        $this->assertIsFrontendRouteCall(true);
-
         $this->basicFilter->expects($this->never())
             ->method('isApplicable');
 
-        $this->assertFalse($this->filter->isApplicable($entity, $pageType));
+        $filter = $this->getFilter(Request::create('/frontend'));
+        $this->assertFalse($filter->isApplicable($entity, $pageType));
     }
 
     public function testIsAllowedButtonNotFrontend()
     {
-        /** @var \PHPUnit\Framework\MockObject\MockObject|BeforeGroupingChainWidgetEvent $event */
-        $event = $this->getMockBuilder('Oro\Bundle\UIBundle\Event\BeforeGroupingChainWidgetEvent')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->assertIsFrontendRouteCall(false);
+        $event = $this->createMock(BeforeGroupingChainWidgetEvent::class);
 
         $this->basicFilter->expects($this->once())
             ->method('isAllowedButton')
             ->with($event);
 
-        $this->filter->isAllowedButton($event);
+        $filter = $this->getFilter(Request::create(self::BACKEND_PREFIX . '/backend'));
+        $filter->isAllowedButton($event);
     }
 
     public function testIsAllowedButton()
     {
-        /** @var \PHPUnit\Framework\MockObject\MockObject|BeforeGroupingChainWidgetEvent $event */
-        $event = $this->getMockBuilder('Oro\Bundle\UIBundle\Event\BeforeGroupingChainWidgetEvent')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->assertIsFrontendRouteCall(true);
-
+        $event = $this->createMock(BeforeGroupingChainWidgetEvent::class);
         $event->expects($this->once())
             ->method('setWidgets')
             ->with([]);
@@ -124,25 +107,7 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
         $this->basicFilter->expects($this->never())
             ->method('isAllowedButton');
 
-        $this->filter->isAllowedButton($event);
-    }
-
-    /**
-     * @param bool $isFrontend
-     */
-    protected function assertIsFrontendRouteCall($isFrontend)
-    {
-        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->requestStack->expects($this->once())
-            ->method('getCurrentRequest')
-            ->will($this->returnValue($request));
-
-        $this->helper->expects($this->once())
-            ->method('isFrontendRequest')
-            ->with($request)
-            ->will($this->returnValue($isFrontend));
+        $filter = $this->getFilter(Request::create('/frontend'));
+        $filter->isAllowedButton($event);
     }
 }

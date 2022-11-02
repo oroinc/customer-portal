@@ -4,23 +4,22 @@ namespace Oro\Bundle\CustomerBundle\Provider;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\ScopeBundle\Manager\AbstractScopeCriteriaProvider;
+use Oro\Bundle\ScopeBundle\Manager\ScopeCriteriaProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class ScopeCustomerGroupCriteriaProvider extends AbstractScopeCriteriaProvider
+/**
+ * The scope criteria provider for the current customer group.
+ */
+class ScopeCustomerGroupCriteriaProvider implements ScopeCriteriaProviderInterface
 {
-    const FIELD_NAME = 'customerGroup';
+    public const CUSTOMER_GROUP = 'customerGroup';
 
     /** @var TokenStorageInterface */
-    protected $tokenStorage;
+    private $tokenStorage;
 
     /** @var CustomerUserRelationsProvider */
-    protected $customerUserProvider;
+    private $customerUserProvider;
 
-    /**
-     * @param TokenStorageInterface         $tokenStorage
-     * @param CustomerUserRelationsProvider $customerUserRelationsProvider
-     */
     public function __construct(
         TokenStorageInterface $tokenStorage,
         CustomerUserRelationsProvider $customerUserRelationsProvider
@@ -30,25 +29,28 @@ class ScopeCustomerGroupCriteriaProvider extends AbstractScopeCriteriaProvider
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getCriteriaField()
     {
-        return self::FIELD_NAME;
+        return self::CUSTOMER_GROUP;
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
-    public function getCriteriaForCurrentScope()
+    public function getCriteriaValue()
     {
         $loggedUser = null;
         $token = $this->tokenStorage->getToken();
-        if ($token && $token->getUser() instanceof CustomerUser) {
-            $loggedUser = $token->getUser();
+        if (null !== $token) {
+            $user = $token->getUser();
+            if ($user instanceof CustomerUser) {
+                $loggedUser = $user;
+            }
         }
 
-        return [$this->getCriteriaField() => $this->customerUserProvider->getCustomerGroup($loggedUser)];
+        return $this->customerUserProvider->getCustomerGroup($loggedUser);
     }
 
     /**

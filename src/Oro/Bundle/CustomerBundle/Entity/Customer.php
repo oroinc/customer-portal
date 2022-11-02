@@ -40,7 +40,10 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "owner_field_name"="owner",
  *              "owner_column_name"="owner_id",
  *              "organization_field_name"="organization",
- *              "organization_column_name"="organization_id"
+ *              "organization_column_name"="organization_id",
+ *              "frontend_owner_type"="FRONTEND_CUSTOMER",
+ *              "frontend_owner_field_name"="parent",
+ *              "frontend_owner_column_name"="parent_id",
  *          },
  *          "form"={
  *              "form_type"="Oro\Bundle\CustomerBundle\Form\Type\CustomerSelectType",
@@ -254,7 +257,7 @@ class Customer extends ExtendCustomer implements DatesAwareInterface
      *          }
      *      }
      * )
-     **/
+     */
     protected $salesRepresentatives;
 
     /**
@@ -362,7 +365,7 @@ class Customer extends ExtendCustomer implements DatesAwareInterface
     }
 
     /**
-     * @param Customer $parent
+     * @param Customer|null $parent
      *
      * @return $this
      */
@@ -388,7 +391,6 @@ class Customer extends ExtendCustomer implements DatesAwareInterface
      */
     public function addAddress(AbstractDefaultTypedAddress $address)
     {
-        /** @var AbstractDefaultTypedAddress $address */
         if (!$this->getAddresses()->contains($address)) {
             $this->getAddresses()->add($address);
             $address->setFrontendOwner($this);
@@ -471,7 +473,7 @@ class Customer extends ExtendCustomer implements DatesAwareInterface
     }
 
     /**
-     * @param CustomerGroup $group
+     * @param CustomerGroup|null $group
      *
      * @return $this
      */

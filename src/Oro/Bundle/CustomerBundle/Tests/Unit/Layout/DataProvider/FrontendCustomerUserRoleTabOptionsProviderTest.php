@@ -8,62 +8,63 @@ use Oro\Bundle\CustomerBundle\Form\Handler\AbstractCustomerUserRoleHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRoleTabOptionsProvider;
 use Oro\Bundle\SecurityBundle\Model\AclPrivilege;
 use Oro\Bundle\UserBundle\Model\PrivilegeCategory;
-use Oro\Bundle\UserBundle\Provider\PrivilegeCategoryProviderInterface;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FrontendCustomerUserRoleTabOptionsProviderTest extends \PHPUnit\Framework\TestCase
 {
-    const CATEGORY1_ID = '1';
-    const CATEGORY1_LABEL = 'Category 1';
-    const CATEGORY1_PRIORITY = 0;
+    private const CATEGORY1_ID       = '1';
+    private const CATEGORY1_LABEL    = 'Category 1';
+    private const CATEGORY1_PRIORITY = 0;
 
-    const CATEGORY2_ID = '2';
-    const CATEGORY2_LABEL = 'Category 2';
-    const CATEGORY2_PRIORITY = 5;
+    private const CATEGORY2_ID       = '2';
+    private const CATEGORY2_LABEL    = 'Category 2';
+    private const CATEGORY2_PRIORITY = 5;
 
-    const CATEGORY_DEFAULT_ID = PrivilegeCategoryProviderInterface::DEFAULT_ACTION_CATEGORY;
-    const CATEGORY_DEFAULT_LABEL = 'default';
-    const CATEGORY_DEFAULT_PRIORITY = 10;
+    private const DEFAULT_CATEGORY_ID       = 'account_management';
+    private const DEFAULT_CATEGORY_LABEL    = 'default';
+    private const DEFAULT_CATEGORY_PRIORITY = 10;
 
-    /**
-     * @var RolePrivilegeCategoryProvider|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $permissionCategoryProvider;
+    /** @var RolePrivilegeCategoryProvider|\PHPUnit\Framework\MockObject\MockObject */
+    private $categoryProvider;
 
-    /**
-     * @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $translator;
-
-    /**
-     * @var AbstractCustomerUserRoleHandler|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var AbstractCustomerUserRoleHandler|\PHPUnit\Framework\MockObject\MockObject */
     private $aclRoleHandler;
 
-    /**
-     * @var FrontendCustomerUserRoleTabOptionsProvider
-     */
+    /** @var FrontendCustomerUserRoleTabOptionsProvider */
     private $provider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->permissionCategoryProvider = $this->createMock(RolePrivilegeCategoryProvider::class);
-        $this->translator = $this->createMock(TranslatorInterface::class);
+        $this->categoryProvider = $this->createMock(RolePrivilegeCategoryProvider::class);
         $this->aclRoleHandler = $this->createMock(AbstractCustomerUserRoleHandler::class);
+        $translator = $this->createMock(TranslatorInterface::class);
+        $translator->expects(self::any())
+            ->method('trans')
+            ->willReturnCallback(function ($value) {
+                return 'translated_' . $value;
+            });
 
         $this->provider = new FrontendCustomerUserRoleTabOptionsProvider(
-            $this->permissionCategoryProvider,
-            $this->translator,
+            $this->categoryProvider,
+            $translator,
             $this->aclRoleHandler
         );
     }
 
+    private function getPrivilegeWithCategory(string $category): AclPrivilege
+    {
+        $privilege = new AclPrivilege();
+        $privilege->setCategory($category);
+
+        return $privilege;
+    }
+
     public function testGetTabOptions()
     {
-        $role = new CustomerUserRole();
+        $role = new CustomerUserRole('');
         $privileges = [
-            'other' => new ArrayCollection([
+            'other'  => new ArrayCollection([
                 $this->getPrivilegeWithCategory('4'),
             ]),
             'entity' => new ArrayCollection([
@@ -76,52 +77,37 @@ class FrontendCustomerUserRoleTabOptionsProviderTest extends \PHPUnit\Framework\
             ]),
         ];
 
-        $tabCategories = [
+        $categories = [
+            new PrivilegeCategory('3', 'Category 3', false, 0),
             new PrivilegeCategory(self::CATEGORY1_ID, self::CATEGORY1_LABEL, true, self::CATEGORY1_PRIORITY),
             new PrivilegeCategory(self::CATEGORY2_ID, self::CATEGORY2_LABEL, true, self::CATEGORY2_PRIORITY),
             new PrivilegeCategory(
-                self::CATEGORY_DEFAULT_ID,
-                self::CATEGORY_DEFAULT_LABEL,
+                self::DEFAULT_CATEGORY_ID,
+                self::DEFAULT_CATEGORY_LABEL,
                 true,
-                self::CATEGORY_DEFAULT_PRIORITY
+                self::DEFAULT_CATEGORY_PRIORITY
             ),
         ];
 
-        $this->aclRoleHandler->expects(static::once())
+        $this->aclRoleHandler->expects(self::once())
             ->method('getAllPrivileges')
             ->with($role)
             ->willReturn($privileges);
 
-        $this->permissionCategoryProvider->expects(static::once())
-            ->method('getTabbedCategories')
-            ->willReturn($tabCategories);
-
-        $this->translator->expects(static::exactly(3))
-            ->method('trans')
-            ->withConsecutive([self::CATEGORY1_LABEL], [self::CATEGORY2_LABEL], [self::CATEGORY_DEFAULT_LABEL])
-            ->willReturnOnConsecutiveCalls(self::CATEGORY1_LABEL, self::CATEGORY2_LABEL, self::CATEGORY_DEFAULT_LABEL);
+        $this->categoryProvider->expects(self::once())
+            ->method('getCategories')
+            ->willReturn($categories);
 
         $expected = [
             'data' => [
-                ['id' => self::CATEGORY1_ID, 'label' => self::CATEGORY1_LABEL],
-                ['id' => self::CATEGORY2_ID, 'label' => self::CATEGORY2_LABEL],
-                ['id' => self::CATEGORY_DEFAULT_ID, 'label' => self::CATEGORY_DEFAULT_LABEL],
-            ],
+                ['id' => self::CATEGORY1_ID, 'label' => 'translated_' . self::CATEGORY1_LABEL],
+                ['id' => self::CATEGORY2_ID, 'label' => 'translated_' . self::CATEGORY2_LABEL],
+                ['id' => self::DEFAULT_CATEGORY_ID, 'label' => 'translated_' . self::DEFAULT_CATEGORY_LABEL]
+            ]
         ];
 
-        static::assertEquals($expected, $this->provider->getOptions($role));
-    }
-
-    /**
-     * @param string $category
-     *
-     * @return AclPrivilege
-     */
-    private function getPrivilegeWithCategory($category)
-    {
-        $privilege = new AclPrivilege();
-        $privilege->setCategory($category);
-
-        return $privilege;
+        self::assertEquals($expected, $this->provider->getOptions($role));
+        // test local cache
+        self::assertEquals($expected, $this->provider->getOptions($role));
     }
 }

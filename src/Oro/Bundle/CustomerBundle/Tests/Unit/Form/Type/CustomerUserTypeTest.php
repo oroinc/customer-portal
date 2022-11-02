@@ -7,6 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
@@ -14,57 +15,42 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStu
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntitySelectTypeStub;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
+use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Validation;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CustomerUserTypeTest extends FormIntegrationTestCase
 {
-    const DATA_CLASS = 'Oro\Bundle\CustomerBundle\Entity\CustomerUser';
-    const ROLE_CLASS = 'Oro\Bundle\CustomerBundle\Entity\CustomerUserRole';
-    const ADDRESS_CLASS = 'Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress';
-
-    /**
-     * @var CustomerUserType
-     */
+    /** @var CustomerUserType */
     protected $formType;
 
-    /**
-     * @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $authorizationChecker;
 
-    /**
-     * @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $tokenAccessor;
 
-    /**
-     * @var Customer[]
-     */
-    protected static $customers = [];
+    /** @var Customer[] */
+    private static $customers = [];
 
-    /**
-     * @var CustomerUserAddress[]
-     */
-    protected static $addresses = [];
+    /** @var CustomerUserAddress[] */
+    private static $addresses = [];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
         $this->formType = new CustomerUserType($this->authorizationChecker, $this->tokenAccessor);
-        $this->formType->setDataClass(self::DATA_CLASS);
-        $this->formType->setAddressClass(self::ADDRESS_CLASS);
+        $this->formType->setDataClass(CustomerUser::class);
+        $this->formType->setAddressClass(CustomerUserAddress::class);
 
         parent::setUp();
     }
@@ -84,8 +70,8 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
 
         $userMultiSelectType = new EntityType(
             [
-                1 => $this->getEntity('Oro\Bundle\UserBundle\Entity\User', 1),
-                2 => $this->getEntity('Oro\Bundle\UserBundle\Entity\User', 2),
+                1 => $this->getUser(1),
+                2 => $this->getUser(2),
             ],
             UserMultiSelectType::NAME,
             [
@@ -115,7 +101,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
      * @param CustomerUser $defaultData
      * @param array $submittedData
      * @param CustomerUser $expectedData
-     * @param bool|true $rolesGranted
+     * @param bool $rolesGranted
      */
     public function testSubmit(
         CustomerUser $defaultData,
@@ -126,25 +112,28 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         if ($rolesGranted) {
             $this->authorizationChecker->expects($this->any())
                 ->method('isGranted')
-                ->will($this->returnValue(true));
+                ->willReturn(true);
         }
 
-        $this->tokenAccessor->expects($this->exactly(2))->method('getOrganization')->willReturn(new Organization());
+        $this->tokenAccessor->expects($this->exactly(2))
+            ->method('getOrganization')
+            ->willReturn(new Organization());
 
         $form = $this->factory->create(CustomerUserType::class, $defaultData, []);
 
-        $this->assertTrue($form->has('roles'));
-        $options = $form->get('roles')->getConfig()->getOptions();
+        $this->assertTrue($form->has('userRoles'));
+        $options = $form->get('userRoles')->getConfig()->getOptions();
         $this->assertArrayHasKey('query_builder', $options);
         $this->assertQueryBuilderCallback($options['query_builder']);
 
         $this->assertEquals($defaultData, $form->getData());
         $form->submit($submittedData);
         $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
         $this->assertEquals($expectedData, $form->getData());
 
-        $this->assertTrue($form->has('roles'));
-        $options = $form->get('roles')->getConfig()->getOptions();
+        $this->assertTrue($form->has('userRoles'));
+        $options = $form->get('userRoles')->getConfig()->getOptions();
         $this->assertArrayHasKey('query_builder', $options);
         $this->assertQueryBuilderCallback($options['query_builder']);
     }
@@ -154,14 +143,11 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
      */
     public function submitProvider()
     {
-        $newCustomerUser = $this->createCustomerUser();
+        $newCustomerUser = new CustomerUser();
+        $newCustomerUser->setOrganization(new Organization());
 
         $existingCustomerUser = clone $newCustomerUser;
-
-        $class = new \ReflectionClass($existingCustomerUser);
-        $prop = $class->getProperty('id');
-        $prop->setAccessible(true);
-        $prop->setValue($existingCustomerUser, 42);
+        ReflectionUtil::setId($existingCustomerUser, 42);
 
         $existingCustomerUser->setFirstName('Mary');
         $existingCustomerUser->setLastName('Doe');
@@ -170,22 +156,20 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         $existingCustomerUser->setCustomer($this->getCustomer(1));
         $existingCustomerUser->addAddress($this->getAddresses()[1]);
         $existingCustomerUser->setOrganization(new Organization());
-        $existingCustomerUser->addSalesRepresentative($this->getEntity('Oro\Bundle\UserBundle\Entity\User', 1));
+        $existingCustomerUser->addSalesRepresentative($this->getUser(1));
 
         $alteredExistingCustomerUser = clone $existingCustomerUser;
         $alteredExistingCustomerUser->setCustomer($this->getCustomer(2));
         $alteredExistingCustomerUser->setEnabled(false);
 
         $alteredExistingCustomerUserWithRole = clone $alteredExistingCustomerUser;
-        $alteredExistingCustomerUserWithRole->setRoles([$this->getRole(2, 'test02')]);
+        $alteredExistingCustomerUserWithRole->setUserRoles([$this->getRole(2, 'test02')]);
 
         $alteredExistingCustomerUserWithAddresses = clone $alteredExistingCustomerUser;
         $alteredExistingCustomerUserWithAddresses->addAddress($this->getAddresses()[2]);
 
         $alteredExistingCustomerUserWithSalesRepresentatives = clone $alteredExistingCustomerUser;
-        $alteredExistingCustomerUserWithSalesRepresentatives->addSalesRepresentative(
-            $this->getEntity('Oro\Bundle\UserBundle\Entity\User', 2)
-        );
+        $alteredExistingCustomerUserWithSalesRepresentatives->addSalesRepresentative($this->getUser(2));
 
         return
             [
@@ -211,7 +195,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
                         'lastName' => 'Doe',
                         'email' => 'john@example.com',
                         'customer' => 2,
-                        'roles' => [2]
+                        'userRoles' => [2]
                     ],
                     'expectedData' => $alteredExistingCustomerUserWithRole,
                     'rolesGranted' => true
@@ -244,21 +228,21 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     /**
      * @param \Closure $callable
      */
-    protected function assertQueryBuilderCallback($callable)
+    private function assertQueryBuilderCallback($callable)
     {
-        $this->assertInternalType('callable', $callable);
+        $this->assertIsCallable($callable);
 
-        $repository = $this->getMockBuilder('Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $repository->expects($this->once())->method('getAvailableRolesByCustomerUserQueryBuilder');
+        $repository = $this->createMock(CustomerUserRoleRepository::class);
+        $repository->expects($this->once())
+            ->method('getAvailableRolesByCustomerUserQueryBuilder');
 
         $callable($repository);
     }
 
     public function testHasNoAddress()
     {
-        $customerUser = $this->createCustomerUser();
+        $customerUser = new CustomerUser();
+        $customerUser->setOrganization(new Organization());
 
         $this->authorizationChecker->expects($this->any())
             ->method('isGranted')
@@ -279,8 +263,8 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     {
         if (!self::$addresses) {
             self::$addresses = [
-                1 => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress', 1),
-                2 => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress', 2)
+                1 => $this->getCustomerUserAddress(1),
+                2 => $this->getCustomerUserAddress(2)
             ];
         }
 
@@ -313,95 +297,59 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         return self::$customers;
     }
 
-    /**
-     * @param int $id
-     * @return Customer
-     */
-    protected function getCustomer($id)
+    protected function getCustomer(int $id): Customer
     {
         $customers = $this->getCustomers();
 
         return $customers[$id];
     }
 
-    /**
-     * @param int $id
-     * @param string $name
-     * @return Customer
-     */
-    protected static function createCustomer($id, $name)
+    private static function createCustomer(int $id, string $name): Customer
     {
         $customer = new Customer();
-
-        $reflection = new \ReflectionProperty(get_class($customer), 'id');
-        $reflection->setAccessible(true);
-        $reflection->setValue($customer, $id);
-
+        ReflectionUtil::setId($customer, $id);
         $customer->setName($name);
 
         return $customer;
     }
 
-    /**
-     * @param int $id
-     * @param string $label
-     * @return CustomerUserRole
-     */
-    protected function getRole($id, $label)
+    protected function getRole(int $id, string $label): CustomerUserRole
     {
         $role = new CustomerUserRole($label);
-
-        $reflection = new \ReflectionProperty(get_class($role), 'id');
-        $reflection->setAccessible(true);
-        $reflection->setValue($role, $id);
-
+        ReflectionUtil::setId($role, $id);
         $role->setLabel($label);
 
         return $role;
     }
 
-    /**
-     * @param string $className
-     * @param int $id
-     * @return object
-     */
-    protected function getEntity($className, $id)
+    protected function getUser(int $id): User
     {
-        $entity = new $className;
+        $user = new User();
+        ReflectionUtil::setId($user, $id);
 
-        $reflectionClass = new \ReflectionClass($className);
-        $method = $reflectionClass->getProperty('id');
-        $method->setAccessible(true);
-        $method->setValue($entity, $id);
+        return $user;
+    }
 
-        return $entity;
+    protected function getCustomerUserAddress(int $id): CustomerUserAddress
+    {
+        $customerUserAddress = new CustomerUserAddress();
+        ReflectionUtil::setId($customerUserAddress, $id);
+
+        return $customerUserAddress;
     }
 
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface
      */
-    private function createTranslator()
+    protected function createTranslator()
     {
-        $translator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
+        $translator = $this->createMock(TranslatorInterface::class);
         $translator->expects($this->any())
             ->method('trans')
-            ->willReturnCallback(
-                function ($message) {
-                    return $message . '.trans';
-                }
-            );
+            ->willReturnCallback(function ($message) {
+                return $message . '.trans';
+            });
 
         return $translator;
-    }
-
-    /**
-     * @return CustomerUser
-     */
-    private function createCustomerUser()
-    {
-        $customerUser = new CustomerUser();
-        $customerUser->setOrganization(new Organization());
-
-        return $customerUser;
     }
 }

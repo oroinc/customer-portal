@@ -3,9 +3,6 @@ services:
         class: 'Oro\Bundle\WebsiteBundle\Form\Type\WebsiteScopedDataType'
         arguments:
             - "@doctrine"
-            - "@oro_website.website.provider"
+            - "@oro_security.acl_helper"
         tags:
             - { name: form.type, alias: oro_website_scoped_data_type }
-        calls:
-            - [setWebsiteClass,['%oro_website.entity.website.class%']]
-

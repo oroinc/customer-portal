@@ -1,0 +1,14 @@
+aliases:
+    oro/select2-autocomplete-customeruser-component$: orocustomer/js/app/components/select2-autocomplete-customeruser-component
+    oro/select2-autocomplete-enabledlocalization-component$: orocustomer/js/app/components/select2-autocomplete-enabledlocalization-component
+dynamic-imports:
+    commons:
+        - oro/select2-autocomplete-customeruser-component
+        - oro/select2-autocomplete-enabledlocalization-component
+    orouser:
+        - orocustomer/js/app/components/customer-address-book-component
+        - orocustomer/js/app/components/customer-address-component
+        - orocustomer/js/app/components/customer-selection-component
+        - orocustomer/js/app/components/customer-user-component
+        - orocustomer/js/app/components/customer-user-role-component
+        - orocustomer/js/app/views/customer-role-view

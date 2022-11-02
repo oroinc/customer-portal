@@ -1,10 +1,9 @@
 define(function(require) {
     'use strict';
 
-    var CounterBadgeView;
-    var BaseView = require('oroui/js/app/views/base/view');
+    const BaseView = require('oroui/js/app/views/base/view');
 
-    CounterBadgeView = BaseView.extend({
+    const CounterBadgeView = BaseView.extend({
         /**
          * @property
          */
@@ -28,19 +27,19 @@ define(function(require) {
         count: 0,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function CounterBadgeView() {
-            CounterBadgeView.__super__.constructor.apply(this, arguments);
+        constructor: function CounterBadgeView(options) {
+            CounterBadgeView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.setCount(this.count);
 
-            CounterBadgeView.__super__.initialize.apply(this, arguments);
+            CounterBadgeView.__super__.initialize.call(this, options);
         },
 
         /**

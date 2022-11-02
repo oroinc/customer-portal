@@ -2,12 +2,13 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Form\Type;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserAddresses;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
+use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
+use Oro\Bundle\SecurityBundle\Test\Functional\RolePermissionExtension;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,31 +17,50 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CustomerUserTypeTest extends WebTestCase
 {
-    protected function setUp()
+    use RolePermissionExtension;
+
+    protected function setUp(): void
     {
-        $this->initClient([], static::generateBasicAuthHeader());
-        $this->loadFixtures([
-            LoadCustomerUserAddresses::class
-        ]);
+        $this->initClient([], self::generateBasicAuthHeader());
+        $this->loadFixtures([LoadCustomerUserAddresses::class]);
+
+        $this->updateRolePermissions(
+            'ROLE_ADMINISTRATOR',
+            CustomerUserAddress::class,
+            [
+                'CREATE' => AccessLevel::GLOBAL_LEVEL,
+                'EDIT' => AccessLevel::GLOBAL_LEVEL,
+                'VIEW' => AccessLevel::GLOBAL_LEVEL,
+                'DELETE' => AccessLevel::GLOBAL_LEVEL,
+            ]
+        );
     }
 
     /**
-     * @param array $data
      * @dataProvider formWrongDataProvider
      */
     public function testUpdateAddressWithWrongData(array $data): void
     {
         $crawler = $this->submitCustomerUserForm($data);
 
-        $this->assertContains('First Name and Last Name or Organization should not be blank.', $crawler->html());
-        $this->assertContains('Last Name and First Name or Organization should not be blank.', $crawler->html());
-        $this->assertContains('Organization or First Name and Last Name should not be blank.', $crawler->html());
-        $this->assertNotContains('Customer User has been saved', $crawler->html());
+        self::assertStringContainsString(
+            'First Name and Last Name or Organization should not be blank.',
+            $crawler->html()
+        );
+        self::assertStringContainsString(
+            'Last Name and First Name or Organization should not be blank.',
+            $crawler->html()
+        );
+        self::assertStringContainsString(
+            'Organization or First Name and Last Name should not be blank.',
+            $crawler->html()
+        );
+        self::assertStringNotContainsString(
+            'Customer User has been saved',
+            $crawler->html()
+        );
     }
 
-    /**
-     * @return array
-     */
     public function formWrongDataProvider(): array
     {
         return [
@@ -69,22 +89,27 @@ class CustomerUserTypeTest extends WebTestCase
     }
 
     /**
-     * @param array $data
      * @dataProvider formCorrectDataProvider
      */
     public function testUpdateAddressWithCorrectData(array $data): void
     {
         $crawler = $this->submitCustomerUserForm($data);
 
-        $this->assertNotContains('First Name and Last Name or Organization should not be blank.', $crawler->html());
-        $this->assertNotContains('Last Name and First Name or Organization should not be blank.', $crawler->html());
-        $this->assertNotContains('Organization or First Name and Last Name should not be blank.', $crawler->html());
-        $this->assertContains('Customer User has been saved', $crawler->html());
+        self::assertStringNotContainsString(
+            'First Name and Last Name or Organization should not be blank.',
+            $crawler->html()
+        );
+        self::assertStringNotContainsString(
+            'Last Name and First Name or Organization should not be blank.',
+            $crawler->html()
+        );
+        self::assertStringNotContainsString(
+            'Organization or First Name and Last Name should not be blank.',
+            $crawler->html()
+        );
+        self::assertStringContainsString('Customer User has been saved', $crawler->html());
     }
 
-    /**
-     * @return array
-     */
     public function formCorrectDataProvider(): array
     {
         return [
@@ -102,6 +127,20 @@ class CustomerUserTypeTest extends WebTestCase
                     'organization' => 'organization'
                 ]
             ],
+            '0 as Organization' => [
+                'data' => [
+                    'firstName' => '',
+                    'lastName' => '',
+                    'organization' => '0'
+                ]
+            ],
+            '0 as FirstName And LastName' => [
+                'data' => [
+                    'firstName' => '0',
+                    'lastName' => '0',
+                    'organization' => ''
+                ]
+            ],
             'set all fields' => [
                 'data' => [
                     'firstName' => 'Amanda',
@@ -113,20 +152,16 @@ class CustomerUserTypeTest extends WebTestCase
     }
 
     /**
-     * @param array $data
      * @dataProvider formAddressTypeDataProvider
      */
     public function testCreatePrimaryAddress(array $data): void
     {
         $crawler = $this->submitCustomerUserForm($data);
 
-        $this->assertNotContains('One of the addresses must be set as primary.', $crawler->html());
-        $this->assertContains('Customer User has been saved', $crawler->html());
+        self::assertStringNotContainsString('One of the addresses must be set as primary.', $crawler->html());
+        self::assertStringContainsString('Customer User has been saved', $crawler->html());
     }
 
-    /**
-     * @return array
-     */
     public function formAddressTypeDataProvider(): array
     {
         return [
@@ -143,10 +178,6 @@ class CustomerUserTypeTest extends WebTestCase
         ];
     }
 
-    /**
-     * @param array $data
-     * @return Crawler
-     */
     private function submitCustomerUserForm(array $data): Crawler
     {
         $crawler = $this->client->request(
@@ -160,14 +191,14 @@ class CustomerUserTypeTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, Response::HTTP_OK);
 
-        /** @var Form $form */
         $form = $crawler->selectButton('Save')->form();
+        $formValues = $form->getPhpValues();
         foreach ($data as $field => $value) {
-            $form[sprintf('oro_customer_customer_user[addresses][0][%s]', $field)] = $value;
+            $formValues['oro_customer_customer_user']['addresses'][0][$field] = $value;
         }
 
         $this->client->followRedirects(true);
-        $crawler = $this->client->submit($form);
+        $crawler = $this->client->request($form->getMethod(), $form->getUri(), $formValues);
 
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, Response::HTTP_OK);
@@ -175,14 +206,8 @@ class CustomerUserTypeTest extends WebTestCase
         return $crawler;
     }
 
-    /**
-     * @return integer
-     */
     private function getCustomerUserId(): int
     {
-        /** @var CustomerUser $customerUser */
-        $customerUser = $this->getReference(LoadCustomerUserData::EMAIL);
-
-        return $customerUser->getId();
+        return $this->getReference(LoadCustomerUserData::EMAIL)->getId();
     }
 }

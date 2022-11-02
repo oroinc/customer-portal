@@ -1,0 +1,19 @@
+/* @theme: default; */
+
+.clear-search-button {
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translate(0, -50%);
+
+    width: 24px;
+    height: 24px;
+
+    font-size: $base-font-size--large + 1;
+
+    // fix vertical align of icon
+    span::before {
+        position: relative;
+        top: -1px;
+    }
+}

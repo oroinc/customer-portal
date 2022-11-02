@@ -9,28 +9,22 @@
         }
 
         .grid {
-            padding: 28px 24px;
-            background: get-color('additional', 'base');
-
-            .grid__row:last-child {
-                .grid__column:last-child {
-                    margin-bottom: 0;
-                }
-            }
+            padding: 28px 32px;
+            background: $customer-form-group-grid-background;
         }
     }
 
     .form-row {
         margin-bottom: 0;
     }
-
-    .form-buttons {
-        padding-top: 28px;
-    }
 }
 
 %customer-form-grid {
-    padding: 28px 24px;
+    padding: 28px 32px;
 
-    background: get-color('additional', 'base');
+    background: $customer-form-grid-background;
+}
+
+.form-buttons {
+    margin-top: 28px;
 }

@@ -1,12 +1,13 @@
 /* @theme: default; */
 
-// TODO: Do not append the new code, just delete!
+/* stylelint-disable no-descending-specificity */
+
+// Do not append the new code, just delete!
 .oro-grid-table {
     width: 100%;
 
     &__title {
         margin-bottom: $offset-y-s + 1px;
-
         font-size: $base-font-size--large;
         line-height: $base-ui-element-line-height;
     }
@@ -17,12 +18,12 @@
         th {
             padding: ($offset-y-m + $offset-y-s) ($offset-x-m + 2px);
 
-            font-weight: 400;
+            font-weight: font-weight('normal');
 
             border: 0;
-            border-top: 1px solid get-color('additional', 'light');
-            border-bottom: 1px solid get-color('additional', 'light');
-            background: get-color('additional', 'base');
+            border-top: $oro-grid-table-th-border-top;
+            border-bottom: $oro-grid-table-th-border-bottom;
+            background: $oro-grid-table-th-background;
         }
     }
 
@@ -34,26 +35,26 @@
             .decor-row {
                 padding: ($offset-y + 3px) 0 ($offset-y-m - 2px);
 
-                &:before {
+                &::before {
                     content: '';
 
                     display: block;
                     height: 1px;
 
-                    background-color: get-color('additional', 'light');
+                    background-color: $oro-grid-table-decor-row-background;
                 }
             }
 
             &.underlined-row {
+                // stylelint-disable-next-line declaration-no-important
                 padding: 0 !important;
 
-                &:before {
+                &::before {
                     content: '';
 
                     display: block;
                     height: 1px;
-
-                    background-color: get-color('additional', 'light');
+                    background-color: $oro-grid-table-underlined-row-background;
                 }
             }
         }
@@ -80,11 +81,10 @@
     }
 
     &_b-bordered {
-        border-bottom: 1px solid get-color('additional', 'light');
+        border-bottom: $oro-grid-table-b-bordered-border;
     }
 
     &-properties {
-
         tbody {
             td {
                 padding: ($offset-y-s - 3px) 0;

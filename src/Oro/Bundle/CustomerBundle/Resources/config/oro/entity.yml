@@ -1,4 +1,10 @@
 oro_entity:
+    exclusions:
+        - { entity: Oro\Bundle\CustomerBundle\Entity\CustomerUser, field: password }
+        - { entity: Oro\Bundle\CustomerBundle\Entity\CustomerUser, field: salt }
+        - { entity: Oro\Bundle\CustomerBundle\Entity\CustomerUser, field: confirmationToken }
+        - { entity: Oro\Bundle\CustomerBundle\Entity\CustomerUserLoginAttempt, field: context }
+
     entity_aliases:
         Oro\Bundle\CustomerBundle\Entity\Customer:
             alias:        customer
@@ -36,5 +42,5 @@ oro_entity:
             contactInformation:
                 query:
                     select:
-                        expr:         entity.email
-                        return_type:  string
+                        expr: entity.email
+                        return_type: string

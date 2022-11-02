@@ -1,0 +1,20 @@
+/* @theme: default; */
+
+.breadcrumbs {
+    font-size: $breadcrumbs-font-size;
+
+    color: $breadcrumbs-color;
+
+    margin: $breadcrumbs-offset;
+
+    &__item,
+    &__link,
+    a,
+    a:hover {
+        color: $breadcrumbs-link-color;
+    }
+
+    &__item {
+        display: inline-block;
+    }
+}

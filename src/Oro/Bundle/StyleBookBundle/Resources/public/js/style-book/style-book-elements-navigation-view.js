@@ -1,18 +1,17 @@
 define(function(require) {
     'use strict';
 
-    var StyleBookElementsNavigationView;
-    var BaseView = require('oroui/js/app/views/base/view');
-    var $ = require('jquery');
-    var _ = require('underscore');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const $ = require('jquery');
+    const _ = require('underscore');
 
     require('bootstrap-scrollspy');
 
-    StyleBookElementsNavigationView = BaseView.extend({
+    const StyleBookElementsNavigationView = BaseView.extend({
         /**
          * @property {String}
          */
-        template: require('tpl!orostylebook/templates/style-book/style-book-elements-nav-item.html'),
+        template: require('tpl-loader!orostylebook/templates/style-book/style-book-elements-nav-item.html'),
 
         /**
          * @property {String}
@@ -34,7 +33,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         listen: {
             'page:afterChange mediator': 'initState'
@@ -53,14 +52,14 @@ define(function(require) {
         pageScrollDuration: 20,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function StyleBookElementsNavigationView() {
-            StyleBookElementsNavigationView.__super__.constructor.apply(this, arguments);
+        constructor: function StyleBookElementsNavigationView(options) {
+            StyleBookElementsNavigationView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.options = _.extend({}, this.options, options);
@@ -73,7 +72,7 @@ define(function(require) {
 
             this.initState();
 
-            StyleBookElementsNavigationView.__super__.initialize.apply(this, arguments);
+            StyleBookElementsNavigationView.__super__.initialize.call(this, options);
         },
 
         initState: function() {
@@ -83,7 +82,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         onSwitchClick: function(e) {
             e.preventDefault();
@@ -98,31 +97,36 @@ define(function(require) {
          * @param {String} anchor
          */
         scrollToElement: function(anchor) {
-            var $element = $(anchor);
-            var scrollPos = $element.offset().top - this.offset;
+            const $element = $(anchor);
+            if ($element.length) {
+                const scrollPos = $element.offset().top - this.offset;
 
-            $('body, html').animate({
-                scrollTop: scrollPos
-            }, this.pageScrollDuration);
+                $('body, html').animate({
+                    scrollTop: scrollPos
+                }, this.pageScrollDuration);
 
-            window.location.hash = anchor;
+                window.location.hash = anchor;
+            } else {
+                // Clear hash from browser URI field
+                history.replaceState(null, null, ' ');
+            }
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         getElementsList: function() {
-            var $elemList = $(this.options.elementSelector);
-            var items = [];
-            $elemList.each(_.bind(function(index, elem) {
+            const $elemList = $(this.options.elementSelector);
+            const items = [];
+            $elemList.each((index, elem) => {
                 items.push($(elem).data('style-book-element'));
-            }, this));
+            });
 
             return items;
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         render: function() {
             this.$el.html(this.template({

@@ -1,0 +1,12 @@
+configs:
+    orofrontend/js/app/datafilter/frontend-collection-filters-manager: {}
+    orofrontend/js/app/datafilter/frontend-multiselect-decorator: {}
+    orofrontend/js/app/datafilter/plugins/frontend-filters-plugin: {}
+    orofrontend/js/app/plugins/frontend-datagrid-settings-plugin: {}
+    orofrontend/js/datagrid/cell/frontend-action-cell: {}
+dynamic-imports:
+    commons:
+        - orofrontend/js/app/components/widget-form-component
+        - orofrontend/js/app/views/form-view
+        - orofrontend/js/app/views/page-template-select-view
+        - orofrontend/js/app/views/theme-select-view

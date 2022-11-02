@@ -8,13 +8,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class AccessHelperTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @param $debug
-     * @param bool $expected
      * @dataProvider isAllowStyleBookProvider
      */
-    public function testIsAllowStyleBook($debug, $expected)
+    public function testIsAllowStyleBook(bool|int $debug, bool $expected)
     {
-        /** @var ContainerInterface|\PHPUnit\Framework\MockObject\MockObject $container */
         $container = $this->createMock(ContainerInterface::class);
         $container->expects($this->once())
             ->method('getParameter')
@@ -26,10 +23,7 @@ class AccessHelperTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $helper->isAllowStyleBook());
     }
 
-    /**
-     * @return array
-     */
-    public function isAllowStyleBookProvider()
+    public function isAllowStyleBookProvider(): array
     {
         return [
             'debug true' => [

@@ -1,0 +1,11 @@
+/* @theme: default; */
+
+$skip-to-content-position: absolute !default;
+$skip-to-content-z-index: z('popup') !default;
+
+$skip-to-content-offset: 8px !default;
+
+$skip-to-content-bg: get-color('additional', 'ultra') !default;
+$skip-to-content-border: 1px solid get-color('additional', 'light') !default;
+$skip-to-content-radius: 0 0 $border-radius $border-radius !default;
+$skip-to-content-box-shadow: 0 2px 6px 1px get-color('additional', 'darker', 12%) !default;

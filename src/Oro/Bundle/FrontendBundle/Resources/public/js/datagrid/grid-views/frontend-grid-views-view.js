@@ -1,18 +1,23 @@
 define(function(require) {
     'use strict';
 
-    var FrontendGridViewsView;
+    const $ = require('jquery');
+    const _ = require('underscore');
+    const __ = require('orotranslation/js/translator');
+    const tools = require('oroui/js/tools');
+    const errorHandler = require('oroui/js/error');
+    const manageFocus = require('oroui/js/tools/manage-focus').default;
+    const GridViewsView = require('orodatagrid/js/datagrid/grid-views/view');
+    const DeleteConfirmation = require('oroui/js/delete-confirmation');
+    const errorTemplate = require('tpl-loader!orodatagrid/templates/datagrid/view-name-error-modal.html');
+    require('jquery-ui/tabbable');
 
-    var $ = require('jquery');
-    var _ = require('underscore');
-    var __ = require('orotranslation/js/translator');
-    var GridViewsView = require('orodatagrid/js/datagrid/grid-views/view');
-    var DeleteConfirmation = require('oroui/js/delete-confirmation');
-    var errorTemplate = require('tpl!orodatagrid/templates/datagrid/view-name-error-modal.html');
+    const ESCAPE_KEY_CODE = 27;
+    const ENTER_KEY_CODE = 13;
 
-    FrontendGridViewsView = GridViewsView.extend({
+    const FrontendGridViewsView = GridViewsView.extend({
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         attributes: {
             'data-layout': 'separate'
@@ -27,8 +32,11 @@ define(function(require) {
         /** @property */
         defaultPrefix: __('oro_frontend.datagrid_views.all'),
 
+        /** @property */
+        toggleAriaLabel: 'oro_frontend.datagrid_views.toggleAriaLabel',
+
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         route: 'oro_api_frontend_datagrid_gridview_default',
 
@@ -43,16 +51,18 @@ define(function(require) {
             'click [data-role="delete"]': 'onDelete',
             'click [data-role="rename"]': 'onRename',
             'click [data-role="discard_changes"]': 'onDiscardChanges',
-            'click [data-switch-edit-mode]': 'switchEditMode',
+            'click [data-cancel-edit]': 'onCancelEdit',
             'click .dropdown-menu': 'onClickView',
-            'keydown #frontend-grid-view-name': 'onKeyDown'
+            'click [data-grid-view-update]': 'onUpdate',
+            'hide.bs.dropdown': 'onHideDropdown',
+            'show.bs.dropdown': 'onOpenDropdown'
         },
 
         /** @property */
         DeleteConfirmation: DeleteConfirmation,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         adjustDocumentTitle: false,
 
@@ -120,27 +130,24 @@ define(function(require) {
         /** @property */
         hideTitle: null,
 
-        /** @property */
-        showErrorMessage: false,
-
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function FrontendGridViewsView() {
-            FrontendGridViewsView.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendGridViewsView(options) {
+            FrontendGridViewsView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          * @param options
          */
         initialize: function(options) {
             // get template by datagrid name or first template on page
-            var $selector = $(this.templateSelector).filter('[data-datagrid-views-name =' + options.gridName + ']');
+            let $selector = $(this.templateSelector).filter('[data-datagrid-views-name =' + options.gridName + ']');
             if (!$selector.length) {
                 $selector = $(this.templateSelector);
             }
-            this.template = _.template($selector.html());
+            this.template = _.template($selector.html() ?? '');
             this.templateSelector = null;
 
             this.errorTemplate = this.getTemplateFunction('errorTemplate');
@@ -166,16 +173,24 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          * @returns {FrontendGridViewsView}
          */
         render: function() {
-            FrontendGridViewsView.__super__.render.apply(this, arguments);
+            FrontendGridViewsView.__super__.render.call(this);
 
             this.$gridViewName = this.$(this.defaults.elements.gridViewName);
             this.$gridViewDefault = this.$(this.defaults.elements.gridViewDefault);
             this.$gridViewUpdate = this.$(this.defaults.elements.gridViewUpdate);
+            this.$gridViewPopupContainer = this.$('[data-grid-view-popup-container]');
+            this.$gridViewSwitchEditButton = this.$('[data-switch-edit-button]');
+            this.$editContainer = this.$('[data-edit-container]');
+            this.$('[data-role="subtitle"]').attr('id', `subtitle-${this.uniqueId}`);
+            this.$('[data-role="grid-views-list"]').attr('aria-labelledby', `subtitle-${this.uniqueId}`);
             this.initLayout();
+            this.restoreDropdownState();
+            this.updateButtonLabel();
+
             return this;
         },
 
@@ -183,143 +198,242 @@ define(function(require) {
          * @returns {HTMLElement}
          */
         renderTitle: function() {
+            const label = this._getCurrentViewLabel();
+
             return this.titleTemplate({
-                title: this._getCurrentViewLabel(),
+                uniqueId: this.uniqueId,
+                title: label,
+                toggleAriaLabel: __(this.toggleAriaLabel, {choiceName: label}),
                 iconClass: this.titleOptions.iconClass,
                 icon: this.titleOptions.icon
             });
         },
+
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         dispose: function() {
             if (this.disposed) {
                 return;
             }
 
+            this.$gridViewPopupContainer.off(`keydown${this.eventNamespace()}`);
+            this.$gridViewUpdate.off();
+            if (this._editableViewModel) {
+                delete this._editableViewModel;
+            }
             delete this.$gridViewName;
             delete this.$gridViewDefault;
             delete this.$gridViewUpdate;
-
+            delete this.$gridViewPopupContainer;
+            delete this.$gridViewSwitchEditButton;
+            delete this.$editContainer;
             this.togglePageTitles();
+
+            this.updateDropdownState(null);
 
             FrontendGridViewsView.__super__.dispose.call(this);
         },
 
         /**
-         * @inheritDoc
-         */
-        _bindEventListeners: function() {
-            var self = this;
-
-            this.$el.on('hide.bs.dropdown', function() {
-                self.switchEditMode({}, 'hide');
-            });
-
-            FrontendGridViewsView.__super__._bindEventListeners.apply(this, arguments);
-        },
-
-        /**
-         * @param e
+         * @param {Event} e
          */
         onSave: function(e) {
-            var model = this._getEditableViewModel(e.currentTarget);
+            const model = this._getEditableViewModel(e.currentTarget);
+            this.updateDropdownState({
+                elToFocus: tools.getElementCSSPath(
+                    this.getInputRelatedToAction(e.currentTarget)
+                )
+            });
 
             this._onSaveModel(model);
         },
 
         /**
-         * @param e
+         * @param {Event} e
          */
         onKeyDown: function(e) {
-            if (e.which === 13) {
+            if (
+                e.which === ENTER_KEY_CODE &&
+                document.activeElement === this.$gridViewName[0]
+            ) {
+                e.stopPropagation();
                 this.$gridViewUpdate.trigger('click');
+            } else if (
+                e.which === ESCAPE_KEY_CODE &&
+                document.activeElement === this.$gridViewName[0] &&
+                this.$editContainer.hasClass('show')
+            ) {
+                e.stopPropagation();
+                this.switchEditMode(e, 'hide');
+                this.restoreDropdownState();
             }
         },
 
         /**
-         * @param e
+         * @param {Event} e
          */
-        onSaveNew: function(e) {
-            var self = this;
+        onUpdate: function(e) {
+            e.stopPropagation();
 
-            this.switchEditMode(e, 'show');
+            const data = this.getInputData(this.$el);
 
-            this.$gridViewUpdate
-                .off()
-                .text(this.$gridViewUpdate.data('text-add'))
-                .on('click', function(e) {
-                    e.stopPropagation();
-                    var data = self.getInputData(self.$el);
-                    var model = self._createBaseViewModel(data);
+            if (this._editableViewModel !== void 0) {
+                this._editableViewModel.set(data, {silent: true});
+                this._onRenameSaveModel(this._editableViewModel);
+            } else {
+                const model = this._createBaseViewModel(data);
 
-                    self._onSaveAsModel(model);
-                });
+                if (model.isValid()) {
+                    this._onSaveAsModel(model);
+                }
+            }
         },
 
         /**
-         * @param e
+         * @param {Event} e
+         */
+        onSaveNew: function(e) {
+            if (this._editableViewModel) {
+                delete this._editableViewModel;
+            }
+            this.updateDropdownState({
+                elToFocus: tools.getElementCSSPath(this.$gridViewSwitchEditButton[0])
+            });
+            this.switchEditMode(e, 'show');
+            this.$gridViewName.trigger('focus');
+        },
+
+        /**
+         * @param {Event} e
          */
         onRename: function(e) {
-            var self = this;
-            var model = this._getEditableViewModel(e.currentTarget);
-
-            this.switchEditMode(e, 'show', model.get('is_default'));
-
-            this.fillForm({
-                name: model.get('label'),
-                is_default: model.get('is_default')
+            this._editableViewModel = this._getEditableViewModel(e.currentTarget);
+            this.updateDropdownState({
+                elToFocus: tools.getElementCSSPath(e.currentTarget)
             });
+            this.switchEditMode(e, 'show', this._editableViewModel.get('is_default'));
+            this.fillForm({
+                name: this._editableViewModel.get('label'),
+                is_default: this._editableViewModel.get('is_default')
+            });
+            this.$gridViewName.trigger('focus');
+        },
 
-            this.$gridViewUpdate
-                .off()
-                .text(this.$gridViewUpdate.data('text-save'))
-                .on('click', function(e) {
-                    var data = self.getInputData(self.$el);
+        updateButtonLabel: function() {
+            const text = this._editableViewModel === void 0
+                ? this.$gridViewUpdate.data('text-add')
+                : this.$gridViewUpdate.data('text-save');
 
-                    e.stopPropagation();
-
-                    model.set(data, {silent: true});
-                    self._onRenameSaveModel(model);
-                });
+            this.$gridViewUpdate.text(text);
         },
 
         /**
          * @param {object} event
          * @param {string} mode
          * @param {bool} [hideCheckbox] - undefined
-         * @returns {Path|*|jQuery|HTMLElement}
          */
-
         switchEditMode: function(event, mode, hideCheckbox) {
-            var $this = $(event.currentTarget);
-            var modeState = $this.data('switch-edit-mode') || mode; // 'hide' | 'show'
+            const $this = $(event.currentTarget);
+            const modeState = $this.data('switch-edit-mode') || mode; // 'hide' | 'show'
 
             hideCheckbox = hideCheckbox || false;
 
             this.$('[data-checkbox-container]').toggleClass('hidden', hideCheckbox);
 
-            this.$gridViewUpdate.text(
-                this.$gridViewUpdate.data('text')
-            );
+            this.updateButtonLabel();
 
             this.fillForm();
             this.toggleEditForm(modeState);
         },
 
         /**
+         * @param {Event} e
+         */
+        onCancelEdit: function(e) {
+            e.stopPropagation();
+
+            this.switchEditMode({}, 'hide');
+            this.restoreDropdownState();
+        },
+
+        /**
+         * @param {Event} e
+         */
+        onOpenDropdown: function(e) {
+            this.$gridViewPopupContainer
+                .off(`keydown${this.eventNamespace()}`)
+                .on(`keydown${this.eventNamespace()}`, e => this.onKeyDown(e));
+            this.updateDropdownState({
+                dropdownToggle: tools.getElementCSSPath(e.relatedTarget),
+                event: e.type
+            });
+        },
+
+        /**
+         * @param {Event} e
+         */
+        onHideDropdown: function(e) {
+            this.$gridViewPopupContainer.off(`keydown${this.eventNamespace()}`);
+            this.switchEditMode({}, 'hide');
+            this.updateDropdownState({
+                event: e.type
+            });
+        },
+
+        /**
+         * @param {Object} state
+         */
+        updateDropdownState: function(state) {
+            if (state === null) {
+                delete this._dropdownState;
+                return;
+            }
+
+            for (const [key, value] of Object.entries(state)) {
+                if (this._dropdownState === void 0) {
+                    this._dropdownState = {};
+                }
+
+                this._dropdownState[key] = value;
+            }
+        },
+
+        /**
+         * @returns {}
+         */
+        getDropdownState: function() {
+            return {...this._dropdownState};
+        },
+
+        restoreDropdownState: function() {
+            const state = this.getDropdownState();
+
+            if (_.isEmpty(state)) {
+                return;
+            }
+
+            $(state.dropdownToggle).dropdown(state.event);
+
+            const $focusEl = $(state.elToFocus);
+
+            if ($focusEl.is(':tabbable')) {
+                $focusEl.trigger('focus');
+            } else {
+                manageFocus.focusTabbable(this.$gridViewPopupContainer);
+            }
+        },
+
+        /**
          * @param {string} mode
          */
         toggleEditForm: function(mode) {
-            var $buttonMain = this.$('[data-switch-edit-button]');
-            var $switchEditModeContainer = this.$('[data-edit-container]');
-
             if (mode === 'show') {
-                $buttonMain.hide();
-                $switchEditModeContainer.show();
+                this.$gridViewSwitchEditButton.addClass('hide');
+                this.$editContainer.addClass('show');
             } else if (mode === 'hide') {
-                $buttonMain.show();
-                $switchEditModeContainer.hide();
+                this.$gridViewSwitchEditButton.removeClass('hide');
+                this.$editContainer.removeClass('show');
             }
         },
 
@@ -327,7 +441,7 @@ define(function(require) {
          * @param data
          */
         fillForm: function(data) {
-            var obj = _.extend({
+            const obj = _.extend({
                 name: '',
                 is_default: false
             }, data);
@@ -347,12 +461,15 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @param {Event} e
          */
         onChange: function(e) {
-            var $this = $(e.target);
-            var value = $this.val();
+            const $this = $(e.target);
+            const value = $this.val();
 
+            this.updateDropdownState({
+                elToFocus: tools.getElementCSSPath(e.target)
+            });
             this.changeView(value);
             this._updateTitle();
 
@@ -364,7 +481,78 @@ define(function(require) {
          * @param {Event} e
          */
         onDiscardChanges: function(e) {
+            this.updateDropdownState({
+                elToFocus: tools.getElementCSSPath(
+                    this.getInputRelatedToAction(e.currentTarget)
+                )
+            });
             this.changeView($(e.currentTarget).data('choice-value'));
+        },
+
+        /**
+         * @param {Event} e
+         */
+        onUseAsDefault: function(e) {
+            this.updateDropdownState({
+                elToFocus: tools.getElementCSSPath(
+                    this.getInputRelatedToAction(e.currentTarget)
+                )
+            });
+            FrontendGridViewsView.__super__.onUseAsDefault.call(this, e);
+        },
+
+        /**
+         * @param {Event} e
+         */
+        onShare: function(e) {
+            this.updateDropdownState({
+                elToFocus: tools.getElementCSSPath(
+                    this.getInputRelatedToAction(e.currentTarget)
+                )
+            });
+            FrontendGridViewsView.__super__.onShare.call(this, e);
+        },
+
+        /**
+         * @param {Event} e
+         */
+        onUnshare: function(e) {
+            this.updateDropdownState({
+                elToFocus: tools.getElementCSSPath(
+                    this.getInputRelatedToAction(e.currentTarget)
+                )
+            });
+            FrontendGridViewsView.__super__.onUnshare.call(this, e);
+        },
+
+        /**
+         * @param {Event} e
+         */
+        onDelete: function(e) {
+            const {event, dropdownToggle} = this.getDropdownState();
+            const state = {
+                event: event,
+                dropdownToggle: dropdownToggle,
+                elToFocus: tools.getElementCSSPath(e.currentTarget)
+            };
+
+            const confirm = FrontendGridViewsView.__super__.onDelete.call(this, e);
+            let restoreDropdown = true;
+
+            confirm.on('ok', () => {
+                state.elToFocus = null;
+                restoreDropdown = false;
+            }).on('close', () => {
+                setTimeout(() => {
+                    if (this.disposed) {
+                        return;
+                    }
+                    this.updateDropdownState(state);
+                    restoreDropdown && this.restoreDropdownState();
+                }, 0);
+            });
+
+            return confirm;
         },
 
         /**
@@ -373,24 +561,29 @@ define(function(require) {
          * @param options
          */
         onError: function(model, response, options) {
-            this.$el.trigger('show.bs.dropdown');
+            this.restoreDropdownState();
 
             if (response.status === 400) {
-                var jsonResponse = JSON.parse(response.responseText);
-                var errors = jsonResponse.errors.children.label.errors;
+                const responseJSON = response.responseJSON;
+                const errors = responseJSON.errors ? responseJSON.errors.children.label.errors : null;
+                const message = responseJSON.message;
+                const err = errors ? errors[0] : message;
 
-                if (errors) {
+                if (err) {
                     this.fillForm({
                         name: model.previous('label')
                     });
-                    this.setNameError(_.first(errors));
+                    this.setNameError(err);
                     this.toggleEditForm('show');
+                    this.$gridViewName.trigger('focus');
                 }
+            } else {
+                errorHandler.showErrorInUI(response);
             }
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         onGridViewsModelInvalid: function(errors) {
             this.setNameError(_.first(errors));
@@ -402,6 +595,12 @@ define(function(require) {
          */
         clearValidation: function() {
             this.$('.validation-failed').remove();
+            this.$gridViewName
+                .removeClass('error')
+                .attr({
+                    'aria-describedby': null,
+                    'aria-invalid': null
+                });
         },
 
         /**
@@ -411,11 +610,20 @@ define(function(require) {
             this.clearValidation();
 
             if (error) {
+                const id = _.uniqueId('error-');
+
                 error = this.errorTemplate({
-                    error: error
+                    error: error,
+                    id: id
                 });
 
-                this.$gridViewName.after(error);
+                this.$gridViewName
+                    .addClass('error')
+                    .attr({
+                        'aria-describedby': id,
+                        'aria-invalid': true
+                    })
+                    .after(error);
             }
         },
 
@@ -425,7 +633,7 @@ define(function(require) {
          * @private
          */
         _getEditableViewModel: function(element) {
-            var viewModel = $(element).data('choice-value');
+            const viewModel = $(element).data('choice-value');
 
             return this.viewsCollection.get({
                 name: viewModel
@@ -446,13 +654,13 @@ define(function(require) {
          * @private
          */
         _getViewActions: function() {
-            var actions = [];
-            var actionsOptions = this.defaults.actionsOptions;
-            var onlySystemView = this.viewsCollection.length === 1;
+            const actions = [];
+            const actionsOptions = this.defaults.actionsOptions;
+            const onlySystemView = this.viewsCollection.length === 1;
 
             this.viewsCollection.each(function(GridView) {
-                var actionsForView = this._getActions(GridView);
-                var useAsDefaultAction = _.find(actionsOptions, {name: 'use_as_default'});
+                let actionsForView = this._getActions(GridView);
+                const useAsDefaultAction = _.find(actionsOptions, {name: 'use_as_default'});
 
                 if (_.isObject(useAsDefaultAction)) {
                     if (GridView.get('type') === 'system') {
@@ -483,7 +691,7 @@ define(function(require) {
          * @private
          */
         _getViewIsDirty: function(GridView) {
-            var isCurrent = this.collection.state.gridView === GridView.id;
+            const isCurrent = this.collection.state.gridView === GridView.id;
 
             return this.viewDirty && isCurrent;
         },
@@ -497,8 +705,8 @@ define(function(require) {
             actionsOptions = actionsOptions || {};
 
             _.each(actions, function(item, iterate) {
-                var currentOptions = _.find(actionsOptions, {name: item.name}) || {};
-                var filteredOptions = _.omit(currentOptions, 'name'); // skip 'name'
+                const currentOptions = _.find(actionsOptions, {name: item.name}) || {};
+                const filteredOptions = _.omit(currentOptions, 'name'); // skip 'name'
 
                 _.extend(item, filteredOptions || {});
             }, this);
@@ -529,10 +737,10 @@ define(function(require) {
          * @returns {Array}
          */
         showActions: function(actions) {
-            var showActions = [];
+            const showActions = [];
 
             _.each(actions, function(action) {
-                var showAction = _.some(action, function(actionItem) {
+                const showAction = _.some(action, function(actionItem) {
                     return actionItem.enabled;
                 });
 
@@ -549,6 +757,17 @@ define(function(require) {
             if (this.hideTitle) {
                 this.hideTitle.toggleClass('hidden', _.isUndefined(state) ? false : state);
             }
+        },
+
+        /**
+         * @param {HTMLElement} action
+         * @returns HTMLElement
+         */
+        getInputRelatedToAction: function(action) {
+            const relatedInput = this.$('[data-change-grid-view]')
+                .filter((index, el) => el.value === action.getAttribute('data-choice-value'));
+
+            return relatedInput.length ? relatedInput[0] : this.$('[data-change-grid-view]')[0];
         }
     });
 

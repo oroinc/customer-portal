@@ -5,8 +5,8 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\RestJsonApi;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Oro\Bundle\ApiBundle\ApiDoc\Extractor\CachingApiDocExtractor;
-use Oro\Bundle\ApiBundle\Request\ApiActions;
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\ApiBundle\Request\ApiAction;
+use Oro\Bundle\ApiBundle\Tests\Functional\ApiFeatureTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserApi;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
@@ -20,16 +20,20 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class LoginTest extends FrontendWebTestCase
 {
-    const JSON_API_CONTENT_TYPE = 'application/vnd.api+json';
+    use ApiFeatureTrait;
+
+    private const JSON_API_MEDIA_TYPE   = 'application/vnd.api+json';
+    private const JSON_API_CONTENT_TYPE = 'application/vnd.api+json';
+    private const API_FEATURE_NAME      = 'oro_frontend.web_api';
 
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
-        $this->setCurrentWebsite();
         $this->loadFixtures([LoadCustomerUserData::class]);
+        $this->setCurrentWebsite();
     }
 
     /**
@@ -40,12 +44,17 @@ class LoginTest extends FrontendWebTestCase
      */
     private function request($method, array $parameters = [])
     {
+        $server = ['HTTP_ACCEPT' => self::JSON_API_MEDIA_TYPE];
+        if ('POST' === $method || 'PATCH' === $method || 'DELETE' === $method) {
+            $server['CONTENT_TYPE'] = self::JSON_API_CONTENT_TYPE;
+        }
+
         $this->client->request(
             $method,
             $this->getUrl('oro_frontend_rest_api_list', ['entity' => 'login']),
             $parameters,
             [],
-            ['CONTENT_TYPE' => self::JSON_API_CONTENT_TYPE]
+            $server
         );
 
         $this->getEntityManager()->clear();
@@ -81,10 +90,7 @@ class LoginTest extends FrontendWebTestCase
         return $response;
     }
 
-    /**
-     * @return Response
-     */
-    protected function sendOptionsRequest()
+    private function sendOptionsRequest(): Response
     {
         $response = $this->request('OPTIONS');
 
@@ -95,7 +101,7 @@ class LoginTest extends FrontendWebTestCase
 
         self::assertResponseStatusCodeEquals($response, Response::HTTP_OK);
         self::assertSame('', $response->getContent());
-        self::assertSame(0, $response->headers->get('Content-Length'));
+        self::assertSame('0', $response->headers->get('Content-Length'));
         self::assertEquals('max-age=600, public', $response->headers->get('Cache-Control'));
         self::assertEquals('Origin', $response->headers->get('Vary'));
 
@@ -149,7 +155,7 @@ class LoginTest extends FrontendWebTestCase
                     [
                         'status' => '403',
                         'title'  => 'access denied exception',
-                        'detail' => 'The user authentication fails. Reason: Invalid user name or password.'
+                        'detail' => 'The user authentication fails. Reason: Invalid username or password.'
                     ]
                 ]
             ],
@@ -184,8 +190,7 @@ class LoginTest extends FrontendWebTestCase
 
     public function testLoginWithValidCredentialsAndDisabledApiKeyGeneration()
     {
-        /** @var ConfigManager $configManager */
-        $configManager = self::getContainer()->get('oro_config.manager');
+        $configManager = self::getConfigManager('global');
         $configManager->set('oro_customer.api_key_generation_enabled', false);
 
         $response = $this->sendLoginRequest(LoadCustomerUserData::EMAIL, LoadCustomerUserData::PASSWORD);
@@ -224,7 +229,7 @@ class LoginTest extends FrontendWebTestCase
         $em->persist($apiKey);
         $em->flush();
 
-        $configManager = self::getContainer()->get('oro_config.global');
+        $configManager = self::getConfigManager('global');
         $configManager->set('oro_customer.case_insensitive_email_addresses_enabled', false);
         $configManager->flush();
 
@@ -248,7 +253,7 @@ class LoginTest extends FrontendWebTestCase
         $em->persist($apiKey);
         $em->flush();
 
-        $configManager = self::getContainer()->get('oro_config.global');
+        $configManager = self::getConfigManager('global');
         $configManager->set('oro_customer.case_insensitive_email_addresses_enabled', true);
         $configManager->flush();
 
@@ -261,11 +266,6 @@ class LoginTest extends FrontendWebTestCase
         $this->assertCustomerUserLoggedIn($response, $user, $apiKey);
     }
 
-    /**
-     * @param Response $response
-     * @param CustomerUser $user
-     * @param CustomerUserApi $apiKey
-     */
     private function assertCustomerUserLoggedIn(Response $response, CustomerUser $user, CustomerUserApi $apiKey)
     {
         $existingApiKey = $apiKey->getApiKey();
@@ -291,6 +291,17 @@ class LoginTest extends FrontendWebTestCase
         self::assertEquals($existingApiKey, $user->getApiKeys()->first()->getApiKey());
     }
 
+    public function testLoginShouldBeAvailableEvenIfGuestsHaveNoAccessToSystem()
+    {
+        $configManager = self::getConfigManager('global');
+        $configManager->set('oro_frontend.guest_access_enabled', false);
+        $configManager->flush();
+
+        $response = $this->sendLoginRequest(LoadCustomerUserData::EMAIL, LoadCustomerUserData::PASSWORD);
+
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_OK);
+    }
+
     public function testLoginForDisabledCustomerUser()
     {
         /** @var CustomerUser $user */
@@ -308,7 +319,7 @@ class LoginTest extends FrontendWebTestCase
                     [
                         'status' => '403',
                         'title'  => 'access denied exception',
-                        'detail' => 'The user authentication fails. Reason: Account is locked.'
+                        'detail' => 'The user authentication fails. Reason: Invalid username or password.'
                     ]
                 ]
             ],
@@ -396,7 +407,7 @@ class LoginTest extends FrontendWebTestCase
             $annotation = $doc['annotation'];
             $route = $annotation->getRoute();
             if ($route->getDefault('entity') === 'login'
-                && $route->getDefault('_action') === ApiActions::OPTIONS
+                && $route->getDefault('_action') === ApiAction::OPTIONS
             ) {
                 $docs[] = $doc;
                 break;
@@ -429,5 +440,25 @@ class LoginTest extends FrontendWebTestCase
             empty($resourceData['response']),
             'The "response" section should be empty'
         );
+    }
+
+    public function testTryToLoginWithValidCredentialsAndDisabledFeature()
+    {
+        $this->disableApiFeature(self::API_FEATURE_NAME);
+        try {
+            $response = $this->request(
+                'POST',
+                [
+                    'meta' => [
+                        'email'    => LoadCustomerUserData::EMAIL,
+                        'password' => LoadCustomerUserData::PASSWORD
+                    ]
+                ]
+            );
+        } finally {
+            $this->enableApiFeature(self::API_FEATURE_NAME);
+        }
+
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
     }
 }

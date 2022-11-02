@@ -12,7 +12,7 @@ class CustomerUserAddressTest extends AbstractAddressTest
     {
         parent::testProperties();
 
-        static::assertPropertyAccessors($this->address, [
+        self::assertPropertyAccessors($this->address, [
             ['frontendOwner', new CustomerUser()],
         ]);
     }

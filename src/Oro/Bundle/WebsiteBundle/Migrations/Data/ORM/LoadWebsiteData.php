@@ -4,8 +4,8 @@ namespace Oro\Bundle\WebsiteBundle\Migrations\Data\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
 use Oro\Bundle\OrganizationBundle\Migrations\Data\ORM\LoadOrganizationAndBusinessUnitData;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
@@ -39,9 +39,6 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
         ];
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
     public function load(ObjectManager $manager)
     {
         /** @var OrganizationInterface $organization */

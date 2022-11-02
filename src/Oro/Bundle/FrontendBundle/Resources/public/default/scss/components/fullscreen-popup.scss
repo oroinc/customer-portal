@@ -1,0 +1,131 @@
+.fullscreen-popup {
+    display: $fullscreen-popup-display;
+    flex-direction: $fullscreen-popup-flex-direction;
+    min-width: $body-min-width;
+
+    position: $fullscreen-popup-position;
+    z-index: $fullscreen-popup-z-index;
+
+    top: $fullscreen-popup-top;
+    right: $fullscreen-popup-right;
+    bottom: $fullscreen-popup-bottom;
+    left: $fullscreen-popup-left;
+
+    height: $fullscreen-popup-height;
+    margin-left: $fullscreen-popup-margin-left;
+
+    background: $fullscreen-popup-bg;
+
+    &__header {
+        display: $fullscreen-popup-header-display;
+        flex-wrap: wrap;
+        align-items: $fullscreen-popup-header-align-items;
+
+        position: $fullscreen-popup-header-position;
+        z-index: $fullscreen-popup-header-z-index;
+        right: $fullscreen-popup-header-right;
+        left: $fullscreen-popup-header-left;
+
+        min-height: $fullscreen-popup-header-min-height;
+
+        @include safe-area-offset(padding, $fullscreen-popup-header-offset);
+
+        background: $fullscreen-popup-header-bg;
+        border-bottom: $fullscreen-popup-header-border-bottom;
+    }
+
+    &__text {
+        display: $fullscreen-popup-text-display;
+        align-items: $fullscreen-popup-text-align-items;
+
+        padding: $fullscreen-popup-text-offset;
+
+        font-size: $base-font-size--s;
+        font-weight: $fullscreen-popup-text-weight;
+        text-transform: $fullscreen-popup-text-text-transform;
+
+        cursor: $fullscreen-popup-text-cursor;
+
+        [class^='fa-'],
+        [class*=' fa-'] {
+            margin-right: $fullscreen-popup-text-fa-icon-margin-right;
+
+            line-height: $fullscreen-popup-text-fa-icon-line-height;
+
+            vertical-align: $fullscreen-popup-text-fa-icon-vertical-align;
+        }
+    }
+
+    &__label {
+        display: $fullscreen-popup-label-display;
+    }
+
+    &__badge {
+        margin-right: $fullscreen-popup-badge-offset;
+
+        @include badge($badge-bg: $fullscreen-popup-badge-bg);
+
+        vertical-align: $fullscreen-popup-badge-vertical-align;
+    }
+
+    &__content {
+        height: $fullscreen-popup-content-height;
+
+        overflow: $fullscreen-popup-content-overflow;
+
+        @include safe-area-offset(padding, $fullscreen-popup-content-offset);
+
+        .alert {
+            margin: $fullscreen-popup-content-alert-offset-height;
+        }
+
+        .loader-mask {
+            position: $fullscreen-popup-content-loader-position;
+        }
+    }
+
+    &__footer {
+        display: $fullscreen-popup-footer-display;
+        align-items: $fullscreen-popup-footer-align-items;
+
+        position: $fullscreen-popup-footer-position;
+        z-index: $fullscreen-popup-footer-z-index;
+
+        right: $fullscreen-popup-footer-right;
+        left: $fullscreen-popup-footer-left;
+        bottom: $fullscreen-popup-footer-bottom;
+
+        @include safe-area-offset(padding, $fullscreen-popup-footer-offset);
+
+        background: $fullscreen-popup-footer-bg;
+        border-top: $fullscreen-popup-footer-border-top;
+
+        > .btn {
+            width: $fullscreen-popup-footer-btn-width;
+            margin: $fullscreen-popup-footer-btn-offset;
+        }
+    }
+
+    &__actions-wrapper {
+        width: $fullscreen-popup-actions-wrapper-width;
+
+        .widget-actions-section {
+            display: $fullscreen-popup-widget-actions-section-display;
+            width: $fullscreen-popup-widget-actions-section-width;
+        }
+
+        .action-wrapper {
+            width: $fullscreen-popup-actions-wrapper-width;
+            margin: $fullscreen-popup-actions-wrapper-offset;
+
+            .btn {
+                width: $fullscreen-popup-actions-wrapper-bnt-width;
+            }
+        }
+    }
+
+    // Make correct padding of popup content for any content
+    .tab-content__wrapper {
+        padding: 20px;
+    }
+}

@@ -1,7 +1,10 @@
 parameters:
     oro_customer.entity.owners:
-        business_unit: '%oro_customer.entity.customer.class%'
-        user: '%oro_customer.entity.customer_user.class%'
+        business_unit: 'Oro\Bundle\CustomerBundle\Entity\Customer'
+        user: 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
+
+    # default ttl for frontend owner tree provider cache is set to one week
+    oro_customer.frontend_owner_tree_provider.cache_ttl: 604800
 
 services:
     oro_customer.owner.frontend_ownership_metadata_provider:
@@ -17,10 +20,10 @@ services:
             - { name: oro_security.owner.metadata_provider, alias: frontend_ownership }
 
     oro_customer.owner.frontend_ownership_metadata_provider.cache:
-        parent: oro.cache.abstract
+        parent: oro.data.cache
         public: false
-        calls:
-            - [ setNamespace, [ 'oro_acl_entity_ownership_frontend' ] ]
+        tags:
+            - { name: 'cache.pool', namespace: 'oro_acl_entity_ownership_frontend' }
 
     oro_customer.owner.decision_maker:
         public: false
@@ -49,7 +52,6 @@ services:
            - { name: oro_security.owner.ownership_decision_maker, priority: 20 }
 
     oro_customer.owner.tree_provider:
-        public: false
         class: 'Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider'
         arguments:
             - '@doctrine'
@@ -57,8 +59,11 @@ services:
             - '@oro_customer.owner.frontend_ownership_tree_provider.cache'
             - '@oro_customer.owner.frontend_ownership_metadata_provider'
             - '@security.token_storage'
+            - '@oro_message_queue.client.message_producer'
+        calls:
+            - [setCacheTtl, ['%oro_customer.frontend_owner_tree_provider.cache_ttl%']]
         tags:
-            - { name: oro_security.ownership.tree_provider }
+            - { name: oro_security.ownership.tree_provider, priority: 10 }
 
     oro_customer.owner.database_checker:
         public: false
@@ -66,12 +71,17 @@ services:
         arguments:
             - '@doctrine'
             - ['oro_customer_user']
-            - '%installed%'
+            - '@oro_distribution.handler.application_status'
         tags:
             - { name: oro_entity.database_checker }
 
     oro_customer.owner.frontend_ownership_tree_provider.cache:
-        parent: oro.cache.abstract
+        parent: oro.data.cache
         public: true
-        calls:
-            - [ setNamespace, [ 'oro_acl_owner_tree_frontend' ] ]
+        tags:
+            - { name: 'cache.pool', namespace: 'oro_acl_owner_tree_frontend' }
+
+    oro_customer.model.business_unit_message_factory:
+        class: Oro\Bundle\CustomerBundle\Model\BusinessUnitMessageFactory
+        arguments:
+            - '@oro_entity.doctrine_helper'

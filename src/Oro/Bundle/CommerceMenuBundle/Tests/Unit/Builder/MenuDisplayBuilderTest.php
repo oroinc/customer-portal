@@ -21,7 +21,7 @@ class MenuDisplayBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->conditionEvaluator = $this->createMock(ConditionEvaluatorInterface::class);
         $this->builder = new MenuDisplayBuilder($this->conditionEvaluator);
@@ -30,40 +30,30 @@ class MenuDisplayBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuild()
     {
         $childMenu1 = $this->createMock(ItemInterface::class);
-        $childMenu1
-            ->expects(static::once())
+        $childMenu1->expects(self::once())
             ->method('getChildren')
             ->willReturn([]);
-
-        $childMenu1
-            ->expects(static::once())
+        $childMenu1->expects(self::once())
             ->method('isDisplayed')
             ->willReturn(false);
 
         $childMenu2 = $this->createMock(ItemInterface::class);
-        $childMenu2
-            ->expects(static::once())
+        $childMenu2->expects(self::once())
             ->method('getChildren')
             ->willReturn([]);
-
-        $childMenu2
-            ->expects(static::once())
+        $childMenu2->expects(self::once())
             ->method('isDisplayed')
             ->willReturn(true);
-
-        $childMenu2
-            ->expects(static::once())
+        $childMenu2->expects(self::once())
             ->method('setDisplay')
-            ->willReturn(false);
+            ->willReturn($childMenu2);
 
-        /** @var $mainMenu ItemInterface|\PHPUnit\Framework\MockObject\MockObject */
         $mainMenu = $this->createMock(ItemInterface::class);
-        $mainMenu->expects(static::once())
-                 ->method('getChildren')
-                 ->willReturn([$childMenu1, $childMenu2]);
+        $mainMenu->expects(self::once())
+            ->method('getChildren')
+            ->willReturn([$childMenu1, $childMenu2]);
 
-        $this->conditionEvaluator
-            ->expects(static::exactly(2))
+        $this->conditionEvaluator->expects(self::once())
             ->method('evaluate')
             ->willReturnMap([
                 [$childMenu2, [], false],

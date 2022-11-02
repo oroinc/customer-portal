@@ -46,7 +46,13 @@ class CustomerVisitor extends ExtendCustomerVisitor
      * @var CustomerUser $customerUser
      *
      * @ORM\OneToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser", cascade={"persist"})
-     * @ORM\JoinColumn(name="customer_user_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * @ORM\JoinColumn(
+     *     name="customer_user_id",
+     *     referencedColumnName="id",
+     *     nullable=true,
+     *     unique=true,
+     *     onDelete="SET NULL"
+     * )
      */
     private $customerUser;
 
@@ -112,7 +118,7 @@ class CustomerVisitor extends ExtendCustomerVisitor
      */
     public function prePersist()
     {
-        $this->sessionId = bin2hex(random_bytes(10));
+        $this->sessionId = CustomerVisitorManager::generateSessionId();
     }
 
     /**

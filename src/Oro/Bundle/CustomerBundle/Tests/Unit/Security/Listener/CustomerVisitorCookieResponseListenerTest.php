@@ -7,74 +7,65 @@ use Oro\Bundle\CustomerBundle\Security\Listener\CustomerVisitorCookieResponseLis
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class CustomerVisitorCookieResponseListenerTest extends \PHPUnit\Framework\TestCase
 {
-    public function testOnKernelResponse()
+    public function testOnKernelResponse(): void
     {
-        $cookie = new Cookie('foo_cookie');
+        $cookie = Cookie::create('foo_cookie');
 
         $request = new Request();
         $request->attributes->set(AnonymousCustomerUserAuthenticationListener::COOKIE_ATTR_NAME, $cookie);
 
         $response = new Response();
 
+        $event = new ResponseEvent(
+            $this->createMock(HttpKernelInterface::class),
+            $request,
+            HttpKernelInterface::MAIN_REQUEST,
+            $response
+        );
+
         $listener = new CustomerVisitorCookieResponseListener();
-        $event = $this->createMock(FilterResponseEvent::class);
-        $event->expects($this->once())
-            ->method('isMasterRequest')
-            ->willReturn(true);
-
-        $event->expects($this->once())
-            ->method('getRequest')
-            ->willReturn($request);
-
-        $event->expects($this->once())
-            ->method('getResponse')
-            ->willReturn($response);
-
         $listener->onKernelResponse($event);
 
-        $this->assertEquals([$cookie], $response->headers->getCookies());
+        self::assertEquals([$cookie], $response->headers->getCookies());
     }
 
-    public function testOnKernelResponseWithoutCookieInAttribute()
+    public function testOnKernelResponseWithoutCookieInAttribute(): void
     {
         $request = new Request();
-
         $response = new Response();
 
+        $event = new ResponseEvent(
+            $this->createMock(HttpKernelInterface::class),
+            $request,
+            HttpKernelInterface::MAIN_REQUEST,
+            $response
+        );
+
         $listener = new CustomerVisitorCookieResponseListener();
-        $event = $this->createMock(FilterResponseEvent::class);
-        $event->expects($this->once())
-            ->method('isMasterRequest')
-            ->willReturn(true);
-
-        $event->expects($this->once())
-            ->method('getRequest')
-            ->willReturn($request);
-
-        $event->expects($this->once())
-            ->method('getResponse')
-            ->willReturn($response);
-
         $listener->onKernelResponse($event);
 
-        $this->assertEmpty($response->headers->getCookies());
+        self::assertEmpty($response->headers->getCookies());
     }
 
-    public function testOnKernelResponseNotMasterRequest()
+    public function testOnKernelResponseNotMasterRequest(): void
     {
+        $response = new Response();
+
+        $event = new ResponseEvent(
+            $this->createMock(HttpKernelInterface::class),
+            new Request(),
+            HttpKernelInterface::SUB_REQUEST,
+            $response
+        );
+
         $listener = new CustomerVisitorCookieResponseListener();
-        $event = $this->createMock(FilterResponseEvent::class);
-        $event->expects($this->once())
-            ->method('isMasterRequest')
-            ->willReturn(false);
-
-        $event->expects($this->never())
-            ->method('getRequest');
-
         $listener->onKernelResponse($event);
+
+        self::assertEmpty($response->headers->getCookies());
     }
 }

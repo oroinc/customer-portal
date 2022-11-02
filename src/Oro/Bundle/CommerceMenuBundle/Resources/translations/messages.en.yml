@@ -2,7 +2,8 @@ oro:
     commercemenu:
         menuupdate:
             entity_label: Menu Update
-            entity_plural_label: Menu Update
+            entity_plural_label: Menu Updates
+            entity_grid_all_view_label: All %entity_plural_label%
             id.label: Id
             key.label: Key
             parent_key.label: Parent Key
@@ -13,13 +14,21 @@ oro:
             priority.label: Priority
             scope.label: Scope
             image.label: Image
-            condition.label: Condition
+            condition:
+                label: Condition
+                tooltip: |
+                    Available functions - is_logged_in() to limit visibility to logged in users only
+                    and config_value('some_identifier') to show only if the specified config value
+                    is toggled on in the system configuration.
             website.label: Website
             custom.label: Is Custom
             divider.label: Is Divider
             descriptions.label: Description
             icon.label: Icon
             screens.label: Screens
+            menu_user_agent_conditions.label: User Agent Conditions
+            link_target.label: Target Window
+            link_target.description: 'Set how to open the linked document or URI. Select "Same Window" to open it in the current browser window. Select "New Window" to open it in a new browser tab.'
             roots_plural_label: 'Frontend Menus'
             website_with_label: 'Website: %website%'
             reset_message: "Menu \"%menuKey%\" was successfully reset."
@@ -28,6 +37,18 @@ oro:
             menu_user_agent_conditions_collection.label: "User Agent"
             menu_screens_condition:
                 label: "Exclude on Screens"
+            content_node.label: "Content Node"
+            system_page_route:
+                label: "System Page"
+                placeholder: "Choose a System Page"
+            webcatalog:
+                label: "Web Catalog"
+                description: "Select the web catalog from which you want to choose content node."
+            target_type:
+                label: "Target Type"
+                content_node: "Content Node"
+                system_page: "System Page"
+                uri: "URI"
         menu_user_agent_conditions_collection:
             add_label.label: "Add"
         menu_user_agent_conditions_collection_group:
@@ -48,11 +69,14 @@ oro:
                     menu_list_frontend:
                         label: Frontend Menus
                         description: Manage frontend menus in default scope type
+        feature:
+            label: Frontend Menu
+            description: Enables managing the storefront navigation of the website, adding new items to the main storefront, quick access and featured menus, populating the customer account menu, building the proper breadcrumbs, and setting the required visibility conditions.
         frontend:
             navigation:
                 items:
                     telephone.label: '1-800-555-5555'
-                    free_shipping.label: '<span>Fast & Free Shipping</span> for orders over $45'
+                    free_shipping.label: '<span class="decorated">Fast &amp; Free Shipping</span> for orders over $45'
                     orders.label: 'Orders'
                     quotes.label: 'Quotes'
                     quick_order_form.label: 'Quick Order Form'

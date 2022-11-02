@@ -2,11 +2,13 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional;
 
+use Oro\Bundle\ActionBundle\Tests\Functional\OperationAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Controller\EmailMessageAssertionTrait;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserACLData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mime\Email as SymfonyEmail;
 
 /**
  * @dbIsolationPerTest
@@ -14,28 +16,21 @@ use Symfony\Component\HttpFoundation\Response;
 class CustomerUserFrontendOperationsTest extends WebTestCase
 {
     use EmailMessageAssertionTrait;
+    use OperationAwareTestTrait;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
         $this->client->useHashNavigation(true);
-        $this->loadFixtures(
-            [
-                LoadCustomerUserACLData::class
-            ]
-        );
+        $this->loadFixtures([LoadCustomerUserACLData::class]);
     }
 
     /**
      * @dataProvider accessGrantedDataProvider
-     *
-     * @param string $login
-     * @param string $resource
      */
-    public function testSendConfirmation($login, $resource)
+    public function testSendConfirmation(string $login, string $resource): void
     {
-        $em = $this->getContainer()->get('doctrine')
-            ->getManagerForClass(CustomerUser::class);
+        $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
 
         $user = $this->findCustomerUser($resource);
@@ -46,19 +41,18 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
         $this->executeOperation($user, 'oro_customer_customeruser_sendconfirmation');
 
         $result = $this->client->getResponse();
-        $this->assertJsonResponseStatusCodeEquals($result, Response::HTTP_OK);
+        self::assertJsonResponseStatusCodeEquals($result, Response::HTTP_OK);
 
-        /** @var \Swift_Plugins_MessageLogger $emailLogging */
-        $emailLogger = $this->getContainer()->get('swiftmailer.plugin.messagelogger');
-        $emailMessages = $emailLogger->getMessages();
+        $emailMessages = self::getMailerMessages();
+        self::assertCount(1, $emailMessages);
 
-        /** @var \Swift_Message $message */
-        $message = reset($emailMessages);
+        /** @var SymfonyEmail $emailMessage */
+        $emailMessage = array_shift($emailMessages);
 
-        $this->assertInstanceOf('Swift_Message', $message);
-        $this->assertEquals($resource, key($message->getTo()));
-        $this->assertContains('Confirmation of account registration', $message->getSubject());
-        $this->assertContains($resource, $message->getBody());
+        self::assertInstanceOf(SymfonyEmail::class, $emailMessage);
+        self::assertEmailAddressContains($emailMessage, 'to', $resource);
+        self::assertStringContainsString('Confirmation of account registration', $emailMessage->getSubject());
+        self::assertStringContainsString($resource, $emailMessage->getHtmlBody());
 
         $user = $this->findCustomerUser($resource);
         $user->setConfirmed(true);
@@ -67,18 +61,12 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
 
     /**
      * @dataProvider accessDeniedDataProvider
-     *
-     * @param string $login
-     * @param string $resource
-     * @param int $status
      */
-    public function testSendConfirmationAccessDenied($login, $resource, $status)
+    public function testSendConfirmationAccessDenied(string $login, string $resource, int $status): void
     {
-        $em = $this->getContainer()->get('doctrine')
-            ->getManagerForClass(CustomerUser::class);
+        $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
 
-        /** @var CustomerUser $user */
         $user = $this->findCustomerUser($resource);
         $user->setConfirmed(false);
         $em->flush();
@@ -86,7 +74,7 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
         $this->client->getContainer()->get('doctrine')->getManager()->clear();
 
         $this->executeOperation($user, 'oro_customer_customeruser_sendconfirmation');
-        $this->assertSame($status, $this->client->getResponse()->getStatusCode());
+        self::assertSame($status, $this->client->getResponse()->getStatusCode());
 
         $user = $this->findCustomerUser($resource);
         $user->setConfirmed(true);
@@ -95,64 +83,53 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
 
     /**
      * @dataProvider accessGrantedDataProvider
-     *
-     * @param string $login
-     * @param string $resource
      */
-    public function testConfirmAccessGranted($login, $resource)
+    public function testConfirmAccessGranted(string $login, string $resource): void
     {
-        $em = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
+        $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
 
-        /** @var \Oro\Bundle\CustomerBundle\Entity\CustomerUser $user */
         $user = $this->findCustomerUser($resource);
         $user->setConfirmed(false);
         $em->flush();
 
         $this->executeOperation($user, 'oro_customer_customeruser_confirm');
-        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
         $user = $this->findCustomerUser($resource);
-        $this->assertTrue($user->isConfirmed());
+        self::assertTrue($user->isConfirmed());
 
-        /** @var \Swift_Plugins_MessageLogger $emailLogging */
-        $emailLogger = $this->getContainer()->get('swiftmailer.plugin.messagelogger');
-        $emailMessages = $emailLogger->getMessages();
+        $emailMessages = self::getMailerMessages();
+        self::assertCount(1, $emailMessages);
 
-        $this->assertCount(1, $emailMessages);
-
-        /** @var \Swift_Message $emailMessage */
+        /** @var SymfonyEmail $emailMessage */
         $emailMessage = array_shift($emailMessages);
+
         $this->assertWelcomeMessage($user->getEmail(), $emailMessage);
-        $this->assertContains(
+        self::assertStringContainsString(
             'Please follow the link below to create a password for your new account.',
-            $emailMessage->getBody()
+            $emailMessage->getHtmlBody()
         );
 
         $user = $this->findCustomerUser($resource);
-        $this->assertTrue($user->isConfirmed());
+        self::assertTrue($user->isConfirmed());
     }
 
     /**
      * @dataProvider accessDeniedDataProvider
-     *
-     * @param string $login
-     * @param string $resource
-     * @param int $status
      */
-    public function testConfirmAccessDenied($login, $resource, $status)
+    public function testConfirmAccessDenied(string $login, string $resource, int $status): void
     {
-        $em = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
+        $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
 
-        /** @var CustomerUser $user */
         $user = $this->findCustomerUser($resource);
 
         $user->setConfirmed(false);
         $em->flush();
 
         $this->executeOperation($user, 'oro_customer_customeruser_confirm');
-        $this->assertSame($status, $this->client->getResponse()->getStatusCode());
+        self::assertSame($status, $this->client->getResponse()->getStatusCode());
 
         $user = $this->findCustomerUser($resource);
         $user->setConfirmed(true);
@@ -161,29 +138,26 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
 
     /**
      * @dataProvider accessGrantedDataProvider
-     *
-     * @param string $login
-     * @param string $resource
      */
-    public function testEnableAndDisable($login, $resource)
+    public function testEnableAndDisable(string $login, string $resource): void
     {
-        $em = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
+        $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
 
         $user = $this->findCustomerUser($resource);
-        $this->assertTrue($user->isEnabled());
+        self::assertTrue($user->isEnabled());
 
         $this->executeOperation($user, 'oro_customer_frontend_customeruser_disable');
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        self::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
         $user = $this->findCustomerUser($resource);
-        $this->assertFalse($user->isEnabled());
-        $this->assertNotEmpty($user->getRoles());
+        self::assertFalse($user->isEnabled());
+        self::assertNotEmpty($user->getUserRoles());
         $this->executeOperation($user, 'oro_customer_frontend_customeruser_enable');
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        self::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
         $user = $this->findCustomerUser($resource);
-        $this->assertTrue($user->isEnabled());
+        self::assertTrue($user->isEnabled());
 
         $user = $this->findCustomerUser($resource);
         $user->setConfirmed(true);
@@ -192,79 +166,66 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
 
     /**
      * @dataProvider accessDeniedDataProvider
-     *
-     * @param string $login
-     * @param string $resource
-     * @param int $status
      */
-    public function testEnableAndDisableAccessDenied($login, $resource, $status)
+    public function testEnableAndDisableAccessDenied(string $login, string $resource, int $status): void
     {
-        $em = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
+        $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
 
         $user = $this->findCustomerUser($resource);
         $user->setConfirmed(false);
         $em->flush();
         $this->executeOperation($user, 'oro_customer_frontend_customeruser_enable');
-        $this->assertSame($status, $this->client->getResponse()->getStatusCode());
+        self::assertSame($status, $this->client->getResponse()->getStatusCode());
 
         $user = $this->findCustomerUser($resource);
         $user->setConfirmed(true);
         $em->flush();
         $this->executeOperation($user, 'oro_customer_frontend_customeruser_disable');
-        $this->assertSame($status, $this->client->getResponse()->getStatusCode());
+        self::assertSame($status, $this->client->getResponse()->getStatusCode());
     }
 
-    /**
-     * @return array
-     */
-    public function accessGrantedDataProvider()
+    public function accessGrantedDataProvider(): array
     {
         return [
             'parent customer: DEEP' => [
-                'login' => LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_DEEP,
-                'resource' => LoadCustomerUserACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
+                'login' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_ROLE_DEEP,
+                'resource' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
             ],
             'same customer: LOCAL' => [
-                'login' => LoadCustomerUserACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
-                'resource' => LoadCustomerUserACLData::USER_ACCOUNT_1_1_ROLE_DEEP,
+                'login' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
+                'resource' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_1_ROLE_DEEP,
             ],
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function accessDeniedDataProvider()
+    public function accessDeniedDataProvider(): array
     {
         return [
             'anonymous user' => [
                 'login' => '',
-                'resource' => LoadCustomerUserACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
+                'resource' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
                 'status' => Response::HTTP_FORBIDDEN,
             ],
             'same customer: LOCAL_VIEW_ONLY' => [
-                'login' => LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_LOCAL_VIEW_ONLY,
-                'resource' => LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_LOCAL,
+                'login' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_ROLE_LOCAL_VIEW_ONLY,
+                'resource' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_ROLE_LOCAL,
                 'status' => Response::HTTP_FORBIDDEN,
             ],
             'parent customer: LOCAL' => [
-                'login' => LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_LOCAL,
-                'resource' => LoadCustomerUserACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
+                'login' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_ROLE_LOCAL,
+                'resource' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
                 'status' => Response::HTTP_FORBIDDEN,
             ],
             'parent customer: DEEP_VIEW_ONLY' => [
-                'login' => LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_DEEP_VIEW_ONLY,
-                'resource' => LoadCustomerUserACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
+                'login' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_ROLE_DEEP_VIEW_ONLY,
+                'resource' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
                 'status' => Response::HTTP_FORBIDDEN,
             ],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function executeOperation(CustomerUser $customerUser, $operationName)
+    private function executeOperation(CustomerUser $customerUser, string $operationName): void
     {
         $entityId = $customerUser->getId();
         $entityClass = CustomerUser::class;
@@ -276,7 +237,7 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
                     'operationName' => $operationName,
                     'route' => 'oro_customer_frontend_customer_user_view',
                     'entityId' => $entityId,
-                    'entityClass' => $entityClass
+                    'entityClass' => $entityClass,
                 ]
             ),
             $this->getOperationExecuteParams($operationName, $entityId, $entityClass),
@@ -285,38 +246,9 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
         );
     }
 
-    /**
-     * @param $operationName
-     * @param $entityId
-     * @param $entityClass
-     *
-     * @return array
-     */
-    protected function getOperationExecuteParams($operationName, $entityId, $entityClass)
+    private function findCustomerUser(string $resource): CustomerUser
     {
-        $actionContext = [
-            'entityId'    => $entityId,
-            'entityClass' => $entityClass
-        ];
-        $container = self::getContainer();
-        $operation = $container->get('oro_action.operation_registry')->findByName($operationName);
-        $actionData = $container->get('oro_action.helper.context')->getActionData($actionContext);
-
-        $tokenData = $container
-            ->get('oro_action.operation.execution.form_provider')
-            ->createTokenData($operation, $actionData);
-        $container->get('session')->save();
-
-        return $tokenData;
-    }
-
-    /**
-     * @param string $resource
-     * @return CustomerUser
-     */
-    private function findCustomerUser($resource): CustomerUser
-    {
-        $repository = $this->getContainer()->get('doctrine')
+        $repository = self::getContainer()->get('doctrine')
             ->getManagerForClass(CustomerUser::class)
             ->getRepository(CustomerUser::class);
 

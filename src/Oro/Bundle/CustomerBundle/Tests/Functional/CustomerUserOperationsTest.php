@@ -2,128 +2,120 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional;
 
+use Oro\Bundle\ActionBundle\Tests\Functional\OperationAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Controller\EmailMessageAssertionTrait;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Mime\Email as SymfonyEmail;
 
 class CustomerUserOperationsTest extends WebTestCase
 {
     use EmailMessageAssertionTrait;
+    use OperationAwareTestTrait;
 
-    const EMAIL = LoadCustomerUserData::EMAIL;
+    private const EMAIL = LoadCustomerUserData::EMAIL;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->initClient([], $this->generateBasicAuthHeader());
+        $this->initClient([], self::generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
-        $this->loadFixtures(
-            [
-                'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleData'
-            ]
-        );
+        $this->loadFixtures([LoadCustomerUserRoleData::class]);
     }
 
-    public function testConfirm()
+    public function testConfirm(): void
     {
         /** @var CustomerUser $user */
-        $user = $this->getReference(static::EMAIL);
-        $this->assertNotNull($user);
+        $user = $this->getReference(self::EMAIL);
+        self::assertNotNull($user);
 
         $id = $user->getId();
 
         $user->setConfirmed(false);
-        $em = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
+        $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $em->flush();
         $em->clear();
 
         $this->executeOperation($user, 'oro_customer_customeruser_confirm');
 
-        /** @var \Swift_Plugins_MessageLogger $emailLogging */
-        $emailLogger = $this->getContainer()->get('swiftmailer.plugin.messagelogger');
-        $emailMessages = $emailLogger->getMessages();
+        $emailMessages = self::getMailerMessages();
+        self::assertCount(1, $emailMessages);
 
-        $this->assertCount(1, $emailMessages);
-
-        /** @var \Swift_Message $emailMessage */
+        /** @var SymfonyEmail $emailMessage */
         $emailMessage = array_shift($emailMessages);
+
         $this->assertWelcomeMessage($user->getEmail(), $emailMessage);
-        $this->assertContains(
+        self::assertStringContainsString(
             'Please follow the link below to create a password for your new account.',
-            $emailMessage->getBody()
+            $emailMessage->getHtmlBody()
         );
 
-        $this->assertJsonResponseStatusCodeEquals($this->client->getResponse(), 200);
+        self::assertJsonResponseStatusCodeEquals($this->client->getResponse(), 200);
 
         $user = $em->getRepository(CustomerUser::class)->find($id);
 
-        $this->assertNotNull($user);
-        $this->assertTrue($user->isConfirmed());
+        self::assertNotNull($user);
+        self::assertTrue($user->isConfirmed());
     }
 
-    public function testSendConfirmation()
+    public function testSendConfirmation(): void
     {
         /** @var CustomerUser $user */
-        $email = static::EMAIL;
-
-        $user = $this->getReference($email);
+        $user = $this->getReference(self::EMAIL);
         $user->setConfirmed(false);
-        $em = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
+        $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $em->flush();
         $em->clear();
 
         $this->executeOperation($user, 'oro_customer_customeruser_sendconfirmation');
 
         $result = $this->client->getResponse();
-        $this->assertJsonResponseStatusCodeEquals($result, 200);
+        self::assertJsonResponseStatusCodeEquals($result, 200);
 
-        /** @var \Swift_Plugins_MessageLogger $emailLogging */
-        $emailLogger = $this->getContainer()->get('swiftmailer.plugin.messagelogger');
-        $emailMessages = $emailLogger->getMessages();
+        $emailMessages = self::getMailerMessages();
+        self::assertCount(1, $emailMessages);
 
-        /** @var \Swift_Message $message */
-        $message = reset($emailMessages);
+        /** @var SymfonyEmail $emailMessage */
+        $emailMessage = array_shift($emailMessages);
 
-        $this->assertInstanceOf('Swift_Message', $message);
-        $this->assertEquals($email, key($message->getTo()));
-        $this->assertContains('Confirmation of account registration', $message->getSubject());
-        $this->assertContains($email, $message->getBody());
+        self::assertInstanceOf(SymfonyEmail::class, $emailMessage);
+        self::assertEmailAddressContains($emailMessage, 'to', self::EMAIL);
+        self::assertStringContainsString('Confirmation of account registration', $emailMessage->getSubject());
+        self::assertStringContainsString(self::EMAIL, $emailMessage->getHtmlBody());
     }
 
-    public function testEnableAndDisable()
+    public function testEnableAndDisable(): void
     {
-        $em = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
+        $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $repository = $em->getRepository(CustomerUser::class);
 
         /** @var CustomerUser $user */
-        $user = $repository->findOneBy(['email' => static::EMAIL]);
+        $user = $repository->findOneBy(['email' => self::EMAIL]);
         $id = $user->getId();
 
-        $this->assertNotNull($user);
-        $this->assertTrue($user->isEnabled());
+        self::assertNotNull($user);
+        self::assertTrue($user->isEnabled());
 
         $this->executeOperation($user, 'oro_customer_customeruser_disable');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         $em->clear();
 
         $user = $repository->find($id);
-        $this->assertFalse($user->isEnabled());
-        $this->assertNotEmpty($user->getRoles());
+        self::assertFalse($user->isEnabled());
+        self::assertNotEmpty($user->getUserRoles());
 
         $this->executeOperation($user, 'oro_customer_customeruser_enable');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         $em->clear();
 
         $user = $repository->find($id);
-        $this->assertTrue($user->isEnabled());
+        self::assertTrue($user->isEnabled());
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function executeOperation(CustomerUser $customerUser, $operationName)
+    private function executeOperation(CustomerUser $customerUser, string $operationName): void
     {
         $entityId = $customerUser->getId();
         $entityClass = CustomerUser::class;
@@ -135,35 +127,10 @@ class CustomerUserOperationsTest extends WebTestCase
                     'operationName' => $operationName,
                     'route' => 'oro_customer_customer_user_view',
                     'entityId' => $entityId,
-                    'entityClass' => $entityClass
+                    'entityClass' => $entityClass,
                 ]
             ),
             $this->getOperationExecuteParams($operationName, $entityId, $entityClass)
         );
-    }
-
-    /**
-     * @param $operationName
-     * @param $entityId
-     * @param $entityClass
-     *
-     * @return array
-     */
-    protected function getOperationExecuteParams($operationName, $entityId, $entityClass)
-    {
-        $actionContext = [
-            'entityId'    => $entityId,
-            'entityClass' => $entityClass
-        ];
-        $container = self::getContainer();
-        $operation = $container->get('oro_action.operation_registry')->findByName($operationName);
-        $actionData = $container->get('oro_action.helper.context')->getActionData($actionContext);
-
-        $tokenData = $container
-            ->get('oro_action.operation.execution.form_provider')
-            ->createTokenData($operation, $actionData);
-        $container->get('session')->save();
-
-        return $tokenData;
     }
 }

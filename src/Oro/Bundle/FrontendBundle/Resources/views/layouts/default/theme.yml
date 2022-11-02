@@ -1,5 +1,9 @@
-parent: blank
 label: Default theme
 description: Default theme.
 groups: [ commerce ]
 icon: bundles/orofrontend/default/images/favicon.ico
+logo: bundles/orofrontend/default/images/logo/demob2b-logo.svg
+rtl_support: true
+#image_placeholders:
+#    product: '/bundles/oroproduct/images/no_image.png'
+#    category: '/bundles/orocatalog/images/no_image.png'

@@ -4,8 +4,8 @@ define(function(require) {
     /**
      * This helper use in the context of component View
      */
-    var $ = require('jquery');
-    var _ = require('underscore');
+    const $ = require('jquery');
+    const _ = require('underscore');
     require('jquery.validate');
 
     return {
@@ -24,12 +24,12 @@ define(function(require) {
         elementEventNamespace: '.elementEvent',
 
         deferredInitializeCheck: function(options, checkOptions) {
-            var $deferredInitialize = this.$el.parent().closest('[data-layout="deferred-initialize"]');
+            const $deferredInitialize = this.$el.parent().closest('[data-layout="deferred-initialize"]');
             if (checkOptions === undefined || !$deferredInitialize.length) {
                 return this.deferredInitialize(options);
             }
 
-            var wait = false;
+            let wait = false;
             _.each(checkOptions, function(option) {
                 if (options[option] === undefined) {
                     wait = true;
@@ -40,7 +40,7 @@ define(function(require) {
                 return this.deferredInitialize(options);
             }
 
-            $deferredInitialize.one('deferredInitialize', _.bind(function(e, deferredOptions) {
+            $deferredInitialize.one('deferredInitialize', (e, deferredOptions) => {
                 e.preventDefault();
                 e.stopPropagation();
 
@@ -48,7 +48,7 @@ define(function(require) {
                 if (deferredOptions.callback) {
                     deferredOptions.callback(this);
                 }
-            }, this));
+            });
         },
 
         deferredInitialize: function(options) {
@@ -56,13 +56,13 @@ define(function(require) {
 
         initializeSubviews: function(options) {
             this._deferredRender();
-            var layout = this.$el.data('layout');
+            const layout = this.$el.data('layout');
             if (layout === 'deferred-initialize') {
                 this.$el.trigger('deferredInitialize', options);
                 this.handleLayoutInit();
             } else if (layout === 'separate') {
                 this.initLayout(options)
-                    .done(_.bind(this.handleLayoutInit, this));
+                    .done(this.handleLayoutInit.bind(this));
             } else {
                 this.handleLayoutInit();
             }
@@ -75,7 +75,11 @@ define(function(require) {
         initializeElements: function(options) {
             this.$html = $('html');
             this.elementsInitialized = true;
-            $.extend(true, this, _.pick(options, ['elements', 'modelElements']));
+            const optionNames = ['elements', 'modelElements'];
+            Object.assign(this, $.extend(true, {},
+                _.pick(this, optionNames),
+                _.pick(options, optionNames)
+            ));
             this.$elements = this.$elements || {};
             this.elementsEvents = $.extend({}, this.elementsEvents || {});
             this.modelEvents = $.extend({}, this.modelEvents || {});
@@ -90,8 +94,8 @@ define(function(require) {
             }
             this.undelegateElementsEvents();
 
-            var props = ['$elements', 'elements', 'elementsEvents', 'modelElements', 'modelEvents'];
-            for (var i = 0, length = props.length; i < length; i++) {
+            const props = ['$elements', 'elements', 'elementsEvents', 'modelElements', 'modelEvents'];
+            for (let i = 0, length = props.length; i < length; i++) {
                 delete this[props[i]];
             }
         },
@@ -102,21 +106,21 @@ define(function(require) {
             }
             _.each(this.modelElements, function(elementKey, modelKey) {
                 if (this.elementsEvents[elementKey + ' setModelValue'] === undefined) {
-                    this.elementsEvents[elementKey + ' setModelValue'] = ['change', _.bind(function(e) {
+                    this.elementsEvents[elementKey + ' setModelValue'] = ['change', e => {
                         return this.setModelValueFromElement(e, modelKey, elementKey);
-                    }, this)];
+                    }];
                 }
 
                 if (this.modelEvents[modelKey + ' setElementValue'] === undefined) {
-                    this.modelEvents[modelKey + ' setElementValue'] = ['change', _.bind(function(e) {
+                    this.modelEvents[modelKey + ' setElementValue'] = ['change', e => {
                         return this.setElementValueFromModel(e, modelKey, elementKey);
-                    }, this)];
+                    }];
                 }
 
                 if (this.modelEvents[modelKey + ' focus'] === undefined) {
-                    this.modelEvents[modelKey + ' focus'] = ['focus', _.bind(function() {
+                    this.modelEvents[modelKey + ' focus'] = ['focus', () => {
                         this.getElement(elementKey).focus();
-                    }, this)];
+                    }];
                 }
             }, this);
 
@@ -137,9 +141,9 @@ define(function(require) {
                 if (!eventCallback) {
                     return;
                 }
-                var key = eventKey.split(' ')[0];
-                var event = eventCallback[0];
-                var callback = eventCallback[1];
+                const key = eventKey.split(' ')[0];
+                const event = eventCallback[0];
+                const callback = eventCallback[1];
                 this.delegateElementEvent(key, event, callback);
             }, this);
 
@@ -147,17 +151,17 @@ define(function(require) {
                 if (!eventCallback) {
                     return;
                 }
-                var key = eventKey.split(' ')[0];
-                var event = eventCallback[0];
-                var callback = eventCallback[1];
+                const key = eventKey.split(' ')[0];
+                const event = eventCallback[0];
+                const callback = eventCallback[1];
                 this.delegateModelEvent(key, event, callback);
             }, this);
         },
 
         delegateElementEvent: function(key, event, callback) {
-            var self = this;
+            const self = this;
             if (!_.isFunction(callback)) {
-                callback = _.bind(this[callback], this);
+                callback = this[callback].bind(this);
             }
             this.getElement(key).on(event + this.elementEventNamespace + this.cid, function(e, options) {
                 options = options || {};
@@ -168,7 +172,7 @@ define(function(require) {
 
         delegateModelEvent: function(key, event, callback) {
             if (!_.isFunction(callback)) {
-                callback = _.bind(this[callback], this);
+                callback = this[callback].bind(this);
             }
             this.model.on(event + ':' + key, function(model, attribute, options) {
                 callback(options || {});
@@ -180,7 +184,7 @@ define(function(require) {
                 return;
             }
             if (this.$elements) {
-                var elementEventNamespace = this.elementEventNamespace + this.cid;
+                const elementEventNamespace = this.elementEventNamespace + this.cid;
                 _.each(this.$elements, function($element) {
                     $element.off(elementEventNamespace);
                 });
@@ -192,7 +196,7 @@ define(function(require) {
         },
 
         createElementByTemplate: function(element) {
-            var $element = this.getElement(element);
+            let $element = this.getElement(element);
             if ($element.length > 0) {
                 if ($element.is('script')) {
                     $element = $($element.html());
@@ -223,7 +227,7 @@ define(function(require) {
                 return this[key];
             }
 
-            var selector = this.elements[key] || null;
+            let selector = this.elements[key] || null;
             if (!selector) {
                 return null;
             }
@@ -232,7 +236,7 @@ define(function(require) {
                 return selector;
             }
 
-            var $context;
+            let $context;
             if (!_.isArray(selector)) {
                 // selector = '[data-name="element"]'
                 $context = this.getElement('$el');
@@ -250,17 +254,19 @@ define(function(require) {
         },
 
         setModelValueFromElement: function(e, modelKey, elementKey) {
-            var $element = this.getElement(elementKey);
-            var element = $element.get(0);
+            const $element = this.getElement(elementKey);
+            const element = $element.get(0);
             if (!$element.length) {
                 return false;
             }
-            var value = $element.val();
-            if (value === this.model.get(modelKey)) {
+
+            const elementViewValue = $element.val();
+            const modelValue = this.viewToModelElementValueTransform(elementViewValue, elementKey);
+            if (modelValue === this.model.get(modelKey)) {
                 return;
             }
 
-            var options = {
+            const options = {
                 event: e,
                 manually: this.isChangedManually(element, e)
             };
@@ -268,24 +274,49 @@ define(function(require) {
             if (options.manually) {
                 this.model.set(modelKey + '_changed_manually', true);
             }
-            this.model.set(modelKey, value, options);
+
+            this.model.set(modelKey, modelValue, options);
         },
 
         setElementValueFromModel: function(e, modelKey, elementKey) {
-            var $element = this.getElement(elementKey);
+            const $element = this.getElement(elementKey);
             if (!$element.length) {
                 return false;
             }
-            var value = this.model.get(modelKey);
-            if (value === $element.val()) {
+
+            const modelValue = this.model.get(modelKey);
+            const viewValue = this.modelToViewElementValueTransform(modelValue, elementKey);
+            if (viewValue === $element.val()) {
                 return;
             }
 
-            $element.val(value).change();
+            $element.val(viewValue).change();
+        },
+        /**
+         * This function is added to add possibility to transform model value representation into the
+         * view value representation. To use this function you could extend it with your own in the descendant
+         *
+         * @param {*}      modelValue
+         * @param {String} elementKey
+         * @returns {*}
+         */
+        modelToViewElementValueTransform: function(modelValue, elementKey) {
+            return modelValue;
+        },
+        /**
+         * This function is added to add possibility to transform view value representation into the
+         * model value representation. To use this function you could extend it with your own in the descendant
+         *
+         * @param {*}      elementViewValue
+         * @param {String} elementKey
+         * @returns {*}
+         */
+        viewToModelElementValueTransform: function(elementViewValue, elementKey) {
+            return elementViewValue;
         },
 
         isChangedManually: function(element, e) {
-            var manually = false;
+            let manually = false;
             if (e) {
                 if (e.manually !== undefined) {
                     manually = e.manually;

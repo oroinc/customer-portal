@@ -1,0 +1,22 @@
+/* @theme: default; */
+
+$uploader-display: flex !default;
+$uploader-position: relative !default;
+
+$uploader-filename-flex-grow: 1 !default;
+$uploader-filename-border-top-left-radius: 0 !default;
+$uploader-filename-border-bottom-left-radius: 0 !default;
+$uploader-filename-order: 1 !default;
+$uploader-filename-overflow: hidden !default;
+$uploader-filename-inner-offset-right: 32px !default;
+$uploader-filename-text-overflow: ellipsis !default;
+$uploader-filename-white-space: nowrap !default;
+$uploader-filename-focus-hover-border-color: get-color('additional', 'light') !default;
+
+$uploader-filename-placeholder-color: get-color('additional', 'middle') !default;
+
+$uploader-action-inner-offset: 9px 11px 8px !default;
+$uploader-action-border-top-right-radius: 0 !default;
+$uploader-action-border-bottom-right-radius: 0 !default;
+
+$uploader-input-display: none !default;

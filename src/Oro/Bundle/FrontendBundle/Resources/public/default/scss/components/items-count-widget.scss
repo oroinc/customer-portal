@@ -1,7 +1,13 @@
-.oro-items-counter {
-  display: inline-block;
-  vertical-align: middle;
+/* @theme: default; */
 
-  font-size: $base-font-size;
-  line-height: 32px;
+.oro-items-counter {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: $base-font-size;
+}
+
+@include breakpoint('mobile-landscape') {
+    .oro-items-counter {
+        display: none;
+    }
 }

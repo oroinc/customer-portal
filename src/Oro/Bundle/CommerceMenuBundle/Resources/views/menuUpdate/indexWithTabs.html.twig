@@ -1,37 +1,39 @@
-{% extends 'OroNavigationBundle:menuUpdate:index.html.twig' %}
+{% extends '@OroNavigation/menuUpdate/index.html.twig' %}
 
 {% block content_datagrid %}
-    <div class="responsive-cell">
-        {% if contexts|length == 1 %}
-            {% set context = contexts|first %}
-            {% if context %}
-                {% set content = '' %}
-                {% include gridTemplate with {context: context} %}
-            {% endif %}
-        {% else %}
-            {% set tabs = [] %}
-            {% for label, context in contexts %}
-                {% set content = '' %}
-                {% if loop.index == 1 %}
-                    {% set content %}
-                        {% include gridTemplate with {context: context} %}
-                    {% endset %}
+    <div class="layout-content">
+        <div class="scrollable-container">
+            {% if contexts|length == 1 %}
+                {% set context = contexts|first %}
+                {% if context %}
+                    {% set content = '' %}
+                    {% include gridTemplate with {context: context} %}
                 {% endif %}
+            {% else %}
+                {% set tabs = [] %}
+                {% for label, context in contexts %}
+                    {% set content = '' %}
+                    {% if loop.index == 1 %}
+                        {% set content %}
+                            {% include gridTemplate with {context: context} %}
+                        {% endset %}
+                    {% endif %}
 
-                {% set tab = {
-                'widgetType': 'block',
-                'alias': random(),
-                'label': label,
-                'url': path(
-                tabRoute,
-                { context: context}
-                ),
-                'content': content
-                } %}
+                    {% set tab = {
+                        'widgetType': 'block',
+                        'alias': random(),
+                        'label': label,
+                        'url': path(
+                            tabRoute,
+                            {context: context}
+                        ),
+                        'content': content
+                    } %}
 
-                {% set tabs = tabs|merge([tab]) %}
-            {% endfor %}
-            {{ tabPanel(tabs, {'useDropdown': true}) }}
-        {% endif %}
+                    {% set tabs = tabs|merge([tab]) %}
+                {% endfor %}
+                {{ tabPanel(tabs, {'useDropdown': true}) }}
+            {% endif %}
+        </div>
     </div>
 {% endblock content_datagrid %}

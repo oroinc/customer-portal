@@ -1,0 +1,18 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroCommerceMenu/layouts/default/oro_frontend_root/featured_menu.html.twig'
+        - '@addTree':
+            items:
+                featured_menu_container:
+                    blockType: container
+                    siblingId: featured_products_container
+                    prepend: true
+                featured_menu:
+                    blockType: menu
+                    options:
+                        item: '=data["menu"].getMenu("featured_menu")'
+            tree:
+                page_content:
+                    featured_menu_container:
+                        featured_menu: ~

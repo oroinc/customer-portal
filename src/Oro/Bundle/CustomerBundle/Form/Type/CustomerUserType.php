@@ -5,7 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Form\Type;
 use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
-use Oro\Bundle\FormBundle\Form\Type\OroDateType;
+use Oro\Bundle\FormBundle\Form\Type\OroBirthdayType;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Symfony\Component\Form\AbstractType;
@@ -40,10 +40,6 @@ class CustomerUserType extends AbstractType
     /** @var TokenAccessorInterface */
     protected $tokenAccessor;
 
-    /**
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param TokenAccessorInterface        $tokenAccessor
-     */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         TokenAccessorInterface $tokenAccessor
@@ -68,10 +64,6 @@ class CustomerUserType extends AbstractType
         $this->addressClass = $addressClass;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->addEntityFields($builder);
@@ -82,9 +74,13 @@ class CustomerUserType extends AbstractType
             'required' => false,
             'first_options' => [
                 'label' => 'oro.customer.customeruser.password.label',
-                'attr' => ['autocomplete' => 'new-password'],
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                ],
             ],
-            'second_options' => ['label' => 'oro.customer.customeruser.password_confirmation.label'],
+            'second_options' => [
+                'label' => 'oro.customer.customeruser.password_confirmation.label',
+            ],
             'invalid_message' => 'oro.customer.message.password_mismatch',
         ];
 
@@ -99,7 +95,6 @@ class CustomerUserType extends AbstractType
     }
 
     /**
-     * @param FormBuilderInterface $builder
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function addEntityFields(FormBuilderInterface $builder)
@@ -171,7 +166,7 @@ class CustomerUserType extends AbstractType
             )
             ->add(
                 'birthday',
-                OroDateType::class,
+                OroBirthdayType::class,
                 [
                     'required' => false,
                     'label' => 'oro.customer.customeruser.birthday.label',
@@ -192,7 +187,6 @@ class CustomerUserType extends AbstractType
                     'label' => 'oro.customer.customeruser.is_guest.label',
                 ]
             );
-
 
         if ($this->authorizationChecker->isGranted('oro_customer_customer_user_role_view')) {
             $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'preSetData']);
@@ -227,9 +221,6 @@ class CustomerUserType extends AbstractType
         }
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     */
     protected function addNewUserFields(FormBuilderInterface $builder)
     {
         $builder
@@ -253,9 +244,6 @@ class CustomerUserType extends AbstractType
             );
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function preSetData(FormEvent $event)
     {
         $form = $event->getForm();
@@ -265,7 +253,7 @@ class CustomerUserType extends AbstractType
         $data->setOrganization($this->tokenAccessor->getOrganization());
 
         $form->add(
-            'roles',
+            'userRoles',
             CustomerUserRoleSelectType::class,
             [
                 'query_builder' => function (CustomerUserRoleRepository $repository) use ($data) {
@@ -278,16 +266,13 @@ class CustomerUserType extends AbstractType
         );
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function preSubmit(FormEvent $event)
     {
         $form = $event->getForm();
         $data = $event->getData();
 
         $form->add(
-            'roles',
+            'userRoles',
             CustomerUserRoleSelectType::class,
             [
                 'query_builder' => function (CustomerUserRoleRepository $repository) use ($data) {
@@ -315,7 +300,7 @@ class CustomerUserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => $this->dataClass,
             'csrf_token_id' => 'customer_user',
-            'validation_groups' => [Constraint::DEFAULT_GROUP, 'RequireName', 'RequireRegion']
+            'validation_groups' => [Constraint::DEFAULT_GROUP, 'ui'],
         ]);
     }
 

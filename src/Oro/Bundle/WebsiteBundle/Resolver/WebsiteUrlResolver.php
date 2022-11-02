@@ -2,19 +2,27 @@
 
 namespace Oro\Bundle\WebsiteBundle\Resolver;
 
+use Oro\Bundle\CacheBundle\Provider\MemoryCacheProviderAwareTrait;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\EmailBundle\Provider\UrlProviderTrait;
 use Oro\Component\Website\WebsiteInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * Provides website URL/secure URL based on configuration settings (application URL) as well as
+ * generated value by UrlGenerator.
+ */
 class WebsiteUrlResolver
 {
-    const CONFIG_URL = 'oro_website.url';
-    const CONFIG_SECURE_URL = 'oro_website.secure_url';
+    use UrlProviderTrait;
+    use MemoryCacheProviderAwareTrait;
 
-    /**
-     * @param ConfigManager $configManager
-     * @param UrlGeneratorInterface $urlGenerator
-     */
+    private const CONFIG_URL        = 'oro_website.url';
+    private const CONFIG_SECURE_URL = 'oro_website.secure_url';
+
+    /** @var ConfigManager */
+    protected $configManager;
+
     public function __construct(ConfigManager $configManager, UrlGeneratorInterface $urlGenerator)
     {
         $this->configManager = $configManager;
@@ -23,63 +31,106 @@ class WebsiteUrlResolver
 
     /**
      * @param WebsiteInterface|null $website
+     * @param bool                  $clearUrl
+     *
      * @return string|null
      */
-    public function getWebsiteUrl(WebsiteInterface $website = null)
+    public function getWebsiteUrl(WebsiteInterface $website = null, bool $clearUrl = false)
     {
-        return $this->configManager->get(self::CONFIG_URL, false, false, $website);
+        $cacheKey = 'url_' . ($website ? $website->getId() : 0);
+
+        return $this->getMemoryCacheProvider()->get($cacheKey, function () use ($website, $clearUrl) {
+            $url = $this->configManager->get(self::CONFIG_URL, false, false, $website);
+            if ($url && $clearUrl) {
+                $url = $this->getCleanUrl($url);
+            }
+
+            return $url;
+        });
     }
 
     /**
      * @param WebsiteInterface|null $website
+     * @param bool                  $clearUrl
+     *
      * @return string|null
      */
-    public function getWebsiteSecureUrl(WebsiteInterface $website = null)
+    public function getWebsiteSecureUrl(WebsiteInterface $website = null, bool $clearUrl = false)
     {
-        $url = null;
-        if ($websiteSecureUrl = $this->getWebsiteScopeConfigValue(self::CONFIG_SECURE_URL, $website)) {
-            $url = $websiteSecureUrl;
-        } elseif ($websiteUrl = $this->getWebsiteScopeConfigValue(self::CONFIG_URL, $website)) {
-            $url = $websiteUrl;
-        } elseif ($secureUrl = $this->getDefaultConfigValue(self::CONFIG_SECURE_URL, $website)) {
-            $url = $secureUrl;
-        } else {
-            $url = $this->getDefaultConfigValue(self::CONFIG_URL, $website);
+        $cacheKey = 'secure_url_' . ($website ? $website->getId() : 0);
+
+        return $this->getMemoryCacheProvider()->get($cacheKey, function () use ($website, $clearUrl) {
+            $url = $this->getSecureUrl($website);
+            if ($url && $clearUrl) {
+                $url = $this->getCleanUrl($url);
+            }
+
+            return $url;
+        });
+    }
+
+    /**
+     * @param string                $route
+     * @param array                 $routeParams
+     * @param WebsiteInterface|null $website
+     *
+     * @return string
+     */
+    public function getWebsitePath(string $route, array $routeParams, WebsiteInterface $website = null)
+    {
+        return $this->preparePath($this->getWebsiteUrl($website), $route, $routeParams);
+    }
+
+    /**
+     * @param string                $route
+     * @param array                 $routeParams
+     * @param WebsiteInterface|null $website
+     *
+     * @return string
+     */
+    public function getWebsiteSecurePath(string $route, array $routeParams, WebsiteInterface $website = null)
+    {
+        return $this->preparePath($this->getWebsiteSecureUrl($website), $route, $routeParams);
+    }
+
+    /**
+     * @param WebsiteInterface|null $website
+     *
+     * @return string|null
+     */
+    protected function getSecureUrl(WebsiteInterface $website = null)
+    {
+        $url = $this->getWebsiteScopeConfigValue(self::CONFIG_SECURE_URL, $website);
+        if ($url) {
+            return $url;
+        }
+        $url = $this->getWebsiteScopeConfigValue(self::CONFIG_URL, $website);
+        if ($url) {
+            return $url;
+        }
+        $url = $this->getDefaultConfigValue(self::CONFIG_SECURE_URL, $website);
+        if ($url) {
+            return $url;
         }
 
-        return $url;
+        return $this->getDefaultConfigValue(self::CONFIG_URL, $website);
     }
 
     /**
-     * @param string $route
-     * @param array $routeParams
-     * @param WebsiteInterface|null $website
+     * @param string $url
+     *
      * @return string
      */
-    public function getWebsitePath($route, array $routeParams, WebsiteInterface $website = null)
+    protected function getCleanUrl($url)
     {
-        $url = $this->getWebsiteUrl($website);
-
-        return $this->preparePath($url, $route, $routeParams);
+        return rtrim(explode('?', $url)[0], '/');
     }
 
     /**
-     * @param string $route
-     * @param array $routeParams
+     * @param string                $configKey
      * @param WebsiteInterface|null $website
-     * @return string
-     */
-    public function getWebsiteSecurePath($route, array $routeParams, WebsiteInterface $website = null)
-    {
-        $url = $this->getWebsiteSecureUrl($website);
-
-        return $this->preparePath($url, $route, $routeParams);
-    }
-
-    /**
-     * @param string $configKey
-     * @param WebsiteInterface|null $website
-     * @return null|string
+     *
+     * @return string|null
      */
     protected function getWebsiteScopeConfigValue($configKey, WebsiteInterface $website = null)
     {
@@ -92,23 +143,13 @@ class WebsiteUrlResolver
     }
 
     /**
-     * @param string $configKey
+     * @param string                $configKey
      * @param WebsiteInterface|null $website
-     * @return null|string
+     *
+     * @return string|null
      */
     protected function getDefaultConfigValue($configKey, WebsiteInterface $website = null)
     {
         return $this->configManager->get($configKey, true, false, $website);
-    }
-
-    /**
-     * @param string $url
-     * @param string $route
-     * @param array $routeParams
-     * @return string
-     */
-    protected function preparePath($url, $route, array $routeParams)
-    {
-        return rtrim($url, '/') . $this->urlGenerator->generate($route, $routeParams);
     }
 }

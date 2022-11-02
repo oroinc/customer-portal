@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest;
 
-use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use Oro\Bundle\CustomerBundle\Controller\Api\Rest\CommerceCustomerAddressController as BaseCustomerAddressController;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 
 /**
- * @NamePrefix("oro_api_customer_frontend_")
+ * REST API controller for customer address entity.
  */
 class CustomerAddressController extends BaseCustomerAddressController
 {
@@ -21,5 +20,15 @@ class CustomerAddressController extends BaseCustomerAddressController
         }
 
         return $this->get('oro_customer.provider.frontend.address')->getCurrentCustomerAddresses();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function checkAccess($entity)
+    {
+        if ($entity !== $this->getUser()->getCustomer() && !$this->isGranted('VIEW', $entity)) {
+            throw $this->createAccessDeniedException();
+        }
     }
 }

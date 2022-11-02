@@ -1,25 +1,24 @@
 define(function(require) {
     'use strict';
 
-    var FrontendDatagridSettingsView;
-    var DatagridSettingsView = require('orodatagrid/js/app/views/grid/datagrid-settings-view');
-    var FrontendDatagridSettingsColumnView = require('orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-column-view');
-    var DatagridManageColumnView = require('orodatagrid/js/app/views/grid/datagrid-manage-column-view');
+    const DatagridSettingsView = require('orodatagrid/js/app/views/grid/datagrid-settings-view');
+    const FrontendDatagridSettingsColumnView = require('orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-column-view');
+    const DatagridManageColumnView = require('orodatagrid/js/app/views/grid/datagrid-manage-column-view');
 
     /**
      * @class FrontendDatagridSettingsColumnView
      * @extends DatagridSettingsView
      */
-    FrontendDatagridSettingsView = DatagridSettingsView.extend({
+    const FrontendDatagridSettingsView = DatagridSettingsView.extend({
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function FrontendDatagridSettingsView() {
-            FrontendDatagridSettingsView.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendDatagridSettingsView(options) {
+            FrontendDatagridSettingsView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         render: function() {
             FrontendDatagridSettingsView.__super__.render.call(this);
@@ -35,7 +34,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         beforeOpen: function(showEvent) {
             FrontendDatagridSettingsView.__super__.beforeOpen.call(this, showEvent);

@@ -1,0 +1,167 @@
+dependencies:
+    - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization
+    - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser
+    - Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadWebsiteData
+    - Oro\Bundle\AddressBundle\Tests\Functional\DataFixtures\LoadCountriesAndRegions
+    - Oro\Bundle\AddressBundle\Tests\Functional\DataFixtures\LoadAddressTypes
+
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    customer_for_another_department:
+        name: 'Another Department'
+        group: '@customer_group'
+        owner: '@user'
+        organization: '@organization'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+    customer_user1:
+        confirmed: true
+        enabled: true
+        email: 'user1@example.com'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        firstName: 'First Name 1'
+        lastName: 'Last Name 1'
+        userRoles: ['@buyer']
+        customer: '@customer'
+        website: '@website'
+        owner: '@user'
+        organization: '@organization'
+    another_customer_user:
+        confirmed: true
+        enabled: true
+        email: 'another_user@example.com'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        firstName: 'Another First Name'
+        lastName: 'Another Last Name'
+        userRoles: ['@buyer']
+        customer: '@customer'
+        website: '@website'
+        owner: '@user'
+        organization: '@organization'
+    customer_user_from_another_department:
+        confirmed: true
+        enabled: true
+        email: 'another_department_user@example.com'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        firstName: 'First Name'
+        lastName: 'Last Name'
+        userRoles: ['@buyer']
+        customer: '@customer_for_another_department'
+        website: '@website'
+        owner: '@user'
+        organization: '@organization'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
+    customer_user_address:
+        label: 'Address'
+        street: 'Street'
+        city: 'Los Angeles'
+        postalCode: '90001'
+        country: '@country_usa'
+        region: '@region_usa_california'
+        organization: 'Acme'
+        firstName: 'John'
+        middleName: 'Edgar'
+        lastName: 'Doo'
+        primary: true
+        phone: '123-456'
+        frontendOwner: '@customer_user'
+        owner: '@user'
+        systemOrganization: '@organization'
+    customer_user_address1:
+        label: 'Address 1'
+        street: 'Street 1'
+        street2: 'Street 2'
+        city: 'Los Angeles'
+        postalCode: '90001'
+        country: '@country_usa'
+        region: '@region_usa_california'
+        organization: 'Acme'
+        namePrefix: 'Mr.'
+        nameSuffix: 'M.D.'
+        firstName: 'John'
+        middleName: 'Edgar'
+        lastName: 'Doo'
+        primary: true
+        phone: '123-456'
+        frontendOwner: '@customer_user1'
+        owner: '@user'
+        systemOrganization: '@organization'
+    customer_user_address2:
+        label: 'Address 2'
+        street: 'Street 2'
+        city: 'Los Angeles'
+        postalCode: '90002'
+        country: '@country_usa'
+        region: '@region_usa_california'
+        firstName: 'John'
+        lastName: 'Smith'
+        primary: false
+        frontendOwner: '@customer_user1'
+        owner: '@user'
+        systemOrganization: '@organization'
+    customer_user_address3:
+        label: 'Address 3'
+        street: 'Street 3'
+        city: 'Tel Aviv'
+        postalCode: '90003'
+        country: '@country_israel'
+        region: '@region_israel_telaviv'
+        firstName: 'John'
+        lastName: 'Smith'
+        primary: false
+        frontendOwner: '@customer_user1'
+        owner: '@user'
+        systemOrganization: '@organization'
+    another_customer_user_address1:
+        label: 'Another Address 1'
+        street: 'Street 1'
+        city: 'Los Angeles'
+        postalCode: '90001'
+        country: '@country_usa'
+        region: '@region_usa_california'
+        firstName: 'John'
+        lastName: 'Doo'
+        primary: true
+        frontendOwner: '@another_customer_user'
+        owner: '@user'
+        systemOrganization: '@organization'
+    another_customer_user_address2:
+        label: 'Another Address 2'
+        street: 'Street 2'
+        city: 'Daytona Beach'
+        postalCode: '32114'
+        country: '@country_usa'
+        region: '@region_usa_florida'
+        firstName: 'John'
+        lastName: 'Doo'
+        primary: false
+        frontendOwner: '@another_customer_user'
+        owner: '@user'
+        systemOrganization: '@organization'
+    customer_user_address_from_another_department:
+        label: 'Address From Another Department'
+        street: 'Street'
+        city: 'Los Angeles'
+        postalCode: '90001'
+        country: '@country_usa'
+        region: '@region_usa_california'
+        firstName: 'John'
+        lastName: 'Doo'
+        primary: true
+        frontendOwner: '@customer_user_from_another_department'
+        owner: '@user'
+        systemOrganization: '@organization'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType:
+    customer_user_address1_billing:
+        address: '@customer_user_address1'
+        type: '@billing'
+        default: false
+    customer_user_address1_shipping:
+        address: '@customer_user_address1'
+        type: '@shipping'
+        default: true
+    customer_user_address3_billing:
+        address: '@customer_user_address3'
+        type: '@billing'
+        default: true

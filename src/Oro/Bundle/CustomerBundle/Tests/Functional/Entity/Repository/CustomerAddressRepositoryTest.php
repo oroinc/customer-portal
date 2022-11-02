@@ -5,43 +5,32 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Entity\Repository;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerAddressRepository;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerAddresses;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class CustomerAddressRepositoryTest extends WebTestCase
 {
-    /**
-     * @var CustomerAddressRepository
-     */
-    protected $repository;
-
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
-        $this->client->useHashNavigation(true);
-        $this->repository = $this->getContainer()
-            ->get('doctrine')
-            ->getRepository('OroCustomerBundle:CustomerAddress');
+        $this->loadFixtures([LoadCustomerAddresses::class]);
+    }
 
-        $this->loadFixtures(
-            [
-                'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerAddresses'
-            ]
-        );
+    private function getRepository(): CustomerAddressRepository
+    {
+        return self::getContainer()->get('doctrine')->getRepository(CustomerAddress::class);
     }
 
     /**
      * @dataProvider addressesDataProvider
-     * @param string $customerReference
-     * @param string $type
-     * @param array $expectedAddressReferences
      */
-    public function testGetAddressesByType($customerReference, $type, array $expectedAddressReferences)
+    public function testGetAddressesByType(string $customerReference, string $type, array $expectedAddressReferences)
     {
         /** @var Customer $customer */
         $customer = $this->getReference($customerReference);
 
         /** @var CustomerAddress[] $actual */
-        $actual = $this->repository->getAddressesByType(
+        $actual = $this->getRepository()->getAddressesByType(
             $customer,
             $type,
             $this->getContainer()->get('oro_security.acl_helper')
@@ -56,10 +45,7 @@ class CustomerAddressRepositoryTest extends WebTestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function addressesDataProvider()
+    public function addressesDataProvider(): array
     {
         return [
             [
@@ -84,17 +70,17 @@ class CustomerAddressRepositoryTest extends WebTestCase
 
     /**
      * @dataProvider defaultAddressDataProvider
-     * @param string $customerReference
-     * @param string $type
-     * @param string $expectedAddressReference
      */
-    public function testGetDefaultAddressesByType($customerReference, $type, $expectedAddressReference)
-    {
+    public function testGetDefaultAddressesByType(
+        string $customerReference,
+        string $type,
+        string $expectedAddressReference
+    ) {
         /** @var Customer $customer */
         $customer = $this->getReference($customerReference);
 
         /** @var CustomerAddress[] $actual */
-        $actual = $this->repository->getDefaultAddressesByType(
+        $actual = $this->getRepository()->getDefaultAddressesByType(
             $customer,
             $type,
             $this->getContainer()->get('oro_security.acl_helper')
@@ -103,10 +89,7 @@ class CustomerAddressRepositoryTest extends WebTestCase
         $this->assertEquals($this->getReference($expectedAddressReference)->getId(), $actual[0]->getId());
     }
 
-    /**
-     * @return array
-     */
-    public function defaultAddressDataProvider()
+    public function defaultAddressDataProvider(): array
     {
         return [
             [

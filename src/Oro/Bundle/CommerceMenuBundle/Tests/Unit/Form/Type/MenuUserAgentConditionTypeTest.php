@@ -1,12 +1,11 @@
 <?php
 
-namespace Oro\Bundle\CustomerMenuBundle\Tests\Unit\Form\Type;
+namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
 use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuUserAgentConditionType;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuUserAgentConditionTypeTest extends FormIntegrationTestCase
@@ -19,13 +18,12 @@ class MenuUserAgentConditionTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->formType = new MenuUserAgentConditionType();
     }
-
 
     /**
      * {@inheritDoc}
@@ -63,7 +61,7 @@ class MenuUserAgentConditionTypeTest extends FormIntegrationTestCase
 
     public function testGetBlockPrefix()
     {
-        static::assertEquals('oro_commerce_menu_user_agent_condition', $this->formType->getBlockPrefix());
+        self::assertEquals('oro_commerce_menu_user_agent_condition', $this->formType->getBlockPrefix());
     }
 
     public function testConfigureOptions()
@@ -74,6 +72,6 @@ class MenuUserAgentConditionTypeTest extends FormIntegrationTestCase
         $actualOptions = $optionsResolver->resolve([]);
         $expectedOptions = ['data_class' => MenuUserAgentCondition::class];
 
-        static::assertEquals($expectedOptions, $actualOptions);
+        self::assertEquals($expectedOptions, $actualOptions);
     }
 }

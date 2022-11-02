@@ -1,5 +1,8 @@
-define(['jquery', 'jquery-ui'], function($) {
+define(function(require) {
     'use strict';
+
+    const $ = require('jquery');
+    require('jquery-ui/widget');
 
     $.widget('oroui.expandLongTexWidget', {
         options: {
@@ -25,19 +28,19 @@ define(['jquery', 'jquery-ui'], function($) {
         },
 
         _init: function() {
-            var text = this.$el.text().trim();
+            const text = this.$el.text().trim();
             if (text.length <= this.options.maxLength) {
                 this.$el.text(text);
                 return;
             }
 
-            var shortText = text.substr(0, this.options.maxLength) + this.options.clipSymbols;
-            var $trigger = this._createNode('span', this.triggerClass)
+            const shortText = text.substr(0, this.options.maxLength) + this.options.clipSymbols;
+            const $trigger = this._createNode('span', this.triggerClass)
                 .append(this._createNode('i', this.options.iconClass));
-            var $shortContent = this._createNode('span', this.contentShoerClass, shortText);
-            var $longContent = this._createNode('span', this.contentLongClass, text);
+            const $shortContent = this._createNode('span', this.contentShoerClass, shortText);
+            const $longContent = this._createNode('span', this.contentLongClass, text);
 
-            var $content = this._createNode('div', this.contentClass);
+            const $content = this._createNode('div', this.contentClass);
             $content
                 .append($trigger)
                 .append($shortContent)
@@ -51,7 +54,7 @@ define(['jquery', 'jquery-ui'], function($) {
         },
 
         _initEvents: function() {
-            var $trigger = this.$el.find('.' + this.triggerClass);
+            const $trigger = this.$el.find('.' + this.triggerClass);
 
             this._on($trigger, {
                 click: this._onClick

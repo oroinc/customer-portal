@@ -18,14 +18,9 @@ class PageTemplateCollectionTypeTest extends FormIntegrationTestCase
     /** @var PageTemplateCollectionType */
     private $formType;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->pageTemplatesManagerMock = $this->getMockBuilder(PageTemplatesManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->pageTemplatesManagerMock = $this->createMock(PageTemplatesManager::class);
 
         $this->formType = new PageTemplateCollectionType($this->pageTemplatesManagerMock);
         parent::setUp();
@@ -39,8 +34,8 @@ class PageTemplateCollectionTypeTest extends FormIntegrationTestCase
                 'route_name_1' => [
                     'label' => 'Route title 1',
                     'choices' => [
-                        'Page template 1' => 'some_key1',
-                        'Page template 2' => 'some_key2',
+                        'some_key1' => 'Page template 1',
+                        'some_key2' => 'Page template 2',
                     ]
                 ]
             ]);
@@ -50,6 +45,7 @@ class PageTemplateCollectionTypeTest extends FormIntegrationTestCase
 
         $form->submit($submittedData);
         $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
 
         $formData = $form->getData();
         $this->assertEquals(['route_name_1' => 'some_key2'], $formData);

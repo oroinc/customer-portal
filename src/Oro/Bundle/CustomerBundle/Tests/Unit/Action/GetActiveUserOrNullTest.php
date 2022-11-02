@@ -14,31 +14,24 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class GetActiveUserOrNullTest extends \PHPUnit\Framework\TestCase
 {
-    const ATTRIBUTE_NAME = 'some_attribute';
+    private const ATTRIBUTE_NAME = 'some_attribute';
 
-    /**
-     * @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $tokenStorage;
+    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $tokenStorage;
 
-    /**
-     * @var GetActiveUserOrNull
-     */
-    protected $action;
+    /** @var GetActiveUserOrNull */
+    private $action;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
 
         $this->action = new GetActiveUserOrNull(new ContextAccessor(), $this->tokenStorage);
+        $this->action->setDispatcher($this->createMock(EventDispatcher::class));
     }
 
     public function testExecute()
     {
-        /** @var EventDispatcher $dispatcher */
-        $dispatcher = $this->createMock(EventDispatcher::class);
-        $this->action->setDispatcher($dispatcher);
-
         $customerUser = new CustomerUser();
         $customerVisitor = new CustomerVisitor();
         $customerVisitor->setCustomerUser($customerUser);
@@ -46,10 +39,10 @@ class GetActiveUserOrNullTest extends \PHPUnit\Framework\TestCase
         $token = $this->createMock(AnonymousCustomerUserToken::class);
         $token->expects($this->once())
             ->method('getVisitor')
-            ->will($this->returnValue($customerVisitor));
+            ->willReturn($customerVisitor);
         $this->tokenStorage->expects($this->once())
             ->method('getToken')
-            ->will($this->returnValue($token));
+            ->willReturn($token);
 
         $context = new ItemStub();
 
@@ -57,22 +50,18 @@ class GetActiveUserOrNullTest extends \PHPUnit\Framework\TestCase
         $this->action->execute($context);
 
         $attributeName = self::ATTRIBUTE_NAME;
-        $this->assertEquals($customerUser, $context->$attributeName);
+        $this->assertEquals($customerUser, $context->{$attributeName});
     }
 
     public function testExecuteNull()
     {
-        /** @var EventDispatcher $dispatcher */
-        $dispatcher = $this->createMock(EventDispatcher::class);
-        $this->action->setDispatcher($dispatcher);
-
         $token = $this->createMock(AnonymousCustomerUserToken::class);
         $token->expects($this->once())
             ->method('getVisitor')
-            ->will($this->returnValue(new CustomerVisitor()));
+            ->willReturn(new CustomerVisitor());
         $this->tokenStorage->expects($this->once())
             ->method('getToken')
-            ->will($this->returnValue($token));
+            ->willReturn($token);
 
         $context = new ItemStub();
 
@@ -80,6 +69,6 @@ class GetActiveUserOrNullTest extends \PHPUnit\Framework\TestCase
         $this->action->execute($context);
 
         $attributeName = self::ATTRIBUTE_NAME;
-        $this->assertNull($context->$attributeName);
+        $this->assertNull($context->{$attributeName});
     }
 }

@@ -1,5 +1,13 @@
 /* @theme: default; */
 
 .page-subtitle {
-  text-transform: uppercase;
+    margin: $page-subtitle-offset;
+
+    font-size: $page-subtitle-font-size;
+    font-family: $page-subtitle-font-family;
+    text-transform: uppercase;
+
+    &__text {
+        vertical-align: middle;
+    }
 }

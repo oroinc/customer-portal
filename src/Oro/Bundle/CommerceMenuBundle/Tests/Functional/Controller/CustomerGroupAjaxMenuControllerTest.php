@@ -11,12 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CustomerGroupAjaxMenuControllerTest extends WebTestCase
 {
-    const MENU_NAME = 'frontend_menu';
+    private const MENU_NAME = 'frontend_menu';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
 
@@ -34,7 +31,7 @@ class CustomerGroupAjaxMenuControllerTest extends WebTestCase
             ]
         ];
 
-        $this->client->request(
+        $this->ajaxRequest(
             'POST',
             $this->getUrl('oro_commerce_menu_customer_group_menu_ajax_create', $parameters),
             [
@@ -58,7 +55,7 @@ class CustomerGroupAjaxMenuControllerTest extends WebTestCase
             ]
         ];
 
-        $this->client->request(
+        $this->ajaxRequest(
             'DELETE',
             $this->getUrl('oro_commerce_menu_customer_group_menu_ajax_delete', $parameters),
             ['ownerId' => 0]
@@ -80,7 +77,7 @@ class CustomerGroupAjaxMenuControllerTest extends WebTestCase
             ]
         ];
 
-        $this->client->request(
+        $this->ajaxRequest(
             'PUT',
             $this->getUrl('oro_commerce_menu_customer_group_menu_ajax_show', $parameters),
             ['ownerId' => 0]
@@ -102,7 +99,7 @@ class CustomerGroupAjaxMenuControllerTest extends WebTestCase
             ]
         ];
 
-        $this->client->request(
+        $this->ajaxRequest(
             'PUT',
             $this->getUrl('oro_commerce_menu_customer_group_menu_ajax_hide', $parameters),
             ['ownerId' => 0]
@@ -123,7 +120,7 @@ class CustomerGroupAjaxMenuControllerTest extends WebTestCase
             ]
         ];
 
-        $this->client->request(
+        $this->ajaxRequest(
             'PUT',
             $this->getUrl('oro_commerce_menu_customer_group_menu_ajax_move', $parameters),
             [
@@ -149,7 +146,7 @@ class CustomerGroupAjaxMenuControllerTest extends WebTestCase
             ]
         ];
 
-        $this->client->request(
+        $this->ajaxRequest(
             'DELETE',
             $this->getUrl('oro_commerce_menu_customer_group_menu_ajax_reset', $parameters),
             ['ownerId' => 0]
@@ -160,18 +157,12 @@ class CustomerGroupAjaxMenuControllerTest extends WebTestCase
         $this->assertResponseStatusCodeEquals($result, Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     * @return integer
-     */
-    protected function getCustomerGroupId()
+    private function getCustomerGroupId(): int
     {
         return $this->getReference(LoadGroups::GROUP1)->getId();
     }
 
-    /**
-     * @return integer
-     */
-    protected function getWebsiteId()
+    private function getWebsiteId(): int
     {
         return $this->getReference(LoadWebsiteData::WEBSITE1)->getId();
     }

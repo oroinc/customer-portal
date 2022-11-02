@@ -3,11 +3,14 @@
 namespace Oro\Bundle\FrontendBundle\Extension;
 
 use Oro\Bundle\ActionBundle\Button\ButtonSearchContext;
-use Oro\Bundle\FrontendBundle\Provider\ActionCurrentApplicationProvider;
+use Oro\Bundle\FrontendBundle\Provider\FrontendCurrentApplicationProvider;
 use Oro\Bundle\WorkflowBundle\Extension\TransitionButtonProviderExtension;
 use Oro\Bundle\WorkflowBundle\Model\Transition;
 use Oro\Bundle\WorkflowBundle\Model\Workflow;
 
+/**
+ * Prepares applicable buttons to execute workflow transitions for the storefront.
+ */
 class FrontendTransitionButtonProviderExtension extends TransitionButtonProviderExtension
 {
     /**
@@ -49,6 +52,6 @@ class FrontendTransitionButtonProviderExtension extends TransitionButtonProvider
      */
     protected function getApplication()
     {
-        return ActionCurrentApplicationProvider::COMMERCE_APPLICATION;
+        return FrontendCurrentApplicationProvider::COMMERCE_APPLICATION;
     }
 }

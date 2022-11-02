@@ -28,7 +28,7 @@ class MenuConditionEvaluatorTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->expressionLanguage = $this->createMock(ExpressionLanguage::class);
@@ -46,18 +46,16 @@ class MenuConditionEvaluatorTest extends \PHPUnit\Framework\TestCase
     {
         $childMenu1 = $this->mockMenuItem($conditionString);
 
-        $this->expressionLanguage
-            ->expects(static::once())
+        $this->expressionLanguage->expects(self::once())
             ->method('evaluate')
             ->with($conditionString)
             ->willReturn($evaluationResult);
 
-        $this->logger
-            ->expects(static::never())
+        $this->logger->expects(self::never())
             ->method('error');
 
         $actualResult = $this->menuConditionEvaluator->evaluate($childMenu1, []);
-        static::assertSame($expectedResult, $actualResult);
+        self::assertSame($expectedResult, $actualResult);
     }
 
     /**
@@ -88,16 +86,14 @@ class MenuConditionEvaluatorTest extends \PHPUnit\Framework\TestCase
     {
         $childMenu1 = $this->mockMenuItem('');
 
-        $this->expressionLanguage
-            ->expects(static::never())
+        $this->expressionLanguage->expects(self::never())
             ->method('evaluate');
 
-        $this->logger
-            ->expects(static::never())
+        $this->logger->expects(self::never())
             ->method('error');
 
         $actualResult = $this->menuConditionEvaluator->evaluate($childMenu1, []);
-        static::assertTrue($actualResult);
+        self::assertTrue($actualResult);
     }
 
     public function testEvaluateWhenConditionIsInvalid()
@@ -106,21 +102,19 @@ class MenuConditionEvaluatorTest extends \PHPUnit\Framework\TestCase
         $childMenu1 = $this->mockMenuItem($conditionString);
 
         $error = 'sample error message';
-        $this->expressionLanguage
-            ->expects(static::once())
+        $this->expressionLanguage->expects(self::once())
             ->method('evaluate')
             ->with($conditionString)
             ->willThrowException(new SyntaxError($error));
 
         $logMessage =
             'Exception caught while evaluating menu condition expression: sample error message around position 0.';
-        $this->logger
-            ->expects(static::once())
+        $this->logger->expects(self::once())
             ->method('error')
             ->with($logMessage);
 
         $actualResult = $this->menuConditionEvaluator->evaluate($childMenu1, []);
-        static::assertTrue($actualResult);
+        self::assertTrue($actualResult);
     }
 
     /**
@@ -131,8 +125,7 @@ class MenuConditionEvaluatorTest extends \PHPUnit\Framework\TestCase
     private function mockMenuItem($conditionString)
     {
         $childMenu1 = $this->createMock(ItemInterface::class);
-        $childMenu1
-            ->expects(static::once())
+        $childMenu1->expects(self::once())
             ->method('getExtra')
             ->with('condition')
             ->willReturn($conditionString);

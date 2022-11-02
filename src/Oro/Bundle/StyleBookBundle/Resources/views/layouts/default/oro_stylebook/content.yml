@@ -1,0 +1,12 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroStyleBook/layouts/default/oro_stylebook/content.html.twig'
+
+        - '@addTree':
+            items:
+                style_book_main_content:
+                    blockType: block
+            tree:
+                style_book_content:
+                    style_book_main_content: ~

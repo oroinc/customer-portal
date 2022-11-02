@@ -1,5 +1,5 @@
 {% set scope = constant('Oro\\Bundle\\EntityPaginationBundle\\Manager\\EntityPaginationManager::VIEW_SCOPE') %}
-{% include 'OroEntityPaginationBundle:Placeholder:entityPagination.html.twig' with {
+{% include '@OroEntityPagination/Placeholder/entityPagination.html.twig' with {
     scope : scope,
     first_route: 'oro_customer_frontend_entity_pagination_first',
     previous_route: 'oro_customer_frontend_entity_pagination_previous',

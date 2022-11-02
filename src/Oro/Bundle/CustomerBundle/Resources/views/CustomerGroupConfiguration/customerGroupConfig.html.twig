@@ -1,0 +1,25 @@
+{% extends '@OroConfig/configPage.html.twig' %}
+{% import '@OroUI/macros.html.twig' as UI %}
+
+{% oro_title_set({params : {"%customergroup%": entity.name }}) %}
+
+{% set pageTitle = [
+        UI.link({
+            'path': path('oro_customer_customer_group_index'),
+            'label': 'oro.customer.customergroup.entity_plural_label'|trans
+        }),
+        UI.link({
+            'path': path('oro_customer_customer_group_view', {id: entity.id}),
+            'label': entity.name
+        }),
+        'oro.customer.customergroup.customer_group_configuration.label'|trans
+    ]
+%}
+
+{% set formAction = path(
+        'oro_customer_group_config',
+        {id:entity.id, activeGroup: activeGroup, activeSubGroup: activeSubGroup}
+    )
+%}
+{% set routeName = 'oro_customer_group_config' %}
+{% set routeParameters = {id: entity.id} %}

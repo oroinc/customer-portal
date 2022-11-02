@@ -1,0 +1,62 @@
+dependencies:
+    - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization
+    - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser
+    - Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerUserRoles
+    - Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadWebsiteData
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+    customer_user1:
+        confirmed: true
+        enabled: true
+        email: 'user1@example.com'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        firstName: 'First Name 1'
+        lastName: 'Last Name 1'
+        userRoles: ['@admin']
+        website: '@website'
+        owner: '@user'
+        organization: '@organization'
+    customer_user2:
+        confirmed: false
+        enabled: false
+        email: 'user2@example.com'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        firstName: 'First Name 2'
+        lastName: 'Last Name 2'
+        userRoles: ['@admin']
+        website: '@website'
+        owner: '@user'
+        organization: '@organization'
+    another_customer_user:
+        confirmed: true
+        enabled: true
+        email: 'another_user@example.com'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        firstName: 'Another First Name'
+        lastName: 'Another Last Name'
+        userRoles: ['@admin']
+        website: '@website'
+        owner: '@user'
+        organization: '@organization'
+
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    customer1:
+        parent: '@customer'
+        name: 'Customer 1'
+        users: ['@customer_user1']
+        group: '@customer_group'
+        owner: '@user'
+        organization: '@organization'
+    customer2:
+        parent: '@customer1'
+        name: 'Customer 2'
+        users: ['@customer_user2']
+        group: '@customer_group'
+        owner: '@user'
+        organization: '@organization'
+    another_customer:
+        name: 'Another Customer'
+        users: ['@another_customer_user']
+        group: '@customer_group'
+        owner: '@user'
+        organization: '@organization'

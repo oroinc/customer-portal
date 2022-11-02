@@ -2,7 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
-use Oro\Bundle\FormBundle\Form\Type\OroDateType;
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\FormBundle\Form\Type\OroBirthdayType;
 use Oro\Bundle\UserBundle\Form\Type\ChangePasswordType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -12,14 +13,27 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Form type for customer profile at storefront
+ */
 class FrontendCustomerUserProfileType extends AbstractType
 {
     const NAME = 'oro_customer_frontend_customer_user_profile';
 
     /**
+     * @var ConfigManager
+     */
+    private $configManager;
+
+    /**
      * @var string
      */
     protected $dataClass;
+
+    public function __construct(ConfigManager $configManager)
+    {
+        $this->configManager = $configManager;
+    }
 
     /**
      * @param string $dataClass
@@ -77,7 +91,7 @@ class FrontendCustomerUserProfileType extends AbstractType
             )
             ->add(
                 'birthday',
-                OroDateType::class,
+                OroBirthdayType::class,
                 [
                     'required' => false,
                     'label' => 'oro.customer.customeruser.birthday.label'
@@ -106,11 +120,13 @@ class FrontendCustomerUserProfileType extends AbstractType
 
     /**
      * PRE_SET_DATA event handler
-     *
-     * @param FormEvent $event
      */
     public function preSetData(FormEvent $event)
     {
+        if (!$this->isCompanyNameFieldEnabled()) {
+            return;
+        }
+
         $event->getForm()->add('customer', FrontendOwnerSelectType::class, [
             'label' => 'oro.customer.customer.entity_label',
             'targetObject' => $event->getData()
@@ -144,5 +160,13 @@ class FrontendCustomerUserProfileType extends AbstractType
     public function getBlockPrefix()
     {
         return self::NAME;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isCompanyNameFieldEnabled()
+    {
+        return (bool) $this->configManager->get('oro_customer.company_name_field_enabled');
     }
 }

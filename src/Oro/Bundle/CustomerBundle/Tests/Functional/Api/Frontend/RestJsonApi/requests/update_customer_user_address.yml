@@ -1,0 +1,26 @@
+data:
+    type: customeruseraddresses
+    id: '<toString(@another_customer_user_address1->id)>'
+    attributes:
+        city: 'City updated'
+        firstName: 'First name updated'
+        label: 'Address label updated'
+        lastName: 'Adrian'
+        middleName: null
+        namePrefix: null
+        nameSuffix: null
+        organization: null
+        phone: null
+        postalCode: '14608'
+        primary: true
+        street: '23405 Caldwell Road'
+        street2: null
+    relationships:
+        country:
+            data:
+                type: countries
+                id: '<toString(@country_usa->iso2Code)>'
+        region:
+            data:
+                type: regions
+                id: '<toString(@region_usa_florida->combinedCode)>'

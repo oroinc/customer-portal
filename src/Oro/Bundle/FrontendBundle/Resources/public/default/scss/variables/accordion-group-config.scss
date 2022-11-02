@@ -1,0 +1,13 @@
+/* @theme: default; */
+
+$accordion-group-trigger-font-size: inherit !default;
+
+$accordion-group-trigger-expanded-color: get-color('additional', 'dark') !default;
+$accordion-group-container-offset: 0 0 $offset-y 0 !default;
+
+$accordion-group-trigger-icon-color: get-color('additional', 'dark') !default;
+$accordion-group-trigger-icon-offset: -2px $offset-x-s 0 !default;
+$accordion-group-trigger-icon-size: 16px !default;
+$accordion-group-trigger-icon-transition: transform 200ms linear !default;
+
+$accordion-group-container-offset: $offset-y !default;

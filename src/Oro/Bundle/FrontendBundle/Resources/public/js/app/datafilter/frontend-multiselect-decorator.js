@@ -1,21 +1,26 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
-    var FrontendMultiSelectDecorator;
-    var _ = require('underscore');
-    var __ = require('orotranslation/js/translator');
-    var $ = require('jquery');
-    var MultiSelectDecorator = require('orofilter/js/multiselect-decorator');
-    var config = require('module').config();
+    const _ = require('underscore');
+    const __ = require('orotranslation/js/translator');
+    const $ = require('jquery');
+    const MultiSelectDecorator = require('orofilter/js/multiselect-decorator');
+    let config = require('module-config').default(module.id);
 
     config = $.extend(true, {
-        hideHeader: _.isMobile(),
-        themeName: 'default',
-        additionalClass: !_.isMobile()
+        hideHeader: false,
+        themeName: 'filter-default',
+        additionalClass: true
     }, config);
 
-    FrontendMultiSelectDecorator = function(options) {
-        MultiSelectDecorator.apply(this, arguments);
+    const FrontendMultiSelectDecorator = function(options) {
+        const params = _.pick(options.parameters, ['additionalClass', 'hideHeader', 'themeName', 'listAriaLabel']);
+
+        if (!_.isEmpty(params)) {
+            this.parameters = _.extend({}, this.parameters, params);
+        }
+
+        MultiSelectDecorator.call(this, options);
     };
 
     FrontendMultiSelectDecorator.prototype = _.extend(Object.create(MultiSelectDecorator.prototype), {
@@ -34,20 +39,21 @@ define(function(require) {
         applyMarkup: true,
 
         /**
-         * @property {bool}
+         * Optional parameters of multiselect widget
+         * @property {object}
          */
-        additionalClass: config.additionalClass,
+        parameters: {
+            additionalClass: config.additionalClass,
+            hideHeader: config.hideHeader,
+            themeName: config.themeName
+        },
 
         /**
-         * @inheritDoc
-         */
-        desingConfiguration: config,
-
-        /**
-         * @inheritDoc
+         * @inheritdoc
          */
         multiselectFilterParameters: {
-            placeholder: __('oro_frontend.filter_manager.placeholder')
+            placeholder: __('oro_frontend.filters.multiselect.placeholder'),
+            searchAriaLabel: __('oro_frontend.filters.multiselect.aria_label')
         },
 
         /**
@@ -55,18 +61,18 @@ define(function(require) {
          * @private
          */
         _setDropdownDesign: function() {
-            var widget = this.getWidget();
-            var instance = this.multiselect('instance');
-
-            if (this.desingConfiguration.hideHeader) {
-                instance.header.hide();
-            }
+            const widget = this.getWidget();
+            const instance = this.multiselect('instance');
 
             if (!_.isObject(instance)) {
                 return;
             }
 
-            switch (this.desingConfiguration.themeName) {
+            if (this.parameters.hideHeader) {
+                instance.header.hide();
+            }
+
+            switch (this.parameters.themeName) {
                 case 'all-at-once':
                     this.applyAllToOnceTheme(widget, instance);
                     break;
@@ -74,6 +80,8 @@ define(function(require) {
                     this.applyDefaultTheme(widget, instance);
                     break;
             }
+
+            this.appendNoFoundTemplate();
         },
 
         /**
@@ -113,9 +121,6 @@ define(function(require) {
          * @param {object} instance
          */
         setDesignForCheckboxesDefaultTheme: function(instance) {
-            var className = instance.options.multiple ? 'checkbox' : 'radio';
-            var $icon = instance.labels.find('.custom-' + className + '__icon');
-
             instance.menu
                 .children('.ui-multiselect-checkboxes')
                 .removeClass('ui-helper-reset')
@@ -123,16 +128,7 @@ define(function(require) {
                 .find('li')
                 .addClass('datagrid-manager__list-item');
 
-            instance.labels
-                .addClass('custom-' + className + ' absolute')
-                .find('span')
-                .addClass('custom-' + className + '__text');
-
-            if (!$icon.length) {
-                instance.inputs
-                    .addClass('custom-' + className + '__input ui-rewrite')
-                    .after($('<i/>', {'class': 'custom-' + className + '__icon'}));
-            }
+            instance.labels.addClass('checkbox-label');
         },
 
         /**
@@ -154,7 +150,7 @@ define(function(require) {
          */
         onRefresh: function() {
             if (_.isFunction(this.setActionsState)) {
-                var instance = this.multiselect('instance');
+                const instance = this.multiselect('instance');
                 this.setActionsState(instance);
             }
 
@@ -180,7 +176,7 @@ define(function(require) {
         setDropdownWidgetContainer: function(instance) {
             instance.menu
                 .wrap(
-                    $('<div/>', {'class': 'datagrid-manager'})
+                    $('<div></div>', {'class': 'datagrid-manager', 'data-cid': `menu-${this.cid}`})
                 );
         },
 
@@ -189,10 +185,10 @@ define(function(require) {
          * @param {object} widget
          */
         addAdditionalClassesForContainer: function(widget) {
-            if (this.additionalClass) {
+            if (this.parameters.additionalClass) {
                 widget
                     .removeAttr('class')
-                    .addClass('dropdown-menu');
+                    .addClass(`${this.parameters.themeName} dropdown-menu`);
             }
         },
 
@@ -213,12 +209,24 @@ define(function(require) {
         setDropdownHeaderSearchDesign: function(instance) {
             instance.header
                 .find('input')
+                .addClass('input input--full input--size-s')
                 .wrap(
-                    $('<div/>', {'class': 'datagrid-manager-search empty'})
+                    $('<div></div>', {'class': 'datagrid-manager-search empty'})
                 );
+
             instance.header
                 .find('.ui-multiselect-filter')
                 .removeAttr('class');
+
+            instance.header
+                .find('.ui-multiselect-close')
+                .addClass('hide');
+        },
+
+        dispose() {
+            $(`[data-cid="menu-${this.cid}"]`).remove();
+
+            return MultiSelectDecorator.prototype.dispose.call(this);
         }
     });
 

@@ -12,9 +12,10 @@
     &__item {
         display: inline-block;
 
-        &:before {
+        &::before {
             display: inline-block;
             height: $base-font-size - 2px;
+            margin: 0 2px;
 
             border-left: 1px solid;
 
@@ -24,14 +25,14 @@
         }
 
         &:not(:first-child) {
-            &:before {
+            &::before {
                 content: '';
             }
         }
 
         &--separate-light {
-            &:before {
-                border-left-color: get-color('additional', 'base');
+            &::before {
+                border-left-color: $actions-row-separate-light-border;
 
                 opacity: 1;
             }
@@ -40,12 +41,20 @@
         &--separate {
             margin: 0 3px;
 
-            color: get-color('additional', 'base');
+            color: $actions-row-separate-color;
 
             cursor: default;
 
             vertical-align: middle;
         }
+    }
+
+    &__icon {
+        margin-right: 0;
+
+        opacity: .65;
+
+        transition: opacity linear 100ms;
     }
 
     &__button {
@@ -57,29 +66,22 @@
         border: 0;
         background: transparent;
 
-        cursor: pointer;
-
-        opacity: .65;
-
-        @extend %base-transition;
-
         &:hover {
-            opacity: 1;
+            .actions-row__icon {
+                opacity: 1;
+            }
         }
-    }
-
-    &__icon {
-        margin-right: 0;
     }
 }
 
 @include breakpoint('tablet') {
     .actions-row {
         &__item {
-            &:before {
+            &::before {
                 height: $base-font-size;
             }
         }
+
         &__button {
             padding: 2px 6px;
 

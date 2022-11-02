@@ -1,14 +1,13 @@
 define(function(require) {
     'use strict';
 
-    var AddressBook;
-    var BaseAddressBook = require('oroaddress/js/address-book');
-    var $ = require('jquery');
-    var _ = require('underscore');
-    var mediator = require('oroui/js/mediator');
-    var viewportManager = require('oroui/js/viewport-manager');
+    const BaseAddressBook = require('oroaddress/js/address-book');
+    const $ = require('jquery');
+    const _ = require('underscore');
+    const mediator = require('oroui/js/mediator');
+    const viewportManager = require('oroui/js/viewport-manager');
 
-    AddressBook = BaseAddressBook.extend({
+    const AddressBook = BaseAddressBook.extend({
         optionNames: BaseAddressBook.prototype.optionNames.concat(['useFormDialog', 'mapViewport']),
 
         useFormDialog: true,
@@ -22,10 +21,10 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function AddressBook() {
-            AddressBook.__super__.constructor.apply(this, arguments);
+        constructor: function AddressBook(options) {
+            AddressBook.__super__.constructor.call(this, options);
         },
 
         /**
@@ -46,18 +45,27 @@ define(function(require) {
          */
         _openAddressEditForm: function(title, url) {
             if (this.useFormDialog) {
-                AddressBook.__super__._openAddressEditForm.apply(this, arguments);
+                AddressBook.__super__._openAddressEditForm.call(this, title, url);
             } else {
                 mediator.execute('redirectTo', {url: url}, {redirect: true});
             }
         },
 
-        addAll: function() {
-            AddressBook.__super__.addAll.apply(this, arguments);
+        addAll: function(items) {
+            AddressBook.__super__.addAll.call(this, items);
 
-            $(this.options.manageAddressesLink)
-                .appendTo(this.$addressesContainer)
-                .removeClass('hidden');
+            let $linkContainer = $(this.options.manageAddressesLink);
+
+            $linkContainer.removeClass('hidden');
+            if (
+                $linkContainer.prop('nodeName') !== 'LI' &&
+                ['OL', 'UL'].includes(this.$addressesContainer.prop('nodeName'))
+            ) {
+                $linkContainer.wrap('<li></li>');
+                $linkContainer = $linkContainer.parent();
+            }
+
+            $linkContainer.appendTo(this.$addressesContainer);
         },
 
         _checkMapVisibility: function(viewport) {

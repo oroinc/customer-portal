@@ -1,0 +1,51 @@
+entity_config:
+    attachment:
+        # You can find out more about attributes in the documentation: https://doc.oroinc.com/backend/configuration/annotation/config-field/#attachment
+        field:
+            items:
+                acl_protected:
+                    options:
+                        value_type: boolean
+                        allowed_type: [file, image, wysiwyg, wysiwyg_styles, multiFile, multiImage]
+                        create_only: true
+                        required_property:
+                            code: is_stored_externally
+                            value: false
+                    form:
+                        type: Oro\Bundle\EntityConfigBundle\Form\Type\ChoiceType
+                        options:
+                            choices:
+                                Yes: true
+                                No: false
+                            placeholder: false
+                            block: general
+                            subblock: properties
+                            label: oro.frontendattachment.entity_config.attachment.field.items.acl_protected.label
+                            tooltip: oro.frontendattachment.entity_config.attachment.field.items.acl_protected.tooltip
+                    import_export:
+                        import_template:
+                            use_in_template: true
+                            value: Yes
+                file_applications:
+                    options:
+                        allowed_type: [file, image, wysiwyg, wysiwyg_styles, multiFile, multiImage]
+                        required_properties:
+                            - code: is_stored_externally
+                              value: false
+                            - code: acl_protected
+                              value: true
+                    constraints:
+                        - NotBlank: ~
+                    form:
+                        type: Oro\Bundle\FormBundle\Form\Type\OroChoiceType
+                        options:
+                            required: true
+                            choices:
+                                oro.frontendattachment.entity_config.attachment.field.items.file_applications.options.default: 'default'
+                                oro.frontendattachment.entity_config.attachment.field.items.file_applications.options.commerce: 'commerce'
+                            multiple: true
+                            block: general
+                            subblock: properties
+                            empty_data: ['default']
+                            label: oro.frontendattachment.entity_config.attachment.field.items.file_applications.label
+                            tooltip: oro.frontendattachment.entity_config.attachment.field.items.file_applications.tooltip

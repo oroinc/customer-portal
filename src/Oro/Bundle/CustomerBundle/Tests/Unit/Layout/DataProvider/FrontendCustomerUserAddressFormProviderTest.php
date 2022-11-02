@@ -25,10 +25,10 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\Tes
     /** @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $router;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->mockFormFactory = $this->getMockBuilder('Symfony\Component\Form\FormFactoryInterface')->getMock();
-        $this->router = $this->createMock('Symfony\Component\Routing\Generator\UrlGeneratorInterface');
+        $this->mockFormFactory = $this->createMock(FormFactoryInterface::class);
+        $this->router = $this->createMock(UrlGeneratorInterface::class);
 
         $this->provider = new FrontendCustomerUserAddressFormProvider($this->mockFormFactory, $this->router);
     }
@@ -47,14 +47,12 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\Tes
             ->method('createView')
             ->willReturn($formView);
 
-        $this->mockFormFactory
-            ->expects($this->once())
+        $this->mockFormFactory->expects($this->once())
             ->method('create')
             ->with(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, ['action' => $action])
             ->willReturn($form);
 
-        $this->router
-            ->expects($this->exactly(2))
+        $this->router->expects($this->exactly(2))
             ->method('generate')
             ->with(
                 FrontendCustomerUserAddressFormProvider::ACCOUNT_USER_ADDRESS_UPDATE_ROUTE_NAME,
@@ -79,14 +77,12 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\Tes
 
         $form = $this->createMock(FormInterface::class);
 
-        $this->mockFormFactory
-            ->expects($this->once())
+        $this->mockFormFactory->expects($this->once())
             ->method('create')
             ->with(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, ['action' => $action])
             ->willReturn($form);
 
-        $this->router
-            ->expects($this->exactly(2))
+        $this->router->expects($this->exactly(2))
             ->method('generate')
             ->with(
                 FrontendCustomerUserAddressFormProvider::ACCOUNT_USER_ADDRESS_UPDATE_ROUTE_NAME,
@@ -116,14 +112,12 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\Tes
             ->method('createView')
             ->willReturn($formView);
 
-        $this->mockFormFactory
-            ->expects($this->once())
+        $this->mockFormFactory->expects($this->once())
             ->method('create')
             ->with(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, ['action' => $action])
             ->willReturn($form);
 
-        $this->router
-            ->expects($this->exactly(2))
+        $this->router->expects($this->exactly(2))
             ->method('generate')
             ->with(
                 FrontendCustomerUserAddressFormProvider::ACCOUNT_USER_ADDRESS_CREATE_ROUTE_NAME,
@@ -148,14 +142,12 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\Tes
 
         $form = $this->createMock(FormInterface::class);
 
-        $this->mockFormFactory
-            ->expects($this->once())
+        $this->mockFormFactory->expects($this->once())
             ->method('create')
             ->with(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, ['action' => $action])
             ->willReturn($form);
 
-        $this->router
-            ->expects($this->exactly(2))
+        $this->router->expects($this->exactly(2))
             ->method('generate')
             ->with(FrontendCustomerUserAddressFormProvider::ACCOUNT_USER_ADDRESS_CREATE_ROUTE_NAME, ['entityId' => 1])
             ->willReturn($action);

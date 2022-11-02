@@ -1,7 +1,7 @@
-{% extends 'OroUIBundle:actions:view.html.twig' %}
-{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
-{% import 'OroUIBundle::macros.html.twig' as UI %}
-{% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
+{% extends '@OroUI/actions/view.html.twig' %}
+{% import '@OroDataGrid/macros.html.twig' as dataGrid %}
+{% import '@OroUI/macros.html.twig' as UI %}
+{% import '@OroEntityConfig/macros.html.twig' as entityConfig %}
 
 {% oro_title_set({params : {"%label%": entity.label }}) %}
 
@@ -18,6 +18,8 @@
 {% endblock pageHeader %}
 
 {% block content_data %}
+    {% import '@OroUI/macros.html.twig' as UI %}
+
     {% set selfManagedProperty = '' %}
     {% if entity.public %}
         {% set selfManagedPropertyValue = '' %}
@@ -55,7 +57,7 @@
             module: 'orouser/js/components/role/entity-category-tabs-component',
             options: tabsOptions
         }) }}></div>
-        <div id="{{ entityTabPanelId }}" role="tabpanel">
+        <div id="{{ entityTabPanelId }}" class="tab-content" role="tabpanel">
                 {{ dataGrid.renderGrid('customer-user-role-permission-grid', {role: entity}, { cssClass: 'inner-permissions-grid', themeOptions: {readonly: true} }) }}
                 <div {{ UI.renderPageComponentAttributes({
                     module: 'orouser/js/components/role/capability-set-component',

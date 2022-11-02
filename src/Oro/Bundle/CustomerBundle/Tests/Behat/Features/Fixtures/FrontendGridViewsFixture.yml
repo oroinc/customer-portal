@@ -16,12 +16,12 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: '1'
         customer: '@company_A'
         organization: '@organization'
-        role: ['@buyer']
+        userRoles: ['@buyer']
         owner: '@admin'
         website: '@website1'
     customer_users{1..3}:
-        email: 'user_<current()>@example.org'
-        username: 'user_<current()>@example.org'
+        email: 'user_<current()>\@example.org'
+        username: 'user_<current()>\@example.org'
         password: <sentence()>
         salt: <sentence()>
         firstName: 'FirstName_<current()>'
@@ -30,6 +30,6 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: '1'
         customer: '@company_A'
         organization: '@organization'
-        role: ['@buyer']
+        userRoles: ['@buyer']
         owner: '@admin'
         website: '@website1'

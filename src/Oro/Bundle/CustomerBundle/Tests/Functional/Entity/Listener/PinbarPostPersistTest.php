@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\NavigationBundle\Tests\Functional\Entity\Listener;
+namespace Oro\Bundle\CustomerBundle\Tests\Functional\Entity\Listener;
 
 use Oro\Bundle\CustomerBundle\Entity\NavigationItem;
 use Oro\Bundle\CustomerBundle\Entity\PinbarTab;
@@ -12,7 +12,7 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
  */
 class PinbarPostPersistTest extends WebTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
         $this->client->useHashNavigation(true);
@@ -34,6 +34,8 @@ class PinbarPostPersistTest extends WebTestCase
 
         $pinbarTab = new PinbarTab();
         $pinbarTab->setItem($item1);
+        $pinbarTab->setTitle('test title');
+        $pinbarTab->setTitleShort('test title short');
 
         $doctrineHelper = self::getContainer()->get('oro_entity.doctrine_helper');
         $pinbarEm = $doctrineHelper->getEntityManager(PinbarTab::class);

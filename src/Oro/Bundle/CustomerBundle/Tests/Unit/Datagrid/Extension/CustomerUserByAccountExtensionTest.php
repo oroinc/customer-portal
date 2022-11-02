@@ -2,6 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Datagrid\Extension;
 
+use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\QueryBuilder;
 use Oro\Bundle\CustomerBundle\Datagrid\Extension\CustomerUserByCustomerExtension;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
@@ -21,19 +23,16 @@ class CustomerUserByAccountExtensionTest extends \PHPUnit\Framework\TestCase
      */
     protected $request;
 
-    /**
-     * @inheritDoc
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->request = $this->createMock(Request::class);
+
+        $requestStack = $this->createMock(RequestStack::class);
+        $requestStack->expects($this->any())
+            ->method('getCurrentRequest')
+            ->willReturn($this->request);
 
         $this->extension = new CustomerUserByCustomerExtension();
-        /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
-        $requestStack = $this->createMock('Symfony\Component\HttpFoundation\RequestStack');
-        $requestStack->expects($this->any())->method('getCurrentRequest')->willReturn($this->request);
         $this->extension->setRequestStack($requestStack);
         $this->extension->setParameters(new ParameterBag());
     }
@@ -49,15 +48,12 @@ class CustomerUserByAccountExtensionTest extends \PHPUnit\Framework\TestCase
         $this->request->expects($this->any())
             ->method('get')
             ->with(CustomerUserByCustomerExtension::ACCOUNT_KEY)
-            ->will($this->returnValue($customerId));
+            ->willReturn($customerId);
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|DatagridConfiguration $config */
-        $config = $this->getMockBuilder('Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $config = $this->createMock(DatagridConfiguration::class);
         $config->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue($name));
+            ->willReturn($name);
 
         $this->assertEquals($expected, $this->extension->isApplicable($config));
     }
@@ -77,46 +73,36 @@ class CustomerUserByAccountExtensionTest extends \PHPUnit\Framework\TestCase
 
     public function testVisitDatasource()
     {
-        /** @var \PHPUnit\Framework\MockObject\MockObject|DatagridConfiguration $config */
-        $config = $this->getMockBuilder('Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $config = $this->createMock(DatagridConfiguration::class);
         $config->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue(CustomerUserByCustomerExtension::SUPPORTED_GRID));
+            ->willReturn(CustomerUserByCustomerExtension::SUPPORTED_GRID);
         $this->request->expects($this->any())
             ->method('get')
             ->with(CustomerUserByCustomerExtension::ACCOUNT_KEY)
-            ->will($this->returnValue(1));
+            ->willReturn(1);
 
-        $expr = $this->getMockBuilder('Doctrine\ORM\Query\Expr')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $expr = $this->createMock(Expr::class);
 
-        $qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $qb = $this->createMock(QueryBuilder::class);
         $qb->expects($this->once())
             ->method('andWhere')
-            ->will($this->returnSelf());
+            ->willReturnSelf();
         $qb->expects($this->once())
             ->method('setParameter')
             ->with('customer', 1)
-            ->will($this->returnSelf());
+            ->willReturnSelf();
         $qb->expects($this->once())
             ->method('getRootAliases')
-            ->will($this->returnValue(['au']));
+            ->willReturn(['au']);
         $qb->expects($this->once())
             ->method('expr')
-            ->will($this->returnValue($expr));
+            ->willReturn($expr);
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|OrmDatasource $datasource */
-        $datasource = $this->getMockBuilder('Oro\Bundle\DataGridBundle\Datasource\Orm\OrmDatasource')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $datasource = $this->createMock(OrmDatasource::class);
         $datasource->expects($this->once())
             ->method('getQueryBuilder')
-            ->will($this->returnValue($qb));
+            ->willReturn($qb);
 
         $this->extension->visitDatasource($config, $datasource);
     }

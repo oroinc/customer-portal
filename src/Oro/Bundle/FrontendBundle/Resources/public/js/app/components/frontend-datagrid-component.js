@@ -1,43 +1,80 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
-    var FrontendDataGridComponent;
-    var DataGridComponent = require('orodatagrid/js/app/components/datagrid-component');
-    var ElasticSwipeActionsPlugin = require('orofrontend/js/app/plugins/plugin-elastic-swipe-actions');
-    var _ = require('underscore');
+    const DataGridComponent = require('orodatagrid/js/app/components/datagrid-component');
+    const ElasticSwipeActionsPlugin = require('orofrontend/js/app/plugins/plugin-elastic-swipe-actions');
+    const _ = require('underscore');
 
-    FrontendDataGridComponent = DataGridComponent.extend({
+    const moduleConfig = require('module-config').default(module.id);
+
+    const config = {
+        responsiveGridClassName: 'frontend-datagrid--responsive',
+        gridHasSwipeClassName: 'frontend-datagrid--has-swipe',
+        ...moduleConfig,
+        themeOptions: {
+            enabledAccessibilityPlugin: true,
+            ...moduleConfig.themeOptions
+        }
+    };
+
+    const FrontendDataGridComponent = DataGridComponent.extend({
         options: {
             rowActionsClass: 'has-actions',
             rowSelectClass: 'has-select-action'
         },
+
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function FrontendDataGridComponent() {
-            FrontendDataGridComponent.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendDataGridComponent(options) {
+            FrontendDataGridComponent.__super__.constructor.call(this, options);
         },
 
+        /**
+         * @inheritdoc
+         */
+        initDataGrid: function(options) {
+            options = {
+                ...options,
+                themeOptions: {
+                    ...config.themeOptions,
+                    ...options.themeOptions
+                }
+            };
+
+            FrontendDataGridComponent.__super__.initDataGrid.call(this, options);
+
+            if ((this.metadata.responsiveGrids && this.metadata.responsiveGrids.enable)) {
+                this.$componentEl.addClass(config.responsiveGridClassName);
+            }
+
+            if (this.toEnableElasticSwipeActionsPlugin()) {
+                this.$componentEl.addClass(config.gridHasSwipeClassName);
+            }
+        },
+
+        /**
+         * @inheritdoc
+         */
         combineGridOptions: function() {
-            var options = FrontendDataGridComponent.__super__.combineGridOptions.apply(this, arguments);
+            const options = FrontendDataGridComponent.__super__.combineGridOptions.call(this);
 
             _.extend(options, this.options);
 
-            if (
-                (this.metadata.responsiveGrids && this.metadata.responsiveGrids.enable) &&
-                (this.metadata.swipeActionsGrid && this.metadata.swipeActionsGrid.enable)
-            ) {
-                options.plugins.push({
-                    constructor: ElasticSwipeActionsPlugin,
-                    options: {
-                        containerSelector: '.grid-row',
-                        sizerSelector: '.action-cell',
-                        viewport: this.metadata.swipeActionsGrid.viewport || {}
-                    }
-                });
+            if (this.toEnableElasticSwipeActionsPlugin()) {
+                options.plugins.push(ElasticSwipeActionsPlugin);
             }
 
             return options;
+        },
+
+        /**
+         * @returns {boolean}
+         */
+        toEnableElasticSwipeActionsPlugin: function() {
+            return _.isTouchDevice() &&
+                this.metadata.responsiveGrids?.enable &&
+                this.metadata.swipeActionsGrid?.enable;
         }
     });
     return FrontendDataGridComponent;

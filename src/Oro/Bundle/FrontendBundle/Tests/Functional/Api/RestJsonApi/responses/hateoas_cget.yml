@@ -1,0 +1,33 @@
+data:
+    -
+        type: testproducts
+        id: '{product1Id}'
+        links:
+            self: '{baseUrl}/testproducts/{product1Id}'
+        attributes:
+            name: 'product 1'
+        relationships:
+            productType:
+                links:
+                    self: '{baseUrl}/testproducts/{product1Id}/relationships/productType'
+                    related: '{baseUrl}/testproducts/{product1Id}/productType'
+                data:
+                    type: testproducttypes
+                    id: '<toString(@product_type1->name)>'
+    -
+        type: testproducts
+        id: '{product2Id}'
+        links:
+            self: '{baseUrl}/testproducts/{product2Id}'
+        attributes:
+            name: 'product 2'
+        relationships:
+            productType:
+                links:
+                    self: '{baseUrl}/testproducts/{product2Id}/relationships/productType'
+                    related: '{baseUrl}/testproducts/{product2Id}/productType'
+                data:
+                    type: testproducttypes
+                    id: '<toString(@product_type2->name)>'
+links:
+    self: '{baseUrl}/testproducts'

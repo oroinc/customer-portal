@@ -8,9 +8,14 @@ oro:
             text: OroCommerce reduces the complexity for custom eCommerce projects
 
 oro_frontend:
+    web_api:
+        feature:
+            label: Storefront API
+            description: Enables the storefront API feature for the application.
     logo:
         alt:
             label: 'OroCommerce'
+        aria_label: 'Home'
     widget_form_component:
         save_flash_success: Saved successfully
     form:
@@ -35,16 +40,19 @@ oro_frontend:
             page_template_collection.label: 'Page Templates'
             no_page_template.label: 'Default template'
             page_template_routes.label: 'Page Template'
-            guest_access_enabled.label: 'Enable Guest Access'
+            guest_access_enabled:
+                label: 'Enable Guest Access'
+                tooltip: 'Select the option to enable guest users to access the website storefront. Clear the option to disable guest access and enable it to registered and signed-in users only. To allow guest users to register in the storefront, enable the self-registration option under Commerce>Customer>Customer Users>Registration Allowed.'
             filter_value_selectors:
                 label: 'Value Selectors'
-                tooltip: 'The drop-down selector is better optimized for selecting from a long list of values.'
+                tooltip: 'Specify the way to display the multi-select filters in the storefront. The drop-down selector is better optimized for selecting from a long list of values.'
                 option:
                     dropdown: 'Drop-down'
                     all_at_once: 'All at once'
+            web_api:
+                label: Enable Storefront API
         messages:
             no_page_templates: 'No templates available.'
-    copyright: '&copy; 2017 Oro Inc. All Rights Reserved.'
 
     home_page:
         title: 'Home page'
@@ -56,6 +64,47 @@ oro_frontend:
         code.404: 'The page you requested could not be found. Please make sure the path you used is correct.'
         back: 'Click to go back'
 
+        status_text:
+            400: 'Bad Request'
+            401: 'Unauthorized'
+            402: 'Payment Required'
+            403: 'Forbidden'
+            404: 'Not Found'
+            405: 'Method Not Allowed'
+            406: 'Not Acceptable'
+            407: 'Proxy Authentication Required'
+            408: 'Request Timeout'
+            409: 'Conflict'
+            410: 'Gone'
+            411: 'Length Required'
+            412: 'Precondition Failed'
+            413: 'Payload Too Large'
+            414: 'URI Too Long'
+            415: 'Unsupported Media Type'
+            416: 'Range Not Satisfiable'
+            417: 'Expectation Failed'
+            421: 'Misdirected Request'
+            422: 'Unprocessable Entity'
+            423: 'Locked'
+            424: 'Failed Dependency'
+            425: 'Too Early'
+            426: 'Upgrade Required'
+            428: 'Precondition Required'
+            429: 'Too Many Requests'
+            431: 'Request Header Fields Too Large'
+            451: 'Unavailable For Legal Reasons'
+            500: 'Internal Server Error'
+            501: 'Not Implemented'
+            502: 'Bad Gateway'
+            503: 'Service Unavailable'
+            504: 'Gateway Timeout'
+            505: 'HTTP Version Not Supported'
+            506: 'Variant Also Negotiates'
+            507: 'Insufficient Storage'
+            508: 'Loop Detected'
+            510: 'Not Extended'
+            511: 'Network Authentication Required'
+
     fullscreen_popup:
         menu:
             label: "Menu"
@@ -63,4 +112,37 @@ oro_frontend:
             label: "Back"
 
     combined_buttons:
-        more_actions.label: More actions
+        more_actions.label: More Actions
+        more_actions.aria_label: Other Actions
+
+    datagrid_views:
+        saved_views: 'Saved Views'
+        close.aria_label: 'Close the Saved Views drop-down'
+
+    ui:
+        tab_view_more: 'View more...'
+
+    scroll_to_the_top: 'Scroll to the top'
+    avaliable_credit_cards.aria_label: Avaliable Credit Cards
+
+    entity_config:
+        block_titles:
+            frontend:
+                label: Frontend options
+        fields:
+            frontend:
+                is_displayable:
+                    label: Show on view
+                    tooltip: 'Defines whether the field is visible or hidden'
+                is_editable:
+                    label: Show on form
+                    tooltip: 'Defines whether the field is enabled in the front store forms'
+
+    switcher:
+        info:
+            popup:
+                localizations_and_currency: 'Language & Currency'
+                localizations: 'Language'
+                currency: 'Currency'
+            localizations: 'Language'
+            currency: 'Currency'

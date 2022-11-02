@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
 use Oro\Bundle\EntityExtendBundle\Migration\Fixture\AbstractEnumFixture;
@@ -24,7 +24,6 @@ class LoadInternalRating extends AbstractEnumFixture
     }
 
     /**
-     *
      * Returns an enum code of an extend entity
      *
      * @return string
@@ -44,7 +43,7 @@ class LoadInternalRating extends AbstractEnumFixture
         $className = ExtendHelper::buildEnumValueClassName($this->getEnumCode());
         /** @var AbstractEnumValue[] $enumData */
         $enumData = $manager->getRepository($className)->findAll();
-        
+
         foreach ($enumData as $enumItem) {
             $this->addReference($enumItem->getName(), $enumItem);
         }

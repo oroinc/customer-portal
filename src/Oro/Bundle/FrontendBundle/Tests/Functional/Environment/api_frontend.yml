@@ -1,4 +1,12 @@
 api:
+    entity_aliases:
+        Oro\Bundle\TestFrameworkBundle\Entity\Item:
+            alias: testfrontendonlyentity
+            plural_alias: testfrontendonlyentities
+
     entities:
+        Oro\Bundle\TestFrameworkBundle\Entity\Item: ~
         Oro\Bundle\TestFrameworkBundle\Entity\TestProduct: ~
         Oro\Bundle\TestFrameworkBundle\Entity\TestProductType: ~
+        Oro\Bundle\ApiBundle\Tests\Functional\Environment\Entity\TestOwner: ~
+        Oro\Bundle\ApiBundle\Tests\Functional\Environment\Entity\TestTarget: ~

@@ -2,13 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest;
 
-use FOS\RestBundle\Controller\Annotations\NamePrefix;
-use FOS\RestBundle\Controller\Annotations\RouteResource;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserSidebarWidget;
 use Oro\Bundle\SidebarBundle\Controller\Api\Rest\WidgetController as BaseController;
 
 /**
- * @RouteResource("sidebarwidgets")
- * @NamePrefix("oro_api_frontend_")
+ * REST API controller to manage sidebar widgets on the storefront.
  */
 class WidgetController extends BaseController
 {
@@ -17,6 +15,6 @@ class WidgetController extends BaseController
      */
     protected function getWidgetClass()
     {
-        return $this->getParameter('oro_customer.entity.widget.class');
+        return CustomerUserSidebarWidget::class;
     }
 }

@@ -1,14 +1,14 @@
 define(function(require) {
     'use strict';
-    var BaseView = require('oroui/js/app/views/base/view');
-    var _ = require('underscore');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const _ = require('underscore');
 
     /**
      * Text view, able to handle title rendering.
      *
      * Usage sample:
      * ```javascript
-     * var textView = new TextView({
+     * const textView = new TextView({
      *     model: new Backbone.Model({
      *         note: "Some text"
      *     }),
@@ -21,28 +21,26 @@ define(function(require) {
      * @augments BaseView
      * @exports TextView
      */
-    var TextView = BaseView.extend(/** @lends TextView.prototype */{
-        showDefault: true,
-
-        template: require('tpl!orofrontend/templates/viewer/text-view.html'),
+    const TextView = BaseView.extend(/** @lends TextView.prototype */{
+        template: require('tpl-loader!orofrontend/templates/viewer/text-view.html'),
 
         listen: {
             'change model': 'render'
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function TextView() {
-            TextView.__super__.constructor.apply(this, arguments);
+        constructor: function TextView(options) {
+            TextView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.fieldName = _.result(options, 'fieldName', 'value');
-            return TextView.__super__.initialize.apply(this, arguments);
+            return TextView.__super__.initialize.call(this, options);
         },
 
         getTemplateData: function() {

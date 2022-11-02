@@ -1,0 +1,8 @@
+oro.commercemenu:
+    validator:
+        menu_update:
+            not_dangerous_protocol.message: '"{{ protocol }}" pseudo-protocol is not allowed in menu URIs.'
+
+            content_node_empty.message: 'Please choose a Web Catalog and Content Node'
+            system_page_route_empty.message: 'Please choose a System Page'
+            uri_empty.message: 'Please provide URI'

@@ -1,12 +1,8 @@
 define(function(require) {
     'use strict';
 
-    var ContentView = require('orofrontend/js/app/views/page/content-view');
-    var $ = require('jquery');
-
-    beforeEach(function() {
-        window.ontouchstart = false;
-    });
+    const ContentView = require('orofrontend/js/app/views/page/content-view');
+    const $ = require('jquery');
 
     describe('Content View', function() {
         it('Autofocus on frontend form without data-focusable', function() {
@@ -18,7 +14,7 @@ define(function(require) {
                 '</div>'
             ].join(''));
 
-            var contentView = new ContentView({
+            const contentView = new ContentView({
                 el: '#container'
             });
 
@@ -36,7 +32,7 @@ define(function(require) {
                 '</div>'
             ].join(''));
 
-            var contentView = new ContentView({
+            const contentView = new ContentView({
                 el: '#container'
             });
 
@@ -58,7 +54,7 @@ define(function(require) {
                 '</div>'
             ].join(''));
 
-            var contentView = new ContentView({
+            const contentView = new ContentView({
                 el: '#container'
             });
 
@@ -75,7 +71,7 @@ define(function(require) {
                 '</div>'
             ].join(''));
 
-            var contentView = new ContentView({
+            const contentView = new ContentView({
                 el: '#container'
             });
 

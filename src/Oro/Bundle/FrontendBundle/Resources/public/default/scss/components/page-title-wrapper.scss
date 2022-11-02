@@ -1,5 +1,7 @@
 /* @theme: default; */
 
 .page-title-wrapper {
+    margin: $page-title-wrapper-offset;
+
     @include clearfix();
 }

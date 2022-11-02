@@ -3,17 +3,30 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\DependencyInjection;
 
 use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
+use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
-use Oro\Bundle\FrontendBundle\Tests\Unit\Fixtures\Bundle\TestBundle1\TestBundle1;
-use Oro\Component\Config\CumulativeResourceManager;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Exception\LogicException;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ */
 class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 {
     public function testLoad()
     {
-        $container = new ContainerBuilder();
+        $container = $this->getContainerBuilder();
+
+        $applicationState = $this->createMock(ApplicationState::class);
+        $applicationState->expects(self::any())
+            ->method('isInstalled')
+            ->willReturn(true);
+        $container->set('oro_distribution.handler.application_status', $applicationState);
 
         $config = [
             'routes_to_expose' => ['expose_route1']
@@ -23,17 +36,85 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension = new OroFrontendExtension();
         $extension->load([$config], $container);
 
-        $extensionConfig = $container->getExtensionConfig($extension->getAlias());
-        self::assertCount(5, $extensionConfig[0]['settings']);
+        $extensionConfig = $container->getExtensionConfig('oro_frontend');
+        self::assertCount(6, $extensionConfig[0]['settings']);
         self::assertEquals(
             $config['routes_to_expose'],
             $container->getDefinition('oro_frontend.extractor.frontend_exposed_routes_extractor')->getArgument(1)
+        );
+
+        $frontendHelperDef = $container->getDefinition('oro_frontend.request.frontend_helper');
+        self::assertEquals(FrontendHelper::class, $frontendHelperDef->getClass());
+        self::assertCount(3, $frontendHelperDef->getArguments());
+    }
+
+    public function testConfigurationForNotConfiguredFrontendSession()
+    {
+        $container = $this->getContainerBuilder();
+
+        $config = [];
+        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
+
+        $extension = new OroFrontendExtension();
+        $extension->load([$config], $container);
+
+        self::assertSame([], $container->getParameter('oro_frontend.session.storage.options'));
+    }
+
+    public function testConfigurationForFrontendSession()
+    {
+        $container = $this->getContainerBuilder();
+
+        $config = [
+            'session' => [
+                'name'            => 'TEST',
+                'cookie_lifetime' => null,
+                'cookie_path'     => '/test'
+            ]
+        ];
+        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
+
+        $extension = new OroFrontendExtension();
+        $extension->load([$config], $container);
+
+        self::assertEquals(
+            [
+                'name'            => 'TEST',
+                'cookie_path'     => '/test',
+                'cookie_samesite' => 'lax',
+            ],
+            $container->getParameter('oro_frontend.session.storage.options')
+        );
+    }
+
+    public function testConfigurationForFrontendSessionWithFalseValues()
+    {
+        $container = $this->getContainerBuilder();
+
+        $config = [
+            'session' => [
+                'name'            => 'TEST',
+                'cookie_httponly' => false
+            ]
+        ];
+        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
+
+        $extension = new OroFrontendExtension();
+        $extension->load([$config], $container);
+
+        self::assertEquals(
+            [
+                'name'            => 'TEST',
+                'cookie_httponly' => false,
+                'cookie_samesite' => 'lax',
+            ],
+            $container->getParameter('oro_frontend.session.storage.options')
         );
     }
 
     public function testConfigurationForFrontendApiViews()
     {
-        $container = new ContainerBuilder();
+        $container = $this->getContainerBuilder();
 
         $config = [
             'frontend_api' => [
@@ -71,15 +152,15 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    // @codingStandardsIgnoreStart
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\LogicException
-     * @expectedExceptionMessage The view "frontend_view1" defined in oro_frontend.frontend_api.api_doc_views is unknown. Check that it is configured in oro_api.api_doc_views.
-     */
-    // @codingStandardsIgnoreEnd
     public function testShouldThrowExceptionIfFrontendApiDocViewIsUnknown()
     {
-        $container = new ContainerBuilder();
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage(
+            'The view "frontend_view1" defined in oro_frontend.frontend_api.api_doc_views is unknown.'
+            . ' Check that it is configured in oro_api.api_doc_views.'
+        );
+
+        $container = $this->getContainerBuilder();
 
         $config = [
             'frontend_api' => [
@@ -97,9 +178,27 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension->load([$config], $container);
     }
 
+    public function testConfigurationForFrontendApiEmptyCors()
+    {
+        $container = $this->getContainerBuilder();
+        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
+
+        $config = [];
+
+        $extension = new OroFrontendExtension();
+        $extension->load([$config], $container);
+
+        $corsSettingsDef = $container->getDefinition('oro_frontend.api.rest.cors_settings');
+        self::assertSame(600, $corsSettingsDef->getArgument(0));
+        self::assertSame([], $corsSettingsDef->getArgument(1));
+        self::assertFalse($corsSettingsDef->getArgument(2));
+        self::assertSame([], $corsSettingsDef->getArgument(3));
+        self::assertSame([], $corsSettingsDef->getArgument(4));
+    }
+
     public function testConfigurationForFrontendApiCors()
     {
-        $container = new ContainerBuilder();
+        $container = $this->getContainerBuilder();
         DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
 
         $config = [
@@ -117,37 +216,27 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension = new OroFrontendExtension();
         $extension->load([$config], $container);
 
+        $corsSettingsDef = $container->getDefinition('oro_frontend.api.rest.cors_settings');
         self::assertSame(
             $config['frontend_api']['cors']['preflight_max_age'],
-            $container->getDefinition('oro_frontend.api.options.rest.set_cache_control')->getArgument(0)
-        );
-        self::assertSame(
-            $config['frontend_api']['cors']['preflight_max_age'],
-            $container->getDefinition('oro_frontend.api.options.rest.cors.set_max_age')->getArgument(0)
+            $corsSettingsDef->getArgument(0)
         );
         self::assertSame(
             $config['frontend_api']['cors']['allow_origins'],
-            $container->getDefinition('oro_frontend.api.rest.cors.set_allow_origin')->getArgument(0)
-        );
-        self::assertSame(
-            $config['frontend_api']['cors']['allow_headers'],
-            $container->getDefinition('oro_frontend.api.rest.cors.set_allow_and_expose_headers')->getArgument(0)
-        );
-        self::assertSame(
-            $config['frontend_api']['cors']['expose_headers'],
-            $container->getDefinition('oro_frontend.api.rest.cors.set_allow_and_expose_headers')->getArgument(1)
+            $corsSettingsDef->getArgument(1)
         );
         self::assertSame(
             $config['frontend_api']['cors']['allow_credentials'],
-            $container->getDefinition('oro_frontend.api.rest.cors.set_allow_and_expose_headers')->getArgument(2)
+            $corsSettingsDef->getArgument(2)
         );
-    }
-
-    public function testGetAlias()
-    {
-        $extension = new OroFrontendExtension();
-
-        $this->assertEquals(OroFrontendExtension::ALIAS, $extension->getAlias());
+        self::assertSame(
+            $config['frontend_api']['cors']['allow_headers'],
+            $corsSettingsDef->getArgument(3)
+        );
+        self::assertSame(
+            $config['frontend_api']['cors']['expose_headers'],
+            $corsSettingsDef->getArgument(4)
+        );
     }
 
     public function testPrependSecurity()
@@ -186,6 +275,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $expected[3]['firewalls']['test3']['pattern'] = '^/admin/api/(?!(rest|doc)($|/.*))';
 
         $container = new ExtendedContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
         $container->setParameter('web_backend_prefix', '/admin');
         $container->setParameter('oro_api.rest.prefix', '/api/');
         $container->setParameter('oro_api.rest.pattern', '^/api/(?!(rest|doc)($|/.*))');
@@ -217,20 +307,22 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
                 'format_listener' => [
                     'rules' => [
                         ['path' => '%oro_api.rest.pattern%', 'prefer_extension' => false],
-                        ['path' => '^/api/rest']
+                        ['path' => '^/api/rest', 'prefer_extension' => false],
+                        ['path' => '^/', 'stop' => true]
                     ]
                 ]
             ]
         ];
 
         $expected = $configs;
-        array_unshift(
-            $expected[3]['format_listener']['rules'],
-            $expected[3]['format_listener']['rules'][0]
-        );
-        $expected[3]['format_listener']['rules'][1]['path'] = '^/admin/api/(?!(rest|doc)($|/.*))';
+        $rules = $expected[3]['format_listener']['rules'];
+        array_unshift($expected[3]['format_listener']['rules'], $rules[0]);
+        array_unshift($expected[3]['format_listener']['rules'], $rules[1]);
+        $expected[3]['format_listener']['rules'][0]['path'] = '^/admin/api/(?!(rest|doc)($|/.*))';
+        $expected[3]['format_listener']['rules'][1]['path'] = '^/admin/api/rest';
 
         $container = new ExtendedContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
         $container->setParameter('web_backend_prefix', '/admin');
         $container->setParameter('oro_api.rest.prefix', '/api/');
         $container->setParameter('oro_api.rest.pattern', '^/api/(?!(rest|doc)($|/.*))');
@@ -242,32 +334,73 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($expected, $container->getExtensionConfig('fos_rest'));
     }
 
-    public function testPrependScreensConfigs()
+    public function testValidateBackendPrefixWithNullValue()
     {
-        CumulativeResourceManager::getInstance()
-                                 ->clear()
-                                 ->setBundles(['TestBundle1' => TestBundle1::class]);
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('The "web_backend_prefix" parameter value should not be empty.');
 
-        $container = new ContainerBuilder();
+        $container = new ExtendedContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
+        $container->setParameter('web_backend_prefix', null);
+
         $extension = new OroFrontendExtension();
         $extension->prepend($container);
+    }
 
-        $expected = [[
-            'themes' => [
-                'sample_theme' => [
-                    'config' => [
-                        'screens' => [
-                            'sample_screen' => [
-                                'label' => 'Sample screen',
-                                'hidingCssClass' => 'sample-css-class',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ]];
-        $actual = $container->getExtensionConfig('oro_layout');
+    public function testValidateBackendPrefixWithEmptyValue()
+    {
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('The "web_backend_prefix" parameter value should not be empty.');
 
-        $this->assertEquals($expected, $actual);
+        $container = new ExtendedContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
+        $container->setParameter('web_backend_prefix', '');
+
+        $extension = new OroFrontendExtension();
+        $extension->prepend($container);
+    }
+
+    public function testValidateBackendPrefixWhenItNotStartsWithSlash()
+    {
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('The "web_backend_prefix" parameter should start with a "/" character.');
+
+        $container = new ExtendedContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
+        $container->setParameter('web_backend_prefix', 'admin');
+
+        $extension = new OroFrontendExtension();
+        $extension->prepend($container);
+    }
+
+    public function testValidateBackendPrefixWhenItEndsWithSlash()
+    {
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('The "web_backend_prefix" parameter should not end with a "/" character.');
+
+        $container = new ExtendedContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
+        $container->setParameter('web_backend_prefix', '/admin/');
+
+        $extension = new OroFrontendExtension();
+        $extension->prepend($container);
+    }
+
+    public function testValidateBackendPrefixWithValidPrefixValue()
+    {
+        $container = new ExtendedContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
+        $container->setParameter('web_backend_prefix', '/admin');
+
+        $extension = new OroFrontendExtension();
+        $extension->prepend($container);
+    }
+
+    private function getContainerBuilder(): ContainerBuilder
+    {
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
+
+        return $container;
     }
 }

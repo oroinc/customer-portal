@@ -20,8 +20,6 @@ class OroCommerceMenuBundle implements Migration
 
     /**
      * Update oro_commerce_menu_upd
-     *
-     * @param Schema $schema
      */
     protected function updateOroCommerceMenuUpdateTable(Schema $schema)
     {
@@ -31,8 +29,6 @@ class OroCommerceMenuBundle implements Migration
 
     /**
      * Create `oro_menu_user_agent_condition` table
-     *
-     * @param Schema $schema
      */
     protected function createOroMenuUserAgentConditionTable(Schema $schema)
     {
@@ -47,8 +43,6 @@ class OroCommerceMenuBundle implements Migration
 
     /**
      * Add `oro_menu_user_agent_condition` foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroMenuUserAgentConditionForeignKeys(Schema $schema)
     {

@@ -3,7 +3,7 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Extension;
 
 use Oro\Bundle\FrontendBundle\Extension\FrontendStartTransitionButtonProviderExtension;
-use Oro\Bundle\FrontendBundle\Provider\ActionCurrentApplicationProvider;
+use Oro\Bundle\FrontendBundle\Provider\FrontendCurrentApplicationProvider;
 use Oro\Bundle\WorkflowBundle\Tests\Unit\Extension\StartTransitionButtonProviderExtensionTestCase;
 
 class FrontendStartTransitionButtonProviderExtensionTest extends StartTransitionButtonProviderExtensionTestCase
@@ -13,7 +13,7 @@ class FrontendStartTransitionButtonProviderExtensionTest extends StartTransition
      */
     protected function getApplication()
     {
-        return ActionCurrentApplicationProvider::COMMERCE_APPLICATION;
+        return FrontendCurrentApplicationProvider::COMMERCE_APPLICATION;
     }
 
     /**
@@ -24,7 +24,7 @@ class FrontendStartTransitionButtonProviderExtensionTest extends StartTransition
         return new FrontendStartTransitionButtonProviderExtension(
             $this->workflowRegistry,
             $this->routeProvider,
-            $this->destinationPageResolver
+            $this->originalUrlProvider
         );
     }
 }

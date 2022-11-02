@@ -1,21 +1,20 @@
 define(function(require) {
     'use strict';
 
-    var AttachedEditableViewComponent;
-    var InlineEditableViewComponent = require('oroform/js/app/components/inline-editable-view-component');
-    var BaseModel = require('oroui/js/app/models/base/model');
-    var BaseView = require('oroui/js/app/views/base/view');
-    var $ = require('jquery');
-    var tools = require('oroui/js/tools');
-    var frontendTypeMap = require('oroform/js/tools/frontend-type-map');
-    var _ = require('underscore');
+    const InlineEditableViewComponent = require('oroform/js/app/components/inline-editable-view-component');
+    const BaseModel = require('oroui/js/app/models/base/model');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const $ = require('jquery');
+    const loadModules = require('oroui/js/app/services/load-modules');
+    const frontendTypeMap = require('oroform/js/tools/frontend-type-map');
+    const _ = require('underscore');
 
-    AttachedEditableViewComponent = InlineEditableViewComponent.extend(/** @lends AttachedEditableViewComponent.prototype */{
+    const AttachedEditableViewComponent = InlineEditableViewComponent.extend(/** @lends AttachedEditableViewComponent.prototype */{
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function AttachedEditableViewComponent() {
-            AttachedEditableViewComponent.__super__.constructor.apply(this, arguments);
+        constructor: function AttachedEditableViewComponent(options) {
+            AttachedEditableViewComponent.__super__.constructor.call(this, options);
         },
 
         /**
@@ -30,25 +29,25 @@ define(function(require) {
             this.fieldName = options.fieldName;
             this.inlineEditingOptions = options.metadata.inline_editing;
             // frontend type mapped to viewer/editor/reader
-            var frontendType = options.hasOwnProperty('frontend_type') ? options.frontend_type : 'text';
+            const frontendType = options.hasOwnProperty('frontend_type') ? options.frontend_type : 'text';
             this.classes = frontendTypeMap[frontendType];
 
             this.model = new BaseModel();
             this.model.set(this.fieldName, options.value);
 
-            var waitors = [];
-            waitors.push(tools.loadModuleAndReplace(this.inlineEditingOptions.save_api_accessor, 'class').then(
-                _.bind(function() {
-                    var ConcreteApiAccessor = this.inlineEditingOptions.save_api_accessor['class'];
+            const waitors = [];
+            waitors.push(loadModules.fromObjectProp(this.inlineEditingOptions.save_api_accessor, 'class').then(
+                () => {
+                    const ConcreteApiAccessor = this.inlineEditingOptions.save_api_accessor['class'];
                     this.saveApiAccessor = new ConcreteApiAccessor(
                         _.omit(this.inlineEditingOptions.save_api_accessor, 'class'));
-                }, this)
+                }
             ));
 
-            this.deferredInit = $.when.apply($, waitors);
+            this.deferredInit = $.when(...waitors);
 
             this.$el = options._sourceElement;
-            var wrapperElement = this.$el.find('[data-role="editor"]');
+            let wrapperElement = this.$el.find('[data-role="editor"]');
             if (!wrapperElement.length) {
                 wrapperElement = this.$el;
             }
@@ -67,7 +66,7 @@ define(function(require) {
 
         enterEditMode: function() {
             if (!this.editorView) {
-                var viewInstance = this.createEditorViewInstance();
+                const viewInstance = this.createEditorViewInstance();
                 this.initializeEditorListeners(viewInstance);
             }
 
@@ -78,17 +77,17 @@ define(function(require) {
         },
 
         createEditorViewInstance: function() {
-            var BaseEditor = this.classes.editor;
-            var View = BaseEditor.extend({
+            const BaseEditor = this.classes.editor;
+            const View = BaseEditor.extend({
                 render: function() {
                     this.validator = this.$el.validate({
-                        submitHandler: _.bind(function(form, e) {
+                        submitHandler: (form, e) => {
                             if (e && e.preventDefault) {
                                 e.preventDefault();
                             }
                             this.trigger('saveAction');
-                        }, this),
-                        errorPlacement: function(error, element) {
+                        },
+                        errorPlacement: (error, element) => {
                             error.appendTo(this.$el);
                         },
                         rules: {
@@ -110,7 +109,7 @@ define(function(require) {
                         this.trigger('saveAction');
                     }
 
-                    View.__super__.onFocusout.apply(this, arguments);
+                    View.__super__.onFocusout.call(this, e);
                 }
             });
 
@@ -120,7 +119,7 @@ define(function(require) {
         },
 
         getEditorOptions: function() {
-            var element = this.wrapper.$(':input:first');
+            let element = this.wrapper.$(':input:first');
             if (!element.length) {
                 element = this.wrapper.$el;
             }

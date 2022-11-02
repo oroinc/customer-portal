@@ -26,7 +26,7 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
     /** @var GridViewsExtensionComposite */
     protected $extension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->defaultGridViewsExtension = $this->createMock(GridViewsExtension::class);
         $this->frontendGridViewsExtension = $this->createMock(GridViewsExtension::class);
@@ -49,7 +49,9 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
     {
         $config = DatagridConfiguration::create([]);
 
-        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn($user);
         $this->defaultGridViewsExtension->expects($this->exactly((int) !$isFrontend))
             ->method('isApplicable')
             ->with($config)
@@ -70,7 +72,9 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetPriority($user, $isFrontend)
     {
-        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn($user);
         $this->defaultGridViewsExtension->expects($this->exactly((int) !$isFrontend))
             ->method('getPriority')
             ->willReturn(20);
@@ -92,21 +96,19 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
         $config = DatagridConfiguration::create([]);
         $data = MetadataObject::create([]);
 
-        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn($user);
         $this->defaultGridViewsExtension->expects($this->exactly((int) !$isFrontend))
             ->method('visitMetadata')
-            ->willReturnCallback(
-                function (DatagridConfiguration $config, MetadataObject $data) {
-                    $data->offsetSet('test', 'defaultGridViewsExtension');
-                }
-            );
+            ->willReturnCallback(function (DatagridConfiguration $config, MetadataObject $data) {
+                $data->offsetSet('test', 'defaultGridViewsExtension');
+            });
         $this->frontendGridViewsExtension->expects($this->exactly((int) $isFrontend))
             ->method('visitMetadata')
-            ->willReturnCallback(
-                function (DatagridConfiguration $config, MetadataObject $data) {
-                    $data->offsetSet('test', 'frontendGridViewsExtension');
-                }
-            );
+            ->willReturnCallback(function (DatagridConfiguration $config, MetadataObject $data) {
+                $data->offsetSet('test', 'frontendGridViewsExtension');
+            });
 
         $this->extension->visitMetadata($config, $data);
 
@@ -127,21 +129,19 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
     {
         $params = new ParameterBag();
 
-        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn($user);
         $this->defaultGridViewsExtension->expects($this->exactly((int) !$isFrontend))
             ->method('setParameters')
-            ->willReturnCallback(
-                function (ParameterBag $parameters) {
-                    $parameters->set('test', 'defaultGridViewsExtension');
-                }
-            );
+            ->willReturnCallback(function (ParameterBag $parameters) {
+                $parameters->set('test', 'defaultGridViewsExtension');
+            });
         $this->frontendGridViewsExtension->expects($this->exactly((int) $isFrontend))
             ->method('setParameters')
-            ->willReturnCallback(
-                function (ParameterBag $parameters) {
-                    $parameters->set('test', 'frontendGridViewsExtension');
-                }
-            );
+            ->willReturnCallback(function (ParameterBag $parameters) {
+                $parameters->set('test', 'frontendGridViewsExtension');
+            });
 
         $this->extension->setParameters($params);
 

@@ -2,118 +2,152 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
-use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendOwnerSelectType;
+use Oro\Bundle\EntityConfigBundle\Config\Config;
+use Oro\Bundle\EntityConfigBundle\Config\Id\EntityConfigId;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\TranslationBundle\Form\Type\Select2TranslatableEntityType;
+use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FrontendOwnerSelectTypeTest extends FormIntegrationTestCase
 {
-    /**
-     * @var FrontendOwnerSelectType
-     */
-    protected $formType;
+    use EntityTrait;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $registry;
+    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
+    private $registry;
 
-    /**
-     * @var ConfigProvider
-     */
-    protected $configProvider;
+    /** @var ConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
+    private $configProvider;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
+    /** @var FrontendOwnerSelectType */
+    private $formType;
+
+    protected function setUp(): void
     {
-        $this->registry = $this->createMock('Doctrine\Common\Persistence\ManagerRegistry');
-        $this->configProvider = $this->getMockBuilder(ConfigProvider::class)->disableOriginalConstructor()->getMock();
+        $this->registry = $this->createMock(ManagerRegistry::class);
+        $this->configProvider = $this->createMock(ConfigProvider::class);
+
         $this->formType = new FrontendOwnerSelectType($this->registry, $this->configProvider);
     }
 
     public function testGetParent()
     {
-        $this->assertEquals(Select2TranslatableEntityType::class, $this->formType->getParent());
+        self::assertEquals(Select2TranslatableEntityType::class, $this->formType->getParent());
     }
 
-    /**
-     * Test configureOptions
-     */
     public function testConfigureOptions()
     {
-        /** @var \PHPUnit\Framework\MockObject\MockObject|OptionsResolver $resolver */
-        $resolver = $this->getMockBuilder('Symfony\Component\OptionsResolver\OptionsResolver')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $dataObject = new CustomerUser();
+        $config = new Config(
+            new EntityConfigId('ownership'),
+            [
+                'frontend_owner_type' => 'FRONTEND_CUSTOMER',
+                'frontend_owner_field_name' => 'customer'
+            ]
+        );
 
-        $config = $this->getMockBuilder('Oro\Bundle\EntityConfigBundle\Config\Config')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $resolver = new OptionsResolver();
+        $resolver->setDefined(['acl_options']);
 
-        $config->expects($this->any())
-            ->method('get')
-            ->will($this->returnValue('FRONTEND_CUSTOMER'));
-
-        $this->configProvider->expects($this->any())
+        $this->configProvider->expects(self::exactly(2))
             ->method('getConfig')
-            ->will($this->returnValue($config));
+            ->with(CustomerUser::class)
+            ->willReturn($config);
 
-        $criteria = new Criteria();
-        $queryBuilder = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $customerUserRepository =
-            $this->getMockBuilder(EntityRepository::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-
-        $customerUserRepository
-            ->expects($this->any())
+        $queryBuilder = $this->createMock(QueryBuilder::class);
+        $customerUserRepository = $this->createMock(EntityRepository::class);
+        $customerUserRepository->expects(self::once())
             ->method('createQueryBuilder')
-            ->with('customer')
+            ->with('owner')
             ->willReturn($queryBuilder);
 
-        $this->registry
-            ->expects($this->any())
+        $this->registry->expects(self::once())
             ->method('getRepository')
-            ->with('OroCustomerBundle:Customer')
+            ->with(Customer::class)
             ->willReturn($customerUserRepository);
 
-        $queryBuilder
-            ->expects($this->any())
-            ->method('addCriteria')
-            ->with($criteria);
-
-        $resolver->expects($this->once())
-            ->method('setDefaults')
-            ->with($this->isType('array'))
-            ->willReturnCallback([$this, 'assertDefaults']);
+        $em = $this->createMock(EntityManager::class);
+        $this->registry->expects(self::once())
+            ->method('getManagerForClass')
+            ->willReturn($em);
+        $em->expects(self::once())
+            ->method('contains')
+            ->with($dataObject)
+            ->willReturn(false);
 
         $this->formType->configureOptions($resolver);
+        $resolved = $resolver->resolve(['targetObject' => $dataObject, 'acl_options' => null, 'query_builder' => null]);
+
+        self::assertEquals($dataObject, $resolved['targetObject']);
+        self::assertEquals($queryBuilder, $resolved['query_builder']);
+        self::assertEquals(Customer::class, $resolved['class']);
+        self::assertEquals(
+            [
+                'disable'    => false,
+                'permission' => 'CREATE',
+                'options'    => [
+                    'aclDisable'                      => true,
+                    'availableOwnerEnable'            => true,
+                    'availableOwnerTargetEntityClass' => CustomerUser::class,
+                ],
+            ],
+            $resolved['acl_options']
+        );
     }
 
-    /**
-     * @param array $defaults
-     */
-    public function assertDefaults(array $defaults)
+    public function testConfigureOptionsWithExistingEntity()
     {
-        $this->assertArrayHasKey('class', $defaults);
-    }
+        $existingOwner = $this->getEntity(Customer::class, ['id' => 13]);
+        $dataObject = new CustomerUser();
+        $dataObject->setCustomer($existingOwner);
+        $config = new Config(
+            new EntityConfigId('ownership'),
+            [
+                'frontend_owner_type' => 'FRONTEND_CUSTOMER',
+                'frontend_owner_field_name' => 'customer'
+            ]
+        );
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function createAclHelperMock()
-    {
-        return $this->getMockBuilder('Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $resolver = new OptionsResolver();
+        $resolver->setDefined(['acl_options']);
+
+        $this->configProvider->expects(self::exactly(2))
+            ->method('getConfig')
+            ->with(CustomerUser::class)
+            ->willReturn($config);
+
+        $em = $this->createMock(EntityManager::class);
+        $this->registry->expects(self::once())
+            ->method('getManagerForClass')
+            ->willReturn($em);
+        $em->expects(self::once())
+            ->method('contains')
+            ->with($dataObject)
+            ->willReturn(true);
+
+        $this->formType->configureOptions($resolver);
+        $resolved = $resolver->resolve(['targetObject' => $dataObject, 'acl_options' => null]);
+
+        self::assertEquals(
+            [
+                'disable'    => false,
+                'permission' => 'ASSIGN',
+                'options'    => [
+                    'aclDisable'                      => true,
+                    'availableOwnerEnable'            => true,
+                    'availableOwnerTargetEntityClass' => CustomerUser::class,
+                    'availableOwnerCurrentOwner'      => 13
+                ],
+            ],
+            $resolved['acl_options']
+        );
     }
 }

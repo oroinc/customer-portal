@@ -1,4 +1,57 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:default/imports/oro_customer_form/oro_customer_form.html.twig'
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_form/oro_customer_form.html.twig'
+        - '@setFormTheme':
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_form/form.html.twig'
+        - '@addTree':
+            items:
+                __page_wrapper:
+                    blockType: container
+                __page:
+                    blockType: container
+                __label_wrapper:
+                    blockType: container
+                __label:
+                    blockType: text
+                    options:
+                        text: ''
+                __description:
+                    blockType: text
+                    options:
+                        visible: '=text!=null'
+                        text: ''
+                __form:
+                    blockType: form
+                __form_submit_wrapper:
+                    blockType: container
+                    siblingId: __form_additional
+                    prepend: true
+                __form_additional:
+                    blockType: container
+                    siblingId: __form_end
+                    prepend: true
+                __form_submit:
+                    blockType: button
+                    options:
+                        type: button
+                        action: submit
+                        style: auto
+                        text: ''
+                __links:
+                    blockType: container
+                __required_label:
+                    blockType: block
+            tree:
+                __root:
+                    __page_wrapper:
+                        __page:
+                            __label_wrapper:
+                                __label: ~
+                            __description: ~
+                            __form:
+                                __form_submit_wrapper:
+                                    __form_submit: ~
+                                __form_additional:
+                                    __links: ~
+                                    __required_label: ~

@@ -15,7 +15,6 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Validator\Constraint;
 
 /**
  * Manage Customer from
@@ -43,10 +42,6 @@ class CustomerType extends AbstractType
     /** @var AuthorizationCheckerInterface */
     protected $authorizationChecker;
 
-    /**
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         AuthorizationCheckerInterface $authorizationChecker
@@ -128,9 +123,6 @@ class CustomerType extends AbstractType
         }
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function preSubmit(FormEvent $event)
     {
         $this->modelChangeSet = [];
@@ -154,9 +146,6 @@ class CustomerType extends AbstractType
         return $customer->getGroup() && $newGroupId !== $customer->getGroup()->getId();
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function postSubmit(FormEvent $event)
     {
         /** @var Customer $customer */
@@ -166,8 +155,8 @@ class CustomerType extends AbstractType
             && $event->getForm()->isValid()
         ) {
             $this->eventDispatcher->dispatch(
-                CustomerEvent::ON_CUSTOMER_GROUP_CHANGE,
-                new CustomerEvent($customer)
+                new CustomerEvent($customer),
+                CustomerEvent::ON_CUSTOMER_GROUP_CHANGE
             );
         }
     }
@@ -179,8 +168,7 @@ class CustomerType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'csrf_token_id' => 'customer',
-                'validation_groups' => [Constraint::DEFAULT_GROUP, 'RequireName', 'RequireRegion'],
+                'csrf_token_id' => 'customer'
             ]
         );
     }

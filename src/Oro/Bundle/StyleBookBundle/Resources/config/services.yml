@@ -7,7 +7,11 @@ services:
         tags:
             - { name: layout.data_provider, alias: style_book_form }
 
+    Oro\Bundle\StyleBookBundle\Helper\AccessHelper:
+        alias: oro_stylebook.helper.access_helper
+
     oro_stylebook.helper.access_helper:
         class: 'Oro\Bundle\StyleBookBundle\Helper\AccessHelper'
+        public: true
         arguments:
             - '@service_container'

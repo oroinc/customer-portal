@@ -1,0 +1,9 @@
+desktop:
+    label: 'Laptops and desktops with 13 in. + screens'
+    hidingCssClass: 'hide-on-desktop'
+tablet:
+    label: 'Tablet devices with up to 1600x1024 screen resolution.'
+    hidingCssClass: 'hide-on-tablet'
+mobile:
+    label: 'Mobile optimized view.'
+    hidingCssClass: 'hide-on-mobile'

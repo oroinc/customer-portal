@@ -8,32 +8,29 @@ use Oro\Bundle\FilterBundle\Filter\EnumFilter;
 use Oro\Bundle\FilterBundle\Filter\MultiEnumFilter;
 use Oro\Bundle\FilterBundle\Grid\Extension\Configuration;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\FrontendBundle\Request\FrontendHelperTrait;
 
+/**
+ * Changes routes for enum and dictionary filters for storefront grids.
+ */
 class EnumFilterFrontendListener
 {
-    use FrontendHelperTrait;
+    /** @var FrontendHelper */
+    private $frontendHelper;
 
-    /**
-     * @param FrontendHelper $frontendHelper
-     */
     public function __construct(FrontendHelper $frontendHelper)
     {
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * @param BuildBefore $event
-     */
     public function onBuildBefore(BuildBefore $event)
     {
-        if (!$this->isFrontendRequest()) {
+        if (!$this->frontendHelper->isFrontendRequest()) {
             return;
         }
 
         $config = $event->getConfig();
 
-        /** @var array $filterColumns */
+        /** @var array|null $filterColumns */
         $filterColumns = $config->offsetGetByPath(Configuration::COLUMNS_PATH);
 
         $filtersWithDictionaryFrontendFilter = [

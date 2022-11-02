@@ -1,19 +1,18 @@
 define(function(require) {
     'use strict';
 
-    var FullscreenPopupDemoView;
-    var BaseView = require('oroui/js/app/views/base/view');
-    var FullscreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
-    var _ = require('underscore');
-    var $ = require('jquery');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const FullscreenPopupView = require('orofrontend/default/js/app/views/fullscreen-popup-view');
+    const _ = require('underscore');
+    const $ = require('jquery');
 
-    FullscreenPopupDemoView = BaseView.extend({
-        constructor: function FullscreenPopupDemoView() {
-            FullscreenPopupDemoView.__super__.constructor.apply(this, arguments);
+    const FullscreenPopupDemoView = BaseView.extend({
+        constructor: function FullscreenPopupDemoView(options) {
+            FullscreenPopupDemoView.__super__.constructor.call(this, options);
         },
 
         initialize: function(options) {
-            FullscreenPopupDemoView.__super__.initialize.apply(this, arguments);
+            FullscreenPopupDemoView.__super__.initialize.call(this, options);
             this.subview('fullscreenView', new FullscreenPopupView(_.extend({}, options, {
                 disposeOnClose: true,
                 contentElement: $(_.template(options.contentTemplate)())

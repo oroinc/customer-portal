@@ -1,14 +1,53 @@
 /* @theme: default; */
 
 .information-nav {
-    &__title {
-        position: relative;
+    padding: $information-nav-offset;
 
-        text-transform: $information-nav-title-text-transform;
+    &--responsive {
+        display: inline-block;
+        vertical-align: top;
+        width: $information-nav-width;
     }
 
-    &__icon {
-        display: none;
+    &__title {
+        font-size: $information-nav-title-font-size;
+        font-weight: $information-nav-title-font-weight;
+        line-height: $information-nav-title-line-height;
+        margin: $information-nav-title-offset;
+        position: relative;
+        text-transform: $information-nav-title-text-transform;
+        color: $information-nav-title-color;
+
+        .collapse &,
+        .collapsing & {
+            display: none;
+        }
+    }
+
+    &__list {
+        @include list-normalize();
+    }
+
+    &__item {
+        &:not(:first-child) {
+            margin: $information-nav-item-offset;
+        }
+
+        &-content {
+            @at-root {
+                a#{&} {
+                    color: $information-nav-item-content-color;
+
+                    &:hover {
+                        color: $information-nav-item-content-color-hover;
+                    }
+                }
+
+                span#{&} {
+                    color: $information-nav-item-content-text-color;
+                }
+            }
+        }
     }
 }
 
@@ -16,7 +55,11 @@
     .information-nav {
         padding: $information-nav-tablet-small-offset;
 
-        border-top: 1px solid get-color('additional', 'light');
+        border-top: $information-nav-tablet-border-top;
+
+        &--responsive {
+            width: $information-nav-tablet-small-width;
+        }
 
         &__title {
             margin: $information-nav-title-tablet-small-offset;
@@ -25,15 +68,14 @@
 
         &__list {
             margin-bottom: $offset-y-m * 2;
-            padding-left: $offset-x;
-        }
+            padding-left: $information-nav-list-tablet-small-inner-offset-left;
 
-        &__icon {
-            display: inline-block;
+            display: none;
 
-            margin-right: $offset-x-s;
-
-            vertical-align: baseline;
+            .collapse &,
+            .collapsing & {
+                display: block;
+            }
         }
     }
 }

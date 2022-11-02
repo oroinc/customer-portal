@@ -1,71 +1,145 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Tests\Security;
+namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security;
 
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Exception\EmptyCustomerException;
+use Oro\Bundle\CustomerBundle\Exception\GuestCustomerUserLoginException;
 use Oro\Bundle\CustomerBundle\Security\UserChecker;
-use Oro\Bundle\UserBundle\Entity\UserInterface;
+use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\UserBundle\Exception\EmptyOwnerException;
+use Symfony\Component\Security\Core\Exception\DisabledException;
+use Symfony\Component\Security\Core\Exception\LockedException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserCheckerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var UserCheckerInterface
-     */
-    private $userChecker;
-
-    /**
-     * @var UserCheckerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var UserCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $innerUserChecker;
 
-    protected function setUp()
+    /** @var UserChecker */
+    private $userChecker;
+
+    protected function setUp(): void
     {
         $this->innerUserChecker = $this->createMock(UserCheckerInterface::class);
+
         $this->userChecker = new UserChecker($this->innerUserChecker);
     }
 
-
-    public function testCheckPostAuth()
+    public function testCheckPostAuthForNotCustomerUser()
     {
         $user = $this->createMock(UserInterface::class);
-        $this->innerUserChecker->expects($this->once())
+
+        $this->innerUserChecker->expects(self::once())
             ->method('checkPostAuth')
-            ->with($user);
+            ->with(self::identicalTo($user));
 
         $this->userChecker->checkPostAuth($user);
     }
 
-    public function testPreAuthWithCustomerUser()
+    public function testCheckPostAuthForCustomerUser()
     {
         $user = new CustomerUser();
-        $this->innerUserChecker->expects($this->once())
-            ->method('checkPreAuth')
-            ->with($user);
+        $user->setCustomer(new Customer());
+        $user->setOwner(new User());
 
-        $this->userChecker->checkPreAuth($user);
+        $this->innerUserChecker->expects(self::once())
+            ->method('checkPostAuth')
+            ->with(self::identicalTo($user));
+
+        $this->userChecker->checkPostAuth($user);
     }
 
-    /**
-     * @expectedException \Oro\Bundle\CustomerBundle\Exception\GuestCustomerUserLoginException
-     * @expectedExceptionMessage Customer User is Guest.
-     */
-    public function testPreAuthWithGuestCustomerUser()
+    public function testCheckPostAuthForDisabledCustomerUser()
     {
-        $user = new CustomerUser();
-        $user->setIsGuest(true);
-        $this->innerUserChecker->expects($this->never())
-            ->method('checkPreAuth');
+        $this->expectException(DisabledException::class);
 
-        $this->userChecker->checkPreAuth($user);
+        $user = new CustomerUser();
+        $user->setEnabled(false);
+
+        $this->innerUserChecker->expects(self::once())
+            ->method('checkPostAuth')
+            ->with(self::identicalTo($user));
+
+        $this->userChecker->checkPostAuth($user);
     }
 
-    public function testPreAuthWithDifferentUser()
+    public function testCheckPostAuthForNotConfirmedCustomerUser()
+    {
+        $this->expectException(LockedException::class);
+
+        $user = new CustomerUser();
+        $user->setConfirmed(false);
+
+        $this->innerUserChecker->expects(self::once())
+            ->method('checkPostAuth')
+            ->with(self::identicalTo($user));
+
+        $this->userChecker->checkPostAuth($user);
+    }
+
+    public function testCheckPostAuthForCustomerUserWithoutCustomer()
+    {
+        $this->expectException(EmptyCustomerException::class);
+
+        $user = new CustomerUser();
+        $user->setOwner(new User());
+
+        $this->innerUserChecker->expects(self::once())
+            ->method('checkPostAuth')
+            ->with(self::identicalTo($user));
+
+        $this->userChecker->checkPostAuth($user);
+    }
+
+    public function testCheckPostAuthForCustomerUserWithoutOwner()
+    {
+        $this->expectException(EmptyOwnerException::class);
+
+        $user = new CustomerUser();
+        $user->setCustomer(new Customer());
+
+        $this->innerUserChecker->expects(self::once())
+            ->method('checkPostAuth')
+            ->with(self::identicalTo($user));
+
+        $this->userChecker->checkPostAuth($user);
+    }
+
+    public function testCheckPreAuthForNotCustomerUser()
     {
         $user = $this->createMock(UserInterface::class);
-        $this->innerUserChecker->expects($this->once())
+
+        $this->innerUserChecker->expects(self::once())
             ->method('checkPreAuth')
-            ->with($user);
+            ->with(self::identicalTo($user));
+
+        $this->userChecker->checkPreAuth($user);
+    }
+
+    public function testCheckPreAuthForCustomerUser()
+    {
+        $user = new CustomerUser();
+
+        $this->innerUserChecker->expects(self::once())
+            ->method('checkPreAuth')
+            ->with(self::identicalTo($user));
+
+        $this->userChecker->checkPreAuth($user);
+    }
+
+    public function testCheckPreAuthForGuestCustomerUser()
+    {
+        $this->expectException(GuestCustomerUserLoginException::class);
+
+        $user = new CustomerUser();
+        $user->setIsGuest(true);
+
+        $this->innerUserChecker->expects(self::never())
+            ->method('checkPreAuth');
 
         $this->userChecker->checkPreAuth($user);
     }

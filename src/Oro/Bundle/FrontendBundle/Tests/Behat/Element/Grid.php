@@ -8,6 +8,7 @@ class Grid extends BaseGrid
 {
     const DEFAULT_MAPPINGS = [
         'GridRow' => 'FrontendGridRow',
+        'GridRowStrict' => 'FrontendGridRow',
         'GridToolbarPaginator' => 'FrontendGridToolbarPaginator',
         'MassActionHeadCheckbox' => 'FrontendMassActionHeadCheckbox',
         'GridColumnManager' => 'FrontendGridColumnManager',
@@ -52,5 +53,31 @@ class Grid extends BaseGrid
         $this->elementFactory->createElement($massActionHeadCheckboxElementName, $this)->clickForce();
 
         $this->elementFactory->createElement('GridMassCheckMenu')->clickLink($title);
+    }
+
+    public function openGridViewDropdown(): void
+    {
+        $gridViewsDropdown = $this->getElement('FrontendGridViewsDropdown');
+        if ($gridViewsDropdown->isVisible()) {
+            return;
+        }
+
+        $gridViewListElement = $this->getElement($this->getMappedChildElementName('GridViewList'));
+        self::assertTrue($gridViewListElement->isValid(), 'Grid view list not found on the page');
+
+        $gridViewListElement->click();
+    }
+
+    public function closeGridViewDropdown(): void
+    {
+        $gridViewsDropdown = $this->getElement('FrontendGridViewsDropdown');
+        if (!$gridViewsDropdown->isVisible()) {
+            return;
+        }
+
+        $gridViewListElement = $this->getElement($this->getMappedChildElementName('GridViewList'));
+        self::assertTrue($gridViewListElement->isValid(), 'Grid view list not found on the page');
+
+        $gridViewListElement->click();
     }
 }

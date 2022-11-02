@@ -17,18 +17,18 @@ class GridViewTest extends \PHPUnit\Framework\TestCase
         $user1 = new CustomerUser();
         $user2 = new CustomerUser();
 
-        $this->assertNull($gridView->getOwner());
-        $this->assertNull($gridView->getCustomerUserOwner());
+        self::assertNull($gridView->getOwner());
+        self::assertNull($gridView->getCustomerUserOwner());
 
-        $this->assertSame($gridView, $gridView->setOwner($user1));
-        $this->assertAttributeEquals($user1, 'customerUserOwner', $gridView);
-        $this->assertSame($user1, $gridView->getOwner());
+        self::assertSame($gridView, $gridView->setOwner($user1));
+        self::assertEquals($user1, $gridView->getCustomerUserOwner());
+        self::assertSame($user1, $gridView->getOwner());
 
-        $this->assertSame($gridView, $gridView->setCustomerUserOwner($user2));
-        $this->assertAttributeEquals($user2, 'customerUserOwner', $gridView);
-        $this->assertSame($user2, $gridView->getCustomerUserOwner());
+        self::assertSame($gridView, $gridView->setCustomerUserOwner($user2));
+        self::assertEquals($user2, $gridView->getCustomerUserOwner());
+        self::assertSame($user2, $gridView->getCustomerUserOwner());
 
-        $this->assertPropertyCollections(
+        self::assertPropertyCollections(
             $gridView,
             [
                 ['users', new GridViewUser()],

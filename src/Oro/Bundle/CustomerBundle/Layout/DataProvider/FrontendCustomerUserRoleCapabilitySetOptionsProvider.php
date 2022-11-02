@@ -6,27 +6,20 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCapabilityProvider;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
 
+/**
+ * Provides ACL capabilities and identifiers of ACL tabbed categories for storefront customer user role.
+ */
 class FrontendCustomerUserRoleCapabilitySetOptionsProvider implements FrontendCustomerUserRoleOptionsProviderInterface
 {
-    /**
-     * @var array
-     */
-    private $options = [];
-
-    /**
-     * @var RolePrivilegeCapabilityProvider
-     */
+    /** @var RolePrivilegeCapabilityProvider */
     private $capabilityProvider;
 
-    /**
-     * @var RolePrivilegeCategoryProvider
-     */
+    /** @var RolePrivilegeCategoryProvider */
     private $categoryProvider;
 
-    /**
-     * @param RolePrivilegeCapabilityProvider $capabilityProvider
-     * @param RolePrivilegeCategoryProvider   $categoryProvider
-     */
+    /** @var array|null */
+    private $options;
+
     public function __construct(
         RolePrivilegeCapabilityProvider $capabilityProvider,
         RolePrivilegeCategoryProvider $categoryProvider
@@ -35,20 +28,15 @@ class FrontendCustomerUserRoleCapabilitySetOptionsProvider implements FrontendCu
         $this->categoryProvider = $categoryProvider;
     }
 
-    /**
-     * @param CustomerUserRole $customerUserRole
-     *
-     * @return array
-     */
-    public function getOptions(CustomerUserRole $customerUserRole)
+    public function getOptions(CustomerUserRole $role): array
     {
-        if (!array_key_exists('capabilitySetOptions', $this->options)) {
-            $this->options['capabilitySetOptions'] = [
-                'data' => $this->capabilityProvider->getCapabilities($customerUserRole),
-                'tabIds' => $this->categoryProvider->getTabList()
+        if (null === $this->options) {
+            $this->options = [
+                'data'   => $this->capabilityProvider->getCapabilities($role),
+                'tabIds' => $this->categoryProvider->getTabIds()
             ];
         }
 
-        return $this->options['capabilitySetOptions'];
+        return $this->options;
     }
 }

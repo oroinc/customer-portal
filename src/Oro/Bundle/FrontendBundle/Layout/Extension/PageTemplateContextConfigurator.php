@@ -3,19 +3,17 @@
 namespace Oro\Bundle\FrontendBundle\Layout\Extension;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
 use Oro\Component\Layout\ContextConfiguratorInterface;
 use Oro\Component\Layout\ContextInterface;
 use Symfony\Component\OptionsResolver\Options;
 
+/**
+ * Adds "page_template" option to the layout context.
+ */
 class PageTemplateContextConfigurator implements ContextConfiguratorInterface
 {
-    /** @var ConfigManager */
-    private $configManager;
+    private ConfigManager $configManager;
 
-    /**
-     * @param ConfigManager $configManager
-     */
     public function __construct(ConfigManager $configManager)
     {
         $this->configManager = $configManager;
@@ -24,28 +22,22 @@ class PageTemplateContextConfigurator implements ContextConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function configureContext(ContextInterface $context)
+    public function configureContext(ContextInterface $context): void
     {
         $context->getResolver()
-            ->setDefaults(
-                [
-                    'page_template' => function (Options $options, $value) {
-                        if (!$value) {
-                            $pageTemplates = $this->configManager->get(
-                                OroFrontendExtension::ALIAS . ConfigManager::SECTION_MODEL_SEPARATOR . 'page_templates'
-                            );
-
-                            $routeName = $options['route_name'];
-
-                            if (isset($pageTemplates[$routeName]) && $pageTemplates[$routeName]) {
-                                $value = $pageTemplates[$routeName];
-                            }
+            ->setDefaults([
+                'page_template' => function (Options $options, $value) {
+                    if (!$value) {
+                        $pageTemplates = $this->configManager->get('oro_frontend.page_templates');
+                        $routeName = $options['route_name'];
+                        if (isset($pageTemplates[$routeName]) && $pageTemplates[$routeName]) {
+                            $value = $pageTemplates[$routeName];
                         }
-
-                        return $value;
                     }
-                ]
-            )
+
+                    return $value;
+                }
+            ])
             ->setAllowedTypes('page_template', ['string', 'null']);
     }
 }

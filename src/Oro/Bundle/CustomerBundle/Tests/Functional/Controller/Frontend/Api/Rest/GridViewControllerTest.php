@@ -2,8 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller\Frontend\Api\Rest;
 
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\CustomerBundle\Entity\GridView;
+use Oro\Bundle\CustomerBundle\Entity\GridViewUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\GridViewUserRepository;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserGridViewACLData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGridViewData;
@@ -11,7 +12,7 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class GridViewControllerTest extends WebTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -27,13 +28,13 @@ class GridViewControllerTest extends WebTestCase
 
     public function testPostActionWithIncorrectData()
     {
-        $this->client->request('POST', $this->getUrl('oro_api_frontend_datagrid_gridview_post'));
+        $this->client->jsonRequest('POST', $this->getUrl('oro_api_frontend_datagrid_gridview_post'));
         $this->assertJsonResponseStatusCodeEquals($this->client->getResponse(), 400);
     }
 
     public function testPostAction()
     {
-        $this->client->request(
+        $this->client->jsonRequest(
             'POST',
             $this->getUrl('oro_api_frontend_datagrid_gridview_post'),
             [
@@ -47,7 +48,7 @@ class GridViewControllerTest extends WebTestCase
 
         $this->assertJsonResponseStatusCodeEquals($this->client->getResponse(), 201);
 
-        $response = json_decode($this->client->getResponse()->getContent(), true);
+        $response = json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertArrayHasKey('id', $response);
 
@@ -72,7 +73,7 @@ class GridViewControllerTest extends WebTestCase
         /** @var GridView $gridView */
         $gridView = $this->getReference(LoadGridViewData::GRID_VIEW_PUBLIC);
 
-        $this->client->request(
+        $this->client->jsonRequest(
             'PUT',
             $this->getUrl('oro_api_frontend_datagrid_gridview_put', ['id' => $gridView->getId()]),
             [
@@ -92,7 +93,7 @@ class GridViewControllerTest extends WebTestCase
         /** @var GridView $gridView */
         $gridView = $this->getReference(LoadGridViewData::GRID_VIEW_1);
 
-        $this->client->request(
+        $this->client->jsonRequest(
             'PUT',
             $this->getUrl('oro_api_frontend_datagrid_gridview_put', ['id' => $gridView->getId()]),
             [
@@ -113,7 +114,7 @@ class GridViewControllerTest extends WebTestCase
         $gridViewPrivate = $this->getReference(LoadGridViewData::GRID_VIEW_PRIVATE);
         $id = $gridViewPrivate->getId();
 
-        $this->client->request(
+        $this->client->jsonRequest(
             'PUT',
             $this->getUrl('oro_api_frontend_datagrid_gridview_put', ['id' => $id]),
             [
@@ -156,7 +157,7 @@ class GridViewControllerTest extends WebTestCase
 
         $this->assertNotNull($this->findGridView($id));
 
-        $this->client->request(
+        $this->client->jsonRequest(
             'DELETE',
             $this->getUrl('oro_api_frontend_datagrid_gridview_delete', ['id' => $id])
         );
@@ -168,7 +169,7 @@ class GridViewControllerTest extends WebTestCase
     public function testDefaultAction()
     {
         /** @var GridViewUserRepository $repository */
-        $repository = $this->getRepository('OroCustomerBundle:GridViewUser');
+        $repository = $this->getRepository(GridViewUser::class);
 
         /** @var GridView $gridView */
         $gridView = $this->getReference(LoadGridViewData::GRID_VIEW_PRIVATE);
@@ -176,7 +177,7 @@ class GridViewControllerTest extends WebTestCase
 
         $this->assertEmpty($repository->findAll());
 
-        $this->client->request(
+        $this->client->jsonRequest(
             'POST',
             $this->getUrl(
                 'oro_api_frontend_datagrid_gridview_default',
@@ -192,21 +193,13 @@ class GridViewControllerTest extends WebTestCase
         $this->assertNotEmpty($repository->findAll());
     }
 
-    /**
-     * @param int $id
-     * @return GridView
-     */
-    private function findGridView($id)
+    private function findGridView(int $id): ?GridView
     {
-        return $this->getRepository('OroCustomerBundle:GridView')->find($id);
+        return $this->getRepository(GridView::class)->find($id);
     }
 
-    /**
-     * @param string $className
-     * @return ObjectRepository
-     */
-    private function getRepository($className)
+    private function getRepository(string $className): EntityRepository
     {
-        return $this->getContainer()->get('doctrine')->getManagerForClass($className)->getRepository($className);
+        return self::getContainer()->get('doctrine')->getRepository($className);
     }
 }

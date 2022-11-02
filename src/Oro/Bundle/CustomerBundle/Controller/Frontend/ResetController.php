@@ -6,28 +6,25 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler;
+use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\UIBundle\Route\Router;
-use Oro\Bundle\UserBundle\Util\ObfuscatedEmailTrait;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Handles request and reset password logic
  */
-class ResetController extends Controller
+class ResetController extends AbstractController
 {
-    use ObfuscatedEmailTrait;
-
     const SESSION_EMAIL = 'oro_customer_user_reset_email';
 
     /**
      * @Layout()
-     * @Route("/reset-request", name="oro_customer_frontend_customer_user_reset_request")
-     * @Method({"GET", "POST"})
+     * @Route("/reset-request", name="oro_customer_frontend_customer_user_reset_request", methods={"GET", "POST"})
      */
     public function requestAction()
     {
@@ -36,14 +33,14 @@ class ResetController extends Controller
         }
 
         /** @var CustomerUserPasswordRequestHandler $handler */
-        $handler = $this->get('oro_customer.customer_user.password_request.handler');
-        $form = $this->get('oro_customer.provider.frontend_customer_user_form')
+        $handler = $this->get(CustomerUserPasswordRequestHandler::class);
+        $form = $this->get(FrontendCustomerUserFormProvider::class)
             ->getForgotPasswordForm();
 
         $request = $this->get('request_stack')->getCurrentRequest();
-        $user = $handler->process($form, $request);
-        if ($user) {
-            $this->get('session')->set(static::SESSION_EMAIL, $this->getObfuscatedEmail($user->getEmail()));
+        $email = $handler->process($form, $request);
+        if ($email) {
+            $request->getSession()->set(static::SESSION_EMAIL, $email);
             return $this->redirect($this->generateUrl('oro_customer_frontend_customer_user_reset_check_email'));
         }
 
@@ -54,12 +51,11 @@ class ResetController extends Controller
      * Tell the user to check his email
      *
      * @Layout()
-     * @Route("/check-email", name="oro_customer_frontend_customer_user_reset_check_email")
-     * @Method({"GET"})
+     * @Route("/check-email", name="oro_customer_frontend_customer_user_reset_check_email", methods={"GET"})
      */
-    public function checkEmailAction()
+    public function checkEmailAction(Request $request)
     {
-        $session = $this->get('session');
+        $session = $request->getSession();
         $email = $session->get(static::SESSION_EMAIL);
         $session->remove(static::SESSION_EMAIL);
 
@@ -79,28 +75,29 @@ class ResetController extends Controller
      * Reset user password
      *
      * @Layout
-     * @Route("/reset", name="oro_customer_frontend_customer_user_password_reset")
-     * @Method({"GET", "POST"})
+     * @Route("/reset", name="oro_customer_frontend_customer_user_password_reset", methods={"GET", "POST"})
      * @param Request $request
      * @return array|RedirectResponse
      */
     public function resetAction(Request $request)
     {
         $token = $request->get('token');
-        $username = $request->get('username');
-        /** @var CustomerUser $user */
-        $user = $this->getUserManager()->findUserByUsernameOrEmail($username);
-        if (!$token || null === $user || $user->getConfirmationToken() !== $token) {
+        $user = null;
+        if ($token) {
+            /** @var CustomerUser $user */
+            $user = $this->getUserManager()->findUserByConfirmationToken($token);
+        }
+        if (null === $user) {
             throw $this->createNotFoundException(
-                $this->get('translator')->trans(
+                $this->get(TranslatorInterface::class)->trans(
                     'oro.customer.controller.customeruser.token_not_found.message',
                     ['%token%' => $token]
                 )
             );
         }
 
-        $session = $this->get('session');
-        $ttl = $this->container->getParameter('oro_user.reset.ttl');
+        $session = $request->getSession();
+        $ttl = $this->getParameter('oro_user.reset.ttl');
         if (!$user->isPasswordRequestNonExpired($ttl)) {
             $session->getFlashBag()->add(
                 'warn',
@@ -111,8 +108,8 @@ class ResetController extends Controller
         }
 
         /** @var CustomerUserPasswordResetHandler $handler */
-        $handler = $this->get('oro_customer.customer_user.password_reset.handler');
-        $form = $this->get('oro_customer.provider.frontend_customer_user_form')
+        $handler = $this->get(CustomerUserPasswordResetHandler::class);
+        $form = $this->get(FrontendCustomerUserFormProvider::class)
             ->getResetPasswordForm($user);
 
         $actionParameter = $request->get(Router::ACTION_PARAMETER);
@@ -127,7 +124,7 @@ class ResetController extends Controller
             );
 
             if ($actionParameter) {
-                $response = $this->get('oro_ui.router')->redirect($user);
+                $response = $this->get(Router::class)->redirect($user);
             } else {
                 $response = $this->redirect($this->generateUrl('oro_customer_customer_user_security_login'));
             }
@@ -144,11 +141,26 @@ class ResetController extends Controller
         ];
     }
 
-    /**
-     * @return CustomerUserManager
-     */
-    protected function getUserManager()
+    protected function getUserManager(): CustomerUserManager
     {
-        return $this->get('oro_customer_user.manager');
+        return $this->get(CustomerUserManager::class);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                TranslatorInterface::class,
+                CustomerUserPasswordRequestHandler::class,
+                FrontendCustomerUserFormProvider::class,
+                CustomerUserPasswordResetHandler::class,
+                Router::class,
+                CustomerUserManager::class,
+            ]
+        );
     }
 }

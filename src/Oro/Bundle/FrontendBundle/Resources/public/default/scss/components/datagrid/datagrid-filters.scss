@@ -1,0 +1,60 @@
+/* @theme: default; */
+
+.datagrid-toolbar-sticky-container {
+    .filter-box.dropdown-mode {
+        border-top: $datagrid-filters-state-in-sticky-border;
+    }
+}
+
+.filters-state {
+    display: block;
+    height: $datagrid-filters-state-height;
+    width: $datagrid-filters-state-width;
+    min-width: $datagrid-filters-state-min-width;
+    margin: $datagrid-filters-state-margin;
+    color: $datagrid-filters-state-color;
+    background-color: $datagrid-filters-state-background-color;
+    font: $datagrid-filters-state-font;
+    text-align: center;
+
+    border-width: 0;
+    padding: 0;
+    cursor: pointer;
+
+    &__ellipsis {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    // Added to avoid showing Safari's hint for elements with ellipsis
+    &::before {
+        content: '';
+        display: block;
+    }
+
+    .sticky-panel & {
+        padding: $datagrid-filters-state-sticky-padding;
+    }
+}
+
+.animated-init .filters-state {
+    animation: fadein $datagrid-filters-state-animation-speed;
+}
+
+.filters-state:empty {
+    display: none;
+}
+
+.filters-state-popover {
+    z-index: $datagrid-filters-state-popover-z-index;
+}
+
+@keyframes fadein {
+    from {
+        height: 0;
+        margin: 0;
+        opacity: 0;
+    }
+}

@@ -7,8 +7,8 @@ use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\EmailBundle\Form\Type\EmailAddressType;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Validator\Validation;
@@ -23,7 +23,7 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
         parent::setUp();
@@ -31,16 +31,51 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
 
     public function testCreateByCustomerVisitor()
     {
-        /** @var AnonymousCustomerUserToken|\PHPUnit\Framework\MockObject\MockObject $token */
         $token = $this->createMock(AnonymousCustomerUserToken::class);
 
         $this->tokenStorage->expects($this->once())
             ->method('getToken')
-            ->will($this->returnValue($token));
+            ->willReturn($token);
 
         $form = $this->factory->create(CustomerVisitorEmailAddressType::class);
         $this->assertInstanceOf(EmailAddressType::class, $form->getConfig()->getType()->getParent()->getInnerType());
         $this->assertTrue($form->getConfig()->getRequired());
+    }
+
+    public function testFormViewSetRequiredForGuest()
+    {
+        $token = $this->createMock(AnonymousCustomerUserToken::class);
+
+        $this->tokenStorage->expects($this->exactly(2))
+            ->method('getToken')
+            ->willReturn($token);
+
+        $formType = new CustomerVisitorEmailAddressType($this->tokenStorage);
+        $form = $this->factory->create(CustomerVisitorEmailAddressType::class);
+        $formView = new FormView();
+        $formView->vars['required'] = false;
+
+        $formType->finishView($formView, $form, []);
+
+        $this->assertTrue($formView->vars['required']);
+    }
+
+    public function testFormViewSetNotRequiredForCustomerUser()
+    {
+        $token = $this->createMock(TokenInterface::class);
+
+        $this->tokenStorage->expects($this->exactly(2))
+            ->method('getToken')
+            ->willReturn($token);
+
+        $formType = new CustomerVisitorEmailAddressType($this->tokenStorage);
+        $form = $this->factory->create(CustomerVisitorEmailAddressType::class);
+        $formView = new FormView();
+        $formView->vars['required'] = false;
+
+        $formType->finishView($formView, $form, []);
+
+        $this->assertFalse($formView->vars['required']);
     }
 
     /**
@@ -51,17 +86,17 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
      */
     public function testSubmitNotValidEmailByCustomerVisitor($submittedData, $expectedError)
     {
-        /** @var AnonymousCustomerUserToken|\PHPUnit\Framework\MockObject\MockObject $token */
         $token = $this->createMock(AnonymousCustomerUserToken::class);
 
         $this->tokenStorage->expects($this->once())
             ->method('getToken')
-            ->will($this->returnValue($token));
+            ->willReturn($token);
 
         $form = $this->factory->create(CustomerVisitorEmailAddressType::class);
         $form->submit($submittedData);
         $this->assertFalse($form->isValid());
-        $this->assertContains($expectedError, (string)$form->getErrors(true, false));
+        $this->assertTrue($form->isSynchronized());
+        self::assertStringContainsString($expectedError, (string)$form->getErrors(true, false));
     }
 
     /**
@@ -83,12 +118,11 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
 
     public function testCreateByCustomerUser()
     {
-        /** @var TokenInterface|\PHPUnit\Framework\MockObject\MockObject $token */
         $token = $this->createMock(TokenInterface::class);
 
         $this->tokenStorage->expects($this->once())
             ->method('getToken')
-            ->will($this->returnValue($token));
+            ->willReturn($token);
 
         $form = $this->factory->create(CustomerVisitorEmailAddressType::class);
         $this->assertInstanceOf(EmailAddressType::class, $form->getConfig()->getType()->getParent()->getInnerType());
@@ -102,19 +136,19 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
      */
     public function testSubmitNotValidEmailByCustomerUser($submittedData, $expectedError)
     {
-        /** @var TokenInterface|\PHPUnit\Framework\MockObject\MockObject $token */
         $token = $this->createMock(TokenInterface::class);
 
         $this->tokenStorage->expects($this->once())
             ->method('getToken')
-            ->will($this->returnValue($token));
+            ->willReturn($token);
 
         $form = $this->factory->create(CustomerVisitorEmailAddressType::class);
         $form->submit($submittedData);
         $this->assertFalse($form->isValid());
+        $this->assertTrue($form->isSynchronized());
         $errors = $form->getErrors(true, false);
 
-        $this->assertContains($expectedError, $errors->current()->getMessage());
+        self::assertStringContainsString($expectedError, $errors->current()->getMessage());
     }
 
     /**

@@ -1,0 +1,40 @@
+/* @theme: default; */
+
+$search-widget-position: relative !default;
+
+$search-widget-wrap-width: 100% !default;
+$search-widget-wrap-max-width: 320px !default;
+
+$search-widget-input-height: 50px !default;
+$search-widget-input-inner-offset: 0 55px 0 18px !default;
+$search-widget-input-width: 100% !default;
+$search-widget-input-position: relative !default;
+
+$search-widget-input-undo-focus-border: $input-border !default;
+$search-widget-input-undo-focus-box-shadow: none !default;
+
+$search-widget-input-submit-position: absolute !default;
+$search-widget-input-submit-top: 0 !default;
+$search-widget-input-submit-right: 0 !default;
+$search-widget-input-submit-bottom: 0 !default;
+$search-widget-input-submit-width: 50px !default;
+$search-widget-input-submit-inner-offset: 0 !default;
+$search-widget-input-submit-offset: 0 !default;
+$search-widget-input-submit-font-size: $base-font-size--m - 1px !default;
+$search-widget-input-submit-background: transparent !default;
+$search-widget-input-submit-border: none !default;
+$search-widget-input-submit-color: get-color('additional', 'middle') !default;
+
+$search-widget-input-submit-hover-color: get-color('additional', 'darker') !default;
+$search-widget-input-submit-hover-cursor: pointer !default;
+
+$search-widget-input-submit-focus-box-shadow: none !default;
+$search-widget-input-submit-focus-color: get-color('ui', 'focus') !default;
+
+// Tablet
+$search-widget-tablet-offset: $offset-y $offset-x !default;
+
+$search-widget-input-tablet-height: 45px !default;
+
+$search-widget-submit-tablet-height: $search-widget-input-tablet-height !default;
+$search-widget-submit-tablet-bottom: auto !default;

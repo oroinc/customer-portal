@@ -14,19 +14,18 @@ class WebsiteListenerTest extends \PHPUnit\Framework\TestCase
     /** @var CacheableWebsiteProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $cacheableProvider;
 
-    /** @var WebsiteListener */
-    private $listener;
-
     /** @var UnitOfWork|\PHPUnit\Framework\MockObject\MockObject */
     private $uow;
 
-    protected function setUp()
+    /** @var WebsiteListener */
+    private $listener;
+
+    protected function setUp(): void
     {
         $this->cacheableProvider = $this->createMock(CacheableWebsiteProvider::class);
+        $this->uow = $this->createMock(UnitOfWork::class);
 
         $this->listener = new WebsiteListener($this->cacheableProvider);
-
-        $this->uow = $this->createMock(UnitOfWork::class);
     }
 
     public function testOnFlushWhenNoScheduledWebsite()
@@ -59,7 +58,6 @@ class WebsiteListenerTest extends \PHPUnit\Framework\TestCase
             ->method('getScheduledEntityUpdates');
         $this->uow->expects($this->never())
             ->method('getScheduledEntityDeletions');
-
 
         $this->listener->onFlush($this->getEventArgs());
     }
@@ -99,12 +97,8 @@ class WebsiteListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener->onFlush($this->getEventArgs());
     }
 
-    /**
-     * @return OnFlushEventArgs|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getEventArgs()
+    private function getEventArgs(): OnFlushEventArgs
     {
-        /** @var OnFlushEventArgs|\PHPUnit\Framework\MockObject\MockObject $args */
         $args = $this->createMock(OnFlushEventArgs::class);
 
         $em = $this->createMock(EntityManager::class);

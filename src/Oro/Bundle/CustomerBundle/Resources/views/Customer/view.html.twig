@@ -1,5 +1,5 @@
-{% extends 'OroUIBundle:actions:view.html.twig' %}
-{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+{% extends '@OroUI/actions/view.html.twig' %}
+{% import '@OroDataGrid/macros.html.twig' as dataGrid %}
 
 {% oro_title_set({params : {"%title%": entity.name } }) %}
 
@@ -41,6 +41,19 @@
             {'data' : [addressBookWidget]},
         ]
     }] %}
+
+    {% set dataBlocks = dataBlocks|merge([
+        {
+            'title' : 'oro.customer.children.label'|trans,
+            'subblocks': [
+                {
+                    'title' : '',
+                    'useSpan': false,
+                    'data' : [dataGrid.renderGrid('children-by-customer-grid', {customer_id: entity.id}, { cssClass: 'inner-grid' })]
+                }
+            ]
+        }
+    ]) %}
 
     {% set dataBlocks = dataBlocks|merge([
         {

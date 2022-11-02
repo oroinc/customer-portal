@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Owner;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository;
@@ -30,15 +30,6 @@ class EntityOwnershipDecisionMaker extends AbstractEntityOwnershipDecisionMaker
     /** @var PropertyAccessor */
     protected $propertyAccessor;
 
-    /**
-     * @param OwnerTreeProviderInterface         $treeProvider
-     * @param ObjectIdAccessor                   $objectIdAccessor
-     * @param EntityOwnerAccessor                $entityOwnerAccessor
-     * @param OwnershipMetadataProviderInterface $ownershipMetadataProvider
-     * @param TokenAccessorInterface             $tokenAccessor
-     * @param ManagerRegistry                    $doctrine
-     * @param PropertyAccessor                   $propertyAccessor
-     */
     public function __construct(
         OwnerTreeProviderInterface $treeProvider,
         ObjectIdAccessor $objectIdAccessor,
@@ -69,7 +60,7 @@ class EntityOwnershipDecisionMaker extends AbstractEntityOwnershipDecisionMaker
     {
         $isAssociated = parent::isAssociatedWithBusinessUnit($user, $domainObject, $deep, $organization);
 
-        if (!$isAssociated && $deep) {
+        if (!$isAssociated) {
             $metadata = $this->getObjectMetadata($domainObject);
 
             /** @var CustomerUser $user */
@@ -84,7 +75,7 @@ class EntityOwnershipDecisionMaker extends AbstractEntityOwnershipDecisionMaker
                 $ownerId = $this->getObjectIdIgnoreNull($customer);
 
                 $isAssociated = $customerId === $ownerId;
-                if (!$isAssociated) {
+                if (!$isAssociated && $deep) {
                     $childrenIds = $this->getCustomerRepository()->getChildrenIds($customerId);
                     $isAssociated = in_array($ownerId, $childrenIds, true);
                 }

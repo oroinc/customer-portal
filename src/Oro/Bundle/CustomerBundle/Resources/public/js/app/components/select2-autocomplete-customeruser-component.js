@@ -1,12 +1,11 @@
 define(function(require) {
     'use strict';
 
-    var Select2AutocompleteCustomerUserComponent;
-    var $ = require('jquery');
-    var _ = require('underscore');
-    var Select2AutocompleteComponent = require('oro/select2-autocomplete-component');
+    const $ = require('jquery');
+    const _ = require('underscore');
+    const Select2AutocompleteComponent = require('oro/select2-autocomplete-component');
 
-    Select2AutocompleteCustomerUserComponent = Select2AutocompleteComponent.extend({
+    const Select2AutocompleteCustomerUserComponent = Select2AutocompleteComponent.extend({
         /**
          * @property {Object}
          */
@@ -21,14 +20,14 @@ define(function(require) {
         $customerSelect: null,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function Select2AutocompleteCustomerUserComponent() {
-            Select2AutocompleteCustomerUserComponent.__super__.constructor.apply(this, arguments);
+        constructor: function Select2AutocompleteCustomerUserComponent(options) {
+            Select2AutocompleteCustomerUserComponent.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.options = _.defaults(options || {}, this.options);
@@ -39,7 +38,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         makeQuery: function(query) {
             return [query, this.$customerSelect.val()].join(this.options.delimiter);

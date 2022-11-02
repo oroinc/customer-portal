@@ -1,0 +1,13 @@
+/* @theme: default; */
+
+$middlebar-grid-gap: 0 16px !default;
+$middlebar-grid-template-columns: 1fr minmax(320px, auto) 1fr !default;
+$middlebar-align-items: center !default;
+$middlebar-padding: 20px 0 !default;
+
+// Tablet
+$middlebar-tablet-grid-template-columns: 1fr !default;
+$middlebar-tablet-padding: 10px 0 !default;
+$middlebar-left-tablet-justify-self: center !default;
+$middlebar-center-tablet-display: none !default;
+$middlebar-right-tablet-display: none !default;

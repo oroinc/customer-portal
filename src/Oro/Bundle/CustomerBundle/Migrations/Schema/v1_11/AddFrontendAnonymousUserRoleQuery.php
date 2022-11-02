@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_11;
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Oro\Bundle\MigrationBundle\Migration\ArrayLogger;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedMigrationQuery;
 use Psr\Log\LoggerInterface;
@@ -38,7 +38,7 @@ class AddFrontendAnonymousUserRoleQuery extends ParametrizedMigrationQuery
     {
         $sql = 'INSERT INTO acl_security_identities (identifier, username) VALUES (:role, false)';
         $parameters = ['role' => self::ROLE_NAME];
-        $types = ['role' => Type::STRING];
+        $types = ['role' => Types::STRING];
 
         $this->logQuery($logger, $sql, $parameters, $types);
 

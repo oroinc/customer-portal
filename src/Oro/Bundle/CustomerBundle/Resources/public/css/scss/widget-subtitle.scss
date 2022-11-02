@@ -1,16 +1,18 @@
 /* @theme: admin.oro; */
 
 .widget-subtitle {
-    border: 1px solid #e5e5e5;
+    border: 1px solid $primary-800;
+    // stylelint-disable-next-line declaration-no-important
     margin-top: 0 !important;
-    background: #fafafa;
+    background: $primary-900;
     padding: 6px 20px;
-    color: #777;
+    color: $primary-500;
     font-size: 13px;
     line-height: 13px;
-    font-weight: normal;
+    font-weight: font-weight('light');
 
     &.indented {
+        // stylelint-disable-next-line declaration-no-important
         margin-top: 50px !important;
     }
 }

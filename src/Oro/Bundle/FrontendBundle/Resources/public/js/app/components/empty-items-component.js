@@ -1,13 +1,12 @@
 define(function(require) {
     'use strict';
 
-    var EmptyItemsComponent;
-    var BaseComponent = require('oroui/js/app/components/base/component');
-    var mediator = require('oroui/js/mediator');
-    var _ = require('underscore');
-    var $ = require('jquery');
+    const BaseComponent = require('oroui/js/app/components/base/component');
+    const mediator = require('oroui/js/mediator');
+    const _ = require('underscore');
+    const $ = require('jquery');
 
-    EmptyItemsComponent = BaseComponent.extend({
+    const EmptyItemsComponent = BaseComponent.extend({
         hideElements: '[data-name="empty-items__hide"]',
         /**
          * @property {Object}
@@ -17,10 +16,10 @@ define(function(require) {
             hiddenClass: 'hidden'
         },
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function EmptyItemsComponent() {
-            EmptyItemsComponent.__super__.constructor.apply(this, arguments);
+        constructor: function EmptyItemsComponent(options) {
+            EmptyItemsComponent.__super__.constructor.call(this, options);
         },
         /**
          * @param {Object} options
@@ -32,8 +31,8 @@ define(function(require) {
             mediator.on(this.options.eventName, this.showEmptyMessage, this);
         },
         showEmptyMessage: function() {
-            var itemsSelector = this.$el.data('items-selector') || '.itemsSelectorContainer';
-            var emptyBlockSelector = this.$el.data('empty-block-selector') || '.emptyBlockSelectorContainer';
+            const itemsSelector = this.$el.data('items-selector') || '.itemsSelectorContainer';
+            const emptyBlockSelector = this.$el.data('empty-block-selector') || '.emptyBlockSelectorContainer';
             if (this.$el.find(itemsSelector).length === 0) {
                 this.$el.remove();
                 $(emptyBlockSelector).removeClass(this.options.hiddenClass);
@@ -41,7 +40,7 @@ define(function(require) {
             }
         },
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         dispose: function() {
             if (this.disposed) {

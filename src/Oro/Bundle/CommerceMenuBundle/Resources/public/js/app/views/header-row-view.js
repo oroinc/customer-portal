@@ -1,14 +1,13 @@
 define(function(require) {
     'use strict';
 
-    var HeaderRowView;
-    var BaseView = require('oroui/js/app/views/base/view');
-    var viewportManager = require('oroui/js/viewport-manager');
-    var scrollHelper = require('oroui/js/tools/scroll-helper');
-    var $ = require('jquery');
-    var _ = require('underscore');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const viewportManager = require('oroui/js/viewport-manager');
+    const scrollHelper = require('oroui/js/tools/scroll-helper');
+    const $ = require('jquery');
+    const _ = require('underscore');
 
-    HeaderRowView = BaseView.extend({
+    const HeaderRowView = BaseView.extend({
         optionNames: BaseView.prototype.optionNames.concat([
             'useScrollViewport'
         ]),
@@ -33,14 +32,14 @@ define(function(require) {
         cache: null,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function HeaderRowView() {
-            HeaderRowView.__super__.constructor.apply(this, arguments);
+        constructor: function HeaderRowView(options) {
+            HeaderRowView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.checkViewport();
@@ -99,24 +98,24 @@ define(function(require) {
                 this.removeScroll();
             }
 
-            var self = this;
+            const self = this;
             this.animationFrameId = requestAnimationFrame(function() {
                 self.updateDropdown();
             });
         },
 
         updateScroll: function() {
-            var menuHeight = window.innerHeight - this.$el.height();
+            let menuHeight = window.innerHeight - this.$el.height();
             if (!(this.$el.data('sticky') || {}).currentState) {
                 menuHeight -= this.cache.$middleBar.outerHeight();
             }
 
-            var dropdownHeight = this.cache.$dropdown.outerHeight();
+            const dropdownHeight = this.cache.$dropdown.outerHeight();
             if (dropdownHeight < menuHeight) {
                 return this.removeScroll();
             }
 
-            var footerHeight = this.cache.$dropdownFooter.outerHeight() || 0;
+            const footerHeight = this.cache.$dropdownFooter.outerHeight() || 0;
 
             this.cache.$dropdownScrollable.css({
                 height: menuHeight - footerHeight,

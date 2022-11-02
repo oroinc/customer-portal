@@ -5,7 +5,6 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\AddressBundle\Form\Type\AddressType as AddressFormType;
-use Oro\Bundle\AddressBundle\Validator\Constraints\NameOrOrganization;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressWithDefaultType;
@@ -16,7 +15,6 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\CustomerTypedAddressWith
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
 use Oro\Bundle\FormBundle\Tests\Unit\Stub\StripTagsExtensionStub;
 use Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType;
-use Oro\Bundle\UIBundle\Tools\HtmlTagHelper;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -28,14 +26,11 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
     /** @var FrontendCustomerTypedAddressType */
     protected $formType;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->formType = new FrontendCustomerTypedAddressType();
-        $this->formType->setAddressTypeDataClass('Oro\Bundle\AddressBundle\Entity\AddressType');
-        $this->formType->setDataClass('Oro\Bundle\CustomerBundle\Entity\CustomerAddress');
+        $this->formType->setAddressTypeDataClass(AddressType::class);
+        $this->formType->setDataClass(CustomerAddress::class);
 
         $this->factory = Forms::createFormFactoryBuilder()
             ->addExtensions($this->getExtensions())
@@ -43,17 +38,7 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function tearDown()
-    {
-        unset($this->formType);
-
-        parent::tearDown();
-    }
-
-    /**
-     * @return array
+     * {@inheritDoc}
      */
     protected function getExtensions()
     {
@@ -79,27 +64,21 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
                     FrontendOwnerSelectType::class => new FrontendOwnerSelectTypeStub(),
                     AddressFormType::class => $addressTypeStub,
                 ],
-                [FormType::class => [new StripTagsExtensionStub($this->createMock(HtmlTagHelper::class))]]
+                [FormType::class => [new StripTagsExtensionStub($this)]]
             )
         ];
     }
 
     /**
-     * @param array $options
-     * @param mixed $defaultData
-     * @param mixed $viewData
-     * @param mixed $submittedData
-     * @param mixed $expectedData
-     * @param null  $updateOwner
      * @dataProvider submitDataProvider
      */
     public function testSubmit(
         array $options,
-        $defaultData,
-        $viewData,
-        $submittedData,
-        $expectedData,
-        $updateOwner = null
+        mixed $defaultData,
+        mixed $viewData,
+        mixed $submittedData,
+        mixed $expectedData,
+        mixed $updateOwner = null
     ) {
         $form = $this->factory->create($this->getTypeClass(), $defaultData, $options);
         $this->assertTrue($form->has('frontendOwner'));
@@ -107,14 +86,15 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
         $this->assertEquals($viewData, $form->getViewData());
         $form->submit($submittedData);
         $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
         $expectedData->setFrontendOwner($updateOwner);
         $this->assertEquals($expectedData, $form->getData());
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    public function submitWithFormSubscribersProvider()
+    public function submitWithFormSubscribersProvider(): array
     {
         $customerAddress1 = new CustomerAddress();
         $customerAddress1
@@ -150,7 +130,7 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
                     'types' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING],
                     'defaults' => ['default' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING]],
                     'primary' => true,
-                    'frontendOwner' => $customer
+                    'frontendOwner' => $customer->getId()
                 ],
                 'expectedData' => $customerAddressExpected,
                 'otherAddresses' => [$customerAddress2],
@@ -171,7 +151,7 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
         $submittedData = [
             'types' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING],
             'defaults' => ['default' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING]],
-            'frontendOwner' => $customer
+            'frontendOwner' => $customer->getId()
         ];
 
         $form = $this->factory->create($this->getTypeClass(), $customerAddress1, []);
@@ -179,11 +159,12 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
         $this->assertFalse($form->has('primary'));
         $form->submit($submittedData);
         $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
     }
 
     public function testGetName()
     {
-        $this->assertInternalType('string', $this->formType->getName());
+        $this->assertIsString($this->formType->getName());
         $this->assertEquals('oro_customer_frontend_typed_address', $this->formType->getName());
     }
 
@@ -195,36 +176,22 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
 
         $this->assertEquals(
             [
-                'constraints' => [
-                    new NameOrOrganization()
-                ],
                 'owner_field_label' => 'oro.customer.frontend.customer.entity_label',
                 'data_class' => CustomerAddress::class,
                 'single_form' => true,
                 'all_addresses_property_path' => 'frontendOwner.addresses',
-                'ownership_disabled' => true,
-                'validation_groups' => [
-                    'Default',
-                    'RequireName',
-                    'RequireRegion'
-                ]
+                'ownership_disabled' => true
             ],
             $optionsResolver->resolve()
         );
     }
 
-    /**
-     * @return string
-     */
     protected function getTypeClass(): string
     {
         return FrontendCustomerTypedAddressType::class;
     }
 
-    /**
-     * @return Customer
-     */
-    protected function getCustomer()
+    protected function getCustomer(): object
     {
         return new Customer();
     }

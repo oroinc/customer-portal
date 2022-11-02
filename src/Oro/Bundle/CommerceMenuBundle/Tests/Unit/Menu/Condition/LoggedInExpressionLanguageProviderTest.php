@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Menu\Condition;
 
 use Oro\Bundle\CommerceMenuBundle\Menu\Condition\LoggedInExpressionLanguageProvider;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 
@@ -18,7 +17,7 @@ class LoggedInExpressionLanguageProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 

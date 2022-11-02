@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_12;
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedMigrationQuery;
 use Oro\Bundle\UserBundle\Migrations\Data\ORM\LoadRolesData;
 use Psr\Log\LoggerInterface;
@@ -54,7 +54,7 @@ SQL;
             'administratorRole' => LoadRolesData::ROLE_ADMINISTRATOR
         ];
         $types = [
-            'administratorRole' => Type::STRING
+            'administratorRole' => Types::STRING
         ];
 
         $this->logQuery($logger, $selectUserQuery, $params, $types);
@@ -73,8 +73,8 @@ SQL;
             'application' => 'app'
         ];
         $types = [
-            'anonymousCustomerGroup' => Type::STRING,
-            'application' => Type::STRING
+            'anonymousCustomerGroup' => Types::STRING,
+            'application' => Types::STRING
         ];
 
         $anonymousCustomerGroupId = $this->connection
@@ -92,13 +92,13 @@ SQL;
             'anonymousCustomerGroupId' => $anonymousCustomerGroupId
         ];
         $types = [
-            'organizationId' => Type::INTEGER,
-            'userOwnerId' => Type::INTEGER,
-            'anonymousCustomerGroupId' => Type::INTEGER
+            'organizationId' => Types::INTEGER,
+            'userOwnerId' => Types::INTEGER,
+            'anonymousCustomerGroupId' => Types::INTEGER
         ];
         $this->logQuery($logger, $updateQuery, $params, $types);
         if (!$dryRun) {
-            $this->connection->executeUpdate($updateQuery, $params, $types);
+            $this->connection->executeStatement($updateQuery, $params, $types);
         }
     }
 }

@@ -5,6 +5,7 @@ namespace Oro\Bundle\CommerceMenuBundle\Migrations\Schema;
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareInterface;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareTrait;
+use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
@@ -28,7 +29,7 @@ class OroCommerceMenuBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_4';
+        return 'v1_7';
     }
 
     /**
@@ -54,8 +55,6 @@ class OroCommerceMenuBundleInstaller implements
 
     /**
      * Create oro_commerce_menu_upd table.
-     *
-     * @param Schema $schema
      */
     protected function createOroCommerceMenuUpdateTable(Schema $schema)
     {
@@ -63,7 +62,7 @@ class OroCommerceMenuBundleInstaller implements
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('key', 'string', ['length' => 100]);
         $table->addColumn('parent_key', 'string', ['length' => 100, 'notnull' => false]);
-        $table->addColumn('uri', 'string', ['length' => 1023, 'notnull' => false]);
+        $table->addColumn('uri', 'string', ['length' => 8190, 'notnull' => false]);
         $table->addColumn('menu', 'string', ['length' => 100]);
         $table->addColumn('icon', 'string', ['length' => 150, 'notnull' => false]);
         $table->addColumn('is_active', 'boolean', []);
@@ -73,14 +72,18 @@ class OroCommerceMenuBundleInstaller implements
         $table->addColumn('scope_id', 'integer', ['notnull' => true]);
         $table->addColumn('condition', 'string', ['length' => 512, 'notnull' => false]);
         $table->addColumn('screens', 'array', ['notnull' => false, 'comment' => '(DC2Type:array)']);
+        $table->addColumn('system_page_route', 'string', ['length' => 255, 'notnull' => false]);
+        $table->addColumn('content_node_id', 'integer', ['notnull' => false]);
+        $table->addColumn('link_target', 'smallint', [
+            'notnull' => true,
+            'default' => MenuUpdate::LINK_TARGET_SAME_WINDOW,
+        ]);
         $table->setPrimaryKey(['id']);
         $table->addUniqueIndex(['key', 'scope_id', 'menu'], 'oro_commerce_menu_upd_uidx');
     }
 
     /**
      * Create oro_commerce_menu_upd_title table
-     *
-     * @param Schema $schema
      */
     protected function createOroCommerceMenuUpdateTitleTable(Schema $schema)
     {
@@ -93,8 +96,6 @@ class OroCommerceMenuBundleInstaller implements
 
     /**
      * Add oro_commerce_menu_upd_title foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCommerceMenuUpdateTitleForeignKeys(Schema $schema)
     {
@@ -113,11 +114,8 @@ class OroCommerceMenuBundleInstaller implements
         );
     }
 
-
     /**
      * Create `oro_navigation_menu_upd_descr` table
-     *
-     * @param Schema $schema
      */
     protected function createOroCommerceMenuUpdateDescriptionTable(Schema $schema)
     {
@@ -130,8 +128,6 @@ class OroCommerceMenuBundleInstaller implements
 
     /**
      * Add `oro_navigation_menu_upd_descr` foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCommerceMenuUpdateDescriptionForeignKeys(Schema $schema)
     {
@@ -150,16 +146,17 @@ class OroCommerceMenuBundleInstaller implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function addOroCommerceMenuUpdateImageAssociation(Schema $schema)
     {
         $this->attachmentExtension->addImageRelation(
             $schema,
             self::ORO_COMMERCE_MENU_UPDATE_TABLE_NAME,
             self::ORO_COMMERCE_MENU_UPDATE_IMAGE_FIELD_NAME,
-            [],
+            [
+                'attachment' => [
+                    'acl_protected' => false,
+                ]
+            ],
             self::MAX_MENU_UPDATE_IMAGE_SIZE_IN_MB,
             self::THUMBNAIL_WIDTH_SIZE_IN_PX,
             self::THUMBNAIL_HEIGHT_SIZE_IN_PX
@@ -168,8 +165,6 @@ class OroCommerceMenuBundleInstaller implements
 
     /**
      * Add `oro_commerce_menu_upd` foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCommerceMenuUpdateForeignKeys(Schema $schema)
     {
@@ -179,12 +174,16 @@ class OroCommerceMenuBundleInstaller implements
             ['scope_id'],
             ['id']
         );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_web_catalog_content_node'),
+            ['content_node_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL', 'notnull' => false]
+        );
     }
 
     /**
      * Create `oro_menu_user_agent_condition` table
-     *
-     * @param Schema $schema
      */
     protected function createOroMenuUserAgentConditionTable(Schema $schema)
     {
@@ -199,8 +198,6 @@ class OroCommerceMenuBundleInstaller implements
 
     /**
      * Add `oro_menu_user_agent_condition` foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroMenuUserAgentConditionForeignKeys(Schema $schema)
     {

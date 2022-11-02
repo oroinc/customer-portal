@@ -1,0 +1,23 @@
+/* @theme: default; */
+
+$style-book-nav-tabs-display: flex !default;
+$style-book-nav-tabs-flex-wrap: nowrap !default;
+$style-book-nav-tabs-justify-content: flex-start !default;
+$style-book-nav-tabs-border-radius: 5px !default;
+$style-book-nav-tabs-border: none !default;
+
+$style-book-nav-tabs-item-outer-offset: 0 !default;
+$style-book-nav-tabs-item-flex: 1 0 auto !default;
+$style-book-nav-tabs-item-text-align: center !default;
+
+$style-book-nav-tabs-link-text-transform: uppercase !default;
+$style-book-nav-tabs-link-color: get-color('additional', 'dark') !default;
+$style-book-nav-tabs-link-bg: get-color('additional', 'light') !default;
+$style-book-nav-tabs-link-color-border-radius: 0 !default;
+$style-book-nav-tabs-active-link-hover-color: get-color('additional', 'dark') !default;
+$style-book-nav-tabs-active-link-hover-bg: get-color('additional', 'ultra') !default;
+$style-book-nav-tabs-active-link-hover-border-color: get-color('additional', 'light') !default;
+
+$style-book-tab-content-border: 1px solid get-color('additional', 'light') !default;
+$style-book-tab-content-bottom-outer-offset: 16px !default;
+$style-book-tab-content-inner-offset: 20px !default;

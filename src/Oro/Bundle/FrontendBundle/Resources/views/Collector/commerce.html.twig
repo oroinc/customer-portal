@@ -1,0 +1,33 @@
+{% extends '@OroPlatform/Collector/platform.html.twig' %}
+
+{% block text %}
+    <div class="sf-toolbar-info-group">
+        <div class="sf-toolbar-info-piece">
+            <b>Design</b>
+            <span><a href="{{ path('oro_stylebook') }}" rel="help">Frontend Stylebook</a></span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>API Sandbox</b>
+            <span>
+                <a href="{{ path('oro_frontend_rest_api_doc') }}">Storefront API</a>
+                &nbsp;|&nbsp;
+                <a href="{{ path('nelmio_api_doc_index') }}">Back-office API</a>
+            </span>
+        </div>
+    </div>
+    <div class="sf-toolbar-info-group">
+        <div class="sf-toolbar-info-piece">
+            <b>Resources</b>
+            <span>
+                <a href="https://doc.oroinc.com/" rel="help">OroCommerce Documentation</a>
+            </span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Help</b>
+            <span>
+                <a href="https://doc.oroinc.com/community/#contact-community" rel="help">Oro Support Channels</a>
+            </span>
+        </div>
+    </div>
+    {{ include('@OroPlatform/Collector/collectors_toggle.html.twig') }}
+{% endblock %}

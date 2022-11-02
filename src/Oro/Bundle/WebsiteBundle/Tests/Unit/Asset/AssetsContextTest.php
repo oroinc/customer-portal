@@ -3,74 +3,48 @@
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Asset;
 
 use Oro\Bundle\WebsiteBundle\Asset\AssetsContext;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use Oro\Bundle\WebsiteBundle\Asset\BasePathResolver;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class AssetsContextTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var AssetsContext
-     */
-    protected $context;
-
-    /**
-     * @var RequestStack|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
     private $requestStack;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
+    /** @var BasePathResolver|\PHPUnit\Framework\MockObject\MockObject */
+    private $resolver;
+
+    /** @var AssetsContext */
+    private $context;
+
+    protected function setUp(): void
     {
-        $this->requestStack = $this->getMockBuilder(RequestStack::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->requestStack = $this->createMock(RequestStack::class);
+        $this->resolver = $this->createMock(BasePathResolver::class);
+
         $this->context = new AssetsContext($this->requestStack);
+        $this->context->setBasePathResolver($this->resolver);
     }
 
-    public function testGetBasePathNoMasterRequest()
+    public function testGetBasePath(): void
     {
-        $this->requestStack->expects($this->atLeastOnce())
-            ->method('getMasterRequest');
-
-        $this->assertEquals('', $this->context->getBasePath());
-    }
-
-    public function testGetBasePath()
-    {
-        /** @var Request|\PHPUnit\Framework\MockObject\MockObject $request */
-        $request = $this->getMockBuilder(Request::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $request->expects($this->atLeastOnce())
+        $path = '/path';
+        $expected = '/resolved-path';
+        $request = $this->createMock(Request::class);
+        $request->expects(self::atLeastOnce())
             ->method('getBasePath')
-            ->willReturn('/base/path');
-        $request->server = new ParameterBag(['WEBSITE_PATH' => '/path']);
-        
-        $this->requestStack->expects($this->atLeastOnce())
-            ->method('getMasterRequest')
+            ->willReturn($path);
+
+        $this->requestStack->expects(self::atLeastOnce())
+            ->method('getMainRequest')
             ->willReturn($request);
 
-        $this->assertEquals('/base', $this->context->getBasePath());
-    }
+        $this->resolver->expects(self::once())
+            ->method('resolveBasePath')
+            ->with($path)
+            ->willReturn($expected);
 
-    public function testGetBasePathNoConfiguration()
-    {
-        /** @var Request|\PHPUnit\Framework\MockObject\MockObject $request */
-        $request = $this->getMockBuilder(Request::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $request->expects($this->atLeastOnce())
-            ->method('getBasePath')
-            ->willReturn('/base/path');
-        $request->server = new ParameterBag([]);
-
-        $this->requestStack->expects($this->atLeastOnce())
-            ->method('getMasterRequest')
-            ->willReturn($request);
-
-        $this->assertEquals('/base/path', $this->context->getBasePath());
+        self::assertEquals($expected, $this->context->getBasePath());
     }
 }

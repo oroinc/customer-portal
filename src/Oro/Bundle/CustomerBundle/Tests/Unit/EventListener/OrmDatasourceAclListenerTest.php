@@ -16,91 +16,94 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\UserBundle\Entity\User;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class OrmDatasourceAclListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var MockObject|TokenAccessorInterface
-     */
-    protected $tokenAccessor;
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $tokenAccessor;
 
-    /**
-     * @var MockObject|OwnershipMetadataProviderInterface
-     */
-    protected $metadataProvider;
+    /** @var OwnershipMetadataProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $metadataProvider;
 
-    /**
-     * @var OrmDatasourceAclListener
-     */
-    protected $listener;
+    /** @var OrmResultBefore|\PHPUnit\Framework\MockObject\MockObject */
+    private $event;
 
-    /**
-     * @var MockObject|OrmResultBefore
-     */
-    protected $event;
+    /** @var OrmDatasourceAclListener */
+    private $listener;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
-
-        $this->metadataProvider = $this
-            ->createMock('Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface');
+        $this->metadataProvider = $this->createMock(OwnershipMetadataProviderInterface::class);
+        $this->event = $this->createMock(OrmResultBefore::class);
 
         $this->listener = new OrmDatasourceAclListener($this->tokenAccessor, $this->metadataProvider);
-
-        $this->event = $this->getMockBuilder('Oro\Bundle\DataGridBundle\Event\OrmResultBefore')
-            ->disableOriginalConstructor()
-            ->getMock();
-    }
-
-    protected function tearDown()
-    {
-        unset($this->authorizationChecker, $this->metadataProvider, $this->listener, $this->event);
     }
 
     /**
      * @dataProvider onResultBeforeDataProvider
-     *
-     * @param array $entities
-     * @param bool $expectedSkipAclCheck
      */
-    public function testOnResultBefore($entities = [], $expectedSkipAclCheck = true)
+    public function testOnResultBefore(array $entities = [], bool $expectedSkipAclCheck = true)
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')
             ->willReturn(new CustomerUser());
 
-        /** @var FromClause $from */
-        $from = $this->getMockBuilder('Doctrine\ORM\Query\AST\FromClause')->disableOriginalConstructor()->getMock();
+        $from = $this->createMock(FromClause::class);
 
         foreach ($entities as $className => $hasOwner) {
-            $from->identificationVariableDeclarations[] = $this->createIdentVariableDeclarationMock($className);
+            $rangeVariableDeclaration = $this->createMock(RangeVariableDeclaration::class);
+            $rangeVariableDeclaration->abstractSchemaName = $className;
+            $identVariableDeclaration = $this->createMock(IdentificationVariableDeclaration::class);
+            $identVariableDeclaration->rangeVariableDeclaration = $rangeVariableDeclaration;
+
+            $from->identificationVariableDeclarations[] = $identVariableDeclaration;
         }
+
+        $query = $this->getMockBuilder(AbstractQuery::class)
+            ->addMethods(['getAST'])
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $select = $this->createMock(SelectStatement::class);
+        $select->fromClause = $from;
+        $query->expects($this->once())
+            ->method('getAST')
+            ->willReturn($select);
 
         $this->event->expects($this->once())
             ->method('getQuery')
-            ->willReturn($this->createQueryMock($from));
+            ->willReturn($query);
 
         $this->metadataProvider->expects($this->atLeastOnce())
             ->method('getMetadata')
-            ->willReturnCallback(
-                function ($className) use ($entities) {
-                    return $this->createOwnershipMetadataMock($entities[$className]);
-                }
-            );
+            ->willReturnCallback(function ($className) use ($entities) {
+                $metadata = $this->createMock(OwnershipMetadataInterface::class);
+                $metadata->expects($this->once())
+                    ->method('hasOwner')
+                    ->willReturn($entities[$className]);
+
+                return $metadata;
+            });
+
+        $datagridConfiguration = $this->createMock(DatagridConfiguration::class);
+        $datagridConfiguration->expects($expectedSkipAclCheck ? $this->once() : $this->never())
+            ->method('offsetSetByPath')
+            ->with(DatagridConfiguration::DATASOURCE_SKIP_ACL_APPLY_PATH, true)
+            ->willReturnSelf();
+
+        $datagrid = $this->createMock(DatagridInterface::class);
+        $datagrid->expects($this->once())
+            ->method('getConfig')
+            ->willReturn($datagridConfiguration);
 
         $this->event->expects($this->once())
             ->method('getDatagrid')
-            ->willReturn($this->createDatagridMock($expectedSkipAclCheck));
+            ->willReturn($datagrid);
 
         $this->listener->onResultBefore($this->event);
     }
 
-    /**
-     * @return array
-     */
-    public function onResultBeforeDataProvider()
+    public function onResultBeforeDataProvider(): array
     {
         return [
             [
@@ -152,95 +155,13 @@ class OrmDatasourceAclListenerTest extends \PHPUnit\Framework\TestCase
             ->method('getUser')
             ->willReturn(new User());
 
-        $this->event->expects($this->never())->method('getQuery');
-        $this->event->expects($this->never())->method('getDatagrid');
-        $this->metadataProvider->expects($this->never())->method('getMetadata');
+        $this->event->expects($this->never())
+            ->method('getQuery');
+        $this->event->expects($this->never())
+            ->method('getDatagrid');
+        $this->metadataProvider->expects($this->never())
+            ->method('getMetadata');
 
         $this->listener->onResultBefore($this->event);
-    }
-
-    /**
-     * @param bool $expectedSkipAclCheck
-     * @return DatagridInterface|MockObject
-     */
-    protected function createDatagridMock($expectedSkipAclCheck)
-    {
-        /** @var MockObject|DatagridConfiguration $datagridConfiguration */
-        $datagridConfiguration = $this
-            ->getMockBuilder('Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $datagridConfiguration->expects($expectedSkipAclCheck ? $this->once() : $this->never())
-            ->method('offsetSetByPath')
-            ->with(DatagridConfiguration::DATASOURCE_SKIP_ACL_APPLY_PATH, true)
-            ->willReturnSelf();
-
-        /** @var MockObject|DatagridInterface $datagrid */
-        $datagrid = $this->createMock('Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface');
-        $datagrid->expects($this->once())
-            ->method('getConfig')
-            ->willReturn($datagridConfiguration);
-
-        return $datagrid;
-    }
-
-    /**
-     * @param FromClause $from
-     * @return AbstractQuery|MockObject
-     */
-    protected function createQueryMock(FromClause $from)
-    {
-        /** @var MockObject|SelectStatement $select */
-        $select = $this->getMockBuilder('Doctrine\ORM\Query\AST\SelectStatement')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $select->fromClause = $from;
-
-        /** @var MockObject|AbstractQuery $query */
-        $query = $this->getMockBuilder('Doctrine\ORM\AbstractQuery')
-            ->setMethods(['getAST'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $query->expects($this->once())
-            ->method('getAST')
-            ->willReturn($select);
-
-        return $query;
-    }
-
-    /**
-     * @param string $className
-     * @return IdentificationVariableDeclaration|MockObject
-     */
-    protected function createIdentVariableDeclarationMock($className)
-    {
-        /** @var MockObject|RangeVariableDeclaration $rangeVariableDeclaration */
-        $rangeVariableDeclaration = $this->getMockBuilder('Doctrine\ORM\Query\AST\RangeVariableDeclaration')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $rangeVariableDeclaration->abstractSchemaName = $className;
-
-        /** @var MockObject|IdentificationVariableDeclaration $identVariableDeclaration */
-        $identVariableDeclaration = $this->getMockBuilder('Doctrine\ORM\Query\AST\IdentificationVariableDeclaration')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $identVariableDeclaration->rangeVariableDeclaration = $rangeVariableDeclaration;
-
-        return $identVariableDeclaration;
-    }
-
-    /**
-     * @param bool $hasOwner
-     * @return OwnershipMetadataInterface|MockObject
-     */
-    protected function createOwnershipMetadataMock($hasOwner)
-    {
-        /** @var MockObject|OwnershipMetadataInterface $metadata */
-        $metadata = $this->createMock('Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataInterface');
-        $metadata->expects($this->once())
-            ->method('hasOwner')
-            ->willReturn($hasOwner);
-
-        return $metadata;
     }
 }

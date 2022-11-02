@@ -9,27 +9,23 @@ class RouterTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
     }
 
-    public function testRouteNames()
+    public function testRouteNames(): void
     {
-        $router = $this->getContainer()->get('oro_test.router.default.alias');
-        $generator = $router->getGenerator();
-        $this->assertInstanceOf('\srcTestProjectContainerUrlGenerator', $generator);
-
-        $declaredRoutesProperty = new \ReflectionProperty(get_class($generator), 'declaredRoutes');
-        $declaredRoutesProperty->setAccessible(true);
-        $declaredRoutes = $declaredRoutesProperty->getValue();
+        $routeCollection = $this->getContainer()->get('router')->getRouteCollection();
+        $this->assertNotNull($routeCollection);
 
         $invalidRoutes = array_filter(
-            array_keys($declaredRoutes),
+            array_keys(iterator_to_array($routeCollection)),
             function ($name) {
-                return strpos($name, 'orob2b') === 0;
+                return str_starts_with($name, 'orob2b');
             }
         );
+
         $this->assertEmpty(
             $invalidRoutes,
             "Invalid route names:\n" . implode("\n", $invalidRoutes)

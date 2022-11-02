@@ -1,0 +1,26 @@
+/* @theme: default; */
+
+$filter-fullscreen-popup-mode-criteria-hint-item-offset: 0 $offset-y-m $offset-y-m 0 !default;
+$filter-fullscreen-popup-mode-criteria-hint-item-offset-inner: 6px !default;
+$filter-fullscreen-popup-mode-criteria-hint-item-border-radius: $base-ui-element-border-radius !default;
+
+$filter-fullscreen-popup-mode-items-hint-offset-inner: 0 $offset-x-m !default;
+
+$filter-fullscreen-popup-mode-criteria-selector-offset-inner: 8px ($offset-x * 2) 8px $offset-x !default;
+$filter-fullscreen-popup-mode-criteria-selector-offset: $offset-y-s 0 !default;
+
+$filter-fullscreen-popup-mode-criteria-offset-inner: 12px $offset-x !default;
+
+$filter-fullscreen-popup-mode-criteria-selector-icon-right-pos: $offset-x !default;
+
+$filter-fullscreen-popup-mode-mode-trigger-side-offset: $offset-x-m !default;
+$filter-manager-fullscreen-popup-mode-trigger-width: calc(
+        100% - (#{$filter-fullscreen-popup-mode-mode-trigger-side-offset} * 2)
+) !default;
+$filter-manager-fullscreen-popup-mode-trigger-offset: 0 $filter-fullscreen-popup-mode-mode-trigger-side-offset !default;
+$filter-manager-fullscreen-popup-mode-trigger-font: $base-font-size $base-font !default;
+
+$filter-fullscreen-popup-mode-reset-filter-button-width: 100% !default;
+$filter-fullscreen-popup-mode-reset-filter-button-offset-inner: $btn-padding-y-s $btn-padding-x-s !default;
+$filter-fullscreen-popup-mode-reset-filter-button-offset-bottom: $offset-y-m !default;
+$filter-fullscreen-popup-mode-reset-filter-border: 1px solid get-color('additional', 'base') !default;

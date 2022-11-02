@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\FrontendBundle\Tests\Unit\GuestAccess;
+namespace Oro\Bundle\FrontendBundle\Tests\Unit\GuestAccess\Provider;
 
 use Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProvider;
 
@@ -11,7 +11,7 @@ class GuestAccessAllowedUrlsProviderTest extends \PHPUnit\Framework\TestCase
      */
     private $guestAccessAllowedUrlsProvider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->guestAccessAllowedUrlsProvider = new GuestAccessAllowedUrlsProvider();
     }
@@ -24,6 +24,8 @@ class GuestAccessAllowedUrlsProviderTest extends \PHPUnit\Framework\TestCase
             '^/_wdt',
             '^/_fragment',
             '^/js/',
+            '^/media/js/',
+            '^/media/cache/',
             '^/embedded-form',
             '^/customer/user/login$',
             '^/customer/user/reset-request$',
@@ -32,10 +34,13 @@ class GuestAccessAllowedUrlsProviderTest extends \PHPUnit\Framework\TestCase
             '^/customer/user/registration$',
             '^/customer/user/confirm-email$',
             '^/customer/user/reset$',
+            '^/localization/set-current-localization$',
+            '^/productprice/set-current-currency$',
+            '^/cookies-accepted$',
             '^/api/',
         ];
         $this->guestAccessAllowedUrlsProvider->addAllowedUrlPattern('^/api/');
 
-        static::assertSame($allowedUrls, $this->guestAccessAllowedUrlsProvider->getAllowedUrlsPatterns());
+        self::assertSame($allowedUrls, $this->guestAccessAllowedUrlsProvider->getAllowedUrlsPatterns());
     }
 }

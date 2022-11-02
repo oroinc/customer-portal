@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\FrontendBundle\Provider;
 
-use Doctrine\Common\Cache\Cache;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
+use Symfony\Contracts\Cache\CacheInterface;
 
 /**
  * Provides configuration of screens defined for a particular layout theme, e.g. desktop, mobile, etc.
@@ -12,40 +12,23 @@ class ScreensProvider implements ScreensProviderInterface
 {
     private const SCREENS_CACHE_KEY = 'oro_frontend.provider.screens';
 
-    /** @var ThemeManager */
-    private $themeManager;
+    private ThemeManager $themeManager;
+    private CacheInterface $cache;
 
-    /** @var Cache */
-    private $cache;
-
-    /**
-     * @param ThemeManager $themeManager
-     * @param Cache        $cache
-     */
-    public function __construct(ThemeManager $themeManager, Cache $cache)
+    public function __construct(ThemeManager $themeManager, CacheInterface $cache)
     {
         $this->themeManager = $themeManager;
         $this->cache = $cache;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getScreens()
+    public function getScreens(): array
     {
-        $screens = $this->cache->fetch(self::SCREENS_CACHE_KEY);
-        if (false === $screens) {
-            $screens = $this->collectScreens();
-            $this->cache->save(self::SCREENS_CACHE_KEY, $screens);
-        }
-
-        return $screens;
+        return $this->cache->get(self::SCREENS_CACHE_KEY, function () {
+            return $this->collectScreens();
+        });
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getScreen($screenName)
+    public function getScreen($screenName): ?array
     {
         $screens = $this->getScreens();
         if (array_key_exists($screenName, $screens)) {
@@ -55,20 +38,14 @@ class ScreensProvider implements ScreensProviderInterface
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function hasScreen($screenName)
+    public function hasScreen($screenName): bool
     {
         $screens = $this->getScreens();
 
         return array_key_exists($screenName, $screens);
     }
 
-    /**
-     * @return array
-     */
-    private function collectScreens()
+    private function collectScreens(): array
     {
         $themes = $this->themeManager->getAllThemes();
         $screens = [];

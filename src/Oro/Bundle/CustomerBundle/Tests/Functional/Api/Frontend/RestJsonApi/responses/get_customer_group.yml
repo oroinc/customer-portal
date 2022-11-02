@@ -1,0 +1,5 @@
+data:
+    type: customergroups
+    id: '<toString(@customer_group1->id)>'
+    attributes:
+        name: 'Group 1'

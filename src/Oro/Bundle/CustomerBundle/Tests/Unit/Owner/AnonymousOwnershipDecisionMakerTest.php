@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Owner;
 
+use Doctrine\Inflector\Rules\English\InflectorFactory;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\CustomerBundle\Owner\AnonymousOwnershipDecisionMaker;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
@@ -15,16 +16,13 @@ use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProvider;
 
 class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var AnonymousOwnershipDecisionMaker */
-    private $decisionMaker;
-
     /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenAccessor;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
+    /** @var AnonymousOwnershipDecisionMaker */
+    private $decisionMaker;
+
+    protected function setUp(): void
     {
         $metadataProvider = $this->createMock(OwnershipMetadataProviderInterface::class);
 
@@ -33,7 +31,7 @@ class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
         $this->decisionMaker = new AnonymousOwnershipDecisionMaker(
             $this->createMock(OwnerTreeProvider::class),
             new ObjectIdAccessor($this->createMock(DoctrineHelper::class)),
-            new EntityOwnerAccessor($metadataProvider),
+            new EntityOwnerAccessor($metadataProvider, (new InflectorFactory())->build()),
             $metadataProvider,
             $this->tokenAccessor
         );
@@ -41,11 +39,8 @@ class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider supportsDataProvider
-     *
-     * @param null| $token
-     * @param bool $expectedResult
      */
-    public function testSupports($token, $expectedResult)
+    public function testSupports(?object $token, bool $expectedResult)
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getToken')
@@ -56,15 +51,15 @@ class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider associatedDataProvider
-     *
-     * @param CustomerVisitor $tokenVisitor
-     * @param mixed $object
-     * @param bool $expectedResult
      */
-    public function testIsAssociatedWithOrganization($tokenVisitor, $object, $expectedResult)
-    {
+    public function testIsAssociatedWithOrganization(
+        CustomerVisitor $tokenVisitor,
+        object $object,
+        bool $expectedResult
+    ) {
         $token = $this->createMock(AnonymousCustomerUserToken::class);
-        $token->method('getVisitor')
+        $token->expects(self::any())
+            ->method('getVisitor')
             ->willReturn($tokenVisitor);
         $this->tokenAccessor->expects($this->once())
             ->method('getToken')
@@ -78,15 +73,15 @@ class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider associatedDataProvider
-     *
-     * @param CustomerVisitor $tokenVisitor
-     * @param mixed $object
-     * @param bool $expectedResult
      */
-    public function testIsAssociatedWithBusinessUnit($tokenVisitor, $object, $expectedResult)
-    {
+    public function testIsAssociatedWithBusinessUnit(
+        CustomerVisitor $tokenVisitor,
+        object $object,
+        bool $expectedResult
+    ) {
         $token = $this->createMock(AnonymousCustomerUserToken::class);
-        $token->method('getVisitor')
+        $token->expects(self::any())
+            ->method('getVisitor')
             ->willReturn($tokenVisitor);
         $this->tokenAccessor->expects($this->once())
             ->method('getToken')
@@ -100,15 +95,15 @@ class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider associatedDataProvider
-     *
-     * @param CustomerVisitor $tokenVisitor
-     * @param mixed $object
-     * @param bool $expectedResult
      */
-    public function testIsAssociatedWithUser($tokenVisitor, $object, $expectedResult)
-    {
+    public function testIsAssociatedWithUser(
+        CustomerVisitor $tokenVisitor,
+        object $object,
+        bool $expectedResult
+    ) {
         $token = $this->createMock(AnonymousCustomerUserToken::class);
-        $token->method('getVisitor')
+        $token->expects(self::any())
+            ->method('getVisitor')
             ->willReturn($tokenVisitor);
         $this->tokenAccessor->expects($this->once())
             ->method('getToken')
@@ -120,10 +115,7 @@ class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @return array
-     */
-    public function supportsDataProvider()
+    public function supportsDataProvider(): array
     {
         return [
             'without token' => [
@@ -141,10 +133,7 @@ class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function associatedDataProvider()
+    public function associatedDataProvider(): array
     {
         $visitor = new CustomerVisitor();
         $visitor->setSessionId('session_id');

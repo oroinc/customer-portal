@@ -1,0 +1,71 @@
+{% macro buildCustomerParentBreadcrumbs(customer) %}
+    {% import _self as selfMacro %}
+    {% set parts = oro_customer_parent_parts(customer) %}
+    {% if parts is not empty %}
+        {% if parts|length > 2 %}
+            {{ selfMacro.buildCollapsedBreadcrumbsByParts(parts) }}
+        {% else %}
+            {{ selfMacro.buildBreadcrumbsByParts(parts) }}
+        {% endif %}
+    {% else %}
+        {{ 'N/A'|trans }}
+    {% endif %}
+{% endmacro %}
+
+{% macro buildCollapsedBreadcrumbsByParts(parts) %}
+    {% import _self as selfMacro %}
+    {% import '@OroUI/macros.html.twig' as UI %}
+    {% apply spaceless %}
+        {% set first, last, collapsedParts = '', '', [] %}
+        {% for parentPart in parts %}
+            {% if loop.first %}
+                {% set first %}
+                    {{ UI.renderUrl(path('oro_customer_customer_view', {'id': parentPart.id}), parentPart.name) }}{{ ' / ' }}
+                {% endset %}
+            {% endif %}
+            {% if loop.last %}
+                {% set last %}
+                    {{ ' / ' }}{{ UI.renderUrl(path('oro_customer_customer_view', {'id': parentPart.id}), parentPart.name) }}
+                {% endset %}
+            {% endif %}
+            {% if not loop.first and not loop.last %}
+                {% set collapsedParts = collapsedParts|merge([parentPart]) %}
+            {% endif %}
+        {% endfor %}
+        {{ first }}
+        {% set collapseId = 'collapse-'|uniqid %}
+        <a href="#"
+           title="{{ selfMacro.buildBreadcrumbTitleByParts(parts) }}"
+           class="collapse-toggle"
+           data-toggle="collapse"
+           data-target="{{ '#' ~ collapseId }}"
+           aria-expanded="false"
+           aria-controls="{{ collapseId }}"
+        >...</a>
+        <span id="{{ collapseId }}" class="collapse no-transition" data-toggle="false" data-trigger-show-class="hide">
+            {{ selfMacro.buildBreadcrumbsByParts(collapsedParts) }}
+        </span>
+        {{ last }}
+    {% endapply %}
+{% endmacro %}
+
+{% macro buildBreadcrumbsByParts(parts) %}
+    {% import '@OroUI/macros.html.twig' as UI %}
+    {% apply spaceless %}
+        {% for parentPart in parts %}
+            {% apply spaceless %}
+                {{ loop.first ? '' : ' / ' }}{{ UI.renderUrl(path('oro_customer_customer_view', {'id': parentPart.id}), parentPart.name) }}
+            {% endapply %}
+        {% endfor %}
+    {% endapply %}
+{% endmacro %}
+
+{% macro buildBreadcrumbTitleByParts(parts) %}
+    {% set names = [] %}
+    {% for parentPart in parts %}
+        {% set names = names|merge([parentPart.name]) %}
+    {% endfor %}
+    {% apply spaceless %}
+        {{ names|join(' / ')|e('html_attr') }}
+    {% endapply %}
+{% endmacro %}

@@ -3,19 +3,17 @@
 namespace Oro\Bundle\StyleBookBundle;
 
 use Oro\Bundle\StyleBookBundle\DependencyInjection\OroStyleBookExtension;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-/**
- * Bundle provides sample Oro UI library with examples of UI elements and their source codes
- */
 class OroStyleBookBundle extends Bundle
 {
     /**
      * {@inheritdoc}
      */
-    public function getContainerExtension()
+    public function getContainerExtension(): ?ExtensionInterface
     {
-        if (!$this->extension) {
+        if (null === $this->extension) {
             $this->extension = new OroStyleBookExtension();
         }
 

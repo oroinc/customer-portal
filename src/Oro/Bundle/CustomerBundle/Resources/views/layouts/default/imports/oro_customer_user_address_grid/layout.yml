@@ -7,7 +7,7 @@ layout:
 
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:default/imports/oro_customer_user_address_grid/layout.html.twig'
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_user_address_grid/layout.html.twig'
 
         - '@addTree':
             items:
@@ -35,11 +35,6 @@ layout:
             id: __user_addresses_datagrid_views
             optionName: attr.data-datagrid-views-name
             optionValue: frontend-customer-customer-user-address-grid
-
-        - '@setOption':
-            id: __user_addresses_datagrid
-            optionName: grid_render_parameters.gridViewsOptions.text
-            optionValue: 'oro.customer.customer_user_address_book.customer_user_addresses'
 
         - '@setOption':
             id: __user_addresses_datagrid
@@ -101,7 +96,7 @@ layout:
         - '@setOption':
             id: __user_addresses_datagrid_toolbar
             optionName: attr.class
-            optionValue: 'datagrid-toolbar grid__toolbar--offset-s extended'
+            optionValue: 'datagrid-toolbar datagrid-toolbar--offset-s extended'
 
 #    TODO: return condition in BB-4263
 #    conditions: 'context["customer_address_count"]>=8'

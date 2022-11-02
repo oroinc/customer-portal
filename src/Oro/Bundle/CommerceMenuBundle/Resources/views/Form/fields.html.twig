@@ -1,7 +1,7 @@
 {% block oro_commerce_menu_user_agent_condition_widget %}
-    {% spaceless %}
-        <span class="menu-user-agent-inner-condition-label">AND</span>
+    {% apply spaceless %}
         <div class="menu-user-agent-condition-item" data-layout="separate">
+            <div class="menu-user-agent-inner-condition-label">AND</div>
             <div class="menu-user-agent-condition-item-container">
                 <div class="menu-user-agent-condition-operation">
                     {{ form_widget(form.operation) }}
@@ -11,7 +11,7 @@
                 </div>
             </div>
         </div>
-    {% endspaceless %}
+    {% endapply %}
 {% endblock %}
 
 {% macro oro_collection_item_prototype(form, name, disabled, allow_delete, allow_add_after) %}
@@ -31,8 +31,8 @@
                 {% endif %}
             </div>
             {% if allow_delete %}
-                <button class="removeRow btn btn-action btn-link btn-remove-main-row" type="button" data-related="{{ name }}">
-                    <span class="fa-close"></span>
+                <button class="removeRow btn btn-icon btn-square-lighter btn-remove-main-row" type="button" data-related="{{ name }}" aria-label="{{ 'Remove row'|trans }}">
+                    <span class="fa-trash-o" aria-hidden="true"></span>
                 </button>
             {% endif %}
         </div>
@@ -40,6 +40,8 @@
 {% endmacro %}
 
 {% macro oro_collection_item_prototype_child(widget) %}
+    {% import _self as commerceMenuFormFields %}
+
     {% set form = widget %}
     {% set name = widget.vars.full_name %}
     {% set disabled = widget.parent.vars.disabled %}
@@ -49,23 +51,27 @@
         {% set allow_delete = allow_delete and widget.vars.allow_delete %}
     {% endif %}
 
-    {{ _self.oro_collection_item_prototype(form, name, disabled, allow_delete, allow_add_after) }}
+    {{ commerceMenuFormFields.oro_collection_item_prototype(form, name, disabled, allow_delete, allow_add_after) }}
 {% endmacro %}
 
 {% macro oro_collection_item_prototype_html(widget) %}
+    {% import _self as commerceMenuFormFields %}
+
     {% set form = widget.vars.prototype %}
     {% set name = widget.vars.prototype.vars.name %}
     {% set disabled = widget.vars.disabled %}
     {% set allow_delete = widget.vars.allow_delete %}
     {% set allow_add_after = widget.vars.allow_add_after %}
 
-    {{ _self.oro_collection_item_prototype(form, name, disabled, allow_delete, allow_add_after) }}
+    {{ commerceMenuFormFields.oro_collection_item_prototype(form, name, disabled, allow_delete, allow_add_after) }}
 {% endmacro %}
 
 {% block oro_commerce_menu_user_agent_conditions_collection_widget %}
-    {% spaceless %}
+    {% import _self as commerceMenuFormFields %}
+
+    {% apply spaceless %}
         {% if prototype is defined %}
-            {% set prototype_html = _self.oro_collection_item_prototype_html(form) %}
+            {% set prototype_html = commerceMenuFormFields.oro_collection_item_prototype_html(form) %}
         {% endif %}
         {% set attr = attr|merge({'class': (attr.class is defined ? attr.class ~ ' ' : '') ~ 'oro-item-collection collection-fields-list' }) %}
         {% set id = id ~ '_collection' %}
@@ -75,7 +81,7 @@
                 <input type="hidden" name="validate_{{ full_name }}" data-collection-name="{{ full_name }}" data-name="collection-validation" disabled data-validate-element>
                 {% if form.children|length %}
                     {% for child in form.children %}
-                        {{ _self.oro_collection_item_prototype_child(child) }}
+                        {{ commerceMenuFormFields.oro_collection_item_prototype_child(child) }}
                     {% endfor %}
                 {% elseif show_form_when_empty and prototype_html is defined %}
                     {% for i in 0..(form.vars.row_count_initial - 1) %}
@@ -84,11 +90,11 @@
                 {% endif %}
             </div>
             {% if allow_add %}
-                <a class="btn add-list-item" href="javascript: void(0);"><i class="fa-plus"></i>{{ form.vars.add_label|default('oro.form.collection.add')|trans }}</a>
+                <a class="btn add-list-item" href="#"><i class="fa-plus"></i>{{ form.vars.add_label|default('oro.form.collection.add')|trans }}</a>
             {% endif %}
         </div>
         {% if handle_primary and (prototype is not defined or prototype.primary is defined) %}
-            {{ _self.oro_collection_validate_primary_js(_context) }}
+            {{ commerceMenuFormFields.oro_collection_validate_primary_js(_context) }}
         {% endif %}
-    {% endspaceless %}
+    {% endapply %}
 {% endblock %}

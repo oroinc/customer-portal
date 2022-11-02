@@ -3,32 +3,35 @@ oro_behat_extension:
     OroCustomerBundle:
       contexts:
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext
-        - OroApplicationBundle::CommerceMainContext
+        - Oro\Bundle\ApplicationBundle\Tests\Behat\Context\CommerceMainContext
         - Oro\Bundle\FormBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\ConfigBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\UserBundle\Tests\Behat\Context\FeatureContext
-        - OroDataGridBundle::GridContext
-        - OroFormBundle::FormContext
-        - OroCustomerBundle::CustomerUserContext
-        - OroFrontendLocalizationBundle::LocalizationSwitcherContext
-        - OroLocaleBundle::LocalizationContext
-        - OroCustomerBundle::ACLContext
-        - OroCustomerBundle::FrontendGridContext
-        - OroSecurityBundle::PermissionContext
-        - OroCustomerBundle::RegistrationInstructionFeatureContext
-        - OroImportExportBundle::ImportExportContext:
-            - '@oro_entity.entity_alias_resolver'
-            - '@oro_importexport.processor.registry'
-        - OroAddressBundle::AddressContext
-        - OroCustomerBundle::CustomerVisitorContext
-        - OroEmailBundle::EmailContext
+        - Oro\Bundle\DataGridBundle\Tests\Behat\Context\GridContext
+        - Oro\Bundle\FormBundle\Tests\Behat\Context\FormContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\CustomerUserContext
+        - Oro\Bundle\FrontendLocalizationBundle\Tests\Behat\Context\LocalizationSwitcherContext
+        - Oro\Bundle\LocaleBundle\Tests\Behat\Context\LocalizationContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\ACLContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\FrontendGridContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\RegistrationInstructionFeatureContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\CustomerContext
+        - Oro\Bundle\ProductBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\AttachmentBundle\Tests\Behat\Context\AttachmentImageContext
+        - Oro\Bundle\ShoppingListBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\ImportExportBundle\Tests\Behat\Context\ImportExportContext
+        - Oro\Bundle\AddressBundle\Tests\Behat\Context\AddressContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\CustomerVisitorContext
+        - Oro\Bundle\EmailBundle\Tests\Behat\Context\EmailContext
+        - Oro\Bundle\SearchBundle\Tests\Behat\Context\SearchContext
+        - Oro\Bundle\FrontendBundle\Tests\Behat\Context\ApiContext
       paths:
         - '@OroCustomerBundle/Tests/Behat/Features'
 
   elements:
     CustomerUserRoleForm:
       selector: "form[id*='_customer_user_role']"
-      class: Oro\Bundle\CustomerBundle\Tests\Behat\Element\CustomerUserRoleForm
+      class: Oro\Bundle\UserBundle\Tests\Behat\Element\UserRoleForm
     Customer User Form:
       selector: 'form[name="oro_customer_customer_user"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -46,6 +49,15 @@ oro_behat_extension:
             locator: '//div[contains(@id,"s2id_oro_customer_customer_user_addresses_1_region-uid")]/input'
             type: xpath
 
+    Customer User Profile Form:
+      selector: 'form[name="oro_customer_frontend_customer_user_profile"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Birthday:
+            locator: 'input[id^="oro_customer_frontend_customer_user_profile_birthday-uid"]'
+            type: css
+
     CustomerUserRoleGrid:
       selector: '[id^="grid-customer-user-role-permission-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
@@ -53,30 +65,32 @@ oro_behat_extension:
     Customer Users Grid:
       selector: '[id^="grid-frontend-customer-customer-user-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+
+    Customers Grid:
+      selector: 'div[data-page-component-name="customer-customers-grid"]'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+
+    Customer Roles Users Update Grid GridFilters:
+      selector: 'div[data-page-component-name="frontend-customer-customer-users-grid-update"] [data-grid-toolbar="top"] div.filter-box'
+
     Customer Company Addresses Grid:
       selector: '[id^="grid-frontend-customer-customer-address-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
     Customer Company Addresses Grid View List:
       selector: '[id^="grid-frontend-customer-customer-address-grid"] .grid-views'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer Company User Addresses Grid:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
     Customer Company User Addresses Grid View List:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"] .grid-views'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Enable Customer User checkbox:
       selector: 'form[name="oro_customer_frontend_customer_user"] label[for*="oro_customer_frontend_customer_user_enabled"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer New Company Address Button:
       selector: '[id^="grid-frontend-customer-customer-address-grid"] .grid-views .grid-views__aditional .btn'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer Company Address Button:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"] .grid-views .grid-views__aditional .btn'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer User Registration Error Container:
-      selector: ".form-row span.validation-failed"
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+      selector: ".input + span.validation-failed"
     Customer User Responsive Datagrid:
       selector: ".frontend-datagrid--responsive"
     Customer Users Registration form:
@@ -88,14 +102,16 @@ oro_behat_extension:
           Show Registration Instructions: 'customer_users[oro_customer___registration_instructions_enabled][value]'
           Registration Instructions Text Default: 'customer_users[oro_customer___registration_instructions_text][use_parent_scope_value]'
           Registration Instructions Text: 'customer_users[oro_customer___registration_instructions_text][value]'
+          Confirmation Required Default: 'customer_users[oro_customer___confirmation_required][use_parent_scope_value]'
+          Confirmation Required: 'customer_users[oro_customer___confirmation_required][value]'
     Customer Grid Settings Created At:
       selector:
         type: xpath
-        locator: '//label[contains(., "Created At")]/../../td/span[contains(@class, "checkbox-view")]'
+        locator: '//label[contains(., "Created At")]/../../td/input[@type="checkbox"]'
     Customer Grid Settings Updated At:
       selector:
         type: xpath
-        locator: '//label[contains(., "Updated At")]/../../td/span[contains(@class, "checkbox-view")]'
+        locator: '//label[contains(., "Updated At")]/../../td/input[@type="checkbox"]'
     Routing General form:
       selector: '[id^="routing-uid"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -112,12 +128,19 @@ oro_behat_extension:
         mapping:
           Use Default: 'theme[oro_customer___user_menu_show_items][use_parent_scope_value]'
           User Menu: 'theme[oro_customer___user_menu_show_items][value]'
+    Theme Templates Form:
+      selector: 'form[name="theme"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Theme: 'theme[oro_frontend___frontend_theme][value]'
+          Use Default: 'theme[oro_frontend___frontend_theme][use_parent_scope_value]'
     Popup User Menu trigger:
       selector: '.topbar-customer-menu .topbar-customer-menu__trigger'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Popup User Menu:
       selector: '.topbar-customer-menu .topbar-customer-menu-list'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Preferred Localization:
+      selector: '[name="oro_customer_customer_user[preferredLocalization]"]'
 
     Popup User Menu Link Users:
       selector:
@@ -131,11 +154,9 @@ oro_behat_extension:
 
     Configuration:
       selector: '[title="Organization Configuration"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     FrontendGridColumnManagerButton:
       selector: 'div.datagrid-manager.dropdown a'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     FrontendGridColumnManager:
       selector: 'div.datagrid-manager div.dropdown-menu'
@@ -145,7 +166,7 @@ oro_behat_extension:
       selector: '#address-book .list-item.map-item button[title="Edit"]'
 
     Delete Address Button:
-      selector: '#address-book .list-item.map-item button[title="Remove"]'
+      selector: '#address-book .map-item button[title="Remove"]'
 
     Item Edit Button:
       selector:
@@ -156,6 +177,11 @@ oro_behat_extension:
       selector:
         type: xpath
         locator: '//button[contains(@class, "item-remove-button")]'
+
+    Edit User Address:
+      selector:
+        type: xpath
+        locator: '//button[@class=" address-list__button item-edit-button"]'
 
     Delete Address Button Edit Page:
       selector: '.oro-address-collection button.removeRow'
@@ -168,19 +194,46 @@ oro_behat_extension:
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
 
     FrontendGridAddViewButton:
-      selector: 'button[data-text="Add"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+      selector: 'button[data-grid-view-update]'
+
+    FrontendGridViewName:
+      selector: '.frontend-grid-view-name'
 
     FrontendGridViewSetAsDefaultCheckbox:
-      selector: '.grid-views input[name="is_default"]+.custom-checkbox__icon'
+      selector: '.grid-views input[name="is_default"]'
+
+    FrontendGridViewSetAsDefaultButton:
+      selector: 'button[data-role="use_as_default"]'
+
+    FrontendGridViewDeleteButton:
+      selector: 'button[data-role="delete"]'
+
+    FrontendGridViewsItem:
+      selector: 'li.grid-views__item'
+
+    FrontendGridViewsItemLabel:
+      selector: 'label.checkbox-label'
+
+    Frontend Grid Filter Dropdown:
+      selector: 'div.filter-container div.datagrid-manager div.filter-default.dropdown-menu'
+
+    FrontendGridViewsDropdown:
+      selector: '.grid-views__dropdown.dropdown-menu'
 
     FrontendGridFilterManager:
-      selector: 'div.filter-container div.datagrid-manager div.dropdown-menu'
+      selector:
+        locator: '//div[contains(concat(" ", normalize-space(@class), " "), " filter-container ")]/div[contains(concat(" ", normalize-space(@class), " "), " datagrid-manager ")]/div[contains(concat(" ", normalize-space(@class), " "), " default ")]'
+        type: xpath
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\FrontendGridFilterManager
 
     FrontendGridFilterManagerButton:
-      selector: 'button.select-filter-widget'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+      selector: 'button.filters-manager-trigger'
+
+    FrontendGridFilterManagerButtonNone:
+      selector: '.ui-multiselect-all'
+
+    FrontendGridFilterManagerButtonAll:
+      selector: '.ui-multiselect-none'
 
     Customer User Form Admin:
       selector: '[id^="oro_customer_customer_user-uid"]'
@@ -188,10 +241,10 @@ oro_behat_extension:
       options:
         mapping:
           Administrator Role:
-           locator: '[id^="oro_customer_customer_user_roles_1-uid"]'
+           locator: '[id^="oro_customer_customer_user_userRoles_1-uid"]'
            type: css
           Buyer Role:
-           locator: '[id^="oro_customer_customer_user_roles_2-uid"]'
+           locator: '[id^="oro_customer_customer_user_userRoles_2-uid"]'
            type: css
 
     Customer User Address Form:
@@ -223,7 +276,7 @@ oro_behat_extension:
     Map Button:
       selector:
         type: xpath
-        locator: '//*[contains(@class, "nav-pills")]/descendant::a[contains(@title, "Map")]'
+        locator: '//*[contains(@class, "nav-pills")]/descendant::a[contains(@title, "Map") or contains(@title, "map")]'
 
     Map Popover:
       selector: '.map-popover'
@@ -242,18 +295,54 @@ oro_behat_extension:
       selector: 'label[for*="oro_customer_frontend_typed_address_primary"]'
 
     Create Address Form:
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
       selector:
         type: xpath
         locator: '//h1[contains(., "Create Address")]/ancestor::section/descendant::form'
+      options:
+        mapping:
+          Customer:
+            type: 'xpath'
+            locator: '//select[@name="oro_customer_frontend_typed_address[frontendOwner]"]'
+            element: Select2Entity
 
     Edit Profile Button:
-      selector: 'div.customer-profile__controls a[title="Edit"]'
+      selector: 'div.customer-profile__title-wrapper a:contains("Edit")'
 
     My Profile Menu Item:
       selector: 'li.primary-menu__item a:contains("My Profile")'
 
-    Account link:
-      selector: 'li.topbar-navigation__item a:contains("Account")'
+    Frontend Address Default Billing Checkbox Label:
+      selector:
+        locator: '//*[contains(@class,"checkbox-label") and contains(text(), "Default Billing")]'
+        type: xpath
+
+    Frontend Address Default Billing Checkbox:
+      selector: '[name$="[defaults][default][]"][value="billing"]'
+
+    Frontend Address Default Shipping Checkbox Label:
+      selector:
+        locator: '//*[contains(@class,"checkbox-label") and contains(text(), "Default Shipping")]'
+        type: xpath
+
+    Frontend Address Default Shipping Checkbox:
+      selector: '[name$="[defaults][default][]"][value="shipping"]'
+
+    Frontend Address Billing Checkbox Label:
+      selector:
+        locator: '//*[contains(@class,"checkbox-label") and contains(text(), "Billing")]'
+        type: xpath
+
+    Frontend Address Billing Checkbox:
+      selector: '[name$="[types][]"][value="billing"]'
+
+    Frontend Address Shipping Checkbox Label:
+      selector:
+        locator: '//*[contains(@class,"checkbox-label") and contains(text(), "Shipping")]'
+        type: xpath
+
+    Frontend Address Shipping Checkbox:
+      selector: '[name$="[types][]"][value="shipping"]'
 
     First Address Default Billing Checkbox:
         selector: '[name="oro_customer_type[addresses][0][defaults][default][]"][value="billing"]'
@@ -268,10 +357,71 @@ oro_behat_extension:
         selector: '[name="oro_customer_type[addresses][0][types][]"][value="shipping"]'
 
     Second Address Billing Checkbox:
-        selector: '[name="oro_customer_type[addresses][2][types][]"][value="billing"]'
+        selector: '[name="oro_customer_type[addresses][1][types][]"][value="billing"]'
 
     Second Address Shipping Checkbox:
-        selector: '[name="oro_customer_type[addresses][2][types][]"][value="shipping"]'
+        selector: '[name="oro_customer_type[addresses][1][types][]"][value="shipping"]'
+
+    New Address Default Billing Checkbox:
+        selector: '[name="oro_customer_typed_address[defaults][default][]"][value="billing"]'
+
+    New Address Billing Checkbox:
+        selector: '[name="oro_customer_typed_address[types][]"][value="billing"]'
+
+    New Address Default Shipping Checkbox:
+      selector: '[name="oro_customer_typed_address[defaults][default][]"][value="shipping"]'
+
+    New Address Shipping Checkbox:
+      selector: '[name="oro_customer_typed_address[types][]"][value="shipping"]'
+
+    Customer User First Address Billing Checkbox:
+      selector: '[name="oro_customer_customer_user[addresses][0][types][]"][value="billing"]'
+
+    Customer User First Address Shipping Checkbox:
+      selector: '[name="oro_customer_customer_user[addresses][0][types][]"][value="shipping"]'
+
+    Subsidiaries Grid:
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+      selector: 'div[data-page-component-name="children-by-customer-grid"]'
+
+    Enter The Shipping Address Manually For Checkout:
+      selector:
+        type: xpath
+        locator: '//h2[contains(.,"Checkout")]/parent::*[contains(@class,"role-capability")]//label[text()="Enter the shipping address manually"]//input[@type="checkbox"]'
+
+    Customer Import File:
+      selector: ".import-widget-content .tab-pane.active input[id^='oro_importexport_import_file']"
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\FileField
+
+    Cookies Banner Text Fallbacks:
+      selector:
+        type: xpath
+        locator: '//label[text()="Cookies Banner Text"]/../..//button[contains(@class, "fallback-status")]'
+
+    Cookies Banner Name English Use Default:
+      selector:
+        type: xpath
+        locator: '//input[@type="checkbox"][@name="customer_users[oro_cookie_consent___localized_banner_text][value][localizations][1][use_fallback]"]'
+
+    Cookies Banner Default Value:
+      selector:
+        type: xpath
+        locator: '//select[@name="customer_users[oro_cookie_consent___localized_banner_text][value][localizations][1][fallback]"][not(@disabled)]/../../div[contains(@class, "selector")]'
+
+    Cookies Banner Default Value Disabled:
+      selector:
+        type: xpath
+        locator: '//select[@name="customer_users[oro_cookie_consent___localized_banner_text][value][localizations][1][fallback]"][@disabled]/../../div[contains(@class, "selector")]'
+
+    Cookies Banner Name English:
+      selector:
+        type: xpath
+        locator: '//textarea[@name="customer_users[oro_cookie_consent___localized_banner_text][value][localizations][1][value]"][not(@disabled)]'
+
+    Cookies Banner Name English Disabled:
+      selector:
+        type: xpath
+        locator: '//textarea[@name="customer_users[oro_cookie_consent___localized_banner_text][value][localizations][1][value]"][@disabled]'
 
   pages:
     Customer User Role View:
@@ -282,6 +432,18 @@ oro_behat_extension:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserProfileUpdate
       route: 'oro_customer_frontend_customer_user_profile_update'
 
+    Customer User Login:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserLogin
+      route: 'oro_customer_customer_user_security_login'
+
+    Customer User Password Reset:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserPasswordReset
+      route: 'oro_customer_frontend_customer_user_password_reset'
+
+    Customer User Profile:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserProfile
+      route: 'oro_customer_frontend_customer_user_profile'
+
     Customer User Forgot Password:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserForgotPassword
       route: 'oro_customer_frontend_customer_user_reset_request'
@@ -289,3 +451,7 @@ oro_behat_extension:
     Customer User Index:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserIndex
       route: 'oro_customer_customer_user_index'
+
+    Customer User View:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserView
+      route: 'oro_customer_customer_user_view'

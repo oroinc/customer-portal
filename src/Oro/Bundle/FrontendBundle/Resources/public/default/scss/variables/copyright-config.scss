@@ -1,3 +1,7 @@
-$copyright-offset: 0;
-$copyright-inner-offset: $offset-y + 7px;
-$copyright-color: get-color('additional', 'middle');
+/* @theme: default; */
+
+$copyright-offset: 0 !default;
+$copyright-inner-offset: $offset-y + 7px !default;
+$copyright-color: get-color('additional', 'middle') !default;
+
+$copyright-border-top: 1px solid get-color('additional', 'light') !default;

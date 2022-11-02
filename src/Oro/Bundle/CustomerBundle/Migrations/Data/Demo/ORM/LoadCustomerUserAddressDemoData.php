@@ -3,10 +3,13 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 
+/**
+ * Loads customer user addresses.
+ */
 class LoadCustomerUserAddressDemoData extends AbstractLoadAddressDemoData implements DependentFixtureInterface
 {
     /**
@@ -51,7 +54,7 @@ class LoadCustomerUserAddressDemoData extends AbstractLoadAddressDemoData implem
             $userManager->updateUser($customerUser, false);
         }
 
-        $userManager->getStorageManager()->flush();
+        $manager->flush();
 
         fclose($handler);
     }

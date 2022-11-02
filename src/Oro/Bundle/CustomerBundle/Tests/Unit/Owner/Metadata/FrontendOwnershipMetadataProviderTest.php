@@ -2,10 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Owner\Metadata;
 
-use Doctrine\Common\Cache\CacheProvider;
+use Oro\Bundle\CacheBundle\Generator\UniversalCacheKeyGenerator;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\EntityBundle\ORM\EntityClassResolver;
 use Oro\Bundle\EntityConfigBundle\Config\Config;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
@@ -13,6 +14,8 @@ use Oro\Bundle\EntityConfigBundle\Config\Id\EntityConfigId;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
@@ -29,7 +32,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
     /** @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface */
     protected $tokenAccessor;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|CacheProvider */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|CacheInterface */
     protected $cache;
 
     /** @var FrontendOwnershipMetadataProvider */
@@ -40,12 +43,12 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
      */
     protected $container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->entityClassResolver = $this->createMock(EntityClassResolver::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
-        $this->cache = $this->createMock(CacheProvider::class);
+        $this->cache = $this->createMock(CacheInterface::class);
 
         $this->provider = new FrontendOwnershipMetadataProvider(
             [
@@ -59,7 +62,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetUserClass()
+    public function testGetUserClass(): void
     {
         $this->entityClassResolver->expects($this->exactly(2))
             ->method('getEntityClass')
@@ -73,7 +76,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('AcmeBundle\Entity\CustomerUser', $this->provider->getUserClass());
     }
 
-    public function testGetBusinessUnitClass()
+    public function testGetBusinessUnitClass(): void
     {
         $this->entityClassResolver->expects($this->exactly(2))
             ->method('getEntityClass')
@@ -87,7 +90,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('AcmeBundle\Entity\Customer', $this->provider->getBusinessUnitClass());
     }
 
-    public function testGetOrganizationClass()
+    public function testGetOrganizationClass(): void
     {
         $this->entityClassResolver->expects($this->never())
             ->method('getEntityClass');
@@ -95,7 +98,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->provider->getOrganizationClass());
     }
 
-    public function testGetMetadataWithoutCache()
+    public function testGetMetadataWithoutCache(): void
     {
         $config = new Config(new EntityConfigId('ownership', \stdClass::class));
         $config
@@ -114,7 +117,12 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
             ->with('ownership', \stdClass::class)
             ->willReturn($config);
 
-        $this->cache = null;
+        $this->cache->expects(self::once())
+            ->method('get')
+            ->willReturnCallback(function ($cacheKey, $callback) {
+                $item = $this->createMock(ItemInterface::class);
+                return $callback($item);
+            });
 
         $this->assertEquals(
             new FrontendOwnershipMetadata('USER', 'test_field', 'test_column', '', '', 'customer', 'customer_id'),
@@ -122,26 +130,19 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetMetadataUndefinedClassWithCache()
+    public function testGetMetadataUndefinedClassWithCache(): void
     {
-        $this->configManager->expects($this->once())
+        $this->configManager->expects($this->never())
             ->method('hasConfig')
             ->with('UndefinedClass')
             ->willReturn(false);
         $this->configManager->expects($this->never())
             ->method('getEntityConfig');
 
-        $this->cache->expects($this->at(0))
-            ->method('fetch')
-            ->with('UndefinedClass')
-            ->willReturn(false);
-        $this->cache->expects($this->at(2))
-            ->method('fetch')
+        $this->cache->expects($this->exactly(2))
+            ->method('get')
             ->with('UndefinedClass')
             ->willReturn(true);
-        $this->cache->expects($this->once())
-            ->method('save')
-            ->with('UndefinedClass', true);
 
         $metadata = new FrontendOwnershipMetadata();
         $providerWithCleanCache = clone $this->provider;
@@ -162,19 +163,20 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
      * @param object|null $user
      * @param bool $expectedResult
      */
-    public function testSupports($user, $expectedResult)
+    public function testSupports($user, $expectedResult): void
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')
             ->willReturn($user);
 
+        $this->tokenAccessor->expects($this->any())
+            ->method('getToken')
+            ->willReturn(new \stdClass());
+
         $this->assertEquals($expectedResult, $this->provider->supports());
     }
 
-    /**
-     * @return array
-     */
-    public function supportsDataProvider()
+    public function supportsDataProvider(): array
     {
         return [
             'incorrect user object' => [
@@ -192,16 +194,27 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    public function testSupportsWithAnonymousCustomerUserToken(): void
+    {
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn(null);
+
+        $this->tokenAccessor->expects($this->any())
+            ->method('getToken')
+            ->willReturn(new AnonymousCustomerUserToken(''));
+
+        $this->assertTrue($this->provider->supports());
+    }
+
     /**
      * @dataProvider owningEntityNamesDataProvider
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The $owningEntityNames must contains "business_unit" and "user" keys.
-     *
-     * @param array $owningEntityNames
      */
-    public function testInvalidOwningEntityNames(array $owningEntityNames)
+    public function testInvalidOwningEntityNames(array $owningEntityNames): void
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The $owningEntityNames must contains "business_unit" and "user" keys.');
+
         $provider = new FrontendOwnershipMetadataProvider(
             $owningEntityNames,
             $this->configManager,
@@ -212,10 +225,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
         $provider->getUserClass();
     }
 
-    /**
-     * @return array
-     */
-    public function owningEntityNamesDataProvider()
+    public function owningEntityNamesDataProvider(): array
     {
         return [
             [
@@ -241,7 +251,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
      * @param bool|null $hasOwner
      * @dataProvider getMaxAccessLevelDataProvider
      */
-    public function testGetMaxAccessLevel($maxAccessLevel, $accessLevel, $className = null, $hasOwner = null)
+    public function testGetMaxAccessLevel($maxAccessLevel, $accessLevel, $className = null, $hasOwner = null): void
     {
         if (null !== $hasOwner) {
             if ($hasOwner) {
@@ -251,7 +261,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
             }
 
             $this->cache->expects($this->any())
-                ->method('fetch')
+                ->method('get')
                 ->with($className)
                 ->willReturn($metadata);
         }
@@ -259,10 +269,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($maxAccessLevel, $this->provider->getMaxAccessLevel($accessLevel, $className));
     }
 
-    /**
-     * @return array
-     */
-    public function getMaxAccessLevelDataProvider()
+    public function getMaxAccessLevelDataProvider(): array
     {
         return [
             'without class' => [
@@ -305,7 +312,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testWarmUpCache()
+    public function testWarmUpCache(): void
     {
         $config1 = new Config(new EntityConfigId('ownership', 'AcmeBundle\Entity\CustomerUser'));
         $config2 = new Config(new EntityConfigId('ownership', 'AcmeBundle\Entity\Customer'));
@@ -333,8 +340,8 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
             ->willReturnMap($configMap);
 
         $this->cache->expects($this->once())
-            ->method('fetch')
-            ->with($this->equalTo('AcmeBundle\Entity\Customer'));
+            ->method('get')
+            ->with($this->equalTo(UniversalCacheKeyGenerator::normalizeCacheKey('AcmeBundle\Entity\Customer')));
 
         $this->provider->warmUpCache();
     }

@@ -1,0 +1,56 @@
+data:
+    type: customers
+    attributes:
+        name: 'New Customer'
+    relationships:
+        parent:
+            data:
+                type: customers
+                id: 'parent-in-includes'
+        owner:
+            data:
+                type: users
+                id: '<toString(@user->id)>'
+        organization:
+            data:
+                type: organizations
+                id: '<toString(@organization->id)>'
+        salesRepresentatives:
+            data:
+                -
+                    type: users
+                    id: '<toString(@user->id)>'
+        internal_rating:
+            data:
+                type: customerratings
+                id: '<toString(@internal_rating.1 of 5->id)>'
+        group:
+            data:
+                type: customergroups
+                id: '<toString(@customer_group.group1->id)>'
+included:
+    -   type: customers
+        id: 'parent-in-includes'
+        attributes:
+            name: 'New Parent Customer'
+        relationships:
+            owner:
+                data:
+                    type: users
+                    id: '<toString(@user->id)>'
+            organization:
+                data:
+                    type: organizations
+                    id: '<toString(@organization->id)>'
+            salesRepresentatives:
+                data:
+                    -   type: users
+                        id: '<toString(@user->id)>'
+            internal_rating:
+                data:
+                    type: customerratings
+                    id: '<toString(@internal_rating.1 of 5->id)>'
+            group:
+                data:
+                    type: customergroups
+                    id: '<toString(@customer_group.group1->id)>'

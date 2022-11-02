@@ -1,12 +1,39 @@
 /* @theme: default; */
 
 .primary-menu {
+    @include list-normalize();
+
+    display: flex;
+
+    &__link {
+        color: $primary-menu-link-color;
+
+        @include element-state('hover') {
+            color: $primary-menu-link-color-hover;
+        }
+
+        &--current {
+            color: $primary-menu-link-color-current;
+
+            @include element-state('hover') {
+                color: $primary-menu-link-color-current;
+            }
+        }
+    }
+
     &__item {
         position: relative;
+        flex: 0 1 auto;
+
+        padding: $primary-menu-item-inner-offset;
+
+        .primary-menu {
+            display: none;
+        }
 
         &--current,
         &.active {
-            &:before {
+            &::before {
                 top: 10px;
                 left: 0;
 
@@ -14,9 +41,23 @@
                 height: 7px;
 
                 border-radius: 50%;
-                background: get-color('primary', 'base');
+                background: $primary-menu-item-active-background;
 
                 @include after();
+            }
+
+            > .primary-menu__link {
+                font-weight: $primary-menu-link-font-weight-current;
+            }
+
+            > .primary-menu {
+                display: block;
+            }
+        }
+
+        &--offset-m {
+            &:not(:first-child) {
+                margin-left: $offset-x-m;
             }
         }
     }
@@ -27,10 +68,14 @@
         }
     }
 
+    &--vertical {
+        display: block;
+    }
+
     @include fullscreen-mode {
         .primary-menu__item {
             border-top: 0;
-            border-bottom: 1px solid get-color('additional', 'light');
+            border-bottom: $primary-menu-fullscreen-mode-item-border;
         }
 
         .primary-menu__link {
@@ -43,14 +88,19 @@
 
 @include breakpoint('tablet') {
     .primary-menu {
+        &__link {
+            display: block;
+            padding: $primary-menu-link-inner-offset-tablet;
+        }
+
         &__item {
             padding: $primary-menu-item-inner-offset-tablet;
 
-            border-top: 1px solid get-color('additional', 'light');
+            border-top: $primary-menu-tablet-item-border;
 
             &--current,
             &.active {
-                &:before {
+                &::before {
                     content: none;
                 }
 
@@ -58,11 +108,6 @@
                     color: inherit;
                 }
             }
-        }
-
-        &__link {
-            display: block;
-            padding: $primary-menu-link-inner-offset-tablet;
         }
 
         .fa-minus,

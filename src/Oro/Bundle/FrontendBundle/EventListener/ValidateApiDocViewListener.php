@@ -36,11 +36,6 @@ class ValidateApiDocViewListener extends BaseValidateApiDocViewListener
         $this->frontendDefaultView = $frontendDefaultView;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return bool
-     */
     protected function isValidView(Request $request): bool
     {
         if (!parent::isValidView($request)) {
@@ -59,11 +54,6 @@ class ValidateApiDocViewListener extends BaseValidateApiDocViewListener
         return true;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return string|null
-     */
     protected function getDefaultView(Request $request): ?string
     {
         if ($this->isFrontendRequest($request)) {
@@ -73,13 +63,12 @@ class ValidateApiDocViewListener extends BaseValidateApiDocViewListener
         return parent::getDefaultView($request);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return bool
-     */
     protected function isFrontendRequest(Request $request): bool
     {
-        return RestDocUrlGenerator::ROUTE === $request->attributes->get('_route');
+        $route = $request->attributes->get('_route');
+
+        return
+            RestDocUrlGenerator::ROUTE === $route
+            || RestDocUrlGenerator::RESOURCE_ROUTE === $route;
     }
 }

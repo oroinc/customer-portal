@@ -1,15 +1,19 @@
 <% if (style === 'validation') { %>
-    <span class="validation-<%= type %>"><%= message %></span>
+    <span class="validation-<%- type %>"><%- message %></span>
 <% } else { %>
     <% iconClass = 'fa-check' %>
     <% if (type === "error" || type === "warning") {
     iconClass = 'fa-exclamation-triangle';
     }%>
-    <div class="notification-flash--<%= type %> alert" role="alert">
+    <div class="notification-flash--<%- type %> alert" role="alert">
         <div class="notification-flash__badge" aria-hidden="true">
-            <span class="<%= iconClass %>"></span>
+            <span class="<%- iconClass %>"></span>
         </div>
-        <button class="notification-flash__close" data-dismiss="alert" aria-label="<%- _.__('Close') %>"><span class="fa-close" aria-hidden="true"></span></button>
         <div class="notification-flash__text"><%= message %></div>
+        <button class="notification-flash__close" data-dismiss="alert"
+                title="<%- _.__('Close') %>" aria-label="<%- _.__('oro_frontend.notification.close.aria_label') %>"
+        >
+            <span class="fa-close" aria-hidden="true"></span>
+        </button>
     </div>
 <% } %>

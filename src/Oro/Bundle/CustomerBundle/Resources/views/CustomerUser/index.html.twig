@@ -1,9 +1,15 @@
-{% extends 'OroUIBundle:actions:index.html.twig' %}
-{% import 'OroUIBundle::macros.html.twig' as UI %}
+{% extends '@OroUI/actions/index.html.twig' %}
+{% import '@OroUI/macros.html.twig' as UI %}
 {% set gridName = 'customer-customer-user-grid' %}
 {% set pageTitle = 'oro.customer.customeruser.entity_plural_label'|trans %}
 
 {% block navButtons %}
+    {% import '@OroUI/macros.html.twig' as UI %}
+
+    {% include '@OroImportExport/ImportExport/buttons_from_configuration.html.twig' with {
+        'alias': 'oro_customer_user'
+    } %}
+
     {% if is_granted('oro_customer_customer_user_create') %}
         <div class="btn-group">
             {{ UI.addButton({
@@ -12,9 +18,4 @@
             }) }}
         </div>
     {% endif %}
-
-    {% include 'OroImportExportBundle:ImportExport:buttons_from_configuration.html.twig' with {
-        'alias': 'oro_customer_user'
-    } %}
-
 {% endblock %}

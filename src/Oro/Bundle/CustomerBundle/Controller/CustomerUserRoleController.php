@@ -3,21 +3,23 @@
 namespace Oro\Bundle\CustomerBundle\Controller;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateHandler;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
-use Oro\Bundle\UserBundle\Model\PrivilegeCategory;
+use Oro\Bundle\UIBundle\Route\Router;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCapabilityProvider;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * CRUD controller for CustomerUserRole entity
  */
-class CustomerUserRoleController extends Controller
+class CustomerUserRoleController extends AbstractController
 {
     /**
      * @Route("/", name="oro_customer_customer_user_role_index")
@@ -29,7 +31,7 @@ class CustomerUserRoleController extends Controller
     public function indexAction()
     {
         return [
-            'entity_class' => $this->container->getParameter('oro_customer.entity.customer_user_role.class')
+            'entity_class' => CustomerUserRole::class
         ];
     }
 
@@ -51,11 +53,11 @@ class CustomerUserRoleController extends Controller
         return [
             'entity' => $role,
             'tabsOptions' => [
-                'data' => $this->getTabListOptions()
+                'data' => $this->getRolePrivilegeCategoryProvider()->getTabs()
             ],
             'capabilitySetOptions' => [
                 'data' => $this->getRolePrivilegeCapabilityProvider()->getCapabilities($role),
-                'tabIds' => $this->getRolePrivilegeCategoryProvider()->getTabList(),
+                'tabIds' => $this->getRolePrivilegeCategoryProvider()->getTabIds(),
                 'readonly' => true
             ]
         ];
@@ -63,7 +65,7 @@ class CustomerUserRoleController extends Controller
 
     /**
      * @Route("/create", name="oro_customer_customer_user_role_create")
-     * @Template("OroCustomerBundle:CustomerUserRole:update.html.twig")
+     * @Template("@OroCustomer/CustomerUserRole/update.html.twig")
      * @Acl(
      *      id="oro_customer_customer_user_role_create",
      *      type="entity",
@@ -76,9 +78,7 @@ class CustomerUserRoleController extends Controller
      */
     public function createAction(Request $request)
     {
-        $roleClass = $this->container->getParameter('oro_customer.entity.customer_user_role.class');
-
-        return $this->update($request, new $roleClass());
+        return $this->update(new CustomerUserRole(), $request);
     }
 
     /**
@@ -97,37 +97,37 @@ class CustomerUserRoleController extends Controller
      */
     public function updateAction(Request $request, CustomerUserRole $role)
     {
-        return $this->update($request, $role);
+        return $this->update($role, $request);
     }
 
     /**
-     * @param Request $request
      * @param CustomerUserRole $role
+     * @param Request $request
      * @return array|RedirectResponse
      */
-    protected function update(Request $request, CustomerUserRole $role)
+    protected function update(CustomerUserRole $role, Request $request)
     {
-        $handler = $this->get('oro_customer.form.handler.update_customer_user_role');
+        $handler = $this->get(CustomerUserRoleUpdateHandler::class);
         $handler->createForm($role);
         $isWidgetContext = (bool)$request->get('_wid', false);
 
         if ($handler->process($role) && !$isWidgetContext) {
-            $this->get('session')->getFlashBag()->add(
+            $request->getSession()->getFlashBag()->add(
                 'success',
-                $this->get('translator')->trans('oro.customer.controller.customeruserrole.saved.message')
+                $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruserrole.saved.message')
             );
 
-            return $this->get('oro_ui.router')->redirect($role);
+            return $this->get(Router::class)->redirect($role);
         } else {
             return [
                 'entity' => $role,
                 'form' => $handler->createView(),
                 'tabsOptions' => [
-                    'data' => $this->getTabListOptions()
+                    'data' => $this->getRolePrivilegeCategoryProvider()->getTabs()
                 ],
                 'capabilitySetOptions' => [
                     'data' => $this->getRolePrivilegeCapabilityProvider()->getCapabilities($role),
-                    'tabIds' => $this->getRolePrivilegeCategoryProvider()->getTabList()
+                    'tabIds' => $this->getRolePrivilegeCategoryProvider()->getTabIds()
                 ],
                 'isWidgetContext' => $isWidgetContext,
                 'savedId' => $role->getId(),
@@ -135,35 +135,30 @@ class CustomerUserRoleController extends Controller
         }
     }
 
-    /**
-     * @return RolePrivilegeCategoryProvider
-     */
-    protected function getRolePrivilegeCategoryProvider()
+    protected function getRolePrivilegeCategoryProvider(): RolePrivilegeCategoryProvider
     {
-        return $this->get('oro_user.provider.role_privilege_category_provider');
+        return $this->get(RolePrivilegeCategoryProvider::class);
+    }
+
+    protected function getRolePrivilegeCapabilityProvider(): RolePrivilegeCapabilityProvider
+    {
+        return $this->get(RolePrivilegeCapabilityProvider::class);
     }
 
     /**
-     * @return RolePrivilegeCapabilityProvider
+     * {@inheritdoc}
      */
-    protected function getRolePrivilegeCapabilityProvider()
+    public static function getSubscribedServices()
     {
-        return $this->get('oro_user.provider.role_privilege_capability_provider_commerce');
-    }
-
-    /**
-     * @return array
-     */
-    protected function getTabListOptions()
-    {
-        return array_map(
-            function (PrivilegeCategory $tab) {
-                return [
-                    'id' => $tab->getId(),
-                    'label' => $this->get('translator')->trans($tab->getLabel())
-                ];
-            },
-            $this->getRolePrivilegeCategoryProvider()->getTabbedCategories()
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                TranslatorInterface::class,
+                Router::class,
+                RolePrivilegeCategoryProvider::class,
+                RolePrivilegeCapabilityProvider::class,
+                CustomerUserRoleUpdateHandler::class,
+            ]
         );
     }
 }

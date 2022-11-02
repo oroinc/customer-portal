@@ -62,7 +62,7 @@ Feature: Registration Link Visibility
     And go to System/ Websites
     And click "Configuration" on row "Default" in grid
     And I follow "Commerce/Customer/Customer Users" on configuration sidebar
-    And uncheck "Use System" for "Show Registration Link" field
+    And uncheck "Use Organization" for "Show Registration Link" field
     And fill in "Show Registration Link" with "false"
     And submit form
     And I should see "Configuration saved" flash message

@@ -2,11 +2,16 @@
 
 namespace Oro\Bundle\WebsiteBundle\Manager;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\MaintenanceBundle\Maintenance\Mode;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
+/**
+ * Basic website manager.
+ * Provides current website.
+ */
 class WebsiteManager
 {
     /**
@@ -25,13 +30,18 @@ class WebsiteManager
     protected $currentWebsite;
 
     /**
-     * @param ManagerRegistry $managerRegistry
-     * @param FrontendHelper $frontendHelper
+     * @var Mode
      */
-    public function __construct(ManagerRegistry $managerRegistry, FrontendHelper $frontendHelper)
-    {
+    protected $maintenance;
+
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        FrontendHelper $frontendHelper,
+        Mode $maintenance
+    ) {
         $this->managerRegistry = $managerRegistry;
         $this->frontendHelper = $frontendHelper;
+        $this->maintenance = $maintenance;
     }
 
     /**
@@ -39,11 +49,16 @@ class WebsiteManager
      */
     public function getCurrentWebsite()
     {
-        if (!$this->frontendHelper->isFrontendRequest()) {
-            return null;
+        if (!$this->currentWebsite && !$this->maintenance->isOn()) {
+            $this->currentWebsite = $this->getResolvedWebsite();
         }
 
-        return $this->getResolvedWebsite();
+        return $this->currentWebsite;
+    }
+
+    public function setCurrentWebsite(?Website $currentWebsite): void
+    {
+        $this->currentWebsite = $currentWebsite;
     }
 
     /**
@@ -69,11 +84,11 @@ class WebsiteManager
      */
     protected function getResolvedWebsite()
     {
-        if (!$this->currentWebsite) {
-            $this->currentWebsite = $this->getDefaultWebsite();
+        if (!$this->frontendHelper->isFrontendRequest()) {
+            return null;
         }
 
-        return $this->currentWebsite;
+        return $this->getDefaultWebsite();
     }
 
     /**

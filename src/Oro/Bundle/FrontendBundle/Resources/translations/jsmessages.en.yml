@@ -9,19 +9,24 @@ oro_frontend:
         save_flash_success: Saved successfully
     settings:
         title: "Manage Grid"
+        title_aria_label: "Expand or Collapse Grid Settings"
+        close:
+            aria_label: "Close the Manage Grid drop-down"
 
     datagrid:
         pagination:
             totalRecords:
-                totalRecordsShort: "{{ totalRecords }} items"
-                products: "{{ totalRecords }} Total Products"
-                companyAddresses: "{{ totalRecords }} Total Company Addresses"
-                addresses: "{{ totalRecords }} Total Addresses"
-                users: "{{ totalRecords }} Total Users"
-                roles: "{{ totalRecords }} Total Roles"
-                rfq: "{{ totalRecords }} Total Requests For Quote"
-                orders: "{{ totalRecords }} Total Orders"
-                quotes: "{{ totalRecords }} Total Quotes"
+                totalRecordsShort: "{1}{{ totalRecords }} item|]1,Inf[{{ totalRecords }} items"
+                products: "{1}{{ totalRecords }} Total Product|]1,Inf[{{ totalRecords }} Total Products"
+                companyAddresses: "{1}{{ totalRecords }} Total Company Address|]1,Inf[{{ totalRecords }} Total Company Addresses"
+                addresses: "{1}{{ totalRecords }} Total Address|]1,Inf[{{ totalRecords }} Total Addresses"
+                users: "{1}{{ totalRecords }} Total User|]1,Inf[{{ totalRecords }} Total Users"
+                roles: "{1}{{ totalRecords }} Total Role|]1,Inf[{{ totalRecords }} Total Roles"
+                rfq: "{1}{{ totalRecords }} Total Request For Quote|]1,Inf[{{ totalRecords }} Total Requests For Quote"
+                orders: "{1}{{ totalRecords }} Total Order|]1,Inf[{{ totalRecords }} Total Orders"
+                quotes: "{1}{{ totalRecords }} Total Quote|]1,Inf[{{ totalRecords }} Total Quotes"
+                shopping_lists: "{1}{{ totalRecords }} Total Shopping List|]1,Inf[{{ totalRecords }} Total Shopping Lists"
+                shopping_list_line_items: "{1}{{ totalRecords }} Total Item|]1,Inf[{{ totalRecords }} Total Items"
         manage_grid: 'Manage grid'
         requires:
             data: 'Data attribute "data-server-render" must be defined'
@@ -29,18 +34,30 @@ oro_frontend:
         no:
             results: "No {{ entityHint }} were found to match your search. Try modifying your search criteria..."
 
+    dialog:
+        cancel.label: "Cancel"
+        accept.label: "Accept"
 
     filter_manager:
         checkAll: 'Select All'
         unCheckAll: 'Deselect All'
         label: "Manage Filters"
         placeholder: "Search Filters"
+        searchAriaLabel: "Search Filters"
         title: 'Filters Manager'
         button_label: 'Manage Filters'
+        button_aria_label: 'Expand or Collapse Filter Management drop-down'
+        listAriaLabel: 'Manage filters values'
+        close:
+            aria_label: 'Close the Filter Management drop-down'
 
     filters:
-        apply: 'Apply'
         apply_all: 'Apply Filters'
+        aria_label: 'Expand or Collapse Filters'
+        no_found: 'No matches found'
+        multiselect:
+            placeholder: 'Search'
+            aria_label: 'Search filter values'
 
     datagrid_views:
         all: "All "
@@ -48,16 +65,51 @@ oro_frontend:
         save: "Save"
         cancel: "Cancel"
         save_as_new: "Save As New"
+        add.aria_label: "Add New Grid View"
+        cancel.aria_label: "Cancel Adding New Grid View"
+        input.aria_label: "New Grid View Name"
+        save_as_new.aria_label: "Save the Current Grid View as New"
         set_as_default: "Set as Default"
+        set_as_default.aria_label: "Set New Grid View as Default"
         placeholder: "Enter new list name"
+        toggleAriaLabel: "Manage grid views. Current view is {{ choiceName }}"
+        choice:
+            aria_text: "Set as active {{ choiceName }} view"
 
     fullscreen_popup:
         actions:
             labels:
                 close: 'Close'
+    gallery_popup:
+        label: 'Gallery pop up'
 
     rows_collapse:
         trigger:
             label:
                 normal: "Show Less Items"
                 truncated: "And {{ hiddenRows }} more items"
+
+    notification:
+        close:
+            aria_label: Close the Notification
+
+    btn:
+        show_all:
+            aria_label: 'Show all added products on one page'
+            label: 'Show All'
+        show_less:
+            aria_label: 'Show all added products with pagination'
+            label: 'Show Less'
+        group_similar:
+            aria_label: 'Group similar products'
+            label: 'Group Similar'
+        ungroup_similar:
+            aria_label: 'Show similar products separately'
+            label: 'Ungroup Similar'
+
+    dropdown:
+        quick_search:
+            clear: 'Clear field'
+            placeholder: 'Quick Search'
+            aria_label: 'Search shopping lists'
+            no_match: 'No matches found'

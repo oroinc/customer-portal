@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Functional\Controller\Workflow;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Oro\Bundle\FrontendBundle\Tests\Functional\DataFixtures\LoadWorkflowDefinitions;
 use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData;
 use Oro\Bundle\TestFrameworkBundle\Entity\WorkflowAwareEntity;
@@ -14,33 +14,24 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class WidgetControllerTest extends WebTestCase
 {
-    /**
-     * @var EntityManager
-     */
+    /** @var EntityManagerInterface */
     private $entityManager;
 
-    /**
-     * @var WorkflowManager
-     */
+    /** @var WorkflowManager */
     private $workflowManager;
 
-    /**
-     * @var WorkflowAwareEntity
-     */
+    /** @var WorkflowAwareEntity */
     private $entity;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient(
             [],
             $this->generateBasicAuthHeader(LoadCustomerUserData::AUTH_USER, LoadCustomerUserData::AUTH_PW)
         );
-
-        $this->loadFixtures([
-            LoadWorkflowDefinitions::class,
-        ]);
-
         $this->client->useHashNavigation(true);
+        $this->loadFixtures([LoadWorkflowDefinitions::class]);
+
         $this->entityManager = $this->client->getContainer()->get('doctrine')
             ->getManagerForClass(WorkflowAwareEntity::class);
         $this->workflowManager = $this->client->getContainer()->get('oro_workflow.manager');
@@ -68,7 +59,7 @@ class WidgetControllerTest extends WebTestCase
         $html = $crawler->html();
 
         $this->assertNotEmpty($html);
-        $this->assertContains('oro.testframework.workflowawareentity.name.label', $html);
+        self::assertStringContainsString('oro.testframework.workflowawareentity.name.label', $html);
 
         $workflowItem = new WorkflowItem();
         $workflowItem->setEntityId($this->entity->getId());
@@ -108,7 +99,7 @@ class WidgetControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($response, 200);
         $html = $crawler->html();
         $this->assertNotEmpty($html);
-        $this->assertContains('oro.testframework.workflowawareentity.name.label', $html);
+        self::assertStringContainsString('oro.testframework.workflowawareentity.name.label', $html);
         $this->assertTransitionFormSubmit(
             $crawler,
             $workflowItem,
@@ -117,18 +108,12 @@ class WidgetControllerTest extends WebTestCase
         );
     }
 
-    /**
-     * @param Crawler $crawler
-     * @param WorkflowItem $workflowItem
-     * @param string $dataAttribute
-     * @param array $data
-     */
-    protected function assertTransitionFormSubmit(
+    private function assertTransitionFormSubmit(
         Crawler $crawler,
         WorkflowItem $workflowItem,
-        $dataAttribute,
+        string $dataAttribute,
         array $data = []
-    ) {
+    ): void {
         $form = $crawler->selectButton('Submit')->form($data);
 
         $this->client->followRedirects(true);
@@ -143,10 +128,7 @@ class WidgetControllerTest extends WebTestCase
         $this->assertInstanceOf(WorkflowAwareEntity::class, $workflowItemNew->getData()->get($dataAttribute));
     }
 
-    /**
-     * @return WorkflowAwareEntity
-     */
-    protected function createNewEntity()
+    private function createNewEntity(): WorkflowAwareEntity
     {
         $testEntity = new WorkflowAwareEntity();
         $testEntity->setName('test_' . uniqid('test', true));
@@ -156,16 +138,9 @@ class WidgetControllerTest extends WebTestCase
         return $testEntity;
     }
 
-    /**
-     * @param WorkflowAwareEntity $entity
-     * @param $workflowName
-     *
-     * @return null|WorkflowItem
-     */
-    protected function getWorkflowItem(WorkflowAwareEntity $entity, $workflowName)
+    private function getWorkflowItem(WorkflowAwareEntity $entity, string $workflowName): WorkflowItem
     {
-        return $this->getContainer()
-            ->get('oro_workflow.manager')
+        return $this->getContainer()->get('oro_workflow.manager')
             ->getWorkflowItem($entity, $workflowName);
     }
 }

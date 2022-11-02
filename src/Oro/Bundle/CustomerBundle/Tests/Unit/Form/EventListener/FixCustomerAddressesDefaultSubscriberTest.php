@@ -1,24 +1,20 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener;
+namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\EventListener;
 
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Form\EventListener\FixCustomerAddressesDefaultSubscriber;
+use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
 class FixCustomerAddressesDefaultSubscriberTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var FixCustomerAddressesDefaultSubscriber
-     */
-    protected $subscriber;
+    /** @var FixCustomerAddressesDefaultSubscriber */
+    private $subscriber;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->subscriber = new FixCustomerAddressesDefaultSubscriber('frontendOwner.addresses');
     }
@@ -33,11 +29,8 @@ class FixCustomerAddressesDefaultSubscriberTest extends \PHPUnit\Framework\TestC
 
     /**
      * @dataProvider postSubmitDataProvider
-     * @param array $allAddresses
-     * @param $formAddressKey
-     * @param array $expectedAddressesData
      */
-    public function testPostSubmit(array $allAddresses, $formAddressKey, array $expectedAddressesData)
+    public function testPostSubmit(array $allAddresses, string $formAddressKey, array $expectedAddressesData)
     {
         // Set owner for all addresses
         $customer = new Customer();
@@ -45,14 +38,10 @@ class FixCustomerAddressesDefaultSubscriberTest extends \PHPUnit\Framework\TestC
             $customer->addAddress($address);
         }
 
-        $event = $this->getMockBuilder('Symfony\Component\Form\FormEvent')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $event = $this->createMock(FormEvent::class);
         $event->expects($this->once())
             ->method('getData')
-            ->will($this->returnValue($allAddresses[$formAddressKey]));
+            ->willReturn($allAddresses[$formAddressKey]);
 
         $this->subscriber->postSubmit($event);
 
@@ -69,10 +58,7 @@ class FixCustomerAddressesDefaultSubscriberTest extends \PHPUnit\Framework\TestC
         }
     }
 
-    /**
-     * @return array
-     */
-    public function postSubmitDataProvider()
+    public function postSubmitDataProvider(): array
     {
         $billing = new AddressType(AddressType::TYPE_BILLING);
         $shipping = new AddressType(AddressType::TYPE_SHIPPING);
@@ -80,9 +66,9 @@ class FixCustomerAddressesDefaultSubscriberTest extends \PHPUnit\Framework\TestC
         return [
             'default' => [
                 'allAddresses' => [
-                    'foo' => $this->createAddress()->addType($billing)->setDefaults([$billing]),
-                    'bar' => $this->createAddress()->addType($billing)->setDefaults([$billing]),
-                    'baz' => $this->createAddress()->addType($billing)->addType($shipping)->setDefaults([
+                    'foo' => (new CustomerAddress())->addType($billing)->setDefaults([$billing]),
+                    'bar' => (new CustomerAddress())->addType($billing)->setDefaults([$billing]),
+                    'baz' => (new CustomerAddress())->addType($billing)->addType($shipping)->setDefaults([
                             $billing,
                             $shipping
                         ]),
@@ -96,7 +82,7 @@ class FixCustomerAddressesDefaultSubscriberTest extends \PHPUnit\Framework\TestC
             ],
             'change_default_after_remove' => [
                 'allAddresses' => [
-                    'foo' => $this->createAddress()->addType($billing)->setDefaults([$billing])->removeType($billing),
+                    'foo' => (new CustomerAddress())->addType($billing)->setDefaults([$billing])->removeType($billing),
                 ],
                 'formAddressKey' => 'foo',
                 'expectedAddressesData' => [
@@ -104,13 +90,5 @@ class FixCustomerAddressesDefaultSubscriberTest extends \PHPUnit\Framework\TestC
                 ]
             ],
         ];
-    }
-
-    /**
-     * @return CustomerAddress
-     */
-    protected function createAddress()
-    {
-        return new CustomerAddress();
     }
 }

@@ -2,25 +2,23 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Extension;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\ProductBundle\Form\Type\ProductSelectType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+/**
+ * Substitutes "grid_name" option if {@see \Oro\Bundle\ProductBundle\Form\Type\ProductSelectType} form
+ * is used on the storefront.
+ */
 class FrontendProductSelectExtension extends AbstractTypeExtension
 {
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $tokenStorage;
+    /** @var FrontendHelper */
+    private $frontendHelper;
 
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     */
-    public function __construct(TokenStorageInterface $tokenStorage)
+    public function __construct(FrontendHelper $frontendHelper)
     {
-        $this->tokenStorage = $tokenStorage;
+        $this->frontendHelper = $frontendHelper;
     }
 
     /**
@@ -28,8 +26,7 @@ class FrontendProductSelectExtension extends AbstractTypeExtension
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $token = $this->tokenStorage->getToken();
-        if ($token && $token->getUser() instanceof CustomerUser) {
+        if ($this->frontendHelper->isFrontendRequest()) {
             $resolver->setDefault('grid_name', 'products-select-grid-frontend');
         }
     }
@@ -37,8 +34,8 @@ class FrontendProductSelectExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function getExtendedType()
+    public static function getExtendedTypes(): iterable
     {
-        return ProductSelectType::class;
+        return [ProductSelectType::class];
     }
 }

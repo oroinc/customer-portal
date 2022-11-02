@@ -2,24 +2,26 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Functional\Controller;
 
+use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
+use Oro\Bundle\ProductBundle\Tests\Functional\DataFixtures\LoadProductData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class FrontendControllerTest extends WebTestCase
 {
-    const FRONTEND_THEME_CONFIG_KEY = 'oro_frontend.frontend_theme';
+    use ConfigManagerAwareTestTrait;
 
-    protected function setUp()
+    private const FRONTEND_THEME_CONFIG_KEY = 'oro_frontend.frontend_theme';
+
+    protected function setUp(): void
     {
         $this->initClient();
         $this->client->useHashNavigation(true);
         $this->setDefaultTheme();
 
-        $this->loadFixtures([
-            'Oro\Bundle\ProductBundle\Tests\Functional\DataFixtures\LoadProductData',
-        ]);
+        $this->loadFixtures([LoadProductData::class]);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->setDefaultTheme();
     }
@@ -27,21 +29,20 @@ class FrontendControllerTest extends WebTestCase
     public function testIndexPage()
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_frontend_root'));
-        $this->assertNotContains($this->getBackendPrefix(), $crawler->html());
+        self::assertStringNotContainsString($this->getBackendPrefix(), $crawler->html());
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
     }
 
     public function testThemeSwitch()
     {
         // Switch to layout theme
-        $configManager = $this->getContainer()->get('oro_config.manager');
         $layoutTheme = 'default';
         $this->setTheme($layoutTheme);
 
         $this->client->request('GET', $this->getUrl('oro_frontend_root'));
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
 
         // Check that backend theme was not affected
         $crawler = $this->client->request(
@@ -58,41 +59,25 @@ class FrontendControllerTest extends WebTestCase
 
         $this->client->request('GET', $this->getUrl('oro_frontend_root'));
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
     }
 
-    /**
-     * @return string
-     */
-    protected function getBackendPrefix()
+    private function getBackendPrefix(): string
     {
-        return $this->getContainer()->getParameter('web_backend_prefix');
+        return self::getContainer()->getParameter('web_backend_prefix');
     }
 
-    /**
-     * @param string $theme
-     */
-    protected function setTheme($theme)
+    private function setTheme(string $theme): void
     {
-        $configManager = $this->getContainer()->get('oro_config.manager');
+        $configManager = self::getConfigManager();
         $configManager->set(self::FRONTEND_THEME_CONFIG_KEY, $theme);
         $configManager->flush();
     }
 
-    protected function setDefaultTheme()
+    private function setDefaultTheme(): void
     {
-        $configManager = $this->getContainer()->get('oro_config.manager');
+        $configManager = self::getConfigManager();
         $configManager->reset(self::FRONTEND_THEME_CONFIG_KEY);
         $configManager->flush();
-    }
-
-    public function testExceptionAction()
-    {
-        $params = ['code' => 403, 'text' => 'you are not welcome here'];
-        $crawler = $this->client->request('GET', $this->getUrl('oro_frontend_exception', $params));
-
-        $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 403);
-        $this->assertContains('you are not welcome here', $crawler->html());
     }
 }

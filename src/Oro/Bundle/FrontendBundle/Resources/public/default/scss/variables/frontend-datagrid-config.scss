@@ -5,21 +5,23 @@ $frontend-datagrid-responsive-header-tablet-display: none !default;
 $frontend-datagrid-responsive-body-tablet-display: block !default;
 $frontend-datagrid-responsive-body-tablet-disabled-display: none !default;
 
-$frontend-datagrid-responsive-row-tablet-column-count: 3 !default;
-$frontend-datagrid-responsive-row-tablet-column-width: 200px !default;
 $frontend-datagrid-responsive-row-tablet-min-height: 60px !default;
-$frontend-datagrid-responsive-row-tablet-display: block !default;
-$frontend-datagrid-responsive-row-tablet-inner-offset: 5px 0 !default;
+$frontend-datagrid-responsive-row-tablet-display: grid !default;
+$frontend-datagrid-responsive-row-tablet-grid-template-columns: repeat(3, 1fr) !default;
+$frontend-datagrid-responsive-row-tablet-gap: 8px 16px !default;
+$frontend-datagrid-responsive-row-tablet-inner-offset: 5px 0 10px !default;
 $frontend-datagrid-responsive-row-tablet-position: relative !default;
 $frontend-datagrid-responsive-row-tablet-border-top: 1px solid #eceeef !default;
 
 $frontend-datagrid-responsive-row-has-select-action-tablet-inner-offset-left: 25px !default;
 $frontend-datagrid-responsive-row-has-actions-tablet-inner-offset-right: 205px !default;
 
+$frontend-datagrid-responsive-row-swipe-active-tablet-background-color: get-color('additional', 'base') !default;
+
 $frontend-datagrid-responsive-body-cell-tablet-display: block !default;
 $frontend-datagrid-responsive-body-cell-tablet-border: none !default;
-$frontend-datagrid-responsive-body-cell-tablet-offset: 5px 0 !default;
-$frontend-datagrid-responsive-body-cell-tablet-inner-offset: 0 !default;
+$frontend-datagrid-responsive-body-cell-tablet-offset: 0 !default;
+$frontend-datagrid-responsive-body-cell-tablet-inner-offset: $offset-x-s 0 !default;
 $frontend-datagrid-responsive-body-cell-tablet-word-wrap: break-word !default;
 
 $frontend-datagrid-responsive-body-cell-before-tablet-content: attr(data-column-label) ': ' !default;
@@ -30,28 +32,36 @@ $frontend-datagrid-responsive-boolean-cell-before-tablet-display: inline !defaul
 $frontend-datagrid-responsive-select-row-cell-tablet-position: absolute !default;
 $frontend-datagrid-responsive-select-row-cell-tablet-top: 5px !default;
 $frontend-datagrid-responsive-select-row-cell-tablet-left: 0 !default;
+$frontend-datagrid-responsive-action-cell-tablet-launchers-first-last-offset: 0 !default;
 
-$frontend-datagrid-responsive-action-cell-tablet-width: 200px !default;
-$frontend-datagrid-responsive-action-cell-tablet-position: absolute !default;
-$frontend-datagrid-responsive-action-cell-tablet-top: 0 !default;
-$frontend-datagrid-responsive-action-cell-tablet-right: 0 !default;
-$frontend-datagrid-responsive-action-cell-tablet-bottom: 0 !default;
-$frontend-datagrid-responsive-action-cell-tablet-bg-color: darken(get-color('additional', 'light'), 3.53) !default;
-$frontend-datagrid-responsive-action-cell-tablet-icon-color: lighten(get-color('additional', 'dark'), 21.96) !default;
-$frontend-datagrid-responsive-action-cell-tablet-white-space: normal !default;
-$frontend-datagrid-responsive-action-cell-tablet-left-inner-offset: 0 !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-width: 200px !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-position: absolute !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-top: 0 !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-right: 0 !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-bottom: 0 !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-bg-color: darken(get-color('additional', 'light'), 3.53) !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-icon-color: lighten(get-color('additional', 'dark'), 21.96) !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-left-inner-offset: 0 !default;
 
-$frontend-datagrid-responsive-action-cell-tablet-action-width: 100% !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-action-width: 100% !default;
 
-$frontend-datagrid-responsive-action-cell-tablet-inner-offset: 0 8px !default;
-$frontend-datagrid-responsive-action-cell-tablet-outer-offset: 0 !default;
-$frontend-datagrid-responsive-action-cell-tablet-row-height: 100% !default;
-$frontend-datagrid-responsive-action-cell-tablet-row-display: flex !default;
-$frontend-datagrid-responsive-action-cell-tablet-row-align-items: center !default;
-$frontend-datagrid-responsive-action-cell-tablet-column-width: 90px !default;
-$frontend-datagrid-responsive-action-cell-tablet-column-inner-offset: 5px !default;
-$frontend-datagrid-responsive-action-cell-tablet-column-outer-offset: 0 !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-inner-offset: 0 8px !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-outer-offset: 0 !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-row-height: 100% !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-row-display: flex !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-row-align-items: center !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-column-width: 90px !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-column-inner-offset: 5px !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-column-outer-offset: 0 !default;
 
-$frontend-datagrid-responsive-action-cell-tablet-launchers-list-display: inline-flex !default;
-$frontend-datagrid-responsive-action-cell-tablet-launchers-list-flex-wrap: wrap !default;
-$frontend-datagrid-responsive-action-cell-tablet-launchers-list-last-inner-offset: 8px !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-display: inline-flex !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-flex-wrap: wrap !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-last-offset: 8px !default;
+$frontend-datagrid-launchers-separator-height: 15px !default;
+
+// Tablet Small
+$frontend-datagrid-responsive-row-mobile-big-grid-template-columns: repeat(2, 1fr) !default;
+
+// Mobile Landscape
+$frontend-datagrid-responsive-row-mobile-landscape-grid-template-columns: none !default;
+$frontend-datagrid-responsive-row-mobile-landscape-gap: 0 !default;

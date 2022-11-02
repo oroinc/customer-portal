@@ -1,49 +1,50 @@
 define(function(require) {
     'use strict';
 
-    var CustomerAddressBook;
-    var BaseComponent = require('oroui/js/app/components/base/component');
-    var _ = require('underscore');
-    var routing = require('routing');
-    var AddressBook = require('oroaddress/js/address-book');
-    var widgetManager = require('oroui/js/widget-manager');
+    const BaseComponent = require('oroui/js/app/components/base/component');
+    const routing = require('routing');
+    const AddressBook = require('oroaddress/js/address-book');
+    const widgetManager = require('oroui/js/widget-manager');
 
-    CustomerAddressBook = BaseComponent.extend({
+    const CustomerAddressBook = BaseComponent.extend({
+        optionNames: BaseComponent.prototype.optionNames.concat(['isAddressHtmlFormatted']),
+
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function CustomerAddressBook() {
-            CustomerAddressBook.__super__.constructor.apply(this, arguments);
+        constructor: function CustomerAddressBook(options) {
+            CustomerAddressBook.__super__.constructor.call(this, options);
         },
 
+        isAddressHtmlFormatted: false,
+
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
-            widgetManager.getWidgetInstance(options.wid, function(widget) {
+            widgetManager.getWidgetInstance(options.wid, widget => {
                 /** @type oroaddress.AddressBook */
-                var addressBook = new AddressBook({
+                const addressBook = new AddressBook({
                     el: '#address-book',
                     addressListUrl: options.addressListUrl,
                     addressCreateUrl: options.addressCreateUrl,
-                    addressUpdateUrl: function() {
-                        var address = arguments[0];
+                    addressUpdateUrl: function(address) {
                         return routing.generate(
                             options.addressUpdateRouteName,
                             {id: address.get('id'), entityId: options.entityId}
                         );
                     },
-                    addressDeleteUrl: function() {
-                        var address = arguments[0];
+                    addressDeleteUrl: function(address) {
                         return routing.generate(
                             options.addressDeleteRouteName,
                             {addressId: address.get('id'), entityId: options.entityId}
                         );
                     },
-                    addressMapOptions: {phone: 'phone'}
+                    addressMapOptions: {phone: 'phone'},
+                    isAddressHtmlFormatted: this.isAddressHtmlFormatted
                 });
                 widget.getAction('add_address', 'adopted', function(action) {
-                    action.on('click', _.bind(addressBook.createAddress, addressBook));
+                    action.on('click', addressBook.createAddress.bind(addressBook));
                 });
                 addressBook
                     .getCollection()

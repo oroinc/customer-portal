@@ -3,52 +3,49 @@
 namespace Oro\Bundle\CustomerBundle\Provider;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\ScopeBundle\Manager\AbstractScopeCriteriaProvider;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserInterface;
+use Oro\Bundle\ScopeBundle\Manager\ScopeCriteriaProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class ScopeCustomerCriteriaProvider extends AbstractScopeCriteriaProvider
+/**
+ * The scope criteria provider for the current customer.
+ */
+class ScopeCustomerCriteriaProvider implements ScopeCriteriaProviderInterface
 {
-    const ACCOUNT = 'customer';
-    
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $tokenStorage;
-    
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     */
+    public const CUSTOMER = 'customer';
+
+    /** @var TokenStorageInterface */
+    private $tokenStorage;
+
     public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
     }
-    
+
     /**
-     * @return array
-     */
-    public function getCriteriaForCurrentScope()
-    {
-        $token = $this->tokenStorage->getToken();
-        if (!$token) {
-            return [];
-        }
-        $loggedUser = $token->getUser();
-        if (null !== $loggedUser && $loggedUser instanceof CustomerUser) {
-            return [self::ACCOUNT => $loggedUser->getCustomer()];
-        }
-    
-        return [];
-    }
-    
-    /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getCriteriaField()
     {
-        return static::ACCOUNT;
+        return self::CUSTOMER;
     }
-    
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCriteriaValue()
+    {
+        $token = $this->tokenStorage->getToken();
+        if (null !== $token) {
+            $user = $token->getUser();
+            if ($user instanceof CustomerUserInterface) {
+                return $user->getCustomer();
+            }
+        }
+
+        return null;
+    }
+
     /**
      * {@inheritdoc}
      */

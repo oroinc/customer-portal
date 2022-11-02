@@ -2,19 +2,16 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Functional;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class DatabaseSchemaTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
     }
@@ -38,19 +35,12 @@ class DatabaseSchemaTest extends WebTestCase
         }
     }
 
-    /**
-     * @param Connection $connection
-     * @return string
-     */
-    protected function getConnectionIdentifier(Connection $connection)
+    private function getConnectionIdentifier(Connection $connection): string
     {
-        return md5(json_encode($connection->getParams()));
+        return md5(json_encode($connection->getParams(), JSON_THROW_ON_ERROR));
     }
 
-    /**
-     * @param Schema $schema
-     */
-    protected function assertSchema(Schema $schema)
+    private function assertSchema(Schema $schema): void
     {
         $tableNames = array_map(
             function (Table $table) {
@@ -61,7 +51,7 @@ class DatabaseSchemaTest extends WebTestCase
         $incorrectTableNames = array_filter(
             $tableNames,
             function ($name) {
-                return strpos($name, 'orob2b') === 0;
+                return str_starts_with($name, 'orob2b');
             }
         );
         $this->assertEmpty(
@@ -78,7 +68,7 @@ class DatabaseSchemaTest extends WebTestCase
         $incorrectSequenceNames = array_filter(
             $sequenceNames,
             function ($name) {
-                return strpos($name, 'orob2b') === 0;
+                return str_starts_with($name, 'orob2b');
             }
         );
         $this->assertEmpty(

@@ -4,8 +4,11 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 /**
+ * Abstract Typed address.
+ *
  * @ORM\MappedSuperclass
  */
 abstract class AbstractAddressToAddressType
@@ -29,15 +32,30 @@ abstract class AbstractAddressToAddressType
     /**
      * @var AddressType
      *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\AddressBundle\Entity\AddressType", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\AddressBundle\Entity\AddressType")
      * @ORM\JoinColumn(name="type_name", referencedColumnName="name", onDelete="CASCADE")
-     **/
+     * @ConfigField(
+     *      defaultValues={
+     *          "dataaudit"={
+     *              "auditable"=true
+     *          }
+     *      }
+     * )
+     */
     protected $type;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_default", type="boolean", nullable=true)
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "dataaudit"={
+     *              "auditable"=true
+     *          }
+     *      }
+     * )
      */
     protected $default;
 

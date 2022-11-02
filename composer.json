@@ -9,33 +9,39 @@
         }
     ],
     "require": {
-        "oro/platform": "3.1.*",
-        "oro/platform-serialised-fields": "3.1.*",
-        "oro/calendar-bundle": "3.1.*",
-        "oro/marketing": "3.1.*",
-        "oro/commerce": "3.1.*",
-        "bower-asset/prism": "1.6.0",
-        "npm-asset/slick-carousel": "1.6.0"
+        "oro/platform": "5.1.*",
+        "oro/platform-serialised-fields": "5.1.*",
+        "oro/calendar-bundle": "5.1.*",
+        "oro/marketing": "5.1.*",
+        "oro/commerce": "5.1.*"
     },
     "extra": {
+        "npm": {
+            "prismjs": "^1.23.0"
+        },
         "branch-alias": {
-            "dev-master": "3.1-dev"
+            "dev-master": "5.1-dev"
         }
     },
     "repositories": {
         "oro": {
             "type": "composer",
             "url": "https://packagist.orocrm.com"
-        },
-        "asset-packagist": {
-            "type": "composer",
-            "url": "https://asset-packagist.orocrm.com"
         }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
-        "psr-4": {"": "src/"},
+        "psr-4": {
+            "Oro\\Bridge\\CRMCustomerPortal\\": "src/Oro/Bridge/CRMCustomerPortal",
+            "Oro\\Bundle\\CommerceMenuBundle\\": "src/Oro/Bundle/CommerceMenuBundle",
+            "Oro\\Bundle\\CustomerBundle\\": "src/Oro/Bundle/CustomerBundle",
+            "Oro\\Bundle\\FrontendAttachmentBundle\\": "src/Oro/Bundle/FrontendAttachmentBundle",
+            "Oro\\Bundle\\FrontendBundle\\": "src/Oro/Bundle/FrontendBundle",
+            "Oro\\Bundle\\FrontendImportExportBundle\\": "src/Oro/Bundle/FrontendImportExportBundle",
+            "Oro\\Bundle\\StyleBookBundle\\": "src/Oro/Bundle/StyleBookBundle",
+            "Oro\\Bundle\\WebsiteBundle\\": "src/Oro/Bundle/WebsiteBundle"
+        },
         "exclude-from-classmap": ["/Tests/"]
     }
 }

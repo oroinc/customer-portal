@@ -6,17 +6,6 @@ oro_workflow_frontend_bundle:
 
 oro_frontend_workflow_widget_buttons:
     path: /workflowwidget/buttons/{entityClass}/{entityId}
-    defaults: { _controller: OroWorkflowBundle:Widget:buttons }
-    options:
-        frontend: true
-
-oro_frontend_workflow_api:
-    resource:     "@OroFrontendBundle/Controller/Api/Rest/WorkflowController.php"
-    type:         rest
-    requirements:
-        version:  latest|v1
-        _format:  json
-    defaults:
-        version:  latest
+    defaults: { _controller: Oro\Bundle\WorkflowBundle\Controller\WidgetController::buttonsAction }
     options:
         frontend: true

@@ -12,15 +12,12 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class OroCustomerExtension extends Extension implements PrependExtensionInterface
 {
-    const ALIAS = 'oro_customer';
-
     /**
      * {@inheritDoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $config = $this->processConfiguration(new Configuration(), $configs);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
@@ -30,12 +27,20 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
         $loader->load('block_types.yml');
         $loader->load('form.yml');
         $loader->load('importexport.yml');
+        $loader->load('controllers.yml');
+        $loader->load('controllers_api.yml');
+        $loader->load('commands.yml');
+        $loader->load('mq_processors.yml');
+        $loader->load('mq_topics.yml');
 
         $container->prependExtensionConfig($this->getAlias(), array_intersect_key($config, array_flip(['settings'])));
+        $container->setParameter('oro_customer_user.login_sources', $config['login_sources']);
 
         if ('test' === $container->getParameter('kernel.environment')) {
-            $this->configureTestEnvironment($container);
+            $loader->load('services_test.yml');
         }
+
+        $this->configureCustomerVisitorCookieFactory($container, $config);
     }
 
     /**
@@ -48,23 +53,11 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
         SecurityExtensionHelper::makeFirewallLatest($container, 'frontend');
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getAlias()
+    private function configureCustomerVisitorCookieFactory(ContainerBuilder $container, array $config): void
     {
-        return self::ALIAS;
-    }
-
-    /**
-     * @param ContainerBuilder $container
-     */
-    private function configureTestEnvironment(ContainerBuilder $container)
-    {
-        $loader = new Loader\YamlFileLoader(
-            $container,
-            new FileLocator(__DIR__ . '/../Tests/Functional/Environment')
-        );
-        $loader->load('services.yml');
+        $container->getDefinition('oro_customer.authentication.customer_visitor_cookie_factory')
+            ->replaceArgument(0, $config['visitor_session']['cookie_secure'])
+            ->replaceArgument(1, $config['visitor_session']['cookie_httponly'])
+            ->replaceArgument(3, $config['visitor_session']['cookie_samesite']);
     }
 }

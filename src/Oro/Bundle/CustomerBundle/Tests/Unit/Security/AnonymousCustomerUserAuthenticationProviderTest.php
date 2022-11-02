@@ -16,37 +16,27 @@ class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit\Framework
 {
     use EntityTrait;
 
-    const ENTITY_ID = 3;
-    const SESSION_ID = 5;
-    const UPDATE_LATENCY = 500;
+    private const ENTITY_ID = 3;
+    private const SESSION_ID = 5;
+    private const UPDATE_LATENCY = 500;
 
-    /**
-     * @var CustomerVisitorManager|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $visitorManager;
+    /** @var CustomerVisitorManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $visitorManager;
 
-    /**
-     * @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $websiteManager;
+    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $websiteManager;
 
-    /**
-     * @var AnonymousCustomerUserAuthenticationProvider
-     */
-    protected $provider;
+    /** @var AnonymousCustomerUserAuthenticationProvider */
+    private $provider;
 
-
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->visitorManager = $this->getMockBuilder(CustomerVisitorManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->visitorManager = $this->createMock(CustomerVisitorManager::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);
 
         $this->provider = new AnonymousCustomerUserAuthenticationProvider(
             $this->visitorManager,
-            $this->websiteManager,
-            self::UPDATE_LATENCY
+            $this->websiteManager
         );
     }
 
@@ -64,13 +54,6 @@ class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit\Framework
         );
     }
 
-    public function testAuthenticateNotSupported()
-    {
-        $this->visitorManager->expects($this->never())
-            ->method('findOrCreate');
-        $this->assertNull($this->provider->authenticate($this->createMock(TokenInterface::class)));
-    }
-
     public function testAuthenticate()
     {
         $token = new AnonymousCustomerUserToken('User', ['ROLE_FOO', 'ROLE_BAR']);
@@ -84,10 +67,6 @@ class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit\Framework
             ->method('findOrCreate')
             ->with(self::ENTITY_ID, self::SESSION_ID)
             ->willReturn($visitor);
-
-        $this->visitorManager->expects($this->once())
-            ->method('updateLastVisitTime')
-            ->with($visitor, self::UPDATE_LATENCY);
 
         $organization = new Organization();
         $website = new Website();

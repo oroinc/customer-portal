@@ -4,26 +4,30 @@ namespace Oro\Bundle\CustomerBundle\Controller;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerType;
+use Oro\Bundle\CustomerBundle\JsTree\CustomerTreeHandler;
+use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CustomerController extends Controller
+/**
+ * Back-office CRUD for customers.
+ */
+class CustomerController extends AbstractController
 {
     /**
      * @Route("/", name="oro_customer_customer_index")
      * @Template
      * @AclAncestor("oro_customer_customer_view")
-     *
-     * @return array
      */
-    public function indexAction()
+    public function indexAction(): array
     {
         return [
-            'entity_class' => $this->container->getParameter('oro_customer.entity.customer.class')
+            'entity_class' => Customer::class
         ];
     }
 
@@ -36,11 +40,8 @@ class CustomerController extends Controller
      *      class="OroCustomerBundle:Customer",
      *      permission="VIEW"
      * )
-     *
-     * @param Customer $customer
-     * @return array
      */
-    public function viewAction(Customer $customer)
+    public function viewAction(Customer $customer): array
     {
         return [
             'entity' => $customer,
@@ -49,17 +50,15 @@ class CustomerController extends Controller
 
     /**
      * @Route("/create", name="oro_customer_customer_create")
-     * @Template("OroCustomerBundle:Customer:update.html.twig")
+     * @Template("@OroCustomer/Customer/update.html.twig")
      * @Acl(
      *      id="oro_customer_create",
      *      type="entity",
      *      class="OroCustomerBundle:Customer",
      *      permission="CREATE"
      * )
-     *
-     * @return array
      */
-    public function createAction()
+    public function createAction(): array|RedirectResponse
     {
         return $this->update(new Customer());
     }
@@ -73,53 +72,46 @@ class CustomerController extends Controller
      *      class="OroCustomerBundle:Customer",
      *      permission="EDIT"
      * )
-     *
-     * @param Customer $customer
-     * @return array
      */
-    public function updateAction(Customer $customer)
+    public function updateAction(Customer $customer): array|RedirectResponse
     {
         return $this->update($customer);
     }
 
-    /**
-     * @param Customer $customer
-     * @return array|RedirectResponse
-     */
-    protected function update(Customer $customer)
+    protected function update(Customer $customer): array|RedirectResponse
     {
-        return $this->get('oro_form.model.update_handler')->handleUpdate(
+        return $this->get(UpdateHandlerFacade::class)->update(
             $customer,
             $this->createForm(CustomerType::class, $customer),
-            function (Customer $customer) {
-                return [
-                    'route' => 'oro_customer_customer_update',
-                    'parameters' => ['id' => $customer->getId()],
-                ];
-            },
-            function (Customer $customer) {
-                return [
-                    'route' => 'oro_customer_customer_view',
-                    'parameters' => ['id' => $customer->getId()],
-                ];
-            },
-            $this->get('translator')->trans('oro.customer.controller.customer.saved.message')
+            $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customer.saved.message')
         );
     }
 
     /**
      * @Route("/info/{id}", name="oro_customer_customer_info", requirements={"id"="\d+"})
-     * @Template("OroCustomerBundle:Customer/widget:info.html.twig")
+     * @Template("@OroCustomer/Customer/widget/info.html.twig")
      * @AclAncestor("oro_customer_customer_view")
-     *
-     * @param Customer $customer
-     * @return array
      */
-    public function infoAction(Customer $customer)
+    public function infoAction(Customer $customer): array
     {
         return [
             'entity' => $customer,
-            'treeData' => $this->get('oro_customer.customer_tree_handler')->createTree($customer),
+            'treeData' => $this->get(CustomerTreeHandler::class)->createTree($customer),
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                TranslatorInterface::class,
+                CustomerTreeHandler::class,
+                UpdateHandlerFacade::class
+            ]
+        );
     }
 }

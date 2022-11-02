@@ -2,15 +2,11 @@
     <div class="datagrid-manager__container">
         <span class="datagrid-manager__handle handle"></span>
         <div class="datagrid-manager__label">
-            <label data-checkbox
-                   class="custom-checkbox ">
+            <label data-checkbox class="checkbox-label">
                 <input type="checkbox" data-role="renderable"
                 <% if (disabledVisibilityChange) { %> disabled <% } %>
-                <% if (renderable) { %> checked <% } %>
-                    class="custom-checkbox__input"
-                />
-                <span class="custom-checkbox__icon"></span>
-                <span class="custom-checkbox__text"><%= label %></span>
+                <% if (renderable) { %> checked <% } %>>
+                <%- label %>
             </label>
         </div>
     </div>

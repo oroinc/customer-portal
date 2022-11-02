@@ -1,0 +1,44 @@
+data:
+    type: customeruseraddresses
+    id: '<toString(@other.user@test.com.address_1->id)>'
+    attributes:
+        city: 'Albany'
+        firstName: null
+        label: 'other.user@test.com.address_1'
+        lastName: null
+        middleName: null
+        namePrefix: null
+        nameSuffix: null
+        organization: 'Test Org'
+        phone: null
+        postalCode: '31707'
+        primary: true
+        street: '2849 Junkins Avenue'
+        street2: null
+        customRegion: null
+        types:
+            -
+                default: false
+                addressType: billing
+            -
+                default: true
+                addressType: shipping
+    relationships:
+        customerUser:
+            data:
+                type: customerusers
+                id: '<toString(@other.user@test.com->id)>'
+        owner:
+            data: null
+        systemOrganization:
+            data:
+                type: organizations
+                id: '<toString(@customer.1->organization->id)>'
+        country:
+            data:
+                type: countries
+                id: '<toString(@country.US->iso2Code)>'
+        region:
+            data:
+                type: regions
+                id: '<toString(@other.user@test.com.address_1->region->combinedCode)>'

@@ -1,3 +1,13 @@
+/* @theme: default; */
+
+.main-menu-outer {
+    &__container {
+        display: flex;
+
+        justify-content: center;
+    }
+}
+
 @include breakpoint('desktop') {
     .main-menu-outer {
         display: flex;
@@ -8,7 +18,13 @@
     .main-menu-outer {
         margin-bottom: 10px;
 
-        border-bottom: 1px solid get-color('additional', 'light');
+        border-bottom: $main-menu-outer-tablet-border;
+
+        &__container {
+            display: block;
+
+            overflow: hidden;
+        }
 
         &__text {
             display: inline-block;
@@ -18,7 +34,7 @@
         .collapse-view {
             &__trigger-icon {
                 margin-right: 5px;
-                color: get-color('additional', 'dark');
+                color: $main-menu-outer-tablet-icon;
             }
         }
 

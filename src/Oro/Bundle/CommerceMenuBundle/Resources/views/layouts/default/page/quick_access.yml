@@ -1,4 +1,17 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCommerceMenuBundle:layouts:default/page/quick_access.html.twig'
+            themes: '@OroCommerceMenu/layouts/default/page/quick_access.html.twig'
+        - '@addTree':
+            items:
+                quick_access_container:
+                    blockType: container
+                    prepend: false
+                quick_access_menu:
+                    blockType: menu
+                    options:
+                        item: '=data["menu"].getMenu("commerce_quick_access")'
+            tree:
+                middle_bar_right:
+                    quick_access_container:
+                        quick_access_menu: ~

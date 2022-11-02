@@ -19,7 +19,7 @@ use Oro\Bundle\SecurityBundle\Model\AclPrivilegeIdentity;
 use Oro\Bundle\UserBundle\Entity\Role;
 use Oro\Bundle\UserBundle\Form\Handler\AclRoleHandler;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
 {
@@ -41,50 +41,39 @@ class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
     /** @var RoleTranslationPrefixResolver|\PHPUnit\Framework\MockObject\MockObject */
     protected $roleTranslationPrefixResolver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->translator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
+        $this->translator = $this->createMock(TranslatorInterface::class);
         $this->translator->expects($this->any())
             ->method('trans')
-            ->willReturnCallback(
-                function ($value) {
-                    return $value . '_translated';
-                }
-            );
+            ->willReturnCallback(function ($value) {
+                return $value . '_translated';
+            });
 
-        $this->permissionManager = $this->getMockBuilder('Oro\Bundle\SecurityBundle\Acl\Permission\PermissionManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->permissionManager = $this->createMock(PermissionManager::class);
         $this->permissionManager->expects($this->any())
             ->method('getPermissionByName')
-            ->willReturnCallback(
-                function ($name) {
-                    $permission = new Permission();
-                    $permission->setName($name);
-                    $permission->setLabel($name . 'Label');
+            ->willReturnCallback(function ($name) {
+                $permission = new Permission();
+                $permission->setName($name);
+                $permission->setLabel($name . 'Label');
 
-                    return $permission;
-                }
-            );
+                return $permission;
+            });
 
-        $this->aclRoleHandler = $this->getMockBuilder('Oro\Bundle\UserBundle\Form\Handler\AclRoleHandler')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->aclRoleHandler = $this->createMock(AclRoleHandler::class);
 
-        $this->categoryProvider = $this->getMockBuilder('Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->categoryProvider->expects($this->any())->method('getPermissionCategories')->willReturn([]);
+        $this->categoryProvider = $this->createMock(RolePrivilegeCategoryProvider::class);
+        $this->categoryProvider->expects($this->any())
+            ->method('getCategories')
+            ->willReturn([]);
 
-        $this->configEntityManager = $this->getMockBuilder('Oro\Bundle\EntityConfigBundle\Config\ConfigManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->configEntityManager = $this->createMock(ConfigManager::class);
 
-        $this->roleTranslationPrefixResolver = $this
-            ->getMockBuilder('Oro\Bundle\CustomerBundle\Acl\Resolver\RoleTranslationPrefixResolver')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->roleTranslationPrefixResolver->expects($this->any())->method('getPrefix')->willReturn('prefix.key.');
+        $this->roleTranslationPrefixResolver = $this->createMock(RoleTranslationPrefixResolver::class);
+        $this->roleTranslationPrefixResolver->expects($this->any())
+            ->method('getPrefix')
+            ->willReturn('prefix.key.');
     }
 
     public function testGetResults()
@@ -104,10 +93,7 @@ class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($record->getValue('permissions'));
     }
 
-    /**
-     * @return RolePermissionDatasource
-     */
-    protected function getDatasource()
+    protected function getDatasource(): RolePermissionDatasource
     {
         return new RolePermissionDatasource(
             $this->translator,
@@ -121,15 +107,18 @@ class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @param RolePermissionDatasource $datasource
-     * @param string $identity
-     * @return array|ResultRecordInterface[]
+     * @param string                   $identity
+     *
+     * @return ResultRecordInterface[]
      */
-    protected function retrieveResultsFromPermissionsDatasource(RolePermissionDatasource $datasource, $identity)
-    {
-        $role = new Role();
-        
+    protected function retrieveResultsFromPermissionsDatasource(
+        RolePermissionDatasource $datasource,
+        string $identity
+    ): array {
+        $role = new Role('');
+
         $datasource->process($this->getDatagrid($role), []);
-        
+
         $this->aclRoleHandler->expects($this->once())
             ->method('getAllPrivileges')
             ->with($role)
@@ -151,49 +140,31 @@ class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
                     )
                 ]
             );
-        
+
         return $datasource->getResults();
     }
 
-    /**
-     * @param string $id
-     * @param string $name
-     * @param AclPermission $permission
-     * @return AclPrivilege|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getAclPrivilege($id, $name, AclPermission $permission)
+    protected function getAclPrivilege(string $id, string $name, AclPermission $permission): AclPrivilege
     {
         $identity = new AclPrivilegeIdentity($id, $name);
-        
-        /** @var AclPrivilege|\PHPUnit\Framework\MockObject\MockObject $privilege */
-        $privilege = $this->getMockBuilder('Oro\Bundle\SecurityBundle\Model\AclPrivilege')
-            ->disableOriginalConstructor()
-            ->getMock();
+
+        $privilege = $this->createMock(AclPrivilege::class);
         $privilege->expects($this->any())
             ->method('getIdentity')
             ->willReturn($identity);
         $privilege->expects($this->any())
             ->method('getPermissions')
-            ->willReturn(
-                new ArrayCollection(
-                    [
-                        $permission->getName() => $permission
-                    ]
-                )
-            );
-        $privilege->expects($this->any())->method('getFields')->willReturn(new ArrayCollection());
+            ->willReturn(new ArrayCollection([$permission->getName() => $permission]));
+        $privilege->expects($this->any())
+            ->method('getFields')
+            ->willReturn(new ArrayCollection());
 
         return $privilege;
     }
 
-    /**
-     * @param Role $role
-     * @return DatagridInterface
-     */
-    protected function getDatagrid(Role $role)
+    protected function getDatagrid(Role $role): DatagridInterface
     {
-        /** @var DatagridInterface|\PHPUnit\Framework\MockObject\MockObject $datagrid */
-        $datagrid = $this->createMock('Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface');
+        $datagrid = $this->createMock(DatagridInterface::class);
         $datagrid->expects($this->once())
             ->method('getParameters')
             ->willReturn(new ParameterBag(['role' => $role]));

@@ -97,11 +97,6 @@ layout:
                         rel: icon
                         attr:
                             sizes: 16x16
-                favicon_manifest:
-                    blockType: external_resource
-                    options:
-                        href: '=data["asset"].getUrl("bundles/orofrontend/default/favicons/manifest.json")'
-                        rel: manifest
                 favicon_mask_icon:
                     blockType: external_resource
                     options:
@@ -123,7 +118,7 @@ layout:
                     blockType: meta
                     options:
                         name: theme-color
-                        content: '#ffffff'
+                        content: '#fcb91d'
             tree:
                 head:
                     apple_57x57: ~
@@ -139,7 +134,6 @@ layout:
                     android_chrome_192x192: ~
                     favicon_96x96: ~
                     favicon_16x16: ~
-                    favicon_manifest: ~
                     favicon_mask_icon: ~
                     msapplication_tilecolor: ~
                     msapplication_tileimage: ~

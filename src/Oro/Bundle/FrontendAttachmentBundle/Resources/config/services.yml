@@ -1,0 +1,10 @@
+services:
+    oro_frontend_attachment.form.extension.file_attachment_config_extension:
+        class: Oro\Bundle\FrontendAttachmentBundle\Form\Extension\FileAttachmentConfigExtension
+        tags:
+            - { name: form.type_extension, alias: oro_entity_config_type, extended_type: Oro\Bundle\EntityConfigBundle\Form\Type\ConfigType }
+
+    oro_frontend_attachment.routing.options_resolver.imagine:
+        class: Oro\Bundle\FrontendAttachmentBundle\Routing\ImagineRouteOptionsResolver
+        tags:
+            - { name: routing.options_resolver }

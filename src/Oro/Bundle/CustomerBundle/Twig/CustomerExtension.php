@@ -2,19 +2,25 @@
 
 namespace Oro\Bundle\CustomerBundle\Twig;
 
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class CustomerExtension extends \Twig_Extension
+/**
+ * Provides a Twig function to check if custom user has access to view an entity:
+ *   - is_granted_view_customer_user
+ * Provides a Twig function to build customer parent chain:
+ *   - oro_customer_parent_parts
+ */
+class CustomerExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
-    const NAME = 'customer_extension';
-
     /** @var ContainerInterface */
     protected $container;
 
-    /**
-     * @param ContainerInterface $container
-     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
@@ -29,13 +35,43 @@ class CustomerExtension extends \Twig_Extension
     }
 
     /**
+     * @return LoggerInterface
+     */
+    protected function getLogger()
+    {
+        return $this->container->get(LoggerInterface::class);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('is_granted_view_customer_user', [$this, 'isGrantedViewCustomerUser']),
+            new TwigFunction('is_granted_view_customer_user', [$this, 'isGrantedViewCustomerUser']),
+            new TwigFunction('oro_customer_parent_parts', [$this, 'getCustomerParentParts']),
         ];
+    }
+
+    public function getCustomerParentParts(Customer $customer): array
+    {
+        $parts = [];
+        $i = 0;
+        while ($customer->getParent() && $customer->getParent()->getName()) {
+            if ($i++ > 50) {
+                $this->getLogger()->warning(
+                    sprintf('Customer parent loop limit was reached for customer #%s.', $customer->getId())
+                );
+                break;
+            }
+            $customer = $customer->getParent();
+            $parts[] = [
+                'name' => $customer->getName(),
+                'id' => $customer->getId(),
+            ];
+        }
+
+        return array_reverse($parts);
     }
 
     /**
@@ -51,8 +87,11 @@ class CustomerExtension extends \Twig_Extension
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public static function getSubscribedServices()
     {
-        return self::NAME;
+        return [
+            'oro_customer.security.customer_user_provider' => CustomerUserProvider::class,
+            LoggerInterface::class,
+        ];
     }
 }

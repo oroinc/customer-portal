@@ -1,0 +1,40 @@
+/* @theme: default; */
+
+.customer_user_form {
+    @extend %customer-form;
+
+    .form-field-userRoles,
+    .form-field-choose-list {
+        .checkbox-label {
+            display: flex;
+        }
+    }
+}
+
+@include breakpoint('mobile') {
+    .profile__form__row {
+        legend {
+            display: block;
+            width: 100%;
+        }
+    }
+}
+
+.profile__form__req-text {
+    display: inline-block;
+    margin-left: 210px;
+}
+
+.customer-profile-edit-page {
+    .password {
+        overflow: hidden;
+    }
+}
+
+.oro-customer-user-address__add-link {
+    a {
+        i {
+            margin-right: .3rem;
+        }
+    }
+}

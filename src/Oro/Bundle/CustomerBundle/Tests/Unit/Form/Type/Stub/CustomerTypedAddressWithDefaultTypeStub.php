@@ -12,22 +12,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerTypedAddressWithDefaultTypeStub extends AbstractType
 {
-    const NAME = 'oro_customer_typed_address_with_default';
+    private const NAME = 'oro_customer_typed_address_with_default';
 
-    /**
-     * @var EntityManager
-     */
-    protected $em;
+    private EntityManager $em;
+    private array $types;
 
-    /**
-     * @var array
-     */
-    protected $types;
-
-    /**
-     * @param array $types
-     * @param EntityManager $em
-     */
     public function __construct(array $types, EntityManager $em)
     {
         $this->types = $types;

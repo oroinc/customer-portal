@@ -5,7 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Exception;
 use Symfony\Component\Security\Core\Exception\AccountStatusException;
 
 /**
- * 'Customer User is Guest.' exception message holder
+ * Throws during authentication when a guest customer user tries to log in.
  */
 class GuestCustomerUserLoginException extends AccountStatusException
 {
@@ -14,6 +14,6 @@ class GuestCustomerUserLoginException extends AccountStatusException
      */
     public function getMessageKey()
     {
-        return 'Customer User is Guest.';
+        return 'oro_customer.login.errors.guest';
     }
 }

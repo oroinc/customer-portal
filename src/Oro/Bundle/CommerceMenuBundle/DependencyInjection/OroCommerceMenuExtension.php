@@ -18,5 +18,6 @@ class OroCommerceMenuExtension extends Extension
         $loader->load('block_types.yml');
         $loader->load('services.yml');
         $loader->load('form_types.yml');
+        $loader->load('controllers.yml');
     }
 }

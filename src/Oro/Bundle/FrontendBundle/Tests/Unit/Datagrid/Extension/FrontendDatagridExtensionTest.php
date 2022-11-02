@@ -1,29 +1,26 @@
 <?php
 
-namespace Oro\Bundle\FrontendBundle\Tests\Unit\Extension;
+namespace Oro\Bundle\FrontendBundle\Tests\Unit\Datagrid\Extension;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
+use Oro\Bundle\DataGridBundle\Exception\LogicException;
 use Oro\Bundle\FrontendBundle\Datagrid\Extension\FrontendDatagridExtension;
-use Oro\Bundle\UserBundle\Entity\User;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
 class FrontendDatagridExtensionTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenStorage;
+    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $frontendHelper;
 
     /** @var FrontendDatagridExtension */
     private $extension;
 
-    public function setUp()
+    protected function setUp(): void
     {
-        $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $this->frontendHelper = $this->createMock(FrontendHelper::class);
 
-        $this->extension = new FrontendDatagridExtension($this->tokenStorage);
+        $this->extension = new FrontendDatagridExtension($this->frontendHelper);
         $this->extension->setParameters(new ParameterBag());
     }
 
@@ -55,63 +52,25 @@ class FrontendDatagridExtensionTest extends \PHPUnit\Framework\TestCase
         $this->extension->processConfigs($datagridConfig);
     }
 
-    public function testShouldGrantAccessForBackendGridIfSecurityTokenIsNotSet()
+    public function testShouldGrantAccessForBackendGridForBackendRequest()
     {
         $datagridConfig = DatagridConfiguration::createNamed('test_grid', []);
 
-        $this->tokenStorage->expects(self::once())
-            ->method('getToken')
-            ->willReturn(null);
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn(false);
 
         $this->extension->processConfigs($datagridConfig);
     }
 
-    /**
-     * @expectedException \Oro\Bundle\DataGridBundle\Exception\LogicException
-     */
-    public function testShouldDenyAccessForBackendGridToAnonymousUser()
+    public function testShouldDenyAccessForBackendGridForFrontendRequest()
     {
+        $this->expectException(LogicException::class);
         $datagridConfig = DatagridConfiguration::createNamed('test_grid', []);
-        $token = $this->createMock(AnonymousCustomerUserToken::class);
 
-        $this->tokenStorage->expects(self::once())
-            ->method('getToken')
-            ->willReturn($token);
-
-        $this->extension->processConfigs($datagridConfig);
-    }
-
-    /**
-     * @expectedException \Oro\Bundle\DataGridBundle\Exception\LogicException
-     */
-    public function testShouldDenyAccessForBackendGridToFrontendUser()
-    {
-        $datagridConfig = DatagridConfiguration::createNamed('test_grid', []);
-        $token = $this->createMock(TokenInterface::class);
-        $user = $this->createMock(CustomerUser::class);
-
-        $this->tokenStorage->expects(self::once())
-            ->method('getToken')
-            ->willReturn($token);
-        $token->expects(self::once())
-            ->method('getUser')
-            ->willReturn($user);
-
-        $this->extension->processConfigs($datagridConfig);
-    }
-
-    public function testShouldGrantAccessForBackendGridToBackendUser()
-    {
-        $datagridConfig = DatagridConfiguration::createNamed('test_grid', []);
-        $token = $this->createMock(TokenInterface::class);
-        $user = $this->createMock(User::class);
-
-        $this->tokenStorage->expects(self::once())
-            ->method('getToken')
-            ->willReturn($token);
-        $token->expects(self::once())
-            ->method('getUser')
-            ->willReturn($user);
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
 
         $this->extension->processConfigs($datagridConfig);
     }

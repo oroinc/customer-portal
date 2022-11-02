@@ -1,0 +1,17 @@
+/* @theme: default; */
+
+$quick-access-link-color: get-color('additional', 'dark') !default;
+$quick-access-link-hover-color: get-color('additional', 'darker') !default;
+
+$quick-access-icon-size: 20px !default;
+$quick-access-icon-font-size: 11px !default;
+$quick-access-icon-color: get-color('primary', 'light') !default;
+$quick-access-icon-border-radius: 3px !default;
+
+$quick-access-icon-light-background-color: get-color('secondary', 'main') !default;
+
+$quick-access-icon-dark-background-color: get-color('primary', 'base') !default;
+
+// Tablet
+
+$quick-access-tablet-border: 1px solid get-color('additional', 'light') !default;

@@ -2,14 +2,15 @@
 
 namespace Oro\Bundle\CustomerBundle\Owner\Metadata;
 
-use Doctrine\Common\Cache\CacheProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\EntityBundle\ORM\EntityClassResolver;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\AbstractOwnershipMetadataProvider;
+use Symfony\Contracts\Cache\CacheInterface;
 
 /**
  * Provides metadata for entities with frontend ownership type
@@ -18,37 +19,26 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
 {
     const ALIAS = 'frontend_ownership';
 
-    /** @var EntityClassResolver */
-    protected $entityClassResolver;
-
-    /** @var TokenAccessorInterface */
-    protected $tokenAccessor;
-
-    /** @var CacheProvider */
-    private $cache;
-
-    /** @var array */
-    private $owningEntityNames;
-
-    /** @var string */
-    private $businessUnitClass;
-
-    /** @var string */
-    private $userClass;
+    protected EntityClassResolver $entityClassResolver;
+    protected TokenAccessorInterface $tokenAccessor;
+    private CacheInterface $cache;
+    private ?array $owningEntityNames;
+    private string $businessUnitClass;
+    private string $userClass;
 
     /**
      * @param array                  $owningEntityNames [owning entity type => entity class name, ...]
      * @param ConfigManager          $configManager
      * @param EntityClassResolver    $entityClassResolver
      * @param TokenAccessorInterface $tokenAccessor
-     * @param CacheProvider          $cache
+     * @param CacheInterface          $cache
      */
     public function __construct(
         array $owningEntityNames,
         ConfigManager $configManager,
         EntityClassResolver $entityClassResolver,
         TokenAccessorInterface $tokenAccessor,
-        CacheProvider $cache
+        CacheInterface $cache
     ) {
         parent::__construct($configManager);
         $this->owningEntityNames = $owningEntityNames;
@@ -57,73 +47,32 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
         $this->cache = $cache;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getUserClass()
+    public function getUserClass(): string
     {
         $this->ensureOwningEntityClassesInitialized();
 
         return $this->userClass;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBusinessUnitClass()
+    public function getBusinessUnitClass(): string
     {
         $this->ensureOwningEntityClassesInitialized();
 
         return $this->businessUnitClass;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getOrganizationClass()
+    public function getOrganizationClass(): ?string
     {
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     * @deprecated since 2.3, use getUserClass instead
-     */
-    public function getBasicLevelClass()
+    public function supports(): bool
     {
-        return $this->getUserClass();
+        return $this->tokenAccessor->getUser() instanceof CustomerUser
+            || $this->tokenAccessor->getToken() instanceof AnonymousCustomerUserToken;
     }
 
-    /**
-     * {@inheritdoc}
-     * @deprecated since 2.3, use getBusinessUnitClass instead
-     */
-    public function getLocalLevelClass($deep = false)
-    {
-        return $this->getBusinessUnitClass();
-    }
-
-    /**
-     * {@inheritdoc}
-     * @deprecated since 2.3, use getOrganizationClass instead
-     */
-    public function getGlobalLevelClass()
-    {
-        return $this->getOrganizationClass();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supports()
-    {
-        return $this->tokenAccessor->getUser() instanceof CustomerUser;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMaxAccessLevel($accessLevel, $className = null)
+    public function getMaxAccessLevel($accessLevel, $className = null): int
     {
         $maxLevel = $accessLevel;
         if ($accessLevel > AccessLevel::DEEP_LEVEL) {
@@ -140,26 +89,17 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
         return $maxLevel;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getCache()
+    protected function getCache(): CacheInterface
     {
         return $this->cache;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function createNoOwnershipMetadata()
+    protected function createNoOwnershipMetadata(): FrontendOwnershipMetadata
     {
         return new FrontendOwnershipMetadata();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getOwnershipMetadata(ConfigInterface $config)
+    protected function getOwnershipMetadata(ConfigInterface $config): FrontendOwnershipMetadata
     {
         $ownerType = $config->get('frontend_owner_type');
         $ownerFieldName = $config->get('frontend_owner_field_name');
@@ -168,6 +108,10 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
         $organizationColumnName = $config->get('organization_column_name');
         $customerFieldName = $config->get('frontend_customer_field_name');
         $customerColumnName = $config->get('frontend_customer_column_name');
+
+        if (!$ownerType) {
+            $ownerType = '';
+        }
 
         return new FrontendOwnershipMetadata(
             $ownerType,
@@ -180,10 +124,7 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getOwnershipConfigs()
+    protected function getOwnershipConfigs(): array
     {
         // only commerce entities can have frontend ownership
         $configs = parent::getOwnershipConfigs();
@@ -205,7 +146,7 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
     /**
      * Makes sure that the owning entity classes are initialized.
      */
-    private function ensureOwningEntityClassesInitialized()
+    private function ensureOwningEntityClassesInitialized(): void
     {
         if (null === $this->owningEntityNames) {
             // already initialized

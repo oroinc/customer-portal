@@ -2,11 +2,14 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Form\Type;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Oro\Bundle\SearchBundle\Tests\Unit\Fixture\Entity\Product;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
+use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
+use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Form\Type\WebsiteScopedDataType;
-use Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface;
 use Oro\Bundle\WebsiteBundle\Tests\Unit\Form\Type\Stub\StubType;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\PreloadedExtension;
@@ -18,100 +21,81 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
 {
     use EntityTrait;
 
-    const WEBSITE_ID = 42;
+    private const WEBSITE_ID = 42;
+
+    /** @var WebsiteScopedDataType */
+    private $formType;
 
     /**
-     * @var WebsiteScopedDataType
-     */
-    protected $formType;
-
-    /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getExtensions()
     {
-        return [
-            new PreloadedExtension(
-                [
-                    $this->formType,
-                    StubType::class => new StubType(),
-                ],
-                []
-            )
-        ];
+        return [new PreloadedExtension([$this->formType, StubType::class => new StubType()], [])];
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $website = $this->getEntity(Website::class, ['id' => self::WEBSITE_ID]);
-
-        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $em = $this->createMock(EntityManager::class);
         $em->expects($this->any())
             ->method('getReference')
-            ->with('TestWebsiteClass', self::WEBSITE_ID)
-            ->willReturn($website);
+            ->with(Website::class, self::WEBSITE_ID)
+            ->willReturn($this->getEntity(Website::class, ['id' => self::WEBSITE_ID]));
 
-        $repository = $this->getMockBuilder('Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $websites = [self::WEBSITE_ID => $this->getEntity(Website::class, ['id' => self::WEBSITE_ID])];
+        $websiteQuery = $this->createMock(AbstractQuery::class);
+        $websiteQB = $this->createMock(QueryBuilder::class);
+        $websiteQB->expects($this->any())
+            ->method('getQuery')
+            ->willReturn($websiteQuery);
+        $websiteQuery->expects($this->any())
+            ->method('getResult')
+            ->willReturn($websites);
 
-        $repository->expects($this->any())
-            ->method('getAllWebsites')
-            ->willReturn([$website]);
+        $websiteRepository = $this->createMock(WebsiteRepository::class);
+        $websiteRepository->expects($this->any())
+            ->method('createQueryBuilder')
+            ->with('website')
+            ->willReturn($websiteQB);
 
-        /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject $registry */
-        $registry = $this->getMockBuilder('\Doctrine\Common\Persistence\ManagerRegistry')
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $registry = $this->createMock(ManagerRegistry::class);
         $registry->expects($this->any())
             ->method('getRepository')
-            ->with('TestWebsiteClass')
-            ->willReturn($repository);
-
+            ->with(Website::class)
+            ->willReturn($websiteRepository);
         $registry->expects($this->any())
             ->method('getManagerForClass')
-            ->with('TestWebsiteClass')
+            ->with(Website::class)
             ->willReturn($em);
 
-        /** @var WebsiteProviderInterface|\PHPUnit\Framework\MockObject\MockObject $websiteProvider */
-        $websiteProvider = $this->createMock('Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface');
-        $websiteProvider->expects($this->any())
-            ->method('getWebsites')
-            ->willReturn([$website]);
+        $aclHelper = $this->createMock(AclHelper::class);
+        $aclHelper->expects($this->any())
+            ->method('apply')
+            ->willReturn($websiteQuery);
 
-        $this->formType = new WebsiteScopedDataType($registry, $websiteProvider);
-        $this->formType->setWebsiteClass('TestWebsiteClass');
+        $this->formType = new WebsiteScopedDataType($registry, $aclHelper);
+
         parent::setUp();
     }
 
     /**
      * @dataProvider submitDataProvider
-     * @param Product $defaultData
-     * @param array $options
-     * @param array $submittedData
-     * @param array $expectedData
      */
-    public function testSubmit($defaultData, array $options, array $submittedData, array $expectedData)
+    public function testSubmit(array $defaultData, array $options, array $submittedData, array $expectedData): void
     {
         $form = $this->factory->create(WebsiteScopedDataType::class, $defaultData, $options);
 
-        $this->assertEquals($defaultData, $form->getData());
+        self::assertEquals($defaultData, $form->getData());
         $form->submit($submittedData);
-        $this->assertTrue($form->isValid());
+        self::assertTrue($form->isValid());
+        self::assertTrue($form->isSynchronized());
 
         $data = $form->getData();
 
-        $this->assertEquals($expectedData, $data);
+        self::assertEquals($expectedData, $data);
     }
 
-    /**
-     * @return array
-     */
-    public function submitDataProvider()
+    public function submitDataProvider(): array
     {
         return [
             [
@@ -130,15 +114,14 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
         ];
     }
 
-    public function testBuildView()
+    public function testBuildView(): void
     {
         $view = new FormView();
 
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
-        $form = $this->createMock('Symfony\Component\Form\FormInterface');
+        $form = $this->createMock(FormInterface::class);
         $this->formType->buildView($view, $form, ['region_route' => 'test']);
 
-        $this->assertArrayHasKey('websites', $view->vars);
+        self::assertArrayHasKey('websites', $view->vars);
 
         $websiteIds = array_map(
             function (Website $website) {
@@ -147,13 +130,10 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
             $view->vars['websites']
         );
 
-        $this->assertEquals([self::WEBSITE_ID], $websiteIds);
+        self::assertEquals([self::WEBSITE_ID => self::WEBSITE_ID], $websiteIds);
     }
 
-    /**
-     * @return array
-     */
-    public function finishViewDataProvider()
+    public function finishViewDataProvider(): array
     {
         return [
             [
@@ -169,19 +149,5 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
                 'expected' => ['1' => 'test', 'not_int' => 'test']
             ],
         ];
-    }
-
-    /**
-     * @param FormView $formView
-     * @param array $children
-     * @return FormView
-     */
-    protected function setFormViewChildren(FormView $formView, array $children)
-    {
-        $childrenReflection = new \ReflectionProperty($formView, 'children');
-        $childrenReflection->setAccessible(true);
-        $childrenReflection->setValue($formView, $children);
-
-        return $formView;
     }
 }

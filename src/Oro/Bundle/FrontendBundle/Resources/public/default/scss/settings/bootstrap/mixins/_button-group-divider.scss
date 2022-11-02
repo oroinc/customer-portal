@@ -1,0 +1,18 @@
+/* @theme: default; */
+
+@mixin button-group-divider($btn: null, $divider-style: null) {
+    @if ($btn and $divider-style) {
+        @at-root .btn-group {
+            #{$btn} + #{$btn},
+            #{$btn} + .btn-group,
+            .btn-group + #{$btn} {
+                border-left-color: $divider-style;
+            }
+
+            > #{$btn}:not(:last-child):not(.dropdown-toggle),
+            > .btn-group:not(:last-child) > #{$btn} {
+                border-right-color: $divider-style;
+            }
+        }
+    }
+}

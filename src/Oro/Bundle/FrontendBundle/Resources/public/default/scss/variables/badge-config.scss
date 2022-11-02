@@ -6,8 +6,10 @@ $badge-background-color-info: get-color('secondary', 'base') !default;
 
 $badge-size: 26px !default;
 $badge-font-size: 14px !default;
-$badge-square-radius: 3px !default;
-$badge-inner-offset-right: 5px !default;
+$badge-square-radius: 4px !default;
+$badge-inner-offset-right: 8px !default;
 
 $badge-font-size-xs: 10px !default;
 $badge-size-xs: 16px !default;
+
+$badge-rectangle-background: get-color('additional', 'light') !default;

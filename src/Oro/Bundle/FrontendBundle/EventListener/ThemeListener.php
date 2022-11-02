@@ -5,100 +5,50 @@ namespace Oro\Bundle\FrontendBundle\EventListener;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\NavigationBundle\Event\ResponseHashnavListener;
-use Oro\Bundle\ThemeBundle\Model\ThemeRegistry;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
 
+/**
+ * Sets parameters to request the that determine the layout structure
+ */
 class ThemeListener
 {
-    const FRONTEND_THEME = 'demo';
-    const DEFAULT_LAYOUT_THEME_CONFIG_VALUE_KEY = 'oro_frontend.frontend_theme';
+    private FrontendHelper $frontendHelper;
 
-    /**
-     * @var ThemeRegistry
-     */
-    protected $themeRegistry;
+    private ConfigManager $configManager;
 
-    /**
-     * @var FrontendHelper
-     */
-    protected $helper;
-
-    /**
-     * @var bool
-     */
-    protected $installed;
-
-    /**
-     * @var ConfigManager
-     */
-    protected $configManager;
-
-    /**
-     * @param ThemeRegistry $themeRegistry
-     * @param FrontendHelper $helper
-     * @param ConfigManager $configManager
-     * @param boolean $installed
-     */
-    public function __construct(
-        ThemeRegistry $themeRegistry,
-        FrontendHelper $helper,
-        ConfigManager $configManager,
-        $installed
-    ) {
-        $this->themeRegistry = $themeRegistry;
-        $this->helper = $helper;
+    public function __construct(FrontendHelper $frontendHelper, ConfigManager $configManager)
+    {
+        $this->frontendHelper = $frontendHelper;
         $this->configManager = $configManager;
-        $this->installed = $installed;
     }
 
-    /**
-     * @param GetResponseEvent $event
-     */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
-        if (!$this->installed) {
-            return;
-        }
-
-        if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
-            return;
-        }
-
-        if ($this->helper->isFrontendRequest($event->getRequest())) {
-            // set oro theme
-            $this->themeRegistry->setActiveTheme(self::FRONTEND_THEME);
+        $request = $event->getRequest();
+        if ($this->frontendHelper->isFrontendUrl($request->getPathInfo())) {
             // set layout theme
-            $request = $event->getRequest();
-            $layoutTheme = $this->configManager->get(self::DEFAULT_LAYOUT_THEME_CONFIG_VALUE_KEY);
+            $layoutTheme = $this->configManager->get('oro_frontend.frontend_theme');
             $request->attributes->set('_theme', $layoutTheme);
 
-            //disable SPA
-            $hashNavigationHeader = $request->get(ResponseHashnavListener::HASH_NAVIGATION_HEADER) ||
-                $request->headers->get(ResponseHashnavListener::HASH_NAVIGATION_HEADER);
+            // disable SPA
+            $hashNavigationHeader =
+                $request->get(ResponseHashnavListener::HASH_NAVIGATION_HEADER)
+                || $request->headers->get(ResponseHashnavListener::HASH_NAVIGATION_HEADER);
             if ($hashNavigationHeader && !$request->attributes->has('_fullRedirect')) {
                 $request->attributes->set('_fullRedirect', true);
             }
         }
     }
 
-    /**
-     * @param GetResponseForControllerResultEvent $event
-     */
-    public function onKernelView(GetResponseForControllerResultEvent $event)
+    public function onKernelView(ViewEvent $event): void
     {
-        if (!$this->installed) {
+        if (!$event->isMasterRequest()) {
             return;
         }
 
         $request = $event->getRequest();
-
-        if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
-            return;
-        }
-
-        if (!$this->helper->isFrontendRequest($request)) {
+        if (!$this->frontendHelper->isFrontendUrl($request->getPathInfo())) {
             return;
         }
 

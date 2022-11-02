@@ -1,15 +1,37 @@
 /* @theme: default; */
 
 .page-title {
+    font-family: $page-title-font-family;
     font-size: $page-title-font-size;
-    line-height: 1.1;
+    line-height: $page-title-line-height;
 
     &--has-actions {
         float: left;
     }
 
     &__text {
-        vertical-align: middle;
-        text-transform: uppercase;
+        vertical-align: $page-title-offset-text-vertical-align;
+        text-transform: $page-title-offset-text-transform;
+
+        &--offset-x {
+            &-end-s {
+                margin-right: $page-title-offset-end-s;
+            }
+        }
+    }
+
+    &.with-ellipsis {
+        display: inline-flex;
+        align-items: center;
+
+        overflow: hidden;
+
+        .page-title__text {
+            display: inline-block;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 }

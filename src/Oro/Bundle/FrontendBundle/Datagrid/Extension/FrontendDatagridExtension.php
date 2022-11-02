@@ -2,12 +2,10 @@
 
 namespace Oro\Bundle\FrontendBundle\Datagrid\Extension;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Exception\LogicException;
 use Oro\Bundle\DataGridBundle\Extension\AbstractExtension;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
 /**
  * Denies access to the backend grids from the frontend.
@@ -19,17 +17,14 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class FrontendDatagridExtension extends AbstractExtension
 {
-    const FRONTEND_OPTION_PATH = '[options][frontend]';
+    public const FRONTEND_OPTION_PATH = '[options][frontend]';
 
-    /** @var TokenStorageInterface */
-    private $tokenStorage;
+    /** @var FrontendHelper */
+    private $frontendHelper;
 
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     */
-    public function __construct(TokenStorageInterface $tokenStorage)
+    public function __construct(FrontendHelper $frontendHelper)
     {
-        $this->tokenStorage = $tokenStorage;
+        $this->frontendHelper = $frontendHelper;
     }
 
     /**
@@ -45,7 +40,7 @@ class FrontendDatagridExtension extends AbstractExtension
      */
     public function processConfigs(DatagridConfiguration $config)
     {
-        if (!$this->isFrontendGrid($config) && $this->isFrontendRequest()) {
+        if (!$this->isFrontendGrid($config) && $this->frontendHelper->isFrontendRequest()) {
             throw new LogicException(
                 sprintf(
                     'The datagrid "%s" is not allowed to be displayed on the frontend.'
@@ -64,20 +59,5 @@ class FrontendDatagridExtension extends AbstractExtension
     private function isFrontendGrid(DatagridConfiguration $config)
     {
         return (bool)$config->offsetGetByPath(self::FRONTEND_OPTION_PATH, false);
-    }
-
-    /**
-     * @return bool
-     */
-    private function isFrontendRequest()
-    {
-        $token = $this->tokenStorage->getToken();
-        if (null === $token) {
-            return false;
-        }
-
-        return
-            $token instanceof AnonymousCustomerUserToken
-            || $token->getUser() instanceof CustomerUser;
     }
 }

@@ -1,11 +1,10 @@
 define(function(require) {
     'use strict';
 
-    var FitMatrixView;
-    var BaseView = require('oroui/js/app/views/base/view');
-    var _ = require('underscore');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const _ = require('underscore');
 
-    FitMatrixView = BaseView.extend({
+    const FitMatrixView = BaseView.extend({
         /**
          * @property {jQuery}
          */
@@ -23,17 +22,17 @@ define(function(require) {
         states: ['state-labels-above', 'state-multiline'],
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function FitMatrixView() {
-            FitMatrixView.__super__.constructor.apply(this, arguments);
+        constructor: function FitMatrixView(options) {
+            FitMatrixView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
-            FitMatrixView.__super__.initialize.apply(this, arguments);
+            FitMatrixView.__super__.initialize.call(this, options);
 
             this.$matrixContainer = this.$('[data-matrix-grid-container]');
             this.$scrollView = this.$('[data-scroll-view]');
@@ -49,7 +48,7 @@ define(function(require) {
         fitMatrix: function() {
             this.resetState();
 
-            for (var i = 0; i < this.states.length; i++) {
+            for (let i = 0; i < this.states.length; i++) {
                 if (!this.isFittedContainer()) {
                     return;
                 }
@@ -65,7 +64,7 @@ define(function(require) {
          * @returns {boolean}
          */
         isFittedContainer: function() {
-            var scrollView = this.$scrollView.get(0);
+            const scrollView = this.$scrollView.get(0);
 
             return scrollView.clientWidth < scrollView.scrollWidth;
         },

@@ -16,7 +16,7 @@ system_configuration:
             title: oro.customer.system_configuration.groups.map_settings.title
         responsive_grid_settings:
             title: oro.customer.system_configuration.groups.responsive_grid_settings.title
-        rest_api:
+        frontend_rest_api:
             title: oro.customer.system_configuration.groups.rest_api.title
     fields:
         oro_customer.default_customer_owner:
@@ -31,8 +31,8 @@ system_configuration:
                 configs:
                     allowClear: false
                     placeholder: 'oro.user.form.choose_user'
-                    result_template_twig: 'OroUserBundle:User:Autocomplete/result.html.twig'
-                    selection_template_twig: 'OroUserBundle:User:Autocomplete/selection.html.twig'
+                    result_template_twig: '@OroUser/User/Autocomplete/result.html.twig'
+                    selection_template_twig: '@OroUser/User/Autocomplete/selection.html.twig'
                 constraints:
                     - NotBlank: ~
         oro_customer.registration_allowed:
@@ -98,6 +98,8 @@ system_configuration:
             options:
                 label: oro.customer.system_configuration.fields.user_menu_show_items.label
                 required: true
+                constraints:
+                    - NotBlank: ~
                 choices:
                     oro.customer.system_configuration.fields.user_menu_show_items.option.all_at_once.label: all_at_once
                     oro.customer.system_configuration.fields.user_menu_show_items.option.subitems_in_popup.label: subitems_in_popup
@@ -122,11 +124,12 @@ system_configuration:
             type: Symfony\Component\Form\Extension\Core\Type\IntegerType
             search_type: text
             options:
-                required: false
+                required: true
                 label: oro.customer.system_configuration.fields.customer_visitor_cookie_lifetime_days.label
                 tooltip: oro.customer.system_configuration.fields.customer_visitor_cookie_lifetime_days.tooltip
                 constraints:
                     - NotBlank: ~
+                    - Type: integer
                     - Range:
                         min: 1
         oro_customer.maps_enabled:
@@ -157,7 +160,7 @@ system_configuration:
                 required: false
                 resettable: false
                 constraints:
-                    - Oro\Bundle\CustomerBundle\Validator\Constraints\EmailCaseInsensitiveOptionConstraint: ~
+                    - Oro\Bundle\CustomerBundle\Validator\Constraints\EmailCaseInsensitiveOption: ~
 
     tree:
         system_configuration:
@@ -170,6 +173,7 @@ system_configuration:
                                 priority: 100
                                 children:
                                     customer_users_registration:
+                                        priority: 100
                                         children:
                                             - oro_customer.default_customer_owner
                                             - oro_customer.registration_allowed
@@ -181,9 +185,11 @@ system_configuration:
                                             - oro_customer.registration_instructions_text
                                             - oro_customer.case_insensitive_email_addresses_enabled
                                     customer_visitor_section:
+                                        priority: 90
                                         children:
                                             - oro_customer.customer_visitor_cookie_lifetime_days
-                                    rest_api:
+                                    frontend_rest_api:
+                                        priority: 50
                                         children:
                                             - oro_customer.api_key_generation_enabled
 
@@ -227,3 +233,31 @@ system_configuration:
                                     map_settings:
                                         children:
                                             - oro_customer.maps_enabled
+
+        customer_configuration:
+            commerce:
+                children:
+                    product:
+                        children:
+                            customer_settings:
+                                priority: 0
+                                children:
+                                    product_data_export:
+                                        children:
+                                            - oro_product.product_data_export_enabled
+                                            - oro_product.product_prices_export_enabled
+                                            - oro_product.product_price_tiers_export_enabled
+
+        customer_group_configuration:
+            commerce:
+                children:
+                    product:
+                        children:
+                            customer_settings:
+                                priority: 0
+                                children:
+                                    product_data_export:
+                                        children:
+                                            - oro_product.product_data_export_enabled
+                                            - oro_product.product_prices_export_enabled
+                                            - oro_product.product_price_tiers_export_enabled

@@ -2,28 +2,22 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Menu;
 
+use Knp\Menu\ItemInterface;
 use Oro\Bundle\CustomerBundle\Menu\CustomerUserMenuBuilder;
 
 class CustomerUserMenuBuilderTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var CustomerUserMenuBuilder
-     */
-    protected $builder;
+    /** @var CustomerUserMenuBuilder */
+    private $builder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->builder = new CustomerUserMenuBuilder();
     }
 
-    protected function tearDown()
-    {
-        unset($this->builder);
-    }
-
     public function testBuild()
     {
-        $child = $this->createMock('Knp\Menu\ItemInterface');
+        $child = $this->createMock(ItemInterface::class);
         $child->expects($this->once())
             ->method('setLabel')
             ->with('')
@@ -33,24 +27,25 @@ class CustomerUserMenuBuilderTest extends \PHPUnit\Framework\TestCase
             ->with('divider', true)
             ->willReturnSelf();
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|\Knp\Menu\ItemInterface $menu */
-        $menu = $this->createMock('Knp\Menu\ItemInterface');
-        $menu->expects($this->at(0))
+        $menu = $this->createMock(ItemInterface::class);
+        $menu->expects($this->once())
             ->method('setExtra')
             ->with('type', 'dropdown');
-
-        $menu->expects($this->at(1))
+        $menu->expects($this->exactly(2))
             ->method('addChild')
-            ->willReturn($child);
-
-        $menu->expects($this->at(2))
-            ->method('addChild')
-            ->with(
-                'oro.customer.menu.customer_user_logout.label',
+            ->withConsecutive(
+                ['divider-customer-user-before-logout'],
                 [
-                    'route' => 'oro_customer_customer_user_security_logout',
-                    'linkAttributes' => ['class' => 'no-hash']
+                    'oro.customer.menu.customer_user_logout.label',
+                    [
+                        'route' => 'oro_customer_customer_user_security_logout',
+                        'linkAttributes' => ['class' => 'no-hash']
+                    ]
                 ]
+            )
+            ->willReturnOnConsecutiveCalls(
+                $child,
+                $this->createMock(ItemInterface::class)
             );
 
         $this->builder->build($menu);

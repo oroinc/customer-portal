@@ -20,10 +20,6 @@ class MenuListFrontendItemNavigationListener
     /** @var TokenAccessorInterface */
     private $tokenAccessor;
 
-    /**
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param TokenAccessorInterface        $tokenAccessor
-     */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         TokenAccessorInterface $tokenAccessor
@@ -32,9 +28,6 @@ class MenuListFrontendItemNavigationListener
         $this->tokenAccessor = $tokenAccessor;
     }
 
-    /**
-     * @param ConfigureMenuEvent $event
-     */
     public function onNavigationConfigure(ConfigureMenuEvent $event)
     {
         if (!$this->tokenAccessor->hasUser()) {

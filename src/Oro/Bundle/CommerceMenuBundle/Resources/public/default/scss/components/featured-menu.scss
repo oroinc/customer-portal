@@ -1,0 +1,91 @@
+/* @theme: default; */
+
+@use 'sass:math';
+
+.featured-menu {
+    margin: $featured-menu-offset;
+}
+
+.featured-menu-tiles {
+    --tiles-column-count: #{$featured-menu-tiles-column-count};
+}
+
+.featured-menu-content {
+    height: 100%;
+    padding: $featured-menu-content-offset-inner;
+    text-align: $featured-menu-content-text-align;
+    background: $featured-menu-content-bg;
+
+    &__title {
+        max-width: 100%;
+        margin-bottom: $featured-menu-item-title-offset-bottom;
+
+        font-size: $featured-menu-item-title-font-size;
+        font-weight: $featured-menu-item-title-font-weight;
+        text-transform: $featured-menu-item-title-text-transform;
+    }
+
+    &__description {
+        max-width: 100%;
+        // two rows
+        min-height: ceil(($featured-menu-item-description-font-size * $featured-menu-item-description-line-height) * 2);
+        // two rows
+        max-height: ceil(($featured-menu-item-description-font-size * $featured-menu-item-description-line-height) * 2);
+        margin-bottom: $featured-menu-item-description-offset-bottom;
+
+        overflow: hidden;
+    }
+
+    &__link {
+        white-space: $featured-menu-link-white-space;
+    }
+
+    &__img-wrap {
+        margin-bottom: $featured-menu-item-img-wrap-offset-bottom;
+    }
+
+    &__img {
+        width: $featured-menu-item-icon-font-size;
+        height: $featured-menu-item-icon-font-size;
+    }
+
+    &__icon {
+        font-size: $featured-menu-item-icon-font-size;
+
+        color: $featured-menu-item-icon-color;
+    }
+}
+
+@include breakpoint('tablet') {
+    .featured-menu-tiles {
+        --tiles-column-count: #{$featured-menu-tiles-tablet-column-count};
+    }
+}
+
+@include breakpoint('tablet-small') {
+    .featured-menu {
+        margin: $featured-menu-offset-tablet-small;
+    }
+
+    .featured-menu-content {
+        &__description {
+            // two rows
+            max-height:
+                ceil(
+                    (
+                        $featured-menu-item-description-font-size-tablet-small *
+                        $featured-menu-item-description-line-height
+                    ) *
+                    2
+                );
+
+            font-size: $featured-menu-item-description-font-size-tablet-small;
+        }
+    }
+}
+
+@include breakpoint('mobile') {
+    .featured-menu-tiles {
+        --tiles-column-count: #{$featured-menu-tiles-mobile-column-count};
+    }
+}

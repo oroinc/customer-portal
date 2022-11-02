@@ -1,12 +1,10 @@
 define(function(require) {
     'use strict';
 
-    var ScrollView;
-    var BaseView = require('oroui/js/app/views/base/view');
-    var _ = require('underscore');
+    const BaseView = require('oroui/js/app/views/base/view');
     require('jquery.mousewheel');
 
-    ScrollView = BaseView.extend({
+    const ScrollView = BaseView.extend({
         /**
          * @property {jQuery}
          */
@@ -23,10 +21,10 @@ define(function(require) {
         $followYAxis: null,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function ScrollView() {
-            ScrollView.__super__.constructor.apply(this, arguments);
+        constructor: function ScrollView(options) {
+            ScrollView.__super__.constructor.call(this, options);
         },
 
         /**
@@ -51,11 +49,11 @@ define(function(require) {
         initScrollContainer: function() {
             this.setStartPosition();
 
-            this.$scrollableContainer.on('scroll mousewheel', _.bind(function(e) {
+            this.$scrollableContainer.on('scroll mousewheel', e => {
                 e.stopPropagation();
                 this.updateFollowersPosition(e.currentTarget);
                 this.setScrollStatus();
-            }, this));
+            });
         },
 
         updateFollowersPosition: function(element) {
@@ -72,7 +70,7 @@ define(function(require) {
         },
 
         setScrollStatus: function() {
-            var scroll = this.hasScroll(this.$scrollableContainer.get(0));
+            const scroll = this.hasScroll(this.$scrollableContainer.get(0));
 
             this.$el
                 .toggleClass('has-x-scroll', scroll.x)

@@ -11,7 +11,7 @@ class CustomerImportExportConfigurationProviderTest extends TestCase
 {
     public function testGet()
     {
-        static::assertEquals(
+        self::assertEquals(
             new ImportExportConfiguration([
                 ImportExportConfiguration::FIELD_ENTITY_CLASS => Customer::class,
                 ImportExportConfiguration::FIELD_EXPORT_TEMPLATE_PROCESSOR_ALIAS => 'oro_customer_customer',

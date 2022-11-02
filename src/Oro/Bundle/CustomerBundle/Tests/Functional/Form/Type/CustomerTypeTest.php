@@ -3,8 +3,10 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Form\Type;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerAddresses;
+use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers;
+use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
+use Oro\Bundle\SecurityBundle\Test\Functional\RolePermissionExtension;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Form;
@@ -16,85 +18,100 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CustomerTypeTest extends WebTestCase
 {
-    protected function setUp()
+    use RolePermissionExtension;
+
+    private const PRIMARY_ADDRESS = 0;
+
+    protected function setUp(): void
     {
-        $this->initClient([], static::generateBasicAuthHeader());
-        $this->loadFixtures([
-            LoadCustomerAddresses::class
-        ]);
+        $this->initClient([], self::generateBasicAuthHeader());
+        $this->loadFixtures([LoadCustomers::class]);
+
+        $this->updateRolePermissions(
+            'ROLE_ADMINISTRATOR',
+            CustomerAddress::class,
+            [
+                'CREATE' => AccessLevel::GLOBAL_LEVEL,
+                'EDIT' => AccessLevel::GLOBAL_LEVEL,
+                'VIEW' => AccessLevel::GLOBAL_LEVEL,
+                'DELETE' => AccessLevel::GLOBAL_LEVEL,
+            ]
+        );
     }
 
     /**
-     * @param array $data
      * @dataProvider formAddressTypeDataProvider
      */
-    public function testCreatePrimaryAddress(array $data): void
+    public function testCreatePrimaryAddress(array $addressData): void
     {
-        $crawler = $this->submitCustomerForm($data);
+        $crawler = $this->submitCustomerForm($addressData);
 
-        $this->assertNotContains('One of the addresses must be set as primary.', $crawler->html());
-        $this->assertContains('Customer has been saved', $crawler->html());
+        $addresses = $this->getCustomer()->getAddresses();
+
+        self::assertCount(1, $addresses);
+        self::assertTrue($addresses->first()->isPrimary());
+        self::assertStringContainsString('Customer has been saved', $crawler->html());
+        self::assertStringNotContainsString('One of the addresses must be set as primary.', $crawler->html());
     }
 
-    /**
-     * @return array
-     */
     public function formAddressTypeDataProvider(): array
     {
+        $addressData = [
+            'label' => 'Address',
+            'firstName' => 'Acme',
+            'lastName' => 'ACme',
+            'country' => 'US',
+            'street' => '19200 Canis Heights Drive',
+            'city' => 'Los Angeles',
+            'region' => 'US-CA',
+            'postalCode' => '90071',
+            'types' => ['billing', 'shipping'],
+            'defaults' => ['default' => ['billing', 'shipping']],
+        ];
+
         return [
             'set address as not primary' => [
-                'data' => [
-                    'primary' => false
-                ]
+                'address' => array_merge($addressData, ['primary' => false])
             ],
             'set address as primary' => [
-                'data' => [
-                    'primary' => true
-                ]
+                'address' => array_merge($addressData, ['primary' => true])
             ]
         ];
     }
 
-    /**
-     * @param array $data
-     * @return Crawler
-     */
-    private function submitCustomerForm(array $data): Crawler
+    private function submitCustomerForm(array $addressData): Crawler
     {
-        $crawler = $this->client->request(
-            Request::METHOD_GET,
-            $this->getUrl(
-                'oro_customer_customer_update',
-                ['id' => $this->getCustomerId()]
-            )
-        );
+        $form = $this->getUpdateForm();
 
-        $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, Response::HTTP_OK);
-
-        /** @var Form $form */
-        $form = $crawler->selectButton('Save')->form();
-        foreach ($data as $field => $value) {
-            $form[sprintf('oro_customer_type[addresses][0][%s]', $field)] = $value;
-        }
+        $submittedData = $form->getPhpValues();
+        $submittedData['input_action'] = 'save_and_stay';
+        $submittedData['oro_customer_type']['addresses'][self::PRIMARY_ADDRESS] = $addressData;
 
         $this->client->followRedirects(true);
-        $crawler = $this->client->submit($form);
-
+        $crawler = $this->client->request($form->getMethod(), $form->getUri(), $submittedData);
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, Response::HTTP_OK);
 
         return $crawler;
     }
 
-    /**
-     * @return integer
-     */
-    private function getCustomerId(): int
+    private function getUpdateForm(): Form
     {
-        /** @var Customer $customer */
-        $customer = $this->getReference(LoadCustomers::CUSTOMER_LEVEL_1);
+        $crawler = $this->client->request(
+            Request::METHOD_GET,
+            $this->getUrl(
+                'oro_customer_customer_update',
+                ['id' => $this->getCustomer()->getId()]
+            )
+        );
+        $result = $this->client->getResponse();
+        $this->assertHtmlResponseStatusCodeEquals($result, Response::HTTP_OK);
 
-        return $customer->getId();
+        return $crawler->selectButton('Save')->form();
+    }
+
+    private function getCustomer(): Customer
+    {
+        return $this->getReference(LoadCustomers::CUSTOMER_LEVEL_1);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\ImportExport\Strategy\EventListener;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -15,11 +15,12 @@ use Oro\Bundle\ImportExportBundle\Converter\ConfigurableTableDataConverter;
 use Oro\Bundle\ImportExportBundle\Event\StrategyEvent;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ImportStrategyHelper;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\SecurityBundle\Owner\OwnerChecker;
 use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
 {
@@ -58,7 +59,7 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
      */
     protected $context;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->registry = $this->createMock(ManagerRegistry::class);
         $this->customerUserManager = $this->createMock(CustomerUserManager::class);
@@ -69,6 +70,7 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         $configurableDataConverter = $this->createMock(ConfigurableTableDataConverter::class);
         $authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+        $ownerChecker = $this->createMock(OwnerChecker::class);
 
         $this->strategyHelper = new ImportStrategyHelper(
             $this->registry,
@@ -77,7 +79,8 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
             $fieldHelper,
             $configurableDataConverter,
             $authorizationChecker,
-            $tokenAccessor
+            $tokenAccessor,
+            $ownerChecker
         );
 
         $this->websiteRepository = $this->createMock(WebsiteRepository::class);
@@ -91,7 +94,8 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         $website = new WebsiteStub();
         $website->setName($websiteName);
 
-        $this->websiteRepository->method('getDefaultWebsite')
+        $this->websiteRepository->expects(self::any())
+            ->method('getDefaultWebsite')
             ->willReturn($website);
 
         $roleName = 'ROLE_FRONTEND_TEST';
@@ -116,11 +120,11 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
 
         $listener->onProcessAfter($this->event);
 
-        $this->assertEquals($websiteName, (string) $customerUser->getWebsite());
-        $this->assertEquals(1, count($customerUser->getRoles()));
-        $this->assertEquals($roleName, $customerUser->getRole($roleName)->getRole());
-        $this->assertEquals(0, $this->context->getErrorEntriesCount());
-        $this->assertEquals($password, $customerUser->getPassword());
+        self::assertEquals($websiteName, (string) $customerUser->getWebsite());
+        self::assertCount(1, $customerUser->getUserRoles());
+        self::assertTrue($customerUser->hasRole($roleName));
+        self::assertEquals(0, $this->context->getErrorEntriesCount());
+        self::assertEquals($password, $customerUser->getPassword());
     }
 
     public function testWebsiteOrWebsiteAndRoleDoesNotExist()
@@ -142,18 +146,18 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
 
         $listener->onProcessAfter($this->event);
 
-        $this->assertNull($customerUser->getWebsite());
-        $this->assertEquals(0, count($customerUser->getRoles()));
-        $this->assertNull($customerUser->getRole('ROLE_FRONTEND_TEST'));
-        $this->assertEquals(2, $this->context->getErrorEntriesCount());
-        $this->assertEquals(
+        self::assertNull($customerUser->getWebsite());
+        self::assertEquals(0, count($customerUser->getUserRoles()));
+        self::assertNull($customerUser->getUserRole('ROLE_FRONTEND_TEST'));
+        self::assertEquals(2, $this->context->getErrorEntriesCount());
+        self::assertEquals(
             [
                 'Error in row #0. Default website doesn\'t exists',
                 'Error in row #0. Default role for website WebsiteTest doesn\'t exists'
             ],
             $this->context->getErrors()
         );
-        $this->assertEquals($password, $customerUser->getPassword());
+        self::assertEquals($password, $customerUser->getPassword());
     }
 
     public function testRoleDoesNotExists()
@@ -162,7 +166,8 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         $website = new WebsiteStub();
         $website->setName($websiteName);
 
-        $this->websiteRepository->method('getDefaultWebsite')
+        $this->websiteRepository->expects(self::any())
+            ->method('getDefaultWebsite')
             ->willReturn($website);
 
         $customerUser = new CustomerUser();
@@ -182,15 +187,15 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
 
         $listener->onProcessAfter($this->event);
 
-        $this->assertEquals('WebsiteTest', (string) $customerUser->getWebsite());
-        $this->assertEquals(0, count($customerUser->getRoles()));
-        $this->assertNull($customerUser->getRole('ROLE_FRONTEND_TEST'));
-        $this->assertEquals(1, $this->context->getErrorEntriesCount());
-        $this->assertEquals(
+        self::assertEquals('WebsiteTest', (string) $customerUser->getWebsite());
+        self::assertEquals(0, count($customerUser->getUserRoles()));
+        self::assertNull($customerUser->getUserRole('ROLE_FRONTEND_TEST'));
+        self::assertEquals(1, $this->context->getErrorEntriesCount());
+        self::assertEquals(
             ['Error in row #0. Default role for website WebsiteTest doesn\'t exists'],
             $this->context->getErrors()
         );
-        $this->assertEquals($password, $customerUser->getPassword());
+        self::assertEquals($password, $customerUser->getPassword());
     }
 
     public function testUpdateEntity()
@@ -202,7 +207,8 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         $websiteAfter = new WebsiteStub();
         $websiteAfter->setName('WebsiteAfter');
 
-        $this->websiteRepository->method('getDefaultWebsite')
+        $this->websiteRepository->expects(self::any())
+            ->method('getDefaultWebsite')
             ->willReturn($websiteAfter);
 
         $roleNameBefore = 'ROLE_FRONTEND_TEST_BEFORE';
@@ -215,13 +221,13 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
 
         $customerUser = new CustomerUser();
         $customerUser->setWebsite($websiteBefore);
-        $customerUser->addRole($customerUserRoleBefore);
+        $customerUser->addUserRole($customerUserRoleBefore);
         $passwordBefore = 'password_before';
         $passwordAfter = 'password_after';
         $customerUser->setPassword($passwordBefore);
 
         $this->updateEventMock($customerUser);
-        $this->updateCustomerManagerMock($customerUser, $passwordAfter);
+        $this->updateCustomerManagerMock($passwordAfter);
 
         $listener = new ImportCustomerUserListener(
             $this->registry,
@@ -232,22 +238,21 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
 
         $listener->onProcessAfter($this->event);
 
-        $this->assertEquals($websiteBeforeName, (string) $customerUser->getWebsite());
-        $this->assertEquals($roleNameBefore, $customerUser->getRole($roleNameBefore)->getRole());
-        $this->assertEquals($passwordBefore, $customerUser->getPassword());
+        self::assertEquals($websiteBeforeName, (string) $customerUser->getWebsite());
+        self::assertTrue($customerUser->hasRole($roleNameBefore));
+        self::assertEquals($passwordBefore, $customerUser->getPassword());
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     */
     protected function updateEventMock(CustomerUser $customerUser)
     {
-        $this->event->method('getEntity')
+        $this->event->expects(self::any())
+            ->method('getEntity')
             ->willReturn($customerUser);
 
         $this->context->setValue('read_offset', 0);
 
-        $this->event->method('getContext')
+        $this->event->expects(self::any())
+            ->method('getContext')
             ->willReturn($this->context);
     }
 
@@ -256,7 +261,8 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
      */
     protected function updateTranslationMock(Website $website = null)
     {
-        $this->translation->method('trans')
+        $this->translation->expects(self::any())
+            ->method('trans')
             ->willReturnMap([
                 [
                     'oro.customer.customeruser.import.message.default_website_does_not_exist',
@@ -287,10 +293,12 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
      */
     protected function updateCustomerManagerMock($password)
     {
-        $this->customerUserManager->method('generatePassword')
+        $this->customerUserManager->expects(self::any())
+            ->method('generatePassword')
             ->willReturn($password);
 
-        $this->customerUserManager->method('updatePassword')
+        $this->customerUserManager->expects(self::any())
+            ->method('updatePassword')
             ->willReturnCallback(function ($customerUser) use ($password) {
                 $customerUser->setPassword($password);
             });
@@ -298,7 +306,8 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
 
     protected function updateRegistryMock()
     {
-        $this->registry->method('getRepository')
+        $this->registry->expects(self::any())
+            ->method('getRepository')
             ->with(Website::class)
             ->willReturn($this->websiteRepository);
     }

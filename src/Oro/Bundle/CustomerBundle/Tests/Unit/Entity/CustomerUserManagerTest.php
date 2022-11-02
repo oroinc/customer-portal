@@ -2,140 +2,110 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserSettings;
+use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
+use Oro\Bundle\CustomerBundle\Mailer\Processor;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
-use Oro\Bundle\UserBundle\Entity\Repository\AbstractUserRepository;
+use Oro\Bundle\UserBundle\Security\UserLoaderInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
-use Oro\Component\Testing\Unit\EntityTrait;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Oro\Component\DependencyInjection\ServiceLink;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTrait;
+    /** @var EncoderFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $encoderFactory;
 
-    const USER_CLASS = 'Oro\Bundle\CustomerBundle\Entity\CustomerUser';
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $configManager;
 
-    const DEFAULT_LOCALIZATION = 'en';
+    /** var Processor|\PHPUnit\Framework\MockObject\MockObject */
+    private $emailProcessor;
 
-    const CURRENT_LOCALIZATION = 'fr_FR';
-
-    /**
-     * @var CustomerUserManager
-     */
-    protected $userManager;
-
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $om;
-
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $registry;
-
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $ef;
-
-    /**
-     * @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $frontendHelper;
 
-    /**
-     * @var LocalizationHelper|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var LocalizationHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $localizationHelper;
 
-    /**
-     * @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
     private $websiteManager;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $configManager;
+    /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $logger;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $emailProcessor;
+    /** @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $em;
 
-    protected function setUp()
+    /** @var CustomerUserManager */
+    private $userManager;
+
+    protected function setUp(): void
     {
-        $this->ef = $this->createMock('Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface');
-        $this->om = $this->createMock('Doctrine\Common\Persistence\ObjectManager');
-        $this->registry = $this->createMock('Doctrine\Common\Persistence\ManagerRegistry');
-
-        $this->configManager = $this->getMockBuilder('Oro\Bundle\ConfigBundle\Config\ConfigManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->emailProcessor = $this->getMockBuilder('Oro\Bundle\CustomerBundle\Mailer\Processor')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $container->expects($this->any())
-            ->method('get')
-            ->will(
-                $this->returnValueMap(
-                    [
-                        [
-                            'oro_config.manager',
-                            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-                            $this->configManager
-                        ],
-                        [
-                            'oro_customer.mailer.processor',
-                            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-                            $this->emailProcessor
-                        ]
-                    ]
-                )
-            );
-
+        $this->encoderFactory = $this->createMock(EncoderFactoryInterface::class);
+        $this->configManager = $this->createMock(ConfigManager::class);
+        $this->emailProcessor = $this->createMock(Processor::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
         $this->localizationHelper = $this->createMock(LocalizationHelper::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
+        $this->em = $this->createMock(EntityManagerInterface::class);
+
+        $userLoader = $this->createMock(UserLoaderInterface::class);
+        $userLoader->expects(self::any())
+            ->method('getUserClass')
+            ->willReturn(CustomerUser::class);
+
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $doctrine->expects(self::any())
+            ->method('getManagerForClass')
+            ->with(CustomerUser::class)
+            ->willReturn($this->em);
+
+        $emailProcessorLink = $this->createMock(ServiceLink::class);
+        $emailProcessorLink->expects(self::any())
+            ->method('getService')
+            ->willReturn($this->emailProcessor);
 
         $this->userManager = new CustomerUserManager(
-            static::USER_CLASS,
-            $this->registry,
-            $this->ef,
+            $userLoader,
+            $doctrine,
+            $this->encoderFactory,
+            $this->configManager,
+            $emailProcessorLink,
             $this->frontendHelper,
             $this->localizationHelper,
-            $this->websiteManager
+            $this->websiteManager,
+            $this->logger
         );
-        $this->userManager->setContainer($container);
     }
 
     public function testConfirmRegistration()
     {
-        $password = 'test';
-
         $user = new CustomerUser();
         $user->setConfirmed(false);
-        $user->setPlainPassword($password);
 
-        $this->emailProcessor->expects($this->once())
+        $this->emailProcessor->expects(self::once())
             ->method('sendWelcomeNotification')
-            ->with($user);
+            ->with(self::identicalTo($user));
 
         $this->userManager->confirmRegistration($user);
 
-        $this->assertTrue($user->isConfirmed());
+        self::assertTrue($user->isConfirmed());
+        self::assertNotEmpty($user->getConfirmationToken());
     }
 
     public function testConfirmRegistrationByAdmin()
@@ -143,125 +113,96 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $user = new CustomerUser();
         $user->setConfirmed(false);
 
-        $this->emailProcessor->expects($this->once())
+        $this->emailProcessor->expects(self::once())
             ->method('sendWelcomeForRegisteredByAdminNotification')
-            ->with($user);
+            ->with(self::identicalTo($user));
 
         $this->userManager->confirmRegistrationByAdmin($user);
 
-        $this->assertTrue($user->isConfirmed());
-    }
-
-    public function testSendWelcomeEmail()
-    {
-        $password = 'test';
-
-        $user = new CustomerUser();
-        $user->setPlainPassword($password);
-
-        $this->emailProcessor->expects($this->once())
-            ->method('sendWelcomeNotification')
-            ->with($user);
-
-        $this->userManager->sendWelcomeEmail($user);
+        self::assertTrue($user->isConfirmed());
+        self::assertNotEmpty($user->getConfirmationToken());
     }
 
     public function testSendWelcomeRegisteredByAdminEmail()
     {
         $user = new CustomerUser();
 
-        $this->emailProcessor->expects($this->once())
+        $this->emailProcessor->expects(self::once())
             ->method('sendWelcomeForRegisteredByAdminNotification')
-            ->with($user);
+            ->with(self::identicalTo($user));
 
         $this->userManager->sendWelcomeRegisteredByAdminEmail($user);
-    }
 
-    public function testGeneratePassword()
-    {
-        $password = $this->userManager->generatePassword(10);
-        $this->assertNotEmpty($password);
-        $this->assertRegExp('/\w+/', $password);
-        $this->assertLessThanOrEqual(10, strlen($password));
+        self::assertNotEmpty($user->getConfirmationToken());
     }
 
     public function testRegisterConfirmationRequiredNotFrontendRequest()
     {
-        $password = 'test1Q';
-
         $user = new CustomerUser();
         $user->setEnabled(false);
-        $user->setPlainPassword($password);
 
-        $this->frontendHelper->expects($this->once())
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(false);
 
-        $this->websiteManager->expects($this->never())
-            ->method($this->anything());
+        $this->websiteManager->expects(self::never())
+            ->method('getCurrentWebsite');
 
-        $this->configManager->expects($this->once())
+        $this->configManager->expects(self::once())
             ->method('get')
             ->with('oro_customer.confirmation_required')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
-        $this->emailProcessor->expects($this->once())
+        $this->em->expects(self::once())
+            ->method('persist')
+            ->with(self::identicalTo($user));
+        $this->em->expects(self::once())
+            ->method('flush');
+
+        $this->emailProcessor->expects(self::once())
             ->method('sendConfirmationEmail')
-            ->with($user);
+            ->with(self::identicalTo($user));
 
         $this->userManager->register($user);
 
-        $this->assertFalse($user->isEnabled());
-        $this->assertNotEmpty($user->getConfirmationToken());
+        self::assertFalse($user->isEnabled());
+        self::assertNotEmpty($user->getConfirmationToken());
     }
 
     public function testRegisterConfirmationNotRequiredWhenWebsiteSettingsExist()
     {
-        $this->frontendHelper->expects($this->once())
+        $defaultLocalizationCode = 'en';
+        $currentLocalizationCode = 'fr_FR';
+
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        /** @var Website $website */
-        $website = $this->getEntity(Website::class);
-        $defaultLocalization = $this->getEntity(
-            Localization::class,
-            ['id' => 2, 'formattingCode' => self::DEFAULT_LOCALIZATION]
-        );
+        $website = new Website();
+        $defaultLocalization = new Localization();
+        $defaultLocalization->setFormattingCode($defaultLocalizationCode);
+        $websiteSettings = new CustomerUserSettings($website);
+        $websiteSettings->setLocalization($defaultLocalization);
+        $user = new CustomerUser();
+        $user->setWebsiteSettings($websiteSettings);
+        $user->setConfirmed(false);
 
-        /** @var CustomerUser $user */
-        $user = $this->getEntity(
-            CustomerUser::class,
-            [
-                'websiteSettings' => (new CustomerUserSettings($website))->setLocalization($defaultLocalization),
-                'confirmed' => false,
-                'plainPassword' => 'test1Q'
-            ]
-        );
-
-        $this->websiteManager
-            ->expects($this->once())
+        $this->websiteManager->expects(self::once())
             ->method('getCurrentWebsite')
             ->willReturn($website);
 
-        $currentLocalization = $this->getEntity(
-            Localization::class,
-            ['id' => 1, 'formattingCode' => self::CURRENT_LOCALIZATION]
-        );
-
-        $this->localizationHelper
-            ->expects($this->once())
+        $currentLocalization = new Localization();
+        $currentLocalization->setFormattingCode($currentLocalizationCode);
+        $this->localizationHelper->expects(self::once())
             ->method('getCurrentLocalization')
             ->willReturn($currentLocalization);
 
-        $this->configManager->expects($this->exactly(1))
+        $this->configManager->expects(self::once())
             ->method('get')
-            ->willReturnMap(
-                [
-                    ['oro_customer.confirmation_required', false, false, null, false],
-                ]
-            );
+            ->with('oro_customer.confirmation_required')
+            ->willReturn(false);
 
-        $this->emailProcessor->expects($this->once())
+        $this->emailProcessor->expects(self::once())
             ->method('sendWelcomeNotification')
             ->with($user);
 
@@ -271,52 +212,38 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
 
         $this->userManager->register($user);
 
-        $this->assertTrue($user->isConfirmed());
-
+        self::assertTrue($user->isConfirmed());
         self::assertEquals($expectedWebsiteSettings, $user->getWebsiteSettings($website));
     }
 
     public function testRegisterConfirmationNotRequiredWhenWebsiteSettingsNotExist()
     {
-        $this->frontendHelper->expects($this->once())
+        $currentLocalizationCode = 'fr_FR';
+
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
+        $user = new CustomerUser();
+        $user->setConfirmed(false);
+
         $website = new Website();
-
-        /** @var CustomerUser $user */
-        $user = $this->getEntity(
-            CustomerUser::class,
-            [
-                'confirmed' => false,
-                'plainPassword' => 'test1Q'
-            ]
-        );
-
-        $this->websiteManager
-            ->expects($this->any())
+        $this->websiteManager->expects(self::once())
             ->method('getCurrentWebsite')
             ->willReturn($website);
 
-        $currentLocalization = $this->getEntity(
-            Localization::class,
-            ['id' => 1, 'formattingCode' => self::CURRENT_LOCALIZATION]
-        );
-
-        $this->localizationHelper
-            ->expects($this->once())
+        $currentLocalization = new Localization();
+        $currentLocalization->setFormattingCode($currentLocalizationCode);
+        $this->localizationHelper->expects(self::once())
             ->method('getCurrentLocalization')
             ->willReturn($currentLocalization);
 
-        $this->configManager->expects($this->exactly(1))
+        $this->configManager->expects(self::once())
             ->method('get')
-            ->willReturnMap(
-                [
-                    ['oro_customer.confirmation_required', false, false, null, false],
-                ]
-            );
+            ->with('oro_customer.confirmation_required')
+            ->willReturn(false);
 
-        $this->emailProcessor->expects($this->once())
+        $this->emailProcessor->expects(self::once())
             ->method('sendWelcomeNotification')
             ->with($user);
 
@@ -326,120 +253,79 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
 
         $this->userManager->register($user);
 
-        $this->assertTrue($user->isConfirmed());
-        $this->assertEquals($expectedWebsiteSettings, $user->getWebsiteSettings($website));
+        self::assertTrue($user->isConfirmed());
+        self::assertEquals($expectedWebsiteSettings, $user->getWebsiteSettings($website));
     }
 
     public function testRegisterConfirmationNotRequired()
     {
-        $password = 'test1Q';
-
         $user = new CustomerUser();
         $user->setConfirmed(false);
-        $user->setPlainPassword($password);
 
-        $this->configManager->expects($this->exactly(1))
+        $this->configManager->expects(self::once())
             ->method('get')
-            ->willReturnMap(
-                [
-                    ['oro_customer.confirmation_required', false, false, null, false],
-                ]
-            );
+            ->with('oro_customer.confirmation_required')
+            ->willReturn(false);
 
-        $this->emailProcessor->expects($this->once())
+        $this->emailProcessor->expects(self::once())
             ->method('sendWelcomeNotification')
             ->with($user);
 
         $this->userManager->register($user);
 
-        $this->assertTrue($user->isConfirmed());
+        self::assertTrue($user->isConfirmed());
+    }
+
+    public function testUpdateWebsiteSettings()
+    {
+        $currentLocalizationCode = 'fr_FR';
+        $user = new CustomerUser();
+
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $website = new Website();
+        $this->websiteManager->expects(self::once())
+            ->method('getCurrentWebsite')
+            ->willReturn($website);
+
+        $currentLocalization = new Localization();
+        $currentLocalization->setFormattingCode($currentLocalizationCode);
+        $this->localizationHelper->expects(self::once())
+            ->method('getCurrentLocalization')
+            ->willReturn($currentLocalization);
+
+        $this->userManager->updateWebsiteSettings($user);
+
+        $updatedSettings = $user->getWebsiteSettings($website);
+        self::assertSame($website, $updatedSettings->getWebsite());
+        self::assertSame($currentLocalization, $updatedSettings->getLocalization());
     }
 
     public function testSendResetPasswordEmail()
     {
         $user = new CustomerUser();
-        $this->emailProcessor->expects($this->once())
+        $this->emailProcessor->expects(self::once())
             ->method('sendResetPasswordEmail')
             ->with($user);
         $this->userManager->sendResetPasswordEmail($user);
     }
 
     /**
-     * @dataProvider requiredDataProvider
-     * @param bool $required
+     * @dataProvider isConfirmationRequiredDataProvider
      */
-    public function testIsConfirmationRequired($required)
+    public function testIsConfirmationRequired(bool $value)
     {
-        $this->configManager->expects($this->once())
+        $this->configManager->expects(self::once())
             ->method('get')
             ->with('oro_customer.confirmation_required')
-            ->will($this->returnValue($required));
+            ->willReturn($value);
 
-        $this->assertEquals($required, $this->userManager->isConfirmationRequired());
+        self::assertEquals($value, $this->userManager->isConfirmationRequired());
     }
 
-    public function testSaveDisabledCustomerWithoutRole()
-    {
-        $password = 'password';
-        $encodedPassword = 'encodedPassword';
-        $email = 'test@test.com';
-
-        $customerUser = new CustomerUser();
-        $customerUser
-            ->setUsername($email)
-            ->setEmail($email)
-            ->setPlainPassword($password);
-
-        $customerUser->setEnabled(false);
-
-        $encoder = $this->createMock('Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface');
-        $encoder->expects($this->once())
-            ->method('encodePassword')
-            ->with($customerUser->getPlainPassword(), $customerUser->getSalt())
-            ->will($this->returnValue($encodedPassword));
-
-        $this->ef->expects($this->once())
-            ->method('getEncoder')
-            ->with($customerUser)
-            ->will($this->returnValue($encoder));
-
-        $this->registry->expects($this->any())
-            ->method('getManagerForClass')
-            ->will($this->returnValue($this->om));
-
-        $this->om->expects($this->once())->method('persist')->with($this->equalTo($customerUser));
-        $this->om->expects($this->once())->method('flush');
-
-        $this->userManager->updateUser($customerUser);
-
-        $this->assertEquals($email, $customerUser->getEmail());
-        $this->assertEquals($encodedPassword, $customerUser->getPassword());
-    }
-
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Enabled customer has not default role
-     */
-    public function testUpdateUserWithException()
-    {
-        $password = 'password';
-        $email = 'test@test.com';
-
-        $customerUser = new CustomerUser();
-        $customerUser
-            ->setUsername($email)
-            ->setEmail($email)
-            ->setPlainPassword($password);
-
-        $customerUser->setEnabled(true);
-
-        $this->userManager->updateUser($customerUser);
-    }
-
-    /**
-     * @return array
-     */
-    public function requiredDataProvider()
+    public function isConfirmationRequiredDataProvider(): array
     {
         return [
             [true],
@@ -447,94 +333,53 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    public function testUpdateUserWithPlainPassword()
+    {
+        $password = 'password';
+        $encodedPassword = 'encodedPassword';
+        $salt = 'salt';
+
+        $user = new CustomerUser();
+        $user->setPlainPassword($password);
+        $user->setSalt($salt);
+
+        $encoder = $this->createMock(PasswordEncoderInterface::class);
+        $this->encoderFactory->expects(self::once())
+            ->method('getEncoder')
+            ->with($user)
+            ->willReturn($encoder);
+        $encoder->expects(self::once())
+            ->method('encodePassword')
+            ->with($password, $salt)
+            ->willReturn($encodedPassword);
+
+        $this->em->expects(self::once())
+            ->method('persist')
+            ->with(self::identicalTo($user));
+        $this->em->expects(self::once())
+            ->method('flush');
+
+        $this->userManager->updateUser($user);
+
+        self::assertNull($user->getPlainPassword());
+        self::assertEquals($encodedPassword, $user->getPassword());
+    }
+
     public function testFindUserBy()
     {
-        $repository = $this->createMock('Doctrine\Common\Persistence\ObjectRepository');
-        $this->om
-            ->expects($this->any())
+        $criteria = ['id' => 1];
+        $user = $this->createMock(CustomerUser::class);
+
+        $repository = $this->createMock(CustomerUserRepository::class);
+        $this->em->expects(self::atLeastOnce())
             ->method('getRepository')
-            ->withAnyParameters()
-            ->will($this->returnValue($repository));
-
-        $class = $this->createMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
-        $this->om
-            ->expects($this->any())
-            ->method('getClassMetadata')
-            ->with($this->equalTo(static::USER_CLASS))
-            ->will($this->returnValue($class));
-
-        $this->registry->expects($this->any())
-            ->method('getManagerForClass')
-            ->will($this->returnValue($this->om));
-
-        $criteria = ['id' => 0];
-
-        $repository
-            ->expects($this->once())
+            ->with(CustomerUser::class)
+            ->willReturn($repository);
+        $repository->expects(self::once())
             ->method('findOneBy')
-            ->with($this->equalTo(array_merge($criteria, ['isGuest' => false])));
-
-        $this->userManager->findUserBy($criteria);
-    }
-
-    public function testFindUserByEmail()
-    {
-        $email = 'Test@test.com';
-
-        $user = new CustomerUser();
-        $user->setEmail($email);
-
-        $this->assertRepositoryCalled($user);
-        $this->assertConfigManagerCalled();
-
-        self::assertSame($user, $this->userManager->findUserByEmail($email));
-    }
-
-    public function testFindUserByUsername()
-    {
-        $email = 'Test@test.com';
-
-        $user = new CustomerUser();
-        $user->setEmail($email);
-
-        $this->assertRepositoryCalled($user);
-        $this->assertConfigManagerCalled();
-
-        self::assertSame($user, $this->userManager->findUserByUsername($email));
-    }
-
-    /**
-     * @param CustomerUser $user
-     */
-    private function assertRepositoryCalled(CustomerUser $user)
-    {
-        $this->registry
-            ->expects(self::once())
-            ->method('getManagerForClass')
-            ->willReturn($this->om);
-
-        $this->om
-            ->expects(self::once())
-            ->method('getRepository')
-            ->with($this->userManager->getClass())
-            ->willReturn($repository = $this->createMock(AbstractUserRepository::class));
-
-        $repository
-            ->expects(self::once())
-            ->method('findUserByEmail')
-            ->with($user->getEmail(), true)
+            ->with(array_merge($criteria, ['isGuest' => false]))
             ->willReturn($user);
-    }
 
-    /**
-     * @param bool $result
-     */
-    private function assertConfigManagerCalled(bool $result = true)
-    {
-        $this->configManager
-            ->expects(self::once())
-            ->method('get')
-            ->with('oro_customer.case_insensitive_email_addresses_enabled')
-            ->willReturn($result);
+        self::assertSame($user, $this->userManager->findUserBy($criteria));
     }
 }

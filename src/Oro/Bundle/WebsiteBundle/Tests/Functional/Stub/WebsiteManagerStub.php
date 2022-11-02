@@ -4,7 +4,12 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Functional\Stub;
 
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use Symfony\Contracts\Cache\CacheInterface;
 
+/**
+ * The decorator for WebsiteManager that allows to substitute
+ * the default website and the current website in functional tests.
+ */
 class WebsiteManagerStub extends WebsiteManager
 {
     /** @var WebsiteManager */
@@ -13,17 +18,21 @@ class WebsiteManagerStub extends WebsiteManager
     /** @var bool */
     private $enabled = false;
 
+    /** @var bool */
+    private $stubbingSetCurrentWebsiteEnabled = false;
+
     /** @var Website|null */
     private $stubCurrentWebsite;
 
     /** @var Website|null */
     private $stubDefaultWebsite;
 
-    /**
-     * @param WebsiteManager $websiteManager
-     */
-    public function __construct(WebsiteManager $websiteManager)
+    /** @var CacheInterface */
+    private $cacheProvider;
+
+    public function __construct(WebsiteManager $websiteManager, CacheInterface $cacheProvider)
     {
+        $this->cacheProvider = $cacheProvider;
         $this->websiteManager = $websiteManager;
     }
 
@@ -32,19 +41,18 @@ class WebsiteManagerStub extends WebsiteManager
         $this->enabled = true;
     }
 
+    public function enableSetCurrentWebsiteStubbing()
+    {
+        $this->stubbingSetCurrentWebsiteEnabled = true;
+    }
+
     public function disableStub()
     {
         $this->enabled = false;
+        $this->stubbingSetCurrentWebsiteEnabled = false;
         $this->stubCurrentWebsite = null;
         $this->stubDefaultWebsite = null;
-    }
-
-    public function resetStub()
-    {
-        if ($this->enabled) {
-            $this->disableStub();
-            $this->enableStub();
-        }
+        $this->cacheProvider->clear();
     }
 
     /**
@@ -71,9 +79,6 @@ class WebsiteManagerStub extends WebsiteManager
         return $this->websiteManager->getDefaultWebsite();
     }
 
-    /**
-     * @param Website|null $currentWebsite
-     */
     public function setCurrentWebsiteStub(Website $currentWebsite = null)
     {
         if (!$this->enabled) {
@@ -82,9 +87,6 @@ class WebsiteManagerStub extends WebsiteManager
         $this->stubCurrentWebsite = $currentWebsite;
     }
 
-    /**
-     * @param Website|null $defaultWebsite
-     */
     public function setDefaultWebsiteStub(Website $defaultWebsite = null)
     {
         if (!$this->enabled) {
@@ -93,6 +95,13 @@ class WebsiteManagerStub extends WebsiteManager
         $this->stubDefaultWebsite = $defaultWebsite;
     }
 
+    public function setCurrentWebsite(?Website $currentWebsite): void
+    {
+        if ($this->stubbingSetCurrentWebsiteEnabled) {
+            $this->setCurrentWebsiteStub($currentWebsite);
+        }
+        $this->websiteManager->setCurrentWebsite($currentWebsite);
+    }
 
     /**
      * @param string $method

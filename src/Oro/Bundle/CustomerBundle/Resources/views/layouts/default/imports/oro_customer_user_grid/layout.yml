@@ -6,17 +6,12 @@ layout:
 
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:default/imports/oro_customer_user_grid/layout.html.twig'
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_user_grid/layout.html.twig'
 
         - '@setOption':
             id: __datagrid
             optionName: grid_name
             optionValue: frontend-customer-customer-user-grid
-
-        - '@setOption':
-            id: __datagrid
-            optionName: grid_render_parameters.gridViewsOptions.text
-            optionValue: 'oro.customer.customer_user.entity_plural_label'
 
         - '@setOption':
             id: __datagrid

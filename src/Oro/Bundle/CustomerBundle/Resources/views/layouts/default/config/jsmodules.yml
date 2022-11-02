@@ -1,0 +1,15 @@
+aliases:
+    oro/datagrid/action/frontend-map-action$: orocustomer/js/datagrid/action/frontend-map-action
+    oro/select2-autocomplete-customeruser-component$: orocustomer/js/app/components/select2-autocomplete-customeruser-component
+app-modules:
+    - orocustomer/js/app/modules/validator-constraints-module
+dynamic-imports:
+    commons:
+        - oro/select2-autocomplete-customeruser-component
+        - orocustomer/js/validator/unique-customer-user-name-and-email
+    orodatagrid:
+        - oro/datagrid/action/frontend-map-action
+    orouser:
+        - orocustomer/js/app/components/customer-address-component
+        - orocustomer/js/app/components/customer-user-role-component
+        - orocustomer/js/app/components/frontend-customer-address-book-component

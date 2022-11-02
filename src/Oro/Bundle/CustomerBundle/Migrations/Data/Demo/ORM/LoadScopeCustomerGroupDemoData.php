@@ -5,13 +5,21 @@ namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
-use Oro\Bundle\ScopeBundle\Entity\Scope;
+use Oro\Bundle\ScopeBundle\Manager\ScopeManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class LoadScopeCustomerGroupDemoData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
+/**
+ * Loads ScopeCustomerGroup demo data
+ */
+class LoadScopeCustomerGroupDemoData extends AbstractFixture implements
+    FixtureInterface,
+    DependentFixtureInterface,
+    ContainerAwareInterface
 {
-    const SCOPE_ACCOUNT_GROUP_REFERENCE_PREFIX = 'scope_customer_group_demo_data';
+    use ContainerAwareTrait;
 
     /**
      * {@inheritdoc}
@@ -30,13 +38,9 @@ class LoadScopeCustomerGroupDemoData extends AbstractFixture implements FixtureI
     {
         /** @var CustomerGroup $customerGroup */
         $customerGroups = $manager->getRepository('OroCustomerBundle:CustomerGroup')->findAll();
+        $scopeManager = $this->container->get('oro_scope.scope_manager');
         foreach ($customerGroups as $customerGroup) {
-            $scope = new Scope();
-            $scope->setCustomerGroup($customerGroup);
-            $this->addReference(static::SCOPE_ACCOUNT_GROUP_REFERENCE_PREFIX . $customerGroup->getName(), $scope);
-            $manager->persist($scope);
+            $scopeManager->findOrCreate(ScopeManager::BASE_SCOPE, ['customerGroup' => $customerGroup], true);
         }
-
-        $manager->flush();
     }
 }

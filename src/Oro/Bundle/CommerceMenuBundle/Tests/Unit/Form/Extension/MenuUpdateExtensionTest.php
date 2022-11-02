@@ -1,8 +1,13 @@
 <?php
 
-namespace Oro\Bundle\CustomerMenuBundle\Tests\Unit\Form\Type;
+namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Extension;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\AttachmentBundle\Form\Type\ImageType;
+use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
 use Oro\Bundle\CommerceMenuBundle\Form\DataTransformer\MenuUserAgentConditionsCollectionTransformer;
 use Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateExtension;
@@ -12,26 +17,37 @@ use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuUserAgentConditionType;
 use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Entity\Stub\MenuUpdateStub;
 use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Type\Stub\ImageTypeStub;
 use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Type\Stub\MenuUpdateTypeStub;
-use Oro\Bundle\CommerceMenuBundle\Validator\Constraints\MenuUpdateExpressionValidator;
+use Oro\Bundle\EntityConfigBundle\Config\Config;
+use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
-use Oro\Bundle\FormBundle\Form\Extension\TooltipFormExtension;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
+use Oro\Bundle\FormBundle\Autocomplete\SearchHandlerInterface;
+use Oro\Bundle\FormBundle\Autocomplete\SearchRegistry;
 use Oro\Bundle\FormBundle\Form\Type\CollectionType as OroCollectionType;
+use Oro\Bundle\FormBundle\Form\Type\EntityIdentifierType;
+use Oro\Bundle\FormBundle\Form\Type\LinkTargetType;
+use Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType;
+use Oro\Bundle\FormBundle\Form\Type\OroJquerySelect2HiddenType;
+use Oro\Bundle\FormBundle\Tests\Unit\Stub\TooltipFormExtensionStub;
 use Oro\Bundle\FrontendBundle\Provider\ScreensProviderInterface;
-use Oro\Bundle\NavigationBundle\Validator\Constraints\MaxNestedLevelValidator;
-use Oro\Bundle\TranslationBundle\Translation\Translator;
+use Oro\Bundle\NavigationBundle\Form\Type\RouteChoiceType;
+use Oro\Bundle\NavigationBundle\Tests\Unit\Form\Type\Stub\RouteChoiceTypeStub;
+use Oro\Bundle\SecurityBundle\Util\UriSecurityHelper;
+use Oro\Bundle\SecurityBundle\Validator\Constraints\NotDangerousProtocolValidator;
+use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
+use Oro\Bundle\WebCatalogBundle\Entity\WebCatalog;
+use Oro\Bundle\WebCatalogBundle\Form\Type\ContentNodeFromWebCatalogSelectType;
+use Oro\Bundle\WebCatalogBundle\JsTree\ContentNodeTreeHandler;
+use Oro\Bundle\WebCatalogBundle\Provider\WebCatalogProvider;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\ConstraintValidatorFactoryInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class MenuUpdateExtensionTest extends FormIntegrationTestCase
 {
-    /**
-     * @internal
-     */
-    const SCREENS_CONFIG  = [
+    private const SCREENS_CONFIG = [
         'desktop' => [
             'label' => 'Sample desktop label',
             'hidingCssClass' => 'sample-desktop-class',
@@ -42,57 +58,119 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
         ],
     ];
 
+    /** @var WebCatalogProvider|\PHPUnit\Framework\MockObject\MockObject */
+    private $webCatalogProvider;
+
     /**
      * {@inheritdoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
-        $configProvider = $this->createMock(ConfigProvider::class);
-        $translator = $this->createMock(Translator::class);
+        $this->webCatalogProvider = $this->createMock(WebCatalogProvider::class);
+
         $screensProvider = $this->createMock(ScreensProviderInterface::class);
-        $screensProvider
-            ->expects(static::once())
+        $screensProvider->expects($this->any())
             ->method('getScreens')
             ->willReturn(self::SCREENS_CONFIG);
 
-        $transformer = new MenuUserAgentConditionsCollectionTransformer();
+        $entityManager = $this->createMock(EntityManager::class);
+
+        $managerRegistry = $this->createMock(ManagerRegistry::class);
+        $managerRegistry->expects($this->any())
+            ->method('getManagerForClass')
+            ->willReturn($entityManager);
+
+        $classMetadata = new ClassMetadata(WebCatalog::class);
+        $classMetadata->setIdentifier(['id']);
+        $entityManager->expects($this->any())
+            ->method('getClassMetadata')
+            ->willReturn($classMetadata);
+
+        $repo = $this->createMock(EntityRepository::class);
+        $repo->expects($this->any())
+            ->method('find')
+            ->willReturn($this->createMock(ContentNode::class));
+        $entityManager->expects($this->any())
+            ->method('getRepository')
+            ->willReturn($repo);
+
+        $handler = $this->createMock(SearchHandlerInterface::class);
+        $handler->expects($this->any())
+            ->method('getProperties')
+            ->willReturn([]);
+        $handler->expects($this->any())
+            ->method('getEntityName')
+            ->willReturn('Test\Entity');
+
+        $searchRegistry = $this->createMock(SearchRegistry::class);
+        $searchRegistry->expects($this->any())
+            ->method('getSearchHandler')
+            ->willReturn($handler);
+
+        $configManager = $this->createMock(ConfigManager::class);
+        $configManager->expects($this->any())
+            ->method('getProvider')
+            ->willReturn($configProvider = $this->getConfigProvider());
 
         return [
             new PreloadedExtension(
                 [
-                    ImageType::class => new ImageTypeStub,
-                    CollectionType::class => new CollectionType(),
-                    OroCollectionType::class => new OroCollectionType(),
-                    MenuUserAgentConditionType::class => new MenuUserAgentConditionType(),
-                    MenuUserAgentConditionsCollectionType::class =>
-                        new MenuUserAgentConditionsCollectionType($transformer),
-                    MenuScreensConditionType::class => new MenuScreensConditionType($screensProvider),
+                    new CollectionType(),
+                    new OroCollectionType(),
+                    new MenuUserAgentConditionType(),
+                    new MenuUserAgentConditionsCollectionType(new MenuUserAgentConditionsCollectionTransformer()),
+                    new MenuScreensConditionType($screensProvider),
+                    new OroEntitySelectOrCreateInlineType(
+                        $this->createMock(AuthorizationCheckerInterface::class),
+                        $this->createMock(FeatureChecker::class),
+                        $configManager,
+                        $entityManager,
+                        $searchRegistry
+                    ),
+                    new OroJquerySelect2HiddenType($entityManager, $searchRegistry, $configProvider),
+                    new ContentNodeFromWebCatalogSelectType($this->createMock(ContentNodeTreeHandler::class)),
+                    new EntityIdentifierType($managerRegistry),
+                    new LinkTargetType(),
+                    ImageType::class => new ImageTypeStub(),
+                    RouteChoiceType::class => new RouteChoiceTypeStub(['sample_route' => 'sample_route']),
                 ],
                 [
-                    MenuUpdateTypeStub::class => [new MenuUpdateExtension()],
-                    FormType::class => [new TooltipFormExtension($configProvider, $translator)]
+                    MenuUpdateTypeStub::class => [new MenuUpdateExtension($this->webCatalogProvider)],
+                    FormType::class => [new TooltipFormExtensionStub($this)]
                 ]
             ),
             $this->getValidatorExtension(true)
         ];
     }
 
-    public function testSubmitValid()
+    /**
+     * {@inheritdoc}
+     */
+    protected function getValidators(): array
     {
+        return [
+            'oro_security.validator.constraints.not_dangerous_protocol' =>
+                new NotDangerousProtocolValidator(new UriSecurityHelper([]))
+        ];
+    }
+
+    public function testSubmitConditions(): void
+    {
+        $this->webCatalogProvider->expects($this->never())
+            ->method('getWebCatalog');
+
         $menuUserAgentCondition = new MenuUserAgentCondition();
         $menuUserAgentCondition
             ->setOperation('contains')
             ->setValue('sample condition')
             ->setConditionGroupIdentifier(0);
 
-        $screens = ['desktop', 'mobile'];
-
         $menuUpdate = new MenuUpdateStub();
+
         $form = $this->factory->create(MenuUpdateTypeStub::class, $menuUpdate);
 
         $form->submit(
             [
-                'uri' => 'localhost',
                 'image' => 'image.png',
                 'condition' => 'false',
                 'menuUserAgentConditions' => [
@@ -103,54 +181,97 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
                         ],
                     ],
                 ],
-                'screens' => $screens,
+                'screens' => $screens = ['desktop', 'mobile'],
+                'linkTarget' => 0
             ]
         );
 
         $expected = new MenuUpdateStub();
-        $expected->setUri('localhost');
         $expected->setCondition('false');
-        // TODO fix it
         $expected->setImage('image.png');
         $expected->addMenuUserAgentCondition($menuUserAgentCondition);
         $expected->setScreens($screens);
+        $expected->setLinkTarget(0);
 
         $this->assertFormIsValid($form);
         $this->assertEquals($expected, $form->getData());
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|ConstraintValidatorFactoryInterface
+     * @dataProvider submitTargetPageDataProvider
      */
-    protected function getConstraintValidatorFactory()
+    public function testSubmitTargetPage(array $submitData, MenuUpdate $expectedMenuUpdate): void
     {
-        /* @var $factory \PHPUnit\Framework\MockObject\MockObject|ConstraintValidatorFactoryInterface */
-        $factory = $this->createMock('Symfony\Component\Validator\ConstraintValidatorFactoryInterface');
+        $this->webCatalogProvider->expects($this->once())
+            ->method('getWebCatalog')
+            ->willReturn($this->createMock(WebCatalog::class));
 
-        $mockedValidators = [MaxNestedLevelValidator::class, MenuUpdateExpressionValidator::class];
+        $menuUpdate = new MenuUpdateStub();
+        $menuUpdate->setCustom(true);
 
-        $factory->expects($this->any())
-            ->method('getInstance')
-            ->willReturnCallback(
-                function (Constraint $constraint) use ($mockedValidators) {
-                    $className = $constraint->validatedBy();
+        $form = $this->factory->create(MenuUpdateTypeStub::class, $menuUpdate);
 
-                    foreach ($mockedValidators as $mockedValidator) {
-                        $this->validators[$className] = $this->getMockBuilder($mockedValidator)
-                            ->disableOriginalConstructor()
-                            ->getMock();
-                    }
+        $form->submit($submitData);
 
-                    if (!isset($this->validators[$className]) ||
-                        $className === 'Symfony\Component\Validator\Constraints\CollectionValidator'
-                    ) {
-                        $this->validators[$className] = new $className();
-                    }
+        $this->assertFormIsValid($form);
+        $this->assertEquals($expectedMenuUpdate, $form->getData());
+    }
 
-                    return $this->validators[$className];
-                }
-            );
+    public function submitTargetPageDataProvider(): array
+    {
+        $contentNode = $this->createMock(ContentNode::class);
 
-        return $factory;
+        return [
+            'uri target type' => [
+                'submitData' => [
+                    'targetType' => MenuUpdate::TARGET_URI,
+                    'uri' => 'sample/uri',
+                    'systemPageRoute' => 'sample_route',
+                    'contentNode' => $contentNode,
+                    'linkTarget' => 1
+                ],
+                'expectedMenuUpdate' => (new MenuUpdateStub())->setCustom(true)->setUri('sample/uri'),
+            ],
+            'system page target type' => [
+                'submitData' => [
+                    'targetType' => MenuUpdate::TARGET_SYSTEM_PAGE,
+                    'uri' => 'sample/uri',
+                    'systemPageRoute' => 'sample_route',
+                    'contentNode' => $contentNode,
+                    'linkTarget' => 1
+                ],
+                'expectedMenuUpdate' => (new MenuUpdateStub())->setCustom(true)->setSystemPageRoute('sample_route'),
+            ],
+            'content node target type' => [
+                'submitData' => [
+                    'targetType' => MenuUpdate::TARGET_CONTENT_NODE,
+                    'uri' => 'sample/uri',
+                    'systemPageRoute' => 'sample_route',
+                    'contentNode' => $contentNode,
+                    'linkTarget' => 1
+                ],
+                'expectedMenuUpdate' => (new MenuUpdateStub())->setCustom(true)->setContentNode($contentNode),
+            ],
+        ];
+    }
+
+    private function getConfigProvider(): ConfigProvider
+    {
+        $config = $this->createMock(Config::class);
+        $config->expects($this->any())
+            ->method('has')
+            ->with('grid_name')
+            ->willReturn(true);
+        $config->expects($this->any())
+            ->method('get')
+            ->with('grid_name')
+            ->willReturn('sample-grid');
+
+        $configProvider = $this->createMock(ConfigProvider::class);
+        $configProvider->expects($this->any())
+            ->method('getConfig')
+            ->willReturn($config);
+
+        return $configProvider;
     }
 }

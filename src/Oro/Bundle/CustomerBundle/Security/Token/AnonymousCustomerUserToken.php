@@ -4,49 +4,45 @@ namespace Oro\Bundle\CustomerBundle\Security\Token;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenInterface;
-use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenTrait;
+use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenInterface;
+use Oro\Bundle\SecurityBundle\Authentication\Token\RolesAndOrganizationAwareTokenTrait;
+use Oro\Bundle\SecurityBundle\Authentication\Token\RolesAwareTokenInterface;
+use Oro\Bundle\SecurityBundle\Model\Role;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
-use Symfony\Component\Security\Core\Role\RoleInterface;
 
 /**
- * AnonymousCustomerUserToken which represents authenticated CustomerUser
- *
+ * The authentication token for a guest (visitor) for the storefront.
  */
-class AnonymousCustomerUserToken extends AnonymousToken implements OrganizationContextTokenInterface
+class AnonymousCustomerUserToken extends AnonymousToken implements
+    OrganizationAwareTokenInterface,
+    RolesAwareTokenInterface
 {
-    use OrganizationContextTokenTrait;
+    use RolesAndOrganizationAwareTokenTrait;
 
-    /**
-     * @var CustomerVisitor
-     */
+    /** @var CustomerVisitor */
     private $visitor;
 
-    /**
-     * @var array
-     */
-    protected $credentials = [];
+    /** @var array */
+    private $credentials = [];
 
     /**
      * @param string|object $user
-     * @param RoleInterface[] $roles
+     * @param Role[]|string[] $roles
      * @param CustomerVisitor|null $visitor
-     * @param Organization|null $organizationContext
+     * @param Organization|null $organization
      */
     public function __construct(
         $user,
         array $roles = [],
         CustomerVisitor $visitor = null,
-        Organization $organizationContext = null
+        Organization $organization = null
     ) {
-        if ($organizationContext) {
-            $this->setOrganizationContext($organizationContext);
-        }
+        parent::__construct('', $user, $this->initRoles($roles));
 
-        parent::__construct('', $user, $roles);
-
-        $this->setUser($user);
         $this->setVisitor($visitor);
+        if (null !== $organization) {
+            $this->setOrganization($organization);
+        }
         $this->setAuthenticated(true);
     }
 
@@ -58,27 +54,21 @@ class AnonymousCustomerUserToken extends AnonymousToken implements OrganizationC
         return $this->visitor;
     }
 
-    /**
-     * @param CustomerVisitor|null $visitor
-     */
     public function setVisitor(CustomerVisitor $visitor = null)
     {
         $this->visitor = $visitor;
     }
 
     /**
-     * @param array $credentials
-     */
-    public function setCredentials(array $credentials)
-    {
-        $this->credentials = $credentials;
-    }
-
-    /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getCredentials()
     {
         return $this->credentials;
+    }
+
+    public function setCredentials(array $credentials)
+    {
+        $this->credentials = $credentials;
     }
 }

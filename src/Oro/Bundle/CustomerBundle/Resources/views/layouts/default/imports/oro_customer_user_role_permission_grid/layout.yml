@@ -6,7 +6,9 @@ layout:
 
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:default/imports/oro_customer_user_role_permission_grid/layout.html.twig'
+            themes:
+              - '@OroCustomer/layouts/default/imports/oro_customer_user_role_permission_grid/layout.html.twig'
+              - '@OroCustomer/layouts/default/imports/oro_customer_user_role_permission_grid/js_modules_config.html.twig'
 
         - '@setOption':
             id: __datagrid
@@ -25,14 +27,23 @@ layout:
             optionValue: 'inner-permissions-grid'
 
         - '@setOption':
+              id: __datagrid
+              optionName: grid_render_parameters.responsiveGrids.enable
+              optionValue: false
+
+        - '@setOption':
+              id: __datagrid
+              optionName: grid_render_parameters.swipeActionsGrid.enable
+              optionValue: false
+
+        - '@setOption':
             id: __datagrid
             optionName: vars
             optionValue:
                 options:
                     tabsOptions: '=data["oro_customer_fronted_customer_user_role_tab_options"].getOptions(data["entity"])'
                     capabilitySetOptions: '=data["oro_customer_fronted_customer_user_role_capability_set_options"].getOptions(data["entity"])'
-
-        - '@setOption':
-            id: __datagrid
-            optionName: grid_render_parameters.gridViewsOptions.text
-            optionValue: 'oro.customer.customer_user.role.users'
+        - '@add':
+              id: __datagrid_js_modules_config
+              parentId: layout_js_modules_config
+              blockType: block

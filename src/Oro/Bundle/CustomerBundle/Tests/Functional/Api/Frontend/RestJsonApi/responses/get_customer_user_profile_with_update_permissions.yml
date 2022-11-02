@@ -1,0 +1,25 @@
+data:
+    type: customerusers
+    id: '<toString(@customer_user->id)>'
+    attributes:
+        email: frontend_admin_api@example.com
+        namePrefix: null
+        middleName: null
+        lastName: 'Doe'
+        nameSuffix: null
+        birthday: null
+    relationships:
+        userRoles:
+            data:
+                -
+                    type: customeruserroles
+                    id: '<toString(@ROLE_FRONTEND_ADMINISTRATOR->id)>'
+        addresses:
+            data:
+                -
+                    type: customeruseraddresses
+                    id: '<toString(@customer_user_address_1->id)>'
+        customer:
+            data:
+                type: customers
+                id: '<toString(@customer1->id)>'

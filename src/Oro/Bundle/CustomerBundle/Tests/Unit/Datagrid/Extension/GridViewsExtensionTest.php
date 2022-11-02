@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Datagrid\Extension;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Datagrid\Extension\GridViewsExtension;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\MetadataObject;
@@ -13,35 +13,35 @@ use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Component\DependencyInjection\ServiceLink;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class GridViewsExtensionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $eventDispatcher;
+    private $eventDispatcher;
 
     /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $authorizationChecker;
+    private $authorizationChecker;
 
     /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $tokenAccessor;
+    private $tokenAccessor;
 
     /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $translator;
+    private $translator;
 
     /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    protected $registry;
+    private $registry;
 
     /** @var AclHelper|\PHPUnit\Framework\MockObject\MockObject */
-    protected $aclHelper;
+    private $aclHelper;
 
     /** @var GridViewManager|\PHPUnit\Framework\MockObject\MockObject */
-    protected $gridViewManager;
+    private $gridViewManager;
 
     /** @var GridViewsExtension */
-    protected $extension;
+    private $extension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
@@ -51,9 +51,10 @@ class GridViewsExtensionTest extends \PHPUnit\Framework\TestCase
         $this->aclHelper = $this->createMock(AclHelper::class);
         $this->gridViewManager = $this->createMock(GridViewManager::class);
 
-        /** @var ServiceLink|\PHPUnit\Framework\MockObject\MockObject $gridViewManagerLink */
         $gridViewManagerLink = $this->createMock(ServiceLink::class);
-        $gridViewManagerLink->expects($this->any())->method('getService')->willReturn($this->gridViewManager);
+        $gridViewManagerLink->expects($this->any())
+            ->method('getService')
+            ->willReturn($this->gridViewManager);
 
         $this->extension = new GridViewsExtension(
             $this->eventDispatcher,
@@ -74,19 +75,17 @@ class GridViewsExtensionTest extends \PHPUnit\Framework\TestCase
 
         $this->authorizationChecker->expects($this->exactly(6))
             ->method('isGranted')
-            ->willReturnCallback(
-                function ($attribute) {
-                    return in_array(
-                        $attribute,
-                        [
-                            'oro_customer_frontend_gridview_create',
-                            'oro_customer_frontend_gridview_delete',
-                            'oro_customer_frontend_gridview_update_public'
-                        ],
-                        true
-                    );
-                }
-            );
+            ->willReturnCallback(function ($attribute) {
+                return in_array(
+                    $attribute,
+                    [
+                        'oro_customer_frontend_gridview_create',
+                        'oro_customer_frontend_gridview_delete',
+                        'oro_customer_frontend_gridview_update_public'
+                    ],
+                    true
+                );
+            });
 
         $this->assertFalse($data->offsetExists('gridViews'));
         $this->extension->visitMetadata($config, $data);

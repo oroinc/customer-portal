@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
-use Oro\Bundle\AddressBundle\Validator\Constraints\NameOrOrganization;
 use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -23,7 +22,6 @@ class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
     {
         $resolver->setDefaults(
             [
-                'constraints' => [new NameOrOrganization()],
                 'owner_field_label' => 'oro.customer.frontend.customer.entity_label'
             ]
         );
@@ -42,8 +40,6 @@ class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
 
     /**
      * PRE_SET_DATA event handler
-     *
-     * @param FormEvent $event
      */
     public function preSetData(FormEvent $event)
     {

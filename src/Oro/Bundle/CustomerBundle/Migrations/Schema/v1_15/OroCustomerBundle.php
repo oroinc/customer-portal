@@ -35,8 +35,6 @@ class OroCustomerBundle implements Migration, ContainerAwareInterface
 
     /**
      * Update oro_customer_visitor table
-     *
-     * @param Schema $schema
      */
     protected function updateCustomerVisitorTable(Schema $schema)
     {
@@ -53,8 +51,6 @@ class OroCustomerBundle implements Migration, ContainerAwareInterface
 
     /**
      * Update oro_customer_user table
-     *
-     * @param Schema $schema
      */
     private function updateCustomerUserTable(Schema $schema)
     {

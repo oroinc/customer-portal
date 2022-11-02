@@ -12,27 +12,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ThemeSelectTypeTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|ThemeManager
-     */
-    protected $themeManager;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|ThemeManager */
+    private $themeManager;
 
-    /**
-     * @var ThemeSelectType
-     */
-    protected $type;
+    /** @var ThemeSelectType */
+    private $type;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->themeManager = $this->getMockBuilder('Oro\Component\Layout\Extension\Theme\Model\ThemeManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->themeManager = $this->createMock(ThemeManager::class);
+
         $this->type = new ThemeSelectType($this->themeManager);
-    }
-
-    protected function tearDown()
-    {
-        unset($this->type, $this->themeManager);
     }
 
     public function testGetParent()
@@ -53,14 +43,11 @@ class ThemeSelectTypeTest extends \PHPUnit\Framework\TestCase
         ];
 
         $this->themeManager->expects($this->once())
-            ->method('getAllThemes')
+            ->method('getEnabledThemes')
             ->with('commerce')
-            ->will($this->returnValue($themes));
+            ->willReturn($themes);
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|OptionsResolver $resolver */
-        $resolver = $this->getMockBuilder('Symfony\Component\OptionsResolver\OptionsResolver')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $resolver = $this->createMock(OptionsResolver::class);
         $resolver->expects($this->once())
             ->method('setDefaults')
             ->with([
@@ -78,13 +65,12 @@ class ThemeSelectTypeTest extends \PHPUnit\Framework\TestCase
         ];
 
         $this->themeManager->expects($this->once())
-            ->method('getAllThemes')
+            ->method('getEnabledThemes')
             ->with('commerce')
-            ->will($this->returnValue($themes));
+            ->willReturn($themes);
 
         $view = new FormView();
-        /** @var \PHPUnit\Framework\MockObject\MockObject|FormInterface $form */
-        $form = $this->createMock('Symfony\Component\Form\FormInterface');
+        $form = $this->createMock(FormInterface::class);
         $options = [];
 
         $this->type->finishView($view, $form, $options);
@@ -108,17 +94,14 @@ class ThemeSelectTypeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedMetadata, $view->vars['themes-metadata']);
     }
 
-    /**
-     * @param string $name
-     * @param string $label
-     * @param string $icon
-     * @param string $logo
-     * @param string $screenshot
-     * @param string $description
-     * @return Theme
-     */
-    protected function getTheme($name, $label, $icon, $logo, $screenshot, $description)
-    {
+    private function getTheme(
+        string $name,
+        string $label,
+        string $icon,
+        string $logo,
+        string $screenshot,
+        string $description
+    ): Theme {
         $theme = new Theme($name);
         $theme->setLabel($label);
         $theme->setIcon($icon);

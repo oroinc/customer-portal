@@ -8,24 +8,24 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressType;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
+use Symfony\Component\Routing\Annotation\Route;
 
-class CustomerAddressController extends Controller
+/**
+ * Handles CRUD of CustomerAddress entity.
+ */
+class CustomerAddressController extends AbstractController
 {
     /**
      * @Route("/address-book/{id}", name="oro_customer_address_book", requirements={"id"="\d+"})
-     * @Template("OroCustomerBundle:Address/widget:addressBook.html.twig")
+     * @Template("@OroCustomer/Address/widget/addressBook.html.twig")
      * @AclAncestor("oro_customer_customer_address_view")
-     *
-     * @param Request $request
-     * @param Customer $customer
-     * @return array
      */
-    public function addressBookAction(Request $request, Customer $customer)
+    public function addressBookAction(Request $request, Customer $customer): array
     {
         return [
             'entity' => $customer,
@@ -39,15 +39,11 @@ class CustomerAddressController extends Controller
      *      name="oro_customer_address_create",
      *      requirements={"entityId"="\d+"}
      * )
-     * @Template("OroCustomerBundle:Address/widget:update.html.twig")
+     * @Template("@OroCustomer/Address/widget/update.html.twig")
      * @AclAncestor("oro_customer_customer_address_create")
      * @ParamConverter("customer", options={"id" = "entityId"})
-     *
-     * @param Request $request
-     * @param Customer $customer
-     * @return array
      */
-    public function createAction(Request $request, Customer $customer)
+    public function createAction(Request $request, Customer $customer): array
     {
         return $this->update($request, $customer, new CustomerAddress());
     }
@@ -58,28 +54,19 @@ class CustomerAddressController extends Controller
      *      name="oro_customer_address_update",
      *      requirements={"entityId"="\d+","id"="\d+"},defaults={"id"=0}
      * )
-     * @Template("OroCustomerBundle:Address/widget:update.html.twig")
+     * @Template("@OroCustomer/Address/widget/update.html.twig")
      * @AclAncestor("oro_customer_customer_address_update")
      * @ParamConverter("customer", options={"id" = "entityId"})
-     *
-     * @param Request         $request
-     * @param Customer        $customer
-     * @param CustomerAddress $address
-     * @return array
      */
-    public function updateAction(Request $request, Customer $customer, CustomerAddress $address)
+    public function updateAction(Request $request, Customer $customer, CustomerAddress $address): array
     {
         return $this->update($request, $customer, $address);
     }
 
     /**
-     * @param Request $request
-     * @param Customer $customer
-     * @param CustomerAddress $address
-     * @return array
      * @throws BadRequestHttpException
      */
-    protected function update(Request $request, Customer $customer, CustomerAddress $address)
+    protected function update(Request $request, Customer $customer, CustomerAddress $address): array
     {
         $responseData = [
             'saved' => false,
@@ -98,15 +85,9 @@ class CustomerAddressController extends Controller
 
         $form = $this->createForm(CustomerTypedAddressType::class, $address);
 
-        $handler = new AddressHandler(
-            $form,
-            $this->get('request_stack'),
-            $this->getDoctrine()->getManagerForClass(
-                $this->container->getParameter('oro_customer.entity.customer_address.class')
-            )
-        );
+        $handler = new AddressHandler($this->getDoctrine()->getManagerForClass(CustomerAddress::class));
 
-        if ($handler->process($address)) {
+        if ($handler->process($address, $form, $request)) {
             $this->getDoctrine()->getManager()->flush();
             $responseData['entity'] = $address;
             $responseData['saved'] = true;
@@ -120,12 +101,7 @@ class CustomerAddressController extends Controller
         return $responseData;
     }
 
-    /**
-     * @param Request $request
-     * @param Customer $entity
-     * @return array
-     */
-    protected function getAddressBookOptions(Request $request, Customer $entity)
+    protected function getAddressBookOptions(Request $request, Customer $entity): array
     {
         $addressListUrl = $this->generateUrl('oro_api_customer_get_commercecustomer_addresses', [
             'entityId' => $entity->getId()
@@ -149,15 +125,25 @@ class CustomerAddressController extends Controller
         ];
     }
 
-    /**
-     * @return array
-     */
-    private function getAclResources()
+    private function getAclResources(): array
     {
         return [
             'addressEdit' => 'oro_customer_customer_address_update',
             'addressCreate' => 'oro_customer_customer_address_create',
             'addressRemove' => 'oro_customer_customer_address_remove',
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                'fragment.handler' => FragmentHandler::class,
+            ]
+        );
     }
 }

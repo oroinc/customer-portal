@@ -14,18 +14,18 @@ use Oro\Bundle\UserBundle\Entity\User;
 class GridViewManagerCompositeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var GridViewManager|\PHPUnit\Framework\MockObject\MockObject */
-    protected $defaultGridViewManager;
+    private $defaultGridViewManager;
 
     /** @var GridViewManager|\PHPUnit\Framework\MockObject\MockObject */
-    protected $frontendGridViewManager;
+    private $frontendGridViewManager;
 
     /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $tokenAccessor;
+    private $tokenAccessor;
 
     /** @var GridViewManagerComposite */
-    protected $manager;
+    private $manager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->defaultGridViewManager = $this->createMock(GridViewManager::class);
         $this->frontendGridViewManager = $this->createMock(GridViewManager::class);
@@ -40,34 +40,29 @@ class GridViewManagerCompositeTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider dataProvider
-     *
-     * @param string|AbstractUser $user
-     * @param bool $isFrontend
      */
-    public function testSetDefaultGridView($user, $isFrontend)
+    public function testSetDefaultGridView(AbstractUser|string $user, bool $isFrontend)
     {
         $view = new View('test');
         $customUser = new User();
 
-        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn($user);
         $this->defaultGridViewManager->expects($this->exactly((int) !$isFrontend))
             ->method('setDefaultGridView')
-            ->willReturnCallback(
-                function (AbstractUser $user, ViewInterface $gridView, $default) use ($customUser) {
-                    $gridView->setGridName('default');
-                    $this->assertSame($customUser, $user);
-                    $this->assertFalse($default);
-                }
-            );
+            ->willReturnCallback(function (AbstractUser $user, ViewInterface $gridView, $default) use ($customUser) {
+                $gridView->setGridName('default');
+                $this->assertSame($customUser, $user);
+                $this->assertFalse($default);
+            });
         $this->frontendGridViewManager->expects($this->exactly((int) $isFrontend))
             ->method('setDefaultGridView')
-            ->willReturnCallback(
-                function (AbstractUser $user, ViewInterface $gridView, $default) use ($customUser) {
-                    $gridView->setGridName('frontend');
-                    $this->assertSame($customUser, $user);
-                    $this->assertFalse($default);
-                }
-            );
+            ->willReturnCallback(function (AbstractUser $user, ViewInterface $gridView, $default) use ($customUser) {
+                $gridView->setGridName('frontend');
+                $this->assertSame($customUser, $user);
+                $this->assertFalse($default);
+            });
 
         $this->manager->setDefaultGridView($customUser, $view, false);
 
@@ -80,15 +75,14 @@ class GridViewManagerCompositeTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider dataProvider
-     *
-     * @param string|AbstractUser $user
-     * @param bool $isFrontend
      */
-    public function testGetSystemViews($user, $isFrontend)
+    public function testGetSystemViews(AbstractUser|string $user, bool $isFrontend)
     {
         $gridName = 'test';
 
-        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn($user);
         $this->defaultGridViewManager->expects($this->exactly((int) !$isFrontend))
             ->method('getSystemViews')
             ->with($gridName)
@@ -103,16 +97,15 @@ class GridViewManagerCompositeTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider dataProvider
-     *
-     * @param string|AbstractUser $user
-     * @param bool $isFrontend
      */
-    public function testGetAllGridViews($user, $isFrontend)
+    public function testGetAllGridViews(AbstractUser|string $user, bool $isFrontend)
     {
         $customUser = new User();
         $gridName = 'test';
 
-        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn($user);
         $this->defaultGridViewManager->expects($this->exactly((int) !$isFrontend))
             ->method('getAllGridViews')
             ->with($customUser, $gridName)
@@ -130,16 +123,15 @@ class GridViewManagerCompositeTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider dataProvider
-     *
-     * @param string|AbstractUser $user
-     * @param bool $isFrontend
      */
-    public function testGetDefaultView($user, $isFrontend)
+    public function testGetDefaultView(AbstractUser|string $user, bool $isFrontend)
     {
         $customUser = new User();
         $gridName = 'test';
 
-        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn($user);
         $this->defaultGridViewManager->expects($this->exactly((int) !$isFrontend))
             ->method('getDefaultView')
             ->with($customUser, $gridName)
@@ -157,17 +149,16 @@ class GridViewManagerCompositeTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider dataProvider
-     *
-     * @param string|AbstractUser $user
-     * @param bool $isFrontend
      */
-    public function testGetView($user, $isFrontend)
+    public function testGetView(AbstractUser|string $user, bool $isFrontend)
     {
         $id = 'id';
         $default = true;
         $gridName = 'test';
 
-        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn($user);
         $this->defaultGridViewManager->expects($this->exactly((int) !$isFrontend))
             ->method('getView')
             ->with($id, $default, $gridName)
@@ -180,10 +171,7 @@ class GridViewManagerCompositeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($isFrontend ? 'frontend' : 'default', $this->manager->getView($id, $default, $gridName));
     }
 
-    /**
-     * @return array
-     */
-    public function dataProvider()
+    public function dataProvider(): array
     {
         return [
             'anonymous' => [

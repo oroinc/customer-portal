@@ -3,16 +3,13 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Behat\Context;
 
 use Behat\Mink\Driver\Selenium2Driver;
-use Behat\Symfony2Extension\Context\KernelDictionary;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
 use Oro\Bundle\UserBundle\Entity\Role;
 
 class CustomerUserContext extends OroFeatureContext
 {
-    use KernelDictionary;
-
     /**
      * Example: AmandaRCole@example.org customer user has Buyer role
      *
@@ -29,7 +26,7 @@ class CustomerUserContext extends OroFeatureContext
         $customerUserRole = null;
 
         /** @var Role $item */
-        foreach ($customerUser->getRoles() as $item) {
+        foreach ($customerUser->getUserRoles() as $item) {
             if (trim($role) === $item->getLabel()) {
                 $customerUserRole = $item;
                 break;
@@ -45,17 +42,18 @@ class CustomerUserContext extends OroFeatureContext
      * Example: AmandaRCole@example.org customer user confirms registration
      *
      * @Given /^(?P<username>\S+) customer user confirms registration$/
-     *
-     * @param string $username
      */
     public function iConfirmRegistrationEmail(string $username): void
     {
-        $customerUser = $this->getCustomerUser($username);
+        $customerUser = $this->getRepository(CustomerUser::class)->findOneBy([
+            'username' => $username,
+            'isGuest' => 0
+        ]);
         self::assertNotNull($customerUser, sprintf('Could not found customer user "%s",', $username));
 
-        $path = $this->getContainer()->get('oro_website.resolver.website_url_resolver')->getWebsitePath(
+        $path = $this->getAppContainer()->get('oro_website.resolver.website_url_resolver')->getWebsitePath(
             'oro_customer_frontend_customer_user_confirmation',
-            ['username' => $customerUser->getUsername(),  'token' => $customerUser->getConfirmationToken()],
+            ['token' => $customerUser->getConfirmationToken()],
             $customerUser->getWebsite()
         );
         $this->visitPath($path);
@@ -95,7 +93,7 @@ class CustomerUserContext extends OroFeatureContext
      */
     protected function getRepository($className)
     {
-        return $this->getContainer()
+        return $this->getAppContainer()
             ->get('doctrine')
             ->getManagerForClass($className)
             ->getRepository($className);

@@ -1,0 +1,39 @@
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    customer1:
+        name: 'first customer'
+        organization: '@organization'
+        owner: '@admin'
+    customer2:
+        name: 'second customer'
+        organization: '@organization'
+        owner: '@admin'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+    amanda:
+        email: 'AmandaRCole@example.org'
+        username: 'AmandaRCole@example.org'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
+        firstName: 'Amanda'
+        lastName: 'Cole'
+        enabled: '1'
+        confirmed: '1'
+        customer: '@customer1'
+        organization: '@organization'
+        userRoles: ['@buyer']
+        owner: '@admin'
+        website: '@website1'
+    marlene:
+        email: 'MarleneSBradley@example.com'
+        username: 'MarleneSBradley@example.com'
+        password: 'MrXo6V++SF8Gy/oa/QDQ1klz12WLxzajuGjxFm6o+8NZ+CDRZjtP/QTvp23vl50GdKI60eknJ2dToR6oiSpskg=='
+        salt: 'lwoufelaumo8skw4s00o8k4cck4wckw'
+        firstName: 'Marlene'
+        lastName: 'Bradley'
+        enabled: '1'
+        confirmed: '1'
+        customer: '@customer1'
+        organization: '@organization'
+        userRoles: ['@buyer']
+        owner: '@admin'
+        website: '@website1'

@@ -1,0 +1,25 @@
+{% block __frontend_export__export_button_container_widget %}
+    {% set attr = attr|merge({
+        class: attr.class|default('') ~ ' datagrid-tool'
+    }) %}
+    <div {{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+{% endblock %}
+
+{% block __frontend_export__export_button_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' btn btn--default btn--size-s hide export-button',
+        'role': 'button',
+        'data-page-component-module': 'oroui/js/app/components/view-component',
+        '~data-page-component-options': {
+            'view': 'orofrontendimportexport/js/app/views/export-button-view',
+            'exportRoute': exportRoute,
+            'routeOptions': routeOptions|default({}),
+            'successMessage': successMessage|default('oro.frontend_importexport.export.success.message'),
+            'errorMessage': errorMessage|default('oro.frontend_importexport.export.fail.message')
+        }
+    }) %}
+
+    <button {{ block('block_attributes') }}>
+        <span class="fa-download fa--no-offset" aria-hidden="true"></span>
+    </button>
+{% endblock %}

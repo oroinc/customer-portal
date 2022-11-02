@@ -4,10 +4,12 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
-use Oro\Component\Testing\Unit\EntityTestCase;
+use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
-class CustomerGroupTest extends EntityTestCase
+class CustomerGroupTest extends \PHPUnit\Framework\TestCase
 {
+    use EntityTestCaseTrait;
+
     /**
      * Test setters getters
      */

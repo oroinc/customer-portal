@@ -1,16 +1,22 @@
-"One of the addresses must be set as primary.": "One of the addresses must be set as primary."
 "Role with this name already exists": "Role with this name already exists"
 
 oro:
     customer:
         message:
             password_mismatch: 'The password fields must match.'
-            circular_customer_reference: 'Circular reference detected. ''{{ parentName }}'' cannot be parent of ''{{ customerName }}'' because it''s his child'
-            user_without_role: 'Please select at least one role before you enable the customer user'
+            circular_customer_reference: 'Circular reference detected. ''{{ parentName }}'' cannot be a parent of ''{{ customerName }}'' because it is its child.'
+            circular_child_customer_reference: 'Circular reference detected. ''{{ childName }}'' cannot be a child of ''{{ customerName }}'' because it is its parent.'
+            customer_reference_to_itself: 'Circular reference detected. ''{{ customerName }}'' cannot be its own parent.'
+            user_without_role: 'Please select at least one role before you enable the customer user.'
             user_customer_exists: 'This email is already used.'
             scope_with_customer_and_group: 'Should be chosen only one field. Customer Group or Customer.'
+            no_permission_for_customer_related_entities: "Can't change customer because you don't have permissions for updating the following related entities: {{ entityNames }}"
             system_configuration:
                 case_insensitive:
                     duplicated_emails:
                         message: 'Cannot enable "Case-Insensitive Email Addresses" - there are existing customer users who have identical lowercase emails. Please resolve these conflicts and try again. %click_here% to see some of the conflicting customer users.'
                         click_here: 'Click here'
+        customer_user:
+            birthday:
+                type:
+                    message: 'This value is not a valid date.'

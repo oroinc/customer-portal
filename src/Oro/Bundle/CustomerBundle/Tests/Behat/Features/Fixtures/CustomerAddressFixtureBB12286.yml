@@ -6,26 +6,27 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
         owner: '@admin'
         systemOrganization: '@organization'
         primary: true
-        label: '<script>alert(1)</script>'
-        namePrefix: '<script>alert(2)</script>'
-        firstName: '<script>alert(3)</script>'
-        middleName: '<script>alert(4)</script>'
-        lastName: '<script>alert(5)</script>'
-        nameSuffix: '<script>alert(6)</script>'
-        organization: '<script>alert(7)</script>'
-        phone: '<script>alert(8)</script>'
-        street: '<script>alert(9)</script>'
-        street2: '<script>alert(10)</script>'
-        city: '<script>alert(11)</script>'
-        postalCode: '<script>alert(12)</script>'
-        setDefaults: ['@shippingType', '@billingType']
+        label: '\<script\>alert(1)\</script\>'
+        namePrefix: '\<script\>alert(2)\</script\>'
+        firstName: '\<script\>alert(3)\</script\>'
+        middleName: '\<script\>alert(4)\</script\>'
+        lastName: '\<script\>alert(5)\</script\>'
+        nameSuffix: '\<script\>alert(6)\</script\>'
+        organization: '\<script\>alert(7)\</script\>'
+        phone: '\<script\>alert(8)\</script\>'
+        street: '\<script\>alert(9)\</script\>'
+        street2: '\<script\>alert(10)\</script\>'
+        city: '\<script\>alert(11)\</script\>'
+        postalCode: '\<script\>alert(12)\</script\>'
+        __calls:
+            - setDefaults: ['@shippingType', '@billingType']
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType:
     customerUserAddress1ShippingDefault:
         address: '@customerUserAddress1'
-        type: 'shipping'
+        type: '@shippingType'
         default: true
     customerUserAddress1BillingDefault:
         address: '@customerUserAddress1'
-        type: 'billing'
+        type: '@billingType'
         default: true

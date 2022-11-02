@@ -3,11 +3,17 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
+use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
 
+/**
+ * Loads CustomerGroups data
+ */
 class LoadCustomerGroupDemoData extends AbstractFixture
 {
+    use UserUtilityTrait;
+
     const ACCOUNT_GROUP_REFERENCE_PREFIX = 'customer_group_demo_data';
 
     /**
@@ -26,7 +32,7 @@ class LoadCustomerGroupDemoData extends AbstractFixture
     public function load(ObjectManager $manager)
     {
         /** @var \Oro\Bundle\UserBundle\Entity\User $customerOwner */
-        $customerOwner = $manager->getRepository('OroUserBundle:User')->findOneBy([]);
+        $customerOwner = $this->getFirstUser($manager);
 
         foreach ($this->customerGroups as $groupName) {
             $customerGroup = $manager->getRepository('OroCustomerBundle:CustomerGroup')

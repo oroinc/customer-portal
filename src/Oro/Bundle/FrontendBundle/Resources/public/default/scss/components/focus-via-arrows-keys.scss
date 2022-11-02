@@ -1,0 +1,29 @@
+/* @theme: default; */
+
+@if $focus-visible-style {
+    .focus-visible.focus-via-arrows-keys:focus {
+        box-shadow: $focus-via-arrows-keys-style;
+
+        &.grid-cell,
+        &.permissions-cell {
+            box-shadow: $focus-via-arrows-keys-grid-cell-style;
+        }
+
+        &.btn {
+            &:not(:disabled):not(.disabled) {
+                box-shadow: $focus-via-arrows-keys-button-style;
+            }
+
+            &.checked,
+            &.active,
+            &.pressed {
+                box-shadow: $btn-active-box-shadow;
+            }
+        }
+
+        &[type='checkbox'],
+        &[type='radio'] {
+            border-color: $focus-via-arrows-keys-checkbox-border-color;
+        }
+    }
+}

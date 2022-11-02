@@ -5,6 +5,9 @@ namespace Oro\Bundle\FrontendBundle\Form\DataTransformer;
 use Oro\Bundle\EntityBundle\Entity\EntityFieldFallbackValue;
 use Symfony\Component\Form\DataTransformerInterface;
 
+/**
+ * The data transformer for fallback fields used to store page templates.
+ */
 class PageTemplateEntityFieldFallbackValueTransformer implements DataTransformerInterface
 {
     /** @var string */
@@ -24,13 +27,12 @@ class PageTemplateEntityFieldFallbackValueTransformer implements DataTransformer
     public function transform($value)
     {
         if (empty($value)) {
-            return;
+            return null;
         }
 
-        $arrValue = $value->getArrayValue();
-
-        if ($arrValue) {
-            $value->setScalarValue($arrValue[$this->routeName]);
+        $arrayValue = $value->getArrayValue();
+        if ($arrayValue) {
+            $value->setScalarValue($arrayValue[$this->routeName]);
         }
 
         return $value;
@@ -42,10 +44,10 @@ class PageTemplateEntityFieldFallbackValueTransformer implements DataTransformer
     public function reverseTransform($value)
     {
         if (empty($value)) {
-            return;
+            return null;
         }
 
-        if ($value instanceof EntityFieldFallbackValue) {
+        if ($value instanceof EntityFieldFallbackValue && null !== $value->getScalarValue()) {
             $value->setArrayValue([$this->routeName => $value->getScalarValue()]);
             $value->setScalarValue(null);
         }

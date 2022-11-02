@@ -15,6 +15,9 @@ use Oro\Bundle\UserBundle\Entity\AbstractRole;
 use Oro\Bundle\UserBundle\Form\Handler\AclRoleHandler;
 use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * Abstract logic for Customer User Role handling.
+ */
 abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
 {
     /** @var  RequestStack */
@@ -49,25 +52,16 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
         $this->request = $requestStack->getCurrentRequest();
     }
 
-    /**
-     * @param ConfigProvider $provider
-     */
     public function setOwnershipConfigProvider(ConfigProvider $provider)
     {
         $this->ownershipConfigProvider = $provider;
     }
 
-    /**
-     * @param ChainOwnershipMetadataProvider $chainMetadataProvider
-     */
     public function setChainMetadataProvider(ChainOwnershipMetadataProvider $chainMetadataProvider)
     {
         $this->chainMetadataProvider = $chainMetadataProvider;
     }
 
-    /**
-     * @param DoctrineHelper $doctrineHelper
-     */
     public function setDoctrineHelper(DoctrineHelper $doctrineHelper)
     {
         $this->doctrineHelper = $doctrineHelper;
@@ -96,8 +90,8 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
 
         foreach ($privileges as $key => $privilege) {
             $oid = $privilege->getIdentity()->getId();
-            if (strpos($oid, $entityPrefix) === 0) {
-                $className = substr($oid, strlen($entityPrefix));
+            if (str_starts_with($oid, $entityPrefix)) {
+                $className = substr($oid, \strlen($entityPrefix));
                 if (!$this->ownershipConfigProvider->hasConfig($className)) {
                     unset($privileges[$key]);
                 }
@@ -105,26 +99,6 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
         }
 
         return $privileges;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function processPrivileges(AbstractRole $role, $className = null)
-    {
-        $objectIdentityDescriptor = 'entity:Oro\Bundle\ProductBundle\Entity\Product';
-
-        $extension = $this->aclManager->getExtensionSelector()->select($objectIdentityDescriptor);
-        $maskBuilder = $extension->getMaskBuilder('VIEW');
-
-        // product view always must be set
-        $this->aclManager->setPermission(
-            $this->aclManager->getSid($role),
-            $this->aclManager->getOid($objectIdentityDescriptor),
-            $maskBuilder->getMask('MASK_VIEW_SYSTEM')
-        );
-
-        parent::processPrivileges($role);
     }
 
     /**
@@ -175,10 +149,10 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
 
         // Role moved to another customer OR customer added
         if ($role->getId() && (
-                ($this->originalCustomer !== $role->getCustomer() &&
+            ($this->originalCustomer !== $role->getCustomer() &&
                     $this->originalCustomer !== null && $role->getCustomer() !== null) ||
                 ($this->originalCustomer === null && $role->getCustomer() !== null)
-            )
+        )
         ) {
             // Remove assigned users
             $assignedUsers = $roleRepository->getAssignedUsers($role);

@@ -19,9 +19,6 @@ class MenuUserAgentConditionsCollectionType extends AbstractType
      */
     private $menuUserAgentConditionsTransformer;
 
-    /**
-     * @param DataTransformerInterface $menuUserAgentConditionsTransformer
-     */
     public function __construct(DataTransformerInterface $menuUserAgentConditionsTransformer)
     {
         $this->menuUserAgentConditionsTransformer = $menuUserAgentConditionsTransformer;
@@ -65,9 +62,6 @@ class MenuUserAgentConditionsCollectionType extends AbstractType
         );
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function preSetData(FormEvent $event)
     {
         $data = $event->getData();

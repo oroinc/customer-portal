@@ -3,8 +3,8 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 
 class LoadCustomerAddresses extends AbstractAddressesFixture implements DependentFixtureInterface
@@ -76,9 +76,7 @@ class LoadCustomerAddresses extends AbstractAddressesFixture implements Dependen
      */
     public function getDependencies()
     {
-        return [
-            'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers'
-        ];
+        return [LoadCustomers::class];
     }
 
     /**
@@ -88,8 +86,10 @@ class LoadCustomerAddresses extends AbstractAddressesFixture implements Dependen
     public function load(ObjectManager $manager)
     {
         foreach ($this->addresses as $addressData) {
+            $organization = $this->getOrganization($manager);
             $address = new CustomerAddress();
-            $address->setSystemOrganization($this->getOrganization($manager));
+            $address->setOrganization($organization->getName());
+            $address->setSystemOrganization($organization);
             $address->setFrontendOwner($this->getReference($addressData['customer']));
             $this->addAddress($manager, $addressData, $address);
         }

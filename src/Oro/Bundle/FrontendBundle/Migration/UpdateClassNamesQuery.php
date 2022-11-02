@@ -2,8 +2,6 @@
 
 namespace Oro\Bundle\FrontendBundle\Migration;
 
-use Doctrine\DBAL\Types\Type;
-use Oro\Bundle\EntityConfigBundle\Config\Id\FieldConfigId;
 use Oro\Bundle\MigrationBundle\Migration\ArrayLogger;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedMigrationQuery;
 use Psr\Log\LoggerInterface;
@@ -69,7 +67,7 @@ class UpdateClassNamesQuery extends ParametrizedMigrationQuery
 
             $this->logQuery($logger, $query, $parameters);
             if (!$dryRun) {
-                $this->connection->executeUpdate($query, $parameters);
+                $this->connection->executeStatement($query, $parameters);
             }
         }
     }

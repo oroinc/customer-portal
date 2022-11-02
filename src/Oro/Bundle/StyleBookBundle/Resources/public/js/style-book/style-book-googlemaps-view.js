@@ -1,17 +1,16 @@
 define(function(require) {
     'use strict';
 
-    var StyleBookGooglemapsView;
-    var BaseView = require('oroui/js/app/views/base/view');
-    var GooglemapsView = require('oroaddress/js/mapservice/googlemaps');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const GooglemapsView = require('oroaddress/js/mapservice/googlemaps');
 
-    StyleBookGooglemapsView = BaseView.extend({
-        constructor: function StyleBookGooglemapsView() {
-            return StyleBookGooglemapsView.__super__.constructor.apply(this, arguments);
+    const StyleBookGooglemapsView = BaseView.extend({
+        constructor: function StyleBookGooglemapsView(options) {
+            return StyleBookGooglemapsView.__super__.constructor.call(this, options);
         },
 
         initialize: function(options) {
-            StyleBookGooglemapsView.__super__.initialize.apply(this, arguments);
+            StyleBookGooglemapsView.__super__.initialize.call(this, options);
 
             this.subview('googleMapView', new GooglemapsView(options));
         },

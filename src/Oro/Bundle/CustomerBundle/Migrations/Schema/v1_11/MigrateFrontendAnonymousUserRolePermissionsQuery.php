@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_11;
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Oro\Bundle\MigrationBundle\Migration\ArrayLogger;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedMigrationQuery;
 use Psr\Log\LoggerInterface;
@@ -54,16 +54,16 @@ SQL;
         ];
 
         $types = [
-            'old_role' => Type::STRING,
-            'role' => Type::STRING,
-            'product_class' => Type::STRING,
-            'root_class' => Type::STRING,
+            'old_role' => Types::STRING,
+            'role' => Types::STRING,
+            'product_class' => Types::STRING,
+            'root_class' => Types::STRING,
         ];
 
         $this->logQuery($logger, $sql, $parameters, $types);
 
         if (!$dryRun) {
-            $this->connection->executeUpdate($sql, $parameters, $types);
+            $this->connection->executeStatement($sql, $parameters, $types);
         }
     }
 }

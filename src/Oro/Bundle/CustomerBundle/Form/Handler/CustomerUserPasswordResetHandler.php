@@ -3,11 +3,23 @@
 namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class CustomerUserPasswordResetHandler extends AbstractCustomerUserPasswordHandler
+/**
+ * Handles reset password request.
+ */
+class CustomerUserPasswordResetHandler
 {
+    /** @var CustomerUserManager */
+    private $userManager;
+
+    public function __construct(CustomerUserManager $userManager)
+    {
+        $this->userManager = $userManager;
+    }
+
     /**
      * @param FormInterface $form
      * @param Request $request

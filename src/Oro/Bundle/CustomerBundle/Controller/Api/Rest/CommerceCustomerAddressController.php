@@ -2,8 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Api\Rest;
 
-use FOS\RestBundle\Controller\Annotations\NamePrefix;
-use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
@@ -14,15 +12,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @NamePrefix("oro_api_customer_")
+ * REST API controller for customer address entity.
  */
-class CommerceCustomerAddressController extends RestController implements ClassResourceInterface
+class CommerceCustomerAddressController extends RestController
 {
     /**
      * REST GET address
      *
      * @param int $entityId
-     * @param string $addressId
+     * @param int $addressId
      *
      * @ApiDoc(
      *      description="Get customer address",
@@ -31,13 +29,17 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      * @AclAncestor("oro_customer_customer_address_view")
      * @return Response
      */
-    public function getAction($entityId, $addressId)
+    public function getAction(int $entityId, int $addressId)
     {
         /** @var Customer $customer */
         $customer = $this->getCustomerManager()->find($entityId);
+        $this->checkAccess($customer);
 
         /** @var CustomerAddress $address */
         $address = $this->getManager()->find($addressId);
+        if (!$this->isGranted('VIEW', $address)) {
+            throw $this->createAccessDeniedException();
+        }
 
         $addressData = null;
         if ($address && $customer->getAddresses()->contains($address)) {
@@ -59,12 +61,13 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      *
      * @return JsonResponse
      */
-    public function cgetAction($entityId)
+    public function cgetAction(int $entityId)
     {
         /** @var Customer $customer */
         $customer = $this->getCustomerManager()->find($entityId);
-        $result = [];
+        $this->checkAccess($customer);
 
+        $result = [];
         if ($customer) {
             $items = $this->getCustomerAddresses($customer);
 
@@ -89,13 +92,13 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      *
      * @return Response
      */
-    public function deleteAction($entityId, $addressId)
+    public function deleteAction(int $entityId, int $addressId)
     {
         /** @var CustomerAddress $address */
         $address = $this->getManager()->find($addressId);
         /** @var Customer $customer */
         $customer = $this->getCustomerManager()->find($entityId);
-        if ($this->get('oro_customer.provider.frontend.address')->isCurrentCustomerAddressesContain($address)) {
+        if ($this->isGranted('DELETE', $address)) {
             $customer->removeAddress($address);
             return $this->handleDeleteRequest($addressId);
         } else {
@@ -116,7 +119,7 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      * @AclAncestor("oro_customer_customer_address_view")
      * @return Response
      */
-    public function getByTypeAction($entityId, $typeName)
+    public function getByTypeAction(int $entityId, $typeName)
     {
         /** @var Customer $customer */
         $customer = $this->getCustomerManager()->find($entityId);
@@ -144,7 +147,7 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      * @AclAncestor("oro_customer_customer_address_view")
      * @return Response
      */
-    public function getPrimaryAction($entityId)
+    public function getPrimaryAction(int $entityId)
     {
         /** @var Customer $customer */
         $customer = $this->getCustomerManager()->find($entityId);
@@ -232,6 +235,19 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      */
     protected function getCustomerAddresses(Customer $customer)
     {
-        return $customer->getAddresses()->toArray();
+        $dql = $this->getDoctrine()->getRepository(CustomerAddress::class)
+            ->createQueryBuilder('address')
+            ->select('address')
+            ->where('address.frontendOwner = :frontendOwner')
+            ->setParameter('frontendOwner', $customer);
+
+        return $this->get('oro_security.acl_helper')->apply($dql)->getResult();
+    }
+
+    protected function checkAccess($entity)
+    {
+        if (!$this->isGranted('VIEW', $entity)) {
+            throw $this->createAccessDeniedException();
+        }
     }
 }

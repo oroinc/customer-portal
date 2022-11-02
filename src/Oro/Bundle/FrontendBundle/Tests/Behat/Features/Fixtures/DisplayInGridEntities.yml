@@ -1,0 +1,27 @@
+Oro\Bundle\CustomerBundle\Entity\Customer:
+  customer_entity:
+    name: 'New Customer'
+    organization: '@organization'
+    owner: '@admin'
+
+Oro\Bundle\WebsiteBundle\Entity\Website:
+  website_entity:
+    name: 'New Website'
+    organization: '@organization'
+    owner: '@business_unit'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+  customer_user_entity:
+    email: 'new_customer_user@example.org'
+    username: 'new_customer_user@example.org'
+    password: ''
+    salt: ''
+    firstName: 'New'
+    lastName: 'Customer User'
+    enabled: '1'
+    confirmed: '1'
+    customer: '@customer_entity'
+    organization: '@organization'
+    userRoles: []
+    owner: '@admin'
+    website: '@website_entity'

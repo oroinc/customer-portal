@@ -4,31 +4,23 @@ namespace Oro\Bundle\FrontendBundle\Migrations\Data\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Oro\Bundle\UserBundle\Entity\AbstractRole;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * The base class for data fixtures that load default permissions for roles.
+ */
 abstract class AbstractRolesData extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
     const ROLES_FILE_NAME = '';
-
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
 
     /**
      * {@inheritDoc}
@@ -40,28 +32,21 @@ abstract class AbstractRolesData extends AbstractFixture implements DependentFix
 
         foreach ($roleData as $roleName => $roleConfigData) {
             $role = $this->createEntity($roleName, $roleConfigData['label']);
-
             $manager->persist($role);
 
-            if (!$aclManager->isAclEnabled()) {
-                continue;
+            if ($aclManager->isAclEnabled()) {
+                $sid = $aclManager->getSid($role);
+                if (!empty($roleConfigData['max_permissions'])) {
+                    $this->setPermissionGroup($aclManager, $sid);
+                }
+                $this->setPermissions($aclManager, $sid, $roleConfigData['permissions'] ?? []);
             }
-
-            $sid = $aclManager->getSid($role);
-
-            if (!empty($roleConfigData['max_permissions'])) {
-                $this->setPermissionGroup($aclManager, $sid);
-            }
-
-            if (empty($roleConfigData['permissions']) || !is_array($roleConfigData['permissions'])) {
-                continue;
-            }
-
-            $this->setPermissions($aclManager, $sid, $roleConfigData['permissions']);
         }
 
         $manager->flush();
-        $aclManager->flush();
+        if ($aclManager->isAclEnabled()) {
+            $aclManager->flush();
+        }
     }
 
     /**
@@ -87,9 +72,8 @@ abstract class AbstractRolesData extends AbstractFixture implements DependentFix
         foreach ($bundlesForRoles as $bundle) {
             $fileName = $this->getFileName($bundle);
             try {
-                foreach ($kernel->locateResource($fileName, null, false) as $file) {
-                    $rolesData = array_merge_recursive($rolesData, Yaml::parse(file_get_contents($file)));
-                }
+                $file = $kernel->locateResource($fileName);
+                $rolesData = array_merge_recursive($rolesData, Yaml::parse(file_get_contents($file)));
             } catch (\InvalidArgumentException $e) {
             }
         }
@@ -107,19 +91,15 @@ abstract class AbstractRolesData extends AbstractFixture implements DependentFix
         return sprintf('@%s%s%s', $bundle, '/Migrations/Data/ORM/data/', static::ROLES_FILE_NAME);
     }
 
-    /**
-     * @param AclManager                $aclManager
-     * @param SecurityIdentityInterface $sid
-     */
     protected function setPermissionGroup(AclManager $aclManager, SecurityIdentityInterface $sid)
     {
         foreach ($aclManager->getAllExtensions() as $extension) {
             $rootOid = $aclManager->getRootOid($extension->getExtensionKey());
             foreach ($extension->getAllMaskBuilders() as $maskBuilder) {
-                $fullAccessMask = $maskBuilder->hasMask('GROUP_SYSTEM')
-                    ? $maskBuilder->getMask('GROUP_SYSTEM')
-                    : $maskBuilder->getMask('GROUP_ALL');
-                $aclManager->setPermission($sid, $rootOid, $fullAccessMask, true);
+                $mask = $maskBuilder->hasMaskForGroup('SYSTEM')
+                    ? $maskBuilder->getMaskForGroup('SYSTEM')
+                    : $maskBuilder->getMaskForGroup('ALL');
+                $aclManager->setPermission($sid, $rootOid, $mask);
             }
         }
     }
@@ -127,26 +107,19 @@ abstract class AbstractRolesData extends AbstractFixture implements DependentFix
     /**
      * @param AclManager                $aclManager
      * @param SecurityIdentityInterface $sid
-     * @param array                     $permissions
+     * @param array                     $aclData [oid descriptor => [permission, ...], ...]
      */
-    protected function setPermissions(AclManager $aclManager, SecurityIdentityInterface $sid, array $permissions)
+    protected function setPermissions(AclManager $aclManager, SecurityIdentityInterface $sid, array $aclData)
     {
-        foreach ($permissions as $permission => $acls) {
-            $oid = $aclManager->getOid(str_replace('|', ':', $permission));
-            $extension = $aclManager->getExtensionSelector()->select($oid);
-            $maskBuilders = $extension->getAllMaskBuilders();
-
+        foreach ($aclData as $oidDescriptor => $permissions) {
+            $oid = $aclManager->getOid(str_replace('|', ':', $oidDescriptor));
+            $maskBuilders = $aclManager->getAllMaskBuilders($oid);
             foreach ($maskBuilders as $maskBuilder) {
-                $maskBuilder->reset();
-
-                if ($acls) {
-                    foreach ($acls as $acl) {
-                        if ($maskBuilder->hasMask('MASK_' . $acl)) {
-                            $maskBuilder->add($acl);
-                        }
+                foreach ($permissions as $permission) {
+                    if ($maskBuilder->hasMaskForPermission($permission)) {
+                        $maskBuilder->add($permission);
                     }
                 }
-
                 $aclManager->setPermission($sid, $oid, $maskBuilder->get());
             }
         }

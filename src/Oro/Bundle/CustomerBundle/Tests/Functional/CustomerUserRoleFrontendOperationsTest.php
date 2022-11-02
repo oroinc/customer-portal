@@ -2,7 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional;
 
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityRepository;
+use Oro\Bundle\ActionBundle\Tests\Functional\OperationAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleACLData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
@@ -10,18 +11,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CustomerUserRoleFrontendOperationsTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
+    use OperationAwareTestTrait;
+
+    protected function setUp(): void
     {
         $this->initClient();
         $this->client->useHashNavigation(true);
-        $this->loadFixtures(
-            [
-                LoadCustomerUserRoleACLData::class
-            ]
-        );
+        $this->loadFixtures([LoadCustomerUserRoleACLData::class]);
     }
 
     public function testDeletePredefinedRole()
@@ -40,13 +36,8 @@ class CustomerUserRoleFrontendOperationsTest extends WebTestCase
 
     /**
      * @dataProvider deleteDataProvider
-     *
-     * @param string $login
-     * @param string $resource
-     * @param int $status
-     * @param bool $shouldDelete
      */
-    public function testDeleteCustomizedRole($login, $resource, $status, $shouldDelete)
+    public function testDeleteCustomizedRole(string $login, string $resource, int $status, bool $shouldDelete)
     {
         $this->loginUser($login);
         /** @var CustomerUserRole $customizedRole */
@@ -67,10 +58,7 @@ class CustomerUserRoleFrontendOperationsTest extends WebTestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function deleteDataProvider()
+    public function deleteDataProvider(): array
     {
         return [
             'anonymous user' => [
@@ -118,20 +106,14 @@ class CustomerUserRoleFrontendOperationsTest extends WebTestCase
         ];
     }
 
-    /**
-     * @return ObjectRepository
-     */
-    private function getRepository()
+    private function getRepository(): EntityRepository
     {
-        return $this->getContainer()->get('doctrine')->getRepository(CustomerUserRole::class);
+        return self::getContainer()->get('doctrine')->getRepository(CustomerUserRole::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function executeOperation(CustomerUserRole $customerUserRole, $operationName)
+    private function executeOperation(CustomerUserRole $customerUserRole, string $operationName): void
     {
-        $entityClass = 'Oro\Bundle\CustomerBundle\Entity\CustomerUserRole';
+        $entityClass = CustomerUserRole::class;
         $id = $customerUserRole->getId();
         $this->client->request(
             'POST',
@@ -148,30 +130,5 @@ class CustomerUserRoleFrontendOperationsTest extends WebTestCase
             [],
             ['HTTP_X-Requested-With' => 'XMLHttpRequest']
         );
-    }
-
-    /**
-     * @param $operationName
-     * @param $entityId
-     * @param $entityClass
-     *
-     * @return array
-     */
-    protected function getOperationExecuteParams($operationName, $entityId, $entityClass)
-    {
-        $actionContext = [
-            'entityId'    => $entityId,
-            'entityClass' => $entityClass
-        ];
-        $container = self::getContainer();
-        $operation = $container->get('oro_action.operation_registry')->findByName($operationName);
-        $actionData = $container->get('oro_action.helper.context')->getActionData($actionContext);
-
-        $tokenData = $container
-            ->get('oro_action.operation.execution.form_provider')
-            ->createTokenData($operation, $actionData);
-        $container->get('session')->save();
-
-        return $tokenData;
     }
 }

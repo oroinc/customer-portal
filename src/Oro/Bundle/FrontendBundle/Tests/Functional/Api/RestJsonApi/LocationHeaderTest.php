@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendBundle\Tests\Functional\Api\RestJsonApi;
 
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 use Oro\Bundle\TestFrameworkBundle\Entity\TestProduct;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -11,12 +12,20 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class LocationHeaderTest extends FrontendRestJsonApiTestCase
 {
-    public function testPostShouldRerurnLocationHeader()
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->enableVisitor();
+        $this->loadVisitor();
+    }
+
+    public function testPostShouldReturnLocationHeader()
     {
         $entityType = $this->getEntityType(TestProduct::class);
         $response = $this->post(
             ['entity' => $entityType],
-            ['data' => ['type' => $entityType, 'attributes' => ['name' => 'test']]]
+            ['data' => ['type' => $entityType, 'attributes' => ['name' => 'test']]],
+            ['HTTP_HATEOAS' => true]
         );
         self::assertTrue($response->headers->has('Location'));
         $locationUrl = $this->getUrl(
@@ -25,9 +34,12 @@ class LocationHeaderTest extends FrontendRestJsonApiTestCase
             UrlGeneratorInterface::ABSOLUTE_URL
         );
         self::assertEquals($locationUrl, $response->headers->get('Location'));
+        // test that "self" link the same as "Location" header
+        $content = self::jsonToArray($response->getContent());
+        self::assertEquals($locationUrl, $content['data']['links']['self']);
     }
 
-    public function testPostShouldNotRerurnLocationHeaderIfNotSuccess()
+    public function testPostShouldNotReturnLocationHeaderIfNotSuccess()
     {
         $entityType = $this->getEntityType(TestProduct::class);
         $response = $this->post(
@@ -36,7 +48,7 @@ class LocationHeaderTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, 400);
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_BAD_REQUEST);
         self::assertFalse($response->headers->has('Location'));
     }
 }

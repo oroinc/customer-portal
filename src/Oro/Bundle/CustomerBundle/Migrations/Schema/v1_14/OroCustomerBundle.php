@@ -3,9 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_14;
 
 use Doctrine\DBAL\Schema\Schema;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
-use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
 use Oro\Bundle\MigrationBundle\Migration\Extension\DataStorageExtension;
 use Oro\Bundle\MigrationBundle\Migration\Extension\DataStorageExtensionAwareInterface;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
@@ -39,29 +36,13 @@ class OroCustomerBundle implements
         /** Tables generation **/
         $this->createCustomerVisitorTable($schema);
 
-        $configManager = $this->container->get('oro_entity_config.config_manager');
-        $provider = $configManager->getProvider('extend');
-
-        $entityConfig = $provider->getConfig(CustomerUser::class);
-        $entityConfig->set('is_extend', true);
-        $entityConfig->set('state', ExtendScope::STATE_ACTIVE);
-        $configManager->persist($entityConfig);
-
-        $entityConfig = $provider->getConfig(CustomerUserRole::class);
-        $entityConfig->set('is_extend', true);
-        $entityConfig->set('state', ExtendScope::STATE_ACTIVE);
-        $configManager->persist($entityConfig);
-
         // send migration message to queue. we should process this migration asynchronous because instances
         // could have a lot of customer user in system.
-        $this->container->get('oro_message_queue.message_producer')
-            ->send(ClearLostCustomerUsers::TOPIC_NAME, '');
+        $this->container->get('oro_message_queue.message_producer')->send(ClearLostCustomerUsersTopic::getName(), '');
     }
 
     /**
      * Create oro_customer_visitor table
-     *
-     * @param Schema $schema
      */
     protected function createCustomerVisitorTable(Schema $schema)
     {

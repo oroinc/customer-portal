@@ -35,7 +35,7 @@ operations:
         acl_resource: [EDIT, $.data]
         preconditions:
             '@and':
-                - '@has_elements': $.data.getRoles
+                - '@has_elements': $.data.getUserRoles
                 - '@equal': [$enabled, false]
         actions:
             - '@run_action_group':
@@ -84,6 +84,7 @@ operations:
         datagrids:
             - frontend-customer-customer-user-grid
         datagrid_options:
+            aria_label: disable_aria_label
             mass_action:
                 type: disablecustomers
                 label: oro.customer.mass_actions.disable_customers.label
@@ -117,7 +118,7 @@ operations:
             - '@get_active_user': $.currentUser
         preconditions:
             '@and':
-                - '@has_elements': $.data.getRoles
+                - '@has_elements': $.data.getUserRoles
                 - '@equal': [$enabled, false]
         actions:
             - '@run_action_group':
@@ -141,6 +142,7 @@ operations:
         datagrids:
             - frontend-customer-customer-user-grid
         datagrid_options:
+            aria_label: enable_aria_label
             mass_action:
                 type: enablecustomers
                 label: oro.customer.action.customer_user.enable
@@ -283,7 +285,11 @@ operations:
                         id: $id
 
     oro_customer_frontend_profile_user:
-        label: oro.customer.action.customer_user.edit
+        label: oro.customer.action.customer_user.edit_btn.label
+        frontend_options:
+            title: oro.customer.action.customer_user.edit_btn.title
+            options:
+                ariaLabel: oro.customer.action.customer_user.edit_btn.aria_label
         applications: [commerce]
         routes:
             - oro_customer_frontend_customer_user_profile
@@ -323,6 +329,8 @@ operations:
         order: 30
         button_options:
             icon: fa-trash-o
+        datagrid_options:
+            aria_label: delete_aria_label
         preconditions:
             '@and':
                 - '@acl_granted': [oro_customer_frontend_customer_user_role_delete]
@@ -439,6 +447,8 @@ operations:
             - for_all_datagrids
             - for_all_entities
             - datagrids
+        datagrid_options:
+            aria_label: delete_aria_label
         preconditions:
             '@and':
                 - '@not_blank': $.data
@@ -484,7 +494,7 @@ operations:
             - '@call_service_method':
                 service: event_dispatcher
                 method: dispatch
-                method_parameters: [$.removeEventName, $.customerGroupDeleteEvent]
+                method_parameters: [$.customerGroupDeleteEvent, $.removeEventName]
             - '@run_action_group':
                 action_group: DELETE
                 parameters_mapping:
@@ -520,6 +530,8 @@ operations:
         acl_resource: oro_customer_frontend_customer_address_remove
         button_options:
             icon: trash
+        datagrid_options:
+            aria_label: delete_aria_label
         datagrids:
             - frontend-customer-customer-address-grid
 
@@ -535,6 +547,8 @@ operations:
         acl_resource: oro_customer_frontend_customer_user_address_remove
         button_options:
             icon: trash
+        datagrid_options:
+            aria_label: delete_aria_label
         datagrids:
             - frontend-customer-customer-user-address-grid
 
@@ -545,7 +559,7 @@ action_groups:
         acl_resource: [DELETE, $.data]
         actions:
             - '@call_service_method':
-                service: oro_customer.customer.action_group.handler.delete
+                service: oro_action.handler.delete
                 method: handleDelete
                 method_parameters: [$.data]
     oro_customer_customeruser_set_enabled:

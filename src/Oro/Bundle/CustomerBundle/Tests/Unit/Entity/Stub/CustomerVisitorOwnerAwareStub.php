@@ -10,9 +10,6 @@ class CustomerVisitorOwnerAwareStub implements CustomerVisitorOwnerAwareInterfac
     /** @var CustomerVisitor */
     private $visitor;
 
-    /**
-     * @param CustomerVisitor $visitor
-     */
     public function __construct(CustomerVisitor $visitor)
     {
         $this->visitor = $visitor;

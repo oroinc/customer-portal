@@ -1,0 +1,24 @@
+/* @theme: default; */
+
+.style-book-menu-container {
+    background: $style-book-menu-container-background;
+    border-radius: $style-book-menu-container-border-radius;
+
+    &__inner {
+        padding: $style-book-menu-container-inner-offset;
+    }
+
+    &.sticked {
+        width: $style-book-menu-container-sticked-width;
+        position: $style-book-menu-container-sticked-position;
+        overflow: $style-book-menu-container-sticked-overflow;
+    }
+}
+
+@include breakpoint('tablet') {
+    .style-book-menu-container {
+        &__inner {
+            padding: $style-book-menu-container-tablet-inner-offset;
+        }
+    }
+}

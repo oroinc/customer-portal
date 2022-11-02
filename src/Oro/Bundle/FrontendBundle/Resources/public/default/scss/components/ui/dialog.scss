@@ -1,0 +1,136 @@
+/* @theme: default; */
+
+.ui-dialog {
+    position: fixed;
+    top: 50%;
+
+    /* rtl:ignore */
+    left: 50%;
+
+    /* rtl:ignore */
+    z-index: z('popup') + 1;
+
+    display: flex;
+    flex-flow: column;
+    // stylelint-disable-next-line declaration-no-important
+    min-height: $dialog-min-height !important;
+
+    font-family: $base-font;
+
+    &.ui-widget-content,
+    .ui-widget-content {
+        max-width: 100%;
+
+        border: $dialog-widget-content-border;
+        color: $dialog-widget-content-color;
+        background-color: $dialog-widget-content-bg-color;
+
+        @include border-radius($dialog-widget-content-border-radius);
+    }
+
+    .ui-widget-content {
+        padding: $dialog-widget-content-offset-inner;
+        overflow-y: auto;
+        border-radius: $dialog-widget-content-border-radius;
+    }
+
+    .ui-dialog-title {
+        font-size: $dialog-title-font-size;
+        line-height: $dialog-title-line-height;
+    }
+
+    .ui-dialog-titlebar {
+        padding: $dialog-titlebar-offset-inner;
+
+        font-weight: $dialog-titlebar-font-weight;
+
+        border: $dialog-titlebar-border;
+        background: $dialog-titlebar-background;
+        color: $dialog-titlebar-color;
+
+        flex-shrink: 0;
+
+        &.ui-draggable-handle {
+            cursor: $dialog-draggable-handle-cursor;
+        }
+    }
+
+    .ui-dialog-titlebar-buttonpane {
+        position: absolute;
+        top: $dialog-titlebar-buttonpane-top;
+        right: $dialog-titlebar-buttonpane-right;
+    }
+
+    .ui-dialog-buttonpane {
+        padding: $dialog-buttonpane-offset-inner;
+
+        flex-shrink: 0;
+
+        overflow: visible;
+
+        .pull-right .action-wrapper {
+            margin-left: $dialog-action-wrapper-side-offset;
+        }
+
+        .pull-left .action-wrapper {
+            margin-right: $dialog-action-wrapper-side-offset;
+        }
+
+        .btn-success {
+            background: $dialog-btn-success-background;
+            border-color: $dialog-btn-success-border;
+        }
+    }
+
+    .ui-dialog-messages {
+        margin: $dialog-messages-offset;
+        padding: $dialog-messages-inner-offset;
+
+        &:empty {
+            display: none;
+        }
+
+        > [class*='notification-flash'] {
+            padding: $dialog-notification-offset-inner;
+        }
+    }
+
+    &--frontend {
+        &-fullscreen {
+            position: $dialog-frontend-fullscreen-position;
+
+            .ui-dialog-titlebar,
+            .ui-dialog-buttonpane {
+                display: $dialog-frontend-fullscreen-titlebar-display;
+            }
+
+            .ui-widget-content {
+                padding: $dialog-frontend-fullscreen-content-offset-inner;
+            }
+        }
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .ui-dialog {
+        .ui-dialog-titlebar {
+            padding: $dialog-titlebar-offset-inner-mobile-landscape;
+        }
+
+        .ui-widget-content {
+            padding: $dialog-widget-content-offset-inner-mobile-landscape;
+        }
+
+        .ui-dialog-buttonpane {
+            padding: $dialog-buttonpane-offset-inner-mobile-landscape;
+        }
+
+        &--frontend {
+            &-fullscreen {
+                .ui-widget-content {
+                    padding: $dialog-frontend-fullscreen-content-offset-inner-mobile-landscape;
+                }
+            }
+        }
+    }
+}

@@ -3,14 +3,19 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
 use Oro\Bundle\MigrationBundle\Fixture\AbstractEntityReferenceFixture;
 
+/**
+ * Loads Customers demo data for default organization
+ */
 class LoadCustomerDemoData extends AbstractEntityReferenceFixture implements DependentFixtureInterface
 {
+    use CreateCustomerTrait;
+
     const ACCOUNT_REFERENCE_PREFIX = 'customer_demo_data';
 
     /** @var array */
@@ -74,17 +79,17 @@ class LoadCustomerDemoData extends AbstractEntityReferenceFixture implements Dep
                 LoadCustomerGroupDemoData::ACCOUNT_GROUP_REFERENCE_PREFIX . $customerData['group']
             );
 
-            $customer = new Customer();
-            $customer
-                ->setName($customerName)
-                ->setGroup($customerGroup)
-                ->setParent(null)
-                ->setOrganization($customerOwner->getOrganization())
-                ->setOwner($customerOwner)
-                ->setInternalRating($internalRatings[array_rand($internalRatings)]);
+            $parent =
+                $this->createCustomer(
+                    $manager,
+                    $customerName,
+                    $customerOwner,
+                    $customerGroup,
+                    $internalRatings[array_rand($internalRatings)],
+                    $customerOwner->getOrganization()
+                );
 
-            $manager->persist($customer);
-            $this->addReference(static::ACCOUNT_REFERENCE_PREFIX . $customer->getName(), $customer);
+            $this->addReference(static::ACCOUNT_REFERENCE_PREFIX . $parent->getName(), $parent);
 
             if (isset($customerData['subsidiaries'])) {
                 foreach ($customerData['subsidiaries'] as $subsidiaryName => $subsidiaryData) {
@@ -92,16 +97,17 @@ class LoadCustomerDemoData extends AbstractEntityReferenceFixture implements Dep
                     $subsidiaryGroup = $this->getReference(
                         LoadCustomerGroupDemoData::ACCOUNT_GROUP_REFERENCE_PREFIX . $subsidiaryData['group']
                     );
-                    $subsidiary = new Customer();
-                    $subsidiary
-                        ->setName($subsidiaryName)
-                        ->setGroup($subsidiaryGroup)
-                        ->setParent($customer)
-                        ->setOrganization($customerOwner->getOrganization())
-                        ->setOwner($customerOwner)
-                        ->setInternalRating($internalRatings[array_rand($internalRatings)]);
+                    $subsidiary =
+                        $this->createCustomer(
+                            $manager,
+                            $subsidiaryName,
+                            $customerOwner,
+                            $subsidiaryGroup,
+                            $internalRatings[array_rand($internalRatings)],
+                            $customerOwner->getOrganization(),
+                            $parent
+                        );
 
-                    $manager->persist($subsidiary);
                     $this->addReference(static::ACCOUNT_REFERENCE_PREFIX . $subsidiary->getName(), $subsidiary);
                 }
             }

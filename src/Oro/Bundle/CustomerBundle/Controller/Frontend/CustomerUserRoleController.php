@@ -3,15 +3,21 @@
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateFrontendHandler;
+use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CustomerUserRoleController extends Controller
+/**
+ * Storefront CRUD for customer user roles.
+ */
+class CustomerUserRoleController extends AbstractController
 {
     /**
      * @Route("/", name="oro_customer_frontend_customer_user_role_index")
@@ -23,23 +29,19 @@ class CustomerUserRoleController extends Controller
      *      permission="VIEW",
      *      group_name="commerce"
      * )
-     * @return array
      */
-    public function indexAction()
+    public function indexAction(): array
     {
         return [
-            'entity_class' => $this->container->getParameter('oro_customer.entity.customer_user_role.class'),
+            'entity_class' => CustomerUserRole::class,
         ];
     }
 
     /**
      * @Route("/view/{id}", name="oro_customer_frontend_customer_user_role_view", requirements={"id"="\d+"})
      * @Layout()
-     *
-     * @param CustomerUserRole $role
-     * @return array
      */
-    public function viewAction(CustomerUserRole $role)
+    public function viewAction(CustomerUserRole $role): array
     {
         $isGranted = $role->isPredefined()
             ? $this->isGranted('oro_customer_frontend_customer_user_role_view')
@@ -66,10 +68,8 @@ class CustomerUserRoleController extends Controller
      *      permission="CREATE",
      *      group_name="commerce"
      * )
-     *
-     * @return array
      */
-    public function createAction()
+    public function createAction(): array|RedirectResponse
     {
         return $this->update(new CustomerUserRole());
     }
@@ -77,12 +77,8 @@ class CustomerUserRoleController extends Controller
     /**
      * @Route("/update/{id}", name="oro_customer_frontend_customer_user_role_update", requirements={"id"="\d+"})
      * @Layout()
-     *
-     * @param CustomerUserRole $role
-     * @param Request $request
-     * @return array
      */
-    public function updateAction(CustomerUserRole $role, Request $request)
+    public function updateAction(CustomerUserRole $role, Request $request): array|RedirectResponse
     {
         $isGranted = $role->isPredefined()
             ? $this->isGranted('oro_customer_frontend_customer_user_role_create')
@@ -95,7 +91,7 @@ class CustomerUserRoleController extends Controller
         if ($role->isPredefined() && $request->isMethod(Request::METHOD_GET)) {
             $this->addFlash(
                 'warning',
-                $this->get('translator')
+                $this->get(TranslatorInterface::class)
                     ->trans('oro.customer.customeruserrole.frontend.edit-predifined-role.message')
             );
         }
@@ -103,35 +99,22 @@ class CustomerUserRoleController extends Controller
         return $this->update($role);
     }
 
-    /**
-     * @param CustomerUserRole $role
-     * @return array|RedirectResponse
-     */
-    protected function update(CustomerUserRole $role)
+    protected function update(CustomerUserRole $role): array|RedirectResponse
     {
-        $handler = $this->get('oro_customer.form.handler.update_customer_user_role_frontend');
+        $handler = $this->get(CustomerUserRoleUpdateFrontendHandler::class);
         $form = $handler->createForm($role);
 
         // This is cloned role in case of original role was predefined
         $customizableRole = $form->getData();
 
-        $response = $this->get('oro_form.model.update_handler')->handleUpdate(
+        $response = $this->get(UpdateHandlerFacade::class)->update(
             $customizableRole,
             $form,
-            function (CustomerUserRole $role) {
-                return [
-                    'route' => 'oro_customer_frontend_customer_user_role_update',
-                    'parameters' => ['id' => $role->getId()],
-                ];
-            },
-            function (CustomerUserRole $role) {
-                return [
-                    'route' => 'oro_customer_frontend_customer_user_role_view',
-                    'parameters' => ['id' => $role->getId()],
-                ];
-            },
-            $this->get('translator')->trans('oro.customer.controller.customeruserrole.saved.message'),
-            $handler
+            $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruserrole.saved.message'),
+            null,
+            function (CustomerUserRole $role) use ($handler) {
+                return $handler->process($role);
+            }
         );
 
         if ($response instanceof Response) {
@@ -141,8 +124,27 @@ class CustomerUserRoleController extends Controller
         return [
             'data' => [
                 'entity' => $role,
-                'customizableRole' => $customizableRole
+                'customizableRole' => $customizableRole,
+                'input_action' => \json_encode([
+                    'route' => 'oro_customer_frontend_customer_user_role_view',
+                    'params' => ['id' => '$id']
+                ])
             ]
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                TranslatorInterface::class,
+                CustomerUserRoleUpdateFrontendHandler::class,
+                UpdateHandlerFacade::class
+            ]
+        );
     }
 }

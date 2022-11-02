@@ -7,9 +7,10 @@
 .role-capability {
     margin: 16px 0;
 
-    h5 {
+    &__group-title {
         text-transform: uppercase;
         padding-bottom: 16px;
+        font-size: $base-font-size;
     }
 
     &__group-own-title {
@@ -25,7 +26,7 @@
 
         &.disabled {
             pointer-events: none;
-            color: transparentize(get-color('additional', 'middle'), .14);
+            color: $role-capability-select-al-disabled-color;
         }
     }
 
@@ -34,7 +35,7 @@
         flex-wrap: wrap;
     }
 
-    & &__empty-items {
+    &__empty-items {
         opacity: .4;
     }
 
@@ -42,21 +43,10 @@
         display: inline-block;
         width: 30%;
         padding: 0 30px 10px 0;
-
-        input[type="checkbox"] {
-            vertical-align: top;
-            margin: 3px 0 0 -15px;
-        }
     }
 
     &__item-label {
-        padding-right: 8px;
-    }
-
-    & label.role-capability__item-label {
-        padding-left: 23px;
-        margin: 0 0 0 -8px;
-        display: inline-block;
+        display: flex;
     }
 
     &__item-label--no-access {
@@ -64,8 +54,8 @@
     }
 
     &__item-label_changed {
-        background-color: get-color('additional', 'base');
-        box-shadow: 0 0 0 3px get-color('additional', 'base');
+        background-color: $role-capability-select-al-label-changed-background-color;
+        box-shadow: $role-capability-select-al-label-changed-box-shadow;
     }
 }
 
@@ -76,5 +66,14 @@
 
     .role-capability__group-common-title {
         display: inline;
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .role-capability {
+        &__item {
+            width: 100%;
+            padding-right: 0;
+        }
     }
 }

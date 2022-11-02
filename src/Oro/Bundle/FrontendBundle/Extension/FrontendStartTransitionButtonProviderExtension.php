@@ -2,9 +2,12 @@
 
 namespace Oro\Bundle\FrontendBundle\Extension;
 
-use Oro\Bundle\FrontendBundle\Provider\ActionCurrentApplicationProvider;
+use Oro\Bundle\FrontendBundle\Provider\FrontendCurrentApplicationProvider;
 use Oro\Bundle\WorkflowBundle\Extension\StartTransitionButtonProviderExtension;
 
+/**
+ * Prepares applicable buttons to start workflow transitions for the storefront.
+ */
 class FrontendStartTransitionButtonProviderExtension extends StartTransitionButtonProviderExtension
 {
     /**
@@ -12,6 +15,6 @@ class FrontendStartTransitionButtonProviderExtension extends StartTransitionButt
      */
     protected function getApplication()
     {
-        return ActionCurrentApplicationProvider::COMMERCE_APPLICATION;
+        return FrontendCurrentApplicationProvider::COMMERCE_APPLICATION;
     }
 }

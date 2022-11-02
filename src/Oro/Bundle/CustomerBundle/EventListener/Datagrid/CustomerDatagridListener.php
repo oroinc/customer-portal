@@ -6,6 +6,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Event\BuildBefore;
+use Symfony\Component\Security\Acl\Exception\InvalidDomainObjectException;
 
 /**
  * Removes columns from datagrid when front user is able to see only entities which owned by him.
@@ -20,38 +21,35 @@ class CustomerDatagridListener
     /** @var array */
     protected $columns;
 
-    /**
-     * @param CustomerUserProvider $securityProvider
-     * @param array $columns
-     */
     public function __construct(CustomerUserProvider $securityProvider, array $columns = ['customerUserName'])
     {
         $this->securityProvider = $securityProvider;
         $this->columns = $columns;
     }
 
-    /**
-     * @param BuildBefore $event
-     */
     public function onBuildBefore(BuildBefore $event)
     {
         $config = $event->getConfig();
 
-        if (!$config->isOrmDatasource() || !$this->getUser() instanceof CustomerUser) {
+        if ($config->isDatasourceSkipAclApply()
+            || !$config->isOrmDatasource()
+            || !$this->getUser() instanceof CustomerUser
+        ) {
             return;
         }
 
         $entityClass = $config->getOrmQuery()->getRootEntity();
-        if (!$entityClass || $this->securityProvider->isGrantedViewCustomerUser($entityClass)) {
+        try {
+            if (!$entityClass || $this->securityProvider->isGrantedViewCustomerUser($entityClass)) {
+                return;
+            }
+        } catch (InvalidDomainObjectException $e) {
             return;
         }
 
         $this->updateConfiguration($config);
     }
 
-    /**
-     * @param DatagridConfiguration $config
-     */
     protected function updateConfiguration(DatagridConfiguration $config)
     {
         foreach ($this->columns as $column) {
@@ -59,10 +57,6 @@ class CustomerDatagridListener
         }
     }
 
-    /**
-     * @param DatagridConfiguration $config
-     * @param string $column
-     */
     protected function removeCustomerUserColumn(DatagridConfiguration $config, string $column)
     {
         $config

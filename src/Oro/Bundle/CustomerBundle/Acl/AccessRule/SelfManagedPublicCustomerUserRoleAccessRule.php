@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Acl\AccessRule;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\SecurityBundle\AccessRule\AccessRuleInterface;
 use Oro\Bundle\SecurityBundle\AccessRule\Criteria;
 use Oro\Bundle\SecurityBundle\AccessRule\Expr\Comparison;
@@ -12,23 +11,13 @@ use Oro\Bundle\SecurityBundle\AccessRule\Expr\Path;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 /**
- * The access rule that adds "selfManaged = TRUE AND public = TRUE AND customer is NULL" expression
- * by OR operator for CustomerUserRole entity.
- * Adds additional check for organization if user is authenticated
+ * The access rule that allows the access only to public self managed customer user roles.
  */
 class SelfManagedPublicCustomerUserRoleAccessRule implements AccessRuleInterface
 {
-    /** The option that allows to enable the rule. Default value is false.  */
-    public const ENABLE_RULE = 'selfManagedPublicCustomerUserRoleEnable';
-
-    /**
-     * @var TokenAccessorInterface
-     */
+    /** @var TokenAccessorInterface */
     private $tokenAccessor;
 
-    /**
-     * @param TokenAccessorInterface $tokenAccessor
-     */
     public function __construct(TokenAccessorInterface $tokenAccessor)
     {
         $this->tokenAccessor = $tokenAccessor;
@@ -39,9 +28,7 @@ class SelfManagedPublicCustomerUserRoleAccessRule implements AccessRuleInterface
      */
     public function isApplicable(Criteria $criteria): bool
     {
-        return
-            $criteria->getOption(self::ENABLE_RULE, false)
-            && $criteria->getEntityClass() === CustomerUserRole::class;
+        return true;
     }
 
     /**
@@ -49,19 +36,56 @@ class SelfManagedPublicCustomerUserRoleAccessRule implements AccessRuleInterface
      */
     public function process(Criteria $criteria): void
     {
-        $expressions = [
-            new Comparison(new Path('selfManaged'), Comparison::EQ, true),
-            new Comparison(new Path('public'), Comparison::EQ, true),
-            new NullComparison(new Path('customer')),
-        ];
+        if ($criteria->getPermission() === 'VIEW' && $criteria->getExpression()) {
+            $this->processViewPermission($criteria);
+        } else {
+            // Adds (selfManaged = TRUE AND public = TRUE) expressions
+            $criteria->andExpression(new Comparison(new Path('selfManaged'), Comparison::EQ, true));
+            $criteria->andExpression(new Comparison(new Path('public'), Comparison::EQ, true));
+        }
+    }
 
+    /**
+     * Changes the criteria expression to:
+     * (selfManaged = TRUE AND public = TRUE)
+     * AND
+     * ({previous expression} OR (customer IS NULL AND organization = {organizationId}))
+     */
+    private function processViewPermission(Criteria $criteria): void
+    {
+        $notAssignedRolesExpressions[] = new NullComparison(new Path('customer'));
         $organizationId = $this->tokenAccessor->getOrganizationId();
         if ($organizationId) {
-            // Adds expression to the beginning of array because it would not work in the end due to the specialty of
-            // NullComparison expression which causes AstVisitor to clear alias. See AstVisitor::walkNullComparison().
-            array_unshift($expressions, new Comparison(new Path('organization'), Comparison::EQ, $organizationId));
+            $notAssignedRolesExpressions[] = new Comparison(
+                new Path('organization'),
+                Comparison::EQ,
+                $organizationId
+            );
         }
 
-        $criteria->orExpression(new CompositeExpression(CompositeExpression::TYPE_AND, $expressions));
+        $criteria->setExpression(
+            new CompositeExpression(
+                CompositeExpression::TYPE_AND,
+                [
+                    new CompositeExpression(
+                        CompositeExpression::TYPE_AND,
+                        [
+                            new Comparison(new Path('selfManaged'), Comparison::EQ, true),
+                            new Comparison(new Path('public'), Comparison::EQ, true),
+                        ]
+                    ),
+                    new CompositeExpression(
+                        CompositeExpression::TYPE_OR,
+                        [
+                            $criteria->getExpression(),
+                            new CompositeExpression(
+                                CompositeExpression::TYPE_AND,
+                                $notAssignedRolesExpressions
+                            )
+                        ]
+                    )
+                ]
+            )
+        );
     }
 }

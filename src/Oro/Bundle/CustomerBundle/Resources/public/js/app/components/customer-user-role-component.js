@@ -1,15 +1,13 @@
 define(function(require) {
     'use strict';
 
-    var CustomerUserRoleComponent;
-    var BaseComponent = require('oroui/js/app/components/base/component');
-    var mediator = require('oroui/js/mediator');
-    var $ = require('jquery');
-    var _ = require('underscore');
-    var __ = require('orotranslation/js/translator');
-    var Modal = require('oroui/js/modal');
+    const BaseComponent = require('oroui/js/app/components/base/component');
+    const mediator = require('oroui/js/mediator');
+    const $ = require('jquery');
+    const __ = require('orotranslation/js/translator');
+    const Modal = require('oroui/js/modal');
 
-    CustomerUserRoleComponent = BaseComponent.extend({
+    const CustomerUserRoleComponent = BaseComponent.extend({
         /**
          * @property {Object}
          */
@@ -33,14 +31,14 @@ define(function(require) {
         customerField: null,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
-        constructor: function CustomerUserRoleComponent() {
-            CustomerUserRoleComponent.__super__.constructor.apply(this, arguments);
+        constructor: function CustomerUserRoleComponent(options) {
+            CustomerUserRoleComponent.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.options = $.extend(true, {}, this.options, options);
@@ -49,14 +47,14 @@ define(function(require) {
             this.customerField.data(this.options.previousValueDataAttribute, this.options.originalValue);
 
             this.options._sourceElement
-                .on('change', this.options.customerFieldId, _.bind(this.onCustomerSelectorChange, this));
+                .on('change', this.options.customerFieldId, this.onCustomerSelectorChange.bind(this));
         },
 
         /**
          * @param {jQuery.Event} e
          */
         onCustomerSelectorChange: function(e) {
-            var value = e.target.value;
+            const value = e.target.value;
 
             if (value === this.options.originalValue || !this.options.enableConfirmation) {
                 this._updateGridAndSaveParameters(value);
@@ -93,12 +91,6 @@ define(function(require) {
 
             this.options._sourceElement.off('change');
 
-            if (this.changeCustomerConfirmDialog) {
-                this.changeCustomerConfirmDialog.off();
-                this.changeCustomerConfirmDialog.dispose();
-                delete this.changeCustomerConfirmDialog;
-            }
-
             CustomerUserRoleComponent.__super__.dispose.call(this);
         },
 
@@ -110,15 +102,13 @@ define(function(require) {
          * @private
          */
         _getCustomerConfirmDialog: function(okCallback, cancelCallback) {
-            if (!this.changeCustomerConfirmDialog) {
-                this.changeCustomerConfirmDialog = this._createChangeCustomerConfirmationDialog();
-            }
+            const changeCustomerConfirmDialog = this._createChangeCustomerConfirmationDialog();
 
-            this.changeCustomerConfirmDialog
-                .off('ok').on('ok', _.bind(okCallback, this))
-                .off('cancel').on('cancel', _.bind(cancelCallback, this));
+            changeCustomerConfirmDialog
+                .on('ok', okCallback.bind(this))
+                .on('cancel', cancelCallback.bind(this));
 
-            this.changeCustomerConfirmDialog.open();
+            changeCustomerConfirmDialog.open();
         },
 
         /**

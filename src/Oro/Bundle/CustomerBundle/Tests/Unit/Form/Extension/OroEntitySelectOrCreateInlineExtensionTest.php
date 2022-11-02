@@ -2,40 +2,56 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Extension;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Extension\OroEntitySelectOrCreateInlineExtension;
 use Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class OroEntitySelectOrCreateInlineExtensionTest extends AbstractCustomerUserAwareExtensionTest
+class OroEntitySelectOrCreateInlineExtensionTest extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp()
-    {
-        parent::setUp();
+    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $frontendHelper;
 
-        $this->extension = new OroEntitySelectOrCreateInlineExtension($this->tokenStorage);
+    /** @var OroEntitySelectOrCreateInlineExtension */
+    private $extension;
+
+    protected function setUp(): void
+    {
+        $this->frontendHelper = $this->createMock(FrontendHelper::class);
+
+        $this->extension = new OroEntitySelectOrCreateInlineExtension($this->frontendHelper);
     }
 
-    public function testGetExtendedType()
+    public function testGetExtendedTypes()
     {
-        $this->assertEquals(OroEntitySelectOrCreateInlineType::class, $this->extension->getExtendedType());
+        $this->assertEquals(
+            [OroEntitySelectOrCreateInlineType::class],
+            OroEntitySelectOrCreateInlineExtension::getExtendedTypes()
+        );
     }
 
-    public function testConfigureOptionsNonCustomerUser()
+    public function testConfigureOptionsForBackend()
     {
-        $this->assertOptionsNotChangedForNonCustomerUser();
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn(false);
+
+        $resolver = $this->createMock(OptionsResolver::class);
+        $resolver->expects($this->never())
+            ->method($this->anything());
+
+        $this->extension->configureOptions($resolver);
     }
 
-    public function testConfigureOptionsCustomerUser()
+    public function testConfigureOptionsForFrontend()
     {
-        $this->assertCustomerUserTokenCall();
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|OptionsResolver $resolver */
-        $resolver = $this->getMockBuilder('Symfony\Component\OptionsResolver\OptionsResolver')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $resolver = $this->createMock(OptionsResolver::class);
         $resolver->expects($this->once())
             ->method('setDefault')
             ->with('grid_widget_route', 'oro_frontend_datagrid_widget');
@@ -45,17 +61,15 @@ class OroEntitySelectOrCreateInlineExtensionTest extends AbstractCustomerUserAwa
 
     /**
      * @dataProvider viewDataProvider
-     * @param object $user
-     * @param string $route
-     * @param string $expectedRoute
      */
-    public function testBuildView($user, $route, $expectedRoute)
+    public function testBuildView(bool $isFrontendRequest, string $route, string $expectedRoute)
     {
-        $this->assertCustomerUserTokenCall($user);
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn($isFrontendRequest);
 
         $view = new FormView();
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
-        $form = $this->createMock('Symfony\Component\Form\FormInterface');
+        $form = $this->createMock(FormInterface::class);
         $options = [];
 
         $view->vars['configs']['route_name'] = $route;
@@ -70,9 +84,9 @@ class OroEntitySelectOrCreateInlineExtensionTest extends AbstractCustomerUserAwa
     public function viewDataProvider()
     {
         return [
-            [new \stdClass(), 'oro_form_autocomplete_search', 'oro_form_autocomplete_search'],
-            [new CustomerUser(), 'custom_route', 'custom_route'],
-            [new CustomerUser(), 'oro_form_autocomplete_search', 'oro_frontend_autocomplete_search'],
+            [false, 'oro_form_autocomplete_search', 'oro_form_autocomplete_search'],
+            [true, 'custom_route', 'custom_route'],
+            [true, 'oro_form_autocomplete_search', 'oro_frontend_autocomplete_search']
         ];
     }
 }

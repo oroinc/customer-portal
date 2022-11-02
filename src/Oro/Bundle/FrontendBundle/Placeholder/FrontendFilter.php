@@ -3,28 +3,19 @@
 namespace Oro\Bundle\FrontendBundle\Placeholder;
 
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * Helper class that can be used in placeholder configuration files (placeholders.yml)
+ * to check whether a request is a storefront or management console request.
+ */
 class FrontendFilter
 {
-    /**
-     * @var FrontendHelper
-     */
-    protected $helper;
+    /** @var FrontendHelper */
+    private $helper;
 
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
-
-    /**
-     * @param FrontendHelper $helper
-     * @param RequestStack $requestStack
-     */
-    public function __construct(FrontendHelper $helper, RequestStack $requestStack)
+    public function __construct(FrontendHelper $helper)
     {
         $this->helper = $helper;
-        $this->requestStack = $requestStack;
     }
 
     /**
@@ -32,12 +23,7 @@ class FrontendFilter
      */
     public function isFrontendRoute()
     {
-        $request = $this->requestStack->getCurrentRequest();
-        if (!$request) {
-            return false;
-        }
-
-        return $this->helper->isFrontendRequest($request);
+        return $this->helper->isFrontendRequest();
     }
 
     /**
@@ -45,11 +31,6 @@ class FrontendFilter
      */
     public function isBackendRoute()
     {
-        $request = $this->requestStack->getCurrentRequest();
-        if (!$request) {
-            return true;
-        }
-
-        return !$this->helper->isFrontendRequest($request);
+        return !$this->helper->isFrontendRequest();
     }
 }

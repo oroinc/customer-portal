@@ -1,8 +1,10 @@
+/* @theme: default; */
+
 .title {
-    margin-bottom: $offset-y;
+    margin: $title-offset;
 
     font-size: $base-font-size--m;
-    font-weight: 400;
+    font-weight: font-weight('normal');
 
     &--uppercase {
         text-transform: uppercase;

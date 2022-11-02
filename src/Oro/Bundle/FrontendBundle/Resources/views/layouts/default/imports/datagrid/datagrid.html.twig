@@ -1,0 +1,28 @@
+{% block datagrid_widget %}
+    {% set grid_render_parameters = {
+        viewLoading: true
+    }|merge(grid_render_parameters) %}
+
+    {% set themeOptions = grid_render_parameters.themeOptions|default({}) %}
+
+    {% if split_to_cells != false %}
+        {% set themeOptions = layout_attr_defaults(themeOptions, {
+            'headerRowTemplateSelector': '#template-datagrid-header-row',
+            'rowTemplateSelector': '#template-datagrid-row'
+        }) %}
+        {% set toolbarOptions = grid_render_parameters.toolbarOptions|default({}) %}
+        {% set toolbarOptions = layout_attr_defaults(toolbarOptions, {
+            'datagridSettings': {'addSorting': false}
+        }) %}
+        {% set grid_render_parameters = grid_render_parameters|merge({
+            'toolbarOptions': toolbarOptions
+        }) %}
+        {{ block("container_widget") }}
+    {% endif %}
+
+    {% set grid_render_parameters = grid_render_parameters|merge({
+        'themeOptions': themeOptions
+    }) %}
+    {% import '@OroDataGrid/macros.html.twig' as dataGrid %}
+    {{ dataGrid.renderGrid(grid_full_name, grid_parameters, grid_render_parameters) }}
+{% endblock %}

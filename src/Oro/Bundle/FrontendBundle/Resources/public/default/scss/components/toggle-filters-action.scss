@@ -1,0 +1,7 @@
+/* @theme: default; */
+
+@include breakpoint('tablet') {
+    .toggle-filters-action {
+        @include custom-caret();
+    }
+}

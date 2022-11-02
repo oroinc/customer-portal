@@ -3,7 +3,13 @@
 namespace Oro\Bundle\CustomerBundle\Autocomplete;
 
 use Oro\Bundle\FormBundle\Autocomplete\SearchHandler as BaseSearchHandler;
+use Oro\Bundle\SearchBundle\Query\Criteria\Criteria;
+use Oro\Bundle\SearchBundle\Query\Query;
+use Oro\Bundle\SearchBundle\Query\Result\Item;
 
+/**
+ * The autocomplete handler to search customer users.
+ */
 class CustomerUserSearchHandler extends BaseSearchHandler
 {
     const DELIMITER = ';';
@@ -13,18 +19,21 @@ class CustomerUserSearchHandler extends BaseSearchHandler
      */
     protected function searchEntities($search, $firstResult, $maxResults)
     {
-        if (false === strpos($search, static::DELIMITER)) {
+        if (!str_contains($search, static::DELIMITER)) {
             return [];
         }
-        list($searchTerm, $customerId) = explode(static::DELIMITER, $search, 2);
-        $entityIds = $this->searchIds($searchTerm, $firstResult, $maxResults);
+
+        [$searchTerm, $customerId] = explode(static::DELIMITER, $search, 2);
+        $entityIds = $this->searchIdsByTermAndCustomer($searchTerm, $firstResult, $maxResults, $customerId);
         if (!count($entityIds)) {
             return [];
         }
+
         $queryBuilder = $this->entityRepository->createQueryBuilder('e');
         $queryBuilder
-            ->where($queryBuilder->expr()->in('e.' . $this->idFieldName, $entityIds))
-            ->addOrderBy($queryBuilder->expr()->asc('e.email'));
+            ->where($queryBuilder->expr()->in('e.' . $this->idFieldName, ':entityIds'))
+            ->addOrderBy($queryBuilder->expr()->asc('e.email'))
+            ->setParameter('entityIds', $entityIds);
 
         if ($customerId) {
             $queryBuilder
@@ -32,9 +41,36 @@ class CustomerUserSearchHandler extends BaseSearchHandler
                 ->setParameter('customer', $customerId);
         }
 
-        $query = $this->aclHelper->apply($queryBuilder, 'VIEW');
+        $query = $this->aclHelper->apply($queryBuilder);
 
         return $query->getResult();
+    }
+
+    /**
+     * @param string $search
+     * @param int $firstResult
+     * @param int $maxResults
+     * @param int $customerId
+     *
+     * @return array
+     */
+    private function searchIdsByTermAndCustomer($search, $firstResult, $maxResults, $customerId = null)
+    {
+        $query = $this->indexer->getSimpleSearchQuery($search, $firstResult, $maxResults, $this->entitySearchAlias);
+        if ($customerId) {
+            $field = Criteria::implodeFieldTypeName(Query::TYPE_INTEGER, 'customer_id');
+
+            $query->getCriteria()->andWhere(Criteria::expr()->eq($field, $customerId));
+        }
+
+        $result = $this->indexer->query($query);
+
+        return array_map(
+            function (Item $element) {
+                return $element->getRecordId();
+            },
+            $result->getElements()
+        );
     }
 
     /**

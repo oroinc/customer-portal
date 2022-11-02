@@ -1,141 +1,203 @@
 api:
     entity_aliases:
         Extend\Entity\EV_Acc_Internal_Rating:
-            alias:        customer_rating
-            plural_alias: customer_rating
-        Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
-            alias:        customer_group
-            plural_alias: customer_groups
-        Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
-            alias:        customer_user_role
-            plural_alias: customer_user_roles
-        Oro\Bundle\CustomerBundle\Entity\CustomerUser:
-            alias:        customer_user
-            plural_alias: customer_users
-        Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
-           alias:        customer_user_address
-           plural_alias: customer_user_addresses
+            alias:        customerrating
+            plural_alias: customerratings
+
     entities:
         Oro\Bundle\CustomerBundle\Entity\Customer:
             documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer.md'
-            delete_handler: oro_customer.customer.handler.delete
+            fields:
+                dataChannel:
+                    exclude: true
             filters:
                 fields:
                     createdAt:
                         exclude: false
                     updatedAt:
                         exclude: false
-                    lifetime:
-                        exclude: false
+            subresources:
+                addresses:
+                    actions:
+                        update_relationship: false
+                        add_relationship: false
+                        delete_relationship: false
             actions:
-                create:
-                    fields:
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
-                        lifetime:
-                            exclude: true
-                update:
-                    fields:
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
-                        lifetime:
-                            exclude: true
-            fields:
-                dataChannel:
-                    exclude: true
-                previous_account:
-                    exclude: true
+                update_list: true
+
         Extend\Entity\EV_Acc_Internal_Rating:
             documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer.md'
+
         Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
             documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer_group.md'
+
         Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
             documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer_user_role.md'
+
         Oro\Bundle\CustomerBundle\Entity\CustomerUser:
             documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer_user.md'
             fields:
-                salt:
-                    exclude: true
-                password:
-                    exclude: true
-                plainPassword:
-                    exclude: true
-                confirmationToken:
+                username:
                     exclude: true
                 emailLowercase:
                     exclude: true
+                passwordChangedAt:
+                    form_options:
+                        mapped: false
+                passwordRequestedAt:
+                    form_options:
+                        mapped: false
+                loginCount:
+                    form_options:
+                        mapped: false
+                lastLogin:
+                    form_options:
+                        mapped: false
             actions:
                 create:
                     fields:
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
-                        passwordChangedAt:
-                            exclude: true
-                        passwordRequestedAt:
-                            exclude: true
-                        loginCount:
-                            exclude: true
-                        lastLogin:
-                            exclude: true
                         password:
                             exclude: false # set manually because this field is excluded globally
                             form_options:
                                 property_path: plainPassword
-                                constraints:
-                                    - NotNull: ~
-                                    - NotBlank: ~
-                update:
+                update_list: true
+            subresources:
+                addresses:
+                    actions:
+                        update_relationship: false
+                        add_relationship: false
+                        delete_relationship: false
+
+        Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
+            documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer_address.md'
+            fields:
+                createdAt:
+                    property_path: created
+                updatedAt:
+                    property_path: updated
+                customRegion:
+                    exclude: false # set manually because this field is marked as excluded in entity.yml
+                    property_path: regionText
+                customer:
+                    property_path: frontendOwner
+                types:
+                    data_type: objects
+                    max_results: -1
+                    exclusion_policy: all
                     fields:
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
-                        passwordChangedAt:
-                            exclude: true
-                        passwordRequestedAt:
-                            exclude: true
-                        loginCount:
-                            exclude: true
-                        lastLogin:
-                            exclude: true
-        Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
-            documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer_user_address.md'
+                        default:
+                            form_type: Oro\Bundle\ApiBundle\Form\Type\BooleanType
+                            form_options:
+                                required: true
+                        addressType:
+                            property_path: type.name
+                            form_type: Oro\Bundle\AddressBundle\Api\Form\Type\AddressTypeType
+                            form_options:
+                                required: true
+                                property_path: type
+                    form_options:
+                        property_path: addressTypes
+            filters:
+                fields:
+                    country:
+                        allow_array: true
+                    region:
+                        allow_array: true
+                    addressType:
+                        data_type: string
+                        property_path: types.type
+                        allow_array: true
+                    types:
+                        exclude: true
             actions:
-                create:
-                    fields:
-                        created:
-                            exclude: true
-                        updated:
-                            exclude: true
-                        systemOrganization:
-                            exclude: true
                 update:
                     fields:
-                        created:
-                            exclude: true
-                        updated:
-                            exclude: true
-                        systemOrganization:
-                            exclude: true
+                        customer:
+                            form_options:
+                                mapped: false
             subresources:
                 systemOrganization:
                     actions:
                         update_relationship: false
-                        add_relationship: false
-                        delete_relationship: false
+                customer:
+                    actions:
+                        update_relationship: false
                 country:
                     actions:
                         update_relationship: false
-                        add_relationship: false
-                        delete_relationship: false
                 region:
                     actions:
                         update_relationship: false
-                        add_relationship: false
-                        delete_relationship: false
+
+        Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
+            # this entity does not have own API resource,
+            # but it should be defined to correct work of "types" property
+            # of the customer address API resource
+            actions: false
+
+        Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
+            documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer_user_address.md'
+            fields:
+                createdAt:
+                    property_path: created
+                updatedAt:
+                    property_path: updated
+                customRegion:
+                    exclude: false # set manually because this field is marked as excluded in entity.yml
+                    property_path: regionText
+                customerUser:
+                    property_path: frontendOwner
+                types:
+                    data_type: objects
+                    max_results: -1
+                    exclusion_policy: all
+                    fields:
+                        default:
+                            form_type: Oro\Bundle\ApiBundle\Form\Type\BooleanType
+                            form_options:
+                                required: true
+                        addressType:
+                            property_path: type.name
+                            form_type: Oro\Bundle\AddressBundle\Api\Form\Type\AddressTypeType
+                            form_options:
+                                required: true
+                                property_path: type
+                    form_options:
+                        property_path: addressTypes
+            filters:
+                fields:
+                    country:
+                        allow_array: true
+                    region:
+                        allow_array: true
+                    addressType:
+                        data_type: string
+                        property_path: types.type
+                        allow_array: true
+                    types:
+                        exclude: true
+            actions:
+                update:
+                    fields:
+                        customerUser:
+                            form_options:
+                                mapped: false
+            subresources:
+                systemOrganization:
+                    actions:
+                        update_relationship: false
+                customerUser:
+                    actions:
+                        update_relationship: false
+                country:
+                    actions:
+                        update_relationship: false
+                region:
+                    actions:
+                        update_relationship: false
+
+        Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType:
+            # this entity does not have own API resource,
+            # but it should be defined to correct work of "types" property
+            # of the customer user address API resource
+            actions: false

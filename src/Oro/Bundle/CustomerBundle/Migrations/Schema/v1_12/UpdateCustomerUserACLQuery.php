@@ -2,18 +2,20 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_12;
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedMigrationQuery;
+use Oro\Bundle\SecurityBundle\Acl\Extension\EntityMaskBuilder;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Changes SYSTEM access level to DEEP access level for all permissions for the following roles:
+ * * ROLE_FRONTEND_ADMINISTRATOR
+ * * ROLE_FRONTEND_BUYER
+ */
 class UpdateCustomerUserACLQuery extends ParametrizedMigrationQuery
 {
-
     /**
-     * Gets a query description
-     * If this query has several sub queries you can return an array of descriptions for each sub query
-     *
-     * @return string|string[]
+     * {@inheritdoc}
      */
     public function getDescription()
     {
@@ -37,62 +39,83 @@ class UpdateCustomerUserACLQuery extends ParametrizedMigrationQuery
         $params = ['class' => '(root)'];
         $types = ['class' => 'string'];
         $this->logQuery($logger, $sql, $params, $types);
-        if ($dryRun) {
-            return;
-        }
-
         $classId = $this->connection->fetchColumn($sql, $params, 0, $types);
+
         $sql = 'SELECT id FROM acl_object_identities WHERE class_id = :class and object_identifier = :oid';
         $params = ['class' => $classId, 'oid' => 'entity'];
-        $types = ['class' => Type::INTEGER, 'oid' => Type::STRING];
-        $oId = $this->connection->fetchColumn($sql, $params, 0, $types);
+        $types = ['class' => Types::INTEGER, 'oid' => Types::STRING];
+        $oid = $this->connection->fetchColumn($sql, $params, 0, $types);
 
         $sql = 'SELECT id FROM acl_security_identities WHERE identifier = :role';
         $params = ['role' => 'ROLE_FRONTEND_ADMINISTRATOR'];
-        $types = ['role' => Type::STRING];
+        $types = ['role' => Types::STRING];
         $this->logQuery($logger, $sql, $params, $types);
-        $adminID = $this->connection->fetchColumn($sql, $params, 0, $types);
+        $adminSid = $this->connection->fetchColumn($sql, $params, 0, $types);
 
         $sql = 'SELECT id FROM acl_security_identities WHERE identifier = :role';
         $params = ['role' => 'ROLE_FRONTEND_BUYER'];
-        $types = ['role' => Type::STRING];
+        $types = ['role' => Types::STRING];
         $this->logQuery($logger, $sql, $params, $types);
-        $buyerID = $this->connection->fetchColumn($sql, $params, 0, $types);
+        $buyerSid = $this->connection->fetchColumn($sql, $params, 0, $types);
 
-        $sql = <<<'SQL'
-update acl_entries 
-set mask = :mask 
-where object_identity_id = :oid and security_identity_id = :sid and mask = :oldMask
-SQL;
-        $params = ['mask' => 69764, 'oid' => $oId, 'sid' => $buyerID, 'oldMask' => 82448];
-        $types = ['mask' => Type::INTEGER, 'oid' => Type::INTEGER, 'sid' => Type::INTEGER, 'oldMask' => Type::INTEGER];
+        $this->updateAceMasks($logger, $dryRun, $oid, $adminSid);
+        $this->updateAceMasks($logger, $dryRun, $oid, $buyerSid);
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     * @param bool            $dryRun
+     * @param int             $oid
+     * @param int             $sid
+     */
+    private function updateAceMasks(LoggerInterface $logger, $dryRun, $oid, $sid)
+    {
+        $sql = 'SELECT id, mask FROM acl_entries WHERE object_identity_id = :oid AND security_identity_id = :sid';
+        $params = ['oid' => $oid, 'sid' => $sid];
+        $types = ['oid' => Types::INTEGER, 'sid' => Types::INTEGER];
         $this->logQuery($logger, $sql, $params, $types);
-        $this->connection->executeUpdate($sql, $params, $types);
+        $rows = $this->connection->fetchAll($sql, $params, $types);
 
-        $params = ['mask' => 36996, 'oid' => $oId, 'sid' => $buyerID, 'oldMask' => 49680];
-        $types = ['mask' => Type::INTEGER, 'oid' => Type::INTEGER, 'sid' => Type::INTEGER, 'oldMask' => Type::INTEGER];
-        $this->logQuery($logger, $sql, $params, $types);
-        $this->connection->executeUpdate($sql, $params, $types);
+        $forUpdate = [];
+        foreach ($rows as $row) {
+            $mask = (int)$row['mask'];
+            $newMask = $this->getNewMask($mask);
+            if ($newMask !== $mask) {
+                $forUpdate[] = ['mask' => $newMask, 'id' => (int)$row['id']];
+            }
+        }
 
-        $params = ['mask' => 4228, 'oid' => $oId, 'sid' => $buyerID, 'oldMask' => 16912];
-        $types = ['mask' => Type::INTEGER, 'oid' => Type::INTEGER, 'sid' => Type::INTEGER, 'oldMask' => Type::INTEGER];
-        $this->logQuery($logger, $sql, $params, $types);
-        $this->connection->executeUpdate($sql, $params, $types);
+        $updateSql = 'UPDATE acl_entries SET mask = :mask WHERE id = :id';
+        $types = ['mask' => Types::INTEGER, 'id' => Types::INTEGER];
+        foreach ($forUpdate as $params) {
+            $this->logQuery($logger, $updateSql, $params, $types);
+            if (!$dryRun) {
+                $this->connection->executeStatement($updateSql, $params, $types);
+            }
+        }
+    }
 
+    /**
+     * @param int $mask
+     *
+     * @return int
+     */
+    private function getNewMask($mask)
+    {
+        $system = 16;
+        $deep = 4;
 
-        $params = ['mask' => 69764, 'oid' => $oId, 'sid' => $adminID, 'oldMask' => 82448];
-        $types = ['mask' => Type::INTEGER, 'oid' => Type::INTEGER, 'sid' => Type::INTEGER, 'oldMask' => Type::INTEGER];
-        $this->logQuery($logger, $sql, $params, $types);
-        $this->connection->executeUpdate($sql, $params, $types);
+        $newMask = 0;
+        for ($i = 0; $i < EntityMaskBuilder::MAX_PERMISSIONS_IN_MASK; $i++) {
+            $offset = $i * 5;
+            $permission = ($mask >> $offset) & 31;
+            if ($permission === $system) {
+                $permission = $deep;
+            }
+            $newMask |= $permission << $offset;
+        }
+        $newMask |= $mask & EntityMaskBuilder::SERVICE_BITS;
 
-        $params = ['mask' => 36996, 'oid' => $oId, 'sid' => $adminID, 'oldMask' => 49680];
-        $types = ['mask' => Type::INTEGER, 'oid' => Type::INTEGER, 'sid' => Type::INTEGER, 'oldMask' => Type::INTEGER];
-        $this->logQuery($logger, $sql, $params, $types);
-        $this->connection->executeUpdate($sql, $params, $types);
-
-        $params = ['mask' => 4228, 'oid' => $oId, 'sid' => $adminID, 'oldMask' => 16912];
-        $types = ['mask' => Type::INTEGER, 'oid' => Type::INTEGER, 'sid' => Type::INTEGER, 'oldMask' => Type::INTEGER];
-        $this->logQuery($logger, $sql, $params, $types);
-        $this->connection->executeUpdate($sql, $params, $types);
+        return $newMask;
     }
 }

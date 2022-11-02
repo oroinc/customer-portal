@@ -1,0 +1,22 @@
+entity_config:
+    frontend:
+        field:
+            items:
+                use_in_export:
+                    options:
+                        value_type: boolean
+                        allowed_type: [string, text, integer, smallint, bigint, boolean, datetime, date, time, float, decimal, enum, multiEnum, simple_array]
+                    form:
+                        type: Oro\Bundle\EntityConfigBundle\Form\Type\ChoiceType
+                        options:
+                            choices:
+                                No: false
+                                Yes: true
+                            placeholder: false
+                            block: frontend
+                            label: oro.frontendimportexport.entity_config.fields.frontend.use_in_export.label
+                            tooltip: oro.frontendimportexport.entity_config.fields.frontend.use_in_export.tooltip
+                    import_export:
+                        import_template:
+                            use_in_template: true
+                            value: No

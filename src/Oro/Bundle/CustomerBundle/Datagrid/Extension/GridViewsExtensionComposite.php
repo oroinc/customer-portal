@@ -2,13 +2,17 @@
 
 namespace Oro\Bundle\CustomerBundle\Datagrid\Extension;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserInterface;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\MetadataObject;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
 use Oro\Bundle\DataGridBundle\Extension\GridViews\GridViewsExtension as BaseGridViewsExtension;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
+/**
+ * Decorate backend GridViewsExtension.
+ * Adds grid views functionality to StoreFront datagrids.
+ */
 class GridViewsExtensionComposite extends BaseGridViewsExtension
 {
     /** @var BaseGridViewsExtension */
@@ -20,11 +24,6 @@ class GridViewsExtensionComposite extends BaseGridViewsExtension
     /** @var TokenAccessorInterface */
     protected $tokenAccessor;
 
-    /**
-     * @param BaseGridViewsExtension $defaultGridViewsExtension
-     * @param BaseGridViewsExtension $frontendGridViewsExtension
-     * @param TokenAccessorInterface $tokenAccessor
-     */
     public function __construct(
         BaseGridViewsExtension $defaultGridViewsExtension,
         BaseGridViewsExtension $frontendGridViewsExtension,
@@ -80,6 +79,6 @@ class GridViewsExtensionComposite extends BaseGridViewsExtension
      */
     protected function isFrontend()
     {
-        return $this->tokenAccessor->getUser() instanceof CustomerUser;
+        return $this->tokenAccessor->getUser() instanceof CustomerUserInterface;
     }
 }

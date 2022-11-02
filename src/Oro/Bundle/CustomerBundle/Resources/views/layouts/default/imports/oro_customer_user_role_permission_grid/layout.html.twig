@@ -1,5 +1,5 @@
 {% block __oro_customer_user_role_permission_grid__datagrid_widget %}
-    {% import 'OroUIBundle::macros.html.twig' as UI %}
+    {% import '@OroUI/macros.html.twig' as UI %}
 
     {% set entityTabPanelId = 'entity-tab-panel-'|uniqid %}
     {% set tabsOptions = layout_attr_defaults(options.tabsOptions, {

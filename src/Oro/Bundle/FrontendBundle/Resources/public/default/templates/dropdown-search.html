@@ -1,0 +1,16 @@
+<div class="<%- searchClassName %>" data-role="search-container">
+    <input type="text"
+           class="<%- inputClassName %>"
+           placeholder="<%- inputPlaceholder %>"
+           aria-label="<%- inputAriaLabel %>"
+           data-role="quick-search"
+    >
+    <button class="clear-search-button <%- buttonClassName %>"
+            aria-label="<%- buttonAriaLabel %>"
+            disabled="disabled"
+            data-role="clear-search"
+            type="button"
+            data-btn-processor="exclude"
+    ><span class="<%- actionIconClassName %>" aria-hidden="true"></span></button>
+    <span class="quick-search-icon <%- iconClassName %>" aria-hidden="true"></span>
+</div>

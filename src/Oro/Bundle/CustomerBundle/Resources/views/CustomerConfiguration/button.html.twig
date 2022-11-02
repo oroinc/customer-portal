@@ -1,0 +1,9 @@
+{% if is_granted('EDIT', entity) %}
+    {% import '@OroUI/macros.html.twig' as UI %}
+    {{ UI.button({
+        'path' : path('oro_customer_config', { 'id': entity.id }),
+        'label': 'oro.config.menu.system_configuration.label'|trans,
+        'title': 'oro.customer.menu.customer_configuration.label'|trans,
+        'iCss': 'fa-cog',
+    }) }}
+{% endif %}

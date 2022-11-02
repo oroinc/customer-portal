@@ -16,20 +16,20 @@ Feature: Visibility of Company Name Field on registration page
     And I should see a "Registration Form" element
     And I should see that "Registration Form" contains "Company Name"
 
-  Scenario: Check that registration link is not visible after disabling "Require company name" option
+  Scenario: Check that registration link is not visible after disabling "Require Company Name" option
     Given I proceed as the Admin
     And login as administrator
     And go to System/ Configuration
     And I follow "Commerce/Customer/Customer Users" on configuration sidebar
-    And uncheck "Use default" for "Require company name" field
-    And fill in "Require company name" with "false"
+    And uncheck "Use default" for "Require Company Name" field
+    And fill in "Require Company Name" with "false"
     And submit form
     And I should see "Configuration saved" flash message
     And I proceed as the User
     Then I reload the page
     And I should see that "Registration Form" does not contain "Company Name"
 
-  Scenario: Check correct registration flow when "Require company name" option is disabled
+  Scenario: Check correct registration flow when "Require Company Name" option is disabled
     Given I fill "Registration Form" with:
       | First Name       | New                      |
       | Last Name        | Maxwell                  |
@@ -39,7 +39,7 @@ Feature: Visibility of Company Name Field on registration page
     When I click "Create An Account"
     Then I should see "Please check your email to complete registration"
 
-  Scenario: Check that company name consists of first name and last name when "Require company name" option is disabled
+  Scenario: Check that company name consists of first name and last name when "Require Company Name" option is disabled
     Given I proceed as the Admin
     And I go to Customers/Customer Users
     And I should see following grid:
@@ -51,14 +51,14 @@ Feature: Visibility of Company Name Field on registration page
     And login as administrator
     And go to System/ Configuration
     And I follow "Commerce/Customer/Customer Users" on configuration sidebar
-    And check "Use default" for "Require company name" field
+    And check "Use default" for "Require Company Name" field
     And submit form
     And I should see "Configuration saved" flash message
     And go to System/ Websites
     And click "Configuration" on row "Default" in grid
     And I follow "Commerce/Customer/Customer Users" on configuration sidebar
-    And uncheck "Use System" for "Require company name" field
-    And fill in "Require company name" with "false"
+    And uncheck "Use Organization" for "Require Company Name" field
+    And fill in "Require Company Name" with "false"
     And submit form
     And I should see "Configuration saved" flash message
     And I proceed as the User

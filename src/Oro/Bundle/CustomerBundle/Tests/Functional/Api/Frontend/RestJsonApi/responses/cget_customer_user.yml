@@ -1,0 +1,82 @@
+data:
+    -
+        type: customerusers
+        id: '<toString(@customer_user->id)>'
+        attributes:
+            confirmed: true
+            enabled: true
+            email: frontend_admin_api@example.com
+            namePrefix: null
+            firstName: John
+            middleName: null
+            lastName: Doe
+            nameSuffix: null
+            birthday: null
+            createdAt: '@customer_user->createdAt->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@customer_user->updatedAt->format("Y-m-d\TH:i:s\Z")'
+        relationships:
+            userRoles:
+                data:
+                    -
+                        type: customeruserroles
+                        id: '<toString(@admin->id)>'
+            customer:
+                data:
+                    type: customers
+                    id: '<toString(@customer->id)>'
+            addresses:
+                data: []
+    -
+        type: customerusers
+        id: '<toString(@customer_user1->id)>'
+        attributes:
+            confirmed: true
+            enabled: true
+            email: user1@example.com
+            namePrefix: null
+            firstName: 'First Name 1'
+            middleName: null
+            lastName: 'Last Name 1'
+            nameSuffix: null
+            birthday: null
+            createdAt: '@customer_user1->createdAt->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@customer_user1->updatedAt->format("Y-m-d\TH:i:s\Z")'
+        relationships:
+            userRoles:
+                data:
+                    -
+                        type: customeruserroles
+                        id: '<toString(@admin->id)>'
+            customer:
+                data:
+                    type: customers
+                    id: '<toString(@customer1->id)>'
+            addresses:
+                data: []
+    -
+        type: customerusers
+        id: '<toString(@customer_user2->id)>'
+        attributes:
+            confirmed: false
+            enabled: false
+            email: user2@example.com
+            namePrefix: null
+            firstName: 'First Name 2'
+            middleName: null
+            lastName: 'Last Name 2'
+            nameSuffix: null
+            birthday: null
+            createdAt: '@customer_user2->createdAt->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@customer_user2->updatedAt->format("Y-m-d\TH:i:s\Z")'
+        relationships:
+            userRoles:
+                data:
+                    -
+                        type: customeruserroles
+                        id: '<toString(@admin->id)>'
+            customer:
+                data:
+                    type: customers
+                    id: '<toString(@customer2->id)>'
+            addresses:
+                data: []

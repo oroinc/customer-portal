@@ -11,7 +11,6 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationAwareInterface;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
-use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
  * Entity that represents CustomerUser`s roles in system
@@ -19,7 +18,8 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository")
  * @ORM\Table(name="oro_customer_user_role",
  *      uniqueConstraints={
- *          @ORM\UniqueConstraint(name="oro_customer_user_role_customer_id_label_idx", columns={
+ *          @ORM\UniqueConstraint(name="UNIQ_552B533832C8A3DE9395C3F3E", columns={
+ *              "organization_id",
  *              "customer_id",
  *              "label"
  *          })
@@ -59,9 +59,9 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwareInterface, \Serializable
+class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwareInterface
 {
-    const PREFIX_ROLE = 'ROLE_FRONTEND_';
+    public const PREFIX_ROLE = 'ROLE_FRONTEND_';
 
     /**
      * @var int
@@ -133,7 +133,7 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
     /**
      * @var CustomerUser[]|Collection
      *
-     * @ORM\ManyToMany(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser", mappedBy="roles")
+     * @ORM\ManyToMany(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser", mappedBy="userRoles")
      */
     protected $customerUsers;
 
@@ -155,10 +155,7 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
      */
     protected $public = true;
 
-    /**
-     * @param string|null $role
-     */
-    public function __construct($role = null)
+    public function __construct(string $role = '')
     {
         if ($role) {
             $this->setRole($role, false);
@@ -166,7 +163,7 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
 
         $this->customerUsers = new ArrayCollection();
 
-        parent::__construct($this->getRole());
+        parent::__construct($role ? $this->getRole() : '');
     }
 
     /**
@@ -345,34 +342,28 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
         $this->public = $public;
     }
 
-    /**
-     * @return string
-     */
-    public function serialize()
+    public function __serialize(): array
     {
-        return serialize(
-            [
-                $this->id,
-                $this->role,
-                $this->label,
-                $this->selfManaged,
-                $this->public
-            ]
-        );
-    }
-
-    /**
-     * @param string $serialized
-     */
-    public function unserialize($serialized)
-    {
-        list(
+        return [
             $this->id,
             $this->role,
             $this->label,
             $this->selfManaged,
-            $this->public
-            ) = unserialize($serialized);
+            $this->public,
+            $this->organization
+        ];
+    }
+
+    public function __unserialize(array $serialized): void
+    {
+        [
+            $this->id,
+            $this->role,
+            $this->label,
+            $this->selfManaged,
+            $this->public,
+            $this->organization
+        ] = $serialized;
 
         $this->customerUsers = new ArrayCollection();
     }

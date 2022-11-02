@@ -17,9 +17,6 @@ class AclAccessLevelSelectorExtension extends AbstractTypeExtension
      */
     protected $roleTranslationPrefixResolver;
 
-    /**
-     * @param RoleTranslationPrefixResolver $roleTranslationPrefixResolver
-     */
     public function __construct(RoleTranslationPrefixResolver $roleTranslationPrefixResolver)
     {
         $this->roleTranslationPrefixResolver = $roleTranslationPrefixResolver;
@@ -28,9 +25,9 @@ class AclAccessLevelSelectorExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function getExtendedType()
+    public static function getExtendedTypes(): iterable
     {
-        return AclAccessLevelSelectorType::class;
+        return [AclAccessLevelSelectorType::class];
     }
 
     /**

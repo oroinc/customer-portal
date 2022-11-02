@@ -1,9 +1,11 @@
 /* @theme: default; */
 
 .nav-trigger {
-    position: relative;
+    color: $body-color;
 
-    display: inline-block;
+    &:hover {
+        background-color: $nav-trigger-hover-background-color;
+    }
 
     &__icon,
     &__count,
@@ -18,19 +20,31 @@
 
         text-align: center;
 
-        @include badge(33px, 18px, get-color('additional', 'dark'), 50%, get-color('additional', 'ultra'));
+        @include badge(
+            $nav-trigger-icon-size,
+            $nav-trigger-icon-font-size,
+            $nav-trigger-icon-background-color,
+            $nav-trigger-icon-radius,
+            $nav-trigger-icon-color
+        );
 
         &--transparent {
             background-color: transparent;
+            color: $nav-trigger-icon-transparent-color;
         }
 
         &--chromatic {
-            background-color: get-color('primary', 'base');
+            background-color: $nav-trigger-icon-chromatic-background-color;
         }
 
         &--large {
             font-size: 28px;
             line-height: 1;
+
+            .fa-globe {
+                font-size: 30px;
+                line-height: 1;
+            }
         }
 
         &--x-large {
@@ -38,8 +52,14 @@
         }
     }
 
-    & .cart-widget__content {
+    .cart-widget__content {
+        display: inline-block;
+
         white-space: nowrap;
+    }
+
+    .main-menu__item--nested {
+        background: transparent;
     }
 }
 
@@ -48,7 +68,7 @@
         &__count {
             margin-left: 5px;
 
-            font-weight: bold;
+            font-weight: font-weight('bold');
         }
     }
 }
@@ -59,29 +79,25 @@
             display: none;
         }
 
-        & .cart-widget__content {
+        .cart-widget__content {
+            position: relative;
             margin: 0;
         }
 
-        & .main-menu__item--nested {
-            background: transparent;
-        }
-
-        & .fa-angle-down {
+        .fa-angle-down {
             display: none;
         }
 
-        & .cart-widget__content {
-            position: relative;
-        }
-
-        & .cart-widget__text {
-            display: inline-block;
-
+        .cart-widget__text {
+            display: inline;
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            visibility: hidden;
             font-size: 0;
         }
 
-        & .cart-widget__text strong {
+        .cart-widget__text strong {
             position: absolute;
             top: -3px;
             right: 25px;
@@ -93,9 +109,11 @@
 
             text-align: left;
 
-            color: get-color('additional', 'ultra');
+            color: $nav-trigger-tablet-strong-color;
             border-radius: 16px;
-            background-color: transparentize(get-color('additional', 'dark'), .27);
+            background-color: $nav-trigger-tablet-strong-background-color;
+
+            visibility: visible;
         }
     }
 }

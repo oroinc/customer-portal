@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AclPriviledgeTypeStub extends AbstractType
 {
-    const NAME = 'oro_acl_privilege';
+    private const NAME = 'oro_acl_privilege';
 
     /**
      * {@inheritdoc}

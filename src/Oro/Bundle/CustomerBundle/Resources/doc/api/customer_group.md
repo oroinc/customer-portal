@@ -28,7 +28,7 @@ Example:
 ```JSON
 {
   "data": {
-    "type": "customer_groups",
+    "type": "customergroups",
     "attributes": {
       "name": "Guests"
     }
@@ -51,7 +51,7 @@ Example:
 ```JSON
 {
   "data": {
-    "type": "customer_groups",
+    "type": "customergroups",
     "id": "1",
     "attributes": {
       "name": "Guests"
@@ -81,15 +81,13 @@ Delete a collection of customer group records.
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
 {@inheritdoc}
 
-**Please note:**
-
-*This field is **required** and must remain defined.*
+**This field must not be empty, if it is passed.**
 
 ## SUBRESOURCES
 

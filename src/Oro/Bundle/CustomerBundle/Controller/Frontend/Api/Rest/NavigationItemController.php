@@ -2,29 +2,22 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest;
 
-use FOS\RestBundle\Controller\Annotations\NamePrefix;
-use FOS\RestBundle\Controller\Annotations\RouteResource;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\PinbarTab;
 use Oro\Bundle\NavigationBundle\Controller\Api\NavigationItemController as BaseNavigationItemController;
 
 /**
- * @RouteResource("navigationitems")
- * @NamePrefix("oro_api_frontend_")
+ * REST API controller to manage navigation items on the storefront.
  */
 class NavigationItemController extends BaseNavigationItemController
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function getPinbarTabClass()
+    protected function getPinbarTabClass(): string
     {
-        return $this->getParameter('oro_customer.entity.pinbar_tab.class');
+        return PinbarTab::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getUserClass()
+    protected function getUserClass(): string
     {
-        return $this->getParameter('oro_customer.entity.customer_user.class');
+        return CustomerUser::class;
     }
 }

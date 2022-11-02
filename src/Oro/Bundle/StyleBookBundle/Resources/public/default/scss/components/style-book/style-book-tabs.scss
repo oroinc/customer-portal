@@ -1,0 +1,70 @@
+/* @theme: default; */
+
+.tab-collection {
+    border: $style-book-tab-content-border;
+    border-radius: $style-book-nav-tabs-border-radius;
+    margin-bottom: $style-book-tab-content-bottom-outer-offset;
+}
+
+.nav-tabs {
+    display: $style-book-nav-tabs-display;
+    flex-wrap: $style-book-nav-tabs-flex-wrap;
+    justify-content: $style-book-nav-tabs-justify-content;
+    border-bottom: $style-book-nav-tabs-border;
+
+    .nav-link {
+        border-radius: $style-book-nav-tabs-link-color-border-radius;
+        background-color: $style-book-nav-tabs-link-bg;
+        text-transform: $style-book-nav-tabs-link-text-transform;
+
+        &:hover {
+            color: $style-book-nav-tabs-link-color;
+        }
+    }
+
+    .nav-item {
+        flex: $style-book-nav-tabs-item-flex;
+        text-align: $style-book-nav-tabs-item-text-align;
+
+        + .nav-item {
+            margin: $style-book-nav-tabs-item-outer-offset;
+        }
+
+        .nav-link {
+            border: $style-book-nav-tabs-border;
+        }
+    }
+
+    .active {
+        .nav-link {
+            &,
+            &:focus,
+            &:hover {
+                color: $style-book-nav-tabs-active-link-hover-color;
+                background-color: $style-book-nav-tabs-active-link-hover-bg;
+                border-color:
+                    $style-book-nav-tabs-active-link-hover-border-color
+                    $style-book-nav-tabs-active-link-hover-border-color
+                    transparent;
+            }
+        }
+    }
+
+    .tab {
+        &:first-of-type {
+            .nav-link {
+                border-top-left-radius: $style-book-nav-tabs-border-radius;
+            }
+        }
+
+        &:last-of-type {
+            .nav-link {
+                border-top-right-radius: $style-book-nav-tabs-border-radius;
+            }
+        }
+    }
+}
+
+.tab-content {
+    padding: $style-book-tab-content-inner-offset;
+}

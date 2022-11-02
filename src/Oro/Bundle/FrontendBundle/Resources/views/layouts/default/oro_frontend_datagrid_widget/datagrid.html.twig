@@ -24,7 +24,7 @@
     {% endif %}
 
     {% set grid_render_parameters = grid_render_parameters|merge({
-        requireJSModules: ['orodatagrid/js/row-select-for-widget/builder'],
+        jsmodules: ['orodatagrid/js/row-select-for-widget/builder'],
         gridBuildersOptions: {
             rowSelectForWidget: {
                 wid: app.request.get('_wid'),
@@ -33,6 +33,6 @@
         }
     }) %}
 
-    {% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+    {% import '@OroDataGrid/macros.html.twig' as dataGrid %}
     {{ dataGrid.renderGrid(grid_full_name, grid_parameters, {'enableViews': false, 'routerEnabled': false}|merge(grid_render_parameters)) }}
 {% endblock %}

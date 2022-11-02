@@ -4,7 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -48,7 +48,6 @@ class LoadTestCustomerUser extends AbstractFixture implements ContainerAwareInte
         $user = $userManager->createUser();
         $user
             ->setWebsite($website)
-            ->setUsername('test_user')
             ->setEmail('test@test.com')
             ->setFirstName('test')
             ->setLastName('test')
@@ -58,7 +57,7 @@ class LoadTestCustomerUser extends AbstractFixture implements ContainerAwareInte
             ->setEnabled(true)
             ->setOrganization($organization)
             ->setLoginCount(0)
-            ->addRole($role);
+            ->addUserRole($role);
 
         $userManager->updateUser($user);
         $this->setReference('testCustomerUser', $user);

@@ -7,7 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 
 class CustomerDeleteOperationTest extends ActionTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
@@ -25,7 +25,7 @@ class CustomerDeleteOperationTest extends ActionTestCase
 
         $this->assertDeleteOperation(
             $customer->getId(),
-            'oro_customer.entity.customer.class',
+            Customer::class,
             'oro_customer_customer_index'
         );
     }

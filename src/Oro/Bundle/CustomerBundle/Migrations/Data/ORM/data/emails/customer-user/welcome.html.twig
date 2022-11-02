@@ -5,7 +5,7 @@
 @isEditable = 1
 
 {% set frontendUrl = website_secure_path('oro_frontend_root', {}, entity.website) %}
-{% set resetPasswordUrl = website_secure_path('oro_customer_frontend_customer_user_password_reset', { token: entity.confirmationToken, username: entity.username }, entity.website) %}
+{% set resetPasswordUrl = website_secure_path('oro_customer_frontend_customer_user_password_reset', { token: entity.confirmationToken }, entity.website) %}
 {% set organizationName = entity.organization|oro_format_name %}
 
 <h1>Dear {{ entity|oro_format_name }},</h1>

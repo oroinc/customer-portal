@@ -3,18 +3,17 @@ oro_behat_extension:
     OroFrontendBundle:
       contexts:
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext
-        - OroConfigBundle::FeatureContext
-        - OroFormBundle::FormContext
-        - OroApplicationBundle::CommerceMainContext
+        - Oro\Bundle\ConfigBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\FormBundle\Tests\Behat\Context\FormContext
+        - Oro\Bundle\ApplicationBundle\Tests\Behat\Context\CommerceMainContext
         - Oro\Bundle\FormBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\UserBundle\Tests\Behat\Context\FeatureContext
-        - OroDataGridBundle::GridContext
-        - OroCustomerBundle::CustomerUserContext
-        - OroCustomerBundle::ACLContext
-        - OroCustomerBundle::FrontendGridContext
-        - OroSecurityBundle::PermissionContext
-        - OroCustomerBundle::RegistrationInstructionFeatureContext
-        - OroCustomerBundle::CustomerVisitorContext
+        - Oro\Bundle\DataGridBundle\Tests\Behat\Context\GridContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\CustomerUserContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\ACLContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\FrontendGridContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\RegistrationInstructionFeatureContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\CustomerVisitorContext
       paths:
         - '@OroFrontendBundle/Tests/Behat/Features'
   elements:
@@ -30,37 +29,30 @@ oro_behat_extension:
       selector: '.grid-row'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridRow
     FrontendGridToolbarPaginator:
-      selector: '.oro-items-counter'
+      selector: '.visible-items-counter'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridToolbarPaginator
     FrontendMassActionHeadCheckbox:
       selector: 'th.select-all-header-cell button'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     FrontendGridNextPageButton:
       selector: '.oro-pagination [data-grid-pagination-direction="next"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     FrontendGridPrevPageButton:
       selector: '.oro-pagination [data-grid-pagination-direction="prev"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     FrontendGridTopToolbar:
       selector: '[data-grid-toolbar="top"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     FrontendGridBottomToolbar:
       selector: '[data-grid-toolbar="bottom"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     FrontendGridActionRefreshButton:
       selector: '.refresh-action'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     FrontendGridActionResetButton:
       selector: '.reset-action'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
-    FrontendGridActionFilterButton:
-      selector: '.action[title="Filters"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Frontend Grid Action Filter Button:
+      selector: '.action[title="Filter Toggle"]'
     DetachedSelect2Result:
       selector: '#select2-drop-mask + .select2-drop .select2-results'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Active Sticky Panel:
       selector: ".sticky-panel.sticky-panel--top.has-content"
+    Bottom Active Sticky Panel:
+      selector: ".sticky-panel.sticky-panel--bottom.has-content"
     Main Menu Into Header:
       selector: ".page-header .header-row"
     Main Menu Into Sticky Panel:
@@ -69,18 +61,30 @@ oro_behat_extension:
       selector: ".sticky-panel.sticky-panel--top.has-content .filter-box"
     Product Filter Into Page Content:
       selector: ".page-content .filter-box"
+    Grid Filters Button Into Sticky Panel:
+      selector: ".sticky-panel.sticky-panel--top.has-content .action[title=\"Filter Toggle\"]"
     Header:
       selector: ".page-header"
     Copyright:
       selector: ".copyright"
     Fullscreen Popup:
       selector: ".fullscreen-popup"
+    Fullscreen Popup Header:
+      selector: '.fullscreen-popup [data-role="header"]'
     Popup Gallery Widget:
       selector: ".popup-gallery-widget"
     Popup Gallery Widget Image:
-      selector: ".popup-gallery-widget img"
+      selector:
+        type: 'xpath'
+        locator: '//div[contains(@class,"popup-gallery-widget")]//img'
+    Popup Gallery Widget Picture:
+      selector: ".popup-gallery-widget picture"
+    Popover Image:
+      selector: "div.popover img"
     Popup Gallery Widget Close:
-      selector: ".popup-gallery-widget button[data-trigger-gallery-close]"
+      selector: ".popup-gallery-widget button.close-dialog"
+    Fullscreen Popup Apply Filters:
+      selector: '.fullscreen-popup button[data-role="apply"]'
     Filter Settings Form:
       selector: 'form[name="theme"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -90,17 +94,32 @@ oro_behat_extension:
           Value Selectors: 'theme[oro_frontend___filter_value_selectors][value]'
     Filter By Step:
       selector:
-        locator: '//div[@class="filter-item"]/div[contains(text(), "Filter By Step")]'
+        locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"Filter By Step")]/..'
         type: 'xpath'
+    Filter By Name:
+      selector:
+        locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"Filter By Name")]/..'
+        type: 'xpath'
+    Filter By First Name:
+      selector:
+        locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"Filter By First Name")]/..'
+        type: 'xpath'
+    Filter By Last Name:
+      selector:
+        locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"Filter By Last Name")]/..'
+        type: 'xpath'
+    Filter By Enabled:
+      selector:
+        locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(), "Filter By Enabled")]/..'
+        type: 'xpath'
+    Opened Filter Dropdown:
+      selector: '.filter-criteria.dropdown-menu.criteria-visible'
     Filter Checkboxes:
-      selector: ".datagrid-manager .ui-multiselect-checkboxes .datagrid-manager__list-item"
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+      selector: ".datagrid-manager .filter-default .ui-multiselect-checkboxes .datagrid-manager__list-item"
     Filter Checkboxes All At Once:
       selector: ".datagrid-manager .ui-multiselect-checkboxes .filters-dropdown__items"
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Filters Dropdown:
-      selector: '[id^="grid-frontend-requests-grid"] a.action[title="Filters"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+      selector: '[id^="grid-frontend-requests-grid"] a.action[title="Filter Toggle"]'
     Requests For Quote Grid:
       selector: '[id^="grid-frontend-requests-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
@@ -108,19 +127,18 @@ oro_behat_extension:
       selector:
         type: xpath
         # when should be clicked second button on the page, because it visible after changes on page
-        locator: '(//button[contains(text(), "Save") or contains(text(), "Create")])[2]'
+        locator: '(//div[@data-bottom-actions]/button[contains(text(), "Save") or contains(text(), "Create")])'
+    Catalog Switcher:
+      selector: '.oro-datagrid .catalog-switcher'
+    Catalog Switcher Toggle:
+      selector: '.catalog-switcher > .dropdown-toggle'
     Sticky Filters Dropdown:
-      selector: '[data-sticky-name="top-sticky-panel"] a.action[title="Filters"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+      selector: '[data-sticky-name="top-sticky-panel"] a.action[title="Filter Toggle"]'
     Mass Actions Into Sticky Panel:
       selector: '.sticky-panel.sticky-panel--top.has-content [data-mass-actions-container]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Pegination Into Sticky Panel:
       selector: '.sticky-panel.sticky-panel--top.has-content [data-grid-pagesize]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Sorting Into Sticky Panel:
       selector: '.sticky-panel.sticky-panel--top.has-content [data-grid-sorting]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Catalog Switcher Into Sticky Panel:
       selector: '.sticky-panel.sticky-panel--top.has-content .catalog-switcher'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element

@@ -1,0 +1,4 @@
+oro_permissions:
+    MANAGE_API_KEY:
+        apply_to_entities:
+            - 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
