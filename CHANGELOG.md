@@ -49,7 +49,7 @@ The current file describes significant changes in the code that may affect the u
     + </div>
     ```
 
-The 'data-dom-relocation' selector to specify options for `dom-relocation-view` was removed, use 'data-dom-relocation-options' instead.
+The 'data-dom-relocation' selector to specify options for `dom-relocation-view` was removed, use 'data-dom-relocation-options' instead.   
 
 The oro grid system was modernized and uses CSS grid under the hood.
 - As a result, you need to update your `html`:
@@ -153,7 +153,7 @@ More details are available at [Oro Frontend Stylebook](https://doc.oroinc.com/fr
 * The configuration parameter `cookie_httponly` has been moved to `visitor_session` node.
 * The configuration parameter `cookie_samesite` has been moved to `visitor_session` node.
 * Updated search configuration file `Oro/Bundle/CustomerBundle/Resources/config/oro/search.yml`:
-  * added configuration for next field `oro_customer_id`
+    * added configuration for next field `oro_customer_id`
 
 ## 4.2.0 (2020-01-29)
 [Show detailed list of changes](incompatibilities-4-2.md)
@@ -175,10 +175,10 @@ More details are available at [Oro Frontend Stylebook](https://doc.oroinc.com/fr
 
 ### Removed
 * `*.class` parameters for all entities were removed from the dependency injection container.
-  The entity class names should be used directly, e.g. `'Oro\Bundle\EmailBundle\Entity\Email'`
-  instead of `'%oro_email.email.entity.class%'` (in service definitions, datagrid config files, placeholders, etc.), and
-  `\Oro\Bundle\EmailBundle\Entity\Email::class` instead of `$container->getParameter('oro_email.email.entity.class')`
-  (in PHP code).
+The entity class names should be used directly, e.g. `'Oro\Bundle\EmailBundle\Entity\Email'`
+instead of `'%oro_email.email.entity.class%'` (in service definitions, datagrid config files, placeholders, etc.), and
+`\Oro\Bundle\EmailBundle\Entity\Email::class` instead of `$container->getParameter('oro_email.email.entity.class')`
+(in PHP code).
 
 ## 4.1.0-rc (2019-12-10)
 [Show detailed list of changes](incompatibilities-4-1-rc.md)
@@ -218,14 +218,14 @@ More details are available at [Oro Frontend Stylebook](https://doc.oroinc.com/fr
 
 ### Changed
 #### FrontendBundle
-* In `Oro\Bundle\FrontendBundle\Controller\Api\Rest\WorkflowController::startAction`
-  (`/api/rest/{version}/workflow/start/{workflowName}/{transitionName}` path)
-  action the request method was changed to POST.
-* In `Oro\Bundle\FrontendBundle\Controller\Api\Rest\WorkflowController::transitAction`
-  (`/api/rest/{version}/workflow/transit/{workflowItemId}/{transitionName}` path)
-  action the request method was changed to POST.
+* In `Oro\Bundle\FrontendBundle\Controller\Api\Rest\WorkflowController::startAction` 
+ (`/api/rest/{version}/workflow/start/{workflowName}/{transitionName}` path)
+ action the request method was changed to POST. 
+* In `Oro\Bundle\FrontendBundle\Controller\Api\Rest\WorkflowController::transitAction` 
+ (`/api/rest/{version}/workflow/transit/{workflowItemId}/{transitionName}` path)
+ action the request method was changed to POST.
 
-## 3.1.4
+## 3.1.4 
 [Show detailed list of changes](incompatibilities-3-1-4.md)
 
 ### Removed
@@ -257,10 +257,10 @@ More details are available at [Oro Frontend Stylebook](https://doc.oroinc.com/fr
 ### Changed
 #### CustomerBundle
 * Changes in `/admin/api/customer_user_addresses` REST API resource:
-  - the resource name was changed to `/admin/api/customeruseraddresses`
-  - the attribute `created` was renamed to `createdAt`
-  - the attribute `updated` was renamed to `updatedAt`
-  - the relationship `frontendOwner` was renamed to `customerUser`
+    - the resource name was changed to `/admin/api/customeruseraddresses`
+    - the attribute `created` was renamed to `createdAt`
+    - the attribute `updated` was renamed to `updatedAt`
+    - the relationship `frontendOwner` was renamed to `customerUser`
 * The name for `/admin/api/customer_users` REST API resource was changed to `/admin/api/customerusers`.
 * The name for `/admin/api/customer_user_roles` REST API resource was changed to `/admin/api/customeruserroles`.
 * The name for `/admin/api/customer_groups` REST API resource was changed to `/admin/api/customergroups`.
@@ -318,11 +318,11 @@ More details are available at [Oro Frontend Stylebook](https://doc.oroinc.com/fr
 ### Changed
 #### CustomerBundle
 * the DI container parameter `oro_customer.entity.owners` was changed
-  - the option `local_level` was renamed to `business_unit`
-  - the option `basic_level` was renamed to `user`
+    - the option `local_level` was renamed to `business_unit`
+    - the option `basic_level` was renamed to `user`
 ### Removed
 #### CustomerBundle
 * class `RecordOwnerDataListener`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.3.0/src/Oro/Bundle/CustomerBundle/EventListener/RecordOwnerDataListener.php "Oro\Bundle\CustomerBundle\EventListener\RecordOwnerDataListener")</sup>
-  - constant `OWNER_TYPE_ACCOUNT` was removed, use `OWNER_TYPE_CUSTOMER` instead
+    - constant `OWNER_TYPE_ACCOUNT` was removed, use `OWNER_TYPE_CUSTOMER` instead
 ## 2.2.0 (2017-05-31)
 [Show detailed list of changes](incompatibilities-2-2.md)
