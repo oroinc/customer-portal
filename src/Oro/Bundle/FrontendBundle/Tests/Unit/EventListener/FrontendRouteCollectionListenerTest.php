@@ -22,10 +22,7 @@ class FrontendRouteCollectionListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $event->getCollection()->getIterator()->getArrayCopy());
     }
 
-    /**
-     * @return array
-     */
-    public function dataProvider()
+    public function dataProvider(): array
     {
         return [
             [
@@ -40,15 +37,9 @@ class FrontendRouteCollectionListenerTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @param Route[] $routes
-     *
-     * @return RouteCollection
-     */
-    protected function getCollection(array $routes)
+    private function getCollection(array $routes): RouteCollection
     {
         $collection = new RouteCollection();
-
         foreach ($routes as $routeName => $route) {
             $collection->add($routeName, $route);
         }

@@ -14,10 +14,10 @@ class CustomerHasAssignmentsTest extends \PHPUnit\Framework\TestCase
     use EntityTrait;
 
     /** @var CustomerAssignHelper|\PHPUnit\Framework\MockObject\MockObject */
-    protected $helper;
+    private $helper;
 
     /** @var CustomerHasAssignments */
-    protected $condition;
+    private $condition;
 
     protected function setUp(): void
     {
@@ -33,11 +33,8 @@ class CustomerHasAssignmentsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider evaluateDataProvider
-     *
-     * @param bool $hasAssignments
-     * @param bool $expected
      */
-    public function testEvaluateCustomerWithId($hasAssignments, $expected)
+    public function testEvaluateCustomerWithId(bool $hasAssignments, bool $expected)
     {
         $customer = $this->getEntity(Customer::class, ['id' => 42]);
 
@@ -50,20 +47,11 @@ class CustomerHasAssignmentsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $this->condition->evaluate([]));
     }
 
-    /**
-     * @return array
-     */
-    public function evaluateDataProvider()
+    public function evaluateDataProvider(): array
     {
         return [
-            [
-                'hasAssignments' => true,
-                'expecte' => true
-            ],
-            [
-                'hasAssignments' => false,
-                'expecte' => false
-            ],
+            ['hasAssignments' => true, 'expected' => true],
+            ['hasAssignments' => false, 'expected' => false],
         ];
     }
 
@@ -78,12 +66,8 @@ class CustomerHasAssignmentsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider initializeExceptionProvider
-     *
-     * @param array $options
-     * @param string $exception
-     * @param string $exceptionMessage
      */
-    public function testInitializeException(array $options, $exception, $exceptionMessage)
+    public function testInitializeException(array $options, string $exception, string $exceptionMessage)
     {
         $this->expectException($exception);
         $this->expectExceptionMessage($exceptionMessage);
@@ -91,10 +75,7 @@ class CustomerHasAssignmentsTest extends \PHPUnit\Framework\TestCase
         $this->condition->initialize($options);
     }
 
-    /**
-     * @return array
-     */
-    public function initializeExceptionProvider()
+    public function initializeExceptionProvider(): array
     {
         return [
             [

@@ -56,9 +56,9 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         $customerUserRoleSelectType = new EntitySelectTypeStub(
             $this->getRoles(),
@@ -97,17 +97,12 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
 
     /**
      * @dataProvider submitProvider
-     *
-     * @param CustomerUser $defaultData
-     * @param array $submittedData
-     * @param CustomerUser $expectedData
-     * @param bool $rolesGranted
      */
     public function testSubmit(
         CustomerUser $defaultData,
         array $submittedData,
         CustomerUser $expectedData,
-        $rolesGranted = true
+        bool $rolesGranted = true
     ) {
         if ($rolesGranted) {
             $this->authorizationChecker->expects($this->any())
@@ -138,10 +133,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         $this->assertQueryBuilderCallback($options['query_builder']);
     }
 
-    /**
-     * @return array
-     */
-    public function submitProvider()
+    public function submitProvider(): array
     {
         $newCustomerUser = new CustomerUser();
         $newCustomerUser->setOrganization(new Organization());
@@ -225,10 +217,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
             ];
     }
 
-    /**
-     * @param \Closure $callable
-     */
-    private function assertQueryBuilderCallback($callable)
+    private function assertQueryBuilderCallback(\Closure $callable): void
     {
         $this->assertIsCallable($callable);
 
@@ -259,7 +248,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     /**
      * @return CustomerUserAddress[]
      */
-    protected function getAddresses()
+    protected function getAddresses(): array
     {
         if (!self::$addresses) {
             self::$addresses = [
@@ -274,7 +263,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     /**
      * @return CustomerUserRole[]
      */
-    protected function getRoles()
+    protected function getRoles(): array
     {
         return [
             1 => $this->getRole(1, 'test01'),
@@ -285,7 +274,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     /**
      * @return Customer[]
      */
-    protected function getCustomers()
+    protected function getCustomers(): array
     {
         if (!self::$customers) {
             self::$customers = [
@@ -338,10 +327,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         return $customerUserAddress;
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface
-     */
-    protected function createTranslator()
+    protected function createTranslator(): TranslatorInterface
     {
         $translator = $this->createMock(TranslatorInterface::class);
         $translator->expects($this->any())

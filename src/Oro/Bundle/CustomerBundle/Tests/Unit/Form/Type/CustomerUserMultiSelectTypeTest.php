@@ -47,11 +47,6 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
 
     /**
      * @dataProvider submitProvider
-     *
-     * @param array $defaultData
-     * @param array $submittedData
-     * @param bool $isValid
-     * @param array $expectedData
      */
     public function testSubmit(
         array $defaultData,
@@ -70,10 +65,7 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
         $this->assertEquals($expectedData, $form->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function submitProvider()
+    public function submitProvider(): array
     {
         return [
             'empty data' => [
@@ -98,7 +90,7 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         $customerUserSelectType = new EntityType(
             [
@@ -122,12 +114,8 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
         ];
     }
 
-    /**
-     * @param int $id
-     * @return CustomerUser
-     */
-    protected function getCustomerUser($id)
+    private function getCustomerUser(int $id): CustomerUser
     {
-        return $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerUser', ['id' => $id, 'salt' => $id]);
+        return $this->getEntity(CustomerUser::class, ['id' => $id, 'salt' => $id]);
     }
 }

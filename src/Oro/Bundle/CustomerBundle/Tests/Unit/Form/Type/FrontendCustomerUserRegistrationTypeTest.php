@@ -38,7 +38,7 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return [
             new PreloadedExtension([$this->formType], []),
@@ -48,22 +48,14 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
 
     /**
      * @dataProvider submitProvider
-     *
-     * @param CustomerUser $defaultData
-     * @param array $submittedData
-     * @param bool $companyNameEnabled
-     * @param CustomerUser $expectedData
-     * @param User $owner
-     * @param boolean $isValid
-     * @param array $options
      */
     public function testSubmit(
-        $defaultData,
+        CustomerUser $defaultData,
         array $submittedData,
-        $companyNameEnabled,
-        $expectedData,
+        bool $companyNameEnabled,
+        CustomerUser $expectedData,
         User $owner,
-        $isValid,
+        bool $isValid,
         array $options = []
     ) {
         $this->configManager->expects($this->any())
@@ -90,10 +82,7 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
         $this->assertEquals($expectedData, $form->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function submitProvider()
+    public function submitProvider(): array
     {
         $owner = new User();
 
@@ -189,11 +178,7 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
         ];
     }
 
-    /**
-     * @param User $owner
-     * @return CustomerUser
-     */
-    private function createCustomerUserWithDefaultData(User $owner)
+    private function createCustomerUserWithDefaultData(User $owner): CustomerUser
     {
         $customerUser = new CustomerUser();
 

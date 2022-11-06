@@ -26,11 +26,8 @@ class LoggedInExpressionLanguageProviderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getFunctionsDataProvider
-     *
-     * @param bool $isLoggedUser
-     * @param bool $expectedData
      */
-    public function testGetFunctions($isLoggedUser, $expectedData)
+    public function testGetFunctions(bool $isLoggedUser, bool $expectedData)
     {
         $functions = $this->provider->getFunctions();
         $this->assertCount(1, $functions);
@@ -48,20 +45,11 @@ class LoggedInExpressionLanguageProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedData, call_user_func($function->getEvaluator()));
     }
 
-    /**
-     * @return array
-     */
-    public function getFunctionsDataProvider()
+    public function getFunctionsDataProvider(): array
     {
         return [
-            [
-                'isLoggedUser' => false,
-                'expectedData' => false,
-            ],
-            [
-                'isLoggedUser' => true,
-                'expectedData' => true,
-            ]
+            ['isLoggedUser' => false, 'expectedData' => false],
+            ['isLoggedUser' => true, 'expectedData' => true]
         ];
     }
 }

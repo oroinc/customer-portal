@@ -19,13 +19,16 @@ trait AddressEntityTestTrait
     }
 
     /**
-     * @param AbstractDefaultTypedAddress[] $addresses
-     * @param string                        $searchName
-     * @param AbstractDefaultTypedAddress   $expectedAddress
+     * @param AbstractDefaultTypedAddress[]    $addresses
+     * @param string                           $searchName
+     * @param AbstractDefaultTypedAddress|null $expectedAddress
      * @dataProvider getAddressByTypeNameProvider
      */
-    public function testGetAddressByTypeName($addresses, $searchName, $expectedAddress)
-    {
+    public function testGetAddressByTypeName(
+        array $addresses,
+        string $searchName,
+        ?AbstractDefaultTypedAddress $expectedAddress
+    ) {
         $customer = $this->createTestedEntity();
         foreach ($addresses as $address) {
             $customer->addAddress($address);
@@ -35,10 +38,7 @@ trait AddressEntityTestTrait
         \PHPUnit\Framework\Assert::assertEquals($expectedAddress, $actualAddress);
     }
 
-    /**
-     * @return array
-     */
-    public function getAddressByTypeNameProvider()
+    public function getAddressByTypeNameProvider(): array
     {
         $billingType = new AddressType(AddressType::TYPE_BILLING);
         $shippingType = new AddressType(AddressType::TYPE_SHIPPING);
@@ -80,7 +80,7 @@ trait AddressEntityTestTrait
     /**
      * @dataProvider getPrimaryAddressProvider
      */
-    public function testGetPrimaryAddress($addresses, $expectedAddress)
+    public function testGetPrimaryAddress(array $addresses, ?AbstractDefaultTypedAddress $expectedAddress)
     {
         $customer = $this->createTestedEntity();
         foreach ($addresses as $address) {
@@ -90,7 +90,7 @@ trait AddressEntityTestTrait
         \PHPUnit\Framework\Assert::assertEquals($expectedAddress, $customer->getPrimaryAddress());
     }
 
-    public function getPrimaryAddressProvider()
+    public function getPrimaryAddressProvider(): array
     {
         $primaryAddress = $this->createAddressEntity();
         $primaryAddress->setPrimary(true);

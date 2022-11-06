@@ -24,16 +24,12 @@ class NavigationListenerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param bool $isGrantedCustomerAddress
-     * @param bool $isGrantedCustomerUserAddress
-     * @param bool $expectedIsDisplayed
-     *
      * @dataProvider navigationConfigureDataProvider
      */
     public function testOnNavigationConfigure(
-        $isGrantedCustomerAddress,
-        $isGrantedCustomerUserAddress,
-        $expectedIsDisplayed
+        bool $isGrantedCustomerAddress,
+        bool $isGrantedCustomerUserAddress,
+        bool $expectedIsDisplayed
     ) {
         $this->authorizationChecker->expects($this->atLeastOnce())
             ->method('isGranted')
@@ -53,10 +49,7 @@ class NavigationListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedIsDisplayed, $addressBookItem->isDisplayed());
     }
 
-    /**
-     * @return array
-     */
-    public function navigationConfigureDataProvider()
+    public function navigationConfigureDataProvider(): array
     {
         return [
             'customer granted and customer user granted' => [
