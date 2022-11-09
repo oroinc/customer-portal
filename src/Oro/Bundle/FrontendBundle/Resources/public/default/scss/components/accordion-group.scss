@@ -1,0 +1,38 @@
+/* @theme: default; */
+
+.accordion-group {
+    &__trigger {
+        font-size: $accordion-group-trigger-font-size;
+
+        &-icon {
+            margin: $accordion-group-trigger-icon-offset;
+            font-size: $accordion-group-trigger-icon-size;
+            transition: $accordion-group-trigger-icon-transition;
+            color: $accordion-group-trigger-icon-color;
+        }
+
+        &:focus,
+        &:hover {
+            text-decoration: none;
+        }
+
+        &-text {
+            &:focus,
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        &:not(.collapsed) {
+            color: $accordion-group-trigger-expanded-color;
+
+            .accordion-group__trigger-icon {
+                transform: rotate(90deg);
+            }
+        }
+    }
+
+    .collapse {
+        margin: $accordion-group-container-offset;
+    }
+}
