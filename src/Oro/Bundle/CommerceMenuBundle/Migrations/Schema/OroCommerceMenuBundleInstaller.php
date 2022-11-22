@@ -29,7 +29,7 @@ class OroCommerceMenuBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_7';
+        return 'v1_8';
     }
 
     /**
@@ -78,6 +78,8 @@ class OroCommerceMenuBundleInstaller implements
             'notnull' => true,
             'default' => MenuUpdate::LINK_TARGET_SAME_WINDOW,
         ]);
+        $table->addColumn('menu_template', 'string', ['notnull' => false, 'length' => 255]);
+        $table->addColumn('depth', 'smallint', ['notnull' => false]);
         $table->setPrimaryKey(['id']);
         $table->addUniqueIndex(['key', 'scope_id', 'menu'], 'oro_commerce_menu_upd_uidx');
     }
@@ -155,6 +157,7 @@ class OroCommerceMenuBundleInstaller implements
             [
                 'attachment' => [
                     'acl_protected' => false,
+                    'use_dam' => true,
                 ]
             ],
             self::MAX_MENU_UPDATE_IMAGE_SIZE_IN_MB,

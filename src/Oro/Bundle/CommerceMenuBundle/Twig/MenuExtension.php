@@ -50,7 +50,7 @@ class MenuExtension extends AbstractExtension implements ServiceSubscriberInterf
         return $this->getMatcher()->isAncestor($item);
     }
 
-    public function getUrl(string $url): string
+    public function getUrl(?string $url): string
     {
         $result = parse_url($url);
         if (\array_key_exists('host', $result) || \array_key_exists('scheme', $result)) {

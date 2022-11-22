@@ -129,6 +129,7 @@ services:
         class: 'Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateExtension'
         arguments:
             - '@oro_web_catalog.web_catalog_provider'
+            - '@oro_commerce_menu.provider.menu_templates_provider'
         tags:
             - { name: form.type_extension, extended_type: 'Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType' }
 

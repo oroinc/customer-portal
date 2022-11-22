@@ -17,8 +17,9 @@
                 'options': {
                     'targetTypeField': form.targetType.vars.full_name,
                     'contentNodeField': '[data-role="content-node-field"]',
+                    'categoryField': '[data-role="category-field"]',
                     'systemPageField': '[data-role="system-page-field"]',
-                    'uriField': '[data-role="uri-field"]'
+                    'uriField': '[data-role="uri-field"]',
                 }
             }) }}>
                 {{ form_row(form.targetType) }}
@@ -38,6 +39,9 @@
                 <div data-role="uri-field" class="control-group-container">
                     {{ form_row(form.uri) }}
                 </div>
+                <div data-role="category-field" class="control-group-container">
+                    {{ form_row(form.category) }}
+                </div>
             </div>
         {% else %}
             {{ form_row(form.uri) }}
@@ -56,13 +60,15 @@
                     form_row(form.titles),
                     targetFields,
                     form.aclResourceId is defined ? form_row(form.aclResourceId) : null,
-                    form_row(form.icon),
                     form_row(form.descriptions),
+                    form_row(form.icon),
+                    form_row(form.image),
+                    form_row(form.menuTemplate),
+                    form_row(form.depth),
                     form_row(form.menuUserAgentConditions),
                     form_row(form.screens),
                     form_row(form.condition),
                     form_row(form.linkTarget),
-                    form_row(form.image)
                 ]
                 }
             ]

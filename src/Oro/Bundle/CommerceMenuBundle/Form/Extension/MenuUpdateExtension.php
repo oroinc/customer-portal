@@ -3,9 +3,11 @@
 namespace Oro\Bundle\CommerceMenuBundle\Form\Extension;
 
 use Oro\Bundle\AttachmentBundle\Form\Type\ImageType;
+use Oro\Bundle\CatalogBundle\Form\Type\CategoryTreeType;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuScreensConditionType;
 use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuUserAgentConditionsCollectionType;
+use Oro\Bundle\CommerceMenuBundle\Provider\MenuTemplatesProvider;
 use Oro\Bundle\FormBundle\Form\Type\LinkTargetType;
 use Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType;
 use Oro\Bundle\NavigationBundle\Form\Type\RouteChoiceType;
@@ -26,12 +28,14 @@ use Symfony\Component\Form\FormEvents;
  */
 class MenuUpdateExtension extends AbstractTypeExtension
 {
-    /** @var WebCatalogProvider */
-    private $webCatalogProvider;
+    private WebCatalogProvider $webCatalogProvider;
 
-    public function __construct(WebCatalogProvider $webCatalogProvider)
+    private MenuTemplatesProvider $menuTemplatesProvider;
+
+    public function __construct(WebCatalogProvider $webCatalogProvider, MenuTemplatesProvider $menuTemplatesProvider)
     {
         $this->webCatalogProvider = $webCatalogProvider;
+        $this->menuTemplatesProvider = $menuTemplatesProvider;
     }
 
     /**
@@ -63,6 +67,29 @@ class MenuUpdateExtension extends AbstractTypeExtension
                 $form->add(
                     'linkTarget',
                     LinkTargetType::class
+                );
+
+                $form->add(
+                    'menuTemplate',
+                    ChoiceType::class,
+                    [
+                        'label' => 'oro.commercemenu.menuupdate.menu_template.label',
+                        'required' => false,
+                        'choices' => $this->getMenuTemplateChoices(),
+                        'placeholder' => 'oro.commercemenu.menuupdate.menu_template.placeholder',
+                    ]
+                );
+
+                $form->add(
+                    'depth',
+                    ChoiceType::class,
+                    [
+                        'label' => 'oro.commercemenu.menuupdate.depth.label',
+                        'required' => false,
+                        'placeholder' => false,
+                        'choices' => range(0, 5),
+                        'translatable_options' => false,
+                    ]
                 );
             }
         );
@@ -106,10 +133,6 @@ class MenuUpdateExtension extends AbstractTypeExtension
         $form = $event->getForm();
         $menuUpdate = $event->getData();
 
-        if (false === $menuUpdate->isCustom()) {
-            return;
-        }
-
         $form->add(
             'targetType',
             ChoiceType::class,
@@ -121,9 +144,11 @@ class MenuUpdateExtension extends AbstractTypeExtension
                 'multiple' => false,
                 'choices' => [
                     'oro.commercemenu.menuupdate.target_type.content_node' => MenuUpdate::TARGET_CONTENT_NODE,
+                    'oro.commercemenu.menuupdate.target_type.category' => MenuUpdate::TARGET_CATEGORY,
                     'oro.commercemenu.menuupdate.target_type.system_page' => MenuUpdate::TARGET_SYSTEM_PAGE,
                     'oro.commercemenu.menuupdate.target_type.uri' => MenuUpdate::TARGET_URI,
                 ],
+                'disabled' => !$menuUpdate->isCustom(),
             ]
         );
 
@@ -143,6 +168,7 @@ class MenuUpdateExtension extends AbstractTypeExtension
                 'mapped' => false,
                 'auto_initialize' => false,
                 'create_enabled' => false,
+                'disabled' => !$menuUpdate->isCustom(),
             ]
         );
 
@@ -153,9 +179,20 @@ class MenuUpdateExtension extends AbstractTypeExtension
                 [
                     'label' => 'oro.commercemenu.menuupdate.content_node.label',
                     'required' => true,
+                    'disabled' => !$menuUpdate->isCustom(),
                 ],
                 $webCatalog instanceof WebCatalog ? ['web_catalog' => $webCatalog] : []
             )
+        );
+
+        $form->add(
+            'category',
+            CategoryTreeType::class,
+            [
+                'required' => true,
+                'label' => 'oro.commercemenu.menuupdate.category.label',
+                'disabled' => !$menuUpdate->isCustom(),
+            ]
         );
 
         $form->add(
@@ -169,6 +206,7 @@ class MenuUpdateExtension extends AbstractTypeExtension
                     'frontend' => true,
                 ],
                 'menu_name' => 'frontend_menu',
+                'disabled' => !$menuUpdate->isCustom(),
             ]
         );
     }
@@ -190,20 +228,30 @@ class MenuUpdateExtension extends AbstractTypeExtension
         switch ($targetType) {
             case MenuUpdate::TARGET_CONTENT_NODE:
                 $menuUpdate
-                    ->setUri(null)
-                    ->setSystemPageRoute(null);
+                    ->setCategory(null)
+                    ->setSystemPageRoute(null)
+                    ->setUri(null);
                 break;
 
             case MenuUpdate::TARGET_SYSTEM_PAGE:
                 $menuUpdate
                     ->setContentNode(null)
+                    ->setCategory(null)
                     ->setUri(null);
                 break;
 
             case MenuUpdate::TARGET_URI:
                 $menuUpdate
                     ->setContentNode(null)
+                    ->setCategory(null)
                     ->setSystemPageRoute(null);
+                break;
+
+            case MenuUpdate::TARGET_CATEGORY:
+                $menuUpdate
+                    ->setContentNode(null)
+                    ->setSystemPageRoute(null)
+                    ->setUri(null);
                 break;
         }
     }
@@ -214,5 +262,16 @@ class MenuUpdateExtension extends AbstractTypeExtension
     public static function getExtendedTypes(): iterable
     {
         return [MenuUpdateType::class];
+    }
+
+    private function getMenuTemplateChoices(): array
+    {
+        $menuTemplates = $this->menuTemplatesProvider->getMenuTemplates();
+        $menuTemplatesChoices = [];
+        foreach ($menuTemplates as $menuTemplateKey => $menuTemplate) {
+            $menuTemplatesChoices[$menuTemplate['label']] = $menuTemplateKey;
+        }
+
+        return $menuTemplatesChoices;
     }
 }

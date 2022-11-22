@@ -3,13 +3,17 @@
 namespace Oro\Bundle\CommerceMenuBundle\Model;
 
 use Oro\Bundle\AttachmentBundle\Entity\File;
+use Oro\Bundle\CatalogBundle\Entity\Category;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 
 /**
+ * This class is required to make MenuUpdate entity extendable.
+ *
  * @method File getImage()
  * @method ExtendMenuUpdate setImage(File $image)
+ * @method Category getCategory()
  */
 abstract class ExtendMenuUpdate implements
     MenuUpdateInterface

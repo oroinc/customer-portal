@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Validator\Constraints;
 
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
+use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Entity\Stub\MenuUpdateStub;
 use Oro\Bundle\CommerceMenuBundle\Validator\Constraints\PageTarget;
 use Oro\Bundle\CommerceMenuBundle\Validator\Constraints\PageTargetValidator;
 use Symfony\Component\Validator\Constraint;
@@ -50,7 +51,7 @@ class PageTargetValidatorTest extends ConstraintValidatorTestCase
     public function testValidateWhenNoTargetType(): void
     {
         $constraint = new PageTarget();
-        $this->validator->validate((new MenuUpdate())->setCustom(true), $constraint);
+        $this->validator->validate((new MenuUpdateStub())->setCustom(true), $constraint);
 
         $this
             ->buildViolation($constraint->contentNodeEmpty)
@@ -59,6 +60,8 @@ class PageTargetValidatorTest extends ConstraintValidatorTestCase
             ->atPath('property.path.systemPageRoute')
             ->buildNextViolation($constraint->uriEmpty)
             ->atPath('property.path.uri')
+            ->buildNextViolation($constraint->categoryEmpty)
+            ->atPath('property.path.category')
             ->assertRaised();
     }
 
@@ -67,7 +70,7 @@ class PageTargetValidatorTest extends ConstraintValidatorTestCase
      */
     public function testValidate(bool $isCustom): void
     {
-        $menuUpdate = new MenuUpdate();
+        $menuUpdate = new MenuUpdateStub();
         $menuUpdate->setUri('sample/uri');
         $menuUpdate->setCustom($isCustom);
 

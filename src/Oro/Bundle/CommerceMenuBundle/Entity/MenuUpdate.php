@@ -88,6 +88,7 @@ class MenuUpdate extends ExtendMenuUpdate implements
     public const TARGET_URI = 'uri';
     public const TARGET_SYSTEM_PAGE = 'system_page';
     public const TARGET_CONTENT_NODE = 'content_node';
+    public const TARGET_CATEGORY = 'category';
     public const LINK_TARGET_NEW_WINDOW = 0;
     public const LINK_TARGET_SAME_WINDOW = 1;
 
@@ -141,6 +142,16 @@ class MenuUpdate extends ExtendMenuUpdate implements
     protected $linkTarget = self::LINK_TARGET_SAME_WINDOW;
 
     /**
+     * @ORM\Column(name="menu_template", type="string", length=255, nullable=true)
+     */
+    protected ?string $menuTemplate = null;
+
+    /**
+     * @ORM\Column(name="depth", type="smallint", nullable=true)
+     */
+    protected ?int $depth = null;
+
+    /**
      * {@inheritdoc}
      */
     public function __construct()
@@ -162,7 +173,7 @@ class MenuUpdate extends ExtendMenuUpdate implements
             'condition' => $this->getCondition(),
             'divider' => $this->isDivider(),
             'userAgentConditions' => $this->getMenuUserAgentConditions(),
-            'translate_disabled' => $this->getId() ? true : false,
+            'translate_disabled' => (bool) $this->getId(),
         ];
 
         if ($this->getTargetType() === self::TARGET_CONTENT_NODE) {
@@ -173,12 +184,24 @@ class MenuUpdate extends ExtendMenuUpdate implements
             $extras['system_page_route'] = $this->getSystemPageRoute();
         }
 
+        if ($this->getTargetType() === self::TARGET_CATEGORY) {
+            $extras['category'] = $this->getCategory();
+        }
+
         if ($this->getPriority() !== null) {
             $extras['position'] = $this->getPriority();
         }
 
         if ($this->getIcon() !== null) {
             $extras['icon'] = $this->getIcon();
+        }
+
+        if ($this->getMenuTemplate() !== null) {
+            $extras['menu_template'] = $this->getMenuTemplate();
+        }
+
+        if ($this->getDepth() !== null) {
+            $extras['depth'] = $this->getDepth();
         }
 
         return $extras;
@@ -306,6 +329,10 @@ class MenuUpdate extends ExtendMenuUpdate implements
             return self::TARGET_CONTENT_NODE;
         }
 
+        if ($this->getCategory()) {
+            return self::TARGET_CATEGORY;
+        }
+
         if ($this->getSystemPageRoute()) {
             return self::TARGET_SYSTEM_PAGE;
         }
@@ -327,5 +354,29 @@ class MenuUpdate extends ExtendMenuUpdate implements
         $this->linkTarget = $linkTarget;
 
         return $this;
+    }
+
+    public function getMenuTemplate(): ?string
+    {
+        return $this->menuTemplate;
+    }
+
+    public function setMenuTemplate(?string $menuTemplate): self
+    {
+        $this->menuTemplate = $menuTemplate;
+
+        return $this;
+    }
+
+    public function setDepth(?int $depth): self
+    {
+        $this->depth = $depth;
+
+        return $this;
+    }
+
+    public function getDepth(): ?int
+    {
+        return $this->depth;
     }
 }

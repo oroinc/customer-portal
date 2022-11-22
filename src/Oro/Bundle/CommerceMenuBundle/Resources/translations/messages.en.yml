@@ -49,6 +49,14 @@ oro:
                 content_node: "Content Node"
                 system_page: "System Page"
                 uri: "URI"
+                category: "Category"
+            category:
+                label: "Category"
+            menu_template:
+                label: "Menu Template"
+                placeholder: "Choose a Menu Template"
+            depth:
+                label: "Depth"
         menu_user_agent_conditions_collection:
             add_label.label: "Add"
         menu_user_agent_conditions_collection_group:

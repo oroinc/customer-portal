@@ -52,6 +52,10 @@ class PageTargetValidator extends ConstraintValidator
                 ->buildViolation($constraint->uriEmpty)
                 ->atPath('uri')
                 ->addViolation();
+            $this->context
+                ->buildViolation($constraint->categoryEmpty)
+                ->atPath('category')
+                ->addViolation();
         }
     }
 }
