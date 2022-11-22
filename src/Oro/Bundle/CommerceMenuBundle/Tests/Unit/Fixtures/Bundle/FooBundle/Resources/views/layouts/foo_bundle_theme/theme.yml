@@ -1,0 +1,9 @@
+label: Foo bundle theme
+
+config:
+    menu_templates:
+        foo_menu_template:
+            label: 'Foo menu'
+        bar_menu_template:
+            label: 'Bar menu'
+            template: 'bar_menu_template'

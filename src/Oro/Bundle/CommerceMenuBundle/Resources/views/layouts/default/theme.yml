@@ -1,0 +1,8 @@
+config:
+    menu_templates:
+        list:
+            label: 'Single level menu'
+        tree:
+            label: 'Tree, up to 3 levels deep'
+        mega:
+            label: 'Mega menu, up to 4 levels deep'
