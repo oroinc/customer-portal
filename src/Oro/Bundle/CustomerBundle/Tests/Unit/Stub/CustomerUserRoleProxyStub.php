@@ -3,9 +3,10 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Stub;
 
 use Doctrine\Persistence\Proxy;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 
 // @codingStandardsIgnoreStart
-class CustomerUserRoleProxyStub extends CustomerUserRoleStub implements Proxy
+class CustomerUserRoleProxyStub extends CustomerUserRole implements Proxy
 {
     private $initialized = true;
 

@@ -10,13 +10,9 @@ use Symfony\Component\Routing\RouteCollection;
 class RouteCollectionListenerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @param string $prefix
-     * @param RouteCollection $collection
-     * @param array $expected
-     *
      * @dataProvider dataProvider
      */
-    public function testOnCollectionAutoload($prefix, RouteCollection $collection, array $expected)
+    public function testOnCollectionAutoload(string $prefix, RouteCollection $collection, array $expected)
     {
         $listener = new RouteCollectionListener($prefix);
 
@@ -26,10 +22,7 @@ class RouteCollectionListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $event->getCollection()->getIterator()->getArrayCopy());
     }
 
-    /**
-     * @return array
-     */
-    public function dataProvider()
+    public function dataProvider(): array
     {
         return [
             'prefix is empty after trim' => [
@@ -116,15 +109,9 @@ class RouteCollectionListenerTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @param Route[] $routes
-     *
-     * @return RouteCollection
-     */
-    protected function getCollection(array $routes)
+    private function getCollection(array $routes): RouteCollection
     {
         $collection = new RouteCollection();
-
         foreach ($routes as $routeName => $route) {
             $collection->add($routeName, $route);
         }

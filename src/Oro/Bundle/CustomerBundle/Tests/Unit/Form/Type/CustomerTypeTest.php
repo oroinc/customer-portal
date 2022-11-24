@@ -33,9 +33,6 @@ class CustomerTypeTest extends FormIntegrationTestCase
     /** @var User[] */
     private static $users;
 
-    /** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $eventDispatcher;
-
     /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $authorizationChecker;
 
@@ -43,16 +40,19 @@ class CustomerTypeTest extends FormIntegrationTestCase
     {
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
 
-        $this->formType = new CustomerType($this->getEventDispatcher(), $this->authorizationChecker);
+        $this->formType = new CustomerType(
+            $this->createMock(EventDispatcherInterface::class),
+            $this->authorizationChecker
+        );
         $this->formType->setAddressClass(CustomerAddress::class);
 
         parent::setUp();
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         $customerGroupSelectType = new EntityType(
             [
@@ -106,13 +106,6 @@ class CustomerTypeTest extends FormIntegrationTestCase
 
     /**
      * @dataProvider submitDataProvider
-     *
-     * @param array $options
-     * @param array $defaultData
-     * @param array $viewData
-     * @param array $submittedData
-     * @param array $expectedData
-     * @param bool $addressGranted
      */
     public function testSubmit(
         array $options,
@@ -120,7 +113,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
         array $viewData,
         array $submittedData,
         array $expectedData,
-        $addressGranted = true
+        bool $addressGranted = true
     ) {
         $this->authorizationChecker->expects($this->any())
             ->method('isGranted')
@@ -141,11 +134,9 @@ class CustomerTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return array
-     *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function submitDataProvider()
+    public function submitDataProvider(): array
     {
         return [
             'default' => [
@@ -305,7 +296,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
     /**
      * @return CustomerAddress[]
      */
-    private function getAddresses()
+    private function getAddresses(): array
     {
         if (!self::$addresses) {
             self::$addresses = [
@@ -320,7 +311,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
     /**
      * @return User[]
      */
-    private function getUsers()
+    private function getUsers(): array
     {
         if (!self::$users) {
             self::$users = [
@@ -330,17 +321,5 @@ class CustomerTypeTest extends FormIntegrationTestCase
         }
 
         return self::$users;
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|EventDispatcherInterface
-     */
-    private function getEventDispatcher()
-    {
-        if (!$this->eventDispatcher) {
-            $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-        }
-
-        return $this->eventDispatcher;
     }
 }

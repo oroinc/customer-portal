@@ -13,15 +13,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CustomerUserByAccountExtensionTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var CustomerUserByCustomerExtension
-     */
-    protected $extension;
+    /** @var CustomerUserByCustomerExtension */
+    private $extension;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|Request
-     */
-    protected $request;
+    /** @var Request|\PHPUnit\Framework\MockObject\MockObject */
+    private $request;
 
     protected function setUp(): void
     {
@@ -39,11 +35,8 @@ class CustomerUserByAccountExtensionTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider isApplicableDataProvider
-     * @param string $name
-     * @param int|null $customerId
-     * @param bool $expected
      */
-    public function testIsApplicable($name, $customerId, $expected)
+    public function testIsApplicable(string $name, string|int|null $customerId, bool $expected)
     {
         $this->request->expects($this->any())
             ->method('get')
@@ -58,10 +51,7 @@ class CustomerUserByAccountExtensionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $this->extension->isApplicable($config));
     }
 
-    /**
-     * @return array
-     */
-    public function isApplicableDataProvider()
+    public function isApplicableDataProvider(): array
     {
         return [
             ['test', null, false],

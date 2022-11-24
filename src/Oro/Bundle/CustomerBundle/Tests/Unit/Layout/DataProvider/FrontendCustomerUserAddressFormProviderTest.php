@@ -17,20 +17,20 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\Tes
     use EntityTrait;
 
     /** @var FrontendCustomerUserAddressFormProvider */
-    protected $provider;
+    private $provider;
 
     /** @var FormFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $mockFormFactory;
+    private $formFactory;
 
     /** @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $router;
+    private $router;
 
     protected function setUp(): void
     {
-        $this->mockFormFactory = $this->createMock(FormFactoryInterface::class);
+        $this->formFactory = $this->createMock(FormFactoryInterface::class);
         $this->router = $this->createMock(UrlGeneratorInterface::class);
 
-        $this->provider = new FrontendCustomerUserAddressFormProvider($this->mockFormFactory, $this->router);
+        $this->provider = new FrontendCustomerUserAddressFormProvider($this->formFactory, $this->router);
     }
 
     public function testGetAddressFormViewWhileUpdate()
@@ -47,7 +47,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\Tes
             ->method('createView')
             ->willReturn($formView);
 
-        $this->mockFormFactory->expects($this->once())
+        $this->formFactory->expects($this->once())
             ->method('create')
             ->with(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, ['action' => $action])
             ->willReturn($form);
@@ -77,7 +77,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\Tes
 
         $form = $this->createMock(FormInterface::class);
 
-        $this->mockFormFactory->expects($this->once())
+        $this->formFactory->expects($this->once())
             ->method('create')
             ->with(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, ['action' => $action])
             ->willReturn($form);
@@ -112,7 +112,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\Tes
             ->method('createView')
             ->willReturn($formView);
 
-        $this->mockFormFactory->expects($this->once())
+        $this->formFactory->expects($this->once())
             ->method('create')
             ->with(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, ['action' => $action])
             ->willReturn($form);
@@ -142,7 +142,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\Tes
 
         $form = $this->createMock(FormInterface::class);
 
-        $this->mockFormFactory->expects($this->once())
+        $this->formFactory->expects($this->once())
             ->method('create')
             ->with(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, ['action' => $action])
             ->willReturn($form);

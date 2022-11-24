@@ -65,10 +65,8 @@ class MenuExtensionTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider originalUrlDataProvider
-     *
-     * @param string $url
      */
-    public function testGetUrlOriginal($url)
+    public function testGetUrlOriginal(string $url)
     {
         $this->requestStack->expects($this->never())
             ->method('getCurrentRequest');
@@ -81,11 +79,8 @@ class MenuExtensionTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider preparedUrlDataProvider
-     *
-     * @param string $url
-     * @param string $result
      */
-    public function testGetUrlPrepared($url, $result)
+    public function testGetUrlPrepared(string $url, string $result)
     {
         $request = $this->createMock(Request::class);
         $request->expects($this->once())
@@ -103,10 +98,7 @@ class MenuExtensionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @return array
-     */
-    public function originalUrlDataProvider()
+    public function originalUrlDataProvider(): array
     {
         return [
             'tel' => ['tel:123'],
@@ -122,10 +114,7 @@ class MenuExtensionTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function preparedUrlDataProvider()
+    public function preparedUrlDataProvider(): array
     {
         return [
             'without "/"' => [

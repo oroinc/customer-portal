@@ -29,6 +29,7 @@ layout:
                             customer: '=data["customizableRole"].getCustomer().getId()'
                         grid_render_parameters:
                             cssClass: 'frontend-datagrid'
+                            enableToggleFilters: true
                             themeOptions:
                                 actionOptions:
                                     refreshAction:

@@ -8,9 +8,6 @@ use Symfony\Component\Config\Definition\Processor;
 
 class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Test Configuration
-     */
     public function testGetConfigTreeBuilder()
     {
         $configuration = new Configuration();
@@ -28,10 +25,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $processor->processConfiguration($configuration, $configs));
     }
 
-    /**
-     * @return array
-     */
-    public function processConfigurationDataProvider()
+    public function processConfigurationDataProvider(): array
     {
         return [
             'empty' => [

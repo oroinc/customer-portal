@@ -78,10 +78,7 @@ class OroEntitySelectOrCreateInlineExtensionTest extends \PHPUnit\Framework\Test
         $this->assertEquals($expectedRoute, $view->vars['configs']['route_name']);
     }
 
-    /**
-     * @return array
-     */
-    public function viewDataProvider()
+    public function viewDataProvider(): array
     {
         return [
             [false, 'oro_form_autocomplete_search', 'oro_form_autocomplete_search'],

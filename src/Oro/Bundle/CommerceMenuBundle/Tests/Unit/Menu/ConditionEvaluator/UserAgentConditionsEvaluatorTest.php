@@ -15,29 +15,19 @@ use Oro\Bundle\UIBundle\Provider\UserAgentProviderInterface;
 
 class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var UserAgentProviderInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var UserAgentProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $userAgentProvider;
 
-    /**
-     * @var ItemInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var ItemInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $menuItem;
 
-    /**
-     * @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $entityManager;
 
-    /**
-     * @var ClassMetadata|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var ClassMetadata|\PHPUnit\Framework\MockObject\MockObject */
     private $metadata;
 
-    /**
-     * @var UserAgentConditionsEvaluator
-     */
+    /** @var UserAgentConditionsEvaluator */
     private $userAgentConditionsEvaluator;
 
     protected function setUp(): void
@@ -46,6 +36,7 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
         $this->userAgentProvider = $this->createMock(UserAgentProviderInterface::class);
         $this->entityManager = $this->createMock(EntityManager::class);
         $this->metadata = $this->createMock(ClassMetadata::class);
+
         $this->userAgentConditionsEvaluator = new UserAgentConditionsEvaluator(
             $this->userAgentProvider
         );
@@ -79,12 +70,8 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getEvaluateDataProvider
-     *
-     * @param string $operation
-     * @param string $value
-     * @param bool   $expectedData
      */
-    public function testEvaluate($operation, $value, $expectedData)
+    public function testEvaluate(string $operation, string $value, bool $expectedData)
     {
         $menuUserAgentCondition = $this->createMock(MenuUserAgentCondition::class);
         $menuUserAgentCondition->expects(self::once())
@@ -145,10 +132,7 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
         $this->userAgentConditionsEvaluator->evaluate($this->menuItem, []);
     }
 
-    /**
-     * @return array
-     */
-    public function getEvaluateDataProvider()
+    public function getEvaluateDataProvider(): array
     {
         return [
             'test contains operation' => [
