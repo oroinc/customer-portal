@@ -91,6 +91,7 @@ class MenuUpdate extends ExtendMenuUpdate implements
     public const TARGET_CATEGORY = 'category';
     public const LINK_TARGET_NEW_WINDOW = 0;
     public const LINK_TARGET_SAME_WINDOW = 1;
+    public const MENU_TEMPLATE = 'menu_template';
 
     /**
      * @var string
@@ -197,7 +198,7 @@ class MenuUpdate extends ExtendMenuUpdate implements
         }
 
         if ($this->getMenuTemplate() !== null) {
-            $extras['menu_template'] = $this->getMenuTemplate();
+            $extras[self::MENU_TEMPLATE] = $this->getMenuTemplate();
         }
 
         if ($this->getDepth() !== null) {

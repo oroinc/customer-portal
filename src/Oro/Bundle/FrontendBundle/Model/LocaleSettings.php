@@ -3,10 +3,10 @@
 namespace Oro\Bundle\FrontendBundle\Model;
 
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\LayoutBundle\Layout\LayoutContextHolder;
 use Oro\Bundle\LocaleBundle\Model\LocaleSettings as BaseLocaleSettings;
 use Oro\Bundle\LocaleBundle\Provider\LocalizationProviderInterface;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
+use Oro\Component\Layout\LayoutContextStack;
 
 /**
  * Provides locale settings for store front.
@@ -19,7 +19,7 @@ class LocaleSettings extends BaseLocaleSettings
 
     protected LocalizationProviderInterface $localizationProvider;
 
-    protected LayoutContextHolder $layoutContextHolder;
+    protected LayoutContextStack $layoutContextStack;
 
     private ThemeManager $themeManager;
 
@@ -27,13 +27,13 @@ class LocaleSettings extends BaseLocaleSettings
         BaseLocaleSettings $inner,
         FrontendHelper $frontendHelper,
         LocalizationProviderInterface $localizationProvider,
-        LayoutContextHolder $layoutContextHolder,
+        LayoutContextStack $layoutContextStack,
         ThemeManager $themeManager
     ) {
         $this->inner = $inner;
         $this->frontendHelper = $frontendHelper;
         $this->localizationProvider = $localizationProvider;
-        $this->layoutContextHolder = $layoutContextHolder;
+        $this->layoutContextStack = $layoutContextStack;
         $this->themeManager = $themeManager;
     }
 
@@ -158,7 +158,7 @@ class LocaleSettings extends BaseLocaleSettings
 
     private function isRtlModeForLayoutRequest(): bool
     {
-        $context = $this->layoutContextHolder->getContext();
+        $context = $this->layoutContextStack->getCurrentContext();
         if (!$context || !$context->offsetExists('theme')) {
             return false;
         }

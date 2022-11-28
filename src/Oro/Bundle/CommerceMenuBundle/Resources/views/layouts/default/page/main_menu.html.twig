@@ -118,16 +118,20 @@
         {% apply spaceless %}
             {% for child in item.children -%}
                 {% if child.displayed and child.extras.isAllowed %}
-                    <li class="main-menu__item">
-                        {% set linkAttributes = child.linkAttributes|merge({
-                            'class': 'main-menu__link',
-                            'role': 'menuitem'
-                        }) %}
-                        <a href="{{ oro_commercemenu_get_url(child.uri) }}"{{ oro_menu.attributes(linkAttributes) }}>
-                            {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
-                            <span class="main-menu__text">{{ label }}</span>
-                        </a>
-                    </li>
+                    {% if child.extras[constant('Oro\\Bundle\\CommerceMenuBundle\\Entity\\MenuUpdate::MENU_TEMPLATE')]|default('') %}
+                        {{ oro_commercemenu_render_menu_item(child) }}
+                    {% else %}
+                        <li class="main-menu__item">
+                            {% set linkAttributes = child.linkAttributes|merge({
+                                'class': 'main-menu__link',
+                                'role': 'menuitem'
+                            }) %}
+                            <a href="{{ oro_commercemenu_get_url(child.uri) }}"{{ oro_menu.attributes(linkAttributes) }}>
+                                {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
+                                <span class="main-menu__text">{{ label }}</span>
+                            </a>
+                        </li>
+                    {%- endif %}
                 {% endif %}
             {%- endfor %}
         {% endapply %}

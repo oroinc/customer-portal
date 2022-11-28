@@ -232,3 +232,20 @@ services:
         arguments:
             - '@oro_layout.theme_manager'
             - '@oro_cms.content_widget_layout_cache'
+
+    oro_commerce_menu.layout.menu_item_renderer:
+        class: Oro\Bundle\CommerceMenuBundle\Layout\MenuItemRenderer
+        arguments:
+            - '@oro_layout.layout_manager'
+        calls:
+            - ['setLogger', ['@logger']]
+        tags:
+            - { name: monolog.logger, channel: oro_commerce_menu }
+
+    oro_commerce_menu.layout.path_provider.menu_template:
+        class: Oro\Bundle\CommerceMenuBundle\Layout\PathProvider\MenuTemplatePathProvider
+        arguments:
+            - '@oro_layout.theme_manager'
+        tags:
+            # Should be called as late as possible to ensure it can override previously added paths.
+            - { name: layout.resource.path_provider, priority: -100 }
