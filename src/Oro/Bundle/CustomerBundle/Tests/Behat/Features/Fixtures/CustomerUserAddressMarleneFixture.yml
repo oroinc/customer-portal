@@ -10,7 +10,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
         street: '2849 Junkins Avenue'
         city: 'Albany'
         postalCode: '31707'
-        organization: '@organization'
+        organization: 'ORO'
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType:
     marleneAddress1ShippingDefault:
