@@ -1,0 +1,81 @@
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    company_A:
+        name: 'Company A'
+        organization: '@organization'
+        owner: '@admin'
+    company_B:
+        name: 'Company B'
+        organization: '@organization'
+        owner: '@admin'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
+    company_a_address1:
+        region: '@florida'
+        frontendOwner: '@company_A'
+        country: '@united_states'
+        owner: '@admin'
+        systemOrganization: '@organization'
+        primary: false
+        label: 'Address1 company_A'
+        street: '111 Scenic Hwy'
+        city: 'Haines City'
+        postalCode: '33844'
+        organization: 'ORO'
+    company_a_address2:
+        region: '@florida'
+        frontendOwner: '@company_A'
+        country: '@united_states'
+        owner: '@admin'
+        systemOrganization: '@organization'
+        primary: false
+        label: 'Address2 company_A'
+        street: '222 Scenic Hwy'
+        city: 'Haines City'
+        postalCode: '33855'
+        organization: 'ORO'
+    company_b_address1:
+        region: '@florida'
+        frontendOwner: '@company_B'
+        country: '@united_states'
+        owner: '@admin'
+        systemOrganization: '@organization'
+        primary: false
+        label: 'Address1 company_B'
+        street: '111 Scenic Hwy'
+        city: 'Haines City'
+        postalCode: '33844'
+        organization: 'ORO'
+    company_b_address2:
+        region: '@florida'
+        frontendOwner: '@company_B'
+        country: '@united_states'
+        owner: '@admin'
+        systemOrganization: '@organization'
+        primary: false
+        label: 'Address2 company_B'
+        street: '333 Scenic Hwy'
+        city: 'Haines City'
+        postalCode: '33811'
+        organization: 'ORO'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
+    company_a_address1_shipping:
+        address: '@company_a_address1'
+        type: '@shippingType'
+        default: true
+    company_a_address1_billing:
+        address: '@company_a_address1'
+        type: '@billingType'
+        default: true
+    company_a_address2_shipping:
+        address: '@company_a_address2'
+        type: '@shippingType'
+        default: false
+    company_b_address1_billing:
+        address: '@company_b_address1'
+        type: '@billingType'
+        default: true
+    company_b_address2_billing:
+        address: '@company_b_address2'
+        type: '@billingType'
+        default: false

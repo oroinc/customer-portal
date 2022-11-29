@@ -32,7 +32,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
         street: '23400 Caldwell Road'
         city: 'Rochester'
         postalCode: '14608'
-        organization: '@organization'
+        organization: 'ORO'
     amandaAddress2:
         region: '@florida'
         frontendOwner: '@amanda'
@@ -44,7 +44,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
         street: 'Incorrect address'
         city: 'Haines City'
         postalCode: '33844'
-        organization: '@organization'
+        organization: 'ORO'
     amandaAddress3:
         region: '@indiana'
         frontendOwner: '@amanda'
@@ -56,7 +56,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
         street: '34500 Capitol Avenue'
         city: 'Romney'
         postalCode: '47981'
-        organization: '@organization'
+        organization: 'ORO'
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
     customerAddress1:
@@ -70,7 +70,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         street: 'Incorrect address'
         city: 'Haines City'
         postalCode: '33844'
-        organization: '@organization'
+        organization: 'ORO'
     customerAddress2:
         region: '@new_york'
         frontendOwner: '@customer1'
@@ -82,7 +82,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         street: 'Incorrect address'
         city: 'Rochester'
         postalCode: '14608'
-        organization: '@organization'
+        organization: 'ORO'
     customerAddress3:
         region: '@indiana'
         frontendOwner: '@customer1'
@@ -94,7 +94,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         street: '34500 Capitol Avenue'
         city: 'Romney'
         postalCode: '47981'
-        organization: '@organization'
+        organization: 'ORO'
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType:
     amandaAddress1ShippingDefault:

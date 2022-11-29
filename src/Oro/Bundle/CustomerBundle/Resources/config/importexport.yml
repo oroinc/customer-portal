@@ -1,4 +1,9 @@
 services:
+    # Writer
+    oro_customer.importexport.delete_aware.writer:
+        class: Oro\Bundle\CustomerBundle\ImportExport\Writer\DeleteAwareWriter
+        parent: oro_integration.writer.persistent_batch_writer
+
     # Data converter
     oro_customer.importexport.data_converter.customer:
         parent: oro_importexport.data_converter.configurable
@@ -156,7 +161,131 @@ services:
         tags:
             - { name: oro_importexport.configuration, alias: oro_customer }
 
+    # Customer Address Import-Export services
+    oro_customer.importexport.configuration_provider.customer_address:
+        class: 'Oro\Bundle\CustomerBundle\ImportExport\Configuration\CustomerAddressImportExportConfigurationProvider'
+        arguments:
+            - '@translator'
+        tags:
+            - { name: oro_importexport.configuration, alias: oro_customer }
+
+    oro_customer.importexport.template_fixture.customer_address:
+        class: Oro\Bundle\CustomerBundle\ImportExport\TemplateFixture\CustomerAddressFixture
+        tags:
+            - { name: oro_importexport.template_fixture }
+
+    oro_customer.importexport.processor.export_template.customer_address:
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [ setDataConverter, [ '@oro_customer.importexport.data_converter.customer_address' ] ]
+        tags:
+            -   name: oro_importexport.processor
+                type: export_template
+                entity: 'Oro\Bundle\CustomerBundle\Entity\CustomerAddress'
+                alias: oro_customer_customer_address
+
+    oro_customer.importexport.normalizer.customer_address:
+        class: Oro\Bundle\CustomerBundle\ImportExport\Serializer\Normalizer\CustomerAddressNormalizer
+        parent: oro_importexport.serializer.configurable_entity_normalizer
+        tags:
+            - { name: oro_importexport.normalizer }
+
+    oro_customer.importexport.data_converter.customer_address:
+        class: 'Oro\Bundle\CustomerBundle\ImportExport\DataConverter\AddressDataConverter'
+        parent: oro_importexport.data_converter.configurable
+
+    oro_customer.importexport.strategy.customer_address.add_or_replace:
+        class: Oro\Bundle\CustomerBundle\ImportExport\Strategy\TypedAddressAddOrReplaceStrategy
+        parent: oro_importexport.strategy.configurable_add_or_replace
+
+    oro_customer.importexport.processor.import.customer_address:
+        parent: oro_importexport.processor.import_abstract
+        calls:
+            - [ setDataConverter, [ '@oro_customer.importexport.data_converter.customer_address' ] ]
+            - [ setStrategy, [ '@oro_customer.importexport.strategy.customer_address.add_or_replace' ] ]
+        tags:
+            -   name: oro_importexport.processor
+                type: import
+                entity: 'Oro\Bundle\CustomerBundle\Entity\CustomerAddress'
+                alias: oro_customer_customer_address
+            -   name: oro_importexport.processor
+                type: import_validation
+                entity: 'Oro\Bundle\CustomerBundle\Entity\CustomerAddress'
+                alias: oro_customer_customer_address
+
+    oro_customer.importexport.processor.export.customer_address:
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [ setDataConverter, [ '@oro_customer.importexport.data_converter.customer_address' ] ]
+        tags:
+            -   name: oro_importexport.processor
+                type: export
+                entity: 'Oro\Bundle\CustomerBundle\Entity\CustomerAddress'
+                alias: oro_customer_customer_address
+
+    # Customer User Address Import-Export services
     oro_customer.importexport.configuration_provider.customer_user:
         class: 'Oro\Bundle\CustomerBundle\ImportExport\Configuration\CustomerUserImportExportConfigurationProvider'
         tags:
             - { name: oro_importexport.configuration, alias: oro_customer_user }
+
+    oro_customer.importexport.configuration_provider.customer_user_address:
+        class: 'Oro\Bundle\CustomerBundle\ImportExport\Configuration\CustomerUserAddressImportExportConfigurationProvider'
+        arguments:
+            - '@translator'
+        tags:
+            - { name: oro_importexport.configuration, alias: oro_customer_user }
+
+    oro_customer.importexport.template_fixture.customer_user_address:
+        class: Oro\Bundle\CustomerBundle\ImportExport\TemplateFixture\CustomerUserAddressFixture
+        tags:
+            - { name: oro_importexport.template_fixture }
+
+    oro_customer.importexport.processor.export_template.customer_user_address:
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [ setDataConverter, [ '@oro_customer.importexport.data_converter.customer_user_address' ] ]
+        tags:
+            -   name: oro_importexport.processor
+                type: export_template
+                entity: 'Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress'
+                alias: oro_customer_customer_user_address
+
+    oro_customer.importexport.normalizer.customer_user_address:
+        class: Oro\Bundle\CustomerBundle\ImportExport\Serializer\Normalizer\CustomerUserAddressNormalizer
+        parent: oro_importexport.serializer.configurable_entity_normalizer
+        tags:
+            - { name: oro_importexport.normalizer }
+
+    oro_customer.importexport.data_converter.customer_user_address:
+        class: 'Oro\Bundle\CustomerBundle\ImportExport\DataConverter\CustomerUserAddressDataConverter'
+        parent: oro_importexport.data_converter.configurable
+
+    oro_customer.importexport.strategy.customer_user_address.add_or_replace:
+        class: Oro\Bundle\CustomerBundle\ImportExport\Strategy\TypedAddressAddOrReplaceStrategy
+        parent: oro_importexport.strategy.configurable_add_or_replace
+
+    oro_customer.importexport.processor.import.customer_user_address:
+        parent: oro_importexport.processor.import_abstract
+        calls:
+            - [ setDataConverter, [ '@oro_customer.importexport.data_converter.customer_user_address' ] ]
+            - [ setStrategy, [ '@oro_customer.importexport.strategy.customer_user_address.add_or_replace' ] ]
+        tags:
+            -   name: oro_importexport.processor
+                type: import
+                entity: 'Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress'
+                alias: oro_customer_customer_user_address
+            -   name: oro_importexport.processor
+                type: import_validation
+                entity: 'Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress'
+                alias: oro_customer_customer_user_address
+
+    oro_customer.importexport.processor.export.customer_user_address:
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [ setDataConverter, [ '@oro_customer.importexport.data_converter.customer_user_address' ] ]
+        tags:
+            -   name: oro_importexport.processor
+                type: export
+                entity: 'Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress'
+                alias: oro_customer_customer_user_address
