@@ -1,5 +1,6 @@
 parameters:
     oro_customer.anonymous_customer_user.update_latency: 600 # 10 minutes in seconds
+    oro_customer.anonymous_customer_user.write_connection_name: 'session'
     oro_customer.firewall_name: frontend
 
 services:
@@ -248,11 +249,21 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager'
         arguments:
             - '@doctrine'
+        calls:
+            - ['setWriteConnectionName', ['%oro_customer.anonymous_customer_user.write_connection_name%']]
 
     oro_customer.customer_visitor.credentials_cookie_response_listener:
         class:  'Oro\Bundle\CustomerBundle\Security\Listener\CustomerVisitorCookieResponseListener'
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
+    oro_customer.customer_visitor.update_last_visit_request_listener:
+        class:  'Oro\Bundle\CustomerBundle\Security\Listener\CustomerVisitorUpdateLastVisitListener'
+        arguments:
+            - '@security.token_storage'
+            - '%oro_customer.anonymous_customer_user.update_latency%'
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
     oro_customer.authentication.listener.anonymous_customer_user:
         class: Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener
@@ -971,14 +982,6 @@ services:
             - [addPriorityRelation, ['Oro\Bundle\CustomerBundle\Entity\CustomerUser']]
             - [addPriorityRelation, ['Oro\Bundle\CustomerBundle\Entity\Customer']]
             - [addPriorityRelation, ['Oro\Bundle\CustomerBundle\Entity\CustomerUserRole']]
-
-    oro_customer.clear_lost_customer_users_processor:
-        class: Oro\Bundle\CustomerBundle\Migrations\Schema\v1_14\ClearLostCustomerUsers
-        arguments:
-            - '@oro_message_queue.message_producer'
-            - '@oro_entity.orm.native_query_executor_helper'
-        tags:
-            - { name: 'oro_message_queue.client.message_processor', topicName: 'oro_customer.clear_lost_customer_users' }
 
     Oro\Bundle\CustomerBundle\Provider\FrontendAddressProvider:
         alias: oro_customer.provider.frontend.address

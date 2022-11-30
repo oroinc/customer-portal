@@ -52,7 +52,6 @@ services:
            - { name: oro_security.owner.ownership_decision_maker, priority: 20 }
 
     oro_customer.owner.tree_provider:
-        public: false
         class: 'Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider'
         arguments:
             - '@doctrine'
@@ -90,26 +89,3 @@ services:
 
     oro_customer.model.owner_tree_message_factory:
         class: Oro\Bundle\CustomerBundle\Model\OwnerTreeMessageFactory
-
-    oro_customer.async.owner_tree_cache_job_processor:
-        class: Oro\Bundle\CustomerBundle\Async\OwnerTreeCacheJobProcessor
-        arguments:
-            - '@oro_message_queue.job.runner'
-            - '@oro_message_queue.client.message_producer'
-            - '@doctrine'
-            - '@oro_customer.owner.frontend_ownership_metadata_provider'
-            - '@oro_customer.model.business_unit_message_factory'
-            - '@oro_customer.model.owner_tree_message_factory'
-            - '@logger'
-        tags:
-            - { name: oro_message_queue.client.message_processor }
-
-    oro_customer.async.business_unit_owner_tree_cache_job_processor:
-        class: Oro\Bundle\CustomerBundle\Async\BusinessUnitOwnerTreeCacheJobProcessor
-        arguments:
-            - '@oro_message_queue.job.runner'
-            - '@oro_customer.owner.tree_provider'
-            - '@oro_customer.model.business_unit_message_factory'
-            - '@logger'
-        tags:
-            - { name: oro_message_queue.client.message_processor }

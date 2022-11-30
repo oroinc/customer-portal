@@ -432,6 +432,12 @@ oro.customer:
             label: Updated
             description: The date and time of the last update of the customer user address.
 
+        export:
+            button.label: 'Export Customer User Addresses'
+        import:
+            entity.label: 'Customer User Addresses'
+            popup.title: 'Import Customer User Addresses'
+
     customeruserloginattempt:
         entity_label: Customer User Login Attempt
         entity_plural_label: Customer User Login Attempts
@@ -581,6 +587,12 @@ oro.customer:
         country_iso3_code.label: Country ISO3 code
         region_name.label:       State name
         region_code.label:       State ISO code
+
+        export:
+            button.label: 'Export Customer Addresses'
+        import:
+            entity.label: 'Customer Addresses'
+            popup.title: 'Import Customer Addresses'
 
     customerusersettings:
         entity_label:           Customer User Settings

@@ -1,4 +1,5 @@
 @ticket-BB-21647
+@ticket-BB-21728
 @fixture-OroCustomerBundle:CompanyA.yml
 
 Feature: Customer address audit
@@ -53,8 +54,27 @@ Feature: Customer address audit
     And I save and close form
     Then I should see "Customer has been saved" flash message
 
+  Scenario: Creating new customer user
+    Given I go to Customers / Customer Users
+    And I click "Create Customer User"
+    And fill form with:
+      | First Name        | John                |
+      | Last Name         | Doe                 |
+      | Email Address     | john.doe@oroinc.com |
+      | Customer          | Test customer       |
+      | Generate Password | true                |
+      | Enabled           | false               |
+      | Country           | Aland Islands       |
+      | Street            | Test street         |
+      | City              | Test city           |
+      | Zip/Postal Code   | 111111              |
+      | Organization      | Test Organization   |
+    And I save and close form
+    Then I should see "Customer User has been saved" flash message
+
   Scenario: Checking billing/shipping and check change history
-    Given I click "Edit"
+    Given I go to Customers / Customers
+    And I click Edit Test customer in grid
     And I click "First Address Billing Checkbox"
     And I click "First Address Shipping Checkbox"
     And I save and close form
@@ -74,3 +94,10 @@ Feature: Customer address audit
     Then should see following "Audit History Grid" grid:
       | Old Values                                                    | New values |
       | Addresses: Customer Address to Address Type "billing" removed | Addresses: |
+    And I close ui dialog
+
+  Scenario: Checking billing/shipping and check change history
+    Given I go to System/ Data Audit
+    Then I should see following grid containing rows:
+      | Action | Version | Entity type   | Data                                                                                                              |
+      | Update | 3       | Customer User | Customer:  Customer "Test customer" changed: Addresses: Customer Address to Address Type "billing" types: billing |

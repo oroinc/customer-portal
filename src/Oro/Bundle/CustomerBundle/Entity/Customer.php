@@ -82,7 +82,7 @@ class Customer extends ExtendCustomer implements DatesAwareInterface
      *     defaultValues={
      *         "importexport"={
      *             "order"=10,
-     *             "identity"=true
+     *             "identity"=-1
      *         }
      *     }
      * )
@@ -99,7 +99,8 @@ class Customer extends ExtendCustomer implements DatesAwareInterface
      *              "auditable"=true
      *          },
      *          "importexport"={
-     *              "order"=20
+     *              "order"=20,
+     *              "identity"=-1
      *          }
      *      }
      * )

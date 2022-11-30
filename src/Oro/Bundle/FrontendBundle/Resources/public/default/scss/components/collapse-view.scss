@@ -12,7 +12,7 @@
         background: $collapse-view-trigger-bg;
 
         &-icon {
-            margin: -2px $offset-x-s 0;
+            margin: $collapse-view-trigger-icon-offset;
 
             font-size: $collapse-view-trigger-icon-size;
 

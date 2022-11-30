@@ -229,6 +229,12 @@ oro_behat_extension:
     FrontendGridFilterManagerButton:
       selector: 'button.filters-manager-trigger'
 
+    FrontendGridFilterManagerButtonNone:
+      selector: '.ui-multiselect-all'
+
+    FrontendGridFilterManagerButtonAll:
+      selector: '.ui-multiselect-none'
+
     Customer User Form Admin:
       selector: '[id^="oro_customer_customer_user-uid"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -416,6 +422,12 @@ oro_behat_extension:
       selector:
         type: xpath
         locator: '//textarea[@name="customer_users[oro_cookie_consent___localized_banner_text][value][localizations][1][value]"][@disabled]'
+
+    Customer Tab:
+      selector: 'a[id^="importExportCustomerimport-tablist"]'
+
+    Customer Addresses Tab:
+      selector: 'a[id^="importExportCustomerAddressimport-tablist"]'
 
   pages:
     Customer User Role View:

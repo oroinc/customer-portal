@@ -6,6 +6,10 @@
     gap: $oro-css-grid-gap;
 
     &-col {
+        --grid-column-span: auto;
+
+        grid-column-end: span var(--grid-column-span);
+
         @for $i from 1 through $oro-css-grid-column-count {
             &-#{$i} {
                 grid-column-end: span $i;
@@ -42,36 +46,42 @@
     }
 }
 
-@include breakpoint('tablet') {
-    .oro-css-grid {
-        &-col-tablet {
-            @for $i from 1 through $oro-css-grid-column-count {
-                &-#{$i} {
-                    grid-column-end: span $i;
+@each $_breakpoint in get-breakpoints-list() {
+    @include breakpoint(#{$_breakpoint}) {
+        .grid {
+            &-col-#{$_breakpoint} {
+                @for $i from 1 through $oro-css-grid-column-count {
+                    &-#{$i} {
+                        grid-column-end: span $i;
+                    }
                 }
             }
-        }
-    }
-}
 
-@include breakpoint('mobile-landscape') {
-    .oro-css-grid {
-        &-col-mobile-landscape {
-            @for $i from 1 through $oro-css-grid-column-count {
-                &-#{$i} {
-                    grid-column-end: span $i;
+            &-start-#{$_breakpoint} {
+                @for $i from 1 through $oro-css-grid-column-count {
+                    &-#{$i} {
+                        grid-column-start: $i;
+                    }
                 }
             }
-        }
-    }
-}
 
-@include breakpoint('mobile') {
-    .oro-css-grid {
-        &-col-mobile {
-            @for $i from 1 through $oro-css-grid-column-count {
-                &-#{$i} {
-                    grid-column-end: span $i;
+            &-place-#{$_breakpoint} {
+                @each $place in (content, items, self) {
+                    &-#{$place} {
+                        @each $align in $oro-css-grid-aligns {
+                            &-#{$align} {
+                                place-#{$place}: $align;
+
+                                @each $justify in $oro-css-grid-aligns {
+                                    @if $align != $justify {
+                                        &-#{$justify} {
+                                            place-#{$place}: $align $justify;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -33,7 +33,26 @@ class CustomerUserHeadersListenerTest extends \PHPUnit\Framework\TestCase
             [],
             [],
             self::DELIMITER,
-            'type'
+            'type',
+            true
+        );
+        $this->listener->afterLoadEntityRulesAndBackendHeaders($event);
+        $this->assertEmpty($event->getHeaders());
+        $this->assertEmpty($event->getRules());
+    }
+
+    public function testAfterLoadEntityRulesAndBackendHeadersWhenNotFull()
+    {
+        $this->fieldHelper->expects($this->never())
+            ->method('getConfigValue');
+
+        $event = new LoadEntityRulesAndBackendHeadersEvent(
+            CustomerUser::class,
+            [],
+            [],
+            self::DELIMITER,
+            'type',
+            false
         );
         $this->listener->afterLoadEntityRulesAndBackendHeaders($event);
         $this->assertEmpty($event->getHeaders());
@@ -62,7 +81,8 @@ class CustomerUserHeadersListenerTest extends \PHPUnit\Framework\TestCase
             $headers,
             [],
             self::DELIMITER,
-            'type'
+            'type',
+            true
         );
         $this->listener->afterLoadEntityRulesAndBackendHeaders($event);
         $this->assertEquals($event->getHeaders(), $headers);
@@ -86,7 +106,8 @@ class CustomerUserHeadersListenerTest extends \PHPUnit\Framework\TestCase
             [],
             [],
             self::DELIMITER,
-            'type'
+            'type',
+            true
         );
 
         $this->listener->afterLoadEntityRulesAndBackendHeaders($event);
