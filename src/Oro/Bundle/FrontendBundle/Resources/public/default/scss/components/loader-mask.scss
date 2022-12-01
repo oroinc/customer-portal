@@ -69,10 +69,6 @@
 }
 
 body.loading {
-    // Remove this fix when Apple fix caret placement bug
-    // stylelint-disable-next-line declaration-no-important
-    top: 0 !important;
-
     > .loader-mask {
         position: fixed;
         z-index: z('fixed');
