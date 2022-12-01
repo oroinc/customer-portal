@@ -2,7 +2,7 @@
     {% if app.debug and oro_frontend.debug_routes %}
         {% set routes = path('oro_frontend_js_routing_js', {_format: 'json'}) %}
     {% else %}
-        {% set routes = asset('media/js/frontend_routes.json') %}
+        {% set routes = asset('media/js/frontend_routes.json', 'routing') %}
     {% endif %}
 
     {% import '@OroAsset/Asset.html.twig' as Asset %}
