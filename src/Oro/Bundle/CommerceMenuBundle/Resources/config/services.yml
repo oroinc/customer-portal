@@ -259,3 +259,18 @@ services:
             - '@oro_security.token_accessor'
         tags:
             - { name: oro_menu.builder, priority: 210 }
+
+    oro_commerce_menu.builder.master_catalog_root_items:
+        class: Oro\Bundle\CommerceMenuBundle\Builder\MasterCatalogRootItemsBuilder
+        arguments:
+            - '@doctrine'
+            - '@oro_security.token_accessor'
+            - '@oro_catalog.provider.master_catalog_root'
+            - '@oro_catalog.menu.menu_categories_provider'
+            - '@oro_web_catalog.web_catalog_provider'
+            - '@oro_commerce_menu.provider.menu_templates_provider'
+        calls:
+            - ['setTargetMenuName', ['commerce_main_menu']]
+        tags:
+            # Should be located before menu update builders.
+            - { name: oro_menu.builder, priority: 50, alias: commerce_main_menu }

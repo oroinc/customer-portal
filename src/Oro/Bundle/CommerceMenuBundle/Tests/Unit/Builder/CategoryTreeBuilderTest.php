@@ -219,7 +219,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                         'linkAttributes' => [],
                         'childrenAttributes' => [],
                         'extras' => [
-                            'category' => ['sibling' => null],
+                            'category' => $category,
                             'max_traverse_level' => 2,
                             'category_data' => $category1Data,
                         ],
@@ -237,7 +237,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 'childrenAttributes' => [],
                                 'extras' => [
                                     'isAllowed' => true,
-                                    'category' => ['class' => Category::class, 'id' => 12],
+                                    'category' => new ProxyStub(Category::class, $category12Data['id']),
                                     'category_data' => $category12Data,
                                     'max_traverse_level' => 1,
                                 ],
@@ -256,7 +256,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 'childrenAttributes' => [],
                                 'extras' => [
                                     'isAllowed' => true,
-                                    'category' => ['class' => Category::class, 'id' => 13],
+                                    'category' => new ProxyStub(Category::class, $category13Data['id']),
                                     'category_data' => $category13Data,
                                     'max_traverse_level' => 1,
                                 ],
@@ -274,10 +274,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                         'childrenAttributes' => [],
                                         'extras' => [
                                             'isAllowed' => true,
-                                            'category' => [
-                                                'class' => Category::class,
-                                                'id' => 131,
-                                            ],
+                                            'category' => new ProxyStub(Category::class, $category131Data['id']),
                                             'category_data' => $category131Data,
                                             'max_traverse_level' => 0,
                                         ],
@@ -298,7 +295,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 'childrenAttributes' => [],
                                 'extras' => [
                                     'isAllowed' => true,
-                                    'category' => ['class' => Category::class, 'id' => $category14Data['id']],
+                                    'category' => new ProxyStub(Category::class, $category14Data['id']),
                                     'category_data' => $category14Data,
                                     'max_traverse_level' => 1,
                                 ],
@@ -311,7 +308,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                     ],
                 ],
             ],
-            json_decode(json_encode($menuManipulator->toArray($menu)), true),
+            $menuManipulator->toArray($menu),
         );
     }
 }
