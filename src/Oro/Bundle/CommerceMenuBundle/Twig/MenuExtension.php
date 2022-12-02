@@ -59,6 +59,7 @@ class MenuExtension extends AbstractExtension implements ServiceSubscriberInterf
 
     public function getUrl(?string $url): string
     {
+        $url = (string)$url;
         $result = parse_url($url);
         if (\array_key_exists('host', $result) || \array_key_exists('scheme', $result)) {
             return $url;

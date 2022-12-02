@@ -12,5 +12,7 @@ class Customer extends ParentCustomer
     public function setId($id)
     {
         $this->id = $id;
+        
+        return $this;
     }
 }

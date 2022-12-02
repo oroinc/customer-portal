@@ -66,6 +66,38 @@ class MenuExtensionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testGetUrlEmptyUrlAndRequest(): void
+    {
+        self::assertEquals(
+            '',
+            self::callTwigFunction($this->extension, 'oro_commercemenu_get_url', [null])
+        );
+    }
+
+    public function testGetUrlEmptyUrl(): void
+    {
+        $baseUrl = '/index.php';
+        $uri = 'http://example.com';
+
+        $request = $this->createMock(Request::class);
+        $request->expects(self::once())
+            ->method('getBaseUrl')
+            ->willReturn($baseUrl);
+        $request->expects(self::once())
+            ->method('getUriForPath')
+            ->with('/')
+            ->willReturn($uri);
+
+        $this->requestStack->expects(self::once())
+            ->method('getCurrentRequest')
+            ->willReturn($request);
+
+        self::assertEquals(
+            $uri,
+            self::callTwigFunction($this->extension, 'oro_commercemenu_get_url', [null])
+        );
+    }
+
     /**
      * @dataProvider originalUrlDataProvider
      */

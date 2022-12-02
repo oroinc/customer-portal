@@ -249,3 +249,13 @@ services:
         tags:
             # Should be called as late as possible to ensure it can override previously added paths.
             - { name: layout.resource.path_provider, priority: -100 }
+
+    oro_commerce_menu.builder.category_tree_builder:
+        class: Oro\Bundle\CommerceMenuBundle\Builder\CategoryTreeBuilder
+        arguments:
+            - '@doctrine'
+            - '@router'
+            - '@oro_catalog.menu.menu_categories_provider'
+            - '@oro_security.token_accessor'
+        tags:
+            - { name: oro_menu.builder, priority: 210 }
