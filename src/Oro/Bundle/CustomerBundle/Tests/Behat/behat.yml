@@ -423,6 +423,12 @@ oro_behat_extension:
         type: xpath
         locator: '//textarea[@name="customer_users[oro_cookie_consent___localized_banner_text][value][localizations][1][value]"][@disabled]'
 
+    Customer Tab:
+      selector: 'a[id^="importExportCustomerimport-tablist"]'
+
+    Customer Addresses Tab:
+      selector: 'a[id^="importExportCustomerAddressimport-tablist"]'
+
   pages:
     Customer User Role View:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserRoleView

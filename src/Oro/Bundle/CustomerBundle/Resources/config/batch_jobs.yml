@@ -13,3 +13,16 @@ connector:
                         processor: oro_importexport.processor.import_delegate
                         writer:    oro_customer.importexport.customer_user.writer
                     parameters: ~
+
+        oro_customer_addresses_entity_import_from_csv:
+            title: "Customer (User) Addresses Import from CSV"
+            type: import
+            steps:
+                import:
+                    title: import
+                    class: Oro\Bundle\BatchBundle\Step\ItemStep
+                    services:
+                        reader: oro_importexport.reader.csv
+                        processor: oro_importexport.processor.import_delegate
+                        writer: oro_customer.importexport.delete_aware.writer
+                    parameters: ~
