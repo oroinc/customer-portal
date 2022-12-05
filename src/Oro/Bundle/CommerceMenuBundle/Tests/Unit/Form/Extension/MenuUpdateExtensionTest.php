@@ -229,7 +229,6 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
                 'screens' => $screens = ['desktop', 'mobile'],
                 'linkTarget' => 0,
                 'menuTemplate' => 'list',
-                'depth' => 3,
             ]
         );
 
@@ -239,8 +238,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
             ->addMenuUserAgentCondition($menuUserAgentCondition)
             ->setScreens($screens)
             ->setLinkTarget(0)
-            ->setMenuTemplate('list')
-            ->setDepth(3);
+            ->setMenuTemplate('list');
 
         $this->assertFormIsValid($form);
 
@@ -250,6 +248,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
             'systemPageRoute',
             'contentNode',
             'category',
+            'maxTraverseLevel',
         ];
         foreach ($disabledFieldNames as $disabledFieldName) {
             self::assertTrue($form->get($disabledFieldName)->getConfig()->getOption('disabled'));

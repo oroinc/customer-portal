@@ -148,9 +148,9 @@ class MenuUpdate extends ExtendMenuUpdate implements
     protected ?string $menuTemplate = null;
 
     /**
-     * @ORM\Column(name="depth", type="smallint", nullable=true)
+     * @ORM\Column(name="max_traverse_level", type="smallint", nullable=true)
      */
-    protected ?int $depth = null;
+    protected ?int $maxTraverseLevel = null;
 
     /**
      * {@inheritdoc}
@@ -179,14 +179,16 @@ class MenuUpdate extends ExtendMenuUpdate implements
 
         if ($this->getTargetType() === self::TARGET_CONTENT_NODE) {
             $extras['content_node'] = $this->getContentNode();
-        }
-
-        if ($this->getTargetType() === self::TARGET_SYSTEM_PAGE) {
-            $extras['system_page_route'] = $this->getSystemPageRoute();
+            $extras['max_traverse_level'] = $this->getMaxTraverseLevel();
         }
 
         if ($this->getTargetType() === self::TARGET_CATEGORY) {
             $extras['category'] = $this->getCategory();
+            $extras['max_traverse_level'] = $this->getMaxTraverseLevel();
+        }
+
+        if ($this->getTargetType() === self::TARGET_SYSTEM_PAGE) {
+            $extras['system_page_route'] = $this->getSystemPageRoute();
         }
 
         if ($this->getPriority() !== null) {
@@ -199,10 +201,6 @@ class MenuUpdate extends ExtendMenuUpdate implements
 
         if ($this->getMenuTemplate() !== null) {
             $extras[self::MENU_TEMPLATE] = $this->getMenuTemplate();
-        }
-
-        if ($this->getDepth() !== null) {
-            $extras['depth'] = $this->getDepth();
         }
 
         return $extras;
@@ -369,15 +367,15 @@ class MenuUpdate extends ExtendMenuUpdate implements
         return $this;
     }
 
-    public function setDepth(?int $depth): self
+    public function setMaxTraverseLevel(?int $maxTraverseLevel): self
     {
-        $this->depth = $depth;
+        $this->maxTraverseLevel = $maxTraverseLevel;
 
         return $this;
     }
 
-    public function getDepth(): ?int
+    public function getMaxTraverseLevel(): ?int
     {
-        return $this->depth;
+        return $this->maxTraverseLevel;
     }
 }

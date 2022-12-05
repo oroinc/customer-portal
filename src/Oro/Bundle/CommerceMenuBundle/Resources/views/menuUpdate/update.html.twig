@@ -18,6 +18,7 @@
                     'targetTypeField': form.targetType.vars.full_name,
                     'contentNodeField': '[data-role="content-node-field"]',
                     'categoryField': '[data-role="category-field"]',
+                    'maxTraverseLevelField': '[data-role="max-traverse-level-field"]',
                     'systemPageField': '[data-role="system-page-field"]',
                     'uriField': '[data-role="uri-field"]',
                 }
@@ -33,14 +34,17 @@
                     {{ form_row(form.webCatalog) }}
                     {{ form_row(form.contentNode) }}
                 </div>
+                <div data-role="category-field" class="control-group-container">
+                    {{ form_row(form.category) }}
+                </div>
+                <div data-role="max-traverse-level-field" class="control-group-container">
+                    {{ form_row(form.maxTraverseLevel) }}
+                </div>
                 <div data-role="system-page-field" class="control-group-container">
                     {{ form_row(form.systemPageRoute) }}
                 </div>
                 <div data-role="uri-field" class="control-group-container">
                     {{ form_row(form.uri) }}
-                </div>
-                <div data-role="category-field" class="control-group-container">
-                    {{ form_row(form.category) }}
                 </div>
             </div>
         {% else %}
@@ -64,7 +68,6 @@
                     form_row(form.icon),
                     form_row(form.image),
                     form_row(form.menuTemplate),
-                    form_row(form.depth),
                     form_row(form.menuUserAgentConditions),
                     form_row(form.screens),
                     form_row(form.condition),

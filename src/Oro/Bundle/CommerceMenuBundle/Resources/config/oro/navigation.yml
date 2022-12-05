@@ -114,6 +114,7 @@ navigation:
             commerce_main_menu:
                 type: commerce_main_menu
                 scope_type: menu_frontend_visibility
+                max_nesting_level: 6
                 children:
                     about: ~
 

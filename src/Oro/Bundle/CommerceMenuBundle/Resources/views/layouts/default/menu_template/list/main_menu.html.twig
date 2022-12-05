@@ -1,0 +1,109 @@
+{% block _web_catalog_menu_widget %}
+    {% set categoriesAttr = layout_attr_defaults(attr, {
+        '~class': ' main-menu__item'
+    }) %}
+    {% set hasSublist = menu_item.children is not empty %}
+    {% set categoryAttr = categoriesAttr %}
+    {% if hasSublist|default(false)  %}
+        {% set categoryAttr = layout_attr_defaults(categoryAttr, {
+            '~class': ' main-menu__item--ancestor'
+        }) %}
+    {% endif  %}
+    {% do block|merge_context({'menu_item': menu_item}) %}
+
+    {% for child in block -%}
+        {% if child.vars.visible %}
+            {{ block_widget(child, {attr: categoryAttr}) }}
+        {% endif %}
+    {%- endfor %}
+{% endblock %}
+
+{% block _web_catalog_menu_first_level_item_simple_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' main-menu__item--floated-dropdown'
+    }) %}
+    {% set sub_block = '_web_catalog_menu_main_menu_sub_block_simple' %}
+    {{ block('_web_catalog_menu_main_menu_link') }}
+{% endblock %}
+
+{% block _web_catalog_menu_second_level_item_simple_widget %}
+    {% for menu_item in menu_items %}
+        {%- if menu_item.displayed and menu_item.extras.isAllowed %}
+            <li class="main-menu-column__item">
+                <a role="menuitem" class="main-menu-column__link" href="{{ oro_commercemenu_get_url(menu_item.uri) }}">{{ menu_item.label }}</a>
+            </li>
+        {%- endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block _web_catalog_menu_four_level_item_mega_widget %}
+    {% for menu_item in menu_items %}
+        {{ block('_web_catalog_menu_third_level_item') }}
+    {% endfor %}
+{% endblock %}
+
+{% block _web_catalog_menu_main_menu_link %}
+    {%- if menu_item.displayed and menu_item.extras.isAllowed %}
+        <li {{ block('block_attributes') }}>
+            {% set hasSublist = menu_item.children is not empty %}
+            {% set menuLinkId = 'menu-link-'|uniqid %}
+            <a href="{{ oro_commercemenu_get_url(menu_item.uri) }}" role="menuitem"
+               id="{{ menuLinkId }}"
+               class="main-menu__link"
+               {% if hasSublist %}
+                   aria-haspopup="true"
+                   aria-expanded="false"
+               {% endif %}
+            >
+                <span class="main-menu__text">{{ menu_item.label }}</span>
+            </a>
+            {% if hasSublist %}
+                {% set menuButtonId = 'button-'|uniqid %}
+                <button class="main-menu__button-arrow"
+                        type="button"
+                        data-toggle="dropdown"
+                        data-popper="false"
+                        data-go-to="next"
+                        data-ignore-navigation=""
+                        id="{{ menuButtonId }}"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        aria-label="{{ menu_item.label }}"
+                ></button>
+                {% set togglerId = menuLinkId  ~ ' ' ~ menuButtonId%}
+                {% do block|merge_context({'togglerId': togglerId}) %}
+                {{ block(sub_block) }}
+            {% endif %}
+        </li>
+    {%- endif %}
+{% endblock %}
+
+{% block _web_catalog_menu_main_menu_sub_block_simple %}
+    {%- if menu_item.displayed and menu_item.extras.isAllowed %}
+        <div class="main-menu__sublist-container"
+             data-header-row-toggle
+             data-scroll="true"
+             aria-labelledby="{{ togglerId }}"
+             role="menu"
+             data-role="sub-menu"
+             aria-hidden="true"
+        >
+            <div class="main-menu-columns main-menu-columns--single">
+                <div class="main-menu-column" data-role="sub-menu">
+                    <ul class="main-menu-column__inner">
+                        {% do block|merge_context({'menu_items': menu_item.children }) %}
+                        {{ block('container_widget') }}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {%- endif %}
+{% endblock  %}
+
+{% block _web_catalog_menu_third_level_item %}
+    {%- if menu_item.displayed and menu_item.extras.isAllowed %}
+        <li class="main-menu-column__subitem">
+            <a role="menuitem" class="main-menu-column__link" href="{{ oro_commercemenu_get_url(menu_item.uri) }}">{{ menu_item.label }}aaa</a>
+        </li>
+    {%- endif %}
+{% endblock %}

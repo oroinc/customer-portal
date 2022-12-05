@@ -7,9 +7,9 @@ use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 /**
- * Adds menu_template and depth fields to MenuUpdate.
+ * Adds menu_template and max_traverse_level fields to MenuUpdate.
  */
-class AddMenuTemplateAndDepthFieldsToMenuUpdate implements Migration
+class AddMenuTemplateAndMaxTraverseLevelFieldsToMenuUpdate implements Migration
 {
     /**
      * {@inheritdoc}
@@ -20,8 +20,9 @@ class AddMenuTemplateAndDepthFieldsToMenuUpdate implements Migration
         if (!$table->hasColumn('menu_template')) {
             $table->addColumn('menu_template', 'string', ['notnull' => false, 'length' => 255]);
         }
-        if (!$table->hasColumn('depth')) {
-            $table->addColumn('depth', 'smallint', ['notnull' => false]);
+
+        if (!$table->hasColumn('max_traverse_level')) {
+            $table->addColumn('max_traverse_level', 'smallint', ['notnull' => false]);
         }
     }
 }

@@ -79,7 +79,7 @@ class OroCommerceMenuBundleInstaller implements
             'default' => MenuUpdate::LINK_TARGET_SAME_WINDOW,
         ]);
         $table->addColumn('menu_template', 'string', ['notnull' => false, 'length' => 255]);
-        $table->addColumn('depth', 'smallint', ['notnull' => false]);
+        $table->addColumn('max_traverse_level', 'smallint', ['notnull' => false]);
         $table->setPrimaryKey(['id']);
         $table->addUniqueIndex(['key', 'scope_id', 'menu'], 'oro_commerce_menu_upd_uidx');
     }

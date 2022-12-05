@@ -8,9 +8,10 @@ define(function(require) {
         options: {
             targetTypeField: null,
             contentNodeField: null,
+            categoryField: null,
+            maxNestingLevelField: null,
             systemPageField: null,
-            uriField: null,
-            categoryField: null
+            uriField: null
         },
 
         /**
@@ -34,9 +35,10 @@ define(function(require) {
             const requiredOptions = [
                 'targetTypeField',
                 'contentNodeField',
+                'categoryField',
+                'maxTraverseLevelField',
                 'systemPageField',
-                'uriField',
-                'categoryField'
+                'uriField'
             ];
             _.each(requiredOptions, (function(optionName) {
                 if (!this.options[optionName]) {
@@ -57,27 +59,31 @@ define(function(require) {
             switch (this.$targetTypeField.val()) {
                 case 'content_node':
                     this._getField(this.options.contentNodeField).show();
+                    this._getField(this.options.categoryField).hide();
+                    this._getField(this.options.maxTraverseLevelField).show();
                     this._getField(this.options.systemPageField).hide();
                     this._getField(this.options.uriField).hide();
-                    this._getField(this.options.categoryField).hide();
-                    break;
-                case 'system_page':
-                    this._getField(this.options.contentNodeField).hide();
-                    this._getField(this.options.systemPageField).show();
-                    this._getField(this.options.uriField).hide();
-                    this._getField(this.options.categoryField).hide();
-                    break;
-                case 'uri':
-                    this._getField(this.options.contentNodeField).hide();
-                    this._getField(this.options.systemPageField).hide();
-                    this._getField(this.options.uriField).show();
-                    this._getField(this.options.categoryField).hide();
                     break;
                 case 'category':
                     this._getField(this.options.contentNodeField).hide();
+                    this._getField(this.options.categoryField).show();
+                    this._getField(this.options.maxTraverseLevelField).show();
                     this._getField(this.options.systemPageField).hide();
                     this._getField(this.options.uriField).hide();
-                    this._getField(this.options.categoryField).show();
+                    break;
+                case 'system_page':
+                    this._getField(this.options.contentNodeField).hide();
+                    this._getField(this.options.categoryField).hide();
+                    this._getField(this.options.maxTraverseLevelField).hide();
+                    this._getField(this.options.systemPageField).show();
+                    this._getField(this.options.uriField).hide();
+                    break;
+                case 'uri':
+                    this._getField(this.options.contentNodeField).hide();
+                    this._getField(this.options.categoryField).hide();
+                    this._getField(this.options.maxTraverseLevelField).hide();
+                    this._getField(this.options.systemPageField).hide();
+                    this._getField(this.options.uriField).show();
                     break;
             }
         },

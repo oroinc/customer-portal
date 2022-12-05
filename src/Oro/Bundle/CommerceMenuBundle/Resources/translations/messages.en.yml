@@ -55,8 +55,9 @@ oro:
             menu_template:
                 label: "Menu Template"
                 placeholder: "Choose a Menu Template"
-            depth:
-                label: "Depth"
+            max_traverse_level:
+                label: "Max Traverse Level"
+                placeholder: "Max traverse level of the content node or category tree"
         menu_user_agent_conditions_collection:
             add_label.label: "Add"
         menu_user_agent_conditions_collection_group:

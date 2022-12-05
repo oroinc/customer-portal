@@ -1,6 +1,6 @@
 @ticket-BB-18343
-@fixture-OroWebCatalogBundle:web_catalog.yml
-@fixture-OroWebCatalogBundle:customer.yml
+@fixture-OroCommerceMenuBundle:menu_page_target.yml
+@fixture-OroCommerceMenuBundle:menu_page_target_web_catalog_nodes.yml
 
 Feature: Menu Page Target
   In order to have configurable targets of menu items on store front

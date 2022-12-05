@@ -23,7 +23,7 @@ class MenuUpdateTest extends \PHPUnit\Framework\TestCase
             ['systemPageRoute', 'sampleRoute', false],
             ['linkTarget', 0, 1],
             ['menuTemplate', 'list', false],
-            ['depth', 2, false],
+            ['maxTraverseLevel', 2, false],
         ];
 
         self::assertPropertyAccessors(new MenuUpdate(), $properties);
@@ -53,7 +53,7 @@ class MenuUpdateTest extends \PHPUnit\Framework\TestCase
             ->setPriority($priority)
             ->setDivider(true)
             ->setMenuTemplate('list')
-            ->setDepth(3);
+            ->setMaxTraverseLevel(3);
 
         $expected = [
             'image' => $image,
@@ -65,7 +65,6 @@ class MenuUpdateTest extends \PHPUnit\Framework\TestCase
             'position' => $priority,
             'icon' => 'test-icon',
             'menu_template' => 'list',
-            'depth' => 3,
         ];
 
         self::assertSame($expected, $update->getExtras());
@@ -75,6 +74,7 @@ class MenuUpdateTest extends \PHPUnit\Framework\TestCase
     {
         $update = (new MenuUpdateStub())
             ->setContentNode($contentNode = $this->createMock(ContentNode::class))
+            ->setMaxTraverseLevel(5)
             ->setSystemPageRoute('sample_route');
 
         $expected = [
@@ -85,6 +85,7 @@ class MenuUpdateTest extends \PHPUnit\Framework\TestCase
             'userAgentConditions' => $update->getMenuUserAgentConditions(),
             'translate_disabled' => false,
             'content_node' => $contentNode,
+            'max_traverse_level' => 5,
         ];
 
         self::assertSame($expected, $update->getExtras());
@@ -113,6 +114,7 @@ class MenuUpdateTest extends \PHPUnit\Framework\TestCase
         $category = new Category();
 
         $update = (new MenuUpdateStub())
+            ->setMaxTraverseLevel(5)
             ->setCategory($category);
 
         $expected = [
@@ -123,6 +125,7 @@ class MenuUpdateTest extends \PHPUnit\Framework\TestCase
             'userAgentConditions' => $update->getMenuUserAgentConditions(),
             'translate_disabled' => false,
             'category' => $category,
+            'max_traverse_level' => 5,
         ];
 
         self::assertSame($expected, $update->getExtras());

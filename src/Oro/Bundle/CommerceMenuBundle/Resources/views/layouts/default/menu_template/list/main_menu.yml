@@ -1,0 +1,21 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'main_menu.html.twig'
+        - '@addTree':
+            items:
+                web_catalog_menu:
+                    blockType: container
+                    siblingId: ~
+                    options:
+                        vars:
+                            menu_item: '=data["menu_item"]'
+                web_catalog_menu_first_level_item_simple:
+                    blockType: menu_item
+                web_catalog_menu_second_level_item_simple:
+                    blockType: menu_item
+            tree:
+                menu_item_root:
+                    web_catalog_menu:
+                        web_catalog_menu_first_level_item_simple:
+                            web_catalog_menu_second_level_item_simple: ~

@@ -79,18 +79,6 @@ class MenuUpdateExtension extends AbstractTypeExtension
                         'placeholder' => 'oro.commercemenu.menuupdate.menu_template.placeholder',
                     ]
                 );
-
-                $form->add(
-                    'depth',
-                    ChoiceType::class,
-                    [
-                        'label' => 'oro.commercemenu.menuupdate.depth.label',
-                        'required' => false,
-                        'placeholder' => false,
-                        'choices' => range(0, 5),
-                        'translatable_options' => false,
-                    ]
-                );
             }
         );
 
@@ -191,6 +179,20 @@ class MenuUpdateExtension extends AbstractTypeExtension
             [
                 'required' => true,
                 'label' => 'oro.commercemenu.menuupdate.category.label',
+                'disabled' => !$menuUpdate->isCustom(),
+            ]
+        );
+
+        $form->add(
+            'maxTraverseLevel',
+            ChoiceType::class,
+            [
+                'label' => 'oro.commercemenu.menuupdate.max_traverse_level.label',
+                'tooltip' => 'oro.commercemenu.menuupdate.max_traverse_level.placeholder',
+                'required' => false,
+                'placeholder' => false,
+                'choices' => range(0, 5),
+                'translatable_options' => false,
                 'disabled' => !$menuUpdate->isCustom(),
             ]
         );
