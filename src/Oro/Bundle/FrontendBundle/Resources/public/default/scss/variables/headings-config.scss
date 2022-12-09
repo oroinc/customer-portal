@@ -14,6 +14,7 @@ $headline1-font-weight: font-weight('bold') !default;
 $headline1-line-height: $headline-line-height !default;
 $headline1-text-transform: $headline-text-transform !default;
 $headline1-color: $headline-color !default;
+$headline1-bottom-offset: $headline-bottom-offset !default;
 
 // H2
 $headline2-font-size: $base-font-size--m !default;
@@ -22,6 +23,7 @@ $headline2-font-weight: font-weight('bold') !default;
 $headline2-line-height: $headline-line-height !default;
 $headline2-text-transform: $headline-text-transform !default;
 $headline2-color: $headline-color !default;
+$headline2-bottom-offset: $headline-bottom-offset !default;
 
 // H3
 $headline3-font-size: $base-font-size--large + 2px !default;
@@ -30,6 +32,7 @@ $headline3-font-weight: font-weight('semi-bold') !default;
 $headline3-line-height: $headline-line-height !default;
 $headline3-text-transform: $headline-text-transform !default;
 $headline3-color: $headline-color !default;
+$headline3-bottom-offset: $headline-bottom-offset !default;
 
 // H4
 $headline4-font-size: $base-font-size--large !default;
@@ -38,6 +41,7 @@ $headline4-font-weight: font-weight('semi-bold') !default;
 $headline4-line-height: $headline-line-height !default;
 $headline4-text-transform: $headline-text-transform !default;
 $headline4-color: $headline-color !default;
+$headline4-bottom-offset: $headline-bottom-offset !default;
 
 // H5
 $headline5-font-size: $base-font-size !default;
@@ -46,6 +50,7 @@ $headline5-font-weight: font-weight('semi-bold') !default;
 $headline5-line-height: $headline-line-height !default;
 $headline5-text-transform: $headline-text-transform !default;
 $headline5-color: $headline-color;
+$headline5-bottom-offset: $offset-x-s !default;
 
 // H6
 $headline6-font-size: $base-font-size !default;
@@ -54,3 +59,4 @@ $headline6-font-weight: font-weight('normal') !default;
 $headline6-line-height: $headline-line-height !default;
 $headline6-text-transform: $headline-text-transform !default;
 $headline6-color: $headline-color !default;
+$headline6-bottom-offset: $offset-x-s !default;

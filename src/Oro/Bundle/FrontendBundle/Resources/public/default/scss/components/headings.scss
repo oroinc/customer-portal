@@ -8,6 +8,10 @@ h1,
     line-height: $headline1-line-height;
     text-transform: $headline1-text-transform;
     color: $headline1-color;
+
+    &.heading-bottom-offset {
+        margin-bottom: $headline1-bottom-offset;
+    }
 }
 
 h2,
@@ -18,6 +22,10 @@ h2,
     line-height: $headline2-line-height;
     text-transform: $headline2-text-transform;
     color: $headline2-color;
+
+    &.heading-bottom-offset {
+        margin-bottom: $headline2-bottom-offset;
+    }
 }
 
 h3,
@@ -28,6 +36,10 @@ h3,
     line-height: $headline3-line-height;
     text-transform: $headline3-text-transform;
     color: $headline3-color;
+
+    &.heading-bottom-offset {
+        margin-bottom: $headline3-bottom-offset;
+    }
 }
 
 h4,
@@ -40,7 +52,7 @@ h4,
     color: $headline4-color;
 
     &.heading-bottom-offset {
-        margin-bottom: $headline-bottom-offset;
+        margin-bottom: $headline4-bottom-offset;
     }
 }
 
@@ -52,6 +64,10 @@ h5,
     line-height: $headline5-line-height;
     text-transform: $headline5-text-transform;
     color: $headline5-color;
+
+    &.heading-bottom-offset {
+        margin-bottom: $headline5-bottom-offset;
+    }
 }
 
 h6,
@@ -62,4 +78,8 @@ h6,
     line-height: $headline6-line-height;
     text-transform: $headline6-text-transform;
     color: $headline6-color;
+
+    &.heading-bottom-offset {
+        margin-bottom: $headline6-bottom-offset;
+    }
 }
