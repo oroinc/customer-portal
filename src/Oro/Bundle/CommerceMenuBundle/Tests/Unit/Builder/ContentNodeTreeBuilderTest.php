@@ -2,47 +2,48 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Builder;
 
-use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\QueryBuilder;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\MenuFactory;
 use Knp\Menu\MenuItem;
 use Oro\Bundle\CommerceMenuBundle\Builder\ContentNodeTreeBuilder;
-use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
-use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
+use Oro\Bundle\PlatformBundle\Tests\Unit\Stub\ProxyStub;
+use Oro\Bundle\WebCatalogBundle\Cache\ResolvedData\ResolvedContentNode;
+use Oro\Bundle\WebCatalogBundle\Cache\ResolvedData\ResolvedContentVariant;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
-use Oro\Bundle\WebCatalogBundle\Entity\Repository\ContentNodeRepository;
+use Oro\Bundle\WebCatalogBundle\Menu\MenuContentNodesProviderInterface;
 use Oro\Bundle\WebCatalogBundle\Tests\Unit\Stub\ContentNodeStub;
 
 class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
 {
-    private FrontendHelper|\PHPUnit\Framework\MockObject\MockObject $frontendHelper;
+    private MenuContentNodesProviderInterface $menuContentNodesProvider;
 
     private ContentNodeTreeBuilder $builder;
 
-    private ContentNodeRepository|\PHPUnit\Framework\MockObject\MockObject $contentNodeRepo;
+    private EntityManager|\PHPUnit\Framework\MockObject\MockObject $entityManager;
 
     protected function setUp(): void
     {
         $managerRegistry = $this->createMock(ManagerRegistry::class);
+        $this->menuContentNodesProvider = $this->createMock(MenuContentNodesProviderInterface::class);
         $localizationHelper = $this->createMock(LocalizationHelper::class);
-        $this->frontendHelper = $this->createMock(FrontendHelper::class);
 
         $this->builder = new ContentNodeTreeBuilder(
             $managerRegistry,
-            $localizationHelper,
-            $this->frontendHelper
+            $this->menuContentNodesProvider,
+            $localizationHelper
         );
 
-        $this->contentNodeRepo = $this->createMock(ContentNodeRepository::class);
+        $this->entityManager = $this->createMock(EntityManager::class);
         $managerRegistry
             ->expects(self::any())
-            ->method('getRepository')
+            ->method('getManagerForClass')
             ->with(ContentNode::class)
-            ->willReturn($this->contentNodeRepo);
+            ->willReturn($this->entityManager);
 
         $localizationHelper
             ->expects(self::any())
@@ -50,40 +51,15 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
             ->willReturnCallback(static fn ($collection) => (string)($collection[0] ?? null));
     }
 
-    public function testBuildWhenStorefront(): void
-    {
-        $this->frontendHelper
-            ->expects(self::once())
-            ->method('isFrontendRequest')
-            ->willReturn(true);
-
-        $menuItem = $this->createMock(ItemInterface::class);
-        $menuItem
-            ->expects(self::never())
-            ->method(self::anything())
-            ->willReturn(false);
-
-        $this->contentNodeRepo
-            ->expects(self::never())
-            ->method(self::anything());
-
-        $this->builder->build($menuItem);
-    }
-
     public function testBuildWhenNotDisplayed(): void
     {
-        $this->frontendHelper
-            ->expects(self::once())
-            ->method('isFrontendRequest')
-            ->willReturn(false);
-
         $contentNode = new ContentNode();
 
         $menuItem = new MenuItem('sample_menu', new MenuFactory());
         $menuItem->setDisplay(false);
-        $menuItem->setExtra(MenuUpdate::TARGET_CONTENT_NODE, $contentNode);
+        $menuItem->setExtra('content_node', $contentNode);
 
-        $this->contentNodeRepo
+        $this->menuContentNodesProvider
             ->expects(self::never())
             ->method(self::anything());
 
@@ -92,67 +68,33 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
 
     public function testBuildWhenNoContentNode(): void
     {
-        $this->frontendHelper
-            ->expects(self::once())
-            ->method('isFrontendRequest')
-            ->willReturn(false);
-
         $menuItem = new MenuItem('sample_menu', new MenuFactory());
         $menuItem->setDisplay(true);
 
-        $this->contentNodeRepo
+        $this->menuContentNodesProvider
             ->expects(self::never())
             ->method(self::anything());
 
         $this->builder->build($menuItem);
     }
 
-    public function testBuildWhenNoChildren(): void
+    public function testBuildWhenNotResolved(): void
     {
-        $this->frontendHelper
-            ->expects(self::once())
-            ->method('isFrontendRequest')
-            ->willReturn(false);
-
-        $contentNode = $this->createContentNode(42, 'Root');
+        $contentNode = new ContentNodeStub(42);
 
         $menuItem = new MenuItem('sample_menu', new MenuFactory());
         $menuItem->setDisplay(true);
+        $maxTraverseLevel = 5;
         $menuItem->addChild(
             'sample_menu_item',
-            ['extras' => [MenuUpdate::TARGET_CONTENT_NODE => $contentNode]]
+            ['extras' => ['content_node' => $contentNode, 'max_traverse_level' => $maxTraverseLevel]]
         );
 
-        $queryBuilder = $this->createMock(QueryBuilder::class);
-        $this->contentNodeRepo
+        $this->menuContentNodesProvider
             ->expects(self::once())
-            ->method('getContentNodePlainTreeQueryBuilder')
-            ->with($contentNode, 0)
-            ->willReturn($queryBuilder);
-
-        $queryBuilder
-            ->expects(self::once())
-            ->method('addSelect')
-            ->with('titles')
-            ->willReturnSelf();
-
-        $queryBuilder
-            ->expects(self::once())
-            ->method('innerJoin')
-            ->with('node.titles', 'titles')
-            ->willReturnSelf();
-
-        $query = $this->createMock(AbstractQuery::class);
-        $queryBuilder
-            ->expects(self::once())
-            ->method('getQuery')
-            ->willReturn($query);
-
-        $contentNodes = [];
-        $query
-            ->expects(self::once())
-            ->method('getResult')
-            ->willReturn($contentNodes);
+            ->method('getResolvedContentNode')
+            ->with($contentNode, ['tree_depth' => $maxTraverseLevel])
+            ->willReturn(null);
 
         $this->builder->build($menuItem);
 
@@ -163,19 +105,60 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                 'uri' => null,
                 'extras' => [],
                 'children' => [
-                    'sample_menu_item' =>
-                        [
-                            'display' => true,
-                            'label' => 'Root',
-                            'uri' => null,
-                            'extras' => [
-                                'content_node' =>
-                                    [
-                                        'id' => 42,
-                                    ],
-                            ],
-                            'children' => [],
+                    'sample_menu_item' => [
+                        'display' => false,
+                        'label' => 'sample_menu_item',
+                        'uri' => null,
+                        'extras' => [
+                            'content_node' => $contentNode,
+                            'max_traverse_level' => $maxTraverseLevel,
                         ],
+                        'children' => [],
+                    ],
+                ],
+            ],
+            $this->normalizeMenuItem($menuItem)
+        );
+    }
+
+    public function testBuildWhenNoChildren(): void
+    {
+        $contentNode = new ContentNodeStub(42);
+
+        $menuItem = new MenuItem('sample_menu', new MenuFactory());
+        $menuItem->setDisplay(true);
+        $maxTraverseLevel = 5;
+        $menuItem->addChild(
+            'sample_menu_item',
+            ['extras' => ['content_node' => $contentNode, 'max_traverse_level' => $maxTraverseLevel]]
+        );
+
+        $resolvedContentNode = $this->createResolvedNode(42, 'Root');
+        $this->menuContentNodesProvider
+            ->expects(self::once())
+            ->method('getResolvedContentNode')
+            ->with($contentNode, ['tree_depth' => $maxTraverseLevel])
+            ->willReturn($resolvedContentNode);
+
+        $this->builder->build($menuItem);
+
+        self::assertEquals(
+            [
+                'display' => true,
+                'label' => 'sample_menu',
+                'uri' => null,
+                'extras' => [],
+                'children' => [
+                    'sample_menu_item' => [
+                        'display' => true,
+                        'label' => (string)$resolvedContentNode->getTitles()[0],
+                        'uri' => 'node/' . $resolvedContentNode->getId(),
+                        'extras' => [
+                            'content_node' => $contentNode,
+                            'max_traverse_level' => $maxTraverseLevel,
+                        ],
+                        'children' => [],
+                    ],
                 ],
             ],
             $this->normalizeMenuItem($menuItem)
@@ -187,63 +170,35 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testBuildWhenHasChildren(): void
     {
-        $this->frontendHelper
-            ->expects(self::once())
-            ->method('isFrontendRequest')
-            ->willReturn(false);
-
-        $contentNode11 = $this->createContentNode(11, 'Node 1');
-        $contentNode121 = $this->createContentNode(121, 'Node 21');
-        $contentNode12 = $this->createContentNode(12, 'Node 2', [$contentNode121]);
-        $contentNode13 = $this->createContentNode(13, 'Node 3');
-        $contentNode = $this->createContentNode(
+        $contentNode = new ContentNodeStub(42);
+        $resolvedContentNode = $this->createResolvedNode(
             42,
             'Root',
-            [$contentNode11, $contentNode12, $contentNode13]
+            [
+                $this->createResolvedNode(11, 'Node 1'),
+                $this->createResolvedNode(12, 'Node 2', [$this->createResolvedNode(121, 'Node 21')]),
+                $this->createResolvedNode(13, 'Node 3'),
+            ]
         );
 
         $menuItem = new MenuItem('sample_menu', new MenuFactory());
         $menuItem->setDisplay(true);
+        $maxTraverseLevel = 5;
         $menuItem->addChild(
             'sample_menu_item',
-            ['extras' => [MenuUpdate::TARGET_CONTENT_NODE => $contentNode, 'max_traverse_level' => 5]]
+            ['extras' => ['content_node' => $contentNode, 'max_traverse_level' => $maxTraverseLevel]]
         );
 
-        $queryBuilder = $this->createMock(QueryBuilder::class);
-        $this->contentNodeRepo
+        $this->menuContentNodesProvider
             ->expects(self::once())
-            ->method('getContentNodePlainTreeQueryBuilder')
-            ->with($contentNode, 5)
-            ->willReturn($queryBuilder);
+            ->method('getResolvedContentNode')
+            ->with($contentNode, ['tree_depth' => $maxTraverseLevel])
+            ->willReturn($resolvedContentNode);
 
-        $queryBuilder
-            ->expects(self::once())
-            ->method('addSelect')
-            ->with('titles')
-            ->willReturnSelf();
-
-        $queryBuilder
-            ->expects(self::once())
-            ->method('innerJoin')
-            ->with('node.titles', 'titles')
-            ->willReturnSelf();
-
-        $query = $this->createMock(AbstractQuery::class);
-        $queryBuilder
-            ->expects(self::once())
-            ->method('getQuery')
-            ->willReturn($query);
-
-        $contentNodes = [
-            $contentNode11,
-            $contentNode12,
-            $contentNode121,
-            $contentNode13,
-        ];
-        $query
-            ->expects(self::once())
-            ->method('getResult')
-            ->willReturn($contentNodes);
+        $this->entityManager
+            ->expects(self::exactly(4))
+            ->method('getReference')
+            ->willReturnCallback(static fn ($class, $id) => new ProxyStub($class, $id));
 
         $this->builder->build($menuItem);
 
@@ -257,37 +212,44 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                     'sample_menu_item' => [
                         'display' => true,
                         'label' => 'Root',
-                        'uri' => null,
-                        'extras' => ['content_node' => ['id' => 42], 'max_traverse_level' => 5],
+                        'uri' => 'node/42',
+                        'extras' => ['content_node' => $contentNode, 'max_traverse_level' => $maxTraverseLevel],
                         'children' => [
                             'sample_menu_item_11' => [
                                 'display' => true,
                                 'label' => 'Node 1',
-                                'uri' => null,
+                                'uri' => 'node/11',
                                 'extras' => [
-                                    'content_node' => ['id' => 11],
+                                    'isAllowed' => true,
+                                    'content_node' => new ProxyStub(ContentNode::class, 11),
                                     'max_traverse_level' => 4,
+                                    'max_traverse_level_disabled' => true,
+                                    'translate_disabled' => true,
                                 ],
                                 'children' => [],
                             ],
                             'sample_menu_item_12' => [
                                 'display' => true,
                                 'label' => 'Node 2',
-                                'uri' => null,
+                                'uri' => 'node/12',
                                 'extras' => [
-                                    'content_node' => ['id' => 12],
+                                    'isAllowed' => true,
+                                    'content_node' => new ProxyStub(ContentNode::class, 12),
                                     'max_traverse_level' => 4,
+                                    'max_traverse_level_disabled' => true,
+                                    'translate_disabled' => true,
                                 ],
                                 'children' => [
                                     'sample_menu_item_121' => [
                                         'display' => true,
                                         'label' => 'Node 21',
-                                        'uri' => null,
+                                        'uri' => 'node/121',
                                         'extras' => [
-                                            'content_node' => [
-                                                'id' => 121,
-                                            ],
+                                            'isAllowed' => true,
+                                            'content_node' => new ProxyStub(ContentNode::class, 121),
                                             'max_traverse_level' => 3,
+                                            'max_traverse_level_disabled' => true,
+                                            'translate_disabled' => true,
                                         ],
                                         'children' => [],
                                     ],
@@ -296,10 +258,13 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                             'sample_menu_item_13' => [
                                 'display' => true,
                                 'label' => 'Node 3',
-                                'uri' => null,
+                                'uri' => 'node/13',
                                 'extras' => [
-                                    'content_node' => ['id' => 13],
+                                    'isAllowed' => true,
+                                    'content_node' => new ProxyStub(ContentNode::class, 13),
                                     'max_traverse_level' => 4,
+                                    'max_traverse_level_disabled' => true,
+                                    'translate_disabled' => true,
                                 ],
                                 'children' => [],
                             ],
@@ -320,12 +285,6 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
             'extras' => $menuItem->getExtras(),
         ];
 
-        if (isset($result['extras'][MenuUpdate::TARGET_CONTENT_NODE])) {
-            $result['extras'][MenuUpdate::TARGET_CONTENT_NODE] = [
-                'id' => $result['extras'][MenuUpdate::TARGET_CONTENT_NODE]->getId(),
-            ];
-        }
-
         $result['children'] = [];
         foreach ($menuItem->getChildren() as $childMenuItem) {
             $result['children'][$childMenuItem->getName()] = $this->normalizeMenuItem($childMenuItem);
@@ -334,18 +293,23 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
         return $result;
     }
 
-    private function createContentNode(
+    private function createResolvedNode(
         int $id,
         string $title,
         array $childNodes = []
-    ): ContentNode {
-        $contentNode = new ContentNodeStub($id);
-        $contentNode->addTitle((new LocalizedFallbackValue())->setString($title));
+    ): ResolvedContentNode {
+        $resolvedNode = new ResolvedContentNode(
+            $id,
+            'sample_identifier_' . $id,
+            $id,
+            new ArrayCollection([(new LocalizedFallbackValue())->setString($title)]),
+            (new ResolvedContentVariant())->addLocalizedUrl((new LocalizedFallbackValue())->setString('node/' . $id))
+        );
 
         foreach ($childNodes as $childNode) {
-            $contentNode->addChildNode($childNode);
+            $resolvedNode->addChildNode($childNode);
         }
 
-        return $contentNode;
+        return $resolvedNode;
     }
 }

@@ -37,6 +37,7 @@ use Oro\Bundle\FormBundle\Tests\Unit\Stub\TooltipFormExtensionStub;
 use Oro\Bundle\FrontendBundle\Provider\ScreensProviderInterface;
 use Oro\Bundle\NavigationBundle\Form\Type\RouteChoiceType;
 use Oro\Bundle\NavigationBundle\Tests\Unit\Form\Type\Stub\RouteChoiceTypeStub;
+use Oro\Bundle\NavigationBundle\Tests\Unit\MenuItemTestTrait;
 use Oro\Bundle\SecurityBundle\Util\UriSecurityHelper;
 use Oro\Bundle\SecurityBundle\Validator\Constraints\NotDangerousProtocolValidator;
 use Oro\Bundle\TranslationBundle\Form\Extension\TranslatableChoiceTypeExtension;
@@ -56,6 +57,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class MenuUpdateExtensionTest extends FormIntegrationTestCase
 {
+    use MenuItemTestTrait;
+
     private const SCREENS_CONFIG = [
         'desktop' => [
             'label' => 'Sample desktop label',
@@ -248,11 +251,45 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
             'systemPageRoute',
             'contentNode',
             'category',
-            'maxTraverseLevel',
         ];
         foreach ($disabledFieldNames as $disabledFieldName) {
             self::assertTrue($form->get($disabledFieldName)->getConfig()->getOption('disabled'));
         }
+        self::assertFalse($form->get('maxTraverseLevel')->getConfig()->getOption('disabled'));
+        self::assertEquals($expected, $form->getData());
+    }
+
+    public function testSubmitWhenMaxTraverseLevelIsDisabled(): void
+    {
+        $this->webCatalogProvider->expects(self::once())
+            ->method('getWebCatalog')
+            ->willReturn($this->createMock(WebCatalog::class));
+
+        $menuUserAgentCondition = new MenuUserAgentCondition();
+        $menuUserAgentCondition
+            ->setOperation('contains')
+            ->setValue('sample condition')
+            ->setConditionGroupIdentifier(0);
+
+        $menuUpdate = new MenuUpdateStub();
+        $menuUpdate->setMaxTraverseLevel(3);
+
+        $menuItem = $this->createItem('sample_item')
+            ->setExtra('max_traverse_level_disabled', true);
+        $form = $this->factory->create(MenuUpdateTypeStub::class, $menuUpdate, ['menu_item' => $menuItem]);
+
+        $form->submit([
+            'linkTarget' => 0,
+            'maxTraverseLevel' => 5,
+        ]);
+
+        $expected = (new MenuUpdateStub())
+            ->setLinkTarget(0)
+            ->setMaxTraverseLevel($menuUpdate->getMaxTraverseLevel());
+
+        $this->assertFormIsValid($form);
+
+        self::assertTrue($form->get('maxTraverseLevel')->getConfig()->getOption('disabled'));
         self::assertEquals($expected, $form->getData());
     }
 

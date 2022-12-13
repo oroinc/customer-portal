@@ -10,16 +10,12 @@ use Oro\Bundle\CatalogBundle\Menu\MenuCategoriesProviderInterface;
 use Oro\Bundle\CatalogBundle\Provider\MasterCatalogRootProviderInterface;
 use Oro\Bundle\CommerceMenuBundle\Provider\MenuTemplatesProvider;
 use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
-use Oro\Bundle\NavigationBundle\Provider\MenuUpdateProvider;
-use Oro\Bundle\ScopeBundle\Entity\Scope;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
-use Oro\Bundle\WebCatalogBundle\Provider\WebCatalogProvider;
-use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
- * Adds 1st level categories from Master Catalog as menu items.
+ * Adds to menu the 1st level categories from Master Catalog.
  */
-class MasterCatalogRootItemsBuilder implements BuilderInterface
+class MasterCatalogNavigationRootBuilder implements BuilderInterface
 {
     private ManagerRegistry $managerRegistry;
 
@@ -29,11 +25,7 @@ class MasterCatalogRootItemsBuilder implements BuilderInterface
 
     private MenuCategoriesProviderInterface $menuCategoriesProvider;
 
-    private WebCatalogProvider $webCatalogProvider;
-
     private MenuTemplatesProvider $menuTemplatesProvider;
-
-    private string $targetMenuName = '';
 
     private array $extrasOption = [];
 
@@ -42,14 +34,12 @@ class MasterCatalogRootItemsBuilder implements BuilderInterface
         TokenAccessorInterface $tokenAccessor,
         MasterCatalogRootProviderInterface $masterCatalogRootProvider,
         MenuCategoriesProviderInterface $menuCategoriesProvider,
-        WebCatalogProvider $webCatalogProvider,
         MenuTemplatesProvider $menuTemplatesProvider
     ) {
         $this->managerRegistry = $managerRegistry;
         $this->tokenAccessor = $tokenAccessor;
         $this->masterCatalogRootProvider = $masterCatalogRootProvider;
         $this->menuCategoriesProvider = $menuCategoriesProvider;
-        $this->webCatalogProvider = $webCatalogProvider;
         $this->menuTemplatesProvider = $menuTemplatesProvider;
     }
 
@@ -61,21 +51,9 @@ class MasterCatalogRootItemsBuilder implements BuilderInterface
         $this->extrasOption = $extrasOption;
     }
 
-    /**
-     * The menu name to add master catalog categories to.
-     */
-    public function setTargetMenuName(string $targetMenuName): void
-    {
-        $this->targetMenuName = $targetMenuName;
-    }
-
     public function build(ItemInterface $menu, array $options = [], $alias = null): void
     {
-        if ($menu->getName() !== $this->targetMenuName) {
-            return;
-        }
-
-        if ($this->webCatalogProvider->getWebCatalog($this->getWebsite($options))) {
+        if (!$menu->isDisplayed()) {
             return;
         }
 
@@ -91,10 +69,12 @@ class MasterCatalogRootItemsBuilder implements BuilderInterface
 
         /** @var EntityManager $entityManager */
         $entityManager = $this->managerRegistry->getManagerForClass(Category::class);
-        $menuMaxNestingLevel = $menu->getExtra('max_nesting_level', 0);
+        $maxNestingLevel = $menu->getExtra('max_nesting_level', 1);
+        $maxTraverseLevel = $maxNestingLevel > 0 ? $maxNestingLevel - 1 : 0;
         $menuTemplateName = $this->getFirstAvailableMenuTemplate();
 
-        foreach ($categoriesData as $categoryData) {
+        $startingPosition = -100 - count($categoriesData);
+        foreach (array_reverse($categoriesData) as $categoryData) {
             $menu->addChild(
                 'category_' . $categoryData['id'],
                 [
@@ -102,28 +82,15 @@ class MasterCatalogRootItemsBuilder implements BuilderInterface
                     'extras' => array_merge([
                         'isAllowed' => true,
                         'category' => $entityManager->getReference(Category::class, $categoryData['id']),
-                        'position' => -100,
+                        'position' => $startingPosition++,
                         'menu_template' => $menuTemplateName,
-                        'max_traverse_level' => $menuMaxNestingLevel,
+                        'max_traverse_level' => $maxTraverseLevel,
+                        'max_traverse_level_disabled' => false,
+                        'translate_disabled' => true,
                     ], $this->extrasOption),
                 ]
             );
         }
-    }
-
-    public function getWebsite(array $options): ?Website
-    {
-        $website = null;
-        if (isset($options[MenuUpdateProvider::SCOPE_CONTEXT_OPTION])) {
-            $scopeContext = $options[MenuUpdateProvider::SCOPE_CONTEXT_OPTION];
-            if ($scopeContext instanceof Scope) {
-                $website = $scopeContext->getWebsite();
-            } elseif (isset($scopeContext['website']) && $scopeContext['website'] instanceof Website) {
-                $website = $scopeContext['website'];
-            }
-        }
-
-        return $website;
     }
 
     public function getFirstAvailableMenuTemplate(): string

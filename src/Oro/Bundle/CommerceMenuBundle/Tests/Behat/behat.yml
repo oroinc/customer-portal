@@ -111,6 +111,9 @@ oro_behat_extension:
         type: xpath
         locator: '//li[contains(@class, "jstree-node")]/a[contains(., "frontend_menu")]/parent::li/ul//li[contains(@class, "jstree-node")]/a[contains(., "Frontend Child Item Update")]'
 
+    Menu Item Content Node Field:
+      selector: 'div[data-role="content-node-field"]'
+
   pages:
     Frontend Menus:
       class: Oro\Bundle\CommerceMenuBundle\Tests\Behat\Page\FrontendMenus

@@ -216,25 +216,6 @@ services:
         tags:
             - { name: oro_menu.builder, priority: 220 }
 
-    oro_commerce_menu.builder.content_node_tree_builder:
-        class: Oro\Bundle\CommerceMenuBundle\Builder\ContentNodeTreeBuilder
-        arguments:
-            - '@doctrine'
-            - '@oro_locale.helper.localization'
-            - '@oro_frontend.request.frontend_helper'
-        tags:
-            - { name: oro_menu.builder, priority: 210 }
-
-    oro_commerce_menu.builder.resolved_content_node_tree_builder:
-        class: Oro\Bundle\CommerceMenuBundle\Builder\ResolvedContentNodeTreeBuilder
-        arguments:
-            - '@oro_web_catalog.request_web_content_scope_provider'
-            - '@oro_web_catalog.content_node_tree_resolver'
-            - '@oro_locale.helper.localization'
-            - '@oro_frontend.request.frontend_helper'
-        tags:
-            - { name: oro_menu.builder, priority: 210 }
-
     oro_commerce_menu.builder.system_page_target_builder:
         class: Oro\Bundle\CommerceMenuBundle\Builder\SystemPageTargetBuilder
         arguments:
@@ -280,6 +261,15 @@ services:
             # Should be called as late as possible to ensure it can override previously added paths.
             - { name: layout.resource.path_provider, priority: -100 }
 
+    oro_commerce_menu.builder.content_node_tree_builder:
+        class: Oro\Bundle\CommerceMenuBundle\Builder\ContentNodeTreeBuilder
+        arguments:
+            - '@doctrine'
+            - '@oro_web_catalog.menu.content_nodes_provider'
+            - '@oro_locale.helper.localization'
+        tags:
+            - { name: oro_menu.builder, priority: 210 }
+
     oro_commerce_menu.builder.category_tree_builder:
         class: Oro\Bundle\CommerceMenuBundle\Builder\CategoryTreeBuilder
         arguments:
@@ -290,17 +280,35 @@ services:
         tags:
             - { name: oro_menu.builder, priority: 210 }
 
-    oro_commerce_menu.builder.master_catalog_root_items:
-        class: Oro\Bundle\CommerceMenuBundle\Builder\MasterCatalogRootItemsBuilder
+    oro_commerce_menu.builder.navigation_root:
+        class: Oro\Bundle\CommerceMenuBundle\Builder\NavigationRootBuilder
+        arguments:
+            - '@oro_web_catalog.web_catalog_provider'
+            - '@oro_commerce_menu.builder.navigation_root.master_catalog'
+            - '@oro_commerce_menu.builder.navigation_root.web_catalog'
+        calls:
+            - ['setTargetMenuName', ['commerce_main_menu']]
+        tags:
+            # Should be located before menu update builders.
+            - { name: oro_menu.builder, priority: 50 }
+
+    oro_commerce_menu.builder.navigation_root.master_catalog:
+        class: Oro\Bundle\CommerceMenuBundle\Builder\MasterCatalogNavigationRootBuilder
         arguments:
             - '@doctrine'
             - '@oro_security.token_accessor'
             - '@oro_catalog.provider.master_catalog_root'
             - '@oro_catalog.menu.menu_categories_provider'
+            - '@oro_commerce_menu.provider.menu_templates_provider'
+
+    oro_commerce_menu.builder.navigation_root.web_catalog:
+        class: Oro\Bundle\CommerceMenuBundle\Builder\WebCatalogNavigationRootBuilder
+        arguments:
+            - '@doctrine'
             - '@oro_web_catalog.web_catalog_provider'
+            - '@oro_web_catalog.menu.content_nodes_provider'
             - '@oro_commerce_menu.provider.menu_templates_provider'
         calls:
-            - ['setTargetMenuName', ['commerce_main_menu']]
+            - ['setLogger', ['@logger']]
         tags:
-            # Should be located before menu update builders.
-            - { name: oro_menu.builder, priority: 50, alias: commerce_main_menu }
+            - { name: monolog.logger, channel: oro_commerce_menu }

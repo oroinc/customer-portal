@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Form\Extension;
 
+use Knp\Menu\ItemInterface;
 use Oro\Bundle\AttachmentBundle\Form\Type\ImageType;
 use Oro\Bundle\CatalogBundle\Form\Type\CategoryTreeType;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
@@ -183,6 +184,8 @@ class MenuUpdateExtension extends AbstractTypeExtension
             ]
         );
 
+        /** @var ItemInterface|null $menuItem */
+        $menuItem = $form->getConfig()->getOption('menu_item');
         $form->add(
             'maxTraverseLevel',
             ChoiceType::class,
@@ -193,7 +196,7 @@ class MenuUpdateExtension extends AbstractTypeExtension
                 'placeholder' => false,
                 'choices' => range(0, 5),
                 'translatable_options' => false,
-                'disabled' => !$menuUpdate->isCustom(),
+                'disabled' => $menuItem?->getExtra('max_traverse_level_disabled') ?? false,
             ]
         );
 

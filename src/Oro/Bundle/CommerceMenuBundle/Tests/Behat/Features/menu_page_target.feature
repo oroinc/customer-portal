@@ -41,7 +41,7 @@ Feature: Menu Page Target
       | Title       | ContentNodeTarget   |
       | Target Type | Content Node        |
       | Web Catalog | Default Web Catalog |
-    And I click "Clearance"
+    And I click on "JS Tree item" with title "Clearance" in element "Menu Item Content Node Field"
     And I should not see "Please choose a Web Catalog"
     And I save form
     Then I should see "Menu item saved successfully." flash message

@@ -123,6 +123,9 @@ class CategoryTreeBuilder implements BuilderInterface
                         'category' => $entityManager->getReference(Category::class, $categoryData['id']),
                         'category_data' => $categoryData,
                         'max_traverse_level' => $maxTraverseLevel - 1,
+                        // Max traverse level option should be disabled for synthetic menu items.
+                        'max_traverse_level_disabled' => true,
+                        'translate_disabled' => true,
                     ],
                 ]
             );
