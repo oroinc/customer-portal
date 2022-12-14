@@ -45,16 +45,32 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 class CustomerUserAddress extends ExtendCustomerUserAddress implements AddressPhoneAwareInterface
 {
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "header"="Address ID"
+     *          }
+     *      }
+     * )
+     */
+    protected $id;
+
+    /**
      * @ORM\ManyToOne(
      *      targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser",
-     *      inversedBy="addresses",
-     *      cascade={"persist"}
+     *      inversedBy="addresses"
      * )
      * @ORM\JoinColumn(name="frontend_owner_id", referencedColumnName="id", onDelete="CASCADE")
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
-     *              "excluded"=true
+     *              "header"="Customer User",
+     *              "identity"=true
      *          }
      *      }
      * )
@@ -86,6 +102,13 @@ class CustomerUserAddress extends ExtendCustomerUserAddress implements AddressPh
      * )
      */
     protected $phone;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_primary", type="boolean", nullable=true)
+     */
+    protected $primary;
 
     /**
      * {@inheritdoc}
