@@ -1,0 +1,5 @@
+services:
+    oro_commerce_menu.data_collector.layout_name_provider.menu_item:
+        class: Oro\Bundle\CommerceMenuBundle\DataCollector\DataCollectorMenuItemLayoutNameProvider
+        tags:
+            - { name: oro_layout.data_collector.layout_name_provider }

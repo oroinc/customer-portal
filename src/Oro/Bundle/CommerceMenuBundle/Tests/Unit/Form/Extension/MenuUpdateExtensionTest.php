@@ -36,8 +36,10 @@ use Oro\Bundle\FormBundle\Form\Type\OroJquerySelect2HiddenType;
 use Oro\Bundle\FormBundle\Tests\Unit\Stub\TooltipFormExtensionStub;
 use Oro\Bundle\FrontendBundle\Provider\ScreensProviderInterface;
 use Oro\Bundle\NavigationBundle\Form\Type\RouteChoiceType;
+use Oro\Bundle\NavigationBundle\Menu\ConfigurationBuilder;
 use Oro\Bundle\NavigationBundle\Tests\Unit\Form\Type\Stub\RouteChoiceTypeStub;
 use Oro\Bundle\NavigationBundle\Tests\Unit\MenuItemTestTrait;
+use Oro\Bundle\NavigationBundle\Utils\LostItemsManipulator;
 use Oro\Bundle\SecurityBundle\Util\UriSecurityHelper;
 use Oro\Bundle\SecurityBundle\Validator\Constraints\NotDangerousProtocolValidator;
 use Oro\Bundle\TranslationBundle\Form\Extension\TranslatableChoiceTypeExtension;
@@ -212,8 +214,10 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
             ->setConditionGroupIdentifier(0);
 
         $menuUpdate = new MenuUpdateStub();
+        $menu = $this->createItem('sample_menu')
+            ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, 6);
 
-        $form = $this->factory->create(MenuUpdateTypeStub::class, $menuUpdate);
+        $form = $this->factory->create(MenuUpdateTypeStub::class, $menuUpdate, ['menu' => $menu]);
 
         $image = new File();
 
@@ -253,9 +257,9 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
             'category',
         ];
         foreach ($disabledFieldNames as $disabledFieldName) {
-            self::assertTrue($form->get($disabledFieldName)->getConfig()->getOption('disabled'));
+            $this->assertFormOptionEqual(true, 'disabled', $form->get($disabledFieldName));
         }
-        self::assertFalse($form->get('maxTraverseLevel')->getConfig()->getOption('disabled'));
+        $this->assertFormOptionEqual(false, 'disabled', $form->get('maxTraverseLevel'));
         self::assertEquals($expected, $form->getData());
     }
 
@@ -265,18 +269,19 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
             ->method('getWebCatalog')
             ->willReturn($this->createMock(WebCatalog::class));
 
-        $menuUserAgentCondition = new MenuUserAgentCondition();
-        $menuUserAgentCondition
-            ->setOperation('contains')
-            ->setValue('sample condition')
-            ->setConditionGroupIdentifier(0);
-
         $menuUpdate = new MenuUpdateStub();
         $menuUpdate->setMaxTraverseLevel(3);
 
-        $menuItem = $this->createItem('sample_item')
-            ->setExtra('max_traverse_level_disabled', true);
-        $form = $this->factory->create(MenuUpdateTypeStub::class, $menuUpdate, ['menu_item' => $menuItem]);
+        $menuItem = $this->createItem('sample_item');
+        $menu = $this->createItem('sample_menu')
+            ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, 1);
+        $menu->addChild($menuItem);
+
+        $form = $this->factory->create(
+            MenuUpdateTypeStub::class,
+            $menuUpdate,
+            ['menu_item' => $menuItem, 'menu' => $menu]
+        );
 
         $form->submit([
             'linkTarget' => 0,
@@ -289,7 +294,59 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
 
         $this->assertFormIsValid($form);
 
-        self::assertTrue($form->get('maxTraverseLevel')->getConfig()->getOption('disabled'));
+        $this->assertFormOptionEqual(true, 'disabled', $form->get('maxTraverseLevel'));
+        self::assertEquals($expected, $form->getData());
+    }
+
+    public function testSubmitWhenMaxTraverseLevelIsRestrictedByLevel(): void
+    {
+        $this->webCatalogProvider->expects(self::once())
+            ->method('getWebCatalog')
+            ->willReturn($this->createMock(WebCatalog::class));
+
+        $menu = $this->createItem('sample_menu')
+            ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, 6);
+        $lostItemsContainer = LostItemsManipulator::getLostItemsContainer($menu);
+
+        $menuItem1 = $this->createItem('sample_item_1');
+        $menu->addChild($menuItem1);
+
+        $menuItem11 = $this->createItem('sample_item_1_11');
+        $menuItem1->addChild($menuItem11);
+
+        $menuItem111 = $this->createItem('sample_item_1_11_111')
+            ->setExtra(LostItemsManipulator::IMPLIED_PARENT_NAME, $menuItem11->getName());
+        $lostItemsContainer->addChild($menuItem111);
+
+        $menuItem1111 = $this->createItem('sample_item_1_11_1111')
+            ->setExtra(LostItemsManipulator::IMPLIED_PARENT_NAME, $menuItem11->getName());
+        $lostItemsContainer->addChild($menuItem1111);
+
+        $menuUpdate = (new MenuUpdateStub())
+            ->setParentKey($menuItem111->getName())
+            ->setMaxTraverseLevel(5);
+
+        $form = $this->factory->create(
+            MenuUpdateTypeStub::class,
+            $menuUpdate,
+            ['menu_item' => $menuItem1111, 'menu' => $menu]
+        );
+
+        $this->assertFormOptionEqual([0, 1, 2], 'choices', $form->get('maxTraverseLevel'));
+
+        $form->submit([
+            'linkTarget' => 0,
+            'maxTraverseLevel' => 2,
+        ]);
+
+        $this->assertFormIsValid($form);
+
+        $this->assertFormOptionEqual(false, 'disabled', $form->get('maxTraverseLevel'));
+
+        $expected = (new MenuUpdateStub())
+            ->setLinkTarget(0)
+            ->setParentKey($menuItem111->getName())
+            ->setMaxTraverseLevel(2);
         self::assertEquals($expected, $form->getData());
     }
 
@@ -304,8 +361,9 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
 
         $menuUpdate = new MenuUpdateStub();
         $menuUpdate->setCustom(true);
+        $menu = $this->createItem('sample_menu');
 
-        $form = $this->factory->create(MenuUpdateTypeStub::class, $menuUpdate);
+        $form = $this->factory->create(MenuUpdateTypeStub::class, $menuUpdate, ['menu' => $menu]);
 
         $form->submit($submitData);
 

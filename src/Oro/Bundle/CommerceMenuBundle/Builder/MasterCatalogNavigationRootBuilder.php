@@ -85,7 +85,6 @@ class MasterCatalogNavigationRootBuilder implements BuilderInterface
                         'position' => $startingPosition++,
                         'menu_template' => $menuTemplateName,
                         'max_traverse_level' => $maxTraverseLevel,
-                        'max_traverse_level_disabled' => false,
                         'translate_disabled' => true,
                     ], $this->extrasOption),
                 ]

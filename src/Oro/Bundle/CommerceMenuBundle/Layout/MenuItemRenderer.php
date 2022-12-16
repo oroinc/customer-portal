@@ -17,11 +17,22 @@ class MenuItemRenderer implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
+    private const ERROR_TEMPLATE = <<<HTML
+<div class="alert alert-error alert--compact" role="alert">
+    <span class="fa-exclamation alert-icon" aria-hidden="true"></span>
+    Rendering of the menu item "%s" failed: %s
+</div>
+HTML;
+
     private LayoutManager $layoutManager;
 
-    public function __construct(LayoutManager $layoutManager)
+    private bool $debug;
+
+    public function __construct(LayoutManager $layoutManager, bool $debug)
     {
         $this->layoutManager = $layoutManager;
+        $this->debug = $debug;
+
         $this->logger = new NullLogger();
     }
 
@@ -35,20 +46,29 @@ class MenuItemRenderer implements LoggerAwareInterface
             $layoutContext = new LayoutContext(
                 [
                     'data' => ['menu_item' => $menuItem],
-                    'menu_template' => (string) $menuItem->getExtra(MenuUpdate::MENU_TEMPLATE),
-                    'menu_name' => $menuItem->getName(),
+                    'menu_template' => (string)$menuItem->getExtra(MenuUpdate::MENU_TEMPLATE),
+                    'menu_item_name' => $menuItem->getName(),
                 ],
-                ['menu_template', 'menu_name']
+                ['menu_template', 'menu_item_name']
             );
 
             return $layoutBuilder->getLayout($layoutContext)->render();
         } catch (\Throwable $throwable) {
             $this->logger->error(
-                'Error occurred while rendering menu item "{menu_item_name}".',
-                ['throwable' => $throwable, 'menu_item_name' => $menuItem->getName(), 'menu_item' => $menuItem]
+                'Error occurred while rendering menu item "{menu_item_name}": {error}',
+                [
+                    'throwable' => $throwable,
+                    'error' => $throwable->getMessage(),
+                    'menu_item_name' => $menuItem->getName(),
+                    'menu_item' => $menuItem,
+                ]
             );
 
-            return '';
+            if ($this->debug) {
+                return sprintf(self::ERROR_TEMPLATE, $menuItem->getName(), $throwable->getMessage());
+            }
         }
+
+        return '';
     }
 }

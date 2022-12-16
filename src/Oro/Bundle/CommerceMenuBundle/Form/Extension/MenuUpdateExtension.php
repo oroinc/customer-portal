@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Form\Extension;
 
-use Knp\Menu\ItemInterface;
 use Oro\Bundle\AttachmentBundle\Form\Type\ImageType;
 use Oro\Bundle\CatalogBundle\Form\Type\CategoryTreeType;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
@@ -10,8 +9,10 @@ use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuScreensConditionType;
 use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuUserAgentConditionsCollectionType;
 use Oro\Bundle\CommerceMenuBundle\Provider\MenuTemplatesProvider;
 use Oro\Bundle\FormBundle\Form\Type\LinkTargetType;
+use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType;
 use Oro\Bundle\NavigationBundle\Form\Type\RouteChoiceType;
+use Oro\Bundle\NavigationBundle\Utils\MenuUpdateUtils;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Bundle\WebCatalogBundle\Entity\WebCatalog;
 use Oro\Bundle\WebCatalogBundle\Form\Type\ContentNodeFromWebCatalogSelectType;
@@ -23,6 +24,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 
 /**
  * Adds fields related to CommerceMenuBundle MenuUpdate entity.
@@ -120,6 +122,7 @@ class MenuUpdateExtension extends AbstractTypeExtension
     private function addTargetFields(FormEvent $event): void
     {
         $form = $event->getForm();
+        /** @var MenuUpdate $menuUpdate */
         $menuUpdate = $event->getData();
 
         $form->add(
@@ -158,6 +161,7 @@ class MenuUpdateExtension extends AbstractTypeExtension
                 'auto_initialize' => false,
                 'create_enabled' => false,
                 'disabled' => !$menuUpdate->isCustom(),
+                'error_bubbling' => false,
             ]
         );
 
@@ -169,6 +173,7 @@ class MenuUpdateExtension extends AbstractTypeExtension
                     'label' => 'oro.commercemenu.menuupdate.content_node.label',
                     'required' => true,
                     'disabled' => !$menuUpdate->isCustom(),
+                    'error_bubbling' => false,
                 ],
                 $webCatalog instanceof WebCatalog ? ['web_catalog' => $webCatalog] : []
             )
@@ -181,24 +186,11 @@ class MenuUpdateExtension extends AbstractTypeExtension
                 'required' => true,
                 'label' => 'oro.commercemenu.menuupdate.category.label',
                 'disabled' => !$menuUpdate->isCustom(),
+                'error_bubbling' => false,
             ]
         );
 
-        /** @var ItemInterface|null $menuItem */
-        $menuItem = $form->getConfig()->getOption('menu_item');
-        $form->add(
-            'maxTraverseLevel',
-            ChoiceType::class,
-            [
-                'label' => 'oro.commercemenu.menuupdate.max_traverse_level.label',
-                'tooltip' => 'oro.commercemenu.menuupdate.max_traverse_level.placeholder',
-                'required' => false,
-                'placeholder' => false,
-                'choices' => range(0, 5),
-                'translatable_options' => false,
-                'disabled' => $menuItem?->getExtra('max_traverse_level_disabled') ?? false,
-            ]
-        );
+        $this->addMaxTraverseLevelField($form, $menuUpdate);
 
         $form->add(
             'systemPageRoute',
@@ -212,6 +204,31 @@ class MenuUpdateExtension extends AbstractTypeExtension
                 ],
                 'menu_name' => 'frontend_menu',
                 'disabled' => !$menuUpdate->isCustom(),
+                'error_bubbling' => false,
+            ]
+        );
+    }
+
+    private function addMaxTraverseLevelField(FormInterface $form, MenuUpdateInterface $menuUpdate): void
+    {
+        $menu = $form->getConfig()->getOption('menu');
+        $parentMenuItem = MenuUpdateUtils::findMenuItem($menu, $menuUpdate->getParentKey()) ?? $menu;
+        $maxTraverseLevel = max(0, MenuUpdateUtils::getAllowedNestingLevel($parentMenuItem) - 1);
+        if ($menuUpdate->getMaxTraverseLevel() > $maxTraverseLevel) {
+            $menuUpdate->setMaxTraverseLevel($maxTraverseLevel);
+        }
+
+        $form->add(
+            'maxTraverseLevel',
+            ChoiceType::class,
+            [
+                'label' => 'oro.commercemenu.menuupdate.max_traverse_level.label',
+                'tooltip' => 'oro.commercemenu.menuupdate.max_traverse_level.placeholder',
+                'required' => false,
+                'placeholder' => false,
+                'choices' => range(0, $maxTraverseLevel),
+                'translatable_options' => false,
+                'disabled' => $maxTraverseLevel === 0,
             ]
         );
     }

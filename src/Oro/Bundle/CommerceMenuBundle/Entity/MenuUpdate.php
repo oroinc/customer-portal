@@ -92,6 +92,7 @@ class MenuUpdate extends ExtendMenuUpdate implements
     public const LINK_TARGET_NEW_WINDOW = 0;
     public const LINK_TARGET_SAME_WINDOW = 1;
     public const MENU_TEMPLATE = 'menu_template';
+    public const MAX_TRAVERSE_LEVEL = 'max_traverse_level';
 
     /**
      * @var string
@@ -179,12 +180,12 @@ class MenuUpdate extends ExtendMenuUpdate implements
 
         if ($this->getTargetType() === self::TARGET_CONTENT_NODE) {
             $extras['content_node'] = $this->getContentNode();
-            $extras['max_traverse_level'] = $this->getMaxTraverseLevel();
+            $extras[self::MAX_TRAVERSE_LEVEL] = $this->getMaxTraverseLevel();
         }
 
         if ($this->getTargetType() === self::TARGET_CATEGORY) {
             $extras['category'] = $this->getCategory();
-            $extras['max_traverse_level'] = $this->getMaxTraverseLevel();
+            $extras[self::MAX_TRAVERSE_LEVEL] = $this->getMaxTraverseLevel();
         }
 
         if ($this->getTargetType() === self::TARGET_SYSTEM_PAGE) {

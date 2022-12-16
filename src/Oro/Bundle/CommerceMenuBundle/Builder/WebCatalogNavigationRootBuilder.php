@@ -104,7 +104,6 @@ class WebCatalogNavigationRootBuilder implements BuilderInterface, LoggerAwareIn
                         'position' => $startingPosition++,
                         'menu_template' => $menuTemplateName,
                         'max_traverse_level' => $maxTraverseLevel,
-                        'max_traverse_level_disabled' => false,
                     ], $this->extrasOption),
                 ]
             );

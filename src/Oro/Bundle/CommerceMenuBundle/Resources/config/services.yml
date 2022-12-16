@@ -29,19 +29,10 @@ services:
             - '@oro_scope.scope_manager'
             - '@oro_commerce_menu.manager.menu_update'
 
-    oro_commerce_menu.menu.menu_update_builder.not_applied:
-        class: 'Oro\Bundle\NavigationBundle\Menu\MenuUpdateBuilder'
-        arguments:
-            - '@oro_commerce_menu.provider.menu_update_provider.not_applied'
-            - '@oro_commerce_menu.menu_update_applier'
-            - '@event_dispatcher'
+    oro_commerce_menu.menu.lost_items_builder:
+        class: 'Oro\Bundle\NavigationBundle\Menu\LostItemsBuilder'
         tags:
             - { name: oro_menu.builder, priority: 250 }
-
-    oro_commerce_menu.provider.menu_update_provider.not_applied:
-        class: 'Oro\Bundle\NavigationBundle\Provider\NotAppliedMenuUpdateProvider'
-        tags:
-            - { name: kernel.event_listener, event: Oro\Bundle\NavigationBundle\Event\MenuUpdatesApplyAfterEvent, method: onMenuUpdatesApplyAfter }
 
     oro_commerce_menu.manager.menu_update:
         class: Oro\Bundle\NavigationBundle\Manager\MenuUpdateManager
@@ -248,6 +239,7 @@ services:
         class: Oro\Bundle\CommerceMenuBundle\Layout\MenuItemRenderer
         arguments:
             - '@oro_layout.layout_manager'
+            - '%kernel.debug%'
         calls:
             - ['setLogger', ['@logger']]
         tags:

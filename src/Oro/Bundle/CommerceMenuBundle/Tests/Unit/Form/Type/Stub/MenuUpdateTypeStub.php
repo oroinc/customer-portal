@@ -17,5 +17,6 @@ class MenuUpdateTypeStub extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('menu_item', null);
+        $resolver->setRequired('menu');
     }
 }

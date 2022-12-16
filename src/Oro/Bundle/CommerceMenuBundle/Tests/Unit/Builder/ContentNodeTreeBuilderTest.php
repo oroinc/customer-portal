@@ -6,11 +6,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
-use Knp\Menu\MenuFactory;
-use Knp\Menu\MenuItem;
 use Oro\Bundle\CommerceMenuBundle\Builder\ContentNodeTreeBuilder;
+use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
+use Oro\Bundle\NavigationBundle\Menu\ConfigurationBuilder;
+use Oro\Bundle\NavigationBundle\Tests\Unit\MenuItemTestTrait;
 use Oro\Bundle\PlatformBundle\Tests\Unit\Stub\ProxyStub;
 use Oro\Bundle\WebCatalogBundle\Cache\ResolvedData\ResolvedContentNode;
 use Oro\Bundle\WebCatalogBundle\Cache\ResolvedData\ResolvedContentVariant;
@@ -20,6 +21,8 @@ use Oro\Bundle\WebCatalogBundle\Tests\Unit\Stub\ContentNodeStub;
 
 class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
 {
+    use MenuItemTestTrait;
+
     private MenuContentNodesProviderInterface $menuContentNodesProvider;
 
     private ContentNodeTreeBuilder $builder;
@@ -55,9 +58,9 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
     {
         $contentNode = new ContentNode();
 
-        $menuItem = new MenuItem('sample_menu', new MenuFactory());
+        $menuItem = $this->createItem('sample_menu');
         $menuItem->setDisplay(false);
-        $menuItem->setExtra('content_node', $contentNode);
+        $menuItem->setExtra(MenuUpdate::TARGET_CONTENT_NODE, $contentNode);
 
         $this->menuContentNodesProvider
             ->expects(self::never())
@@ -68,7 +71,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
 
     public function testBuildWhenNoContentNode(): void
     {
-        $menuItem = new MenuItem('sample_menu', new MenuFactory());
+        $menuItem = $this->createItem('sample_menu');
         $menuItem->setDisplay(true);
 
         $this->menuContentNodesProvider
@@ -82,12 +85,18 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
     {
         $contentNode = new ContentNodeStub(42);
 
-        $menuItem = new MenuItem('sample_menu', new MenuFactory());
-        $menuItem->setDisplay(true);
+        $maxNestingLevel = 6;
+        $menuItem = $this->createItem('sample_menu')
+            ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, $maxNestingLevel);
         $maxTraverseLevel = 5;
         $menuItem->addChild(
             'sample_menu_item',
-            ['extras' => ['content_node' => $contentNode, 'max_traverse_level' => $maxTraverseLevel]]
+            [
+                'extras' => [
+                    MenuUpdate::TARGET_CONTENT_NODE => $contentNode,
+                    MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
+                ],
+            ]
         );
 
         $this->menuContentNodesProvider
@@ -103,15 +112,17 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                 'display' => true,
                 'label' => 'sample_menu',
                 'uri' => null,
-                'extras' => [],
+                'extras' => [
+                    ConfigurationBuilder::MAX_NESTING_LEVEL => $maxNestingLevel,
+                ],
                 'children' => [
                     'sample_menu_item' => [
                         'display' => false,
                         'label' => 'sample_menu_item',
                         'uri' => null,
                         'extras' => [
-                            'content_node' => $contentNode,
-                            'max_traverse_level' => $maxTraverseLevel,
+                            MenuUpdate::TARGET_CONTENT_NODE => $contentNode,
+                            MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
                         ],
                         'children' => [],
                     ],
@@ -125,12 +136,18 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
     {
         $contentNode = new ContentNodeStub(42);
 
-        $menuItem = new MenuItem('sample_menu', new MenuFactory());
-        $menuItem->setDisplay(true);
+        $maxNestingLevel = 6;
+        $menuItem = $this->createItem('sample_menu')
+            ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, $maxNestingLevel);
         $maxTraverseLevel = 5;
         $menuItem->addChild(
             'sample_menu_item',
-            ['extras' => ['content_node' => $contentNode, 'max_traverse_level' => $maxTraverseLevel]]
+            [
+                'extras' => [
+                    MenuUpdate::TARGET_CONTENT_NODE => $contentNode,
+                    MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
+                ],
+            ]
         );
 
         $resolvedContentNode = $this->createResolvedNode(42, 'Root');
@@ -147,15 +164,15 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                 'display' => true,
                 'label' => 'sample_menu',
                 'uri' => null,
-                'extras' => [],
+                'extras' => [ConfigurationBuilder::MAX_NESTING_LEVEL => $maxNestingLevel],
                 'children' => [
                     'sample_menu_item' => [
                         'display' => true,
                         'label' => (string)$resolvedContentNode->getTitles()[0],
                         'uri' => 'node/' . $resolvedContentNode->getId(),
                         'extras' => [
-                            'content_node' => $contentNode,
-                            'max_traverse_level' => $maxTraverseLevel,
+                            MenuUpdate::TARGET_CONTENT_NODE => $contentNode,
+                            MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
                         ],
                         'children' => [],
                     ],
@@ -181,12 +198,18 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $menuItem = new MenuItem('sample_menu', new MenuFactory());
-        $menuItem->setDisplay(true);
+        $maxNestingLevel = 6;
+        $menuItem = $this->createItem('sample_menu')
+            ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, $maxNestingLevel);
         $maxTraverseLevel = 5;
         $menuItem->addChild(
             'sample_menu_item',
-            ['extras' => ['content_node' => $contentNode, 'max_traverse_level' => $maxTraverseLevel]]
+            [
+                'extras' => [
+                    MenuUpdate::TARGET_CONTENT_NODE => $contentNode,
+                    MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
+                ],
+            ]
         );
 
         $this->menuContentNodesProvider
@@ -207,13 +230,16 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                 'display' => true,
                 'label' => 'sample_menu',
                 'uri' => null,
-                'extras' => [],
+                'extras' => [ConfigurationBuilder::MAX_NESTING_LEVEL => $maxNestingLevel],
                 'children' => [
                     'sample_menu_item' => [
                         'display' => true,
                         'label' => 'Root',
                         'uri' => 'node/42',
-                        'extras' => ['content_node' => $contentNode, 'max_traverse_level' => $maxTraverseLevel],
+                        'extras' => [
+                            MenuUpdate::TARGET_CONTENT_NODE => $contentNode,
+                            MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
+                        ],
                         'children' => [
                             'sample_menu_item_11' => [
                                 'display' => true,
@@ -221,10 +247,9 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 'uri' => 'node/11',
                                 'extras' => [
                                     'isAllowed' => true,
-                                    'content_node' => new ProxyStub(ContentNode::class, 11),
-                                    'max_traverse_level' => 4,
-                                    'max_traverse_level_disabled' => true,
                                     'translate_disabled' => true,
+                                    MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 11),
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => 4,
                                 ],
                                 'children' => [],
                             ],
@@ -234,10 +259,9 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 'uri' => 'node/12',
                                 'extras' => [
                                     'isAllowed' => true,
-                                    'content_node' => new ProxyStub(ContentNode::class, 12),
-                                    'max_traverse_level' => 4,
-                                    'max_traverse_level_disabled' => true,
                                     'translate_disabled' => true,
+                                    MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 12),
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => 4,
                                 ],
                                 'children' => [
                                     'sample_menu_item_121' => [
@@ -246,10 +270,9 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                         'uri' => 'node/121',
                                         'extras' => [
                                             'isAllowed' => true,
-                                            'content_node' => new ProxyStub(ContentNode::class, 121),
-                                            'max_traverse_level' => 3,
-                                            'max_traverse_level_disabled' => true,
                                             'translate_disabled' => true,
+                                            MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 121),
+                                            MenuUpdate::MAX_TRAVERSE_LEVEL => 3,
                                         ],
                                         'children' => [],
                                     ],
@@ -261,10 +284,124 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 'uri' => 'node/13',
                                 'extras' => [
                                     'isAllowed' => true,
-                                    'content_node' => new ProxyStub(ContentNode::class, 13),
-                                    'max_traverse_level' => 4,
-                                    'max_traverse_level_disabled' => true,
                                     'translate_disabled' => true,
+                                    MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 13),
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => 4,
+                                ],
+                                'children' => [],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            $this->normalizeMenuItem($menuItem)
+        );
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
+    public function testBuildWhenRestrictedByMaxNestingLevel(): void
+    {
+        $contentNode = new ContentNodeStub(42);
+        $resolvedContentNode = $this->createResolvedNode(
+            42,
+            'Root',
+            [
+                $this->createResolvedNode(11, 'Node 1'),
+                $this->createResolvedNode(12, 'Node 2', [$this->createResolvedNode(121, 'Node 21')]),
+                $this->createResolvedNode(13, 'Node 3'),
+            ]
+        );
+
+        $maxNestingLevel = 3;
+        $menuItem = $this->createItem('sample_menu')
+            ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, $maxNestingLevel);
+        $menuItem->addChild(
+            'sample_menu_item',
+            [
+                'extras' => [
+                    MenuUpdate::TARGET_CONTENT_NODE => $contentNode,
+                    MenuUpdate::MAX_TRAVERSE_LEVEL => 5,
+                ],
+            ]
+        );
+
+        $this->menuContentNodesProvider
+            ->expects(self::once())
+            ->method('getResolvedContentNode')
+            ->with($contentNode, ['tree_depth' => $maxNestingLevel - 1])
+            ->willReturn($resolvedContentNode);
+
+        $this->entityManager
+            ->expects(self::exactly(4))
+            ->method('getReference')
+            ->willReturnCallback(static fn ($class, $id) => new ProxyStub($class, $id));
+
+        $this->builder->build($menuItem);
+
+        self::assertEquals(
+            [
+                'display' => true,
+                'label' => 'sample_menu',
+                'uri' => null,
+                'extras' => [ConfigurationBuilder::MAX_NESTING_LEVEL => $maxNestingLevel],
+                'children' => [
+                    'sample_menu_item' => [
+                        'display' => true,
+                        'label' => 'Root',
+                        'uri' => 'node/42',
+                        'extras' => [
+                            MenuUpdate::TARGET_CONTENT_NODE => $contentNode,
+                            MenuUpdate::MAX_TRAVERSE_LEVEL => $maxNestingLevel - 1,
+                        ],
+                        'children' => [
+                            'sample_menu_item_11' => [
+                                'display' => true,
+                                'label' => 'Node 1',
+                                'uri' => 'node/11',
+                                'extras' => [
+                                    'isAllowed' => true,
+                                    'translate_disabled' => true,
+                                    MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 11),
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => 1,
+                                ],
+                                'children' => [],
+                            ],
+                            'sample_menu_item_12' => [
+                                'display' => true,
+                                'label' => 'Node 2',
+                                'uri' => 'node/12',
+                                'extras' => [
+                                    'isAllowed' => true,
+                                    'translate_disabled' => true,
+                                    MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 12),
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => 1,
+                                ],
+                                'children' => [
+                                    'sample_menu_item_121' => [
+                                        'display' => true,
+                                        'label' => 'Node 21',
+                                        'uri' => 'node/121',
+                                        'extras' => [
+                                            'isAllowed' => true,
+                                            'translate_disabled' => true,
+                                            MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 121),
+                                            MenuUpdate::MAX_TRAVERSE_LEVEL => 0,
+                                        ],
+                                        'children' => [],
+                                    ],
+                                ],
+                            ],
+                            'sample_menu_item_13' => [
+                                'display' => true,
+                                'label' => 'Node 3',
+                                'uri' => 'node/13',
+                                'extras' => [
+                                    'isAllowed' => true,
+                                    'translate_disabled' => true,
+                                    MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 13),
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => 1,
                                 ],
                                 'children' => [],
                             ],

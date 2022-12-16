@@ -9,6 +9,9 @@ use Oro\Bundle\CatalogBundle\Entity\Category;
 use Oro\Bundle\CatalogBundle\Menu\MenuCategoriesProviderInterface;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
+use Oro\Bundle\NavigationBundle\MenuUpdateApplier\MenuUpdateApplier;
+use Oro\Bundle\NavigationBundle\Utils\LostItemsManipulator;
+use Oro\Bundle\NavigationBundle\Utils\MenuUpdateUtils;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -61,7 +64,12 @@ class CategoryTreeBuilder implements BuilderInterface
         $includeSubcategories = (bool) $menuItem->getExtra('include_subcategories', true);
         $menuItem->setUri($this->getUrl($category->getId(), $includeSubcategories));
 
-        $maxTraverseLevel = (int)$menuItem->getExtra('max_traverse_level', 0);
+        $maxTraverseLevel = max(0, min(
+            (int)$menuItem->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 0),
+            MenuUpdateUtils::getAllowedNestingLevel($menuItem)
+        ));
+        $menuItem->setExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, $maxTraverseLevel);
+
         $user = $this->tokenAccessor->getUser();
         $categories = $this->menuCategoriesProvider
             ->getCategories($category, $user, null, ['tree_depth' => $maxTraverseLevel]);
@@ -78,12 +86,12 @@ class CategoryTreeBuilder implements BuilderInterface
 
         $menuItem->setExtra('category_data', $baseCategoryData);
 
-        $menuPrefix = $this->getMenuPrefix($menuItem, $category->getId());
-        $this->addChildren($menuPrefix, $menuItem, $categories, $includeSubcategories);
+        $lostItems = LostItemsManipulator::getLostItemsContainer($menuItem, false)?->getChildren() ?? [];
+        $prefixForChildren = $this->getPrefixForChildren($menuItem, $category->getId(), $lostItems);
+        $this->addChildren($menuItem, $categories, $includeSubcategories, $prefixForChildren, $lostItems);
     }
 
     /**
-     * @param string $menuPrefix
      * @param ItemInterface $menuItem
      * @param iterable<array> $categories
      *  [
@@ -96,20 +104,31 @@ class CategoryTreeBuilder implements BuilderInterface
      *      // ...
      *  ]
      * @param bool $includeSubcategories
+     * @param string $prefixForChildren
+     * @param array<ItemInterface> $lostItems
      */
     private function addChildren(
-        string $menuPrefix,
         ItemInterface $menuItem,
         iterable $categories,
-        bool $includeSubcategories
+        bool $includeSubcategories,
+        string $prefixForChildren,
+        array $lostItems
     ): void {
         $addedMenuItems = [];
         /** @var EntityManager $entityManager */
         $entityManager = $this->managerRegistry->getManagerForClass(Category::class);
         foreach ($categories as $categoryData) {
-            $name = $menuPrefix . $categoryData['id'];
-            $parentName = $menuPrefix . $categoryData['parentId'];
+            $name = $prefixForChildren . $categoryData['id'];
+            $child = $lostItems[$name] ?? null;
+            if ($child) {
+                // If the child is already created in the lost items container, mark it as custom to make it move
+                // to its implied parent menu item.
+                $child->setExtra(MenuUpdateApplier::IS_CUSTOM, true);
+                $addedMenuItems[$name] = $child;
+                continue;
+            }
 
+            $parentName = $prefixForChildren . $categoryData['parentId'];
             $parentMenuItem = $addedMenuItems[$parentName] ?? $menuItem;
             $maxTraverseLevel = (int)$parentMenuItem->getExtra('max_traverse_level', 0);
 
@@ -120,12 +139,11 @@ class CategoryTreeBuilder implements BuilderInterface
                     'uri' => $this->getUrl($categoryData['id'], $includeSubcategories),
                     'extras' => [
                         'isAllowed' => true,
-                        'category' => $entityManager->getReference(Category::class, $categoryData['id']),
-                        'category_data' => $categoryData,
-                        'max_traverse_level' => $maxTraverseLevel - 1,
-                        // Max traverse level option should be disabled for synthetic menu items.
-                        'max_traverse_level_disabled' => true,
                         'translate_disabled' => true,
+                        'category_data' => $categoryData,
+                        MenuUpdate::TARGET_CATEGORY => $entityManager
+                            ->getReference(Category::class, $categoryData['id']),
+                        MenuUpdate::MAX_TRAVERSE_LEVEL => max(0, $maxTraverseLevel - 1),
                     ],
                 ]
             );
@@ -134,14 +152,14 @@ class CategoryTreeBuilder implements BuilderInterface
         }
     }
 
-    private function getMenuPrefix(ItemInterface $menuItem, int $categoryId): string
+    private function getPrefixForChildren(ItemInterface $menuItem, int $categoryId, array $lostItems): string
     {
-        $menuPrefix = 'category_' . $categoryId;
-        if ($menuItem->getName() !== $menuPrefix) {
-            $menuPrefix = $menuItem->getName();
+        $itemName = $menuItem->getName();
+        if (isset($lostItems[$itemName])) {
+            return substr($itemName, 0, strrpos($itemName, '_' . $categoryId)) . '_';
         }
 
-        return $menuPrefix . '_';
+        return $itemName . '_';
     }
 
     private function getUrl(int $categoryId, bool $includeSubcategories): string
