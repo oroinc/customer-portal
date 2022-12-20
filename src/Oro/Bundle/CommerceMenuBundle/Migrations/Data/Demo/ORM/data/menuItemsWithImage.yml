@@ -1,0 +1,7 @@
+menuItemForContentNode1:
+    custom: true
+    uri: '#'
+    image: '@OroWebCatalogBundle/Resources/public/images/onsale_1.jpg'
+    title: 'On Sale'
+    parentKey: 'menu_update_content_node_1'
+    priority: 10
