@@ -6,8 +6,6 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         street: 'First avenue'
         city: 'Berlin'
         postalCode: '10115'
-        firstName: 'Amanda'
-        lastName: 'Cole'
         frontendOwner: '@customer1'
         owner: '@admin'
         __calls:

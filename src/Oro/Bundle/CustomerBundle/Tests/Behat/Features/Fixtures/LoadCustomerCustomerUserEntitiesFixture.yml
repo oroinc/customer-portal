@@ -28,7 +28,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         owner: '@admin'
         __calls:
             - setDefaults: ['@shippingType', '@billingType']
-        organization: '@organization'
+        organization: 'ORO'
         systemOrganization: '@organization'
         primary: true
 
@@ -62,7 +62,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
         owner: '@admin'
         __calls:
             - setDefaults: ['@shippingType', '@billingType']
-        organization: '@organization'
+        organization: 'ORO'
         systemOrganization: '@organization'
         primary: true
 
