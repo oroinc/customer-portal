@@ -1058,6 +1058,67 @@
     </div>
 {% endblock %}
 
+{# Scrool Shadow View #}
+{% block _style_book_scroll_shadow_view_template_widget %}
+    <div class="style-book-group-element__preview grid">
+        <div class="grid-col-6 scroll-container" data-page-component-view="orofrontend/js/app/views/scroll-shadow-view" data-scroll-target>
+            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+            If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
+            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+            If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
+        </div>
+        <div class="grid-col-6 grid" data-page-component-view="orofrontend/js/app/views/scroll-shadow-view">
+            <div class="grid-col-6 scroll-container" data-scroll-target>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+                If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
+            </div>
+            <div class="grid-col-6 scroll-container" data-scroll-target> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+                If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_scroll_shadow_view_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container'
+    }) %}
+
+    <style>
+        .scroll-container {
+            overflow: auto;
+            max-height: 100px
+        }
+    </style>
+    <div {{ block('block_attributes') }}>
+        {{ block('_style_book_scroll_shadow_view_template_widget') }}
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_scroll_shadow_view_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props grid" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_scroll_shadow_view_html_widget %}
+    {% set source_code %}
+        {{ block('_style_book_scroll_shadow_view_template_widget') }}
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
 {# Googlemap View #}
 
 {% block _style_book_googlemaps_view_widget %}

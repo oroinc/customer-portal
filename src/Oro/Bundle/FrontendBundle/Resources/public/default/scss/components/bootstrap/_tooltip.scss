@@ -8,6 +8,11 @@
         z-index: z('fixed') + 10;
     }
 
+    &--menu-label {
+        z-index: z('popup') + 2;
+        pointer-events: none;
+    }
+
     .arrow {
         &::before {
             @include base-disabled-style(.75);

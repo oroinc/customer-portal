@@ -94,6 +94,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/sticky-panel-config.scss'
         - 'bundles/orofrontend/default/scss/variables/skip-to-content-config.scss'
         - 'bundles/orofrontend/default/scss/variables/dropdown-search-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/scroll-shadow-config.scss'
 
         # Components
 
@@ -205,6 +206,7 @@ styles:
         - 'bundles/orofrontend/default/scss/components/close-dialog.scss'
         - 'bundles/orofrontend/default/scss/components/sidebar-filter-container.scss'
         - 'bundles/orofrontend/default/scss/components/dropdown-search.scss'
+        - 'bundles/orofrontend/default/scss/components/scroll-shadow.scss'
     output: 'css/styles.css'
     auto_rtl_inputs:
         - 'bundles/oro*/**'

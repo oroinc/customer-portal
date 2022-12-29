@@ -228,6 +228,8 @@ oro_stylebook:
                 title: 'Fullscreen Popup View'
             scroll_view:
                 title: 'Scroll View'
+            scroll_shadow_view:
+                title: 'Scroll Shadow View'
             googlemaps_view:
                 title: 'Google Map View'
             list_slider:

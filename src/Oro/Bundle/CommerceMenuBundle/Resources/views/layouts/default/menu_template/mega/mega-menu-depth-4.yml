@@ -1,0 +1,26 @@
+layout:
+    actions:
+        - '@addTree':
+            items:
+                # Fourth Level
+                mega_menu_depth_4_list:
+                    blockType: menu_list
+                    options:
+                        class_prefix: 'mega-menu-depth-4'
+                        tagName: 'div'
+                        attr:
+                            role: 'list'
+                mega_menu_depth_4_item:
+                    blockType: menu_item
+                    options:
+                        tagName: 'div'
+                        attr:
+                            role: 'listitem'
+                mega_menu_depth_4_inner:
+                    blockType: menu_inner
+            tree:
+                mega_menu_depth_3_inner:
+                    # Fourth Level
+                    mega_menu_depth_4_list:
+                        mega_menu_depth_4_item:
+                            mega_menu_depth_4_inner: ~

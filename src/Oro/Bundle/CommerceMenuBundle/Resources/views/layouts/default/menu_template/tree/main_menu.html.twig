@@ -1,41 +1,33 @@
-{% block _web_catalog_menu_widget %}
-    {% set categoriesAttr = layout_attr_defaults(attr, {
-        '~class': ' main-menu__item'
-    }) %}
-    {% set hasSublist = menu_item.children is not empty %}
-    {% set categoryAttr = categoriesAttr %}
-    {% if hasSublist|default(false)  %}
-        {% set categoryAttr = layout_attr_defaults(categoryAttr, {
-            '~class': ' main-menu__item--ancestor'
-        }) %}
-    {% endif  %}
-    {% do block|merge_context({'menu_item': menu_item}) %}
-    {% for child in block -%}
-        {% if child.vars.visible %}
-            {{ block_widget(child, {attr: categoryAttr}) }}
-        {% endif %}
-    {%- endfor %}
+{% block _menu_item_inner_widget %}
+    {% set layoutType = layoutType|default((menu_item.children|length == 1 ? 'floated' : 'centered')) %}
+
+    {{ parent_block_widget(block) }}
 {% endblock %}
 
-{% block _web_catalog_menu_first_level_item_head_widget %}
+{% block _menu_item_inner_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' main-menu__item--' ~ (block.children|length == 1 ? 'floated' : 'centered') ~ '-dropdown'
+        '~class': ' main-menu__inner-container'
     }) %}
-    {% set sub_block = '_web_catalog_menu_main_menu_sub_block_head' %}
-    {{ block('_web_catalog_menu_main_menu_link') }}
+
+    <div {{ block('block_attributes') }}>
+        <div class="main-menu-columns">
+            {% do block|merge_context({'menu_items': menu_item.children}) %}
+            {{ block_widget(block) }}
+        </div>
+    </div>
 {% endblock %}
 
-{% block _web_catalog_menu_second_level_item_head_widget %}
+{% block _menu_second_level_item_head_widget %}
     {% set label = menu_item.label %}
     {% set content %}
         {% for menu_item in menu_items %}
-            {{ block('_web_catalog_menu_second_level_item') }}
+            {{ block('_menu_second_level_item') }}
         {% endfor %}
     {% endset %}
-    {{ block('_web_catalog_menu_second_level_column') }}
+    {{ block('_menu_second_level_column') }}
 {% endblock %}
 
-{% block _web_catalog_menu_second_level_sale_head_widget %}
+{% block _menu_second_level_sale_head_widget %}
     {% set label = 'On Sale' %}
     {% set content %}
         <li class="main-menu-column__item">
@@ -47,10 +39,10 @@
             </a>
         </li>
     {% endset %}
-    {{ block('_web_catalog_menu_second_level_column') }}
+    {{ block('_menu_second_level_column') }}
 {% endblock %}
 
-{% block _web_catalog_menu_main_menu_link %}
+{% block _menu_main_menu_link %}
     {%- if menu_item.displayed and menu_item.extras.isAllowed %}
         <li {{ block('block_attributes') }}>
             {% set hasSublist = menu_item.children is not empty %}
@@ -86,25 +78,7 @@
     {%- endif %}
 {% endblock %}
 
-{% block _web_catalog_menu_main_menu_sub_block_head %}
-    {%- if menu_item.displayed and menu_item.extras.isAllowed %}
-        <div class="main-menu__sublist-container"
-             data-header-row-toggle
-             data-scroll="true"
-             aria-labelledby="{{ togglerId }}"
-             role="menu"
-             data-role="sub-menu"
-             aria-hidden="true"
-        >
-            <div class="main-menu-columns">
-                {% do block|merge_context({'menu_items': menu_item.children }) %}
-                {{ block('container_widget') }}
-            </div>
-        </div>
-    {%- endif %}
-{% endblock  %}
-
-{% block _web_catalog_menu_second_level_column %}
+{% block _menu_second_level_column %}
     <div class="main-menu-column {{ addClass|default('') }}" data-role="sub-menu">
         <p class="main-menu-column__title">
             {{ label }}
@@ -115,7 +89,7 @@
     </div>
 {% endblock  %}
 
-{% block _web_catalog_menu_second_level_item %}
+{% block _menu_second_level_item %}
     {%- if menu_item.displayed and menu_item.extras.isAllowed %}
         <li class="main-menu-column__item">
             <a role="menuitem" class="main-menu-column__link" href="{{ oro_commercemenu_get_url(menu_item.uri) }}">{{ menu_item.label }}</a>

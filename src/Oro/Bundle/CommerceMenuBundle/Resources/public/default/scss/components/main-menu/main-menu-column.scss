@@ -111,6 +111,10 @@
 
             white-space: $main-menu-column-splited-white-space;
         }
+
+        &__title {
+            font-weight: $main-menu-column-title-desktop-font-weight;
+        }
     }
 }
 

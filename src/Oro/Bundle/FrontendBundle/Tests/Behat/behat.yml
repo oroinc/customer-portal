@@ -21,7 +21,7 @@ oro_behat_extension:
       selector: '[data-main-menu-container]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\FrontendMainMenu
     FrontendMainMenuDropdown:
-      selector: '.main-menu__item--ancestor'
+      selector: '.main-menu__item'
     Frontend Grid:
       selector: 'div.oro-datagrid'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid

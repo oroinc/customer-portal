@@ -1,0 +1,54 @@
+/* @theme: default; */
+
+$mega-menu-depth-1-list-background: get-color('additional', 'ultra') !default;
+$mega-menu-depth-1-list-overflow: auto !default;
+$mega-menu-depth-1-list-width: 320px !default;
+$mega-menu-depth-1-list-max-height: 100% !default;
+$mega-menu-depth-1-list-align-self: start !default;
+$mega-menu-depth-1-list-box-shadow: 0 2px 6px 1px #{rgba(get-color('additional', 'darker'), .12)} !default;
+
+$mega-menu-depth-1-inner-display: none !default;
+$mega-menu-depth-1-inner-grid-template-rows: auto minmax(0, 1fr) !default;
+$mega-menu-depth-1-inner-background: get-color('additional', 'ultra') !default;
+$mega-menu-depth-1-inner-padding-block: 32px !default;
+$mega-menu-depth-1-inner-padding-inline: 32px !default;
+$mega-menu-depth-1-inner-position: absolute !default;
+$mega-menu-depth-1-inner-inset-block: 0 !default;
+$mega-menu-depth-1-inner-inset-inline: $mega-menu-depth-1-list-width 0 !default;
+$mega-menu-depth-1-inner-box-shadow: 0 2px 6px 1px #{rgba(get-color('additional', 'darker'), .12)} !default;
+$mega-menu-depth-1-inner-z-index: z('hidden') !default;
+
+$mega-menu-depth-1-inner-current-display: grid !default;
+
+$mega-menu-depth-1-close-inset-block-start: 20px !default;
+$mega-menu-depth-1-close-inset-inline-end: 20px !default;
+
+$mega-menu-depth-1-title-line-height: 1.25 !default;
+$mega-menu-depth-1-title-text-transform: uppercase !default;
+$mega-menu-depth-1-title-margin-bottom: 24px !default;
+$mega-menu-depth-1-title-padding-inline-end: 32px !default;
+
+$mega-menu-depth-1-title-inner-color: get-color('additional', 'dark') !default;
+
+$mega-menu-depth-1-inner-edge-desktop-min-height: 100% !default;
+$mega-menu-depth-1-inner-edge-desktop-max-height: 734px !default;
+$mega-menu-depth-1-inner-edge-desktop-bottom: auto !default;
+
+// Tablet
+$mega-menu-depth-1-list-tablet-height: 100% !default;
+
+$mega-menu-depth-1-close-tablet-display: none !default;
+
+// Mobile Big
+$mega-menu-depth-1-inner-mobile-big-position: absolute !default;
+$mega-menu-depth-1-inner-mobile-big-top: 0 !default;
+$mega-menu-depth-1-inner-mobile-big-left: 100% !default;
+$mega-menu-depth-1-inner-mobile-big-bottom: 0 !default;
+$mega-menu-depth-1-inner-mobile-big-z-index: z('base') + 2 !default;
+$mega-menu-depth-1-inner-mobile-big-width: 100% !default;
+$mega-menu-depth-1-inner-mobile-big-background: get-color('additional', 'ultra') !default;
+$mega-menu-depth-1-inner-mobile-big-transition: left .4s linear !default;
+
+$mega-menu-depth-1-inner-mobile-big-current-left: 0 !default;
+
+$mega-menu-depth-1-title-mobile-big-display: none !default;

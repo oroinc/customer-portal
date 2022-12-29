@@ -1,0 +1,42 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'mega-menu-depth-1.html.twig'
+        - '@addTree':
+            items:
+                # First Level
+                mega_menu_depth_1_list:
+                    blockType: menu_list
+                    options:
+                        class_prefix: 'mega-menu-depth-1'
+                        attr:
+                            data-role: 'sub-menu'
+                mega_menu_depth_1_item:
+                    blockType: menu_item
+                    options:
+                        tooltipEnable: true
+                        dividerEnable: false
+                        attr:
+                            data-role: 'menuitem'
+                mega_menu_depth_1_inner:
+                    blockType: menu_inner
+                    options:
+                        attr:
+                            data-role: 'sub-menu'
+                            aria-hidden: 'true'
+                mega_menu_depth_1_close:
+                    blockType: block
+                    prepend: false
+                mega_menu_depth_1_title:
+                    blockType: container
+                mega_menu_depth_1_title_inner:
+                    blockType: block
+            tree:
+                menu_item_multi_container:
+                    # First Level
+                    mega_menu_depth_1_list:
+                        mega_menu_depth_1_item:
+                            mega_menu_depth_1_inner:
+                                mega_menu_depth_1_close: ~
+                                mega_menu_depth_1_title:
+                                    mega_menu_depth_1_title_inner: ~

@@ -2,6 +2,41 @@ The upgrade instructions are available at [Oro documentation website](https://do
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
+### Added
+#### CommerceMenuBundle
+* Added the following block types with options:
+  - `menu_list`: Container for rendering menu list
+    + `layoutType`: **{default: null}** - Allows you to set a layout modifier. Requires a `class_prefix` value to be set
+    + `tagName`: **{default: 'ul'}** - Specifies which html tag to use
+  - `menu_item`: Menu item with actions, also allows you to render the next level menu list
+    + `tagName`: **{default: 'li'}** - Specifies which html tag to use
+    + `iconEnable`: **{default: true}** - Enable/Disable icon of the menu item
+    + `linkEnable`: **{default: true}** - Enable/Disable link of the menu item
+    + `tooltipEnable`: **{default: false}** - Enable/Disable tooltip for menu item
+    + `dividerEnable`: **{default: true}** - Enable/Disable divider items
+    + `imageViewAs`: **{default: 'line'} 'line'|'image'|false** - Show item with image as simple text item, item with image or disable
+    + `attr`: **{default: null}** - Menu Item Attributes
+    + `actions_attr`: **{default: null}** - Action Container Attributes
+    + `tooltipTemplate`: Base HTML to use when creating the tooltip.
+    + `link_attr`: **{default: null}** - Item menu link attributes
+    + `button_attr`: **{default: null}** - Item Menu Button Attributes
+    + `button_text_attr`: **{default: null}** - Item Menu Text Label Attributes
+  - `menu_inner`: Menu item container for rendering next nested content
+    + `layoutType`: **{default: null}** - Allows you to set a layout modifier. Requires a `class_prefix` value to be set
+* Added a `scss` mixin `main-menu-stack-items` that provides a basic `scss` structure for a stack of menu items
+* Added three different template variants for menu items:
+  - `list`: Simple list of menu
+  - `tree`: Multi-column menu
+  - `mega`: Multi-level menu with the ability to transition between levels with a slide effect on mobile devices, also a responsive view for desktop devices
+
+### Changed
+#### CommerceMenuBundle
+* `orocommercemenu/js/app/widgets/menu-traveling-widget` was moved to `orocommercemenu/js/app/views/menu-traveling-view`; Now extends `BaseView` instead of `AbstractWidget`
+* Updated block type `menu`:
+  - Parent layout was changed from `oro_layout.block_type.abstract_configurable` to `oro_layout.block_type.abstract_configurable_container`
+  - Added new option:
+    + `customItemBlock`: **{default: null}** - Provides the ability to use a custom menu item template.
+
 ## 5.1.0-beta.2 (2022-11-30)
 [Show detailed list of changes](incompatibilities-5-1-beta-2.md)
 

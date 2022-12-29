@@ -1,0 +1,32 @@
+/* @theme: default; */
+
+$scroll-shadow-before-content: '' !default;
+$scroll-shadow-before-background: linear-gradient(
+    180deg,
+    get-color('additional', 'ultra'),
+    transparent
+) !default;
+$scroll-shadow-before-width: 100% !default;
+$scroll-shadow-before-height: $offset-y !default;
+
+$scroll-shadow-before-margin-top: -$offset-y !default;
+$scroll-shadow-before-display: block !default;
+$scroll-shadow-before-position: sticky !default;
+$scroll-shadow-before-top: 0 !default;
+$scroll-shadow-before-z-index: z('base') !default;
+$scroll-shadow-before-pointer-events: none !default;
+
+$scroll-shadow-after-content: '' !default;
+$scroll-shadow-after-background: linear-gradient(
+    0deg,
+    get-color('additional', 'ultra'),
+    transparent
+) !default;
+$scroll-shadow-after-margin-top: $scroll-shadow-before-margin-top !default;
+$scroll-shadow-before-bottom: -1px !default;
+$scroll-shadow-after-width: $scroll-shadow-before-width !default;
+$scroll-shadow-after-height: $scroll-shadow-before-height !default;
+$scroll-shadow-after-display: $scroll-shadow-before-display !default;
+$scroll-shadow-after-position: $scroll-shadow-before-position !default;
+$scroll-shadow-after-z-index: $scroll-shadow-before-z-index !default;
+$scroll-shadow-after-pointer-events: $scroll-shadow-before-pointer-events !default;

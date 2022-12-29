@@ -23,9 +23,9 @@
 {% endblock %}
 
 {% block _main_menu_extra_container_widget %}
-    {% set attr =  layout_attr_defaults(attr, {
-    'data-main-menu-extra-container': '',
-    'data-header-row-toggle': ''
+    {% set attr = layout_attr_defaults(attr, {
+        'data-main-menu-extra-container': '',
+        'data-header-row-toggle': ''
     }) %}
 
     <div {{ block('block_attributes') }}>
@@ -66,16 +66,13 @@
 {% endblock %}
 
 {% block _main_menu_container_widget %}
+    {% set hoverPriority = hoverPriority|default(false) %}
     {% set attr =  layout_attr_defaults(attr, {
-        '~class': ' main-menu-outer',
-        'data-page-component-module': 'oroui/js/app/components/viewport-component',
-        'data-page-component-options': {
-            viewport: {
-                maxScreenType: 'tablet',
-            },
-            component: 'oroui/js/app/components/view-component',
-            view: 'orocommercemenu/js/app/widgets/menu-traveling-widget'
-         },
+        '~class': " main-menu-outer#{hoverPriority ? ' is-hoverable'}",
+        'data-page-component-view': {
+            view: 'orocommercemenu/js/app/views/menu-traveling-view',
+            hoverPriority: hoverPriority
+        },
         'data-dom-relocation-options': {
             responsive: [
                 {
@@ -89,51 +86,82 @@
     }) %}
 
     <div {{ block('block_attributes') }}>
-        <button class="main-menu__back-trigger" data-go-to="prev" type="button">
-            <span class="fa-chevron-left" aria-hidden="true"></span>
-            {{ 'oro_frontend.fullscreen_popup.back.label'|trans }}
-        </button>
-        <div class=" main-menu-outer__container"
-             data-page-component-module="oroui/js/app/components/view-component"
-             data-page-component-options="{{ {view: 'oronavigation/js/app/views/navigation-menu-view'}|json_encode }}"
-        >
-            {{ block_widget(block) }}
-        </div>
+        {{ block_widget(block) }}
     </div>
 {% endblock %}
 
-{% block _main_menu_list_widget %}
-    {% set attr =  layout_attr_defaults(attr, {
-        '~class': 'main-menu',
-        'role': 'menu'
+{% block _main_menu_back_trigger_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' main-menu__back-trigger',
+        'type': 'button',
+        'data-go-to': 'prev'
     }) %}
-    <ul {{ block('block_attributes') }}>
+
+    <button {{ block('block_attributes') }}>
+        <span class="fa-chevron-left" aria-hidden="true"></span>
+        {{ 'oro_frontend.fullscreen_popup.back.label'|trans }}
+    </button>
+{% endblock %}
+
+{% block _main_menu_outer_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' main-menu-outer__container',
+        'data-page-component-view': {
+            view: 'oronavigation/js/app/views/navigation-menu-view',
+            listenToMouseEvents: false
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
-    </ul>
+    </div>
 {% endblock %}
 
 {% block _main_menu_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': 'main-menu',
+        'role': 'menu'
+    }) %}
+
+    {% set child_attr = layout_attr_defaults(child_attr, {
+        '~class': 'main-menu__item',
+        'data-role': 'menuitem'
+    }) %}
+
+    {% set link_attr = layout_attr_defaults(link_attr, {
+        '~class': 'main-menu__link',
+        'role': 'menuitem'
+    }) %}
+
+    {% set firstClass = null %}
+    {% set lastClass = null %}
+    {% set customItemBlock = customItemBlock|default('_main_menu_root_item') %}
+
+    {{ parent_block_widget(block) }}
+{% endblock %}
+
+{% block _main_menu_root_item %}
     {% import '@OroNavigation/Menu/menu.html.twig' as oro_menu %}
-    {% if item.displayed and item.extras.isAllowed %}
+    {% if item.displayed and item.extras.isAllowed and not (item.extras.divider is defined and item.extras.divider) %}
         {% apply spaceless %}
-            {% for child in item.children -%}
-                {% if child.displayed and child.extras.isAllowed %}
-                    {% if child.extras[constant('Oro\\Bundle\\CommerceMenuBundle\\Entity\\MenuUpdate::MENU_TEMPLATE')]|default('') %}
-                        {{ oro_commercemenu_render_menu_item(child) }}
-                    {% else %}
-                        <li class="main-menu__item">
-                            {% set linkAttributes = child.linkAttributes|merge({
-                                'class': 'main-menu__link',
-                                'role': 'menuitem'
-                            }) %}
-                            <a href="{{ oro_commercemenu_get_url(child.uri) }}"{{ oro_menu.attributes(linkAttributes) }}>
-                                {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
-                                <span class="main-menu__text">{{ label }}</span>
-                            </a>
-                        </li>
-                    {%- endif %}
-                {% endif %}
-            {%- endfor %}
+            {% if item.extras[constant('Oro\\Bundle\\CommerceMenuBundle\\Entity\\MenuUpdate::MENU_TEMPLATE')]|default('') %}
+                {{ oro_commercemenu_render_menu_item(item) }}
+            {% else %}
+                {% set itemAttributes = layout_attr_defaults(itemAttributes, {
+                    'data-main-menu-item': item.level
+                }) %}
+                <li {{ oro_menu.attributes(itemAttributes) }}>
+                    <div class="main-menu__actions">
+                        {% set linkAttributes = layout_attr_defaults(item.linkAttributes, link_attr) %}
+                        {% set labelAttributes = layout_attr_defaults(item.labelAttributes, label_attr) %}
+                        {%- if item.uri is not empty and (not oro_commercemenu_is_current(item) or options.currentAsLink) %}
+                            {{ block('linkElement') }}
+                        {%- else %}
+                            {{ block('spanElement') }}
+                        {%- endif %}
+                    </div>
+                </li>
+            {%- endif %}
         {% endapply %}
     {% endif %}
 {% endblock %}

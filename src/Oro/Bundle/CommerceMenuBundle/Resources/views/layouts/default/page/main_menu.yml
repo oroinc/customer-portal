@@ -13,7 +13,12 @@ layout:
                     blockType: container
                 main_menu_container:
                     blockType: container
-                main_menu_list:
+                    options:
+                        vars:
+                            hoverPriority: true
+                main_menu_back_trigger:
+                    blockType: block
+                main_menu_outer_container:
                     blockType: container
                 main_menu:
                     blockType: menu
@@ -26,5 +31,6 @@ layout:
                         header_row_main_menu:
                             main_menu_extra_container: ~
                             main_menu_container:
-                                main_menu_list:
+                                main_menu_back_trigger: ~
+                                main_menu_outer_container:
                                     main_menu: ~

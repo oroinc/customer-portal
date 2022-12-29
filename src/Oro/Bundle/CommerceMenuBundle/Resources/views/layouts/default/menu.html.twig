@@ -29,7 +29,8 @@
         allow_safe_labels: allow_safe_labels,
         clear_matcher: clear_matcher,
         leaf_class: leaf_class,
-        branch_class: branch_class
+        branch_class: branch_class,
+        customItemBlock: customItemBlock
     } %}
 
     {% set listAttributes = item.childrenAttributes|merge(attr) %}
@@ -62,7 +63,11 @@
         {%- set childrenAttributes = item.childrenAttributes %}
         {%- set classes = (item.attributes.class|default('')~' '~child_attr.class|default(''))|split(' ') %}
         {%- set childrenClasses = childrenAttributes.class is defined ? childrenAttributes.class|split(' ') : [] %}
-        {{ block('item') }}
+        {% if currentOptions.customItemBlock %}
+            {{ block(currentOptions.customItemBlock) }}
+        {% else %}
+            {{ block('item') }}
+        {% endif %}
     {% endfor %}
     {# restore current variables #}
     {% set item = currentItem %}

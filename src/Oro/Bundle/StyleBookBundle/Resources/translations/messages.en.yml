@@ -177,6 +177,9 @@ oro_stylebook:
             scroll_view:
                 title: 'Scroll View'
                 description: 'Preview of the horizontal and vertical scroll.'
+            scroll_shadow_view:
+                title: 'Scroll Shadow View'
+                description: 'Adds a fade to the top and bottom of the scrollbox to hint at more content. It dynamically disappears when you reach the bottom of the list.<br>Requires to have <code class="language-html">data-scroll-target</code> attribute on itself or its children to which scroll hints will be applied.'
             googlemaps_view:
                 title: 'Google Map View'
                 description: 'Preview of the Google Map embedded into the Oro application content. Note: The valid API key is necessary for the preview to render. Ensure you have generated and provided the Google API key in the <a href="https://doc.oroinc.com/user/back-office/system/configuration/system/integrations/google-integration-settings/">Google integartion settings</a> in Oro application configuration.'
