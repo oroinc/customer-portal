@@ -14,8 +14,7 @@ use Oro\Component\EntitySerializer\DataAccessorInterface;
  */
 class AddressEntityDataAccessor implements DataAccessorInterface
 {
-    /** @var DataAccessorInterface */
-    private $innerDataAccessor;
+    private DataAccessorInterface $innerDataAccessor;
 
     public function __construct(DataAccessorInterface $innerDataAccessor)
     {
@@ -23,9 +22,9 @@ class AddressEntityDataAccessor implements DataAccessorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function hasGetter($className, $property)
+    public function hasGetter(string $className, string $property): bool
     {
         if ('types' === $property && \is_a($className, AbstractDefaultTypedAddress::class, true)) {
             $property = 'addressTypes';
@@ -35,9 +34,9 @@ class AddressEntityDataAccessor implements DataAccessorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function tryGetValue($object, $property, &$value)
+    public function tryGetValue(object|array $object, string $property, mixed &$value): bool
     {
         if ('types' === $property && $object instanceof AbstractDefaultTypedAddress) {
             $property = 'addressTypes';
@@ -47,9 +46,9 @@ class AddressEntityDataAccessor implements DataAccessorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getValue($object, $property)
+    public function getValue(object|array $object, string $property): mixed
     {
         if ('types' === $property && $object instanceof AbstractDefaultTypedAddress) {
             $property = 'addressTypes';
