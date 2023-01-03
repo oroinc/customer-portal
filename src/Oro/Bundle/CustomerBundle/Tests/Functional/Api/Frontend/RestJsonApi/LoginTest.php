@@ -22,13 +22,10 @@ class LoginTest extends FrontendWebTestCase
 {
     use ApiFeatureTrait;
 
-    private const JSON_API_MEDIA_TYPE   = 'application/vnd.api+json';
+    private const JSON_API_MEDIA_TYPE = 'application/vnd.api+json';
     private const JSON_API_CONTENT_TYPE = 'application/vnd.api+json';
-    private const API_FEATURE_NAME      = 'oro_frontend.web_api';
+    private const API_FEATURE_NAME = 'oro_frontend.web_api';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->initClient();
@@ -36,13 +33,7 @@ class LoginTest extends FrontendWebTestCase
         $this->setCurrentWebsite();
     }
 
-    /**
-     * @param string $method
-     * @param array  $parameters
-     *
-     * @return Response
-     */
-    private function request($method, array $parameters = [])
+    private function request(string $method, array $parameters = []): Response
     {
         $server = ['HTTP_ACCEPT' => self::JSON_API_MEDIA_TYPE];
         if ('POST' === $method || 'PATCH' === $method || 'DELETE' === $method) {
@@ -67,13 +58,7 @@ class LoginTest extends FrontendWebTestCase
         return $this->client->getResponse();
     }
 
-    /**
-     * @param string $email
-     * @param string $password
-     *
-     * @return Response
-     */
-    private function sendLoginRequest($email, $password)
+    private function sendLoginRequest(string $email, string $password): Response
     {
         $response = $this->request(
             'POST',
@@ -108,10 +93,7 @@ class LoginTest extends FrontendWebTestCase
         return $response;
     }
 
-    /**
-     * @return EntityManagerInterface
-     */
-    private function getEntityManager()
+    private function getEntityManager(): EntityManagerInterface
     {
         return self::getContainer()->get('doctrine')->getManager();
     }
@@ -190,7 +172,7 @@ class LoginTest extends FrontendWebTestCase
 
     public function testLoginWithValidCredentialsAndDisabledApiKeyGeneration()
     {
-        $configManager = self::getConfigManager('global');
+        $configManager = self::getConfigManager();
         $configManager->set('oro_customer.api_key_generation_enabled', false);
 
         $response = $this->sendLoginRequest(LoadCustomerUserData::EMAIL, LoadCustomerUserData::PASSWORD);
@@ -229,7 +211,7 @@ class LoginTest extends FrontendWebTestCase
         $em->persist($apiKey);
         $em->flush();
 
-        $configManager = self::getConfigManager('global');
+        $configManager = self::getConfigManager();
         $configManager->set('oro_customer.case_insensitive_email_addresses_enabled', false);
         $configManager->flush();
 
@@ -253,7 +235,7 @@ class LoginTest extends FrontendWebTestCase
         $em->persist($apiKey);
         $em->flush();
 
-        $configManager = self::getConfigManager('global');
+        $configManager = self::getConfigManager();
         $configManager->set('oro_customer.case_insensitive_email_addresses_enabled', true);
         $configManager->flush();
 
@@ -293,7 +275,7 @@ class LoginTest extends FrontendWebTestCase
 
     public function testLoginShouldBeAvailableEvenIfGuestsHaveNoAccessToSystem()
     {
-        $configManager = self::getConfigManager('global');
+        $configManager = self::getConfigManager();
         $configManager->set('oro_frontend.guest_access_enabled', false);
         $configManager->flush();
 
@@ -381,10 +363,7 @@ class LoginTest extends FrontendWebTestCase
         self::assertEquals('OPTIONS, POST', $response->headers->get('Allow'));
     }
 
-    /**
-     * @return array
-     */
-    public function getNotAllowedMethods()
+    public function getNotAllowedMethods(): array
     {
         return [
             ['HEAD'],

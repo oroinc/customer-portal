@@ -34,13 +34,7 @@ class HateoasTest extends FrontendRestJsonApiTestCase
         ]);
     }
 
-    /**
-     * @param array|string         $expectedContent
-     * @param string|string[]|null $entityId
-     *
-     * @return array
-     */
-    private function getExpectedContent($expectedContent, $entityId = null): array
+    private function getExpectedContent(array|string $expectedContent, array|string|null $entityId = null): array
     {
         if (is_string($expectedContent)) {
             $expectedContent = $this->loadData($expectedContent, $this->getResponseDataFolderName());
@@ -58,9 +52,8 @@ class HateoasTest extends FrontendRestJsonApiTestCase
         foreach ($valueMap as $key => $value) {
             $expectedContent = str_replace('{' . $key . '}', $value, $expectedContent);
         }
-        $expectedContent = self::processTemplateData(Yaml::parse($expectedContent));
 
-        return $expectedContent;
+        return self::processTemplateData(Yaml::parse($expectedContent));
     }
 
     public function testGetList()
