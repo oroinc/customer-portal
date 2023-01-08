@@ -13,11 +13,11 @@ Feature: Menu Page Target
     Given sessions active:
       | Admin | first_session  |
       | Buyer | second_session |
-    And I set "Default Web Catalog" as default web catalog
 
   Scenario: Create menu items
     Given I proceed as the Admin
     And I login as administrator
+    And I set "Default Web Catalog" as default web catalog
     And I go to System/Frontend Menus
     And click view "commerce_main_menu" in grid
     And I click "Create Menu Item"

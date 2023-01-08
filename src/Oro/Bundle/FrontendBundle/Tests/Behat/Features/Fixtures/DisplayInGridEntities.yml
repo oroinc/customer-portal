@@ -9,6 +9,8 @@ Oro\Bundle\WebsiteBundle\Entity\Website:
     name: 'New Website'
     organization: '@organization'
     owner: '@business_unit'
+    guest_role: '@buyer'
+    default_role: '@buyer'
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUser:
   customer_user_entity:
@@ -22,6 +24,6 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     confirmed: '1'
     customer: '@customer_entity'
     organization: '@organization'
-    userRoles: []
+    userRoles: [ ]
     owner: '@admin'
     website: '@website_entity'

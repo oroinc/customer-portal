@@ -64,6 +64,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         frontendOwner: '@customer1'
         country: '@united_states'
         owner: '@admin'
+        firstName: 'Amanda'
+        lastName: 'Cole'
         systemOrganization: '@organization'
         primary: false
         label: 'Address 1'
@@ -76,6 +78,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         frontendOwner: '@customer1'
         country: '@united_states'
         owner: '@admin'
+        firstName: 'Amanda'
+        lastName: 'Cole'
         systemOrganization: '@organization'
         primary: false
         label: 'Address 2'
@@ -88,6 +92,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         frontendOwner: '@customer1'
         country: '@united_states'
         owner: '@admin'
+        firstName: 'Amanda'
+        lastName: 'Cole'
         systemOrganization: '@organization'
         primary: false
         label: 'Address 3'
@@ -101,10 +107,6 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType:
         address: '@amandaAddress1'
         type: '@shippingType'
         default: true
-    amandaAddress1BillingDefault:
-        address: '@amandaAddress1'
-        type: '@billingType'
-        default: true
     amandaAddress2BillingDefault:
         address: '@amandaAddress2'
         type: '@billingType'
@@ -114,10 +116,6 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
     customerAddress1ShippingDefault:
         address: '@customerAddress1'
         type: '@shippingType'
-        default: true
-    customerAddress1BillingDefault:
-        address: '@customerAddress1'
-        type: '@billingType'
         default: true
     customerAddress2BillingDefault:
         address: '@customerAddress2'

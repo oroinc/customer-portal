@@ -18,11 +18,12 @@ class ReferenceRepositoryInitializer implements ReferenceRepositoryInitializerIn
     {
         /** @var CustomerUserRoleRepository $repository */
         $repository = $doctrine->getManager()->getRepository(CustomerUserRole::class);
-        /** @var CustomerUserRole buyer */
         $buyer = $repository->findOneBy(['role' => 'ROLE_FRONTEND_BUYER']);
         $referenceRepository->set('buyer', $buyer);
 
-        /** @var CustomerUserRole $administrator */
+        $nonAuthenticatedVisitors = $repository->findOneBy(['role' => 'ROLE_FRONTEND_ANONYMOUS']);
+        $referenceRepository->set('non_authenticated_visitors', $nonAuthenticatedVisitors);
+
         $administrator = $repository->findOneBy(['role' => 'ROLE_FRONTEND_ADMINISTRATOR']);
         $referenceRepository->set('front_admin', $administrator);
 

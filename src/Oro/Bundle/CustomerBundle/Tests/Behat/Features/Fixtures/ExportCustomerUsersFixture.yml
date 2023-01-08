@@ -3,6 +3,8 @@ Oro\Bundle\WebsiteBundle\Entity\Website:
         name: Second
         organization: '@organization'
         owner: '@business_unit'
+        guest_role: '@buyer'
+        default_role: '@buyer'
 
 Oro\Bundle\UserBundle\Entity\User:
     second_user:

@@ -24,17 +24,20 @@ use Oro\Component\MessageQueue\Client\MessageProducerInterface;
 use Oro\Component\TestUtils\ORM\Mocks\EntityManagerMock;
 use Oro\Component\TestUtils\ORM\Mocks\PersistentCollectionMock;
 use Oro\Component\TestUtils\ORM\Mocks\UnitOfWork;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class SendChangedCustomerAddressTypeToMessageQueueListenerTest extends WebTestCase
 {
-    private MockObject $messageProducer;
-    private MockObject $auditConfigProvider;
-    private MockObject $entityToArrayConverter;
+    /** @var MessageProducerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $messageProducer;
+
+    /** @var AuditConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
+    private $auditConfigProvider;
+
+    /** @var EntityToEntityChangeArrayConverter|\PHPUnit\Framework\MockObject\MockObject */
+    private $entityToArrayConverter;
 
     private EntityManagerMock $flushEventEntityManager;
     private UnitOfWork $flushEventUnitOfWork;
-
     private SendChangedAddressTypeToMessageQueueListener $listener;
 
     protected function setUp(): void
@@ -133,8 +136,7 @@ class SendChangedCustomerAddressTypeToMessageQueueListenerTest extends WebTestCa
         $this->flushEventUnitOfWork->addCollectionUpdates($persistentCollection);
         $this->flushEventUnitOfWork->addCollectionDeletions($persistentCollection);
 
-        $this->messageProducer
-            ->expects($this->once())
+        $this->messageProducer->expects($this->once())
             ->method('send')
             ->willReturnCallback(function (string $topic, Message $message) {
                 $expected = $this->expectedTopicMessage()->getBody();
