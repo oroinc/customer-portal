@@ -2,20 +2,15 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Builder;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
-use Doctrine\Persistence\ManagerRegistry;
-use Knp\Menu\Util\MenuManipulator;
+use Oro\Bundle\CommerceMenuBundle\Builder\ContentNodeTreeBuilder;
 use Oro\Bundle\CommerceMenuBundle\Builder\WebCatalogNavigationRootBuilder;
+use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\CommerceMenuBundle\Provider\MenuTemplatesProvider;
+use Oro\Bundle\NavigationBundle\Menu\ConfigurationBuilder;
 use Oro\Bundle\NavigationBundle\Tests\Unit\MenuItemTestTrait;
-use Oro\Bundle\PlatformBundle\Tests\Unit\Stub\ProxyStub;
 use Oro\Bundle\TestFrameworkBundle\Test\Logger\LoggerAwareTraitTestTrait;
-use Oro\Bundle\WebCatalogBundle\Cache\ResolvedData\ResolvedContentNode;
-use Oro\Bundle\WebCatalogBundle\Cache\ResolvedData\ResolvedContentVariant;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Bundle\WebCatalogBundle\Entity\WebCatalog;
-use Oro\Bundle\WebCatalogBundle\Menu\MenuContentNodesProviderInterface;
 use Oro\Bundle\WebCatalogBundle\Provider\WebCatalogProvider;
 use Oro\Component\Website\WebsiteInterface;
 
@@ -28,38 +23,19 @@ class WebCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
 
     private WebCatalogProvider|\PHPUnit\Framework\MockObject\MockObject $webCatalogProvider;
 
-    private MenuContentNodesProviderInterface|\PHPUnit\Framework\MockObject\MockObject $menuContentNodesProvider;
-
     private WebCatalogNavigationRootBuilder $builder;
 
     protected function setUp(): void
     {
-        $managerRegistry = $this->createMock(ManagerRegistry::class);
         $this->webCatalogProvider = $this->createMock(WebCatalogProvider::class);
-        $this->menuContentNodesProvider = $this->createMock(MenuContentNodesProviderInterface::class);
         $menuTemplatesProvider = $this->createMock(MenuTemplatesProvider::class);
 
         $this->builder = new WebCatalogNavigationRootBuilder(
-            $managerRegistry,
             $this->webCatalogProvider,
-            $this->menuContentNodesProvider,
             $menuTemplatesProvider
         );
 
         $this->setUpLoggerMock($this->builder);
-
-        $entityManager = $this->createMock(EntityManager::class);
-        $managerRegistry
-            ->expects(self::any())
-            ->method('getManagerForClass')
-            ->with(ContentNode::class)
-            ->willReturn($entityManager);
-
-        $entityManager
-            ->expects(self::any())
-            ->method('getReference')
-            ->willReturnCallback(static fn ($class, $id) => new ProxyStub($class, $id));
-
         $menuTemplatesProvider
             ->expects(self::any())
             ->method('getMenuTemplates')
@@ -75,24 +51,16 @@ class WebCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
             ->expects(self::never())
             ->method(self::anything());
 
-        $this->menuContentNodesProvider
-            ->expects(self::never())
-            ->method(self::anything());
-
         $menu = $this->createItem('sample_menu');
         $menu->setDisplay(false);
         $this->builder->build($menu);
 
-        self::assertEmpty($menu->getChildren());
+        self::assertNull($menu->getExtra(MenuUpdate::TARGET_CONTENT_NODE));
     }
 
     public function testBuildWhenInvalidWebsite(): void
     {
         $this->webCatalogProvider
-            ->expects(self::never())
-            ->method(self::anything());
-
-        $this->menuContentNodesProvider
             ->expects(self::never())
             ->method(self::anything());
 
@@ -108,7 +76,7 @@ class WebCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
         $menu = $this->createItem('sample_menu');
         $this->builder->build($menu, ['website' => $website]);
 
-        self::assertEmpty($menu->getChildren());
+        self::assertNull($menu->getExtra(MenuUpdate::TARGET_CONTENT_NODE));
     }
 
     public function testBuildWhenNoRootContentNode(): void
@@ -118,17 +86,13 @@ class WebCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
             ->method('getNavigationRootWithCatalogRootFallback')
             ->willReturn(null);
 
-        $this->menuContentNodesProvider
-            ->expects(self::never())
-            ->method(self::anything());
-
         $menu = $this->createItem('sample_menu');
         $this->builder->build($menu);
 
-        self::assertEmpty($menu->getChildren());
+        self::assertNull($menu->getExtra(MenuUpdate::TARGET_CONTENT_NODE));
     }
 
-    public function testBuildWhenNoResolvedRootContentNode(): void
+    public function testBuildWhenHasRootContentNodeAndNoMaxTraverseLevel(): void
     {
         $rootContentNode = (new ContentNode())
             ->setWebCatalog((new WebCatalog())->setName('Sample Catalog'));
@@ -137,30 +101,19 @@ class WebCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
             ->method('getNavigationRootWithCatalogRootFallback')
             ->willReturn($rootContentNode);
 
-        $this->menuContentNodesProvider
-            ->expects(self::once())
-            ->method('getResolvedContentNode')
-            ->with($rootContentNode)
-            ->willReturn(null);
-
-        $this->loggerMock
-            ->expects(self::once())
-            ->method('debug')
-            ->with(
-                'Content node #{node_id} from web catalog #{web_catalog} is not resolved, skipping it.',
-                ['node_id' => $rootContentNode->getId(), $rootContentNode->getWebCatalog()->getName()]
-            );
-
         $menu = $this->createItem('sample_menu');
+        $menu->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, 6);
         $this->builder->build($menu);
 
-        self::assertEmpty($menu->getChildren());
+        self::assertSame($rootContentNode, $menu->getExtra(MenuUpdate::TARGET_CONTENT_NODE));
+        self::assertEquals(6, $menu->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL));
+        self::assertEquals(
+            ['extras' => [MenuUpdate::MENU_TEMPLATE => self::MENU_TEMPLATE]],
+            $menu->getExtra(ContentNodeTreeBuilder::TREE_ITEM_OPTIONS)
+        );
     }
 
-    /**
-     * @dataProvider buildDataProvider
-     */
-    public function testBuild(ResolvedContentNode $resolvedNode, array $expected): void
+    public function testBuildWhenHasRootContentNodeAndMaxTraverseLevel(): void
     {
         $rootContentNode = (new ContentNode())
             ->setWebCatalog((new WebCatalog())->setName('Sample Catalog'));
@@ -169,140 +122,38 @@ class WebCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
             ->method('getNavigationRootWithCatalogRootFallback')
             ->willReturn($rootContentNode);
 
-        $this->menuContentNodesProvider
-            ->expects(self::once())
-            ->method('getResolvedContentNode')
-            ->with($rootContentNode)
-            ->willReturn($resolvedNode);
-
         $menu = $this->createItem('sample_menu');
+        $menu->setExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 3);
         $this->builder->build($menu);
 
-        $menuManipulator = new MenuManipulator();
-        self::assertEquals($expected, $menuManipulator->toArray($menu));
+        self::assertSame($rootContentNode, $menu->getExtra(MenuUpdate::TARGET_CONTENT_NODE));
+        self::assertEquals(3, $menu->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL));
+        self::assertEquals(
+            ['extras' => [MenuUpdate::MENU_TEMPLATE => self::MENU_TEMPLATE]],
+            $menu->getExtra(ContentNodeTreeBuilder::TREE_ITEM_OPTIONS)
+        );
     }
 
-    /**
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     */
-    public function buildDataProvider(): array
+    public function testBuildWhenHasRootContentNodeAndTreeItemOptions(): void
     {
-        return [
-            'no children' => [
-                'resolvedNode' => $this->createResolvedNode(1),
-                'expected' => [
-                    'name' => 'sample_menu',
-                    'label' => 'sample_menu',
-                    'uri' => null,
-                    'attributes' => [],
-                    'labelAttributes' => [],
-                    'linkAttributes' => [],
-                    'childrenAttributes' => [],
-                    'extras' => [],
-                    'display' => true,
-                    'displayChildren' => true,
-                    'current' => null,
-                    'children' => [],
-                ],
-            ],
-            'has children' => [
-                'resolvedNode' => $this->createResolvedNode(1)
-                    ->addChildNode($this->createResolvedNode(11))
-                    ->addChildNode($this->createResolvedNode(12)),
-                'expected' => [
-                    'name' => 'sample_menu',
-                    'label' => 'sample_menu',
-                    'uri' => null,
-                    'attributes' => [],
-                    'labelAttributes' => [],
-                    'linkAttributes' => [],
-                    'childrenAttributes' => [],
-                    'extras' => [],
-                    'display' => true,
-                    'displayChildren' => true,
-                    'current' => null,
-                    'children' => [
-                        'content_node_11' => [
-                            'name' => 'content_node_11',
-                            'label' => 'content_node_11',
-                            'uri' => null,
-                            'attributes' => [],
-                            'labelAttributes' => [],
-                            'linkAttributes' => [],
-                            'childrenAttributes' => [],
-                            'extras' => [
-                                'isAllowed' => true,
-                                'content_node' => new ProxyStub(ContentNode::class, 11),
-                                'position' => -102,
-                                'menu_template' => 'template1',
-                                'max_traverse_level' => 0,
-                            ],
-                            'display' => true,
-                            'displayChildren' => true,
-                            'current' => null,
-                            'children' => [],
-                        ],
-                        'content_node_12' => [
-                            'name' => 'content_node_12',
-                            'label' => 'content_node_12',
-                            'uri' => null,
-                            'attributes' => [],
-                            'labelAttributes' => [],
-                            'linkAttributes' => [],
-                            'childrenAttributes' => [],
-                            'extras' => [
-                                'isAllowed' => true,
-                                'content_node' => new ProxyStub(ContentNode::class, 12),
-                                'position' => -101,
-                                'menu_template' => 'template1',
-                                'max_traverse_level' => 0,
-                            ],
-                            'display' => true,
-                            'displayChildren' => true,
-                            'current' => null,
-                            'children' => [],
-                        ],
-                    ],
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider buildDataProvider
-     */
-    public function testBuildWithWebsite(ResolvedContentNode $resolvedNode, array $expected): void
-    {
-        $website = $this->createMock(WebsiteInterface::class);
         $rootContentNode = (new ContentNode())
             ->setWebCatalog((new WebCatalog())->setName('Sample Catalog'));
         $this->webCatalogProvider
             ->expects(self::once())
             ->method('getNavigationRootWithCatalogRootFallback')
-            ->with($website)
             ->willReturn($rootContentNode);
 
-        $this->menuContentNodesProvider
-            ->expects(self::once())
-            ->method('getResolvedContentNode')
-            ->with($rootContentNode)
-            ->willReturn($resolvedNode);
-
         $menu = $this->createItem('sample_menu');
-        $this->builder->build($menu, ['website' => $website]);
+        $menu->setExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 3);
+        $treeItemOptions = ['sample_key' => 'sample_value'];
+        $this->builder->setTreeItemOptions($treeItemOptions);
+        $this->builder->build($menu);
 
-        $menuManipulator = new MenuManipulator();
-        self::assertEquals($expected, $menuManipulator->toArray($menu));
-    }
-
-    private function createResolvedNode(int $id): ResolvedContentNode
-    {
-        return new ResolvedContentNode(
-            $id,
-            'root__' . $id,
-            0,
-            new ArrayCollection(),
-            new ResolvedContentVariant()
+        self::assertSame($rootContentNode, $menu->getExtra(MenuUpdate::TARGET_CONTENT_NODE));
+        self::assertEquals(3, $menu->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL));
+        self::assertEquals(
+            $treeItemOptions + ['extras' => [MenuUpdate::MENU_TEMPLATE => self::MENU_TEMPLATE]],
+            $menu->getExtra(ContentNodeTreeBuilder::TREE_ITEM_OPTIONS)
         );
     }
 }

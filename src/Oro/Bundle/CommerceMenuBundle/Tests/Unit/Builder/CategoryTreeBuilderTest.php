@@ -2,22 +2,31 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Builder;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
-use Knp\Menu\Util\MenuManipulator;
 use Oro\Bundle\CatalogBundle\Entity\Category;
 use Oro\Bundle\CatalogBundle\Menu\MenuCategoriesProviderInterface;
 use Oro\Bundle\CatalogBundle\Tests\Unit\Stub\CategoryStub;
 use Oro\Bundle\CommerceMenuBundle\Builder\CategoryTreeBuilder;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
+use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
+use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
+use Oro\Bundle\LocaleBundle\Tools\LocalizedFallbackValueHelper;
+use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
+use Oro\Bundle\NavigationBundle\Event\MenuUpdatesApplyAfterEvent;
 use Oro\Bundle\NavigationBundle\Menu\ConfigurationBuilder;
+use Oro\Bundle\NavigationBundle\MenuUpdate\Applier\Model\MenuUpdateApplierContext;
 use Oro\Bundle\NavigationBundle\Tests\Unit\MenuItemTestTrait;
 use Oro\Bundle\PlatformBundle\Tests\Unit\Stub\ProxyStub;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\UserInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.ExcessiveClassLength)
+ */
 class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
 {
     use MenuItemTestTrait;
@@ -32,61 +41,44 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
 
     private CategoryTreeBuilder $builder;
 
-    private EntityManager|\PHPUnit\Framework\MockObject\MockObject $entityManager;
-
     protected function setUp(): void
     {
         $managerRegistry = $this->createMock(ManagerRegistry::class);
         $this->urlGenerator = $this->createMock(UrlGeneratorInterface::class);
         $this->menuCategoriesProvider = $this->createMock(MenuCategoriesProviderInterface::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+        $localizationHelper = $this->createMock(LocalizationHelper::class);
 
         $this->builder = new CategoryTreeBuilder(
             $managerRegistry,
             $this->urlGenerator,
             $this->menuCategoriesProvider,
-            $this->tokenAccessor
+            $this->tokenAccessor,
+            $localizationHelper
         );
 
-        $this->entityManager = $this->createMock(EntityManager::class);
+        $entityManager = $this->createMock(EntityManager::class);
         $managerRegistry
             ->expects(self::any())
             ->method('getManagerForClass')
             ->with(Category::class)
-            ->willReturn($this->entityManager);
-    }
+            ->willReturn($entityManager);
 
-    public function testBuildWhenNotDisplayed(): void
-    {
-        $menuItem = $this->createMock(ItemInterface::class);
-        $menuItem->expects(self::once())
-            ->method('isDisplayed')
-            ->willReturn(false);
-        $menuItem->expects(self::never())
-            ->method('setUri');
+        $entityManager
+            ->expects(self::any())
+            ->method('getReference')
+            ->willReturnCallback(static fn ($class, $id) => new ProxyStub($class, $id));
 
-        $this->menuCategoriesProvider
-            ->expects(self::never())
-            ->method(self::anything());
-
-        $this->builder->build($menuItem);
+        $localizationHelper
+            ->expects(self::any())
+            ->method('getLocalizedValue')
+            ->willReturnCallback(static fn ($collection) => (string)($collection[0] ?? null));
     }
 
     public function testBuildWhenNoCategory(): void
     {
-        $menuItem = $this->createMock(ItemInterface::class);
-        $menuItem->expects(self::once())
-            ->method('isDisplayed')
-            ->willReturn(true);
-        $menuItem->expects(self::once())
-            ->method('getChildren')
-            ->willReturn([]);
-        $menuItem->expects(self::once())
-            ->method('getExtra')
-            ->with(MenuUpdate::TARGET_CATEGORY)
-            ->willReturn(null);
-        $menuItem->expects(self::never())
-            ->method('setUri');
+        $menuItem = $this->createItem('sample_menu');
+        $menuItem->setDisplay(true);
 
         $this->menuCategoriesProvider
             ->expects(self::never())
@@ -95,7 +87,79 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
         $this->builder->build($menuItem);
     }
 
-    public function testBuildWhenOneCategory(): void
+    public function testBuildWhenIsLostItem(): void
+    {
+        $menu = $this->createItem('sample_menu');
+        $menu->setDisplay(true);
+
+        $this->menuCategoriesProvider
+            ->expects(self::never())
+            ->method(self::anything());
+
+        $context = new MenuUpdateApplierContext($menu);
+        $context->addLostItem($menu, $this->createMock(MenuUpdateInterface::class));
+        $this->builder->onMenuUpdatesApplyAfter(new MenuUpdatesApplyAfterEvent($context));
+        $this->builder->build($menu);
+    }
+
+    public function testBuildWhenNoCategoryData(): void
+    {
+        $category = (new CategoryStub())
+            ->setId(1);
+
+        $maxNestingLevel = 6;
+        $menu = $this->createItem('sample_menu')
+            ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, $maxNestingLevel);
+        $maxTraverseLevel = 5;
+        $menuItem = $menu->addChild(
+            'sample_menu_item',
+            [
+                'extras' => [
+                    MenuUpdate::TARGET_CATEGORY => $category,
+                    MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
+                ],
+            ]
+        );
+
+        $user = $this->createMock(UserInterface::class);
+        $this->tokenAccessor->expects(self::once())
+            ->method('getUser')
+            ->willReturn($user);
+
+        $this->menuCategoriesProvider
+            ->expects(self::once())
+            ->method('getCategories')
+            ->with($category, $user, ['tree_depth' => $maxTraverseLevel])
+            ->willReturn([]);
+
+        $this->builder->build($menu);
+
+        self::assertEquals(
+            [
+                'display' => true,
+                'label' => $menu->getName(),
+                'uri' => null,
+                'extras' => [
+                    ConfigurationBuilder::MAX_NESTING_LEVEL => $maxNestingLevel,
+                ],
+                'children' => [
+                    $menuItem->getName() => [
+                        'display' => false,
+                        'label' => $menuItem->getName(),
+                        'uri' => null,
+                        'extras' => [
+                            MenuUpdate::TARGET_CATEGORY => $category,
+                            MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
+                        ],
+                        'children' => [],
+                    ],
+                ],
+            ],
+            $this->normalizeMenuItem($menu)
+        );
+    }
+
+    public function testBuildWhenNoChildren(): void
     {
         $category = (new CategoryStub())
             ->setId(1);
@@ -115,8 +179,8 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
         $menu = $this->createItem('sample_menu')
             ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, 5);
         $maxTraverseLevel = 2;
-        $menu->addChild(
-            'category_1',
+        $menuItem = $menu->addChild(
+            'sample_menu_item',
             [
                 'extras' => [
                     MenuUpdate::TARGET_CATEGORY => $category,
@@ -131,33 +195,39 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
             ->willReturn($user);
 
         $title = 'Sample Category';
-        $categoryData = ['id' => $category->getId(), 'parentId' => 0, 'title' => $title];
+        $categoryData = [
+            'id' => $category->getId(),
+            'parentId' => 0,
+            'titles' => new ArrayCollection([$this->createTitle($title)])
+        ];
         $this->menuCategoriesProvider->expects(self::once())
             ->method('getCategories')
-            ->with($category, $user, null, ['tree_depth' => $maxTraverseLevel])
+            ->with($category, $user, ['tree_depth' => $maxTraverseLevel])
             ->willReturn(
                 [$category->getId() => $categoryData]
             );
 
         $this->builder->build($menu);
 
-        self::assertEquals($title, $menu->getChild('category_1')->getLabel());
-        self::assertEquals($url, $menu->getChild('category_1')->getUri());
-        self::assertTrue($menu->getChild('category_1')->isDisplayed());
+        self::assertEquals($title, $menuItem->getLabel());
+        self::assertEquals($url, $menuItem->getUri());
+        self::assertTrue($menuItem->isDisplayed());
         self::assertEquals(
             [
-                'category_data' => $categoryData,
-                MenuUpdate::TARGET_CATEGORY => $category,
+                MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection($categoryData['titles']),
+                MenuUpdate::TARGET_CATEGORY => new ProxyStub(Category::class, $category->getId()),
                 MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
+                CategoryTreeBuilder::CATEGORY_DATA => $categoryData,
             ],
-            $menu->getChild('category_1')->getExtras()
+            $menuItem->getExtras()
         );
     }
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function testBuildWhenCategoryWithChildren(): void
+    public function testBuildWhenHasChildren(): void
     {
         $category = (new CategoryStub())
             ->setId(1);
@@ -168,15 +238,18 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                 return $routeName . '/' . $parameters['categoryId'] . $parameters['includeSubcategories'];
             });
 
+        $maxNestingLevel = 6;
         $menu = $this->createItem('sample_menu')
-            ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, 5);
-        $maxTraverseLevel = 2;
-        $menu->addChild(
-            'category_1',
+            ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, $maxNestingLevel);
+        $maxTraverseLevel = 5;
+        $treeItemOptions = ['extras' => ['tree_item_option_key' => 'tree_item_option_value']];
+        $menuItem = $menu->addChild(
+            'sample_menu_item',
             [
                 'extras' => [
                     MenuUpdate::TARGET_CATEGORY => $category,
                     MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
+                    CategoryTreeBuilder::TREE_ITEM_OPTIONS => $treeItemOptions,
                 ],
             ]
         );
@@ -186,11 +259,31 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $category1Data = ['id' => $category->getId(), 'parentId' => 0, 'title' => 'Sample Category 1'];
-        $category12Data = ['id' => 12, 'parentId' => 1, 'title' => 'Sample Category 1-2'];
-        $category13Data = ['id' => 13, 'parentId' => 1, 'title' => 'Sample Category 1-3'];
-        $category131Data = ['id' => 131, 'parentId' => 13, 'title' => 'Sample Category 1-3-1'];
-        $category14Data = ['id' => 14, 'parentId' => 1, 'title' => 'Sample Category 1-4'];
+        $category1Data = [
+            'id' => $category->getId(),
+            'parentId' => 0,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1')])
+        ];
+        $category12Data = [
+            'id' => 12,
+            'parentId' => 1,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-2')])
+        ];
+        $category13Data = [
+            'id' => 13,
+            'parentId' => 1,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3')])
+        ];
+        $category131Data = [
+            'id' => 131,
+            'parentId' => 13,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3-1')])
+        ];
+        $category14Data = [
+            'id' => 14,
+            'parentId' => 1,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-4')])
+        ];
         $categoriesData = [
             $category1Data['id'] => $category1Data,
             $category12Data['id'] => $category12Data,
@@ -199,149 +292,138 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
             $category14Data['id'] => $category14Data,
         ];
 
-        $this->menuCategoriesProvider->expects(self::once())
+        $this->menuCategoriesProvider
+            ->expects(self::once())
             ->method('getCategories')
-            ->with($category, $user, null, ['tree_depth' => $maxTraverseLevel])
+            ->with($category, $user, ['tree_depth' => $maxTraverseLevel])
             ->willReturn($categoriesData);
 
-        $this->entityManager
-            ->expects(self::exactly(4))
-            ->method('getReference')
-            ->willReturnCallback(static fn ($class, $id) => new ProxyStub($class, $id));
-
-        $this->builder->build($menu);
-
-        $menuManipulator = new MenuManipulator();
+        $menuOptions = ['extras' => ['sample_key' => 'sample_value']];
+        $this->builder->build($menu, $menuOptions);
 
         self::assertEquals(
             [
-                'name' => 'sample_menu',
-                'label' => 'sample_menu',
+                'label' => $menu->getName(),
                 'uri' => null,
-                'attributes' => [],
-                'labelAttributes' => [],
-                'linkAttributes' => [],
-                'childrenAttributes' => [],
-                'extras' => [ConfigurationBuilder::MAX_NESTING_LEVEL => 5],
+                'extras' => [ConfigurationBuilder::MAX_NESTING_LEVEL => $maxNestingLevel],
                 'display' => true,
-                'displayChildren' => true,
-                'current' => null,
                 'children' => [
-                    'category_1' => [
-                        'name' => 'category_1',
-                        'label' => $category1Data['title'],
+                    $menuItem->getName() => [
+                        'label' => (string)$category1Data['titles'][0],
                         'uri' => 'oro_product_frontend_product_index/11',
-                        'attributes' => [],
-                        'labelAttributes' => [],
-                        'linkAttributes' => [],
-                        'childrenAttributes' => [],
                         'extras' => [
-                            MenuUpdate::TARGET_CATEGORY => $category,
-                            MenuUpdate::MAX_TRAVERSE_LEVEL => 2,
-                            'category_data' => $category1Data,
+                            MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                            MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
+                                $category1Data['titles']
+                            ),
+                            MenuUpdate::TARGET_CATEGORY => new ProxyStub(Category::class, $category1Data['id']),
+                            MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
+                            CategoryTreeBuilder::CATEGORY_DATA => $category1Data,
+                            CategoryTreeBuilder::TREE_ITEM_OPTIONS => $treeItemOptions,
                         ],
                         'display' => true,
-                        'displayChildren' => true,
-                        'current' => null,
                         'children' => [
-                            'category_1_12' => [
-                                'name' => 'category_1_12',
-                                'label' => $category12Data['title'],
+                            $this->getTreeItemName($menuItem->getName(), 12) => [
+                                'label' => (string)$category12Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/121',
-                                'attributes' => [],
-                                'labelAttributes' => [],
-                                'linkAttributes' => [],
-                                'childrenAttributes' => [],
                                 'extras' => [
-                                    'isAllowed' => true,
-                                    'category_data' => $category12Data,
-                                    'translate_disabled' => true,
+                                    'sample_key' => 'sample_value',
+                                    'tree_item_option_key' => 'tree_item_option_value',
+                                    MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
+                                    MenuUpdateInterface::POSITION => 0,
+                                    MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
+                                        $category12Data['titles']
+                                    ),
                                     MenuUpdate::TARGET_CATEGORY => new ProxyStub(
                                         Category::class,
                                         $category12Data['id']
                                     ),
-                                    MenuUpdate::MAX_TRAVERSE_LEVEL => 1,
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel - 1,
+                                    CategoryTreeBuilder::IS_TREE_ITEM => true,
+                                    CategoryTreeBuilder::CATEGORY_DATA => $category12Data,
                                 ],
                                 'display' => true,
-                                'displayChildren' => true,
-                                'current' => null,
                                 'children' => [],
                             ],
-                            'category_1_13' => [
-                                'name' => 'category_1_13',
-                                'label' => $category13Data['title'],
+                            $this->getTreeItemName($menuItem->getName(), 13) => [
+                                'label' => (string)$category13Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/131',
-                                'attributes' => [],
-                                'labelAttributes' => [],
-                                'linkAttributes' => [],
-                                'childrenAttributes' => [],
                                 'extras' => [
-                                    'isAllowed' => true,
-                                    'category_data' => $category13Data,
-                                    'translate_disabled' => true,
+                                    'sample_key' => 'sample_value',
+                                    'tree_item_option_key' => 'tree_item_option_value',
+                                    MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
+                                    MenuUpdateInterface::POSITION => 1,
+                                    MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
+                                        $category13Data['titles']
+                                    ),
                                     MenuUpdate::TARGET_CATEGORY => new ProxyStub(
                                         Category::class,
                                         $category13Data['id']
                                     ),
-                                    MenuUpdate::MAX_TRAVERSE_LEVEL => 1,
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel - 1,
+                                    CategoryTreeBuilder::CATEGORY_DATA => $category13Data,
+                                    CategoryTreeBuilder::IS_TREE_ITEM => true,
                                 ],
                                 'display' => true,
-                                'displayChildren' => true,
-                                'current' => null,
                                 'children' => [
-                                    'category_1_131' => [
-                                        'name' => 'category_1_131',
-                                        'label' => $category131Data['title'],
+                                    $this->getTreeItemName($menuItem->getName(), 131) => [
+                                        'label' => (string)$category131Data['titles'][0],
                                         'uri' => 'oro_product_frontend_product_index/1311',
-                                        'attributes' => [],
-                                        'labelAttributes' => [],
-                                        'linkAttributes' => [],
-                                        'childrenAttributes' => [],
                                         'extras' => [
-                                            'isAllowed' => true,
-                                            'category_data' => $category131Data,
-                                            'translate_disabled' => true,
+                                            'sample_key' => 'sample_value',
+                                            MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                                            MenuUpdateInterface::ORIGIN_KEY => $this->getTreeItemName(
+                                                $menuItem->getName(),
+                                                13
+                                            ),
+                                            MenuUpdateInterface::POSITION => 0,
+                                            MenuUpdateInterface::TITLES =>
+                                                LocalizedFallbackValueHelper::cloneCollection(
+                                                    $category131Data['titles']
+                                                ),
                                             MenuUpdate::TARGET_CATEGORY => new ProxyStub(
                                                 Category::class,
                                                 $category131Data['id']
                                             ),
-                                            MenuUpdate::MAX_TRAVERSE_LEVEL => 0,
+                                            MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel - 2,
+                                            CategoryTreeBuilder::CATEGORY_DATA => $category131Data,
+                                            CategoryTreeBuilder::IS_TREE_ITEM => true,
                                         ],
                                         'display' => true,
-                                        'displayChildren' => true,
-                                        'current' => null,
                                         'children' => [],
                                     ],
                                 ],
                             ],
-                            'category_1_14' => [
-                                'name' => 'category_1_14',
-                                'label' => $category14Data['title'],
+                            $this->getTreeItemName($menuItem->getName(), 14) => [
+                                'label' => (string)$category14Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/141',
-                                'attributes' => [],
-                                'labelAttributes' => [],
-                                'linkAttributes' => [],
-                                'childrenAttributes' => [],
                                 'extras' => [
-                                    'isAllowed' => true,
-                                    'category_data' => $category14Data,
-                                    'translate_disabled' => true,
+                                    'tree_item_option_key' => 'tree_item_option_value',
+                                    'sample_key' => 'sample_value',
+                                    MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
+                                    MenuUpdateInterface::POSITION => 2,
+                                    MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
+                                        $category14Data['titles']
+                                    ),
                                     MenuUpdate::TARGET_CATEGORY => new ProxyStub(
                                         Category::class,
                                         $category14Data['id']
                                     ),
-                                    MenuUpdate::MAX_TRAVERSE_LEVEL => 1,
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel - 1,
+                                    CategoryTreeBuilder::CATEGORY_DATA => $category14Data,
+                                    CategoryTreeBuilder::IS_TREE_ITEM => true,
                                 ],
                                 'display' => true,
-                                'displayChildren' => true,
-                                'current' => null,
                                 'children' => [],
                             ],
                         ],
                     ],
                 ],
             ],
-            $menuManipulator->toArray($menu),
+            $this->normalizeMenuItem($menu),
         );
     }
 
@@ -362,8 +444,8 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
         $maxNestingLevel = 3;
         $menu = $this->createItem('sample_menu')
             ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, $maxNestingLevel);
-        $menu->addChild(
-            'category_1',
+        $menuItem = $menu->addChild(
+            'sample_menu_item',
             [
                 'extras' => [
                     MenuUpdate::TARGET_CATEGORY => $category,
@@ -377,11 +459,31 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $category1Data = ['id' => $category->getId(), 'parentId' => 0, 'title' => 'Sample Category 1'];
-        $category12Data = ['id' => 12, 'parentId' => 1, 'title' => 'Sample Category 1-2'];
-        $category13Data = ['id' => 13, 'parentId' => 1, 'title' => 'Sample Category 1-3'];
-        $category131Data = ['id' => 131, 'parentId' => 13, 'title' => 'Sample Category 1-3-1'];
-        $category14Data = ['id' => 14, 'parentId' => 1, 'title' => 'Sample Category 1-4'];
+        $category1Data = [
+            'id' => $category->getId(),
+            'parentId' => 0,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1')])
+        ];
+        $category12Data = [
+            'id' => 12,
+            'parentId' => 1,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-2')])
+        ];
+        $category13Data = [
+            'id' => 13,
+            'parentId' => 1,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3')])
+        ];
+        $category131Data = [
+            'id' => 131,
+            'parentId' => 13,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3-1')])
+        ];
+        $category14Data = [
+            'id' => 14,
+            'parentId' => 1,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-4')])
+        ];
         $categoriesData = [
             $category1Data['id'] => $category1Data,
             $category12Data['id'] => $category12Data,
@@ -392,147 +494,551 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
 
         $this->menuCategoriesProvider->expects(self::once())
             ->method('getCategories')
-            ->with($category, $user, null, ['tree_depth' => $maxNestingLevel - 1])
+            ->with($category, $user, ['tree_depth' => $maxNestingLevel - 1])
             ->willReturn($categoriesData);
-
-        $this->entityManager
-            ->expects(self::exactly(4))
-            ->method('getReference')
-            ->willReturnCallback(static fn ($class, $id) => new ProxyStub($class, $id));
 
         $this->builder->build($menu);
 
-        $menuManipulator = new MenuManipulator();
-
         self::assertEquals(
             [
-                'name' => 'sample_menu',
-                'label' => 'sample_menu',
+                'label' => $menu->getName(),
                 'uri' => null,
-                'attributes' => [],
-                'labelAttributes' => [],
-                'linkAttributes' => [],
-                'childrenAttributes' => [],
                 'extras' => [ConfigurationBuilder::MAX_NESTING_LEVEL => $maxNestingLevel],
                 'display' => true,
-                'displayChildren' => true,
-                'current' => null,
                 'children' => [
-                    'category_1' => [
-                        'name' => 'category_1',
-                        'label' => $category1Data['title'],
+                    $menuItem->getName() => [
+                        'label' => (string)$category1Data['titles'][0],
                         'uri' => 'oro_product_frontend_product_index/11',
-                        'attributes' => [],
-                        'labelAttributes' => [],
-                        'linkAttributes' => [],
-                        'childrenAttributes' => [],
                         'extras' => [
-                            MenuUpdate::TARGET_CATEGORY => $category,
-                            MenuUpdate::MAX_TRAVERSE_LEVEL => 2,
-                            'category_data' => $category1Data,
+                            MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                            MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
+                                $category1Data['titles']
+                            ),
+                            MenuUpdate::TARGET_CATEGORY => new ProxyStub(Category::class, $category1Data['id']),
+                            MenuUpdate::MAX_TRAVERSE_LEVEL => $maxNestingLevel - 1,
+                            CategoryTreeBuilder::CATEGORY_DATA => $category1Data,
                         ],
                         'display' => true,
-                        'displayChildren' => true,
-                        'current' => null,
                         'children' => [
-                            'category_1_12' => [
-                                'name' => 'category_1_12',
-                                'label' => $category12Data['title'],
+                            $this->getTreeItemName($menuItem->getName(), 12) => [
+                                'label' => (string)$category12Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/121',
-                                'attributes' => [],
-                                'labelAttributes' => [],
-                                'linkAttributes' => [],
-                                'childrenAttributes' => [],
                                 'extras' => [
-                                    'isAllowed' => true,
-                                    'category_data' => $category12Data,
-                                    'translate_disabled' => true,
+                                    MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
+                                    MenuUpdateInterface::POSITION => 0,
+                                    MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
+                                        $category12Data['titles']
+                                    ),
                                     MenuUpdate::TARGET_CATEGORY => new ProxyStub(
                                         Category::class,
                                         $category12Data['id']
                                     ),
-                                    MenuUpdate::MAX_TRAVERSE_LEVEL => 1,
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => $maxNestingLevel - 2,
+                                    CategoryTreeBuilder::IS_TREE_ITEM => true,
+                                    CategoryTreeBuilder::CATEGORY_DATA => $category12Data,
                                 ],
                                 'display' => true,
-                                'displayChildren' => true,
-                                'current' => null,
                                 'children' => [],
                             ],
-                            'category_1_13' => [
-                                'name' => 'category_1_13',
-                                'label' => $category13Data['title'],
+                            $this->getTreeItemName($menuItem->getName(), 13) => [
+                                'label' => (string)$category13Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/131',
-                                'attributes' => [],
-                                'labelAttributes' => [],
-                                'linkAttributes' => [],
-                                'childrenAttributes' => [],
                                 'extras' => [
-                                    'isAllowed' => true,
-                                    'category_data' => $category13Data,
-                                    'translate_disabled' => true,
+                                    MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
+                                    MenuUpdateInterface::POSITION => 1,
+                                    MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
+                                        $category13Data['titles']
+                                    ),
                                     MenuUpdate::TARGET_CATEGORY => new ProxyStub(
                                         Category::class,
                                         $category13Data['id']
                                     ),
-                                    MenuUpdate::MAX_TRAVERSE_LEVEL => 1,
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => $maxNestingLevel - 2,
+                                    CategoryTreeBuilder::IS_TREE_ITEM => true,
+                                    CategoryTreeBuilder::CATEGORY_DATA => $category13Data,
                                 ],
                                 'display' => true,
-                                'displayChildren' => true,
-                                'current' => null,
                                 'children' => [
-                                    'category_1_131' => [
-                                        'name' => 'category_1_131',
-                                        'label' => $category131Data['title'],
+                                    $this->getTreeItemName($menuItem->getName(), 131) => [
+                                        'label' => (string)$category131Data['titles'][0],
                                         'uri' => 'oro_product_frontend_product_index/1311',
-                                        'attributes' => [],
-                                        'labelAttributes' => [],
-                                        'linkAttributes' => [],
-                                        'childrenAttributes' => [],
                                         'extras' => [
-                                            'isAllowed' => true,
-                                            'category_data' => $category131Data,
-                                            'translate_disabled' => true,
+                                                    MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                                            MenuUpdateInterface::ORIGIN_KEY => $this->getTreeItemName(
+                                                $menuItem->getName(),
+                                                13
+                                            ),
+                                            MenuUpdateInterface::POSITION => 0,
+                                            MenuUpdateInterface::TITLES =>
+                                                LocalizedFallbackValueHelper::cloneCollection(
+                                                    $category131Data['titles']
+                                                ),
                                             MenuUpdate::TARGET_CATEGORY => new ProxyStub(
                                                 Category::class,
                                                 $category131Data['id']
                                             ),
-                                            MenuUpdate::MAX_TRAVERSE_LEVEL => 0,
+                                            MenuUpdate::MAX_TRAVERSE_LEVEL => $maxNestingLevel - 3,
+                                            CategoryTreeBuilder::IS_TREE_ITEM => true,
+                                            CategoryTreeBuilder::CATEGORY_DATA => $category131Data,
                                         ],
                                         'display' => true,
-                                        'displayChildren' => true,
-                                        'current' => null,
                                         'children' => [],
                                     ],
                                 ],
                             ],
-                            'category_1_14' => [
-                                'name' => 'category_1_14',
-                                'label' => $category14Data['title'],
+                            $this->getTreeItemName($menuItem->getName(), 14) => [
+                                'label' => (string)$category14Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/141',
-                                'attributes' => [],
-                                'labelAttributes' => [],
-                                'linkAttributes' => [],
-                                'childrenAttributes' => [],
                                 'extras' => [
-                                    'isAllowed' => true,
-                                    'category_data' => $category14Data,
-                                    'translate_disabled' => true,
+                                    MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                                    MenuUpdateInterface::POSITION => 2,
+                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
+                                    MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
+                                        $category14Data['titles']
+                                    ),
                                     MenuUpdate::TARGET_CATEGORY => new ProxyStub(
                                         Category::class,
                                         $category14Data['id']
                                     ),
-                                    MenuUpdate::MAX_TRAVERSE_LEVEL => 1,
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => $maxNestingLevel - 2,
+                                    CategoryTreeBuilder::IS_TREE_ITEM => true,
+                                    CategoryTreeBuilder::CATEGORY_DATA => $category14Data,
                                 ],
                                 'display' => true,
-                                'displayChildren' => true,
-                                'current' => null,
                                 'children' => [],
                             ],
                         ],
                     ],
                 ],
             ],
-            $menuManipulator->toArray($menu),
+            $this->normalizeMenuItem($menu),
         );
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
+    public function testBuildWhenHasChildrenAndLost(): void
+    {
+        $category = (new CategoryStub())
+            ->setId(1);
+        $category13 = (new CategoryStub())
+            ->setId(13);
+
+        $this->urlGenerator->expects(self::exactly(4))
+            ->method('generate')
+            ->willReturnCallback(static function ($routeName, array $parameters) {
+                return $routeName . '/' . $parameters['categoryId'] . $parameters['includeSubcategories'];
+            });
+
+        $maxNestingLevel = 6;
+        $menu = $this->createItem('sample_menu')
+            ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, $maxNestingLevel);
+        $maxTraverseLevel = 5;
+        $menuItem = $menu->addChild(
+            'sample_menu_item',
+            [
+                'extras' => [
+                    MenuUpdate::TARGET_CATEGORY => $category,
+                    MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
+                ],
+            ]
+        );
+
+        $user = $this->createMock(UserInterface::class);
+        $this->tokenAccessor->expects(self::once())
+            ->method('getUser')
+            ->willReturn($user);
+
+        $category1Data = [
+            'id' => $category->getId(),
+            'parentId' => 0,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1')])
+        ];
+        $category12Data = [
+            'id' => 12,
+            'parentId' => 1,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-2')])
+        ];
+        $category13Data = [
+            'id' => 13,
+            'parentId' => 1,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3')])
+        ];
+        $category131Data = [
+            'id' => 131,
+            'parentId' => 13,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3-1')])
+        ];
+        $category14Data = [
+            'id' => 14,
+            'parentId' => 1,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-4')])
+        ];
+        $categoriesData = [
+            $category1Data['id'] => $category1Data,
+            $category12Data['id'] => $category12Data,
+            $category13Data['id'] => $category13Data,
+            $category131Data['id'] => $category131Data,
+            $category14Data['id'] => $category14Data,
+        ];
+
+        $this->menuCategoriesProvider->expects(self::once())
+            ->method('getCategories')
+            ->with($category, $user, ['tree_depth' => $maxTraverseLevel])
+            ->willReturn($categoriesData);
+
+        $lostItemName = $this->getTreeItemName($menuItem->getName(), 13);
+        $lostItemMaxTraverseLevel = 0;
+        $lostItem = $menuItem->addChild(
+            $lostItemName,
+            [
+                'extras' => [
+                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
+                    MenuUpdateInterface::POSITION => 42,
+                    MenuUpdate::TARGET_CATEGORY => $category13,
+                    MenuUpdate::MAX_TRAVERSE_LEVEL => $lostItemMaxTraverseLevel
+                ]
+            ]
+        );
+
+        $context = new MenuUpdateApplierContext($menu);
+        $context->addLostItem($lostItem, $this->createMock(MenuUpdateInterface::class));
+        $this->builder->onMenuUpdatesApplyAfter(new MenuUpdatesApplyAfterEvent($context));
+
+        $this->builder->build($menu);
+
+        self::assertEquals(
+            [
+                'label' => $menu->getName(),
+                'uri' => null,
+                'extras' => [ConfigurationBuilder::MAX_NESTING_LEVEL => $maxNestingLevel],
+                'display' => true,
+                'children' => [
+                    $menuItem->getName() => [
+                        'label' => (string)$category1Data['titles'][0],
+                        'uri' => 'oro_product_frontend_product_index/11',
+                        'extras' => [
+                            MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                            MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
+                                $category1Data['titles']
+                            ),
+                            MenuUpdate::TARGET_CATEGORY => new ProxyStub(Category::class, $category1Data['id']),
+                            MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
+                            CategoryTreeBuilder::CATEGORY_DATA => $category1Data,
+                        ],
+                        'display' => true,
+                        'children' => [
+                            $this->getTreeItemName($menuItem->getName(), 12) => [
+                                'label' => (string)$category12Data['titles'][0],
+                                'uri' => 'oro_product_frontend_product_index/121',
+                                'extras' => [
+                                    MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
+                                    MenuUpdateInterface::POSITION => 0,
+                                    MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
+                                        $category12Data['titles']
+                                    ),
+                                    MenuUpdate::TARGET_CATEGORY => new ProxyStub(
+                                        Category::class,
+                                        $category12Data['id']
+                                    ),
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel - 1,
+                                    CategoryTreeBuilder::IS_TREE_ITEM => true,
+                                    CategoryTreeBuilder::CATEGORY_DATA => $category12Data,
+                                ],
+                                'display' => true,
+                                'children' => [],
+                            ],
+                            $lostItemName => [
+                                'label' => (string)$category13Data['titles'][0],
+                                'uri' => 'oro_product_frontend_product_index/131',
+                                'extras' => [
+                                    MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                                    MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
+                                        $category13Data['titles']
+                                    ),
+                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
+                                    MenuUpdateInterface::POSITION => 42,
+                                    MenuUpdate::TARGET_CATEGORY => new ProxyStub(
+                                        Category::class,
+                                        $category13Data['id']
+                                    ),
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => $lostItemMaxTraverseLevel,
+                                    CategoryTreeBuilder::CATEGORY_DATA => $category13Data,
+                                    CategoryTreeBuilder::IS_TREE_ITEM => true,
+                                ],
+                                'display' => true,
+                                'children' => [],
+                            ],
+                            $this->getTreeItemName($menuItem->getName(), 14) => [
+                                'label' => (string)$category14Data['titles'][0],
+                                'uri' => 'oro_product_frontend_product_index/141',
+                                'extras' => [
+                                    MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
+                                    MenuUpdateInterface::POSITION => 2,
+                                    MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
+                                        $category14Data['titles']
+                                    ),
+                                    MenuUpdate::TARGET_CATEGORY => new ProxyStub(
+                                        Category::class,
+                                        $category14Data['id']
+                                    ),
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel - 1,
+                                    CategoryTreeBuilder::CATEGORY_DATA => $category14Data,
+                                    CategoryTreeBuilder::IS_TREE_ITEM => true,
+                                ],
+                                'display' => true,
+                                'children' => [],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            $this->normalizeMenuItem($menu),
+        );
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
+    public function testBuildWhenHasChildrenAndSynthetic(): void
+    {
+        $category = (new CategoryStub())
+            ->setId(1);
+        $category13 = (new CategoryStub())
+            ->setId(13);
+
+        $this->urlGenerator->expects(self::exactly(5))
+            ->method('generate')
+            ->willReturnCallback(static function ($routeName, array $parameters) {
+                return $routeName . '/' . $parameters['categoryId'] . $parameters['includeSubcategories'];
+            });
+
+        $maxNestingLevel = 6;
+        $menu = $this->createItem('sample_menu')
+            ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, $maxNestingLevel);
+        $maxTraverseLevel = 5;
+        $category13MaxTraverseLevel = 5;
+        $menuItem = $menu->addChild(
+            'sample_menu_item',
+            [
+                'extras' => [
+                    MenuUpdate::TARGET_CATEGORY => $category,
+                    MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
+                ],
+            ]
+        );
+
+        $user = $this->createMock(UserInterface::class);
+        $this->tokenAccessor->expects(self::once())
+            ->method('getUser')
+            ->willReturn($user);
+
+        $category1Data = [
+            'id' => $category->getId(),
+            'parentId' => 0,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1')])
+        ];
+        $category12Data = [
+            'id' => 12,
+            'parentId' => 1,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-2')])
+        ];
+        $category13Data = [
+            'id' => 13,
+            'parentId' => 1,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3')])
+        ];
+        $category131Data = [
+            'id' => 131,
+            'parentId' => 13,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3-1')])
+        ];
+        $category14Data = [
+            'id' => 14,
+            'parentId' => 1,
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-4')])
+        ];
+        $categoriesData = [
+            $category1Data['id'] => $category1Data,
+            $category12Data['id'] => $category12Data,
+            $category13Data['id'] => $category13Data,
+            $category131Data['id'] => $category131Data,
+            $category14Data['id'] => $category14Data,
+        ];
+
+        $this->menuCategoriesProvider->expects(self::exactly(2))
+            ->method('getCategories')
+            ->withConsecutive(
+                [$category, $user, ['tree_depth' => $maxTraverseLevel]],
+                [$category13, $user, ['tree_depth' => $category13MaxTraverseLevel]]
+            )
+            ->willReturnOnConsecutiveCalls(
+                $categoriesData,
+                [$category13Data['id'] => $category13Data, $category131Data['id'] => $category131Data]
+            );
+
+        $syntheticItemName = $this->getTreeItemName($menuItem->getName(), 13);
+        $syntheticItem = $menu->addChild(
+            $syntheticItemName,
+            [
+                'extras' => [
+                    MenuUpdateInterface::IS_SYNTHETIC => true,
+                    MenuUpdate::TARGET_CATEGORY => $category13,
+                    MenuUpdate::MAX_TRAVERSE_LEVEL => $category13MaxTraverseLevel,
+                ]
+            ]
+        );
+
+        $context = new MenuUpdateApplierContext($menu);
+        $context->addCreatedItem($syntheticItem, $this->createMock(MenuUpdateInterface::class));
+        $this->builder->onMenuUpdatesApplyAfter(new MenuUpdatesApplyAfterEvent($context));
+        $this->builder->build($menu);
+
+        self::assertEquals(
+            [
+                'label' => $menu->getName(),
+                'uri' => null,
+                'extras' => [ConfigurationBuilder::MAX_NESTING_LEVEL => $maxNestingLevel],
+                'display' => true,
+                'children' => [
+                    $menuItem->getName() => [
+                        'label' => (string)$category1Data['titles'][0],
+                        'uri' => 'oro_product_frontend_product_index/11',
+                        'extras' => [
+                            MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                            MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
+                                $category1Data['titles']
+                            ),
+                            MenuUpdate::TARGET_CATEGORY => new ProxyStub(Category::class, $category1Data['id']),
+                            MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
+                            CategoryTreeBuilder::CATEGORY_DATA => $category1Data,
+                        ],
+                        'display' => true,
+                        'children' => [
+                            $this->getTreeItemName($menuItem->getName(), 12) => [
+                                'label' => (string)$category12Data['titles'][0],
+                                'uri' => 'oro_product_frontend_product_index/121',
+                                'extras' => [
+                                    MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
+                                    MenuUpdateInterface::POSITION => 0,
+                                    MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
+                                        $category12Data['titles']
+                                    ),
+                                    MenuUpdate::TARGET_CATEGORY => new ProxyStub(
+                                        Category::class,
+                                        $category12Data['id']
+                                    ),
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel - 1,
+                                    CategoryTreeBuilder::IS_TREE_ITEM => true,
+                                    CategoryTreeBuilder::CATEGORY_DATA => $category12Data,
+                                ],
+                                'display' => true,
+                                'children' => [],
+                            ],
+                            $this->getTreeItemName($menuItem->getName(), 14) => [
+                                'label' => (string)$category14Data['titles'][0],
+                                'uri' => 'oro_product_frontend_product_index/141',
+                                'extras' => [
+                                    MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
+                                    MenuUpdateInterface::POSITION => 1,
+                                    MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
+                                        $category14Data['titles']
+                                    ),
+                                    MenuUpdate::TARGET_CATEGORY => new ProxyStub(
+                                        Category::class,
+                                        $category14Data['id']
+                                    ),
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel - 1,
+                                    CategoryTreeBuilder::CATEGORY_DATA => $category14Data,
+                                    CategoryTreeBuilder::IS_TREE_ITEM => true,
+                                ],
+                                'display' => true,
+                                'children' => [],
+                            ],
+                        ],
+                    ],
+                    $syntheticItemName => [
+                        'label' => (string)$category13Data['titles'][0],
+                        'uri' => 'oro_product_frontend_product_index/131',
+                        'extras' => [
+                            MenuUpdateInterface::IS_SYNTHETIC => true,
+                            MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                            MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
+                                $category13Data['titles']
+                            ),
+                            MenuUpdate::TARGET_CATEGORY => new ProxyStub(
+                                Category::class,
+                                $category13Data['id']
+                            ),
+                            MenuUpdate::MAX_TRAVERSE_LEVEL => $category13MaxTraverseLevel,
+                            CategoryTreeBuilder::CATEGORY_DATA => $category13Data,
+                        ],
+                        'display' => true,
+                        'children' => [
+                            $this->getTreeItemName($menuItem->getName(), 131) => [
+                                'label' => (string)$category131Data['titles'][0],
+                                'uri' => 'oro_product_frontend_product_index/1311',
+                                'extras' => [
+                                    MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
+                                    MenuUpdateInterface::ORIGIN_KEY => $this->getTreeItemName(
+                                        $menuItem->getName(),
+                                        13
+                                    ),
+                                    MenuUpdateInterface::POSITION => 0,
+                                    MenuUpdateInterface::TITLES =>
+                                        LocalizedFallbackValueHelper::cloneCollection(
+                                            $category131Data['titles']
+                                        ),
+                                    MenuUpdate::TARGET_CATEGORY => new ProxyStub(
+                                        Category::class,
+                                        $category131Data['id']
+                                    ),
+                                    MenuUpdate::MAX_TRAVERSE_LEVEL => $category13MaxTraverseLevel - 1,
+                                    CategoryTreeBuilder::CATEGORY_DATA => $category131Data,
+                                    CategoryTreeBuilder::IS_TREE_ITEM => true,
+                                ],
+                                'display' => true,
+                                'children' => [],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            $this->normalizeMenuItem($menu),
+        );
+    }
+
+    private function normalizeMenuItem(ItemInterface $menuItem): array
+    {
+        $result = [
+            'display' => $menuItem->isDisplayed(),
+            'label' => $menuItem->getLabel(),
+            'uri' => $menuItem->getUri(),
+            'extras' => $menuItem->getExtras(),
+        ];
+
+        $result['children'] = [];
+        foreach ($menuItem->getChildren() as $childMenuItem) {
+            $result['children'][$childMenuItem->getName()] = $this->normalizeMenuItem($childMenuItem);
+        }
+
+        return $result;
+    }
+
+    private function createTitle(string $title): LocalizedFallbackValue
+    {
+        return (new LocalizedFallbackValue())->setString($title);
+    }
+
+    private function getTreeItemName(string $parentItemName, int $contentNodeId): string
+    {
+        return 'menu_item_' . sha1('category_' . $parentItemName) . '__' . $contentNodeId;
     }
 }

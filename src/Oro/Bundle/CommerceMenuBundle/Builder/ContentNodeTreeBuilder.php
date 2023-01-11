@@ -6,10 +6,14 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
+use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
+use Oro\Bundle\LocaleBundle\Tools\LocalizedFallbackValueHelper;
+use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
+use Oro\Bundle\NavigationBundle\Event\MenuUpdatesApplyAfterEvent;
 use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
-use Oro\Bundle\NavigationBundle\MenuUpdateApplier\MenuUpdateApplier;
-use Oro\Bundle\NavigationBundle\Utils\LostItemsManipulator;
+use Oro\Bundle\NavigationBundle\Menu\ConfigurationBuilder;
+use Oro\Bundle\NavigationBundle\MenuUpdate\Applier\Model\MenuUpdateApplierContext;
 use Oro\Bundle\NavigationBundle\Utils\MenuUpdateUtils;
 use Oro\Bundle\WebCatalogBundle\Cache\ResolvedData\ResolvedContentNode;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
@@ -21,11 +25,19 @@ use Oro\Bundle\WebCatalogBundle\Menu\MenuContentNodesProviderInterface;
  */
 class ContentNodeTreeBuilder implements BuilderInterface
 {
+    public const IS_TREE_ITEM = 'content_node_tree_item';
+    public const TREE_ITEM_OPTIONS = 'content_node_tree_item_options';
+
     private ManagerRegistry $managerRegistry;
 
     private MenuContentNodesProviderInterface $menuContentNodesProvider;
 
     private LocalizationHelper $localizationHelper;
+
+    /**
+     * @var array<string,MenuUpdateApplierContext> Contexts indexed by menu name.
+     */
+    private array $menuUpdateApplierContexts = [];
 
     public function __construct(
         ManagerRegistry $managerRegistry,
@@ -39,17 +51,33 @@ class ContentNodeTreeBuilder implements BuilderInterface
 
     public function build(ItemInterface $menu, array $options = [], $alias = null): void
     {
-        $this->applyRecursively($menu);
+        $menuItemsByName = MenuUpdateUtils::flattenMenuItem($menu);
+        $maxNestingLevel = max(0, (int)$menu->getExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, 0));
+
+        $this->applyRecursively(
+            $menu,
+            $menuItemsByName,
+            $options,
+            $maxNestingLevel,
+            $this->menuUpdateApplierContexts[$menu->getName()] ?? null
+        );
     }
 
-    private function applyRecursively(ItemInterface $menuItem): void
-    {
-        if (!$menuItem->isDisplayed()) {
-            return;
-        }
-
+    private function applyRecursively(
+        ItemInterface $menuItem,
+        array &$menuItemsByName,
+        array $menuOptions,
+        int $maxNestingLevel,
+        ?MenuUpdateApplierContext $menuUpdateApplierContext
+    ): void {
         foreach ($menuItem->getChildren() as $menuChild) {
-            $this->applyRecursively($menuChild);
+            $this->applyRecursively(
+                $menuChild,
+                $menuItemsByName,
+                $menuOptions,
+                $maxNestingLevel,
+                $menuUpdateApplierContext
+            );
         }
 
         /** @var ContentNode|null $contentNode */
@@ -58,14 +86,15 @@ class ContentNodeTreeBuilder implements BuilderInterface
             return;
         }
 
-        $maxTraverseLevel = max(
-            0,
-            min(
-                (int)$menuItem->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 0),
-                MenuUpdateUtils::getAllowedNestingLevel($menuItem)
-            )
-        );
-        $menuItem->setExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, $maxTraverseLevel);
+        if ($menuUpdateApplierContext?->isLostItem($menuItem->getName())) {
+            return;
+        }
+
+        $maxTraverseLevel = max(0, (int)$menuItem->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 0));
+        if ($maxNestingLevel > 0) {
+            $allowedTraverseLevel = max(0, $maxNestingLevel - $menuItem->getLevel());
+            $maxTraverseLevel = min($allowedTraverseLevel, $maxTraverseLevel);
+        }
 
         $resolvedNode = $this->menuContentNodesProvider->getResolvedContentNode(
             $contentNode,
@@ -76,99 +105,165 @@ class ContentNodeTreeBuilder implements BuilderInterface
             return;
         }
 
-        $menuItem->setUri($this->getUri($resolvedNode));
-
-        if (!$menuItem->getLabel() || $menuItem->getLabel() === $menuItem->getName()) {
-            $menuItem->setLabel($this->localizationHelper->getLocalizedValue($resolvedNode->getTitles()));
-        }
-
-        $lostItems = LostItemsManipulator::getLostItemsContainer($menuItem, false)?->getChildren() ?? [];
-        $prefixForChildren = $this->getPrefixForChildren($menuItem, $contentNode->getId(), $lostItems);
-
         /** @var EntityManager $entityManager */
         $entityManager = $this->managerRegistry->getManagerForClass(ContentNode::class);
 
+        // Explicit passing of localization avoids further unnecessary calls to getCurrentLocalization.
+        $localization = $this->localizationHelper->getCurrentLocalization();
+
+        if (!$menuItem->isRoot()) {
+            $this->setMenuItemData($menuItem, $resolvedNode, $entityManager, $localization);
+        }
+
+        $this->setAllowedTraverseLevel($menuItem, $maxTraverseLevel);
+
+        $prefixForChildren = $this->getPrefixForChildren($menuItem, $contentNode->getId());
+
         $this->addChildren(
-            $entityManager,
             $menuItem,
             $resolvedNode->getChildNodes(),
-            $lostItems,
+            $entityManager,
+            $localization,
             $prefixForChildren,
-            $maxTraverseLevel
+            $menuItemsByName,
+            $menuOptions,
+            $menuUpdateApplierContext
         );
     }
 
     /**
-     * @param EntityManager $entityManager
-     * @param ItemInterface $menuItem
+     * @param ItemInterface $parentMenuItem
      * @param iterable<ResolvedContentNode> $resolvedContentNodes
-     * @param array<ItemInterface> $lostItems
+     * @param EntityManager $entityManager
+     * @param Localization|null $localization
      * @param string $prefixForChildren
-     * @param int $maxTraverseLevel
+     * @param array<string,ItemInterface> $menuItemsByName
+     * @param array $menuOptions
+     * @param MenuUpdateApplierContext|null $menuUpdateApplierContext
      */
     private function addChildren(
-        EntityManager $entityManager,
-        ItemInterface $menuItem,
+        ItemInterface $parentMenuItem,
         iterable $resolvedContentNodes,
-        array $lostItems,
+        EntityManager $entityManager,
+        ?Localization $localization,
         string $prefixForChildren,
-        int $maxTraverseLevel
+        array &$menuItemsByName,
+        array $menuOptions,
+        ?MenuUpdateApplierContext $menuUpdateApplierContext
     ): void {
+        $index = 0;
+        $parentMaxTraverseLevel = $parentMenuItem->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 0);
+        if ($parentMaxTraverseLevel <= 0) {
+            return;
+        }
+
+        $options = array_merge_recursive($menuOptions, $parentMenuItem->getExtra(self::TREE_ITEM_OPTIONS, []));
+        $options['extras'][MenuUpdateInterface::ORIGIN_KEY] = $parentMenuItem->getName();
+        $options['extras'][self::IS_TREE_ITEM] = true;
+
+        $parentMaxTraverseLevel = max(0, $parentMaxTraverseLevel - 1);
+
         foreach ($resolvedContentNodes as $resolvedNode) {
             $name = $prefixForChildren . $resolvedNode->getId();
-            $child = $lostItems[$name] ?? null;
-            if ($child) {
-                // If the child is already created in the lost items container, mark it as custom to make it move
-                // to its implied parent menu item.
-                $child->setExtra(MenuUpdateApplier::IS_CUSTOM, true);
-                continue;
+
+            if (isset($menuItemsByName[$name])) {
+                if ($menuItemsByName[$name]->getExtra(MenuUpdateInterface::IS_SYNTHETIC)) {
+                    continue;
+                }
+
+                $menuUpdateApplierContext?->removeLostItem($name);
+                $menuItemsByName[$name]->setExtra(self::IS_TREE_ITEM, true);
+            } else {
+                $options['extras'][MenuUpdateInterface::POSITION] = $index;
+                $menuItemsByName[$name] = $parentMenuItem->addChild($name, $options);
             }
 
-            $child = $menuItem->addChild(
-                $name,
-                [
-                    'label' => $this->getLabel($resolvedNode),
-                    'uri' => $this->getUri($resolvedNode),
-                    'extras' => [
-                        'isAllowed' => true,
-                        'translate_disabled' => true,
-                        MenuUpdate::TARGET_CONTENT_NODE => $entityManager
-                            ->getReference(ContentNode::class, $resolvedNode->getId()),
-                        MenuUpdate::MAX_TRAVERSE_LEVEL => max(0, $maxTraverseLevel - 1),
-                    ],
-                ]
+            $index++;
+
+            $this->setMenuItemData(
+                $menuItemsByName[$name],
+                $resolvedNode,
+                $entityManager,
+                $localization
             );
+
+            $this->setAllowedTraverseLevel($menuItemsByName[$name], $parentMaxTraverseLevel);
 
             $this->addChildren(
-                $entityManager,
-                $child,
+                $menuItemsByName[$name],
                 $resolvedNode->getChildNodes(),
-                $lostItems,
+                $entityManager,
+                $localization,
                 $prefixForChildren,
-                $maxTraverseLevel - 1
+                $menuItemsByName,
+                $menuOptions,
+                $menuUpdateApplierContext
             );
         }
     }
 
-    private function getPrefixForChildren(ItemInterface $menuItem, int $contentNodeId, array $lostItems): string
-    {
-        $itemName = $menuItem->getName();
-        if (isset($lostItems[$itemName])) {
-            // Ensures that
-            return substr($itemName, 0, strrpos($itemName, '_' . $contentNodeId)) . '_';
+    private function setMenuItemData(
+        ItemInterface $menuItem,
+        ResolvedContentNode $resolvedNode,
+        EntityManager $entityManager,
+        ?Localization $localization
+    ): void {
+        $menuItem->setUri($this->getUri($resolvedNode, $localization));
+
+        if ($menuItem->getLabel() === $menuItem->getName()) {
+            $menuItem->setLabel($this->getLabel($resolvedNode, $localization));
         }
 
-        return $itemName . '_';
+        $menuItem->setExtra(
+            MenuUpdateInterface::TITLES,
+            LocalizedFallbackValueHelper::cloneCollection($resolvedNode->getTitles())
+        );
+
+        $menuItem->setExtra(
+            MenuUpdate::TARGET_CONTENT_NODE,
+            $entityManager->getReference(ContentNode::class, $resolvedNode->getId())
+        );
+
+        $menuItem->setExtra(MenuUpdateInterface::IS_TRANSLATE_DISABLED, true);
     }
 
-    public function getLabel(ResolvedContentNode $resolvedNode): string
+    private function setAllowedTraverseLevel(ItemInterface $menuItem, int $allowedTraverseLevel): void
     {
-        return (string)$this->localizationHelper->getLocalizedValue($resolvedNode->getTitles());
+        $maxTraverseLevel = $menuItem->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL);
+        if ($maxTraverseLevel !== null) {
+            $maxTraverseLevel = min($maxTraverseLevel, $allowedTraverseLevel);
+        } else {
+            $maxTraverseLevel = $allowedTraverseLevel;
+        }
+
+        $menuItem->setExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, $maxTraverseLevel);
     }
 
-    public function getUri(ResolvedContentNode $resolvedNode): string
+    private function getPrefixForChildren(ItemInterface $menuItem, int $contentNodeId): string
+    {
+        $itemName = $menuItem->getName();
+        $idPosition = strrpos($itemName, '__' . $contentNodeId);
+        if ($idPosition !== false) {
+            return substr($itemName, 0, $idPosition) . '__';
+        }
+
+        return 'menu_item_' . sha1('content_node_' . $itemName) . '__';
+    }
+
+    private function getLabel(ResolvedContentNode $resolvedNode, ?Localization $localization): string
+    {
+        return (string)$this->localizationHelper->getLocalizedValue($resolvedNode->getTitles(), $localization);
+    }
+
+    private function getUri(ResolvedContentNode $resolvedNode, ?Localization $localization): string
     {
         return (string)$this->localizationHelper
-            ->getLocalizedValue($resolvedNode->getResolvedContentVariant()->getLocalizedUrls());
+            ->getLocalizedValue($resolvedNode->getResolvedContentVariant()->getLocalizedUrls(), $localization);
+    }
+
+    public function onMenuUpdatesApplyAfter(MenuUpdatesApplyAfterEvent $event): void
+    {
+        $menuUpdateApplierContext = $event->getContext();
+        $this->menuUpdateApplierContexts[$menuUpdateApplierContext->getMenu()->getName()] = $menuUpdateApplierContext;
     }
 }

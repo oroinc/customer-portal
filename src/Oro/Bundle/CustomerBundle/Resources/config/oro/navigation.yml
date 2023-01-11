@@ -106,6 +106,7 @@ navigation:
             customer_users_login_attempts:
                 label: 'oro.customer.customeruserloginattempt.entity_plural_label'
                 route: 'oro_customer_login_attempts'
+                position: 80
                 extras:
                     description: 'oro.customer.customeruserloginattempt.entity_description'
 

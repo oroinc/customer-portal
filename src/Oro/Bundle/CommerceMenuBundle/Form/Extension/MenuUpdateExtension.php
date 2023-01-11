@@ -12,6 +12,7 @@ use Oro\Bundle\FormBundle\Form\Type\LinkTargetType;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType;
 use Oro\Bundle\NavigationBundle\Form\Type\RouteChoiceType;
+use Oro\Bundle\NavigationBundle\Menu\ConfigurationBuilder;
 use Oro\Bundle\NavigationBundle\Utils\MenuUpdateUtils;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Bundle\WebCatalogBundle\Entity\WebCatalog;
@@ -212,10 +213,20 @@ class MenuUpdateExtension extends AbstractTypeExtension
     private function addMaxTraverseLevelField(FormInterface $form, MenuUpdateInterface $menuUpdate): void
     {
         $menu = $form->getConfig()->getOption('menu');
+        $menuItem = $form->getConfig()->getOption('menu_item');
+        $maxNestingLevel = (int)$menu->getExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, 0);
         $parentMenuItem = MenuUpdateUtils::findMenuItem($menu, $menuUpdate->getParentKey()) ?? $menu;
-        $maxTraverseLevel = max(0, MenuUpdateUtils::getAllowedNestingLevel($parentMenuItem) - 1);
-        if ($menuUpdate->getMaxTraverseLevel() > $maxTraverseLevel) {
-            $menuUpdate->setMaxTraverseLevel($maxTraverseLevel);
+        $allowedTraverseLevel = max(0, $maxNestingLevel - $parentMenuItem->getLevel() - 1);
+
+        if ($menuItem && !$menuUpdate->isCustom() && !$menuUpdate->isSynthetic()) {
+            $parentMaxTraverseLevel = $parentMenuItem->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL);
+            if ($parentMaxTraverseLevel !== null) {
+                $allowedTraverseLevel = min($allowedTraverseLevel, max(0, $parentMaxTraverseLevel - 1));
+            }
+        }
+
+        if ($menuUpdate->getMaxTraverseLevel() > $allowedTraverseLevel) {
+            $menuUpdate->setMaxTraverseLevel($allowedTraverseLevel);
         }
 
         $form->add(
@@ -226,9 +237,9 @@ class MenuUpdateExtension extends AbstractTypeExtension
                 'tooltip' => 'oro.commercemenu.menuupdate.max_traverse_level.placeholder',
                 'required' => false,
                 'placeholder' => false,
-                'choices' => range(0, $maxTraverseLevel),
+                'choices' => range(0, $allowedTraverseLevel),
                 'translatable_options' => false,
-                'disabled' => $maxTraverseLevel === 0,
+                'disabled' => $allowedTraverseLevel === 0,
             ]
         );
     }

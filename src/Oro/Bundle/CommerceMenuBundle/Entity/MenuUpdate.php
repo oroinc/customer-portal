@@ -78,8 +78,7 @@ use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
  * )
  * @ORM\HasLifecycleCallbacks()
  */
-class MenuUpdate extends ExtendMenuUpdate implements
-    MenuUpdateInterface
+class MenuUpdate extends ExtendMenuUpdate implements MenuUpdateInterface
 {
     use MenuUpdateTrait {
         MenuUpdateTrait::__construct as traitConstructor;
@@ -89,8 +88,17 @@ class MenuUpdate extends ExtendMenuUpdate implements
     public const TARGET_SYSTEM_PAGE = 'system_page';
     public const TARGET_CONTENT_NODE = 'content_node';
     public const TARGET_CATEGORY = 'category';
+
+    public const SYSTEM_PAGE_ROUTE = 'system_page_route';
+
+    public const IMAGE = 'image';
+    public const SCREENS = 'screens';
+    public const CONDITION = 'condition';
+    public const USER_AGENT_CONDITIONS = 'userAgentConditions';
+
     public const LINK_TARGET_NEW_WINDOW = 0;
     public const LINK_TARGET_SAME_WINDOW = 1;
+
     public const MENU_TEMPLATE = 'menu_template';
     public const MAX_TRAVERSE_LEVEL = 'max_traverse_level';
 
@@ -124,7 +132,7 @@ class MenuUpdate extends ExtendMenuUpdate implements
      * @var ContentNode|null
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\WebCatalogBundle\Entity\ContentNode")
-     * @ORM\JoinColumn(name="content_node_id", referencedColumnName="id", onDelete="SET NULL", nullable=true)
+     * @ORM\JoinColumn(name="content_node_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
      */
     protected $contentNode;
 
@@ -162,49 +170,6 @@ class MenuUpdate extends ExtendMenuUpdate implements
         $this->traitConstructor();
 
         $this->menuUserAgentConditions = new ArrayCollection();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getExtras()
-    {
-        $extras = [
-            'image' => $this->getImage(),
-            'screens' => $this->getScreens(),
-            'condition' => $this->getCondition(),
-            'divider' => $this->isDivider(),
-            'userAgentConditions' => $this->getMenuUserAgentConditions(),
-            'translate_disabled' => (bool) $this->getId(),
-        ];
-
-        if ($this->getTargetType() === self::TARGET_CONTENT_NODE) {
-            $extras['content_node'] = $this->getContentNode();
-            $extras[self::MAX_TRAVERSE_LEVEL] = $this->getMaxTraverseLevel();
-        }
-
-        if ($this->getTargetType() === self::TARGET_CATEGORY) {
-            $extras['category'] = $this->getCategory();
-            $extras[self::MAX_TRAVERSE_LEVEL] = $this->getMaxTraverseLevel();
-        }
-
-        if ($this->getTargetType() === self::TARGET_SYSTEM_PAGE) {
-            $extras['system_page_route'] = $this->getSystemPageRoute();
-        }
-
-        if ($this->getPriority() !== null) {
-            $extras['position'] = $this->getPriority();
-        }
-
-        if ($this->getIcon() !== null) {
-            $extras['icon'] = $this->getIcon();
-        }
-
-        if ($this->getMenuTemplate() !== null) {
-            $extras[self::MENU_TEMPLATE] = $this->getMenuTemplate();
-        }
-
-        return $extras;
     }
 
     /**

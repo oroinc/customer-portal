@@ -7,6 +7,7 @@ oro:
             id.label: Id
             key.label: Key
             parent_key.label: Parent Key
+            origin_key.label: Origin Key
             menu.label: Menu
             titles.label: Title
             uri.label: Uri
@@ -22,6 +23,7 @@ oro:
                     is toggled on in the system configuration.
             website.label: Website
             custom.label: Is Custom
+            synthetic.label: Is Synthetic
             divider.label: Is Divider
             descriptions.label: Description
             icon.label: Icon

@@ -62,12 +62,14 @@ class OroCommerceMenuBundleInstaller implements
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('key', 'string', ['length' => 100]);
         $table->addColumn('parent_key', 'string', ['length' => 100, 'notnull' => false]);
+        $table->addColumn('origin_key', 'string', ['length' => 100, 'notnull' => false]);
         $table->addColumn('uri', 'string', ['length' => 8190, 'notnull' => false]);
         $table->addColumn('menu', 'string', ['length' => 100]);
         $table->addColumn('icon', 'string', ['length' => 150, 'notnull' => false]);
         $table->addColumn('is_active', 'boolean', []);
         $table->addColumn('is_divider', 'boolean', []);
         $table->addColumn('is_custom', 'boolean', []);
+        $table->addColumn('is_synthetic', 'boolean', ['notnull' => true, 'default' => false]);
         $table->addColumn('priority', 'integer', ['notnull' => false]);
         $table->addColumn('scope_id', 'integer', ['notnull' => true]);
         $table->addColumn('condition', 'string', ['length' => 512, 'notnull' => false]);
@@ -181,7 +183,7 @@ class OroCommerceMenuBundleInstaller implements
             $schema->getTable('oro_web_catalog_content_node'),
             ['content_node_id'],
             ['id'],
-            ['onDelete' => 'SET NULL', 'notnull' => false]
+            ['onDelete' => 'CASCADE', 'notnull' => false]
         );
     }
 

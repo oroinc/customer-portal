@@ -39,7 +39,6 @@ use Oro\Bundle\NavigationBundle\Form\Type\RouteChoiceType;
 use Oro\Bundle\NavigationBundle\Menu\ConfigurationBuilder;
 use Oro\Bundle\NavigationBundle\Tests\Unit\Form\Type\Stub\RouteChoiceTypeStub;
 use Oro\Bundle\NavigationBundle\Tests\Unit\MenuItemTestTrait;
-use Oro\Bundle\NavigationBundle\Utils\LostItemsManipulator;
 use Oro\Bundle\SecurityBundle\Util\UriSecurityHelper;
 use Oro\Bundle\SecurityBundle\Validator\Constraints\NotDangerousProtocolValidator;
 use Oro\Bundle\TranslationBundle\Form\Extension\TranslatableChoiceTypeExtension;
@@ -234,7 +233,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
                     ],
                 ],
                 'screens' => $screens = ['desktop', 'mobile'],
-                'linkTarget' => 0,
+                'linkTarget' => LinkTargetType::NEW_WINDOW_VALUE,
                 'menuTemplate' => 'list',
             ]
         );
@@ -244,7 +243,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
             ->setImage($image)
             ->addMenuUserAgentCondition($menuUserAgentCondition)
             ->setScreens($screens)
-            ->setLinkTarget(0)
+            ->setLinkTarget(LinkTargetType::NEW_WINDOW_VALUE)
             ->setMenuTemplate('list');
 
         $this->assertFormIsValid($form);
@@ -284,7 +283,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
         );
 
         $form->submit([
-            'linkTarget' => 0,
+            'linkTarget' => LinkTargetType::NEW_WINDOW_VALUE,
             'maxTraverseLevel' => 5,
         ]);
 
@@ -298,7 +297,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
         self::assertEquals($expected, $form->getData());
     }
 
-    public function testSubmitWhenMaxTraverseLevelIsRestrictedByLevel(): void
+    public function testSubmitMaxTraverseLevelWhenNotRestrictedByParentWhenNoMenuItem(): void
     {
         $this->webCatalogProvider->expects(self::once())
             ->method('getWebCatalog')
@@ -306,36 +305,26 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
 
         $menu = $this->createItem('sample_menu')
             ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, 6);
-        $lostItemsContainer = LostItemsManipulator::getLostItemsContainer($menu);
 
-        $menuItem1 = $this->createItem('sample_item_1');
-        $menu->addChild($menuItem1);
-
-        $menuItem11 = $this->createItem('sample_item_1_11');
-        $menuItem1->addChild($menuItem11);
-
-        $menuItem111 = $this->createItem('sample_item_1_11_111')
-            ->setExtra(LostItemsManipulator::IMPLIED_PARENT_NAME, $menuItem11->getName());
-        $lostItemsContainer->addChild($menuItem111);
-
-        $menuItem1111 = $this->createItem('sample_item_1_11_1111')
-            ->setExtra(LostItemsManipulator::IMPLIED_PARENT_NAME, $menuItem11->getName());
-        $lostItemsContainer->addChild($menuItem1111);
+        $menuItem1 = $menu->addChild('sample_item_1');
+        $menuItem11 = $menuItem1->addChild('sample_item_1_11')
+            ->setExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 3);
 
         $menuUpdate = (new MenuUpdateStub())
-            ->setParentKey($menuItem111->getName())
+            ->setKey('new_item')
+            ->setParentKey($menuItem11->getName())
             ->setMaxTraverseLevel(5);
 
         $form = $this->factory->create(
             MenuUpdateTypeStub::class,
             $menuUpdate,
-            ['menu_item' => $menuItem1111, 'menu' => $menu]
+            ['menu' => $menu]
         );
 
-        $this->assertFormOptionEqual([0, 1, 2], 'choices', $form->get('maxTraverseLevel'));
+        $this->assertFormOptionEqual([0, 1, 2, 3], 'choices', $form->get('maxTraverseLevel'));
 
         $form->submit([
-            'linkTarget' => 0,
+            'linkTarget' => LinkTargetType::NEW_WINDOW_VALUE,
             'maxTraverseLevel' => 2,
         ]);
 
@@ -344,9 +333,154 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
         $this->assertFormOptionEqual(false, 'disabled', $form->get('maxTraverseLevel'));
 
         $expected = (new MenuUpdateStub())
-            ->setLinkTarget(0)
-            ->setParentKey($menuItem111->getName())
+            ->setKey($menuUpdate->getKey())
+            ->setParentKey($menuItem11->getName())
+            ->setLinkTarget(LinkTargetType::NEW_WINDOW_VALUE)
             ->setMaxTraverseLevel(2);
+        self::assertEquals($expected, $form->getData());
+    }
+
+    public function testSubmitMaxTraverseLevelWhenNotRestrictedByParentWhenCustom(): void
+    {
+        $this->webCatalogProvider->expects(self::once())
+            ->method('getWebCatalog')
+            ->willReturn($this->createMock(WebCatalog::class));
+
+        $menu = $this->createItem('sample_menu')
+            ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, 6);
+
+        $menuItem1 = $menu->addChild('sample_item_1');
+        $menuItem11 = $menuItem1->addChild('sample_item_1_11')
+            ->setExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 3);
+        $menuItem11Custom = $menuItem11->addChild('sample_item_1_11_custom');
+
+        $menuUpdate = (new MenuUpdateStub())
+            ->setKey($menuItem11Custom->getName())
+            ->setCustom(true)
+            ->setParentKey($menuItem11->getName())
+            ->setMaxTraverseLevel(5);
+
+        $form = $this->factory->create(
+            MenuUpdateTypeStub::class,
+            $menuUpdate,
+            ['menu_item' => $menuItem11Custom, 'menu' => $menu]
+        );
+
+        $this->assertFormOptionEqual([0, 1, 2, 3], 'choices', $form->get('maxTraverseLevel'));
+
+        $contentNode = $this->createMock(ContentNode::class);
+        $form->submit([
+            'contentNode' => $contentNode,
+            'linkTarget' => LinkTargetType::NEW_WINDOW_VALUE,
+            'maxTraverseLevel' => 2,
+        ]);
+
+        $this->assertFormIsValid($form);
+
+        $this->assertFormOptionEqual(false, 'disabled', $form->get('maxTraverseLevel'));
+
+        $expected = (new MenuUpdateStub())
+            ->setKey($menuUpdate->getKey())
+            ->setCustom(true)
+            ->setContentNode($contentNode)
+            ->setParentKey($menuItem11->getName())
+            ->setLinkTarget(LinkTargetType::NEW_WINDOW_VALUE)
+            ->setMaxTraverseLevel(2);
+        self::assertEquals($expected, $form->getData());
+    }
+
+    public function testSubmitMaxTraverseLevelWhenNotRestrictedByParentWhenSynthetic(): void
+    {
+        $this->webCatalogProvider->expects(self::once())
+            ->method('getWebCatalog')
+            ->willReturn($this->createMock(WebCatalog::class));
+
+        $menu = $this->createItem('sample_menu')
+            ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, 6);
+
+        $menuItem1 = $menu->addChild('sample_item_1');
+        $menuItem11 = $menuItem1->addChild('sample_item_1_11')
+            ->setExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 3);
+        $menuItem11Synthetic = $menuItem11->addChild('sample_item_1_11_synthetic');
+
+        $menuUpdate = (new MenuUpdateStub())
+            ->setKey($menuItem11Synthetic->getName())
+            ->setCustom(false)
+            ->setSynthetic(true)
+            ->setParentKey($menuItem11->getName())
+            ->setMaxTraverseLevel(5);
+
+        $form = $this->factory->create(
+            MenuUpdateTypeStub::class,
+            $menuUpdate,
+            ['menu_item' => $menuItem11Synthetic, 'menu' => $menu]
+        );
+
+        $this->assertFormOptionEqual([0, 1, 2, 3], 'choices', $form->get('maxTraverseLevel'));
+
+        $form->submit([
+            'linkTarget' => LinkTargetType::NEW_WINDOW_VALUE,
+            'maxTraverseLevel' => 2,
+        ]);
+
+        $this->assertFormIsValid($form);
+
+        $this->assertFormOptionEqual(false, 'disabled', $form->get('maxTraverseLevel'));
+
+        $expected = (new MenuUpdateStub())
+            ->setKey($menuUpdate->getKey())
+            ->setSynthetic(true)
+            ->setParentKey($menuItem11->getName())
+            ->setLinkTarget(LinkTargetType::NEW_WINDOW_VALUE)
+            ->setMaxTraverseLevel(2);
+        self::assertEquals($expected, $form->getData());
+    }
+
+    public function testSubmitMaxTraverseLevelWhenRestrictedByParent(): void
+    {
+        $this->webCatalogProvider->expects(self::once())
+            ->method('getWebCatalog')
+            ->willReturn($this->createMock(WebCatalog::class));
+
+        $menu = $this->createItem('sample_menu')
+            ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, 6);
+
+        $menuItem1 = $menu->addChild('sample_item_1');
+        $menuItem11 = $menuItem1->addChild('sample_item_1_11')
+            ->setExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 2);
+        $menuItem111 = $menuItem11->addChild('sample_item_1_111');
+
+        $menuUpdate = (new MenuUpdateStub())
+            ->setKey($menuItem111->getName())
+            ->setCustom(false)
+            ->setSynthetic(false)
+            ->setParentKey($menuItem11->getName())
+            ->setMaxTraverseLevel(5);
+
+        $form = $this->factory->create(
+            MenuUpdateTypeStub::class,
+            $menuUpdate,
+            ['menu_item' => $menuItem111, 'menu' => $menu]
+        );
+
+        $this->assertFormOptionEqual([0, 1], 'choices', $form->get('maxTraverseLevel'));
+
+        $form->submit([
+            'linkTarget' => LinkTargetType::NEW_WINDOW_VALUE,
+            'maxTraverseLevel' => 1,
+        ]);
+
+        $this->assertFormIsValid($form);
+
+        $this->assertFormOptionEqual(false, 'disabled', $form->get('maxTraverseLevel'));
+
+        $expected = (new MenuUpdateStub())
+            ->setKey($menuUpdate->getKey())
+            ->setCustom(false)
+            ->setSynthetic(false)
+            ->setParentKey($menuItem11->getName())
+            ->setLinkTarget(LinkTargetType::NEW_WINDOW_VALUE)
+            ->setMaxTraverseLevel(1);
         self::assertEquals($expected, $form->getData());
     }
 
@@ -383,7 +517,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
                     'uri' => 'sample/uri',
                     'systemPageRoute' => 'sample_route',
                     'contentNode' => $contentNode,
-                    'linkTarget' => 1,
+                    'linkTarget' => LinkTargetType::SAME_WINDOW_VALUE,
                 ],
                 'expectedMenuUpdate' => (new MenuUpdateStub())->setCustom(true)->setUri('sample/uri'),
             ],
@@ -393,7 +527,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
                     'uri' => 'sample/uri',
                     'systemPageRoute' => 'sample_route',
                     'contentNode' => $contentNode,
-                    'linkTarget' => 1,
+                    'linkTarget' => LinkTargetType::SAME_WINDOW_VALUE,
                 ],
                 'expectedMenuUpdate' => (new MenuUpdateStub())->setCustom(true)->setSystemPageRoute('sample_route'),
             ],
@@ -403,7 +537,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
                     'uri' => 'sample/uri',
                     'systemPageRoute' => 'sample_route',
                     'contentNode' => $contentNode,
-                    'linkTarget' => 1,
+                    'linkTarget' => LinkTargetType::SAME_WINDOW_VALUE,
                 ],
                 'expectedMenuUpdate' => (new MenuUpdateStub())->setCustom(true)->setContentNode($contentNode),
             ],
@@ -413,7 +547,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
                     'uri' => 'sample/uri',
                     'category' => $category,
                     'contentNode' => $contentNode,
-                    'linkTarget' => 1,
+                    'linkTarget' => LinkTargetType::SAME_WINDOW_VALUE,
                 ],
                 'expectedMenuUpdate' => (new MenuUpdateStub())->setCustom(true)->setCategory($category),
             ],

@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Entity;
 
-use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\CatalogBundle\Entity\Category;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
@@ -36,99 +35,6 @@ class MenuUpdateTest extends \PHPUnit\Framework\TestCase
         ];
 
         self::assertPropertyCollections(new MenuUpdate(), $properties);
-    }
-
-    public function testGetExtras(): void
-    {
-        $image = new File();
-        $priority = 10;
-
-        $update = new MenuUpdateStub();
-        $screens = ['sample-screen'];
-        $update
-            ->setImage($image)
-            ->setScreens($screens)
-            ->setCondition('test condition')
-            ->setIcon('test-icon')
-            ->setPriority($priority)
-            ->setDivider(true)
-            ->setMenuTemplate('list')
-            ->setMaxTraverseLevel(3);
-
-        $expected = [
-            'image' => $image,
-            'screens' => $screens,
-            'condition' => 'test condition',
-            'divider' => true,
-            'userAgentConditions' => $update->getMenuUserAgentConditions(),
-            'translate_disabled' => false,
-            'position' => $priority,
-            'icon' => 'test-icon',
-            'menu_template' => 'list',
-        ];
-
-        self::assertSame($expected, $update->getExtras());
-    }
-
-    public function testGetExtraWhenContentNode(): void
-    {
-        $update = (new MenuUpdateStub())
-            ->setContentNode($contentNode = $this->createMock(ContentNode::class))
-            ->setMaxTraverseLevel(5)
-            ->setSystemPageRoute('sample_route');
-
-        $expected = [
-            'image' => null,
-            'screens' => [],
-            'condition' => null,
-            'divider' => false,
-            'userAgentConditions' => $update->getMenuUserAgentConditions(),
-            'translate_disabled' => false,
-            'content_node' => $contentNode,
-            'max_traverse_level' => 5,
-        ];
-
-        self::assertSame($expected, $update->getExtras());
-    }
-
-    public function testGetExtraWhenSystemPageRoute(): void
-    {
-        $update = (new MenuUpdateStub())
-            ->setSystemPageRoute($route = 'sample_route');
-
-        $expected = [
-            'image' => null,
-            'screens' => [],
-            'condition' => null,
-            'divider' => false,
-            'userAgentConditions' => $update->getMenuUserAgentConditions(),
-            'translate_disabled' => false,
-            'system_page_route' => $route,
-        ];
-
-        self::assertSame($expected, $update->getExtras());
-    }
-
-    public function testGetExtraWhenCategory(): void
-    {
-        $category = new Category();
-
-        $update = (new MenuUpdateStub())
-            ->setMaxTraverseLevel(5)
-            ->setCategory($category);
-
-        $expected = [
-            'image' => null,
-            'screens' => [],
-            'condition' => null,
-            'divider' => false,
-            'userAgentConditions' => $update->getMenuUserAgentConditions(),
-            'translate_disabled' => false,
-            'category' => $category,
-            'max_traverse_level' => 5,
-        ];
-
-        self::assertSame($expected, $update->getExtras());
     }
 
     public function testGetLinkAttributes(): void

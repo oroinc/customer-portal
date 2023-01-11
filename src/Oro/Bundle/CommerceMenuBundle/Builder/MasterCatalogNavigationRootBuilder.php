@@ -2,53 +2,38 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Builder;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
-use Oro\Bundle\CatalogBundle\Entity\Category;
-use Oro\Bundle\CatalogBundle\Menu\MenuCategoriesProviderInterface;
 use Oro\Bundle\CatalogBundle\Provider\MasterCatalogRootProviderInterface;
+use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\CommerceMenuBundle\Provider\MenuTemplatesProvider;
 use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
-use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\NavigationBundle\Menu\ConfigurationBuilder;
 
 /**
- * Adds to menu the 1st level categories from Master Catalog.
+ * Sets root category to menu to add the 1st level categories.
  */
 class MasterCatalogNavigationRootBuilder implements BuilderInterface
 {
-    private ManagerRegistry $managerRegistry;
-
-    private TokenAccessorInterface $tokenAccessor;
-
     private MasterCatalogRootProviderInterface $masterCatalogRootProvider;
-
-    private MenuCategoriesProviderInterface $menuCategoriesProvider;
 
     private MenuTemplatesProvider $menuTemplatesProvider;
 
-    private array $extrasOption = [];
+    private array $treeItemOptions = [];
 
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        TokenAccessorInterface $tokenAccessor,
         MasterCatalogRootProviderInterface $masterCatalogRootProvider,
-        MenuCategoriesProviderInterface $menuCategoriesProvider,
         MenuTemplatesProvider $menuTemplatesProvider
     ) {
-        $this->managerRegistry = $managerRegistry;
-        $this->tokenAccessor = $tokenAccessor;
         $this->masterCatalogRootProvider = $masterCatalogRootProvider;
-        $this->menuCategoriesProvider = $menuCategoriesProvider;
         $this->menuTemplatesProvider = $menuTemplatesProvider;
     }
 
     /**
-     * Option "extras" to pass to the newly created menu items.
+     * Options to pass to the created content node tree items.
      */
-    public function setExtras(array $extrasOption): void
+    public function setTreeItemOptions(array $treeItemOptions): void
     {
-        $this->extrasOption = $extrasOption;
+        $this->treeItemOptions = $treeItemOptions;
     }
 
     public function build(ItemInterface $menu, array $options = [], $alias = null): void
@@ -58,41 +43,22 @@ class MasterCatalogNavigationRootBuilder implements BuilderInterface
         }
 
         $rootCategory = $this->masterCatalogRootProvider->getMasterCatalogRoot();
-        $user = $this->tokenAccessor->getUser();
-        $categoriesData = $this->menuCategoriesProvider->getCategories($rootCategory, $user, null, ['tree_depth' => 1]);
-        if (!$categoriesData) {
-            return;
-        }
 
-        // Shifts the root category.
-        array_shift($categoriesData);
+        $menu->setExtra(MenuUpdate::TARGET_CATEGORY, $rootCategory);
 
-        /** @var EntityManager $entityManager */
-        $entityManager = $this->managerRegistry->getManagerForClass(Category::class);
-        $maxNestingLevel = $menu->getExtra('max_nesting_level', 1);
-        $maxTraverseLevel = $maxNestingLevel > 0 ? $maxNestingLevel - 1 : 0;
-        $menuTemplateName = $this->getFirstAvailableMenuTemplate();
-
-        $startingPosition = -100 - count($categoriesData);
-        foreach (array_reverse($categoriesData) as $categoryData) {
-            $menu->addChild(
-                'category_' . $categoryData['id'],
-                [
-                    'label' => $categoryData['title'],
-                    'extras' => array_merge([
-                        'isAllowed' => true,
-                        'category' => $entityManager->getReference(Category::class, $categoryData['id']),
-                        'position' => $startingPosition++,
-                        'menu_template' => $menuTemplateName,
-                        'max_traverse_level' => $maxTraverseLevel,
-                        'translate_disabled' => true,
-                    ], $this->extrasOption),
-                ]
+        if ($menu->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL) === null) {
+            $menu->setExtra(
+                MenuUpdate::MAX_TRAVERSE_LEVEL,
+                max(0, $menu->getExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, 0))
             );
         }
+
+        $treeItemOptions = $this->treeItemOptions;
+        $treeItemOptions['extras'][MenuUpdate::MENU_TEMPLATE] = $this->getFirstAvailableMenuTemplate();
+        $menu->setExtra(CategoryTreeBuilder::TREE_ITEM_OPTIONS, $treeItemOptions);
     }
 
-    public function getFirstAvailableMenuTemplate(): string
+    private function getFirstAvailableMenuTemplate(): string
     {
         $menuTemplateNames = array_keys($this->menuTemplatesProvider->getMenuTemplates());
 
