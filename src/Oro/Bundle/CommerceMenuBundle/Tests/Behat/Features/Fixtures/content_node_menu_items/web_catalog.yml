@@ -1,0 +1,9 @@
+Oro\Bundle\ScopeBundle\Entity\Scope:
+    web_catalog_1_scope:
+        webCatalog: '@web_catalog_1'
+
+Oro\Bundle\WebCatalogBundle\Entity\WebCatalog:
+    web_catalog_1:
+        name: 'Default Web Catalog'
+        organization: '@organization'
+        owner: '@business_unit'

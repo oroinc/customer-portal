@@ -20,14 +20,3 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         userRoles: ['@buyer']
         owner: '@admin'
         website: '@website1'
-
-Oro\Bundle\ScopeBundle\Entity\Scope:
-    webCatalogScope:
-        webCatalog: '@webCatalog'
-
-Oro\Bundle\WebCatalogBundle\Entity\WebCatalog:
-    webCatalog:
-        name: 'Default Web Catalog'
-        description: 'Default Web Catalog description'
-        organization: '@organization'
-        owner: '@business_unit'

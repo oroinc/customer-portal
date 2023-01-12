@@ -36,6 +36,8 @@ oro_behat_extension:
           User Agent First Operation: 'menu_update[menuUserAgentConditions][0][0][operation]'
           User Agent First Value: 'menu_update[menuUserAgentConditions][0][0][value]'
           Exclude On Screens: 'menu_update[screens][]'
+          Menu Template: 'menu_update[menuTemplate]'
+          Max Traverse Level: 'menu_update[maxTraverseLevel]'
 
     Target Type:
       selector: 'select[name="menu_update[targetType]"]'
@@ -111,8 +113,14 @@ oro_behat_extension:
         type: xpath
         locator: '//li[contains(@class, "jstree-node")]/a[contains(., "frontend_menu")]/parent::li/ul//li[contains(@class, "jstree-node")]/a[contains(., "Frontend Child Item Update")]'
 
-    Menu Item Content Node Field:
+    Menu Update Content Node Field:
       selector: 'div[data-role="content-node-field"]'
+
+    Menu Update Category Field:
+      selector: 'div[data-role="category-field"]'
+
+    Sidebar Menu Tree:
+      selector: 'div[data-role="sidebar-content"] div[data-role="jstree-wrapper"]'
 
   pages:
     Frontend Menus:
@@ -137,5 +145,8 @@ oro_behat_extension:
         - Oro\Bundle\NavigationBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\LocaleBundle\Tests\Behat\Context\LocalizationContext
         - Oro\Bundle\WebCatalogBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\FrontendBundle\Tests\Behat\Context\FrontendMenuContext
+        - Oro\Bundle\NavigationBundle\Tests\Behat\Context\ScrollspyContext
+        - Oro\Bundle\NavigationBundle\Tests\Behat\Context\TabContext
       paths:
         - '@OroCommerceMenuBundle/Tests/Behat/Features'

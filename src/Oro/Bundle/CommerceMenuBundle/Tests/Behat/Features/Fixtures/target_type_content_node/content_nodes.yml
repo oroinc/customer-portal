@@ -49,7 +49,7 @@ Oro\Bundle\WebCatalogBundle\Entity\ContentVariant:
 
 Oro\Bundle\RedirectBundle\Entity\Slug:
     frontendRootVariantSlug:
-        url: '/'
+        url: 'root'
         routeName: 'oro_frontend_root'
         __calls:
             - setRouteParameters: [[]]
@@ -57,7 +57,7 @@ Oro\Bundle\RedirectBundle\Entity\Slug:
         organization: '@organization'
 
     clearanceVariantSlug:
-        url: '/clearance'
+        url: 'clearance'
         routeName: 'oro_frontend_root'
         __calls:
             - setRouteParameters: [[]]
