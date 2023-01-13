@@ -128,6 +128,25 @@
                 </div>
             </div>
 
+            <div class="info-list__item">
+                <div class="info-list__name">
+                    {{- 'oro.customer.customeruser.auth_status.label'|trans -}}
+                </div>
+                <div class="info-list__desc">
+                    {% if customerUser.authStatus.id == 'active' %}
+                        <div class="info-list-status">
+                            <span class="fa fa-check" aria-hidden="true"></span>
+                            {{- customerUser.authStatus.name -}}
+                        </div>
+                    {% else %}
+                        <div class="info-list-status info-list-status--disabled">
+                            <span class="fa fa-ban" aria-hidden="true"></span>
+                            {{- customerUser.authStatus.name -}}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
             {% if customerUser.salesRepresentatives | length %}
                 <div class="info-list__item">
                     <div class="info-list__name">
@@ -146,12 +165,12 @@
     {% if customerUser.enabled == true %}
         <div class="info-list-status">
             <span class="fa fa-check" aria-hidden="true"></span>
-            {{- 'oro.customer.customeruser.profile.statuses.active'|trans -}}
+            {{- 'oro.customer.customeruser.profile.statuses.enabled'|trans -}}
         </div>
     {% else %}
         <div class="info-list-status info-list-status--disabled">
             <span class="fa fa-ban" aria-hidden="true"></span>
-            {{- 'oro.customer.customeruser.profile.statuses.inactive'|trans -}}
+            {{- 'oro.customer.customeruser.profile.statuses.disabled'|trans -}}
         </div>
     {% endif %}
 

@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,35 +13,47 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class CustomerUserPasswordResetHandler
 {
-    /** @var CustomerUserManager */
-    private $userManager;
+    private CustomerUserManager $userManager;
+    private LoggerInterface $logger;
 
     public function __construct(CustomerUserManager $userManager)
     {
         $this->userManager = $userManager;
     }
 
-    /**
-     * @param FormInterface $form
-     * @param Request $request
-     * @return bool
-     */
-    public function process(FormInterface $form, Request $request)
+    public function setLogger(LoggerInterface $logger): void
+    {
+        $this->logger = $logger;
+    }
+
+    public function process(FormInterface $form, Request $request): bool
     {
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                /** @var CustomerUser $user */
-                $user = $form->getData();
+            if ($form->isSubmitted()) {
+                /** @var CustomerUser $customerUser */
+                $customerUser = $form->getData();
+                if ($form->isValid()) {
+                    $customerUser
+                        ->setConfirmed(true)
+                        ->setConfirmationToken(null)
+                        ->setPasswordRequestedAt(null);
 
-                $user
-                    ->setConfirmed(true)
-                    ->setConfirmationToken(null)
-                    ->setPasswordRequestedAt(null);
+                    $this->userManager->setAuthStatus($customerUser, CustomerUserManager::STATUS_ACTIVE);
+                    $this->userManager->updateUser($customerUser);
 
-                $this->userManager->updateUser($user);
+                    $this->logger->notice(
+                        'Password was successfully reset for customer user.',
+                        ['user_id' => $customerUser->getId()]
+                    );
 
-                return true;
+                    return true;
+                }
+
+                $this->logger->notice(
+                    'Password reset for customer user was failed.',
+                    ['user_id' => $customerUser->getId()]
+                );
             }
         }
 
