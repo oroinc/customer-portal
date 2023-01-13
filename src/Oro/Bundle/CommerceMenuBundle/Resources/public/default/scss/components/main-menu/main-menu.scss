@@ -150,6 +150,11 @@
 
             &--centered &-container {
                 left: $main-menu-sublist-container-centered-left;
+                transform: $main-menu-sublist-container-centered-translate;
+            }
+
+            [dir='rtl'] &--centered &-container {
+                transform: $main-menu-sublist-container-centered-translate-rtl;
             }
 
             &--fullheight {

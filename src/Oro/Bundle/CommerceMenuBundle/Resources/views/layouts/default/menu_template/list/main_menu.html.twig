@@ -6,31 +6,9 @@
     <div {{ block('block_attributes') }}>
         <div class="main-menu-columns main-menu-columns--single">
             <div class="main-menu-column" data-role="sub-menu">
-                <ul class="main-menu-column__inner">
-                    {% do block|merge_context({'menu_items': menu_item.children}) %}
-                    {{ block_widget(block) }}
-                </ul>
+                {% do block|merge_context({'menu_items': menu_item.children}) %}
+                {{ block_widget(block) }}
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block _menu_second_level_widget %}
-    {% for menu_item in menu_items %}
-        <li class="main-menu-column__item">
-            <a role="menuitem" class="main-menu-column__link" href="{{ oro_commercemenu_get_url(menu_item.uri) }}">{{- menu_item.label -}}</a>
-        </li>
-        {% if menu_item.children is not empty %}
-            {% set menu_items = menu_item.children %}
-            {{ block('menu_template_list_children') }}
-        {% endif %}
-    {% endfor %}
-{% endblock %}
-
-{% block menu_template_list_children %}
-    {% for menu_item in menu_items %}
-        <li class="main-menu-column__subitem">
-            <a role="menuitem" class="main-menu-column__link" href="{{ oro_commercemenu_get_url(menu_item.uri) }}">{{ menu_item.label }}</a>
-        </li>
-    {% endfor %}
 {% endblock %}

@@ -19,80 +19,23 @@
 
 {% block _menu_second_level_item_head_widget %}
     {% set label = menu_item.label %}
-    {% set content %}
-        {% for menu_item in menu_items %}
-            {{ block('_menu_second_level_item') }}
-        {% endfor %}
-    {% endset %}
     {{ block('_menu_second_level_column') }}
 {% endblock %}
 
 {% block _menu_second_level_sale_head_widget %}
-    {% set label = 'On Sale' %}
-    {% set content %}
-        <li class="main-menu-column__item">
-            <a class="main-menu-column__link" href="#">
-                <img class="main-menu-column__image"
-                     alt="Sale banner 1"
-                     src="{{- asset('bundles/orowebcatalog/images/onsale_3.jpg') -}}"
-                     loading="lazy">
-            </a>
-        </li>
-    {% endset %}
-    {{ block('_menu_second_level_column') }}
-{% endblock %}
-
-{% block _menu_main_menu_link %}
-    {%- if menu_item.displayed and menu_item.extras.isAllowed %}
-        <li {{ block('block_attributes') }}>
-            {% set hasSublist = menu_item.children is not empty %}
-            {% set menuLinkId = 'menu-link-'|uniqid %}
-            <a href="{{ oro_commercemenu_get_url(menu_item.uri) }}" role="menuitem"
-               id="{{ menuLinkId }}"
-               class="main-menu__link"
-               {% if hasSublist %}
-                   aria-haspopup="true"
-                   aria-expanded="false"
-               {% endif %}
-            >
-                <span class="main-menu__text">{{ menu_item.label }}</span>
-            </a>
-            {% if hasSublist %}
-                {% set menuButtonId = 'button-'|uniqid %}
-                <button class="main-menu__button-arrow"
-                        type="button"
-                        data-toggle="dropdown"
-                        data-popper="false"
-                        data-go-to="next"
-                        data-ignore-navigation=""
-                        id="{{ menuButtonId }}"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        aria-label="{{ menu_item.label }}"
-                ></button>
-                {% set togglerId = menuLinkId  ~ ' ' ~ menuButtonId%}
-                {% do block|merge_context({'togglerId': togglerId}) %}
-                {{ block(sub_block) }}
-            {% endif %}
-        </li>
-    {%- endif %}
+    {% set label = 'oro.commercemenu.main_menu.on_sale'|trans %}
+    {% set menu_items = menu_items|filter(item => item.extras.image is defined and item.extras.image) %}
+    {% if menu_items is not empty %}
+        {% do block|merge_context({'menu_items': menu_items}) %}
+        {{ block('_menu_second_level_column') }}
+    {% endif %}
 {% endblock %}
 
 {% block _menu_second_level_column %}
     <div class="main-menu-column {{ addClass|default('') }}" data-role="sub-menu">
         <p class="main-menu-column__title">
-            {{ label }}
+            {{- label -}}
         </p>
-        <{{ contentTag|default('ul') }} class="main-menu-column__inner">
-            {{ content }}
-        </{{ contentTag|default('ul') }}>
+        {{ block_widget(block) }}
     </div>
 {% endblock  %}
-
-{% block _menu_second_level_item %}
-    {%- if menu_item.displayed and menu_item.extras.isAllowed %}
-        <li class="main-menu-column__item">
-            <a role="menuitem" class="main-menu-column__link" href="{{ oro_commercemenu_get_url(menu_item.uri) }}">{{ menu_item.label }}</a>
-        </li>
-    {%- endif %}
-{% endblock %}

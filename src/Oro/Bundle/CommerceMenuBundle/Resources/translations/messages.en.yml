@@ -63,6 +63,8 @@ oro:
             close:
                 aria_label: "Close the menu"
             open_pages: "Open {{ category }} pages"
+        main_menu:
+            on_sale: 'On Sale'
         menu_user_agent_conditions_collection:
             add_label.label: "Add"
         menu_user_agent_conditions_collection_group:

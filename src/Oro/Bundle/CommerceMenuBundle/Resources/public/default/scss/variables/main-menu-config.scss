@@ -97,7 +97,15 @@ $main-menu-sublist-floated-right: auto !default;
 $main-menu-sublist-container-floated-position: absolute !default;
 $main-menu-sublist-container-floated-right: auto !default;
 
-$main-menu-sublist-container-centered-left: calc(-50% - 34px) !default;
+$main-menu-sublist-container-centered-left: 50% !default;
+$main-menu-sublist-container-centered-translate:
+    translateX(
+        max(0px - var(--main-menu-offset-start, 0) - var(--main-menu-offset-width, 0) / 2, -50%)
+    ) !default;
+$main-menu-sublist-container-centered-translate-rtl:
+    translateX(
+        min(var(--main-menu-offset-start, 0) + var(--main-menu-offset-width, 0) / 2, 50%)
+    ) !default;
 
 $main-menu-item-hover-desktop-background: get-color('additional', 'base') !default;
 

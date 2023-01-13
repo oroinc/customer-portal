@@ -14,6 +14,7 @@
 
 {# Menu Item Type #}
 {% block menu_item_widget %}
+    {% set simpleMode = simpleMode|default(false) %}
     {%- if menu_item.displayed and menu_item.extras.isAllowed %}
         {% if menu_item.extras.divider is defined and menu_item.extras.divider %}
             {{ block('_menu_item_divider') }}
@@ -36,7 +37,11 @@
         'data-main-menu-item': menu_item.level
     }) %}
     <{{tagName}} {{ block('block_attributes') }}>
-        {{ block('_menu_item_actions') }}
+        {% if simpleMode %}
+            {{ block('_menu_item_link') }}
+        {% else %}
+            {{ block('_menu_item_actions') }}
+        {% endif %}
         {% if hasSublist %}
             {% do block|merge_context({
                 'menu_item': menu_item,
@@ -85,7 +90,8 @@
             {% set attr = layout_attr_defaults(item_image_attr|default({}), {
                 'src': file_url(menu_item.extras.image),
                 '~class': class_prefix ? " #{class_prefix}__item-img",
-                'alt': menu_item.label
+                'alt': menu_item.label,
+                'loading': 'lazy'
             }) %}
             <img {{ block('block_attributes') }}>
         </a>
@@ -124,7 +130,11 @@
 
     {% if linkEnable %}
     <a {{ block('block_attributes') }}>
-        {{ block('_menu_item_button_text') }}
+        {%- if simpleMode -%}
+            {{- block('_menu_item_text') -}}
+        {%- else -%}
+            {{- block('_menu_item_button_text') -}}
+        {%- endif -%}
     </a>
     {% endif %}
 {% endblock %}
@@ -161,8 +171,13 @@
     }) %}
     <span {{ block('block_attributes') }}>
         {{- block('_menu_item_icon') -}}
-        {{- menu_item.label -}}
+        {{- block('_menu_item_text') -}}
     </span>
+{% endblock %}
+
+{% block _menu_item_text %}
+    {%- set label = menu_item.extras.custom is defined and menu_item.extras.custom == true ? menu_item.label : menu_item.label|trans -%}
+    {{- label -}}
 {% endblock %}
 
 {% block _menu_item_icon %}
@@ -188,4 +203,11 @@
             {{ block_widget(block) }}
         </div>
     {% endif %}
+{% endblock %}
+
+{# Menu Item Simple Type #}
+{% block menu_item_simple_widget %}
+    {% set simpleMode = true %}
+    {% do block|merge_context({'menu_items': menu_item.children}) %}
+    {{ block('menu_item_widget') }}
 {% endblock %}

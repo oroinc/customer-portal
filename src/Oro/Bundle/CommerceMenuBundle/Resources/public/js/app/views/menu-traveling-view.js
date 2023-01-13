@@ -123,6 +123,17 @@ const MenuTravelingView = BaseView.extend({
         }
     },
 
+    _getItemOffset(item) {
+        if (isRTL()) {
+            // When it is on RTL mode, calculate offset right
+            const elOffsetRight = window.innerWidth - this.el.getBoundingClientRect().right;
+            const itemOffsetRight = window.innerWidth - item.getBoundingClientRect().right;
+            return itemOffsetRight - elOffsetRight;
+        } else {
+            return item.offsetLeft;
+        }
+    },
+
     closeMenu() {
         const {rootItemSelector, currentClass} = this.options;
 
@@ -244,9 +255,10 @@ const MenuTravelingView = BaseView.extend({
     goToNextRoot(event) {
         if (!viewportManager.isApplicable({maxScreenType: 'tablet'})) {
             const item = event.currentTarget.closest(this.options.itemSelector);
-            const offset = isRTL() ? item.offsetRight : item.offsetLeft;
+            const offset = this._getItemOffset(item);
 
             item.style.setProperty('--main-menu-offset-start', `${offset}px`);
+            item.style.setProperty('--main-menu-offset-width', `${item.offsetWidth}px`);
         }
 
         if (viewportManager.isApplicable({maxScreenType: 'mobile-big'})) {
