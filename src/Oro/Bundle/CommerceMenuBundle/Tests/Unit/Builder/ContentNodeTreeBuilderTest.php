@@ -259,7 +259,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                             ContentNodeTreeBuilder::TREE_ITEM_OPTIONS => $treeItemOptions,
                         ],
                         'children' => [
-                            $this->getTreeItemName($menuItem->getName(), 11) => [
+                            $this->getTreeItemName($menuItem, 11) => [
                                 'display' => true,
                                 'label' => (string)$resolvedContentNode11->getTitles()[0],
                                 'uri' => 'node/11',
@@ -269,7 +269,6 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $resolvedContentNode11->getTitles()
                                     ),
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 0,
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
                                     MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 11),
@@ -278,7 +277,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 ],
                                 'children' => [],
                             ],
-                            $this->getTreeItemName($menuItem->getName(), 12) => [
+                            $this->getTreeItemName($menuItem, 12) => [
                                 'display' => true,
                                 'label' => 'Node 2',
                                 'uri' => 'node/12',
@@ -288,7 +287,6 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $resolvedContentNode12->getTitles()
                                     ),
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 1,
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
                                     MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 12),
@@ -296,7 +294,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     ContentNodeTreeBuilder::IS_TREE_ITEM => true,
                                 ],
                                 'children' => [
-                                    $this->getTreeItemName($menuItem->getName(), 121) => [
+                                    $this->getTreeItemName($menuItem, 121) => [
                                         'display' => true,
                                         'label' => 'Node 21',
                                         'uri' => 'node/121',
@@ -306,8 +304,6 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                                 LocalizedFallbackValueHelper::cloneCollection(
                                                     $resolvedContentNode121->getTitles()
                                                 ),
-                                            MenuUpdateInterface::ORIGIN_KEY =>
-                                                $this->getTreeItemName($menuItem->getName(), 12),
                                             MenuUpdateInterface::POSITION => 0,
                                             MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
                                             MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 121),
@@ -318,7 +314,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     ],
                                 ],
                             ],
-                            $this->getTreeItemName($menuItem->getName(), 13) => [
+                            $this->getTreeItemName($menuItem, 13) => [
                                 'display' => true,
                                 'label' => 'Node 3',
                                 'uri' => 'node/13',
@@ -328,7 +324,6 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $resolvedContentNode13->getTitles()
                                     ),
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 2,
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
                                     MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 13),
@@ -406,7 +401,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                             MenuUpdate::MAX_TRAVERSE_LEVEL => $maxNestingLevel - 1,
                         ],
                         'children' => [
-                            $this->getTreeItemName($menuItem->getName(), 11) => [
+                            $this->getTreeItemName($menuItem, 11) => [
                                 'display' => true,
                                 'label' => 'Node 1',
                                 'uri' => 'node/11',
@@ -414,7 +409,6 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $resolvedContentNode11->getTitles()
                                     ),
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 0,
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
                                     MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 11),
@@ -423,7 +417,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 ],
                                 'children' => [],
                             ],
-                            $this->getTreeItemName($menuItem->getName(), 12) => [
+                            $this->getTreeItemName($menuItem, 12) => [
                                 'display' => true,
                                 'label' => 'Node 2',
                                 'uri' => 'node/12',
@@ -431,7 +425,6 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $resolvedContentNode12->getTitles()
                                     ),
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 1,
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
                                     MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 12),
@@ -439,17 +432,15 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     ContentNodeTreeBuilder::IS_TREE_ITEM => true,
                                 ],
                                 'children' => [
-                                    $this->getTreeItemName($menuItem->getName(), 121) => [
+                                    $this->getTreeItemName($menuItem, 121) => [
                                         'display' => true,
                                         'label' => 'Node 21',
                                         'uri' => 'node/121',
                                         'extras' => [
-                                                    MenuUpdateInterface::TITLES =>
+                                            MenuUpdateInterface::TITLES =>
                                                 LocalizedFallbackValueHelper::cloneCollection(
                                                     $resolvedContentNode121->getTitles()
                                                 ),
-                                            MenuUpdateInterface::ORIGIN_KEY =>
-                                                $this->getTreeItemName($menuItem->getName(), 12),
                                             MenuUpdateInterface::POSITION => 0,
                                             MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
                                             MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 121),
@@ -460,7 +451,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     ],
                                 ],
                             ],
-                            $this->getTreeItemName($menuItem->getName(), 13) => [
+                            $this->getTreeItemName($menuItem, 13) => [
                                 'display' => true,
                                 'label' => 'Node 3',
                                 'uri' => 'node/13',
@@ -468,7 +459,6 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $resolvedContentNode13->getTitles()
                                     ),
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 2,
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
                                     MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 13),
@@ -526,13 +516,12 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
             ->with($contentNode, ['tree_depth' => $maxTraverseLevel])
             ->willReturn($resolvedContentNode);
 
-        $lostItemName = $this->getTreeItemName($menuItem->getName(), 12);
+        $lostItemName = $this->getTreeItemName($menuItem, 12);
         $lostItemMaxTraverseLevel = 0;
         $lostItem = $menuItem->addChild(
             $lostItemName,
             [
                 'extras' => [
-                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                     MenuUpdateInterface::POSITION => 42,
                     MenuUpdate::TARGET_CONTENT_NODE => $contentNode12,
                     MenuUpdate::MAX_TRAVERSE_LEVEL => $lostItemMaxTraverseLevel
@@ -567,7 +556,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                             MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
                         ],
                         'children' => [
-                            $this->getTreeItemName($menuItem->getName(), 11) => [
+                            $this->getTreeItemName($menuItem, 11) => [
                                 'display' => true,
                                 'label' => (string)$resolvedContentNode11->getTitles()[0],
                                 'uri' => 'node/11',
@@ -575,7 +564,6 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $resolvedContentNode11->getTitles()
                                     ),
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 0,
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
                                     MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 11),
@@ -593,7 +581,6 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                         $resolvedContentNode12->getTitles()
                                     ),
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 42,
                                     MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 12),
                                     MenuUpdate::MAX_TRAVERSE_LEVEL => $lostItemMaxTraverseLevel,
@@ -601,7 +588,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 ],
                                 'children' => [],
                             ],
-                            $this->getTreeItemName($menuItem->getName(), 13) => [
+                            $this->getTreeItemName($menuItem, 13) => [
                                 'display' => true,
                                 'label' => 'Node 3',
                                 'uri' => 'node/13',
@@ -609,7 +596,6 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $resolvedContentNode13->getTitles()
                                     ),
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 2,
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
                                     MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 13),
@@ -671,7 +657,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
             )
             ->willReturnOnConsecutiveCalls($resolvedContentNode, $resolvedContentNode12);
 
-        $syntheticItemName = $this->getTreeItemName($menuItem->getName(), 12);
+        $syntheticItemName = $this->getTreeItemName($menuItem, 12);
         $syntheticItem = $menu->addChild(
             $syntheticItemName,
             [
@@ -708,7 +694,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                             MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
                         ],
                         'children' => [
-                            $this->getTreeItemName($menuItem->getName(), 11) => [
+                            $this->getTreeItemName($menuItem, 11) => [
                                 'display' => true,
                                 'label' => (string)$resolvedContentNode11->getTitles()[0],
                                 'uri' => 'node/11',
@@ -716,7 +702,6 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $resolvedContentNode11->getTitles()
                                     ),
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 0,
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
                                     MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 11),
@@ -725,7 +710,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 ],
                                 'children' => [],
                             ],
-                            $this->getTreeItemName($menuItem->getName(), 13) => [
+                            $this->getTreeItemName($menuItem, 13) => [
                                 'display' => true,
                                 'label' => 'Node 3',
                                 'uri' => 'node/13',
@@ -733,7 +718,6 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $resolvedContentNode13->getTitles()
                                     ),
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 1,
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
                                     MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 13),
@@ -744,7 +728,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                             ],
                         ],
                     ],
-                    $this->getTreeItemName($menuItem->getName(), 12) => [
+                    $this->getTreeItemName($menuItem, 12) => [
                         'display' => true,
                         'label' => 'Node 2',
                         'uri' => 'node/12',
@@ -758,7 +742,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                             MenuUpdate::MAX_TRAVERSE_LEVEL => $contentNode12MaxTraverseLevel,
                         ],
                         'children' => [
-                            $this->getTreeItemName($menuItem->getName(), 121) => [
+                            $this->getTreeItemName($menuItem, 121) => [
                                 'display' => true,
                                 'label' => 'Node 21',
                                 'uri' => 'node/121',
@@ -766,8 +750,6 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $resolvedContentNode121->getTitles()
                                     ),
-                                    MenuUpdateInterface::ORIGIN_KEY =>
-                                        $this->getTreeItemName($menuItem->getName(), 12),
                                     MenuUpdateInterface::POSITION => 0,
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
                                     MenuUpdate::TARGET_CONTENT_NODE => new ProxyStub(ContentNode::class, 121),
@@ -821,8 +803,13 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
         return $resolvedNode;
     }
 
-    private function getTreeItemName(string $parentItemName, int $contentNodeId): string
+    private function getTreeItemName(ItemInterface $parentMenuItem, int $contentNodeId): string
     {
-        return 'menu_item_' . sha1('content_node_' . $parentItemName) . '__' . $contentNodeId;
+        $prefix = ContentNodeTreeBuilder::getTreeItemNamePrefix(
+            $parentMenuItem,
+            $parentMenuItem->getExtra(MenuUpdate::TARGET_CONTENT_NODE)?->getId()
+        );
+
+        return $prefix . $contentNodeId;
     }
 }

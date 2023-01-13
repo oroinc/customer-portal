@@ -130,8 +130,13 @@ services:
         tags:
             - { name: oro_commerce_menu.menu_update.propagator.to_menu_update }
 
-    oro_commerce_menu.menu_update.propagator.to_menu_update.is_synthetic:
-        class: Oro\Bundle\CommerceMenuBundle\MenuUpdate\Propagator\ToMenuUpdate\SyntheticPropagator
+    oro_commerce_menu.menu_update.propagator.to_menu_update.is_synthetic.content_node:
+        class: Oro\Bundle\CommerceMenuBundle\MenuUpdate\Propagator\ToMenuUpdate\ContentNodeSyntheticPropagator
+        tags:
+            - { name: oro_commerce_menu.menu_update.propagator.to_menu_update }
+
+    oro_commerce_menu.menu_update.propagator.to_menu_update.is_synthetic.category:
+        class: Oro\Bundle\CommerceMenuBundle\MenuUpdate\Propagator\ToMenuUpdate\CategorySyntheticPropagator
         tags:
             - { name: oro_commerce_menu.menu_update.propagator.to_menu_update }
 

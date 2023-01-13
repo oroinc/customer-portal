@@ -71,7 +71,7 @@ promoOnSaleInProducts:
         contentNode: '@navigation_root__products__by_category'
 
 promoOnSaleInNewArrivals:
-    synthetic: true
+    custom: true
     uri: '#'
     image: '@digitalAssetPromoOnSale'
     defaultTitle: 'On Sale'

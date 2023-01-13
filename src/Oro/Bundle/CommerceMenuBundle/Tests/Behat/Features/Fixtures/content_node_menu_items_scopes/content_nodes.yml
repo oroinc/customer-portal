@@ -1,0 +1,207 @@
+Oro\Bundle\WebCatalogBundle\Entity\ContentNode:
+    root_node:
+        __calls:
+            - addTitle: ['@root_node_title']
+            - addSlugPrototype: ['@root_node_slug_prototype']
+            - addLocalizedUrl: ['@root_node_localized_url']
+            - addContentVariant: ['@root_node_variant']
+            - addScope: ['@web_catalog_1_scope']
+        webCatalog: '@web_catalog_1'
+
+    node_1:
+        __calls:
+            - addTitle: ['@node_1_title']
+            - addSlugPrototype: ['@node_1_slug_prototype']
+            - addLocalizedUrl: ['@node_1_localized_url']
+            - addContentVariant: ['@node_1_variant']
+        parentNode: '@root_node'
+        webCatalog: '@web_catalog_1'
+
+    node_1_1:
+        __calls:
+            - addTitle: ['@node_1_1_title']
+            - addSlugPrototype: ['@node_1_1_slug_prototype']
+            - addLocalizedUrl: ['@node_1_1_localized_url']
+            - addContentVariant: ['@node_1_1_variant']
+        parentNode: '@node_1'
+        webCatalog: '@web_catalog_1'
+
+    node_1_1_1:
+        __calls:
+            - addTitle: ['@node_1_1_1_title']
+            - addSlugPrototype: ['@node_1_1_1_slug_prototype']
+            - addLocalizedUrl: ['@node_1_1_1_localized_url']
+            - addContentVariant: ['@node_1_1_1_variant']
+        parentNode: '@node_1_1'
+        webCatalog: '@web_catalog_1'
+
+    node_1_2:
+        __calls:
+            - addTitle: ['@node_1_2_title']
+            - addSlugPrototype: ['@node_1_2_slug_prototype']
+            - addLocalizedUrl: ['@node_1_2_localized_url']
+            - addContentVariant: ['@node_1_2_variant']
+        parentNode: '@node_1'
+        webCatalog: '@web_catalog_1'
+
+    node_1_2_1:
+        __calls:
+            - addTitle: ['@node_1_2_1_title']
+            - addSlugPrototype: ['@node_1_2_1_slug_prototype']
+            - addLocalizedUrl: ['@node_1_2_1_localized_url']
+            - addContentVariant: ['@node_1_2_1_variant']
+        parentNode: '@node_1_2'
+        webCatalog: '@web_catalog_1'
+
+Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue:
+    root_node_title:
+        string: 'Root-Node'
+
+    root_node_slug_prototype:
+        string: ''
+
+    root_node_localized_url:
+        string: '/'
+
+    node_1_title:
+        string: 'Node-1'
+
+    node_1_slug_prototype:
+        string: 'node-1'
+
+    node_1_localized_url:
+        string: '/node-1'
+
+    node_1_1_title:
+        string: 'Node-1-1'
+
+    node_1_1_slug_prototype:
+        string: 'node-1-1'
+
+    node_1_1_localized_url:
+        string: '/node-1-1'
+
+    node_1_1_1_title:
+        string: 'Node-1-1-1'
+
+    node_1_1_1_slug_prototype:
+        string: 'node-1-1-1'
+
+    node_1_1_1_localized_url:
+        string: '/node-1-1-1'
+        
+    node_1_2_title:
+        string: 'Node-1-2'
+
+    node_1_2_slug_prototype:
+        string: 'node-1-2'
+
+    node_1_2_localized_url:
+        string: '/node-1-2'
+
+    node_1_2_1_title:
+        string: 'Node-1-2-1'
+
+    node_1_2_1_slug_prototype:
+        string: 'node-1-2-1'
+
+    node_1_2_1_localized_url:
+        string: '/node-1-2-1'
+
+Oro\Bundle\WebCatalogBundle\Entity\ContentVariant:
+    root_node_variant:
+        type: 'system_page'
+        systemPageRoute: 'oro_frontend_root'
+        default: true
+        __calls:
+            - addSlug: ['@root_node_variant_slug']
+            - addScope: ['@web_catalog_1_scope']
+
+    node_1_variant:
+        type: 'system_page'
+        systemPageRoute: 'oro_frontend_root'
+        default: true
+        __calls:
+            - addSlug: ['@node_1_variant_slug']
+            - addScope: ['@web_catalog_1_scope']
+
+    node_1_1_variant:
+        type: 'system_page'
+        systemPageRoute: 'oro_frontend_root'
+        default: true
+        __calls:
+            - addSlug: ['@node_1_1_variant_slug']
+            - addScope: ['@web_catalog_1_scope']
+
+    node_1_1_1_variant:
+        type: 'system_page'
+        systemPageRoute: 'oro_frontend_root'
+        default: true
+        __calls:
+            - addSlug: ['@node_1_1_1_variant_slug']
+            - addScope: ['@web_catalog_1_scope']
+              
+    node_1_2_variant:
+        type: 'system_page'
+        systemPageRoute: 'oro_frontend_root'
+        default: true
+        __calls:
+            - addSlug: ['@node_1_2_variant_slug']
+            - addScope: ['@web_catalog_1_scope']
+
+    node_1_2_1_variant:
+        type: 'system_page'
+        systemPageRoute: 'oro_frontend_root'
+        default: true
+        __calls:
+            - addSlug: ['@node_1_2_1_variant_slug']
+            - addScope: ['@web_catalog_1_scope']
+
+Oro\Bundle\RedirectBundle\Entity\Slug:
+    root_node_variant_slug:
+        url: 'root'
+        routeName: 'oro_frontend_root'
+        __calls:
+            - setRouteParameters: [[]]
+            - addScope: ['@web_catalog_1_scope']
+        organization: '@organization'
+
+    node_1_variant_slug:
+        url: 'node-1'
+        routeName: 'oro_frontend_root'
+        __calls:
+            - setRouteParameters: [[]]
+            - addScope: ['@web_catalog_1_scope']
+        organization: '@organization'
+
+    node_1_1_variant_slug:
+      url: 'node-1-1'
+      routeName: 'oro_frontend_root'
+      __calls:
+        - setRouteParameters: [[]]
+        - addScope: ['@web_catalog_1_scope']
+      organization: '@organization'
+
+    node_1_1_1_variant_slug:
+        url: 'node-1-1-1'
+        routeName: 'oro_frontend_root'
+        __calls:
+            - setRouteParameters: [[]]
+            - addScope: ['@web_catalog_1_scope']
+        organization: '@organization'
+
+    node_1_2_variant_slug:
+      url: 'node-1-2'
+      routeName: 'oro_frontend_root'
+      __calls:
+        - setRouteParameters: [[]]
+        - addScope: ['@web_catalog_1_scope']
+      organization: '@organization'
+
+    node_1_2_1_variant_slug:
+        url: 'node-1-2-1'
+        routeName: 'oro_frontend_root'
+        __calls:
+            - setRouteParameters: [[]]
+            - addScope: ['@web_catalog_1_scope']
+        organization: '@organization'

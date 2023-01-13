@@ -158,61 +158,48 @@ Feature: Content Node Menu Items
 #    And I should not see "My-Node / Node-1-1-1" in main menu
 #    And I should not see "My-Node / Node-1-1-1-upd" in main menu
 
-  Scenario: Update content node title
+  Scenario: Move content node tree menu item outside of its parent
     Given I proceed as the Admin
-    When go to Marketing/ Web Catalog
+    When I expand "Node-1" in tree "Sidebar Menu Tree"
+    And I move "Node-1-1" before "About" in tree "Sidebar Menu Tree"
+    And I reload the page
+    And I expand "Node-1" in tree "Sidebar Menu Tree"
+    Then I should see "Node-1-1" belongs to "commerce_main_menu" in tree "Sidebar Menu Tree"
+
+  Scenario: Move content node to root node
+    Given go to Marketing/ Web Catalog
     And click "Edit Content Tree" on row "Default Web Catalog" in grid
     And I expand "Node-1" in tree
-    And I expand "Node-1-1" in tree
-    And I expand "Node-1-1-1" in tree
-    And I click on "Node-1-1-1-1" in tree
-    And fill "Content Node Form" with:
-      | Titles   | Node-1-1-1-1-changed |
-      | Url Slug | node-1-1-1-1-changed |
-    And click "Save"
+    When I move "Node-1-1" into "Root-Node" in tree
     And I uncheck "Create 301 Redirect from old to new URLs"
     And I click "Apply" in modal window
-    Then I should see "Content Node has been saved" flash message
+    Then I should see "Node-1-1" belongs to "Root-Node" in tree
 
-  Scenario: Check that the title of menu item follows content node title
+  Scenario: Change max traverse level of parent to 1
     Given I go to System/Frontend Menus
     And click view "commerce_main_menu" in grid
-    When I expand "Node-1-1-1-upd" in tree "Sidebar Menu Tree"
-    Then I should see "Node-1-1-1-1-changed" belongs to "Node-1-1-1-upd" in tree
-    And I should not see "Node-1-1-1-1" belongs to "Node-1-1-1-upd" in tree
-
-  Scenario: Update content node menu item title
-    When I click on "Node-1-1-1-1-changed" in tree "Sidebar Menu Tree"
+    When I click on "Node-1" in tree "Sidebar Menu Tree"
     And I fill "Commerce Menu Form" with:
-      | Title | Node-1-1-1-1-changed-frozen |
+      | Max Traverse Level | 1 |
     And I save form
     Then I should see "Menu item saved successfully." flash message
 
-  Scenario: Update content node title again
-    Given go to Marketing/ Web Catalog
-    When click "Edit Content Tree" on row "Default Web Catalog" in grid
-    And I expand "Node-1" in tree
-    And I expand "Node-1-1" in tree
-    And I expand "Node-1-1-1" in tree
-    And I click on "Node-1-1-1-1-changed" in tree
-    And fill "Content Node Form" with:
-      | Titles   | Node-1-1-1-1-changed-2 |
-      | Url Slug | node-1-1-1-1-changed-2 |
-    And click "Save"
-    And I uncheck "Create 301 Redirect from old to new URLs"
-    And I click "Apply" in modal window
-    Then I should see "Content Node has been saved" flash message
-
-  Scenario: Check that the title of menu item does not follow the content node title anymore
-    Given I go to System/Frontend Menus
-    And click view "commerce_main_menu" in grid
-    When I expand "Node-1-1-1-upd" in tree "Sidebar Menu Tree"
-    Then I should see "Node-1-1-1-1-changed-frozen" belongs to "Node-1-1-1-upd" in tree
-    And I should not see "Node-1-1-1-1-changed" belongs to "Node-1-1-1-upd" in tree
+  Scenario: Move content node tree menu item back to its previous parent
+    When I expand "Node-1" in tree "Sidebar Menu Tree"
+    And I move "Node-1-1" into "Node-1" in tree "Sidebar Menu Tree"
+    And I reload the page
+    And I expand "Node-1" in tree "Sidebar Menu Tree"
+    Then I should see "Node-1-1" belongs to "Node-1" in tree "Sidebar Menu Tree"
 
   Scenario: Check that the content node menu item can be moved inside another one
     When I move "Node-2" into "My-Node" in tree "Sidebar Menu Tree"
     And I expand "My-Node" in tree "Sidebar Menu Tree"
+    And I reload the page
+    And I expand "My-Node" in tree "Sidebar Menu Tree"
+    Then I should see "Node-2" belongs to "My-Node" in tree "Sidebar Menu Tree"
+
+  Scenario: Check that the system menu item can be moved inside content node tree menu item
+    When I expand "My-Node" in tree "Sidebar Menu Tree"
     And I move "About" before "Node-2" in tree "Sidebar Menu Tree"
     And I reload the page
     And I expand "My-Node" in tree "Sidebar Menu Tree"

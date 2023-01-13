@@ -7,7 +7,6 @@ oro:
             id.label: Id
             key.label: Key
             parent_key.label: Parent Key
-            origin_key.label: Origin Key
             menu.label: Menu
             titles.label: Title
             uri.label: Uri

@@ -323,14 +323,13 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                         ],
                         'display' => true,
                         'children' => [
-                            $this->getTreeItemName($menuItem->getName(), 12) => [
+                            $this->getTreeItemName($menuItem, 12) => [
                                 'label' => (string)$category12Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/121',
                                 'extras' => [
                                     'sample_key' => 'sample_value',
                                     'tree_item_option_key' => 'tree_item_option_value',
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 0,
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $category12Data['titles']
@@ -346,14 +345,13 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 'display' => true,
                                 'children' => [],
                             ],
-                            $this->getTreeItemName($menuItem->getName(), 13) => [
+                            $this->getTreeItemName($menuItem, 13) => [
                                 'label' => (string)$category13Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/131',
                                 'extras' => [
                                     'sample_key' => 'sample_value',
                                     'tree_item_option_key' => 'tree_item_option_value',
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 1,
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $category13Data['titles']
@@ -368,16 +366,12 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 ],
                                 'display' => true,
                                 'children' => [
-                                    $this->getTreeItemName($menuItem->getName(), 131) => [
+                                    $this->getTreeItemName($menuItem, 131) => [
                                         'label' => (string)$category131Data['titles'][0],
                                         'uri' => 'oro_product_frontend_product_index/1311',
                                         'extras' => [
                                             'sample_key' => 'sample_value',
                                             MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
-                                            MenuUpdateInterface::ORIGIN_KEY => $this->getTreeItemName(
-                                                $menuItem->getName(),
-                                                13
-                                            ),
                                             MenuUpdateInterface::POSITION => 0,
                                             MenuUpdateInterface::TITLES =>
                                                 LocalizedFallbackValueHelper::cloneCollection(
@@ -396,14 +390,13 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     ],
                                 ],
                             ],
-                            $this->getTreeItemName($menuItem->getName(), 14) => [
+                            $this->getTreeItemName($menuItem, 14) => [
                                 'label' => (string)$category14Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/141',
                                 'extras' => [
                                     'tree_item_option_key' => 'tree_item_option_value',
                                     'sample_key' => 'sample_value',
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 2,
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $category14Data['titles']
@@ -520,12 +513,11 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                         ],
                         'display' => true,
                         'children' => [
-                            $this->getTreeItemName($menuItem->getName(), 12) => [
+                            $this->getTreeItemName($menuItem, 12) => [
                                 'label' => (string)$category12Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/121',
                                 'extras' => [
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 0,
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $category12Data['titles']
@@ -541,12 +533,11 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 'display' => true,
                                 'children' => [],
                             ],
-                            $this->getTreeItemName($menuItem->getName(), 13) => [
+                            $this->getTreeItemName($menuItem, 13) => [
                                 'label' => (string)$category13Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/131',
                                 'extras' => [
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 1,
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $category13Data['titles']
@@ -561,15 +552,11 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 ],
                                 'display' => true,
                                 'children' => [
-                                    $this->getTreeItemName($menuItem->getName(), 131) => [
+                                    $this->getTreeItemName($menuItem, 131) => [
                                         'label' => (string)$category131Data['titles'][0],
                                         'uri' => 'oro_product_frontend_product_index/1311',
                                         'extras' => [
-                                                    MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
-                                            MenuUpdateInterface::ORIGIN_KEY => $this->getTreeItemName(
-                                                $menuItem->getName(),
-                                                13
-                                            ),
+                                            MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
                                             MenuUpdateInterface::POSITION => 0,
                                             MenuUpdateInterface::TITLES =>
                                                 LocalizedFallbackValueHelper::cloneCollection(
@@ -588,13 +575,12 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     ],
                                 ],
                             ],
-                            $this->getTreeItemName($menuItem->getName(), 14) => [
+                            $this->getTreeItemName($menuItem, 14) => [
                                 'label' => (string)$category14Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/141',
                                 'extras' => [
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
                                     MenuUpdateInterface::POSITION => 2,
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $category14Data['titles']
                                     ),
@@ -690,13 +676,12 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
             ->with($category, $user, ['tree_depth' => $maxTraverseLevel])
             ->willReturn($categoriesData);
 
-        $lostItemName = $this->getTreeItemName($menuItem->getName(), 13);
+        $lostItemName = $this->getTreeItemName($menuItem, 13);
         $lostItemMaxTraverseLevel = 0;
         $lostItem = $menuItem->addChild(
             $lostItemName,
             [
                 'extras' => [
-                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                     MenuUpdateInterface::POSITION => 42,
                     MenuUpdate::TARGET_CATEGORY => $category13,
                     MenuUpdate::MAX_TRAVERSE_LEVEL => $lostItemMaxTraverseLevel
@@ -731,12 +716,11 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                         ],
                         'display' => true,
                         'children' => [
-                            $this->getTreeItemName($menuItem->getName(), 12) => [
+                            $this->getTreeItemName($menuItem, 12) => [
                                 'label' => (string)$category12Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/121',
                                 'extras' => [
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 0,
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $category12Data['titles']
@@ -760,7 +744,6 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $category13Data['titles']
                                     ),
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 42,
                                     MenuUpdate::TARGET_CATEGORY => new ProxyStub(
                                         Category::class,
@@ -773,12 +756,11 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 'display' => true,
                                 'children' => [],
                             ],
-                            $this->getTreeItemName($menuItem->getName(), 14) => [
+                            $this->getTreeItemName($menuItem, 14) => [
                                 'label' => (string)$category14Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/141',
                                 'extras' => [
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 2,
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $category14Data['titles']
@@ -882,7 +864,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                 [$category13Data['id'] => $category13Data, $category131Data['id'] => $category131Data]
             );
 
-        $syntheticItemName = $this->getTreeItemName($menuItem->getName(), 13);
+        $syntheticItemName = $this->getTreeItemName($menuItem, 13);
         $syntheticItem = $menu->addChild(
             $syntheticItemName,
             [
@@ -920,12 +902,11 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                         ],
                         'display' => true,
                         'children' => [
-                            $this->getTreeItemName($menuItem->getName(), 12) => [
+                            $this->getTreeItemName($menuItem, 12) => [
                                 'label' => (string)$category12Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/121',
                                 'extras' => [
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 0,
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $category12Data['titles']
@@ -941,12 +922,11 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 'display' => true,
                                 'children' => [],
                             ],
-                            $this->getTreeItemName($menuItem->getName(), 14) => [
+                            $this->getTreeItemName($menuItem, 14) => [
                                 'label' => (string)$category14Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/141',
                                 'extras' => [
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
-                                    MenuUpdateInterface::ORIGIN_KEY => $menuItem->getName(),
                                     MenuUpdateInterface::POSITION => 1,
                                     MenuUpdateInterface::TITLES => LocalizedFallbackValueHelper::cloneCollection(
                                         $category14Data['titles']
@@ -982,15 +962,11 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                         ],
                         'display' => true,
                         'children' => [
-                            $this->getTreeItemName($menuItem->getName(), 131) => [
+                            $this->getTreeItemName($menuItem, 131) => [
                                 'label' => (string)$category131Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/1311',
                                 'extras' => [
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
-                                    MenuUpdateInterface::ORIGIN_KEY => $this->getTreeItemName(
-                                        $menuItem->getName(),
-                                        13
-                                    ),
                                     MenuUpdateInterface::POSITION => 0,
                                     MenuUpdateInterface::TITLES =>
                                         LocalizedFallbackValueHelper::cloneCollection(
@@ -1037,8 +1013,13 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
         return (new LocalizedFallbackValue())->setString($title);
     }
 
-    private function getTreeItemName(string $parentItemName, int $contentNodeId): string
+    private function getTreeItemName(ItemInterface $parentMenuItem, int $contentNodeId): string
     {
-        return 'menu_item_' . sha1('category_' . $parentItemName) . '__' . $contentNodeId;
+        $prefix = CategoryTreeBuilder::getTreeItemNamePrefix(
+            $parentMenuItem,
+            $parentMenuItem->getExtra(MenuUpdate::TARGET_CATEGORY)?->getId()
+        );
+
+        return $prefix . $contentNodeId;
     }
 }

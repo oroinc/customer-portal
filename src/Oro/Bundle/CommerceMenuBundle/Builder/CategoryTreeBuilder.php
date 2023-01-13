@@ -102,7 +102,7 @@ class CategoryTreeBuilder implements BuilderInterface
             return;
         }
 
-        if ($menuUpdateApplierContext?->isLostItem($menuItem->getName())) {
+        if ($menuItem->getExtra(self::IS_TREE_ITEM) || $menuUpdateApplierContext?->isLostItem($menuItem->getName())) {
             return;
         }
 
@@ -140,15 +140,15 @@ class CategoryTreeBuilder implements BuilderInterface
 
         $this->setAllowedTraverseLevel($menuItem, $maxTraverseLevel);
 
-        $prefixForChildren = $this->getPrefixForChildren($menuItem, $category->getId());
-        $menuItemsByName[$prefixForChildren . '__' . $category->getId()] = $menuItem;
+        $treeItemNamePrefix = self::getTreeItemNamePrefix($menuItem, $category->getId());
+        $menuItemsByName[$treeItemNamePrefix . $category->getId()] = $menuItem;
 
-        $this->addChildren(
+        $this->addTreeItems(
             $categories,
             $entityManager,
             $localization,
             $includeSubcategories,
-            $prefixForChildren,
+            $treeItemNamePrefix,
             $menuItemsByName,
             $menuOptions,
             $menuUpdateApplierContext
@@ -169,17 +169,17 @@ class CategoryTreeBuilder implements BuilderInterface
      * @param EntityManager $entityManager
      * @param Localization|null $localization
      * @param bool $includeSubcategories
-     * @param string $prefixForChildren
+     * @param string $treeItemNamePrefix
      * @param array<ItemInterface> $menuItemsByName
      * @param array $menuOptions
      * @param MenuUpdateApplierContext|null $menuUpdateApplierContext
      */
-    private function addChildren(
+    private function addTreeItems(
         iterable $categories,
         EntityManager $entityManager,
         ?Localization $localization,
         bool $includeSubcategories,
-        string $prefixForChildren,
+        string $treeItemNamePrefix,
         array &$menuItemsByName,
         array $menuOptions,
         ?MenuUpdateApplierContext $menuUpdateApplierContext
@@ -189,7 +189,7 @@ class CategoryTreeBuilder implements BuilderInterface
         $menuOptions['extras'][self::IS_TREE_ITEM] = true;
 
         foreach ($categories as $categoryData) {
-            $parentName = $prefixForChildren . '__' . $categoryData['parentId'];
+            $parentName = $treeItemNamePrefix . $categoryData['parentId'];
             $indexesByParent[$parentName] = $indexesByParent[$parentName] ?? 0;
             $parentMenuItem = $menuItemsByName[$parentName] ?? null;
             if ($parentMenuItem === null) {
@@ -202,13 +202,13 @@ class CategoryTreeBuilder implements BuilderInterface
                 continue;
             }
 
-            $parentMaxTraverseLevel = max(0, (int) $parentMenuItem->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 0));
+            $parentMaxTraverseLevel = max(0, (int)$parentMenuItem->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 0));
             if ($parentMaxTraverseLevel === 0) {
                 // Skips child as parent's max traverse level does not allow more.
                 continue;
             }
 
-            $name = $prefixForChildren . '__' . $categoryData['id'];
+            $name = $treeItemNamePrefix . $categoryData['id'];
             if (isset($menuItemsByName[$name])) {
                 if ($menuItemsByName[$name]->getExtra(MenuUpdateInterface::IS_SYNTHETIC)) {
                     $syntheticItemNames[] = $name;
@@ -220,7 +220,6 @@ class CategoryTreeBuilder implements BuilderInterface
             } else {
                 $options = array_merge_recursive($menuOptions, $parentMenuItem->getExtra(self::TREE_ITEM_OPTIONS, []));
                 $options['extras'][MenuUpdateInterface::POSITION] = $indexesByParent[$parentName];
-                $options['extras'][MenuUpdateInterface::ORIGIN_KEY] = $parentMenuItem->getName();
                 $menuItemsByName[$name] = $parentMenuItem->addChild($name, $options);
             }
 
@@ -278,17 +277,6 @@ class CategoryTreeBuilder implements BuilderInterface
         $menuItem->setExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, $maxTraverseLevel);
     }
 
-    private function getPrefixForChildren(ItemInterface $menuItem, int $categoryId): string
-    {
-        $itemName = $menuItem->getName();
-        $idPosition = strrpos($itemName, '__' . $categoryId);
-        if ($idPosition !== false) {
-            return substr($itemName, 0, $idPosition);
-        }
-
-        return 'menu_item_' .  sha1('category_' . $itemName);
-    }
-
     private function generateUrl(int $categoryId, bool $includeSubcategories): string
     {
         return $this->urlGenerator->generate(
@@ -300,6 +288,17 @@ class CategoryTreeBuilder implements BuilderInterface
     private function getLabel(Collection $titles, ?Localization $localization): string
     {
         return (string)$this->localizationHelper->getLocalizedValue($titles, $localization);
+    }
+
+    public static function getTreeItemNamePrefix(ItemInterface $menuItem, int $categoryId): string
+    {
+        $itemName = $menuItem->getName();
+        $idPosition = strrpos($itemName, '__' . $categoryId);
+        if ($idPosition !== false) {
+            return substr($itemName, 0, $idPosition) . '__';
+        }
+
+        return 'menu_item_' . sha1('category_' . $itemName) . '__';
     }
 
     public function onMenuUpdatesApplyAfter(MenuUpdatesApplyAfterEvent $event): void

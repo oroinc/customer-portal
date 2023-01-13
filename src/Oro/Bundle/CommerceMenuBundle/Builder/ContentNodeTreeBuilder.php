@@ -86,7 +86,7 @@ class ContentNodeTreeBuilder implements BuilderInterface
             return;
         }
 
-        if ($menuUpdateApplierContext?->isLostItem($menuItem->getName())) {
+        if ($menuItem->getExtra(self::IS_TREE_ITEM) || $menuUpdateApplierContext?->isLostItem($menuItem->getName())) {
             return;
         }
 
@@ -117,14 +117,14 @@ class ContentNodeTreeBuilder implements BuilderInterface
 
         $this->setAllowedTraverseLevel($menuItem, $maxTraverseLevel);
 
-        $prefixForChildren = $this->getPrefixForChildren($menuItem, $contentNode->getId());
+        $treeItemNamePrefix = self::getTreeItemNamePrefix($menuItem, $contentNode->getId());
 
-        $this->addChildren(
+        $this->addTreeItems(
             $menuItem,
             $resolvedNode->getChildNodes(),
             $entityManager,
             $localization,
-            $prefixForChildren,
+            $treeItemNamePrefix,
             $menuItemsByName,
             $menuOptions,
             $menuUpdateApplierContext
@@ -136,17 +136,17 @@ class ContentNodeTreeBuilder implements BuilderInterface
      * @param iterable<ResolvedContentNode> $resolvedContentNodes
      * @param EntityManager $entityManager
      * @param Localization|null $localization
-     * @param string $prefixForChildren
+     * @param string $treeItemNamePrefix
      * @param array<string,ItemInterface> $menuItemsByName
      * @param array $menuOptions
      * @param MenuUpdateApplierContext|null $menuUpdateApplierContext
      */
-    private function addChildren(
+    private function addTreeItems(
         ItemInterface $parentMenuItem,
         iterable $resolvedContentNodes,
         EntityManager $entityManager,
         ?Localization $localization,
-        string $prefixForChildren,
+        string $treeItemNamePrefix,
         array &$menuItemsByName,
         array $menuOptions,
         ?MenuUpdateApplierContext $menuUpdateApplierContext
@@ -158,13 +158,12 @@ class ContentNodeTreeBuilder implements BuilderInterface
         }
 
         $options = array_merge_recursive($menuOptions, $parentMenuItem->getExtra(self::TREE_ITEM_OPTIONS, []));
-        $options['extras'][MenuUpdateInterface::ORIGIN_KEY] = $parentMenuItem->getName();
         $options['extras'][self::IS_TREE_ITEM] = true;
 
         $parentMaxTraverseLevel = max(0, $parentMaxTraverseLevel - 1);
 
         foreach ($resolvedContentNodes as $resolvedNode) {
-            $name = $prefixForChildren . $resolvedNode->getId();
+            $name = $treeItemNamePrefix . $resolvedNode->getId();
 
             if (isset($menuItemsByName[$name])) {
                 if ($menuItemsByName[$name]->getExtra(MenuUpdateInterface::IS_SYNTHETIC)) {
@@ -189,12 +188,12 @@ class ContentNodeTreeBuilder implements BuilderInterface
 
             $this->setAllowedTraverseLevel($menuItemsByName[$name], $parentMaxTraverseLevel);
 
-            $this->addChildren(
+            $this->addTreeItems(
                 $menuItemsByName[$name],
                 $resolvedNode->getChildNodes(),
                 $entityManager,
                 $localization,
-                $prefixForChildren,
+                $treeItemNamePrefix,
                 $menuItemsByName,
                 $menuOptions,
                 $menuUpdateApplierContext
@@ -239,17 +238,6 @@ class ContentNodeTreeBuilder implements BuilderInterface
         $menuItem->setExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, $maxTraverseLevel);
     }
 
-    private function getPrefixForChildren(ItemInterface $menuItem, int $contentNodeId): string
-    {
-        $itemName = $menuItem->getName();
-        $idPosition = strrpos($itemName, '__' . $contentNodeId);
-        if ($idPosition !== false) {
-            return substr($itemName, 0, $idPosition) . '__';
-        }
-
-        return 'menu_item_' . sha1('content_node_' . $itemName) . '__';
-    }
-
     private function getLabel(ResolvedContentNode $resolvedNode, ?Localization $localization): string
     {
         return (string)$this->localizationHelper->getLocalizedValue($resolvedNode->getTitles(), $localization);
@@ -259,6 +247,17 @@ class ContentNodeTreeBuilder implements BuilderInterface
     {
         return (string)$this->localizationHelper
             ->getLocalizedValue($resolvedNode->getResolvedContentVariant()->getLocalizedUrls(), $localization);
+    }
+
+    public static function getTreeItemNamePrefix(ItemInterface $menuItem, int $contentNodeId): string
+    {
+        $itemName = $menuItem->getName();
+        $idPosition = strrpos($itemName, '__' . $contentNodeId);
+        if ($idPosition !== false) {
+            return substr($itemName, 0, $idPosition) . '__';
+        }
+
+        return 'menu_item_' . sha1('content_node_' . $itemName) . '__';
     }
 
     public function onMenuUpdatesApplyAfter(MenuUpdatesApplyAfterEvent $event): void

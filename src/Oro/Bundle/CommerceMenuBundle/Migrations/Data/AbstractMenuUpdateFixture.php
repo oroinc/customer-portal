@@ -7,6 +7,8 @@ use Doctrine\Persistence\ObjectManager;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
 use Oro\Bundle\AttachmentBundle\Entity\File as AttachmentFile;
+use Oro\Bundle\CommerceMenuBundle\Builder\CategoryTreeBuilder;
+use Oro\Bundle\CommerceMenuBundle\Builder\ContentNodeTreeBuilder;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\DigitalAssetBundle\Entity\DigitalAsset;
 use Oro\Bundle\DigitalAssetBundle\Reflector\FileReflector;
@@ -14,6 +16,7 @@ use Oro\Bundle\NavigationBundle\Manager\MenuUpdateManager;
 use Oro\Bundle\NavigationBundle\MenuUpdate\Propagator\ToMenuUpdate\MenuItemToMenuUpdatePropagatorInterface;
 use Oro\Bundle\NavigationBundle\Provider\BuilderChainProvider;
 use Oro\Bundle\NavigationBundle\Provider\MenuUpdateProvider;
+use Oro\Bundle\NavigationBundle\Utils\MenuUpdateUtils;
 use Oro\Bundle\ScopeBundle\Entity\Scope;
 use Oro\Bundle\ScopeBundle\Manager\ScopeManager;
 use Oro\Bundle\SecurityBundle\Authentication\Token\UsernamePasswordOrganizationToken;
@@ -114,6 +117,7 @@ abstract class AbstractMenuUpdateFixture extends AbstractFixture implements Cont
     protected function findOrCreateMenuUpdate(array $data): MenuUpdate
     {
         $data = $this->resolveReferences($data);
+        $menu = $this->getMenu();
 
         if (array_key_exists('parentMenuItem', $data)) {
             if (array_key_exists('parentKey', $data)) {
@@ -122,7 +126,7 @@ abstract class AbstractMenuUpdateFixture extends AbstractFixture implements Cont
                 );
             }
 
-            $data['parentKey'] = $this->getMenuItemKey($data['parentMenuItem']);
+            $data['parentKey'] = $this->getMenuItemName($menu, $data['parentMenuItem']);
             unset($data['parentMenuItem']);
         }
 
@@ -131,7 +135,7 @@ abstract class AbstractMenuUpdateFixture extends AbstractFixture implements Cont
                 throw new \LogicException('Keys "targetMenuItem" and "key" cannot be specified at the same time.');
             }
 
-            $data['key'] = $this->getMenuItemKey($data['targetMenuItem']);
+            $data['key'] = $this->getMenuItemName($menu, $data['targetMenuItem']);
 
             unset($data['targetMenuItem']);
         }
@@ -151,7 +155,7 @@ abstract class AbstractMenuUpdateFixture extends AbstractFixture implements Cont
         $data['propagationStrategy'] = $data['propagationStrategy'] ??
             MenuItemToMenuUpdatePropagatorInterface::STRATEGY_BASIC;
 
-        return $this->menuUpdateManager->findOrCreateMenuUpdate($this->getMenu(), $this->getScope(), $data);
+        return $this->menuUpdateManager->findOrCreateMenuUpdate($menu, $this->getScope(), $data);
     }
 
     protected function resolveReferences(array $data): array
@@ -170,17 +174,41 @@ abstract class AbstractMenuUpdateFixture extends AbstractFixture implements Cont
         return $data;
     }
 
-    protected function getMenuItemKey(array $searchBy): string
+    protected function getMenuItemName(ItemInterface $menu, array $searchBy): string
     {
         if (isset($searchBy['contentNode'])) {
-            return $this->getContentNodeTreeItemName($searchBy['contentNode']->getId());
+            $extraKey = MenuUpdate::TARGET_CONTENT_NODE;
+            $extraValue = $searchBy['contentNode']->getId();
+
+            // Default name to use if menu item is not found in menu.
+            $defaultName = ContentNodeTreeBuilder::getTreeItemNamePrefix($menu, 0) . $extraValue;
+        } elseif (isset($searchBy['category'])) {
+            $extraKey = MenuUpdate::TARGET_CATEGORY;
+            $extraValue = $searchBy['category']->getId();
+
+            // Default name to use if menu item is not found in menu.
+            $defaultName = CategoryTreeBuilder::getTreeItemNamePrefix($menu, 0) . $extraValue;
+        } else {
+            throw new \LogicException('Either "contentNode" or "category" must be specified as search parameter');
         }
 
-        if (isset($searchBy['category'])) {
-            return $this->getCategoryTreeItemName($searchBy['category']->getId());
+        $menuItem = $this->findMenuItemBy($menu, $extraKey, $extraValue);
+        if ($menuItem !== null) {
+            return $menuItem->getName();
         }
 
-        throw new \LogicException('Either "contentNode" or "category" must be specified as search parameter');
+        return $defaultName;
+    }
+
+    protected function findMenuItemBy(ItemInterface $menu, string $extraKey, mixed $extraValue): ?ItemInterface
+    {
+        foreach (MenuUpdateUtils::createRecursiveIterator($menu) as $menuItem) {
+            if ($menuItem->getExtra($extraKey)?->getId() === $extraValue) {
+                return $menuItem;
+            }
+        }
+
+        return null;
     }
 
     protected function getMenu(): ItemInterface
@@ -201,20 +229,6 @@ abstract class AbstractMenuUpdateFixture extends AbstractFixture implements Cont
     protected function getScope(): Scope
     {
         return $this->scopeManager->findOrCreate('menu_frontend_visibility', []);
-    }
-
-    protected function getContentNodeTreeItemName(int $contentNodeId): string
-    {
-        $prefix = 'menu_item_' . sha1('content_node_' . self::$menuName);
-
-        return $prefix . '__' . $contentNodeId;
-    }
-
-    protected function getCategoryTreeItemName(int $categoryId): string
-    {
-        $prefix = 'menu_item_' . sha1('category_' . self::$menuName);
-
-        return $prefix . '__' . $categoryId;
     }
 
     protected function getData(): array
