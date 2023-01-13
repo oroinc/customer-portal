@@ -407,9 +407,12 @@ datagrids:
             query:
                 select:
                     - customer.name as customerName
+                    - au.name as authStatus
                 join:
                     inner:
                         - { join: customerUser.customer, alias: customer }
+                    left:
+                        - { join: customerUser.auth_status, alias: au }
         columns:
             id:
                 label: oro.customer.customeruser.id.label
@@ -418,10 +421,17 @@ datagrids:
             customerName:
                 label: oro.customer.customeruser.customer.label
                 order: -1
+            authStatus:
+                label: oro.customer.customeruser.datagrid.auth_status.label
+                editable: false
+                inline_editing:
+                    enable: false
         sorters:
             columns:
                 customerName:
                     data_name: customerName
+                authStatus:
+                    data_name: au.priority
         filters:
             columns:
                 customerName:
@@ -445,6 +455,10 @@ datagrids:
                 isGuest:
                     type:      boolean
                     data_name: customerUser.isGuest
+                authStatus:
+                    type: enum
+                    data_name: au.id
+                    enum_code: cu_auth_status
         actions:
             view:
                 type:          navigate
@@ -993,6 +1007,11 @@ datagrids:
         extends: customer-customer-user-grid-base
         source:
             query:
+                select:
+                    - au.name as authStatus
+                join:
+                    left:
+                        - { join: customerUser.auth_status, alias: au }
                 where:
                     and:
                         - customerUser.isGuest = false
@@ -1000,6 +1019,8 @@ datagrids:
             isGuest:
                 renderable: false
                 manageable: false
+            authStatus:
+                label: oro.customer.customeruser.datagrid.auth_status.label
         properties:
             id: ~
             view_link:
@@ -1030,6 +1051,12 @@ datagrids:
                 type:   translatable
                 key:    oro.customer.frontend.action.customer_user.delete.aria_label
                 params: [firstName, lastName]
+        filters:
+            columns:
+                authStatus:
+                    type: enum
+                    data_name: au.id
+                    enum_code: cu_auth_status
         actions:
             view:
                 type:          navigate

@@ -2,10 +2,14 @@
 
 namespace Oro\Bundle\CustomerBundle\Model;
 
+use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 
 /**
  * This class is required to make CustomerUser entity extendable.
+ *
+ * @method setAuthStatus(AbstractEnumValue $enum)
+ * @method AbstractEnumValue getAuthStatus()
  */
 abstract class ExtendCustomerUser extends AbstractUser
 {

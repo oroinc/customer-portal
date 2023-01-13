@@ -183,9 +183,21 @@ oro.customer:
         email:
             label:                   'Email Address'
             description:             Email of the customer user.
+        auth_status:
+            label:                   Password status
+            description:             Defines the actuality of the customer user's current password, whether the customer user can use it to log into the system.
         password:
             label:                   'Password'
             description:             Password that is used to log into the customer user account. The password must conform to the system security policy.
+            reset_password:
+                label: Reset password
+                title: Check Email
+                message: If there is a customer user account associated with %email% you will receive an email with a link to reset your password.
+                flash:
+                    success: Reset password email has been sent to customer user
+            force_reset:
+                success.message: Password reset request has been sent to %email%.
+                failure.message: Password reset request to %email% has failed.
         new_password.label:          'New Password'
         current_password.label:      'Current Password'
         password_confirmation.label: 'Confirm Password'
@@ -290,14 +302,14 @@ oro.customer:
                 message: 'If there is a user account associated with %email% you will receive an email with a link to reset your password.'
             edit: 'Edit Profile'
             label: 'Profile'
-            password.reset.ttl_expired.message: The create password link has expired.
+            password.reset.ttl_expired.message: 'The reset password link has expired.'
             cancel.label: 'Cancel'
             status.label: 'Status'
             statuses:
-                active: 'Active'
-                inactive: 'Inactive'
                 confirmed: 'Confirmed'
-                unconfirmed: 'Unconfirmed'
+                unconfirmed: 'Customer user has not confirmed their email address yet after registration.'
+                enabled: 'Enabled'
+                disabled: 'Disabled'
             form:
                 sections:
                     profile_information.label: 'Profile information'
@@ -316,6 +328,9 @@ oro.customer:
             message:
                 default_website_does_not_exist: 'Default website doesn''t exist'
                 default_website_role_does_not_exist: 'Default role for website %website% doesn''t exist'
+
+        datagrid:
+            auth_status.label: Password
 
     customeruserrole:
         entity_label:                    'Customer User Role'

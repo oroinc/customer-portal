@@ -17,6 +17,13 @@ oro.customer:
         role:
             entity_plural_label: "Roles"
             users: "Users"
+        reset_password:
+            flash:
+                success: Reset password email has been sent to customer user
+            popup:
+                question: Customer user <b>{{ user }}</b> will receive the email to reset password and will be disabled from login.
+                title: Reset password
+                label: Reset
 
     customer_address_book:
         customer_addresses: 'Company Addresses'

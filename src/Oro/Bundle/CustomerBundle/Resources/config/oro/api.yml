@@ -1,5 +1,8 @@
 api:
     entity_aliases:
+        Extend\Entity\EV_Cu_Auth_Status:
+            alias: customeruserauthstatus
+            plural_alias: customeruserauthstatuses
         Extend\Entity\EV_Acc_Internal_Rating:
             alias:        customerrating
             plural_alias: customerratings
@@ -201,3 +204,6 @@ api:
             # but it should be defined to correct work of "types" property
             # of the customer user address API resource
             actions: false
+
+        Extend\Entity\EV_Cu_Auth_Status:
+            documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer_user.md'
