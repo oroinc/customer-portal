@@ -1372,3 +1372,27 @@ services:
             - oro_customer_user_force_password_reset_link
         tags:
             - { name: oro_ui.view_action_provider, group: activity, priority: 120 }
+
+    oro_customer.create_subsidiary.widget_provider.actions:
+        parent: oro_ui.widget_provider.action_button.abstract
+        arguments:
+            - customer_create_subsidiary_button
+            - customer_create_subsidiary_link
+        tags:
+            - { name: oro_ui.view_action_provider, group: activity }
+
+    oro_customer.customer_create_for_customer_group.widget_provider.actions:
+        parent: oro_ui.widget_provider.action_button.abstract
+        arguments:
+            - customer_create_for_customer_group_button
+            - customer_create_for_customer_group_link
+        tags:
+            - { name: oro_ui.view_action_provider, group: activity }
+
+    oro_customer.customer_user.create_for_customer.widget_provider.actions:
+        parent: oro_ui.widget_provider.action_button.abstract
+        arguments:
+            - customer_user_create_for_customer_button
+            - customer_user_create_for_customer_link
+        tags:
+            - { name: oro_ui.view_action_provider, group: activity }

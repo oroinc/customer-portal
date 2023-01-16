@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller;
 
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
@@ -9,6 +10,8 @@ use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\FormBundle\Model\UpdateHandler;
+use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
+use Oro\Bundle\FormBundle\Provider\SaveAndReturnActionFormTemplateDataProvider;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
@@ -16,6 +19,7 @@ use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -37,13 +41,12 @@ class CustomerUserController extends AbstractController
      *      permission="VIEW"
      * )
      *
-     * @param CustomerUser $customerUser
      * @return array
      */
     public function viewAction(CustomerUser $customerUser)
     {
         return [
-            'entity' => $customerUser
+            'entity' => $customerUser,
         ];
     }
 
@@ -57,7 +60,7 @@ class CustomerUserController extends AbstractController
     public function indexAction()
     {
         return [
-            'entity_class' => CustomerUser::class
+            'entity_class' => CustomerUser::class,
         ];
     }
 
@@ -76,13 +79,12 @@ class CustomerUserController extends AbstractController
      * @Template("@OroCustomer/CustomerUser/widget/info.html.twig")
      * @AclAncestor("oro_customer_customer_user_view")
      *
-     * @param CustomerUser $customerUser
      * @return array
      */
     public function infoAction(CustomerUser $customerUser)
     {
         return [
-            'entity' => $customerUser
+            'entity' => $customerUser,
         ];
     }
 
@@ -143,12 +145,54 @@ class CustomerUserController extends AbstractController
      *      class="OroCustomerBundle:CustomerUser",
      *      permission="CREATE"
      * )
-     * @param Request $request
+     *
      * @return array|RedirectResponse
      */
     public function createAction(Request $request)
     {
         return $this->update(new CustomerUser(), $request);
+    }
+
+    /**
+     * @Route(
+     *     "/create/customer/{customer}",
+     *     name="oro_customer_customer_user_create_for_customer",
+     *     requirements={"customer"="\d+"}
+     * )
+     * @Template("@OroCustomer/CustomerUser/update.html.twig")
+     * @AclAncestor("oro_customer_customer_user_create")
+     */
+    public function createForCustomerAction(Customer $customer, Request $request): array|RedirectResponse
+    {
+        if (!$this->isQuickCreationButtonsEnabled()) {
+            throw $this->createNotFoundException();
+        }
+
+        if (!$this->isGranted('VIEW', $customer)) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $customerUser = new CustomerUser();
+        $customerUser->setCustomer($customer);
+
+        /** @var SaveAndReturnActionFormTemplateDataProvider $saveAndReturnActionFormTemplateDataProvider */
+        $saveAndReturnActionFormTemplateDataProvider = $this->get(SaveAndReturnActionFormTemplateDataProvider::class);
+        $saveAndReturnActionFormTemplateDataProvider
+            ->setSaveFormActionRoute(
+                'oro_customer_customer_user_create_for_customer',
+                [
+                    'customer' => $customer->getId(),
+                ]
+            )
+            ->setReturnActionRoute(
+                'oro_customer_customer_view',
+                [
+                    'id' => $customer->getId(),
+                ],
+                'oro_customer_customer_view'
+            );
+
+        return $this->update($customerUser, $request, $saveAndReturnActionFormTemplateDataProvider);
     }
 
     /**
@@ -162,8 +206,7 @@ class CustomerUserController extends AbstractController
      *      class="OroCustomerBundle:CustomerUser",
      *      permission="EDIT"
      * )
-     * @param CustomerUser $customerUser
-     * @param Request     $request
+     *
      * @return array|RedirectResponse
      */
     public function updateAction(CustomerUser $customerUser, Request $request)
@@ -178,38 +221,32 @@ class CustomerUserController extends AbstractController
      */
     protected function update(CustomerUser $customerUser, Request $request)
     {
-        $form = $this->createForm(CustomerUserType::class, $customerUser);
-        $handler = new CustomerUserHandler(
-            $form,
-            $request,
-            $this->get(CustomerUserManager::class),
-            $this->get(TokenAccessorInterface::class),
-            $this->get(TranslatorInterface::class),
-            $this->get(LoggerInterface::class)
-        );
+        $args = \func_get_args();
+        $resultProvider = $args[2] ?? null;
 
-        return $this->get(UpdateHandler::class)->handleUpdate(
+        $form = $this->createForm(CustomerUserType::class, $customerUser);
+
+        return $this->get(UpdateHandlerFacade::class)->update(
             $customerUser,
             $form,
-            function (CustomerUser $customerUser) {
-                return [
-                    'route'      => 'oro_customer_customer_user_update',
-                    'parameters' => ['id' => $customerUser->getId()]
-                ];
-            },
-            function (CustomerUser $customerUser) {
-                return [
-                    'route'      => 'oro_customer_customer_user_view',
-                    'parameters' => ['id' => $customerUser->getId()]
-                ];
-            },
             $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruser.saved.message'),
-            $handler
+            $request,
+            function (CustomerUser $data, FormInterface $form, Request $request) {
+                return (new CustomerUserHandler(
+                    $form,
+                    $request,
+                    $this->get(CustomerUserManager::class),
+                    $this->get(TokenAccessorInterface::class),
+                    $this->get(TranslatorInterface::class),
+                    $this->get(LoggerInterface::class)
+                ))->process($data);
+            },
+            $resultProvider
         );
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function getSubscribedServices()
     {
@@ -218,12 +255,20 @@ class CustomerUserController extends AbstractController
             [
                 DoctrineHelper::class,
                 TranslatorInterface::class,
-                UpdateHandler::class,
                 TokenAccessorInterface::class,
                 CustomerUserManager::class,
                 LoggerInterface::class,
                 RequestStack::class,
+                UpdateHandler::class,
+                UpdateHandlerFacade::class,
+                SaveAndReturnActionFormTemplateDataProvider::class,
+                ConfigManager::class,
             ]
         );
+    }
+
+    private function isQuickCreationButtonsEnabled(): bool
+    {
+        return $this->get(ConfigManager::class)->get('oro_ui.enable_quick_creation_buttons');
     }
 }

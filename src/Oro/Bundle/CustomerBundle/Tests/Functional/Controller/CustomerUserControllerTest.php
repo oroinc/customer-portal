@@ -78,6 +78,9 @@ class CustomerUserControllerTest extends WebTestCase
         self::assertNotNull($role);
 
         $form = $crawler->selectButton('Save and Close')->form();
+        $redirectAction = $crawler->selectButton('Save and Close')->attr('data-action');
+        $form->setValues(['input_action' => $redirectAction]);
+
         $form['oro_customer_customer_user[enabled]'] = true;
         $form['oro_customer_customer_user[namePrefix]'] = self::NAME_PREFIX;
         $form['oro_customer_customer_user[firstName]'] = self::FIRST_NAME;
@@ -168,6 +171,67 @@ class CustomerUserControllerTest extends WebTestCase
 
         self::assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
         self::assertStringContainsString('The password must be at least 2 characters long', $crawler->html());
+    }
+
+    public function testCreateForCustomer(): void
+    {
+        $configManager = self::getContainer()->get('oro_config.manager');
+        $configManager->set('oro_ui.enable_quick_creation_buttons', true);
+        $configManager->flush();
+
+        $customer = $this->getReference(LoadCustomers::CUSTOMER_LEVEL_1);
+        $crawler = $this->client->request(
+            'GET',
+            $this->getUrl('oro_customer_customer_user_create_for_customer', ['customer' => $customer->getId()])
+        );
+        self::assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
+
+        $form = $crawler->selectButton('Save and Close')->form();
+        $redirectAction = $crawler->selectButton('Save and Close')->attr('data-action');
+        $form->setValues(['input_action' => $redirectAction]);
+
+        $email = 'fourth@example.com';
+        $form['oro_customer_customer_user[enabled]'] = true;
+        $form['oro_customer_customer_user[namePrefix]'] = self::NAME_PREFIX;
+        $form['oro_customer_customer_user[firstName]'] = self::FIRST_NAME;
+        $form['oro_customer_customer_user[middleName]'] = self::MIDDLE_NAME;
+        $form['oro_customer_customer_user[lastName]'] = self::LAST_NAME;
+        $form['oro_customer_customer_user[nameSuffix]'] = self::NAME_SUFFIX;
+        $form['oro_customer_customer_user[email]'] = $email;
+        $form['oro_customer_customer_user[birthday]'] = date('Y-m-d');
+        $form['oro_customer_customer_user[plainPassword][first]'] = '123456';
+        $form['oro_customer_customer_user[plainPassword][second]'] = '123456';
+        $form['oro_customer_customer_user[passwordGenerate]'] = false;
+        $form['oro_customer_customer_user[sendEmail]'] = true;
+        $form['oro_customer_customer_user[userRoles][0]']->tick();
+        $form['oro_customer_customer_user[salesRepresentatives]'] = implode(',', [
+            $this->getReference(LoadUserData::USER1)->getId(),
+            $this->getReference(LoadUserData::USER2)->getId(),
+        ]);
+
+        $this->client->submit($form);
+
+        $emailMessages = self::getMailerMessages();
+        self::assertCount(1, $emailMessages);
+
+        $crawler = $this->client->followRedirect();
+        $result = $this->client->getResponse();
+
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertStringContainsString('Customer User has been saved', $crawler->html());
+
+        /** @var CustomerUser $customerUser */
+        $customerUser = self::getContainer()->get('doctrine')
+            ->getRepository(CustomerUser::class)
+            ->findOneBy(['email' => $email]);
+
+        self::assertEquals(
+            $customer->getId(),
+            $customerUser->getCustomer()->getId()
+        );
+
+        $configManager->set('oro_ui.enable_quick_creation_buttons', false);
+        $configManager->flush();
     }
 
     /**

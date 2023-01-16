@@ -7,11 +7,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerGroupHandler;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupType;
 use Oro\Bundle\FormBundle\Model\UpdateHandler;
+use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -100,30 +102,20 @@ class CustomerGroupController extends AbstractController
     protected function update(Request $request, CustomerGroup $group)
     {
         $form = $this->createForm(CustomerGroupType::class, $group);
-        $handler = new CustomerGroupHandler(
-            $form,
-            $request,
-            $this->getDoctrine()->getManagerForClass(ClassUtils::getClass($group)),
-            $this->get(EventDispatcherInterface::class)
-        );
 
-        return $this->get(UpdateHandler::class)->handleUpdate(
+        return $this->get(UpdateHandlerFacade::class)->update(
             $group,
             $form,
-            function (CustomerGroup $group) {
-                return [
-                    'route' => 'oro_customer_customer_group_update',
-                    'parameters' => ['id' => $group->getId()]
-                ];
-            },
-            function (CustomerGroup $group) {
-                return [
-                    'route' => 'oro_customer_customer_group_view',
-                    'parameters' => ['id' => $group->getId()]
-                ];
-            },
             $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customergroup.saved.message'),
-            $handler
+            $request,
+            function (CustomerGroup $group, FormInterface $form, Request $request) {
+                return (new CustomerGroupHandler(
+                    $form,
+                    $request,
+                    $this->getDoctrine()->getManagerForClass(ClassUtils::getClass($group)),
+                    $this->get(EventDispatcherInterface::class)
+                ))->process($group);
+            }
         );
     }
 
@@ -153,6 +145,7 @@ class CustomerGroupController extends AbstractController
                 TranslatorInterface::class,
                 UpdateHandler::class,
                 EventDispatcherInterface::class,
+                UpdateHandlerFacade::class,
             ]
         );
     }
