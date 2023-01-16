@@ -90,6 +90,14 @@ oro.customer:
         address_book.label: 'Address Book'
         owner.label: 'Owner'
         sales_representatives.label: 'Assigned Sales Representatives'
+        quick_access_button:
+            new_subsidiary:
+                label: 'New Subsidiary'
+            create_subsidiary:
+                label: 'Create Subsidiary'
+                widget:
+                    title: 'Create Customer'
+
     customeruseraddresstoaddresstype:
         entity_label: 'Customer User Address to Address Type'
         address.label: 'Address'
@@ -157,6 +165,13 @@ oro.customer:
         menu:
             customer_group_configuration:
                 label: Customer Group Configuration
+        quick_access_button:
+            new_customer:
+                label: 'New Customer'
+            create_customer:
+                label: 'Create Customer'
+                widget:
+                    title: 'Create Customer'
 
     customeruser:
         full_name:                   '%name_prefix% %first_name% %middle_name% %last_name% %name_suffix%'
@@ -328,6 +343,14 @@ oro.customer:
             message:
                 default_website_does_not_exist: 'Default website doesn''t exist'
                 default_website_role_does_not_exist: 'Default role for website %website% doesn''t exist'
+
+        quick_access_button:
+            new_customeruser:
+                label: 'New Customer User'
+            create_customeruser:
+                label: 'Create Customer User'
+                widget:
+                    title: 'Create Customer User'
 
         datagrid:
             auth_status.label: Password

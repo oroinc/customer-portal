@@ -33,7 +33,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *      routeUpdate="oro_customer_customer_update",
  *      defaultValues={
  *          "entity"={
- *              "icon"="fa-user"
+ *              "icon"="fa-building"
  *          },
  *          "ownership"={
  *              "owner_type"="USER",

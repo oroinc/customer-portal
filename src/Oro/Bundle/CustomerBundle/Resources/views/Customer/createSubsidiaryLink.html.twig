@@ -1,0 +1,17 @@
+{% import '@OroUI/macros.html.twig' as UI %}
+
+{{ UI.quickAccessLink({
+    'dataUrl': path('oro_customer_customer_create_subsidiary', { parentCustomer: entity.id }),
+    'iCss': 'fa-sitemap',
+    'title': 'oro.customer.customer.quick_access_button.create_subsidiary.label'|trans,
+    'label': 'oro.customer.customer.quick_access_button.create_subsidiary.label'|trans,
+    'widget': {
+        'reload-grid-name': 'children-by-customer-grid',
+        'options': {
+            'alias': 'oro_customer_customer_create_subsidiary_dialog',
+            'dialogOptions': {
+                'title': 'oro.customer.customer.quick_access_button.create_subsidiary.widget.title'|trans,
+            }
+        }
+    }
+}) }}

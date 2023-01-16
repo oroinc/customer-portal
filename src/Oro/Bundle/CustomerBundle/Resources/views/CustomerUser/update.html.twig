@@ -7,7 +7,11 @@
     }
 }) %}
 
-{% set formAction = entity.id ? path('oro_customer_customer_user_update', { 'id': entity.id }) : path('oro_customer_customer_user_create')  %}
+{% if saveFormAction is defined %}
+    {% set formAction = path(saveFormAction.route, saveFormAction.parameters) %}
+{% else %}
+    {% set formAction = entity.id ? path('oro_customer_customer_user_update', { 'id': entity.id }) : path('oro_customer_customer_user_create')  %}
+{% endif %}
 
 {% block navButtons %}
     {% import '@OroUI/macros.html.twig' as UI %}
@@ -27,6 +31,12 @@
         {% set html = html ~ UI.saveAndStayButton({
             'route' : 'oro_customer_customer_user_update',
             'params': {'id': '$id'}
+        }) %}
+    {% endif %}
+    {% if returnAction is defined and is_granted(returnAction.aclRole) %}
+        {% set html = html ~ UI.saveAndReturnButton({
+            'route': returnAction.route,
+            'params': returnAction.parameters
         }) %}
     {% endif %}
 

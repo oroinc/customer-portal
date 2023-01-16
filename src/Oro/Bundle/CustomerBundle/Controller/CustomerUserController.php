@@ -9,6 +9,8 @@ use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
+use Oro\Bundle\FormBundle\Provider\FormTemplateDataProviderInterface;
+use Oro\Bundle\FormBundle\Provider\SaveAndReturnActionFormTemplateDataProvider;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
@@ -137,6 +139,43 @@ class CustomerUserController extends AbstractController
     }
 
     /**
+     * @Route(
+     *     "/create/customer/{customer}",
+     *     name="oro_customer_customer_user_create_for_customer",
+     *     requirements={"customer"="\d+"}
+     * )
+     * @Template("@OroCustomer/CustomerUser/update.html.twig")
+     * @AclAncestor("oro_customer_customer_user_create")
+     */
+    public function createForCustomerAction(Customer $customer, Request $request): array|RedirectResponse
+    {
+        if (!$this->isGranted('VIEW', $customer)) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $customerUser = new CustomerUser();
+        $customerUser->setCustomer($customer);
+
+        $saveAndReturnActionFormTemplateDataProvider = $this->get(SaveAndReturnActionFormTemplateDataProvider::class);
+        $saveAndReturnActionFormTemplateDataProvider
+            ->setSaveFormActionRoute(
+                'oro_customer_customer_user_create_for_customer',
+                [
+                    'customer' => $customer->getId(),
+                ]
+            )
+            ->setReturnActionRoute(
+                'oro_customer_customer_view',
+                [
+                    'id' => $customer->getId(),
+                ],
+                'oro_customer_customer_view'
+            );
+
+        return $this->update($customerUser, $request, $saveAndReturnActionFormTemplateDataProvider);
+    }
+
+    /**
      * Edit customer user form
      *
      * @Route("/update/{id}", name="oro_customer_customer_user_update", requirements={"id"="\d+"})
@@ -153,8 +192,11 @@ class CustomerUserController extends AbstractController
         return $this->update($customerUser, $request);
     }
 
-    protected function update(CustomerUser $customerUser, Request $request): array|RedirectResponse
-    {
+    protected function update(
+        CustomerUser $customerUser,
+        Request $request,
+        FormTemplateDataProviderInterface|null $resultProvider = null
+    ): array|RedirectResponse {
         $form = $this->createForm(CustomerUserType::class, $customerUser);
         $handler = new CustomerUserHandler(
             $this->get(CustomerUserManager::class),
@@ -168,7 +210,8 @@ class CustomerUserController extends AbstractController
             $form,
             $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruser.saved.message'),
             $request,
-            $handler
+            $handler,
+            $resultProvider
         );
     }
 
@@ -186,7 +229,8 @@ class CustomerUserController extends AbstractController
                 CustomerUserManager::class,
                 LoggerInterface::class,
                 RequestStack::class,
-                UpdateHandlerFacade::class
+                UpdateHandlerFacade::class,
+                SaveAndReturnActionFormTemplateDataProvider::class,
             ]
         );
     }

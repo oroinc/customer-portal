@@ -38,7 +38,7 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
  *      routeUpdate="oro_customer_customer_user_update",
  *      defaultValues={
  *          "entity"={
- *              "icon"="fa-briefcase",
+ *              "icon"="fa-user",
  *              "contact_information"={
  *                  "email"={
  *                      {"fieldName"="contactInformation"}
