@@ -133,7 +133,7 @@
         {%- if simpleMode -%}
             {{- block('_menu_item_text') -}}
         {%- else -%}
-            {{- block('_menu_item_button_text') -}}
+            {{- block('_menu_item_text_label') -}}
         {%- endif -%}
     </a>
     {% endif %}
@@ -158,15 +158,15 @@
     {% if menu_item.children is not empty %}
     <button {{ block('block_attributes') }}>
         {% if linkEnable != true %}
-        {{ block('_menu_item_button_text') }}
+        {{ block('_menu_item_text_label') }}
         {% endif %}
     </button>
     {% endif %}
 {% endblock %}
 
-{% block _menu_item_button_text %}
+{% block _menu_item_text_label %}
     {% set attr = layout_attr_defaults(button_text_attr|default({}), {
-        '~class': class_prefix ? " #{class_prefix}__button-text",
+        '~class': class_prefix ? " #{class_prefix}__text-label",
         'data-name': 'menu-label'
     }) %}
     <span {{ block('block_attributes') }}>

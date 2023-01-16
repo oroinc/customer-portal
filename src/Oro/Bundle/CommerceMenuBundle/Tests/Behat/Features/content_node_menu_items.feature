@@ -31,7 +31,7 @@ Feature: Content Node Menu Items
     When I click on "commerce_main_menu" in tree "Sidebar Menu Tree"
     And I click "Create Menu Item"
     Then should see the following options for "Menu Template" select:
-      | Single level menu              |
+      | Flat menu, up to 2 levels deep |
       | Tree, up to 3 levels deep      |
       | Mega menu, up to 4 levels deep |
 
@@ -49,14 +49,14 @@ Feature: Content Node Menu Items
     When I expand "My-Node" in tree "Sidebar Menu Tree"
     Then I should not see "Node-1-1-1" belongs to "My-Node" in tree "Sidebar Menu Tree"
 
-#  Scenario: Check that the created content node menu item is displayed in menu on storefront
-#    Given I proceed as the Buyer
-#    When I reload the page
-#    Then I should see "Node-2" in main menu
-#    And I should see "My-Node" in main menu
-#    And I should not see "Node-1" in main menu
-#    And I should not see "Node-1 / Node-1-1" in main menu
-#    And I should not see "My-Node / Node-1-1-1" in main menu
+  Scenario: Check that the created content node menu item is displayed in menu on storefront
+    Given I proceed as the Buyer
+    When I reload the page
+    Then I should see "Node-2" in main menu
+    And I should see "My-Node" in main menu
+    And I should not see "Node-1" in main menu
+    And I should not see "Node-1 / Node-1-1" in main menu
+    And I should not see "My-Node / Node-1-1-1" in main menu
 
   Scenario: Set "Menu Template"
     Given I proceed as the Admin
@@ -81,10 +81,10 @@ Feature: Content Node Menu Items
     When I expand "Node-1-1-1-1-1" in tree "Sidebar Menu Tree"
     Then I should not see "Node-1-1-1-1-1-1" belongs to "Node-1-1-1-1-1" in tree "Sidebar Menu Tree"
 
-#  Scenario: Check that the created content node menu item is displayed in menu using menu template on storefront
-#    Given I proceed as the Buyer
-#    When I reload the page
-#    Then I should see "My-Node / Node-1-1-1 / Node-1-1-1-1 / Node-1-1-1-1-1" in main menu
+  Scenario: Check that the created content node menu item is displayed in menu using menu template on storefront
+    Given I proceed as the Buyer
+    When I reload the page
+    Then I should see "My-Node / Node-1-1-1 / Node-1-1-1-1 / Node-1-1-1-1-1" in main menu
 
   Scenario: Decrease "Max Traverse Level" of child content node to 0
     Given I proceed as the Admin
@@ -106,11 +106,11 @@ Feature: Content Node Menu Items
     When I expand "Node-1-1-1" in tree "Sidebar Menu Tree"
     Then I should not see "Node-1-1-1-1" belongs to "Node-1-1-1" in tree "Sidebar Menu Tree"
 
-#  Scenario: Check that the child content node menu item is displayed without children in menu on storefront
-#    Given I proceed as the Buyer
-#    When I reload the page
-#    Then I should see "My-Node / Node-1-1-1" in main menu
-#    And I should not see "My-Node / Node-1-1-1 / Node-1-1-1-1" in main menu
+  Scenario: Check that the child content node menu item is displayed without children in menu on storefront
+    Given I proceed as the Buyer
+    When I reload the page
+    Then I should see "My-Node / Node-1-1-1" in main menu
+    And I should not see "My-Node / Node-1-1-1 / Node-1-1-1-1" in main menu
 
   Scenario: Check that the label of content node tree menu item can be changed
     Given I proceed as the Admin
@@ -150,13 +150,13 @@ Feature: Content Node Menu Items
     When I expand "Node-1-1-1-1-1" in tree "Sidebar Menu Tree"
     Then I should see "Node-1-1-1-1-1-1" belongs to "Node-1-1-1-1-1" in tree "Sidebar Menu Tree"
 
-#  Scenario: Check that the content node tree menu item moved outside of its parent is displayed on storefront
-#    Given I proceed as the Buyer
-#    When I reload the page
-#    Then I should see "Node-1-1-1-upd" in main menu
-#    And I should see "Node-1-1-1-upd / Custom-1-1-1" in main menu
-#    And I should not see "My-Node / Node-1-1-1" in main menu
-#    And I should not see "My-Node / Node-1-1-1-upd" in main menu
+  Scenario: Check that the content node tree menu item moved outside of its parent is displayed on storefront
+    Given I proceed as the Buyer
+    When I reload the page
+    Then I should see "Node-1-1-1-upd" in main menu
+    And I should see "Node-1-1-1-upd / Custom-1-1-1" in main menu
+    And I should not see "My-Node / Node-1-1-1" in main menu
+    And I should not see "My-Node / Node-1-1-1-upd" in main menu
 
   Scenario: Move content node tree menu item outside of its parent
     Given I proceed as the Admin

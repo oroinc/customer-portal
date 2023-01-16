@@ -37,7 +37,7 @@ Feature: Category Menu Items
       | 4 |
       | 5 |
     And should see the following options for "Menu Template" select:
-      | Single level menu              |
+      | Flat menu, up to 2 levels deep |
       | Tree, up to 3 levels deep      |
       | Mega menu, up to 4 levels deep |
 
@@ -55,14 +55,14 @@ Feature: Category Menu Items
     When I expand "My-Category" in tree "Sidebar Menu Tree"
     Then I should not see "Category-1-1-1" belongs to "My-Category" in tree "Sidebar Menu Tree"
 
-#  Scenario: Check that the created category menu item is displayed in menu on storefront
-#    Given I proceed as the Buyer
-#    When I reload the page
-#    Then I should see "Category-2" in main menu
-#    And I should see "My-Category" in main menu
-#    And I should not see "Category-1" in main menu
-#    And I should not see "Category-1 / Category-1-1" in main menu
-#    And I should not see "My-Category / Category-1-1-1" in main menu
+  Scenario: Check that the created category menu item is displayed in menu on storefront
+    Given I proceed as the Buyer
+    When I reload the page
+    Then I should see "Category-2" in main menu
+    And I should see "My-Category" in main menu
+    And I should not see "Category-1" in main menu
+    And I should not see "Category-1 / Category-1-1" in main menu
+    And I should not see "My-Category / Category-1-1-1" in main menu
 
   Scenario: Set "Menu Template"
     Given I proceed as the Admin
@@ -87,10 +87,10 @@ Feature: Category Menu Items
     When I expand "Category-1-1-1-1-1" in tree "Sidebar Menu Tree"
     Then I should not see "Category-1-1-1-1-1-1" belongs to "Category-1-1-1-1-1" in tree "Sidebar Menu Tree"
 
-#  Scenario: Check that the created category menu item is displayed in menu using menu template on storefront
-#    Given I proceed as the Buyer
-#    When I reload the page
-#    Then I should see "My-Category / Category-1-1-1 / Category-1-1-1-1 / Category-1-1-1-1-1" in main menu
+  Scenario: Check that the created category menu item is displayed in menu using menu template on storefront
+    Given I proceed as the Buyer
+    When I reload the page
+    Then I should see "My-Category / Category-1-1-1 / Category-1-1-1-1 / Category-1-1-1-1-1" in main menu
 
   Scenario: Decrease "Max Traverse Level" of child category to 0
     Given I proceed as the Admin
@@ -112,11 +112,11 @@ Feature: Category Menu Items
     When I expand "Category-1-1-1" in tree "Sidebar Menu Tree"
     Then I should not see "Category-1-1-1-1" belongs to "Category-1-1-1" in tree "Sidebar Menu Tree"
 
-#  Scenario: Check that the child category menu item is displayed without children in menu on storefront
-#    Given I proceed as the Buyer
-#    When I reload the page
-#    Then I should see "My-Category / Category-1-1-1" in main menu
-#    And I should not see "My-Category / Category-1-1-1 / Category-1-1-1-1" in main menu
+  Scenario: Check that the child category menu item is displayed without children in menu on storefront
+    Given I proceed as the Buyer
+    When I reload the page
+    Then I should see "My-Category / Category-1-1-1" in main menu
+    And I should not see "My-Category / Category-1-1-1 / Category-1-1-1-1" in main menu
 
   Scenario: Check that the label of category tree menu item can be changed
     Given I proceed as the Admin
@@ -156,13 +156,13 @@ Feature: Category Menu Items
     When I expand "Category-1-1-1-1-1" in tree "Sidebar Menu Tree"
     Then I should see "Category-1-1-1-1-1-1" belongs to "Category-1-1-1-1-1" in tree "Sidebar Menu Tree"
 
-#  Scenario: Check that the category tree menu item moved outside of its parent is displayed on storefront
-#    Given I proceed as the Buyer
-#    When I reload the page
-#    Then I should see "Category-1-1-1-upd" in main menu
-#    And I should see "Category-1-1-1-upd / Custom-1-1-1" in main menu
-#    And I should not see "My-Category / Category-1-1-1" in main menu
-#    And I should not see "My-Category / Category-1-1-1-upd" in main menu
+  Scenario: Check that the category tree menu item moved outside of its parent is displayed on storefront
+    Given I proceed as the Buyer
+    When I reload the page
+    Then I should see "Category-1-1-1-upd" in main menu
+    And I should see "Category-1-1-1-upd / Custom-1-1-1" in main menu
+    And I should not see "My-Category / Category-1-1-1" in main menu
+    And I should not see "My-Category / Category-1-1-1-upd" in main menu
 
   Scenario: Update category title
     Given I proceed as the Admin

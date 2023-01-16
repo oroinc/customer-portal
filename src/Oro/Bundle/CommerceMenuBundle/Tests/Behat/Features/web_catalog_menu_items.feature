@@ -34,9 +34,9 @@ Feature: Web Catalog Menu Items
     And the "Content Node" field should be disabled
     And the "Max Traverse Level" field should be enabled
     And "Commerce Menu Form" must contain values:
-      | Target Type        | Content Node      |
-      | Max Traverse Level | 5                 |
-      | Menu Template      | Single level menu |
+      | Target Type        | Content Node                   |
+      | Max Traverse Level | 5                              |
+      | Menu Template      | Flat menu, up to 2 levels deep |
     And should see the following options for "Max Traverse Level" select:
       | 0 |
       | 1 |
@@ -45,7 +45,7 @@ Feature: Web Catalog Menu Items
       | 4 |
       | 5 |
     And I fill "Commerce Menu Form" with:
-      | Menu Template | Single level menu |
+      | Menu Template | Flat menu, up to 2 levels deep |
     And I save form
     And I click on "Node-1-1" in tree "Sidebar Menu Tree"
     Then the "Target Type" field should be disabled
@@ -111,9 +111,9 @@ Feature: Web Catalog Menu Items
     And the "Content Node" field should be disabled
     And the "Max Traverse Level" field should be enabled
     And "Commerce Menu Form" must contain values:
-      | Target Type        | Content Node      |
-      | Max Traverse Level | 5                 |
-      | Menu Template      | Single level menu |
+      | Target Type        | Content Node                   |
+      | Max Traverse Level | 5                              |
+      | Menu Template      | Flat menu, up to 2 levels deep |
     And should see the following options for "Max Traverse Level" select:
       | 0 |
       | 1 |

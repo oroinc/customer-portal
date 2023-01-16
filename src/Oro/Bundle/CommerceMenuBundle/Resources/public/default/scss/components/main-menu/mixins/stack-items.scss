@@ -80,13 +80,13 @@
         }
     }
 
-    &__button-text {
+    &__text-label {
         display: $main-menu-multi-button-span-show-display;
         text-overflow: $main-menu-multi-button-span-show-text-overflow;
         overflow: $main-menu-multi-button-span-show-overflow;
     }
 
-    &__link + &__button &__button-text {
+    &__link + &__button &__text-label {
         visibility: $main-menu-multi-button-span-visibility;
     }
 }
