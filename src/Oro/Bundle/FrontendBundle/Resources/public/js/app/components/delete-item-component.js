@@ -20,10 +20,9 @@ define(function(require) {
         /**
          * @inheritdoc
          */
-        initialize: function(options) {
+        initialize(options) {
             this.$elem = options._sourceElement;
             this.url = options.url || routing.generate(options.route, options.routeParams || {});
-            this.removeClass = options.removeClass;
             this.requestMethod = options.requestMethod || 'DELETE';
             this.redirect = options.redirect;
             this.confirmMessage = options.confirmMessage;
@@ -40,7 +39,7 @@ define(function(require) {
             this.$elem.on('click', this.deleteItem.bind(this));
         },
 
-        deleteItem: function() {
+        deleteItem() {
             if (this.confirmMessage) {
                 this.deleteWithConfirmation();
             } else {
@@ -48,7 +47,7 @@ define(function(require) {
             }
         },
 
-        deleteWithConfirmation: function() {
+        deleteWithConfirmation() {
             const options = _.extend(_.pick(this, 'okButtonClass', 'cancelButtonClass'), {
                 content: this.confirmMessage
             });
@@ -59,24 +58,27 @@ define(function(require) {
                 .open();
         },
 
-        deleteWithoutConfirmation: function(e) {
-            const self = this;
-            $.ajax({
-                url: self.url,
-                type: this.requestMethod,
-                success: function() {
-                    if (self.redirect) {
-                        self.deleteWithRedirect(e);
-                    } else {
-                        self.deleteWithoutRedirect(e);
-                    }
+        deleteWithoutConfirmation(e) {
+            const {
+                successMessageOptions: messageOptions,
+                successMessage,
+                redirect,
+                triggerData
+            } = this;
 
-                    if (self.removeClass) {
-                        self.$elem.closest('.' + self.removeClass)
-                            .trigger('content:remove').remove();
+            $.ajax({
+                url: this.url,
+                type: this.requestMethod,
+                success: () => {
+                    if (redirect) {
+                        mediator.execute('showFlashMessage', 'success', successMessage, messageOptions);
+                        mediator.execute('redirectTo', {url: redirect}, {redirect: true});
+                    } else {
+                        mediator.execute('showMessage', 'success', successMessage, {flash: true, ...messageOptions});
+                        mediator.trigger('frontend:item:delete', triggerData || e);
                     }
                 },
-                error: function(jqXHR) {
+                error(jqXHR) {
                     mediator.execute('hideLoading');
 
                     const errorCode = 'responseJSON' in jqXHR ? jqXHR.responseJSON.code : jqXHR.status;
@@ -87,23 +89,11 @@ define(function(require) {
                         errors.push(__('oro.ui.unexpected_error'));
                     }
 
-                    _.each(errors, function(value) {
+                    _.each(errors, value => {
                         mediator.execute('showFlashMessage', 'error', value);
                     });
                 }
             });
-        },
-
-        deleteWithRedirect: function(e) {
-            const messageOptions = this.successMessageOptions;
-            mediator.execute('showFlashMessage', 'success', this.successMessage, messageOptions);
-            mediator.execute('redirectTo', {url: this.redirect}, {redirect: true});
-        },
-
-        deleteWithoutRedirect: function(e) {
-            const messageOptions = this.successMessageOptions;
-            mediator.execute('showMessage', 'success', this.successMessage, {flash: true, ...messageOptions});
-            mediator.trigger('frontend:item:delete', this.triggerData || e);
         }
     });
 

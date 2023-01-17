@@ -552,6 +552,91 @@ operations:
         datagrids:
             - frontend-customer-customer-user-address-grid
 
+    oro_customer_user_reset_password:
+        label: oro.customer.customeruser.password.reset_password.label
+        datagrids:
+            - customer-customer-user-grid
+        routes:
+            - oro_customer_customer_user_view
+        order: 50
+        conditions:
+            '@equal': [ $.data.enabled, true ]
+        acl_resource: [password_management]
+        button_options:
+            icon: fa-unlock-alt
+        frontend_options:
+            confirmation:
+                title: oro.customer.customer_user.reset_password.popup.title
+                okText: oro.customer.customer_user.reset_password.popup.label
+                message: oro.customer.customer_user.reset_password.popup.question
+                message_parameters:
+                    user: $.data.username
+                component: oroui/js/standart-confirmation
+        actions:
+            - '@run_action_group':
+                  action_group: oro_customer_customeruser_reset_password
+                  parameters_mapping:
+                      data: $.data
+            - '@redirect':
+                  conditions:
+                      '@and':
+                          - '@empty': $.gridName
+                          - '@not_empty': $.routes[name]
+                  parameters:
+                      route: $.routes[name]
+            - '@refresh_grid':
+                  conditions:
+                      '@and':
+                          - '@empty': $.routes[name]
+                          - '@not_empty': $.gridName
+                  parameters: [$.gridName]
+
+    oro_customer_user_frontend_reset_password:
+        label: oro.customer.customeruser.password.reset_password.label
+        applications: [commerce]
+        datagrids:
+            - frontend-customer-customer-user-grid
+        routes:
+            - oro_customer_frontend_customer_user_view
+        order: 10
+        button_options:
+            icon: fa-unlock-alt
+        acl_resource: [EDIT, $.data]
+        preactions:
+            - '@get_active_user': $.currentUser
+        conditions:
+            '@equal': [ $.data.enabled, true ]
+        preconditions:
+            '@and':
+                - '@equal': [$enabled, true]
+                - '@not_equal': [$id, $.currentUser.id]
+        frontend_options:
+            confirmation:
+                title: oro.customer.customer_user.reset_password.popup.title
+                okText: oro.customer.customer_user.reset_password.popup.label
+                message: oro.customer.customer_user.reset_password.popup.question
+                message_parameters:
+                    user: $.data.username
+                component: oroui/js/standart-confirmation
+        actions:
+            - '@run_action_group':
+                  action_group: oro_customer_customeruser_reset_password
+                  parameters_mapping:
+                      data: $.data
+            - '@redirect':
+                  conditions:
+                      '@and':
+                          - '@empty': $.gridName
+                          - '@not_empty': $.routes[name]
+                  parameters:
+                      route: $.routes[name]
+            - '@refresh_grid':
+                  conditions:
+                      '@and':
+                          - '@empty': $.routes[name]
+                          - '@not_empty': $.gridName
+                  parameters: [$.gridName]
+
 action_groups:
     oro_customer_delete:
         parameters:
@@ -627,3 +712,35 @@ action_groups:
                 service: oro_customer_user.manager
                 method: sendConfirmationEmail
                 method_parameters: [$.data]
+
+    oro_customer_customeruser_reset_password:
+        parameters:
+            data:
+                type: Oro\Bundle\CustomerBundle\Entity\CustomerUser
+        actions:
+            - '@call_service_method':
+                  service: oro_customer_user.handler.reset_password_handler
+                  method: resetPasswordAndNotify
+                  method_parameters: [$.data]
+                  attribute: $.sent
+            - '@flush_entity': $.data
+            - '@tree':
+                  conditions:
+                      '@and':
+                          - '@eq': [$.sent, true]
+                  actions:
+                      - '@flash_message':
+                            message: oro.customer.customeruser.password.force_reset.success.message
+                            type: 'success'
+                            message_parameters:
+                                'email': $.data.email
+            - '@tree':
+                  conditions:
+                      '@and':
+                          - '@eq': [$.sent, false]
+                  actions:
+                      - '@flash_message':
+                            message: oro.customer.customeruser.password.force_reset.failure.message
+                            type: 'error'
+                            message_parameters:
+                                'email': $.data.email

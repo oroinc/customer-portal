@@ -8,11 +8,14 @@ use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtension;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterface;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareInterface;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareTrait;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectOrCreateType;
+use Oro\Bundle\CustomerBundle\Migrations\Schema\v1_31\InsertAuthStatusesQuery;
 use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
 use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
+use Oro\Bundle\EntityExtendBundle\Migration\OroOptions;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Oro\Bundle\ScopeBundle\Migration\Extension\ScopeExtensionAwareInterface;
@@ -38,7 +41,6 @@ class OroCustomerBundleInstaller implements
     const ORO_CUSTOMER_TABLE_NAME = 'oro_customer';
     const ORO_CUSTOMER_USER_TABLE_NAME = 'oro_customer_user';
     const ORO_CUSTOMER_GROUP_TABLE_NAME = 'oro_customer_group';
-    const ORO_WEBSITE_TABLE_NAME = 'oro_website';
     const ORO_ORGANIZATION_TABLE_NAME = 'oro_organization';
     const ORO_CUSTOMER_ADDRESS_TABLE_NAME = 'oro_customer_address';
     const ORO_CUSTOMER_ADDRESS_TO_ADDRESS_TABLE_NAME = 'oro_customer_adr_adr_type';
@@ -49,21 +51,23 @@ class OroCustomerBundleInstaller implements
     const ORO_CUSTOMER_USER_ADDRESS_TABLE_NAME = 'oro_customer_user_address';
     const ORO_CUS_USR_ADR_TO_ADR_TYPE_TABLE_NAME = 'oro_cus_usr_adr_to_adr_type';
 
-    const ORO_CATEGORY_TABLE_NAME = 'oro_catalog_category';
-    const ORO_PRODUCT_TABLE_NAME = 'oro_product';
-
     const ORO_USER_TABLE_NAME = 'oro_user';
     const ORO_CUSTOMER_SALES_REPRESENTATIVES_TABLE_NAME = 'oro_customer_sales_reps';
     const ORO_CUSTOMER_USER_SETTINGS = 'oro_customer_user_settings';
 
-    /** @var ExtendExtension */
-    protected $extendExtension;
-
-    /** @var ActivityExtension */
-    protected $activityExtension;
+    private ExtendExtension $extendExtension;
+    private ActivityExtension $activityExtension;
 
     /**
-     * Sets the ActivityExtension
+     * {@inheritdoc}
+     */
+    public function getMigrationVersion()
+    {
+        return 'v1_31';
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public function setActivityExtension(ActivityExtension $activityExtension)
     {
@@ -71,15 +75,7 @@ class OroCustomerBundleInstaller implements
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getMigrationVersion()
-    {
-        return 'v1_30';
-    }
-
-    /**
-     * Sets the ExtendExtension
+     * {@inheritDoc}
      */
     public function setExtendExtension(ExtendExtension $extendExtension)
     {
@@ -121,6 +117,7 @@ class OroCustomerBundleInstaller implements
         $this->updateOroGridViewTable($schema);
         $this->updateOroGridViewUserTable($schema);
         $this->createOroCustomerUserLoginAttemptsTable($schema);
+        $this->addAuthStatusColumnToCustomerUser($schema, $queries);
 
         /** Foreign keys generation **/
         $this->addOroCustomerUserForeignKeys($schema);
@@ -1248,5 +1245,35 @@ class OroCustomerBundleInstaller implements
             ['id'],
             ['onUpdate' => null, 'onDelete' => 'CASCADE']
         );
+    }
+
+    private function addAuthStatusColumnToCustomerUser(Schema $schema, QueryBag $queries): void
+    {
+        $enumTable = $this->extendExtension->addEnumField(
+            $schema,
+            'oro_customer_user',
+            'auth_status',
+            'cu_auth_status',
+            false,
+            false,
+            [
+                'attribute' => ['searchable' => false, 'filterable' => true],
+                'importexport' => ['excluded' => true]
+            ]
+        );
+
+        $options = new OroOptions();
+        $options->set(
+            'enum',
+            'immutable_codes',
+            [
+                CustomerUserManager::STATUS_ACTIVE,
+                CustomerUserManager::STATUS_RESET,
+            ]
+        );
+
+        $enumTable->addOption(OroOptions::KEY, $options);
+
+        $queries->addPostQuery(new InsertAuthStatusesQuery($this->extendExtension));
     }
 }

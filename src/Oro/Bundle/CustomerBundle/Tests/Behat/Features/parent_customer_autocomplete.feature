@@ -1,5 +1,6 @@
 @ticket-BAP-20761
 @regression
+@elasticsearch
 
 Feature: Parent Customer Autocomplete
   In order to mark customer as child of a another customer

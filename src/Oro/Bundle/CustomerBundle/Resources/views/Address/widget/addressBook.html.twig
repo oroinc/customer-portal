@@ -5,7 +5,7 @@
     {# widget container and actions #}
     <div class="widget-actions">
         {% if options.acl.addressCreate is not defined or is_granted(options.acl.addressCreate) %}
-            <button class="btn btn-primary" type="button" data-action-name="add_address"> + {{ 'oro.customer.address.add'|trans }}</button>
+            <button class="btn btn-primary" type="button" data-action-name="add_address"><span class="fa-plus" aria-hidden="true"></span>{{ 'oro.customer.address.add'|trans }}</button>
         {% endif %}
     </div>
 

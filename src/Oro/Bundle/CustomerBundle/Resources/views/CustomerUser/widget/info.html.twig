@@ -6,6 +6,9 @@
 <div class="widget-content">
     <div class="row-fluid form-horizontal">
         <div class="responsive-block">
+            {% if entity.confirmed != true%}
+                <div class="alert alert-warning">{{ 'oro.customer.customeruser.profile.statuses.unconfirmed'|trans }}</div>
+            {% endif %}
             {% if  entity.namePrefix is defined %}
                 {{ UI.renderProperty('oro.customer.customeruser.name_prefix.label'|trans, entity.namePrefix) }}
             {% endif %}
@@ -41,6 +44,15 @@
             :
             'oro.customer.customeruser.is_guest_no.label'|trans
             ) }}
+
+            {% set authStatus %}
+            {% if entity.authStatus.id == 'active' %}
+                {{ UI.badge(entity.authStatus.name, 'enabled', 'fa-unlock') }}
+            {% else %}
+                {{ UI.badge(entity.authStatus.name, 'disabled', 'fa-unlock-alt') }}
+            {% endif %}
+            {% endset %}
+            {{ UI.renderHtmlProperty('oro.customer.customeruser.auth_status.label'|trans, authStatus) }}
 
             {{ entityConfig.renderDynamicFields(entity) }}
         </div>

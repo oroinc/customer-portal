@@ -5,11 +5,13 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserSettings;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Stub\CustomerUserStub as CustomerUser;
+use Oro\Bundle\EntityExtendBundle\Provider\EnumValueProvider;
+use Oro\Bundle\EntityExtendBundle\Tests\Unit\Fixtures\TestEnumValue;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
@@ -32,7 +34,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
     private $configManager;
 
-    /** var Processor|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Processor|\PHPUnit\Framework\MockObject\MockObject */
     private $emailProcessor;
 
     /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
@@ -50,6 +52,9 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     /** @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $em;
 
+    /** @var EnumValueProvider|\PHPUnit\Framework\MockObject\MockObject */
+    private $enumValueProvider;
+
     /** @var CustomerUserManager */
     private $userManager;
 
@@ -63,6 +68,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->em = $this->createMock(EntityManagerInterface::class);
+        $this->enumValueProvider = $this->createMock(EnumValueProvider::class);
 
         $userLoader = $this->createMock(UserLoaderInterface::class);
         $userLoader->expects(self::any())
@@ -80,6 +86,13 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
             ->method('getService')
             ->willReturn($this->emailProcessor);
 
+        $enumValueProvider = $this->createMock(EnumValueProvider::class);
+        $enumValueProvider->expects(self::any())
+            ->method('getEnumValueByCode')
+            ->willReturnCallback(function ($code, $id) {
+                return new TestEnumValue($id, $id);
+            });
+
         $this->userManager = new CustomerUserManager(
             $userLoader,
             $doctrine,
@@ -89,11 +102,12 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
             $this->frontendHelper,
             $this->localizationHelper,
             $this->websiteManager,
+            $this->enumValueProvider,
             $this->logger
         );
     }
 
-    public function testConfirmRegistration()
+    public function testConfirmRegistration(): void
     {
         $user = new CustomerUser();
         $user->setConfirmed(false);
@@ -108,7 +122,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         self::assertNotEmpty($user->getConfirmationToken());
     }
 
-    public function testConfirmRegistrationByAdmin()
+    public function testConfirmRegistrationByAdmin(): void
     {
         $user = new CustomerUser();
         $user->setConfirmed(false);
@@ -123,7 +137,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         self::assertNotEmpty($user->getConfirmationToken());
     }
 
-    public function testSendWelcomeRegisteredByAdminEmail()
+    public function testSendWelcomeRegisteredByAdminEmail(): void
     {
         $user = new CustomerUser();
 
@@ -136,7 +150,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         self::assertNotEmpty($user->getConfirmationToken());
     }
 
-    public function testRegisterConfirmationRequiredNotFrontendRequest()
+    public function testRegisterConfirmationRequiredNotFrontendRequest(): void
     {
         $user = new CustomerUser();
         $user->setEnabled(false);
@@ -169,7 +183,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         self::assertNotEmpty($user->getConfirmationToken());
     }
 
-    public function testRegisterConfirmationNotRequiredWhenWebsiteSettingsExist()
+    public function testRegisterConfirmationNotRequiredWhenWebsiteSettingsExist(): void
     {
         $defaultLocalizationCode = 'en';
         $currentLocalizationCode = 'fr_FR';
@@ -216,7 +230,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($expectedWebsiteSettings, $user->getWebsiteSettings($website));
     }
 
-    public function testRegisterConfirmationNotRequiredWhenWebsiteSettingsNotExist()
+    public function testRegisterConfirmationNotRequiredWhenWebsiteSettingsNotExist(): void
     {
         $currentLocalizationCode = 'fr_FR';
 
@@ -257,7 +271,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($expectedWebsiteSettings, $user->getWebsiteSettings($website));
     }
 
-    public function testRegisterConfirmationNotRequired()
+    public function testRegisterConfirmationNotRequired(): void
     {
         $user = new CustomerUser();
         $user->setConfirmed(false);
@@ -276,7 +290,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($user->isConfirmed());
     }
 
-    public function testUpdateWebsiteSettings()
+    public function testUpdateWebsiteSettings(): void
     {
         $currentLocalizationCode = 'fr_FR';
         $user = new CustomerUser();
@@ -303,7 +317,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         self::assertSame($currentLocalization, $updatedSettings->getLocalization());
     }
 
-    public function testSendResetPasswordEmail()
+    public function testSendResetPasswordEmail(): void
     {
         $user = new CustomerUser();
         $this->emailProcessor->expects(self::once())
@@ -315,7 +329,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider isConfirmationRequiredDataProvider
      */
-    public function testIsConfirmationRequired(bool $value)
+    public function testIsConfirmationRequired(bool $value): void
     {
         $this->configManager->expects(self::once())
             ->method('get')
@@ -333,7 +347,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testUpdateUserWithPlainPassword()
+    public function testUpdateUserWithPlainPassword(): void
     {
         $password = 'password';
         $encodedPassword = 'encodedPassword';
@@ -342,6 +356,11 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $user = new CustomerUser();
         $user->setPlainPassword($password);
         $user->setSalt($salt);
+
+        $this->enumValueProvider->expects(self::once())
+            ->method('getDefaultEnumValueByCode')
+            ->with('cu_auth_status')
+            ->willReturn(null);
 
         $encoder = $this->createMock(PasswordEncoderInterface::class);
         $this->encoderFactory->expects(self::once())
@@ -363,9 +382,10 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
 
         self::assertNull($user->getPlainPassword());
         self::assertEquals($encodedPassword, $user->getPassword());
+        self::assertNull($user->getAuthStatus());
     }
 
-    public function testFindUserBy()
+    public function testFindUserBy(): void
     {
         $criteria = ['id' => 1];
         $user = $this->createMock(CustomerUser::class);
@@ -381,5 +401,61 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
             ->willReturn($user);
 
         self::assertSame($user, $this->userManager->findUserBy($criteria));
+    }
+
+    public function testUpdateUserForUserWithoutAuthStatus(): void
+    {
+        $user = new CustomerUser();
+        $defaultAuthStatus = new TestEnumValue('auth_status_1', 'Auth Status 1');
+
+        $this->enumValueProvider->expects(self::once())
+            ->method('getDefaultEnumValueByCode')
+            ->with('cu_auth_status')
+            ->willReturn($defaultAuthStatus);
+
+        $this->em->expects(self::once())
+            ->method('persist')
+            ->with(self::identicalTo($user));
+        $this->em->expects(self::once())
+            ->method('flush');
+
+        $this->userManager->updateUser($user);
+
+        self::assertSame($defaultAuthStatus, $user->getAuthStatus());
+    }
+
+    public function testUpdateUserForUserWithAuthStatus(): void
+    {
+        $user = new CustomerUser();
+        $authStatus = new TestEnumValue('auth_status_1', 'Auth Status 1');
+        $user->setAuthStatus($authStatus);
+
+        $this->enumValueProvider->expects(self::never())
+            ->method('getDefaultEnumValueByCode');
+
+        $this->em->expects(self::once())
+            ->method('persist')
+            ->with(self::identicalTo($user));
+        $this->em->expects(self::once())
+            ->method('flush');
+
+        $this->userManager->updateUser($user);
+
+        self::assertSame($authStatus, $user->getAuthStatus());
+    }
+
+    public function testSetAuthStatus(): void
+    {
+        $customerUser = new CustomerUser();
+        self::assertNull($customerUser->getAuthStatus());
+
+        $this->enumValueProvider->expects(self::once())
+            ->method('getEnumValueByCode')
+            ->willReturnCallback(function ($code, $id) {
+                return new TestEnumValue($id, $id);
+            });
+
+        $this->userManager->setAuthStatus($customerUser, CustomerUserManager::STATUS_RESET);
+        self::assertEquals(CustomerUserManager::STATUS_RESET, $customerUser->getAuthStatus()->getId());
     }
 }
