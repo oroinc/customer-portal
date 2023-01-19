@@ -2,7 +2,7 @@ define(function(require) {
     'use strict';
 
     const BaseView = require('oroui/js/app/views/base/view');
-    const viewportManager = require('oroui/js/viewport-manager');
+    const viewportManager = require('oroui/js/viewport-manager').default;
     const scrollHelper = require('oroui/js/tools/scroll-helper');
     const $ = require('jquery');
     const _ = require('underscore');
@@ -19,11 +19,13 @@ define(function(require) {
             'click [data-header-row-toggle]': 'onToggleClick'
         },
 
-        listen: {
-            'viewport:change mediator': 'checkViewport'
+        listen() {
+            return {
+                [`viewport:${this.useScrollViewport} mediator`]: 'checkViewport'
+            };
         },
 
-        useScrollViewport: {maxScreenType: 'tablet'},
+        useScrollViewport: 'tablet',
 
         isUseScroll: false,
 

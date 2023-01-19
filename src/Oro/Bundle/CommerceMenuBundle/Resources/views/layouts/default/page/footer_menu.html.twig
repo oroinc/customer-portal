@@ -15,9 +15,7 @@
                 {% if child.displayed and child.extras.isAllowed %}
                     {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
                     {% set collapseOptions = {
-                        viewport: {
-                            maxScreenType: 'tablet-small',
-                        },
+                        viewport: 'tablet-small',
                         view: 'orofrontend/default/js/app/views/collapse-view',
                         toggleAttrs: {
                             'class': 'btn btn--plain btn--default-color information-nav__title',

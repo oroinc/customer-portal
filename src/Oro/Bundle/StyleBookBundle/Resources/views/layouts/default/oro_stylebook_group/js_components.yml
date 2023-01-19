@@ -377,8 +377,7 @@ layout:
                     blockType: group_tabs
                     options:
                         tabs:
-                            - { anchor: 'viewport_manager-require', label: oro_stylebook.groups.jscomponent.tabs.howtouse.config, active: true, widget: 'style_book_grid_element_viewport_manager_require'}
-                            - { anchor: 'viewport_manager-js', label: oro_stylebook.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_viewport_manager_js'}
+                            - { anchor: 'viewport_manager-js', label: oro_stylebook.groups.jscomponent.tabs.howtouse.js, active: true, widget: 'style_book_grid_element_viewport_manager_js'}
 
                 # Lazy Init View
                 group_element_lazy_init:

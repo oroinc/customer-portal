@@ -5,14 +5,12 @@ define(function(require, exports, module) {
     const _ = require('underscore');
     const DatagridSettingsListView = require('orodatagrid/js/app/views/datagrid-settings-list/datagrid-settings-list-view');
     const FullScreenPopupView = require('orofrontend/default/js/app/views/fullscreen-popup-view');
-    const viewportManager = require('oroui/js/viewport-manager');
+    const viewportManager = require('oroui/js/viewport-manager').default;
     let config = require('module-config').default(module.id);
 
     config = _.extend({
         className: 'dropdown-menu',
-        viewport: {
-            maxScreenType: 'mobile-landscape'
-        },
+        viewport: 'mobile-landscape',
         popupOptions: {}
     }, config);
 

@@ -2,7 +2,7 @@ define(function(require) {
     'use strict';
 
     const BasePlugin = require('oroui/js/app/plugins/base/plugin');
-    const ViewportManager = require('oroui/js/viewport-manager');
+    const viewportManager = require('oroui/js/viewport-manager').default;
     const mediator = require('oroui/js/mediator');
     const _ = require('underscore');
     const $ = require('jquery');
@@ -80,9 +80,7 @@ define(function(require) {
          * Viewport manager options
          * @property {Object}
          */
-        viewport: {
-            maxScreenType: 'tablet'
-        },
+        viewport: 'tablet',
 
         /**
          * @property {Boolean}
@@ -116,24 +114,22 @@ define(function(require) {
                 ]
             ));
 
-            mediator.on('viewport:change', this.onViewportChange, this);
+            mediator.on(`viewport:${this.viewport}`, this.onViewportChange, this);
             return ElasticSwipeActions.__super__.initialize.call(this, grid, options);
         },
 
         /**
          * Is applicable viewport
-         *
-         * @param {Object} viewport
          */
-        isApplicable: function(viewport) {
-            return viewport.isApplicable(this.viewport);
+        isApplicable: function() {
+            return viewportManager.isApplicable(this.viewport);
         },
 
         /**
          * Enable swipe handler
          */
         enable: function() {
-            if (this.enabled || !this.isApplicable(ViewportManager.getViewport())) {
+            if (this.enabled || !this.isApplicable(this.viewport)) {
                 return;
             }
 
@@ -174,10 +170,10 @@ define(function(require) {
         /**
          * Listen responsive changes
          *
-         * @param {Object} viewport
+         * @param {MediaQueryListEvent} e
          */
-        onViewportChange: function(viewport) {
-            if (this.isApplicable(viewport)) {
+        onViewportChange: function(e) {
+            if (e.matches) {
                 this.enable();
             } else {
                 this.disable();

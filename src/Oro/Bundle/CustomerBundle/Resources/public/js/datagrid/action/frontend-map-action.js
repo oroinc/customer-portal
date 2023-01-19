@@ -2,7 +2,7 @@ define(function(require) {
     'use strict';
 
     const MapAction = require('oro/datagrid/action/map-action');
-    const ViewportManager = require('oroui/js/viewport-manager');
+    const viewportManager = require('oroui/js/viewport-manager').default;
     const Popover = require('bootstrap-popover');
     const FullscreenPopupView = require('orofrontend/default/js/app/views/fullscreen-popup-view');
     const template = require('tpl-loader!orocustomer/templates/datagrid/action/frontend-map-action.html');
@@ -18,9 +18,7 @@ define(function(require) {
         /**
          * @property {Object}
          */
-        viewport: {
-            maxScreenType: 'tablet-small'
-        },
+        viewport: 'tablet-small',
 
         /**
          * @inheritdoc
@@ -55,7 +53,7 @@ define(function(require) {
                 this.mapView.map.setCenter(this.mapView.location);
             }
 
-            if (ViewportManager.isApplicable(this.viewport)) {
+            if (viewportManager.isApplicable(this.viewport)) {
                 this.handleFullScreenView();
             } else {
                 this.handlePopover(this.getPopoverConfig());

@@ -26,9 +26,7 @@ define(function(require) {
             $element.removeData().attr('data-dom-relocation-options', JSON.stringify({
                 responsive: [
                     {
-                        viewport: {
-                            maxScreenType: 'desktop'
-                        },
+                        viewport: 'desktop',
                         moveTo: this.moved ? '.dom-relocation-point' : '.dom-relocation-target',
                         prepend: !this.moved ? this.options.prepend : false,
                         sibling: !this.moved ? this.options.sibling : '.sibling-1',
