@@ -8,9 +8,7 @@
             autoWidth: true,
             toggleClass: 'header-row--fixed slide-in-down',
             placeholderId: 'sticky-header-row',
-            viewport: {
-                maxScreenType: 'tablet',
-            },
+            viewport: 'tablet'
         },
         '~class': 'header-row' ~ (blocks.header_row.children|length > 2 ? ' header-row--from-left')
     }) %}
@@ -40,9 +38,7 @@
                 aria-label="{{ 'oro.commercemenu.menuupdate.menu.label'|trans }}"
                 data-page-component-module="oroui/js/app/components/viewport-component"
                 data-page-component-options="{{ {
-                    viewport: {
-                        maxScreenType: 'tablet'
-                    },
+                    viewport: 'tablet',
                     component: 'oroui/js/app/components/view-component',
                     view: 'orofrontend/default/js/app/views/fullscreen-popup-view',
                     contentElement: '[data-main-menu-extra-container]',
@@ -76,9 +72,7 @@
         'data-dom-relocation-options': {
             responsive: [
                 {
-                    viewport: {
-                        maxScreenType: 'tablet',
-                    },
+                    viewport: 'tablet',
                     moveTo: '[data-main-menu-extra-container]'
                 }
             ]

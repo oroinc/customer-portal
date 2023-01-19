@@ -160,7 +160,7 @@ const MenuTravelingView = BaseView.extend({
     },
 
     onTriggerNextClick(event) {
-        if (!this.options.hoverPriority || viewportManager.isApplicable({maxScreenType: 'tablet'})) {
+        if (!this.options.hoverPriority || viewportManager.isApplicable('tablet')) {
             this.goToNextSection(event);
         }
     },
@@ -206,7 +206,7 @@ const MenuTravelingView = BaseView.extend({
             return;
         }
 
-        if (!this.options.hoverPriority || viewportManager.isApplicable({maxScreenType: 'tablet'})) {
+        if (!this.options.hoverPriority || viewportManager.isApplicable('tablet')) {
             return;
         }
 
@@ -226,7 +226,7 @@ const MenuTravelingView = BaseView.extend({
     },
 
     onMenuBarMouseLeave(event) {
-        if (!this.options.hoverPriority || viewportManager.isApplicable({maxScreenType: 'tablet'})) {
+        if (!this.options.hoverPriority || viewportManager.isApplicable('tablet')) {
             return;
         }
 
@@ -253,7 +253,7 @@ const MenuTravelingView = BaseView.extend({
     },
 
     goToNextRoot(event) {
-        if (!viewportManager.isApplicable({maxScreenType: 'tablet'})) {
+        if (!viewportManager.isApplicable('tablet')) {
             const item = event.currentTarget.closest(this.options.itemSelector);
             const offset = this._getItemOffset(item);
 
@@ -261,7 +261,7 @@ const MenuTravelingView = BaseView.extend({
             item.style.setProperty('--main-menu-offset-width', `${item.offsetWidth}px`);
         }
 
-        if (viewportManager.isApplicable({maxScreenType: 'mobile-big'})) {
+        if (viewportManager.isApplicable('mobile-big')) {
             this.goToNextDefault(event);
         } else {
             const currentItem = event.currentTarget.closest(this.options.itemSelector);
@@ -329,7 +329,7 @@ const MenuTravelingView = BaseView.extend({
      * Handler of the prev trigger
      */
     goToPrevSection() {
-        if (!viewportManager.isApplicable({maxScreenType: 'mobile-big'})) {
+        if (!viewportManager.isApplicable('mobile-big')) {
             this.currentItem = this.currentItem.closest(this.options.rootItemSelector);
         }
 

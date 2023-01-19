@@ -655,9 +655,7 @@
 <div class="grid">
     <div class="grid-col-6">
         {% set collapseButtonBeforeOptions = {
-            viewport: {
-                maxScreenType: 'tablet',
-            },
+            viewport: 'tablet',
             view: 'orofrontend/default/js/app/views/collapse-view',
             toggleAttrs: {
                 'class': 'btn btn--link btn--size-s btn--no-x-offset',
@@ -682,9 +680,7 @@
     </div>
     <div class="grid-col-6">
         {% set collapseButtonAfterOptions = {
-            viewport: {
-                maxScreenType: 'tablet',
-            },
+            viewport: 'tablet',
             view: 'orofrontend/default/js/app/views/collapse-view',
             triggerIsFirst: false,
             triggerIconIsFirst: false,
@@ -1482,9 +1478,7 @@
             'data-dom-relocation-options': {
                 responsive: [
                     {
-                        viewport: {
-                            maxScreenType: 'tablet',
-                        },
+                        viewport: 'tablet',
                         moveTo: '[data-target-container]',
                         sibling: '[data-target-container]',
                         prepend: true,
@@ -1494,7 +1488,7 @@
             }
         }) %}
 
-        <div class="some-element" data-dom-relocation-options='{"responsive":[{"viewport":{"maxScreenType":"tablet"},"moveTo":"[data-target-container]", "sibling": "[data-target-container] > div:eq(1)"}]}'>Some content...</div>
+        <div class="some-element" data-dom-relocation-options='{"responsive":[{"viewport":{"mediaType":"tablet"},"moveTo":"[data-target-container]", "sibling": "[data-target-container] > div:eq(1)"}]}'>Some content...</div>
 
         <!-- Define target element -->
 
@@ -2080,105 +2074,86 @@
     </div>
 {% endblock %}
 
-{% block _style_book_grid_element_viewport_manager_require_widget %}
-    {% set source_code %}
-        {% import '@OroAsset/Asset.html.twig' as Asset %}
-        {{ Asset.js_modules_config({
-            'oroui/js/viewport-manager': {
-                screenMap: [
-                    {
-                        name: 'desktop',
-                        min: 1100
-                    },
-                    {
-                        name: 'tablet',
-                        max: 1099
-                    },
-                    {
-                        name: 'strict-tablet',
-                        max: 1099,
-                        min: 993
-                    },
-                    {
-                        name: 'tablet-small',
-                        max: 992
-                    },
-                    {
-                        name: 'strict-tablet-small',
-                        max: 992,
-                        min: 641
-                    },
-                    {
-                        name: 'mobile-big',
-                        max: 767
-                    },
-                    {
-                        name: 'strict-mobile-big',
-                        max: 767,
-                        min: 641,
-                    },
-                    {
-                        name: 'mobile-landscape',
-                        max: 640
-                    },
-                    {
-                        name: 'strict-mobile-landscape',
-                        max: 640,
-                        min: 415
-                    },
-                    {
-                        name: 'mobile',
-                        max: 414
-                    }
-                ]
-            }
-        }) }}
-    {% endset %}
-
-    <div {{ block('block_attributes') }}>
-        <div class="style-book-group-element__source">
-            <pre>
-                <code class="style-book-group-element__code language-html">
-                    {{ source_code|trim|escape }}
-                </code>
-            </pre>
-        </div>
-    </div>
-{% endblock %}
-
 {% block _style_book_grid_element_viewport_manager_js_widget %}
     {% set source_code %}
-        <script>
-        define(function(require) {
-            'use strict';
+        <script type="module">
+        import BaseView from 'oroui/js/app/views/base/view';
+        import viewportManager from 'oroui/js/viewport-manager';
 
-            var SomeExampleView;
-            var BaseView = require('oroui/js/app/views/base/view');
-            var viewportManager = require('oroui/js/viewport-manager');
+        const SomeExampleView = BaseView.extend({
+            viewport: 'tablet',
 
-            SomeExampleView = BaseView.extend({
-                viewport: null,
+            listen: {
+                // Subscribe to the change event of all registered MediaQueryList
+                'viewport:change mediator': 'onViewportChange',
+                // Subscribing to the change event of a specific registered MediaQueryList
+                'viewport:tablet mediator': 'onViewportTabletChange'
+            },
 
-                initialize: function(options) {
-                    SomeExampleView.__super__.initialize.apply(this, arguments);
+            initialize(options) {
+                SomeExampleView.__super__.initialize.apply(this, arguments);
+            },
 
-                    this.viewport = viewportManager.getViewport();
-                },
-
-                render: function() {
-                    // Call somewhere if need check responsive rules
-                    if (this.viewport.isApplicable({ maxScreenType: 'tablet' })) {
-                        // Do something
-                    }
-
-                    if (this.viewport.isApplicable({ minScreenType: 'mobile' })) {
-                        // Do something
-                    }
+            render() {
+                // Call somewhere if need check responsive rules
+                if (viewportManager.isApplicable(this.viewport)) {
+                    // Do something
                 }
-            });
 
-            return SomeExampleView;
+                if (viewportManager.isApplicable('mobile')) {
+                    // Do something
+                }
+            },
+
+            /**
+             * Listen responsive changes
+             *
+             * @param {MediaQueryListEvent} event
+             */
+            onViewportChange(event) {
+                // `mediaType`: Contains the name of the changed MediaQueryList
+                // `event`: Contains the changed MediaQueryListEvent
+                const {mediaType} = event.target;
+
+                switch (mediaType) {
+                    case 'desktop':
+                        // Do something if it is `desktop` view
+                        if (event.matches) {
+                            // Do somethig
+                        } else {
+                            // Do something else
+                        }
+                        break;
+                    case 'tablet':
+                        // Do something if it is `tablet` view
+                        if (event.matches) {
+                            // Do somethig
+                        } else {
+                            // Do something else
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            },
+
+            /**
+             * Listen responsive changes
+             *
+             * @param {MediaQueryListEvent} event
+             */
+            onViewportTabletChange(event) {
+                // `event`: Contains the changed MediaQueryListEvent
+
+                if (event.matches) {
+                    // Do somethig
+                } else {
+                    // Do something else
+                }
+            }
         });
+
+        export default SomeExampleView;
         </script>
     {% endset %}
 
@@ -2415,9 +2390,7 @@
     {% set source_code %}
         {% set zoomOptions = "
         {% set options = layout_attr_defaults(attr, {
-            viewport: {
-                minScreenType: 'desktop'
-            },
+            viewport: 'desktop',
             widgetModule: 'oroproduct/js/widget/zoom-widget',
         })%}
         "|raw %}
