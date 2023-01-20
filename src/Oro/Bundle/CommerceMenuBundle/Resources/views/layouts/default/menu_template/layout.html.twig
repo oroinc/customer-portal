@@ -128,7 +128,7 @@
         'role': 'menuitem'
     }) %}
 
-    {% if linkEnable %}
+    {% if linkEnable or menu_item.children is empty %}
     <a {{ block('block_attributes') }}>
         {%- if simpleMode -%}
             {{- block('_menu_item_text') -}}
