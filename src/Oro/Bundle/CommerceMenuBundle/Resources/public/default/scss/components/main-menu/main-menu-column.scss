@@ -83,6 +83,10 @@
     &__item &__link {
         color: $main-menu-column-link-color;
     }
+
+    &__image-link {
+        display: $main-menu-column-image-link-display;
+    }
 }
 
 @include breakpoint('desktop') {
