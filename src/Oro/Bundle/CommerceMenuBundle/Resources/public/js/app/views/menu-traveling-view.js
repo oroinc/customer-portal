@@ -253,14 +253,6 @@ const MenuTravelingView = BaseView.extend({
     },
 
     goToNextRoot(event) {
-        if (!viewportManager.isApplicable('tablet')) {
-            const item = event.currentTarget.closest(this.options.itemSelector);
-            const offset = this._getItemOffset(item);
-
-            item.style.setProperty('--main-menu-offset-start', `${offset}px`);
-            item.style.setProperty('--main-menu-offset-width', `${item.offsetWidth}px`);
-        }
-
         if (viewportManager.isApplicable('mobile-big')) {
             this.goToNextDefault(event);
         } else {
@@ -381,6 +373,15 @@ const MenuTravelingView = BaseView.extend({
 
         this.el.style.setProperty('--main-menu-offset-top', `${offsetTop}px`);
         this.el.style.setProperty('--main-menu-offset-bottom', `${offsetBottom}px`);
+
+        if (!viewportManager.isApplicable('tablet')) {
+            this.el.querySelectorAll(`${this.options.rootItemSelector}`).forEach(item => {
+                const offset = this._getItemOffset(item);
+
+                item.style.setProperty('--main-menu-offset-start', `${offset}px`);
+                item.style.setProperty('--main-menu-offset-width', `${item.offsetWidth}px`);
+            });
+        }
     },
 
     onViewportChange() {

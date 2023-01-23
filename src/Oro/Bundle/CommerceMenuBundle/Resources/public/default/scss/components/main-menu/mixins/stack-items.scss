@@ -24,7 +24,6 @@
         &:not(:only-child) {
             @include fa-icon($main-menu-multi-actions-has-sublist-icon, after, true, true) {
                 font-size: $main-menu-multi-actions-has-sublist-font-size;
-                border-inline-start: $main-menu-multi-actions-has-sublist-border-inline-start;
                 display: $main-menu-multi-actions-has-sublist-display;
                 align-items: $main-menu-multi-actions-has-sublist-align-items;
                 justify-content: $main-menu-multi-actions-has-sublist-justify-content;
