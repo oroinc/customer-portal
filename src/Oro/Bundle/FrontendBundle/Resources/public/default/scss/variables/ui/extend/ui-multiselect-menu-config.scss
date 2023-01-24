@@ -1,4 +1,5 @@
 /* @theme: default; */
+@use 'sass:color';
 
 $ui-multiselect-menu-min-width: 200px !default;
 $ui-multiselect-menu-bg: get-color('additional', 'ultra');
@@ -11,5 +12,5 @@ $ui-multiselect-menu-header-input-offset-inner: $offset-y-m 9px !default;
 $ui-multiselect-menu-header-input-line-height: 1 !default;
 $ui-multiselect-menu-header-input-border-color-hover: get-color('ui', 'normal') !default;
 $ui-multiselect-menu-header-input-box-shadow-hover: inset
-    0 1px 1px transparentize(get-color('additional', 'ultra'), .75),
-    0 0 8px transparentize(get-color('ui', 'focus'), .6) !default;
+    0 1px 1px color.scale(get-color('additional', 'ultra'), $alpha: -75%),
+    0 0 8px color.scale(get-color('ui', 'focus'), $alpha: -60%) !default;

@@ -1,6 +1,8 @@
 /* @theme: default; */
 
-$role-capability-select-al-disabled-color: transparentize(get-color('additional', 'middle'), .14) !default;
+@use 'sass:color';
+
+$role-capability-select-al-disabled-color: color.scale(get-color('additional', 'middle'), $alpha: -14%) !default;
 
 $role-capability-select-al-label-changed-background-color: get-color('additional', 'base') !default;
 $role-capability-select-al-label-changed-box-shadow: 0 0 0 3px get-color('additional', 'base') !default;

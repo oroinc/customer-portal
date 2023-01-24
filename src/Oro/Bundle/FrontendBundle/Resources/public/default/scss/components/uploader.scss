@@ -28,7 +28,7 @@
     }
 
     .filename {
-        @extend .input;
+        @include base-input;
 
         border-top-left-radius: $uploader-filename-border-top-left-radius;
         border-bottom-left-radius: $uploader-filename-border-bottom-left-radius;
@@ -41,7 +41,7 @@
     }
 
     .action {
-        @extend .btn;
+        @extend %base-button;
 
         border-top-right-radius: $uploader-action-border-top-right-radius;
         border-bottom-right-radius: $uploader-action-border-bottom-right-radius;

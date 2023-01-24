@@ -76,7 +76,7 @@
 
 .loader-in-process {
     .fa--loader-icon {
-        @extend .fa-spinner;
-        @extend .fa-spin;
+        @extend %fa-spinner;
+        @extend %fa-spin;
     }
 }

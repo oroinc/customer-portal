@@ -128,7 +128,8 @@
         border-radius: $datagrid-manager-dropdown-menu-border-radius;
         color: $datagrid-manager-dropdown-menu-color;
 
-        @extend .dropdown-menu-right;
+        right: 0;
+        left: auto;
 
         /* rtl:raw:
         right: auto;

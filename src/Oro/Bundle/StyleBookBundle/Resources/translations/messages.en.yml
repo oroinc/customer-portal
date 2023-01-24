@@ -92,20 +92,6 @@ oro_stylebook:
                 success:
                     title: Success
                     description: '<strong>Success</strong>'
-            callout_info:
-                title: Inline Сallout Information
-                info:
-                    title: Info
-                    description: 'The following code samples may be used to display information in the callout panel <br><br><strong>Information Callout</strong>'
-                success:
-                    title: Success
-                    description: '<strong>Success Callout</strong>'
-                warning:
-                    title: Warning
-                    description: '<strong>Warning Callout</strong>'
-                danger:
-                    title: Danger
-                    description: '<strong>Danger Callout</strong>'
 
         jscomponent:
             title: 'JS Components'

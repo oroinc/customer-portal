@@ -1,6 +1,7 @@
 /* @theme: default; */
 
 @use 'sass:map';
+@use 'sass:color';
 
 %base-button {
     display: $btn-display;
@@ -307,6 +308,6 @@ input[type='button'] {
 
     &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active {
-        color: color-yiq(darken(map.get($btn-theme-default, 'background'), 8%));
+        color: color-yiq(color.adjust(map.get($btn-theme-default, 'background'), $lightness: -8%));
     }
 }

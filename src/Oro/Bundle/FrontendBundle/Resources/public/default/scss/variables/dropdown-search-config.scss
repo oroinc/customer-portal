@@ -9,7 +9,7 @@ $dropdown-search-input-offset: 30px !default;
 $dropdown-search-item-container-height: 300px !default;
 $dropdown-search-item-container-offset: $offset-x-s !default;
 
-$dropdown-search-item-container-item-offset: $dropdown-search-item-container-offset +  28px !default;
+$dropdown-search-item-container-item-offset: $dropdown-search-item-container-offset + 28px !default;
 $dropdown-search-item-container-item-content-offset: $offset-y-s !default;
 $dropdown-search-item-container-item-color: get-color('additional', 'middle') !default;
 $dropdown-search-item-container-item-font-size: $base-font-size--xs !default;
