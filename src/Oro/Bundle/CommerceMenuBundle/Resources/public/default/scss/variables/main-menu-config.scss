@@ -38,7 +38,7 @@ $main-menu-back-trigger-padding: 7px 0 !default;
 $main-menu-back-trigger-border: none !default;
 $main-menu-back-trigger-border-radius: 0 !default;
 $main-menu-back-trigger-background-color: get-color('additional', 'ultra') !default;
-$main-menu-back-trigger-color: lighten(get-color('additional', 'dark'), 41%) !default;
+$main-menu-back-trigger-color: color.adjust(get-color('additional', 'dark'), $lightness: 41%) !default;
 $main-menu-back-trigger-appearance: true !default;
 
 $main-menu-back-trigger-fullscreen-position: absolute !default;
