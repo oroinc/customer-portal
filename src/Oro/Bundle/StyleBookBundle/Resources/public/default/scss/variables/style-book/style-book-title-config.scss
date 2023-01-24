@@ -1,7 +1,9 @@
 /* @theme: default; */
 
+@use 'sass:color';
+
 $style-book-title-offset: 0 0 10px !default;
 $style-book-title-inner-offset: 8px 5px 5px 10px !default;
 $style-book-title-font-size: 18px !default;
-$style-book-title-b-color: lighten(get-color('additional', 'base'), 2%) !default;
+$style-book-title-b-color: color.adjust(get-color('additional', 'base'), $lightness: 2%) !default;
 $style-book-title-border-bottom: 1px solid get-color('additional', 'light') !default;

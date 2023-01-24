@@ -6,12 +6,12 @@
 // Set theme fonts
 @include use-font-face($theme-fonts);
 
-// Generate classes for media queries
 $css-breakpoints: null;
 
 @each $key, $value in $breakpoints {
     $css-breakpoints: list.append($css-breakpoints, '"#{$key}":"#{$value}"', $separator: comma);
 
+    // Generate classes for media queries
     @include breakpoint($key) {
         // Create classes:
         // .hide-on-desktop

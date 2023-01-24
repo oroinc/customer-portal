@@ -1,7 +1,6 @@
 /* @theme: default; */
 
-h1,
-.h1 {
+%base-h1 {
     font-size: $headline1-font-size;
     font-family: $headline1-font-family;
     font-weight: $headline1-font-weight;
@@ -14,8 +13,7 @@ h1,
     }
 }
 
-h2,
-.h2 {
+%base-h2 {
     font-size: $headline2-font-size;
     font-family: $headline2-font-family;
     font-weight: $headline2-font-weight;
@@ -28,8 +26,7 @@ h2,
     }
 }
 
-h3,
-.h3 {
+%base-h3 {
     font-size: $headline3-font-size;
     font-family: $headline3-font-family;
     font-weight: $headline3-font-weight;
@@ -42,8 +39,7 @@ h3,
     }
 }
 
-h4,
-.h4 {
+%base-h4 {
     font-size: $headline4-font-size;
     font-family: $headline4-font-family;
     font-weight: $headline4-font-weight;
@@ -56,8 +52,7 @@ h4,
     }
 }
 
-h5,
-.h5 {
+%base-h5 {
     font-size: $headline5-font-size;
     font-family: $headline5-font-family;
     font-weight: $headline5-font-weight;
@@ -70,8 +65,7 @@ h5,
     }
 }
 
-h6,
-.h6 {
+%base-h6 {
     font-size: $headline6-font-size;
     font-family: $headline6-font-family;
     font-weight: $headline6-font-weight;
@@ -82,4 +76,34 @@ h6,
     &.heading-bottom-offset {
         margin-bottom: $headline6-bottom-offset;
     }
+}
+
+h1,
+.h1 {
+    @extend %base-h1;
+}
+
+h2,
+.h2 {
+    @extend %base-h2;
+}
+
+h3,
+.h3 {
+    @extend %base-h3;
+}
+
+h4,
+.h4 {
+    @extend %base-h4;
+}
+
+h5,
+.h5 {
+    @extend %base-h5;
+}
+
+h6,
+.h6 {
+    @extend %base-h6;
 }

@@ -1,5 +1,8 @@
 /* @theme: default; */
+@use 'sass:selector';
 
+// More about placeholders https://github.com/sass/sass/issues/2808#issuecomment-574413393
+%base-notification-flash,
 .notification-flash {
     margin: 0;
     padding: $notification-flash-inner-offset;
@@ -15,7 +18,7 @@
         margin: $notification-flash-offset;
     }
 
-    &__badge {
+    @at-root #{selector.append(&, '__badge')} {
         position: relative;
         width: $notification-flash-badge-size;
         height: $notification-flash-badge-size;
@@ -33,7 +36,7 @@
         }
     }
 
-    &__close {
+    @at-root #{selector.append(&, '__close')} {
         margin: $notification-flash-close-offset;
         padding: $notification-flash-close-inner-offset;
         flex: 0 0 auto;
@@ -50,19 +53,21 @@
         }
     }
 
-    &__text {
+    @at-root #{selector.append(&, '__text')} {
         padding: $notification-flash-text-offset;
         flex: 1 1 auto;
 
-        &--center {
+        @at-root #{selector.append(&, '__center')} {
             text-align: center;
         }
     }
+}
 
-    &--success,
-    &--info,
-    &--notice {
-        @extend .notification-flash;
+.notification {
+    &-flash--success,
+    &-flash--info,
+    &-flash--notice {
+        @extend %base-notification-flash;
 
         background: $notification-flash-success-background;
         color: $notification-flash-success-color;
@@ -76,11 +81,11 @@
         }
     }
 
-    &--warning,
-    &--warn,
-    &--process,
-    &--alert {
-        @extend .notification-flash;
+    &-flash--warning,
+    &-flash--warn,
+    &-flash--process,
+    &-flash--alert {
+        @extend %base-notification-flash;
 
         background: $notification-flash-warning-background;
         color: $notification-flash-warning-color;
@@ -94,8 +99,8 @@
         }
     }
 
-    &--error {
-        @extend .notification-flash;
+    &-flash--error {
+        @extend %base-notification-flash;
 
         background: $notification-flash-error-background;
         color: $notification-flash-error-color;

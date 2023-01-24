@@ -7,9 +7,9 @@ $filter-toggle-mode-filter-item-padding: $offset-y-m 0 !default;
 $filter-toggle-mode-filter-item-border-bottom: 1px solid get-color('additional', 'light') !default;
 
 $filter-toggle-mode-criteria-offset-top: -12px !default;
-$filter-toggle-mode-criteria-offset-left: 0 !important !default;
+$filter-toggle-mode-criteria-offset-left: 0 !default;
 $filter-toggle-mode-criteria-offset-inner: 12px 0 !default;
-$filter-toggle-mode-criteria-visibility: visible !important !default;
+$filter-toggle-mode-criteria-visibility: visible !default;
 $filter-toggle-mode-criteria-value-field-frame-width: 100% !default;
 
 $filter-toggle-mode-datagrid-manager-search-offset-top: 0 !default;

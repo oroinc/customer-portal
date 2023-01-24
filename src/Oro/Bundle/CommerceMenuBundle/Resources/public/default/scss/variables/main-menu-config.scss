@@ -1,5 +1,7 @@
 /* @theme: default; */
 
+@use 'sass:color';
+
 // Base styles
 $main-menu-display: flex !default;
 $main-menu-flex-grow: 0 !default;
@@ -121,7 +123,7 @@ $main-menu-sublist-container-background: get-color('additional', 'ultra') !defau
 $main-menu-item-show-mobile-version-background: get-color('additional', 'base') !default;
 
 // Tablet styles
-$main-menu-tablet-border: 1px solid darken(get-color('additional', 'base'), 5%) !default;
+$main-menu-tablet-border: 1px solid color.adjust(get-color('additional', 'base'), $lightness: -5%) !default;
 
 $main-menu-actions-grid-template-columns: 16px auto 1fr 32px 32px !default;
 

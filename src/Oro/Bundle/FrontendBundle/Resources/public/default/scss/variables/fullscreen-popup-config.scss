@@ -1,5 +1,7 @@
 /* @theme: default; */
 
+@use 'sass:color';
+
 $fullscreen-popup-display: flex !default;
 $fullscreen-popup-flex-direction: column !default;
 $fullscreen-popup-position: fixed !default;
@@ -60,7 +62,7 @@ $fullscreen-popup-words-vertical-align: middle !default;
 
 $fullscreen-popup-badge-offset: 6px !default;
 $fullscreen-popup-badge-vertical-align: baseline !default;
-$fullscreen-popup-badge-bg: darken(get-color('additional', 'middle'), 33%) !default;
+$fullscreen-popup-badge-bg: color.adjust(get-color('additional', 'middle'), $lightness: -33%) !default;
 
 $fullscreen-popup-actions-wrapper-width: 100% !default;
 $fullscreen-popup-actions-wrapper-offset: 10px 5px !default;

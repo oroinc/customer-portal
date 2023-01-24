@@ -1,8 +1,10 @@
 /* @theme: default; */
 
+@use 'sass:color';
+
 $datagrid-manager-title-offset: $offset-y-m !default;
 $datagrid-manager-separator-inner-offset: 0 2px !default;
-$datagrid-manager-separator-color: darken(get-color('additional', 'light'), 12%) !default;
+$datagrid-manager-separator-color: color.adjust(get-color('additional', 'light'), $lightness: -12%) !default;
 $datagrid-manager-container-offset: 0 -#{$offset-y-s} !default;
 $datagrid-manager-container-inner-offset: $offset-y-s 0 !default;
 
@@ -23,7 +25,7 @@ $datagrid-manager-dropdown-menu-inner-offset: 16px !default;
 $datagrid-manager-dropdown-menu-border-radius: 0 !default;
 $datagrid-manager-dropdown-menu-color: get-color('additional', 'dark') !default;
 
-$datagrid-manager-disabled-color: darken(get-color('additional', 'middle'), 7%) !default;
+$datagrid-manager-disabled-color: color.adjust(get-color('additional', 'middle'), $lightness: -7%) !default;
 
 $datagrid-manager-no-columns-border: 1px solid get-color('additional', 'light') !default;
 
