@@ -55,6 +55,16 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->arrayNode('reset')
+                    ->addDefaultsIfNotSet()
+                    ->canBeUnset()
+                    ->children()
+                        // reset password token ttl, sec
+                        ->scalarNode('ttl')
+                            ->defaultValue(86400) // 24 hours
+                        ->end()
+                    ->end()
+                ->end()
                 ->arrayNode('visitor_session')
                     // More info about visitor cookie configuration can be found at
                     // https://doc.oroinc.com/backend/setup/post-install/cookies-configuration/#customer-visitor-cookie

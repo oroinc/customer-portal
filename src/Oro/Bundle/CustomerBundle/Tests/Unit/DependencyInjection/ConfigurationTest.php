@@ -25,7 +25,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
     {
         $configuration = new Configuration();
         $processor     = new Processor();
-        $this->assertEquals($expected, $processor->processConfiguration($configuration, $configs));
+        self::assertEquals($expected, $processor->processConfiguration($configuration, $configs));
     }
 
     /**
@@ -110,7 +110,8 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
                         'cookie_httponly' => true,
                         'cookie_samesite' => 'lax'
                     ],
-                    'login_sources' => []
+                    'login_sources' => [],
+                    'reset' => ['ttl' => 86400]
                 ]
             ]
         ];

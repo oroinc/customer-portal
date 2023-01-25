@@ -18,14 +18,9 @@
     {{ parent() }}
     <span class="page-title__status">
         {% if entity.enabled %}
-            {{ UI.badge('oro.customer.customeruser.profile.statuses.active'|trans, 'enabled') }}
+            {{ UI.badge('oro.customer.customeruser.profile.statuses.enabled'|trans, 'enabled') }}
         {% else %}
-            {{ UI.badge('oro.customer.customeruser.profile.statuses.inactive'|trans, 'disabled') }}
-        {% endif %}
-        {% if entity.confirmed %}
-            {{ UI.badge('oro.customer.customeruser.profile.statuses.confirmed'|trans, 'enabled') }}
-        {% else %}
-            {{ UI.badge('oro.customer.customeruser.profile.statuses.unconfirmed'|trans, 'disabled') }}
+            {{ UI.badge('oro.customer.customeruser.profile.statuses.disabled'|trans, 'disabled') }}
         {% endif %}
         {% placeholder view_page_title_status with {entity: entity} %}
     </span>

@@ -25,7 +25,7 @@ Feature: Create customer user address
     And I click on first customer in grid
     Then I should not see "Test billing address"
 
-    When I click "+ New Address"
+    When I click "New Address"
     And I fill form with:
       | Label           | Test billing address |
       | First name      | Test first name      |

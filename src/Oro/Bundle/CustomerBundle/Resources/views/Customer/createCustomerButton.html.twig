@@ -1,0 +1,17 @@
+{% import '@OroUI/macros.html.twig' as UI %}
+
+{{ UI.quickAccessButton({
+    'dataUrl': path('oro_customer_customer_create_for_customer_group', { group: entity.id }),
+    'title': 'oro.customer.customergroup.quick_access_button.create_customer.label'|trans,
+    'label': 'oro.customer.customergroup.quick_access_button.create_customer.label'|trans,
+    'iCss': 'fa-building',
+    'widget': {
+        'reload-grid-name': 'customer-group-customers-grid-view',
+        'options': {
+            'alias': 'oro_customer_customer_create_for_customer_group_dialog',
+            'dialogOptions': {
+                'title': 'oro.customer.customergroup.quick_access_button.create_customer.widget.title'|trans,
+            }
+        }
+    }
+}) }}
