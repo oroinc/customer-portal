@@ -24,7 +24,17 @@ The current file describes significant changes in the code that may affect the u
 ## 5.1.0 (UNRELEASED)
 
 ### Added
+
 #### CommerceMenuBundle
+* Added "synthetic" field to `\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate`.
+* Added "maxTraverseLevel" field for `\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate` to store the max depth for the content node or category menu items tree.
+* Added "menuTemplate" field for `\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate` to store the menu template name to use for when rendering a menu item.
+* Added "maxTraverseLevel" field for `\Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType` form. 
+* Added "menuTemplate" field for `\Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType` form.
+* Added the menu builder `\Oro\Bundle\CommerceMenuBundle\Builder\CategoryTreeBuilder` to add the ability to fill the menu items of "Category" target type with their children as per `\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate::$maxTraverseLevel` depth.
+* Added the menu builder `\Oro\Bundle\CommerceMenuBundle\Builder\ContentNodeTreeBuilder` to add the ability to fill the menu items of "Content Node" target type with their children as per `\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate::$maxTraverseLevel` depth.
+* Added "menu_templates" theme configuration allowing to specify menu templates available for storefront menu items rendering.
+* Added `\Oro\Bundle\CommerceMenuBundle\Layout\MenuItemRenderer` to render menu item with specified menu template.
 * Added the following block types with options:
   - `menu_list`: Container for rendering menu list
     + `layoutType`: **{default: null}** - Allows you to set a layout modifier. Requires a `class_prefix` value to be set
@@ -51,12 +61,18 @@ The current file describes significant changes in the code that may affect the u
   - `mega`: Multi-level menu with the ability to transition between levels with a slide effect on mobile devices, also a responsive view for desktop devices
 
 ### Changed
+
 #### CommerceMenuBundle
 * `orocommercemenu/js/app/widgets/menu-traveling-widget` was moved to `orocommercemenu/js/app/views/menu-traveling-view`; Now extends `BaseView` instead of `AbstractWidget`
 * Updated block type `menu`:
   - Parent layout was changed from `oro_layout.block_type.abstract_configurable` to `oro_layout.block_type.abstract_configurable_container`
   - Added new option:
     + `customItemBlock`: **{default: null}** - Provides the ability to use a custom menu item template.
+
+### Removed
+
+#### CommerceMenuBundle
+* Removed `\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate::getExtras`, its purpose is moved to `\Oro\Bundle\CommerceMenuBundle\MenuUpdate\Propagator\ToMenuItem\ExtrasPropagator`.
 
 
 ## 5.1.0-beta.2 (2022-11-30)

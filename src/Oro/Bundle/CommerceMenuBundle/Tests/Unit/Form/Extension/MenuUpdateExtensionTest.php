@@ -573,4 +573,16 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
 
         return $configProvider;
     }
+
+    public function testBuildFormWhenIsSystemAndEmptyUri(): void
+    {
+        $menuUpdate = new MenuUpdateStub();
+        $menuUpdate->setCustom(false);
+        $menu = $this->createItem('sample_menu');
+
+        $form = $this->factory->create(MenuUpdateTypeStub::class, $menuUpdate, ['menu' => $menu]);
+
+        self::assertEquals(MenuUpdate::TARGET_URI, $form->get('targetType')->getData());
+        self::assertTrue($form->get('targetType')->isDisabled());
+    }
 }

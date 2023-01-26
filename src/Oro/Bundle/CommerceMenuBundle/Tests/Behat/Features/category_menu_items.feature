@@ -27,15 +27,6 @@ Feature: Category Menu Items
     Given I proceed as the Admin
     And I click on "commerce_main_menu" in tree "Sidebar Menu Tree"
     When I click "Create Menu Item"
-    Then the "Target Type" field should be enabled
-    And the "Category" field should be enabled
-    And should see the following options for "Max Traverse Level" select:
-      | 0 |
-      | 1 |
-      | 2 |
-      | 3 |
-      | 4 |
-      | 5 |
     And should see the following options for "Menu Template" select:
       | Flat menu, up to 2 levels deep |
       | Tree, up to 3 levels deep      |

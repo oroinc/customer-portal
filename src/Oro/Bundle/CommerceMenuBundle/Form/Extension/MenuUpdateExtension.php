@@ -132,7 +132,7 @@ class MenuUpdateExtension extends AbstractTypeExtension
             [
                 'label' => 'oro.commercemenu.menuupdate.target_type.label',
                 'required' => true,
-                'data' => $menuUpdate->getTargetType(),
+                'data' => $menuUpdate->getTargetType() ?? MenuUpdate::TARGET_URI,
                 'mapped' => false,
                 'multiple' => false,
                 'choices' => [

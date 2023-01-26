@@ -24,6 +24,10 @@ Feature: Target Type Category
     When click view "commerce_main_menu" in grid
     And I click "Create Menu Item"
     Then the "Target Type" field should be enabled
+    When I fill "Commerce Menu Form" with:
+      | Title       | CategoryTarget      |
+      | Target Type | Category            |
+    And I click on "JS Tree item" with title "Category-1" in element "Menu Update Category Field"
     And should see the following options for "Max Traverse Level" select:
       | 0 |
       | 1 |
@@ -31,10 +35,6 @@ Feature: Target Type Category
       | 3 |
       | 4 |
       | 5 |
-    When I fill "Commerce Menu Form" with:
-      | Title       | CategoryTarget      |
-      | Target Type | Category            |
-    And I click on "JS Tree item" with title "Category-1" in element "Menu Update Category Field"
     And I save form
     Then I should see "Menu item saved successfully." flash message
 

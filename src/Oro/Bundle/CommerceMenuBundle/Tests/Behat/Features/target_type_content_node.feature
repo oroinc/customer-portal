@@ -19,6 +19,10 @@ Feature: Target Type Content Node
     And click view "commerce_main_menu" in grid
     And I click "Create Menu Item"
     Then the "Target Type" field should be enabled
+    When I fill "Commerce Menu Form" with:
+      | Title       | ContentNodeTarget   |
+      | Target Type | Content Node        |
+      | Web Catalog | Default Web Catalog |
     And the "Content Node" field should be enabled
     And should see the following options for "Max Traverse Level" select:
       | 0 |
@@ -27,10 +31,6 @@ Feature: Target Type Content Node
       | 3 |
       | 4 |
       | 5 |
-    When I fill "Commerce Menu Form" with:
-      | Title       | ContentNodeTarget   |
-      | Target Type | Content Node        |
-      | Web Catalog | Default Web Catalog |
     And I click on "JS Tree item" with title "Clearance" in element "Menu Update Content Node Field"
     And I should not see "Please choose a Web Catalog"
     And I save form
