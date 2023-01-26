@@ -774,7 +774,7 @@ services:
         class: Oro\Bundle\CustomerBundle\EventListener\RecordOwnerDataListener
         arguments:
             - '@oro_customer.security.customer_user_provider'
-            - '@oro_entity_config.provider.ownership'
+            - '@oro_entity_config.config_manager'
             - '@property_accessor'
         tags:
              - { name: doctrine.event_listener, event: prePersist }

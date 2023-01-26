@@ -7,98 +7,68 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;
-use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
- * Listener which automatically assign owner fields to new created instance of entity with enabled ownership policy.
+ * Sets storefront owner to new entity if this data was not set yet.
  */
 class RecordOwnerDataListener
 {
-    const OWNER_TYPE_USER = 'FRONTEND_USER';
-    const OWNER_TYPE_CUSTOMER = 'FRONTEND_CUSTOMER';
+    private const OWNER_TYPE_USER = 'FRONTEND_USER';
+    private const OWNER_TYPE_CUSTOMER = 'FRONTEND_CUSTOMER';
+    private const FRONTEND_OWNER_TYPE = 'frontend_owner_type';
+    private const FRONTEND_OWNER_FIELD_NAME = 'frontend_owner_field_name';
+    private const FRONTEND_CUSTOMER_FIELD_NAME = 'frontend_customer_field_name';
+    private const CONFIG_SCOPE = 'ownership';
 
-    /** @var CustomerUserProvider */
-    protected $customerUserProvider;
-
-    /** @var ConfigProvider */
-    protected $configProvider;
-
-    /** @var PropertyAccessor */
-    protected $propertyAccessor;
+    private CustomerUserProvider $customerUserProvider;
+    private ConfigManager $configManager;
+    private PropertyAccessorInterface $propertyAccessor;
 
     public function __construct(
         CustomerUserProvider $customerUserProvider,
-        ConfigProvider $configProvider,
-        PropertyAccessor $propertyAccessor
+        ConfigManager $configManager,
+        PropertyAccessorInterface $propertyAccessor
     ) {
         $this->customerUserProvider = $customerUserProvider;
-        $this->configProvider = $configProvider;
+        $this->configManager = $configManager;
         $this->propertyAccessor = $propertyAccessor;
     }
 
-    /**
-     * Handle prePersist.
-     *
-     * @throws \LogicException when getOwner method isn't implemented for entity with ownership type
-     */
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args): void
     {
         $user = $this->customerUserProvider->getLoggedUser();
-        if (!$user) {
+        if (null === $user) {
             return;
         }
 
-        $entity    = $args->getEntity();
+        $entity = $args->getEntity();
         $className = ClassUtils::getClass($entity);
-        if ($this->configProvider->hasConfig($className)) {
-            $config = $this->configProvider->getConfig($className);
-            $frontendOwnerType = $config->get('frontend_owner_type');
-            $ownerFieldName = $config->get('frontend_owner_field_name');
-            // set default owner for organization and user owning entities
-            if ($frontendOwnerType
-                && in_array($frontendOwnerType, [self::OWNER_TYPE_USER, self::OWNER_TYPE_CUSTOMER], true)
-                && !$this->propertyAccessor->getValue($entity, $ownerFieldName)
-            ) {
-                $this->setOwner($frontendOwnerType, $entity, $user, $ownerFieldName);
-
-                //set customer
-                $this->setDefaultCustomer($user, $config, $entity);
+        if ($this->configManager->hasConfig($className)) {
+            $config = $this->configManager->getEntityConfig(self::CONFIG_SCOPE, $className);
+            $ownerType = $config->get(self::FRONTEND_OWNER_TYPE);
+            if ($ownerType) {
+                $this->setOwner($entity, $ownerType, $config, $user);
             }
         }
     }
 
-    /**
-     * @param string $ownerType
-     * @param object $entity
-     * @param CustomerUser $user
-     * @param string $ownerFieldName
-     */
-    private function setOwner($ownerType, $entity, $user, $ownerFieldName)
+    private function setOwner(object $entity, string $ownerType, ConfigInterface $config, CustomerUser $user): void
     {
-        $owner = null;
-        if ($ownerType === self::OWNER_TYPE_USER) {
-            $owner = $user;
-        }
-        if ($ownerType === self::OWNER_TYPE_CUSTOMER) {
-            $owner = $user->getCustomer();
-        }
-        $this->propertyAccessor->setValue($entity, $ownerFieldName, $owner);
-    }
-
-    /**
-     * @param CustomerUser $user
-     * @param ConfigInterface $config
-     * @param object $entity
-     */
-    private function setDefaultCustomer(CustomerUser $user, ConfigInterface $config, $entity)
-    {
-        if ($user->getCustomer() && $config->has('frontend_customer_field_name')) {
-            $fieldName = $config->get('frontend_customer_field_name');
-
-            if (!$this->propertyAccessor->getValue($entity, $fieldName)) {
-                $this->propertyAccessor->setValue($entity, $fieldName, $user->getCustomer());
+        $ownerFieldName = $config->get(self::FRONTEND_OWNER_FIELD_NAME);
+        if (self::OWNER_TYPE_USER === $ownerType) {
+            if (null === $this->propertyAccessor->getValue($entity, $ownerFieldName)) {
+                $this->propertyAccessor->setValue($entity, $ownerFieldName, $user);
             }
+            $customerFieldName = $config->get(self::FRONTEND_CUSTOMER_FIELD_NAME);
+            if ($customerFieldName && null === $this->propertyAccessor->getValue($entity, $customerFieldName)) {
+                $this->propertyAccessor->setValue($entity, $customerFieldName, $user->getCustomer());
+            }
+        } elseif (self::OWNER_TYPE_CUSTOMER === $ownerType
+            && null === $this->propertyAccessor->getValue($entity, $ownerFieldName)
+        ) {
+            $this->propertyAccessor->setValue($entity, $ownerFieldName, $user->getCustomer());
         }
     }
 }
