@@ -14,7 +14,7 @@ use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;
 
 /**
- * Sets root content node to menu to add the 1st level content nodes from Web Catalog navigation root.
+ * Sets for the menu root the "content_node" extra option to Web Catalog navigation root content node.
  */
 class WebCatalogNavigationRootBuilder implements BuilderInterface, LoggerAwareInterface
 {
@@ -35,7 +35,7 @@ class WebCatalogNavigationRootBuilder implements BuilderInterface, LoggerAwareIn
     }
 
     /**
-     * Options to pass to the created content node tree items.
+     * Options to pass to the content node tree items.
      */
     public function setTreeItemOptions(array $treeItemOptions): void
     {

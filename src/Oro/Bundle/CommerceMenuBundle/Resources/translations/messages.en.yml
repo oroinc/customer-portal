@@ -63,6 +63,12 @@ oro:
             max_traverse_level:
                 label: "Max Traverse Level"
                 placeholder: "Max traverse level of the content node or category tree"
+
+        system_configuration:
+            fields:
+                main_navigation_menu:
+                    label: "Main Navigation Menu"
+
         multi:
             close:
                 aria_label: "Close the menu"

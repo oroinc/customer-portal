@@ -3,6 +3,8 @@
 namespace Oro\Bundle\CommerceMenuBundle\Builder;
 
 use Knp\Menu\ItemInterface;
+use Oro\Bundle\CommerceMenuBundle\DependencyInjection\Configuration;
+use Oro\Bundle\ConfigBundle\Config\ConfigManager as SystemConfigManager;
 use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
 use Oro\Bundle\NavigationBundle\Provider\MenuUpdateProvider;
 use Oro\Bundle\ScopeBundle\Entity\Scope;
@@ -10,8 +12,8 @@ use Oro\Bundle\WebCatalogBundle\Provider\WebCatalogProvider;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
- * Adds navigation root menu items from either web catalog or master catalog depending on whether web catalog
- * is enabled or not.
+ * Adds navigation root menu items to the configured main navigation menu from either web catalog or master catalog
+ * depending on whether web catalog is enabled or not.
  */
 class NavigationRootBuilder implements BuilderInterface
 {
@@ -21,24 +23,18 @@ class NavigationRootBuilder implements BuilderInterface
 
     private BuilderInterface $webCatalogNavigationRootBuilder;
 
-    private string $targetMenuName = '';
+    private SystemConfigManager $systemConfigManager;
 
     public function __construct(
         WebCatalogProvider $webCatalogProvider,
         BuilderInterface $masterCatalogNavigationRootBuilder,
-        BuilderInterface $webCatalogNavigationRootBuilder
+        BuilderInterface $webCatalogNavigationRootBuilder,
+        SystemConfigManager $systemConfigManager
     ) {
         $this->webCatalogProvider = $webCatalogProvider;
         $this->masterCatalogNavigationRootBuilder = $masterCatalogNavigationRootBuilder;
         $this->webCatalogNavigationRootBuilder = $webCatalogNavigationRootBuilder;
-    }
-
-    /**
-     * The name of menu to which the navigation root items should be added.
-     */
-    public function setTargetMenuName(string $targetMenuName): void
-    {
-        $this->targetMenuName = $targetMenuName;
+        $this->systemConfigManager = $systemConfigManager;
     }
 
     public function build(ItemInterface $menu, array $options = [], $alias = null): void
@@ -47,7 +43,9 @@ class NavigationRootBuilder implements BuilderInterface
             return;
         }
 
-        if ($menu->getName() !== $this->targetMenuName) {
+        $mainNavigationMenuName = $this->systemConfigManager
+            ->get(Configuration::getConfigKeyByName(Configuration::MAIN_NAVIGATION_MENU));
+        if ($menu->getName() !== $mainNavigationMenuName) {
             return;
         }
 

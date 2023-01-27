@@ -114,7 +114,10 @@ class ExtrasPropagatorTest extends \PHPUnit\Framework\TestCase
             ->setExtra(MenuUpdate::IMAGE, null)
             ->setExtra(MenuUpdate::SCREENS, [])
             ->setExtra(MenuUpdate::CONDITION, null)
-            ->setExtra(MenuUpdate::USER_AGENT_CONDITIONS, new ArrayCollection());
+            ->setExtra(MenuUpdate::USER_AGENT_CONDITIONS, new ArrayCollection())
+            ->setExtra(MenuUpdate::TARGET_CONTENT_NODE, null)
+            ->setExtra(MenuUpdate::TARGET_CATEGORY, null)
+            ->setExtra(MenuUpdate::SYSTEM_PAGE_ROUTE, null);
 
         $image = new File();
         $menuUserAgentCondition = $this->createMock(MenuUserAgentCondition::class);

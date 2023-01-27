@@ -10,7 +10,7 @@ use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
 use Oro\Bundle\NavigationBundle\Menu\ConfigurationBuilder;
 
 /**
- * Sets root category to menu to add the 1st level categories.
+ * Sets for the menu root the "category" extra option to Master Catalog root category.
  */
 class MasterCatalogNavigationRootBuilder implements BuilderInterface
 {
@@ -29,7 +29,7 @@ class MasterCatalogNavigationRootBuilder implements BuilderInterface
     }
 
     /**
-     * Options to pass to the created content node tree items.
+     * Options to pass to the category tree items.
      */
     public function setTreeItemOptions(array $treeItemOptions): void
     {

@@ -23,8 +23,9 @@ layout:
                 main_menu:
                     blockType: menu
                     options:
-                        item: '=data["menu"].getMenu("commerce_main_menu")'
+                        item: '=data["menu"].getMenu(data["system_config_provider"].getValue("oro_commerce_menu.main_navigation_menu"))'
                         depth: 1
+                        allow_safe_labels: true
             tree:
                 page_header:
                     header_row:

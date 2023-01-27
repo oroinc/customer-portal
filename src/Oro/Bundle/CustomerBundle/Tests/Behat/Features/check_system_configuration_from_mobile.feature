@@ -28,8 +28,8 @@ Feature: Check system configuration from mobile
     When I go to Customers/ Customers
     And I click Configuration AmandaRCole in grid
     Then I should not see "System configuration is not available in mobile version. Please open the page on the desktop."
-    And I should see "Product Data Export"
-    And I should see "Enable Product Grid Export"
+    And I should see "Routing"
+    And I should see "Main Navigation Menu"
 
     And I follow "Commerce/Product/Customer Settings" on configuration sidebar
     And I should see "Product Data Export"
@@ -39,8 +39,8 @@ Feature: Check system configuration from mobile
     When I go to Customers/ Customer Group
     And I click Configuration AmandaRCole in grid
     Then I should not see "System configuration is not available in mobile version. Please open the page on the desktop."
-    And I should see "Product Data Export"
-    And I should see "Enable Product Grid Export"
+    And I should see "Routing"
+    And I should see "Main Navigation Menu"
 
     And I follow "Commerce/Product/Customer Settings" on configuration sidebar
     And I should see "Product Data Export"

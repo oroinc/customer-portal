@@ -14,7 +14,7 @@ Feature: Web Catalog Menu Items
     And I login as administrator
     And I set "Default Web Catalog" as default web catalog
 
-  Scenario: Check that 1st level content nodes from Web Catalog appear in menu as 1st level menu items
+  Scenario: Check that 1st level content nodes from Web Catalog appear in menu as 1st level menu items by default
     Given I go to System/Frontend Menus
     When click view "commerce_main_menu" in grid
     Then "Commerce Menu Form" must contain values:

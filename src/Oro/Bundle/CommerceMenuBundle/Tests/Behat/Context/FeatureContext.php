@@ -40,6 +40,9 @@ class FeatureContext extends OroFeatureContext implements OroPageObjectAware
         $this->oroMainContext->selectOption('Target Type', 'Content Node');
         $this->waitForAjax();
 
+        $this->oroMainContext->fillField('Web Catalog', $webCatalogName);
+        $this->waitForAjax();
+
         // Clicks on the first node in tree.
         $this->oroMainContext->iClickOnNodeInTree('', 'Menu Update Content Node Field');
         $this->waitForAjax();

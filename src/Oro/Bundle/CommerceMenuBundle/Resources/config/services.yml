@@ -388,8 +388,7 @@ services:
             - '@oro_web_catalog.web_catalog_provider'
             - '@oro_commerce_menu.builder.navigation_root.master_catalog'
             - '@oro_commerce_menu.builder.navigation_root.web_catalog'
-        calls:
-            - ['setTargetMenuName', ['commerce_main_menu']]
+            - '@oro_config.manager'
         tags:
             # Should be located before menu update builders.
             - { name: oro_menu.builder, priority: 50 }

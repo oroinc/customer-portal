@@ -11,7 +11,7 @@ Feature: Master Catalog Menu Items
     And I proceed as the Admin
     And I login as administrator
 
-  Scenario: Check that 1st level categories from Master Catalog appear in menu as 1st level menu items
+  Scenario: Check that 1st level categories from Master Catalog appear in menu as 1st level menu items by default
     Given I go to System/Frontend Menus
     When I click view "commerce_main_menu" in grid
     Then "Commerce Menu Form" must contain values:
@@ -102,8 +102,8 @@ Feature: Master Catalog Menu Items
     And the "Category" field should be disabled
     And the "Max Traverse Level" field should be enabled
     And "Commerce Menu Form" must contain values:
-      | Target Type        | Category               |
-      | Max Traverse Level | 5                      |
+      | Target Type        | Category                       |
+      | Max Traverse Level | 5                              |
       | Menu Template      | Flat menu, up to 2 levels deep |
     And should see the following options for "Max Traverse Level" select:
       | 0 |

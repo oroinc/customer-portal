@@ -26,16 +26,19 @@ The current file describes significant changes in the code that may affect the u
 ### Added
 
 #### CommerceMenuBundle
-* Added "synthetic" field to `\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate`.
-* Added "maxTraverseLevel" field for `\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate` to store the max depth for the content node or category menu items tree.
-* Added "menuTemplate" field for `\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate` to store the menu template name to use for when rendering a menu item.
-* Added "maxTraverseLevel" field for `\Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType` form. 
-* Added "menuTemplate" field for `\Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType` form.
+* Added `oro_commerce_menu.main_navigation_menu` setting to the system configuration and the ability to change main navigation menu on the storefront as per this setting.
+* Added the ability to specify target type for root menu items via menu update form like for other menu items.
+* Added `synthetic` field to `\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate`.
+* Added `maxTraverseLevel` field for `\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate` to store the max depth for the content node or category menu items tree.
+* Added `menuTemplate` field for `\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate` to store the menu template name to use for when rendering a menu item.
+* Added `maxTraverseLevel` field to the form `\Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType`. 
+* Added `menuTemplate` field to the form `\Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType`.
 * Added the menu builder `\Oro\Bundle\CommerceMenuBundle\Builder\CategoryTreeBuilder` to add the ability to fill the menu items of "Category" target type with their children as per `\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate::$maxTraverseLevel` depth.
 * Added the menu builder `\Oro\Bundle\CommerceMenuBundle\Builder\ContentNodeTreeBuilder` to add the ability to fill the menu items of "Content Node" target type with their children as per `\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate::$maxTraverseLevel` depth.
-* Added "menu_templates" theme configuration allowing to specify menu templates available for storefront menu items rendering.
-* Added `\Oro\Bundle\CommerceMenuBundle\Layout\MenuItemRenderer` to render menu item with specified menu template.
-* Added the following block types with options:
+* Added `menu_templates` theme configuration allowing to specify menu templates available for storefront menu items rendering.
+* Added `\Oro\Bundle\CommerceMenuBundle\Provider\MenuTemplatesProvider` to collect available menu templates.
+* Added `\Oro\Bundle\CommerceMenuBundle\Layout\MenuItemRenderer` to render a menu item with the specified menu template using layouts.
+* Added the following layout block types with options:
   - `menu_list`: Container for rendering menu list
     + `layoutType`: **{default: null}** - Allows you to set a layout modifier. Requires a `class_prefix` value to be set
     + `tagName`: **{default: 'ul'}** - Specifies which html tag to use
@@ -55,7 +58,7 @@ The current file describes significant changes in the code that may affect the u
   - `menu_inner`: Menu item container for rendering next nested content
     + `layoutType`: **{default: null}** - Allows you to set a layout modifier. Requires a `class_prefix` value to be set
 * Added a `scss` mixin `main-menu-stack-items` that provides a basic `scss` structure for a stack of menu items
-* Added three different template variants for menu items:
+* Added three different menu templates for menu items:
   - `list`: Simple list of menu
   - `tree`: Multi-column menu
   - `mega`: Multi-level menu with the ability to transition between levels with a slide effect on mobile devices, also a responsive view for desktop devices
