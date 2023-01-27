@@ -13,7 +13,9 @@ oro:
             active.label: Active
             priority.label: Priority
             scope.label: Scope
-            image.label: Image
+            image:
+                label: Image
+                description: "The selected image may be used in certain storefront navigation menus if supported by the storefront theme."
             condition:
                 label: Condition
                 tooltip: |
@@ -48,13 +50,15 @@ oro:
             target_type:
                 label: "Target Type"
                 content_node: "Content Node"
+                category: "Category"
                 system_page: "System Page"
                 uri: "URI"
-                category: "Category"
+                none: "None"
             category:
                 label: "Category"
             menu_template:
                 label: "Menu Template"
+                description: "The selected menu template may be used in certain storefront navigation menus if supported by the storefront theme."
                 placeholder: "Choose a Menu Template"
             max_traverse_level:
                 label: "Max Traverse Level"

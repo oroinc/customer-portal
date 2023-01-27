@@ -20,7 +20,6 @@ use Oro\Bundle\NavigationBundle\Utils\MenuUpdateUtils;
 use Oro\Bundle\ScopeBundle\Entity\Scope;
 use Oro\Bundle\ScopeBundle\Manager\ScopeManager;
 use Oro\Bundle\SecurityBundle\Authentication\Token\UsernamePasswordOrganizationToken;
-use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
 use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -36,27 +35,22 @@ use Symfony\Component\Yaml\Yaml;
 abstract class AbstractMenuUpdateFixture extends AbstractFixture implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
-    use UserUtilityTrait;
 
-    protected static string $menuName = 'commerce_main_menu';
+    protected ?PropertyAccessorInterface $propertyAccessor = null;
 
-    private ?PropertyAccessorInterface $propertyAccessor = null;
+    protected ?TokenStorageInterface $tokenStorage = null;
 
-    private ?TokenStorageInterface $tokenStorage = null;
+    protected ?MenuProviderInterface $menuBuilder = null;
 
-    private ?MenuProviderInterface $menuBuilder = null;
+    protected ?MenuUpdateManager $menuUpdateManager = null;
 
-    private ?MenuUpdateManager $menuUpdateManager = null;
+    protected ?ScopeManager $scopeManager = null;
 
-    private ?ScopeManager $scopeManager = null;
+    protected ?FileLocatorInterface $fileLocator = null;
 
-    private ?FileLocatorInterface $fileLocator = null;
+    protected ?FileReflector $fileReflector = null;
 
-    private ?FileReflector $fileReflector = null;
-
-    private ?ItemInterface $menu = null;
-
-    abstract protected function getDataPath(): string;
+    protected ?ItemInterface $menu = null;
 
     public function setContainer(ContainerInterface $container = null): void
     {
@@ -75,8 +69,13 @@ abstract class AbstractMenuUpdateFixture extends AbstractFixture implements Cont
 
     public function load(ObjectManager $manager): void
     {
+        $user = $this->getFirstUser($manager);
+        if ($user === null) {
+            return;
+        }
+
         $previousToken = $this->tokenStorage->getToken();
-        $this->setSecurityContext($this->tokenStorage, $this->getFirstUser($manager));
+        $this->setSecurityContext($this->tokenStorage, $user);
 
         foreach ($this->getData() as $referenceKey => $menuUpdateData) {
             if (!isset($menuUpdateData['targetMenuItem'])) {
@@ -140,22 +139,19 @@ abstract class AbstractMenuUpdateFixture extends AbstractFixture implements Cont
             unset($data['targetMenuItem']);
         }
 
-        if (array_key_exists('image', $data)) {
-            if ($data['image'] instanceof DigitalAsset) {
-                $digitalAsset = $data['image'];
-                $data['image'] = new AttachmentFile();
-                $this->fileReflector->reflectFromDigitalAsset($data['image'], $digitalAsset);
-            } elseif ($data['image'] instanceof AttachmentFile) {
-                $sourceFile = $data['image'];
-                $data['image'] = new AttachmentFile();
-                $this->fileReflector->reflectFromFile($data['image'], $sourceFile);
-            }
-        }
+        $this->handleImage($data);
 
         $data['propagationStrategy'] = $data['propagationStrategy'] ??
             MenuItemToMenuUpdatePropagatorInterface::STRATEGY_BASIC;
 
-        return $this->menuUpdateManager->findOrCreateMenuUpdate($menu, $this->getScope(), $data);
+        $menuUpdate = $this->menuUpdateManager->findOrCreateMenuUpdate($menu, $this->getScope(), $data);
+        foreach ($data as $key => $value) {
+            if ($this->propertyAccessor->isWritable($menuUpdate, $key)) {
+                $this->propertyAccessor->setValue($menuUpdate, $key, $value);
+            }
+        }
+
+        return $menuUpdate;
     }
 
     protected function resolveReferences(array $data): array
@@ -172,6 +168,21 @@ abstract class AbstractMenuUpdateFixture extends AbstractFixture implements Cont
         }
 
         return $data;
+    }
+
+    protected function handleImage(array &$data): void
+    {
+        if (array_key_exists('image', $data)) {
+            if ($data['image'] instanceof DigitalAsset) {
+                $digitalAsset = $data['image'];
+                $data['image'] = new AttachmentFile();
+                $this->fileReflector->reflectFromDigitalAsset($data['image'], $digitalAsset);
+            } elseif ($data['image'] instanceof AttachmentFile) {
+                $sourceFile = $data['image'];
+                $data['image'] = new AttachmentFile();
+                $this->fileReflector->reflectFromFile($data['image'], $sourceFile);
+            }
+        }
     }
 
     protected function getMenuItemName(ItemInterface $menu, array $searchBy): string
@@ -215,7 +226,7 @@ abstract class AbstractMenuUpdateFixture extends AbstractFixture implements Cont
     {
         if ($this->menu === null) {
             $this->menu = $this->menuBuilder->get(
-                self::$menuName,
+                $this->getMenuName(),
                 [
                     BuilderChainProvider::IGNORE_CACHE_OPTION => true,
                     MenuUpdateProvider::SCOPE_CONTEXT_OPTION => $this->getScope(),
@@ -226,17 +237,14 @@ abstract class AbstractMenuUpdateFixture extends AbstractFixture implements Cont
         return $this->menu;
     }
 
+    protected function getMenuName(): string
+    {
+        return 'commerce_main_menu';
+    }
+
     protected function getScope(): Scope
     {
         return $this->scopeManager->findOrCreate('menu_frontend_visibility', []);
-    }
-
-    protected function getData(): array
-    {
-        $fileName = $this->fileLocator->locate($this->getDataPath());
-        $fileName = str_replace('/', DIRECTORY_SEPARATOR, $fileName);
-
-        return Yaml::parse(file_get_contents($fileName));
     }
 
     protected function setSecurityContext(TokenStorageInterface $tokenStorage, User $user): void
@@ -250,5 +258,25 @@ abstract class AbstractMenuUpdateFixture extends AbstractFixture implements Cont
                 $user->getUserRoles()
             )
         );
+    }
+
+    protected function getData(): array
+    {
+        $fileName = $this->fileLocator->locate($this->getDataPath());
+        $fileName = str_replace('/', DIRECTORY_SEPARATOR, $fileName);
+
+        return Yaml::parse(file_get_contents($fileName));
+    }
+
+    protected function getDataPath(): string
+    {
+        throw new \LogicException('Not implemented');
+    }
+
+    protected function getFirstUser(ObjectManager $manager): ?User
+    {
+        $users = $manager->getRepository(User::class)->findBy([], ['id' => 'ASC'], 1);
+
+        return reset($users) ?: null;
     }
 }

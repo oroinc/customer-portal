@@ -40,17 +40,17 @@ class ExtrasPropagator implements MenuUpdateToMenuItemPropagatorInterface
         $menuItem->setExtra(MenuUpdate::CONDITION, $menuUpdate->getCondition());
         $menuItem->setExtra(MenuUpdate::USER_AGENT_CONDITIONS, $menuUpdate->getMenuUserAgentConditions());
 
-        if ($menuUpdate->getTargetType() === MenuUpdate::TARGET_CONTENT_NODE) {
+        if ($menuUpdate->getContentNode() !== null) {
             $menuItem->setExtra(MenuUpdate::TARGET_CONTENT_NODE, $menuUpdate->getContentNode());
             $menuItem->setExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, $menuUpdate->getMaxTraverseLevel());
         }
 
-        if ($menuUpdate->getTargetType() === MenuUpdate::TARGET_CATEGORY) {
+        if ($menuUpdate->getCategory() !== null) {
             $menuItem->setExtra(MenuUpdate::TARGET_CATEGORY, $menuUpdate->getCategory());
             $menuItem->setExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, $menuUpdate->getMaxTraverseLevel());
         }
 
-        if ($menuUpdate->getTargetType() === MenuUpdate::TARGET_SYSTEM_PAGE) {
+        if ($menuUpdate->getSystemPageRoute() !== null) {
             $menuItem->setExtra(MenuUpdate::SYSTEM_PAGE_ROUTE, $menuUpdate->getSystemPageRoute());
         }
 

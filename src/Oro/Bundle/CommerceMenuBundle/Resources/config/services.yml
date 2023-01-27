@@ -232,13 +232,24 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_menu.configure.application_menu, method: onNavigationConfigure }
 
-    oro_commerce_menu.form.extension.menu_update_type:
-        class: 'Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateExtension'
+    oro_commerce_menu.form.extension.menu_update_type.general:
+        class: 'Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateGeneralExtension'
         arguments:
-            - '@oro_web_catalog.web_catalog_provider'
             - '@oro_commerce_menu.provider.menu_templates_provider'
         tags:
-            - { name: form.type_extension, extended_type: 'Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType' }
+            - { name: form.type_extension }
+
+    oro_commerce_menu.form.extension.menu_update_type.conditions:
+        class: 'Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateConditionsExtension'
+        tags:
+            - { name: form.type_extension }
+
+    oro_commerce_menu.form.extension.menu_update_type.target_type:
+        class: 'Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateTargetTypeExtension'
+        arguments:
+            - '@oro_web_catalog.web_catalog_provider'
+        tags:
+            - { name: form.type_extension }
 
     oro_commerce_menu.scope_criteria_provider.website:
         parent: oro_website.website_scope_criteria_provider

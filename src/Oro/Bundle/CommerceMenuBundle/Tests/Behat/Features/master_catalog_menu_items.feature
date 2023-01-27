@@ -13,18 +13,21 @@ Feature: Master Catalog Menu Items
 
   Scenario: Check that 1st level categories from Master Catalog appear in menu as 1st level menu items
     Given I go to System/Frontend Menus
-    When click view "commerce_main_menu" in grid
-    Then I should see "Category-1" belongs to "commerce_main_menu" in tree
-    And I should see "Category-2" after "Category-1" in tree
-    And I should see "Category-3" after "Category-2" in tree
+    When I click view "commerce_main_menu" in grid
+    Then "Commerce Menu Form" must contain values:
+      | Target Type        | Category |
+      | Max Traverse Level | 6        |
+    And I should see "Category-1" belongs to "commerce_main_menu" in tree "Sidebar Menu Tree"
+    And I should see "Category-2" after "Category-1" in tree "Sidebar Menu Tree"
+    And I should see "Category-3" after "Category-2" in tree "Sidebar Menu Tree"
 
   Scenario: Check that category menu items contain sub category menu items
-    When I expand "Category-1" in tree
-    Then I should see "Category-1-1" belongs to "Category-1" in tree
-    When I expand "Category-1-1" in tree
-    Then I should see "Category-1-1-1" belongs to "Category-1-1" in tree
-    When I expand "Category-3" in tree
-    Then I should see "Category-3-1" belongs to "Category-3" in tree
+    When I expand "Category-1" in tree "Sidebar Menu Tree"
+    Then I should see "Category-1-1" belongs to "Category-1" in tree "Sidebar Menu Tree"
+    When I expand "Category-1-1" in tree "Sidebar Menu Tree"
+    Then I should see "Category-1-1-1" belongs to "Category-1-1" in tree "Sidebar Menu Tree"
+    When I expand "Category-3" in tree "Sidebar Menu Tree"
+    Then I should see "Category-3-1" belongs to "Category-3" in tree "Sidebar Menu Tree"
 
   Scenario: Check form fields state
     When I click on "Category-1" in tree "Sidebar Menu Tree"
@@ -42,10 +45,7 @@ Feature: Master Catalog Menu Items
       | 3 |
       | 4 |
       | 5 |
-    When I fill "Commerce Menu Form" with:
-      | Menu Template | Flat menu, up to 2 levels deep |
-    And I save form
-    And I click on "Category-1-1" in tree "Sidebar Menu Tree"
+    When I click on "Category-1-1" in tree "Sidebar Menu Tree"
     Then the "Target Type" field should be disabled
     And the "Category" field should be disabled
     And the "Max Traverse Level" field should be enabled
@@ -102,8 +102,8 @@ Feature: Master Catalog Menu Items
     And the "Category" field should be disabled
     And the "Max Traverse Level" field should be enabled
     And "Commerce Menu Form" must contain values:
-      | Target Type        | Category                       |
-      | Max Traverse Level | 5                              |
+      | Target Type        | Category               |
+      | Max Traverse Level | 5                      |
       | Menu Template      | Flat menu, up to 2 levels deep |
     And should see the following options for "Max Traverse Level" select:
       | 0 |

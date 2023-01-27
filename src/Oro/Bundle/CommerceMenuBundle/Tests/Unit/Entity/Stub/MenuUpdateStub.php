@@ -15,6 +15,15 @@ class MenuUpdateStub extends MenuUpdate
     /** @var Category|null */
     protected $category;
 
+    public function __construct(?int $id = null)
+    {
+        if ($id !== null) {
+            $this->id = $id;
+        }
+        
+        parent::__construct();
+    }
+
     /**
      * @return mixed
      */

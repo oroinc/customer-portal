@@ -9,7 +9,7 @@ define(function(require) {
             targetTypeField: null,
             contentNodeField: null,
             categoryField: null,
-            maxNestingLevelField: null,
+            maxTraverseLevelField: null,
             systemPageField: null,
             uriField: null
         },
@@ -84,6 +84,13 @@ define(function(require) {
                     this._getField(this.options.maxTraverseLevelField).hide();
                     this._getField(this.options.systemPageField).hide();
                     this._getField(this.options.uriField).show();
+                    break;
+                case 'none':
+                    this._getField(this.options.contentNodeField).hide();
+                    this._getField(this.options.categoryField).hide();
+                    this._getField(this.options.maxTraverseLevelField).hide();
+                    this._getField(this.options.systemPageField).hide();
+                    this._getField(this.options.uriField).hide();
                     break;
             }
         },

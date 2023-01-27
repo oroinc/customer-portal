@@ -17,16 +17,21 @@ Feature: Web Catalog Menu Items
   Scenario: Check that 1st level content nodes from Web Catalog appear in menu as 1st level menu items
     Given I go to System/Frontend Menus
     When click view "commerce_main_menu" in grid
-    Then I should see "Node-1" belongs to "commerce_main_menu" in tree
-    And I should not see "Category-1" belongs to "commerce_main_menu" in tree
+    Then "Commerce Menu Form" must contain values:
+      | Target Type        | Content Node |
+      | Max Traverse Level | 6            |
+    And I should see "Node-1" belongs to "commerce_main_menu" in tree "Sidebar Menu Tree"
+    And I should see "Node-2" after "Node-1" in tree "Sidebar Menu Tree"
+    And I should see "Node-3" after "Node-2" in tree "Sidebar Menu Tree"
+    And I should not see "Category-1" belongs to "commerce_main_menu" in tree "Sidebar Menu Tree"
 
   Scenario: Check that content node menu items contain sub content node menu items
-    When I expand "Node-1" in tree
-    Then I should see "Node-1-1" belongs to "Node-1" in tree
-    When I expand "Node-1-1" in tree
-    Then I should see "Node-1-1-1" belongs to "Node-1-1" in tree
-    When I expand "Node-3" in tree
-    Then I should see "Node-3-1" belongs to "Node-3" in tree
+    When I expand "Node-1" in tree "Sidebar Menu Tree"
+    Then I should see "Node-1-1" belongs to "Node-1" in tree "Sidebar Menu Tree"
+    When I expand "Node-1-1" in tree "Sidebar Menu Tree"
+    Then I should see "Node-1-1-1" belongs to "Node-1-1" in tree "Sidebar Menu Tree"
+    When I expand "Node-3" in tree "Sidebar Menu Tree"
+    Then I should see "Node-3-1" belongs to "Node-3" in tree "Sidebar Menu Tree"
 
   Scenario: Check form fields state
     When I click on "Node-1" in tree "Sidebar Menu Tree"
@@ -44,10 +49,7 @@ Feature: Web Catalog Menu Items
       | 3 |
       | 4 |
       | 5 |
-    And I fill "Commerce Menu Form" with:
-      | Menu Template | Flat menu, up to 2 levels deep |
-    And I save form
-    And I click on "Node-1-1" in tree "Sidebar Menu Tree"
+    When I click on "Node-1-1" in tree "Sidebar Menu Tree"
     Then the "Target Type" field should be disabled
     And the "Content Node" field should be disabled
     And the "Max Traverse Level" field should be enabled

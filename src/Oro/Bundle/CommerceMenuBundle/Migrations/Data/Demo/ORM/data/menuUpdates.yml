@@ -53,7 +53,7 @@ navigationRootNewArrivals:
     priority: 1
 
 navigationRootClearance:
-    custom: true
+    custom: false
     targetMenuItem:
         contentNode: '@navigation_root__clearance'
     contentNode: '@navigation_root__clearance'

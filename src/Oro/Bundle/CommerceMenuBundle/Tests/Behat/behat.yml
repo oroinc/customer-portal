@@ -122,6 +122,9 @@ oro_behat_extension:
     Sidebar Menu Tree:
       selector: 'div[data-role="sidebar-content"] div[data-role="jstree-wrapper"]'
 
+    Content Node Tree Field:
+      selector: 'div[data-role="content-node-field"] div[data-role="jstree-wrapper"]'
+
   pages:
     Frontend Menus:
       class: Oro\Bundle\CommerceMenuBundle\Tests\Behat\Page\FrontendMenus
@@ -148,5 +151,6 @@ oro_behat_extension:
         - Oro\Bundle\FrontendBundle\Tests\Behat\Context\FrontendMenuContext
         - Oro\Bundle\NavigationBundle\Tests\Behat\Context\ScrollspyContext
         - Oro\Bundle\NavigationBundle\Tests\Behat\Context\TabContext
+        - Oro\Bundle\CommerceMenuBundle\Tests\Behat\Context\FeatureContext
       paths:
         - '@OroCommerceMenuBundle/Tests/Behat/Features'

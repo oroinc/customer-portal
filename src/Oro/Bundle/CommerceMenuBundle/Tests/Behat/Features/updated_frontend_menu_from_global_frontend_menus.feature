@@ -8,7 +8,7 @@ Feature: Updated frontend menu from global frontend menus
     When I login as administrator
     And I go to System/Frontend Menus
     And click view "frontend_menu" in grid
-    And I should see "Select existing menu item or create new."
+    Then I should see a "Commerce Menu Form" element
 
   Scenario: Create menu item frontend_menu
     When I click "Create Menu Item"

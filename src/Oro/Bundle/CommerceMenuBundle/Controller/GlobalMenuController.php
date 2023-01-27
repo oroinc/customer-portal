@@ -29,7 +29,7 @@ class GlobalMenuController extends AbstractFrontendMenuController
 
     /**
      * @Route("/{menuName}", name="oro_commerce_menu_global_menu_view")
-     * @Template
+     * @Template("@OroCommerceMenu/GlobalMenu/update.html.twig")
      *
      * @param string $menuName
      *
@@ -37,7 +37,7 @@ class GlobalMenuController extends AbstractFrontendMenuController
      */
     public function viewAction($menuName)
     {
-        return $this->view($menuName);
+        return $this->update($menuName, null);
     }
 
     /**
@@ -58,12 +58,9 @@ class GlobalMenuController extends AbstractFrontendMenuController
      * @Route("/{menuName}/update/{key}", name="oro_commerce_menu_global_menu_update")
      * @Template
      *
-     * @param string $menuName
-     * @param string $key
-     *
      * @return array|RedirectResponse
      */
-    public function updateAction($menuName, $key)
+    public function updateAction(string $menuName, ?string $key = null)
     {
         return parent::update($menuName, $key);
     }

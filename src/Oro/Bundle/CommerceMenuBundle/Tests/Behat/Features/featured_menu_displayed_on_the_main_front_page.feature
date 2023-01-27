@@ -103,4 +103,4 @@ Feature: Featured menu, displayed on the main front page
     And I Create Divider
     Then I should see "Item \"---------------\" cannot be saved. Max nesting level is reached." error message
     When I click "featured_menu"
-    Then I should see "Select existing menu item or create new."
+    Then I should see a "Commerce Menu Form" element
