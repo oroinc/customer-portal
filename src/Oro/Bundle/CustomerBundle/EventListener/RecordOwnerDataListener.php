@@ -3,7 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\EventListener;
 
 use Doctrine\Common\Util\ClassUtils;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;

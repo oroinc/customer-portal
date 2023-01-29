@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs as BaseLifecycleEventArgs;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\EventListener\RecordOwnerDataListener;
@@ -40,9 +40,9 @@ class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    private function getEventArgs(TestEntity $entity): LifecycleEventArgs
+    private function getEventArgs(TestEntity $entity): BaseLifecycleEventArgs
     {
-        return new LifecycleEventArgs($entity, $this->createMock(EntityManagerInterface::class));
+        return new BaseLifecycleEventArgs($entity, $this->createMock(ObjectManager::class));
     }
 
     private function getEntityConfig(array $values = []): Config
