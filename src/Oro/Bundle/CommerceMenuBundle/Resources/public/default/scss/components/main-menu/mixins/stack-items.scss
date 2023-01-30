@@ -2,7 +2,6 @@
 
 @mixin main-menu-stack-items {
     &__item {
-        &:hover,
         &.show {
             background: $main-menu-multi-item-background-hover;
         }
@@ -13,6 +12,12 @@
 
         &:last-child {
             border-bottom: $main-menu-multi-item-border-bottom;
+        }
+
+        @media (hover: hover) {
+            &:hover {
+                background: $main-menu-multi-item-background-hover;
+            }
         }
     }
 
@@ -52,6 +57,12 @@
             margin: $main-menu-multi-link-focus-keys-margin;
             padding: $main-menu-multi-link-focus-keys-padding;
         }
+    }
+
+    &__actions:only-child &__link:not(.focus-via-arrows-keys:focus) {
+        grid-column: $main-menu-multi-link-only-child-keys-grid-column;
+        align-self: $main-menu-multi-link-only-child-keys-align-self;
+        padding: $main-menu-multi-link-only-child-keys-padding;
     }
 
     &__button {

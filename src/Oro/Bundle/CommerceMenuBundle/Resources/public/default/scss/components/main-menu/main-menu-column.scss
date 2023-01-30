@@ -122,7 +122,10 @@
     .main-menu-column {
         padding: $main-menu-column-tablet-offset-inner;
 
-        border-top: $main-menu-column-tablet-border-top;
+        &:not(:first-child) {
+            border-top: $main-menu-column-tablet-border-top;
+        }
+
 
         &::before {
             border-left: $main-menu-column-tablet-before-border-left;

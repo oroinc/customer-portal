@@ -6,7 +6,7 @@ $main-menu-multi-container-grid-template-columns: 320px 1fr !default;
 $main-menu-multi-container-position: relative !default;
 $main-menu-multi-container-z-index: z('base') !default;
 
-$main-menu-multi-container-edge-desktop-width: 1200px !default;
-$main-menu-multi-container-edge-desktop-max-width: 100vw !default;
+$main-menu-multi-container-edge-desktop-width: 1216px !default;
+$main-menu-multi-container-edge-desktop-max-width: calc(100vw - 16px) !default;
 $main-menu-multi-container-edge-desktop-margin-inline-end: auto !default;
 $main-menu-multi-container-edge-desktop-flex-shrink: 0 !default;

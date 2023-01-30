@@ -127,6 +127,8 @@ $main-menu-tablet-border: 1px solid color.adjust(get-color('additional', 'base')
 
 $main-menu-actions-grid-template-columns: 16px auto 1fr 32px 32px !default;
 
+$main-menu-link-only-child-keys-padding: 0 64px 0 16px !default;
+
 $main-menu-button-padding: 0 56px 0 8px !default;
 
 $main-menu-sublist-tablet-background: get-color('additional', 'ultra') !default;

@@ -61,9 +61,14 @@
         &__item {
             flex-grow: $main-menu-item-flex-grow;
 
-            &.show,
-            &:hover {
+            &.show {
                 background: $main-menu-item-hover-desktop-background;
+            }
+
+            @media (hover: hover) {
+                &:hover {
+                    background: $main-menu-item-hover-desktop-background;
+                }
             }
         }
 
@@ -193,6 +198,10 @@
             grid-template-columns: $main-menu-actions-grid-template-columns;
         }
 
+        &__actions:only-child &__link:not(.focus-via-arrows-keys:focus) {
+            padding: $main-menu-link-only-child-keys-padding;
+        }
+
         &__button {
             padding: $main-menu-button-padding;
         }
@@ -215,13 +224,6 @@
         &__inner-container {
             height: $main-menu-sublist-container-tablet-height;
             overflow: $main-menu-sublist-container-tablet-overflow;
-        }
-
-        // Temporary solution
-        &__item--simple {
-            height: $main-menu-multi-actions-height;
-            display: $main-menu-multi-actions-display;
-            grid-template-columns: $main-menu-actions-grid-template-columns;
         }
     }
 }
