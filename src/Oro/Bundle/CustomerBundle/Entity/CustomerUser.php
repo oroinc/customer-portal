@@ -82,7 +82,8 @@ class CustomerUser extends ExtendCustomerUser implements
     EmailHolderInterface,
     EmailOwnerInterface,
     EmailInterface,
-    AdvancedApiUserInterface
+    AdvancedApiUserInterface,
+    \Serializable
 {
     const SECURITY_GROUP = 'commerce';
 
@@ -550,6 +551,16 @@ class CustomerUser extends ExtendCustomerUser implements
         $this->settings = new ArrayCollection();
         $this->apiKeys = new ArrayCollection();
         parent::__construct();
+    }
+
+    public function serialize()
+    {
+        return $this->__serialize();
+    }
+
+    public function unserialize(string $data)
+    {
+        $this->__unserialize(unserialize($data));
     }
 
     public function __serialize(): array
