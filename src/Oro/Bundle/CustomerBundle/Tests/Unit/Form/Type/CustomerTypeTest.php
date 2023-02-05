@@ -12,11 +12,11 @@ use Oro\Bundle\CustomerBundle\Form\Type\ParentCustomerSelectType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStub;
 use Oro\Bundle\EntityExtendBundle\Form\Type\EnumSelectType;
 use Oro\Bundle\EntityExtendBundle\Tests\Unit\Fixtures\TestEnumValue;
+use Oro\Bundle\EntityExtendBundle\Tests\Unit\Form\Type\Stub\EnumSelectTypeStub;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Oro\Component\Testing\ReflectionUtil;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EnumSelectType as EnumSelectTypeStub;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
@@ -54,50 +54,28 @@ class CustomerTypeTest extends FormIntegrationTestCase
      */
     protected function getExtensions(): array
     {
-        $customerGroupSelectType = new EntityType(
-            [
-                1 => $this->getCustomerGroup(1),
-                2 => $this->getCustomerGroup(2)
-            ],
-            CustomerGroupSelectType::NAME
-        );
-
-        $parentCustomerSelectType = new EntityType(
-            [
-                1 => $this->getCustomer(1),
-                2 => $this->getCustomer(2)
-            ],
-            ParentCustomerSelectType::NAME
-        );
-
-        $addressEntityType = new EntityType($this->getAddresses(), EntityType::class);
-
-        $internalRatingEnumSelect = new EnumSelectTypeStub(
-            [
-                new TestEnumValue('1_of_5', '1 of 5'),
-                new TestEnumValue('2_of_5', '2 of 5')
-            ]
-        );
-
-        $userMultiSelectType = new EntityType(
-            $this->getUsers(),
-            UserMultiSelectType::NAME,
-            [
-                'class' => User::class,
-                'multiple' => true
-            ]
-        );
-
         return [
             new PreloadedExtension(
                 [
-                    CustomerType::class => $this->formType,
-                    CustomerGroupSelectType::class => $customerGroupSelectType,
-                    ParentCustomerSelectType::class => $parentCustomerSelectType,
+                    $this->formType,
+                    CustomerGroupSelectType::class => new EntityTypeStub([
+                        1 => $this->getCustomerGroup(1),
+                        2 => $this->getCustomerGroup(2)
+                    ]),
+                    ParentCustomerSelectType::class => new EntityTypeStub([
+                        1 => $this->getCustomer(1),
+                        2 => $this->getCustomer(2)
+                    ]),
                     AddressCollectionType::class => new AddressCollectionTypeStub(),
-                    EntityType::class => $addressEntityType,
-                    EnumSelectType::class => $internalRatingEnumSelect,
-                    UserMultiSelectType::class => $userMultiSelectType,
+                    EntityTypeStub::class => new EntityTypeStub($this->getAddresses()),
+                    EnumSelectType::class => new EnumSelectTypeStub([
+                        new TestEnumValue('1_of_5', '1 of 5'),
+                        new TestEnumValue('2_of_5', '2 of 5')
+                    ]),
+                    UserMultiSelectType::class => new EntityTypeStub(
+                        $this->getUsers(),
+                        ['class' => User::class, 'multiple' => true]
+                    ),
                 ],
                 []
             )

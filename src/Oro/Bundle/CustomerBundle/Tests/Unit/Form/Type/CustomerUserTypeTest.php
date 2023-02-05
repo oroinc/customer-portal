@@ -18,7 +18,7 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Oro\Component\Testing\ReflectionUtil;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
@@ -60,34 +60,21 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
      */
     protected function getExtensions(): array
     {
-        $customerUserRoleSelectType = new EntitySelectTypeStub(
-            $this->getRoles(),
-            CustomerUserRoleSelectType::NAME,
-            new CustomerUserRoleSelectType($this->createTranslator())
-        );
-        $addressEntityType = new EntityType($this->getAddresses(), EntityType::class);
-        $customerSelectType = new EntityType($this->getCustomers(), CustomerSelectType::NAME);
-
-        $userMultiSelectType = new EntityType(
-            [
-                1 => $this->getUser(1),
-                2 => $this->getUser(2),
-            ],
-            UserMultiSelectType::NAME,
-            [
-                'multiple' => true,
-            ]
-        );
-
         return [
             new PreloadedExtension(
                 [
-                    CustomerUserType::class => $this->formType,
-                    CustomerUserRoleSelectType::class => $customerUserRoleSelectType,
-                    CustomerSelectType::class => $customerSelectType,
+                    $this->formType,
+                    CustomerUserRoleSelectType::class => new EntitySelectTypeStub(
+                        $this->getRoles(),
+                        new CustomerUserRoleSelectType($this->createTranslator())
+                    ),
+                    CustomerSelectType::class => new EntityTypeStub($this->getCustomers()),
                     AddressCollectionType::class => new AddressCollectionTypeStub(),
-                    EntityType::class => $addressEntityType,
-                    UserMultiSelectType::class => $userMultiSelectType,
+                    EntityTypeStub::class => new EntityTypeStub($this->getAddresses()),
+                    UserMultiSelectType::class => new EntityTypeStub(
+                        [1 => $this->getUser(1), 2 => $this->getUser(2)],
+                        ['multiple' => true]
+                    ),
                 ],
                 []
             ),

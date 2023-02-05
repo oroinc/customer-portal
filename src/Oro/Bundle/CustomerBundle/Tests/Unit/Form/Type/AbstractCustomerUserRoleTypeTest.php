@@ -11,7 +11,7 @@ use Oro\Bundle\FormBundle\Form\Type\EntityIdentifierType;
 use Oro\Bundle\SecurityBundle\Form\Type\AclPrivilegeType;
 use Oro\Bundle\SecurityBundle\Form\Type\PrivilegeCollectionType;
 use Oro\Component\Testing\ReflectionUtil;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormInterface;
@@ -41,18 +41,15 @@ abstract class AbstractCustomerUserRoleTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
-        $entityIdentifierType = new EntityType([]);
-        $customerSelectType = new EntityType($this->getCustomers(), CustomerSelectType::NAME);
-
         return [
             new PreloadedExtension(
                 [
                     $this->formType,
-                    EntityIdentifierType::class => $entityIdentifierType,
-                    CustomerSelectType::class => $customerSelectType,
-                    PrivilegeCollectionType::class => new PrivilegeCollectionType(),
+                    EntityIdentifierType::class => new EntityTypeStub(),
+                    CustomerSelectType::class => new EntityTypeStub($this->getCustomers()),
+                    new PrivilegeCollectionType(),
                     AclPrivilegeType::class => new AclPriviledgeTypeStub(),
                 ],
                 []

@@ -19,7 +19,7 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\ReflectionUtil;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormEvent;
@@ -56,20 +56,11 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
      */
     protected function getExtensions(): array
     {
-        $customer = $this->getCustomer(1);
         $user = new CustomerUser();
-        $user->setCustomer($customer);
+        $user->setCustomer($this->getCustomer(1));
         $this->tokenAccessor->expects($this->any())
             ->method('getUser')
             ->willReturn($user);
-
-        $frontendUserRoleSelectType = new EntitySelectTypeStub(
-            $this->getRoles(),
-            FrontendCustomerUserRoleSelectType::NAME,
-            new CustomerUserRoleSelectType($this->createTranslator())
-        );
-        $addressEntityType = new EntityType($this->getAddresses(), 'test_address_entity');
-        $customerSelectType = new EntityType($this->getCustomers(), CustomerSelectType::NAME);
 
         $customerUserType = new CustomerUserType($this->authorizationChecker, $this->tokenAccessor);
         $customerUserType->setDataClass(CustomerUser::class);
@@ -78,13 +69,16 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         return [
             new PreloadedExtension(
                 [
-                    FrontendCustomerUserType::class => $this->formType,
-                    CustomerUserType::class => $customerUserType,
-                    FrontendCustomerUserRoleSelectType::class => $frontendUserRoleSelectType,
-                    CustomerSelectType::class => $customerSelectType,
+                    $this->formType,
+                    $customerUserType,
+                    FrontendCustomerUserRoleSelectType::class => new EntitySelectTypeStub(
+                        $this->getRoles(),
+                        new CustomerUserRoleSelectType($this->createTranslator())
+                    ),
+                    CustomerSelectType::class => new EntityTypeStub($this->getCustomers()),
                     FrontendOwnerSelectType::class => new FrontendOwnerSelectTypeStub(),
                     AddressCollectionType::class => new AddressCollectionTypeStub(),
-                    EntityType::class => $addressEntityType,
+                    new EntityTypeStub($this->getAddresses()),
                 ],
                 []
             ),

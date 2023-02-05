@@ -35,7 +35,7 @@ use Oro\Bundle\WebCatalogBundle\Entity\WebCatalog;
 use Oro\Bundle\WebCatalogBundle\Form\Type\ContentNodeFromWebCatalogSelectType;
 use Oro\Bundle\WebCatalogBundle\JsTree\ContentNodeTreeHandler;
 use Oro\Bundle\WebCatalogBundle\Provider\WebCatalogProvider;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as EntityTypeStub;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

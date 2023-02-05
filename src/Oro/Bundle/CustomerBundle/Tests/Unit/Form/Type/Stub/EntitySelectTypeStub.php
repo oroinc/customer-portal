@@ -2,36 +2,26 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub;
 
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as EntityTypeStub;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EntitySelectTypeStub extends EntityTypeStub
 {
-    /** @var AbstractType|null */
-    protected $formType;
+    private ?AbstractType $formType;
 
-    /**
-     * @param array $choices
-     * @param string $name
-     * @param AbstractType|null $formType
-     */
-    public function __construct(array $choices, $name, $formType = null)
+    public function __construct(array $choices, ?AbstractType $formType = null)
     {
-        parent::__construct($choices, $name);
-
+        parent::__construct($choices);
         $this->formType = $formType;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
-
-        if ($this->formType) {
-            $this->formType->configureOptions($resolver);
-        }
+        $this->formType?->configureOptions($resolver);
     }
 }
