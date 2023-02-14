@@ -33,6 +33,7 @@ class CustomerVisitorUpdateLastVisitListener
     private function supports(RequestEvent $event): bool
     {
         return 'cli' !== php_sapi_name()
+            && $event->isMainRequest()
             && $event->getRequest()?->getSession()
             && $this->tokenStorage->getToken() instanceof AnonymousCustomerUserToken;
     }
