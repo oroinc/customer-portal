@@ -14,17 +14,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class ResourceRestApiGetListActionUrlResolver implements ResourceApiUrlResolverInterface
 {
-    /** @var UrlGeneratorInterface */
-    private $urlGenerator;
-
-    /** @var RestRoutesRegistry */
-    private $routesRegistry;
-
-    /** @var ValueNormalizer */
-    private $valueNormalizer;
-
-    /** @var string */
-    private $entityClass;
+    private UrlGeneratorInterface $urlGenerator;
+    private RestRoutesRegistry $routesRegistry;
+    private ValueNormalizer $valueNormalizer;
+    private string $entityClass;
 
     public function __construct(
         UrlGeneratorInterface $urlGenerator,

@@ -16,15 +16,8 @@ class CustomerUserProfileResolver
 {
     public const ACL_RESOURCE = 'oro_customer_frontend_update_own_profile';
 
-    /**
-     * @var TokenAccessorInterface
-     */
-    private $tokenAccessor;
-
-    /**
-     * @var AuthorizationCheckerInterface
-     */
-    private $authorizationChecker;
+    private TokenAccessorInterface $tokenAccessor;
+    private AuthorizationCheckerInterface $authorizationChecker;
 
     public function __construct(
         TokenAccessorInterface $tokenAccessor,

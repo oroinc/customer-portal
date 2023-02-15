@@ -16,7 +16,7 @@ class FrontendApiDependencyInjectionUtil
     public static function disableProcessorForFrontendApi(
         ContainerBuilder $container,
         string $processorServiceId
-    ) {
+    ): void {
         DependencyInjectionUtil::disableApiProcessor($container, $processorServiceId, 'frontend');
     }
 }

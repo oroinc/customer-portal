@@ -26,7 +26,7 @@ class AddressEntityDataAccessor implements DataAccessorInterface
      */
     public function hasGetter(string $className, string $property): bool
     {
-        if ('types' === $property && \is_a($className, AbstractDefaultTypedAddress::class, true)) {
+        if ('types' === $property && is_a($className, AbstractDefaultTypedAddress::class, true)) {
             $property = 'addressTypes';
         }
 

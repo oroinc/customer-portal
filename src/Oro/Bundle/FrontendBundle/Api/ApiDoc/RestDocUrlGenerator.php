@@ -10,20 +10,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class RestDocUrlGenerator implements RestDocUrlGeneratorInterface
 {
-    public const ROUTE          = 'oro_frontend_rest_api_doc';
+    public const ROUTE = 'oro_frontend_rest_api_doc';
     public const RESOURCE_ROUTE = 'oro_frontend_rest_api_doc_resource';
 
-    /** @var RestDocUrlGeneratorInterface */
-    private $innerGenerator;
-
-    /** @var UrlGeneratorInterface */
-    private $urlGenerator;
-
+    private RestDocUrlGeneratorInterface $innerGenerator;
+    private UrlGeneratorInterface $urlGenerator;
     /** @var string[] */
-    private $frontendViews;
-
-    /** @var string|null */
-    private $defaultFrontendView;
+    private array $frontendViews;
+    private ?string $defaultFrontendView;
 
     /**
      * @param RestDocUrlGeneratorInterface $innerGenerator

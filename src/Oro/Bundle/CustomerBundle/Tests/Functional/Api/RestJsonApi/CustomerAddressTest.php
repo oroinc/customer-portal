@@ -230,7 +230,7 @@ class CustomerAddressTest extends RestJsonApiTestCase
             false
         );
 
-        $errors = json_decode($response->getContent(), true)['errors'] ?? [];
+        $errors = self::jsonToArray($response->getContent())['errors'] ?? [];
 
         if (\count($errors) === 3) {
             $this->assertResponseValidationErrors(
@@ -253,12 +253,10 @@ class CustomerAddressTest extends RestJsonApiTestCase
                 $response
             );
         } else {
-            $this->assertResponseValidationErrors(
+            $this->assertResponseValidationError(
                 [
-                    [
-                        'title' => 'valid organization constraint',
-                        'detail' => 'Customer and its address belongs to different organizations.',
-                    ]
+                    'title' => 'valid organization constraint',
+                    'detail' => 'Customer and its address belongs to different organizations.',
                 ],
                 $response
             );
@@ -604,7 +602,7 @@ class CustomerAddressTest extends RestJsonApiTestCase
             false
         );
 
-        $errors = json_decode($response->getContent(), true)['errors'] ?? [];
+        $errors = self::jsonToArray($response->getContent())['errors'] ?? [];
 
         if (\count($errors) === 3) {
             $this->assertResponseValidationErrors(
@@ -627,12 +625,10 @@ class CustomerAddressTest extends RestJsonApiTestCase
                 $response
             );
         } else {
-            $this->assertResponseValidationErrors(
+            $this->assertResponseValidationError(
                 [
-                    [
-                        'title' => 'valid organization constraint',
-                        'detail' => 'Customer and its address belongs to different organizations.',
-                    ]
+                    'title' => 'valid organization constraint',
+                    'detail' => 'Customer and its address belongs to different organizations.',
                 ],
                 $response
             );
