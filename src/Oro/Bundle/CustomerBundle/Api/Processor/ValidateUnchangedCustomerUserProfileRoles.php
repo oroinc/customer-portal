@@ -16,11 +16,8 @@ use Oro\Component\ChainProcessor\ProcessorInterface;
  */
 class ValidateUnchangedCustomerUserProfileRoles implements ProcessorInterface
 {
-    /** @var DoctrineHelper */
-    private $doctrineHelper;
-
-    /** @var CustomerUserProfileResolver */
-    private $customerUserProfileResolver;
+    private DoctrineHelper $doctrineHelper;
+    private CustomerUserProfileResolver $customerUserProfileResolver;
 
     public function __construct(
         CustomerUserProfileResolver $customerUserProfileResolver,
@@ -48,9 +45,10 @@ class ValidateUnchangedCustomerUserProfileRoles implements ProcessorInterface
             return;
         }
 
-        $entityManager = $this->doctrineHelper->getEntityManager($customerUser);
         // Unable to retrieve a collection of roles from the customer user entity, take the roles from the source data.
-        $originalCustomerUser = $entityManager->getUnitOfWork()->getOriginalEntityData($customerUser);
+        $originalCustomerUser = $this->doctrineHelper->getEntityManager($customerUser)
+            ->getUnitOfWork()
+            ->getOriginalEntityData($customerUser);
         // If the roles are different from the original, return validation error, because it is impossible to change
         // the role of the customer user from the profile.
         // No need to check the entity relation, any roles changes for the profile are prohibited.

@@ -19,8 +19,7 @@ use Oro\Component\ChainProcessor\ProcessorInterface;
  */
 class SetCustomerUserProfileAclResource implements ProcessorInterface
 {
-    /** @var CustomerUserProfileResolver */
-    private $customerUserProfileResolver;
+    private CustomerUserProfileResolver $customerUserProfileResolver;
 
     public function __construct(CustomerUserProfileResolver $customerUserProfileResolver)
     {
