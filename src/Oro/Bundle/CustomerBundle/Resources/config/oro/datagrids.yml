@@ -1361,6 +1361,7 @@ datagrids:
                 label: oro.customer.customeruserloginattempt.source.label
                 frontend_type: select
                 choices: '@oro_customer.logger.customer_user_login_attempt->getSourceChoices()'
+                translatable_options: false
             username:
                 label: oro.customer.customeruserloginattempt.username.label
             user:
@@ -1413,6 +1414,7 @@ datagrids:
                     options:
                         field_options:
                             choices: '@oro_customer.logger.customer_user_login_attempt->getSourceChoices()'
+                            translatable_options: false
                             multiple: true
                 user:
                     type: choice-tree
