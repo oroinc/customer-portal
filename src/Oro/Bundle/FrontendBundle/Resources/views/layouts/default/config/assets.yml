@@ -104,7 +104,7 @@ styles:
         - 'bundles/orofrontend/default/scss/components/bootstrap/bootstrap.scss'
 
         - '~overlayscrollbars/css/OverlayScrollbars.css'
-        - '~slick-carousel/slick/slick.scss'
+        - '~@oroinc/slick-carousel/slick/slick.scss'
         - 'bundles/orofrontend/default/scss/base/base.scss'
         - 'bundles/orofrontend/default/scss/components/utilites.scss'
         - 'bundles/orofrontend/default/scss/components/headings.scss'
