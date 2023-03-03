@@ -12,6 +12,7 @@ use Oro\Bundle\CustomerBundle\Owner\EntityOwnershipDecisionMaker;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Owner\Fixtures\Entity\TestEntity;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Oro\Bundle\EntityExtendBundle\PropertyAccess;
 use Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdAccessor;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Owner\EntityOwnerAccessor;
@@ -20,7 +21,6 @@ use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProvider;
 use Oro\Bundle\SecurityBundle\Tests\Unit\Acl\Domain\Fixtures\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Tests\Unit\Stub\OwnershipMetadataProviderStub;
 use Oro\Component\Testing\ReflectionUtil;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
@@ -132,7 +132,7 @@ class EntityOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
             $this->metadataProvider,
             $this->tokenAccessor,
             $doctrine,
-            new PropertyAccessor()
+            PropertyAccess::createPropertyAccessor()
         );
     }
 

@@ -13,13 +13,13 @@ use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Autocomplete\CustomerUserSearchHandler;
+use Oro\Bundle\EntityExtendBundle\PropertyAccess;
 use Oro\Bundle\SearchBundle\Engine\Indexer;
 use Oro\Bundle\SearchBundle\Provider\SearchMappingProvider;
 use Oro\Bundle\SearchBundle\Query\Criteria\Criteria;
 use Oro\Bundle\SearchBundle\Query\Query as SearchQuery;
 use Oro\Bundle\SearchBundle\Query\Result;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
 {
@@ -83,7 +83,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
         $this->searchHandler->initSearchIndexer($this->indexer, $searchMappingProvider);
         $this->searchHandler->initDoctrinePropertiesByManagerRegistry($doctrine);
         $this->searchHandler->setAclHelper($this->aclHelper);
-        $this->searchHandler->setPropertyAccessor(new PropertyAccessor());
+        $this->searchHandler->setPropertyAccessor(PropertyAccess::createPropertyAccessor());
     }
 
     public function testSearchWithoutDelimiter(): void

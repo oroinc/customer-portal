@@ -45,7 +45,6 @@ class CustomerUserAddressFixtureTest extends \PHPUnit\Framework\TestCase
     public function testFillEntityData(): void
     {
         $entity = new CustomerUserAddress();
-
         $this->fixture->fillEntityData('test', $entity);
 
         $this->assertEquals(
@@ -113,7 +112,8 @@ class CustomerUserAddressFixtureTest extends \PHPUnit\Framework\TestCase
                     return $entity;
                 }
             );
+        $actual = $this->fixture->getData();
 
-        $this->assertEquals($this->getEntity(CustomerUserAddress::class, ['id' => 1]), $this->fixture->getData());
+        $this->assertEquals($this->getEntity(CustomerUserAddress::class, ['id' => 1]), $actual);
     }
 }

@@ -9,12 +9,12 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\GuestCustomerUserManager;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Stub\WebsiteStub;
+use Oro\Bundle\EntityExtendBundle\PropertyAccess;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Provider\DefaultUserProvider;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class GuestCustomerUserManagerTest extends \PHPUnit\Framework\TestCase
 {
@@ -45,7 +45,7 @@ class GuestCustomerUserManagerTest extends \PHPUnit\Framework\TestCase
             $this->customerUserManager,
             $this->relationsProvider,
             $this->defaultUserProvider,
-            new PropertyAccessor()
+            PropertyAccess::createPropertyAccessor()
         );
     }
 

@@ -6,12 +6,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
-use Oro\Bundle\CustomerBundle\Model\ExtendCustomerUser;
 use Oro\Bundle\EmailBundle\Entity\EmailInterface;
 use Oro\Bundle\EmailBundle\Entity\EmailOwnerInterface;
 use Oro\Bundle\EmailBundle\Model\EmailHolderInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
@@ -77,14 +78,17 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
-class CustomerUser extends ExtendCustomerUser implements
+class CustomerUser extends AbstractUser implements
     CustomerUserInterface,
     EmailHolderInterface,
     EmailOwnerInterface,
     EmailInterface,
     AdvancedApiUserInterface,
-    \Serializable
+    \Serializable,
+    ExtendEntityInterface
 {
+    use ExtendEntityTrait;
+
     const SECURITY_GROUP = 'commerce';
 
     /**

@@ -184,4 +184,4 @@ services:
         class: Oro\Bundle\WebsiteBundle\Layout\Cache\Extension\WebsiteRenderCacheExtension
         arguments:
             - '@oro_website.manager'
-        tags: [layout.cache.extension]
+        tags: [ layout.cache.extension ]

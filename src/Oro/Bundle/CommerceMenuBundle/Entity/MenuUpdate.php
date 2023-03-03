@@ -5,8 +5,11 @@ namespace Oro\Bundle\CommerceMenuBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Oro\Bundle\CommerceMenuBundle\Model\ExtendMenuUpdate;
+use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
+use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateTrait;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
@@ -77,12 +80,24 @@ use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
  *      }
  * )
  * @ORM\HasLifecycleCallbacks()
+ *
+ * @method File getImage()
+ * @method MenuUpdate setImage(File $image)
+ * @method MenuUpdate getTitle(Localization $localization = null)
+ * @method MenuUpdate getDefaultTitle()
+ * @method MenuUpdate setDefaultTitle($value)
+ * @method MenuUpdate getDescription(Localization $localization = null)
+ * @method MenuUpdate getDefaultDescription()
+ * @method MenuUpdate setDefaultDescription($value)
  */
-class MenuUpdate extends ExtendMenuUpdate implements MenuUpdateInterface
+class MenuUpdate implements
+    MenuUpdateInterface,
+    ExtendEntityInterface
 {
     use MenuUpdateTrait {
         MenuUpdateTrait::__construct as traitConstructor;
     }
+    use ExtendEntityTrait;
 
     public const TARGET_NONE = 'none';
     public const TARGET_URI = 'uri';
@@ -167,7 +182,6 @@ class MenuUpdate extends ExtendMenuUpdate implements MenuUpdateInterface
      */
     public function __construct()
     {
-        parent::__construct();
         $this->traitConstructor();
 
         $this->menuUserAgentConditions = new ArrayCollection();

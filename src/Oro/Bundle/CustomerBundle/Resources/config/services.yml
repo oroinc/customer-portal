@@ -1382,3 +1382,10 @@ services:
             - customer_user_create_for_customer_link
         tags:
             - { name: oro_ui.view_action_provider, group: activity }
+
+    oro_customer.owner.cache.warmer:
+        class: Oro\Bundle\CustomerBundle\Cache\OwnerCacheWarmer
+        arguments:
+            - '@oro_customer.owner.tree_provider'
+        tags:
+            - { name: kernel.cache_warmer, priority: -250 }

@@ -109,7 +109,8 @@ class CustomerAddressFixtureTest extends \PHPUnit\Framework\TestCase
                     return $entity;
                 }
             );
+        $actual = $this->fixture->getData();
 
-        $this->assertEquals($this->getEntity(CustomerAddress::class, ['id' => 1]), $this->fixture->getData());
+        $this->assertEquals($this->getEntity(CustomerAddress::class, ['id' => 1]), $actual);
     }
 }

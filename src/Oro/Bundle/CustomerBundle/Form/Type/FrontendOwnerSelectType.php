@@ -8,10 +8,10 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
+use Oro\Bundle\EntityExtendBundle\PropertyAccess;
 use Oro\Bundle\SecurityBundle\AccessRule\AclAccessRule;
 use Oro\Bundle\SecurityBundle\AccessRule\AvailableOwnerAccessRule;
 use Oro\Bundle\TranslationBundle\Form\Type\Select2TranslatableEntityType;
-use Oro\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -78,7 +78,7 @@ class FrontendOwnerSelectType extends AbstractType
                 $permission = 'ASSIGN';
                 $config = $this->configProvider->getConfig($class);
                 $ownerFieldName = $config->get('frontend_owner_field_name');
-                $propertyAccessor = new PropertyAccessor();
+                $propertyAccessor = PropertyAccess::createPropertyAccessor();
                 $currentOwner = $propertyAccessor->getValue($data, $ownerFieldName);
                 if ($currentOwner) {
                     $aclOptions[AvailableOwnerAccessRule::CURRENT_OWNER] = $currentOwner->getId();

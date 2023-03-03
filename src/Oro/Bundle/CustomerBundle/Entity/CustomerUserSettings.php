@@ -3,8 +3,9 @@
 namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Oro\Bundle\CustomerBundle\Model\ExtendCustomerUserSettings;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
@@ -20,8 +21,10 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  *    }
  * )
  */
-class CustomerUserSettings extends ExtendCustomerUserSettings
+class CustomerUserSettings implements ExtendEntityInterface
 {
+    use ExtendEntityTrait;
+
     /**
      * @var int
      *
@@ -71,7 +74,6 @@ class CustomerUserSettings extends ExtendCustomerUserSettings
 
     public function __construct(Website $website)
     {
-        parent::__construct();
         $this->website = $website;
     }
 
