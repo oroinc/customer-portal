@@ -22,6 +22,7 @@ The current file describes significant changes in the code that may affect the u
 
 
 ## 5.1.0 (UNRELEASED)
+[Show detailed list of changes](incompatibilities-5-1-rc-2.md)
 
 ### Added
 
@@ -65,24 +66,6 @@ The current file describes significant changes in the code that may affect the u
 
 ### Changed
 
-#### CommerceMenuBundle
-* `orocommercemenu/js/app/widgets/menu-traveling-widget` was moved to `orocommercemenu/js/app/views/menu-traveling-view`; Now extends `BaseView` instead of `AbstractWidget`
-* Updated block type `menu`:
-  - Parent layout was changed from `oro_layout.block_type.abstract_configurable` to `oro_layout.block_type.abstract_configurable_container`
-  - Added new option:
-    + `customItemBlock`: **{default: null}** - Provides the ability to use a custom menu item template.
-
-### Removed
-
-#### CommerceMenuBundle
-* Removed `\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate::getExtras`, its purpose is moved to `\Oro\Bundle\CommerceMenuBundle\MenuUpdate\Propagator\ToMenuItem\ExtrasPropagator`.
-
-
-## 5.1.0-beta.2 (2022-11-30)
-
-[Show detailed list of changes](incompatibilities-5-1-rc-1.md)
-
-### Changed
 #### FrontendBundle
 
 The widgets `collapse-widget`, `collapse-group-widget`, `rows-collapse-widget` were removed, use the `bootstrap-collapse` instead.
@@ -126,7 +109,7 @@ The widgets `collapse-widget`, `collapse-group-widget`, `rows-collapse-widget` w
     + </div>
     ```
 
-The 'data-dom-relocation' selector to specify options for `dom-relocation-view` was removed, use 'data-dom-relocation-options' instead.   
+The 'data-dom-relocation' selector to specify options for `dom-relocation-view` was removed, use 'data-dom-relocation-options' instead.
 
 The oro grid system was modernized and uses CSS grid under the hood.
 - As a result, you need to update your `html`:
@@ -187,12 +170,21 @@ The oro grid system was modernized and uses CSS grid under the hood.
     ```
 More details are available at [Oro Frontend Stylebook](https://doc.oroinc.com/frontend/storefront/css/frontend-stylebook/).
 
+#### CommerceMenuBundle
+* `orocommercemenu/js/app/widgets/menu-traveling-widget` was moved to `orocommercemenu/js/app/views/menu-traveling-view`; Now extends `BaseView` instead of `AbstractWidget`
+* Updated block type `menu`:
+  - Parent layout was changed from `oro_layout.block_type.abstract_configurable` to `oro_layout.block_type.abstract_configurable_container`
+  - Added new option:
+    + `customItemBlock`: **{default: null}** - Provides the ability to use a custom menu item template.
 
 ### Removed
+
+#### CommerceMenuBundle
+* Removed `\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate::getExtras`, its purpose is moved to `\Oro\Bundle\CommerceMenuBundle\MenuUpdate\Propagator\ToMenuItem\ExtrasPropagator`.
+
 #### FrontendBundle
 * `orofrontend/default/js/app/views/input-widget/checkbox` was removed; use pure CSS checkbox customization instead.
 * `orofrontend/default/js/app/views/input-widget/checkbox-radio` was removed; use pure CSS radio button customization instead.
-
 
 ## 5.0.0 (2022-01-26)
 [Show detailed list of changes](incompatibilities-5-0.md)
