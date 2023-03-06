@@ -6,12 +6,9 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\ImportExport\Serializer\Normalizer\CustomerAddressNormalizer;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadFullCustomerAddress;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-use Oro\Component\Testing\Unit\EntityTrait;
 
 class CustomerAddressNormalizerTest extends WebTestCase
 {
-    use EntityTrait;
-
     private CustomerAddressNormalizer $normalizer;
 
     protected function setUp(): void
@@ -26,7 +23,7 @@ class CustomerAddressNormalizerTest extends WebTestCase
     /**
      * @dataProvider supportsDataProvider
      */
-    public function testSupportsNormalization($data, bool $expected)
+    public function testSupportsNormalization(string|object $data, bool $expected): void
     {
         if (is_string($data)) {
             $data = $this->getReference($data);
@@ -37,7 +34,7 @@ class CustomerAddressNormalizerTest extends WebTestCase
     /**
      * @dataProvider supportsDataProvider
      */
-    public function testSupportsDenormalization($data, bool $expected)
+    public function testSupportsDenormalization(string|object $data, bool $expected): void
     {
         if (is_string($data)) {
             $data = $this->getReference($data);
@@ -45,20 +42,15 @@ class CustomerAddressNormalizerTest extends WebTestCase
         $this->assertSame($expected, $this->normalizer->supportsDenormalization([], get_class($data)));
     }
 
-    public function supportsDataProvider(): \Generator
+    public function supportsDataProvider(): array
     {
-        yield [
-            'customer.level_1.address_1_full',
-            true
-        ];
-
-        yield [
-            new \stdClass(),
-            false
+        return [
+            ['customer.level_1.address_1_full', true],
+            [new \stdClass(), false]
         ];
     }
 
-    public function testNormalize()
+    public function testNormalize(): void
     {
         /** @var CustomerAddress $address */
         $address = $this->getReference('customer.level_1.address_1_full');
@@ -102,7 +94,7 @@ class CustomerAddressNormalizerTest extends WebTestCase
         );
     }
 
-    public function testDenormalize()
+    public function testDenormalize(): void
     {
         /** @var CustomerAddress $address */
         $address = $this->normalizer->denormalize(

@@ -13,12 +13,10 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadFullCustomerAddr
 use Oro\Bundle\ImportExportBundle\Context\Context;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\ReflectionUtil;
 
 class TypedAddressAddOrReplaceStrategyTest extends WebTestCase
 {
-    use EntityTrait;
-
     private TypedAddressAddOrReplaceStrategy $strategy;
     private Context $context;
 
@@ -51,12 +49,12 @@ class TypedAddressAddOrReplaceStrategyTest extends WebTestCase
         $itemData['label'] = $newLabel;
         $this->context->setValue('itemData', $itemData);
 
-        /** @var CustomerAddress $importedEntity */
-        $importedEntity = $this->getEntity(CustomerAddress::class, ['id' => $existingAddress->getId()]);
-        $importedEntity->setFrontendOwner($this->getEntity(
-            Customer::class,
-            ['id' => $existingAddress->getFrontendOwner()->getId()]
-        ));
+        $owner = new Customer();
+        ReflectionUtil::setId($owner, $existingAddress->getFrontendOwner()->getId());
+
+        $importedEntity = new CustomerAddress();
+        ReflectionUtil::setId($importedEntity, $existingAddress->getId());
+        $importedEntity->setFrontendOwner($owner);
         // Updated value
         $this->fillImportedEntityByExistingEntity($importedEntity, $existingAddress);
         $importedEntity->setLabel($newLabel);
@@ -86,12 +84,11 @@ class TypedAddressAddOrReplaceStrategyTest extends WebTestCase
         $itemData['label'] = $newLabel;
         $this->context->setValue('itemData', $itemData);
 
-        /** @var CustomerAddress $importedEntity */
+        $owner = new Customer();
+        $owner->setName($existingAddress->getFrontendOwner()->getName());
+
         $importedEntity = new CustomerAddress();
-        $importedEntity->setFrontendOwner($this->getEntity(
-            Customer::class,
-            ['name' => $existingAddress->getFrontendOwner()->getName()]
-        ));
+        $importedEntity->setFrontendOwner($owner);
         // Updated value
         $this->fillImportedEntityByExistingEntity($importedEntity, $existingAddress);
         $importedEntity->setLabel($newLabel);
@@ -120,12 +117,12 @@ class TypedAddressAddOrReplaceStrategyTest extends WebTestCase
         $itemData = $this->getItemData($existingAddress);
         $this->context->setValue('itemData', $itemData);
 
-        /** @var CustomerAddress $importedEntity */
-        $importedEntity = $this->getEntity(CustomerAddress::class, ['id' => $existingAddress->getId()]);
-        $importedEntity->setFrontendOwner($this->getEntity(
-            Customer::class,
-            ['id' => $otherCustomer->getId()]
-        ));
+        $owner = new Customer();
+        ReflectionUtil::setId($owner, $otherCustomer->getId());
+
+        $importedEntity = new CustomerAddress();
+        ReflectionUtil::setId($importedEntity, $existingAddress->getId());
+        $importedEntity->setFrontendOwner($owner);
         // Updated value
         $this->fillImportedEntityByExistingEntity($importedEntity, $existingAddress);
 
@@ -150,12 +147,11 @@ class TypedAddressAddOrReplaceStrategyTest extends WebTestCase
         $itemData = $this->getItemData($existingAddress);
         $this->context->setValue('itemData', $itemData);
 
-        /** @var CustomerAddress $importedEntity */
+        $owner = new Customer();
+        ReflectionUtil::setId($owner, $otherCustomer->getId());
+
         $importedEntity = new CustomerAddress();
-        $importedEntity->setFrontendOwner($this->getEntity(
-            Customer::class,
-            ['id' => $otherCustomer->getId()]
-        ));
+        $importedEntity->setFrontendOwner($owner);
         // Updated value
         $this->fillImportedEntityByExistingEntity($importedEntity, $existingAddress);
 
@@ -182,12 +178,12 @@ class TypedAddressAddOrReplaceStrategyTest extends WebTestCase
         $itemData['Delete'] = true;
         $this->context->setValue('itemData', $itemData);
 
-        /** @var CustomerAddress $importedEntity */
-        $importedEntity = $this->getEntity(CustomerAddress::class, ['id' => $existingAddress->getId()]);
-        $importedEntity->setFrontendOwner($this->getEntity(
-            Customer::class,
-            ['id' => $existingAddress->getFrontendOwner()->getId()]
-        ));
+        $owner = new Customer();
+        ReflectionUtil::setId($owner, $existingAddress->getFrontendOwner()->getId());
+
+        $importedEntity = new CustomerAddress();
+        ReflectionUtil::setId($importedEntity, $existingAddress->getId());
+        $importedEntity->setFrontendOwner($owner);
         // Updated value
         $this->fillImportedEntityByExistingEntity($importedEntity, $existingAddress);
 
@@ -235,6 +231,9 @@ class TypedAddressAddOrReplaceStrategyTest extends WebTestCase
         CustomerAddress $importedEntity,
         CustomerAddress $existingAddress
     ): void {
+        $owner = new User();
+        $owner->setUsername($existingAddress->getOwner()->getUsername());
+
         // Scalars
         $importedEntity->setLabel($existingAddress->getLabel());
         $importedEntity->setOrganization($existingAddress->getOrganization());
@@ -250,10 +249,7 @@ class TypedAddressAddOrReplaceStrategyTest extends WebTestCase
         $importedEntity->setPrimary($existingAddress->isPrimary());
         $importedEntity->setPhone($existingAddress->getPhone());
         // Relations
-        $importedEntity->setOwner($this->getEntity(
-            User::class,
-            ['username' => $existingAddress->getOwner()->getUsername()]
-        ));
+        $importedEntity->setOwner($owner);
         $importedEntity->setCountry(new Country($existingAddress->getCountryIso2()));
         $importedEntity->setRegion(new Region($existingAddress->getRegion()->getCombinedCode()));
         // Types

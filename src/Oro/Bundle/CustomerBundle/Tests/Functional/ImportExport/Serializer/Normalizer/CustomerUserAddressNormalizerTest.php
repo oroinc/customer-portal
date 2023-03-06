@@ -6,12 +6,9 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\ImportExport\Serializer\Normalizer\CustomerUserAddressNormalizer;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadFullCustomerUserAddress;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-use Oro\Component\Testing\Unit\EntityTrait;
 
 class CustomerUserAddressNormalizerTest extends WebTestCase
 {
-    use EntityTrait;
-
     private CustomerUserAddressNormalizer $normalizer;
 
     protected function setUp(): void
@@ -26,7 +23,7 @@ class CustomerUserAddressNormalizerTest extends WebTestCase
     /**
      * @dataProvider supportsDataProvider
      */
-    public function testSupportsNormalization($data, bool $expected)
+    public function testSupportsNormalization(string|object $data, bool $expected)
     {
         if (is_string($data)) {
             $data = $this->getReference($data);
@@ -37,7 +34,7 @@ class CustomerUserAddressNormalizerTest extends WebTestCase
     /**
      * @dataProvider supportsDataProvider
      */
-    public function testSupportsDenormalization($data, bool $expected)
+    public function testSupportsDenormalization(string|object $data, bool $expected)
     {
         if (is_string($data)) {
             $data = $this->getReference($data);
@@ -45,16 +42,11 @@ class CustomerUserAddressNormalizerTest extends WebTestCase
         $this->assertSame($expected, $this->normalizer->supportsDenormalization([], get_class($data)));
     }
 
-    public function supportsDataProvider(): \Generator
+    public function supportsDataProvider(): array
     {
-        yield [
-            'customer_user.address_1_full',
-            true
-        ];
-
-        yield [
-            new \stdClass(),
-            false
+        return [
+            ['customer_user.address_1_full', true],
+            [new \stdClass(), false]
         ];
     }
 
