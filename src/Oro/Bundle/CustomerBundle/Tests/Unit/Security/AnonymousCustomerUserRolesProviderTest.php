@@ -11,7 +11,7 @@ use Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserRolesProvider;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Stub\WebsiteStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Stub\CustomerUserRoleProxyStub;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
-use Oro\Component\TestUtils\ORM\OrmTestCase;
+use Oro\Component\Testing\Unit\ORM\OrmTestCase;
 
 class AnonymousCustomerUserRolesProviderTest extends OrmTestCase
 {
