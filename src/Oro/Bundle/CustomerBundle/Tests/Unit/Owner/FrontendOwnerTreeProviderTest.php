@@ -26,15 +26,20 @@ use Symfony\Contracts\Cache\CacheInterface;
 
 class FrontendOwnerTreeProviderTest extends OrmTestCase
 {
-    private OwnershipMetadataProviderInterface|\PHPUnit\Framework\MockObject\MockObject $ownershipMetadataProvider;
+    /** @var OwnershipMetadataProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $ownershipMetadataProvider;
 
-    private TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject $tokenStorage;
+    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $tokenStorage;
 
-    private MessageProducer|\PHPUnit\Framework\MockObject\MockObject $messageProducer;
+    /** @var MessageProducer|\PHPUnit\Framework\MockObject\MockObject */
+    private $messageProducer;
 
-    private FrontendOwnerTreeProvider $treeProvider;
+    /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $logger;
 
-    private LoggerInterface $logger;
+    /** @var FrontendOwnerTreeProvider */
+    private $treeProvider;
 
     protected function setUp(): void
     {

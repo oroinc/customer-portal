@@ -26,7 +26,7 @@ use Oro\Bundle\MessageQueueBundle\Test\Unit\MessageQueueExtension;
 use Oro\Component\MessageQueue\Client\MessagePriority;
 use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\TestUtils\ORM\Mocks\EntityManagerMock;
-use Oro\Component\TestUtils\ORM\Mocks\UnitOfWork;
+use Oro\Component\TestUtils\ORM\Mocks\UnitOfWorkMock;
 use Oro\Component\TestUtils\ORM\OrmTestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -38,7 +38,7 @@ class SendChangedCustomerAddressTypeToMessageQueueListenerTest extends OrmTestCa
     /** @var EntityManagerMock */
     private $em;
 
-    /** @var UnitOfWork */
+    /** @var UnitOfWorkMock */
     private $uow;
 
     /** @var AuditConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
@@ -57,7 +57,7 @@ class SendChangedCustomerAddressTypeToMessageQueueListenerTest extends OrmTestCa
     {
         $this->em = $this->getTestEntityManager();
         $this->em->getConfiguration()->setMetadataDriverImpl(new AnnotationDriver(new AnnotationReader()));
-        $this->uow = new UnitOfWork();
+        $this->uow = new UnitOfWorkMock();
         $this->em->setUnitOfWork($this->uow);
 
         $this->entityToArrayConverter = $this->createMock(EntityToEntityChangeArrayConverter::class);
