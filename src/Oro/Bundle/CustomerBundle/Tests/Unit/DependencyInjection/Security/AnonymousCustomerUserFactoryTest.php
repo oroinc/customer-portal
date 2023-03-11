@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\DependencyInjection\Security;
 
 use Oro\Bundle\CustomerBundle\DependencyInjection\Security\AnonymousCustomerUserFactory;
-use Oro\Bundle\TestFrameworkBundle\Test\DependencyInjection\ExtensionTestCase;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\IntegerNode;
 use Symfony\Component\DependencyInjection\ChildDefinition;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
+class AnonymousCustomerUserFactoryTest extends \PHPUnit\Framework\TestCase
 {
     private AnonymousCustomerUserFactory $factory;
 
@@ -20,7 +20,7 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
 
     public function testCreate(): void
     {
-        $container = $this->getContainerMock();
+        $container = new ContainerBuilder();
 
         $this->factory->create(
             $container,
@@ -30,30 +30,13 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
             'fake_default_entry_point'
         );
 
-        $this->assertDefinitionsLoaded(
-            [
-                'oro_customer.authentication.provider.anonymous_customer_user.fake_id',
-                'oro_customer.authentication.listener.anonymous_customer_user.fake_id',
-            ]
-        );
-        self::assertInstanceOf(
-            ChildDefinition::class,
-            $this->actualDefinitions['oro_customer.authentication.provider.anonymous_customer_user.fake_id']
+        self::assertEquals(
+            new ChildDefinition('oro_customer.authentication.provider.anonymous_customer_user'),
+            $container->getDefinition('oro_customer.authentication.provider.anonymous_customer_user.fake_id')
         );
         self::assertEquals(
-            'oro_customer.authentication.provider.anonymous_customer_user',
-            $this->actualDefinitions['oro_customer.authentication.provider.anonymous_customer_user.fake_id']
-                ->getParent()
-        );
-
-        self::assertInstanceOf(
-            ChildDefinition::class,
-            $this->actualDefinitions['oro_customer.authentication.listener.anonymous_customer_user.fake_id']
-        );
-        self::assertEquals(
-            'oro_customer.authentication.listener.anonymous_customer_user',
-            $this->actualDefinitions['oro_customer.authentication.listener.anonymous_customer_user.fake_id']
-                ->getParent()
+            new ChildDefinition('oro_customer.authentication.listener.anonymous_customer_user'),
+            $container->getDefinition('oro_customer.authentication.listener.anonymous_customer_user.fake_id')
         );
     }
 
@@ -70,7 +53,9 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
     public function testAddConfiguration(): void
     {
         $config = new ArrayNodeDefinition('root');
+
         $this->factory->addConfiguration($config);
+
         $loadedNodes = $config->getNode()->getChildren();
         self::assertCount(1, $loadedNodes);
         self::assertInstanceOf(IntegerNode::class, $loadedNodes['update_latency']);

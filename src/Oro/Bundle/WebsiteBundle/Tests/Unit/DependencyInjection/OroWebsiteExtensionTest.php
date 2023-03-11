@@ -1,17 +1,17 @@
 <?php
 
-namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\DependencyInjection;
+namespace Oro\Bundle\WebsiteBundle\Tests\Unit\DependencyInjection;
 
-use Oro\Bundle\CommerceMenuBundle\DependencyInjection\OroCommerceMenuExtension;
+use Oro\Bundle\WebsiteBundle\DependencyInjection\OroWebsiteExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class OroCommerceMenuExtensionTest extends \PHPUnit\Framework\TestCase
+class OroWebsiteExtensionTest extends \PHPUnit\Framework\TestCase
 {
     public function testLoad(): void
     {
         $container = new ContainerBuilder();
 
-        $extension = new OroCommerceMenuExtension();
+        $extension = new OroWebsiteExtension();
         $extension->load([], $container);
 
         self::assertNotEmpty($container->getDefinitions());
@@ -20,11 +20,12 @@ class OroCommerceMenuExtensionTest extends \PHPUnit\Framework\TestCase
                 [
                     'settings' => [
                         'resolved' => true,
-                        'main_navigation_menu' => ['value' => 'commerce_main_menu', 'scope' => 'app']
+                        'url' => ['value' => '', 'scope' => 'app'],
+                        'secure_url' => ['value' => '', 'scope' => 'app'],
                     ]
                 ]
             ],
-            $container->getExtensionConfig('oro_commerce_menu')
+            $container->getExtensionConfig('oro_website')
         );
     }
 }

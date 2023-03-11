@@ -3,7 +3,6 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\DependencyInjection;
 
 use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
-use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
@@ -20,24 +19,32 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 {
     public function testLoad()
     {
-        $container = $this->getContainerBuilder();
-
-        $applicationState = $this->createMock(ApplicationState::class);
-        $applicationState->expects(self::any())
-            ->method('isInstalled')
-            ->willReturn(true);
-        $container->set('oro_distribution.handler.application_status', $applicationState);
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
+        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
 
         $config = [
             'routes_to_expose' => ['expose_route1']
         ];
-        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
 
         $extension = new OroFrontendExtension();
         $extension->load([$config], $container);
 
-        $extensionConfig = $container->getExtensionConfig('oro_frontend');
-        self::assertCount(6, $extensionConfig[0]['settings']);
+        self::assertEquals(
+            [
+                [
+                    'settings' => [
+                        'resolved' => true,
+                        'frontend_theme' => ['value' => '%oro_layout.default_active_theme%', 'scope' => 'app'],
+                        'page_templates' => ['value' => [], 'scope' => 'app'],
+                        'guest_access_enabled' => ['value' => true, 'scope' => 'app'],
+                        'filter_value_selectors' => ['value' => 'dropdown', 'scope' => 'app'],
+                        'web_api' => ['value' => false, 'scope' => 'app'],
+                    ]
+                ]
+            ],
+            $container->getExtensionConfig('oro_frontend')
+        );
         self::assertEquals(
             $config['routes_to_expose'],
             $container->getDefinition('oro_frontend.extractor.frontend_exposed_routes_extractor')->getArgument(1)
@@ -50,20 +57,21 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
     public function testConfigurationForNotConfiguredFrontendSession()
     {
-        $container = $this->getContainerBuilder();
-
-        $config = [];
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
         DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
 
         $extension = new OroFrontendExtension();
-        $extension->load([$config], $container);
+        $extension->load([], $container);
 
         self::assertSame([], $container->getParameter('oro_frontend.session.storage.options'));
     }
 
     public function testConfigurationForFrontendSession()
     {
-        $container = $this->getContainerBuilder();
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
+        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
 
         $config = [
             'session' => [
@@ -72,7 +80,6 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
                 'cookie_path'     => '/test'
             ]
         ];
-        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
 
         $extension = new OroFrontendExtension();
         $extension->load([$config], $container);
@@ -89,7 +96,9 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
     public function testConfigurationForFrontendSessionWithFalseValues()
     {
-        $container = $this->getContainerBuilder();
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
+        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
 
         $config = [
             'session' => [
@@ -97,7 +106,6 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
                 'cookie_httponly' => false
             ]
         ];
-        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
 
         $extension = new OroFrontendExtension();
         $extension->load([$config], $container);
@@ -114,13 +122,9 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
     public function testConfigurationForFrontendApiViews()
     {
-        $container = $this->getContainerBuilder();
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
 
-        $config = [
-            'frontend_api' => [
-                'api_doc_views' => ['frontend_view1']
-            ]
-        ];
         $apiConfig = [
             'api_doc_views' => [
                 'backend_view1' => [
@@ -132,6 +136,12 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
             ]
         ];
         DependencyInjectionUtil::setConfig($container, $apiConfig);
+
+        $config = [
+            'frontend_api' => [
+                'api_doc_views' => ['frontend_view1']
+            ]
+        ];
 
         $extension = new OroFrontendExtension();
         $extension->load([$config], $container);
@@ -160,13 +170,9 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
             . ' Check that it is configured in oro_api.api_doc_views.'
         );
 
-        $container = $this->getContainerBuilder();
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
 
-        $config = [
-            'frontend_api' => [
-                'api_doc_views' => ['frontend_view1']
-            ]
-        ];
         $apiConfig = [
             'api_doc_views' => [
                 'backend_view1' => []
@@ -174,19 +180,24 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         ];
         DependencyInjectionUtil::setConfig($container, $apiConfig);
 
+        $config = [
+            'frontend_api' => [
+                'api_doc_views' => ['frontend_view1']
+            ]
+        ];
+
         $extension = new OroFrontendExtension();
         $extension->load([$config], $container);
     }
 
     public function testConfigurationForFrontendApiEmptyCors()
     {
-        $container = $this->getContainerBuilder();
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
         DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
 
-        $config = [];
-
         $extension = new OroFrontendExtension();
-        $extension->load([$config], $container);
+        $extension->load([], $container);
 
         $corsSettingsDef = $container->getDefinition('oro_frontend.api.rest.cors_settings');
         self::assertSame(600, $corsSettingsDef->getArgument(0));
@@ -198,7 +209,8 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
     public function testConfigurationForFrontendApiCors()
     {
-        $container = $this->getContainerBuilder();
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
         DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
 
         $config = [
@@ -394,13 +406,5 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
         $extension = new OroFrontendExtension();
         $extension->prepend($container);
-    }
-
-    private function getContainerBuilder(): ContainerBuilder
-    {
-        $container = new ContainerBuilder();
-        $container->setParameter('kernel.environment', 'prod');
-
-        return $container;
     }
 }
