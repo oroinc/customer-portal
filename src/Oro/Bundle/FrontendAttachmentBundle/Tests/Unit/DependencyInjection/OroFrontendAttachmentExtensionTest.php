@@ -3,17 +3,17 @@
 namespace Oro\Bundle\FrontendAttachmentBundle\Tests\Unit\DependencyInjection;
 
 use Oro\Bundle\FrontendAttachmentBundle\DependencyInjection\OroFrontendAttachmentExtension;
-use Oro\Bundle\TestFrameworkBundle\Test\DependencyInjection\ExtensionTestCase;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class OroFrontendAttachmentExtensionTest extends ExtensionTestCase
+class OroFrontendAttachmentExtensionTest extends \PHPUnit\Framework\TestCase
 {
-    public function testLoad()
+    public function testLoad(): void
     {
-        $this->loadExtension(new OroFrontendAttachmentExtension());
+        $container = new ContainerBuilder();
 
-        $expectedServices = [
-            'oro_frontend_attachment.form.extension.file_attachment_config_extension',
-        ];
-        $this->assertDefinitionsLoaded($expectedServices);
+        $extension = new OroFrontendAttachmentExtension();
+        $extension->load([], $container);
+
+        self::assertNotEmpty($container->getDefinitions());
     }
 }

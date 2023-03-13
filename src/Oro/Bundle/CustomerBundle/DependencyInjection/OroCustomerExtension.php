@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\DependencyInjection;
 
+use Oro\Bundle\ConfigBundle\DependencyInjection\SettingsBuilder;
 use Oro\Bundle\SecurityBundle\DependencyInjection\Extension\SecurityExtensionHelper;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -15,9 +16,10 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
     /**
      * {@inheritDoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
-        $config = $this->processConfiguration(new Configuration(), $configs);
+        $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
+        $container->prependExtensionConfig($this->getAlias(), SettingsBuilder::getSettings($config));
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
@@ -33,7 +35,6 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
         $loader->load('mq_processors.yml');
         $loader->load('mq_topics.yml');
 
-        $container->prependExtensionConfig($this->getAlias(), array_intersect_key($config, array_flip(['settings'])));
         $container->setParameter('oro_customer_user.login_sources', $config['login_sources']);
         $container->setParameter('oro_customer_user.reset.ttl', $config['reset']['ttl']);
 
@@ -47,7 +48,7 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
     /**
      * {@inheritDoc}
      */
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         /** @var ExtendedContainerBuilder $container */
         SecurityExtensionHelper::makeFirewallLatest($container, 'frontend_secure');
