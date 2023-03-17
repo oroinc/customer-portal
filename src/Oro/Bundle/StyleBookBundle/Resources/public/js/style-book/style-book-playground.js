@@ -173,7 +173,14 @@ define(function(require) {
          * @updateConfigPreview Update text preview of configuration array
          */
         updateConfigPreview: function() {
-            this.configPreview.text(JSON.stringify(_.omit(this.viewOptions, ['el', '_sourceElement']), null, '\t'));
+            const content = JSON.stringify(this.viewOptions, (key, value) => {
+                // Discard keys that are null or HTML elements due to avoid circular references
+                if (value === null || value instanceof $ || value instanceof HTMLElement) {
+                    return void 0;
+                }
+                return value;
+            }, '\t');
+            this.configPreview.text(content);
         },
 
         /**
