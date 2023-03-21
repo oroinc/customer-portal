@@ -27,7 +27,9 @@ define(function(require) {
             loadingClass: 'loading',
             itemLinkSelector: null,
             processClick: null,
-            rtl: _.isRTL()
+            rtl: _.isRTL(),
+            // Enable or disable mouse dragging
+            draggable: false
         }),
 
         /**
@@ -78,19 +80,18 @@ define(function(require) {
                 this.onChange();
             }
 
-            $(this.$el).on('destroy' + this.eventNamespace(), function(event, slick) {
+            $(this.$el).on(`destroy${this.eventNamespace()}`, function(event, slick) {
                 self.$el.removeClass(self.options.additionalClass);
             });
 
-            $(this.$el).on('breakpoint' + this.eventNamespace(), function(event, slick) {
+            $(this.$el).on(`breakpoint${this.eventNamespace()}`, function(event, slick) {
                 self.addEmbeddedArrowsClass(slick.$slider, slick.options.arrows || false);
             });
 
             this.previousSlide = this.$el.slick('slickCurrentSlide');
-            this.$el.on('afterChange' + this.eventNamespace(), this._slickAfterChange.bind(this));
-
+            this.$el.on(`afterChange${this.eventNamespace()}`, this._slickAfterChange.bind(this));
             if (this.options.processClick) {
-                this.$el.on('click' + this.eventNamespace(), this.options.processClick, this.toProcessClick.bind(this));
+                this.$el.on(`click${this.eventNamespace()}`, this.options.processClick, this.toProcessClick.bind(this));
             }
         },
 
@@ -160,6 +161,14 @@ define(function(require) {
          * @param {object} event
          */
         toProcessClick: function(event) {
+            const selection = window.getSelection();
+
+            // Allows to select text from the slide and prevents click on parent link element
+            if (event.delegateTarget.contains(selection.anchorNode) && selection.toString().length) {
+                event.preventDefault();
+                return;
+            }
+
             if (event.target.tagName !== 'A') {
                 event.stopPropagation();
 
