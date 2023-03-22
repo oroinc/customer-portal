@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Oro\Bundle\CustomerBundle\Async\Topic;
 
 use Oro\Component\MessageQueue\Topic\AbstractTopic;
+use Oro\Component\MessageQueue\Topic\JobAwareTopicInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * A topic to warm up cache for all customer users who logged in during cache TTL time period.
  */
-class CustomerCalculateOwnerTreeCacheTopic extends AbstractTopic
+class CustomerCalculateOwnerTreeCacheTopic extends AbstractTopic implements JobAwareTopicInterface
 {
     public const CACHE_TTL = 'cache_ttl';
 
@@ -32,5 +33,10 @@ class CustomerCalculateOwnerTreeCacheTopic extends AbstractTopic
             ->allowedTypes('int')
             ->allowedValues(static fn (int $ttl) => $ttl > 0)
             ->info('Number of seconds that should pass since the last login of a customer user');
+    }
+
+    public function createJobName($messageBody): string
+    {
+        return self::getName();
     }
 }

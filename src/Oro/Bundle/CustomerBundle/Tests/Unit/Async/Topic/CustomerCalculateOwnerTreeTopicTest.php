@@ -49,4 +49,12 @@ class CustomerCalculateOwnerTreeTopicTest extends AbstractTopicTestCase
             ],
         ];
     }
+
+    public function testCreateJobName(): void
+    {
+        self::assertSame(
+            'oro.customer.calculate_owner_tree_cache',
+            $this->getTopic()->createJobName([])
+        );
+    }
 }

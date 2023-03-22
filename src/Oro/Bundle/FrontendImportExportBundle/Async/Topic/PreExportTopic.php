@@ -33,4 +33,13 @@ class PreExportTopic extends BasePreExportTopic
             ])
             ->addAllowedTypes('refererUrl', ['string', 'null']);
     }
+
+    public function createJobName($messageBody): string
+    {
+        return sprintf(
+            'oro_frontend_importexport.pre_export.%s.user_%s',
+            $messageBody['jobName'],
+            $this->getUser()->getId()
+        );
+    }
 }

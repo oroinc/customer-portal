@@ -19,6 +19,7 @@ use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
 use Oro\Component\MessageQueue\Job\DependentJobContext;
 use Oro\Component\MessageQueue\Job\DependentJobService;
 use Oro\Component\MessageQueue\Job\JobRunner;
+use Oro\Component\MessageQueue\Topic\JobAwareTopicInterface;
 use Oro\Component\MessageQueue\Transport\Message as TransportMessage;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
 use Psr\Log\LoggerInterface;
@@ -28,6 +29,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class PreExportMessageProcessorTest extends \PHPUnit\Framework\TestCase
 {
     use MessageQueueExtension;
+
+    private const JOB_NAME = 'oro_frontend_importexport.pre_export.test.user_1';
 
     public function testShouldReturnSubscribedTopics(): void
     {
@@ -40,7 +43,7 @@ class PreExportMessageProcessorTest extends \PHPUnit\Framework\TestCase
     public function testProcess(): void
     {
         $exportHandler = $this->createMock(ExportHandler::class);
-        $jobUniqueName = 'oro_frontend_importexport.pre_export.test.user_1';
+        $jobUniqueName = self::JOB_NAME;
         $message = new TransportMessage();
         $message->setBody([
             'jobName' => 'test',
@@ -50,16 +53,20 @@ class PreExportMessageProcessorTest extends \PHPUnit\Framework\TestCase
             'outputFormat' => 'csv',
             'options' => [],
         ]);
+        $message->setProperties([
+            JobAwareTopicInterface::UNIQUE_JOB_NAME => $jobUniqueName
+        ]);
         $message->setMessageId(123);
 
         $job = $this->createJob(1);
         $childJob = $this->createJob(10, $job);
 
         $jobRunner = $this->createMock(JobRunner::class);
+
         $jobRunner->expects(self::once())
-            ->method('runUnique')
-            ->with(123, $jobUniqueName)
-            ->willReturnCallback(function ($jobId, $name, $callback) use ($jobRunner, $childJob) {
+            ->method('runUniqueByMessage')
+            ->with($message)
+            ->willReturnCallback(function ($jobUniqueName, $callback) use ($jobRunner, $childJob) {
                 return $callback($jobRunner, $childJob);
             });
         $jobRunner->expects(self::once())
@@ -148,6 +155,7 @@ class PreExportMessageProcessorTest extends \PHPUnit\Framework\TestCase
     {
         $job = new Job();
         $job->setId($id);
+        $job->setName(self::JOB_NAME);
         if ($rootJob !== null) {
             $job->setRootJob($rootJob);
         }
