@@ -13,24 +13,17 @@ class ScreensThemeConfigurationExtensionTest extends \PHPUnit\Framework\TestCase
 {
     use TempDirExtension;
 
-    /** @var ThemeConfigurationProvider */
-    private $themeConfigurationProvider;
+    private ThemeConfigurationProvider $themeConfigurationProvider;
 
-    /** @var string */
-    private $cacheFile;
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
-        $this->cacheFile = $this->getTempFile('ScreensThemeConfigurationExtension');
+        $cacheFile = $this->getTempFile('ScreensThemeConfigurationExtension');
 
         $themeConfiguration = new ThemeConfiguration();
         $themeConfiguration->addExtension(new ScreensThemeConfigurationExtension());
 
         $this->themeConfigurationProvider = new ThemeConfigurationProvider(
-            $this->cacheFile,
+            $cacheFile,
             false,
             $themeConfiguration,
             '[\w\-]+'
