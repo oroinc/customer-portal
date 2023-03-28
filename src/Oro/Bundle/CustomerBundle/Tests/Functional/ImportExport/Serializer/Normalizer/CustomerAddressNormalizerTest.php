@@ -2,18 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\ImportExport\Serializer\Normalizer;
 
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
-use Oro\Bundle\CustomerBundle\ImportExport\Serializer\Normalizer\CustomerAddressNormalizer;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadFullCustomerAddress;
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-use Oro\Component\Testing\Unit\EntityTrait;
 
-class CustomerAddressNormalizerTest extends WebTestCase
+class CustomerAddressNormalizerTest extends AbstractCustomerAddressNormalizerTest
 {
-    use EntityTrait;
-
-    private CustomerAddressNormalizer $normalizer;
-
     protected function setUp(): void
     {
         $this->initClient();
@@ -21,28 +15,6 @@ class CustomerAddressNormalizerTest extends WebTestCase
 
         $this->normalizer = $this->getContainer()->get('oro_customer.importexport.normalizer.customer_address');
         $this->normalizer->setSerializer($this->getContainer()->get('oro_importexport.serializer'));
-    }
-
-    /**
-     * @dataProvider supportsDataProvider
-     */
-    public function testSupportsNormalization($data, bool $expected)
-    {
-        if (is_string($data)) {
-            $data = $this->getReference($data);
-        }
-        $this->assertSame($expected, $this->normalizer->supportsNormalization($data));
-    }
-
-    /**
-     * @dataProvider supportsDataProvider
-     */
-    public function testSupportsDenormalization($data, bool $expected)
-    {
-        if (is_string($data)) {
-            $data = $this->getReference($data);
-        }
-        $this->assertSame($expected, $this->normalizer->supportsDenormalization([], get_class($data)));
     }
 
     public function supportsDataProvider(): \Generator
@@ -58,46 +30,42 @@ class CustomerAddressNormalizerTest extends WebTestCase
         ];
     }
 
-    public function testNormalize()
+    public function testNormalizeForTheCustomerEntity()
     {
         /** @var CustomerAddress $address */
         $address = $this->getReference('customer.level_1.address_1_full');
-        $data = $this->normalizer->normalize($address);
+        $data = $this->normalizer->normalize($address, context: ['entityName' => Customer::class]);
         $this->assertEquals(
-            [
-                'city' => 'Rochester',
-                'firstName' => 'First',
+            array_merge([
                 'id' => $address->getId(),
                 'label' => 'customer.level_1.address_1_full',
-                'lastName' => 'Last',
-                'middleName' => 'Middle',
-                'namePrefix' => 'Mr',
-                'nameSuffix' => 'Sf',
-                'organization' => 'Test Org',
-                'phone' => '+123321123',
-                'postalCode' => '14608',
-                'primary' => true,
-                'regionText' => null,
-                'street' => '1215 Caldwell Road',
-                'street2' => 'street2',
-                'country' => [
-                    'iso2Code' => 'US'
-                ],
                 'frontendOwner' => [
                     'id' => $address->getFrontendOwner()->getId(),
                     'name' => 'customer.level_1'
                 ],
-                'owner' => [
-                    'username' => 'admin'
-                ],
-                'region' => [
-                    'combinedCode' => 'US-NY'
+            ], self::getColumnsForNormalizer()),
+            $data
+        );
+    }
+
+    public function testNormalizeForTheCustomerAddressEntity()
+    {
+        /** @var CustomerAddress $address */
+        $address = $this->getReference('customer.level_1.address_1_full');
+        $data = $this->normalizer->normalize($address, context: ['entityName' => CustomerAddress::class]);
+        $this->assertEquals(
+            array_merge([
+                'id' => $address->getId(),
+                'label' => 'customer.level_1.address_1_full',
+                'frontendOwner' => [
+                    'id' => $address->getFrontendOwner()->getId(),
+                    'name' => 'customer.level_1'
                 ],
                 'Billing' => true,
                 'Default Billing' => false,
                 'Shipping' => true,
                 'Default Shipping' => true,
-            ],
+            ], self::getColumnsForNormalizer()),
             $data
         );
     }
@@ -106,40 +74,21 @@ class CustomerAddressNormalizerTest extends WebTestCase
     {
         /** @var CustomerAddress $address */
         $address = $this->normalizer->denormalize(
-            [
-                'city' => 'Rochester',
-                'firstName' => 'First',
-                'id' => 11,
-                'label' => 'customer.level_1.address_1_full',
-                'lastName' => 'Last',
-                'middleName' => 'Middle',
-                'namePrefix' => 'Mr',
-                'nameSuffix' => 'Sf',
-                'organization' => 'Test Org',
-                'phone' => '+123321123',
-                'postalCode' => '14608',
-                'primary' => true,
-                'regionText' => null,
-                'street' => '1215 Caldwell Road',
-                'street2' => 'street2',
-                'country' => [
-                    'iso2Code' => 'US'
-                ],
-                'frontendOwner' => [
-                    'id' => 42,
-                    'name' => 'customer.level_1'
-                ],
-                'owner' => [
-                    'username' => 'admin'
-                ],
-                'region' => [
-                    'combinedCode' => 'US-NY'
-                ],
-                'Billing' => true,
-                'Default Billing' => false,
-                'Shipping' => true,
-                'Default Shipping' => true,
-            ],
+            array_merge(
+                self::getColumnsForNormalizer(),
+                [
+                    'id' => 11,
+                    'label' => 'customer.level_1.address_1_full',
+                    'frontendOwner' => [
+                        'id' => 42,
+                        'name' => 'customer.level_1'
+                    ],
+                    'Billing' => true,
+                    'Default Billing' => false,
+                    'Shipping' => true,
+                    'Default Shipping' => true,
+                ]
+            ),
             CustomerAddress::class
         );
 
