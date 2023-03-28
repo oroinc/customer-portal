@@ -15,9 +15,13 @@ abstract class AbstractAddressNormalizer extends ConfigurableEntityNormalizer
     /**
      * @param AbstractTypedAddress $object
      */
-    public function normalize($object, string $format = null, array $context = [])
+    public function normalize($object, string $format = null, array $context = []): array
     {
         $result = parent::normalize($object, $format, $context);
+
+        if (!$this->supportsExtraSerializableColumns($context)) {
+            return $result;
+        }
 
         $result['Billing'] = $this->serializer->normalize(
             $object->hasTypeWithName(AddressType::TYPE_BILLING),
@@ -44,7 +48,7 @@ abstract class AbstractAddressNormalizer extends ConfigurableEntityNormalizer
         return $result;
     }
 
-    public function denormalize($data, string $type, string $format = null, array $context = [])
+    public function denormalize($data, string $type, string $format = null, array $context = []): AbstractTypedAddress
     {
         foreach (['Shipping', 'Default Shipping', 'Billing', 'Default Billing'] as $field) {
             $data[$field] = $this->scalarFieldDenormalizer->denormalize(
@@ -72,5 +76,14 @@ abstract class AbstractAddressNormalizer extends ConfigurableEntityNormalizer
         }
 
         return parent::denormalize($data, $type, $format, $context);
+    }
+
+    protected function supportsExtraSerializableColumns(array $context): bool
+    {
+        return isset($context['entityName']) && is_a(
+            $context['entityName'],
+            AbstractTypedAddress::class,
+            true
+        );
     }
 }

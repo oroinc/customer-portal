@@ -13,9 +13,14 @@ class CustomerUserAddressNormalizer extends AbstractAddressNormalizer
     /**
      * @param CustomerUserAddress $object
      */
-    public function normalize($object, string $format = null, array $context = [])
+    public function normalize($object, string $format = null, array $context = []): array
     {
         $result = parent::normalize($object, $format, $context);
+
+        if (!$this->supportsExtraSerializableColumns($context)) {
+            return $result;
+        }
+
         $result['frontendOwner']['id'] = $object->getFrontendOwner()->getId();
 
         return $result;
