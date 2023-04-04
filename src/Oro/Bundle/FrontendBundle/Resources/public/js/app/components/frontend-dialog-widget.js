@@ -173,12 +173,22 @@ define(function(require) {
          * @private
          */
         _setHeader: function() {
+            const instance = this.widget.dialog('instance');
+
             if (this.options.header) {
-                const $title = this.widget.dialog('instance').uiDialogTitlebar;
+                const $title = instance.uiDialogTitlebar;
                 if (this.$header) {
                     this.$header.remove();
                 }
                 this.$header = $(this.options.header).prependTo($title);
+            }
+
+            if (this.$el.find('[data-dialog-extra-header-content]').length) {
+                if (!this.$header) {
+                    this.$header = this.$extraHeaderContainer;
+                } else {
+                    this.$extraHeaderContainer.appendTo(this.$header);
+                }
             }
         },
 
@@ -192,10 +202,10 @@ define(function(require) {
             }
 
             this.fullscreenViewOptions.contentElement = this.widget.dialog('instance').uiDialog.get(0);
-            this.toggleFullscreenDialogClass();
 
             this.subview('fullscreenView', new FullScreenPopupView(this.fullscreenViewOptions));
             this.subview('fullscreenView').show();
+            this.toggleFullscreenDialogClass();
             this.subview('fullscreenView').on('close', function() {
                 if (!this.disposeProcess) {
                     this.remove();
@@ -210,7 +220,7 @@ define(function(require) {
          */
         toggleFullscreenDialogClass: function(state = true) {
             const $uiDialog = this.widget.dialog('instance').uiDialog;
-            const uiDialogClass = this.options.dialogOptions.dialogClass + '-fullscreen';
+            const uiDialogClass = `ui-dialog-fullscreen ${this.options.dialogOptions.dialogClass}-fullscreen`;
             $uiDialog.toggleClass(uiDialogClass, state);
         },
 

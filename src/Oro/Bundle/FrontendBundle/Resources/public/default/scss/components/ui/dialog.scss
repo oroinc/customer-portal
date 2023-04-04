@@ -68,18 +68,18 @@
 
         overflow: visible;
 
-        .pull-right .action-wrapper {
-            margin-left: $dialog-action-wrapper-side-offset;
-        }
-
-        .pull-left .action-wrapper {
-            margin-right: $dialog-action-wrapper-side-offset;
-        }
-
         .btn-success {
             background: $dialog-btn-success-background;
             border-color: $dialog-btn-success-border;
         }
+    }
+
+    .pull-right .action-wrapper {
+        margin-left: $dialog-action-wrapper-side-offset;
+    }
+
+    .pull-left .action-wrapper {
+        margin-right: $dialog-action-wrapper-side-offset;
     }
 
     .ui-dialog-messages {
@@ -95,18 +95,25 @@
         }
     }
 
-    &--frontend {
-        &-fullscreen {
-            position: $dialog-frontend-fullscreen-position;
+    .ui-dialog-extra-header-content {
+        margin: $dialog-extra-header-content-offset;
+        padding: $dialog-extra-header-content-inner-offset;
 
-            .ui-dialog-titlebar,
-            .ui-dialog-buttonpane {
-                display: $dialog-frontend-fullscreen-titlebar-display;
-            }
+        &:empty {
+            display: none;
+        }
+    }
 
-            .ui-widget-content {
-                padding: $dialog-frontend-fullscreen-content-offset-inner;
-            }
+    &-fullscreen {
+        position: $dialog-frontend-fullscreen-position;
+
+        .ui-dialog-titlebar,
+        .ui-dialog-buttonpane {
+            display: $dialog-frontend-fullscreen-titlebar-display;
+        }
+
+        .ui-widget-content {
+            padding: $dialog-frontend-fullscreen-content-offset-inner;
         }
     }
 }
@@ -121,15 +128,29 @@
             padding: $dialog-widget-content-offset-inner-mobile-landscape;
         }
 
+        .ui-dialog-messages {
+            padding: $dialog-messages-inner-offset-mobile-landscape;
+        }
+
+        .ui-dialog-extra-header-content {
+            padding: $dialog-extra-header-content-inner-offset-mobile-landscape;
+        }
+
         .ui-dialog-buttonpane {
             padding: $dialog-buttonpane-offset-inner-mobile-landscape;
         }
 
-        &--frontend {
-            &-fullscreen {
-                .ui-widget-content {
-                    padding: $dialog-frontend-fullscreen-content-offset-inner-mobile-landscape;
-                }
+        &-fullscreen {
+            .ui-widget-content {
+                padding: $dialog-frontend-fullscreen-content-offset-inner-mobile-landscape;
+            }
+
+            .ui-dialog-messages {
+                padding: $dialog-messages-fullscreen-inner-offset-mobile-landscape;
+            }
+
+            .ui-dialog-extra-header-content {
+                padding: $dialog-extra-header-fullscreen-content-inner-offset-mobile-landscape;
             }
         }
     }

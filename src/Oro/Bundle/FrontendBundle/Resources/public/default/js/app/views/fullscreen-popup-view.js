@@ -25,7 +25,7 @@ define(function(require) {
             'template', 'templateSelector', 'templateData',
             'popupLabel', 'popupCloseOnLabel',
             'popupCloseButton', 'popupIcon', 'popupBadge',
-            'stopEventsPropagation', 'stopEventsList'
+            'stopEventsPropagation', 'stopEventsList', 'dialogClass'
         ]),
 
         sections: ['header', 'content', 'footer'],
@@ -98,6 +98,11 @@ define(function(require) {
         $popup: null,
 
         /**
+         * @property
+         */
+        dialogClass: '',
+
+        /**
          * @inheritdoc
          */
         constructor: function FullscreenPopupView(options) {
@@ -149,7 +154,8 @@ define(function(require) {
             let data = FullscreenPopupView.__super__.getTemplateData.call(this);
             data = _.extend({}, data, {
                 id: this.cid,
-                close: this.popupCloseButton
+                close: this.popupCloseButton,
+                dialogClass: this.dialogClass
             });
             return data;
         },

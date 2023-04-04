@@ -16,6 +16,7 @@ $fullscreen-popup-bg: get-color('additional', 'ultra') !default;
 
 $fullscreen-popup-header-display: inline-flex !default;
 $fullscreen-popup-header-align-items: center !default;
+$fullscreen-popup-header-flex-shrink: 0 !default;
 $fullscreen-popup-header-position: relative !default;
 $fullscreen-popup-header-z-index: z('base') + 1 !default;
 $fullscreen-popup-header-right: 0 !default;
