@@ -31,19 +31,100 @@ class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener = new AuthenticationListener($this->loginManager, $this->configManager, self::FIREWALL_NAME);
     }
 
+    public function testAuthenticateOnRegistrationCompletedWithoutAutoLoginAndConfimration()
+    {
+        $customerUser = new CustomerUser();
+        $request = new Request();
+        $response = new Response();
+        $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
+
+        $this->configManager->expects(self::once())
+            ->method('get')
+            ->willReturnMap([
+                ['oro_customer.auto_login_after_registration', false, false, null, false]
+            ]);
+
+        $this->loginManager->expects(self::never())
+            ->method('logInUser');
+
+        $this->listener->authenticate($event);
+    }
+
+    public function testAuthenticateOnRegistrationCompleteWithoutRequestAutoLogin()
+    {
+        $customerUser = new CustomerUser();
+        $request = new Request();
+        $request->query->set('_oro_customer_auto_login', true);
+        $response = new Response();
+        $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
+
+        $this->configManager->expects(self::never())
+            ->method('get');
+
+        $this->loginManager->expects(self::once())
+            ->method('logInUser')
+            ->with(self::FIREWALL_NAME, $customerUser, $response);
+
+        $this->listener->authenticate($event);
+    }
+
+    public function testAuthenticateOnRegistrationCompleteWithAutoLoginAndConfirmation()
+    {
+        $request = new Request();
+        $response = new Response();
+        $customerUser = new CustomerUser();
+        $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
+
+        $this->configManager->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap([
+                ['oro_customer.auto_login_after_registration', false, false, null, true],
+                ['oro_customer.confirmation_required', false, false, null, true]
+            ]);
+
+        $this->loginManager->expects(self::never())
+            ->method('logInUser');
+
+        $this->listener->authenticate($event);
+    }
+
+    public function testAuthenticateOnRegistrationCompleteWithAutoLoginAndWitoutConfirmation()
+    {
+        $request = new Request();
+        $response = new Response();
+        $customerUser = new CustomerUser();
+        $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
+
+        $this->configManager->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap([
+                ['oro_customer.auto_login_after_registration', false, false, null, true],
+                ['oro_customer.confirmation_required', false, false, null, false]
+            ]);
+
+        $this->loginManager->expects(self::once())
+            ->method('logInUser')
+            ->with(self::FIREWALL_NAME, $customerUser, $response);
+
+        $this->listener->authenticate($event);
+    }
+
     public function testAuthenticateWithoutAutoLogin()
     {
         $customerUser = new CustomerUser();
         $request = new Request();
         $response = new Response();
         $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
-        $this->configManager->expects($this->any())
+
+        $this->configManager->expects(self::once())
             ->method('get')
             ->with('oro_customer.auto_login_after_registration')
             ->willReturn(false);
-        $this->loginManager->expects($this->never())
+
+        $this->loginManager->expects(self::never())
             ->method('logInUser');
-        $this->listener->authenticate($event);
+
+        $this->listener->authenticateOnRegistrationConfirmed($event);
     }
 
     public function testAuthenticateWithoutRequestAutoLogin()
@@ -53,14 +134,17 @@ class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
         $request->query->set('_oro_customer_auto_login', true);
         $response = new Response();
         $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
-        $this->configManager->expects($this->any())
+
+        $this->configManager->expects(self::once())
             ->method('get')
             ->with('oro_customer.auto_login_after_registration')
             ->willReturn(false);
-        $this->loginManager->expects($this->once())
+
+        $this->loginManager->expects(self::once())
             ->method('logInUser')
             ->with(self::FIREWALL_NAME, $customerUser, $response);
-        $this->listener->authenticate($event);
+
+        $this->listener->authenticateOnRegistrationConfirmed($event);
     }
 
     public function testAuthenticateWithAutoLogin()
@@ -69,13 +153,16 @@ class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
         $response = new Response();
         $customerUser = new CustomerUser();
         $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
-        $this->configManager->expects($this->once())
+
+        $this->configManager->expects(self::once())
             ->method('get')
             ->with('oro_customer.auto_login_after_registration')
             ->willReturn(true);
-        $this->loginManager->expects($this->once())
+
+        $this->loginManager->expects(self::once())
             ->method('logInUser')
             ->with(self::FIREWALL_NAME, $customerUser, $response);
-        $this->listener->authenticate($event);
+
+        $this->listener->authenticateOnRegistrationConfirmed($event);
     }
 }
