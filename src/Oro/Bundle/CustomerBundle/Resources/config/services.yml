@@ -1098,9 +1098,9 @@ services:
             - '@oro_customer.security.login_manager'
             - '@oro_config.manager'
             - '%oro_customer.firewall_name%'
-        lazy: true
         tags:
-            - { name: kernel.event_subscriber}
+            - { name: kernel.event_listener, event: customer_user.registration.completed, method: authenticateOnRegistrationCompleted }
+            - { name: kernel.event_listener, event: customer_user.registration.confirmed, method: authenticateOnRegistrationConfirmed }
 
     oro_customer.security.orm.ownership_sql_walker_builder:
         class: 'Oro\Bundle\CustomerBundle\ORM\Walker\CustomerOwnershipConditionDataBuilder'

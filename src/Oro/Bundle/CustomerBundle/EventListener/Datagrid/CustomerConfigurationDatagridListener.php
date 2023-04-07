@@ -27,7 +27,7 @@ class CustomerConfigurationDatagridListener
                 'label'        => 'oro.customer.grid.action.config',
                 'link'         => 'config_link',
                 'icon'         => 'cog',
-                'acl_resource' => 'oro_customer_update'
+                'acl_resource' => 'oro_customer_customer_update'
             ]
         );
     }

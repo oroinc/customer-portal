@@ -37,7 +37,7 @@ class CustomerConfigurationController implements ServiceSubscriberInterface
      *      defaults={"activeGroup" = null, "activeSubGroup" = null}
      * )
      * @Template()
-     * @AclAncestor("oro_customer_update")
+     * @AclAncestor("oro_customer_customer_update")
      */
     public function customerConfigAction(
         Request $request,
