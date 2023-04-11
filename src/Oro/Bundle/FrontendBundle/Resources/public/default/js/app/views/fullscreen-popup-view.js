@@ -113,6 +113,7 @@ define(function(require) {
          * @inheritdoc
          */
         initialize: function(options) {
+            this.initLayoutOptions = options.initLayoutOptions || {};
             _.each(this.sections, this._initializeSection.bind(this, options));
             return FullscreenPopupView.__super__.initialize.call(this, options);
         },
@@ -187,6 +188,10 @@ define(function(require) {
             this.trigger('close');
         },
 
+        getLayoutElement() {
+            return this.$popup;
+        },
+
         closeSection: function(section) {
             this._eachSectionVariant(section, '_closeSection');
         },
@@ -235,6 +240,7 @@ define(function(require) {
 
         _onShow: function() {
             this._initPopupEvents();
+            this.initLayout(this.initLayoutOptions);
             manageFocus.focusTabbable(this.$popup);
             mediator.trigger('layout:reposition');
             scrollHelper.disableBodyTouchScroll();

@@ -201,12 +201,24 @@ define(function(require) {
                 this.fullscreenViewOptions.headerTemplate = null;
             }
 
-            this.fullscreenViewOptions.contentElement = this.widget.dialog('instance').uiDialog.get(0);
+            if (this.options.initLayoutOptions) {
+                this.fullscreenViewOptions.initLayoutOptions = {
+                    ...this.options.initLayoutOptions,
+                    ...this.fullscreenViewOptions.initLayoutOptions || {}
+                };
+            }
 
+            this.fullscreenViewOptions.contentElement = this.widget.dialog('instance').uiDialog.get(0);
             this.subview('fullscreenView', new FullScreenPopupView(this.fullscreenViewOptions));
+
             this.subview('fullscreenView').show();
             this.toggleFullscreenDialogClass();
-            this.subview('fullscreenView').on('close', function() {
+            this.subview('fullscreenView').once('show', function() {
+                if (this.subview('LoadingBarView')) {
+                    this.subview('LoadingBarView').$el.appendTo(this.subview('fullscreenView').header.$el);
+                }
+            }, this);
+            this.subview('fullscreenView').once('close', function() {
                 if (!this.disposeProcess) {
                     this.remove();
                 }

@@ -116,6 +116,10 @@
             padding: $dialog-frontend-fullscreen-content-offset-inner;
         }
     }
+
+    .loading-bar {
+        position: $dialog-loading-bat-position;
+    }
 }
 
 @include breakpoint('mobile-landscape') {
