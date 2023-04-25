@@ -46,6 +46,8 @@ security:
                 check_path:                 oro_customer_customer_user_security_check
                 login_path:                 oro_customer_customer_user_security_login
                 default_target_path:        oro_frontend_root
+                success_handler:            oro_security.authentication.success_handler
+                failure_handler:            oro_security.authentication.failure_handler
             logout:
                 path:                       oro_customer_customer_user_security_logout
                 invalidate_session:         false
