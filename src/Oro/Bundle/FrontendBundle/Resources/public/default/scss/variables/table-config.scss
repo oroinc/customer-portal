@@ -6,7 +6,8 @@ $table-text-align: left !default;
 $table-row-padding: $offset-y-s !default;
 $table-head-padding: $offset-y-m !default;
 
-$base-table-border: 1px solid get-color('additional', 'light') !default;
+$base-table-border-color: get-color('additional', 'light') !default;
+$base-table-border: 1px solid $base-table-border-color !default;
 
 $table-border-top: $base-table-border !default;
 $table-width: 100% !default;

@@ -20,7 +20,7 @@ $dialog-titlebar-border: 0 !default;
 $dialog-titlebar-buttonpane-top: 0 !default;
 $dialog-titlebar-buttonpane-right: 0 !default;
 
-$dialog-buttonpane-offset-inner: 16px 40px 20px 30px !default;
+$dialog-buttonpane-offset-inner: 16px 40px 20px !default;
 
 $dialog-action-wrapper-side-offset: $offset-x-m !default;
 
@@ -51,7 +51,7 @@ $dialog-messages-inner-offset-mobile-landscape: $dialog-widget-content-offset-in
 
 $dialog-extra-header-content-inner-offset-mobile-landscape: $dialog-messages-inner-offset-mobile-landscape !default;
 
-$dialog-titlebar-offset-inner-mobile-landscape: $close-dialog-size $offset-x 12px !default;
+$dialog-titlebar-offset-inner-mobile-landscape: 12px $offset-x !default;
 
 $dialog-buttonpane-offset-inner-mobile-landscape: $offset-y $offset-x  20px !default;
 

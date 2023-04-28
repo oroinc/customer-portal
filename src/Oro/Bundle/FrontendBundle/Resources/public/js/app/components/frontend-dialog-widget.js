@@ -187,6 +187,7 @@ define(function(require) {
                 if (!this.$header) {
                     this.$header = this.$extraHeaderContainer;
                 } else {
+                    this.$header.html('');
                     this.$extraHeaderContainer.appendTo(this.$header);
                 }
             }
