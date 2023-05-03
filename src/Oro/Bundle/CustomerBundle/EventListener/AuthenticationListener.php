@@ -3,62 +3,45 @@
 namespace Oro\Bundle\CustomerBundle\EventListener;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\CustomerBundle\CustomerUserEvents;
 use Oro\Bundle\CustomerBundle\Event\FilterCustomerUserResponseEvent;
 use Oro\Bundle\CustomerBundle\Security\LoginManager;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Authenticates CustomerUser depending on response param or config settings
+ * Authenticates CustomerUser depending on response param or config settings on success registration or confirmation.
  */
-class AuthenticationListener implements EventSubscriberInterface
+class AuthenticationListener
 {
-    const AUTO_LOGIN_PARAM = "_oro_customer_auto_login";
+    private const AUTO_LOGIN_PARAM = "_oro_customer_auto_login";
 
-    /** @var LoginManager */
-    private $loginManager;
+    private LoginManager $loginManager;
+    private ConfigManager $configManager;
+    private string $firewallName;
 
-    /** @var ConfigManager */
-    private $configManager;
-
-    /** @var string */
-    private $firewallName;
-
-    /**
-     * @param LoginManager $loginManager
-     * @param ConfigManager $configManager
-     * @param string $firewallName
-     */
-    public function __construct(
-        LoginManager $loginManager,
-        ConfigManager $configManager,
-        $firewallName
-    ) {
+    public function __construct(LoginManager $loginManager, ConfigManager $configManager, string $firewallName)
+    {
         $this->loginManager = $loginManager;
         $this->configManager = $configManager;
         $this->firewallName = $firewallName;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public static function getSubscribedEvents()
+    public function authenticateOnRegistrationCompleted(FilterCustomerUserResponseEvent $event): void
     {
-        return [
-            CustomerUserEvents::REGISTRATION_COMPLETED => 'authenticate',
-            CustomerUserEvents::REGISTRATION_CONFIRMED => 'authenticate'
-        ];
+        if ($event->getRequest()?->get(self::AUTO_LOGIN_PARAM)
+            || (
+                $this->configManager->get('oro_customer.auto_login_after_registration')
+                && !$this->configManager->get('oro_customer.confirmation_required')
+            )
+        ) {
+            $this->loginManager->logInUser($this->firewallName, $event->getCustomerUser(), $event->getResponse());
+        }
     }
 
-    public function authenticate(FilterCustomerUserResponseEvent $event)
+    public function authenticateOnRegistrationConfirmed(FilterCustomerUserResponseEvent $event): void
     {
-        $request = $event->getRequest();
-        $customerUser = $event->getCustomerUser();
-
-        if ($this->configManager->get('oro_customer.auto_login_after_registration') ||
-            $request->get(self::AUTO_LOGIN_PARAM)
+        if ($this->configManager->get('oro_customer.auto_login_after_registration')
+            || $event->getRequest()?->get(self::AUTO_LOGIN_PARAM)
         ) {
-            $this->loginManager->logInUser($this->firewallName, $customerUser, $event->getResponse());
+            $this->loginManager->logInUser($this->firewallName, $event->getCustomerUser(), $event->getResponse());
         }
     }
 }

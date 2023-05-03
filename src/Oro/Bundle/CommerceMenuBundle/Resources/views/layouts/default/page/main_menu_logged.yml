@@ -9,9 +9,6 @@ layout:
                     prepend: false
                     options:
                         visible: 'context["is_logged_in"]'
-                main_menu_messages:
-                    blockType: block
             tree:
                 header_row:
-                    header_row_shopping:
-                      # main_menu_messages: ~
+                    header_row_shopping: ~

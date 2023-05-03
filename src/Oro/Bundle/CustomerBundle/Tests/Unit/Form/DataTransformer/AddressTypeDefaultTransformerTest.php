@@ -2,46 +2,37 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\DataTransformer;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Form\DataTransformer\AddressTypeDefaultTransformer;
 
 class AddressTypeDefaultTransformerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var EntityManager */
-    protected $em;
-
-    /** @var EntityRepository */
-    protected $addressRepository;
-
     /** @var AddressTypeDefaultTransformer */
-    protected $transformer;
+    private $transformer;
 
     /** @var AddressType */
-    protected $billingAddressType;
+    private $billingAddressType;
 
     /** @var AddressType */
-    protected $shippingAddressType;
+    private $shippingAddressType;
 
-    /**
-     * @param null   $name
-     * @param array  $data
-     * @param string $dataName
-     */
-    public function __construct($name = null, array $data = array(), $dataName = '')
+    public function __construct(?string $name = null, array $data = [], string $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
 
         $this->billingAddressType = new AddressType(AddressType::TYPE_BILLING);
         $this->shippingAddressType = new AddressType(AddressType::TYPE_SHIPPING);
+    }
 
-        $this->em = $this->createEntityManagerMock();
-        $this->addressRepository = $this->createRepositoryMock([
-            $this->billingAddressType,
-            $this->shippingAddressType
-        ]);
-        $this->addressRepository->expects($this->any())
+    protected function setUp(): void
+    {
+        $addressRepository = $this->createMock(EntityRepository::class);
+        $addressRepository->expects($this->any())
+            ->method('findAll')
+            ->willReturn([$this->billingAddressType, $this->shippingAddressType]);
+        $addressRepository->expects($this->any())
             ->method('findBy')
             ->willReturnCallback(function ($params) {
                 $result = [];
@@ -58,28 +49,24 @@ class AddressTypeDefaultTransformerTest extends \PHPUnit\Framework\TestCase
 
                 return $result;
             });
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp(): void
-    {
-        $this->transformer = new AddressTypeDefaultTransformer($this->em);
+        $em = $this->createMock(EntityManagerInterface::class);
+        $em->expects($this->any())
+            ->method('getRepository')
+            ->willReturn($addressRepository);
+
+        $this->transformer = new AddressTypeDefaultTransformer($em);
     }
 
     /**
      * @dataProvider transformerProvider
      */
-    public function testTransform($parameters, $expected)
+    public function testTransform(?array $parameters, array $expected)
     {
         $this->assertEquals($expected, $this->transformer->transform($parameters));
     }
 
-    /**
-     * @return array
-     */
-    public function transformerProvider()
+    public function transformerProvider(): array
     {
         return [
             'nullable params' => [
@@ -96,15 +83,12 @@ class AddressTypeDefaultTransformerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider reverseTransformerProvider
      */
-    public function testReverseTransform($parameters, $expected)
+    public function testReverseTransform(array $parameters, array $expected)
     {
         $this->assertEquals($expected, $this->transformer->reverseTransform($parameters));
     }
 
-    /**
-     * @return array
-     */
-    public function reverseTransformerProvider()
+    public function reverseTransformerProvider(): array
     {
         return [
             'nullable params' => [
@@ -120,31 +104,5 @@ class AddressTypeDefaultTransformerTest extends \PHPUnit\Framework\TestCase
                 'expected' => [$this->shippingAddressType, $this->billingAddressType]
             ],
         ];
-    }
-
-    /**
-     * @param array $entityModels
-     * @return \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function createRepositoryMock($entityModels = [])
-    {
-        $repo = $this->createMock(EntityRepository::class);
-        $repo->expects($this->any())
-            ->method('findAll')
-            ->willReturn($entityModels);
-
-        $this->em->expects($this->any())
-            ->method('getRepository')
-            ->willReturn($repo);
-
-        return $repo;
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function createEntityManagerMock()
-    {
-        return $this->createMock(EntityManager::class);
     }
 }

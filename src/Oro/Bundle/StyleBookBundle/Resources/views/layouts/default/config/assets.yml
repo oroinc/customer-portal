@@ -13,7 +13,7 @@ stylebook_styles:
         - 'bundles/orostylebook/default/scss/variables/style-book/style-book-sidebar-config.scss'
         - 'bundles/orostylebook/default/scss/variables/style-book/style-book-title-config.scss'
         - 'bundles/orostylebook/default/scss/variables/style-book/style-book-tabs-config.scss'
-        - 'bundles/orostylebook/default/scss/variables/style-book/callout-info-config.scss'
+
         - 'bundles/orostylebook/default/scss/variables/style-book/style-book-group-element-config.scss'
         - 'bundles/orostylebook/default/scss/variables/style-book/style-book-animation-config.scss'
 
@@ -34,7 +34,6 @@ stylebook_styles:
         - 'bundles/orostylebook/default/scss/components/style-book/style-book-main.scss'
         - 'bundles/orostylebook/default/scss/components/style-book/style-book-title.scss'
         - 'bundles/orostylebook/default/scss/components/style-book/style-book-tabs.scss'
-        - 'bundles/orostylebook/default/scss/components/style-book/callout-info.scss'
         - 'bundles/orostylebook/default/scss/components/style-book/style-book-animation.scss'
         - 'bundles/orostylebook/default/scss/components/style-book/style-book-sticky-header.scss'
         - 'bundles/orostylebook/default/scss/components/style-book/style-book-js-components.scss'

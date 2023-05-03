@@ -4,6 +4,7 @@ namespace Oro\Bundle\CommerceMenuBundle\Twig;
 
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\MatcherInterface;
+use Oro\Bundle\CommerceMenuBundle\Layout\MenuItemRenderer;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -16,6 +17,7 @@ use Twig\TwigFunction;
  *   - oro_commercemenu_is_current
  *   - oro_commercemenu_is_ancestor
  *   - oro_commercemenu_get_url
+ *   - oro_commercemenu_render_menu_item
  */
 class MenuExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
@@ -37,6 +39,11 @@ class MenuExtension extends AbstractExtension implements ServiceSubscriberInterf
             new TwigFunction('oro_commercemenu_is_current', [$this, 'isCurrent']),
             new TwigFunction('oro_commercemenu_is_ancestor', [$this, 'isAncestor']),
             new TwigFunction('oro_commercemenu_get_url', [$this, 'getUrl']),
+            new TwigFunction(
+                'oro_commercemenu_render_menu_item',
+                [$this, 'renderMenuItem'],
+                ['is_safe' => ['html']]
+            ),
         ];
     }
 
@@ -50,8 +57,9 @@ class MenuExtension extends AbstractExtension implements ServiceSubscriberInterf
         return $this->getMatcher()->isAncestor($item);
     }
 
-    public function getUrl(string $url): string
+    public function getUrl(?string $url): string
     {
+        $url = (string)$url;
         $result = parse_url($url);
         if (\array_key_exists('host', $result) || \array_key_exists('scheme', $result)) {
             return $url;
@@ -77,6 +85,11 @@ class MenuExtension extends AbstractExtension implements ServiceSubscriberInterf
         return $request->getUriForPath($url);
     }
 
+    public function renderMenuItem(ItemInterface $menuItem): string
+    {
+        return $this->container->get('oro_commerce_menu.layout.menu_item_renderer')->render($menuItem);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -85,6 +98,7 @@ class MenuExtension extends AbstractExtension implements ServiceSubscriberInterf
         return [
             'knp_menu.matcher' => MatcherInterface::class,
             RequestStack::class,
+            'oro_commerce_menu.layout.menu_item_renderer' => MenuItemRenderer::class,
         ];
     }
 

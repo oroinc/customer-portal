@@ -15,7 +15,7 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\CustomerTypedAddressWith
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
 use Oro\Bundle\FormBundle\Tests\Unit\Stub\StripTagsExtensionStub;
 use Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Forms;
@@ -40,29 +40,22 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
     /**
      * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
-        $addressType = new EntityType(
-            [
-                AddressType::TYPE_BILLING => $this->billingType,
-                AddressType::TYPE_SHIPPING => $this->shippingType,
-            ],
-            'translatable_entity'
-        );
-
-        $addressTypeStub = new AddressTypeStub();
-
         return [
             new PreloadedExtension(
                 [
                     $this->formType,
-                    TranslatableEntityType::class => $addressType,
+                    TranslatableEntityType::class => new EntityTypeStub([
+                        AddressType::TYPE_BILLING => $this->billingType,
+                        AddressType::TYPE_SHIPPING => $this->shippingType,
+                    ]),
                     CustomerTypedAddressWithDefaultType::class  => new CustomerTypedAddressWithDefaultTypeStub([
                         $this->billingType,
                         $this->shippingType
                     ], $this->em),
                     FrontendOwnerSelectType::class => new FrontendOwnerSelectTypeStub(),
-                    AddressFormType::class => $addressTypeStub,
+                    AddressFormType::class => new AddressTypeStub(),
                 ],
                 [FormType::class => [new StripTagsExtensionStub($this)]]
             )

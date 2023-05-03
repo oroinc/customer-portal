@@ -6,12 +6,16 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectManager;
+use Oro\Bundle\CustomerBundle\Migrations\Data\ORM\LoadCustomerUserRoles;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
 use Oro\Bundle\OrganizationBundle\Migrations\Data\ORM\LoadOrganizationAndBusinessUnitData;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Loading website data.
+ */
 class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
 {
     const DEFAULT_WEBSITE_NAME = 'Default';
@@ -36,6 +40,7 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
     {
         return [
             LoadOrganizationAndBusinessUnitData::class,
+            LoadCustomerUserRoles::class
         ];
     }
 
@@ -57,11 +62,16 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
             ->getRepository('OroOrganizationBundle:BusinessUnit')
             ->findOneBy(['name' => LoadOrganizationAndBusinessUnitData::MAIN_BUSINESS_UNIT]);
 
+        $defaultRole = $this->getReference(LoadCustomerUserRoles::WEBSITE_DEFAULT_ROLE);
+        $guestRole = $this->getReference(LoadCustomerUserRoles::WEBSITE_GUEST_ROLE);
+
         $website = new Website();
         $website
             ->setName(self::DEFAULT_WEBSITE_NAME)
             ->setOrganization($organization)
             ->setOwner($businessUnit)
+            ->setGuestRole($guestRole)
+            ->setDefaultRole($defaultRole)
             ->setDefault(true);
 
         $manager->persist($website);

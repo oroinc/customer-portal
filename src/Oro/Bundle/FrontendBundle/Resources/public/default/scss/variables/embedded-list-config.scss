@@ -1,5 +1,7 @@
 /* @theme: default; */
 
+@use 'sass:color';
+
 $embedded-list-bottom-offset: 25px;
 
 $embedded-list-label-offset-bottom: 25px;
@@ -22,12 +24,16 @@ $embedded-list-slider-btn-arrow-top-pos: 35% !default;
 $embedded-list-slider-btn-arrow-side-pos: -($embedded-list-slider-btn-arrow-width) !default;
 $embedded-list-slider-btn-arrow-background: get-color('additional', 'light') !default;
 $embedded-list-slider-btn-arrow-transform: none !default;
-$embedded-list-slider-btn-arrow-hover-background: darken(get-color('additional', 'light'), 5%) !default;
-$embedded-list-slider-btn-arrow-focus-background: darken(get-color('additional', 'light'), 5%) !default;
+$embedded-list-slider-btn-arrow-hover-background: color.adjust(
+    get-color('additional', 'light'), $lightness: -5%
+) !default;
+$embedded-list-slider-btn-arrow-focus-background: color.adjust(
+    get-color('additional', 'light'), $lightness: -5%
+) !default;
 
 $embedded-list-slider-arrow-size: 40px !default;
 $embedded-list-slider-arrow-side-offset: 3px !default;
-$embedded-list-slider-icon-color: lighten(get-color('additional', 'dark'), 16.5%) !default;
+$embedded-list-slider-icon-color: color.adjust(get-color('additional', 'dark'), $lightness: 16.5%) !default;
 
 // Embeded Tiles
 $embedded-list-tiles-column-count: 4 !default;

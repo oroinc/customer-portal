@@ -12,8 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class FrontendRestApiController
 {
-    /** @var RequestHandler */
-    private $requestHandler;
+    private RequestHandler $requestHandler;
 
     public function __construct(RequestHandler $requestHandler)
     {

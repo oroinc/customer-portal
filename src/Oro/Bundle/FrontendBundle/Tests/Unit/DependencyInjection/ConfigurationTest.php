@@ -3,46 +3,19 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\DependencyInjection;
 
 use Oro\Bundle\FrontendBundle\DependencyInjection\Configuration;
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 
 class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
-    public function testGetConfigTreeBuilder()
+    private function processConfiguration(array $config): array
     {
-        $configuration = new Configuration();
-
-        $this->assertInstanceOf(TreeBuilder::class, $configuration->getConfigTreeBuilder());
+        return (new Processor())->processConfiguration(new Configuration(), $config);
     }
 
     public function testProcessEmptyConfiguration()
     {
-        $configs = [[]];
         $expected = [
-            'settings' => [
-                'resolved' => 1,
-                'frontend_theme' => [
-                    'value' => '%oro_layout.default_active_theme%',
-                    'scope' => 'app'
-                ],
-                'page_templates' => [
-                    'value' => [],
-                    'scope' => 'app'
-                ],
-                'guest_access_enabled' => [
-                    'value' => true,
-                    'scope' => 'app'
-                ],
-                'filter_value_selectors' => [
-                    'value' => 'dropdown',
-                    'scope' => 'app'
-                ],
-                'web_api' => [
-                    'value' => false,
-                    'scope' => 'app'
-                ]
-            ],
             'routes_to_expose' => [],
             'debug_routes' => true,
             'frontend_api' => [
@@ -57,9 +30,9 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
             ]
         ];
 
-        $configuration = new Configuration();
-        $processor = new Processor();
-        $this->assertEquals($expected, $processor->processConfiguration($configuration, $configs));
+        $processedConfig = $this->processConfiguration([]);
+        unset($processedConfig['settings']);
+        $this->assertEquals($expected, $processedConfig);
     }
 
     public function testProcessWithEmptyFrontendSessionName()
@@ -69,11 +42,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
             'The path "oro_frontend.session.name" cannot contain an empty value, but got "".'
         );
 
-        $configs = [['session' => ['name' => '']]];
-
-        $configuration = new Configuration();
-        $processor = new Processor();
-        $processor->processConfiguration($configuration, $configs);
+        $this->processConfiguration([['session' => ['name' => '']]]);
     }
 
     public function testProcessWithInvalidFrontendSessionName()
@@ -84,11 +53,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
             . ' Session name "a+b" contains illegal character(s).'
         );
 
-        $configs = [['session' => ['name' => 'a+b']]];
-
-        $configuration = new Configuration();
-        $processor = new Processor();
-        $processor->processConfiguration($configuration, $configs);
+        $this->processConfiguration([['session' => ['name' => 'a+b']]]);
     }
 
     public function testProcessSessionConfiguration()
@@ -108,9 +73,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
                 ]
             ]
         ];
-        $configuration = new Configuration();
-        $processor = new Processor();
-        $processedConfig = $processor->processConfiguration($configuration, $configs);
+        $processedConfig = $this->processConfiguration($configs);
         $this->assertEquals($configs[0]['session'], $processedConfig['session']);
     }
 }

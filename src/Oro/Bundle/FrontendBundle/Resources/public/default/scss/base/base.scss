@@ -1,73 +1,45 @@
 /* @theme: default; */
 
 @use 'sass:list';
+@use 'sass:string';
 
 // Set theme fonts
 @include use-font-face($theme-fonts);
 
-// Generate classes for media queries
+$css-breakpoints: null;
 
-@if (length($breakpoints) >= 1) {
-    // Iterate index;
-    $breakpoint-index: 0;
+@each $key, $value in $breakpoints {
+    $css-breakpoints: list.append($css-breakpoints, '"#{$key}":"#{$value}"', $separator: comma);
 
-    // List with section keys
-    // ('desktop', 'tablet', 'mobile')
-    $breakpoint-names: map_keys($breakpoints);
-
-    @each $breakpoint in $breakpoints {
-        $breakpoint-index: $breakpoint-index + 1;
-
-        // Iterate section name
-        $current-breakpoint-name: nth($breakpoint-names, $breakpoint-index);
-
-        @include breakpoint($current-breakpoint-name) {
-            // Create classes:
-            // .hide-on-desktop
-            // .hide-on-tablet,
-            // .hide-on-tablet-small,
-            // .hide-on-mobile-landscape,
-            // .hide-on-mobile,
-            // .hide-on-strict-desktop
-            // .hide-on-strict-tablet,
-            // .hide-on-strict-tablet-small
-            // .hide-on-strict-mobile-landscape,
-            // .hide-on-strict-mobile-big
-            .hide-on-#{$current-breakpoint-name} {
-                // stylelint-disable-next-line declaration-no-important
-                display: none !important;
-            }
+    // Generate classes for media queries
+    @include breakpoint($key) {
+        // Create classes:
+        // .hide-on-desktop
+        // .hide-on-tablet,
+        // .hide-on-tablet-small,
+        // .hide-on-mobile-landscape,
+        // .hide-on-mobile,
+        // .hide-on-strict-desktop
+        // .hide-on-strict-tablet,
+        // .hide-on-strict-tablet-small
+        // .hide-on-strict-mobile-landscape,
+        // .hide-on-strict-mobile-big
+        .hide-on-#{$key} {
+            // stylelint-disable-next-line declaration-no-important
+            display: none !important;
         }
     }
+}
 
-    // Breakpoint global variables
-    head::before {
-        $content: '';
-        $key-index: 0;
-        $sep: '|';
-
-        @each $breakpoint, $value in $breakpoints {
-            @if ($key-index == 0) {
-                $sep: '';
-            } @else {
-                $sep: '|';
-            }
-
-            $content: '#{$content}#{$sep}--breakpoints-#{$breakpoint}:#{$value}';
-
-            $key-index: $key-index + 1;
-        }
-
-        content: $content;
-        display: none;
-    }
+:root {
+    --breakpoints: #{string.unquote('{#{$css-breakpoints}}')};
 }
 
 @if ($use-basic-styles) {
     html {
         font-size: $root-font-size;
         font-family: sans-serif;
-        text-size-adjust: 100%;
+        text-size-adjust: none;
         -webkit-tap-highlight-color: rgba(0 0 0 / 0%);
     }
 

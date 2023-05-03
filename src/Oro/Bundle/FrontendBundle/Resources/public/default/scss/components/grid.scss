@@ -5,6 +5,14 @@
     grid-template-columns: $grid-template-columns;
     gap: $grid-gap;
 
+    &-columns {
+        @for $i from 1 through 12 {
+            &-#{$i} {
+                grid-template-columns: repeat(var(--grid-column-count, #{$i}), minmax(0, 1fr));
+            }
+        }
+    }
+
     &-col {
         --grid-column-span: auto;
 

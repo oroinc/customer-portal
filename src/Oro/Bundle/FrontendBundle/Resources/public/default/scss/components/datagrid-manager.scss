@@ -76,9 +76,7 @@
         // stylelint-disable-next-line declaration-no-important
         height: auto !important;
         max-height: $datagrid-manager-filters-dropdown-max-height;
-        margin-bottom: $offset-y-s;
-        padding-left: $offset-x-m;
-        padding-bottom: $offset-y-m;
+        margin-bottom: $offset-y-m;
         list-style: none;
         overflow-y: auto;
     }
@@ -86,7 +84,7 @@
     &__list-item {
         width: 100%;
 
-        margin-top: $offset-y-s;
+        margin-top: $offset-y-m;
         padding-right: $offset-x-s;
 
         &--half {
@@ -130,7 +128,8 @@
         border-radius: $datagrid-manager-dropdown-menu-border-radius;
         color: $datagrid-manager-dropdown-menu-color;
 
-        @extend .dropdown-menu-right;
+        right: 0;
+        left: auto;
 
         /* rtl:raw:
         right: auto;
@@ -274,7 +273,7 @@
 
             line-height: $datagrid-manager-filters-dropdown-content-line-height;
 
-            word-break: break-all;
+            word-break: break-word;
 
             @include hover-focus() {
                 background-color: $datagrid-manager-filters-dropdown-content-hover-bg-color;

@@ -1,0 +1,52 @@
+Oro\Bundle\CatalogBundle\Entity\CategoryTitle:
+    category1_title:
+        string: 'Category-1'
+    category1_1_title:
+        string: 'Category-1-1'
+    category1_1_1_title:
+        string: 'Category-1-1-1'
+    category1_1_1_1_title:
+        string: 'Category-1-1-1-1'
+    category1_1_1_1_1_title:
+        string: 'Category-1-1-1-1-1'
+    category1_1_1_1_1_1_title:
+        string: 'Category-1-1-1-1-1-1'
+    category2_title:
+        string: 'Category-2'
+
+Oro\Bundle\CatalogBundle\Entity\Category:
+    category1:
+        __calls:
+            - addTitle: ['@category1_title']
+        organization: '@organization'
+        parentCategory: '@root_category'
+    category1_1:
+        __calls:
+            - addTitle: ['@category1_1_title']
+        organization: '@organization'
+        parentCategory: '@category1'
+    category1_1_1:
+        __calls:
+            - addTitle: ['@category1_1_1_title']
+        organization: '@organization'
+        parentCategory: '@category1_1'
+    category1_1_1_1:
+        __calls:
+            - addTitle: ['@category1_1_1_1_title']
+        organization: '@organization'
+        parentCategory: '@category1_1_1'
+    category1_1_1_1_1:
+        __calls:
+            - addTitle: ['@category1_1_1_1_1_title']
+        organization: '@organization'
+        parentCategory: '@category1_1_1_1'
+    category1_1_1_1_1_1:
+        __calls:
+            - addTitle: ['@category1_1_1_1_1_1_title']
+        organization: '@organization'
+        parentCategory: '@category1_1_1_1_1'
+    category2:
+        __calls:
+            - addTitle: ['@category2_title']
+        organization: '@organization'
+        parentCategory: '@root_category'

@@ -12,10 +12,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ParentCustomerSelectTypeTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var ParentCustomerSelectType
-     */
-    protected $type;
+    /** @var ParentCustomerSelectType */
+    private $type;
 
     protected function setUp(): void
     {
@@ -52,11 +50,9 @@ class ParentCustomerSelectTypeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param object|null $parentData
-     * @param int|null $expectedParentId
      * @dataProvider buildViewDataProvider
      */
-    public function testBuildView($parentData, $expectedParentId)
+    public function testBuildView(?object $parentData, ?int $expectedParentId)
     {
         $parentForm = $this->createMock(FormInterface::class);
         $parentForm->expects($this->any())
@@ -77,10 +73,7 @@ class ParentCustomerSelectTypeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedParentId, $formView->vars['configs']['entityId']);
     }
 
-    /**
-     * @return array
-     */
-    public function buildViewDataProvider()
+    public function buildViewDataProvider(): array
     {
         $customerId = 42;
         $customer = new Customer();

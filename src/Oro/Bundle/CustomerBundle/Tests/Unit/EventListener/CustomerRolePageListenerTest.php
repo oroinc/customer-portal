@@ -15,7 +15,7 @@ use Twig\Environment;
 class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CustomerRolePageListener */
-    protected $listener;
+    private $listener;
 
     /** @var RequestStack */
     private $requestStack;
@@ -87,9 +87,8 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider onUpdatePageRenderRoutesProvider
-     * @param string $routeName
      */
-    public function testOnUpdatePageRender($routeName)
+    public function testOnUpdatePageRender(string $routeName)
     {
         $entity = new CustomerUserRole('');
         $form = new FormView();
@@ -137,7 +136,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function onUpdatePageRenderRoutesProvider()
+    public function onUpdatePageRenderRoutesProvider(): array
     {
         return [
             ['oro_customer_customer_user_role_update'],

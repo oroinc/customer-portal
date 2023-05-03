@@ -25,6 +25,7 @@ oro_behat_extension:
         - Oro\Bundle\EmailBundle\Tests\Behat\Context\EmailContext
         - Oro\Bundle\SearchBundle\Tests\Behat\Context\SearchContext
         - Oro\Bundle\FrontendBundle\Tests\Behat\Context\ApiContext
+        - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\BrowserTabContext
       paths:
         - '@OroCustomerBundle/Tests/Behat/Features'
 
@@ -384,6 +385,34 @@ oro_behat_extension:
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
       selector: 'div[data-page-component-name="children-by-customer-grid"]'
 
+    Customer by Customer Group Grid:
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+      selector: 'div[data-page-component-name="customer-group-customers-grid-view"]'
+
+    Customer Group by Price List Grid:
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+      selector: 'div[data-page-component-name="price-list-customer-groups-grid"]'
+
+    Customer User by Customer Grid:
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+      selector: 'div[data-page-component-name="customer-user-by-customer-grid"]'
+
+    Sales Orders Grid:
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+      selector: 'div[data-page-component-name="customer-orders-grid"]'
+
+    Quotes by Customer Grid:
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+      selector: 'div[data-page-component-name="customer-view-quote-grid"]'
+
+    Quotes by Customer User Grid:
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+      selector: 'div[data-page-component-name="customer-user-view-quote-grid"]'
+
+    Opportunities by Customer Grid:
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+      selector: 'div[data-page-component-name="sales-customers-opportunities-grid"]'
+
     Enter The Shipping Address Manually For Checkout:
       selector:
         type: xpath
@@ -422,6 +451,22 @@ oro_behat_extension:
       selector:
         type: xpath
         locator: '//textarea[@name="customer_users[oro_cookie_consent___localized_banner_text][value][localizations][1][value]"][@disabled]'
+
+    Customer Tab:
+      selector: 'a[id^="importExportCustomerimport-tablist"]'
+
+    Customer Addresses Tab:
+      selector: 'a[id^="importExportCustomerAddressimport-tablist"]'
+
+    Price List to Website Pro View Tab:
+      selector:
+        type: xpath
+        locator: '//div[contains(@class, "oro-tabs")]/div/ul/li/a[contains(text(), "Website Pro")]'
+
+    Save Button in Modal:
+      selector:
+        locator: '//*[contains(@class,"ok btn btn-primary") and contains(text(), "Save")]'
+        type: xpath
 
   pages:
     Customer User Role View:

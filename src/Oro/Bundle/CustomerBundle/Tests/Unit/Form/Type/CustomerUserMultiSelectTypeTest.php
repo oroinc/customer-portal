@@ -6,16 +6,14 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserMultiSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
-use Oro\Component\Testing\Unit\EntityTrait;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
+use Oro\Component\Testing\ReflectionUtil;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
 {
-    use EntityTrait;
-
     public function testConfigureOptions()
     {
         $resolver = $this->createMock(OptionsResolver::class);
@@ -47,11 +45,6 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
 
     /**
      * @dataProvider submitProvider
-     *
-     * @param array $defaultData
-     * @param array $submittedData
-     * @param bool $isValid
-     * @param array $expectedData
      */
     public function testSubmit(
         array $defaultData,
@@ -70,10 +63,7 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
         $this->assertEquals($expectedData, $form->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function submitProvider()
+    public function submitProvider(): array
     {
         return [
             'empty data' => [
@@ -96,25 +86,21 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
-        $customerUserSelectType = new EntityType(
-            [
-                1 => $this->getCustomerUser(1),
-                2 => $this->getCustomerUser(2),
-                3 => $this->getCustomerUser(3),
-            ],
-            UserMultiSelectType::NAME,
-            [
-                'multiple' => true,
-            ]
-        );
         return [
             new PreloadedExtension(
                 [
-                    UserMultiSelectType::class => $customerUserSelectType,
+                    UserMultiSelectType::class => new EntityTypeStub(
+                        [
+                            1 => $this->getCustomerUser(1),
+                            2 => $this->getCustomerUser(2),
+                            3 => $this->getCustomerUser(3)
+                        ],
+                        ['multiple' => true]
+                    ),
                 ],
                 []
             ),
@@ -122,12 +108,12 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
         ];
     }
 
-    /**
-     * @param int $id
-     * @return CustomerUser
-     */
-    protected function getCustomerUser($id)
+    private function getCustomerUser(int $id): CustomerUser
     {
-        return $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerUser', ['id' => $id, 'salt' => $id]);
+        $user = new CustomerUser();
+        ReflectionUtil::setId($user, $id);
+        $user->setSalt((string)$id);
+
+        return $user;
     }
 }

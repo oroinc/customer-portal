@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    const viewportManager = require('oroui/js/viewport-manager');
+    const viewportManager = require('oroui/js/viewport-manager').default;
     const inputWidgetManager = require('oroui/js/input-widget-manager');
     const Select2InputWidget = require('oroui/js/app/views/input-widget/select2');
     const BaseView = require('oroui/js/app/views/base/view');
@@ -242,7 +242,7 @@ define(function(require) {
                     .data('stickyElement', $element);
                 const options = _.defaults($element.data('sticky') || {}, {
                     $elementPlaceholder: $elementPlaceholder,
-                    viewport: {},
+                    viewport: 'all',
                     placeholderId: '',
                     toggleClass: '',
                     autoWidth: false,
@@ -330,7 +330,7 @@ define(function(require) {
             const options = $element.data('sticky');
             const isEmpty = $element.is(':empty');
             const onBottom = options.affixed ? this.onBottom(options) : false;
-            const screenTypeState = viewportManager.isApplicable(options.viewport);
+            const mediaTypeState = viewportManager.isApplicable(options.viewport);
 
             if (options.isSticky) {
                 if (options.currentState) {
@@ -347,7 +347,7 @@ define(function(require) {
                     }
                 } else if (!isEmpty) {
                     if (options.alwaysInSticky ||
-                        (screenTypeState && !this.inViewport($element, null, options.affixed) && !onBottom)) {
+                        (mediaTypeState && !this.inViewport($element, null, options.affixed) && !onBottom)) {
                         return true;
                     }
                 }

@@ -57,9 +57,8 @@ class OwnerTreeCacheJobProcessor implements MessageProcessorInterface, TopicSubs
     {
         $messageBody = $message->getBody();
         $cacheTtl = $messageBody[CustomerCalculateOwnerTreeCacheTopic::CACHE_TTL];
-        $result = $this->jobRunner->runUnique(
-            $message->getMessageId(),
-            CustomerCalculateOwnerTreeCacheTopic::getName(),
+        $result = $this->jobRunner->runUniqueByMessage(
+            $message,
             function (JobRunner $jobRunner) use ($cacheTtl) {
                 $userClass = $this->ownershipMetadataProvider->getUserClass();
 

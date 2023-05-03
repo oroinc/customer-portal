@@ -1,0 +1,3 @@
+digitalAssetPromoOnSale:
+    defaultTitle: 'On Sale'
+    sourceFile: '@OroWebCatalogBundle/Resources/public/images/onsale_1.jpg'

@@ -1,0 +1,10 @@
+Oro\Bundle\CatalogBundle\Entity\CategoryTitle:
+    category1_title:
+        string: 'Category-1'
+
+Oro\Bundle\CatalogBundle\Entity\Category:
+    category1:
+        __calls:
+            - addTitle: ['@category1_title']
+        organization: '@organization'
+        parentCategory: '@root_category'

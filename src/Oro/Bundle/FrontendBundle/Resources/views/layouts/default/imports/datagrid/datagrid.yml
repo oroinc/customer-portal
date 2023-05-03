@@ -16,8 +16,7 @@ layout:
                 enableToggleFilters: true
                 responsiveGrids:
                     enable: '=data["system_config_provider"].getValue("oro_customer.enable_responsive_grids")'
-                    viewport:
-                        minScreenType: 'tablet'
+                    viewport: 'tablet'
                 swipeActionsGrid:
                     enable: '=data["system_config_provider"].getValue("oro_customer.enable_swipe_actions_grids")'
                 themeOptions:

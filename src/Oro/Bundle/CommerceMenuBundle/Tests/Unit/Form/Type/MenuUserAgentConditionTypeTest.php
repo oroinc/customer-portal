@@ -10,25 +10,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuUserAgentConditionTypeTest extends FormIntegrationTestCase
 {
-    /**
-     * @var MenuUserAgentConditionType
-     */
-    private $formType;
+    private MenuUserAgentConditionType $formType;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->formType = new MenuUserAgentConditionType();
+        parent::setUp();
     }
 
     /**
      * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return [
             new PreloadedExtension([], []),

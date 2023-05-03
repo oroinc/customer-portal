@@ -22,21 +22,17 @@ class PageTemplateTypeTest extends FormIntegrationTestCase
         $this->pageTemplatesManagerMock = $this->createMock(PageTemplatesManager::class);
 
         $this->formType = new PageTemplateType($this->pageTemplatesManagerMock);
+
         parent::setUp();
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return [
-            new PreloadedExtension(
-                [
-                    PageTemplateType::class => $this->formType
-                ],
-                []
-            ),
+            new PreloadedExtension([$this->formType], [])
         ];
     }
 

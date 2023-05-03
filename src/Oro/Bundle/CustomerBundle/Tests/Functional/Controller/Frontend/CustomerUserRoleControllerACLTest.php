@@ -13,11 +13,7 @@ class CustomerUserRoleControllerACLTest extends WebTestCase
     protected function setUp(): void
     {
         $this->initClient();
-        $this->loadFixtures(
-            [
-                LoadCustomerUserRoleACLData::class
-            ]
-        );
+        $this->loadFixtures([LoadCustomerUserRoleACLData::class]);
     }
 
     public function testCreatePermissionDenied()
@@ -31,7 +27,7 @@ class CustomerUserRoleControllerACLTest extends WebTestCase
     /**
      * @dataProvider viewProvider
      */
-    public function testACL($route, $role, $user, $expectedStatus)
+    public function testACL(string $route, string $role, string $user, int $expectedStatus)
     {
         $this->loginUser($user);
         /* @var CustomerUserRole $role */
@@ -46,11 +42,9 @@ class CustomerUserRoleControllerACLTest extends WebTestCase
     }
 
     /**
-     * @return array
-     *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function viewProvider()
+    public function viewProvider(): array
     {
         return [
             'VIEW (user from parent customer : DEEP)' => [
@@ -130,14 +124,9 @@ class CustomerUserRoleControllerACLTest extends WebTestCase
 
     /**
      * @group frontend-ACL
-     * @dataProvider gridACLProvider
-     *
-     * @param string $user
-     * @param string $indexResponseStatus
-     * @param string $gridResponseStatus
-     * @param array $data
+     * @dataProvider gridAclProvider
      */
-    public function testGridACL($user, $indexResponseStatus, $gridResponseStatus, array $data = [])
+    public function testGridACL(string $user, int $indexResponseStatus, int $gridResponseStatus, array $data = [])
     {
         $this->loginUser($user);
         $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_role_index'));
@@ -164,10 +153,7 @@ class CustomerUserRoleControllerACLTest extends WebTestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function gridACLProvider()
+    public function gridAclProvider(): array
     {
         return [
             'NOT AUTHORISED' => [

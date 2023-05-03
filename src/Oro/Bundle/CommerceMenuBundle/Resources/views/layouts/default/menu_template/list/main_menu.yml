@@ -1,0 +1,54 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'main_menu.html.twig'
+        - '@addTree':
+            items:
+                menu_item:
+                    blockType: menu_item
+                    options:
+                        class_prefix: 'main-menu'
+                        vars:
+                            menu_item: '=data["menu_item"]'
+                menu_item_inner:
+                    blockType: menu_inner
+                    options:
+                        layoutType: 'floated'
+                        attr:
+                            data-header-row-toggle: ~
+                            data-scroll: true
+                            role: 'menu'
+                            data-role: 'sub-menu'
+                            aria-hidden: 'true'
+                menu_item_inner_container:
+                    blockType: container
+                menu_item_depth_1_list:
+                    blockType: menu_list
+                    options:
+                        class_prefix: 'main-menu-column'
+                        attr:
+                            data-role: 'sub-menu'
+                menu_item_depth_1_item:
+                    blockType: menu_item_simple
+                    options:
+                        attr:
+                            data-role: 'menuitem'
+                menu_item_depth_2_list:
+                    blockType: menu_list
+                    options:
+                        attr:
+                            data-role: 'sub-menu'
+                menu_item_depth_2_item:
+                    blockType: menu_item_simple
+                    options:
+                        attr:
+                            data-role: 'menuitem'
+            tree:
+                menu_item_root:
+                    menu_item:
+                        menu_item_inner:
+                            menu_item_inner_container:
+                                menu_item_depth_1_list:
+                                    menu_item_depth_1_item:
+                                        menu_item_depth_2_list:
+                                            menu_item_depth_2_item: ~

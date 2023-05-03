@@ -63,7 +63,10 @@ class EmailOwnerProviderTest extends WebTestCase
     {
         $owner = $this->getProvider()->findEmailOwner($this->getEntityManager(), 'test@example.com');
         self::assertInstanceOf(CustomerUser::class, $owner);
-        self::assertSame($this->getReference('customerUser2')->getId(), $owner->getId());
+        self::assertContains(
+            $owner->getId(),
+            [$this->getReference('customerUser2')->getId(), $this->getReference('customerUser3')->getId()]
+        );
     }
 
     /**

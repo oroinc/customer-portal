@@ -15,16 +15,16 @@ use Oro\Bundle\UserBundle\Entity\User;
 class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var GridViewsExtension|\PHPUnit\Framework\MockObject\MockObject */
-    protected $defaultGridViewsExtension;
+    private $defaultGridViewsExtension;
 
     /** @var GridViewsExtension|\PHPUnit\Framework\MockObject\MockObject */
-    protected $frontendGridViewsExtension;
+    private $frontendGridViewsExtension;
 
     /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $tokenAccessor;
+    private $tokenAccessor;
 
     /** @var GridViewsExtensionComposite */
-    protected $extension;
+    private $extension;
 
     protected function setUp(): void
     {
@@ -41,11 +41,8 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider dataProvider
-     *
-     * @param string|AbstractUser $user
-     * @param bool $isFrontend
      */
-    public function testIsApplicable($user, $isFrontend)
+    public function testIsApplicable(string|AbstractUser $user, bool $isFrontend)
     {
         $config = DatagridConfiguration::create([]);
 
@@ -66,11 +63,8 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider dataProvider
-     *
-     * @param string|AbstractUser $user
-     * @param bool $isFrontend
      */
-    public function testGetPriority($user, $isFrontend)
+    public function testGetPriority(string|AbstractUser $user, bool $isFrontend)
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')
@@ -87,11 +81,8 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider dataProvider
-     *
-     * @param string|AbstractUser $user
-     * @param bool $isFrontend
      */
-    public function testVisitMetadata($user, $isFrontend)
+    public function testVisitMetadata(string|AbstractUser $user, bool $isFrontend)
     {
         $config = DatagridConfiguration::create([]);
         $data = MetadataObject::create([]);
@@ -121,11 +112,8 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider dataProvider
-     *
-     * @param string|AbstractUser $user
-     * @param bool $isFrontend
      */
-    public function testSetParameters($user, $isFrontend)
+    public function testSetParameters(string|AbstractUser $user, bool $isFrontend)
     {
         $params = new ParameterBag();
 
@@ -152,10 +140,7 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function dataProvider()
+    public function dataProvider(): array
     {
         return [
             'anonymous' => [

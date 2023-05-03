@@ -1,5 +1,7 @@
 /* @theme: admin.oro; */
 
+@use 'sass:math';
+
 $menu-user-agent-offset-y: 10px !default;
 
 .menu-user-agent-condition {
@@ -12,7 +14,7 @@ $menu-user-agent-offset-y: 10px !default;
     .menu-user-agent-inner-condition-label {
         font-size: $base-font-size;
         line-height: $line-height-base;
-        min-height: ceil($base-font-size * $line-height-base);
+        min-height: math.ceil($base-font-size * $line-height-base);
     }
 
     .menu-user-agent-condition-wrap {
@@ -21,7 +23,7 @@ $menu-user-agent-offset-y: 10px !default;
                 // stylelint-disable-next-line selector-max-compound-selectors
                 .btn {
                     position: absolute;
-                    top: $menu-user-agent-offset-y + ceil($base-font-size * $line-height-base);
+                    top: $menu-user-agent-offset-y + math.ceil($base-font-size * $line-height-base);
                     right: 4px;
                 }
             }

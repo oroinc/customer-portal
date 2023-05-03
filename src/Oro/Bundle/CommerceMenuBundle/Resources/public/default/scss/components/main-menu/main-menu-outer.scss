@@ -2,23 +2,21 @@
 
 .main-menu-outer {
     &__container {
-        display: flex;
+        display: $main-menu-outer-container-desktop-display;
 
-        justify-content: center;
+        justify-content: $main-menu-outer-container-desktop-justify-content;
     }
 }
 
 @include breakpoint('desktop') {
     .main-menu-outer {
-        display: flex;
+        display: $main-menu-outer-desktop-display;
     }
 }
 
 @include breakpoint('tablet') {
     .main-menu-outer {
         margin-bottom: 10px;
-
-        border-bottom: $main-menu-outer-tablet-border;
 
         &__container {
             display: block;

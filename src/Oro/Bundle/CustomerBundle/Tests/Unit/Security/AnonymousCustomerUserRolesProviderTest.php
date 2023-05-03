@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -10,12 +11,11 @@ use Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserRolesProvider;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Stub\WebsiteStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Stub\CustomerUserRoleProxyStub;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
-use Oro\Component\TestUtils\ORM\Mocks\EntityManagerMock;
-use Oro\Component\TestUtils\ORM\OrmTestCase;
+use Oro\Component\Testing\Unit\ORM\OrmTestCase;
 
 class AnonymousCustomerUserRolesProviderTest extends OrmTestCase
 {
-    /** @var EntityManagerMock */
+    /** @var EntityManagerInterface */
     private $em;
 
     /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */

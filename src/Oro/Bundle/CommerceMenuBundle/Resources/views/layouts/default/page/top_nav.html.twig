@@ -22,7 +22,7 @@
         '~class': 'topbar-navigation__link'
     }) %}
 
-    {{ block('menu_widget') }}
+    {{ parent_block_widget(block) }}
 {% endblock %}
 
 {% block _top_nav_menu_container_widget %}

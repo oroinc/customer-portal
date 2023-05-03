@@ -216,6 +216,15 @@ define(function(require, exports, module) {
 
             instance.header
                 .find('.ui-multiselect-filter')
+                .contents()
+                .eq(0)
+                .filter((i, el) => el.nodeType === Node.TEXT_NODE)
+                .wrap(
+                    $('<h5></h5>', {'class': 'datagrid-manager__title'})
+                );
+
+            instance.header
+                .find('.ui-multiselect-filter')
                 .removeAttr('class');
 
             instance.header

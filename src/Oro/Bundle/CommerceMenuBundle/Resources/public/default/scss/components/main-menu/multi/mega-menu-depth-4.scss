@@ -1,0 +1,47 @@
+/* @theme: default; */
+
+.mega-menu-depth-4 {
+    &__list {
+        @include list-normalize();
+    }
+}
+
+@include breakpoint('mega-menu-wide') {
+    .mega-menu-depth-4 {
+        &__item {
+            margin-top: $mega-menu-depth-4-item-margin-top;
+        }
+
+        &__button {
+            display: $mega-menu-depth-4-button-display;
+        }
+
+        &__link {
+            color: $mega-menu-depth-4-link-color;
+            position: $mega-menu-depth-4-link-position;
+
+            &:hover {
+                color: $mega-menu-depth-4-link-hover-color;
+            }
+        }
+
+        &__divider {
+            margin-top: $mega-menu-depth-4-divider-margin-top;
+        }
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .mega-menu-depth-4 {
+        &__list {
+            height: $mega-menu-depth-4-list-mobile-big-height;
+            overflow: $mega-menu-depth-4-list-mobile-big-overflow;
+        }
+
+        @include main-menu-stack-items();
+
+        &__divider {
+            display: $mega-menu-depth-4-divider-mobile-big-display;
+        }
+    }
+}

@@ -4,8 +4,9 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
-use Oro\Bundle\CustomerBundle\Model\ExtendCustomerVisitor;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 
 /**
  * Represents guest user with related CustomerUser (which is empty by default)
@@ -17,8 +18,10 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
  * @ORM\HasLifecycleCallbacks()
  * @Config
  */
-class CustomerVisitor extends ExtendCustomerVisitor
+class CustomerVisitor implements ExtendEntityInterface
 {
+    use ExtendEntityTrait;
+
     /**
      * @var int
      *
@@ -62,7 +65,6 @@ class CustomerVisitor extends ExtendCustomerVisitor
     public function __construct()
     {
         $this->lastVisit = new \DateTime('now', new \DateTimeZone('UTC'));
-        parent::__construct();
     }
 
     /**

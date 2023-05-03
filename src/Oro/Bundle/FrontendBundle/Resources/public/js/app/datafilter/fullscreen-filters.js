@@ -135,7 +135,6 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
         this.fullScreenPopup.subview('fullscreen:select-widget', fullscreenSelectWidget);
     },
 
-
     transformFilters() {
         this.saveState(this.filterManager);
 
@@ -184,6 +183,49 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
         this.filterManager.show();
     },
 
+    /**
+     * Subscribe on filter events
+     */
+    listenToFiltersEvents() {
+        if (!this.filterManager) {
+            return;
+        }
+
+        this.listenTo(this.filterManager.collection, 'beforeFetch', this.saveUnsavedFilters);
+    },
+
+    /**
+     * Unsubscribe from filter events
+     */
+    stopListeningFiltersEvents() {
+        if (!this.filterManager) {
+            return;
+        }
+
+        this.stopListening(this.filterManager.collection, 'beforeFetch');
+    },
+
+    /**
+     * Collect all changed filters
+     * @param {Object} collection
+     * @param {Object} fetchOptions
+     */
+    saveUnsavedFilters(collection, fetchOptions) {
+        const changedFilters = this.getChangedFiltersState().filters;
+
+        if (
+            // do not merge changed filters after reset action
+            Object.keys(collection.state.filters).length === 0 ||
+            Object.keys(changedFilters).length === 0
+        ) {
+            return;
+        }
+
+        collection.updateState({
+            filters: Object.assign({}, collection.state.filters, changedFilters)
+        });
+    },
+
     showMainPopup() {
         if (this.disposed || this.fullScreenPopup) {
             return;
@@ -221,11 +263,13 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
         );
 
         this.transformFilters();
+        this.listenToFiltersEvents();
         this.transformSelectWidget();
         this.trigger('main-popup:shown');
     },
 
     onBeforeCloseMainPopup() {
+        this.stopListeningFiltersEvents();
         this.filterManager.$el.remove();
         this.restoreState(this.filterManager);
         this.filterManager.render();
@@ -324,7 +368,12 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
             const isValid = typeof filter._isValid === 'function' ? filter._isValid() : true;
 
             if (isValid) {
-                state.filters[filter.name] = filter._formatRawValue(filter._readDOMValue());
+                let value = filter._formatRawValue(filter._readDOMValue());
+
+                if (typeof filter.swapValues === 'function') {
+                    value = filter.swapValues(value);
+                }
+                state.filters[filter.name] = value;
             } else {
                 state.errorsCount += 1;
             }
@@ -395,6 +444,7 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
         this.disposeFullScreenPopup();
         delete this.filterManager;
         delete this.datagrid;
+        delete this._prevChangedFilter;
         return FullscreenFilters.__super__.dispose.call(this);
     }
 });

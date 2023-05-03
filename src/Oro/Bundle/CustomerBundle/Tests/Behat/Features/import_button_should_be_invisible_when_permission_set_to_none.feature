@@ -1,4 +1,5 @@
-@fix-BB-20506
+@ticket-BB-20506
+@ticket-BB-14870
 
 Feature: Import Button Should Be Invisible When Permission Set to None
   In order to prevent to use import function from user who doesn't have correct permission
@@ -75,7 +76,22 @@ Feature: Import Button Should Be Invisible When Permission Set to None
     Given I go to System/ User Management/ Roles
     And I click edit "Administrator" in grid
     And I select following permissions:
-      | Customer     | Create:None | Edit:None |
+      | Customer | Create:None | Edit:None |
+    And I save form
+    Then I should see "Role saved" flash message
+    When I go to Customers/Customers
+    Then I should see "Import file"
+    When I click "Import file"
+    Then I should see a "Customer Addresses Tab" element
+    And I should see "Download Import Template"
+    And I should not see a "Customer Tab" element
+    And I close ui dialog
+
+  Scenario: Set entity Customer Address's  permission under Role Administrator to not able to both create and edit
+    Given I go to System/ User Management/ Roles
+    And I click edit "Administrator" in grid
+    And I select following permissions:
+      | Customer Address | Create:None | Edit:None |
     And I save form
     Then I should see "Role saved" flash message
     When I go to Customers/Customers

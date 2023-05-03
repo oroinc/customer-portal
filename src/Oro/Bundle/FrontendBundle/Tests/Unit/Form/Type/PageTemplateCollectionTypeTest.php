@@ -52,15 +52,15 @@ class PageTemplateCollectionTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return [
             new PreloadedExtension(
                 [
-                    PageTemplateCollectionType::class => $this->formType,
-                    PageTemplateType::class => new PageTemplateType($this->pageTemplatesManagerMock),
+                    $this->formType,
+                    new PageTemplateType($this->pageTemplatesManagerMock),
                 ],
                 [FormType::class => [new AdditionalAttrExtension()]]
             )

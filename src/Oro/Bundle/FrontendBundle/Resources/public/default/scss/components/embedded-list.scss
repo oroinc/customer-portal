@@ -10,6 +10,13 @@
 
         white-space: nowrap;
 
+        // Allows to select text in any slides
+        user-select: initial;
+        // Prevents to select text if "draggable" option is enabled
+        .slick-list.draggable {
+            user-select: none;
+        }
+
         &.slick-initialized {
             // Show content after slick slider is initialized
             overflow: visible;

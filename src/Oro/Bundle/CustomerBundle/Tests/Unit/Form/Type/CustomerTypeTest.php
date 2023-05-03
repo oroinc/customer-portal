@@ -12,11 +12,11 @@ use Oro\Bundle\CustomerBundle\Form\Type\ParentCustomerSelectType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStub;
 use Oro\Bundle\EntityExtendBundle\Form\Type\EnumSelectType;
 use Oro\Bundle\EntityExtendBundle\Tests\Unit\Fixtures\TestEnumValue;
+use Oro\Bundle\EntityExtendBundle\Tests\Unit\Form\Type\Stub\EnumSelectTypeStub;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Oro\Component\Testing\ReflectionUtil;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EnumSelectType as EnumSelectTypeStub;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
@@ -33,9 +33,6 @@ class CustomerTypeTest extends FormIntegrationTestCase
     /** @var User[] */
     private static $users;
 
-    /** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $eventDispatcher;
-
     /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $authorizationChecker;
 
@@ -43,61 +40,42 @@ class CustomerTypeTest extends FormIntegrationTestCase
     {
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
 
-        $this->formType = new CustomerType($this->getEventDispatcher(), $this->authorizationChecker);
+        $this->formType = new CustomerType(
+            $this->createMock(EventDispatcherInterface::class),
+            $this->authorizationChecker
+        );
         $this->formType->setAddressClass(CustomerAddress::class);
 
         parent::setUp();
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
-        $customerGroupSelectType = new EntityType(
-            [
-                1 => $this->getCustomerGroup(1),
-                2 => $this->getCustomerGroup(2)
-            ],
-            CustomerGroupSelectType::NAME
-        );
-
-        $parentCustomerSelectType = new EntityType(
-            [
-                1 => $this->getCustomer(1),
-                2 => $this->getCustomer(2)
-            ],
-            ParentCustomerSelectType::NAME
-        );
-
-        $addressEntityType = new EntityType($this->getAddresses(), EntityType::class);
-
-        $internalRatingEnumSelect = new EnumSelectTypeStub(
-            [
-                new TestEnumValue('1_of_5', '1 of 5'),
-                new TestEnumValue('2_of_5', '2 of 5')
-            ]
-        );
-
-        $userMultiSelectType = new EntityType(
-            $this->getUsers(),
-            UserMultiSelectType::NAME,
-            [
-                'class' => User::class,
-                'multiple' => true
-            ]
-        );
-
         return [
             new PreloadedExtension(
                 [
-                    CustomerType::class => $this->formType,
-                    CustomerGroupSelectType::class => $customerGroupSelectType,
-                    ParentCustomerSelectType::class => $parentCustomerSelectType,
+                    $this->formType,
+                    CustomerGroupSelectType::class => new EntityTypeStub([
+                        1 => $this->getCustomerGroup(1),
+                        2 => $this->getCustomerGroup(2)
+                    ]),
+                    ParentCustomerSelectType::class => new EntityTypeStub([
+                        1 => $this->getCustomer(1),
+                        2 => $this->getCustomer(2)
+                    ]),
                     AddressCollectionType::class => new AddressCollectionTypeStub(),
-                    EntityType::class => $addressEntityType,
-                    EnumSelectType::class => $internalRatingEnumSelect,
-                    UserMultiSelectType::class => $userMultiSelectType,
+                    EntityTypeStub::class => new EntityTypeStub($this->getAddresses()),
+                    EnumSelectType::class => new EnumSelectTypeStub([
+                        new TestEnumValue('1_of_5', '1 of 5'),
+                        new TestEnumValue('2_of_5', '2 of 5')
+                    ]),
+                    UserMultiSelectType::class => new EntityTypeStub(
+                        $this->getUsers(),
+                        ['class' => User::class, 'multiple' => true]
+                    ),
                 ],
                 []
             )
@@ -106,13 +84,6 @@ class CustomerTypeTest extends FormIntegrationTestCase
 
     /**
      * @dataProvider submitDataProvider
-     *
-     * @param array $options
-     * @param array $defaultData
-     * @param array $viewData
-     * @param array $submittedData
-     * @param array $expectedData
-     * @param bool $addressGranted
      */
     public function testSubmit(
         array $options,
@@ -120,7 +91,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
         array $viewData,
         array $submittedData,
         array $expectedData,
-        $addressGranted = true
+        bool $addressGranted = true
     ) {
         $this->authorizationChecker->expects($this->any())
             ->method('isGranted')
@@ -141,11 +112,9 @@ class CustomerTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return array
-     *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function submitDataProvider()
+    public function submitDataProvider(): array
     {
         return [
             'default' => [
@@ -305,7 +274,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
     /**
      * @return CustomerAddress[]
      */
-    private function getAddresses()
+    private function getAddresses(): array
     {
         if (!self::$addresses) {
             self::$addresses = [
@@ -320,7 +289,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
     /**
      * @return User[]
      */
-    private function getUsers()
+    private function getUsers(): array
     {
         if (!self::$users) {
             self::$users = [
@@ -330,17 +299,5 @@ class CustomerTypeTest extends FormIntegrationTestCase
         }
 
         return self::$users;
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|EventDispatcherInterface
-     */
-    private function getEventDispatcher()
-    {
-        if (!$this->eventDispatcher) {
-            $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-        }
-
-        return $this->eventDispatcher;
     }
 }

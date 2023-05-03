@@ -30,18 +30,3 @@
         {{ block_widget(block) }}
     </button>
 {% endblock %}
-
-{% block _main_menu_messages_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': " main-menu__item main-menu__item--nested"
-    }) %}
-    <li {{ block('block_attributes') }}>
-        //TODO: confused of names
-        <button class="messages-widget__trigger" data-oro-mpa-trigger>
-            <span class="badge messages-widget__badge">3</span>
-            <span class="badge badge--dark"><i class="fa-comment"></i></span>
-            <span class="messages-widget__title text-uppercase">Messages</span>
-            <i class="fa-angle-down"></i>
-        </button>
-    </li>
-{% endblock %}

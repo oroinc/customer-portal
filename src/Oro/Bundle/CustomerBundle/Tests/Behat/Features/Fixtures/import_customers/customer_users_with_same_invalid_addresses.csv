@@ -1,3 +1,3 @@
-ID,First Name,Last Name,Email Address,Customer Id,Customer Name,Guest,Enabled,Confirmed,Owner Id,Website Id,Addresses 1 Street,Addresses 1 Zip/Postal Code,Addresses 1 City,Addresses 1 State Combined code,Addresses 1 Country ISO2 code
-1,Amanda,Cole,AmandaRCole@example.org,1,Customer1,0,1,1,1,1,801 Scenic Hwy,33844,Haines City,US-FL,US
-2,Nancy,Sallee,NancyJSallee@example.org,1,Customer1,0,1,1,1,1,801 Scenic Hwy,33844,Haines City,US-FL,US
+First Name,Last Name,Email Address,Customer Name,Guest,Enabled,Confirmed,Owner Username,Addresses 1 Street,Addresses 1 Zip/Postal Code,Addresses 1 City,Addresses 1 State Combined code,Addresses 1 Country ISO2 code
+Amanda,Cole,AmandaRCole@example.org,Customer1,0,1,1,admin,801 Scenic Hwy,33844,Haines City,US-FL,US
+Nancy,Sallee,NancyJSallee@example.org,Customer1,0,1,1,admin,801 Scenic Hwy,33844,Haines City,US-FL,US

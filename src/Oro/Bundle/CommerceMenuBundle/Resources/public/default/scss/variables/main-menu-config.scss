@@ -1,26 +1,83 @@
 /* @theme: default; */
 
+@use 'sass:color';
+
 // Base styles
+$main-menu-display: flex !default;
+$main-menu-flex-grow: 0 !default;
+
+$main-menu-link-display: block !default;
 $main-menu-link-line-height: 1.5 !default;
 $main-menu-link-background-active: get-color('additional', 'base') !default;
 $main-menu-sublist-title-offset: $offset-x-s !default;
-$main-menu-subcategory-item-inner-offset: $offset-y-s $offset-x-s !default;
-$main-menu-sublist-container-transition: left .4s linear !default;
+$main-menu-sublist-transition: left .4s linear !default;
 
-$main-menu-button-arrow-width: 24px !default;
-$main-menu-button-arrow-inner-offset: 0 6px 0 4px !default;
-$main-menu-button-arrow-offset: -$main-menu-button-arrow-width !default;
+$main-menu-button-arrow-width: 33px !default;
+$main-menu-button-arrow-inner-offset: 0 0 0 4px !default;
 $main-menu-button-arrow-text-align: left !default;
+$main-menu-button-arrow-border: none !default;
+$main-menu-button-arrow-background: none !default;
+$main-menu-button-arrow-outline: none !default;
+$main-menu-button-arrow-position: relative !default;
+$main-menu-button-arrow-font-size: inherit !default;
+$main-menu-button-arrow-cursor: pointer !default;
+$main-menu-button-arrow-grid-column: 2 !default;
+$main-menu-button-arrow-grid-row: 1 !default;
 
-$main-menu-item-height: 49px !default;
-$main-menu-item--nested: 0 24px 0 22px !default;
-$main-menu-link-inner-offset: 14px $main-menu-button-arrow-width 14px 24px !default;
+$main-menu-button-span-display: none !default;
+
+$main-menu-button-only-child-display: none !default;
+
+$main-menu-back-trigger-text-transform: uppercase !default;
+$main-menu-back-trigger-font-weight: font-weight('bold') !default;
+$main-menu-back-trigger-margin: 0 !default;
+$main-menu-back-trigger-display: none !default;
+
+$main-menu-back-trigger-use-base-style: true !default;
+$main-menu-back-trigger-padding: 7px 0 !default;
+$main-menu-back-trigger-border: none !default;
+$main-menu-back-trigger-border-radius: 0 !default;
+$main-menu-back-trigger-background-color: get-color('additional', 'ultra') !default;
+$main-menu-back-trigger-color: color.adjust(get-color('additional', 'dark'), $lightness: 41%) !default;
+$main-menu-back-trigger-appearance: true !default;
+
+$main-menu-back-trigger-fullscreen-position: absolute !default;
+$main-menu-back-trigger-fullscreen-top: 0 !default;
+$main-menu-back-trigger-fullscreen-z-index: z('base') + 1 !default;
+$main-menu-back-trigger-fullscreen-display: block !default;
+
+$main-menu-link-text-align: center !default;
+$main-menu-link-text-decoration: none !default;
+$main-menu-link-inner-offset: 14px 24px !default;
 $main-menu-link-color: get-color('additional', 'dark') !default;
 $main-menu-link-color-hover: get-color('additional', 'dark') !default;
+$main-menu-link-text-decoration-focus: none !default;
 $main-menu-link-text-transform: uppercase !default;
+$main-menu-link-grid-column: #{'1 / 3'} !default;
+$main-menu-link-grid-row: 1 !default;
 $main-menu-sublist-container-shadow: 0 2px 5px 0 rgba(0 0 0 / 20%) !default;
 
+$main-menu-sublist-fullheight-background: get-color('additional', 'base') !default;
+$main-menu-sublist-fullheight-box-shadow: 0 2px 6px 1px #{rgba(get-color('additional', 'darker'), .12)} !default;
+$main-menu-edge: 50px !default;
+$main-menu-sublist-fullheight-bottom: calc(
+    -100vh + #{$main-menu-edge} + var(--main-menu-offset-bottom, 170px)
+) !default;
+
+$main-menu-sublist-edge-display: flex !default;
+$main-menu-sublist-edge-justify-content: end !default;
+$main-menu-sublist-edge-inset-inline-start: var(--main-menu-offset-start, 0) !default;
+
 $main-menu-item-nested-background: get-color('additional', 'base') !default;
+$main-menu-item-flex-grow: 0 !default;
+
+$main-menu-actions-display: grid !default;
+$main-menu-actions-not-only-child-grid-template-columns: 1fr $main-menu-button-arrow-width !default;
+
+$main-menu-divider-border-width: 1px 0 0 0 !default;
+$main-menu-divider-border-style: solid !default;
+$main-menu-divider-border-color: get-color('additional', 'light') !default;
+$main-menu-divider-margin: 0 !default;
 
 // Desktop styles
 $main-menu-button-arrow-d-width: 20px !default;
@@ -28,15 +85,37 @@ $main-menu-sublist-container-d-border: 1px solid get-color('additional', 'light'
 $main-menu-sublist-container-d-z-index: z('base') + 10 !default;
 $main-menu-back-trigger-width: 200px !default;
 $main-menu-back-trigger-align: left !default;
+$main-menu-sublist-position: absolute !default;
+$main-menu-sublist-z-index: z('dropdown') + 10 !default;
+$main-menu-sublist-top: 100% !default;
+$main-menu-sublist-right: 0 !default;
+$main-menu-sublist-left: 0 !default;
+$main-menu-sublist-display: none !default;
+
+$main-menu-sublist-floated-position: relative !default;
+$main-menu-sublist-floated-top: auto !default;
+$main-menu-sublist-floated-left: auto !default;
+$main-menu-sublist-floated-right: auto !default;
+
+$main-menu-sublist-container-floated-position: absolute !default;
+$main-menu-sublist-container-floated-right: auto !default;
+
+$main-menu-sublist-container-centered-left: max(var(--main-menu-offset-width, 0) / 2, 0px) !default;
+$main-menu-sublist-container-centered-translate:
+    translateX(
+        max(0px - var(--main-menu-offset-start, 0) - var(--main-menu-offset-width, 0) / 2, -50%)
+    ) !default;
+$main-menu-sublist-container-centered-translate-rtl:
+    translateX(
+        min(var(--main-menu-offset-start, 0) + var(--main-menu-offset-width, 0) / 2, 50%)
+    ) !default;
+
+$main-menu-item-hover-desktop-background: get-color('additional', 'base') !default;
 
 // Only Desktop
-$main-menu-item-hover-only-desktop-background: get-color('additional', 'base') !default;
-
-$main-menu-item-first-level-desktop-font-weight: null !default;
-$main-menu-column-title-desktop-font-weight: null !default;
-
-$main-menu-outer-tablet-border: 1px solid get-color('additional', 'light') !default;
-
+$main-menu-outer-container-desktop-display: flex !default;
+$main-menu-outer-container-desktop-justify-content: center !default;
+$main-menu-outer-desktop-display: flex !default;
 $main-menu-outer-tablet-icon: get-color('additional', 'dark') !default;
 
 $main-menu-sublist-container-background: get-color('additional', 'ultra') !default;
@@ -44,13 +123,29 @@ $main-menu-sublist-container-background: get-color('additional', 'ultra') !defau
 $main-menu-item-show-mobile-version-background: get-color('additional', 'base') !default;
 
 // Tablet styles
-$main-menu-tablet-border: 1px solid darken(get-color('additional', 'base'), 5%) !default;
-$main-menu-link-line-tablet-offset: 15px !default;
-$main-menu-link-line-tablet-height: 1 !default;
-$main-menu-item-tablet-border: 1px solid darken(get-color('additional', 'base'), 5%) !default;
-$main-menu-sublist-container-tablet-background: get-color('additional', 'ultra') !default;
+$main-menu-tablet-border: 1px solid color.adjust(get-color('additional', 'base'), $lightness: -5%) !default;
+
+$main-menu-actions-grid-template-columns: 16px auto 1fr 32px 32px !default;
+
+$main-menu-link-only-child-keys-padding: 0 64px 0 16px !default;
+
+$main-menu-button-padding: 0 56px 0 8px !default;
+
+$main-menu-sublist-tablet-background: get-color('additional', 'ultra') !default;
+$main-menu-sublist-tablet-position: absolute !default;
+$main-menu-sublist-tablet-top: var(--main-menu-offset-top, $fullscreen-popup-header-min-height) !default;
+$main-menu-sublist-tablet-bottom: var(--main-menu-offset-bottom, 0) !default;
+$main-menu-sublist-tablet-left: 100% !default;
+$main-menu-sublist-tablet-width: 100% !default;
+$main-menu-sublist-tablet-z-index: z('base') + 2 !default;
+
+$main-menu-sublist-current-tablet-left: 0 !default;
+
+$main-menu-sublist-container-tablet-height: 100%;
+$main-menu-sublist-container-tablet-overflow: auto;
 
 $main-menu-button-arrow-icon: $fa-var-angle-down !default;
+$main-menu-button-arrow-display: inline-block !default;
 
 // Full screen mode
 $main-menu-button-arrow-fullscreen-offset: 12px !default;

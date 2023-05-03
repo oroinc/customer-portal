@@ -8,41 +8,29 @@ use Oro\Bundle\CommerceMenuBundle\Form\DataTransformer\MenuUserAgentConditionsCo
 
 class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var MenuUserAgentConditionsCollectionTransformer
-     */
-    private $transformer;
+    private MenuUserAgentConditionsCollectionTransformer $transformer;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $this->transformer = new MenuUserAgentConditionsCollectionTransformer();
     }
 
     /**
-     * @dataProvider testTransformDataProvider
-     *
-     * @param mixed $menuUserAgentConditionsCollection
-     * @param array $expectedGroupedConditionsArray
+     * @dataProvider transformDataProvider
      */
-    public function testTransform($menuUserAgentConditionsCollection, array $expectedGroupedConditionsArray)
+    public function testTransform(mixed $menuUserAgentConditionsCollection, array $expectedGroupedConditionsArray)
     {
         $groupedConditionsArray = $this->transformer->transform($menuUserAgentConditionsCollection);
 
         self::assertSame($expectedGroupedConditionsArray, $groupedConditionsArray);
     }
 
-    /**
-     * @return array
-     */
-    public function testTransformDataProvider()
+    public function transformDataProvider(): array
     {
         $menuUserAgentConditionsArray = [
-            $this->mockMenuUserAgentCondition(1),
-            $this->mockMenuUserAgentCondition(1),
-            $this->mockMenuUserAgentCondition(0),
+            $this->getMenuUserAgentCondition(1),
+            $this->getMenuUserAgentCondition(1),
+            $this->getMenuUserAgentCondition(0),
         ];
 
         return [
@@ -78,13 +66,10 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit\Framewor
     }
 
     /**
-     * @dataProvider testReverseTransformDataProvider
-     *
-     * @param mixed $groupedConditionsArray
-     * @param array $expectedMenuUserAgentConditions
+     * @dataProvider reverseTransformDataProvider
      */
     public function testReverseTransform(
-        $groupedConditionsArray,
+        mixed $groupedConditionsArray,
         array $expectedMenuUserAgentConditions
     ) {
         $menuUserAgentConditionsCollection = $this->transformer->reverseTransform($groupedConditionsArray);
@@ -92,18 +77,15 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit\Framewor
         self::assertSame($expectedMenuUserAgentConditions, $menuUserAgentConditionsCollection->toArray());
     }
 
-    /**
-     * @return array
-     */
-    public function testReverseTransformDataProvider()
+    public function reverseTransformDataProvider(): array
     {
         $groupedConditionsArray = [
             0 => [
-                $this->mockMenuUserAgentCondition(0),
+                $this->getMenuUserAgentCondition(0),
             ],
             1 => [
-                $this->mockMenuUserAgentCondition(1),
-                $this->mockMenuUserAgentCondition(1),
+                $this->getMenuUserAgentCondition(1),
+                $this->getMenuUserAgentCondition(1),
             ],
         ];
 
@@ -140,12 +122,7 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit\Framewor
         $this->transformer->reverseTransform($groupedConditionsArray);
     }
 
-    /**
-     * @param int $conditionGroupIdentifier
-     *
-     * @return MenuUserAgentCondition|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function mockMenuUserAgentCondition($conditionGroupIdentifier)
+    private function getMenuUserAgentCondition(int $conditionGroupIdentifier): MenuUserAgentCondition
     {
         $menuUserAgentCondition = $this->createMock(MenuUserAgentCondition::class);
         $menuUserAgentCondition->expects(self::any())

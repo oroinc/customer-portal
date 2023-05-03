@@ -24,6 +24,7 @@ navigation:
                     class: cart__promo__link
                 extras:
                     position: 20
+                    safe_label: true
             orders:
                 label: 'oro.commercemenu.frontend.navigation.items.orders.label'
                 route: oro_order_frontend_index
@@ -114,6 +115,7 @@ navigation:
             commerce_main_menu:
                 type: commerce_main_menu
                 scope_type: menu_frontend_visibility
+                max_nesting_level: 6
                 children:
                     about: ~
 

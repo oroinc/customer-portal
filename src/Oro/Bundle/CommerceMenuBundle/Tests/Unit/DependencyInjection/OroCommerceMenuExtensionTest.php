@@ -3,17 +3,28 @@
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\DependencyInjection;
 
 use Oro\Bundle\CommerceMenuBundle\DependencyInjection\OroCommerceMenuExtension;
-use Oro\Bundle\TestFrameworkBundle\Test\DependencyInjection\ExtensionTestCase;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class OroCommerceMenuExtensionTest extends ExtensionTestCase
+class OroCommerceMenuExtensionTest extends \PHPUnit\Framework\TestCase
 {
-    public function testLoad()
+    public function testLoad(): void
     {
-        $this->loadExtension(new OroCommerceMenuExtension());
+        $container = new ContainerBuilder();
 
-        $expectedServices = [
-            'oro_commerce_menu.manager.menu_update',
-        ];
-        $this->assertDefinitionsLoaded($expectedServices);
+        $extension = new OroCommerceMenuExtension();
+        $extension->load([], $container);
+
+        self::assertNotEmpty($container->getDefinitions());
+        self::assertSame(
+            [
+                [
+                    'settings' => [
+                        'resolved' => true,
+                        'main_navigation_menu' => ['value' => 'commerce_main_menu', 'scope' => 'app']
+                    ]
+                ]
+            ],
+            $container->getExtensionConfig('oro_commerce_menu')
+        );
     }
 }

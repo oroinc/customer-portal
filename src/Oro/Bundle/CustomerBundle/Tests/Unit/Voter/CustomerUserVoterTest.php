@@ -9,23 +9,17 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 class CustomerUserVoterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenAccessor;
 
-    /**
-     * @var CustomerUserVoter
-     */
+    /** @var CustomerUserVoter */
     private $voter;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
-        $this->voter         = new CustomerUserVoter($this->tokenAccessor);
+
+        $this->voter = new CustomerUserVoter($this->tokenAccessor);
     }
 
     public function testVoteAbstainForAnotherFeature()
@@ -35,12 +29,9 @@ class CustomerUserVoterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param mixed  $user
-     * @param string $expectedResult
-     *
      * @dataProvider getUser
      */
-    public function testVote($user, $expectedResult)
+    public function testVote(?object $user, int $expectedResult)
     {
         $featureName = 'feature_name';
 
@@ -55,10 +46,7 @@ class CustomerUserVoterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedResult, $vote);
     }
 
-    /**
-     * @return array
-     */
-    public function getUser()
+    public function getUser(): array
     {
         return [
             'incorrect user object' => [

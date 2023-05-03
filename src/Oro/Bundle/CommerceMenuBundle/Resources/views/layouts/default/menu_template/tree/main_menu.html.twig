@@ -1,0 +1,41 @@
+{% block _menu_item_inner_widget %}
+    {% set layoutType = layoutType|default((menu_item.children|length == 1 ? 'floated' : 'centered')) %}
+
+    {{ parent_block_widget(block) }}
+{% endblock %}
+
+{% block _menu_item_inner_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' main-menu__inner-container'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="main-menu-columns">
+            {% do block|merge_context({'menu_items': menu_item.children}) %}
+            {{ block_widget(block) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block _menu_second_level_item_head_widget %}
+    {% set label = menu_item.label %}
+    {{ block('_menu_second_level_column') }}
+{% endblock %}
+
+{% block _menu_second_level_sale_head_widget %}
+    {% set label = 'oro.commercemenu.main_menu.on_sale'|trans %}
+    {% set menu_items = menu_items|filter(item => item.extras.image is defined and item.extras.image) %}
+    {% if menu_items is not empty %}
+        {% do block|merge_context({'menu_items': menu_items}) %}
+        {{ block('_menu_second_level_column') }}
+    {% endif %}
+{% endblock %}
+
+{% block _menu_second_level_column %}
+    <div class="main-menu-column {{ addClass|default('') }}" data-role="sub-menu">
+        <p class="main-menu-column__title">
+            {{- label -}}
+        </p>
+        {{ block_widget(block) }}
+    </div>
+{% endblock  %}

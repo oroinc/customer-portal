@@ -122,7 +122,7 @@ class CustomerScopeManagerTest extends AbstractScopeManagerTestCase
             $doctrine,
             $cache,
             $eventDispatcher,
-            $configBag
+            $configBag,
         );
     }
 

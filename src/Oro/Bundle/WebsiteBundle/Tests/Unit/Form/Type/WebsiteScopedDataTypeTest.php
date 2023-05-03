@@ -11,7 +11,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Form\Type\WebsiteScopedDataType;
 use Oro\Bundle\WebsiteBundle\Tests\Unit\Form\Type\Stub\StubType;
-use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -19,20 +19,9 @@ use Symfony\Component\Form\Test\FormIntegrationTestCase;
 
 class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
 {
-    use EntityTrait;
-
     private const WEBSITE_ID = 42;
 
-    /** @var WebsiteScopedDataType */
-    private $formType;
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function getExtensions()
-    {
-        return [new PreloadedExtension([$this->formType, StubType::class => new StubType()], [])];
-    }
+    private WebsiteScopedDataType $formType;
 
     protected function setUp(): void
     {
@@ -40,9 +29,8 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
         $em->expects($this->any())
             ->method('getReference')
             ->with(Website::class, self::WEBSITE_ID)
-            ->willReturn($this->getEntity(Website::class, ['id' => self::WEBSITE_ID]));
+            ->willReturn($this->getWebsite(self::WEBSITE_ID));
 
-        $websites = [self::WEBSITE_ID => $this->getEntity(Website::class, ['id' => self::WEBSITE_ID])];
         $websiteQuery = $this->createMock(AbstractQuery::class);
         $websiteQB = $this->createMock(QueryBuilder::class);
         $websiteQB->expects($this->any())
@@ -50,7 +38,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
             ->willReturn($websiteQuery);
         $websiteQuery->expects($this->any())
             ->method('getResult')
-            ->willReturn($websites);
+            ->willReturn([self::WEBSITE_ID => $this->getWebsite(self::WEBSITE_ID)]);
 
         $websiteRepository = $this->createMock(WebsiteRepository::class);
         $websiteRepository->expects($this->any())
@@ -58,12 +46,12 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
             ->with('website')
             ->willReturn($websiteQB);
 
-        $registry = $this->createMock(ManagerRegistry::class);
-        $registry->expects($this->any())
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $doctrine->expects($this->any())
             ->method('getRepository')
             ->with(Website::class)
             ->willReturn($websiteRepository);
-        $registry->expects($this->any())
+        $doctrine->expects($this->any())
             ->method('getManagerForClass')
             ->with(Website::class)
             ->willReturn($em);
@@ -73,9 +61,25 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
             ->method('apply')
             ->willReturn($websiteQuery);
 
-        $this->formType = new WebsiteScopedDataType($registry, $aclHelper);
+        $this->formType = new WebsiteScopedDataType($doctrine, $aclHelper);
 
         parent::setUp();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getExtensions(): array
+    {
+        return [new PreloadedExtension([$this->formType, new StubType()], [])];
+    }
+
+    private function getWebsite(int $id): Website
+    {
+        $website = new Website();
+        ReflectionUtil::setId($website, $id);
+
+        return $website;
     }
 
     /**

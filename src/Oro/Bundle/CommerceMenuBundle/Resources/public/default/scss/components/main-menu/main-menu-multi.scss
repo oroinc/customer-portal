@@ -1,0 +1,31 @@
+/* @theme: default; */
+
+.main-menu-multi {
+    &__container {
+        height: $main-menu-multi-container-height;
+    }
+}
+
+@include breakpoint('mega-menu-wide') {
+    .main-menu-multi {
+        &__container {
+            display: $main-menu-multi-container-display;
+            grid-template-columns: $main-menu-multi-container-grid-template-columns;
+            position: $main-menu-multi-container-position;
+            z-index: $main-menu-multi-container-z-index;
+        }
+    }
+}
+
+@include breakpoint('desktop') {
+    .main-menu-multi {
+        .main-menu__inner--edge & {
+            &__container {
+                width: $main-menu-multi-container-edge-desktop-width;
+                max-width: $main-menu-multi-container-edge-desktop-max-width;
+                margin-inline-end: $main-menu-multi-container-edge-desktop-margin-inline-end;
+                flex-shrink: $main-menu-multi-container-edge-desktop-flex-shrink;
+            }
+        }
+    }
+}

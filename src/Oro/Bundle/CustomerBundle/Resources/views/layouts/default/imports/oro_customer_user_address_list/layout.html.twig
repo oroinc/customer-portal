@@ -9,9 +9,7 @@
         'data-page-component-options': componentOptions|merge({
             template: '#customer-address-book-addresses-list-template',
             manageAddressesLink: '[data-role="manage-adresses-link"]',
-            mapViewport: {
-                minScreenType: 'tablet'
-            }
+            mapViewport: 'tablet-small'
         }),
         '~class': ' address-list'
     }) %}
@@ -76,9 +74,7 @@
         '~class': ' address-list__button item-map-button',
         'data-page-component-module': "oroui/js/app/components/viewport-component",
         '~data-page-component-options': {
-            viewport: {
-                maxScreenType: 'tablet-small',
-            },
+            viewport: 'tablet-small',
             component: 'oroui/js/app/components/view-component',
             view: 'orofrontend/default/js/app/views/fullscreen-popup-view',
             popupIcon: 'fa-chevron-left',

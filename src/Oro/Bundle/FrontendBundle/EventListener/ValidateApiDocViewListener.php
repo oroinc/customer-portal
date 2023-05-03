@@ -12,10 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 class ValidateApiDocViewListener extends BaseValidateApiDocViewListener
 {
     /** @var string[] */
-    private $frontendViews;
-
-    /** @var string */
-    private $frontendDefaultView;
+    private array $frontendViews;
+    private string $frontendDefaultView;
 
     /**
      * @param string      $basePath

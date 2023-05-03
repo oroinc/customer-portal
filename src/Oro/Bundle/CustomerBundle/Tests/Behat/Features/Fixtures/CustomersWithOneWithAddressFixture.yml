@@ -26,7 +26,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         street: '801 Scenic Hwy'
         city: 'Haines City'
         postalCode: '33844'
-        organization: '@organization'
+        organization: 'ORO'
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
     customerAddress1ShippingDefault:

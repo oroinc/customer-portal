@@ -13,7 +13,7 @@ use Oro\Bundle\SecurityBundle\Owner\AbstractEntityOwnershipDecisionMaker;
 use Oro\Bundle\SecurityBundle\Owner\EntityOwnerAccessor;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProviderInterface;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
  * Extends logic of original decision maker for entities with frontend ownership
@@ -27,7 +27,7 @@ class EntityOwnershipDecisionMaker extends AbstractEntityOwnershipDecisionMaker
     /** @var ManagerRegistry */
     protected $doctrine;
 
-    /** @var PropertyAccessor */
+    /** @var PropertyAccessorInterface */
     protected $propertyAccessor;
 
     public function __construct(
@@ -37,7 +37,7 @@ class EntityOwnershipDecisionMaker extends AbstractEntityOwnershipDecisionMaker
         OwnershipMetadataProviderInterface $ownershipMetadataProvider,
         TokenAccessorInterface $tokenAccessor,
         ManagerRegistry $doctrine,
-        PropertyAccessor $propertyAccessor
+        PropertyAccessorInterface $propertyAccessor
     ) {
         parent::__construct($treeProvider, $objectIdAccessor, $entityOwnerAccessor, $ownershipMetadataProvider);
         $this->tokenAccessor = $tokenAccessor;

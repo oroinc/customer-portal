@@ -3,9 +3,10 @@
 namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Oro\Bundle\CustomerBundle\Model\ExtendCustomerGroup;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationAwareInterface;
 use Oro\Bundle\UserBundle\Entity\Ownership\UserAwareTrait;
 
@@ -48,9 +49,10 @@ use Oro\Bundle\UserBundle\Entity\Ownership\UserAwareTrait;
  *      }
  * )
  */
-class CustomerGroup extends ExtendCustomerGroup implements OrganizationAwareInterface
+class CustomerGroup implements OrganizationAwareInterface, ExtendEntityInterface
 {
     use UserAwareTrait;
+    use ExtendEntityTrait;
 
     /**
      * @var integer
@@ -91,7 +93,6 @@ class CustomerGroup extends ExtendCustomerGroup implements OrganizationAwareInte
      */
     public function __construct()
     {
-        parent::__construct();
     }
 
     /**

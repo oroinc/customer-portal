@@ -18,7 +18,7 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Oro\Component\Testing\ReflectionUtil;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
@@ -56,38 +56,25 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
-        $customerUserRoleSelectType = new EntitySelectTypeStub(
-            $this->getRoles(),
-            CustomerUserRoleSelectType::NAME,
-            new CustomerUserRoleSelectType($this->createTranslator())
-        );
-        $addressEntityType = new EntityType($this->getAddresses(), EntityType::class);
-        $customerSelectType = new EntityType($this->getCustomers(), CustomerSelectType::NAME);
-
-        $userMultiSelectType = new EntityType(
-            [
-                1 => $this->getUser(1),
-                2 => $this->getUser(2),
-            ],
-            UserMultiSelectType::NAME,
-            [
-                'multiple' => true,
-            ]
-        );
-
         return [
             new PreloadedExtension(
                 [
-                    CustomerUserType::class => $this->formType,
-                    CustomerUserRoleSelectType::class => $customerUserRoleSelectType,
-                    CustomerSelectType::class => $customerSelectType,
+                    $this->formType,
+                    CustomerUserRoleSelectType::class => new EntitySelectTypeStub(
+                        $this->getRoles(),
+                        new CustomerUserRoleSelectType($this->createTranslator())
+                    ),
+                    CustomerSelectType::class => new EntityTypeStub($this->getCustomers()),
                     AddressCollectionType::class => new AddressCollectionTypeStub(),
-                    EntityType::class => $addressEntityType,
-                    UserMultiSelectType::class => $userMultiSelectType,
+                    EntityTypeStub::class => new EntityTypeStub($this->getAddresses()),
+                    UserMultiSelectType::class => new EntityTypeStub(
+                        [1 => $this->getUser(1), 2 => $this->getUser(2)],
+                        ['multiple' => true]
+                    ),
                 ],
                 []
             ),
@@ -97,17 +84,12 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
 
     /**
      * @dataProvider submitProvider
-     *
-     * @param CustomerUser $defaultData
-     * @param array $submittedData
-     * @param CustomerUser $expectedData
-     * @param bool $rolesGranted
      */
     public function testSubmit(
         CustomerUser $defaultData,
         array $submittedData,
         CustomerUser $expectedData,
-        $rolesGranted = true
+        bool $rolesGranted = true
     ) {
         if ($rolesGranted) {
             $this->authorizationChecker->expects($this->any())
@@ -138,10 +120,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         $this->assertQueryBuilderCallback($options['query_builder']);
     }
 
-    /**
-     * @return array
-     */
-    public function submitProvider()
+    public function submitProvider(): array
     {
         $newCustomerUser = new CustomerUser();
         $newCustomerUser->setOrganization(new Organization());
@@ -225,10 +204,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
             ];
     }
 
-    /**
-     * @param \Closure $callable
-     */
-    private function assertQueryBuilderCallback($callable)
+    private function assertQueryBuilderCallback(\Closure $callable): void
     {
         $this->assertIsCallable($callable);
 
@@ -259,7 +235,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     /**
      * @return CustomerUserAddress[]
      */
-    protected function getAddresses()
+    protected function getAddresses(): array
     {
         if (!self::$addresses) {
             self::$addresses = [
@@ -274,7 +250,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     /**
      * @return CustomerUserRole[]
      */
-    protected function getRoles()
+    protected function getRoles(): array
     {
         return [
             1 => $this->getRole(1, 'test01'),
@@ -285,7 +261,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     /**
      * @return Customer[]
      */
-    protected function getCustomers()
+    protected function getCustomers(): array
     {
         if (!self::$customers) {
             self::$customers = [
@@ -338,10 +314,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         return $customerUserAddress;
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface
-     */
-    protected function createTranslator()
+    protected function createTranslator(): TranslatorInterface
     {
         $translator = $this->createMock(TranslatorInterface::class);
         $translator->expects($this->any())

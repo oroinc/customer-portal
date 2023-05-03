@@ -82,6 +82,9 @@ class FrontendCustomerUserHandler extends FormHandler
             $this->userManager->register($customerUser);
         }
 
+        if (null === $customerUser->getAuthStatus()) {
+            $this->userManager->setAuthStatus($customerUser, CustomerUserManager::STATUS_ACTIVE);
+        }
         $this->userManager->updateUser($customerUser);
 
         $this->eventDispatcher->dispatch(new AfterFormProcessEvent($form, $customerUser), Events::AFTER_FLUSH);

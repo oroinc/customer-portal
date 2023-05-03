@@ -5,13 +5,11 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Acl;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleACLData;
 use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData as OroLoadCustomerUserData;
+use Oro\Bundle\UserBundle\Entity\AbstractRole;
 use Oro\Bundle\UserBundle\Tests\Functional\Acl\AbstractPermissionConfigurableTestCase;
 
 class FrontendPermissionConfigurableTest extends AbstractPermissionConfigurableTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->initClient(
@@ -28,82 +26,83 @@ class FrontendPermissionConfigurableTest extends AbstractPermissionConfigurableT
     /**
      * {@inheritdoc}
      */
-    public function configurablePermissionCapabilitiesProvider()
+    public function configurablePermissionCapabilitiesProvider(): array
     {
-        yield 'default true' => [
-            'config' => [
-                'commerce_frontend' => [
-                    'default' => true
-                ]
-            ],
-            'action' => 'action:oro_frontend_action_test',
-            'expected' => true
-        ];
-
-        yield 'disallow configure action oro_frontend_action_test' => [
-            'config' => [
-                'commerce_frontend' => [
-                    'default' => true,
-                    'capabilities' => [
-                        'oro_frontend_action_test' => false
+        return [
+            'default true' => [
+                'config' => [
+                    'commerce_frontend' => [
+                        'default' => true
                     ]
-                ]
+                ],
+                'action' => 'action:oro_frontend_action_test',
+                'expected' => true
             ],
-            'action' => 'action:oro_frontend_action_test',
-            'expected' => false
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function configurablePermissionEntitiesProvider()
-    {
-        yield 'default true' => [
-            'config' => [
-                'commerce_frontend' => [
-                    'default' => true
-                ]
-            ],
-            'assertGridData' => function ($gridData) {
-                $this->assertHasEntityPermission($gridData, CustomerUser::class, 'VIEW');
-            }
-        ];
-
-        yield 'default false' => [
-            'config' => [
-                'commerce_frontend' => [
-                    'default' => false
-                ]
-            ],
-            'assertGridData' => function ($gridData) {
-                $this->assertEmpty($gridData);
-            }
-        ];
-
-        yield 'enable view permission' => [
-            'config' => [
-                'commerce_frontend' => [
-                    'default' => false,
-                    'entities' => [
-                        CustomerUser::class => [
-                            'VIEW' => true
+            'disallow configure action oro_frontend_action_test' => [
+                'config' => [
+                    'commerce_frontend' => [
+                        'default' => true,
+                        'capabilities' => [
+                            'oro_frontend_action_test' => false
                         ]
                     ]
-                ]
-            ],
-            'assertGridData' => function (array $gridData) {
-                $this->assertCount(1, $gridData);
-                $this->assertHasEntityPermission($gridData, CustomerUser::class, 'VIEW');
-                $this->assertNotHasEntityPermission($gridData, CustomerUser::class, 'CREATE');
-            }
+                ],
+                'action' => 'action:oro_frontend_action_test',
+                'expected' => false
+            ]
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getRole()
+    public function configurablePermissionEntitiesProvider(): array
+    {
+        return [
+            'default true' => [
+                'config' => [
+                    'commerce_frontend' => [
+                        'default' => true
+                    ]
+                ],
+                'assertGridData' => function ($gridData) {
+                    $this->assertHasEntityPermission($gridData, CustomerUser::class, 'VIEW');
+                }
+            ],
+            'default false' => [
+                'config' => [
+                    'commerce_frontend' => [
+                        'default' => false
+                    ]
+                ],
+                'assertGridData' => function ($gridData) {
+                    $this->assertEmpty($gridData);
+                }
+            ],
+            'enable view permission' => [
+                'config' => [
+                    'commerce_frontend' => [
+                        'default' => false,
+                        'entities' => [
+                            CustomerUser::class => [
+                                'VIEW' => true
+                            ]
+                        ]
+                    ]
+                ],
+                'assertGridData' => function (array $gridData) {
+                    $this->assertCount(1, $gridData);
+                    $this->assertHasEntityPermission($gridData, CustomerUser::class, 'VIEW');
+                    $this->assertNotHasEntityPermission($gridData, CustomerUser::class, 'CREATE');
+                }
+            ]
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getRole(): AbstractRole
     {
         return $this->getReference(LoadCustomerUserRoleACLData::ROLE_WITHOUT_ACCOUNT_1_USER_LOCAL);
     }
@@ -111,7 +110,7 @@ class FrontendPermissionConfigurableTest extends AbstractPermissionConfigurableT
     /**
      * {@inheritdoc}
      */
-    protected function getGridName()
+    protected function getGridName(): string
     {
         return 'frontend-customer-user-role-permission-grid';
     }
@@ -119,7 +118,7 @@ class FrontendPermissionConfigurableTest extends AbstractPermissionConfigurableT
     /**
      * {@inheritdoc}
      */
-    protected function getRouteName()
+    protected function getRouteName(): string
     {
         return 'oro_customer_frontend_customer_user_role_view';
     }

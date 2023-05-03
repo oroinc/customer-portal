@@ -18,10 +18,12 @@ class FrontendMenuContext extends OroFeatureContext implements
     /**
      * Assert main menu item existing
      *
-     * @Given /^(?:|I )should(?P<negotiation>(\s| not ))see "(?P<path>[\/\w\s]+)" in main menu$/
+     * @Given /^(?:|I )should(?P<negotiation>(\s| not ))see "(?P<path>(?:[^"]|\\")+)" in main menu$/
      */
-    public function iShouldSeeOrNotInMainMenu($negotiation, $path)
+    public function iShouldSeeOrNotInMainMenu(string $negotiation, string $path): void
     {
+        $this->fixStepArgument($path);
+
         $isMenuItemVisibleExpectation = empty(trim($negotiation));
         /** @var FrontendMainMenu $mainMenu */
         $mainMenu = $this->createElement('FrontendMainMenu');

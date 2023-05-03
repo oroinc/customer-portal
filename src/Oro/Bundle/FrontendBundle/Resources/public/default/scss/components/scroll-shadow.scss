@@ -1,0 +1,27 @@
+/* @theme: default; */
+
+.shadow-start::before {
+    content: $scroll-shadow-before-content;
+    position: $scroll-shadow-before-position;
+    top: $scroll-shadow-before-top;
+    z-index: $scroll-shadow-before-z-index;
+    display: $scroll-shadow-before-display;
+    background: $scroll-shadow-before-background;
+    width: $scroll-shadow-before-width;
+    height: $scroll-shadow-before-height;
+    margin-top: $scroll-shadow-before-margin-top;
+    pointer-events: $scroll-shadow-before-pointer-events;
+}
+
+.shadow-end::after {
+    content: $scroll-shadow-after-content;
+    position: $scroll-shadow-after-position;
+    bottom: $scroll-shadow-before-bottom;
+    z-index: $scroll-shadow-after-z-index;
+    display: $scroll-shadow-after-display;
+    background: $scroll-shadow-after-background;
+    width: $scroll-shadow-after-width;
+    height: $scroll-shadow-after-height;
+    margin-top: $scroll-shadow-after-margin-top;
+    pointer-events: $scroll-shadow-after-pointer-events;
+}

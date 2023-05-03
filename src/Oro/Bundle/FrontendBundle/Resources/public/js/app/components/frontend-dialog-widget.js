@@ -3,8 +3,8 @@ define(function(require) {
 
     const DialogWidget = require('oro/dialog-widget');
     const FullScreenPopupView = require('orofrontend/default/js/app/views/fullscreen-popup-view');
-    const ViewportManager = require('oroui/js/viewport-manager');
     const actionsTemplate = require('tpl-loader!orofrontend/templates/frontend-dialog/dialog-actions.html');
+    const viewportManager = require('oroui/js/viewport-manager').default;
     const _ = require('underscore');
     const $ = require('jquery');
 
@@ -49,9 +49,7 @@ define(function(require) {
         /**
          * @property {Object}
          */
-        fullscreenViewport: {
-            isMobile: true
-        },
+        fullscreenViewport: 'tablet-small',
 
         /**
          * @property {Object}
@@ -116,8 +114,7 @@ define(function(require) {
          */
         initialize: function(options) {
             FrontendDialogWidget.__super__.initialize.call(this, options);
-            this.isApplicable = this.fullscreenViewport
-                ? ViewportManager.isApplicable(this.fullscreenViewport) : null;
+            this.isApplicable = viewportManager.isApplicable(this.fullscreenViewport);
 
             this.options.dialogOptions = _.defaults(this.options.dialogOptions, {
                 close: this._onClose.bind(this)

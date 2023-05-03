@@ -31,7 +31,7 @@
         }
     }
 
-    &__inner {
+    &__list {
         &,
         &-left,
         &-right {
@@ -39,8 +39,13 @@
         }
     }
 
-    &--splited &__inner-left,
-    &--splited &__inner-right {
+    &__list &__list {
+        margin-top: $main-menu-column-item-offset-top;
+        padding-inline-start: $main-menu-column-list-list-padding-inline-start;
+    }
+
+    &--splited &__list-left,
+    &--splited &__list-right {
         float: $main-menu-column-splited-inner-left-float;
 
         width: $main-menu-column-splited-inner-left-width;
@@ -55,16 +60,11 @@
         color: $main-menu-column-title-color;
     }
 
-    &__item,
-    &__subitem {
-        margin-bottom: $main-menu-column-item-offset-bottom;
+    &__item:not(:first-child) {
+        margin-top: $main-menu-column-item-offset-top;
     }
 
-    &__subitem {
-        padding-left: $main-menu-column-subitem-offset-inner-left;
-    }
-
-    &__image {
+    &__item-img {
         display: $main-menu-column-image-display;
 
         max-width: $main-menu-column-image-max-width;
@@ -84,8 +84,8 @@
         color: $main-menu-column-link-color;
     }
 
-    &__subitem &__link {
-        color: $main-menu-column-link-color;
+    &__image-link {
+        display: $main-menu-column-image-link-display;
     }
 }
 
@@ -100,7 +100,7 @@
             padding-right: $main-menu-column-last-child-offset-inner-right;
         }
 
-        &__inner {
+        &__list {
             display: $main-menu-column-inner-display;
 
             @include clearfix();
@@ -111,6 +111,10 @@
 
             white-space: $main-menu-column-splited-white-space;
         }
+
+        &__title {
+            font-weight: $main-menu-column-title-desktop-font-weight;
+        }
     }
 }
 
@@ -118,21 +122,24 @@
     .main-menu-column {
         padding: $main-menu-column-tablet-offset-inner;
 
-        border-top: $main-menu-column-tablet-border-top;
+        &:not(:first-child) {
+            border-top: $main-menu-column-tablet-border-top;
+        }
+
 
         &::before {
             border-left: $main-menu-column-tablet-before-border-left;
         }
 
-        &--splited &__inner-left,
-        &--splited &__inner-right {
+        &--splited &__list-left,
+        &--splited &__list-right {
             float: $main-menu-column-tablet-splited-inner-left-float;
 
             width: $main-menu-column-tablet-splited-inner-left-width;
             margin-bottom: $main-menu-column-tablet-splited-inner-left-offset-bottom;
         }
 
-        &__inner {
+        &__list {
             margin-bottom: $main-menu-column-inner-tablet-offset-bottom;
         }
 

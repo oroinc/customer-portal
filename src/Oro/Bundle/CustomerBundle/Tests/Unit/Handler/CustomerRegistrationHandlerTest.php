@@ -13,34 +13,22 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CustomerRegistrationHandlerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var CustomerRegistrationHandler
-     */
+    /** @var CustomerRegistrationHandler */
     private $customerRegistrationHandler;
 
-    /**
-     * @var FrontendCustomerUserRegistrationFormProvider|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var FrontendCustomerUserRegistrationFormProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $registrationFormProvider;
 
-    /**
-     * @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject */
     private $customerUserManager;
 
-    /**
-     * @var FrontendCustomerUserHandler|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var FrontendCustomerUserHandler|\PHPUnit\Framework\MockObject\MockObject */
     private $customerUserHandler;
 
-    /**
-     * @var UpdateHandlerFacade|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var UpdateHandlerFacade|\PHPUnit\Framework\MockObject\MockObject */
     private $updateHandlerFacade;
 
-    /**
-     * @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $translator;
 
     protected function setUp(): void
@@ -68,10 +56,7 @@ class CustomerRegistrationHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedResult, $this->customerRegistrationHandler->isRegistrationRequest($request));
     }
 
-    /**
-     * @return array
-     */
-    public function handleIsRegistrationDataProvider()
+    public function handleIsRegistrationDataProvider(): array
     {
         $registrationRequest = new Request();
         $registrationRequest->query->add(['isRegistration' => true]);
@@ -89,14 +74,11 @@ class CustomerRegistrationHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param bool $isConfirmationRequired
-     * @param string $registrationMessage
-     *
      * @dataProvider getHandleRegistrationUpdateDataProvider
      */
     public function testHandleRegistrationUpdate(
-        $isConfirmationRequired,
-        $registrationMessage
+        bool $isConfirmationRequired,
+        string $registrationMessage
     ) {
         $request = new Request();
         $request->query->add(['isRegistration' => true]);
@@ -134,10 +116,7 @@ class CustomerRegistrationHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($updateResults, $this->customerRegistrationHandler->handleRegistration($request));
     }
 
-    /**
-     * @return array
-     */
-    public function getHandleRegistrationUpdateDataProvider()
+    public function getHandleRegistrationUpdateDataProvider(): array
     {
         return [
           'not submitted form' => [

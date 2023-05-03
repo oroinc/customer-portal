@@ -27,6 +27,27 @@
 
     {% set customersGrid = dataGrid.renderGrid(gridName, {group: entity.id}, { cssClass: 'inner-grid' }) %}
 
+    {% import '@OroUI/macros.html.twig' as UI %}
+
+    {% set customersDataBlocks = [] %}
+    {% if is_granted('oro_customer_create') %}
+        {% set customersDataBlocks = customersDataBlocks|merge([
+            UI.renderButtonsRow(UI.quickAccessAddButton({
+                'dataUrl': path('oro_customer_customer_create_for_customer_group', { group: entity.id }),
+                'title': 'oro.customer.customergroup.quick_access_button.new_customer.label'|trans,
+                'label': 'oro.customer.customergroup.quick_access_button.new_customer.label'|trans,
+                'widget': {
+                    'reload-grid-name': gridName,
+                    'options': {
+                        'alias': 'oro_customer_customer_create_for_customer_group_dialog',
+                        'dialogOptions': {
+                            'title': 'oro.customer.customergroup.quick_access_button.create_customer.widget.title'|trans,
+                        }
+                    }
+                }
+            }))
+        ]) %}
+    {% endif %}
     {% set dataBlocks = [
         {
             'title': 'oro.customer.sections.general'|trans,
@@ -34,7 +55,13 @@
         },
         {
             'title': 'oro.customer.sections.customergroup.customers'|trans,
-            'subblocks': [{'data' : [customersGrid]}]
+            'subblocks': [
+                {
+                    'data' : customersDataBlocks|merge([
+                        customersGrid
+                    ])
+                }
+            ]
         }
     ] %}
 

@@ -1,0 +1,31 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'main_menu.html.twig'
+        - '@addTree':
+            items:
+                menu_item:
+                    blockType: menu_item
+                    options:
+                        class_prefix: 'main-menu'
+                        vars:
+                            menu_item: '=data["menu_item"]'
+                menu_item_inner:
+                    blockType: menu_inner
+                    options:
+                        layoutType: 'fullheight'
+                        attr:
+                            data-header-row-toggle: ~
+                            data-scroll: true
+                            role: 'menu'
+                            data-role: 'sub-menu'
+                            aria-hidden: 'true'
+                menu_item_multi_container:
+                    blockType: container
+                    options:
+                        class_prefix: 'main-menu-multi'
+            tree:
+                menu_item_root:
+                    menu_item:
+                        menu_item_inner:
+                            menu_item_multi_container: ~

@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     'use strict';
 
-    const viewportManager = require('oroui/js/viewport-manager');
+    const viewportManager = require('oroui/js/viewport-manager').default;
     const BaseView = require('oroui/js/app/views/base/view');
     const _ = require('underscore');
     const $ = require('jquery');
@@ -9,7 +9,6 @@ define(function(require, exports, module) {
     let config = require('module-config').default(module.id);
 
     config = _.extend({
-        resizeTimeout: 250,
         layoutTimeout: 250
     }, config);
 
@@ -22,10 +21,8 @@ define(function(require, exports, module) {
         autoRender: true,
 
         optionNames: BaseView.prototype.optionNames.concat([
-            'resizeTimeout', 'layoutTimeout'
+            'layoutTimeout'
         ]),
-
-        resizeTimeout: config.resizeTimeout,
 
         layoutTimeout: config.layoutTimeout,
 
@@ -59,7 +56,6 @@ define(function(require, exports, module) {
          */
         initialize: function(options) {
             this.$window = $(window);
-            this.onViewportChange = _.debounce(this.onViewportChange.bind(this), this.resizeTimeout);
             this.onContentChange = _.debounce(this.onContentChange.bind(this), this.layoutTimeout);
 
             return DomRelocationView.__super__.initialize.call(this, options);
@@ -102,11 +98,10 @@ define(function(require, exports, module) {
             if (!this.$elements.length) {
                 return;
             }
-            const viewport = viewportManager.getViewport();
             _.each(this.$elements, function(el) {
                 const $el = $(el);
                 const options = $el.data('dom-relocation-options');
-                const targetOptions = this.checkTargetOptions(viewport, options.responsive);
+                const targetOptions = this.checkTargetOptions(viewportManager, options.responsive);
 
                 if (_.isObject(targetOptions)) {
                     if (!_.isEqual(options.targetViewport, targetOptions.viewport)) {

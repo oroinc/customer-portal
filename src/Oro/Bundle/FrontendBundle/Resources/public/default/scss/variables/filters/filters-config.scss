@@ -1,5 +1,7 @@
 /* @theme: default; */
 
+@use 'sass:color';
+
 $filter-criteria-selector-icon-height: 16px !default;
 $filter-criteria-selector-icon-color: get-color('additional', 'dark') !default;
 $filter-criteria-selector-icon-display: block !default;
@@ -20,7 +22,7 @@ $filter-separator-width: 22px !default;
 $filter-separator-text-align: center !default;
 
 $filter-reset-color: get-color('additional', 'ultra') !default;
-$filter-reset-hover-color: darken(get-color('additional', 'ultra'), 10%) !default;
+$filter-reset-hover-color: color.adjust(get-color('additional', 'ultra'), $lightness: -10%) !default;
 
 $filter-value-range-display: flex !default;
 $filter-value-range-align-items: center !default;

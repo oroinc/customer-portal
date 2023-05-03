@@ -5,12 +5,15 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Oro\Bundle\CustomerBundle\Model\ExtendCustomerUserRole;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationAwareInterface;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
+use Oro\Bundle\SecurityBundle\Model\Role;
+use Oro\Bundle\UserBundle\Entity\AbstractRole;
 
 /**
  * Entity that represents CustomerUser`s roles in system
@@ -59,8 +62,10 @@ use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwareInterface
+class CustomerUserRole extends AbstractRole implements OrganizationAwareInterface, ExtendEntityInterface
 {
+    use ExtendEntityTrait;
+
     public const PREFIX_ROLE = 'ROLE_FRONTEND_';
 
     /**
@@ -257,6 +262,7 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
     public function __clone()
     {
         $this->id = null;
+        $this->cloneExtendEntityStorage();
     }
 
     /**

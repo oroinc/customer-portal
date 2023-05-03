@@ -9,14 +9,13 @@ use Symfony\Component\Validator\Constraint;
  */
 class PageTarget extends Constraint
 {
-    /** @var string */
-    public $contentNodeEmpty = 'oro.commercemenu.validator.menu_update.content_node_empty.message';
+    public string $contentNodeEmpty = 'oro.commercemenu.validator.menu_update.content_node_empty.message';
 
-    /** @var string */
-    public $systemPageRouteEmpty = 'oro.commercemenu.validator.menu_update.system_page_route_empty.message';
+    public string $systemPageRouteEmpty = 'oro.commercemenu.validator.menu_update.system_page_route_empty.message';
 
-    /** @var string */
-    public $uriEmpty = 'oro.commercemenu.validator.menu_update.uri_empty.message';
+    public string $uriEmpty = 'oro.commercemenu.validator.menu_update.uri_empty.message';
+
+    public string $categoryEmpty = 'oro.commercemenu.validator.menu_update.category_empty.message';
 
     /**
      * {@inheritdoc}

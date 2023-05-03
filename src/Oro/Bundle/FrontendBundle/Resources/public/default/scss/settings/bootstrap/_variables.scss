@@ -1,6 +1,7 @@
 /* @theme: default; */
 
 @use 'sass:list';
+@use 'sass:color';
 
 // https://getbootstrap.com/docs/4.6/getting-started/theming/#variable-defaults
 // https://github.com/twbs/bootstrap/blob/v4.6.1/scss/_variables.scss
@@ -129,7 +130,7 @@ $nav-tabs-link-active-color-focus-visible: $base-ui-bth-focus-style;
 $dropdown-font-size: 1rem;
 $dropdown-border-radius: $border-radius;
 $dropdown-color: get-color('additional', 'dark');
-$dropdown-border-color: darken(get-color('additional', light), 4%);
+$dropdown-border-color: color.adjust(get-color('additional', 'light'), $lightness: -4%);
 $dropdown-box-shadow: 0 2px 8px rgba(0 0 0 / 10%);
 $dropdown-link-active-color: get-color('additional', 'dark');
 $dropdown-link-active-bg: get-color('additional', 'base');
@@ -170,7 +171,7 @@ $popover-header-color: get-color('additional', 'dark');
 $popover-header-padding-y: $offset-y;
 $popover-header-padding-x: $offset-x;
 $popover-body-color: get-color('additional', 'dark');
-$popover-body-light-color: lighten(get-color('additional', 'dark'), 21%);
+$popover-body-light-color: color.adjust(get-color('additional', 'dark'), $lightness: 21%);
 $popover-body-padding-y: $popover-header-padding-y;
 $popover-body-padding-x: $popover-header-padding-x;
 $popover-arrow-width: 16px;

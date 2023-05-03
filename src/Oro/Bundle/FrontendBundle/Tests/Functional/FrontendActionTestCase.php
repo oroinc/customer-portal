@@ -9,7 +9,7 @@ abstract class FrontendActionTestCase extends ActionTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getOperationExecutionRoute()
+    protected function getOperationExecutionRoute(): string
     {
         return 'oro_frontend_action_operation_execute';
     }
@@ -17,7 +17,7 @@ abstract class FrontendActionTestCase extends ActionTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getOperationDialogRoute()
+    protected function getOperationDialogRoute(): string
     {
         return 'oro_frontend_action_widget_form';
     }

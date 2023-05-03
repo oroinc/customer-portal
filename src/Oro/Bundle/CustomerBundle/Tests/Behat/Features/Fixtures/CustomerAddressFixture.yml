@@ -13,37 +13,43 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         frontendOwner: '@customer1'
         country: '@united_states'
         owner: '@admin'
+        firstName: 'Amanda'
+        lastName: 'Cole'
         systemOrganization: '@organization'
         primary: false
         label: 'Address 1'
         street: '801 Scenic Hwy'
         city: 'Haines City'
         postalCode: '33844'
-        organization: '@organization'
+        organization: 'ORO'
     customerAddress2:
         region: '@new_york'
         frontendOwner: '@customer1'
         country: '@united_states'
         owner: '@admin'
+        firstName: 'Amanda'
+        lastName: 'Cole'
         systemOrganization: '@organization'
         primary: false
         label: 'Address 2'
         street: '23400 Caldwell Road'
         city: 'Rochester'
         postalCode: '14608'
-        organization: '@organization'
+        organization: 'ORO'
     customerAddress3:
         region: '@indiana'
         frontendOwner: '@customer1'
         country: '@united_states'
         owner: '@admin'
+        firstName: 'Amanda'
+        lastName: 'Cole'
         systemOrganization: '@organization'
         primary: false
         label: 'Address 3'
         street: '34500 Capitol Avenue'
         city: 'Romney'
         postalCode: '47981'
-        organization: '@organization'
+        organization: 'ORO'
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
     customerAddress1ShippingDefault:
@@ -52,9 +58,5 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
         default: true
     customerAddress1BillingDefault:
         address: '@customerAddress1'
-        type: '@billingType'
-        default: true
-    customerAddress2BillingDefault:
-        address: '@customerAddress2'
         type: '@billingType'
         default: true

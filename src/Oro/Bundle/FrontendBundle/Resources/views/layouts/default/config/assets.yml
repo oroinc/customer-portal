@@ -94,6 +94,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/sticky-panel-config.scss'
         - 'bundles/orofrontend/default/scss/variables/skip-to-content-config.scss'
         - 'bundles/orofrontend/default/scss/variables/dropdown-search-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/scroll-shadow-config.scss'
 
         # Components
 
@@ -103,7 +104,7 @@ styles:
         - 'bundles/orofrontend/default/scss/components/bootstrap/bootstrap.scss'
 
         - '~overlayscrollbars/css/OverlayScrollbars.css'
-        - '~slick-carousel/slick/slick.scss'
+        - '~@oroinc/slick-carousel/slick/slick.scss'
         - 'bundles/orofrontend/default/scss/base/base.scss'
         - 'bundles/orofrontend/default/scss/components/utilites.scss'
         - 'bundles/orofrontend/default/scss/components/headings.scss'
@@ -112,7 +113,6 @@ styles:
         - 'bundles/orofrontend/default/scss/components/ui/extend/ui-multiselect-menu.scss'
         - 'bundles/orofrontend/default/scss/components/ui/jquery-ui.scss'
         - 'bundles/orofrontend/default/scss/components/ui/datepicker.scss'
-        - 'bundles/orofrontend/default/scss/components/iosBugFixCaret.scss'
         - 'bundles/orofrontend/default/scss/components/wrapper.scss'
         - 'bundles/orofrontend/default/scss/components/page-container.scss'
         - 'bundles/orofrontend/default/scss/components/page-header.scss'
@@ -206,6 +206,7 @@ styles:
         - 'bundles/orofrontend/default/scss/components/close-dialog.scss'
         - 'bundles/orofrontend/default/scss/components/sidebar-filter-container.scss'
         - 'bundles/orofrontend/default/scss/components/dropdown-search.scss'
+        - 'bundles/orofrontend/default/scss/components/scroll-shadow.scss'
     output: 'css/styles.css'
     auto_rtl_inputs:
         - 'bundles/oro*/**'

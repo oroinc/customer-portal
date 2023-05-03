@@ -16,14 +16,9 @@ use Oro\Component\ChainProcessor\ProcessorInterface;
  */
 class InitializeCustomerUser implements ProcessorInterface
 {
-    /** @var DoctrineHelper */
-    private $doctrineHelper;
-
-    /** @var ConfigManager */
-    private $configManager;
-
-    /** @var WebsiteManager */
-    private $websiteManager;
+    private DoctrineHelper $doctrineHelper;
+    private ConfigManager $configManager;
+    private WebsiteManager $websiteManager;
 
     public function __construct(
         DoctrineHelper $doctrineHelper,
@@ -38,7 +33,7 @@ class InitializeCustomerUser implements ProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContextInterface $context)
+    public function process(ContextInterface $context): void
     {
         /** @var CustomizeFormDataContext $context */
 
@@ -81,7 +76,7 @@ class InitializeCustomerUser implements ProcessorInterface
 
     private function setRoles(CustomerUser $customerUser): void
     {
-        if (count($customerUser->getUserRoles()) === 0) {
+        if (\count($customerUser->getUserRoles()) === 0) {
             $website = $customerUser->getWebsite();
             if (null !== $website) {
                 $role = $website->getDefaultRole();

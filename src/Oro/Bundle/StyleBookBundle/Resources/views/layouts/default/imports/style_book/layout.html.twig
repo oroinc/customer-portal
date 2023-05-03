@@ -81,9 +81,7 @@
 {% block __style_book__mobile_menu_action_widget %}
     {% set attr = layout_attr_defaults(attr, {
         'data-page-component-viewport': {
-            viewport: {
-                maxScreenType: 'tablet',
-            },
+            viewport: 'tablet',
             view: 'orostylebook/js/style-book/toggle-action-view',
             target: '[data-role=style-book-sidebar]'
         }
@@ -98,9 +96,7 @@
         'data-dom-relocation-options': {
             responsive: [
                 {
-                    viewport: {
-                        maxScreenType: 'tablet'
-                    },
+                    viewport: 'tablet',
                     moveTo: '[data-header-menu-container]'
                 }
             ]

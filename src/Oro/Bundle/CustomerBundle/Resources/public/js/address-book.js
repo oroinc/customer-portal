@@ -5,7 +5,7 @@ define(function(require) {
     const $ = require('jquery');
     const _ = require('underscore');
     const mediator = require('oroui/js/mediator');
-    const viewportManager = require('oroui/js/viewport-manager');
+    const viewportManager = require('oroui/js/viewport-manager').default;
 
     const AddressBook = BaseAddressBook.extend({
         optionNames: BaseAddressBook.prototype.optionNames.concat(['useFormDialog', 'mapViewport']),
@@ -14,10 +14,12 @@ define(function(require) {
 
         checkViewport: false,
 
-        mapViewport: {},
+        mapViewport: 'all',
 
-        listen: {
-            'viewport:change mediator': '_checkMapVisibility'
+        listen() {
+            return {
+                [`viewport:${this.mapViewport} mediator`]: '_checkMapVisibility'
+            };
         },
 
         /**
@@ -32,7 +34,7 @@ define(function(require) {
          */
         initialize: function(options) {
             this.checkViewport = _.isUndefined(options.showMap) ? this.options.showMap : options.showMap;
-            if (this.checkViewport && !viewportManager.isApplicable(this.mapViewport)) {
+            if (this.checkViewport && viewportManager.isApplicable(this.mapViewport)) {
                 options.showMap = false;
             }
             AddressBook.__super__.initialize.call(this, options);
@@ -68,11 +70,11 @@ define(function(require) {
             $linkContainer.appendTo(this.$addressesContainer);
         },
 
-        _checkMapVisibility: function(viewport) {
+        _checkMapVisibility: function(e) {
             if (!this.checkViewport) {
                 return;
             }
-            this.options.showMap = viewport.isApplicable(this.mapViewport);
+            this.options.showMap = !e.matches;
             if (this.options.showMap) {
                 this.initializeMap();
             } else {

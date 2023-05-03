@@ -5,11 +5,13 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Oro\Bundle\CustomerBundle\Model\ExtendCustomer;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareInterface;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareTrait;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 
@@ -33,7 +35,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *      routeUpdate="oro_customer_customer_update",
  *      defaultValues={
  *          "entity"={
- *              "icon"="fa-user"
+ *              "icon"="fa-building"
  *          },
  *          "ownership"={
  *              "owner_type"="USER",
@@ -66,10 +68,15 @@ use Oro\Bundle\UserBundle\Entity\User;
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ *
+ * @method AbstractEnumValue getInternalRating()
+ * @method Customer setInternalRating(AbstractEnumValue $enumId)
  */
-class Customer extends ExtendCustomer implements DatesAwareInterface
+class Customer implements DatesAwareInterface, ExtendEntityInterface
 {
     use DatesAwareTrait;
+    use ExtendEntityTrait;
+
     const INTERNAL_RATING_CODE = 'acc_internal_rating';
 
     /**
@@ -82,7 +89,7 @@ class Customer extends ExtendCustomer implements DatesAwareInterface
      *     defaultValues={
      *         "importexport"={
      *             "order"=10,
-     *             "identity"=true
+     *             "identity"=-1
      *         }
      *     }
      * )
@@ -99,7 +106,8 @@ class Customer extends ExtendCustomer implements DatesAwareInterface
      *              "auditable"=true
      *          },
      *          "importexport"={
-     *              "order"=20
+     *              "order"=20,
+     *              "identity"=-1
      *          }
      *      }
      * )
@@ -299,8 +307,6 @@ class Customer extends ExtendCustomer implements DatesAwareInterface
      */
     public function __construct()
     {
-        parent::__construct();
-
         $this->children = new ArrayCollection();
         $this->addresses = new ArrayCollection();
         $this->users = new ArrayCollection();

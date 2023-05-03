@@ -1,0 +1,73 @@
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    customer1:
+        name: 'Customer1'
+        organization: '@organization'
+        owner: '@admin'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+    amanda:
+        email: 'AmandaRCole@example.org'
+        username: 'AmandaRCole@example.org'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
+        firstName: 'Amanda'
+        lastName: 'Cole'
+        enabled: '1'
+        confirmed: '1'
+        customer: '@customer1'
+        organization: '@organization'
+        userRoles: ['@front_admin']
+        owner: '@admin'
+        website: '@website1'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
+    amandaAddress1:
+        region: '@florida'
+        frontendOwner: '@amanda'
+        country: '@united_states'
+        owner: '@admin'
+        systemOrganization: '@organization'
+        firstName: Test
+        lastName: Customer
+        primary: true
+        label: 'Primary address'
+        street: '801 Scenic Hwy'
+        city: 'Haines City'
+        postalCode: '33844'
+        organization: 'ORO'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
+    amandaCustomerAddress1:
+        region: '@florida'
+        frontendOwner: '@customer1'
+        country: '@united_states'
+        owner: '@admin'
+        systemOrganization: '@organization'
+        firstName: Test
+        lastName: Customer
+        primary: true
+        label: 'Primary address'
+        street: '801 Scenic Hwy'
+        city: 'Haines City'
+        postalCode: '33844'
+        organization: 'ORO'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType:
+    amandaAddress1ShippingDefault:
+        address: '@amandaAddress1'
+        type: '@shippingType'
+        default: true
+    amandaAddress1BillingDefault:
+        address: '@amandaAddress1'
+        type: '@billingType'
+        default: true
+
+Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
+    amandaCustomerAddress1ShippingDefault:
+        address: '@amandaCustomerAddress1'
+        type: '@shippingType'
+        default: true
+    amandaCustomerAddress1BillingDefault:
+        address: '@amandaCustomerAddress1'
+        type: '@billingType'
+        default: true

@@ -36,7 +36,7 @@ abstract class AbstractCustomerViewListenerTest extends \PHPUnit\Framework\TestC
     /** @var BeforeListRenderEvent|\PHPUnit\Framework\MockObject\MockObject */
     protected $event;
 
-    /** * @var AbstractCustomerViewListener */
+    /** @var AbstractCustomerViewListener */
     protected $customerViewListener;
 
     protected function setUp(): void
@@ -135,28 +135,13 @@ abstract class AbstractCustomerViewListenerTest extends \PHPUnit\Framework\TestC
         $this->customerViewListener->onCustomerUserView($this->event);
     }
 
-    /**
-     * @return string
-     */
-    abstract protected function getCustomerViewTemplate();
+    abstract protected function createListenerToTest(): AbstractCustomerViewListener;
 
-    /**
-     * @return string
-     */
-    abstract protected function getCustomerLabel();
+    abstract protected function getCustomerViewTemplate(): string;
 
-    /**
-     * @return string
-     */
-    abstract protected function getCustomerUserViewTemplate();
+    abstract protected function getCustomerLabel(): string;
 
-    /**
-     * @return string
-     */
-    abstract protected function getCustomerUserLabel();
+    abstract protected function getCustomerUserViewTemplate(): string;
 
-    /**
-     * @return AbstractCustomerViewListener
-     */
-    abstract protected function createListenerToTest();
+    abstract protected function getCustomerUserLabel(): string;
 }

@@ -1,0 +1,10 @@
+{% block _menu_item_multi_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': class_prefix ? " #{class_prefix}__container"
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {% do block|merge_context({'menu_items': menu_items}) %}
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}

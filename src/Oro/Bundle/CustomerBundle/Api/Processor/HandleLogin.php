@@ -23,20 +23,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class HandleLogin implements ProcessorInterface
 {
-    /** @var string */
-    private $authenticationProviderKey;
-
-    /** @var AuthenticationProviderInterface */
-    private $authenticationProvider;
-
-    /** @var ConfigManager */
-    private $configManager;
-
-    /** @var DoctrineHelper */
-    private $doctrineHelper;
-
-    /** @var TranslatorInterface */
-    private $translator;
+    private string $authenticationProviderKey;
+    private AuthenticationProviderInterface $authenticationProvider;
+    private ConfigManager $configManager;
+    private DoctrineHelper $doctrineHelper;
+    private TranslatorInterface $translator;
 
     public function __construct(
         string $authenticationProviderKey,
@@ -55,7 +46,7 @@ class HandleLogin implements ProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContextInterface $context)
+    public function process(ContextInterface $context): void
     {
         /** @var CreateContext $context */
 
@@ -105,20 +96,12 @@ class HandleLogin implements ProcessorInterface
         }
     }
 
-    /**
-     * @return bool
-     */
-    private function isApiKeyGenerationEnabled()
+    private function isApiKeyGenerationEnabled(): bool
     {
         return (bool)$this->configManager->get('oro_customer.api_key_generation_enabled');
     }
 
-    /**
-     * @param CustomerUser $user
-     *
-     * @return string|null
-     */
-    private function getApiKey(CustomerUser $user)
+    private function getApiKey(CustomerUser $user): ?string
     {
         $apiKey = $user->getApiKeys()->first();
         if (!$apiKey) {
@@ -128,12 +111,7 @@ class HandleLogin implements ProcessorInterface
         return $apiKey->getApiKey();
     }
 
-    /**
-     * @param CustomerUser $user
-     *
-     * @return string
-     */
-    private function generateApiKey(CustomerUser $user)
+    private function generateApiKey(CustomerUser $user): string
     {
         $apiKey = new CustomerUserApi();
         $apiKey->setApiKey($apiKey->generateKey());

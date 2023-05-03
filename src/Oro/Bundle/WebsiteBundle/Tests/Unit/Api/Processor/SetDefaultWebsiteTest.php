@@ -4,6 +4,7 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Api\Processor;
 
 use Oro\Bundle\ApiBundle\Tests\Unit\Processor\CustomizeFormData\CustomizeFormDataProcessorTestCase;
 use Oro\Bundle\ApiBundle\Validator\Constraints\AccessGranted;
+use Oro\Bundle\EntityExtendBundle\PropertyAccess;
 use Oro\Bundle\WebsiteBundle\Api\Processor\SetDefaultWebsite;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
@@ -11,7 +12,6 @@ use Oro\Bundle\WebsiteBundle\Tests\Unit\Entity\Stub\WebsiteAwareStub;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class SetDefaultWebsiteTest extends CustomizeFormDataProcessorTestCase
 {

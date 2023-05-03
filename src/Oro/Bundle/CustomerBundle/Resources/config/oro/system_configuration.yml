@@ -237,6 +237,13 @@ system_configuration:
         customer_configuration:
             commerce:
                 children:
+                    search:
+                        children:
+                            website_search_terms:
+                                children:
+                                    website_search_history:
+                                        children:
+                                            - oro_website_search.enable_global_search_history_tracking
                     product:
                         children:
                             customer_settings:
@@ -251,6 +258,13 @@ system_configuration:
         customer_group_configuration:
             commerce:
                 children:
+                    search:
+                        children:
+                            website_search_terms:
+                                children:
+                                    website_search_history:
+                                        children:
+                                            - oro_website_search.enable_global_search_history_tracking
                     product:
                         children:
                             customer_settings:

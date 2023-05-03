@@ -1,0 +1,80 @@
+allProductsLightingProducts:
+    custom: false
+    targetMenuItem:
+        category: '@Lighting Products'
+    category: '@Lighting Products'
+    menuTemplate: list
+    maxTraverseLevel: 1
+    priority: 0
+
+allProductsMedical:
+    custom: false
+    targetMenuItem:
+        category: '@Medical'
+    category: '@Medical'
+    menuTemplate: list
+    maxTraverseLevel: 1
+    priority: 1
+
+allProductsOfficeFurniture:
+    custom: false
+    targetMenuItem:
+        category: '@Office Furniture'
+    category: '@Office Furniture'
+    menuTemplate: list
+    maxTraverseLevel: 1
+    priority: 2
+
+allProductsRetailSupplies:
+    custom: false
+    targetMenuItem:
+        category: '@Retail Supplies'
+    category: '@Retail Supplies'
+    menuTemplate: list
+    maxTraverseLevel: 1
+    priority: 3
+
+navigationRootProducts:
+    custom: false
+    targetMenuItem:
+        contentNode: '@navigation_root__products'
+    contentNode: '@navigation_root__products'
+    menuTemplate: mega
+    maxTraverseLevel: 4
+    priority: 0
+
+navigationRootNewArrivals:
+    custom: false
+    targetMenuItem:
+        contentNode: '@navigation_root__new_arrivals'
+    contentNode: '@navigation_root__new_arrivals'
+    menuTemplate: tree
+    maxTraverseLevel: 3
+    priority: 1
+
+navigationRootClearance:
+    custom: false
+    targetMenuItem:
+        contentNode: '@navigation_root__clearance'
+    contentNode: '@navigation_root__clearance'
+    menuTemplate: list
+    maxTraverseLevel: 1
+    priority: 2
+
+promoOnSaleInProducts:
+    custom: true
+    uri: '#'
+    image: '@digitalAssetPromoOnSale'
+    defaultTitle: 'On Sale'
+    priority: 100
+    parentMenuItem:
+        contentNode: '@navigation_root__products__by_category'
+
+promoOnSaleInNewArrivals:
+    custom: true
+    uri: '#'
+    image: '@digitalAssetPromoOnSale'
+    defaultTitle: 'On Sale'
+    priority: 100
+    parentMenuItem:
+        contentNode: '@navigation_root__new_arrivals'

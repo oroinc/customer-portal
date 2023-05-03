@@ -17,8 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
 {
-    /** @var CustomerTypedAddressWithDefaultType */
-    private $formType;
+    private CustomerTypedAddressWithDefaultType $formType;
 
     protected function setUp(): void
     {
@@ -61,12 +60,12 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return [
-            new PreloadedExtension([CustomerTypedAddressWithDefaultType::class => $this->formType], []),
+            new PreloadedExtension([$this->formType], []),
         ];
     }
 
