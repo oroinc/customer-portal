@@ -1,12 +1,15 @@
 define(function(require) {
     'use strict';
 
+    const $ = require('jquery');
+    const _ = require('underscore');
+    const tools = require('oroui/js/tools');
+    const mediator = require('oroui/js/mediator');
     const DialogWidget = require('oro/dialog-widget');
     const FullScreenPopupView = require('orofrontend/default/js/app/views/fullscreen-popup-view');
+    const LoadingBarView = require('oroui/js/app/views/loading-bar-view');
     const actionsTemplate = require('tpl-loader!orofrontend/templates/frontend-dialog/dialog-actions.html');
     const viewportManager = require('oroui/js/viewport-manager').default;
-    const _ = require('underscore');
-    const $ = require('jquery');
 
     const FrontendDialogWidget = DialogWidget.extend({
         /**
@@ -101,6 +104,14 @@ define(function(require) {
          * @property {boolean}
          */
         staticPage: false,
+
+        /**
+         * @property {Object}
+         */
+        options: {
+            ...DialogWidget.prototype.options,
+            desktopLoadingBar: true
+        },
 
         /**
          * @inheritdoc
@@ -353,6 +364,31 @@ define(function(require) {
             if (fullscreen && !fullscreen.disposed) {
                 fullscreen.trigger('close');
             }
+        },
+
+        /**
+         * Create loading bar under titlebar
+         * @private
+         */
+        _initLoadingBar() {
+            if ((this.options.mobileLoadingBar && tools.isMobile()) ||
+                (this.options.desktopLoadingBar && !tools.isMobile())) {
+                this.subview('loadingBarView', new LoadingBarView({
+                    container: this.widget.dialog('instance').uiDialogTitlebar,
+                    ajaxLoading: true
+                }));
+
+                this.listenTo(mediator, {
+                    'page:beforeChange': () => {
+                        this.subview('loadingBarView').showLoader();
+                    },
+                    'page:afterChange': () => {
+                        this.subview('loadingBarView').hideLoader();
+                    }
+                });
+            }
+
+            return this;
         }
     });
 
