@@ -6,3 +6,4 @@ oro.commercemenu:
             content_node_empty.message: 'Please choose a Web Catalog and Content Node'
             system_page_route_empty.message: 'Please choose a System Page'
             uri_empty.message: 'Please provide URI'
+            category_empty.message: 'Please choose a Category'

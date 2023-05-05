@@ -72,7 +72,7 @@ Feature: Customer user reset password link expire
       | New Password     | NeWpAsW0RdDDD |
       | Confirm Password | NeWpAsW0RdDDD |
     And I click "Save"
-    Then I should see "Customer User profile updated"
+    Then I should see "Customer User profile updated" flash message
 
     Given I proceed as the Unauthorized
     When I follow link from the email
@@ -96,7 +96,7 @@ Feature: Customer user reset password link expire
     And I fill "Customer User Profile Form" with:
       | Email Address | new-amanda-email@example.com |
     And I click "Save"
-    Then I should see "Customer User profile updated"
+    Then I should see "Customer User profile updated" flash message
 
     Given I proceed as the Unauthorized
     When I follow link from the email

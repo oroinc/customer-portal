@@ -12,9 +12,11 @@ class BusinessUnitMessageFactoryTest extends \PHPUnit\Framework\TestCase
     private const JOB_ID = 7;
     private const ENTITY_CLASS = 'EntityClass';
 
-    private DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject $doctrineHelper;
+    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $doctrineHelper;
 
-    private BusinessUnitMessageFactory $messageFactory;
+    /** @var BusinessUnitMessageFactory */
+    private $messageFactory;
 
     protected function setUp(): void
     {
@@ -49,8 +51,6 @@ class BusinessUnitMessageFactoryTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider entityIdDataProvider
-     *
-     * @param int|string $entityId
      */
     public function testGetBusinessUnitFromMessage(int|string $entityId): void
     {
@@ -63,8 +63,7 @@ class BusinessUnitMessageFactoryTest extends \PHPUnit\Framework\TestCase
             ->with(self::ENTITY_CLASS)
             ->willReturn($repo);
 
-        $repo
-            ->expects(self::once())
+        $repo->expects(self::once())
             ->method('find')
             ->with($entityId)
             ->willReturn($entity);

@@ -1,0 +1,102 @@
+/* @theme: default; */
+
+@mixin main-menu-stack-items {
+    &__item {
+        &.show {
+            background: $main-menu-multi-item-background-hover;
+        }
+
+        &:not(:first-child) {
+            border-top: $main-menu-multi-item-border-top;
+        }
+
+        &:last-child {
+            border-bottom: $main-menu-multi-item-border-bottom;
+        }
+
+        @media (hover: hover) {
+            &:hover {
+                background: $main-menu-multi-item-background-hover;
+            }
+        }
+    }
+
+    &__actions {
+        height: $main-menu-multi-actions-height;
+        display: $main-menu-multi-actions-display;
+        grid-template-columns: $main-menu-multi-actions-grid-template-columns;
+
+        &:not(:only-child) {
+            @include fa-icon($main-menu-multi-actions-has-sublist-icon, after, true, true) {
+                font-size: $main-menu-multi-actions-has-sublist-font-size;
+                display: $main-menu-multi-actions-has-sublist-display;
+                align-items: $main-menu-multi-actions-has-sublist-align-items;
+                justify-content: $main-menu-multi-actions-has-sublist-justify-content;
+                grid-column: $main-menu-multi-actions-has-sublist-grid-column;
+                grid-row: $main-menu-multi-actions-has-sublist-grid-row;
+            }
+        }
+    }
+
+    &__link {
+        display: $main-menu-multi-link-display;
+        color: $main-menu-multi-link-color;
+        text-transform: $main-menu-multi-link-text-transform;
+        overflow: $main-menu-multi-link-overflow;
+        white-space: $main-menu-multi-link-white-space;
+        position: $main-menu-multi-link-position;
+        grid-column: $main-menu-multi-link-grid-column;
+        grid-row: $main-menu-multi-link-grid-row;
+        align-items: $main-menu-multi-link-align-items;
+        align-self: $main-menu-multi-link-align-self;
+        z-index: $main-menu-multi-link-z-index;
+
+        &.focus-via-arrows-keys:focus {
+            grid-column: $main-menu-multi-link-focus-keys-grid-column;
+            align-self: $main-menu-multi-link-focus-keys-align-self;
+            margin: $main-menu-multi-link-focus-keys-margin;
+            padding: $main-menu-multi-link-focus-keys-padding;
+        }
+    }
+
+    &__actions:only-child &__link:not(.focus-via-arrows-keys:focus) {
+        grid-column: $main-menu-multi-link-only-child-keys-grid-column;
+        align-self: $main-menu-multi-link-only-child-keys-align-self;
+        padding: $main-menu-multi-link-only-child-keys-padding;
+    }
+
+    &__button {
+        background: $main-menu-multi-button-background;
+        font-family: $main-menu-multi-button-font-family;
+        font-size: $main-menu-multi-button-font-size;
+        color: $main-menu-multi-button-color;
+        text-align: $main-menu-multi-button-text-align;
+        text-transform: $main-menu-multi-button-text-transform;
+        white-space: $main-menu-multi-button-white-space;
+        border: $main-menu-multi-button-border;
+        margin: $main-menu-multi-button-margin;
+        padding: $main-menu-multi-button-padding;
+        grid-column: $main-menu-multi-button-grid-column;
+        grid-row: $main-menu-multi-button-grid-row;
+        position: $main-menu-multi-button-position;
+        cursor: $main-menu-multi-button-cursor;
+        z-index: $main-menu-multi-button-z-index;
+
+        &::before {
+            content: $main-menu-multi-button-before-content;
+            position: $main-menu-multi-button-before-position;
+            inset: $main-menu-multi-button-before-inset;
+            z-index: $main-menu-multi-button-before-z-index;
+        }
+    }
+
+    &__text-label {
+        display: $main-menu-multi-button-span-show-display;
+        text-overflow: $main-menu-multi-button-span-show-text-overflow;
+        overflow: $main-menu-multi-button-span-show-overflow;
+    }
+
+    &__link + &__button &__text-label {
+        visibility: $main-menu-multi-button-span-visibility;
+    }
+}

@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendBundle\DependencyInjection;
 
 use Oro\Bundle\ApiBundle\DependencyInjection\OroApiExtension;
 use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
+use Oro\Bundle\ConfigBundle\DependencyInjection\SettingsBuilder;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
@@ -21,20 +22,20 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
 {
     public const FRONTEND_SESSION_STORAGE_OPTIONS_PARAMETER_NAME = 'oro_frontend.session.storage.options';
 
-    public const API_DOC_VIEWS_PARAMETER_NAME        = 'oro_frontend.api_doc.views';
+    public const API_DOC_VIEWS_PARAMETER_NAME = 'oro_frontend.api_doc.views';
     public const API_DOC_DEFAULT_VIEW_PARAMETER_NAME = 'oro_frontend.api_doc.default_view';
 
     private const CORS_SETTINGS_SERVICE_ID = 'oro_frontend.api.rest.cors_settings';
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
-        $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
+        $container->prependExtensionConfig($this->getAlias(), SettingsBuilder::getSettings($config));
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
         $loader->load('services_api.yml');
         $loader->load('form_type.yml');
@@ -42,9 +43,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         $loader->load('commands.yml');
         $loader->load('controllers.yml');
 
-        $container->prependExtensionConfig($this->getAlias(), array_intersect_key($config, array_flip(['settings'])));
-
-        $config = $this->processConfiguration($configuration, $configs);
         $container
             ->getDefinition('oro_frontend.extractor.frontend_exposed_routes_extractor')
             ->replaceArgument(1, $config['routes_to_expose']);
@@ -57,9 +55,9 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         if ($container instanceof ExtendedContainerBuilder) {
             $this->validateBackendPrefix($container);

@@ -4,9 +4,9 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Handler;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Oro\Bundle\CheckoutBundle\Entity\Repository\CheckoutRepository;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Handler\CustomerUserReassignEntityUpdater;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Stub\ResettableCustomerUserRepositoryStub;
 use Oro\Bundle\DataAuditBundle\Async\Topic\AuditChangedEntitiesTopic;
 use Oro\Bundle\DataAuditBundle\Provider\AuditMessageBodyProvider;
 use Oro\Bundle\DataAuditBundle\Service\EntityToEntityChangeArrayConverter;
@@ -14,16 +14,13 @@ use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Component\MessageQueue\Client\Message;
 use Oro\Component\MessageQueue\Client\MessagePriority;
 use Oro\Component\MessageQueue\Client\MessageProducerInterface;
-use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\ReflectionUtil;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTrait;
-
-    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $doctrine;
+    private const ENTITY_CLASS = 'Test\Entity';
 
     /** @var EntityToEntityChangeArrayConverter|\PHPUnit\Framework\MockObject\MockObject */
     private $entityToArrayConverter;
@@ -40,45 +37,67 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
     /** @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $em;
 
-    /** @var CheckoutRepository|\PHPUnit\Framework\MockObject\MockObject */
-    private $checkoutRepository;
+    /** @var ResettableCustomerUserRepositoryStub|\PHPUnit\Framework\MockObject\MockObject */
+    private $repository;
 
     /** @var CustomerUserReassignEntityUpdater */
     private $updater;
 
     protected function setUp(): void
     {
-        $this->doctrine = $this->createMock(ManagerRegistry::class);
         $this->entityToArrayConverter = $this->createMock(EntityToEntityChangeArrayConverter::class);
         $this->auditMessageBodyProvider = $this->createMock(AuditMessageBodyProvider::class);
         $this->messageProducer = $this->createMock(MessageProducerInterface::class);
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
         $this->em = $this->createMock(EntityManagerInterface::class);
-        $this->checkoutRepository = $this->createMock(CheckoutRepository::class);
+        $this->repository = $this->createMock(ResettableCustomerUserRepositoryStub::class);
+
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $doctrine->expects(self::any())
+            ->method('getManagerForClass')
+            ->with(self::ENTITY_CLASS)
+            ->willReturn($this->em);
+        $this->em->expects(self::any())
+            ->method('getRepository')
+            ->with(self::ENTITY_CLASS)
+            ->willReturn($this->repository);
 
         $this->updater = new CustomerUserReassignEntityUpdater(
-            $this->doctrine,
+            $doctrine,
             $this->entityToArrayConverter,
             $this->auditMessageBodyProvider,
             $this->messageProducer,
             $this->tokenStorage
         );
+        $this->updater->setEntityClass(self::ENTITY_CLASS);
+    }
+
+    private function getCustomerUser(int $id): CustomerUser
+    {
+        $customerUser = new CustomerUser();
+        ReflectionUtil::setId($customerUser, $id);
+
+        return $customerUser;
+    }
+
+    private function getUser(int $id): User
+    {
+        $user = new User();
+        ReflectionUtil::setId($user, $id);
+
+        return $user;
     }
 
     public function testUpdateEmptyUpdatedEntities()
     {
-        $entityClass = \stdClass::class;
-        /** @var CustomerUser $customerUser */
-        $customerUser = $this->getEntity(CustomerUser::class, ['id' => 35]);
+        $customerUser = $this->getCustomerUser(35);
 
-        $this->expectRepository($entityClass);
-
-        $this->checkoutRepository->expects(self::once())
+        $this->repository->expects(self::once())
             ->method('getRelatedEntitiesCount')
             ->with($customerUser)
             ->willReturn(0);
 
-        $this->checkoutRepository->expects(self::never())
+        $this->repository->expects(self::never())
             ->method('resetCustomerUser');
 
         $this->entityToArrayConverter->expects(self::never())
@@ -93,8 +112,6 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
         $this->messageProducer->expects(self::never())
             ->method('send');
 
-        $this->updater->setEntityClass($entityClass);
-
         $this->updater->update($customerUser);
     }
 
@@ -103,37 +120,20 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
      */
     public function testUpdateWithBatches()
     {
-        $entityClass = \stdClass::class;
-        /** @var CustomerUser $customerUser */
-        $customerUser = $this->getEntity(CustomerUser::class, ['id' => 35]);
+        $customerUser = $this->getCustomerUser(35);
 
-        $this->doctrine->expects(self::atLeastOnce())
-            ->method('getManagerForClass')
-            ->with($entityClass)
-            ->willReturn($this->em);
+        $updatedEntity1 = $this->getUser(1);
+        $updatedEntity100 = $this->getUser(100);
+        $updatedEntity101 = $this->getUser(101);
+        $updatedEntity200 = $this->getUser(200);
+        $updatedEntity201 = $this->getUser(201);
 
-        $this->em->expects(self::atLeastOnce())
-            ->method('getRepository')
-            ->with($entityClass)
-            ->willReturn($this->checkoutRepository);
-
-        /** @var User $updatedEntity1 */
-        $updatedEntity1 = $this->getEntity(User::class, ['id' => 1]);
-        /** @var User $updatedEntity100 */
-        $updatedEntity100 = $this->getEntity(User::class, ['id' => 100]);
-        /** @var User $updatedEntity101 */
-        $updatedEntity101 = $this->getEntity(User::class, ['id' => 101]);
-        /** @var User $updatedEntity200 */
-        $updatedEntity200 = $this->getEntity(User::class, ['id' => 200]);
-        /** @var User $updatedEntity201 */
-        $updatedEntity201 = $this->getEntity(User::class, ['id' => 201]);
-
-        $this->checkoutRepository->expects(self::once())
+        $this->repository->expects(self::once())
             ->method('getRelatedEntitiesCount')
             ->with($customerUser)
             ->willReturn(201);
 
-        $this->checkoutRepository->expects(self::exactly(4))
+        $this->repository->expects(self::exactly(4))
             ->method('findBy')
             ->withConsecutive(
                 [['customerUser' => $customerUser], null, 100],
@@ -148,7 +148,7 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
                 []
             );
 
-        $this->checkoutRepository->expects(self::exactly(3))
+        $this->repository->expects(self::exactly(3))
             ->method('resetCustomerUser')
             ->withConsecutive(
                 [$customerUser, [$updatedEntity1, $updatedEntity100,]],
@@ -270,66 +270,35 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
                 ]
             );
 
-        $this->updater->setEntityClass($entityClass);
-
         $this->updater->update($customerUser);
     }
 
     public function testHasEntitiesToUpdateTrue()
     {
-        $entityClass = \stdClass::class;
-        /** @var CustomerUser $customerUser */
-        $customerUser = $this->getEntity(CustomerUser::class, ['id' => 35]);
+        $customerUser = $this->getCustomerUser(35);
 
-        $this->expectRepository($entityClass);
-
-        $this->checkoutRepository->expects(self::once())
+        $this->repository->expects(self::once())
             ->method('getRelatedEntitiesCount')
             ->with($customerUser)
             ->willReturn(3);
-
-        $this->updater->setEntityClass($entityClass);
 
         self::assertEquals(true, $this->updater->hasEntitiesToUpdate($customerUser));
     }
 
     public function testHasEntitiesToUpdateFalse()
     {
-        $entityClass = \stdClass::class;
-        /** @var CustomerUser $customerUser */
-        $customerUser = $this->getEntity(CustomerUser::class, ['id' => 35]);
+        $customerUser = $this->getCustomerUser(35);
 
-        $this->expectRepository($entityClass);
-
-        $this->checkoutRepository->expects(self::once())
+        $this->repository->expects(self::once())
             ->method('getRelatedEntitiesCount')
             ->with($customerUser)
             ->willReturn(0);
 
-        $this->updater->setEntityClass($entityClass);
-
         self::assertEquals(false, $this->updater->hasEntitiesToUpdate($customerUser));
-    }
-
-    private function expectRepository(string $entityClass)
-    {
-        $this->doctrine->expects(self::once())
-            ->method('getManagerForClass')
-            ->with($entityClass)
-            ->willReturn($this->em);
-
-        $this->em->expects(self::once())
-            ->method('getRepository')
-            ->with($entityClass)
-            ->willReturn($this->checkoutRepository);
     }
 
     public function testGetEntityClass()
     {
-        $entityClass = \stdClass::class;
-
-        $this->updater->setEntityClass($entityClass);
-
-        self::assertEquals($entityClass, $this->updater->getEntityClass());
+        self::assertEquals(self::ENTITY_CLASS, $this->updater->getEntityClass());
     }
 }

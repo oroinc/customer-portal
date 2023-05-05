@@ -7,71 +7,54 @@ namespace Oro\Bundle\CustomerBundle\Api\Model;
  */
 class Login
 {
-    /** @var string */
-    private $email;
-
-    /** @var string */
-    private $password;
-
-    /** @var string */
-    private $apiKey;
+    private ?string $email = null;
+    private ?string $password = null;
+    private ?string $apiKey = null;
 
     /**
      * Gets the email.
-     *
-     * @return string
      */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
     /**
      * Sets the email.
-     *
-     * @param string $email
      */
-    public function setEmail($email)
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
     }
 
     /**
      * Gets the password.
-     *
-     * @return string
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
     /**
      * Sets the password.
-     *
-     * @param string $password
      */
-    public function setPassword($password)
+    public function setPassword(?string $password): void
     {
         $this->password = $password;
     }
 
     /**
      * Gets the API access key that should be used for subsequent API requests.
-     *
-     * @return string|null
      */
-    public function getApiKey()
+    public function getApiKey(): ?string
     {
         return $this->apiKey;
     }
 
     /**
      * Sets the API access key belongs to the customer user with the given email and password.
-     *
-     * @param string $apiKey
      */
-    public function setApiKey($apiKey)
+    public function setApiKey(?string $apiKey): void
     {
         $this->apiKey = $apiKey;
     }

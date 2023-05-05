@@ -15,14 +15,9 @@ use Symfony\Component\Validator\Validation;
 
 class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
 {
-    /**
-     * @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $tokenStorage;
+    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $tokenStorage;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
@@ -80,11 +75,8 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
 
     /**
      * @dataProvider getNotValidEmail
-     *
-     * @param string $submittedData
-     * @param string $expectedError
      */
-    public function testSubmitNotValidEmailByCustomerVisitor($submittedData, $expectedError)
+    public function testSubmitNotValidEmailByCustomerVisitor(string $submittedData, string $expectedError)
     {
         $token = $this->createMock(AnonymousCustomerUserToken::class);
 
@@ -99,10 +91,7 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
         self::assertStringContainsString($expectedError, (string)$form->getErrors(true, false));
     }
 
-    /**
-     * @return array
-     */
-    public function getNotValidEmail()
+    public function getNotValidEmail(): array
     {
         return [
             'empty string' => [
@@ -130,11 +119,8 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
 
     /**
      * @dataProvider getNotValidEmailForCustomerUser
-     *
-     * @param string $submittedData
-     * @param string $expectedError
      */
-    public function testSubmitNotValidEmailByCustomerUser($submittedData, $expectedError)
+    public function testSubmitNotValidEmailByCustomerUser(string $submittedData, string $expectedError)
     {
         $token = $this->createMock(TokenInterface::class);
 
@@ -151,10 +137,7 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
         self::assertStringContainsString($expectedError, $errors->current()->getMessage());
     }
 
-    /**
-     * @return array
-     */
-    public function getNotValidEmailForCustomerUser()
+    public function getNotValidEmailForCustomerUser(): array
     {
         return [
             'not email string' => [
@@ -164,10 +147,7 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         $type = new CustomerVisitorEmailAddressType($this->tokenStorage);
 

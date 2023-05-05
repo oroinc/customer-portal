@@ -14,7 +14,7 @@ class CustomerVisitorManagerTest extends WebTestCase
 {
     private function getDoctrine(): ManagerRegistry
     {
-        return static::getContainer()->get('doctrine');
+        return self::getContainer()->get('doctrine');
     }
 
     public function testCreateWithDefaultConnection()

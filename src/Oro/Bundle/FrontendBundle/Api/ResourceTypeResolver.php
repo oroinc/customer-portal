@@ -10,11 +10,9 @@ use Oro\Bundle\ApiBundle\Request\RequestType;
  */
 class ResourceTypeResolver implements ResourceTypeResolverInterface
 {
-    /** @var string */
-    private $resourceType;
-
+    private string $resourceType;
     /** @var string[] */
-    private $routeParameterNames;
+    private array $routeParameterNames;
 
     /**
      * @param string   $resourceType
@@ -32,7 +30,7 @@ class ResourceTypeResolver implements ResourceTypeResolverInterface
     public function resolveType(string $routeName, array $routeParameters, RequestType $requestType): ?string
     {
         foreach ($this->routeParameterNames as $name) {
-            if (!array_key_exists($name, $routeParameters)) {
+            if (!\array_key_exists($name, $routeParameters)) {
                 return null;
             }
         }

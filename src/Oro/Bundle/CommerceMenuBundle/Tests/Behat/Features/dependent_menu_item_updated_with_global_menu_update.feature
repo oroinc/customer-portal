@@ -52,7 +52,7 @@ Feature: Dependent menu item updated with global menu update
     And click View first customer in grid
     And I click "Edit Frontend Menu"
     And I click view frontend_menu in grid
-    And I should see "Select existing menu item or create new."
+    Then I should see a "Commerce Menu Form" element
 
   Scenario: Create menu item frontend_menu for Customer
     When I click "Create Menu Item"
@@ -103,7 +103,7 @@ Feature: Dependent menu item updated with global menu update
     And I click View Non-Authenticated Visitors in grid
     And I click "Edit Frontend Menu"
     And I click view frontend_menu in grid
-    And I should see "Select existing menu item or create new."
+    Then I should see a "Commerce Menu Form" element
 
   Scenario: Create menu item frontend_menu for Customer Groups
     When I click "Create Menu Item"

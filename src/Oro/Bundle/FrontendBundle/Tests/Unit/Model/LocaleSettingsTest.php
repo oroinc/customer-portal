@@ -4,7 +4,6 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Model;
 
 use Oro\Bundle\FrontendBundle\Model\LocaleSettings;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\LayoutBundle\Layout\LayoutContextHolder;
 use Oro\Bundle\LocaleBundle\DependencyInjection\Configuration as LocaleConfiguration;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\LocaleBundle\Model\Calendar;
@@ -13,8 +12,8 @@ use Oro\Bundle\LocaleBundle\Provider\LocalizationProviderInterface;
 use Oro\Bundle\ThemeBundle\Model\Theme;
 use Oro\Bundle\TranslationBundle\Entity\Language;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
+use Oro\Component\Layout\LayoutContextStack;
 use Oro\Component\Layout\Tests\Unit\Stubs\LayoutContextStub;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,15 +22,15 @@ use PHPUnit\Framework\TestCase;
  */
 class LocaleSettingsTest extends TestCase
 {
-    private BaseLocaleSettings|MockObject $inner;
+    private BaseLocaleSettings|\PHPUnit\Framework\MockObject\MockObject $inner;
 
-    private FrontendHelper|MockObject $frontendHelper;
+    private FrontendHelper|\PHPUnit\Framework\MockObject\MockObject $frontendHelper;
 
-    private LocalizationProviderInterface|MockObject $localizationProvider;
+    private LocalizationProviderInterface|\PHPUnit\Framework\MockObject\MockObject $localizationProvider;
 
-    private LayoutContextHolder|MockObject $layoutContextHolder;
+    private LayoutContextStack|\PHPUnit\Framework\MockObject\MockObject $layoutContextStack;
 
-    private ThemeManager|MockObject $themeManager;
+    private ThemeManager|\PHPUnit\Framework\MockObject\MockObject $themeManager;
 
     private LocaleSettings $localeSettings;
 
@@ -40,263 +39,267 @@ class LocaleSettingsTest extends TestCase
         $this->inner = $this->createMock(BaseLocaleSettings::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
         $this->localizationProvider = $this->createMock(LocalizationProviderInterface::class);
-        $this->layoutContextHolder = $this->createMock(LayoutContextHolder::class);
+        $this->layoutContextStack = $this->createMock(LayoutContextStack::class);
         $this->themeManager = $this->createMock(ThemeManager::class);
 
         $this->localeSettings = new LocaleSettings(
             $this->inner,
             $this->frontendHelper,
             $this->localizationProvider,
-            $this->layoutContextHolder,
+            $this->layoutContextStack,
             $this->themeManager
         );
     }
 
-    public function testAddNameFormats()
+    public function testAddNameFormats(): void
     {
         $enFormat = ['en' => '%first_name% %middle_name% %last_name%'];
         $enFormatModified = ['en' => '%prefix% %%first_name% %middle_name% %last_name% %suffix%'];
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getNameFormats')
             ->willReturn($enFormat);
 
-        $this->assertEquals($enFormat, $this->localeSettings->getNameFormats());
+        self::assertEquals($enFormat, $this->localeSettings->getNameFormats());
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('addNameFormats')
             ->with($enFormatModified);
 
         $this->localeSettings->addNameFormats($enFormatModified);
     }
 
-    public function testAddAddressFormats()
+    public function testAddAddressFormats(): void
     {
-        $usFormat = ['US' => [
-            LocaleSettings::ADDRESS_FORMAT_KEY
-            => '%name%\n%organization%\n%street%\n%CITY% %REGION% %COUNTRY% %postal_code%'
-        ]];
-        $usFormatModified = ['US' => [
-            LocaleSettings::ADDRESS_FORMAT_KEY
-            => '%name%\n%organization%\n%street%\n%CITY% %REGION_CODE% %COUNTRY% %postal_code%'
-        ]];
+        $usFormat = [
+            'US' => [
+                BaseLocaleSettings::ADDRESS_FORMAT_KEY
+                => '%name%\n%organization%\n%street%\n%CITY% %REGION% %COUNTRY% %postal_code%',
+            ],
+        ];
+        $usFormatModified = [
+            'US' => [
+                BaseLocaleSettings::ADDRESS_FORMAT_KEY
+                => '%name%\n%organization%\n%street%\n%CITY% %REGION_CODE% %COUNTRY% %postal_code%',
+            ],
+        ];
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getAddressFormats')
             ->willReturn($usFormat);
 
-        $this->assertEquals($usFormat, $this->localeSettings->getAddressFormats());
+        self::assertEquals($usFormat, $this->localeSettings->getAddressFormats());
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('addAddressFormats')
             ->with($usFormatModified);
 
         $this->localeSettings->addAddressFormats($usFormatModified);
     }
 
-    public function testAddLocaleData()
+    public function testAddLocaleData(): void
     {
-        $usData = ['US' => [LocaleSettings::DEFAULT_LOCALE_KEY => 'en_US']];
-        $usDataModified = ['US' => [LocaleSettings::DEFAULT_LOCALE_KEY => 'en']];
+        $usData = ['US' => [BaseLocaleSettings::DEFAULT_LOCALE_KEY => 'en_US']];
+        $usDataModified = ['US' => [BaseLocaleSettings::DEFAULT_LOCALE_KEY => 'en']];
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getLocaleData')
             ->willReturn($usData);
 
-        $this->assertEquals($usData, $this->localeSettings->getLocaleData());
+        self::assertEquals($usData, $this->localeSettings->getLocaleData());
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('addLocaleData')
             ->with($usDataModified);
 
         $this->localeSettings->addLocaleData($usDataModified);
     }
 
-    public function testIsFormatAddressByAddressCountry()
+    public function testIsFormatAddressByAddressCountry(): void
     {
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('isFormatAddressByAddressCountry')
             ->willReturn(true);
 
-        $this->assertTrue($this->localeSettings->isFormatAddressByAddressCountry());
+        self::assertTrue($this->localeSettings->isFormatAddressByAddressCountry());
     }
 
-    public function testGetLocaleByCountry()
+    public function testGetLocaleByCountry(): void
     {
         $countryCode = 'GB';
         $expectedLocale = 'en_GB';
 
-        $this->frontendHelper->expects($this->once())
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(false);
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getLocaleByCountry')
             ->with($countryCode)
             ->willReturn($expectedLocale);
 
-        $this->inner->expects($this->never())
+        $this->inner->expects(self::never())
             ->method('getLocaleData');
 
-        $this->assertEquals($expectedLocale, $this->localeSettings->getLocaleByCountry($countryCode));
+        self::assertEquals($expectedLocale, $this->localeSettings->getLocaleByCountry($countryCode));
     }
 
-    public function testGetLocaleByCountryWithLocaleData()
+    public function testGetLocaleByCountryWithLocaleData(): void
     {
         $countryCode = 'GB';
         $expectedLocale = 'en_GB';
 
-        $this->frontendHelper->expects($this->once())
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        $this->inner->expects($this->never())
+        $this->inner->expects(self::never())
             ->method('getLocaleByCountry');
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getLocaleData')
-            ->willReturn(['GB' => [LocaleSettings::DEFAULT_LOCALE_KEY => $expectedLocale]]);
+            ->willReturn(['GB' => [BaseLocaleSettings::DEFAULT_LOCALE_KEY => $expectedLocale]]);
 
-        $this->assertEquals($expectedLocale, $this->localeSettings->getLocaleByCountry($countryCode));
+        self::assertEquals($expectedLocale, $this->localeSettings->getLocaleByCountry($countryCode));
     }
 
-    public function testGetLocaleByCountryWithLocalization()
+    public function testGetLocaleByCountryWithLocalization(): void
     {
         $countryCode = 'GB';
         $expectedLocale = 'en_GB';
 
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        $this->inner->expects($this->never())
+        $this->inner->expects(self::never())
             ->method('getLocaleByCountry');
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getLocaleData')
             ->willReturn([]);
 
         $localization = new Localization();
         $localization->setFormattingCode($expectedLocale);
 
-        $this->localizationProvider->expects($this->once())
+        $this->localizationProvider->expects(self::once())
             ->method('getCurrentLocalization')
             ->willReturn($localization);
 
-        $this->assertEquals($expectedLocale, $this->localeSettings->getLocaleByCountry($countryCode));
+        self::assertEquals($expectedLocale, $this->localeSettings->getLocaleByCountry($countryCode));
     }
 
-    public function testGetLocaleByCountryWithoutLocalization()
+    public function testGetLocaleByCountryWithoutLocalization(): void
     {
         $countryCode = 'GB';
         $expectedLocale = 'en_GB';
 
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        $this->inner->expects($this->never())
+        $this->inner->expects(self::never())
             ->method('getLocaleByCountry');
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getLocaleData')
             ->willReturn([]);
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getLocale')
             ->willReturn($expectedLocale);
 
-        $this->localizationProvider->expects($this->once())
+        $this->localizationProvider->expects(self::once())
             ->method('getCurrentLocalization')
             ->willReturn(null);
 
-        $this->assertEquals($expectedLocale, $this->localeSettings->getLocaleByCountry($countryCode));
+        self::assertEquals($expectedLocale, $this->localeSettings->getLocaleByCountry($countryCode));
     }
 
-    public function testGetLocale()
+    public function testGetLocale(): void
     {
-        $this->frontendHelper->expects($this->once())
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(false);
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getLocale')
             ->willReturn('en_US');
 
-        $this->assertEquals('en_US', $this->localeSettings->getLocale());
+        self::assertEquals('en_US', $this->localeSettings->getLocale());
 
         // check local cache
-        $this->assertEquals('en_US', $this->localeSettings->getLocale());
+        self::assertEquals('en_US', $this->localeSettings->getLocale());
     }
 
-    public function testGetLocaleWithLocalization()
+    public function testGetLocaleWithLocalization(): void
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        $this->inner->expects($this->never())
+        $this->inner->expects(self::never())
             ->method('getLocale');
 
         $localization = new Localization();
         $localization->setFormattingCode('de_DE');
 
-        $this->localizationProvider->expects($this->once())
+        $this->localizationProvider->expects(self::once())
             ->method('getCurrentLocalization')
             ->willReturn($localization);
 
-        $this->assertEquals('de_DE', $this->localeSettings->getLocale());
+        self::assertEquals('de_DE', $this->localeSettings->getLocale());
 
         // check local cache
-        $this->assertEquals('de_DE', $this->localeSettings->getLocale());
+        self::assertEquals('de_DE', $this->localeSettings->getLocale());
     }
 
-    public function testGetLocaleWithoutLocalization()
+    public function testGetLocaleWithoutLocalization(): void
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getLocale')
             ->willReturn('en_GB');
 
-        $this->localizationProvider->expects($this->once())
+        $this->localizationProvider->expects(self::once())
             ->method('getCurrentLocalization')
             ->willReturn(null);
 
-        $this->assertEquals('en_GB', $this->localeSettings->getLocale());
+        self::assertEquals('en_GB', $this->localeSettings->getLocale());
     }
 
-    public function testGetLanguage()
+    public function testGetLanguage(): void
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(false);
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getLanguage')
             ->willReturn('en_US');
 
-        $this->assertEquals('en_US', $this->localeSettings->getLanguage());
+        self::assertEquals('en_US', $this->localeSettings->getLanguage());
     }
 
-    public function testGetActualLanguage()
+    public function testGetActualLanguage(): void
     {
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getActualLanguage')
             ->willReturn('en_US');
 
-        $this->assertEquals('en_US', $this->localeSettings->getActualLanguage());
+        self::assertEquals('en_US', $this->localeSettings->getActualLanguage());
     }
 
-    public function testGetLanguageWithLocalization()
+    public function testGetLanguageWithLocalization(): void
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        $this->inner->expects($this->never())
+        $this->inner->expects(self::never())
             ->method('getLanguage');
 
         $language = new Language();
@@ -305,28 +308,28 @@ class LocaleSettingsTest extends TestCase
         $localization = new Localization();
         $localization->setLanguage($language);
 
-        $this->localizationProvider->expects($this->once())
+        $this->localizationProvider->expects(self::once())
             ->method('getCurrentLocalization')
             ->willReturn($localization);
 
-        $this->assertEquals('de_DE', $this->localeSettings->getLanguage());
+        self::assertEquals('de_DE', $this->localeSettings->getLanguage());
     }
 
-    public function testGetLanguageWithoutLocalization()
+    public function testGetLanguageWithoutLocalization(): void
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getLanguage')
             ->willReturn('en_GB');
 
-        $this->localizationProvider->expects($this->once())
+        $this->localizationProvider->expects(self::once())
             ->method('getCurrentLocalization')
             ->willReturn(null);
 
-        $this->assertEquals('en_GB', $this->localeSettings->getLanguage());
+        self::assertEquals('en_GB', $this->localeSettings->getLanguage());
     }
 
     public function testIsRtlModeEnabledWhenBackendRequest(): void
@@ -335,8 +338,8 @@ class LocaleSettingsTest extends TestCase
             ->method('isFrontendRequest')
             ->willReturn(false);
 
-        $this->layoutContextHolder->expects(self::never())
-            ->method('getContext');
+        $this->layoutContextStack->expects(self::never())
+            ->method('getCurrentContext');
 
         $this->themeManager->expects(self::never())
             ->method('hasTheme');
@@ -353,14 +356,14 @@ class LocaleSettingsTest extends TestCase
 
     public function testIsRtlModeEnabledWhenNoThemeInContext(): void
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
         $context = new LayoutContextStub([], true);
 
-        $this->layoutContextHolder->expects(self::any())
-            ->method('getContext')
+        $this->layoutContextStack->expects(self::any())
+            ->method('getCurrentContext')
             ->willReturn($context);
 
         $this->themeManager->expects(self::never())
@@ -378,14 +381,14 @@ class LocaleSettingsTest extends TestCase
 
     public function testIsRtlModeEnabledWhenNoActiveTheme(): void
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
         $context = new LayoutContextStub(['theme' => 'test'], true);
 
-        $this->layoutContextHolder->expects(self::any())
-            ->method('getContext')
+        $this->layoutContextStack->expects(self::any())
+            ->method('getCurrentContext')
             ->willReturn($context);
 
         $this->themeManager->expects(self::any())
@@ -405,7 +408,7 @@ class LocaleSettingsTest extends TestCase
 
     public function testIsRtlModeEnabledNoLocalization(): void
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
@@ -414,8 +417,8 @@ class LocaleSettingsTest extends TestCase
 
         $context = new LayoutContextStub(['theme' => $theme->getName()], true);
 
-        $this->layoutContextHolder->expects(self::any())
-            ->method('getContext')
+        $this->layoutContextStack->expects(self::any())
+            ->method('getCurrentContext')
             ->willReturn($context);
 
         $this->themeManager->expects(self::any())
@@ -428,8 +431,8 @@ class LocaleSettingsTest extends TestCase
             ->with($theme->getName())
             ->willReturn($theme);
 
-        $this->layoutContextHolder->expects(self::any())
-            ->method('getContext')
+        $this->layoutContextStack->expects(self::any())
+            ->method('getCurrentContext')
             ->willReturn($context);
 
         $this->localizationProvider->expects(self::any())
@@ -441,7 +444,7 @@ class LocaleSettingsTest extends TestCase
 
     public function testIsRtlModeEnabledWhenThemeWithoutRtl(): void
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
@@ -450,8 +453,8 @@ class LocaleSettingsTest extends TestCase
 
         $context = new LayoutContextStub(['theme' => $theme->getName()], true);
 
-        $this->layoutContextHolder->expects(self::any())
-            ->method('getContext')
+        $this->layoutContextStack->expects(self::any())
+            ->method('getCurrentContext')
             ->willReturn($context);
 
         $this->themeManager->expects(self::any())
@@ -464,8 +467,8 @@ class LocaleSettingsTest extends TestCase
             ->with($theme->getName())
             ->willReturn($theme);
 
-        $this->layoutContextHolder->expects(self::any())
-            ->method('getContext')
+        $this->layoutContextStack->expects(self::any())
+            ->method('getCurrentContext')
             ->willReturn($context);
 
         $localization = new Localization();
@@ -480,7 +483,7 @@ class LocaleSettingsTest extends TestCase
 
     public function testIsRtlModeEnabledWhenLocalizationWithoutRtl(): void
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
@@ -489,8 +492,8 @@ class LocaleSettingsTest extends TestCase
 
         $context = new LayoutContextStub(['theme' => $theme->getName()], true);
 
-        $this->layoutContextHolder->expects(self::any())
-            ->method('getContext')
+        $this->layoutContextStack->expects(self::any())
+            ->method('getCurrentContext')
             ->willReturn($context);
 
         $this->themeManager->expects(self::any())
@@ -503,8 +506,8 @@ class LocaleSettingsTest extends TestCase
             ->with($theme->getName())
             ->willReturn($theme);
 
-        $this->layoutContextHolder->expects(self::any())
-            ->method('getContext')
+        $this->layoutContextStack->expects(self::any())
+            ->method('getCurrentContext')
             ->willReturn($context);
 
         $localization = new Localization();
@@ -519,7 +522,7 @@ class LocaleSettingsTest extends TestCase
 
     public function testIsRtlModeEnabled(): void
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
@@ -528,8 +531,8 @@ class LocaleSettingsTest extends TestCase
 
         $context = new LayoutContextStub(['theme' => $theme->getName()], true);
 
-        $this->layoutContextHolder->expects(self::any())
-            ->method('getContext')
+        $this->layoutContextStack->expects(self::any())
+            ->method('getCurrentContext')
             ->willReturn($context);
 
         $this->themeManager->expects(self::any())
@@ -542,8 +545,8 @@ class LocaleSettingsTest extends TestCase
             ->with($theme->getName())
             ->willReturn($theme);
 
-        $this->layoutContextHolder->expects(self::any())
-            ->method('getContext')
+        $this->layoutContextStack->expects(self::any())
+            ->method('getCurrentContext')
             ->willReturn($context);
 
         $localization = new Localization();
@@ -556,220 +559,220 @@ class LocaleSettingsTest extends TestCase
         self::assertTrue($this->localeSettings->isRtlMode());
     }
 
-    public function testGetCountry()
+    public function testGetCountry(): void
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(false);
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getCountry')
             ->willReturn('US');
 
-        $this->assertEquals('US', $this->localeSettings->getCountry());
+        self::assertEquals('US', $this->localeSettings->getCountry());
     }
 
-    public function testGetCountryWithoutConfig()
+    public function testGetCountryWithoutConfig(): void
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('get')
             ->with('oro_locale.country')
             ->willReturn('CA');
 
-        $this->assertEquals('CA', $this->localeSettings->getCountry());
-        $this->assertEquals('CA', $this->localeSettings->getCountry());
+        self::assertEquals('CA', $this->localeSettings->getCountry());
+        self::assertEquals('CA', $this->localeSettings->getCountry());
     }
 
-    public function testGetCountryWithConfig()
+    public function testGetCountryWithConfig(): void
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('get')
             ->with('oro_locale.country')
             ->willReturn(null);
 
-        $this->assertEquals('US', $this->localeSettings->getCountry());
-        $this->assertEquals('US', $this->localeSettings->getCountry());
+        self::assertEquals('US', $this->localeSettings->getCountry());
+        self::assertEquals('US', $this->localeSettings->getCountry());
     }
 
-    public function testGetCurrency()
+    public function testGetCurrency(): void
     {
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getCurrency')
             ->willReturn('USD');
 
-        $this->assertEquals('USD', $this->localeSettings->getCurrency());
+        self::assertEquals('USD', $this->localeSettings->getCurrency());
     }
 
-    public function testGetCurrencySymbolByCurrency()
+    public function testGetCurrencySymbolByCurrency(): void
     {
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getCurrency')
             ->willReturn('USD');
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getCurrencySymbolByCurrency')
             ->with('USD')
             ->willReturn('$');
 
-        $this->assertEquals('$', $this->localeSettings->getCurrencySymbolByCurrency());
+        self::assertEquals('$', $this->localeSettings->getCurrencySymbolByCurrency());
     }
 
-    public function testGetCurrencySymbolByCurrencyWithParameter()
+    public function testGetCurrencySymbolByCurrencyWithParameter(): void
     {
-        $this->inner->expects($this->never())
+        $this->inner->expects(self::never())
             ->method('getCurrency');
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getCurrencySymbolByCurrency')
             ->with('USD')
             ->willReturn('$');
 
-        $this->assertEquals('$', $this->localeSettings->getCurrencySymbolByCurrency('USD'));
+        self::assertEquals('$', $this->localeSettings->getCurrencySymbolByCurrency('USD'));
     }
 
-    public function testGetTimeZone()
+    public function testGetTimeZone(): void
     {
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getTimeZone')
             ->willReturn('UTC');
 
-        $this->assertEquals('UTC', $this->localeSettings->getTimeZone());
+        self::assertEquals('UTC', $this->localeSettings->getTimeZone());
     }
 
-    public function testGetCalendarSymbolByCurrencyWithParameter()
+    public function testGetCalendarSymbolByCurrencyWithParameter(): void
     {
-        $this->inner->expects($this->never())
+        $this->inner->expects(self::never())
             ->method('getLocale');
 
-        $this->inner->expects($this->never())
+        $this->inner->expects(self::never())
             ->method('getLanguage');
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getCalendar')
             ->with('en', 'en_US')
             ->willReturn(new Calendar());
 
-        $this->assertEquals(new Calendar(), $this->localeSettings->getCalendar('en', 'en_US'));
+        self::assertEquals(new Calendar(), $this->localeSettings->getCalendar('en', 'en_US'));
     }
 
-    public function testGetCalendar()
+    public function testGetCalendar(): void
     {
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getLocale')
             ->willReturn('en');
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getLanguage')
             ->willReturn('en_US');
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getCalendar')
             ->with('en', 'en_US')
             ->willReturn(new Calendar());
 
-        $this->assertEquals(new Calendar(), $this->localeSettings->getCalendar());
+        self::assertEquals(new Calendar(), $this->localeSettings->getCalendar());
     }
 
-    public function testGetLocaleWithRegion()
+    public function testGetLocaleWithRegion(): void
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(false);
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getLocaleWithRegion')
             ->willReturn('en_US');
 
-        $this->assertEquals('en_US', $this->localeSettings->getLocaleWithRegion());
+        self::assertEquals('en_US', $this->localeSettings->getLocaleWithRegion());
     }
 
-    public function testGetLocaleWithRegionFromLocale()
+    public function testGetLocaleWithRegionFromLocale(): void
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getLocale')
             ->willReturn('en_CA');
 
-        $this->assertEquals('en_CA', $this->localeSettings->getLocaleWithRegion());
+        self::assertEquals('en_CA', $this->localeSettings->getLocaleWithRegion());
     }
 
-    public function testGetLocaleWithRegionFromCountry()
+    public function testGetLocaleWithRegionFromCountry(): void
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects(self::atLeastOnce())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        $this->inner->expects($this->atLeastOnce())
+        $this->inner->expects(self::atLeastOnce())
             ->method('getLocale')
             ->willReturn('US');
 
-        $this->inner->expects($this->atLeastOnce())
+        $this->inner->expects(self::atLeastOnce())
             ->method('get')
             ->with('oro_locale.country')
             ->willReturn('US');
 
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getLocaleData')
-            ->willReturn(['US' => [LocaleSettings::DEFAULT_LOCALE_KEY => 'en_US']]);
+            ->willReturn(['US' => [BaseLocaleSettings::DEFAULT_LOCALE_KEY => 'en_US']]);
 
-        $this->assertEquals('en_US', $this->localeSettings->getLocaleWithRegion());
+        self::assertEquals('en_US', $this->localeSettings->getLocaleWithRegion());
     }
 
-    public function testGet()
+    public function testGet(): void
     {
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('get')
             ->with('param')
             ->willReturn('data');
 
-        $this->assertEquals('data', $this->localeSettings->get('param'));
+        self::assertEquals('data', $this->localeSettings->get('param'));
     }
 
-    public function testGetLocalesByCodes()
+    public function testGetLocalesByCodes(): void
     {
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getLocalesByCodes')
             ->with(['codes'], 'de')
             ->willReturn(['locales']);
 
-        $this->assertEquals(['locales'], $this->localeSettings->getLocalesByCodes(['codes'], 'de'));
+        self::assertEquals(['locales'], $this->localeSettings->getLocalesByCodes(['codes'], 'de'));
     }
 
-    public function testGetFirstQuarterMonth()
+    public function testGetFirstQuarterMonth(): void
     {
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getFirstQuarterMonth')
             ->willReturn(1);
 
-        $this->assertEquals(1, $this->localeSettings->getFirstQuarterMonth());
+        self::assertEquals(1, $this->localeSettings->getFirstQuarterMonth());
     }
 
-    public function testGetFirstQuarterDay()
+    public function testGetFirstQuarterDay(): void
     {
-        $this->inner->expects($this->once())
+        $this->inner->expects(self::once())
             ->method('getFirstQuarterDay')
             ->willReturn(2);
 
-        $this->assertEquals(2, $this->localeSettings->getFirstQuarterDay());
+        self::assertEquals(2, $this->localeSettings->getFirstQuarterDay());
     }
 
     /**
      * @dataProvider getValidLocaleDataProvider
      */
-    public function testGetValidLocale(?string $locale, string $expectedLocale)
+    public function testGetValidLocale(?string $locale, string $expectedLocale): void
     {
-        $this->assertEquals($expectedLocale, LocaleSettings::getValidLocale($locale));
+        self::assertEquals($expectedLocale, LocaleSettings::getValidLocale($locale));
     }
 
     public function getValidLocaleDataProvider(): array
@@ -788,9 +791,9 @@ class LocaleSettingsTest extends TestCase
     /**
      * @dataProvider getCountryByLocaleDataProvider
      */
-    public function testGetCountryByLocale(string $locale, string $expectedCountry)
+    public function testGetCountryByLocale(string $locale, string $expectedCountry): void
     {
-        $this->assertEquals($expectedCountry, LocaleSettings::getCountryByLocale($locale));
+        self::assertEquals($expectedCountry, LocaleSettings::getCountryByLocale($locale));
     }
 
     public function getCountryByLocaleDataProvider(): array
@@ -806,11 +809,11 @@ class LocaleSettingsTest extends TestCase
     /**
      * @dataProvider localeProvider
      */
-    public function testGetCountryByLocal(string $locale, string $expectedCurrency)
+    public function testGetCountryByLocal(string $locale, string $expectedCurrency): void
     {
         $currency = LocaleSettings::getCurrencyByLocale($locale);
 
-        $this->assertEquals($expectedCurrency, $currency);
+        self::assertEquals($expectedCurrency, $currency);
     }
 
     /**
@@ -824,14 +827,14 @@ class LocaleSettingsTest extends TestCase
             ['it', 'USD'],
             ['it_IT', $this->getCurrencyByLocale('it_IT')],
             ['ua', 'USD'],
-            ['ru_UA', $this->getCurrencyByLocale('ru_UA')]
+            ['ru_UA', $this->getCurrencyByLocale('ru_UA')],
         ];
     }
 
     private function getCurrencyByLocale(string $locale): string
     {
-        $formatter = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
-
-        return $formatter->getTextAttribute(\NumberFormatter::CURRENCY_CODE);
+        return (new \NumberFormatter($locale, \NumberFormatter::CURRENCY))->getTextAttribute(
+            \NumberFormatter::CURRENCY_CODE
+        );
     }
 }

@@ -58,7 +58,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
 
     /**
      * @Route("/{menuName}/view", name="oro_commerce_menu_customer_menu_view")
-     * @Template
+     * @Template("@OroCommerceMenu/CustomerMenu/update.html.twig")
      *
      * @param string  $menuName
      * @param Request $request
@@ -68,7 +68,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
     {
         $context = $this->getContextFromRequest($request, $this->getAllowedContextKeys());
 
-        return parent::view($menuName, $context);
+        return $this->update($menuName, null, $context);
     }
 
     /**
@@ -91,12 +91,9 @@ class CustomerMenuController extends AbstractFrontendMenuController
      * @Route("/{menuName}/update/{key}", name="oro_commerce_menu_customer_menu_update")
      * @Template
      *
-     * @param string  $menuName
-     * @param string  $key
-     * @param Request $request
      * @return array|RedirectResponse
      */
-    public function updateAction($menuName, $key, Request $request)
+    public function updateAction(Request $request, string $menuName, ?string $key = null)
     {
         $context = $this->getContextFromRequest($request, $this->getAllowedContextKeys());
 

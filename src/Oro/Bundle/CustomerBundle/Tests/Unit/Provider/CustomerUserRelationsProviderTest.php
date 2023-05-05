@@ -11,20 +11,14 @@ use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 
 class CustomerUserRelationsProviderTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $configManager;
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $configManager;
 
-    /**
-     * @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $doctrineHelper;
+    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $doctrineHelper;
 
-    /**
-     * @var CustomerUserRelationsProvider
-     */
-    protected $provider;
+    /** @var CustomerUserRelationsProvider */
+    private $provider;
 
     protected function setUp(): void
     {
@@ -45,41 +39,27 @@ class CustomerUserRelationsProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedCustomer, $this->provider->getCustomer($customerUser));
     }
 
-    /**
-     * @return array
-     */
-    public function customerDataProvider()
+    public function customerDataProvider(): array
     {
         $customerUser = new CustomerUser();
         $customer = new Customer();
         $customerUser->setCustomer($customer);
 
         return [
-            [
-                null,
-                null
-            ],
-            [
-                $customerUser,
-                $customer
-            ]
+            [null, null],
+            [$customerUser, $customer]
         ];
     }
 
     /**
      * @dataProvider customerGroupDataProvider
-     * @param CustomerUser|null $customerUser
-     * @param CustomerGroup $expectedCustomerGroup
      */
     public function testGetCustomerGroup(CustomerUser $customerUser = null, CustomerGroup $expectedCustomerGroup = null)
     {
         $this->assertEquals($expectedCustomerGroup, $this->provider->getCustomerGroup($customerUser));
     }
 
-    /**
-     * @return array
-     */
-    public function customerGroupDataProvider()
+    public function customerGroupDataProvider(): array
     {
         $customerUser = new CustomerUser();
         $customer = new Customer();
@@ -88,14 +68,8 @@ class CustomerUserRelationsProviderTest extends \PHPUnit\Framework\TestCase
         $customerUser->setCustomer($customer);
 
         return [
-            [
-                null,
-                null
-            ],
-            [
-                $customerUser,
-                $customerGroup
-            ]
+            [null, null],
+            [$customerUser, $customerGroup]
         ];
     }
 

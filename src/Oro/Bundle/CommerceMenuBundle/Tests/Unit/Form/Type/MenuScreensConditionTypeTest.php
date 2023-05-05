@@ -43,7 +43,7 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return [
             new PreloadedExtension(
@@ -57,7 +57,9 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
 
     public function testSubmitValid()
     {
-        $this->mockScreensProvider();
+        $this->screensProvider->expects(self::once())
+            ->method('getScreens')
+            ->willReturn(self::SCREENS_CONFIG);
 
         $selectedScreens = ['desktop', 'mobile'];
         $form = $this->factory->create(MenuScreensConditionType::class, []);
@@ -74,7 +76,9 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
 
     public function testConfigureOptions()
     {
-        $this->mockScreensProvider();
+        $this->screensProvider->expects(self::once())
+            ->method('getScreens')
+            ->willReturn(self::SCREENS_CONFIG);
 
         $optionsResolver = new OptionsResolver();
         $this->formType->configureOptions($optionsResolver);
@@ -87,12 +91,5 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
         ];
 
         self::assertEquals($expectedOptions, $actualOptions);
-    }
-
-    private function mockScreensProvider()
-    {
-        $this->screensProvider->expects(self::once())
-            ->method('getScreens')
-            ->willReturn(self::SCREENS_CONFIG);
     }
 }

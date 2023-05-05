@@ -8,11 +8,12 @@ use Oro\Bundle\FrontendImportExportBundle\Async\Topic\PostExportTopic;
 use Oro\Bundle\FrontendImportExportBundle\Handler\FrontendExportHandler;
 use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData;
 use Oro\Bundle\ImportExportBundle\Processor\ProcessorRegistry;
+use Oro\Bundle\MessageQueueBundle\Test\Functional\JobsAwareTestTrait;
 use Oro\Bundle\MessageQueueBundle\Test\Functional\MessageQueueExtension;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Oro\Component\MessageQueue\Client\Config as MessageQueueConfig;
 use Oro\Component\MessageQueue\Client\MessagePriority;
 use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
-use Oro\Component\MessageQueue\Job\JobProcessor;
 use Oro\Component\MessageQueue\Transport\Message;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -23,6 +24,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 class PreExportMessageProcessorTest extends WebTestCase
 {
     use MessageQueueExtension;
+    use JobsAwareTestTrait;
 
     private FrontendExportHandler|\PHPUnit\Framework\MockObject\MockObject $exportHandler;
 
@@ -57,6 +59,12 @@ class PreExportMessageProcessorTest extends WebTestCase
         $message = new Message();
         $message->setMessageId('test_export_message');
         $message->setBody($messageData);
+        $message->setProperties([
+          MessageQueueConfig::PARAMETER_TOPIC_NAME => ExportTopic::getName()
+        ]);
+
+
+        $this->createRootJobMyMessage($message);
 
         $this->exportHandler->expects(self::once())
             ->method('getExportingEntityIds')
@@ -106,11 +114,6 @@ class PreExportMessageProcessorTest extends WebTestCase
         self::assertEquals(PostExportTopic::getName(), $dependentJob['topic']);
 
         self::assertEquals(MessageProcessorInterface::ACK, $result);
-    }
-
-    private function getJobProcessor(): JobProcessor
-    {
-        return self::getContainer()->get('oro_message_queue.job.processor');
     }
 
     private function getCurrentUser(): CustomerUser

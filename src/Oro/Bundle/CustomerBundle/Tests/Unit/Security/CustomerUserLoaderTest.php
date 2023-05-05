@@ -33,9 +33,6 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserLoader */
     private $userLoader;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->doctrine = $this->createMock(ManagerRegistry::class);
@@ -51,10 +48,7 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @return CustomerUserRepository|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function expectGetRepository()
+    private function expectGetRepository(): CustomerUserRepository|\PHPUnit\Framework\MockObject\MockObject
     {
         $em = $this->createMock(EntityManagerInterface::class);
         $this->doctrine->expects($this->atLeastOnce())
@@ -71,10 +65,7 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
         return $repository;
     }
 
-    /**
-     * @return array
-     */
-    public function findUserDataProvider()
+    public function findUserDataProvider(): array
     {
         return [
             [$this->createMock(CustomerUser::class)],
@@ -89,9 +80,8 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider findUserDataProvider
-     * @param CustomerUser|\PHPUnit\Framework\MockObject\MockObject $user
      */
-    public function testLoadUserByUsername($user)
+    public function testLoadUserByUsername(?CustomerUser $user)
     {
         $username = 'test';
         $caseInsensitiveEmailAddressesEnabled = true;
@@ -119,9 +109,8 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider findUserDataProvider
-     * @param CustomerUser|\PHPUnit\Framework\MockObject\MockObject $user
      */
-    public function testLoadUserByUsernameWithoutOrganization($user)
+    public function testLoadUserByUsernameWithoutOrganization(?CustomerUser $user)
     {
         $username = 'test';
         $caseInsensitiveEmailAddressesEnabled = true;
@@ -148,9 +137,8 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider findUserDataProvider
-     * @param CustomerUser|\PHPUnit\Framework\MockObject\MockObject $user
      */
-    public function testLoadUserByEmail($user)
+    public function testLoadUserByEmail(?CustomerUser $user)
     {
         $email = 'test@example.com';
         $caseInsensitiveEmailAddressesEnabled = true;
@@ -212,9 +200,8 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider findUserDataProvider
-     * @param CustomerUser|\PHPUnit\Framework\MockObject\MockObject $user
      */
-    public function testLoadUserByEmailWithoutOrganization($user)
+    public function testLoadUserByEmailWithoutOrganization(?CustomerUser $user)
     {
         $email = 'test@example.com';
         $caseInsensitiveEmailAddressesEnabled = true;
@@ -244,9 +231,8 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider findUserDataProvider
-     * @param CustomerUser|\PHPUnit\Framework\MockObject\MockObject $user
      */
-    public function testLoadUser($user)
+    public function testLoadUser(?CustomerUser $user)
     {
         $login = 'test@example.com';
         $caseInsensitiveEmailAddressesEnabled = false;
@@ -274,9 +260,8 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider findUserDataProvider
-     * @param CustomerUser|\PHPUnit\Framework\MockObject\MockObject $user
      */
-    public function testLoadUserWithoutOrganization($user)
+    public function testLoadUserWithoutOrganization(?CustomerUser $user)
     {
         $login = 'test@example.com';
         $caseInsensitiveEmailAddressesEnabled = false;

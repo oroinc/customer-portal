@@ -107,9 +107,6 @@ class CustomerUserControllerTest extends WebTestCase
         self::assertStringContainsString('Customer User has been saved', $crawler->html());
     }
 
-    /**
-     * @return array
-     */
     public function createDataProvider(): array
     {
         return [
@@ -166,9 +163,6 @@ class CustomerUserControllerTest extends WebTestCase
         self::assertHtmlResponseStatusCodeEquals($result, $status);
     }
 
-    /**
-     * @return array
-     */
     public function testCreatePermissionDeniedDataProvider(): array
     {
         return [
@@ -267,7 +261,7 @@ class CustomerUserControllerTest extends WebTestCase
 
     /**
      * @group frontend-ACL
-     * @dataProvider ACLProvider
+     * @dataProvider aclProvider
      *
      * @param string $route
      * @param string $resource
@@ -292,10 +286,7 @@ class CustomerUserControllerTest extends WebTestCase
         self::assertHtmlResponseStatusCodeEquals($response, $status);
     }
 
-    /**
-     * @return array
-     */
-    public function ACLProvider(): array
+    public function aclProvider(): array
     {
         return [
             'VIEW (anonymous user)' => [
@@ -369,7 +360,7 @@ class CustomerUserControllerTest extends WebTestCase
 
     /**
      * @group frontend-ACL
-     * @dataProvider gridACLProvider
+     * @dataProvider gridAclProvider
      *
      * @param string $user
      * @param int $indexResponseStatus
@@ -409,10 +400,7 @@ class CustomerUserControllerTest extends WebTestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function gridACLProvider(): array
+    public function gridAclProvider(): array
     {
         return [
             'NOT AUTHORISED' => [

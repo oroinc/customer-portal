@@ -124,7 +124,7 @@ define(function(require, exports, module) {
             const selectedNone = value.length === 0;
             const selectedAll = value.length === instance.element.children(':enabled').length;
             const valueChanged = instance.initialValue.length !== value.length ||
-                !instance.initialValue.includes(...value);
+                !instance.initialValue.every(val => value.includes(val));
 
             const actions = [{
                 $el: instance.header.find('.ui-multiselect-none'),

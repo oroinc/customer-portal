@@ -31,7 +31,7 @@ Feature: Managing customer address ACLs
   Scenario: Ensure creating addresses is allowed
     Given I go to Customers / Customers
     Then I click on first customer in grid
-    Then I click "+ New Address"
+    Then I click "New Address"
     Then I fill form with:
       | Label           | Test address 1 |
       | Country         | United States  |
@@ -85,7 +85,7 @@ Feature: Managing customer address ACLs
     Given I proceed as the User
     And I go to Customers / Customers
     Then I click on first customer in grid
-    Then I click "+ New Address"
+    Then I click "New Address"
     Then I fill form with:
       | Label           | Test address 3 |
       | Country         | United States  |
@@ -108,7 +108,7 @@ Feature: Managing customer address ACLs
     Given I go to Customers / Customers
     Then I click on first customer in grid
     Then I should see "Address Book"
-    And I should not see "+ New Address"
+    And I should not see "New Address"
     When I proceed as the Admin
     And I click "Edit"
     And select following permissions:

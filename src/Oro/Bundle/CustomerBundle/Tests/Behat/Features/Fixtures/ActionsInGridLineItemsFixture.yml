@@ -43,6 +43,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         systemOrganization: '@organization'
         primary: false
         label: 'Company_Street_01'
+        organization: 'ORO'
         street: 'Company_Street_01'
         city: 'City_01'
         postalCode: '1234'

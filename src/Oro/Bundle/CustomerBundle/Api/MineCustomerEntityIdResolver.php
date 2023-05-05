@@ -12,8 +12,7 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
  */
 class MineCustomerEntityIdResolver implements EntityIdResolverInterface
 {
-    /** @var TokenAccessorInterface */
-    private $tokenAccessor;
+    private TokenAccessorInterface $tokenAccessor;
 
     public function __construct(TokenAccessorInterface $tokenAccessor)
     {
@@ -21,7 +20,7 @@ class MineCustomerEntityIdResolver implements EntityIdResolverInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getDescription(): string
     {
@@ -31,9 +30,9 @@ MARKDOWN;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function resolve()
+    public function resolve(): mixed
     {
         $user = $this->tokenAccessor->getUser();
         if ($user instanceof CustomerUser) {

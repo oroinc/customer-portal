@@ -16,9 +16,9 @@ use Oro\Bundle\SecurityBundle\Owner\OwnerTree;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Component\MessageQueue\Client\MessageProducer;
 use Oro\Component\Testing\ReflectionUtil;
-use Oro\Component\TestUtils\ORM\Mocks\ConnectionMock;
-use Oro\Component\TestUtils\ORM\Mocks\DriverMock;
-use Oro\Component\TestUtils\ORM\OrmTestCase;
+use Oro\Component\Testing\Unit\ORM\Mocks\ConnectionMock;
+use Oro\Component\Testing\Unit\ORM\Mocks\DriverMock;
+use Oro\Component\Testing\Unit\ORM\OrmTestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -26,15 +26,20 @@ use Symfony\Contracts\Cache\CacheInterface;
 
 class FrontendOwnerTreeProviderTest extends OrmTestCase
 {
-    private OwnershipMetadataProviderInterface|\PHPUnit\Framework\MockObject\MockObject $ownershipMetadataProvider;
+    /** @var OwnershipMetadataProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $ownershipMetadataProvider;
 
-    private TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject $tokenStorage;
+    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $tokenStorage;
 
-    private MessageProducer|\PHPUnit\Framework\MockObject\MockObject $messageProducer;
+    /** @var MessageProducer|\PHPUnit\Framework\MockObject\MockObject */
+    private $messageProducer;
 
-    private FrontendOwnerTreeProvider $treeProvider;
+    /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $logger;
 
-    private LoggerInterface $logger;
+    /** @var FrontendOwnerTreeProvider */
+    private $treeProvider;
 
     protected function setUp(): void
     {

@@ -1,0 +1,14 @@
+{% block _menu_item_inner_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' main-menu__inner-container'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="main-menu-columns main-menu-columns--single">
+            <div class="main-menu-column" data-role="sub-menu">
+                {% do block|merge_context({'menu_items': menu_item.children}) %}
+                {{ block_widget(block) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

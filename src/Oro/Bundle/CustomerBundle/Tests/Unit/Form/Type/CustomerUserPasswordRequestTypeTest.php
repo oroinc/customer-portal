@@ -12,7 +12,7 @@ class CustomerUserPasswordRequestTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return [
             new ValidatorExtension(Validation::createValidator())
@@ -20,15 +20,15 @@ class CustomerUserPasswordRequestTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @param array $options
-     * @param mixed $defaultData
-     * @param mixed $viewData
-     * @param mixed $submittedData
-     * @param mixed $expectedData
      * @dataProvider submitDataProvider
      */
-    public function testSubmit(array $options, $defaultData, $viewData, $submittedData, $expectedData)
-    {
+    public function testSubmit(
+        array $options,
+        mixed $defaultData,
+        mixed $viewData,
+        mixed $submittedData,
+        mixed $expectedData
+    ) {
         $form = $this->factory->create(CustomerUserPasswordRequestType::class, $defaultData, $options);
 
         $this->assertEquals($defaultData, $form->getData());
@@ -40,10 +40,7 @@ class CustomerUserPasswordRequestTypeTest extends FormIntegrationTestCase
         $this->assertEquals($expectedData, $form->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function submitDataProvider()
+    public function submitDataProvider(): array
     {
         return [
             'default' => [

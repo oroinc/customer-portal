@@ -14,22 +14,20 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class FrontendCustomerAddressFormProviderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FrontendCustomerAddressFormProvider */
-    protected $provider;
+    private $provider;
 
     /** @var FormFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $mockFormFactory;
+    private $formFactory;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|UrlGeneratorInterface
-     */
-    protected $router;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|UrlGeneratorInterface */
+    private $router;
 
     protected function setUp(): void
     {
-        $this->mockFormFactory = $this->createMock(FormFactoryInterface::class);
+        $this->formFactory = $this->createMock(FormFactoryInterface::class);
         $this->router = $this->createMock(UrlGeneratorInterface::class);
 
-        $this->provider = new FrontendCustomerAddressFormProvider($this->mockFormFactory, $this->router);
+        $this->provider = new FrontendCustomerAddressFormProvider($this->formFactory, $this->router);
     }
 
     public function testGetAddressFormViewWhileUpdate()
@@ -42,38 +40,35 @@ class FrontendCustomerAddressFormProviderTest extends \PHPUnit\Framework\TestCas
         $this->actionTestWithId();
     }
 
-    /**
-     * @param int|null $id
-     */
-    private function actionTestWithId($id = null)
+    private function actionTestWithId(?int $id = null): void
     {
-        $mockCustomerUserAddress = $this->createMock(CustomerAddress::class);
-        $mockCustomerUserAddress->expects($this->any())
+        $customerUserAddress = $this->createMock(CustomerAddress::class);
+        $customerUserAddress->expects($this->any())
             ->method('getId')
             ->willReturn($id);
 
-        $mockCustomerUser = $this->createMock(Customer::class);
-        $mockCustomerUser->expects($this->any())
+        $customerUser = $this->createMock(Customer::class);
+        $customerUser->expects($this->any())
             ->method('getId')
             ->willReturn(1);
 
-        $mockFormView = $this->createMock(FormView::class);
+        $formView = $this->createMock(FormView::class);
 
-        $mockForm = $this->createMock(FormInterface::class);
-        $mockForm->expects($this->once())
+        $form = $this->createMock(FormInterface::class);
+        $form->expects($this->once())
             ->method('createView')
-            ->willReturn($mockFormView);
+            ->willReturn($formView);
 
-        $this->mockFormFactory->expects($this->once())
+        $this->formFactory->expects($this->once())
             ->method('create')
-            ->with(FrontendCustomerTypedAddressType::class, $mockCustomerUserAddress)
-            ->willReturn($mockForm);
+            ->with(FrontendCustomerTypedAddressType::class, $customerUserAddress)
+            ->willReturn($form);
 
-        $form = $this->provider->getAddressFormView($mockCustomerUserAddress, $mockCustomerUser);
+        $form = $this->provider->getAddressFormView($customerUserAddress, $customerUser);
 
         $this->assertInstanceOf(FormView::class, $form);
 
-        $formSecondCall = $this->provider->getAddressFormView($mockCustomerUserAddress, $mockCustomerUser);
+        $formSecondCall = $this->provider->getAddressFormView($customerUserAddress, $customerUser);
         $this->assertSame($form, $formSecondCall);
     }
 }

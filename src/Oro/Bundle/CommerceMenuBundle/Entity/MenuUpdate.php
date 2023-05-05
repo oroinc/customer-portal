@@ -5,8 +5,11 @@ namespace Oro\Bundle\CommerceMenuBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Oro\Bundle\CommerceMenuBundle\Model\ExtendMenuUpdate;
+use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
+use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateTrait;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
@@ -77,19 +80,43 @@ use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
  *      }
  * )
  * @ORM\HasLifecycleCallbacks()
+ *
+ * @method File getImage()
+ * @method MenuUpdate setImage(File $image)
+ * @method MenuUpdate getTitle(Localization $localization = null)
+ * @method MenuUpdate getDefaultTitle()
+ * @method MenuUpdate setDefaultTitle($value)
+ * @method MenuUpdate getDescription(Localization $localization = null)
+ * @method MenuUpdate getDefaultDescription()
+ * @method MenuUpdate setDefaultDescription($value)
  */
-class MenuUpdate extends ExtendMenuUpdate implements
-    MenuUpdateInterface
+class MenuUpdate implements
+    MenuUpdateInterface,
+    ExtendEntityInterface
 {
     use MenuUpdateTrait {
         MenuUpdateTrait::__construct as traitConstructor;
     }
+    use ExtendEntityTrait;
 
+    public const TARGET_NONE = 'none';
     public const TARGET_URI = 'uri';
     public const TARGET_SYSTEM_PAGE = 'system_page';
     public const TARGET_CONTENT_NODE = 'content_node';
+    public const TARGET_CATEGORY = 'category';
+
+    public const SYSTEM_PAGE_ROUTE = 'system_page_route';
+
+    public const IMAGE = 'image';
+    public const SCREENS = 'screens';
+    public const CONDITION = 'condition';
+    public const USER_AGENT_CONDITIONS = 'userAgentConditions';
+
     public const LINK_TARGET_NEW_WINDOW = 0;
     public const LINK_TARGET_SAME_WINDOW = 1;
+
+    public const MENU_TEMPLATE = 'menu_template';
+    public const MAX_TRAVERSE_LEVEL = 'max_traverse_level';
 
     /**
      * @var string
@@ -121,7 +148,7 @@ class MenuUpdate extends ExtendMenuUpdate implements
      * @var ContentNode|null
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\WebCatalogBundle\Entity\ContentNode")
-     * @ORM\JoinColumn(name="content_node_id", referencedColumnName="id", onDelete="SET NULL", nullable=true)
+     * @ORM\JoinColumn(name="content_node_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
      */
     protected $contentNode;
 
@@ -141,47 +168,23 @@ class MenuUpdate extends ExtendMenuUpdate implements
     protected $linkTarget = self::LINK_TARGET_SAME_WINDOW;
 
     /**
-     * {@inheritdoc}
+     * @ORM\Column(name="menu_template", type="string", length=255, nullable=true)
      */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->traitConstructor();
+    protected ?string $menuTemplate = null;
 
-        $this->menuUserAgentConditions = new ArrayCollection();
-    }
+    /**
+     * @ORM\Column(name="max_traverse_level", type="smallint", nullable=true)
+     */
+    protected ?int $maxTraverseLevel = null;
 
     /**
      * {@inheritdoc}
      */
-    public function getExtras()
+    public function __construct()
     {
-        $extras = [
-            'image' => $this->getImage(),
-            'screens' => $this->getScreens(),
-            'condition' => $this->getCondition(),
-            'divider' => $this->isDivider(),
-            'userAgentConditions' => $this->getMenuUserAgentConditions(),
-            'translate_disabled' => $this->getId() ? true : false,
-        ];
+        $this->traitConstructor();
 
-        if ($this->getTargetType() === self::TARGET_CONTENT_NODE) {
-            $extras['content_node'] = $this->getContentNode();
-        }
-
-        if ($this->getTargetType() === self::TARGET_SYSTEM_PAGE) {
-            $extras['system_page_route'] = $this->getSystemPageRoute();
-        }
-
-        if ($this->getPriority() !== null) {
-            $extras['position'] = $this->getPriority();
-        }
-
-        if ($this->getIcon() !== null) {
-            $extras['icon'] = $this->getIcon();
-        }
-
-        return $extras;
+        $this->menuUserAgentConditions = new ArrayCollection();
     }
 
     /**
@@ -300,23 +303,6 @@ class MenuUpdate extends ExtendMenuUpdate implements
         return $this->systemPageRoute;
     }
 
-    public function getTargetType(): ?string
-    {
-        if ($this->getContentNode()) {
-            return self::TARGET_CONTENT_NODE;
-        }
-
-        if ($this->getSystemPageRoute()) {
-            return self::TARGET_SYSTEM_PAGE;
-        }
-
-        if ($this->getUri()) {
-            return self::TARGET_URI;
-        }
-
-        return null;
-    }
-
     public function getLinkTarget(): int
     {
         return $this->linkTarget;
@@ -327,5 +313,29 @@ class MenuUpdate extends ExtendMenuUpdate implements
         $this->linkTarget = $linkTarget;
 
         return $this;
+    }
+
+    public function getMenuTemplate(): ?string
+    {
+        return $this->menuTemplate;
+    }
+
+    public function setMenuTemplate(?string $menuTemplate): self
+    {
+        $this->menuTemplate = $menuTemplate;
+
+        return $this;
+    }
+
+    public function setMaxTraverseLevel(?int $maxTraverseLevel): self
+    {
+        $this->maxTraverseLevel = $maxTraverseLevel;
+
+        return $this;
+    }
+
+    public function getMaxTraverseLevel(): ?int
+    {
+        return $this->maxTraverseLevel;
     }
 }

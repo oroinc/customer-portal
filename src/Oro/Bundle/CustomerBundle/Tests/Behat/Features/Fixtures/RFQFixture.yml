@@ -14,11 +14,13 @@ Oro\Bundle\RFPBundle\Entity\RequestProduct:
     request: '@request1'
     product: '@product1'
     product_sku: 'SKU123'
+    requestProductItems: [ '@requestproductitem1' ]
 
 Oro\Bundle\RFPBundle\Entity\RequestProductItem:
   requestproductitem1:
     request_product: '@requestproduct1'
     quantity: 1
+    productUnit: '@item'
     product_unit_code: 'item'
     value: 2
     currency: 'USD'

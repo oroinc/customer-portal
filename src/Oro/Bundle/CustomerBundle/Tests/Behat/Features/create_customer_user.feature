@@ -45,7 +45,7 @@ Feature: Create customer user
       | Confirm Password   | CustomerUser1@example.org |
       | Buyer (Predefined) | true                      |
     And save form
+    And should see "Customer User has been saved" flash message
     Then I should not see validation errors:
       | Email Address | This value is not a valid email address. |
-    And should see "Customer User has been saved" flash message
     And the "Buyer (Predefined)" checkbox should be checked

@@ -1,5 +1,9 @@
 /* @theme: default; */
 
+@use 'sass:selector';
+
+// More about placeholders https://github.com/sass/sass/issues/2808#issuecomment-574413393
+%base-notification,
 .notification {
     padding: $notification-inner-offset;
 
@@ -7,41 +11,67 @@
 
     border-radius: $notification-border-radius;
 
+    [class^='fa-'] {
+        margin-right: $notification-icon-offset;
+    }
+
+    @at-root #{selector.append(&, '__text')} {
+        vertical-align: $notification-vertical-align;
+    }
+}
+
+%base-notification-success {
+    @extend %base-notification;
+
+    background: $notification-success-background;
+    color: $notification-success-color;
+}
+
+%base-notification-warning {
+    @extend %base-notification;
+
+    background: $notification-warning-background;
+    color: $notification-warning-color;
+}
+
+%base-notification-error {
+    @extend %base-notification;
+
+    background: $notification-error-background;
+    color: $notification-error-color;
+}
+
+%base-notification-light {
+    @extend %base-notification;
+
+    background: transparent;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.notification {
     &--success,
     &--info,
     &--notice {
-        @extend .notification;
-
-        background: $notification-success-background;
-        color: $notification-success-color;
+        @extend %base-notification-success;
     }
 
     &--warning,
     &--warn,
     &--alert {
-        @extend .notification;
-
-        background: $notification-warning-background;
-        color: $notification-warning-color;
+        @extend %base-notification-warning;
     }
 
     &--error {
-        @extend .notification;
-
-        background: $notification-error-background;
-        color: $notification-error-color;
+        @extend %base-notification-error;
     }
 
     &--lite {
-        @extend .notification;
-
-        background: transparent;
-        padding-left: 0;
-        padding-right: 0;
+        @extend %base-notification-light;
     }
 
     &--xmd {
-        @extend .notification;
+        @extend %base-notification;
 
         padding: $notification-xmd-inner-offset;
 
@@ -64,13 +94,5 @@
             display: flex;
             align-items: baseline;
         }
-    }
-
-    [class^='fa-'] {
-        margin-right: $notification-icon-offset;
-    }
-
-    &__text {
-        vertical-align: $notification-vertical-align;
     }
 }

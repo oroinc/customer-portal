@@ -1,0 +1,213 @@
+{# Menu List Type #}
+{% block menu_list_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': class_prefix ? " #{class_prefix}__list" ~ (layoutType ? " #{class_prefix}__list--#{layoutType}")
+    }) %}
+
+    <{{tagName}} {{ block('block_attributes') }}>
+        {% for menu_item in menu_items %}
+            {% do block|merge_context({'menu_item': menu_item}) %}
+            {{ block('container_widget') }}
+        {% endfor %}
+    </{{tagName}}>
+{% endblock %}
+
+{# Menu Item Type #}
+{% block menu_item_widget %}
+    {% set simpleMode = simpleMode|default(false) %}
+    {%- if menu_item.displayed and menu_item.extras.isAllowed %}
+        {% if menu_item.extras.divider is defined and menu_item.extras.divider %}
+            {{ block('_menu_item_divider') }}
+        {% else %}
+            {% if menu_item.extras.image is defined and menu_item.extras.image %}
+                {{ block('_menu_item_image') }}
+            {% else %}
+                {{ block('_menu_item_line') }}
+            {% endif %}
+        {% endif %}
+    {%- endif %}
+{% endblock %}
+
+{% block _menu_item_line %}
+    {% set hasSublist = menu_item.children is not empty %}
+    {% set controlsId = 'menu-id-'|uniqid %}
+    {% set attr = layout_attr_defaults(menu_item.attributes, attr) %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': class_prefix ? " #{class_prefix}__item",
+        'data-main-menu-item': menu_item.level
+    }) %}
+    <{{tagName}} {{ block('block_attributes') }}>
+        {% if simpleMode %}
+            {{ block('_menu_item_link') }}
+        {% else %}
+            {{ block('_menu_item_actions') }}
+        {% endif %}
+        {% if hasSublist %}
+            {% do block|merge_context({
+                'menu_item': menu_item,
+                'controlsId': controlsId
+            }) %}
+            {{ block_widget(block) }}
+        {% endif %}
+    </{{tagName}}>
+{% endblock %}
+
+{% block _menu_item_divider %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': class_prefix ? " #{class_prefix}__divider",
+        'aria-hidden': 'true'
+    }) %}
+    {% if dividerEnable %}
+        <{{tagName}} {{ block('block_attributes') }}>
+            <hr class="main-menu-divider">
+        </{{tagName}}>
+    {% endif %}
+{% endblock %}
+
+{% block _menu_item_image %}
+    {% if imageViewAs %}
+        {% if imageViewAs == 'line' %}
+            {{ block('_menu_item_line') }}
+        {% endif %}
+        {% if imageViewAs == 'image' %}
+            {{ block('_menu_item_image_view') }}
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block _menu_item_image_view %}
+    {% set attr = layout_attr_defaults(menu_item.attributes, attr) %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': class_prefix ? " #{class_prefix}__item #{class_prefix}__item--image"
+    }) %}
+    <{{tagName}} {{ block('block_attributes') }}>
+        {% set link_attr = layout_attr_defaults(link_attr|default({}), menu_item.linkAttributes) %}
+        {% set attr = layout_attr_defaults(link_attr, {
+            'href': oro_commercemenu_get_url(menu_item.uri),
+            '~class': class_prefix ? " #{class_prefix}__image-link"
+        }) %}
+        <a {{ block('block_attributes') }}>
+            {% set attr = layout_attr_defaults(item_image_attr|default({}), {
+                'src': file_url(menu_item.extras.image),
+                '~class': class_prefix ? " #{class_prefix}__item-img",
+                'alt': menu_item.label,
+                'loading': 'lazy'
+            }) %}
+            <img {{ block('block_attributes') }}>
+        </a>
+    </{{tagName}}>
+{% endblock %}
+
+{% block _menu_item_actions %}
+    {% set attr = layout_attr_defaults(actions_attr|default({}), {
+        '~class': class_prefix ? " #{class_prefix}__actions"
+    }) %}
+
+    {% if tooltipEnable %}
+        {% set tooltipTemplate = tooltipTemplate|default('<div class="tooltip tooltip--menu-label" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>') %}
+        {% set attr = layout_attr_defaults(attr|default({}), {
+            'title': menu_item.label,
+            'data-toggle': 'tooltip',
+            'data-template': tooltipTemplate,
+            'data-trigger': 'hover focus'
+        }) %}
+    {% endif %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block('_menu_item_link') }}
+        {{ block('_menu_item_button') }}
+    </div>
+{% endblock %}
+
+{% block _menu_item_link %}
+    {% set link_attr = layout_attr_defaults(link_attr|default({}), menu_item.linkAttributes) %}
+    {% set attr = layout_attr_defaults(link_attr, {
+        'href': oro_commercemenu_get_url(menu_item.uri),
+        '~class': class_prefix ? " #{class_prefix}__link",
+        'aria-controls': controlsId,
+        'role': 'menuitem'
+    }) %}
+
+    {% if linkEnable or menu_item.children is empty %}
+    <a {{ block('block_attributes') }}>
+        {%- if simpleMode -%}
+            {{- block('_menu_item_text') -}}
+        {%- else -%}
+            {{- block('_menu_item_text_label') -}}
+        {%- endif -%}
+    </a>
+    {% endif %}
+{% endblock %}
+
+{% block _menu_item_button %}
+    {% set attr = layout_attr_defaults(button_attr|default({}), {
+        '~class': class_prefix ? " #{class_prefix}__button",
+        'type': 'button',
+        'data-popper': 'false',
+        'data-go-to': 'next',
+        'aria-label': 'oro.commercemenu.multi.open_pages'|trans({'{{ category }}': menu_item.label}),
+        'aria-controls': controlsId
+    }) %}
+
+    {% if linkEnable %}
+        {% set attr = layout_attr_defaults(attr, {
+            'data-ignore-navigation': ''
+        }) %}
+    {% endif %}
+
+    {% if menu_item.children is not empty %}
+    <button {{ block('block_attributes') }}>
+        {% if linkEnable != true %}
+        {{ block('_menu_item_text_label') }}
+        {% endif %}
+    </button>
+    {% endif %}
+{% endblock %}
+
+{% block _menu_item_text_label %}
+    {% set attr = layout_attr_defaults(button_text_attr|default({}), {
+        '~class': class_prefix ? " #{class_prefix}__text-label",
+        'data-name': 'menu-label'
+    }) %}
+    <span {{ block('block_attributes') }}>
+        {{- block('_menu_item_icon') -}}
+        {{- block('_menu_item_text') -}}
+    </span>
+{% endblock %}
+
+{% block _menu_item_text %}
+    {%- set label = menu_item.extras.custom is defined and menu_item.extras.custom == true ? menu_item.label : menu_item.label|trans -%}
+    {{- label -}}
+{% endblock %}
+
+{% block _menu_item_icon %}
+    {%- if iconEnable and menu_item.extras.icon is defined and menu_item.extras.icon -%}
+        {% set attr = layout_attr_defaults(icon_attr|default({}), {
+            '~class': " #{menu_item.extras.icon}" ~ (class_prefix ? " #{class_prefix}__icon"),
+            'aria-hidden': 'true'
+        }) %}
+        <span {{ block('block_attributes') }}></span>
+    {%- endif -%}
+{% endblock %}
+
+{# Menu Inner Type #}
+{% block menu_inner_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'id': controlsId,
+        '~class': class_prefix ? " #{class_prefix}__inner" ~ (layoutType ? " #{class_prefix}__inner--#{layoutType}")
+    }) %}
+
+    {% if menu_item.children is not empty %}
+        <div {{ block('block_attributes') }}>
+            {% do block|merge_context({'menu_items': menu_item.children}) %}
+            {{ block_widget(block) }}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{# Menu Item Simple Type #}
+{% block menu_item_simple_widget %}
+    {% set simpleMode = true %}
+    {% do block|merge_context({'menu_items': menu_item.children}) %}
+    {{ block('menu_item_widget') }}
+{% endblock %}

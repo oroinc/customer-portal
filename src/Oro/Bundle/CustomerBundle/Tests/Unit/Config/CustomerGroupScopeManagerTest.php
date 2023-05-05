@@ -142,15 +142,15 @@ class CustomerGroupScopeManagerTest extends AbstractScopeManagerTestCase
      */
     protected function createManager(
         ManagerRegistry $doctrine,
-        CacheInterface $cache,
+        CacheInterface  $cache,
         EventDispatcher $eventDispatcher,
-        ConfigBag $configBag
+        ConfigBag       $configBag
     ): CustomerGroupScopeManager {
         return new CustomerGroupScopeManager(
             $doctrine,
             $cache,
             $eventDispatcher,
-            $configBag
+            $configBag,
         );
     }
 

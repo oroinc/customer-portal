@@ -98,9 +98,9 @@ Feature: Featured menu, displayed on the main front page
       | URI         | /test2_website_featured_menu_url |
       | Description | test description 2               |
     And I save form
-    Then I should see "Item \"Test Item level 2\" can't be saved. Max nesting level is reached." error message
+    Then I should see "Item \"Test Item level 2\" cannot be saved. Max nesting level is reached." error message
     When I click "Test Item Default Website"
     And I Create Divider
-    Then I should see "Item \"---------------\" can't be saved. Max nesting level is reached." error message
+    Then I should see "Item \"---------------\" cannot be saved. Max nesting level is reached." error message
     When I click "featured_menu"
-    Then I should see "Select existing menu item or create new."
+    Then I should see a "Commerce Menu Form" element

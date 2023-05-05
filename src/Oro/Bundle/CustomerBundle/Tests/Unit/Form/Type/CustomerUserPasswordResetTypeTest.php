@@ -11,27 +11,22 @@ use Symfony\Component\Validator\Validation;
 
 class CustomerUserPasswordResetTypeTest extends FormIntegrationTestCase
 {
-    private const DATA_CLASS = CustomerUser::class;
-
-    /** @var CustomerUserPasswordResetType */
-    private $formType;
+    private CustomerUserPasswordResetType $formType;
 
     protected function setUp(): void
     {
         $this->formType = new CustomerUserPasswordResetType();
-        $this->formType->setDataClass(self::DATA_CLASS);
+        $this->formType->setDataClass(CustomerUser::class);
         parent::setUp();
     }
 
     /**
      * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return [
-            new PreloadedExtension([
-                CustomerUserPasswordResetType::class => $this->formType
-            ], []),
+            new PreloadedExtension([$this->formType], []),
             new ValidatorExtension(Validation::createValidator())
         ];
     }

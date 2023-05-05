@@ -12,9 +12,8 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AclPriviledgeTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
 use Oro\Bundle\FormBundle\Form\Type\EntityIdentifierType;
 use Oro\Bundle\SecurityBundle\Form\Type\PrivilegeCollectionType;
-use Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType;
 use Oro\Component\Testing\ReflectionUtil;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormEvent;
@@ -32,22 +31,17 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
     /**
      * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
-        $entityIdentifierType = new EntityType($this->getCustomerUsers());
-        $customerSelectType = new EntityType($this->getCustomers(), CustomerSelectType::NAME);
-        $translatableEntity = $this->createMock(TranslatableEntityType::class);
-
         return [
             new PreloadedExtension(
                 [
                     $this->formType,
-                    EntityIdentifierType::class => $entityIdentifierType,
-                    CustomerSelectType::class => $customerSelectType,
-                    PrivilegeCollectionType::class => new PrivilegeCollectionType(),
-                    AclPriviledgeTypeStub::class => new AclPriviledgeTypeStub(),
+                    EntityIdentifierType::class => new EntityTypeStub($this->getCustomerUsers()),
+                    CustomerSelectType::class => new EntityTypeStub($this->getCustomers()),
+                    new PrivilegeCollectionType(),
+                    new AclPriviledgeTypeStub(),
                     FrontendOwnerSelectType::class => new FrontendOwnerSelectTypeStub(),
-                    TranslatableEntityType::class => $translatableEntity,
                 ],
                 []
             ),

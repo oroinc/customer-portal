@@ -5,7 +5,7 @@ aliases:
     orofrontend/js/app/views/frontend-multiselect-filter$: orofrontend/default/js/app/views/frontend-multiselect-filter
     orofrontend/js/app/views/frontend-search-boolean-filter$: orofrontend/default/js/app/views/frontend-search-boolean-filter
     orofrontend/js/app/views/frontend-select-filter$: orofrontend/default/js/app/views/frontend-select-filter
-    slick$: slick-carousel/slick/slick
+    slick$: '@oroinc/slick-carousel/slick/slick'
 app-modules:
     - orofrontend/default/js/app/modules/input-widgets
     - orofrontend/default/js/app/modules/modals-module
@@ -52,6 +52,7 @@ dynamic-imports:
         - orofrontend/js/app/views/dom-relocation-view
         - orofrontend/js/app/views/page/content-view
         - orofrontend/js/app/views/scroll-view
+        - orofrontend/js/app/views/scroll-shadow-view
     orodatagrid:
         - orofrontend/default/js/app/views/choice-filter
         - orofrontend/js/app/components/frontend-datagrid-component

@@ -10,7 +10,6 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainOwnershipMetadataProvider;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
-use Oro\Bundle\WebsiteBundle\Migrations\Data\ORM\LoadWebsiteData;
 use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
 
 /**
@@ -18,10 +17,11 @@ use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
  */
 class LoadCustomerUserRoles extends AbstractRolesData
 {
-    const ROLES_FILE_NAME = 'frontend_roles.yml';
-
-    const ADMINISTRATOR = 'ADMINISTRATOR';
-    const BUYER = 'BUYER';
+    public const ROLES_FILE_NAME = 'frontend_roles.yml';
+    public const ADMINISTRATOR = 'ADMINISTRATOR';
+    public const BUYER = 'BUYER';
+    public const WEBSITE_DEFAULT_ROLE = 'website_default_role';
+    public const WEBSITE_GUEST_ROLE = 'website_guest_role';
 
     /** @var Website[] */
     protected $websites = [];
@@ -31,7 +31,7 @@ class LoadCustomerUserRoles extends AbstractRolesData
      */
     public function getDependencies()
     {
-        return [LoadWebsiteData::class];
+        return [LoadAnonymousCustomerGroup::class];
     }
 
     /**
@@ -52,9 +52,11 @@ class LoadCustomerUserRoles extends AbstractRolesData
             $role = $this->createEntity($roleName, $roleConfigData['label']);
             $role->setOrganization($organization);
             if (!empty($roleConfigData['website_default_role'])) {
+                $this->setReference(self::WEBSITE_DEFAULT_ROLE, $role);
                 $this->setWebsiteDefaultRoles($role);
             }
             if (!empty($roleConfigData['website_guest_role'])) {
+                $this->setReference(self::WEBSITE_GUEST_ROLE, $role);
                 $this->setWebsiteGuestRoles($role);
             }
             $manager->persist($role);

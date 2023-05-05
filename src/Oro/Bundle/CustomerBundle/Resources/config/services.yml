@@ -196,7 +196,23 @@ services:
             - "@oro_frontend.request.frontend_helper"
             - "@oro_locale.helper.localization"
             - "@oro_website.manager"
+            - '@oro_entity_extend.enum_value_provider'
             - "@logger"
+
+    oro_customer_user.handler.reset_password_handler:
+        class: Oro\Bundle\CustomerBundle\Handler\ResetPasswordHandler
+        public: true
+        lazy: true
+        arguments:
+            - '@oro_notification.manager.email_notification'
+            - '@oro_customer_user.manager'
+            - '@logger'
+
+    oro_customer_user.security.customer_user_checker:
+        class: Oro\Bundle\CustomerBundle\Security\CustomerUserChecker
+        decorates: security.user_checker
+        arguments:
+            - '@.inner'
 
     oro_customer_user.manager.mailer_processor_link:
         tags:
@@ -317,7 +333,8 @@ services:
     oro_customer.customer_user.password_reset.handler:
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler'
         arguments:
-            - "@oro_customer_user.manager"
+            - '@oro_customer_user.manager'
+            - '@logger'
 
     oro_customer.acl.voter.customer_user_role:
         class: 'Oro\Bundle\CustomerBundle\Acl\Voter\CustomerUserRoleVoter'
@@ -757,7 +774,7 @@ services:
         class: Oro\Bundle\CustomerBundle\EventListener\RecordOwnerDataListener
         arguments:
             - '@oro_customer.security.customer_user_provider'
-            - '@oro_entity_config.provider.ownership'
+            - '@oro_entity_config.config_manager'
             - '@property_accessor'
         tags:
              - { name: doctrine.event_listener, event: prePersist }
@@ -1081,9 +1098,9 @@ services:
             - '@oro_customer.security.login_manager'
             - '@oro_config.manager'
             - '%oro_customer.firewall_name%'
-        lazy: true
         tags:
-            - { name: kernel.event_subscriber}
+            - { name: kernel.event_listener, event: customer_user.registration.completed, method: authenticateOnRegistrationCompleted }
+            - { name: kernel.event_listener, event: customer_user.registration.confirmed, method: authenticateOnRegistrationConfirmed }
 
     oro_customer.security.orm.ownership_sql_walker_builder:
         class: 'Oro\Bundle\CustomerBundle\ORM\Walker\CustomerOwnershipConditionDataBuilder'
@@ -1333,3 +1350,42 @@ services:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
             - { name: doctrine.event_listener, event: postFlush }
+
+    oro_customer.forced_password_reset.widget_provider.actions:
+        parent: oro_ui.widget_provider.action_button.abstract
+        arguments:
+            - oro_customer_user_force_password_reset_button
+            - oro_customer_user_force_password_reset_link
+        tags:
+            - { name: oro_ui.view_action_provider, group: activity, priority: 120 }
+
+    oro_customer.create_subsidiary.widget_provider.actions:
+        parent: oro_ui.widget_provider.action_button.abstract
+        arguments:
+            - customer_create_subsidiary_button
+            - customer_create_subsidiary_link
+        tags:
+            - { name: oro_ui.view_action_provider, group: activity }
+
+    oro_customer.customer_create_for_customer_group.widget_provider.actions:
+        parent: oro_ui.widget_provider.action_button.abstract
+        arguments:
+            - customer_create_for_customer_group_button
+            - customer_create_for_customer_group_link
+        tags:
+            - { name: oro_ui.view_action_provider, group: activity }
+
+    oro_customer.customer_user.create_for_customer.widget_provider.actions:
+        parent: oro_ui.widget_provider.action_button.abstract
+        arguments:
+            - customer_user_create_for_customer_button
+            - customer_user_create_for_customer_link
+        tags:
+            - { name: oro_ui.view_action_provider, group: activity }
+
+    oro_customer.owner.cache.warmer:
+        class: Oro\Bundle\CustomerBundle\Cache\OwnerCacheWarmer
+        arguments:
+            - '@oro_customer.owner.tree_provider'
+        tags:
+            - { name: kernel.cache_warmer, priority: -250 }

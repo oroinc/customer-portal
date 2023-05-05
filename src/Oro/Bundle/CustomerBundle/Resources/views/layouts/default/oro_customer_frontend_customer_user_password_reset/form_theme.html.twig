@@ -1,0 +1,8 @@
+{%- block form_errors -%}
+    {%- for error in errors -%}
+        <span class="validation-failed grid-col-12" role="alert">
+            <span class="validation-failed__icon" aria-hidden="true"></span>
+            <span>{{ error.message|trans }}</span>
+        </span>
+    {%- endfor -%}
+{%- endblock -%}

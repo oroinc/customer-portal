@@ -1,0 +1,31 @@
+{# First Level #}
+{% block _mega_menu_depth_1_close_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'type': 'button',
+        '~class': " close-dialog" ~ (class_prefix ? " #{class_prefix}__close"),
+        'title': 'Close'|trans,
+        'aria-label': 'oro.commercemenu.multi.close.aria_label'|trans,
+        'data-role': 'close'
+    }) %}
+
+    <button {{ block('block_attributes') }}></button>
+{% endblock %}
+
+{% block _mega_menu_depth_1_title_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': class_prefix ? " #{class_prefix}__title"
+    }) %}
+
+    <h2 {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </h2>
+{% endblock %}
+
+{% block _mega_menu_depth_1_title_inner_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'href': oro_commercemenu_get_url(menu_item.uri),
+        '~class': class_prefix ? " #{class_prefix}__title-inner"
+    }) %}
+
+    <a {{ block('block_attributes') }}>{{- menu_item.label -}}</a>
+{% endblock %}

@@ -13,7 +13,9 @@ oro:
             active.label: Active
             priority.label: Priority
             scope.label: Scope
-            image.label: Image
+            image:
+                label: Image
+                description: "The selected image may be used in certain storefront navigation menus if supported by the storefront theme."
             condition:
                 label: Condition
                 tooltip: |
@@ -22,6 +24,7 @@ oro:
                     is toggled on in the system configuration.
             website.label: Website
             custom.label: Is Custom
+            synthetic.label: Is Synthetic
             divider.label: Is Divider
             descriptions.label: Description
             icon.label: Icon
@@ -47,8 +50,31 @@ oro:
             target_type:
                 label: "Target Type"
                 content_node: "Content Node"
+                category: "Category"
                 system_page: "System Page"
                 uri: "URI"
+                none: "None"
+            category:
+                label: "Category"
+            menu_template:
+                label: "Menu Template"
+                description: "The selected menu template may be used in certain storefront navigation menus if supported by the storefront theme."
+                placeholder: "Choose a Menu Template"
+            max_traverse_level:
+                label: "Max Traverse Level"
+                placeholder: "Max traverse level of the content node or category tree"
+
+        system_configuration:
+            fields:
+                main_navigation_menu:
+                    label: "Main Navigation Menu"
+
+        multi:
+            close:
+                aria_label: "Close the menu"
+            open_pages: "Open {{ category }} pages"
+        main_menu:
+            on_sale: 'On Sale'
         menu_user_agent_conditions_collection:
             add_label.label: "Add"
         menu_user_agent_conditions_collection_group:

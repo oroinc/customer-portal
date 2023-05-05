@@ -19,7 +19,7 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\ReflectionUtil;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormEvent;
@@ -52,24 +52,15 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
-        $customer = $this->getCustomer(1);
         $user = new CustomerUser();
-        $user->setCustomer($customer);
+        $user->setCustomer($this->getCustomer(1));
         $this->tokenAccessor->expects($this->any())
             ->method('getUser')
             ->willReturn($user);
-
-        $frontendUserRoleSelectType = new EntitySelectTypeStub(
-            $this->getRoles(),
-            FrontendCustomerUserRoleSelectType::NAME,
-            new CustomerUserRoleSelectType($this->createTranslator())
-        );
-        $addressEntityType = new EntityType($this->getAddresses(), 'test_address_entity');
-        $customerSelectType = new EntityType($this->getCustomers(), CustomerSelectType::NAME);
 
         $customerUserType = new CustomerUserType($this->authorizationChecker, $this->tokenAccessor);
         $customerUserType->setDataClass(CustomerUser::class);
@@ -78,13 +69,16 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         return [
             new PreloadedExtension(
                 [
-                    FrontendCustomerUserType::class => $this->formType,
-                    CustomerUserType::class => $customerUserType,
-                    FrontendCustomerUserRoleSelectType::class => $frontendUserRoleSelectType,
-                    CustomerSelectType::class => $customerSelectType,
+                    $this->formType,
+                    $customerUserType,
+                    FrontendCustomerUserRoleSelectType::class => new EntitySelectTypeStub(
+                        $this->getRoles(),
+                        new CustomerUserRoleSelectType($this->createTranslator())
+                    ),
+                    CustomerSelectType::class => new EntityTypeStub($this->getCustomers()),
                     FrontendOwnerSelectType::class => new FrontendOwnerSelectTypeStub(),
                     AddressCollectionType::class => new AddressCollectionTypeStub(),
-                    EntityType::class => $addressEntityType,
+                    new EntityTypeStub($this->getAddresses()),
                 ],
                 []
             ),
@@ -94,26 +88,17 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
 
     /**
      * @dataProvider submitProvider
-     *
-     * @param CustomerUser $defaultData
-     * @param array $submittedData
-     * @param CustomerUser $expectedData
-     * @param bool $roleGranted
      */
     public function testSubmit(
         CustomerUser $defaultData,
         array $submittedData,
         CustomerUser $expectedData,
-        $roleGranted = true
+        bool $rolesGranted = true
     ) {
         $this->authorizationChecker->expects($this->any())
             ->method('isGranted')
             ->willReturnCallback(function ($acl) {
-                if ($acl === 'oro_customer_customer_user_role_view') {
-                    return false;
-                }
-
-                return true;
+                return $acl !== 'oro_customer_customer_user_role_view';
             });
 
         $form = $this->factory->create(FrontendCustomerUserType::class, $defaultData, []);
@@ -125,10 +110,7 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         $this->assertEquals($expectedData, $form->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function submitProvider()
+    public function submitProvider(): array
     {
         $newCustomerUser = new CustomerUser();
         $customer = new Customer();
@@ -178,25 +160,11 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
                         'customer' => $existingCustomerUser->getCustomer()->getName(),
                         'userRoles' => [2],
                     ],
-                    'expectedData' => $alteredExistingCustomerUserWithRole,
-                    'altered existing user with addresses' => [
-                        'defaultData' => $existingCustomerUser,
-                        'submittedData' => [
-                            'firstName' => 'John',
-                            'lastName' => 'Doe',
-                            'email' => 'johndoe@example.com',
-                            'customer' => $alteredExistingCustomerUserWithRole->getCustomer()->getName(),
-                            'addresses' => [1, 2],
-                        ],
-                        'expectedData' => $alteredExistingCustomerUserWithAddresses,
-                    ],
+                    'expectedData' => $alteredExistingCustomerUserWithRole
                 ],
             ];
     }
 
-    /**
-     * Test getName
-     */
     public function testGetName()
     {
         $this->assertEquals(FrontendCustomerUserType::NAME, $this->formType->getName());
@@ -227,11 +195,8 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
 
     /**
      * @dataProvider onSubmitDataProvider
-     * @param int|null $customerUserId
-     * @param Website|null $website
-     * @param Website|null $expectedWebsite
      */
-    public function testOnSubmit($customerUserId, Website $website = null, Website $expectedWebsite = null)
+    public function testOnSubmit(?int $customerUserId, Website $website = null, Website $expectedWebsite = null)
     {
         $this->authorizationChecker->expects($this->any())
             ->method('isGranted')
@@ -253,10 +218,7 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         $this->assertEquals($expectedWebsite, $form->getData()->getWebsite());
     }
 
-    /**
-     * @return array
-     */
-    public function onSubmitDataProvider()
+    public function onSubmitDataProvider(): array
     {
         $website = new Website();
 

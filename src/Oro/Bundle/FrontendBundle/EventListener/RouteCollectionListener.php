@@ -12,22 +12,16 @@ use Symfony\Component\Routing\Route;
  */
 class RouteCollectionListener
 {
-    const OPTION_FRONTEND = 'frontend';
+    private const OPTION_FRONTEND = 'frontend';
 
-    /**
-     * @var string
-     */
-    protected $prefix;
+    private string $prefix;
 
-    /**
-     * @param string $prefix
-     */
-    public function __construct($prefix)
+    public function __construct(string  $prefix)
     {
         $this->prefix = trim(trim($prefix), '/');
     }
 
-    public function onCollectionAutoload(RouteCollectionEvent $event)
+    public function onCollectionAutoload(RouteCollectionEvent $event): void
     {
         if ('' === $this->prefix) {
             return;
@@ -55,12 +49,7 @@ class RouteCollectionListener
         }
     }
 
-    /**
-     * @param string $path
-     *
-     * @return bool
-     */
-    private function hasPrefix($path)
+    private function hasPrefix(string $path): bool
     {
         $prefix = $this->prefix . '/';
 
@@ -69,12 +58,7 @@ class RouteCollectionListener
             || str_starts_with($path, '/' . $prefix);
     }
 
-    /**
-     * @param string $path
-     *
-     * @return string
-     */
-    private function addPrefix($path)
+    private function addPrefix(string $path): string
     {
         if (str_starts_with($path, '/')) {
             return '/' . $this->prefix . $path;

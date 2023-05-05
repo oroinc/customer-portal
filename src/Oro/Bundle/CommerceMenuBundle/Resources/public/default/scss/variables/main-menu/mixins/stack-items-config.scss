@@ -1,0 +1,65 @@
+/* @theme: default; */
+
+$main-menu-multi-item-border-top: 1px solid get-color('additional', 'light') !default;
+$main-menu-multi-item-border-bottom: 1px solid get-color('additional', 'light') !default;
+$main-menu-multi-item-background-hover: get-color('additional', 'base') !default;
+
+$main-menu-multi-actions-height: 48px !default;
+$main-menu-multi-actions-display: grid !default;
+$main-menu-multi-actions-grid-template-columns: 32px auto 1fr 32px 32px !default;
+
+$main-menu-multi-actions-has-sublist-icon: var(--fa-var-angle-right) !default;
+$main-menu-multi-actions-has-sublist-font-size: $base-font-size !default;
+$main-menu-multi-actions-has-sublist-display: flex !default;
+$main-menu-multi-actions-has-sublist-align-items: center !default;
+$main-menu-multi-actions-has-sublist-justify-content: center !default;
+$main-menu-multi-actions-has-sublist-grid-column: 5 !default;
+$main-menu-multi-actions-has-sublist-grid-row: 1 !default;
+
+$main-menu-multi-link-margin: 0 32px !default;
+$main-menu-multi-link-display: inline-flex !default;
+$main-menu-multi-link-color: get-color('additional', 'dark') !default;
+$main-menu-multi-link-text-transform: uppercase !default;
+$main-menu-multi-link-position: relative !default;
+$main-menu-multi-link-overflow: hidden !default;
+$main-menu-multi-link-white-space: nowrap !default;
+$main-menu-multi-link-grid-column: 2 !default;
+$main-menu-multi-link-grid-row: 1 !default;
+$main-menu-multi-link-align-items: center !default;
+$main-menu-multi-link-align-self: center !default;
+$main-menu-multi-link-z-index: z('base') + 1 !default;
+
+$main-menu-multi-link-focus-keys-grid-column: #{'1 / 6'} !default;
+$main-menu-multi-link-focus-keys-align-self: initial !default;
+$main-menu-multi-link-focus-keys-margin: 8px !default;
+$main-menu-multi-link-focus-keys-padding: 0 56px 0 24px !default;
+
+$main-menu-multi-link-only-child-keys-grid-column: #{'1 / 6'} !default;
+$main-menu-multi-link-only-child-keys-align-self: initial !default;
+$main-menu-multi-link-only-child-keys-padding: 0 64px 0 32px !default;
+
+$main-menu-multi-button-background: none !default;
+$main-menu-multi-button-font-family: $base-font !default;
+$main-menu-multi-button-font-size: $base-font-size !default;
+$main-menu-multi-button-color: get-color('additional', 'dark') !default;
+$main-menu-multi-button-text-align: start !default;
+$main-menu-multi-button-text-transform: uppercase !default;
+$main-menu-multi-button-white-space: nowrap !default;
+$main-menu-multi-button-border: none !default;
+$main-menu-multi-button-margin: 8px !default;
+$main-menu-multi-button-padding: 0 56px 0 24px !default;
+$main-menu-multi-button-grid-column: #{'1 / 6'} !default;
+$main-menu-multi-button-grid-row: 1 !default;
+$main-menu-multi-button-position: relative !default;
+$main-menu-multi-button-cursor: pointer !default;
+$main-menu-multi-button-z-index: z('base') !default;
+
+$main-menu-multi-button-before-content: '' !default;
+$main-menu-multi-button-before-position: absolute !default;
+$main-menu-multi-button-before-inset: -8px !default;
+$main-menu-multi-button-before-z-index: z('hidden') !default;
+
+$main-menu-multi-button-span-show-display: block !default;
+$main-menu-multi-button-span-show-text-overflow: ellipsis !default;
+$main-menu-multi-button-span-show-overflow: hidden !default;
+$main-menu-multi-button-span-visibility: hidden !default;

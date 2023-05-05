@@ -5,7 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as EntityTypeStub;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -13,10 +13,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 {
-    private const ROLE_CLASS = CustomerUserRole::class;
-
-    /** @var CustomerUserRoleSelectType */
-    private $formType;
+    private CustomerUserRoleSelectType $formType;
 
     protected function setUp(): void
     {
@@ -28,22 +25,20 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
             });
 
         $this->formType = new CustomerUserRoleSelectType($translator);
-        $this->formType->setRoleClass(self::ROLE_CLASS);
+        $this->formType->setRoleClass(CustomerUserRole::class);
         parent::setUp();
     }
 
     /**
      * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
-        $entityType = new EntityTypeStub([]);
-
         return [
             new PreloadedExtension(
                 [
-                    CustomerUserRoleSelectType::class => $this->formType,
-                    EntityType::class => $entityType
+                    $this->formType,
+                    EntityType::class => new EntityTypeStub()
                 ],
                 []
             )
@@ -55,7 +50,7 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         $form = $this->factory->create(CustomerUserRoleSelectType::class);
 
         $formOptions = $form->getConfig()->getOptions();
-        $this->assertSame(self::ROLE_CLASS, $formOptions['class']);
+        $this->assertSame(CustomerUserRole::class, $formOptions['class']);
         $this->assertTrue($formOptions['multiple']);
         $this->assertTrue($formOptions['expanded']);
         $this->assertFalse($formOptions['required']);

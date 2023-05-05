@@ -25,3 +25,6 @@ trusted_data:
         Oro\Bundle\CustomerBundle\Autocomplete\CustomerUserSearchHandler:
             searchEntities:
                 idFieldName: true
+    safe_static_methods:
+        Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager:
+            generateSessionId: true

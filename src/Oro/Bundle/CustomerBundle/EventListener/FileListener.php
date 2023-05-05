@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Oro\Bundle\CustomerBundle\EventListener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\AttachmentBundle\EventListener\FileListener as PlatformFileListener;
 use Oro\Bundle\AttachmentBundle\Manager\FileManager;

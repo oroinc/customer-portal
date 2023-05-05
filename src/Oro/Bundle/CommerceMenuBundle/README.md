@@ -31,7 +31,8 @@ navigation:
                     second_menu_item ~
 ```
 
-Please see [documentation](https://github.com/orocrm/platform/tree/master/src/Oro/Bundle/NavigationBundle/README.md) for more details.
+For more information, see [CommerceMenuBundle documentation](https://doc.oroinc.com/bundles/commerce/CommerceMenuBundle/) and [NavigationBundle documentation](https://doc.oroinc.com/bundles/platform/NavigationBundle/).
+
 
 ## Sections:
 

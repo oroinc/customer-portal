@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendBundle\ErrorRenderer;
 
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\LayoutBundle\Layout\LayoutManager;
+use Oro\Bundle\MaintenanceBundle\Maintenance\MaintenanceModeState;
 use Oro\Bundle\MaintenanceBundle\Maintenance\Mode;
 use Oro\Component\Layout\LayoutContext;
 use Psr\Container\ContainerInterface;
@@ -51,7 +52,8 @@ class FrontendErrorRenderer implements ErrorRendererInterface, ServiceSubscriber
             LayoutManager::class,
             TranslatorInterface::class,
             LoggerInterface::class,
-            Mode::class
+            Mode::class,
+            MaintenanceModeState::class
         ];
     }
 
@@ -81,7 +83,7 @@ class FrontendErrorRenderer implements ErrorRendererInterface, ServiceSubscriber
             && $request->getRequestFormat() === 'html'
             && !$this->showException($request)
             && !$this->isCircularHandlingException()
-            && !$this->getMode()->isOn();
+            && !$this->getModeState()->isOn();
     }
 
     private function showException(Request $request): bool
@@ -181,8 +183,8 @@ class FrontendErrorRenderer implements ErrorRendererInterface, ServiceSubscriber
         return $this->container->get(LoggerInterface::class);
     }
 
-    private function getMode(): Mode
+    private function getModeState(): MaintenanceModeState
     {
-        return $this->container->get(Mode::class);
+        return $this->container->get(MaintenanceModeState::class);
     }
 }

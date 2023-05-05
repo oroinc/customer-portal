@@ -6,7 +6,7 @@
     font-family: $table-font-family;
 
     caption {
-        @extend .h3;
+        @extend %base-h3;
 
         margin-bottom: $table-caption-bottom-offset;
     }

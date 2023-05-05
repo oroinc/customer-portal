@@ -3,31 +3,31 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub;
 
 use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
+use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressType;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AddressCollectionTypeStub extends AddressCollectionType
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'entry_type'     => CustomerTypedAddressType::class,
-            'entry_options'  => ['data_class' => 'Oro\Bundle\CustomerBundle\Entity\CustomerAddress'],
+            'entry_type' => CustomerTypedAddressType::class,
+            'entry_options' => ['data_class' => CustomerAddress::class],
             'multiple' => true,
         ]);
-
         parent::configureOptions($resolver);
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
-        return EntityType::class;
+        return EntityTypeStub::class;
     }
 }

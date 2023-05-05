@@ -11,14 +11,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class SignInTargetPathProvider implements SignInTargetPathProviderInterface
 {
-    /** @var SignInTargetPathProviderInterface */
-    private $innerProvider;
-
-    /** @var RequestStack */
-    private $requestStack;
-
-    /** @var RestDocUrlGeneratorInterface */
-    private $restDocUrlGenerator;
+    private SignInTargetPathProviderInterface $innerProvider;
+    private RequestStack $requestStack;
+    private RestDocUrlGeneratorInterface $restDocUrlGenerator;
 
     public function __construct(
         SignInTargetPathProviderInterface $innerProvider,
@@ -31,7 +26,7 @@ class SignInTargetPathProvider implements SignInTargetPathProviderInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getTargetPath(): ?string
     {

@@ -6,75 +6,252 @@
 {% set movedMessage = 'oro.commercemenu.menuupdate.moved_success_message' %}
 {% set dividerCreatedMessage = 'oro.commercemenu.menuupdate.divider_created' %}
 
-{% block content_column %}
-    {% set id = 'menu-update-edit' %}
 
-    {% set targetFields %}
-        {% if form.targetType is defined %}
-            {% import '@OroUI/macros.html.twig' as UI %}
-            <div data-role="target-fields" class="control-group-container" {{ UI.renderPageComponentAttributes({
-                'view': 'orocommercemenu/js/app/views/target-fields-view',
-                'options': {
-                    'targetTypeField': form.targetType.vars.full_name,
-                    'contentNodeField': '[data-role="content-node-field"]',
-                    'systemPageField': '[data-role="system-page-field"]',
-                    'uriField': '[data-role="uri-field"]'
-                }
-            }) }}>
-                {{ form_row(form.targetType) }}
-                <div data-role="content-node-field" {{ UI.renderPageComponentAttributes({
-                    'view': 'orowebcatalog/js/app/views/content-node-from-webcatalog-view',
-                    'options': {
-                        'listenedFieldName': form.webCatalog.vars.full_name,
-                        'triggeredFieldName': form.contentNode.vars.full_name
-                    }
-                }) }}>
-                    {{ form_row(form.webCatalog) }}
-                    {{ form_row(form.contentNode) }}
-                </div>
-                <div data-role="system-page-field" class="control-group-container">
-                    {{ form_row(form.systemPageRoute) }}
-                </div>
-                <div data-role="uri-field" class="control-group-container">
-                    {{ form_row(form.uri) }}
-                </div>
-            </div>
-        {% else %}
-            {{ form_row(form.uri) }}
-        {% endif %}
-    {% endset %}
+{% block navButtons %}
+    {% import '@OroUI/macros.html.twig' as UI %}
 
-    {% set dataBlocks = [] %}
     {% if entity.isDivider == false %}
-        {% set dataBlocks = dataBlocks|merge([{
-            'title': 'General Information'|trans,
-            'class': 'active',
-            'subblocks': [
-                {
-                    'title': '',
-                    'data': [
-                    form_row(form.titles),
-                    targetFields,
-                    form.aclResourceId is defined ? form_row(form.aclResourceId) : null,
-                    form_row(form.icon),
-                    form_row(form.descriptions),
-                    form_row(form.menuUserAgentConditions),
-                    form_row(form.screens),
-                    form_row(form.condition),
-                    form_row(form.linkTarget),
-                    form_row(form.image)
-                ]
-                }
-            ]
-        }]) %}
+        {% set html = UI.saveAndStayButton({
+            'route': routePrefix ~ 'update',
+            'params': {menuName: entity.menu, key: entity.key != menu.name ? '$key' : '', context: context}
+        }) %}
+
+        {% set html = html ~ UI.saveAndNewButton({
+            'route': routePrefix ~ 'create',
+            'params': {menuName: entity.menu, parentKey: entity.key != menu.name ? '$key' : '', context: context}
+        }) %}
+
+        {{ UI.dropdownSaveButton({'html': html}) }}
     {% endif %}
 
-    {% set dataBlocks = dataBlocks|merge(oro_form_additional_data(form, 'Additional'|trans)) %}
+    {% if not entity.isCustom or entity.id is not null %}
+        {% if entity.key %}
+            {% if entity.isCustom and entity.id is not null %}
+                {{ UI.deleteButton({
+                    'label': 'oro.navigation.menuupdate.delete'|trans(),
+                    'successMessage': deletedMessage|default('oro.navigation.menuupdate.deleted_message')|trans({'%reload_link%': reloadLink}),
+                    'dataUrl': path(routePrefix ~ 'ajax_delete', {context: context, menuName: menuName, key: entity.key}),
+                    'dataRedirect': path(routePrefix ~ 'update', {menuName: entity.menu, context: context}),
+                    'aCss': 'no-hash remove-button',
+                    'id': 'btn-remove-attribute',
+                    'entity_label': 'oro.navigation.menuupdate.entity_label'|trans,
+                }) }}
+            {% else %}
+                {% if menuItem.isRoot|default(false) %}
+                    {% import '@OroNavigation/menuUpdate/view.html.twig' as menuUpdateView %}
+                    {{ menuUpdateView.resetButton({
+                        'dataUrl': path(routePrefix ~ 'ajax_reset', {menuName: menu.name, context: context}),
+                        'dataRedirect': path(routePrefix ~ 'update', {menuName: menu.name, context: context}),
+                        'menuKey': menu.name,
+                        'data': {
+                            'success-message': resetedMessage|default('oro.navigation.menuupdate.reset_message')|trans({ '%menuKey%' : menu.name, '%reload_link%': reloadLink}),
+                        }
+                    }) }}
+                {% endif %}
 
-    {% set data = {
-        'formErrors': form_errors(form)? form_errors(form) : null,
-        'dataBlocks': dataBlocks,
+                {% if entity.active %}
+                    {# Hide button #}
+                    <div class="pull-right btn-group icons-holder">
+                        {{ UI.ajaxButton({
+                            'aCss':  'no-hash',
+                            'iCss':  'fa-eye-slash',
+                            'label': 'oro.navigation.menuupdate.hide'|trans,
+                            'title': 'oro.navigation.menuupdate.hide'|trans,
+                            'dataId': entity.id,
+                            'dataMethod': 'PUT',
+                            'dataUrl': path(routePrefix ~ 'ajax_hide', {context: context, menuName: menuName, key: entity.key}),
+                            'dataRedirect': app.request.uri,
+                            'successMessage': hiddenMessage|default('oro.navigation.menuupdate.hide_success_message')|trans({'%reload_link%': reloadLink})
+                        }) }}
+                    </div>
+                {% else %}
+                    {# Show button #}
+                    <div class="pull-right btn-group icons-holder">
+                        {{ UI.ajaxButton({
+                            'aCss':  'no-hash',
+                            'iCss':  'fa-eye',
+                            'label': 'oro.navigation.menuupdate.show'|trans,
+                            'title': 'oro.navigation.menuupdate.show'|trans,
+                            'dataId': entity.id,
+                            'dataMethod': 'PUT',
+                            'dataUrl': path(routePrefix ~ 'ajax_show', {context: context, menuName: menuName, key: entity.key}),
+                            'dataRedirect': app.request.uri,
+                            'successMessage': showedMessage|default('oro.navigation.menuupdate.show_success_message')|trans({'%reload_link%': reloadLink})
+                        }) }}
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        {% if entity.isDivider == false %}
+            {# Create Menu Item button #}
+            {% set html = UI.button({
+                'path' : path(routePrefix ~ 'create', {menuName: entity.menu, parentKey: entity.key, context: context}),
+                'aCss': 'btn-primary',
+                'label': 'oro.ui.create_entity'|trans({'%entityName%': 'oro.navigation.menuupdate.entity_label'|trans}),
+                'title': 'oro.ui.create_entity'|trans({'%entityName%': 'oro.navigation.menuupdate.entity_label'|trans})
+            }) %}
+            {# Create Divider button #}
+            {% set html = html ~ UI.ajaxButton({
+                'aCss': 'btn-primary no-hash menu-divider-create-button',
+                'label': 'oro.ui.create_entity'|trans({'%entityName%': 'oro.navigation.menuupdate.divider'|trans}),
+                'title': 'oro.ui.create_entity'|trans({'%entityName%': 'oro.navigation.menuupdate.divider'|trans}),
+                'dataMethod': 'POST',
+                'dataUrl': path(routePrefix ~ 'ajax_create', {context: context, menuName: menuName, parentKey: entity.key, 'isDivider': true}),
+                'dataRedirect': app.request.uri,
+                'successMessage': dividerCreatedMessage|default('oro.navigation.menuupdate.divider_created')|trans({'%reload_link%': reloadLink})
+            }) %}
+
+            {% set parameters = {
+                'html': html,
+                'groupKey': 'createButtons',
+                'options': {
+                    'moreButtonAttrs': {
+                        'class': 'btn-primary'
+                    }
+                }
+            } %}
+
+            {{ UI.pinnedDropdownButton(parameters) }}
+
+            {{ UI.buttonSeparator() }}
+        {% endif %}
+    {% endif %}
+{% endblock navButtons %}
+
+{% block content_data %}
+    {% import '@OroUI/macros.html.twig' as UI %}
+
+    {% set id = 'menu-update-edit' %}
+
+    {% set content %}
+        {% block content_column %}
+            {% set id = 'menu-update-edit' %}
+
+            {% macro renderTargetTypeFields(form, targetTypeChoices) %}
+                {% import '@OroUI/macros.html.twig' as UI %}
+                <div data-role="target-fields" class="control-group-container" {{ UI.renderPageComponentAttributes({
+                    'view': 'orocommercemenu/js/app/views/target-fields-view',
+                    'options': {
+                        'targetTypeField': form.targetType.vars.full_name,
+                        'contentNodeField': '[data-role="content-node-field"]',
+                        'categoryField': '[data-role="category-field"]',
+                        'maxTraverseLevelField': '[data-role="max-traverse-level-field"]',
+                        'systemPageField': '[data-role="system-page-field"]',
+                        'uriField': '[data-role="uri-field"]',
+                    }
+                }) }}>
+                    {{ form_row(form.targetType, {choices: targetTypeChoices|default(form.targetType.vars.choices)}) }}
+                    <div data-role="content-node-field" {{ UI.renderPageComponentAttributes({
+                        'view': 'orowebcatalog/js/app/views/content-node-from-webcatalog-view',
+                        'options': {
+                            'listenedFieldName': form.webCatalog.vars.full_name,
+                            'triggeredFieldName': form.contentNode.vars.full_name
+                        }
+                    }) }}>
+                        {{ form_row(form.webCatalog) }}
+                        {{ form_row(form.contentNode) }}
+                    </div>
+                    <div data-role="category-field" class="control-group-container">
+                        {{ form_row(form.category) }}
+                    </div>
+                    <div data-role="max-traverse-level-field" class="control-group-container">
+                        {{ form_row(form.maxTraverseLevel) }}
+                    </div>
+                    <div data-role="system-page-field" class="control-group-container">
+                        {{ form_row(form.systemPageRoute) }}
+                    </div>
+                    <div data-role="uri-field" class="control-group-container">
+                        {{ form_row(form.uri) }}
+                    </div>
+                </div>
+            {% endmacro %}
+
+            {% set dataBlocks = [] %}
+            {% if entity.isDivider == false %}
+                {% if not menuItem.isRoot|default(false) %}
+                    {% set generalSectionSubblocks = [
+                        form_row(form.titles),
+                        _self.renderTargetTypeFields(form),
+                        form_row(form.menuTemplate),
+                        form_row(form.image),
+                        form_row(form.icon),
+                        form_row(form.descriptions),
+                        form_row(form.linkTarget),
+                        form.aclResourceId is defined ? form_row(form.aclResourceId) : null,
+                        form_row(form.menuUserAgentConditions),
+                        form_row(form.screens),
+                        form_row(form.condition),
+                    ] %}
+                {% else %}
+                    {% set navigationRootChoices = form.targetType.vars.choices|filter((choice) => choice.value in ['content_node', 'category', 'none']) %}
+                    {% set generalSectionSubblocks = [
+                        _self.renderTargetTypeFields(form, navigationRootChoices),
+                    ] %}
+                {% endif %}
+
+                {% set dataBlocks = dataBlocks|merge([{
+                    'title': 'General Information'|trans,
+                    'class': 'active',
+                    'subblocks': [{
+                        'title': '',
+                        'data': generalSectionSubblocks
+                    }]
+                }]) %}
+            {% endif %}
+
+            {% set dataBlocks = dataBlocks|merge(oro_form_additional_data(form, 'Additional'|trans)) %}
+
+            {% set data = {
+                'formErrors': form_errors(form)? form_errors(form) : null,
+                'dataBlocks': dataBlocks,
+            } %}
+
+            {{ block('content_data', '@OroUI/actions/update.html.twig') }}
+        {% endblock %}
+    {% endset %}
+
+    {% set treeOptions = {
+        'view' : 'oronavigation/js/app/views/tree-manage-view',
+        'data' : tree,
+        'nodeId': menuItem ? entity.key : entity.parentKey,
+        'menu' : entity.menu,
+        'context' : context,
+        'updateAllowed' : true,
+        'onRootSelectRoute' : routePrefix ~ 'update',
+        'onSelectRoute' : routePrefix ~ 'update',
+        'onMoveRoute' : routePrefix ~ 'ajax_move',
+        'successMessage': movedMessage|default('oro.navigation.menuupdate.moved_success_message'),
+        'maxDepth': menu.extras.max_nesting_level|default(6),
     } %}
 
-    {{ block('content_data', '@OroUI/actions/update.html.twig') }}
-{% endblock %}
+    <div class="sidebar-container">
+        {% embed "@OroUI/content_sidebar.html.twig" with {options: {
+            fixSidebarHeight: false
+        }} %}
+            {% block sidebar %}
+                {% import '@OroUI/macros.html.twig' as UI %}
+                {{ UI.renderJsTree(
+                    {
+                        'label': 'oro.navigation.menu.menu_list_default.label'|trans,
+                        'treeOptions': treeOptions
+                    },
+                    {
+                        'move': {
+                        'view': 'oroui/js/app/views/jstree/move-action-view',
+                        'routeName': routePrefix ~ 'move',
+                        'routeParams': {menuName: menuName, context: context}
+                    }
+                    }
+                ) }}
+            {% endblock sidebar %}
+
+            {% block content %}
+                {% autoescape %}
+                    <div class="category-data">
+                        {{ content|raw }}
+                    </div>
+                {% endautoescape %}
+            {% endblock content %}
+        {% endembed %}
+    </div>
+{% endblock content_data %}

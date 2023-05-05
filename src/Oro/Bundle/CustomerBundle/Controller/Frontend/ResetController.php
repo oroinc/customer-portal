@@ -97,7 +97,7 @@ class ResetController extends AbstractController
         }
 
         $session = $request->getSession();
-        $ttl = $this->getParameter('oro_user.reset.ttl');
+        $ttl = $this->getParameter('oro_customer_user.reset.ttl');
         if (!$user->isPasswordRequestNonExpired($ttl)) {
             $session->getFlashBag()->add(
                 'warn',

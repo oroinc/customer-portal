@@ -1,0 +1,112 @@
+/* @theme: default; */
+
+.mega-menu-depth-1 {
+    &__list {
+        @include list-normalize();
+
+        background: $mega-menu-depth-1-list-background;
+        overflow: $mega-menu-depth-1-list-overflow;
+    }
+
+    @include main-menu-stack-items();
+
+    &__close {
+        inset-block-start: $mega-menu-depth-1-close-inset-block-start;
+        inset-inline-end: $mega-menu-depth-1-close-inset-inline-end;
+    }
+
+    &__title {
+        line-height: $mega-menu-depth-1-title-line-height;
+        text-transform: $mega-menu-depth-1-title-text-transform;
+        margin-bottom: $mega-menu-depth-1-title-margin-bottom;
+        padding-inline-end: $mega-menu-depth-1-title-padding-inline-end;
+
+        &-inner {
+            color: $mega-menu-depth-1-title-inner-color;
+        }
+    }
+}
+
+@include breakpoint('mega-menu-wide') {
+    .mega-menu-depth-1 {
+        &__list {
+            max-height: $mega-menu-depth-1-list-max-height;
+            align-self: $mega-menu-depth-1-list-align-self;
+            box-shadow: $mega-menu-depth-1-list-box-shadow;
+        }
+
+        &__inner {
+            display: $mega-menu-depth-1-inner-display;
+            grid-template-rows: $mega-menu-depth-1-inner-grid-template-rows;
+            background: $mega-menu-depth-1-inner-background;
+            padding-block: $mega-menu-depth-1-inner-padding-block;
+            padding-inline: $mega-menu-depth-1-inner-padding-inline;
+            position: $mega-menu-depth-1-inner-position;
+            inset-block: $mega-menu-depth-1-inner-inset-block;
+            inset-inline: $mega-menu-depth-1-inner-inset-inline;
+            box-shadow: $mega-menu-depth-1-inner-box-shadow;
+            z-index: $mega-menu-depth-1-inner-z-index;
+        }
+
+        &__item.show &__inner {
+            display: $mega-menu-depth-1-inner-current-display;
+        }
+    }
+}
+
+@include breakpoint('desktop') {
+    .mega-menu-depth-1 {
+        .main-menu__inner--edge & {
+            &__list {
+                max-height: $mega-menu-depth-1-inner-edge-desktop-max-height;
+            }
+
+            &__inner {
+                min-height: $mega-menu-depth-1-inner-edge-desktop-min-height;
+                max-height: $mega-menu-depth-1-inner-edge-desktop-max-height;
+                bottom: $mega-menu-depth-1-inner-edge-desktop-bottom;
+            }
+        }
+
+        @media (hover: hover) {
+            .is-hoverable &__item:hover &__inner {
+                display: $mega-menu-depth-1-inner-current-display;
+            }
+        }
+    }
+}
+
+@include breakpoint('tablet') {
+    .mega-menu-depth-1 {
+        &__list {
+            height: $mega-menu-depth-1-list-tablet-height;
+        }
+
+        &__close {
+            display: $mega-menu-depth-1-close-tablet-display;
+        }
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .mega-menu-depth-1 {
+        &__inner {
+            position: $mega-menu-depth-1-inner-mobile-big-position;
+            top: $mega-menu-depth-1-inner-mobile-big-top;
+            left: $mega-menu-depth-1-inner-mobile-big-left;
+            bottom: $mega-menu-depth-1-inner-mobile-big-bottom;
+            z-index: $mega-menu-depth-1-inner-mobile-big-z-index;
+            width: $mega-menu-depth-1-inner-mobile-big-width;
+            background: $mega-menu-depth-1-inner-mobile-big-background;
+            transition: $mega-menu-depth-1-inner-mobile-big-transition;
+        }
+
+        &__item.show &__inner {
+            left: $mega-menu-depth-1-inner-mobile-big-current-left;
+        }
+
+        &__title {
+            display: $mega-menu-depth-1-title-mobile-big-display;
+        }
+    }
+}

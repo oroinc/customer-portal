@@ -1,0 +1,137 @@
+/* @theme: default; */
+
+.mega-menu-depth-2 {
+    &__list {
+        @include list-normalize();
+    }
+
+    &__image-link {
+        display: $mega-menu-depth-2-image-link-display;
+    }
+
+    &__item-img {
+        display: $mega-menu-depth-2-item-img-display;
+        width: $mega-menu-depth-2-item-img-width;
+        height: $mega-menu-depth-2-item-img-height;
+    }
+
+    &__scroll {
+        min-height: $mega-menu-depth-2-scroll-min-height;
+        display: $mega-menu-depth-2-scroll-display;
+        grid-template-rows: $mega-menu-depth-2-scroll-grid-template-rows;
+    }
+
+    &__scroll-shadow {
+        overflow: $mega-menu-depth-2-scroll-shadow-overflow;
+        height: $mega-menu-depth-2-scroll-shadow-height;
+    }
+
+    &__featured-list {
+        display: $mega-menu-depth-2-featured-list-display;
+        gap: $mega-menu-depth-2-featured-list-gap;
+        grid-template-columns: $mega-menu-depth-2-featured-list-grid-template-columns;
+    }
+}
+
+@include breakpoint('mega-menu-wide') {
+    .mega-menu-depth-2 {
+        &__scroll {
+            gap: $mega-menu-depth-2-scroll-gap;
+        }
+
+        &__scroll-shadow {
+            margin: $mega-menu-depth-2-scroll-shadow-margin;
+            padding: $mega-menu-depth-2-scroll-shadow-padding;
+
+            &.shadow-start::before {
+                top: -$mega-menu-depth-2-scroll-shadow-padding;
+            }
+
+            &.shadow-end::after {
+                bottom: -$mega-menu-depth-2-scroll-shadow-padding;
+            }
+        }
+
+        &__list:only-child {
+            grid-row: $mega-menu-depth-2-list-only-child-grid-row;
+        }
+
+        &__list--columns {
+            column-count: $mega-menu-depth-2-list-column-count;
+            column-width: $mega-menu-depth-2-list-column-width;
+            column-gap: $mega-menu-depth-2-list-column-gap;
+            column-rule: $mega-menu-depth-2-list-column-rule;
+            margin-top: $mega-menu-depth-2-list-margin-top;
+            padding-inline-end: $mega-menu-depth-2-list-padding-inline-end;
+
+            &::before {
+                content: $mega-menu-depth-2-list-before-content;
+                background: $mega-menu-depth-2-list-before-background;
+                height: $mega-menu-depth-2-list-before-height;
+                display: $mega-menu-depth-2-list-before-display;
+                margin-inline-end: $mega-menu-depth-2-list-before-margin-inline-end;
+                margin-bottom: $mega-menu-depth-2-list-before-margin-bottom;
+                column-span: $mega-menu-depth-2-list-before-column-span;
+                position: $mega-menu-depth-2-list-before-position;
+                pointer-events: $mega-menu-depth-2-list-before-pointer-events;
+            }
+        }
+
+        &__list--columns & {
+            &__item {
+                margin-inline-end: $mega-menu-depth-2-item-margin-inline-end;
+                padding-top: $mega-menu-depth-2-item-padding-top;
+                break-inside: $mega-menu-depth-2-item-break-inside;
+            }
+        }
+
+        &__list--grid {
+            display: $mega-menu-depth-2-list-grid-display;
+            grid-template-columns: $mega-menu-depth-2-list-grid-grid-template-columns;
+            gap: $mega-menu-depth-2-list-grid-gap;
+        }
+
+        &__button {
+            display: $mega-menu-depth-2-button-display;
+        }
+
+        &__link {
+            color: $mega-menu-depth-2-link-color;
+            text-transform: $mega-menu-depth-2-link-text-transform;
+            position: $mega-menu-depth-2-link-position;
+
+            &:hover {
+                color: $mega-menu-depth-2-link-hover-color;
+            }
+        }
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .mega-menu-depth-2 {
+        &__list:only-child {
+            grid-row: $mega-menu-depth-2-list-only-child-mobile-big-grid-row;
+        }
+
+        @include main-menu-stack-items();
+
+        &__inner {
+            position: $mega-menu-depth-2-inner-mobile-big-position;
+            top: $mega-menu-depth-2-inner-mobile-big-top;
+            left: $mega-menu-depth-2-inner-mobile-big-left;
+            bottom: $mega-menu-depth-2-inner-mobile-big-bottom;
+            z-index: $mega-menu-depth-2-inner-mobile-big-z-index;
+            width: $mega-menu-depth-2-inner-mobile-big-width;
+            background: $mega-menu-depth-2-inner-mobile-big-background;
+            transition: $mega-menu-depth-2-inner-mobile-big-transition;
+        }
+
+        &__item.show &__inner {
+            left: $mega-menu-depth-2-inner-mobile-big-current-left;
+        }
+
+        &__featured {
+            padding: $mega-menu-depth-2-featured-mobile-big-padding;
+        }
+    }
+}

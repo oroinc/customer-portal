@@ -1,0 +1,56 @@
+{% block _mega_menu_depth_2_scroll_shadow_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': class_prefix ? " #{class_prefix}__scroll-shadow",
+        'data-scroll-target': ''
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _mega_menu_depth_2_scroll_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': class_prefix ? " #{class_prefix}__scroll"
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _mega_menu_depth_2_featured_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': class_prefix ? " #{class_prefix}__featured"
+    }) %}
+
+    {% set items = menu_items|filter(item => item.extras.image is defined and item.extras.image) %}
+
+    {% if items|length %}
+        <div {{ block('block_attributes') }}>
+            {% do block|merge_context({'menu_items': items}) %}
+            {{ block_widget(block) }}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block _mega_menu_depth_2_featured_list_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': class_prefix ? " #{class_prefix}__featured-list"
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _mega_menu_depth_2_featured_items_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': class_prefix ? " #{class_prefix}__featured-item"
+    }) %}
+
+    {% for menu_item in menu_items %}
+        {% set tagName = 'div' %}
+        {{ block('_menu_item_image_view') }}
+    {% endfor %}
+{% endblock %}

@@ -10,41 +10,29 @@ use Symfony\Component\ExpressionLanguage\SyntaxError;
 
 class MenuConditionEvaluatorTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $logger;
 
-    /**
-     * @var ExpressionLanguage|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var ExpressionLanguage|\PHPUnit\Framework\MockObject\MockObject */
     private $expressionLanguage;
 
-    /**
-     * @var MenuConditionEvaluator
-     */
+    /** @var MenuConditionEvaluator */
     private $menuConditionEvaluator;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->expressionLanguage = $this->createMock(ExpressionLanguage::class);
+
         $this->menuConditionEvaluator = new MenuConditionEvaluator($this->expressionLanguage, $this->logger);
     }
 
     /**
      * @dataProvider evaluateDataProvider
-     *
-     * @param string $conditionString
-     * @param string $evaluationResult
-     * @param bool   $expectedResult
      */
-    public function testEvaluate($conditionString, $evaluationResult, $expectedResult)
+    public function testEvaluate(string $conditionString, string $evaluationResult, bool $expectedResult)
     {
-        $childMenu1 = $this->mockMenuItem($conditionString);
+        $childMenu1 = $this->getMenuItem($conditionString);
 
         $this->expressionLanguage->expects(self::once())
             ->method('evaluate')
@@ -58,10 +46,7 @@ class MenuConditionEvaluatorTest extends \PHPUnit\Framework\TestCase
         self::assertSame($expectedResult, $actualResult);
     }
 
-    /**
-     * @return array
-     */
-    public function evaluateDataProvider()
+    public function evaluateDataProvider(): array
     {
         return [
             'when evaluation result is empty' => [
@@ -84,7 +69,7 @@ class MenuConditionEvaluatorTest extends \PHPUnit\Framework\TestCase
 
     public function testEvaluateWhenConditionIsEmpty()
     {
-        $childMenu1 = $this->mockMenuItem('');
+        $childMenu1 = $this->getMenuItem('');
 
         $this->expressionLanguage->expects(self::never())
             ->method('evaluate');
@@ -99,7 +84,7 @@ class MenuConditionEvaluatorTest extends \PHPUnit\Framework\TestCase
     public function testEvaluateWhenConditionIsInvalid()
     {
         $conditionString = 'invalid_condition';
-        $childMenu1 = $this->mockMenuItem($conditionString);
+        $childMenu1 = $this->getMenuItem($conditionString);
 
         $error = 'sample error message';
         $this->expressionLanguage->expects(self::once())
@@ -117,12 +102,7 @@ class MenuConditionEvaluatorTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($actualResult);
     }
 
-    /**
-     * @param string $conditionString
-     *
-     * @return ItemInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function mockMenuItem($conditionString)
+    private function getMenuItem(string $conditionString): ItemInterface
     {
         $childMenu1 = $this->createMock(ItemInterface::class);
         $childMenu1->expects(self::once())

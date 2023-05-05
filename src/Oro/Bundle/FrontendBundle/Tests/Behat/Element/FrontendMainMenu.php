@@ -15,7 +15,7 @@ class FrontendMainMenu extends MainMenu
     {
         return $this->elementFactory->wrapElement(
             'FrontendMainMenuDropdown',
-            $link->getParent()->find('css', '.main-menu__item--ancestor')
+            $link->getParent()->getParent()->find('css', '[data-main-menu-item]')
         );
     }
 }

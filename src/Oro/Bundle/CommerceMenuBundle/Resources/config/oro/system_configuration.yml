@@ -1,0 +1,44 @@
+system_configuration:
+    fields:
+        oro_commerce_menu.main_navigation_menu:
+            data_type: string
+            type: Oro\Bundle\NavigationBundle\Form\Type\MenuChoiceType
+            priority: 90
+            options:
+                label: oro.commercemenu.system_configuration.fields.main_navigation_menu.label
+                required: false
+                scope_type: menu_frontend_visibility
+
+    tree:
+        system_configuration:
+            platform:
+                children:
+                    websites:
+                        children:
+                            routing:
+                                children:
+                                    websites_routing_general:
+                                        children:
+                                            - oro_commerce_menu.main_navigation_menu
+
+        customer_configuration:
+            platform:
+                children:
+                    websites:
+                        children:
+                            routing:
+                                children:
+                                    websites_routing_general:
+                                        children:
+                                            - oro_commerce_menu.main_navigation_menu
+
+        customer_group_configuration:
+            platform:
+                children:
+                    websites:
+                        children:
+                            routing:
+                                children:
+                                    websites_routing_general:
+                                        children:
+                                            - oro_commerce_menu.main_navigation_menu

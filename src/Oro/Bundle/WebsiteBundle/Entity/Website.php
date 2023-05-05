@@ -8,9 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareTrait;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationAwareInterface;
 use Oro\Bundle\OrganizationBundle\Entity\Ownership\AuditableBusinessUnitAwareTrait;
-use Oro\Bundle\WebsiteBundle\Model\ExtendWebsite;
 use Oro\Component\Website\WebsiteInterface;
 
 /**
@@ -54,10 +55,11 @@ use Oro\Component\Website\WebsiteInterface;
  * )
  * @ORM\HasLifecycleCallbacks()
  */
-class Website extends ExtendWebsite implements OrganizationAwareInterface, WebsiteInterface
+class Website implements OrganizationAwareInterface, WebsiteInterface, ExtendEntityInterface
 {
     use DatesAwareTrait;
     use AuditableBusinessUnitAwareTrait;
+    use ExtendEntityTrait;
 
     /**
      * @var Collection|Website[]
@@ -118,8 +120,6 @@ class Website extends ExtendWebsite implements OrganizationAwareInterface, Websi
      */
     public function __construct()
     {
-        parent::__construct();
-
         $this->inversedWebsites = new ArrayCollection();
         $this->relatedWebsites = new ArrayCollection();
     }

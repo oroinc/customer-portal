@@ -41,6 +41,8 @@ Oro\Bundle\WebsiteBundle\Entity\Website:
         name: Second
         organization: '@organization'
         owner: '@business_unit'
+        guest_role: '@buyer'
+        default_role: '@buyer'
 Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     user1:
         email: 'user1@example.org'

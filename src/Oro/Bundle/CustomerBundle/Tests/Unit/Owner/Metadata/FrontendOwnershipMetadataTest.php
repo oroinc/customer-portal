@@ -8,13 +8,9 @@ use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 class FrontendOwnershipMetadataTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @param array $ownerType
-     * @param int $expectedOwnerType
-     * @param array $exceptionDefinition
-     *
      * @dataProvider frontendOwnerTypeException
      */
-    public function testSetFrontendOwner(array $ownerType, $expectedOwnerType, array $exceptionDefinition = [])
+    public function testSetFrontendOwner(array $ownerType, int $expectedOwnerType, array $exceptionDefinition = [])
     {
         if ($exceptionDefinition) {
             [$exception, $message] = $exceptionDefinition;
@@ -34,10 +30,7 @@ class FrontendOwnershipMetadataTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($frontendOwnerColumnName, $metadata->getOwnerColumnName());
     }
 
-    /**
-     * @return array
-     */
-    public function frontendOwnerTypeException()
+    public function frontendOwnerTypeException(): array
     {
         return [
             [
@@ -158,10 +151,7 @@ class FrontendOwnershipMetadataTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($levels, $metadata->getAccessLevelNames());
     }
 
-    /**
-     * @return array
-     */
-    public function getAccessLevelNamesDataProvider()
+    public function getAccessLevelNamesDataProvider(): array
     {
         return [
             'no owner' => [

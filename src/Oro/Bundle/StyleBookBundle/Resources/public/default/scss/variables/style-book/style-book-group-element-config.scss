@@ -1,5 +1,7 @@
 /* @theme: default; */
 
+@use 'sass:color';
+
 $style-book-group-element-description-border-start: 5px solid get-color('primary', 'base') !default;
 
 $style-book-group-element-preview-border: 5px solid get-color('additional', 'base') !default;
@@ -32,7 +34,7 @@ $style-book-group-element-color-ui-success-color: get-color('primary', 'main') !
 
 $style-book-group-element-color-ui-warning-color: get-color('primary', 'main') !default;
 
-$style-book-group-element-typography-color: darken(get-color('additional', 'middle'), 10%) !default;
+$style-book-group-element-typography-color: color.adjust(get-color('additional', 'middle'), $lightness: -10%) !default;
 
 $style-book-group-element-base-font-color: get-color('additional', 'dark') !default;
 

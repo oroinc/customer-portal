@@ -64,7 +64,9 @@ navigation:
                         - 'oro_customer_customer_index'
                         - 'oro_customer_customer_view'
                         - 'oro_customer_customer_create'
+                        - 'oro_customer_customer_create_subsidiary'
                         - 'oro_customer_customer_update'
+                        - 'oro_customer_customer_create_for_customer_group'
                     description: 'oro.customer.menu.customer_list.description'
 
             customer_group_list:
@@ -101,11 +103,13 @@ navigation:
                         - 'oro_customer_customer_user_view'
                         - 'oro_customer_customer_user_update'
                         - 'oro_customer_customer_user_create'
+                        - 'oro_customer_customer_user_create_for_customer'
                     description: 'oro.customer.menu.customer_users.description'
 
             customer_users_login_attempts:
                 label: 'oro.customer.customeruserloginattempt.entity_plural_label'
                 route: 'oro_customer_login_attempts'
+                position: 80
                 extras:
                     description: 'oro.customer.customeruserloginattempt.entity_description'
 
@@ -343,6 +347,8 @@ navigation:
         oro_customer_customer_view:  '%title%'
         oro_customer_customer_update: '%customerName% - oro.ui.edit'
         oro_customer_customer_create: 'oro.ui.create_entity'
+        oro_customer_customer_create_subsidiary: 'oro.ui.create_entity'
+        oro_customer_customer_create_for_customer_group: 'oro.ui.create_entity'
 
         oro_customer_customer_group_index: ~
         oro_customer_customer_group_view:  '%title%'
@@ -353,6 +359,7 @@ navigation:
         oro_customer_customer_user_view:    '%email%'
         oro_customer_customer_user_update:  '%email% - oro.ui.edit'
         oro_customer_customer_user_create:  'oro.ui.create_entity'
+        oro_customer_customer_user_create_for_customer: 'oro.ui.create_entity'
 
         oro_customer_frontend_customer_user_index:   'oro.customer.frontend.title.customer_user.index'
         oro_customer_frontend_customer_user_view:    '%user%'

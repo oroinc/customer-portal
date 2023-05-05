@@ -77,39 +77,6 @@ layout:
                 style_book_grid_element_notification_message_success:
                     blockType: block
 
-                group_element_grid_view_callout_info:
-                    blockType: group_element
-                    options:
-                        anchor: callout_info
-                        label: oro_stylebook.groups.forms.callout_info.title
-                group_element_item_callout_info_holder:
-                    blockType: group_element_item
-                    options:
-                        anchor: description_callout_info
-                        label: oro_stylebook.groups.forms.callout_info.info.title
-                        subTreeLvl: 1
-                        description: oro_stylebook.groups.forms.callout_info.info.description
-                style_book_grid_element_callout_info:
-                    blockType: block
-                group_element_item_callout_warning_holder:
-                    blockType: group_element_item
-                    options:
-                        anchor: description_callout_warning
-                        label: oro_stylebook.groups.forms.callout_info.warning.title
-                        subTreeLvl: 1
-                        description: oro_stylebook.groups.forms.callout_info.warning.description
-                style_book_grid_element_callout_warning:
-                    blockType: block
-                group_element_item_callout_danger_holder:
-                    blockType: group_element_item
-                    options:
-                        anchor: description_callout_danger
-                        label: oro_stylebook.groups.forms.callout_info.danger.title
-                        subTreeLvl: 1
-                        description: oro_stylebook.groups.forms.callout_info.danger.description
-                style_book_grid_element_callout_danger:
-                    blockType: block
-
             tree:
                 style_book_content:
                         group_element_grid_view_notifications:
@@ -127,13 +94,5 @@ layout:
                                 style_book_grid_element_notification_message_success: ~
                             group_element_item_notification_message_warning_holder:
                                 style_book_grid_element_notification_message_warning: ~
-
-                        group_element_grid_view_callout_info:
-                            group_element_item_callout_info_holder:
-                                style_book_grid_element_callout_info: ~
-                            group_element_item_callout_warning_holder:
-                                style_book_grid_element_callout_warning: ~
-                            group_element_item_callout_danger_holder:
-                                style_book_grid_element_callout_danger: ~
 
     conditions: 'context["group"]=="forms"'

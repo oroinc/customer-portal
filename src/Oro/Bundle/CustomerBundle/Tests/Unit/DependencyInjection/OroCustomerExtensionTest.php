@@ -16,7 +16,7 @@ class OroCustomerExtensionTest extends \PHPUnit\Framework\TestCase
         $extension = new OroCustomerExtension();
         $extension->load([], $container);
 
-        $extensionConfig = $container->getExtensionConfig('oro_customer');
+        self::assertNotEmpty($container->getDefinitions());
         self::assertSame(
             [
                 [
@@ -45,11 +45,15 @@ class OroCustomerExtensionTest extends \PHPUnit\Framework\TestCase
                     ]
                 ]
             ],
-            $extensionConfig
+            $container->getExtensionConfig('oro_customer')
         );
 
-        $customerVisitorCookieFactoryDef = $container
-            ->getDefinition('oro_customer.authentication.customer_visitor_cookie_factory');
+        self::assertSame([], $container->getParameter('oro_customer_user.login_sources'));
+        self::assertSame(86400, $container->getParameter('oro_customer_user.reset.ttl'));
+
+        $customerVisitorCookieFactoryDef = $container->getDefinition(
+            'oro_customer.authentication.customer_visitor_cookie_factory'
+        );
         self::assertEquals('auto', $customerVisitorCookieFactoryDef->getArgument(0));
         self::assertTrue($customerVisitorCookieFactoryDef->getArgument(1));
         self::assertEquals('lax', $customerVisitorCookieFactoryDef->getArgument(3));

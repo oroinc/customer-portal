@@ -7,9 +7,6 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class AclPermissionControllerTest extends WebTestCase
 {
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
@@ -19,12 +16,8 @@ class AclPermissionControllerTest extends WebTestCase
 
     /**
      * @dataProvider accessLevelsDataProvider
-     *
-     * @param string $oid
-     * @param int $status
-     * @param array $expected
      */
-    public function testAclAccessLevelsAction($oid, $status, array $expected)
+    public function testAclAccessLevelsAction(string $oid, int $status, array $expected)
     {
         $this->client->request(
             'GET',
@@ -39,10 +32,7 @@ class AclPermissionControllerTest extends WebTestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function accessLevelsDataProvider()
+    public function accessLevelsDataProvider(): array
     {
         return [
             'NOT AUTHORISED' => [

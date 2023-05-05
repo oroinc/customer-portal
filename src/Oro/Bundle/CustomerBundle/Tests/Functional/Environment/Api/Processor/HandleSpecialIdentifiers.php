@@ -18,8 +18,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class HandleSpecialIdentifiers implements ProcessorInterface
 {
-    /** @var TokenStorageInterface */
-    private $tokenStorage;
+    private TokenStorageInterface $tokenStorage;
 
     public function __construct(TokenStorageInterface $tokenStorage)
     {
@@ -29,7 +28,7 @@ class HandleSpecialIdentifiers implements ProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContextInterface $context)
+    public function process(ContextInterface $context): void
     {
         /** @var SingleItemContext $context */
 

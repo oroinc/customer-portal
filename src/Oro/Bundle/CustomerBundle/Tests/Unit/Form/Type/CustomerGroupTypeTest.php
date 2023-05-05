@@ -7,14 +7,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupType;
 use Oro\Bundle\FormBundle\Form\Type\EntityIdentifierType;
 use Oro\Component\Testing\ReflectionUtil;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 
 class CustomerGroupTypeTest extends FormIntegrationTestCase
 {
-    /** @var CustomerGroupType */
-    private $formType;
+    private CustomerGroupType $formType;
 
     protected function setUp(): void
     {
@@ -28,15 +27,13 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
-        $entityIdentifierType = new EntityType([]);
-
         return [
             new PreloadedExtension(
                 [
-                    CustomerGroupType::class => $this->formType,
-                    EntityIdentifierType::class => $entityIdentifierType
+                    $this->formType,
+                    EntityIdentifierType::class => new EntityTypeStub()
                 ],
                 []
             )

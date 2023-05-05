@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     'use strict';
 
-    const viewportManager = require('oroui/js/viewport-manager');
+    const viewportManager = require('oroui/js/viewport-manager').default;
     const BaseView = require('oroui/js/app/views/base/view');
     const _ = require('underscore');
     const $ = require('jquery');
@@ -34,8 +34,10 @@ define(function(require, exports, module) {
             click: 'scrollTop'
         },
 
-        listen: {
-            'viewport:change mediator': 'render'
+        listen() {
+            return {
+                [`viewport:${this.options.viewport} mediator`]: 'render'
+            };
         },
 
         /**

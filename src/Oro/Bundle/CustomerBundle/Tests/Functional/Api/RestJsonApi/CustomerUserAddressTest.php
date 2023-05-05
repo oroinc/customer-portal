@@ -250,8 +250,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
             false
         );
 
-        $responseContent = json_decode($response->getContent(), true);
-        $errors = $responseContent['errors'] ?? [];
+        $errors = self::jsonToArray($response->getContent())['errors'] ?? [];
 
         if (\count($errors) === 3) {
             $this->assertResponseValidationErrors(
@@ -274,12 +273,10 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
                 $response
             );
         } else {
-            $this->assertResponseValidationErrors(
+            $this->assertResponseValidationError(
                 [
-                    [
-                        'title' => 'valid organization constraint',
-                        'detail' => 'Customer and its address belongs to different organizations.',
-                    ]
+                    'title' => 'valid organization constraint',
+                    'detail' => 'Customer and its address belongs to different organizations.',
                 ],
                 $response
             );
@@ -618,8 +615,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
             false
         );
 
-        $responseContent = json_decode($response->getContent(), true);
-        $errors = $responseContent['errors'] ?? [];
+        $errors = self::jsonToArray($response->getContent())['errors'] ?? [];
 
         if (\count($errors) === 3) {
             $this->assertResponseValidationErrors(
@@ -642,12 +638,10 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
                 $response
             );
         } else {
-            $this->assertResponseValidationErrors(
+            $this->assertResponseValidationError(
                 [
-                    [
-                        'title' => 'valid organization constraint',
-                        'detail' => 'Customer and its address belongs to different organizations.',
-                    ]
+                    'title' => 'valid organization constraint',
+                    'detail' => 'Customer and its address belongs to different organizations.',
                 ],
                 $response
             );

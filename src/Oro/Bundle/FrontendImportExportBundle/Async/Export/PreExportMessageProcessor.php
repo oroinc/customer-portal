@@ -22,18 +22,6 @@ class PreExportMessageProcessor extends BasePreExportMessageProcessor
         $this->exportHandler = $exportHandler;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getJobUniqueName(array $body)
-    {
-        return sprintf(
-            'oro_frontend_importexport.pre_export.%s.user_%s',
-            $body['jobName'],
-            $this->getUser()->getId()
-        );
-    }
-
     public static function getSubscribedTopics(): array
     {
         return [PreExportTopic::getName()];

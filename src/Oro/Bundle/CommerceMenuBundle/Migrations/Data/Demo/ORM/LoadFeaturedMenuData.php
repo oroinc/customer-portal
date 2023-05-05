@@ -31,8 +31,8 @@ class LoadFeaturedMenuData extends AbstractFixture implements ContainerAwareInte
             'parent_key' => null,
             'default_title' => 'Catalog',
             'titles' => [],
-            'default_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod ' .
-                'tempor incididunt ut labore et dolore magna aliqua',
+            'default_description' => 'Browse a wide range of industrial, medical, and office supplies'
+                . ' in our product catalog.',
             'descriptions' => [],
             'uri' => '/product',
             'menu' => self::MENU,
@@ -50,8 +50,7 @@ class LoadFeaturedMenuData extends AbstractFixture implements ContainerAwareInte
             'parent_key' => null,
             'default_title' => 'Order History',
             'titles' => [],
-            'default_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod ' .
-                'tempor incididunt ut labore et dolore magna aliqua',
+            'default_description' => 'Keep track of all current and submitted orders under your account menu.',
             'descriptions' => [],
             'uri' => '/customer/order',
             'menu' => self::MENU,
@@ -68,10 +67,10 @@ class LoadFeaturedMenuData extends AbstractFixture implements ContainerAwareInte
             'parent_key' => null,
             'default_title' => 'New Arrivals',
             'titles' => [],
-            'default_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod ' .
-                'tempor incididunt ut labore et dolore magna aliqua',
+            'default_description' => 'Shop a selection of current new arrivals.'
+                . ' You will find the products of the latest trends.',
             'descriptions' => [],
-            'uri' => '/new-arrivals',
+            'uri' => '/navigation-root/new-arrivals',
             'menu' => self::MENU,
             'active' => true,
             'priority' => 30,
@@ -86,8 +85,7 @@ class LoadFeaturedMenuData extends AbstractFixture implements ContainerAwareInte
             'parent_key' => null,
             'default_title' => 'Contact us',
             'titles' => [],
-            'default_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod ' .
-                'tempor incididunt ut labore et dolore magna aliqua',
+            'default_description' => 'Need assistance with a product, checkout, or your order? Contact us for help.',
             'descriptions' => [],
             'uri' => '/contact-us',
             'menu' => self::MENU,

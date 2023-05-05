@@ -9,10 +9,8 @@ use Oro\Bundle\DataGridBundle\Event\PreBuild;
 
 class CustomerUserDatagridListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var CustomerUserDatagridListener
-     */
-    protected $listener;
+    /** @var CustomerUserDatagridListener */
+    private $listener;
 
     protected function setUp(): void
     {
@@ -24,7 +22,7 @@ class CustomerUserDatagridListenerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCustomerLimitations(ParameterBag $parameters, DatagridConfiguration $expectedConfig)
     {
-        $event = new PreBuild($this->getConfig(), $parameters);
+        $event = new PreBuild(DatagridConfiguration::create([]), $parameters);
 
         $this->listener->onBuildBefore($event);
 
@@ -32,155 +30,112 @@ class CustomerUserDatagridListenerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
-     *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function dataProvider()
+    public function dataProvider(): array
     {
         return [
             'hasRole user condition only' => [
-                $this->getParameters(),
-                $this->getConfig(
-                    [
-                        'source' => [
-                            'query' => [
-                                'select' => [
-                                    '(CASE WHEN user.id IN (:data_in) AND user.id NOT IN (:data_not_in) ' .
-                                    'THEN true ELSE false END) as hasRole',
-                                ],
+                new ParameterBag([]),
+                DatagridConfiguration::create([
+                    'source' => [
+                        'query' => [
+                            'select' => [
+                                '(CASE WHEN user.id IN (:data_in) AND user.id NOT IN (:data_not_in) ' .
+                                'THEN true ELSE false END) as hasRole',
                             ],
                         ],
-                    ]
-                ),
+                    ],
+                ])
             ],
             'hasRole role condition' => [
-                $this->getParameters(['role' => 1]),
-                $this->getConfig(
-                    [
-                        'source' => [
-                            'query' => [
-                                'select' => [
-                                    '(CASE WHEN (:role MEMBER OF user.userRoles OR user.id IN (:data_in)) ' .
-                                    'AND user.id NOT IN (:data_not_in) THEN true ELSE false END) as hasRole',
-                                ],
+                new ParameterBag(['role' => 1]),
+                DatagridConfiguration::create([
+                    'source' => [
+                        'query' => [
+                            'select' => [
+                                '(CASE WHEN (:role MEMBER OF user.userRoles OR user.id IN (:data_in)) ' .
+                                'AND user.id NOT IN (:data_not_in) THEN true ELSE false END) as hasRole',
                             ],
-                            'bind_parameters' => ['role'],
                         ],
-                    ]
-                ),
+                        'bind_parameters' => ['role'],
+                    ],
+                ])
             ],
             'invalid additional parameters' => [
-                $this->getParameters([ParameterBag::ADDITIONAL_PARAMETERS => true]),
-                $this->getConfig(
-                    [
-                        'source' => [
-                            'query' => [
-                                'select' => [
-                                    '(CASE WHEN user.id IN (:data_in) AND user.id NOT IN (:data_not_in) ' .
-                                    'THEN true ELSE false END) as hasRole',
-                                ],
+                new ParameterBag([ParameterBag::ADDITIONAL_PARAMETERS => true]),
+                DatagridConfiguration::create([
+                    'source' => [
+                        'query' => [
+                            'select' => [
+                                '(CASE WHEN user.id IN (:data_in) AND user.id NOT IN (:data_not_in) ' .
+                                'THEN true ELSE false END) as hasRole',
                             ],
                         ],
-                    ]
-                ),
+                    ],
+                ])
             ],
             'dont limit customer without customer id' => [
-                $this->getParameters([ParameterBag::ADDITIONAL_PARAMETERS => []]),
-                $this->getConfig(
-                    [
-                        'source' => [
-                            'query' => [
-                                'select' => [
-                                    '(CASE WHEN user.id IN (:data_in) AND user.id NOT IN (:data_not_in) ' .
-                                    'THEN true ELSE false END) as hasRole',
-                                ],
+                new ParameterBag([ParameterBag::ADDITIONAL_PARAMETERS => []]),
+                DatagridConfiguration::create([
+                    'source' => [
+                        'query' => [
+                            'select' => [
+                                '(CASE WHEN user.id IN (:data_in) AND user.id NOT IN (:data_not_in) ' .
+                                'THEN true ELSE false END) as hasRole',
                             ],
                         ],
-                    ]
-                ),
+                    ],
+                ])
             ],
             'limit customer with customer id' => [
-                $this->getParameters(
-                    [ParameterBag::ADDITIONAL_PARAMETERS => [], 'customer' => 1]
-                ),
-                $this->getConfig(
-                    [
-                        'source' => [
-                            'query' => [
-                                'select' => [
-                                    '(CASE WHEN user.id IN (:data_in) AND user.id NOT IN (:data_not_in) ' .
-                                    'THEN true ELSE false END) as hasRole',
-                                ],
-                                'where' => ['or' => ['user.customer = :customer']],
+                new ParameterBag([ParameterBag::ADDITIONAL_PARAMETERS => [], 'customer' => 1]),
+                DatagridConfiguration::create([
+                    'source' => [
+                        'query' => [
+                            'select' => [
+                                '(CASE WHEN user.id IN (:data_in) AND user.id NOT IN (:data_not_in) ' .
+                                'THEN true ELSE false END) as hasRole',
                             ],
-                            'bind_parameters' => ['customer'],
+                            'where' => ['or' => ['user.customer = :customer']],
                         ],
-                    ]
-                ),
+                        'bind_parameters' => ['customer'],
+                    ],
+                ])
             ],
             'dont limit customer if change triggered' => [
-                $this->getParameters(
-                    [
-                        ParameterBag::ADDITIONAL_PARAMETERS => ['changeCustomerAction' => true,],
-                        'customer' => 1,
-                    ]
-                ),
-                $this->getConfig(
-                    [
-                        'source' => [
-                            'query' => [
-                                'select' => [
-                                    '(CASE WHEN user.id IN (:data_in) AND user.id NOT IN (:data_not_in) ' .
-                                    'THEN true ELSE false END) as hasRole',
-                                ],
+                new ParameterBag([
+                    ParameterBag::ADDITIONAL_PARAMETERS => ['changeCustomerAction' => true,],
+                    'customer' => 1,
+                ]),
+                DatagridConfiguration::create([
+                    'source' => [
+                        'query' => [
+                            'select' => [
+                                '(CASE WHEN user.id IN (:data_in) AND user.id NOT IN (:data_not_in) ' .
+                                'THEN true ELSE false END) as hasRole',
                             ],
                         ],
-                    ]
-                ),
+                    ],
+                ])
             ],
             'limit new customer if change triggered' => [
-                $this->getParameters(
-                    [
-                        ParameterBag::ADDITIONAL_PARAMETERS => [
-                            'changeCustomerAction' => true,
-                            'newCustomer' => 1,
-                        ],
-                    ]
-                ),
-                $this->getConfig(
-                    [
-                        'source' => [
-                            'query' => [
-                                'select' => [
-                                    '(CASE WHEN user.id IN (:data_in) AND user.id NOT IN (:data_not_in) ' .
-                                    'THEN true ELSE false END) as hasRole',
-                                ],
-                                'where' => ['or' => ['user.customer = :newCustomer']],
+                new ParameterBag([
+                    ParameterBag::ADDITIONAL_PARAMETERS => ['changeCustomerAction' => true, 'newCustomer' => 1],
+                ]),
+                DatagridConfiguration::create([
+                    'source' => [
+                        'query' => [
+                            'select' => [
+                                '(CASE WHEN user.id IN (:data_in) AND user.id NOT IN (:data_not_in) ' .
+                                'THEN true ELSE false END) as hasRole',
                             ],
-                            'bind_parameters' => [['name' => 'newCustomer', 'path' => '_parameters.newCustomer']],
+                            'where' => ['or' => ['user.customer = :newCustomer']],
                         ],
-                    ]
-                ),
+                        'bind_parameters' => [['name' => 'newCustomer', 'path' => '_parameters.newCustomer']],
+                    ],
+                ])
             ],
         ];
-    }
-
-    /**
-     * @param array $params
-     * @return DatagridConfiguration
-     */
-    protected function getConfig(array $params = [])
-    {
-        return DatagridConfiguration::create($params);
-    }
-
-    /**
-     * @param array $params
-     * @return ParameterBag
-     */
-    protected function getParameters(array $params = [])
-    {
-        return new ParameterBag($params);
     }
 }

@@ -2,25 +2,28 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs as BaseLifecycleEventArgs;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\EventListener\RecordOwnerDataListener;
 use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
-use Oro\Bundle\CustomerBundle\Tests\Unit\Fixtures\Entity\User;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Owner\Fixtures\Entity\TestEntity;
 use Oro\Bundle\EntityConfigBundle\Config\Config;
+use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityConfigBundle\Config\Id\EntityConfigId;
-use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
-use Oro\Bundle\OrganizationBundle\Tests\Unit\Fixture\Entity\Entity;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CustomerUserProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $customerUserProvider;
 
-    /** @var ConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $ownershipConfigProvider;
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $configManager;
 
     /** @var RecordOwnerDataListener */
     private $listener;
@@ -28,93 +31,312 @@ class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         $this->customerUserProvider = $this->createMock(CustomerUserProvider::class);
-        $this->ownershipConfigProvider = $this->createMock(ConfigProvider::class);
+        $this->configManager = $this->createMock(ConfigManager::class);
 
         $this->listener = new RecordOwnerDataListener(
             $this->customerUserProvider,
-            $this->ownershipConfigProvider,
+            $this->configManager,
             PropertyAccess::createPropertyAccessor()
         );
     }
 
-    /**
-     * @dataProvider preSetData
-     */
-    public function testPrePersistUser($user, $securityConfig, $expect)
+    private function getEventArgs(TestEntity $entity): BaseLifecycleEventArgs
     {
-        $entity = new Entity();
-        $this->customerUserProvider->expects($this->once())
-            ->method('getLoggedUser')
-            ->with(false)
-            ->willReturn($user);
-
-        $args = new LifecycleEventArgs($entity, $this->createMock(ObjectManager::class));
-        $this->ownershipConfigProvider->expects($this->once())
-            ->method('hasConfig')
-            ->willReturn(true);
-        $this->ownershipConfigProvider->expects($this->once())
-            ->method('getConfig')
-            ->willReturn($securityConfig);
-
-        $this->listener->prePersist($args);
-        if (isset($expect['owner'])) {
-            $this->assertEquals($expect['owner'], $entity->getOwner());
-        } else {
-            $this->assertNull($entity->getOwner());
-        }
+        return new BaseLifecycleEventArgs($entity, $this->createMock(ObjectManager::class));
     }
 
-    public function preSetData(): array
+    private function getEntityConfig(array $values = []): Config
     {
-        $entityConfigId = $this->createMock(EntityConfigId::class);
+        return new Config($this->createMock(EntityConfigId::class), $values);
+    }
 
-        $user = new User();
-        $user->setId(1);
+    private function expectsGetLoggedUser(CustomerUser $user): void
+    {
+        $this->customerUserProvider->expects(self::once())
+            ->method('getLoggedUser')
+            ->with(self::isFalse())
+            ->willReturn($user);
+    }
 
-        $customer = $this->createMock(Customer::class);
+    public function testPrePersistWhenNoLoggedInUser(): void
+    {
+        $entity = new TestEntity();
+
+        $this->customerUserProvider->expects(self::once())
+            ->method('getLoggedUser')
+            ->with(self::isFalse())
+            ->willReturn(null);
+
+        $this->configManager->expects(self::never())
+            ->method(self::anything());
+
+        $this->listener->prePersist($this->getEventArgs($entity));
+
+        self::assertNull($entity->getCustomerUser());
+        self::assertNull($entity->getCustomer());
+    }
+
+    public function testPrePersistForNotConfigurableEntity(): void
+    {
+        $entity = new TestEntity();
+        $user = new CustomerUser();
+
+        $this->expectsGetLoggedUser($user);
+
+        $this->configManager->expects(self::once())
+            ->method('hasConfig')
+            ->with(TestEntity::class)
+            ->willReturn(false);
+        $this->configManager->expects(self::never())
+            ->method('getEntityConfig');
+
+        $this->listener->prePersist($this->getEventArgs($entity));
+
+        self::assertNull($entity->getCustomerUser());
+        self::assertNull($entity->getCustomer());
+    }
+
+    public function testPrePersistForEntityWithoutOwnership(): void
+    {
+        $entity = new TestEntity();
+        $user = new CustomerUser();
+
+        $this->expectsGetLoggedUser($user);
+
+        $this->configManager->expects(self::once())
+            ->method('hasConfig')
+            ->with(TestEntity::class)
+            ->willReturn(true);
+        $this->configManager->expects(self::once())
+            ->method('getEntityConfig')
+            ->with('ownership', TestEntity::class)
+            ->willReturn($this->getEntityConfig());
+
+        $this->listener->prePersist($this->getEventArgs($entity));
+
+        self::assertNull($entity->getCustomerUser());
+        self::assertNull($entity->getCustomer());
+    }
+
+    public function testPrePersistForEntityWithCustomerOwnership(): void
+    {
+        $entity = new TestEntity();
+        $customer = new Customer();
+        $user = new CustomerUser();
         $user->setCustomer($customer);
 
-        $userConfig = new Config($entityConfigId);
-        $userConfig->setValues(
-            [
-                'frontend_owner_type' => 'FRONTEND_USER',
-                'frontend_owner_field_name' => 'owner',
-                'frontend_owner_column_name' => 'owner_id'
-            ]
-        );
-        $buConfig = new Config($entityConfigId);
-        $buConfig->setValues(
-            [
-                'frontend_owner_type' => 'FRONTEND_CUSTOMER',
-                'frontend_owner_field_name' => 'owner',
-                'frontend_owner_column_name' => 'owner_id'
-            ]
-        );
-        $organizationConfig = new Config($entityConfigId);
-        $organizationConfig->setValues(
-            [
-                'frontend_owner_type' => 'FRONTEND_ORGANIZATION',
-                'frontend_owner_field_name' => 'owner',
-                'frontend_owner_column_name' => 'owner_id'
-            ]
-        );
+        $this->expectsGetLoggedUser($user);
 
-        return [
-            'OwnershipType User' => [
-                $user,
-                $userConfig,
-                ['owner' => $user]
-            ],
-            'OwnershipType Customer' => [
-                $user,
-                $buConfig,
-                ['owner' => $customer]
-            ],
-            'OwnershipType Organization' => [
-                $user,
-                $organizationConfig,
-                []
-            ],
-        ];
+        $this->configManager->expects(self::once())
+            ->method('hasConfig')
+            ->with(TestEntity::class)
+            ->willReturn(true);
+        $this->configManager->expects(self::once())
+            ->method('getEntityConfig')
+            ->with('ownership', TestEntity::class)
+            ->willReturn($this->getEntityConfig([
+                'frontend_owner_type'       => 'FRONTEND_CUSTOMER',
+                'frontend_owner_field_name' => 'customer'
+            ]));
+
+        $this->listener->prePersist($this->getEventArgs($entity));
+
+        self::assertNull($entity->getCustomerUser());
+        self::assertSame($customer, $entity->getCustomer());
+    }
+
+    public function testPrePersistForEntityWithCustomerOwnershipAndWhenEntityAlreadyHasCustomer(): void
+    {
+        $entity = new TestEntity();
+        $anotherCustomer = new Customer();
+        $entity->setCustomer($anotherCustomer);
+        $customer = new Customer();
+        $user = new CustomerUser();
+        $user->setCustomer($customer);
+
+        $this->expectsGetLoggedUser($user);
+
+        $this->configManager->expects(self::once())
+            ->method('hasConfig')
+            ->with(TestEntity::class)
+            ->willReturn(true);
+        $this->configManager->expects(self::once())
+            ->method('getEntityConfig')
+            ->with('ownership', TestEntity::class)
+            ->willReturn($this->getEntityConfig([
+                'frontend_owner_type'       => 'FRONTEND_CUSTOMER',
+                'frontend_owner_field_name' => 'customer'
+            ]));
+
+        $this->listener->prePersist($this->getEventArgs($entity));
+
+        self::assertNull($entity->getCustomerUser());
+        self::assertSame($anotherCustomer, $entity->getCustomer());
+    }
+
+    public function testPrePersistForEntityWithCustomerOwnershipAndWhenLoggedInUserDoesNotHaveCustomer(): void
+    {
+        $entity = new TestEntity();
+        $user = new CustomerUser();
+
+        $this->expectsGetLoggedUser($user);
+
+        $this->configManager->expects(self::once())
+            ->method('hasConfig')
+            ->with(TestEntity::class)
+            ->willReturn(true);
+        $this->configManager->expects(self::once())
+            ->method('getEntityConfig')
+            ->with('ownership', TestEntity::class)
+            ->willReturn($this->getEntityConfig([
+                'frontend_owner_type'       => 'FRONTEND_CUSTOMER',
+                'frontend_owner_field_name' => 'customer'
+            ]));
+
+        $this->listener->prePersist($this->getEventArgs($entity));
+
+        self::assertNull($entity->getCustomerUser());
+        self::assertNull($entity->getCustomer());
+    }
+
+    public function testPrePersistForEntityWithUserOwnership(): void
+    {
+        $entity = new TestEntity();
+        $customer = new Customer();
+        $user = new CustomerUser();
+        $user->setCustomer($customer);
+
+        $this->expectsGetLoggedUser($user);
+
+        $this->configManager->expects(self::once())
+            ->method('hasConfig')
+            ->with(TestEntity::class)
+            ->willReturn(true);
+        $this->configManager->expects(self::once())
+            ->method('getEntityConfig')
+            ->with('ownership', TestEntity::class)
+            ->willReturn($this->getEntityConfig([
+                'frontend_owner_type'          => 'FRONTEND_USER',
+                'frontend_owner_field_name'    => 'customerUser',
+                'frontend_customer_field_name' => 'customer'
+            ]));
+
+        $this->listener->prePersist($this->getEventArgs($entity));
+
+        self::assertSame($user, $entity->getCustomerUser());
+        self::assertSame($customer, $entity->getCustomer());
+    }
+
+    public function testPrePersistForEntityWithUserOwnershipAndWhenEntityAlreadyHasUser(): void
+    {
+        $anotherUser = new CustomerUser();
+        $entity = new TestEntity();
+        $entity->setCustomerUser($anotherUser);
+        $customer = new Customer();
+        $user = new CustomerUser();
+        $user->setCustomer($customer);
+
+        $this->expectsGetLoggedUser($user);
+
+        $this->configManager->expects(self::once())
+            ->method('hasConfig')
+            ->with(TestEntity::class)
+            ->willReturn(true);
+        $this->configManager->expects(self::once())
+            ->method('getEntityConfig')
+            ->with('ownership', TestEntity::class)
+            ->willReturn($this->getEntityConfig([
+                'frontend_owner_type'          => 'FRONTEND_USER',
+                'frontend_owner_field_name'    => 'customerUser',
+                'frontend_customer_field_name' => 'customer'
+            ]));
+
+        $this->listener->prePersist($this->getEventArgs($entity));
+
+        self::assertSame($anotherUser, $entity->getCustomerUser());
+        self::assertSame($customer, $entity->getCustomer());
+    }
+
+    public function testPrePersistForEntityWithUserOwnershipAndWhenEntityAlreadyHasCustomer(): void
+    {
+        $anotherCustomer = new Customer();
+        $entity = new TestEntity();
+        $entity->setCustomer($anotherCustomer);
+        $customer = new Customer();
+        $user = new CustomerUser();
+        $user->setCustomer($customer);
+
+        $this->expectsGetLoggedUser($user);
+
+        $this->configManager->expects(self::once())
+            ->method('hasConfig')
+            ->with(TestEntity::class)
+            ->willReturn(true);
+        $this->configManager->expects(self::once())
+            ->method('getEntityConfig')
+            ->with('ownership', TestEntity::class)
+            ->willReturn($this->getEntityConfig([
+                'frontend_owner_type'          => 'FRONTEND_USER',
+                'frontend_owner_field_name'    => 'customerUser',
+                'frontend_customer_field_name' => 'customer'
+            ]));
+
+        $this->listener->prePersist($this->getEventArgs($entity));
+
+        self::assertSame($user, $entity->getCustomerUser());
+        self::assertSame($anotherCustomer, $entity->getCustomer());
+    }
+
+    public function testPrePersistForEntityWithUserOwnershipAndWhenCustomerFieldNotConfigured(): void
+    {
+        $entity = new TestEntity();
+        $customer = new Customer();
+        $user = new CustomerUser();
+        $user->setCustomer($customer);
+
+        $this->expectsGetLoggedUser($user);
+
+        $this->configManager->expects(self::once())
+            ->method('hasConfig')
+            ->with(TestEntity::class)
+            ->willReturn(true);
+        $this->configManager->expects(self::once())
+            ->method('getEntityConfig')
+            ->with('ownership', TestEntity::class)
+            ->willReturn($this->getEntityConfig([
+                'frontend_owner_type'       => 'FRONTEND_USER',
+                'frontend_owner_field_name' => 'customerUser'
+            ]));
+
+        $this->listener->prePersist($this->getEventArgs($entity));
+
+        self::assertSame($user, $entity->getCustomerUser());
+        self::assertNull($entity->getCustomer());
+    }
+
+    public function testPrePersistForEntityWithUserOwnershipAndWhenLoggedInUserDoesNotHaveCustomer(): void
+    {
+        $entity = new TestEntity();
+        $user = new CustomerUser();
+
+        $this->expectsGetLoggedUser($user);
+
+        $this->configManager->expects(self::once())
+            ->method('hasConfig')
+            ->with(TestEntity::class)
+            ->willReturn(true);
+        $this->configManager->expects(self::once())
+            ->method('getEntityConfig')
+            ->with('ownership', TestEntity::class)
+            ->willReturn($this->getEntityConfig([
+                'frontend_owner_type'          => 'FRONTEND_USER',
+                'frontend_owner_field_name'    => 'customerUser',
+                'frontend_customer_field_name' => 'customer'
+            ]));
+
+        $this->listener->prePersist($this->getEventArgs($entity));
+
+        self::assertSame($user, $entity->getCustomerUser());
+        self::assertNull($entity->getCustomer());
     }
 }

@@ -132,9 +132,11 @@
     .filter-criteria {
         display: none;
         margin-top: $filter-toggle-mode-criteria-offset-top;
-        margin-left: $filter-toggle-mode-criteria-offset-left;
+        // stylelint-disable-next-line declaration-no-important
+        margin-left: $filter-toggle-mode-criteria-offset-left !important;
         padding: $filter-toggle-mode-criteria-offset-inner;
-        visibility: $filter-toggle-mode-criteria-visibility;
+        // stylelint-disable-next-line declaration-no-important
+        visibility: $filter-toggle-mode-criteria-visibility !important;
 
         .value-field-frame {
             width: $filter-toggle-mode-criteria-value-field-frame-width;

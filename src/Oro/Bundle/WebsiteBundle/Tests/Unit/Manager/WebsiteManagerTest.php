@@ -5,7 +5,7 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Manager;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\MaintenanceBundle\Maintenance\Mode;
+use Oro\Bundle\MaintenanceBundle\Maintenance\MaintenanceModeState;
 use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
@@ -19,8 +19,8 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
     /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $frontendHelper;
 
-    /** @var Mode|\PHPUnit\Framework\MockObject\MockObject */
-    private $maintenance;
+    /** @var MaintenanceModeState|\PHPUnit\Framework\MockObject\MockObject */
+    private $maintenanceModeState;
 
     /** @var WebsiteManager */
     private $manager;
@@ -29,9 +29,9 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
     {
         $this->managerRegistry = $this->createMock(ManagerRegistry::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
-        $this->maintenance = $this->createMock(Mode::class);
+        $this->maintenanceModeState = $this->createMock(MaintenanceModeState::class);
 
-        $this->manager = new WebsiteManager($this->managerRegistry, $this->frontendHelper, $this->maintenance);
+        $this->manager = new WebsiteManager($this->managerRegistry, $this->frontendHelper, $this->maintenanceModeState);
     }
 
     public function testGetCurrentWebsite()
@@ -115,7 +115,7 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
 
     public function testGetCurrentWebsiteWhenMaintenanceMode(): void
     {
-        $this->maintenance->expects(self::once())
+        $this->maintenanceModeState->expects(self::once())
             ->method('isOn')
             ->willReturn(true);
 

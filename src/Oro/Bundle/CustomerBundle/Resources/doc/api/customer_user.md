@@ -473,3 +473,47 @@ Retrieve a record of address assigned to a specific customer user record.
 #### get_relationship
 
 Retrieve IDs of address records assigned to a specific customer user record.
+
+### auth_status
+
+#### get_subresource
+
+Retrieve the customer user's authentication status.
+
+#### get_relationship
+
+Retrieve the ID of the customer user's authentication status.
+
+#### update_relationship
+
+Replace the customer user's authentication status.
+
+{@request:json_api}
+Example:
+
+```JSON
+{
+  "data": {
+    "type": "customeruserauthstatuses",
+    "id": "active"
+  }
+}
+```
+{@/request}
+
+
+# Extend\Entity\EV_Cu_Auth_Status
+
+## ACTIONS
+
+### get
+
+Retrieve a specific authentication status record.
+
+The authentication status defines the actuality of the customer user's password, whether it is active, reset, or expired.
+
+### get_list
+
+Retrieve a collection of authentication status records.
+
+The authentication status defines the actuality of the customer user's password, whether it is active, reset, or expired.

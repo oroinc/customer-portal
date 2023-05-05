@@ -4,30 +4,33 @@ namespace Oro\Bundle\FrontendBundle\EventListener;
 
 use Oro\Bundle\DistributionBundle\Event\RouteCollectionEvent;
 
+/**
+ * Sets "frontend" option to the specified routes.
+ */
 class FrontendRouteCollectionListener
 {
-    /**
-     * @var array
-     */
-    protected $routeNames;
+    private const OPTION_FRONTEND = 'frontend';
 
-    public function __construct(array $routeNames = [])
+    /** @var string[] */
+    private array $routeNames;
+
+    /**
+     * @param string[] $routeNames
+     */
+    public function __construct(array $routeNames)
     {
         $this->routeNames = $routeNames;
     }
 
-    public function onCollectionAutoload(RouteCollectionEvent $event)
+    public function onCollectionAutoload(RouteCollectionEvent $event): void
     {
-        if (0 === count($this->routeNames)) {
+        if (!$this->routeNames) {
             return;
         }
 
         $collection = $event->getCollection();
         foreach ($this->routeNames as $routeName) {
-            $route = $collection->get($routeName);
-            if ($route) {
-                $route->setOption(RouteCollectionListener::OPTION_FRONTEND, true);
-            }
+            $collection->get($routeName)?->setOption(self::OPTION_FRONTEND, true);
         }
     }
 }

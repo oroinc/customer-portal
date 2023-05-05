@@ -30,6 +30,8 @@ class OwnerTreeCacheJobProcessorTest extends WebTestCase
 
     public function testProcessWithCustomerUsersToWarmUpCache(): void
     {
+        self::assertUniqueJobsProcessed();
+
         $this->updateCustomerUserLastLogin(LoadCustomerUserData::LEVEL_1_EMAIL, 100);
         $this->updateCustomerUserLastLogin(LoadCustomerUserData::LEVEL_1_1_EMAIL, 1100);
         $this->updateCustomerUserLastLogin(LoadCustomerUserData::GROUP2_EMAIL, 800);
@@ -38,7 +40,8 @@ class OwnerTreeCacheJobProcessorTest extends WebTestCase
             CustomerCalculateOwnerTreeCacheTopic::getName(),
             [CustomerCalculateOwnerTreeCacheTopic::CACHE_TTL => 1000]
         );
-        self::consumeMessage($sentMessage);
+
+        self::consume();
 
         self::assertProcessedMessageStatus(MessageProcessorInterface::ACK, $sentMessage);
         self::assertProcessedMessageProcessor('oro_customer.async.owner_tree_cache_job_processor', $sentMessage);
@@ -56,6 +59,8 @@ class OwnerTreeCacheJobProcessorTest extends WebTestCase
 
     public function testProcessWithNoCustomerUsersToWarmUpCache(): void
     {
+        self::assertUniqueJobsProcessed();
+
         $sentMessage = self::sendMessage(
             CustomerCalculateOwnerTreeCacheTopic::getName(),
             [CustomerCalculateOwnerTreeCacheTopic::CACHE_TTL => 1000]

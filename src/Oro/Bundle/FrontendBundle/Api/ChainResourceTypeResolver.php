@@ -12,13 +12,9 @@ use Psr\Container\ContainerInterface;
 class ChainResourceTypeResolver implements ResourceTypeResolverInterface
 {
     /** @var array [[resolver service id, route name, request type expression], ...] */
-    private $resolvers;
-
-    /** @var ContainerInterface */
-    private $container;
-
-    /** @var RequestExpressionMatcher */
-    private $matcher;
+    private array $resolvers;
+    private ContainerInterface $container;
+    private RequestExpressionMatcher $matcher;
 
     /**
      * @param array                    $resolvers [[resolver service id, route name, request type expression], ...]
@@ -37,7 +33,7 @@ class ChainResourceTypeResolver implements ResourceTypeResolverInterface
      */
     public function resolveType(string $routeName, array $routeParameters, RequestType $requestType): ?string
     {
-        foreach ($this->resolvers as list($resolverServiceId, $resolverRouteName, $resolverRequestTypeExpr)) {
+        foreach ($this->resolvers as [$resolverServiceId, $resolverRouteName, $resolverRequestTypeExpr]) {
             if ((!$resolverRouteName || $resolverRouteName === $routeName)
                 && (!$resolverRequestTypeExpr || $this->matcher->matchValue($resolverRequestTypeExpr, $requestType))
             ) {

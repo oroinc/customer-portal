@@ -7,7 +7,7 @@
             float: none;
 
             .nav-link {
-                @extend .dropdown-item;
+                @extend %dropdown-item;
 
                 border-radius: 0;
             }

@@ -1,5 +1,8 @@
 /* @theme: default; */
 
+@use 'sass:color';
+@use 'sass:map';
+
 $btn-theme-keys: () !default;
 
 $btn-display: inline-block !default;
@@ -78,44 +81,44 @@ $btn-block-offset-top: $btn-block-spacing-y !default;
 
 /* Style for button without theme modificator */
 $btn-theme: (
-    'background': darken(get-color('additional', 'middle'), 44%),
-    'border': darken(get-color('additional', 'middle'), 44%),
-    'hover-background': darken(get-color('additional', 'middle'), 50%),
-    'hover-border': darken(get-color('additional', 'middle'), 50%),
-    'active-background': darken(get-color('additional', 'middle'), 50%),
-    'active-border': darken(get-color('additional', 'middle'), 50%),
+    'background': color.adjust(get-color('additional', 'middle'), $lightness: -44%),
+    'border': color.adjust(get-color('additional', 'middle'), $lightness: -44%),
+    'hover-background': color.adjust(get-color('additional', 'middle'), $lightness: -50%),
+    'hover-border': color.adjust(get-color('additional', 'middle'), $lightness: -50%),
+    'active-background': color.adjust(get-color('additional', 'middle'), $lightness: -50%),
+    'active-border': color.adjust(get-color('additional', 'middle'), $lightness: -50%),
     'active-box-shadow': $btn-active-box-shadow,
-    'focus-border': darken(get-color('additional', 'middle'), 50%)
+    'focus-border': color.adjust(get-color('additional', 'middle'), $lightness: -50%)
 ) !default;
 
 $btn-theme-action: (
     'background': get-color('additional', 'darker'),
     'border': get-color('additional', 'darker'),
-    'hover-background': lighten(get-color('additional', 'darker'), 15%),
-    'hover-border': lighten(get-color('additional', 'darker'), 15%),
-    'active-background': lighten(get-color('additional', 'darker'), 15%),
-    'active-border': lighten(get-color('additional', 'darker'), 15%),
-    'focus-border': lighten(get-color('additional', 'darker'), 15%)
+    'hover-background': color.adjust(get-color('additional', 'darker'), $lightness: 15%),
+    'hover-border': color.adjust(get-color('additional', 'darker'), $lightness: 15%),
+    'active-background': color.adjust(get-color('additional', 'darker'), $lightness: 15%),
+    'active-border': color.adjust(get-color('additional', 'darker'), $lightness: 15%),
+    'focus-border': color.adjust(get-color('additional', 'darker'), $lightness: 15%)
 ) !default;
 
 $btn-theme-default: (
     'background': get-color('additional', 'ultra'),
     'border': get-color('additional', 'light'),
-    'hover-background': darken(get-color('additional', 'ultra'), 3%),
-    'hover-border': darken(get-color('additional', 'light'), 3%),
-    'active-background': darken(get-color('additional', 'ultra'), 3%),
-    'active-border': darken(get-color('additional', 'light'), 3%),
-    'focus-border': darken(get-color('additional', 'light'), 5%)
+    'hover-background': color.adjust(get-color('additional', 'ultra'), $lightness: -3%),
+    'hover-border': color.adjust(get-color('additional', 'light'), $lightness: -3%),
+    'active-background': color.adjust(get-color('additional', 'ultra'), $lightness: -3%),
+    'active-border': color.adjust(get-color('additional', 'light'), $lightness: -3%),
+    'focus-border': color.adjust(get-color('additional', 'light'), $lightness: -5%)
 ) !default;
 
 $btn-theme-info: (
     'background': get-color('primary', 'base'),
     'border': get-color('primary', 'base'),
-    'hover-background': lighten(get-color('primary', 'base'), 5%),
-    'hover-border': lighten(get-color('primary', 'base'), 5%),
-    'active-background': lighten(get-color('primary', 'base'), 5%),
-    'active-border': lighten(get-color('primary', 'base'), 5%),
-    'focus-border': lighten(get-color('primary', 'base'), 5%),
+    'hover-background': color.adjust(get-color('primary', 'base'), $lightness: 5%),
+    'hover-border': color.adjust(get-color('primary', 'base'), $lightness: 5%),
+    'active-background': color.adjust(get-color('primary', 'base'), $lightness: 5%),
+    'active-border': color.adjust(get-color('primary', 'base'), $lightness: 5%),
+    'focus-border': color.adjust(get-color('primary', 'base'), $lightness: 5%),
     'divider-style': get-color('additional', 'ultra', 30%)
 ) !default;
 
@@ -123,17 +126,17 @@ $btn-theme-primary: (
     'background': get-color('additional', 'middle'),
     'border': get-color('additional', 'middle'),
     'color': get-color('additional', 'ultra'),
-    'hover-background': lighten(get-color('additional', 'middle'), 5%),
-    'hover-border': lighten(get-color('additional', 'middle'), 5%),
+    'hover-background': color.adjust(get-color('additional', 'middle'), $lightness: 5%),
+    'hover-border': color.adjust(get-color('additional', 'middle'), $lightness: 5%),
     'hover-color': get-color('additional', 'ultra'),
-    'active-background': lighten(get-color('additional', 'middle'), 5%),
-    'active-border': lighten(get-color('additional', 'middle'), 5%),
+    'active-background': color.adjust(get-color('additional', 'middle'), $lightness: 5%),
+    'active-border': color.adjust(get-color('additional', 'middle'), $lightness: 5%),
     'active-color': get-color('additional', 'ultra'),
-    'focus-border': lighten(get-color('additional', 'middle'), 5%)
+    'focus-border': color.adjust(get-color('additional', 'middle'), $lightness: 5%)
 ) !default;
 
 $btn-theme-keys: () !default;
-$btn-theme-keys: map-merge(
+$btn-theme-keys: map.merge(
     (
         'action': $btn-theme-action,
         'default': $btn-theme-default,

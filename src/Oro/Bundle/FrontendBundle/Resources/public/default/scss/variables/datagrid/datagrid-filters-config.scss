@@ -1,9 +1,10 @@
 /* @theme: default; */
 
 @use 'sass:list';
+@use 'sass:color';
 
 $datagrid-filters-state-font: list.slash($base-font-size, $base-line-height) $base-font !default;
-$datagrid-filters-state-color: lighten(get-color('additional', 'dark'), 21%) !default;
+$datagrid-filters-state-color: color.adjust(get-color('additional', 'dark'), $lightness: 21%) !default;
 $datagrid-filters-state-background-color: transparent !default;
 $datagrid-filters-state-margin: 13px 0 !default;
 $datagrid-filters-state-height: 17px !default;

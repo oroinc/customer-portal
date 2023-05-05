@@ -19,16 +19,16 @@ class CustomerControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->initClient([], $this->generateBasicAuthHeader());
+        $this->initClient([], self::generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
         $this->loadFixtures($this->getFixtureList());
     }
 
-    public function testIndex()
+    public function testIndex(): void
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_index'));
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
         self::assertStringContainsString('customer-customers-grid', $crawler->html());
         self::assertStringContainsString('Export', $result->getContent());
         self::assertStringNotContainsString('Created at', $result->getContent());
@@ -39,7 +39,7 @@ class CustomerControllerTest extends WebTestCase
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_create'));
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
 
         /** @var Customer $parent */
         $parent = $this->getReference('customer.level_1');
@@ -47,17 +47,47 @@ class CustomerControllerTest extends WebTestCase
         $group = $this->getReference('customer_group.group1');
         /** @var AbstractEnumValue $internalRating */
         $internalRating = $this->getReference('internal_rating.1 of 5');
-        $this->assertCustomerSave($crawler, self::ACCOUNT_NAME, $parent, $group, $internalRating);
+        $this->assertCustomerSave($crawler, self::ACCOUNT_NAME, $group, $internalRating, $parent);
 
         /** @var Customer $customer */
-        $customer = $this->getContainer()->get('doctrine')
+        $customer = self::getContainer()->get('doctrine')
             ->getRepository(Customer::class)
             ->findOneBy(['name' => self::ACCOUNT_NAME]);
-        $this->assertNotEmpty($customer);
-        $this->assertNotEmpty($customer->getCreatedAt());
-        $this->assertEquals($customer->getCreatedAt(), $customer->getUpdatedAt());
+        self::assertNotEmpty($customer);
+        self::assertNotEmpty($customer->getCreatedAt());
+        self::assertEquals($customer->getCreatedAt(), $customer->getUpdatedAt());
 
         return $customer->getId();
+    }
+
+    public function testCreateCustomerForCustomerGroup(): void
+    {
+        /** @var CustomerGroup $group */
+        $group = $this->getReference('customer_group.group1');
+
+        $crawler = $this->client->request(
+            'GET',
+            $this->getUrl('oro_customer_customer_create_for_customer_group', ['group' => $group->getId()])
+        );
+        $result = $this->client->getResponse();
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+
+        $customerName = 'Customer For Customer Group';
+
+        /** @var AbstractEnumValue $internalRating */
+        $internalRating = $this->getReference('internal_rating.1 of 5');
+
+        $this->assertCustomerSave($crawler, $customerName, $group, $internalRating, null, true);
+
+        /** @var Customer $customer */
+        $customer = self::getContainer()->get('doctrine')
+            ->getRepository(Customer::class)
+            ->findOneBy(['name' => $customerName]);
+
+        self::assertNotEmpty($customer);
+        self::assertEquals($customer->getGroup()?->getId(), $group->getId());
+        self::assertNotEmpty($customer->getCreatedAt());
+        self::assertEquals($customer->getCreatedAt(), $customer->getUpdatedAt());
     }
 
     /**
@@ -70,7 +100,7 @@ class CustomerControllerTest extends WebTestCase
             $this->getUrl('oro_customer_customer_update', ['id' => $id])
         );
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
 
         /** @var Customer $newParent */
         $newParent = $this->getReference('customer.level_1.1');
@@ -78,7 +108,7 @@ class CustomerControllerTest extends WebTestCase
         $newGroup = $this->getReference('customer_group.group2');
         /** @var AbstractEnumValue $internalRating */
         $internalRating = $this->getReference('internal_rating.2 of 5');
-        $this->assertCustomerSave($crawler, self::UPDATED_NAME, $newParent, $newGroup, $internalRating);
+        $this->assertCustomerSave($crawler, self::UPDATED_NAME, $newGroup, $internalRating, $newParent);
 
         return $id;
     }
@@ -86,7 +116,7 @@ class CustomerControllerTest extends WebTestCase
     /**
      * @depends testUpdate
      */
-    public function testView(int $id)
+    public function testView(int $id): void
     {
         $crawler = $this->client->request(
             'GET',
@@ -94,7 +124,7 @@ class CustomerControllerTest extends WebTestCase
         );
 
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
         $html = $crawler->html();
         self::assertStringContainsString(self::UPDATED_NAME . ' - Customers - Customers', $html);
         self::assertStringContainsString('Add attachment', $html);
@@ -106,18 +136,50 @@ class CustomerControllerTest extends WebTestCase
         $newGroup = $this->getReference('customer_group.group2');
         /** @var AbstractEnumValue $internalRating */
         $internalRating = $this->getReference('internal_rating.2 of 5');
-        $this->assertViewPage($html, self::UPDATED_NAME, $newParent, $newGroup, $internalRating);
+        $this->assertViewPage($html, self::UPDATED_NAME, $newGroup, $internalRating, $newParent);
+    }
+
+
+    /**
+     * @depends testUpdate
+     */
+    public function testCreateSubsidiary(int $id): void
+    {
+        $crawler = $this->client->request(
+            'GET',
+            $this->getUrl('oro_customer_customer_create_subsidiary', ['parentCustomer' => $id])
+        );
+        $result = $this->client->getResponse();
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+
+        $customerName = 'Customer Subsidiary';
+        /** @var CustomerGroup $group */
+        $group = $this->getReference('customer_group.group1');
+        /** @var AbstractEnumValue $internalRating */
+        $internalRating = $this->getReference('internal_rating.1 of 5');
+        $this->assertCustomerSave($crawler, $customerName, $group, $internalRating);
+
+        /** @var Customer $customer */
+        $customer = self::getContainer()->get('doctrine')
+            ->getRepository(Customer::class)
+            ->findOneBy(['name' => $customerName]);
+
+        self::assertNotEmpty($customer);
+        self::assertNotEmpty($customer->getCreatedAt());
+        self::assertEquals($customer->getCreatedAt(), $customer->getUpdatedAt());
+        self::assertEquals($id, $customer->getParent()->getId());
     }
 
     private function assertCustomerSave(
         Crawler $crawler,
         string $name,
-        Customer $parent,
         CustomerGroup $group,
-        AbstractEnumValue $internalRating
+        AbstractEnumValue $internalRating,
+        ?Customer $parent = null,
+        bool $isGroupPrepared = false
     ): void {
         $form = $crawler->selectButton('Save and Close')->form(
-            $this->prepareFormValues($name, $parent, $group, $internalRating)
+            $this->prepareFormValues($name, !$isGroupPrepared ? $group: null, $internalRating, $parent)
         );
         $redirectAction = $crawler->selectButton('Save and Close')->attr('data-action');
         $form->setValues(['input_action' => $redirectAction]);
@@ -126,11 +188,11 @@ class CustomerControllerTest extends WebTestCase
         $crawler = $this->client->submit($form);
 
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
         $html = $crawler->html();
 
         self::assertStringContainsString('Customer has been saved', $html);
-        $this->assertViewPage($html, $name, $parent, $group, $internalRating);
+        $this->assertViewPage($html, $name, $group, $internalRating, $parent);
         self::assertStringContainsString(
             $this->getReference(LoadUserData::USER1)->getFullName(),
             $result->getContent()
@@ -144,32 +206,52 @@ class CustomerControllerTest extends WebTestCase
     private function assertViewPage(
         string $html,
         string $name,
-        Customer $parent,
         CustomerGroup $group,
-        AbstractEnumValue $internalRating
+        AbstractEnumValue $internalRating,
+        ?Customer $parent = null
     ): void {
         self::assertStringContainsString($name, $html);
-        self::assertStringContainsString($parent->getName(), $html);
         self::assertStringContainsString($group->getName(), $html);
         self::assertStringContainsString($internalRating->getName(), $html);
+        if ($parent) {
+            self::assertStringContainsString($parent->getName(), $html);
+        }
     }
 
     protected function prepareFormValues(
         string $name,
-        Customer $parent,
-        CustomerGroup $group,
-        AbstractEnumValue $internalRating
+        ?CustomerGroup $group,
+        AbstractEnumValue $internalRating,
+        ?Customer $parent = null
     ): array {
-        return [
+        $formValues = [
             'oro_customer_type[name]' => $name,
-            'oro_customer_type[parent]' => $parent->getId(),
-            'oro_customer_type[group]' => $group->getId(),
             'oro_customer_type[internal_rating]' => $internalRating->getId(),
             'oro_customer_type[salesRepresentatives]' => implode(',', [
                 $this->getReference(LoadUserData::USER1)->getId(),
                 $this->getReference(LoadUserData::USER2)->getId()
             ])
         ];
+
+        if ($group) {
+            $formValues = array_merge(
+                $formValues,
+                [
+                    'oro_customer_type[group]' => $group->getId(),
+                ]
+            );
+        }
+
+        if ($parent) {
+            $formValues = array_merge(
+                $formValues,
+                [
+                    'oro_customer_type[parent]' => $parent->getId(),
+                ]
+            );
+        }
+
+        return $formValues;
     }
 
     protected function getFixtureList(): array

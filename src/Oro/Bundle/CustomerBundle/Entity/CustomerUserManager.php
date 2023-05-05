@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
+use Oro\Bundle\EntityExtendBundle\Provider\EnumValueProvider;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\UserBundle\Entity\BaseUserManager;
@@ -22,24 +23,22 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
  */
 class CustomerUserManager extends BaseUserManager
 {
-    /** @var ConfigManager */
-    private $configManager;
+    public const STATUS_ACTIVE  = 'active';
+    public const STATUS_RESET = 'reset';
 
-    /** @var ServiceLink */
-    private $emailProcessorLink;
+    private const AUTH_STATUS_ENUM_CODE = 'cu_auth_status';
 
-    /** @var FrontendHelper */
-    private $frontendHelper;
+    private ConfigManager $configManager;
+    private ServiceLink $emailProcessorLink;
+    private FrontendHelper $frontendHelper;
+    private LocalizationHelper $localizationHelper;
+    private WebsiteManager $websiteManager;
+    private EnumValueProvider $enumValueProvider;
+    private LoggerInterface $logger;
 
-    /** @var LocalizationHelper */
-    private $localizationHelper;
-
-    /** @var WebsiteManager */
-    private $websiteManager;
-
-    /** @var LoggerInterface */
-    private $logger;
-
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         UserLoaderInterface $userLoader,
         ManagerRegistry $doctrine,
@@ -49,6 +48,7 @@ class CustomerUserManager extends BaseUserManager
         FrontendHelper $frontendHelper,
         LocalizationHelper $localizationHelper,
         WebsiteManager $websiteManager,
+        EnumValueProvider $enumValueProvider,
         LoggerInterface $logger
     ) {
         parent::__construct($userLoader, $doctrine, $encoderFactory);
@@ -57,6 +57,7 @@ class CustomerUserManager extends BaseUserManager
         $this->frontendHelper = $frontendHelper;
         $this->localizationHelper = $localizationHelper;
         $this->websiteManager = $websiteManager;
+        $this->enumValueProvider = $enumValueProvider;
         $this->logger = $logger;
     }
 
@@ -149,11 +150,40 @@ class CustomerUserManager extends BaseUserManager
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function findUserBy(array $criteria): ?UserInterface
     {
         return parent::findUserBy(array_merge($criteria, ['isGuest' => false]));
+    }
+
+    /**
+     * Sets the given authentication status for a customer user.
+     */
+    public function setAuthStatus(CustomerUser $customerUser, string $authStatus): void
+    {
+        $customerUser->setAuthStatus(
+            $this->enumValueProvider->getEnumValueByCode(
+                self::AUTH_STATUS_ENUM_CODE,
+                $authStatus
+            )
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function updateUser(UserInterface $user, bool $flush = true): void
+    {
+        // make sure user has a default status
+        if ($user instanceof CustomerUser && null === $user->getAuthStatus()) {
+            $defaultStatus = $this->enumValueProvider->getDefaultEnumValueByCode(self::AUTH_STATUS_ENUM_CODE);
+            if (null !== $defaultStatus) {
+                $user->setAuthStatus($defaultStatus);
+            }
+        }
+
+        parent::updateUser($user, $flush);
     }
 
     private function getEmailProcessor(): Processor

@@ -5,7 +5,7 @@ namespace Oro\Bundle\WebsiteBundle\Manager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\MaintenanceBundle\Maintenance\Mode;
+use Oro\Bundle\MaintenanceBundle\Maintenance\MaintenanceModeState;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
@@ -30,14 +30,14 @@ class WebsiteManager
     protected $currentWebsite;
 
     /**
-     * @var Mode
+     * @var MaintenanceModeState
      */
     protected $maintenance;
 
     public function __construct(
         ManagerRegistry $managerRegistry,
         FrontendHelper $frontendHelper,
-        Mode $maintenance
+        MaintenanceModeState $maintenance
     ) {
         $this->managerRegistry = $managerRegistry;
         $this->frontendHelper = $frontendHelper;

@@ -4,7 +4,7 @@ Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate:
         - MaxNestedLevel
     constraints:
         - Oro\Bundle\NavigationBundle\Validator\Constraints\MaxNestedLevel:
-            groups: [MaxNestedLevel]
+            groups: [Move, MaxNestedLevel]
         - Oro\Bundle\CommerceMenuBundle\Validator\Constraints\PageTarget: ~
     properties:
         titles:

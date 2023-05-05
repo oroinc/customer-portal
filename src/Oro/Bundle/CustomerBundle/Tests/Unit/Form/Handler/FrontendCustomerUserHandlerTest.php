@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Stub\CustomerUserStub;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\FormBundle\Event\FormHandler\AfterFormProcessEvent;
 use Oro\Bundle\FormBundle\Event\FormHandler\Events;
@@ -57,7 +58,7 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testProcessInvalidArgumentException()
+    public function testProcessInvalidArgumentException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Data should be instance of %s, but %s is given');
@@ -72,36 +73,36 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
         $this->handler->process(new \stdClass(), $this->form, $this->request);
     }
 
-    public function testProcessFlushException()
+    public function testProcessFlushException(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Test flush exception');
 
-        $entity = new CustomerUser();
+        $entity = new CustomerUserStub();
 
-        $this->form->expects($this->once())
+        $this->form->expects(self::once())
             ->method('setData')
             ->with($entity);
-        $this->form->expects($this->once())
+        $this->form->expects(self::once())
             ->method('submit')
             ->with([], true);
-        $this->form->expects($this->once())
+        $this->form->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
 
         $this->request->setMethod('POST');
 
         $em = $this->createMock(EntityManager::class);
-        $this->doctrineHelper->expects($this->once())
+        $this->doctrineHelper->expects(self::once())
             ->method('getEntityManager')
             ->with($entity)
             ->willReturn($em);
-        $em->expects($this->once())
+        $em->expects(self::once())
             ->method('beginTransaction');
-        $em->expects($this->once())
+        $em->expects(self::once())
             ->method('rollback');
 
-        $this->userManager->expects($this->once())
+        $this->userManager->expects(self::once())
             ->method('updateUser')
             ->with($entity)
             ->willThrowException(new \Exception('Test flush exception'));
@@ -109,154 +110,154 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
         $this->handler->process($entity, $this->form, $this->request);
     }
 
-    public function testProcessUnexpectedRequestMethod()
+    public function testProcessUnexpectedRequestMethod(): void
     {
-        $entity = new CustomerUser();
+        $entity = new CustomerUserStub();
 
-        $this->form->expects($this->once())
+        $this->form->expects(self::once())
             ->method('setData')
             ->with($entity);
-        $this->form->expects($this->never())
+        $this->form->expects(self::never())
             ->method('submit');
-        $this->form->expects($this->never())
+        $this->form->expects(self::never())
             ->method('isValid');
 
         $this->request->setMethod('GET');
 
-        $this->assertFalse($this->handler->process($entity, $this->form, $this->request));
+        self::assertFalse($this->handler->process($entity, $this->form, $this->request));
     }
 
-    public function testProcessNewCustomerUser()
+    public function testProcessNewCustomerUser(): void
     {
-        $entity = new CustomerUser();
+        $entity = new CustomerUserStub();
 
-        $this->form->expects($this->once())
+        $this->form->expects(self::once())
             ->method('setData')
             ->with($entity);
-        $this->form->expects($this->once())
+        $this->form->expects(self::once())
             ->method('submit')
             ->with([], true);
-        $this->form->expects($this->once())
+        $this->form->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
 
         $this->request->setMethod('POST');
 
         $em = $this->createMock(EntityManager::class);
-        $this->doctrineHelper->expects($this->once())
+        $this->doctrineHelper->expects(self::once())
             ->method('getEntityManager')
             ->with($entity)
             ->willReturn($em);
-        $em->expects($this->once())
+        $em->expects(self::once())
             ->method('beginTransaction');
-        $em->expects($this->once())
+        $em->expects(self::once())
             ->method('commit');
 
         $website = new Website();
-        $this->requestWebsiteProvider->expects($this->once())
+        $this->requestWebsiteProvider->expects(self::once())
             ->method('getWebsite')
             ->willReturn($website);
 
-        $this->userManager->expects($this->once())
+        $this->userManager->expects(self::once())
             ->method('register')
             ->with($entity);
-        $this->userManager->expects($this->once())
+        $this->userManager->expects(self::once())
             ->method('updateUser')
             ->with($entity);
 
         $this->assertProcessAfterEventsTriggered($this->form, $entity);
 
-        $this->assertTrue($this->handler->process($entity, $this->form, $this->request));
-        $this->assertSame($website, $entity->getWebsite());
+        self::assertTrue($this->handler->process($entity, $this->form, $this->request));
+        self::assertSame($website, $entity->getWebsite());
     }
 
-    public function testProcessNewCustomerUserAndNoCurrentWebsite()
+    public function testProcessNewCustomerUserAndNoCurrentWebsite(): void
     {
-        $entity = new CustomerUser();
+        $entity = new CustomerUserStub();
 
-        $this->form->expects($this->once())
+        $this->form->expects(self::once())
             ->method('setData')
             ->with($entity);
-        $this->form->expects($this->once())
+        $this->form->expects(self::once())
             ->method('submit')
             ->with([], true);
-        $this->form->expects($this->once())
+        $this->form->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
 
         $this->request->setMethod('POST');
 
         $em = $this->createMock(EntityManager::class);
-        $this->doctrineHelper->expects($this->once())
+        $this->doctrineHelper->expects(self::once())
             ->method('getEntityManager')
             ->with($entity)
             ->willReturn($em);
-        $em->expects($this->once())
+        $em->expects(self::once())
             ->method('beginTransaction');
-        $em->expects($this->once())
+        $em->expects(self::once())
             ->method('commit');
 
-        $this->requestWebsiteProvider->expects($this->once())
+        $this->requestWebsiteProvider->expects(self::once())
             ->method('getWebsite')
             ->willReturn(null);
 
-        $this->userManager->expects($this->once())
+        $this->userManager->expects(self::once())
             ->method('register')
             ->with($entity);
-        $this->userManager->expects($this->once())
+        $this->userManager->expects(self::once())
             ->method('updateUser')
             ->with($entity);
 
         $this->assertProcessAfterEventsTriggered($this->form, $entity);
 
-        $this->assertTrue($this->handler->process($entity, $this->form, $this->request));
-        $this->assertNull($entity->getWebsite());
+        self::assertTrue($this->handler->process($entity, $this->form, $this->request));
+        self::assertNull($entity->getWebsite());
     }
 
-    public function testProcessExistingCustomerUser()
+    public function testProcessExistingCustomerUser(): void
     {
-        $entity = new CustomerUser();
+        $entity = new CustomerUserStub();
         ReflectionUtil::setId($entity, 1);
 
-        $this->form->expects($this->once())
+        $this->form->expects(self::once())
             ->method('setData')
             ->with($entity);
-        $this->form->expects($this->once())
+        $this->form->expects(self::once())
             ->method('submit')
             ->with([], true);
-        $this->form->expects($this->once())
+        $this->form->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
 
         $this->request->setMethod('POST');
 
         $em = $this->createMock(EntityManager::class);
-        $this->doctrineHelper->expects($this->once())
+        $this->doctrineHelper->expects(self::once())
             ->method('getEntityManager')
             ->with($entity)
             ->willReturn($em);
-        $em->expects($this->once())
+        $em->expects(self::once())
             ->method('beginTransaction');
-        $em->expects($this->once())
+        $em->expects(self::once())
             ->method('commit');
 
-        $this->userManager->expects($this->never())
+        $this->userManager->expects(self::never())
             ->method('register');
-        $this->userManager->expects($this->once())
+        $this->userManager->expects(self::once())
             ->method('updateUser')
             ->with($entity);
-        $this->userManager->expects($this->once())
+        $this->userManager->expects(self::once())
             ->method('reloadUser')
             ->with($entity);
 
         $this->assertProcessAfterEventsTriggered($this->form, $entity);
 
-        $this->assertTrue($this->handler->process($entity, $this->form, $this->request));
+        self::assertTrue($this->handler->process($entity, $this->form, $this->request));
     }
 
     private function assertProcessAfterEventsTriggered(FormInterface $form, CustomerUser $entity): void
     {
-        $this->eventDispatcher->expects($this->exactly(4))
+        $this->eventDispatcher->expects(self::exactly(4))
             ->method('dispatch')
             ->withConsecutive(
                 [new FormProcessEvent($form, $entity), Events::BEFORE_FORM_DATA_SET],
