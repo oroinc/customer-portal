@@ -3,6 +3,7 @@
 namespace Oro\Bundle\WebsiteBundle\EventListener;
 
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\PlatformBundle\EventListener\RedirectListenerInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\WebsiteBundle\Provider\RequestWebsiteProvider;
@@ -14,7 +15,7 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 /**
  * Makes redirect to the default site URL if URL does not contain the default site URL.
  */
-class RedirectListener
+class RedirectListener implements RedirectListenerInterface
 {
     /** @var WebsiteManager */
     private $websiteManager;
