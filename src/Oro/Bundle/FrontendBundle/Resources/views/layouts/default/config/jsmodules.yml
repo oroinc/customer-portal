@@ -1,5 +1,4 @@
 aliases:
-    oro/frontend-dialog-widget$: orofrontend/js/app/components/frontend-dialog-widget
     orofrontend/js/app/filter-count-helper$: orofrontend/default/js/app/filter-count-helper
     orofrontend/js/app/views/frontend-abstract-filter$: orofrontend/default/js/app/views/frontend-abstract-filter
     orofrontend/js/app/views/frontend-multiselect-filter$: orofrontend/default/js/app/views/frontend-multiselect-filter
@@ -31,7 +30,6 @@ configs:
     orofrontend/js/datagrid/cell/frontend-action-cell: {}
 dynamic-imports:
     commons:
-        - oro/frontend-dialog-widget
         - orofrontend/default/js/app/views/collapse-view
         - orofrontend/default/js/app/views/dropdown-search
         - orofrontend/default/js/app/views/fake-masked-input-view
@@ -45,7 +43,6 @@ dynamic-imports:
         - orofrontend/js/app/components/delete-item-component
         - orofrontend/js/app/components/embedded-list-component
         - orofrontend/js/app/components/empty-items-component
-        - orofrontend/js/app/components/frontend-dialog-widget
         - orofrontend/js/app/components/list-slider-component
         - orofrontend/js/app/components/popup-gallery-widget
         - orofrontend/js/app/components/switchable-editable-view-component
@@ -79,6 +76,7 @@ map:
         oro/filter/multiselect-filter: orofrontend/js/app/views/frontend-multiselect-filter
         oro/filter/search-boolean-filter: orofrontend/js/app/views/frontend-search-boolean-filter
         oro/filter/select-filter: orofrontend/js/app/views/frontend-select-filter
+        oro/dialog-widget: orofrontend/js/app/components/frontend-dialog-widget
         orodatagrid/js/app/components/datagrid-component: orofrontend/js/app/components/frontend-datagrid-component
         orodatagrid/js/app/plugins/grid/datagrid-settings-plugin: orofrontend/js/app/plugins/frontend-datagrid-settings-plugin
         orodatagrid/js/datagrid/grid: orofrontend/js/datagrid/frontend-grid
@@ -102,6 +100,8 @@ map:
         oroui/templates/loading-mask-view.html: orofrontend/templates/ui/loading-mask-view.html
         oroui/templates/message-item.html: orofrontend/default/templates/ui/message-item.html
         oroui/templates/modal-dialog.html: orofrontend/default/templates/ui/modal-dialog.html
+    orofrontend/js/app/components/frontend-dialog-widget:
+        oro/dialog-widget: oro/dialog-widget
     orofrontend/default/js/app/views/choice-filter:
         oro/filter/choice-filter: oro/filter/choice-filter
     orofrontend/default/js/app/views/frontend-abstract-filter:
