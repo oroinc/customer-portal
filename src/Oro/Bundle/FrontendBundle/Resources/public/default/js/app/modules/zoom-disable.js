@@ -31,7 +31,7 @@ define(function(require) {
          * @property {Object}
          */
         options: {
-            metaEnableZoomContent: 'width=device-width, initial-scale=1, viewport-fit=cover',
+            metaEnableZoomContent: 'width=device-width, maximum-scale=1.0, initial-scale=1, viewport-fit=cover',
             metaDisableZoomContent: 'width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=0'
         },
 

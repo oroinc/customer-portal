@@ -2,7 +2,6 @@ define(function(require) {
     'use strict';
 
     const DialogWidget = require('oro/dialog-widget');
-    const FullScreenPopupView = require('orofrontend/default/js/app/views/fullscreen-popup-view');
     const actionsTemplate = require('tpl-loader!orofrontend/templates/frontend-dialog/dialog-actions.html');
     const viewportManager = require('oroui/js/viewport-manager').default;
     const _ = require('underscore');
@@ -13,7 +12,7 @@ define(function(require) {
          * @inheritdoc
          */
         optionNames: DialogWidget.prototype.optionNames.concat([
-            'fullscreenViewport', 'fullscreenViewOptions', 'fullscreenDialogOptions',
+            'fullscreenViewport', 'fullscreenDialogOptions',
             'fullscreenMode', 'actionsTemplate', 'simpleActionTemplate',
             'contentElement', 'renderActionsFromTemplate', 'staticPage',
             'excludeClasses'
@@ -51,24 +50,24 @@ define(function(require) {
          */
         fullscreenViewport: 'tablet-small',
 
-        /**
-         * @property {Object}
-         */
-        fullscreenViewOptions: {},
 
         /**
          * Default options of fullscreen dialog for correct render
          * @property {Object}
          */
-        fullscreenDialogOptions: {
-            modal: false,
-            title: null,
+        fullscreenDialogOptionsDefaults: {
+            modal: true,
             autoResize: false,
             resizable: false,
             draggable: false,
-            width: 'auto',
-            incrementalPosition: false,
-            position: null
+            width: '100%',
+            minWidth: '100%',
+            maxWidth: '100%',
+            height: 'auto',
+            maxHeight: 'auto',
+            minHeight: 'auto',
+            position: null,
+            closeOnDialogTitle: true
         },
 
         /**
@@ -114,37 +113,50 @@ define(function(require) {
          */
         initialize: function(options) {
             FrontendDialogWidget.__super__.initialize.call(this, options);
-            this.isApplicable = viewportManager.isApplicable(this.fullscreenViewport);
-
+            this._processFullscreenOptions();
             this.options.dialogOptions = _.defaults(this.options.dialogOptions, {
                 close: this._onClose.bind(this)
             });
+        },
+
+        /**
+         * Apply full screen options
+         * @private
+         */
+        _processFullscreenOptions() {
+            this.isApplicable = viewportManager.isApplicable(this.fullscreenViewport);
 
             if (this.isApplicable && this.fullscreenMode) {
-                this.options.dialogOptions = _.extend({}, this.options.dialogOptions, this.fullscreenDialogOptions);
+                this.options.dialogOptions = {
+                    ...this.options.dialogOptions,
+                    ...this.fullscreenDialogOptionsDefaults,
+                    ...this.fullscreenDialogOptions || {},
+                    ...this.options.fullscreenDialogOptions || {}
+                };
+
+                const {title} = this.options.dialogOptions;
+
+                if (title === void 0 || (typeof title === 'string' && title.trim().length === 0)) {
+                    this.options.dialogOptions.title = _.__('Back');
+                }
+                // Dialog occupies a whole screen, so not necessary to position it
+                this.options.incrementalPosition = false;
             }
         },
 
         /**
          * @inheritdoc
          */
-        isEmbedded: function() {
-            if (this.fullscreenMode) {
-                return true;
+        internalSetDialogPosition(position, leftShift, topShift) {
+            if (!this.widget) {
+                throw new Error('this function must be called only after dialog is created');
             }
 
-            return FrontendDialogWidget.__super__.isEmbedded.call(this);
-        },
+            const $uiDialog = this.widget.dialog('instance').uiDialog;
 
-        /**
-         * @inheritdoc
-         */
-        dispose: function() {
-            if (this.disposed) {
-                return;
+            if (!$uiDialog.hasClass('fullscreen')) {
+                FrontendDialogWidget.__super__.internalSetDialogPosition.call(this, position, leftShift, topShift);
             }
-            this.disposeProcess = true;
-            return FrontendDialogWidget.__super__.dispose.call(this);
         },
 
         /**
@@ -152,8 +164,7 @@ define(function(require) {
          */
         show: function(options) {
             FrontendDialogWidget.__super__.show.call(this, options);
-            if (this.isApplicable && !this.rendered && this.fullscreenMode) {
-                this.rendered = true;
+            if (this.isApplicable && this.fullscreenMode) {
                 this.showFullscreen();
             }
         },
@@ -183,56 +194,14 @@ define(function(require) {
         },
 
         /**
-         * Create and show fullscreen popup via fullscreen mode
+         * Tunes dialog to occupy a whole screen
          */
         showFullscreen: function() {
-            if (this.$header) {
-                this.fullscreenViewOptions.headerElement = this.$header;
-                this.fullscreenViewOptions.headerTemplate = null;
-            }
-
-            this.fullscreenViewOptions.contentElement = this.widget.dialog('instance').uiDialog.get(0);
-            this.toggleFullscreenDialogClass();
-
-            this.subview('fullscreenView', new FullScreenPopupView(this.fullscreenViewOptions));
-            this.subview('fullscreenView').show();
-            this.subview('fullscreenView').on('close', function() {
-                if (!this.disposeProcess) {
-                    this.remove();
-                }
-            }, this);
-
-            this.renderActionsContainer();
-        },
-
-        /**
-         * Extend main dialog class for fullscreen mode
-         */
-        toggleFullscreenDialogClass: function(state = true) {
             const $uiDialog = this.widget.dialog('instance').uiDialog;
-            const uiDialogClass = this.options.dialogOptions.dialogClass + '-fullscreen';
-            $uiDialog.toggleClass(uiDialogClass, state);
-        },
 
-        /**
-         * Render actions button into footer
-         */
-        renderActionsContainer: function() {
-            const fullscreen = this.subview('fullscreenView');
-            if (fullscreen && !fullscreen.disposed) {
-                fullscreen.footer.Element = this.getActionsElement();
-                fullscreen.footer.attr = {'class': 'fullscreen-popup__actions-wrapper'};
-                fullscreen.showSection('footer');
-            }
-        },
-
-        /**
-         * @inheritdoc
-         */
-        resetDialogPosition: function() {
-            if (!this.subview('fullscreenView')) {
-                return FrontendDialogWidget.__super__.resetDialogPosition.call(this);
-            }
+            // Disable JS positioning
+            $uiDialog._position = $.noop;
+            $uiDialog.addClass('fullscreen');
         },
 
         /**
@@ -285,7 +254,7 @@ define(function(require) {
          * @private
          */
         _onAdoptedFormSubmitClick: function(form, widget) {
-            this.trigger('frontend-dialog:accept');
+            this.trigger('accept');
             if (form) {
                 return FrontendDialogWidget.__super__._onAdoptedFormSubmitClick.call(this, form, widget);
             }
@@ -301,7 +270,7 @@ define(function(require) {
          * @private
          */
         _onAdoptedFormResetClick: function(form) {
-            this.trigger('frontend-dialog:cancel');
+            this.trigger('cancel');
             if (form) {
                 return FrontendDialogWidget.__super__._onAdoptedFormResetClick.call(this, form);
             }
@@ -315,7 +284,7 @@ define(function(require) {
          * @private
          */
         _onClose: function() {
-            this.trigger('frontend-dialog:close');
+            this.trigger('close');
         },
 
         /**
@@ -323,13 +292,6 @@ define(function(require) {
          */
         hide: function() {
             FrontendDialogWidget.__super__.hide.call(this);
-
-            const fullscreen = this.subview('fullscreenView');
-            this.toggleFullscreenDialogClass(false);
-
-            if (fullscreen && !fullscreen.disposed) {
-                fullscreen.trigger('close');
-            }
         }
     });
 

@@ -34,15 +34,28 @@ $dialog-notification-offset-inner: 8px 12px !default;
 $dialog-btn-success-background: get-color('primary', 'base') !default;
 $dialog-btn-success-border: get-color('primary', 'base') !default;
 
-$dialog-frontend-fullscreen-position: static !default;
-$dialog-frontend-fullscreen-titlebar-display: none !default;
-$dialog-frontend-fullscreen-content-offset-inner: 0 12px !default;
+$dialog-badge-margin: $fullscreen-popup-badge-offset !default;
+$dialog-badge-bg: $fullscreen-popup-badge-bg !default;
 
-// mobile-landscape
-$dialog-widget-content-offset-inner-mobile-landscape: 4px $offset-x !default;
+// Fullscreen mode
+$ui-dialog-titlebar-fullscreen-min-height: $fullscreen-popup-header-min-height !default;
+$ui-dialog-titlebar-fullscreen-offset: $fullscreen-popup-header-offset !default;
+$ui-dialog-titlebar-fullscreen-background: $fullscreen-popup-header-bg !default;
+$ui-dialog-titlebar-fullscreen-border: $fullscreen-popup-header-border-bottom !default;
 
-$dialog-titlebar-offset-inner-mobile-landscape: 40px $offset-x 12px !default;
+$ui-dialog-title-fullscreen-display: $fullscreen-popup-text-display !default;
+$ui-dialog-title-fullscreen-align-items: $fullscreen-popup-text-align-items !default;
+$ui-dialog-title-fullscreen-offset: $fullscreen-popup-text-offset !default;
+$ui-dialog-title-fullscreen-height: 100% !default;
+$ui-dialog-title-fullscreen-font-size: $base-font-size--s !default;
+$ui-dialog-title-fullscreen-font-weight: $fullscreen-popup-text-weight !default;
+$ui-dialog-title-fullscreen-text-transform: $fullscreen-popup-text-text-transform !default;
 
-$dialog-buttonpane-offset-inner-mobile-landscape: $offset-y $offset-x  20px !default;
+$ui-dialog-content-fullscreen-messages-margin: 0 !default;
+$ui-dialog-content-fullscreen-messages-offset: $offset-x-m $offset-x 0 !default;
 
-$dialog-frontend-fullscreen-content-offset-inner-mobile-landscape: 0 12px !default;
+$ui-dialog-content-fullscreen-offset: $offset-x-m $offset-x !default;
+
+$ui-dialog-buttonpane-offset: 12px !default;
+$ui-dialog-buttonpane-background: $fullscreen-popup-footer-bg !default;
+$ui-dialog-buttonpane-border: $fullscreen-popup-footer-border-top !default;
