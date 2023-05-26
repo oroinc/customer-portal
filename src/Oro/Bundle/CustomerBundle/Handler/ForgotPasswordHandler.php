@@ -5,36 +5,18 @@ namespace Oro\Bundle\CustomerBundle\Handler;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Handling forgot password request during checkout
  */
 class ForgotPasswordHandler
 {
-    /**
-     * @var CustomerUserPasswordRequestHandler
-     */
-    private $passwordRequestHandler;
-
-    /**
-     * @var FrontendCustomerUserFormProvider
-     */
-    private $customerUserFormProvider;
-
-    /**
-     * @var Session
-     */
-    private $session;
-
     public function __construct(
-        CustomerUserPasswordRequestHandler $passwordRequestHandler,
-        FrontendCustomerUserFormProvider $customerUserFormProvider,
-        Session $session
+        private CustomerUserPasswordRequestHandler $passwordRequestHandler,
+        private FrontendCustomerUserFormProvider $customerUserFormProvider,
+        private RequestStack $requestStack,
     ) {
-        $this->passwordRequestHandler = $passwordRequestHandler;
-        $this->customerUserFormProvider = $customerUserFormProvider;
-        $this->session = $session;
     }
 
     /**
@@ -54,7 +36,7 @@ class ForgotPasswordHandler
 
         $request->query->remove('isForgotPassword');
         $request->query->add(['isCheckEmail' => true]);
-        $this->session->set(
+        $this->requestStack->getSession()->set(
             'oro_customer_user_reset_email',
             $email
         );

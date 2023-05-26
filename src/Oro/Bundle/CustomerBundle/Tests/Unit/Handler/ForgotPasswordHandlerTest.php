@@ -7,6 +7,7 @@ use Oro\Bundle\CustomerBundle\Handler\ForgotPasswordHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class ForgotPasswordHandlerTest extends \PHPUnit\Framework\TestCase
@@ -27,6 +28,11 @@ class ForgotPasswordHandlerTest extends \PHPUnit\Framework\TestCase
     private $session;
 
     /**
+     * @var RequestStack|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $requestStack;
+
+    /**
      * @var ForgotPasswordHandler
      */
     private $forgotPasswordHandler;
@@ -36,11 +42,14 @@ class ForgotPasswordHandlerTest extends \PHPUnit\Framework\TestCase
         $this->passwordRequestHandler = $this->createMock(CustomerUserPasswordRequestHandler::class);
         $this->customerUserFormProvider = $this->createMock(FrontendCustomerUserFormProvider::class);
         $this->session = $this->createMock(Session::class);
-
+        $this->requestStack = $this->createMock(RequestStack::class);
+        $this->requestStack->expects($this->any())
+            ->method('getSession')
+            ->willReturn($this->session);
         $this->forgotPasswordHandler = new ForgotPasswordHandler(
             $this->passwordRequestHandler,
             $this->customerUserFormProvider,
-            $this->session
+            $this->requestStack
         );
     }
 

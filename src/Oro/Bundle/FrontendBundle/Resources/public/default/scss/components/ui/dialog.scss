@@ -95,42 +95,61 @@
         }
     }
 
-    &--frontend {
-        &-fullscreen {
-            position: $dialog-frontend-fullscreen-position;
+    .dialog-badge {
+        margin-right: $dialog-badge-margin;
 
-            .ui-dialog-titlebar,
-            .ui-dialog-buttonpane {
-                display: $dialog-frontend-fullscreen-titlebar-display;
-            }
-
-            .ui-widget-content {
-                padding: $dialog-frontend-fullscreen-content-offset-inner;
-            }
-        }
+        @include badge($badge-bg: $dialog-badge-bg);
     }
-}
 
-@include breakpoint('mobile-landscape') {
-    .ui-dialog {
+    &.fullscreen {
+        // Next styles might be updated by JS in different levels while dialog is open,
+        // but we need to occupy a dialog a whole screen
+        /* stylelint-disable declaration-no-important */
+        top: 0 !important;
+        right: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        /* stylelint-enable declaration-no-important */
+
         .ui-dialog-titlebar {
-            padding: $dialog-titlebar-offset-inner-mobile-landscape;
+            min-height: $ui-dialog-titlebar-fullscreen-min-height;
+
+            @include safe-area-offset(padding, $ui-dialog-titlebar-fullscreen-offset);
+
+            background: $ui-dialog-titlebar-fullscreen-background;
+            border-bottom: $ui-dialog-titlebar-fullscreen-border;
         }
 
-        .ui-widget-content {
-            padding: $dialog-widget-content-offset-inner-mobile-landscape;
+        .ui-dialog-title {
+            display: $ui-dialog-title-fullscreen-display;
+            align-items: $ui-dialog-title-fullscreen-align-items;
+            padding: $ui-dialog-title-fullscreen-offset;
+            height: $ui-dialog-title-fullscreen-height;
+
+            font-size: $ui-dialog-title-fullscreen-font-size;
+            font-weight: $ui-dialog-title-fullscreen-font-weight;
+            text-transform: $ui-dialog-title-fullscreen-text-transform;
+        }
+
+        .ui-dialog-messages {
+            margin: $ui-dialog-content-fullscreen-messages-margin;
+
+            @include safe-area-offset(padding, $ui-dialog-content-fullscreen-messages-offset);
+        }
+
+        .ui-dialog-content {
+            @include safe-area-offset(padding, $ui-dialog-content-fullscreen-offset);
+
+            flex-grow: 1;
         }
 
         .ui-dialog-buttonpane {
-            padding: $dialog-buttonpane-offset-inner-mobile-landscape;
-        }
+            @include safe-area-offset(padding, $ui-dialog-buttonpane-offset);
 
-        &--frontend {
-            &-fullscreen {
-                .ui-widget-content {
-                    padding: $dialog-frontend-fullscreen-content-offset-inner-mobile-landscape;
-                }
-            }
+            background: $ui-dialog-buttonpane-background;
+            border-top: $ui-dialog-buttonpane-border;
         }
     }
 }
