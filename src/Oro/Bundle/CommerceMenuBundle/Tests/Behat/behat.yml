@@ -110,5 +110,6 @@ oro_behat_extension:
         - OroNavigationBundle::FeatureContext
         - OroLocaleBundle::LocalizationContext
         - OroWebCatalogBundle::FeatureContext
+        - Oro\Bundle\SecurityBundle\Tests\Behat\Context\ACLContext
       paths:
         - '@OroCommerceMenuBundle/Tests/Behat/Features'

@@ -26,6 +26,7 @@ class CustomerGroupMenuController extends AbstractFrontendMenuController
      */
     public function indexAction(CustomerGroup $customerGroup)
     {
+        $this->denyAccessUnlessGranted('oro_navigation_manage_menus');
         $contexts = $this->get('oro_commerce_menu.menu_context_provider.customer_group')->getContexts($customerGroup);
 
         return [
