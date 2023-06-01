@@ -24,6 +24,8 @@ class GlobalMenuController extends AbstractFrontendMenuController
      */
     public function indexAction()
     {
+        $this->denyAccessUnlessGranted('oro_navigation_manage_menus');
+
         return $this->index();
     }
 
