@@ -4,8 +4,10 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
 use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -18,6 +20,7 @@ use Oro\Bundle\ProductBundle\Entity\Product;
 use Oro\Bundle\SecurityBundle\Model\AclPermission;
 use Oro\Bundle\SecurityBundle\Model\AclPrivilege;
 use Oro\Bundle\SecurityBundle\Model\AclPrivilegeIdentity;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -330,6 +333,36 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             ->with(FrontendOwnershipMetadataProvider::ALIAS);
         $this->chainMetadataProvider->expects(self::once())
             ->method('stopProviderEmulation');
+
+        $qb = $this->createMock(QueryBuilder::class);
+        $query = $this->createMock(AbstractQuery::class);
+
+        $this->doctrineHelper->expects(self::once())
+            ->method('createQueryBuilder')
+            ->with(Website::class, 'w')
+            ->willReturn($qb);
+
+        $qb->expects(self::once())
+            ->method('where')
+            ->with('w.guest_role = :role')
+            ->willReturn($qb);
+
+        $qb->expects(self::once())
+            ->method('setParameter')
+            ->with('role', $role)
+            ->willReturn($qb);
+
+        $qb->expects(self::once())
+            ->method('getQuery')
+            ->willReturn($query);
+
+        $query->expects(self::once())
+            ->method('getArrayResult')
+            ->willReturn([['id' => 23]]);
+
+        $this->visitorAclCache->expects(self::once())
+            ->method('clearWebsiteData')
+            ->with(23);
 
         $handler = new CustomerUserRoleUpdateHandler($this->formFactory, $this->aclCache, $this->privilegeConfig);
 
