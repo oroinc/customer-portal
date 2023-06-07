@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use Oro\Bundle\CustomerBundle\Acl\Cache\CustomerVisitorAclCache;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -72,6 +73,9 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
     /** @var \PHPUnit\Framework\MockObject\MockObject|AclPrivilegeConfigurableFilter */
     protected $configurableFilter;
 
+    /** @var \PHPUnit\Framework\MockObject\MockObject|CustomerVisitorAclCache */
+    protected $visitorAclCache;
+
     /**
      * @var array
      */
@@ -119,6 +123,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
                 ->getMock();
 
         $this->managerRegistry = $this->createMock(ManagerRegistry::class);
+        $this->visitorAclCache = $this->createMock(CustomerVisitorAclCache::class);
 
         $this->doctrineHelper = $this->getMockBuilder(DoctrineHelper::class)
             ->setConstructorArgs([$this->managerRegistry])
@@ -242,6 +247,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         $handler->setManagerRegistry($this->managerRegistry);
         $handler->setDoctrineHelper($this->doctrineHelper);
         $handler->setConfigurableFilter($this->configurableFilter);
+        $handler->setVisitorAclCache($this->visitorAclCache);
     }
 
     /**

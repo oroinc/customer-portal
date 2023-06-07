@@ -1285,3 +1285,31 @@ services:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
             - { name: doctrine.event_listener, event: postFlush }
+
+    oro_customer.security.acl.visitor.cache.doctrine.cache_impl:
+        public: false
+        parent: oro.cache.abstract
+        calls:
+            - [ setNamespace, [ 'oro_acl_visitor' ]]
+
+    oro_customer.security.acl.visitor.cache:
+        public: false
+        class: Oro\Bundle\CustomerBundle\Acl\Cache\CustomerVisitorAclCache
+        arguments:
+            - '@oro_customer.security.acl.visitor.cache.doctrine.cache_impl'
+
+    oro_customer.security.voter.customer_visitor_acl_voter.decorator:
+        class: Oro\Bundle\CustomerBundle\Acl\Voter\CustomerVisitorAclVoterDecorator
+        decorates: oro_security.acl.voter.basic_permissions
+        decoration_priority: 250 #current decorator should be the last one
+        arguments:
+            - '@oro_customer.security.voter.customer_visitor_acl_voter.decorator.inner'
+            - '@oro_customer.security.acl.visitor.cache'
+            - '@oro_website.request_website_provider'
+
+    oro_customer.event_listener.website_update_guest_role_listener:
+        class: Oro\Bundle\CustomerBundle\EventListener\WebsiteUpdateGuestRoleListener
+        arguments:
+            - '@oro_customer.security.acl.visitor.cache'
+        tags:
+            - { name: doctrine.orm.entity_listener, entity: Oro\Bundle\WebsiteBundle\Entity\Website, event: postUpdate }
