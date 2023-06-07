@@ -170,6 +170,7 @@ services:
             - [addExtensionFilter, ['entity', 'commerce']]
             - [addExtensionFilter, ['action', 'commerce']]
             - [setConfigurableName, ['commerce']]
+            - [setVisitorAclCache, ['@oro_customer.security.acl.visitor.cache']]
 
     Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateFrontendHandler:
         alias: oro_customer.form.handler.update_customer_user_role_frontend
