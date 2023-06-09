@@ -23,12 +23,13 @@ Feature: Moving customer user to different customer
   Scenario: Try moving customer user to another customer without permissions to edit related entities
     Given I go to System/User Management/Roles
     And I click Edit "Administrator" in grid
+    And I click "Entity" in scrollspy
     When select following permissions:
+      | Checkout          | Edit:None |
       | Order             | Edit:None |
-      | Shopping List     | Edit:None |
       | Quote             | Edit:None |
       | Request For Quote | Edit:None |
-      | Checkout          | Edit:None |
+      | Shopping List     | Edit:None |
     And I save and close form
     Then I should see "Role saved"
     Then I go to Customers/Customer Users
@@ -43,10 +44,11 @@ Feature: Moving customer user to different customer
   Scenario: Check validation message for some of the related entities
     Given I go to System/User Management/Roles
     And I click Edit "Administrator" in grid
+    And I click "Entity" in scrollspy
     When select following permissions:
-      | Shopping List     | Edit:Global |
-      | Request For Quote | Edit:Global |
       | Checkout          | Edit:Global |
+      | Request For Quote | Edit:Global |
+      | Shopping List     | Edit:Global |
     And I save and close form
     Then I should see "Role saved"
     Then I go to Customers/Customer Users
@@ -59,6 +61,7 @@ Feature: Moving customer user to different customer
       | Customer | Can't change customer because you don't have permissions for updating the following related entities: Order, Quote |
     Then I go to System/User Management/Roles
     And I click Edit "Administrator" in grid
+    And I click "Entity" in scrollspy
     When select following permissions:
       | Order    | Edit:Global |
       | Quote    | Edit:Global |
