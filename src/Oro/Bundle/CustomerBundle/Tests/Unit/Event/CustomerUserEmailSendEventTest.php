@@ -1,4 +1,5 @@
 <?php
+
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Event;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;

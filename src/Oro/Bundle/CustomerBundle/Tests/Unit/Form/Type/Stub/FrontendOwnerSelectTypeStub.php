@@ -1,4 +1,5 @@
 <?php
+
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub;
 
 use Symfony\Component\Form\AbstractType;
