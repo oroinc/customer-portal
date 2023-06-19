@@ -75,7 +75,7 @@ class SaveFrontendExportResultProcessorTest extends WebTestCase
         );
     }
 
-    public function testProcessSaveJobWithInvalidData():void
+    public function testProcessSaveJobWithInvalidData(): void
     {
         $message = new Message();
         $message->setMessageId('abc');

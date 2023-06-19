@@ -235,7 +235,7 @@ class CustomerUserProvider
             foreach ($aces as $ace) {
                 $aceMask = $ace->getMask();
                 if ($oid->getType() === ObjectIdentityFactory::ROOT_IDENTITY_TYPE) {
-                    $aceMask = $extension->adaptRootMask($aceMask, new $class);
+                    $aceMask = $extension->adaptRootMask($aceMask, new $class());
                 }
 
                 $requiredMask = $extension->removeServiceBits($requiredMask);

@@ -11,12 +11,14 @@ Feature: New admin role with global permissions can create customer users
     And click "Create Role"
     And fill form with:
       | Role | Create Customer User Role |
+    And I click "Entity" in scrollspy
     And select following permissions:
       | Customer User | View:Global | Create:Global | Edit:Global | Delete:Global | Assign:Global | Share:Global |
+    And I click "Entity" in scrollspy
     And select following permissions:
-      | Website            | View:Global |
       | Customer           | View:Global |
       | Customer User Role | View:Global |
+      | Website            | View:Global |
     When save and close form
     Then I should see "Role saved" flash message
 

@@ -20,7 +20,7 @@ class MenuUpdateStub extends MenuUpdate
         if ($id !== null) {
             $this->id = $id;
         }
-        
+
         parent::__construct();
     }
 
