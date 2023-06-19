@@ -1,4 +1,5 @@
 <?php
+
 namespace Oro\Bundle\FrontendBundle\Tests\Functional;
 
 use Oro\Bundle\AssetBundle\Tests\Functional\VersionStrategy\BuildVersionStrategyTest;

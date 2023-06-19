@@ -29,7 +29,7 @@ class CustomerVisitorTest extends \PHPUnit\Framework\TestCase
             10
         );
 
-        $now = new \DateTime;
+        $now = new \DateTime();
         $customerUser = (new CustomerVisitor())->setLastVisit($now);
         $this->assertEquals($now, $customerUser->getLastVisit());
     }
