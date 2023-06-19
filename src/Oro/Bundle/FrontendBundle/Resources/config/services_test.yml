@@ -1,0 +1,10 @@
+services:
+    oro_frontend.tests.entity_name_resolver.classes_provider:
+        class: Oro\Bundle\ApiBundle\Tests\Functional\Environment\TestEntityNameResolverClassesProvider
+        decorates: oro_entity.tests.entity_name_resolver.classes_provider
+        arguments:
+            - '@.inner'
+            - ['rest', 'json_api', 'frontend']
+            - '@oro_api.resources_provider'
+            - '@oro_api.config_provider'
+            - '@doctrine'
