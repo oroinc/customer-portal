@@ -1,0 +1,10 @@
+layout:
+    actions:
+        - '@add':
+            id: product_kids_5_1_styles
+            parentId: head
+            siblingId: styles
+            blockType: style
+            options:
+                src: '=data["theme"].getStylesOutput(context["theme"], "product_kids_5_1_styles")'
+                visible: '=data["product_types"].isProductTypeEnabled("kit")'

@@ -50,11 +50,28 @@
     {% set widget_attr = attr %}
     {% set attr = row_attr %}
 
-    <div {{ block('attributes') }}>
-        {{- form_label(form, null) -}}
+    {% if renderLabel is not defined %}
+        {% set renderLabel = true %}
+    {% endif %}
+    {% if unwrap is not defined %}
+        {% set unwrap = false %}
+    {% endif %}
+
+    {% if unwrap == true %}
+        {% if renderLabel == true %}
+            {{- form_label(form, null) -}}
+        {% endif %}
         {{- form_widget(form, {attr: widget_attr}) -}}
         {{- form_errors(form) -}}
-    </div>
+    {% else %}
+        <div {{ block('attributes') }}>
+            {% if renderLabel == true %}
+                {{- form_label(form, null) -}}
+            {% endif %}
+            {{- form_widget(form, {attr: widget_attr}) -}}
+            {{- form_errors(form) -}}
+        </div>
+    {% endif %}
 {%- endblock form_row -%}
 
 {% block widget_attributes %}

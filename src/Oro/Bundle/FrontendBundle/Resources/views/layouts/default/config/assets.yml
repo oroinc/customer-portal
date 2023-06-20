@@ -204,6 +204,7 @@ styles:
         - 'bundles/orofrontend/default/scss/components/skip-to-content.scss'
         - 'bundles/orofrontend/default/scss/components/loading-blur.scss'
         - 'bundles/orofrontend/default/scss/components/close-dialog.scss'
+        - 'bundles/orofrontend/default/scss/components/dialog-actions-section.scss'
         - 'bundles/orofrontend/default/scss/components/sidebar-filter-container.scss'
         - 'bundles/orofrontend/default/scss/components/dropdown-search.scss'
         - 'bundles/orofrontend/default/scss/components/scroll-shadow.scss'
@@ -240,3 +241,17 @@ print_styles:
     output: 'css/styles-print.css'
     auto_rtl_inputs:
         - 'bundles/oro*/**'
+
+product_kids_5_1_styles:
+    inputs:
+        # Settings
+        - 'bundles/oroui/default/scss/settings/global-settings.scss'
+        - 'bundles/oroui/default/scss/settings/font-awesome/_variables.scss'
+        - 'bundles/oroform/default/scss/settings/global-settings.scss'
+
+        # Variables
+        - 'bundles/oroform/default/scss/variables/checkbox-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/table-config.scss'
+        - 'bundles/orodatagrid/default/scss/variables/datagrid-body-cell-config.scss'
+
+    output: 'css/product_kids_5_1.css'

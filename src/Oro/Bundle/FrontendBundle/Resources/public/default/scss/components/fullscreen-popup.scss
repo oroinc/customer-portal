@@ -20,6 +20,7 @@
         display: $fullscreen-popup-header-display;
         flex-wrap: wrap;
         align-items: $fullscreen-popup-header-align-items;
+        flex-shrink: $fullscreen-popup-header-flex-shrink;
 
         position: $fullscreen-popup-header-position;
         z-index: $fullscreen-popup-header-z-index;
