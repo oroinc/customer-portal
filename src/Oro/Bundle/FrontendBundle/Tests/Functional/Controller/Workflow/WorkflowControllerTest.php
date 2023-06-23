@@ -54,7 +54,7 @@ class WorkflowControllerTest extends WebTestCase
         $html = $crawler->html();
         $this->assertNotEmpty($html);
         self::assertStringContainsStringIgnoringCase('oro.testframework.workflowawareentity.name.label', $html);
-        self::assertStringContainsStringIgnoringCase(\sprintf(
+        self::assertStringContainsStringIgnoringCase(sprintf(
             '%s / %s',
             'oro.workflow.commerce_workflow_with_form_configuration.label',
             'oro.workflow.commerce_workflow_with_form_configuration.transition.start_transition.label'

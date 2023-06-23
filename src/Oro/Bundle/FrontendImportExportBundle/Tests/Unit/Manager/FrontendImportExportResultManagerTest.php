@@ -21,7 +21,7 @@ class FrontendImportExportResultManagerTest extends TestCase
 
     private const TOKEN_USER_ID = 42;
 
-    /** @var ObjectManager|\PHPUnit\Framework\MockObject\MockObject  */
+    /** @var ObjectManager|\PHPUnit\Framework\MockObject\MockObject */
     private $entityManager;
 
     /** @var FrontendImportExportResultManager */
