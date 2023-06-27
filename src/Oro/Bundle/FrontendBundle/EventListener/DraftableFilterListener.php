@@ -6,6 +6,7 @@ use Oro\Bundle\DraftBundle\EventListener\DraftableFilterListener as BaseDraftabl
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
  * Prohibits to disable DraftableFilter on Storefront
@@ -27,5 +28,14 @@ class DraftableFilterListener extends BaseDraftableFilterListener
         }
 
         parent::onKernelController($event);
+    }
+
+    public function onKernelRequest(RequestEvent $event): void
+    {
+        if ($this->frontendHelper->isFrontendRequest()) {
+            return;
+        }
+
+        parent::onKernelRequest($event);
     }
 }
