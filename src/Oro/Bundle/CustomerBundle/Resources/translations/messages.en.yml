@@ -269,7 +269,7 @@ oro.customer:
         owner.label:                 'Owner'
         website:
             label:                   'Website'
-            description:             A website the customer user should be enitled to access.
+            description:             The website of customer user registration, also used as the default website of outgoing email notifications for this customer user.
         sales_representatives:
             label:                   'Assigned Sales Representatives'
             description:             Sales Representatives that were assigned to support the customer user's purchase process. Sales representatives are employees of the selling organization that manage their eCommerce activities using OroCommerce and OroCRM.
