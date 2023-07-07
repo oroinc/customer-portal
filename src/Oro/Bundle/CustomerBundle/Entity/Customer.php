@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Extend\Entity\Autocomplete\OroCustomerBundle_Entity_Customer;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareInterface;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareTrait;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
@@ -71,6 +72,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *
  * @method AbstractEnumValue getInternalRating()
  * @method Customer setInternalRating(AbstractEnumValue $enumId)
+ * @mixin OroCustomerBundle_Entity_Customer
  */
 class Customer implements DatesAwareInterface, ExtendEntityInterface
 {

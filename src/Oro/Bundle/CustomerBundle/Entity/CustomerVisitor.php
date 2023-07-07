@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
+use Extend\Entity\Autocomplete\OroCustomerBundle_Entity_CustomerVisitor;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
@@ -17,6 +18,7 @@ use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  * @Config
+ * @mixin OroCustomerBundle_Entity_CustomerVisitor
  */
 class CustomerVisitor implements ExtendEntityInterface
 {

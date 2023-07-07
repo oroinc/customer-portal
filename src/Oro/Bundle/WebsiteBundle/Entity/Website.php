@@ -5,6 +5,7 @@ namespace Oro\Bundle\WebsiteBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Extend\Entity\Autocomplete\OroWebsiteBundle_Entity_Website;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareTrait;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
@@ -54,6 +55,7 @@ use Oro\Component\Website\WebsiteInterface;
  *      }
  * )
  * @ORM\HasLifecycleCallbacks()
+ * @mixin OroWebsiteBundle_Entity_Website
  */
 class Website implements OrganizationAwareInterface, WebsiteInterface, ExtendEntityInterface
 {

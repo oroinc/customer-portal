@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
+use Extend\Entity\Autocomplete\OroCustomerBundle_Entity_CustomerUser;
 use Oro\Bundle\EmailBundle\Entity\EmailInterface;
 use Oro\Bundle\EmailBundle\Entity\EmailOwnerInterface;
 use Oro\Bundle\EmailBundle\Model\EmailHolderInterface;
@@ -77,6 +78,7 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
  * @SuppressWarnings(PHPMD.ExcessiveClassLength)
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @mixin OroCustomerBundle_Entity_CustomerUser
  */
 class CustomerUser extends AbstractUser implements
     CustomerUserInterface,

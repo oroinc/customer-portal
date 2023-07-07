@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Extend\Entity\Autocomplete\OroCustomerBundle_Entity_CustomerUserAddress;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
@@ -43,6 +44,7 @@ use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
  *      }
  * )
  * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserAddressRepository")
+ * @mixin OroCustomerBundle_Entity_CustomerUserAddress
  */
 class CustomerUserAddress extends AbstractDefaultTypedAddress implements
     AddressPhoneAwareInterface,
