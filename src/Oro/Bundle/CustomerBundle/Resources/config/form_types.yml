@@ -269,6 +269,11 @@ services:
         tags:
             - { name: form.type_extension, extended_type: Oro\Bundle\ScopeBundle\Form\Type\ScopeType }
 
+    oro_customer.form.extension.scope_with_customer_group_and_customer:
+        class: Oro\Bundle\CustomerBundle\Form\Extension\ScopeWithCustomerGroupAndCustomerExtension
+        tags:
+            - { name: form.type_extension, extended_type: Oro\Bundle\ScopeBundle\Form\Type\ScopeCollectionType }
+
     oro_customer.form.type.oro_customer_visitor_email_address:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\CustomerVisitorEmailAddressType'
         arguments:
