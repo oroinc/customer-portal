@@ -10,18 +10,17 @@ use Oro\Bundle\DataGridBundle\Extension\MassAction\DeleteMassActionHandler;
  */
 class CustomersDeleteMassActionHandler extends DeleteMassActionHandler
 {
-    /** @var CustomerAssignHelper */
-    protected $customerAssignHelper;
+    private CustomerAssignHelper $customerAssignHelper;
 
-    public function setCustomerAssignHelper(CustomerAssignHelper $customerAssignHelper)
+    public function setCustomerAssignHelper(CustomerAssignHelper $customerAssignHelper): void
     {
         $this->customerAssignHelper = $customerAssignHelper;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function isDeleteAllowed($entity)
+    protected function isDeleteAllowed(object $entity): bool
     {
         /** @var Customer $entity */
         if ($this->customerAssignHelper->hasAssignments($entity)) {
