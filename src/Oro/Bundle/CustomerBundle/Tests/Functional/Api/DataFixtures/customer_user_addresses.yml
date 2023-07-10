@@ -13,6 +13,7 @@ Oro\Bundle\OrganizationBundle\Entity\Organization:
 Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
     other.user@test.com.address_2:
         systemOrganization: '@organization'
+        owner: '@user'
         frontendOwner: '@other.user@test.com'
         primary: false
         label: 'other.user@test.com.address_2'

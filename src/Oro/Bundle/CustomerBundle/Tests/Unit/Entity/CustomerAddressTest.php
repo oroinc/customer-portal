@@ -2,34 +2,37 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
+use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
-use Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType;
 
 class CustomerAddressTest extends AbstractAddressTest
 {
-    public function testProperties()
-    {
-        parent::testProperties();
-
-        self::assertPropertyAccessors($this->address, [
-            ['frontendOwner', new Customer()],
-        ]);
-    }
-
     /**
-     * @return CustomerAddress
+     * {@inheritDoc}
      */
-    protected function createAddressEntity()
+    protected function createAddressEntity(): AbstractDefaultTypedAddress
     {
         return new CustomerAddress();
     }
 
-    /**
-     * @return CustomerAddressToAddressType
-     */
-    protected function createAddressToTypeEntity()
+    public function testFrontendOwner(): void
     {
-        return new CustomerAddressToAddressType();
+        $customer = new Customer();
+        $address = new CustomerAddress();
+
+        $address->setFrontendOwner($customer);
+        self::assertSame($customer, $address->getFrontendOwner());
+        self::assertCount(1, $customer->getAddresses());
+        self::assertSame($address, $customer->getAddresses()->first());
+
+        $address->setFrontendOwner($customer);
+        self::assertSame($customer, $address->getFrontendOwner());
+        self::assertCount(1, $customer->getAddresses());
+        self::assertSame($address, $customer->getAddresses()->first());
+
+        $address->setFrontendOwner(null);
+        self::assertNull($address->getFrontendOwner());
+        self::assertCount(0, $customer->getAddresses());
     }
 }

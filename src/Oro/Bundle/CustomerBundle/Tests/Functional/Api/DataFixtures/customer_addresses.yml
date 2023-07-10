@@ -11,6 +11,7 @@ Oro\Bundle\OrganizationBundle\Entity\Organization:
 Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
     customer.level_1.1.address_2:
         systemOrganization: '@organization'
+        owner: '@user'
         frontendOwner: '@customer.level_1.1'
         primary: false
         label: 'customer.level_1.1.address_2'

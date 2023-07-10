@@ -65,6 +65,8 @@ class CustomerAddress extends AbstractDefaultTypedAddress implements AddressPhon
     protected $id;
 
     /**
+     * @var Customer|null
+     *
      * @ORM\ManyToOne(targetEntity="Customer", inversedBy="addresses")
      * @ORM\JoinColumn(name="frontend_owner_id", referencedColumnName="id", onDelete="CASCADE")
      * @ConfigField(
@@ -104,6 +106,13 @@ class CustomerAddress extends AbstractDefaultTypedAddress implements AddressPhon
      */
     protected $phone;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_primary", type="boolean", nullable=true)
+     */
+    protected $primary;
+
     public function __construct()
     {
         parent::__construct();
@@ -112,18 +121,27 @@ class CustomerAddress extends AbstractDefaultTypedAddress implements AddressPhon
     }
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_primary", type="boolean", nullable=true)
-     */
-    protected $primary;
-
-    /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function createAddressToAddressTypeEntity()
     {
         return new CustomerAddressToAddressType();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFrontendOwner($frontendOwner = null)
+    {
+        if (null === $frontendOwner && null !== $this->frontendOwner) {
+            $this->frontendOwner->removeAddress($this);
+        }
+        parent::setFrontendOwner($frontendOwner);
+        if (null !== $this->frontendOwner) {
+            $this->frontendOwner->addAddress($this);
+        }
+
+        return $this;
     }
 
     /**

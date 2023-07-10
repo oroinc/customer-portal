@@ -19,13 +19,11 @@ class CustomerUserUpdateListTest extends RestJsonApiUpdateListTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->loadFixtures(
-            [
-                LoadOrganization::class,
-                LoadCustomerUserData::class,
-                LoadWebsiteData::class,
-            ]
-        );
+        $this->loadFixtures([
+            LoadOrganization::class,
+            LoadCustomerUserData::class,
+            LoadWebsiteData::class
+        ]);
         $role = $this->getEntityManager()
             ->getRepository(CustomerUserRole::class)
             ->findOneBy(['role' => 'ROLE_FRONTEND_ADMINISTRATOR']);

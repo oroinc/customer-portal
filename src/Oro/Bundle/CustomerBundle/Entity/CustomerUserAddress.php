@@ -67,6 +67,8 @@ class CustomerUserAddress extends AbstractDefaultTypedAddress implements
     protected $id;
 
     /**
+     * @var CustomerUser|null
+     *
      * @ORM\ManyToOne(
      *      targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser",
      *      inversedBy="addresses"
@@ -109,6 +111,13 @@ class CustomerUserAddress extends AbstractDefaultTypedAddress implements
      */
     protected $phone;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_primary", type="boolean", nullable=true)
+     */
+    protected $primary;
+
     public function __construct()
     {
         parent::__construct();
@@ -117,18 +126,27 @@ class CustomerUserAddress extends AbstractDefaultTypedAddress implements
     }
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_primary", type="boolean", nullable=true)
-     */
-    protected $primary;
-
-    /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function createAddressToAddressTypeEntity()
     {
         return new CustomerUserAddressToAddressType();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFrontendOwner($frontendOwner = null)
+    {
+        if (null === $frontendOwner && null !== $this->frontendOwner) {
+            $this->frontendOwner->removeAddress($this);
+        }
+        parent::setFrontendOwner($frontendOwner);
+        if (null !== $this->frontendOwner) {
+            $this->frontendOwner->addAddress($this);
+        }
+
+        return $this;
     }
 
     /**

@@ -1,40 +1,6 @@
 data:
     -
         type: customeruseraddresses
-        id: '<toString(@customer_user_address->id)>'
-        attributes:
-            phone: 123-456
-            primary: true
-            label: 'Address'
-            street: 'Street'
-            street2: null
-            city: 'Los Angeles'
-            postalCode: '90001'
-            organization: Acme
-            customRegion: null
-            namePrefix: null
-            firstName: John
-            middleName: Edgar
-            lastName: Doo
-            nameSuffix: null
-            createdAt: '@customer_user_address->created->format("Y-m-d\TH:i:s\Z")'
-            updatedAt: '@customer_user_address->updated->format("Y-m-d\TH:i:s\Z")'
-            types: {}
-        relationships:
-            customerUser:
-                data:
-                    type: customerusers
-                    id: '<toString(@customer_user->id)>'
-            country:
-                data:
-                    type: countries
-                    id: '<toString(@country_usa->iso2Code)>'
-            region:
-                data:
-                    type: regions
-                    id: '<toString(@region_usa_california->combinedCode)>'
-    -
-        type: customeruseraddresses
         id: '<toString(@customer_user_address1->id)>'
         attributes:
             phone: 123-456
@@ -212,3 +178,37 @@ data:
                 data:
                     type: regions
                     id: '<toString(@region_usa_florida->combinedCode)>'
+    -
+        type: customeruseraddresses
+        id: '<toString(@customer_user_address->id)>'
+        attributes:
+            phone: 123-456
+            primary: true
+            label: 'Address'
+            street: 'Street'
+            street2: null
+            city: 'Los Angeles'
+            postalCode: '90001'
+            organization: Acme
+            customRegion: null
+            namePrefix: null
+            firstName: John
+            middleName: Edgar
+            lastName: Doo
+            nameSuffix: null
+            createdAt: '@customer_user_address->created->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@customer_user_address->updated->format("Y-m-d\TH:i:s\Z")'
+            types: {}
+        relationships:
+            customerUser:
+                data:
+                    type: customerusers
+                    id: '<toString(@customer_user->id)>'
+            country:
+                data:
+                    type: countries
+                    id: '<toString(@country_usa->iso2Code)>'
+            region:
+                data:
+                    type: regions
+                    id: '<toString(@region_usa_california->combinedCode)>'
