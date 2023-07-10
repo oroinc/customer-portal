@@ -18,17 +18,23 @@ use Symfony\Component\Validator\Validation;
 
 class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
 {
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
-
-    /** @var FrontendCustomerUserProfileType */
-    private $formType;
+    private Customer $customer;
+    private FrontendCustomerUserProfileType $formType;
 
     protected function setUp(): void
     {
-        $this->configManager = $this->createMock(ConfigManager::class);
-        $this->formType = new FrontendCustomerUserProfileType($this->configManager);
+        $configManager = $this->createMock(ConfigManager::class);
+        $configManager->expects($this->any())
+            ->method('get')
+            ->with('oro_customer.company_name_field_enabled')
+            ->willReturn(true);
+
+        $this->formType = new FrontendCustomerUserProfileType($configManager);
         $this->formType->setDataClass(CustomerUser::class);
+
+        $this->customer = new Customer();
+        ReflectionUtil::setId($this->customer, 1);
+
         parent::setUp();
     }
 
@@ -41,7 +47,9 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
             new PreloadedExtension(
                 [
                     $this->formType,
-                    FrontendOwnerSelectType::class => new FrontendOwnerSelectTypeStub(),
+                    FrontendOwnerSelectType::class => new FrontendOwnerSelectTypeStub([
+                        $this->customer->getId() => $this->customer
+                    ]),
                     ChangePasswordType::class => new ChangePasswordTypeStub()
                 ],
                 []
@@ -50,58 +58,51 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
         ];
     }
 
-    /**
-     * @dataProvider submitProvider
-     */
-    public function testSubmit(CustomerUser $defaultData, array $submittedData, CustomerUser $expectedData)
+    public function testGetBlockPrefix(): void
     {
-        $this->configManager->expects($this->once())
-            ->method('get')
-            ->with('oro_customer.company_name_field_enabled')
-            ->willReturn(true);
-        $form = $this->factory->create(FrontendCustomerUserProfileType::class, $defaultData, []);
-
-        $this->assertEquals($defaultData, $form->getData());
-        $form->submit($submittedData);
-        $this->assertTrue($form->isValid());
-        $this->assertTrue($form->isSynchronized());
-        $this->assertEquals($expectedData, $form->getData());
+        $this->assertEquals('oro_customer_frontend_customer_user_profile', $this->formType->getBlockPrefix());
     }
 
-    public function submitProvider(): array
+    public function testSubmitForNewUser(): void
     {
         $entity = new CustomerUser();
-        $customer = new Customer();
-        $entity->setCustomer($customer);
-        $existingEntity = new CustomerUser();
-        ReflectionUtil::setId($existingEntity, 42);
-        $existingEntity->setFirstName('John');
-        $existingEntity->setLastName('Doe');
-        $existingEntity->setEmail('johndoe@example.com');
-        $existingEntity->setPassword('123456');
-        $existingEntity->setCustomer($customer);
+        $entity->setCustomer($this->customer);
 
-        $updatedEntity = clone $existingEntity;
-        $updatedEntity->setFirstName('John UP');
-        $updatedEntity->setLastName('Doe UP');
-        $updatedEntity->setEmail('johndoe_up@example.com');
+        $form = $this->factory->create(FrontendCustomerUserProfileType::class, $entity);
+        $this->assertSame($entity, $form->getData());
 
-        return [
-            'new user' => [
-                'defaultData' => $entity,
-                'submittedData' => [],
-                'expectedData' => $entity
-            ],
-            'updated user' => [
-                'defaultData' => $existingEntity,
-                'submittedData' => [
-                    'firstName' => $updatedEntity->getFirstName(),
-                    'lastName' => $updatedEntity->getLastName(),
-                    'email' => $updatedEntity->getEmail(),
-                    'customer' => $updatedEntity->getCustomer()->getName(),
-                ],
-                'expectedData' => $updatedEntity
-            ]
-        ];
+        $form->submit([]);
+        $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
+        $this->assertEquals($entity, $form->getData());
+    }
+
+    public function testSubmitForExistingUser(): void
+    {
+        $entity = new CustomerUser();
+        ReflectionUtil::setId($entity, 42);
+        $entity->setFirstName('John');
+        $entity->setLastName('Doe');
+        $entity->setEmail('johndoe@example.com');
+        $entity->setPassword('123456');
+        $entity->setCustomer($this->customer);
+
+        $expectedEntity = clone $entity;
+        $expectedEntity->setFirstName('John UP');
+        $expectedEntity->setLastName('Doe UP');
+        $expectedEntity->setEmail('johndoe_up@example.com');
+
+        $form = $this->factory->create(FrontendCustomerUserProfileType::class, $entity);
+        $this->assertSame($entity, $form->getData());
+
+        $form->submit([
+            'firstName' => $expectedEntity->getFirstName(),
+            'lastName' => $expectedEntity->getLastName(),
+            'email' => $expectedEntity->getEmail(),
+            'customer' => $this->customer->getId(),
+        ]);
+        $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
+        $this->assertEquals($expectedEntity, $form->getData());
     }
 }

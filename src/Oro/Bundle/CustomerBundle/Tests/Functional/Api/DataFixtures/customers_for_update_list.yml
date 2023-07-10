@@ -4,12 +4,8 @@ dependencies:
     - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser
 
 Oro\Bundle\CustomerBundle\Entity\Customer:
-    customer1:
-        name: 'Customer 1'
-        owner: '@user'
-        organization: '@organization'
-    customer2:
-        name: 'Customer 2'
+    customer{1..2}:
+        name: 'Customer <current()>'
         owner: '@user'
         organization: '@organization'
 

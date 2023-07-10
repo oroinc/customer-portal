@@ -5,7 +5,6 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
-use Oro\Bundle\CustomerBundle\Form\Type\CustomerSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendOwnerSelectType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AclPriviledgeTypeStub;
@@ -18,15 +17,39 @@ use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Validator\Validation;
 
-class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
+class FrontendCustomerUserRoleTypeTest extends FormIntegrationTestCase
 {
-    /** @var CustomerUser[] */
-    private $customerUsers = [];
+    private array $privilegeConfig = [
+        'entity' => ['entity' => 'config'],
+        'action' => ['action' => 'config'],
+    ];
 
-    /** @var FrontendCustomerUserRoleType */
-    protected $formType;
+    private Customer $customer1;
+    private Customer $customer2;
+    private CustomerUser $customerUser1;
+    private CustomerUser $customerUser2;
+    private CustomerUser $customerUser3;
+    private CustomerUser $customerUser4;
+    private FrontendCustomerUserRoleType $formType;
+
+    protected function setUp(): void
+    {
+        $this->formType = new FrontendCustomerUserRoleType();
+        $this->formType->setDataClass(CustomerUserRole::class);
+
+        $this->customer1 = $this->getCustomer(1, 'first');
+        $this->customer2 = $this->getCustomer(2, 'second');
+        $this->customerUser1 = $this->getCustomerUser(1, $this->customer1);
+        $this->customerUser2 = $this->getCustomerUser(2, $this->customer2);
+        $this->customerUser3 = $this->getCustomerUser(3, null);
+        $this->customerUser4 = $this->getCustomerUser(4, $this->customer1);
+
+        parent::setUp();
+    }
 
     /**
      * {@inheritDoc}
@@ -37,11 +60,18 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
             new PreloadedExtension(
                 [
                     $this->formType,
-                    EntityIdentifierType::class => new EntityTypeStub($this->getCustomerUsers()),
-                    CustomerSelectType::class => new EntityTypeStub($this->getCustomers()),
+                    EntityIdentifierType::class => new EntityTypeStub([
+                        $this->customerUser1->getId() => $this->customerUser1,
+                        $this->customerUser2->getId() => $this->customerUser2,
+                        $this->customerUser3->getId() => $this->customerUser3,
+                        $this->customerUser4->getId() => $this->customerUser4
+                    ]),
+                    FrontendOwnerSelectType::class => new FrontendOwnerSelectTypeStub([
+                        $this->customer1->getId() => $this->customer1,
+                        $this->customer2->getId() => $this->customer2
+                    ]),
                     new PrivilegeCollectionType(),
                     new AclPriviledgeTypeStub(),
-                    FrontendOwnerSelectType::class => new FrontendOwnerSelectTypeStub(),
                 ],
                 []
             ),
@@ -49,18 +79,58 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
         ];
     }
 
-    /**
-     * @dataProvider submitDataProvider
-     */
-    public function testSubmit(
-        array $options,
-        ?CustomerUserRole $defaultData,
-        ?CustomerUserRole $viewData,
-        array $submittedData,
-        ?CustomerUserRole $expectedData
-    ) {
-        $form = $this->factory->create(FrontendCustomerUserRoleType::class, $defaultData, $options);
+    private function getCustomer(int $id, string $name): Customer
+    {
+        $customer = new Customer();
+        ReflectionUtil::setId($customer, $id);
+        $customer->setName($name);
 
+        return $customer;
+    }
+
+    private function getCustomerUser(int $id, ?Customer $customer): CustomerUser
+    {
+        $customerUser = new CustomerUser();
+        ReflectionUtil::setId($customerUser, $id);
+        if (null !== $customer) {
+            $customerUser->setCustomer($customer);
+        }
+
+        return $customerUser;
+    }
+
+    private function getCustomerUserRole(int $id): CustomerUserRole
+    {
+        $customerUserRole = new CustomerUserRole();
+        ReflectionUtil::setId($customerUserRole, $id);
+
+        return $customerUserRole;
+    }
+
+    private function prepareFormForEvents(): FormInterface
+    {
+        $role = $this->getCustomerUserRole(1);
+
+        $predefinedRole = $this->getCustomerUserRole(2);
+        $predefinedRole->addCustomerUser($this->customerUser1);
+        $predefinedRole->addCustomerUser($this->customerUser2);
+        $predefinedRole->addCustomerUser($this->customerUser3);
+        $predefinedRole->addCustomerUser($this->customerUser4);
+
+        return $this->factory->create(
+            FrontendCustomerUserRoleType::class,
+            $role,
+            ['privilege_config' => $this->privilegeConfig, 'predefined_role' => $predefinedRole]
+        );
+    }
+
+    public function testBuildForm(): void
+    {
+        $form = $this->factory->create(
+            FrontendCustomerUserRoleType::class,
+            null,
+            ['privilege_config' => $this->privilegeConfig]
+        );
         $this->assertTrue($form->has('appendUsers'));
         $this->assertTrue($form->has('removeUsers'));
         $this->assertTrue($form->has('customer'));
@@ -68,77 +138,93 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
 
         $formConfig = $form->getConfig();
         $this->assertEquals(CustomerUserRole::class, $formConfig->getOption('data_class'));
-
         $this->assertTrue($formConfig->getOption('hide_self_managed'));
+    }
 
-        $this->assertEquals($defaultData, $form->getData());
-        $this->assertEquals($viewData, $form->getViewData());
+    public function testSubmitEmpty(): void
+    {
+        $roleLabel = 'customer_role_label';
 
-        $form->submit($submittedData);
+        $defaultRole = new CustomerUserRole('');
+        $defaultRole->setLabel($roleLabel);
+        $defaultRole->setCustomer($this->customer1);
+
+        $form = $this->factory->create(
+            FrontendCustomerUserRoleType::class,
+            $defaultRole,
+            ['privilege_config' => $this->privilegeConfig]
+        );
+        $this->assertEquals($defaultRole, $form->getData());
+        $this->assertEquals($defaultRole, $form->getViewData());
+
+        $form->submit([
+            'label' => $roleLabel,
+            'customer' => $defaultRole->getCustomer()->getId()
+        ]);
         $this->assertTrue($form->isValid());
         $this->assertTrue($form->isSynchronized());
 
         $actualData = $form->getData();
-        $this->assertEquals($expectedData, $actualData);
+        $this->assertEquals($defaultRole, $actualData);
 
-        if ($defaultData && $defaultData->getRole()) {
-            $this->assertEquals($expectedData->getRole(), $actualData->getRole());
-        } else {
-            $this->assertNotEmpty($actualData->getRole());
-        }
+        $this->assertNotEmpty($actualData->getRole());
     }
 
-    public function submitDataProvider(): array
+    public function testSubmit(): void
     {
         $roleLabel = 'customer_role_label';
         $alteredRoleLabel = 'altered_role_label';
-        $customer = new Customer();
 
-        $defaultRole = new CustomerUserRole('');
-        $defaultRole->setLabel($roleLabel);
-        $defaultRole->setCustomer($customer);
-        $existingRoleBefore = new CustomerUserRole();
-        ReflectionUtil::setId($existingRoleBefore, 1);
-        $existingRoleBefore
-            ->setLabel($roleLabel)
-            ->setRole($roleLabel, false)
-            ->setCustomer($customer);
+        $existingRoleBefore = $this->getCustomerUserRole(1);
+        $existingRoleBefore->setLabel($roleLabel);
+        $existingRoleBefore->setRole($roleLabel, false);
+        $existingRoleBefore->setCustomer($this->customer1);
 
-        $existingRoleAfter = new CustomerUserRole();
-        ReflectionUtil::setId($existingRoleAfter, 1);
-        $existingRoleAfter
-            ->setLabel($alteredRoleLabel)
-            ->setRole($roleLabel, false)
-            ->setCustomer($customer);
+        $existingRoleAfter = $this->getCustomerUserRole(1);
+        $existingRoleAfter->setLabel($alteredRoleLabel);
+        $existingRoleAfter->setRole($roleLabel, false);
+        $existingRoleAfter->setCustomer($this->customer1);
 
-        return [
-            'empty' => [
-                'options' => ['privilege_config' => $this->privilegeConfig],
-                'defaultData' => $defaultRole,
-                'viewData' => $defaultRole,
-                'submittedData' => [
-                    'label' => $roleLabel,
-                    'customer' => $defaultRole->getCustomer()->getName()
-                ],
-                'expectedData' => $defaultRole
-            ],
-            'existing' => [
-                'options' => ['privilege_config' => $this->privilegeConfig],
-                'defaultData' => $existingRoleBefore,
-                'viewData' => $existingRoleBefore,
-                'submittedData' => [
-                    'label' => $alteredRoleLabel,
-                    'customer' => $existingRoleBefore->getCustomer()->getName()
-                ],
-                'expectedData' => $existingRoleAfter
-            ]
-        ];
+        $form = $this->factory->create(
+            FrontendCustomerUserRoleType::class,
+            $existingRoleBefore,
+            ['privilege_config' => $this->privilegeConfig]
+        );
+        $this->assertEquals($existingRoleBefore, $form->getData());
+        $this->assertEquals($existingRoleBefore, $form->getViewData());
+
+        $form->submit([
+            'label' => $alteredRoleLabel,
+            'customer' => $existingRoleBefore->getCustomer()->getId()
+        ]);
+        $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
+
+        $actualData = $form->getData();
+        $this->assertEquals($existingRoleAfter, $actualData);
+
+        $this->assertEquals($existingRoleAfter->getRole(), $actualData->getRole());
+    }
+
+    public function testFinishView(): void
+    {
+        $privilegeConfig = ['config'];
+        $formView = new FormView();
+
+        $this->formType->finishView(
+            $formView,
+            $this->createMock(FormInterface::class),
+            ['privilege_config' => $privilegeConfig]
+        );
+
+        $this->assertArrayHasKey('privilegeConfig', $formView->vars);
+        $this->assertEquals($privilegeConfig, $formView->vars['privilegeConfig']);
     }
 
     /**
      * @dataProvider preSubmitProvider
      */
-    public function testPreSubmit(array $data, array $expected)
+    public function testPreSubmit(array $data, array $expected): void
     {
         $event = new FormEvent($this->prepareFormForEvents(), $data);
 
@@ -179,89 +265,19 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
         ];
     }
 
-    public function testPostSubmit()
+    public function testPostSubmit(): void
     {
-        [$customerUser1, , , $customerUser4] = array_values($this->getCustomerUsers());
-        [$customer1] = array_values($this->getCustomers());
-
         $form = $this->prepareFormForEvents();
-        $form->get('appendUsers')->setData([$customerUser1]);
-        $form->get('removeUsers')->setData([$customerUser4]);
+        $form->get('appendUsers')->setData([$this->customerUser1]);
+        $form->get('removeUsers')->setData([$this->customerUser4]);
 
-        $role = new CustomerUserRole();
-        ReflectionUtil::setId($role, 1);
-        $role->setCustomer($customer1);
+        $role = $this->getCustomerUserRole(1);
+        $role->setCustomer($this->customer1);
 
-        $event = new FormEvent($form, $role);
-
-        $this->formType->postSubmit($event);
+        $this->formType->postSubmit(new FormEvent($form, $role));
 
         $predefinedRole = $form->getConfig()->getOption('predefined_role');
-        $this->assertTrue($predefinedRole->getCustomerUsers()->contains($customerUser4));
-        $this->assertFalse($predefinedRole->getCustomerUsers()->contains($customerUser1));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function createCustomerUserRoleFormTypeAndSetDataClass(): void
-    {
-        $this->formType = new FrontendCustomerUserRoleType();
-        $this->formType->setDataClass(CustomerUserRole::class);
-    }
-
-    /**
-     * @return CustomerUser[]
-     */
-    protected function getCustomerUsers(): array
-    {
-        if (!$this->customerUsers) {
-            [$customer1, $customer2] = array_values($this->getCustomers());
-
-            $customerUser1 = new CustomerUser();
-            ReflectionUtil::setId($customerUser1, 1);
-            $customerUser1->setCustomer($customer1);
-
-            $customerUser2 = new CustomerUser();
-            ReflectionUtil::setId($customerUser2, 2);
-            $customerUser2->setCustomer($customer2);
-
-            $customerUser3 = new CustomerUser();
-            ReflectionUtil::setId($customerUser3, 3);
-
-            $customerUser4 = new CustomerUser();
-            ReflectionUtil::setId($customerUser4, 4);
-            $customerUser4->setCustomer($customer1);
-
-            $this->customerUsers = [
-                $customerUser1->getId() => $customerUser1,
-                $customerUser2->getId() => $customerUser2,
-                $customerUser3->getId() => $customerUser3,
-                $customerUser4->getId() => $customerUser4,
-            ];
-        }
-
-        return $this->customerUsers;
-    }
-
-    private function prepareFormForEvents(): FormInterface
-    {
-        [$customerUser1, $customerUser2, $customerUser3, $customerUser4] = array_values($this->getCustomerUsers());
-
-        $role = new CustomerUserRole();
-        ReflectionUtil::setId($role, 1);
-
-        $predefinedRole = new CustomerUserRole();
-        ReflectionUtil::setId($predefinedRole, 2);
-        $predefinedRole->addCustomerUser($customerUser1);
-        $predefinedRole->addCustomerUser($customerUser2);
-        $predefinedRole->addCustomerUser($customerUser3);
-        $predefinedRole->addCustomerUser($customerUser4);
-
-        return $this->factory->create(
-            FrontendCustomerUserRoleType::class,
-            $role,
-            ['privilege_config' => $this->privilegeConfig, 'predefined_role' => $predefinedRole]
-        );
+        $this->assertTrue($predefinedRole->getCustomerUsers()->contains($this->customerUser4));
+        $this->assertFalse($predefinedRole->getCustomerUsers()->contains($this->customerUser1));
     }
 }

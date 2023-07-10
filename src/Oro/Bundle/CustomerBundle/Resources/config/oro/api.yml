@@ -118,6 +118,7 @@ api:
                         customer:
                             form_options:
                                 mapped: false
+                update_list: true
             subresources:
                 systemOrganization:
                     actions:
@@ -185,6 +186,7 @@ api:
                         customerUser:
                             form_options:
                                 mapped: false
+                update_list: true
             subresources:
                 systemOrganization:
                     actions:

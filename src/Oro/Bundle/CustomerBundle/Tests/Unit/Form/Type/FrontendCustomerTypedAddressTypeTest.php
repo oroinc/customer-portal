@@ -3,6 +3,8 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\AddressBundle\Form\Type\AddressType as AddressFormType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
@@ -15,16 +17,19 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\CustomerTypedAddressWith
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
 use Oro\Bundle\FormBundle\Tests\Unit\Stub\StripTagsExtensionStub;
 use Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType;
+use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Forms;
+use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
+class FrontendCustomerTypedAddressTypeTest extends FormIntegrationTestCase
 {
-    /** @var FrontendCustomerTypedAddressType */
-    protected $formType;
+    private AddressType $billingType;
+    private AddressType $shippingType;
+    private Customer $customer;
+    private FrontendCustomerTypedAddressType $formType;
 
     protected function setUp(): void
     {
@@ -32,9 +37,12 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
         $this->formType->setAddressTypeDataClass(AddressType::class);
         $this->formType->setDataClass(CustomerAddress::class);
 
-        $this->factory = Forms::createFormFactoryBuilder()
-            ->addExtensions($this->getExtensions())
-            ->getFormFactory();
+        $this->billingType = new AddressType(AddressType::TYPE_BILLING);
+        $this->shippingType = new AddressType(AddressType::TYPE_SHIPPING);
+        $this->customer = new Customer();
+        ReflectionUtil::setId($this->customer, 1);
+
+        parent::setUp();
     }
 
     /**
@@ -42,6 +50,33 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
      */
     protected function getExtensions(): array
     {
+        $addressRepository = $this->createMock(EntityRepository::class);
+        $addressRepository->expects($this->any())
+            ->method('findAll')
+            ->willReturn([$this->billingType, $this->shippingType]);
+        $addressRepository->expects($this->any())
+            ->method('findBy')
+            ->willReturnCallback(function ($params) {
+                $result = [];
+                foreach ($params['name'] as $name) {
+                    switch ($name) {
+                        case AddressType::TYPE_BILLING:
+                            $result[] = $this->billingType;
+                            break;
+                        case AddressType::TYPE_SHIPPING:
+                            $result[] = $this->shippingType;
+                            break;
+                    }
+                }
+
+                return $result;
+            });
+
+        $em = $this->createMock(EntityManagerInterface::class);
+        $em->expects($this->any())
+            ->method('getRepository')
+            ->willReturn($addressRepository);
+
         return [
             new PreloadedExtension(
                 [
@@ -53,8 +88,10 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
                     CustomerTypedAddressWithDefaultType::class  => new CustomerTypedAddressWithDefaultTypeStub([
                         $this->billingType,
                         $this->shippingType
-                    ], $this->em),
-                    FrontendOwnerSelectType::class => new FrontendOwnerSelectTypeStub(),
+                    ], $em),
+                    FrontendOwnerSelectType::class => new FrontendOwnerSelectTypeStub([
+                        $this->customer->getId() => $this->customer
+                    ]),
                     AddressFormType::class => new AddressTypeStub(),
                 ],
                 [FormType::class => [new StripTagsExtensionStub($this)]]
@@ -62,106 +99,12 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
         ];
     }
 
-    /**
-     * @dataProvider submitDataProvider
-     */
-    public function testSubmit(
-        array $options,
-        mixed $defaultData,
-        mixed $viewData,
-        mixed $submittedData,
-        mixed $expectedData,
-        mixed $updateOwner = null
-    ) {
-        $form = $this->factory->create($this->getTypeClass(), $defaultData, $options);
-        $this->assertTrue($form->has('frontendOwner'));
-        $this->assertEquals($defaultData, $form->getData());
-        $this->assertEquals($viewData, $form->getViewData());
-        $form->submit($submittedData);
-        $this->assertTrue($form->isValid());
-        $this->assertTrue($form->isSynchronized());
-        $expectedData->setFrontendOwner($updateOwner);
-        $this->assertEquals($expectedData, $form->getData());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function submitWithFormSubscribersProvider(): array
+    public function testGetBlockPrefix(): void
     {
-        $customerAddress1 = new CustomerAddress();
-        $customerAddress1
-            ->setTypes(new ArrayCollection([$this->billingType, $this->shippingType]));
-
-        $customerAddress2 = new CustomerAddress();
-        $customerAddress2
-            ->setTypes(new ArrayCollection([$this->billingType, $this->shippingType]))
-            ->setDefaults(new ArrayCollection([$this->billingType, $this->shippingType]));
-
-        $customer = $this->getCustomer();
-        $customer->addAddress($customerAddress1);
-        $customer->addAddress($customerAddress2);
-
-        $customerAddressExpected = new CustomerAddress();
-        $customerAddressExpected
-            ->setPrimary(true)
-            ->addType($this->billingType)
-            ->addType($this->shippingType)
-            ->removeType($this->billingType) // emulate working of forms. It first delete types and after add it
-            ->removeType($this->shippingType)
-            ->addType($this->billingType)
-            ->addType($this->shippingType)
-            ->setDefaults(new ArrayCollection([$this->billingType, $this->shippingType]))
-            ->setFrontendOwner($customer);
-
-        return [
-            'FixCustomerAddressesDefaultSubscriber check' => [
-                'options' => [],
-                'defaultData' => $customerAddress1,
-                'viewData' => $customerAddress1,
-                'submittedData' => [
-                    'types' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING],
-                    'defaults' => ['default' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING]],
-                    'primary' => true,
-                    'frontendOwner' => $customer->getId()
-                ],
-                'expectedData' => $customerAddressExpected,
-                'otherAddresses' => [$customerAddress2],
-                'updateOwner' => $customer
-            ]
-        ];
+        $this->assertEquals('oro_customer_frontend_typed_address', $this->formType->getBlockPrefix());
     }
 
-    public function testSubmitWithoutPrimary()
-    {
-        $customerAddress1 = new CustomerAddress();
-        $customerAddress1
-            ->setTypes(new ArrayCollection([$this->billingType, $this->shippingType]));
-
-        $customer = $this->getCustomer();
-        $customer->addAddress($customerAddress1);
-
-        $submittedData = [
-            'types' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING],
-            'defaults' => ['default' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING]],
-            'frontendOwner' => $customer->getId()
-        ];
-
-        $form = $this->factory->create($this->getTypeClass(), $customerAddress1, []);
-        $this->assertTrue($form->has('frontendOwner'));
-        $this->assertFalse($form->has('primary'));
-        $form->submit($submittedData);
-        $this->assertTrue($form->isValid());
-        $this->assertTrue($form->isSynchronized());
-    }
-
-    public function testGetName()
-    {
-        $this->assertIsString($this->formType->getName());
-        $this->assertEquals('oro_customer_frontend_typed_address', $this->formType->getName());
-    }
-
-    public function testConfigureOptions()
+    public function testConfigureOptions(): void
     {
         $optionsResolver = new OptionsResolver();
 
@@ -179,13 +122,66 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
         );
     }
 
-    protected function getTypeClass(): string
+    public function testSubmit(): void
     {
-        return FrontendCustomerTypedAddressType::class;
+        $addressWithAllDefaultTypes = new CustomerAddress();
+        $addressWithAllDefaultTypes->setTypes(new ArrayCollection([$this->billingType, $this->shippingType]));
+        $addressWithAllDefaultTypes->setDefaults(new ArrayCollection([$this->billingType, $this->shippingType]));
+
+        $submittedData = [
+            'types' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING],
+            'defaults' => ['default' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING]]
+        ];
+
+        $form = $this->factory->create(FrontendCustomerTypedAddressType::class, null, ['single_form' => false]);
+        $this->assertNull($form->getData());
+        $this->assertNull($form->getViewData());
+
+        $form->submit($submittedData);
+        $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
+        $this->assertEquals($addressWithAllDefaultTypes, $form->getData());
     }
 
-    protected function getCustomer(): object
+    public function testSubmitWithSubscribers(): void
     {
-        return new Customer();
+        $address1 = new CustomerAddress();
+        $address1->setTypes(new ArrayCollection([$this->billingType, $this->shippingType]));
+
+        $address2 = new CustomerAddress();
+        $address2->setTypes(new ArrayCollection([$this->billingType, $this->shippingType]));
+        $address2->setDefaults(new ArrayCollection([$this->billingType, $this->shippingType]));
+
+        $this->customer->addAddress($address1);
+        $this->customer->addAddress($address2);
+
+        $submittedData = [
+            'types' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING],
+            'defaults' => ['default' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING]],
+            'frontendOwner' => $this->customer->getId()
+        ];
+
+        $form = $this->factory->create(FrontendCustomerTypedAddressType::class, $address1);
+        $this->assertSame($address1, $form->getData());
+        $this->assertSame($address1, $form->getViewData());
+
+        $form->submit($submittedData);
+        $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
+
+        $expectedBillingType = new AddressType(AddressType::TYPE_BILLING);
+        $expectedShippingType = new AddressType(AddressType::TYPE_SHIPPING);
+        $addressExpected = new CustomerAddress();
+        $addressExpected->setFrontendOwner($this->customer);
+        $addressExpected->setPrimary(true);
+        $addressExpected->addType($expectedBillingType);
+        $addressExpected->addType($expectedShippingType);
+        $addressExpected->setDefaults(new ArrayCollection([$expectedBillingType, $expectedShippingType]));
+        $this->assertEquals($addressExpected, $form->getData());
+
+        /** @var AddressType $type */
+        foreach ($address2->getDefaults() as $type) {
+            $this->assertNotContains($type->getName(), $submittedData['defaults']['default']);
+        }
     }
 }

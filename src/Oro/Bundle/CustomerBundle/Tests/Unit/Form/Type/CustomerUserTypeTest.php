@@ -21,6 +21,7 @@ use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validation;
@@ -28,20 +29,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CustomerUserTypeTest extends FormIntegrationTestCase
 {
-    /** @var CustomerUserType */
-    protected $formType;
-
     /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $authorizationChecker;
+    private $authorizationChecker;
 
     /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $tokenAccessor;
+    private $tokenAccessor;
 
-    /** @var Customer[] */
-    private static $customers = [];
-
-    /** @var CustomerUserAddress[] */
-    private static $addresses = [];
+    private Customer $customer1;
+    private Customer $customer2;
+    private CustomerUserAddress $customerUserAddress1;
+    private CustomerUserAddress $customerUserAddress2;
+    private CustomerUserType $formType;
 
     protected function setUp(): void
     {
@@ -52,6 +50,11 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         $this->formType->setDataClass(CustomerUser::class);
         $this->formType->setAddressClass(CustomerUserAddress::class);
 
+        $this->customer1 = $this->getCustomer(1, 'first');
+        $this->customer2 = $this->getCustomer(2, 'second');
+        $this->customerUserAddress1 = $this->getCustomerUserAddress(1);
+        $this->customerUserAddress2 = $this->getCustomerUserAddress(2);
+
         parent::setUp();
     }
 
@@ -60,17 +63,33 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
      */
     protected function getExtensions(): array
     {
+        $translator = $this->createMock(TranslatorInterface::class);
+        $translator->expects($this->any())
+            ->method('trans')
+            ->willReturnCallback(function ($message) {
+                return $message . '.trans';
+            });
+
         return [
             new PreloadedExtension(
                 [
                     $this->formType,
                     CustomerUserRoleSelectType::class => new EntitySelectTypeStub(
-                        $this->getRoles(),
-                        new CustomerUserRoleSelectType($this->createTranslator())
+                        [
+                            1 => $this->getCustomerUserRole(1, 'test01'),
+                            2 => $this->getCustomerUserRole(2, 'test02')
+                        ],
+                        new CustomerUserRoleSelectType($translator)
                     ),
-                    CustomerSelectType::class => new EntityTypeStub($this->getCustomers()),
+                    CustomerSelectType::class => new EntityTypeStub([
+                        $this->customer1->getId() => $this->customer1,
+                        $this->customer2->getId() => $this->customer2
+                    ]),
                     AddressCollectionType::class => new AddressCollectionTypeStub(),
-                    EntityTypeStub::class => new EntityTypeStub($this->getAddresses()),
+                    EntityTypeStub::class => new EntityTypeStub([
+                        $this->customerUserAddress1->getId() => $this->customerUserAddress1,
+                        $this->customerUserAddress2->getId() => $this->customerUserAddress2
+                    ]),
                     UserMultiSelectType::class => new EntityTypeStub(
                         [1 => $this->getUser(1), 2 => $this->getUser(2)],
                         ['multiple' => true]
@@ -82,130 +101,65 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         ];
     }
 
-    /**
-     * @dataProvider submitProvider
-     */
-    public function testSubmit(
-        CustomerUser $defaultData,
-        array $submittedData,
-        CustomerUser $expectedData,
-        bool $rolesGranted = true
-    ) {
-        if ($rolesGranted) {
-            $this->authorizationChecker->expects($this->any())
-                ->method('isGranted')
-                ->willReturn(true);
-        }
+    private static function getCustomer(int $id, string $name): Customer
+    {
+        $customer = new Customer();
+        ReflectionUtil::setId($customer, $id);
+        $customer->setName($name);
 
-        $this->tokenAccessor->expects($this->exactly(2))
-            ->method('getOrganization')
-            ->willReturn(new Organization());
-
-        $form = $this->factory->create(CustomerUserType::class, $defaultData, []);
-
-        $this->assertTrue($form->has('userRoles'));
-        $options = $form->get('userRoles')->getConfig()->getOptions();
-        $this->assertArrayHasKey('query_builder', $options);
-        $this->assertQueryBuilderCallback($options['query_builder']);
-
-        $this->assertEquals($defaultData, $form->getData());
-        $form->submit($submittedData);
-        $this->assertTrue($form->isValid());
-        $this->assertTrue($form->isSynchronized());
-        $this->assertEquals($expectedData, $form->getData());
-
-        $this->assertTrue($form->has('userRoles'));
-        $options = $form->get('userRoles')->getConfig()->getOptions();
-        $this->assertArrayHasKey('query_builder', $options);
-        $this->assertQueryBuilderCallback($options['query_builder']);
+        return $customer;
     }
 
-    public function submitProvider(): array
+    private function getCustomerUserRole(int $id, string $label): CustomerUserRole
     {
-        $newCustomerUser = new CustomerUser();
-        $newCustomerUser->setOrganization(new Organization());
+        $role = new CustomerUserRole($label);
+        ReflectionUtil::setId($role, $id);
+        $role->setLabel($label);
 
-        $existingCustomerUser = clone $newCustomerUser;
-        ReflectionUtil::setId($existingCustomerUser, 42);
-
-        $existingCustomerUser->setFirstName('Mary');
-        $existingCustomerUser->setLastName('Doe');
-        $existingCustomerUser->setEmail('john@example.com');
-        $existingCustomerUser->setPassword('123456');
-        $existingCustomerUser->setCustomer($this->getCustomer(1));
-        $existingCustomerUser->addAddress($this->getAddresses()[1]);
-        $existingCustomerUser->setOrganization(new Organization());
-        $existingCustomerUser->addSalesRepresentative($this->getUser(1));
-
-        $alteredExistingCustomerUser = clone $existingCustomerUser;
-        $alteredExistingCustomerUser->setCustomer($this->getCustomer(2));
-        $alteredExistingCustomerUser->setEnabled(false);
-
-        $alteredExistingCustomerUserWithRole = clone $alteredExistingCustomerUser;
-        $alteredExistingCustomerUserWithRole->setUserRoles([$this->getRole(2, 'test02')]);
-
-        $alteredExistingCustomerUserWithAddresses = clone $alteredExistingCustomerUser;
-        $alteredExistingCustomerUserWithAddresses->addAddress($this->getAddresses()[2]);
-
-        $alteredExistingCustomerUserWithSalesRepresentatives = clone $alteredExistingCustomerUser;
-        $alteredExistingCustomerUserWithSalesRepresentatives->addSalesRepresentative($this->getUser(2));
-
-        return
-            [
-                'user without submitted data' => [
-                    'defaultData' => $newCustomerUser,
-                    'submittedData' => [],
-                    'expectedData' => $newCustomerUser
-                ],
-                'altered existing user' => [
-                    'defaultData' => $existingCustomerUser,
-                    'submittedData' => [
-                        'firstName' => 'Mary',
-                        'lastName' => 'Doe',
-                        'email' => 'john@example.com',
-                        'customer' => 2
-                    ],
-                    'expectedData' => $alteredExistingCustomerUser
-                ],
-                'altered existing user with roles' => [
-                    'defaultData' => $existingCustomerUser,
-                    'submittedData' => [
-                        'firstName' => 'Mary',
-                        'lastName' => 'Doe',
-                        'email' => 'john@example.com',
-                        'customer' => 2,
-                        'userRoles' => [2]
-                    ],
-                    'expectedData' => $alteredExistingCustomerUserWithRole,
-                    'rolesGranted' => true
-                ],
-                'altered existing user with addresses' => [
-                    'defaultData' => $existingCustomerUser,
-                    'submittedData' => [
-                        'firstName' => 'Mary',
-                        'lastName' => 'Doe',
-                        'email' => 'john@example.com',
-                        'customer' => 2,
-                        'addresses' => [1, 2]
-                    ],
-                    'expectedData' => $alteredExistingCustomerUserWithAddresses,
-                ],
-                'altered existing user with salesRepresentatives' => [
-                    'defaultData' => $existingCustomerUser,
-                    'submittedData' => [
-                        'firstName' => 'Mary',
-                        'lastName' => 'Doe',
-                        'email' => 'john@example.com',
-                        'customer' => 2,
-                        'salesRepresentatives' => [],
-                    ],
-                    'expectedData' => $alteredExistingCustomerUserWithSalesRepresentatives,
-                ],
-            ];
+        return $role;
     }
 
-    private function assertQueryBuilderCallback(\Closure $callable): void
+    private function getUser(int $id): User
     {
+        $user = new User();
+        ReflectionUtil::setId($user, $id);
+
+        return $user;
+    }
+
+    private function getCustomerUserAddress(int $id): CustomerUserAddress
+    {
+        $customerUserAddress = new CustomerUserAddress();
+        ReflectionUtil::setId($customerUserAddress, $id);
+
+        return $customerUserAddress;
+    }
+
+    private function getExistingCustomerUser(): CustomerUser
+    {
+        $customerUser = new CustomerUser();
+        ReflectionUtil::setId($customerUser, 42);
+        $customerUser->setOrganization(new Organization());
+        $customerUser->setFirstName('Mary');
+        $customerUser->setLastName('Doe');
+        $customerUser->setEmail('john@example.com');
+        $customerUser->setPassword('123456');
+        $customerUser->setCustomer($this->customer1);
+        $customerUser->addAddress($this->customerUserAddress1);
+        $customerUser->setOrganization(new Organization());
+        $customerUser->addSalesRepresentative($this->getUser(1));
+
+        return $customerUser;
+    }
+
+    private function assertQueryBuilderCallback(FormInterface $form): void
+    {
+        $this->assertTrue($form->has('userRoles'));
+
+        $options = $form->get('userRoles')->getConfig()->getOptions();
+        $this->assertArrayHasKey('query_builder', $options);
+
+        $callable = $options['query_builder'];
         $this->assertIsCallable($callable);
 
         $repository = $this->createMock(CustomerUserRoleRepository::class);
@@ -215,12 +169,12 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         $callable($repository);
     }
 
-    public function testHasNoAddress()
+    public function testHasNoAddress(): void
     {
         $customerUser = new CustomerUser();
         $customerUser->setOrganization(new Organization());
 
-        $this->authorizationChecker->expects($this->any())
+        $this->authorizationChecker->expects($this->exactly(2))
             ->method('isGranted')
             ->withConsecutive(
                 ['oro_customer_customer_user_role_view'],
@@ -228,101 +182,173 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
             )
             ->willReturn(false);
 
-        $form = $this->factory->create(get_class($this->formType), $customerUser, []);
+        $form = $this->factory->create(CustomerUserType::class, $customerUser);
         $this->assertFalse($form->has('addresses'));
     }
 
-    /**
-     * @return CustomerUserAddress[]
-     */
-    protected function getAddresses(): array
+    public function testSubmitWithoutSubmittedData(): void
     {
-        if (!self::$addresses) {
-            self::$addresses = [
-                1 => $this->getCustomerUserAddress(1),
-                2 => $this->getCustomerUserAddress(2)
-            ];
-        }
+        $newCustomerUser = new CustomerUser();
+        $newCustomerUser->setOrganization(new Organization());
 
-        return self::$addresses;
+        $this->authorizationChecker->expects($this->atLeastOnce())
+            ->method('isGranted')
+            ->willReturn(true);
+
+        $this->tokenAccessor->expects($this->exactly(2))
+            ->method('getOrganization')
+            ->willReturn(new Organization());
+
+        $form = $this->factory->create(CustomerUserType::class, $newCustomerUser);
+        $this->assertSame($newCustomerUser, $form->getData());
+        $this->assertQueryBuilderCallback($form);
+
+        $form->submit([]);
+        $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
+        $this->assertEquals($newCustomerUser, $form->getData());
+
+        $this->assertQueryBuilderCallback($form);
     }
 
-    /**
-     * @return CustomerUserRole[]
-     */
-    protected function getRoles(): array
+    public function testSubmitAlteredExistingUser(): void
     {
-        return [
-            1 => $this->getRole(1, 'test01'),
-            2 => $this->getRole(2, 'test02')
-        ];
+        $existingCustomerUser = $this->getExistingCustomerUser();
+
+        $alteredExistingCustomerUser = clone $existingCustomerUser;
+        $alteredExistingCustomerUser->setCustomer($this->customer2);
+        $alteredExistingCustomerUser->setEnabled(false);
+
+        $this->authorizationChecker->expects($this->atLeastOnce())
+            ->method('isGranted')
+            ->willReturn(true);
+
+        $this->tokenAccessor->expects($this->exactly(2))
+            ->method('getOrganization')
+            ->willReturn(new Organization());
+
+        $form = $this->factory->create(CustomerUserType::class, $existingCustomerUser);
+        $this->assertSame($existingCustomerUser, $form->getData());
+        $this->assertQueryBuilderCallback($form);
+
+        $form->submit([
+            'firstName' => 'Mary',
+            'lastName' => 'Doe',
+            'email' => 'john@example.com',
+            'customer' => 2
+        ]);
+        $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
+        $this->assertEquals($alteredExistingCustomerUser, $form->getData());
+
+        $this->assertQueryBuilderCallback($form);
     }
 
-    /**
-     * @return Customer[]
-     */
-    protected function getCustomers(): array
+    public function testSubmitAlteredExistingUserWithRoles(): void
     {
-        if (!self::$customers) {
-            self::$customers = [
-                '1' => $this->createCustomer(1, 'first'),
-                '2' => $this->createCustomer(2, 'second')
-            ];
-        }
+        $existingCustomerUser = $this->getExistingCustomerUser();
 
-        return self::$customers;
+        $alteredExistingCustomerUserWithRole = clone $existingCustomerUser;
+        $alteredExistingCustomerUserWithRole->setCustomer($this->customer2);
+        $alteredExistingCustomerUserWithRole->setEnabled(false);
+        $alteredExistingCustomerUserWithRole->setUserRoles([$this->getCustomerUserRole(2, 'test02')]);
+
+        $this->authorizationChecker->expects($this->atLeastOnce())
+            ->method('isGranted')
+            ->willReturn(true);
+
+        $this->tokenAccessor->expects($this->exactly(2))
+            ->method('getOrganization')
+            ->willReturn(new Organization());
+
+        $form = $this->factory->create(CustomerUserType::class, $existingCustomerUser);
+        $this->assertSame($existingCustomerUser, $form->getData());
+        $this->assertQueryBuilderCallback($form);
+
+        $form->submit([
+            'firstName' => 'Mary',
+            'lastName' => 'Doe',
+            'email' => 'john@example.com',
+            'customer' => 2,
+            'userRoles' => [2]
+        ]);
+        $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
+        $this->assertEquals($alteredExistingCustomerUserWithRole, $form->getData());
+
+        $this->assertQueryBuilderCallback($form);
     }
 
-    protected function getCustomer(int $id): Customer
+    public function testSubmitAlteredExistingUserWithAddresses(): void
     {
-        $customers = $this->getCustomers();
+        $existingCustomerUser = $this->getExistingCustomerUser();
 
-        return $customers[$id];
+        $alteredExistingCustomerUserWithAddresses = clone $existingCustomerUser;
+        $alteredExistingCustomerUserWithAddresses->setCustomer($this->customer2);
+        $alteredExistingCustomerUserWithAddresses->setEnabled(false);
+        $alteredExistingCustomerUserWithAddresses->setUserRoles([$this->getCustomerUserRole(2, 'test02')]);
+        $alteredExistingCustomerUserWithAddresses->addAddress($this->customerUserAddress2);
+
+        $this->authorizationChecker->expects($this->atLeastOnce())
+            ->method('isGranted')
+            ->willReturn(true);
+
+        $this->tokenAccessor->expects($this->exactly(2))
+            ->method('getOrganization')
+            ->willReturn(new Organization());
+
+        $form = $this->factory->create(CustomerUserType::class, $existingCustomerUser);
+        $this->assertSame($existingCustomerUser, $form->getData());
+        $this->assertQueryBuilderCallback($form);
+
+        $form->submit([
+            'firstName' => 'Mary',
+            'lastName' => 'Doe',
+            'email' => 'john@example.com',
+            'customer' => 2,
+            'addresses' => [1, 2]
+        ]);
+        $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
+        $this->assertEquals($alteredExistingCustomerUserWithAddresses, $form->getData());
+
+        $this->assertQueryBuilderCallback($form);
     }
 
-    private static function createCustomer(int $id, string $name): Customer
+    public function testSubmitAlteredExistingUserWithSalesRepresentatives(): void
     {
-        $customer = new Customer();
-        ReflectionUtil::setId($customer, $id);
-        $customer->setName($name);
+        $existingCustomerUser = $this->getExistingCustomerUser();
 
-        return $customer;
-    }
+        $alteredExistingCustomerUserWithSalesRepresentatives = clone $existingCustomerUser;
+        $alteredExistingCustomerUserWithSalesRepresentatives->setCustomer($this->customer2);
+        $alteredExistingCustomerUserWithSalesRepresentatives->setEnabled(false);
+        $alteredExistingCustomerUserWithSalesRepresentatives->setUserRoles([$this->getCustomerUserRole(2, 'test02')]);
+        $alteredExistingCustomerUserWithSalesRepresentatives->addAddress($this->customerUserAddress2);
+        $alteredExistingCustomerUserWithSalesRepresentatives->addSalesRepresentative($this->getUser(2));
 
-    protected function getRole(int $id, string $label): CustomerUserRole
-    {
-        $role = new CustomerUserRole($label);
-        ReflectionUtil::setId($role, $id);
-        $role->setLabel($label);
+        $this->authorizationChecker->expects($this->atLeastOnce())
+            ->method('isGranted')
+            ->willReturn(true);
 
-        return $role;
-    }
+        $this->tokenAccessor->expects($this->exactly(2))
+            ->method('getOrganization')
+            ->willReturn(new Organization());
 
-    protected function getUser(int $id): User
-    {
-        $user = new User();
-        ReflectionUtil::setId($user, $id);
+        $form = $this->factory->create(CustomerUserType::class, $existingCustomerUser);
+        $this->assertSame($existingCustomerUser, $form->getData());
+        $this->assertQueryBuilderCallback($form);
 
-        return $user;
-    }
+        $form->submit([
+            'firstName' => 'Mary',
+            'lastName' => 'Doe',
+            'email' => 'john@example.com',
+            'customer' => 2,
+            'salesRepresentatives' => [],
+        ]);
+        $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
+        $this->assertEquals($alteredExistingCustomerUserWithSalesRepresentatives, $form->getData());
 
-    protected function getCustomerUserAddress(int $id): CustomerUserAddress
-    {
-        $customerUserAddress = new CustomerUserAddress();
-        ReflectionUtil::setId($customerUserAddress, $id);
-
-        return $customerUserAddress;
-    }
-
-    protected function createTranslator(): TranslatorInterface
-    {
-        $translator = $this->createMock(TranslatorInterface::class);
-        $translator->expects($this->any())
-            ->method('trans')
-            ->willReturnCallback(function ($message) {
-                return $message . '.trans';
-            });
-
-        return $translator;
+        $this->assertQueryBuilderCallback($form);
     }
 }

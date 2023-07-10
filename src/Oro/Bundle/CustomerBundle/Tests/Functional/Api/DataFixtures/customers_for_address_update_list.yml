@@ -1,0 +1,9 @@
+dependencies:
+    - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization
+    - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser
+
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    customer1:
+        name: 'Customer 1'
+        owner: '@user'
+        organization: '@organization'
