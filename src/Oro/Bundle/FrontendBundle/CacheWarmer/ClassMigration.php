@@ -27,11 +27,6 @@ class ClassMigration
     /** @var string[] */
     private $config = [];
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param ConfigManager $configManager
-     * @param ApplicationState $applicationState
-     */
     public function __construct(
         ManagerRegistry $managerRegistry,
         ConfigManager $configManager,

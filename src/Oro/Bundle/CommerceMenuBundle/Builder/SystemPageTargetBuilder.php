@@ -61,11 +61,6 @@ class SystemPageTargetBuilder implements BuilderInterface, LoggerAwareInterface
         }
     }
 
-    /**
-     * @param string $routeName
-     *
-     * @return string
-     */
     private function generateUrl(string $routeName): ?string
     {
         if (!$this->isRouteEnabled($routeName)) {

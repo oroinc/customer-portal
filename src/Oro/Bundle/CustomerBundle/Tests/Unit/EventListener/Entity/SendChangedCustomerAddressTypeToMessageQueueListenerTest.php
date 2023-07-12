@@ -178,7 +178,6 @@ class SendChangedCustomerAddressTypeToMessageQueueListenerTest extends OrmTestCa
         $sentMessage = self::getSentMessage(AuditChangedEntitiesTopic::getName(), false);
         self::assertEquals(MessagePriority::VERY_LOW, $sentMessage->getPriority());
 
-
         $sentMessageBody = $sentMessage->getBody();
         $expectedMessageBody = $this->getExpectedMessageBody();
         self::assertEquals(

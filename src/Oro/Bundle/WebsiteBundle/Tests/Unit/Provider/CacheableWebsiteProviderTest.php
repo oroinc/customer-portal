@@ -198,7 +198,6 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
         $cacheProvider->expects($this->once())
             ->method('clear');
 
-
         $this->cacheableProvider->clearCache();
     }
 }

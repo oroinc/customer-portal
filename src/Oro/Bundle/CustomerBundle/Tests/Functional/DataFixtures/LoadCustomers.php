@@ -102,8 +102,8 @@ class LoadCustomers extends AbstractFixture implements DependentFixtureInterface
      * @param ObjectManager $manager
      * @param string $name
      * @param User $owner
-     * @param Customer $parent
-     * @param CustomerGroup $group
+     * @param Customer|null $parent
+     * @param CustomerGroup|null $group
      * @return Customer
      */
     protected function createCustomer(

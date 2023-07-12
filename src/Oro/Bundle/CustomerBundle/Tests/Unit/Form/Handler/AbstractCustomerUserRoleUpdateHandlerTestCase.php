@@ -106,7 +106,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
 
     /**
      * @param CustomerUserRole $role
-     * @param Customer|null    $newCustomer
+     * @param Customer         $newCustomer
      * @param CustomerUser[]   $appendUsers
      * @param CustomerUser[]   $removedUsers
      * @param CustomerUser[]   $assignedUsers
@@ -201,7 +201,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
     /**
      * @param CustomerUserRole $role
      * @param int $numberOfUsers
-     * @param Customer $customer
+     * @param Customer|null $customer
      * @param int $offset
      *
      * @return CustomerUser[]

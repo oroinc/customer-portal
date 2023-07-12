@@ -18,7 +18,7 @@ class CustomerMassEvent extends Event
     protected $customers = [];
 
     /**
-     * @param array|Customer $customers
+     * @param array|Customer[] $customers
      */
     public function __construct(array $customers = [])
     {

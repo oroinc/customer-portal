@@ -13,9 +13,6 @@ class CustomerContext extends OroFeatureContext implements OroPageObjectAware
 
     /**
      * @When I type :text into Parent Customer field to get all suggestions and see :suggestionCount suggestions
-     *
-     * @param string $text
-     * @param int $suggestionCount
      */
     public function iTypeIntoParentCustomerFieldAndLoadAllSuggestionsToSeeSuggestionCount(
         string $text,

@@ -177,7 +177,7 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     }
 
     /**
-     * @param $entity
+     * @param Customer|null $entity
      * @return Customer|null
      */
     private function verifyIfUserIsGrantedToUpdateOwner(Customer $entity = null)
