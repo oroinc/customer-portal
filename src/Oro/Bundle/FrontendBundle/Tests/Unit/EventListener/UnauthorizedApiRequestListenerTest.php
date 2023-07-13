@@ -152,7 +152,6 @@ class UnauthorizedApiRequestListenerTest extends \PHPUnit\Framework\TestCase
         self::assertSame($newResponse, $event->getResponse());
     }
 
-
     public function testForUnauthorizedFrontendApiRequestWithoutWwwAuthenticateHeader(): void
     {
         $request = Request::create('http://test.com/api/products/1');

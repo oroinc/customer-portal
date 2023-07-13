@@ -17,7 +17,7 @@ class WebsiteRepository extends EntityRepository implements BatchIteratorInterfa
     use BatchIteratorTrait;
 
     /**
-     * @param Organization $organization
+     * @param Organization|null $organization
      *
      * @return Website[]
      */

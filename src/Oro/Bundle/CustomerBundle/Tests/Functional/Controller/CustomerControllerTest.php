@@ -139,7 +139,6 @@ class CustomerControllerTest extends WebTestCase
         $this->assertViewPage($html, self::UPDATED_NAME, $newGroup, $internalRating, $newParent);
     }
 
-
     /**
      * @depends testUpdate
      */

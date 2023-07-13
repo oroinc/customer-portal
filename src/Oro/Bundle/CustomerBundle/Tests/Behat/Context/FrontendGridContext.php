@@ -57,9 +57,6 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
      *
      * @Given /^(?:I )?delete "(?P<gridViewName>([^"]+))" grid view in "(?P<gridName>([^"]+))" frontend grid$/
      * @Given /^(?:I )?delete "(?P<gridViewName>([^"]+))" grid view in frontend grid$/
-     *
-     * @param string $gridViewName
-     * @param string $gridName
      */
     public function deleteGridView(string $gridViewName, ?string $gridName = null): void
     {
@@ -76,9 +73,6 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
      *
      * @Given /^(?:I )?set "(?P<gridViewName>([^"]+))" grid view as default in "(?P<gridName>([^"]+))" frontend grid$/
      * @Given /^(?:I )?set "(?P<gridViewName>([^"]+))" grid view as default in frontend grid$/
-     *
-     * @param string $gridViewName
-     * @param string $gridName
      */
     public function setGridViewAsDefault(string $gridViewName, ?string $gridName = null): void
     {

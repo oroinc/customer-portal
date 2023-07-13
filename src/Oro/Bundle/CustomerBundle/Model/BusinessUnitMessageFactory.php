@@ -26,10 +26,6 @@ class BusinessUnitMessageFactory
         ];
     }
 
-    /**
-     * @param array $messageBody
-     * @return object|null
-     */
     public function getBusinessUnitFromMessage(array $messageBody): ?object
     {
         return $this->doctrineHelper

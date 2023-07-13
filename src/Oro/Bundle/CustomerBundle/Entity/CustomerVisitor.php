@@ -124,7 +124,7 @@ class CustomerVisitor implements ExtendEntityInterface
     }
 
     /**
-     * @param CustomerUser $customerUser
+     * @param CustomerUser|null $customerUser
      * @return $this
      */
     public function setCustomerUser(CustomerUser $customerUser = null)

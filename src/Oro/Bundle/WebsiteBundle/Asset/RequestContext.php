@@ -26,13 +26,6 @@ class RequestContext extends BaseRequestContext
 
     /**
      * Mimics the logic of parent's ::fromUri().
-     *
-     * @param string $uri
-     * @param string $host
-     * @param string $scheme
-     * @param int $httpPort
-     * @param int $httpsPort
-     * @return self
      */
     public static function fromUri(
         string $uri,

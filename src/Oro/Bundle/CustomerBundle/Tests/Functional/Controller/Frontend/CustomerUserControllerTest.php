@@ -49,12 +49,6 @@ class CustomerUserControllerTest extends WebTestCase
 
     /**
      * @dataProvider createDataProvider
-     *
-     * @param string $email
-     * @param string $password
-     * @param bool $isPasswordGenerate
-     * @param bool $isSendEmail
-     * @param int $emailsCount
      */
     public function testCreate(
         string $email,
@@ -151,8 +145,6 @@ class CustomerUserControllerTest extends WebTestCase
     /**
      * @dataProvider testCreatePermissionDeniedDataProvider
      * @group frontend-ACL
-     * @param string $login
-     * @param int $status
      */
     public function testCreatePermissionDenied(string $login, int $status): void
     {
@@ -195,7 +187,6 @@ class CustomerUserControllerTest extends WebTestCase
 
     /**
      * @depend testCreate
-     * @return int
      */
     public function testUpdate(): int
     {
@@ -241,8 +232,6 @@ class CustomerUserControllerTest extends WebTestCase
 
     /**
      * @depends testUpdate
-     * @param int $id
-     * @return int
      */
     public function testView(int $id): int
     {
@@ -262,11 +251,6 @@ class CustomerUserControllerTest extends WebTestCase
     /**
      * @group frontend-ACL
      * @dataProvider aclProvider
-     *
-     * @param string $route
-     * @param string $resource
-     * @param string $user
-     * @param int $status
      */
     public function testACL(string $route, string $resource, string $user, int $status): void
     {
@@ -361,11 +345,6 @@ class CustomerUserControllerTest extends WebTestCase
     /**
      * @group frontend-ACL
      * @dataProvider gridAclProvider
-     *
-     * @param string $user
-     * @param int $indexResponseStatus
-     * @param int $gridResponseStatus
-     * @param array $data
      */
     public function testGridACL(
         string $user,

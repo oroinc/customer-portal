@@ -128,11 +128,6 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
         return $this->privilegeConfig;
     }
 
-    /**
-     * @param CustomerUserRole|AbstractRole $role
-     * @param array $appendUsers
-     * @param array $removeUsers
-     */
     protected function applyCustomerLimits(CustomerUserRole $role, array &$appendUsers, array &$removeUsers)
     {
         /** @var CustomerUserRoleRepository $roleRepository */

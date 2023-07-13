@@ -72,7 +72,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
     }
 
     /**
-     * @param CustomerUser $customerUser
+     * @param CustomerUser|null $customerUser
      *
      * @return FormView
      */
@@ -84,7 +84,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
     }
 
     /**
-     * @param CustomerUser $customerUser
+     * @param CustomerUser|null $customerUser
      *
      * @return FormInterface
      */

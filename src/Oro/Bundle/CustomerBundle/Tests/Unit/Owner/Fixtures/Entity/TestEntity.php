@@ -36,10 +36,10 @@ class TestEntity
 
     /**
      * @param int $id
-     * @param User $owner
-     * @param Organization $organization
-     * @param CustomerUser $customerUser
-     * @param Customer $customer
+     * @param User|null $owner
+     * @param Organization|null $organization
+     * @param CustomerUser|null $customerUser
+     * @param Customer|null $customer
      */
     public function __construct(
         $id = 0,
@@ -71,17 +71,11 @@ class TestEntity
         return $this->owner;
     }
 
-    /**
-     * @param User $owner
-     */
     public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
     }
 
-    /**
-     * @param Organization $organization
-     */
     public function setOrganization(Organization $organization = null)
     {
         $this->organization = $organization;
@@ -103,9 +97,6 @@ class TestEntity
         return $this->customerUser;
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     */
     public function setCustomerUser(CustomerUser $customerUser = null)
     {
         $this->customerUser = $customerUser;
@@ -119,9 +110,6 @@ class TestEntity
         return $this->customer;
     }
 
-    /**
-     * @param Customer $customer
-     */
     public function setCustomer(Customer $customer = null)
     {
         $this->customer = $customer;

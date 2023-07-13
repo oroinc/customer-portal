@@ -133,7 +133,7 @@ class ImportCustomerUserListener
     }
 
     /**
-     * @param $context
+     * @param ContextInterface $context
      * @param string $error
      */
     protected function updateContextWithError(ContextInterface $context, $error)
