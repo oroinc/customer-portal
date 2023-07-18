@@ -114,7 +114,17 @@ define(function(require) {
                 ]
             ));
 
-            mediator.on(`viewport:${this.viewport}`, this.onViewportChange, this);
+            this.listenTo(mediator, {
+                [`viewport:${this.viewport}`]: this.onViewportChange,
+                'grid_load:complete'(collection) {
+                    if (this.main.collection.inputName === collection.inputName) {
+                        // Safari cannot scroll immediately
+                        setTimeout(() => {
+                            this.main.$('.grid-body').scrollLeft(0);
+                        }, 0);
+                    }
+                }
+            });
             return ElasticSwipeActions.__super__.initialize.call(this, grid, options);
         },
 
