@@ -1417,3 +1417,9 @@ services:
             - '@oro_customer.security.acl.visitor.cache'
         tags:
             - { name: doctrine.orm.entity_listener, entity: Oro\Bundle\WebsiteBundle\Entity\Website, event: postUpdate }
+
+    oro_customer.cache.page_request_provider:
+        class: Oro\Bundle\CustomerBundle\Provider\CustomerPageRequestProvider
+        parent: oro_platform.cache.provider.page_request_provider.abstract
+        tags:
+            - { name: warmup_page_request_provider }
