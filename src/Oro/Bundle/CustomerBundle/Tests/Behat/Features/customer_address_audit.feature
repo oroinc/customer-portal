@@ -99,5 +99,5 @@ Feature: Customer address audit
   Scenario: Checking billing/shipping and check change history
     Given I go to System/ Data Audit
     Then I should see following grid containing rows:
-      | Action | Version | Entity type   | Data                                                                                                              |
-      | Update | 3       | Customer User | Customer:  Customer "Test customer" changed: Addresses: Customer Address to Address Type "billing" types: billing |
+      | Action | Version | Entity type      | Data                                                       |
+      | Update | 3       | Customer Address | Types:  Customer Address to Address Type "billing" removed |
