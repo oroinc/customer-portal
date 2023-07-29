@@ -2,8 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\RestJsonApi;
 
-use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadTestCustomerUser;
-use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadTestUser;
+use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -12,10 +11,7 @@ class ApiFirewallTest extends FrontendRestJsonApiTestCase
     protected function setUp(): void
     {
         $this->initClient();
-        $this->loadFixtures([
-            LoadTestUser::class,
-            LoadTestCustomerUser::class
-        ]);
+        $this->loadFixtures([LoadCustomerUserData::class]);
     }
 
     public function testCustomerUserShouldBeAbleToLoginWithSameEmailAsBackendUser()

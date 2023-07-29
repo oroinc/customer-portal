@@ -367,7 +367,7 @@ oro.customer:
             description:                 A human-readable label that identifies a customer user role.
         role:
             label:                       'Role'
-            description:                 A human-readable label that identifies a customer user role.
+            description:                 The code of the customer user role.
         websites:
             label:                       'Websites'
             description:                 A website the customer user role should apply for.
