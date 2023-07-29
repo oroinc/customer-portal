@@ -30,7 +30,7 @@ Example:
   "data": {
     "type": "customeruserroles",
     "attributes": {
-      "role": "ROLE_BACKEND_ADMINISTRATOR",
+      "role": "ROLE_FRONTEND_ADMINISTRATOR",
       "label": "Admin",
       "selfManaged": true,
       "public": true
@@ -71,24 +71,9 @@ Example:
     "type": "customeruserroles",
     "id": "11",
     "attributes": {
-      "role": "ROLE_BACKEND_ADMINISTRATOR",
       "label": "Admin",
       "selfManaged": true,
       "public": true
-    },
-    "relationships": {
-      "customerUsers": {
-        "data": [
-          {
-            "type": "customerusers",
-            "id": "9"
-          },
-          {
-            "type": "customerusers",
-            "id": "4"
-          }
-        ]
-      }
     }
   }
 }
@@ -115,13 +100,15 @@ Delete a collection of customer user role records.
 
 {@inheritdoc}
 
-**The required field.**
+**Note**: The submitted value is just a recommended prefix. It is used to generate unique code for the role.
 
 #### update
 
 {@inheritdoc}
 
 **This field must not be empty, if it is passed.**
+
+**Note**: The submitted value is just a recommended prefix. It is used to generate unique code for the role.
 
 ### label
 
