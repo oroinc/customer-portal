@@ -13,6 +13,7 @@ use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\LocaleBundle\Tools\LocalizedFallbackValueHelper;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Oro\Bundle\NavigationBundle\Event\MenuUpdatesApplyAfterEvent;
+use Oro\Bundle\NavigationBundle\JsTree\MenuUpdateTreeHandler;
 use Oro\Bundle\NavigationBundle\Menu\ConfigurationBuilder;
 use Oro\Bundle\NavigationBundle\MenuUpdate\Applier\Model\MenuUpdateApplierContext;
 use Oro\Bundle\NavigationBundle\Tests\Unit\MenuItemTestTrait;
@@ -130,10 +131,46 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
                         'extras' => [
                             MenuUpdate::TARGET_CONTENT_NODE => $contentNode,
                             MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
+                            MenuUpdateTreeHandler::EXTRA_IS_ALLOWED_FOR_BACKOFFICE => false
                         ],
                         'children' => [],
                     ],
                 ],
+            ],
+            $this->normalizeMenuItem($menu)
+        );
+    }
+
+    public function testBuildWhenNotResolvedRootItem(): void
+    {
+        $contentNode = new ContentNodeStub(42);
+
+        $maxNestingLevel = 6;
+        $menu = $this->createItem('sample_menu')
+            ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, $maxNestingLevel)
+            ->setExtra('isAllowed', true)
+            ->setExtra(MenuUpdate::TARGET_CONTENT_NODE, $contentNode);
+
+
+        $this->menuContentNodesProvider
+            ->expects(self::once())
+            ->method('getResolvedContentNode')
+            ->with($contentNode, ['tree_depth' => 0])
+            ->willReturn(null);
+
+        $this->builder->build($menu);
+
+        self::assertEquals(
+            [
+                'display' => true,
+                'label' => $menu->getName(),
+                'uri' => null,
+                'extras' => [
+                    ConfigurationBuilder::MAX_NESTING_LEVEL => $maxNestingLevel,
+                    MenuUpdate::TARGET_CONTENT_NODE => $contentNode,
+                    'isAllowed' => true, // value should not be changed/applied for root items
+                ],
+                'children' => [],
             ],
             $this->normalizeMenuItem($menu)
         );

@@ -248,6 +248,8 @@ services:
         class: 'Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateTargetTypeExtension'
         arguments:
             - '@oro_web_catalog.web_catalog_provider'
+        calls:
+            - ['setAuthorizationChecker', ['@security.authorization_checker']]
         tags:
             - { name: form.type_extension }
 

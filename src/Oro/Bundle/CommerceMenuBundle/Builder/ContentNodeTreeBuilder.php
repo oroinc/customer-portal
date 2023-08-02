@@ -11,6 +11,7 @@ use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\LocaleBundle\Tools\LocalizedFallbackValueHelper;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Oro\Bundle\NavigationBundle\Event\MenuUpdatesApplyAfterEvent;
+use Oro\Bundle\NavigationBundle\JsTree\MenuUpdateTreeHandler;
 use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
 use Oro\Bundle\NavigationBundle\Menu\ConfigurationBuilder;
 use Oro\Bundle\NavigationBundle\MenuUpdate\Applier\Model\MenuUpdateApplierContext;
@@ -52,7 +53,7 @@ class ContentNodeTreeBuilder implements BuilderInterface
     public function build(ItemInterface $menu, array $options = [], $alias = null): void
     {
         $menuItemsByName = MenuUpdateUtils::flattenMenuItem($menu);
-        $maxNestingLevel = max(0, (int)$menu->getExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, 0));
+        $maxNestingLevel = max(0, (int) $menu->getExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, 0));
 
         $this->applyRecursively(
             $menu,
@@ -90,7 +91,7 @@ class ContentNodeTreeBuilder implements BuilderInterface
             return;
         }
 
-        $maxTraverseLevel = max(0, (int)$menuItem->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 0));
+        $maxTraverseLevel = max(0, (int) $menuItem->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 0));
         if ($maxNestingLevel > 0) {
             $allowedTraverseLevel = max(0, $maxNestingLevel - $menuItem->getLevel());
             $maxTraverseLevel = min($allowedTraverseLevel, $maxTraverseLevel);
@@ -101,7 +102,14 @@ class ContentNodeTreeBuilder implements BuilderInterface
             ['tree_depth' => $maxTraverseLevel]
         );
         if (!$resolvedNode) {
-            $menuItem->setDisplay(false);
+            /**
+             * The root node is supposed to be visible to display the rest of allowed children.
+             */
+            if (!$menuItem->isRoot()) {
+                $menuItem->setDisplay(false);
+                $menuItem->setExtra(MenuUpdateTreeHandler::EXTRA_IS_ALLOWED_FOR_BACKOFFICE, false);
+            }
+
             return;
         }
 
@@ -240,12 +248,12 @@ class ContentNodeTreeBuilder implements BuilderInterface
 
     private function getLabel(ResolvedContentNode $resolvedNode, ?Localization $localization): string
     {
-        return (string)$this->localizationHelper->getLocalizedValue($resolvedNode->getTitles(), $localization);
+        return (string) $this->localizationHelper->getLocalizedValue($resolvedNode->getTitles(), $localization);
     }
 
     private function getUri(ResolvedContentNode $resolvedNode, ?Localization $localization): string
     {
-        return (string)$this->localizationHelper
+        return (string) $this->localizationHelper
             ->getLocalizedValue($resolvedNode->getResolvedContentVariant()->getLocalizedUrls(), $localization);
     }
 

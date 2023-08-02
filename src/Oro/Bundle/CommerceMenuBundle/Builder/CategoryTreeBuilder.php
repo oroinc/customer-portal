@@ -14,6 +14,7 @@ use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\LocaleBundle\Tools\LocalizedFallbackValueHelper;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Oro\Bundle\NavigationBundle\Event\MenuUpdatesApplyAfterEvent;
+use Oro\Bundle\NavigationBundle\JsTree\MenuUpdateTreeHandler;
 use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
 use Oro\Bundle\NavigationBundle\Menu\ConfigurationBuilder;
 use Oro\Bundle\NavigationBundle\MenuUpdate\Applier\Model\MenuUpdateApplierContext;
@@ -53,7 +54,7 @@ class CategoryTreeBuilder implements BuilderInterface
         UrlGeneratorInterface $urlGenerator,
         MenuCategoriesProviderInterface $menuCategoriesProvider,
         TokenAccessorInterface $tokenAccessor,
-        LocalizationHelper $localizationHelper
+        LocalizationHelper $localizationHelper,
     ) {
         $this->managerRegistry = $managerRegistry;
         $this->urlGenerator = $urlGenerator;
@@ -65,7 +66,7 @@ class CategoryTreeBuilder implements BuilderInterface
     public function build(ItemInterface $menu, array $options = [], $alias = null): void
     {
         $menuItemsByName = MenuUpdateUtils::flattenMenuItem($menu);
-        $maxNestingLevel = max(0, (int)$menu->getExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, 0));
+        $maxNestingLevel = max(0, (int) $menu->getExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, 0));
         $user = $this->tokenAccessor->getUser();
 
         $this->applyRecursively(
@@ -106,7 +107,7 @@ class CategoryTreeBuilder implements BuilderInterface
             return;
         }
 
-        $maxTraverseLevel = max(0, (int)$menuItem->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 0));
+        $maxTraverseLevel = max(0, (int) $menuItem->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 0));
         if ($maxNestingLevel > 0) {
             $allowedTraverseLevel = max(0, $maxNestingLevel - $menuItem->getLevel());
             $maxTraverseLevel = min($allowedTraverseLevel, $maxTraverseLevel);
@@ -115,7 +116,14 @@ class CategoryTreeBuilder implements BuilderInterface
         $categories = $this->menuCategoriesProvider
             ->getCategories($category, $user, ['tree_depth' => $maxTraverseLevel]);
         if (!$categories) {
-            $menuItem->setDisplay(false);
+            /**
+             * The root node is supposed to be visible to display the rest of allowed children.
+             */
+            if (!$menuItem->isRoot()) {
+                $menuItem->setDisplay(false);
+                $menuItem->setExtra(MenuUpdateTreeHandler::EXTRA_IS_ALLOWED_FOR_BACKOFFICE, false);
+            }
+
             return;
         }
 
@@ -126,7 +134,7 @@ class CategoryTreeBuilder implements BuilderInterface
 
         // Explicit passing of localization avoids further unnecessary calls to getCurrentLocalization.
         $localization = $this->localizationHelper->getCurrentLocalization();
-        $includeSubcategories = (bool)$menuItem->getExtra(self::INCLUDE_SUBCATEGORIES, true);
+        $includeSubcategories = (bool) $menuItem->getExtra(self::INCLUDE_SUBCATEGORIES, true);
 
         if (!$menuItem->isRoot()) {
             $this->setMenuItemData(
@@ -202,7 +210,7 @@ class CategoryTreeBuilder implements BuilderInterface
                 continue;
             }
 
-            $parentMaxTraverseLevel = max(0, (int)$parentMenuItem->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 0));
+            $parentMaxTraverseLevel = max(0, (int) $parentMenuItem->getExtra(MenuUpdate::MAX_TRAVERSE_LEVEL, 0));
             if ($parentMaxTraverseLevel === 0) {
                 // Skips child as parent's max traverse level does not allow more.
                 continue;
@@ -287,7 +295,7 @@ class CategoryTreeBuilder implements BuilderInterface
 
     private function getLabel(Collection $titles, ?Localization $localization): string
     {
-        return (string)$this->localizationHelper->getLocalizedValue($titles, $localization);
+        return (string) $this->localizationHelper->getLocalizedValue($titles, $localization);
     }
 
     public static function getTreeItemNamePrefix(ItemInterface $menuItem, int $categoryId): string
