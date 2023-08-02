@@ -38,6 +38,7 @@ use Oro\Bundle\WebCatalogBundle\Provider\WebCatalogProvider;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -50,7 +51,9 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
 {
     use MenuItemTestTrait;
 
-    private WebCatalogProvider|\PHPUnit\Framework\MockObject\MockObject $webCatalogProvider;
+    private WebCatalogProvider|MockObject $webCatalogProvider;
+
+    private AuthorizationCheckerInterface|MockObject $authorizationChecker;
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
@@ -58,6 +61,8 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
     protected function getExtensions(): array
     {
         $this->webCatalogProvider = $this->createMock(WebCatalogProvider::class);
+
+        $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
 
         $entityManager = $this->createMock(EntityManager::class);
         $categoryEntityManager = $this->createMock(EntityManager::class);
@@ -134,7 +139,10 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
                     EntityType::class => new EntityTypeStub(),
                 ],
                 [
-                    MenuUpdateTypeStub::class => [new MenuUpdateTargetTypeExtension($this->webCatalogProvider)],
+                    MenuUpdateTypeStub::class => [new MenuUpdateTargetTypeExtension(
+                        $this->webCatalogProvider,
+                        $this->authorizationChecker,
+                    )],
                     FormType::class => [new TooltipFormExtensionStub($this)],
                     ChoiceType::class => [new TranslatableChoiceTypeExtension()],
                 ]

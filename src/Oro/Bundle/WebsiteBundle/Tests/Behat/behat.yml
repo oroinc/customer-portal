@@ -16,7 +16,11 @@ oro_behat_extension:
         mapping:
           URL: 'routing[oro_website___url][value]'
           Secure URL: 'routing[oro_website___secure_url][value]'
+          Web Catalog Use Default: 'routing[oro_web_catalog___web_catalog][use_parent_scope_value]'
           Web Catalog:
               type: 'css'
               locator: 'input[id^="routing_oro_web_catalog___web_catalog_value-uid"]'
               element: Select2Entity
+          Main Navigation Menu Use Default: 'routing[oro_commerce_menu___main_navigation_menu][use_parent_scope_value]'
+          Main Navigation Menu: 'routing[oro_commerce_menu___main_navigation_menu][value]'
+

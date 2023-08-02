@@ -31,4 +31,46 @@ class FrontendMenuContext extends OroFeatureContext implements
 
         self::assertSame($isMenuItemVisibleExpectation, $hasLink);
     }
+
+    /**
+     * Checks, that main menu includes or not exact link and optionally checks the link title
+     *
+     * Example: Given Main menu should contain "/resource-library" with "Resource Library"
+     * Example: Given Main menu should not contain "/resource-library"
+     *
+     * @Given /^Main menu should(?P<neg>(\s| not ))contain "(?P<link>(?:[^"]|\\")+)"$/
+     * @Given /^Main menu should(?P<neg>(\s| not ))contain "(?P<link>(?:[^"]|\\")+)" with "(?P<title>(?:[^"]|\\")+)"$/
+     */
+    public function mainMenuContainLink(string $link, string $title = '', string $neg = ''): void
+    {
+        $isMenuItemVisibleExpectation = empty(trim($neg));
+        /** @var FrontendMainMenu $mainMenu */
+        $mainMenu = $this->createElement('FrontendMainMenu');
+
+        $linkByPath = $mainMenu->find(
+            'xpath',
+            sprintf('//a[@role="menuitem"][contains(@href, "%s")]', $link)
+        );
+
+        if ($isMenuItemVisibleExpectation) {
+            self::assertNotNull($linkByPath, sprintf('Menu item with link "%s" not found', $link));
+            if ($title) {
+                self::assertEquals(
+                    strtolower($linkByPath->getText()),
+                    strtolower($title),
+                    sprintf(
+                        'Menu item title mismatch expected: "%s", given: "%s"',
+                        $title,
+                        $linkByPath->getText()
+                    )
+                );
+            }
+        } else {
+            self::assertNull($linkByPath, sprintf(
+                'Menu item with link "%s" found with title "%s"',
+                $link,
+                $linkByPath?->getText()
+            ));
+        }
+    }
 }

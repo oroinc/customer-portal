@@ -18,27 +18,29 @@
 {% endmacro %}
 
 {% block menu_widget %}
-    {% set options ={
-        depth: depth,
-        matchingDepth: matchingDepth,
-        currentAsLink: currentAsLink,
-        ancestorClass: ancestorClass,
-        currentClass: currentClass,
-        firstClass: firstClass,
-        lastClass: lastClass,
-        allow_safe_labels: allow_safe_labels,
-        clear_matcher: clear_matcher,
-        leaf_class: leaf_class,
-        branch_class: branch_class,
-        customItemBlock: customItemBlock
-    } %}
+    {% if item.displayed and item.extras.isAllowed|default(true) %}
+        {% set options ={
+            depth: depth,
+            matchingDepth: matchingDepth,
+            currentAsLink: currentAsLink,
+            ancestorClass: ancestorClass,
+            currentClass: currentClass,
+            firstClass: firstClass,
+            lastClass: lastClass,
+            allow_safe_labels: allow_safe_labels,
+            clear_matcher: clear_matcher,
+            leaf_class: leaf_class,
+            branch_class: branch_class,
+            customItemBlock: customItemBlock
+        } %}
 
-    {% set listAttributes = item.childrenAttributes|merge(attr) %}
+        {% set listAttributes = item.childrenAttributes|merge(attr) %}
 
-    {% if options.rootClass is defined %}
-        {% set listAttributes = listAttributes|merge({'class': menuMacros.add_attribute_values(listAttributes, 'class', [options.rootClass])}) %}
+        {% if options.rootClass is defined %}
+            {% set listAttributes = listAttributes|merge({'class': menuMacros.add_attribute_values(listAttributes, 'class', [options.rootClass])}) %}
+        {% endif %}
+        {{ block('list') -}}
     {% endif %}
-    {{ block('list') -}}
 {% endblock %}
 
 {% block list %}

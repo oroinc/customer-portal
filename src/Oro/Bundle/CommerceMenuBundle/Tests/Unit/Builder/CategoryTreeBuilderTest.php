@@ -16,28 +16,31 @@ use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\LocaleBundle\Tools\LocalizedFallbackValueHelper;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Oro\Bundle\NavigationBundle\Event\MenuUpdatesApplyAfterEvent;
+use Oro\Bundle\NavigationBundle\JsTree\MenuUpdateTreeHandler;
 use Oro\Bundle\NavigationBundle\Menu\ConfigurationBuilder;
 use Oro\Bundle\NavigationBundle\MenuUpdate\Applier\Model\MenuUpdateApplierContext;
 use Oro\Bundle\NavigationBundle\Tests\Unit\MenuItemTestTrait;
 use Oro\Bundle\PlatformBundle\Tests\Unit\Stub\ProxyStub;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\UserInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @SuppressWarnings(PHPMD.ExcessiveClassLength)
  */
-class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
+class CategoryTreeBuilderTest extends TestCase
 {
     use MenuItemTestTrait;
 
-    private ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject $managerRegistry;
+    private ManagerRegistry|MockObject $managerRegistry;
 
-    private UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject $urlGenerator;
+    private UrlGeneratorInterface|MockObject $urlGenerator;
 
-    private MenuCategoriesProviderInterface|\PHPUnit\Framework\MockObject\MockObject $menuCategoriesProvider;
+    private MenuCategoriesProviderInterface|MockObject $menuCategoriesProvider;
 
-    private TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject $tokenAccessor;
+    private TokenAccessorInterface|MockObject $tokenAccessor;
 
     private CategoryTreeBuilder $builder;
 
@@ -72,7 +75,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
         $localizationHelper
             ->expects(self::any())
             ->method('getLocalizedValue')
-            ->willReturnCallback(static fn ($collection) => (string)($collection[0] ?? null));
+            ->willReturnCallback(static fn ($collection) => (string) ($collection[0] ?? null));
     }
 
     public function testBuildWhenNoCategory(): void
@@ -150,10 +153,51 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                         'extras' => [
                             MenuUpdate::TARGET_CATEGORY => $category,
                             MenuUpdate::MAX_TRAVERSE_LEVEL => $maxTraverseLevel,
+                            MenuUpdateTreeHandler::EXTRA_IS_ALLOWED_FOR_BACKOFFICE => false,
                         ],
                         'children' => [],
                     ],
                 ],
+            ],
+            $this->normalizeMenuItem($menu)
+        );
+    }
+
+    public function testBuildWhenNoCategoryDataOnRootLevel(): void
+    {
+        $category = (new CategoryStub())
+            ->setId(1);
+
+        $maxNestingLevel = 1;
+        $menu = $this->createItem('sample_menu')
+            ->setExtra(ConfigurationBuilder::MAX_NESTING_LEVEL, $maxNestingLevel)
+            ->setExtra('isAllowed', true)
+            ->setExtra(MenuUpdate::TARGET_CATEGORY, $category);
+
+        $user = $this->createMock(UserInterface::class);
+        $this->tokenAccessor->expects(self::once())
+            ->method('getUser')
+            ->willReturn($user);
+
+        $this->menuCategoriesProvider
+            ->expects(self::once())
+            ->method('getCategories')
+            ->with($category, $user, ['tree_depth' => 0])
+            ->willReturn([]);
+
+        $this->builder->build($menu);
+
+        self::assertEquals(
+            [
+                'display' => true,
+                'label' => $menu->getName(),
+                'uri' => null,
+                'extras' => [
+                    ConfigurationBuilder::MAX_NESTING_LEVEL => 1,
+                    MenuUpdate::TARGET_CATEGORY => $category,
+                    'isAllowed' => true, // value should not be changed/applied for root items
+                ],
+                'children' => [],
             ],
             $this->normalizeMenuItem($menu)
         );
@@ -198,7 +242,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
         $categoryData = [
             'id' => $category->getId(),
             'parentId' => 0,
-            'titles' => new ArrayCollection([$this->createTitle($title)])
+            'titles' => new ArrayCollection([$this->createTitle($title)]),
         ];
         $this->menuCategoriesProvider->expects(self::once())
             ->method('getCategories')
@@ -262,27 +306,27 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
         $category1Data = [
             'id' => $category->getId(),
             'parentId' => 0,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1')]),
         ];
         $category12Data = [
             'id' => 12,
             'parentId' => 1,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-2')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-2')]),
         ];
         $category13Data = [
             'id' => 13,
             'parentId' => 1,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3')]),
         ];
         $category131Data = [
             'id' => 131,
             'parentId' => 13,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3-1')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3-1')]),
         ];
         $category14Data = [
             'id' => 14,
             'parentId' => 1,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-4')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-4')]),
         ];
         $categoriesData = [
             $category1Data['id'] => $category1Data,
@@ -309,7 +353,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                 'display' => true,
                 'children' => [
                     $menuItem->getName() => [
-                        'label' => (string)$category1Data['titles'][0],
+                        'label' => (string) $category1Data['titles'][0],
                         'uri' => 'oro_product_frontend_product_index/11',
                         'extras' => [
                             MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
@@ -324,7 +368,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                         'display' => true,
                         'children' => [
                             $this->getTreeItemName($menuItem, 12) => [
-                                'label' => (string)$category12Data['titles'][0],
+                                'label' => (string) $category12Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/121',
                                 'extras' => [
                                     'sample_key' => 'sample_value',
@@ -346,7 +390,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 'children' => [],
                             ],
                             $this->getTreeItemName($menuItem, 13) => [
-                                'label' => (string)$category13Data['titles'][0],
+                                'label' => (string) $category13Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/131',
                                 'extras' => [
                                     'sample_key' => 'sample_value',
@@ -367,7 +411,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 'display' => true,
                                 'children' => [
                                     $this->getTreeItemName($menuItem, 131) => [
-                                        'label' => (string)$category131Data['titles'][0],
+                                        'label' => (string) $category131Data['titles'][0],
                                         'uri' => 'oro_product_frontend_product_index/1311',
                                         'extras' => [
                                             'sample_key' => 'sample_value',
@@ -391,7 +435,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 ],
                             ],
                             $this->getTreeItemName($menuItem, 14) => [
-                                'label' => (string)$category14Data['titles'][0],
+                                'label' => (string) $category14Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/141',
                                 'extras' => [
                                     'tree_item_option_key' => 'tree_item_option_value',
@@ -455,27 +499,27 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
         $category1Data = [
             'id' => $category->getId(),
             'parentId' => 0,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1')]),
         ];
         $category12Data = [
             'id' => 12,
             'parentId' => 1,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-2')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-2')]),
         ];
         $category13Data = [
             'id' => 13,
             'parentId' => 1,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3')]),
         ];
         $category131Data = [
             'id' => 131,
             'parentId' => 13,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3-1')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3-1')]),
         ];
         $category14Data = [
             'id' => 14,
             'parentId' => 1,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-4')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-4')]),
         ];
         $categoriesData = [
             $category1Data['id'] => $category1Data,
@@ -500,7 +544,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                 'display' => true,
                 'children' => [
                     $menuItem->getName() => [
-                        'label' => (string)$category1Data['titles'][0],
+                        'label' => (string) $category1Data['titles'][0],
                         'uri' => 'oro_product_frontend_product_index/11',
                         'extras' => [
                             MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
@@ -514,7 +558,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                         'display' => true,
                         'children' => [
                             $this->getTreeItemName($menuItem, 12) => [
-                                'label' => (string)$category12Data['titles'][0],
+                                'label' => (string) $category12Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/121',
                                 'extras' => [
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
@@ -534,7 +578,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 'children' => [],
                             ],
                             $this->getTreeItemName($menuItem, 13) => [
-                                'label' => (string)$category13Data['titles'][0],
+                                'label' => (string) $category13Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/131',
                                 'extras' => [
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
@@ -553,7 +597,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 'display' => true,
                                 'children' => [
                                     $this->getTreeItemName($menuItem, 131) => [
-                                        'label' => (string)$category131Data['titles'][0],
+                                        'label' => (string) $category131Data['titles'][0],
                                         'uri' => 'oro_product_frontend_product_index/1311',
                                         'extras' => [
                                             MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
@@ -576,7 +620,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 ],
                             ],
                             $this->getTreeItemName($menuItem, 14) => [
-                                'label' => (string)$category14Data['titles'][0],
+                                'label' => (string) $category14Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/141',
                                 'extras' => [
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
@@ -641,27 +685,27 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
         $category1Data = [
             'id' => $category->getId(),
             'parentId' => 0,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1')]),
         ];
         $category12Data = [
             'id' => 12,
             'parentId' => 1,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-2')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-2')]),
         ];
         $category13Data = [
             'id' => 13,
             'parentId' => 1,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3')]),
         ];
         $category131Data = [
             'id' => 131,
             'parentId' => 13,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3-1')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3-1')]),
         ];
         $category14Data = [
             'id' => 14,
             'parentId' => 1,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-4')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-4')]),
         ];
         $categoriesData = [
             $category1Data['id'] => $category1Data,
@@ -684,8 +728,8 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                 'extras' => [
                     MenuUpdateInterface::POSITION => 42,
                     MenuUpdate::TARGET_CATEGORY => $category13,
-                    MenuUpdate::MAX_TRAVERSE_LEVEL => $lostItemMaxTraverseLevel
-                ]
+                    MenuUpdate::MAX_TRAVERSE_LEVEL => $lostItemMaxTraverseLevel,
+                ],
             ]
         );
 
@@ -703,7 +747,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                 'display' => true,
                 'children' => [
                     $menuItem->getName() => [
-                        'label' => (string)$category1Data['titles'][0],
+                        'label' => (string) $category1Data['titles'][0],
                         'uri' => 'oro_product_frontend_product_index/11',
                         'extras' => [
                             MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
@@ -717,7 +761,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                         'display' => true,
                         'children' => [
                             $this->getTreeItemName($menuItem, 12) => [
-                                'label' => (string)$category12Data['titles'][0],
+                                'label' => (string) $category12Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/121',
                                 'extras' => [
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
@@ -737,7 +781,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 'children' => [],
                             ],
                             $lostItemName => [
-                                'label' => (string)$category13Data['titles'][0],
+                                'label' => (string) $category13Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/131',
                                 'extras' => [
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
@@ -757,7 +801,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 'children' => [],
                             ],
                             $this->getTreeItemName($menuItem, 14) => [
-                                'label' => (string)$category14Data['titles'][0],
+                                'label' => (string) $category14Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/141',
                                 'extras' => [
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
@@ -823,27 +867,27 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
         $category1Data = [
             'id' => $category->getId(),
             'parentId' => 0,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1')]),
         ];
         $category12Data = [
             'id' => 12,
             'parentId' => 1,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-2')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-2')]),
         ];
         $category13Data = [
             'id' => 13,
             'parentId' => 1,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3')]),
         ];
         $category131Data = [
             'id' => 131,
             'parentId' => 13,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3-1')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-3-1')]),
         ];
         $category14Data = [
             'id' => 14,
             'parentId' => 1,
-            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-4')])
+            MenuUpdateInterface::TITLES => new ArrayCollection([$this->createTitle('Sample Category 1-4')]),
         ];
         $categoriesData = [
             $category1Data['id'] => $category1Data,
@@ -872,7 +916,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                     MenuUpdateInterface::IS_SYNTHETIC => true,
                     MenuUpdate::TARGET_CATEGORY => $category13,
                     MenuUpdate::MAX_TRAVERSE_LEVEL => $category13MaxTraverseLevel,
-                ]
+                ],
             ]
         );
 
@@ -889,7 +933,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                 'display' => true,
                 'children' => [
                     $menuItem->getName() => [
-                        'label' => (string)$category1Data['titles'][0],
+                        'label' => (string) $category1Data['titles'][0],
                         'uri' => 'oro_product_frontend_product_index/11',
                         'extras' => [
                             MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
@@ -903,7 +947,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                         'display' => true,
                         'children' => [
                             $this->getTreeItemName($menuItem, 12) => [
-                                'label' => (string)$category12Data['titles'][0],
+                                'label' => (string) $category12Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/121',
                                 'extras' => [
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
@@ -923,7 +967,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                                 'children' => [],
                             ],
                             $this->getTreeItemName($menuItem, 14) => [
-                                'label' => (string)$category14Data['titles'][0],
+                                'label' => (string) $category14Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/141',
                                 'extras' => [
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
@@ -945,7 +989,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                         ],
                     ],
                     $syntheticItemName => [
-                        'label' => (string)$category13Data['titles'][0],
+                        'label' => (string) $category13Data['titles'][0],
                         'uri' => 'oro_product_frontend_product_index/131',
                         'extras' => [
                             MenuUpdateInterface::IS_SYNTHETIC => true,
@@ -963,7 +1007,7 @@ class CategoryTreeBuilderTest extends \PHPUnit\Framework\TestCase
                         'display' => true,
                         'children' => [
                             $this->getTreeItemName($menuItem, 131) => [
-                                'label' => (string)$category131Data['titles'][0],
+                                'label' => (string) $category131Data['titles'][0],
                                 'uri' => 'oro_product_frontend_product_index/1311',
                                 'extras' => [
                                     MenuUpdateInterface::IS_TRANSLATE_DISABLED => true,
