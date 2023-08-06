@@ -9,19 +9,12 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserInterface;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 
 /**
- * Provide getting Customer and CustomerGroup for CustomerUser
+ * Provides functionality to get a customer and a customer group for a customer user.
  */
 class CustomerUserRelationsProvider
 {
-    /**
-     * @var ConfigManager
-     */
-    protected $configManager;
-
-    /**
-     * @var DoctrineHelper
-     */
-    protected $doctrineHelper;
+    private ConfigManager $configManager;
+    private DoctrineHelper $doctrineHelper;
 
     public function __construct(ConfigManager $configManager, DoctrineHelper $doctrineHelper)
     {
@@ -29,52 +22,28 @@ class CustomerUserRelationsProvider
         $this->doctrineHelper = $doctrineHelper;
     }
 
-    /**
-     * @param CustomerUserInterface|null $customerUser
-     * @return null|Customer
-     */
-    public function getCustomer(CustomerUserInterface $customerUser = null)
+    public function getCustomer(CustomerUserInterface $customerUser = null): ?Customer
     {
-        if ($customerUser) {
-            return $customerUser->getCustomer();
-        }
-
-        return null;
+        return $customerUser?->getCustomer();
     }
 
-    /**
-     * @param CustomerUserInterface|null $customerUser
-     * @return null|CustomerGroup
-     */
-    public function getCustomerGroup(CustomerUserInterface $customerUser = null)
+    public function getCustomerGroup(CustomerUserInterface $customerUser = null): ?CustomerGroup
     {
-        if ($customerUser) {
-            $customer = $this->getCustomer($customerUser);
-            if ($customer) {
-                return $customer->getGroup();
-            }
-        } else {
+        if (null === $customerUser) {
             $anonymousGroupId = $this->configManager->get('oro_customer.anonymous_customer_group');
 
-            if ($anonymousGroupId) {
-                return $this->doctrineHelper->getEntityReference(
-                    'OroCustomerBundle:CustomerGroup',
-                    $anonymousGroupId
-                );
-            }
+            return $anonymousGroupId
+                ? $this->doctrineHelper->getEntityReference(CustomerGroup::class, $anonymousGroupId)
+                : null;
         }
 
-        return null;
+        return $customerUser->getCustomer()?->getGroup();
     }
 
-    /**
-     * @param CustomerUserInterface|null $customerUser
-     * @return null|Customer
-     */
-    public function getCustomerIncludingEmpty(CustomerUserInterface $customerUser = null)
+    public function getCustomerIncludingEmpty(CustomerUserInterface $customerUser = null): ?Customer
     {
-        $customer = $this->getCustomer($customerUser);
-        if (!$customer) {
+        $customer = $customerUser?->getCustomer();
+        if (null === $customer) {
             $customer = new Customer();
             $customer->setGroup($this->getCustomerGroup($customerUser));
         }
