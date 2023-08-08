@@ -6,6 +6,7 @@ services:
             - "@doctrine"
             - "@oro_frontend.request.frontend_helper"
             - "@oro_maintenance.maintenance_state"
+            - "@oro_maintenance.maintenance_restrictions_checker"
         tags:
             - { name: doctrine.event_listener, event: onClear }
 
