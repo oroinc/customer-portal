@@ -5,6 +5,7 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Manager;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\MaintenanceBundle\Maintenance\MaintenanceRestrictionsChecker;
 use Oro\Bundle\MaintenanceBundle\Maintenance\Mode;
 use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
@@ -25,13 +26,17 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
     /** @var WebsiteManager */
     private $manager;
 
+    private MaintenanceRestrictionsChecker|MockObject $maintenanceRestrictionsChecker;
+
     protected function setUp(): void
     {
         $this->managerRegistry = $this->createMock(ManagerRegistry::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
         $this->maintenance = $this->createMock(Mode::class);
+        $this->maintenanceRestrictionsChecker = $this->createMock(MaintenanceRestrictionsChecker::class);
 
         $this->manager = new WebsiteManager($this->managerRegistry, $this->frontendHelper, $this->maintenance);
+        $this->manager->setMaintenanceRestrictionsChecker($this->maintenanceRestrictionsChecker);
     }
 
     public function testGetCurrentWebsite()

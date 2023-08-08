@@ -5,6 +5,7 @@ namespace Oro\Bundle\WebsiteBundle\Manager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\MaintenanceBundle\Maintenance\MaintenanceRestrictionsChecker;
 use Oro\Bundle\MaintenanceBundle\Maintenance\Mode;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
@@ -34,6 +35,8 @@ class WebsiteManager
      */
     protected $maintenance;
 
+    protected ?MaintenanceRestrictionsChecker $maintenanceRestrictionsChecker = null;
+
     public function __construct(
         ManagerRegistry $managerRegistry,
         FrontendHelper $frontendHelper,
@@ -44,12 +47,22 @@ class WebsiteManager
         $this->maintenance = $maintenance;
     }
 
+    public function setMaintenanceRestrictionsChecker(
+        MaintenanceRestrictionsChecker $maintenanceRestrictionsChecker
+    ): void {
+        $this->maintenanceRestrictionsChecker = $maintenanceRestrictionsChecker;
+    }
+
     /**
      * @return Website|null
      */
     public function getCurrentWebsite()
     {
-        if (!$this->currentWebsite && !$this->maintenance->isOn()) {
+        if ($this->maintenance->isOn() && !$this->maintenanceRestrictionsChecker?->isAllowed()) {
+            return null;
+        }
+
+        if (!($this->currentWebsite)) {
             $this->currentWebsite = $this->getResolvedWebsite();
         }
 
