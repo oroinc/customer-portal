@@ -6,6 +6,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\MaintenanceBundle\Maintenance\MaintenanceModeState;
+use Oro\Bundle\MaintenanceBundle\Maintenance\MaintenanceRestrictionsChecker;
 use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
@@ -13,25 +14,25 @@ use Oro\Component\Testing\ReflectionUtil;
 
 class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $managerRegistry;
+    private ManagerRegistry|MockObject $managerRegistry;
 
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
+    private FrontendHelper|MockObject $frontendHelper;
 
-    /** @var MaintenanceModeState|\PHPUnit\Framework\MockObject\MockObject */
-    private $maintenanceModeState;
+    private MaintenanceModeState|MockObject $maintenanceModeState;
 
-    /** @var WebsiteManager */
-    private $manager;
+    private WebsiteManager $manager;
+
+    private MaintenanceRestrictionsChecker|MockObject $maintenanceRestrictionsChecker;
 
     protected function setUp(): void
     {
         $this->managerRegistry = $this->createMock(ManagerRegistry::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
         $this->maintenanceModeState = $this->createMock(MaintenanceModeState::class);
+        $this->maintenanceRestrictionsChecker = $this->createMock(MaintenanceRestrictionsChecker::class);
 
         $this->manager = new WebsiteManager($this->managerRegistry, $this->frontendHelper, $this->maintenanceModeState);
+        $this->manager->setMaintenanceRestrictionsChecker($this->maintenanceRestrictionsChecker);
     }
 
     public function testGetCurrentWebsite()
