@@ -8,9 +8,9 @@
             <div class="grid">
                 <% _.each(colors, function(color, key) { %>
                     <div class="color-palette__color-box grid-col-4 grid-col-mobile-landscape-6 grid-col-mobile-12">
-                        $key:
-                        <strong class="color-palette__name--title"><%- key %></strong>
-                        <div class="color-palette__name color-palette__name--<%- palette %>-<%- key %>" style="background: <%- color %>;"><%- color %></div>
+                        <div class="color-palette__line">$key: <strong class="color-palette__name--title"><%- key %></strong></div>
+                        <div class="color-palette__line">#color: <strong class="color-palette__name--title"><%- color %></strong></div>
+                        <div class="color-palette__name color-palette__name--<%- palette %>-<%- key %>" style="--color-palette-background: <%- color %>;"></div>
                         <code class="color-palette__usage language-css">get-color('<%- palette %>', '<%- key %>');</code>
                     </div>
                 <% }); %>

@@ -15,24 +15,20 @@ $style-book-group-element-preview-grid-item-padding: $offset-x-m !default;
 
 $style-book-group-element-color-palette-border: 1px solid get-color('additional', 'middle') !default;
 
-$style-book-group-element-color-name-color: get-color('additional', 'ultra') !default;
+$style-book-group-element-color-border: 1px solid get-color('additional', 'middle') !default;
 
-$style-book-group-element-color-additional-ultra-color: get-color('primary', 'main') !default;
-$style-book-group-element-color-additional-ultra-border: 1px solid get-color('additional', 'middle') !default;
-
-$style-book-group-element-color-additional-base-color: get-color('primary', 'main') !default;
-
-$style-book-group-element-color-additional-light-color: get-color('primary', 'main') !default;
-
-$style-book-group-element-color-additional-light-color: get-color('primary', 'main') !default;
-
-$style-book-group-element-color-additional-middle-color: get-color('primary', 'main') !default;
-
-$style-book-group-element-color-ui-error-color: get-color('primary', 'main') !default;
-
-$style-book-group-element-color-ui-success-color: get-color('primary', 'main') !default;
-
-$style-book-group-element-color-ui-warning-color: get-color('primary', 'main') !default;
+$style-book-group-element-name-background-image:
+    linear-gradient(
+        90deg,
+        var(--color-palette-background, transparent) 0%,
+        var(--color-palette-background, transparent) 100%
+    ),
+    linear-gradient(45deg, #ccc 25%, transparent 25%),
+    linear-gradient(-45deg, #ccc 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #ccc 75%),
+    linear-gradient(-45deg, transparent 75%, #ccc 75%) !default;
+$style-book-group-element-name-background-size: 10px 10px !default;
+$style-book-group-element-name-background-position: 0 0, 0 0, 0 5px, 5px -5px, -5px 0px !default;
 
 $style-book-group-element-typography-color: color.adjust(get-color('additional', 'middle'), $lightness: -10%) !default;
 
