@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Acl\Voter;
 use Oro\Bundle\CustomerBundle\Acl\Cache\CustomerVisitorAclCache;
 use Oro\Bundle\CustomerBundle\Acl\Voter\CustomerVisitorAclVoterDecorator;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Fixtures\CustomerVisitorOwnedEntity;
 use Oro\Bundle\ProductBundle\Entity\Product;
 use Oro\Bundle\SecurityBundle\Acl\Domain\DomainObjectWrapper;
 use Oro\Bundle\SecurityBundle\Acl\Voter\AclVoterInterface;
@@ -47,7 +48,7 @@ class CustomerVisitorAclVoterDecoratorTest extends \PHPUnit\Framework\TestCase
     public function testVoteOnNotVisitorToken(): void
     {
         $token = new UsernamePasswordToken('test', 'passw', 'main', []);
-        $subject = 'some_action';
+        $subject = new Product();
         $attributes = ['VIEW'];
 
         $this->websiteProvider->expects(self::never())
@@ -69,6 +70,33 @@ class CustomerVisitorAclVoterDecoratorTest extends \PHPUnit\Framework\TestCase
 
         self::assertEquals(1, $this->aclVoterDecorator->vote($token, $subject, $attributes));
     }
+
+    public function testVoteOnCustomerVisitorOwnerAwareInterfaceSubject(): void
+    {
+        $token = new AnonymousCustomerUserToken('test', []);
+        $subject = new CustomerVisitorOwnedEntity();
+        $attributes = ['VIEW'];
+
+        $this->websiteProvider->expects(self::never())
+            ->method('getWebsite');
+
+        $this->visitorAclCache->expects(self::never())
+            ->method('isVoteResultExist');
+
+        $this->visitorAclCache->expects(self::never())
+            ->method('getVoteResult');
+
+        $this->visitorAclCache->expects(self::never())
+            ->method('cacheAclResult');
+
+        $this->innerVoter->expects(self::once())
+            ->method('vote')
+            ->with($token, $subject, $attributes)
+            ->willReturn(1);
+
+        self::assertEquals(1, $this->aclVoterDecorator->vote($token, $subject, $attributes));
+    }
+
 
     public function testVoteOnCachedStringSubject(): void
     {
