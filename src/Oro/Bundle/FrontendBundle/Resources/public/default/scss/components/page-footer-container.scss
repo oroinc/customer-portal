@@ -13,7 +13,7 @@
 
     &__side {
         width: $page-footer-container-side-width;
-        padding-left: $offset-x;
+        padding-left: spacing('base');
 
         flex: 0 0 auto;
     }

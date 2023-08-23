@@ -1,15 +1,15 @@
 /* @theme: default; */
 
-$customer-info-grid-title-offset: 23px 0 $offset-y-m !default;
+$customer-info-grid-title-offset: 23px 0 spacing('sm') !default;
 $customer-info-grid-title-font-size: $base-font-size--large !default;
 $customer-info-grid-title-text-transform: uppercase !default;
 
-$customer-info-grid-element-label-offest-inner: $offset-y-s $offset-y-m 2px 0 !default;
+$customer-info-grid-element-label-offest-inner: spacing('xs') spacing('sm') 2px 0 !default;
 $customer-info-grid-element-label-font-weight: font-weight('bold') !default;
 
 $customer-info-grid-element-label-white-space: nowrap !default;
 
-$customer-info-grid-element-content-offest-inner: $offset-y-s $offset-y-m 2px !default;
+$customer-info-grid-element-content-offest-inner: spacing('xs') spacing('sm') 2px !default;
 $customer-info-grid-element-content-font-style: italic !default;
 $customer-info-grid-element-content-word-wrap: break-word !default;
 

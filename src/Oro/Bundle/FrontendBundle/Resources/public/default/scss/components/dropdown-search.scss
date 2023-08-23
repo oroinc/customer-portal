@@ -34,7 +34,7 @@
             left: 0;
             right: 0;
             text-align: center;
-            padding: $offset-y-m $offset-x;
+            padding: spacing('sm') spacing('base');
         }
     }
 
@@ -69,7 +69,7 @@
         list-style: none;
 
         &:not(:first-of-type) {
-            margin-top: $offset-y-m;
+            margin-top: spacing('sm');
 
             &::before {
                 content: '';

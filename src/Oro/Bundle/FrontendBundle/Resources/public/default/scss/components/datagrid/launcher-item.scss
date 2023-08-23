@@ -102,7 +102,7 @@
             @include launcher-separator($enabled: $launcher-item-separator-dropdown-icon-only);
 
             .action {
-                padding: $offset-x-m $offset-x-s;
+                padding: spacing('sm') spacing('xs');
                 color: $launcher-item-icon-color;
 
                 @include hover-focus {

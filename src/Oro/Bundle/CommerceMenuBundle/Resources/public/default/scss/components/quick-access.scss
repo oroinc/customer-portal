@@ -67,7 +67,7 @@
 @include breakpoint('tablet') {
     .quick-access {
         border-bottom: $quick-access-tablet-border;
-        padding: $offset-y;
+        padding: spacing('base');
 
         &__list {
             text-align: left;

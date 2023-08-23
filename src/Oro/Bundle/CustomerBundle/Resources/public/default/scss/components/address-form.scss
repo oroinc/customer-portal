@@ -6,6 +6,6 @@
     background: $address-form-background;
 
     &__types {
-        --grid-gap: 0 #{$offset-y};
+        --grid-gap: 0 #{spacing('base')};
     }
 }

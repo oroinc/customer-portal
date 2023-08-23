@@ -5,8 +5,8 @@ $top-bar-cusomer-menu-trigger-offset-top: 6px 0 0 !default;
 $top-bar-cusomer-menu-use-greeting-length: 250px !default;
 $top-bar-cusomer-menu-use-greeting-align: text-bottom !default;
 
-$top-bar-cusomer-menu-dropdown-offset: $offset-y-m !default;
+$top-bar-cusomer-menu-dropdown-offset: spacing('sm') !default;
 $top-bar-cusomer-menu-links-color: get-color('additional', 'dark') !default;
 $top-bar-cusomer-menu-links-hover-color: get-color('additional', 'dark') !default;
 
-$top-bar-cusomer-menu-dropdown-item-offset: $offset-y-s 0 !default;
+$top-bar-cusomer-menu-dropdown-item-offset: spacing('xs') 0 !default;

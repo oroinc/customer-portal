@@ -22,7 +22,7 @@ $dialog-titlebar-buttonpane-right: 0 !default;
 
 $dialog-buttonpane-offset-inner: 16px 40px 20px !default;
 
-$dialog-action-wrapper-side-offset: $offset-x-m !default;
+$dialog-action-wrapper-side-offset: spacing('sm') !default;
 
 $dialog-draggable-handle-cursor: move !default;
 $dialog-buttons-inner-cursor: pointer !default;
@@ -56,9 +56,9 @@ $ui-dialog-title-fullscreen-font-weight: $fullscreen-popup-text-weight !default;
 $ui-dialog-title-fullscreen-text-transform: $fullscreen-popup-text-text-transform !default;
 
 $ui-dialog-content-fullscreen-messages-margin: 0 !default;
-$ui-dialog-content-fullscreen-messages-offset: $offset-x-m $offset-x 0 !default;
+$ui-dialog-content-fullscreen-messages-offset: spacing('sm') spacing('base') 0 !default;
 
-$ui-dialog-content-fullscreen-offset: $offset-x-m $offset-x !default;
+$ui-dialog-content-fullscreen-offset: spacing('sm') spacing('base') !default;
 
 $ui-dialog-extra-header-content-fullscreen-margin: $ui-dialog-content-fullscreen-messages-margin !default;
 $ui-dialog-extra-header-content-fullscreen-offset: $ui-dialog-content-fullscreen-messages-offset !default;

@@ -5,6 +5,6 @@ $switcher-info-container-fullscreen-mode-display: block !default;
 
 $switcher-info-title-color: get-color('primary', 'dark') !default;
 $switcher-info-title-text-transform: uppercase !default;
-$switcher-info-title-padding: $offset-y-m $offset-x !default;
+$switcher-info-title-padding: spacing('sm') spacing('base') !default;
 
-$switcher-info-section-margin-block-start: $offset-y !default;
+$switcher-info-section-margin-block-start: spacing('base') !default;

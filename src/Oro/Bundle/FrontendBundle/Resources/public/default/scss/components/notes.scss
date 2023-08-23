@@ -4,7 +4,7 @@
     margin-bottom: 35px;
 
     &__item {
-        padding: $offset-y 0;
+        padding: spacing('base') 0;
 
         border-bottom: $notes-item-border-bottom;
 
@@ -18,12 +18,12 @@
     }
 
     &__date {
-        padding-left: $offset-y-m;
+        padding-left: spacing('sm');
 
         color: $notes-date-color;
     }
 
     &__info {
-        margin-bottom: $offset-y-m;
+        margin-bottom: spacing('sm');
     }
 }

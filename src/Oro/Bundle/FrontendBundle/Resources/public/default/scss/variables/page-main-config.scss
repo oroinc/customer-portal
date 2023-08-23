@@ -2,5 +2,5 @@
 
 $page-main-offset-top: 15px !default;
 $page-main-max-width: $site-width !default;
-$page-main-inner-offset: 0 $offset-x-m !default;
+$page-main-inner-offset: 0 spacing('sm') !default;
 $page-main-content-offset: 0 auto 70px !default;

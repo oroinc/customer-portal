@@ -1,7 +1,7 @@
 /* @theme: default; */
 
 .customer-info-grid {
-    margin-bottom: $offset-x;
+    margin-bottom: spacing('base');
 
     &__title {
         margin: $customer-info-grid-title-offset;

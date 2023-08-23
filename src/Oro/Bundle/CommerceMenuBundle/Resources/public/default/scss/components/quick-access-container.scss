@@ -1,7 +1,7 @@
 /* @theme: default; */
 
 .quick-access-container {
-    margin: $offset-y-m 0;
+    margin: spacing('sm') 0;
 }
 
 @include breakpoint('mobile') {

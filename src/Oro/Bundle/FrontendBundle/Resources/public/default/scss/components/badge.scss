@@ -48,7 +48,7 @@
 .badge-rectangle {
     display: inline-flex;
     align-items: center;
-    padding: $offset-y-s $offset-x-m;
+    padding: spacing('xs') spacing('sm');
 
     font-size: $base-font-size;
     line-height: 1;

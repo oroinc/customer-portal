@@ -7,7 +7,7 @@
     width: 100%;
 
     &__title {
-        margin-bottom: $offset-y-s + 1px;
+        margin-bottom: spacing('xs') + 1px;
         font-size: $base-font-size--large;
         line-height: $base-ui-element-line-height;
     }
@@ -16,7 +16,7 @@
         text-align: left;
 
         th {
-            padding: ($offset-y-m + $offset-y-s) ($offset-x-m + 2px);
+            padding: (spacing('sm') + spacing('xs')) (spacing('sm') + 2px);
 
             font-weight: font-weight('normal');
 
@@ -30,10 +30,10 @@
     tbody {
         td {
             vertical-align: middle;
-            padding: ($offset-y-s - 1px) ($offset-x-m + 2px);
+            padding: (spacing('xs') - 1px) (spacing('sm') + 2px);
 
             .decor-row {
-                padding: ($offset-y + 3px) 0 ($offset-y-m - 2px);
+                padding: (spacing('base') + 3px) 0 (spacing('sm') - 2px);
 
                 &::before {
                     content: '';
@@ -67,10 +67,10 @@
     &__verticalp-enlarged {
         tbody {
             td {
-                padding: $offset-y ($offset-x-s + 1px);
+                padding: spacing('base') (spacing('xs') + 1px);
 
                 &:not(:first-child) {
-                    padding-left: $offset-y - 3px;
+                    padding-left: spacing('base') - 3px;
                 }
 
                 &:first-child {
@@ -87,36 +87,36 @@
     &-properties {
         tbody {
             td {
-                padding: ($offset-y-s - 3px) 0;
+                padding: (spacing('xs') - 3px) 0;
             }
         }
 
         .title {
-            padding: ($offset-y-s + 1px) 0;
+            padding: (spacing('xs') + 1px) 0;
         }
 
         .decor-row {
-            padding: ($offset-y + 10px) 0 $offset-y;
+            padding: (spacing('base') + 10px) 0 spacing('base');
         }
 
         .product-item__title {
-            margin-bottom: $offset-y-m + 1px;
+            margin-bottom: spacing('sm') + 1px;
         }
     }
 
     &__orders {
-        margin-top: $offset-y-m;
+        margin-top: spacing('sm');
 
         tr {
             &:first-child {
                 td {
-                    padding: $offset-y ($offset-y - 3px) ($offset-y-s - 1px);
+                    padding: spacing('base') (spacing('base') - 3px) (spacing('xs') - 1px);
                 }
             }
         }
 
         td {
-            padding: ($offset-y-m - 2px) ($offset-y - 3px) 0;
+            padding: (spacing('sm') - 2px) (spacing('base') - 3px) 0;
 
             line-height: 1;
         }

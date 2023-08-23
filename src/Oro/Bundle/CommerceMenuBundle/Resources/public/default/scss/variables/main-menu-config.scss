@@ -9,7 +9,7 @@ $main-menu-flex-grow: 0 !default;
 $main-menu-link-display: block !default;
 $main-menu-link-line-height: 1.5 !default;
 $main-menu-link-background-active: get-color('additional', 'base') !default;
-$main-menu-sublist-title-offset: $offset-x-s !default;
+$main-menu-sublist-title-offset: spacing('xs') !default;
 $main-menu-sublist-transition: left .4s linear !default;
 
 $main-menu-button-arrow-width: 33px !default;

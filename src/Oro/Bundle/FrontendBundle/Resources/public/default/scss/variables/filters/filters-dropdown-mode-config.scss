@@ -4,7 +4,7 @@ $filter-dropdown-mode-ui-multiselect-menu-z-ndex: z('popup') !default;
 $filter-dropdown-mode-ui-multiselect-menu-max-width: 320px !default;
 $filter-dropdown-mode-ui-multiselect-menu-bg: get-color('additional', 'ultra') !default;
 $filter-dropdown-mode-ui-multiselect-menu-helper-reset-offset-inner: 0 20px !default;
-$filter-dropdown-mode-ui-multiselect-menu-header-div-offset-inner: 13px 20px $offset-y-m !default;
+$filter-dropdown-mode-ui-multiselect-menu-header-div-offset-inner: 13px 20px spacing('sm') !default;
 
 $filter-dropdown-mode-criteria-min-width: 340px !default;
 $filter-dropdown-mode-criteria-offset-inner: 16px !default;
@@ -17,7 +17,7 @@ $filter-dropdown-mode-criteria-selector-bg: get-color('additional', 'ultra') !de
 $filter-dropdown-mode-criteria-selector-color: null !default;
 $filter-dropdown-mode-criteria-selector-icon-top: 10px !default;
 $filter-dropdown-mode-criteria-selector-icon-right: 8px !default;
-$filter-dropdown-mode-criteria-hint-item-offset: 0 $offset-x-s $offset-y-s 0 !default;
+$filter-dropdown-mode-criteria-hint-item-offset: 0 spacing('xs') spacing('xs') 0 !default;
 $filter-dropdown-mode-criteria-hint-item-offset-inner: 2px 5px 2px 8px !default;
 $filter-dropdown-mode-criteria-hint-item-border-radius: 2px !default;
 

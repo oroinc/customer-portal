@@ -29,7 +29,7 @@ $main-menu-column-title-desktop-font-weight: null !default;
 $main-menu-column-splited-min-width: 400px !default;
 $main-menu-column-splited-white-space: nowrap !default;
 
-$main-menu-column-list-list-padding-inline-start: $offset-x !default;
+$main-menu-column-list-list-padding-inline-start: spacing('base') !default;
 
 $main-menu-column-splited-inner-left-float: left !default;
 $main-menu-column-splited-inner-left-width: 50% !default;

@@ -57,7 +57,7 @@
 
         &--offset-m {
             &:not(:first-child) {
-                margin-left: $offset-x-m;
+                margin-left: spacing('sm');
             }
         }
     }

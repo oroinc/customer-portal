@@ -12,7 +12,7 @@ $grid-views-title-cursor: pointer;
 $grid-views-title-font-family: $base-font !default;
 $grid-views-title-text-transform: uppercase !default;
 
-$grid-views-subtitle-offset-inner: $offset-y-m $close-dialog-size $offset-y $offset-y !default;
+$grid-views-subtitle-offset-inner: spacing('sm') $close-dialog-size spacing('base') spacing('base') !default;
 $grid-views-edit-label-color: get-color('additional', 'middle') !default;
 $grid-views-dropdown-width: 290px !default;
 $grid-views-dropdown-offset: 0 !default;
@@ -21,8 +21,8 @@ $grid-views-dropdown-list-item-border: 1px solid get-color(additional, 'light') 
 
 $grid-views-actions-color: color.adjust(get-color(additional, 'dark'), $lightness: 38%) !default;
 
-$grid-views-dropdown-footer-offset-inner: $offset-y-s $offset-x-m !default;
-$grid-views-dropdown-form-content-offset-inner: $offset-y-s 0;
+$grid-views-dropdown-footer-offset-inner: spacing('xs') spacing('sm') !default;
+$grid-views-dropdown-form-content-offset-inner: spacing('xs') 0;
 
 $grid-views-title-icon-inner-offset: 30px !default;
 

@@ -60,8 +60,8 @@ $table-color: get-color('additional', 'dark');
 
 $input-btn-padding-y: 10px;
 $input-btn-padding-x: 13px;
-$input-btn-padding-y-sm: $offset-y-s;
-$input-btn-padding-y-lg: $offset-y-m;
+$input-btn-padding-y-sm: spacing('xs');
+$input-btn-padding-y-lg: spacing('sm');
 
 // Buttons
 // For each of Bootstrap's buttons, define text, background, and border color.
@@ -134,8 +134,8 @@ $dropdown-border-color: color.adjust(get-color('additional', 'light'), $lightnes
 $dropdown-box-shadow: 0 2px 8px rgba(0 0 0 / 10%);
 $dropdown-link-active-color: get-color('additional', 'dark');
 $dropdown-link-active-bg: get-color('additional', 'base');
-$dropdown-item-padding-y: $offset-y-m;
-$dropdown-item-padding-x: $offset-x;
+$dropdown-item-padding-y: spacing('sm');
+$dropdown-item-padding-x: spacing('base');
 $dropdown-item-font: list.slash($base-font-size, $base-line-height) $base-font;
 
 // Pagination
@@ -149,8 +149,8 @@ $dropdown-item-font: list.slash($base-font-size, $base-line-height) $base-font;
 $tooltip-font-size: .875rem;
 $tooltip-max-width: 316px;
 $tooltip-border-radius: $border-radius-xs;
-$tooltip-padding-y: $offset-y-s;
-$tooltip-padding-x: $offset-x-m;
+$tooltip-padding-y: spacing('xs');
+$tooltip-padding-x: spacing('sm');
 $tooltip-arrow-width: 12px;
 $tooltip-arrow-height: 6px;
 
@@ -168,8 +168,8 @@ $popover-border-radius: 4px;
 $popover-box-shadow: 0 2px 6px 1px rgba(0 0 0 / 12%);
 $popover-header-bg: $popover-bg;
 $popover-header-color: get-color('additional', 'dark');
-$popover-header-padding-y: $offset-y;
-$popover-header-padding-x: $offset-x;
+$popover-header-padding-y: spacing('base');
+$popover-header-padding-x: spacing('base');
 $popover-body-color: get-color('additional', 'dark');
 $popover-body-light-color: color.adjust(get-color('additional', 'dark'), $lightness: 21%);
 $popover-body-padding-y: $popover-header-padding-y;

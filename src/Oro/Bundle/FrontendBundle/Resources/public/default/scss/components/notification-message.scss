@@ -10,7 +10,7 @@
         @include list-normalize();
 
         li {
-            margin-bottom: $offset-y-s;
+            margin-bottom: spacing('xs');
         }
     }
 }

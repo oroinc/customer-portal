@@ -11,7 +11,7 @@ $top-bar-font-size: null !default;
 $top-bar-link-color: get-color('additional', 'dark') !default;
 $top-bar-list-link-color: get-color('additional', 'dark') !default;
 $top-bar-promo-color: get-color('primary', 'dark') !default;
-$top-bar-menu-item-offset-inner: $offset-x-s 0 !default;
+$top-bar-menu-item-offset-inner: spacing('xs') 0 !default;
 
 $top-bar-dropdown-background: get-color('additional', 'ultra') !default;
 $top-bar-dropdown-box-shadow: 0 4px 5px 0 rgba(0 0 0 / 40%) !default;

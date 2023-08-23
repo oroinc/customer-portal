@@ -67,7 +67,7 @@
         }
 
         &__list {
-            margin-bottom: $offset-y-m * 2;
+            margin-bottom: spacing('sm') * 2;
             padding-left: $information-nav-list-tablet-small-inner-offset-left;
 
             display: none;

@@ -1,5 +1,5 @@
 /* @theme: default; */
 
-$notification-flash-container-offset: $offset-y auto !default;
-$notification-flash-container-inner-offset: $offset-x-m !default;
+$notification-flash-container-offset: spacing('base') auto !default;
+$notification-flash-container-inner-offset: spacing('sm') !default;
 $notification-flash-container-max-width: $site-width !default;

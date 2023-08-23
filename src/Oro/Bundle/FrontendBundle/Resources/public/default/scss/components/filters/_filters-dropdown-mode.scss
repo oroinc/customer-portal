@@ -121,7 +121,7 @@
         gap: 4px;
 
         + .filter-actions {
-            margin-left: $offset-x-m;
+            margin-left: spacing('sm');
         }
     }
 
@@ -180,6 +180,6 @@
     }
 
     .filter-select-oro-wrapper {
-        margin-bottom: $offset-y-m;
+        margin-bottom: spacing('sm');
     }
 }

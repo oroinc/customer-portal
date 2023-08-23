@@ -24,7 +24,7 @@ $fullscreen-popup-header-left: 0 !default;
 $fullscreen-popup-header-min-height: $close-dialog-size !default;
 $fullscreen-popup-header-bg: get-color('additional', 'ultra') !default;
 $fullscreen-popup-header-border-bottom: 1px solid get-color('additional', 'light') !default;
-$fullscreen-popup-header-offset: 0 ($close-dialog-size + $offset-x-s) 0 $offset-x !default;
+$fullscreen-popup-header-offset: 0 ($close-dialog-size + spacing('xs')) 0 spacing('base') !default;
 
 $fullscreen-popup-footer-display: flex !default;
 $fullscreen-popup-footer-align-items: center !default;
@@ -33,7 +33,7 @@ $fullscreen-popup-footer-z-index: z('base') + 1 !default;
 $fullscreen-popup-footer-right: 0 !default;
 $fullscreen-popup-footer-left: 0 !default;
 $fullscreen-popup-footer-bottom: 0 !default;
-$fullscreen-popup-footer-offset: $offset-y-m !default;
+$fullscreen-popup-footer-offset: spacing('sm') !default;
 $fullscreen-popup-footer-bg: get-color('additional', 'ultra') !default;
 $fullscreen-popup-footer-border-top: 1px solid get-color('additional', 'light') !default;
 
@@ -42,7 +42,7 @@ $fullscreen-popup-footer-btn-offset: 5px !default;
 
 $fullscreen-popup-content-height: 100% !default;
 $fullscreen-popup-content-overflow: auto !default;
-$fullscreen-popup-content-alert-offset-height: 0 $offset-x-m $offset-y-m !default;
+$fullscreen-popup-content-alert-offset-height: 0 spacing('sm') spacing('sm') !default;
 $fullscreen-popup-content-loader-position: fixed !default;
 $fullscreen-popup-content-offset: 0 !default;
 
@@ -55,7 +55,7 @@ $fullscreen-popup-text-weight: font-weight('bold') !default;
 $fullscreen-popup-text-cursor: pointer !default;
 $fullscreen-popup-text-text-transform: uppercase !default;
 
-$fullscreen-popup-text-fa-icon-margin-right: $offset-x-s !default;
+$fullscreen-popup-text-fa-icon-margin-right: spacing('xs') !default;
 $fullscreen-popup-text-fa-icon-line-height: inherit !default;
 $fullscreen-popup-text-fa-icon-vertical-align: top !default;
 

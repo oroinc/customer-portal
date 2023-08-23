@@ -6,7 +6,7 @@
     background: $editable-background;
 
     &__trigger {
-        margin-bottom: $offset-x-s;
+        margin-bottom: spacing('xs');
     }
 
     &__editor-container {

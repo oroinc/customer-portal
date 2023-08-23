@@ -2,7 +2,7 @@
 
 .header-row {
     position: relative;
-    margin-top: $offset-y;
+    margin-top: spacing('base');
     border: $header-row-border;
     border-width: 1px 0;
     display: flex;
@@ -111,7 +111,7 @@
         border: $header-row-border-tablet;
         position: relative;
         z-index: z('base') + 2;
-        margin: 0 (-$offset-x-m);
+        margin: 0 (-spacing('xs'));
 
         &__container {
             position: static;

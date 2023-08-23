@@ -30,11 +30,11 @@
         .select,
         .oro-select2 {
             &:first-child {
-                margin-right: $offset-x-s;
+                margin-right: spacing('xs');
             }
 
             &:last-of-type {
-                margin-left: $offset-x-s;
+                margin-left: spacing('xs');
             }
         }
     }

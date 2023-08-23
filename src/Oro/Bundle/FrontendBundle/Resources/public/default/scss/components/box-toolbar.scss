@@ -2,14 +2,14 @@
 
 .box-toolbar {
     display: flex;
-    margin: 0 0 $offset-y 0;
+    margin: 0 0 spacing('base') 0;
 
     &--offset-none {
         margin: 0;
     }
 
     &__content {
-        padding: 0 $offset-x-m 0 0;
+        padding: 0 spacing('sm') 0 0;
 
         flex: 1 0 auto;
     }

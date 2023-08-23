@@ -6,7 +6,7 @@ $address-list-primary-color: get-color('additional', 'ultra') !default;
 $address-list-primary-background-color: get-color('primary', 'main') !default;
 
 $address-list-item-v-space: 20px !default;
-$address-list-item-offset: $offset-y-m $offset-x-m $offset-y $offset-x !default;
+$address-list-item-offset: spacing('sm') spacing('sm') spacing('base') spacing('base') !default;
 $address-list-item-border-bottom: 1px solid get-color('additional', 'light') !default;
 
 $address-list-item-active-background: get-color('additional', 'base') !default;

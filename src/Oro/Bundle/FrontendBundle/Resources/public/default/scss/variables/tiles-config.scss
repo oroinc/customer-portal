@@ -1,8 +1,8 @@
 /* @theme: default; */
 
 $tiles-column-count: var(--tiles-column-count, 1) !default;
-$tiles-row-gap: var(--tiles-row-gap, #{$offset-y}) !default;
-$tiles-column-gap: var(--tiles-column-gap, #{$offset-x}) !default;
+$tiles-row-gap: var(--tiles-row-gap, #{spacing('base')}) !default;
+$tiles-column-gap: var(--tiles-column-gap, #{spacing('base')}) !default;
 $tiles-justify-content: center !default;
 
 $tiles-item-width: calc(

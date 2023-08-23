@@ -7,9 +7,9 @@ $scroll-shadow-before-background: linear-gradient(
     transparent
 ) !default;
 $scroll-shadow-before-width: 100% !default;
-$scroll-shadow-before-height: $offset-y !default;
+$scroll-shadow-before-height: spacing('base') !default;
 
-$scroll-shadow-before-margin-top: -$offset-y !default;
+$scroll-shadow-before-margin-top: -spacing('base') !default;
 $scroll-shadow-before-display: block !default;
 $scroll-shadow-before-position: sticky !default;
 $scroll-shadow-before-top: 0 !default;

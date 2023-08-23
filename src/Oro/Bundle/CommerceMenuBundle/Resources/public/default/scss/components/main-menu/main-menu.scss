@@ -26,7 +26,7 @@
             position: $main-menu-back-trigger-fullscreen-position;
             top: $main-menu-back-trigger-fullscreen-top;
 
-            @include safe-area-property-left(left, $offset-x);
+            @include safe-area-property-left(left, spacing('base'));
 
             z-index: $main-menu-back-trigger-fullscreen-z-index;
 

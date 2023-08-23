@@ -12,11 +12,11 @@ $embedded-list-label-line-background: get-color('additional', 'light');
 $embedded-list-label-font-size: 18px !default;
 $embedded-list-label-text-align: center !default;
 
-$embedded-list-item-offset-inner: 0 $offset-x-m !default;
+$embedded-list-item-offset-inner: 0 spacing('sm') !default;
 
 // Embeded Slider
-$embedded-list-slider-mobile-landscape-side-offset: $offset-x-s 0 0 !default;
-$embedded-list-slider-mobile-landscape-offset: $offset-y-m 0 0 !default;
+$embedded-list-slider-mobile-landscape-side-offset: spacing('xs') 0 0 !default;
+$embedded-list-slider-mobile-landscape-offset: spacing('sm') 0 0 !default;
 
 $embedded-list-slider-btn-arrow-width: 36px !default;
 $embedded-list-slider-btn-arrow-height: 100px !default;

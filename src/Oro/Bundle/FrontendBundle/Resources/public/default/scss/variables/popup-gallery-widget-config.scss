@@ -11,7 +11,7 @@ $popup-gallery-widget-arrow-prev-icon-offset: 0 2px 0 0 !default;
 $popup-gallery-widget-arrow-next-icon-offset: 0 0 0 2px !default;
 $popup-gallery-widget-arrow-width: 37px !default;
 $popup-gallery-widget-arrow-height: 37px !default;
-$popup-gallery-widget-arrow-side-position: -($popup-gallery-widget-arrow-width + $offset-x-m) !default;
+$popup-gallery-widget-arrow-side-position: -($popup-gallery-widget-arrow-width + spacing('xs')) !default;
 $popup-gallery-widget-arrow-bg: get-color('additional', 'darker', 60%) !default;
 $popup-gallery-widget-arrow-border-radius: 100% !default;
 $popup-gallery-widget-arrow-icon-size: 12px !default;
@@ -30,5 +30,5 @@ $popup-gallery-widget-thumbnail-arrow-side-position: -20px !default;
 $popup-gallery-widget-thumbnail-arrow-icon-size: 9px !default;
 
 $popup-gallery-widget-no-slide-max-width: 720px !default;
-$popup-gallery-widget-no-slide-top: calc(100% + #{$offset-y-m}) !default;
+$popup-gallery-widget-no-slide-top: calc(100% + #{spacing('sm')}) !default;
 $popup-gallery-widget-no-slide-list-max-width: $popup-gallery-widget-no-slide-max-width - 100px !default;

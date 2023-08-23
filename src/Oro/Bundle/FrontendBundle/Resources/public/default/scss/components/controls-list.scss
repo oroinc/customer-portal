@@ -3,14 +3,14 @@
 .controls-list {
     + .controls-list {
         border-left: $controls-list-separator-width solid $controls-list-separator-color;
-        margin-left: $offset-x-m;
-        padding-left: $offset-x-m;
+        margin-left: spacing('sm');
+        padding-left: spacing('sm');
     }
 
     li {
         display: inline-block;
-        margin-left: $offset-x-m;
-        padding-left: $offset-x-m;
+        margin-left: spacing('sm');
+        padding-left: spacing('sm');
         vertical-align: top;
 
         font-size: $base-font-size;

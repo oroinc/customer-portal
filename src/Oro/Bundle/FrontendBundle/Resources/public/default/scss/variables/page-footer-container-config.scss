@@ -3,7 +3,7 @@
 $page-footer-container-base-width: 75% !default;
 $page-footer-container-side-width: 25% !default;
 
-$page-footer-container-inner-offset: 0 $offset-x-m !default;
+$page-footer-container-inner-offset: 0 spacing('sm') !default;
 
 // Tablet small
 $page-footer-container-base-tablet-small-width: 50% !default;

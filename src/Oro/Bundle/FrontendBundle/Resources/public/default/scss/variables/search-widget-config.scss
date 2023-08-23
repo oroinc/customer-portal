@@ -32,7 +32,7 @@ $search-widget-input-submit-focus-box-shadow: none !default;
 $search-widget-input-submit-focus-color: get-color('ui', 'focus') !default;
 
 // Tablet
-$search-widget-tablet-offset: $offset-y $offset-x !default;
+$search-widget-tablet-offset: spacing('base') spacing('base') !default;
 
 $search-widget-input-tablet-height: 45px !default;
 

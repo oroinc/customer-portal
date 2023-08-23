@@ -25,7 +25,7 @@
 
     &__item {
         position: relative;
-        padding-top: $offset-y-m;
+        padding-top: spacing('sm');
         padding-right: 50px;
     }
 
@@ -44,7 +44,7 @@
     }
 
     &__type {
-        margin-top: $offset-y-m;
+        margin-top: spacing('sm');
 
         font-size: $base-font-size;
 
@@ -97,7 +97,7 @@
     }
 
     &-section {
-        margin-bottom: $offset-y;
+        margin-bottom: spacing('base');
     }
 
     &__manage-link {
@@ -149,7 +149,7 @@
 .fullscreen-popup {
     .map-visual-container {
         .alert {
-            margin-top: $offset-y-m;
+            margin-top: spacing('sm');
         }
     }
 }

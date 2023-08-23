@@ -50,7 +50,7 @@ $headline5-font-weight: font-weight('semi-bold') !default;
 $headline5-line-height: $headline-line-height !default;
 $headline5-text-transform: $headline-text-transform !default;
 $headline5-color: $headline-color;
-$headline5-bottom-offset: $offset-x-s !default;
+$headline5-bottom-offset: spacing('xs') !default;
 
 // H6
 $headline6-font-size: $base-font-size !default;
@@ -59,4 +59,4 @@ $headline6-font-weight: font-weight('normal') !default;
 $headline6-line-height: $headline-line-height !default;
 $headline6-text-transform: $headline-text-transform !default;
 $headline6-color: $headline-color !default;
-$headline6-bottom-offset: $offset-x-s !default;
+$headline6-bottom-offset: spacing('xs') !default;

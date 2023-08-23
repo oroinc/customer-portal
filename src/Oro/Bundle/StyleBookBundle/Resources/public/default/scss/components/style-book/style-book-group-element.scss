@@ -17,7 +17,7 @@
 
     &__description {
         margin: 20px 0;
-        padding: $offset-x;
+        padding: spacing('base');
 
         border-left: $style-book-group-element-description-border-start;
 
@@ -49,7 +49,7 @@
         border: $style-book-group-element-preview-border;
 
         .checkbox-label {
-            padding-right: $offset-y;
+            padding-right: spacing('base');
         }
 
         .color-palette {
@@ -216,7 +216,7 @@
     &__code {
         display: block;
 
-        padding: $offset-x;
+        padding: spacing('base');
         margin: 0;
 
         word-break: break-all;

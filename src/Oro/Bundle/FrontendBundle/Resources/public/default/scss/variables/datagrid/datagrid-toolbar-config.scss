@@ -1,11 +1,11 @@
 /* @theme: default; */
 
-$datagrid-toolbar-gap: 0 $offset-x-m !default;
-$datagrid-tool-gap: $offset-x-m !default;
+$datagrid-toolbar-gap: 0 spacing('sm') !default;
+$datagrid-tool-gap: spacing('sm') !default;
 
 // Tablet Small
-$datagrid-toolbar-tablet-small-gap: 0 $offset-x-s !default;
-$datagrid-tool-tablet-small-gap: $offset-x-s !default;
+$datagrid-toolbar-tablet-small-gap: 0 spacing('xs') !default;
+$datagrid-tool-tablet-small-gap: spacing('xs') !default;
 
 // Mobile
 $datagrid-toolbar-mobile-gap: 0 2px !default;
