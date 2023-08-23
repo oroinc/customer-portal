@@ -10,6 +10,7 @@ styles:
         # Variables
         - 'bundles/orofrontend/default/scss/variables/base-config.scss'
         - 'bundles/orofrontend/default/scss/variables/headings-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/captions-config.scss'
         - 'bundles/orofrontend/default/scss/variables/focus-via-arrows-keys-config.scss'
         - 'bundles/orofrontend/default/scss/variables/animation-config.scss'
         - 'bundles/orofrontend/default/scss/variables/actions-row-config.scss'
@@ -96,7 +97,6 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/scroll-shadow-config.scss'
 
         # Components
-
         # reset.scss must be first in list due to that  file must have the lowest priority
         - 'bundles/orofrontend/default/scss/reset.scss'
         # Bootstrap Optional Components
@@ -107,6 +107,7 @@ styles:
         - 'bundles/orofrontend/default/scss/base/base.scss'
         - 'bundles/orofrontend/default/scss/components/utilites.scss'
         - 'bundles/orofrontend/default/scss/components/headings.scss'
+        - 'bundles/orofrontend/default/scss/components/captions.scss'
         - 'bundles/orofrontend/default/scss/components/animation.scss'
         - 'bundles/orofrontend/default/scss/components/ui/dialog.scss'
         - 'bundles/orofrontend/default/scss/components/ui/extend/ui-multiselect-menu.scss'

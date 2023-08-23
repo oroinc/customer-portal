@@ -3,9 +3,8 @@
 $dialog-min-height: 220px !default;
 $dialog-widget-content-border-radius: $base-ui-popup-border-radius !default;
 
-$dialog-title-font-size: $page-title-font-size !default;
-$dialog-title-line-height: $page-title-line-height !default;
-
+$dialog-title-font-size: $headline1-font-size !default;
+$dialog-title-line-height: $headline1-line-height !default;
 $dialog-widget-content-offset-inner: 4px 40px !default;
 $dialog-widget-content-bg-color: get-color('additional-old', 'ultra') !default;
 $dialog-widget-content-border: 0 !default;

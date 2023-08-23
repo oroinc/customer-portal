@@ -19,8 +19,8 @@
 // Links
 // Style anchor elements.
 
-$link-color: get-color('ui', 'normal');
-$link-hover-color: get-color('ui', 'normal');
+$link-color: get-var-color('text', 'link');
+$link-hover-color: get-var-color('text', 'link-hover');
 
 // Paragraphs
 // Style p element.
