@@ -11,11 +11,11 @@ $dropdown-search-item-container-offset: spacing('xs') !default;
 
 $dropdown-search-item-container-item-offset: $dropdown-search-item-container-offset + 28px !default;
 $dropdown-search-item-container-item-content-offset: spacing('xs') !default;
-$dropdown-search-item-container-item-color: get-color('additional', 'middle') !default;
+$dropdown-search-item-container-item-color: get-color('additional-old', 'middle') !default;
 $dropdown-search-item-container-item-font-size: $base-font-size--xs !default;
 $dropdown-search-item-container-item-font-style: spacing('xs') !default;
 
 $dropdown-search-item-container-icon-offset: $dropdown-item-padding-x - $dropdown-search-item-container-offset !default;
 
 $dropdown-search-items-group-offset: 0 spacing('base') spacing('sm') !default;
-$dropdown-search-items-group-border: 1px solid get-color('additional', 'light') !default;
+$dropdown-search-items-group-border: 1px solid get-color('additional-old', 'light') !default;

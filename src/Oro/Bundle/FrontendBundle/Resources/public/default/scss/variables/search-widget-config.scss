@@ -23,9 +23,9 @@ $search-widget-input-submit-offset: 0 !default;
 $search-widget-input-submit-font-size: $base-font-size--m - 1px !default;
 $search-widget-input-submit-background: transparent !default;
 $search-widget-input-submit-border: none !default;
-$search-widget-input-submit-color: get-color('additional', 'middle') !default;
+$search-widget-input-submit-color: get-color('additional-old', 'middle') !default;
 
-$search-widget-input-submit-hover-color: get-color('additional', 'darker') !default;
+$search-widget-input-submit-hover-color: get-color('additional-old', 'darker') !default;
 $search-widget-input-submit-hover-cursor: pointer !default;
 
 $search-widget-input-submit-focus-box-shadow: none !default;

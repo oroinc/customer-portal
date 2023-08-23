@@ -4,7 +4,7 @@
 
 $datagrid-manager-title-offset: spacing('sm') !default;
 $datagrid-manager-separator-inner-offset: 0 2px !default;
-$datagrid-manager-separator-color: color.adjust(get-color('additional', 'light'), $lightness: -12%) !default;
+$datagrid-manager-separator-color: color.adjust(get-color('additional-old', 'light'), $lightness: -12%) !default;
 $datagrid-manager-container-offset: 0 -#{spacing('xs')} !default;
 $datagrid-manager-container-inner-offset: spacing('xs') 0 !default;
 
@@ -13,26 +13,26 @@ $datagrid-manager-actions-item-icon-display: none !default;
 $datagrid-manager-after-position-r: 0 !default;
 $datagrid-manager-after-position-b: 3px !default;
 $datagrid-manager-after-border--size: 8px !default;
-$datagrid-manager-after-border-color: get-color('additional', 'light') !default;
+$datagrid-manager-after-border-color: get-color('additional-old', 'light') !default;
 
 $datagrid-manager-handle-width: 10px !default;
 $datagrid-manager-handle-height: 33px !default;
 $datagrid-manager-handle-offset: 8px !default;
-$datagrid-manager-handle-border: 4px dotted get-color('additional', 'light') !default;
+$datagrid-manager-handle-border: 4px dotted get-color('additional-old', 'light') !default;
 
 $datagrid-manager-dropdown-menu-width: 320px !default;
 $datagrid-manager-dropdown-menu-inner-offset: 16px !default;
 $datagrid-manager-dropdown-menu-border-radius: 0 !default;
-$datagrid-manager-dropdown-menu-color: get-color('additional', 'dark') !default;
+$datagrid-manager-dropdown-menu-color: get-color('additional-old', 'dark') !default;
 
-$datagrid-manager-disabled-color: color.adjust(get-color('additional', 'middle'), $lightness: -7%) !default;
+$datagrid-manager-disabled-color: color.adjust(get-color('additional-old', 'middle'), $lightness: -7%) !default;
 
-$datagrid-manager-no-columns-border: 1px solid get-color('additional', 'light') !default;
+$datagrid-manager-no-columns-border: 1px solid get-color('additional-old', 'light') !default;
 
 // Full Screen mode
 $datagrid-manager-fullscreen-reset-btn-inner-offset: 7px !default;
 $datagrid-manager-fullscreen-reset-btn-text-align: center !default;
-$datagrid-manager-fullscreen-reset-btn-border: 1px solid get-color('additional', 'light') !default;
+$datagrid-manager-fullscreen-reset-btn-border: 1px solid get-color('additional-old', 'light') !default;
 $datagrid-manager-fullscreen-reset-btn-border-radius: $base-ui-element-border-radius !default;
 
 $datagrid-manager-fullscreen-handle-offset: 12px !default;
@@ -47,9 +47,9 @@ $datagrid-manager-fullscreen-footer-inner-offset: spacing('xs') spacing('sm') !d
 $datagrid-manager-filters-dropdown-size: 1px !default;
 $datagrid-manager-filters-dropdown-max-height: 350px !default;
 
-$datagrid-manager-filters-dropdown-items-b-color: get-color('additional', 'middle') !default;
+$datagrid-manager-filters-dropdown-items-b-color: get-color('additional-old', 'middle') !default;
 $datagrid-manager-filters-dropdown-content-inner-offset: spacing('sm') spacing('xs') !default;
 $datagrid-manager-filters-dropdown-content-line-height: 1 !default;
-$datagrid-manager-filters-dropdown-content-hover-bg-color: get-color('additional', 'light') !default;
-$datagrid-manager-filters-dropdown-content-checked-background-color: get-color('additional', 'darker') !default;
-$datagrid-manager-filters-dropdown-content-checked-color: get-color('additional', 'ultra') !default;
+$datagrid-manager-filters-dropdown-content-hover-bg-color: get-color('additional-old', 'light') !default;
+$datagrid-manager-filters-dropdown-content-checked-background-color: get-color('additional-old', 'darker') !default;
+$datagrid-manager-filters-dropdown-content-checked-color: get-color('additional-old', 'ultra') !default;

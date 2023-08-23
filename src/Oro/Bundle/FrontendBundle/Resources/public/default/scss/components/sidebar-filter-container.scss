@@ -1,9 +1,9 @@
 /* @theme: default; */
 
-$skeleton-color: get-color('additional', 'base');
+$skeleton-color: get-color('additional-old', 'base');
 
 @function sidebar-filter-skeleton-primary(
-    $color: get-color('additional', 'base'),
+    $color: get-color('additional-old', 'base'),
     $x: 0,
     $y: 0
 ) {
@@ -30,7 +30,7 @@ $skeleton-color: get-color('additional', 'base');
 }
 
 @function sidebar-filter-skeleton-secondary(
-    $color: get-color('additional', 'base'),
+    $color: get-color('additional-old', 'base'),
     $x: 0,
     $y: 0
 ) {

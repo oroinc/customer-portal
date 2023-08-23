@@ -4,7 +4,7 @@
 @use 'sass:color';
 
 $datagrid-filters-state-font: list.slash($base-font-size, $base-line-height) $base-font !default;
-$datagrid-filters-state-color: color.adjust(get-color('additional', 'dark'), $lightness: 21%) !default;
+$datagrid-filters-state-color: color.adjust(get-color('additional-old', 'dark'), $lightness: 21%) !default;
 $datagrid-filters-state-background-color: transparent !default;
 $datagrid-filters-state-margin: 13px 0 !default;
 $datagrid-filters-state-height: 17px !default;
@@ -14,4 +14,4 @@ $datagrid-filters-state-animation-speed: .5s !default;
 $datagrid-filters-state-sticky-padding: 0 2px !default;
 $datagrid-filters-state-popover-z-index: 101 !default;
 
-$datagrid-filters-state-in-sticky-border: 1px solid get-color('additional', 'light') !default;
+$datagrid-filters-state-in-sticky-border: 1px solid get-color('additional-old', 'light') !default;

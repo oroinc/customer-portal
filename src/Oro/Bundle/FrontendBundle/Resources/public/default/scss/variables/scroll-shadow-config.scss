@@ -3,7 +3,7 @@
 $scroll-shadow-before-content: '' !default;
 $scroll-shadow-before-background: linear-gradient(
     180deg,
-    get-color('additional', 'ultra'),
+    get-color('additional-old', 'ultra'),
     transparent
 ) !default;
 $scroll-shadow-before-width: 100% !default;
@@ -19,7 +19,7 @@ $scroll-shadow-before-pointer-events: none !default;
 $scroll-shadow-after-content: '' !default;
 $scroll-shadow-after-background: linear-gradient(
     0deg,
-    get-color('additional', 'ultra'),
+    get-color('additional-old', 'ultra'),
     transparent
 ) !default;
 $scroll-shadow-after-margin-top: $scroll-shadow-before-margin-top !default;

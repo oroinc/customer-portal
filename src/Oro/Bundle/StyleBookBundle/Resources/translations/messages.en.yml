@@ -267,9 +267,6 @@ oro_stylebook:
                 description: 'Add one of the following classes to the element you want to animate: <code class="language-markup">fade-in</code>, <code class="language-markup">fade-out</code>, <code class="language-markup">fade-in-down</code>, <code class="language-markup">fade-in-up</code>, <code class="language-markup">slide-in-down</code>, <code class="language-markup">slide-in-up</code>'
 
             text_typography_font: '$base-font:'
-            text_typography_font_minor: '$base-font-minor:'
-            text_typography_font_icons: '$icon-font:'
-            text_typography_font_icons_custom: '$base-font-icon:'
             text_typography_line_height: '$base-line-height:'
             text_typography_root: '$root-font-size'
             text_typography_base: '$base-font-size'

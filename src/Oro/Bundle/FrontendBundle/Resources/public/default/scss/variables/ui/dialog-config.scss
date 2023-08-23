@@ -7,13 +7,13 @@ $dialog-title-font-size: $page-title-font-size !default;
 $dialog-title-line-height: $page-title-line-height !default;
 
 $dialog-widget-content-offset-inner: 4px 40px !default;
-$dialog-widget-content-bg-color: get-color('additional', 'ultra') !default;
+$dialog-widget-content-bg-color: get-color('additional-old', 'ultra') !default;
 $dialog-widget-content-border: 0 !default;
-$dialog-widget-content-color: get-color('additional', 'dark') !default;
+$dialog-widget-content-color: get-color('additional-old', 'dark') !default;
 
 $dialog-titlebar-offset-inner: 40px 40px 12px !default;
 $dialog-titlebar-font-weight: font-weight('normal') !default;
-$dialog-titlebar-color: get-color('additional', 'dark') !default;
+$dialog-titlebar-color: get-color('additional-old', 'dark') !default;
 $dialog-titlebar-background: transparent !default;
 $dialog-titlebar-border: 0 !default;
 
@@ -35,8 +35,8 @@ $dialog-extra-header-content-inner-offset: $dialog-messages-inner-offset !defaul
 
 $dialog-notification-offset-inner: 8px 12px !default;
 
-$dialog-btn-success-background: get-color('primary', 'base') !default;
-$dialog-btn-success-border: get-color('primary', 'base') !default;
+$dialog-btn-success-background: get-color('primary-old', 'base') !default;
+$dialog-btn-success-border: get-color('primary-old', 'base') !default;
 
 $dialog-badge-margin: $fullscreen-popup-badge-offset !default;
 $dialog-badge-bg: $fullscreen-popup-badge-bg !default;

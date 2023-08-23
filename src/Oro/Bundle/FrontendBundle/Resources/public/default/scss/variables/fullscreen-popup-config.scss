@@ -12,7 +12,7 @@ $fullscreen-popup-bottom: 0 !default;
 $fullscreen-popup-left: 0 !default;
 $fullscreen-popup-height: auto !default;
 $fullscreen-popup-margin-left: 0 !default;
-$fullscreen-popup-bg: get-color('additional', 'ultra') !default;
+$fullscreen-popup-bg: get-color('additional-old', 'ultra') !default;
 
 $fullscreen-popup-header-display: inline-flex !default;
 $fullscreen-popup-header-align-items: center !default;
@@ -22,8 +22,8 @@ $fullscreen-popup-header-z-index: z('base') + 1 !default;
 $fullscreen-popup-header-right: 0 !default;
 $fullscreen-popup-header-left: 0 !default;
 $fullscreen-popup-header-min-height: $close-dialog-size !default;
-$fullscreen-popup-header-bg: get-color('additional', 'ultra') !default;
-$fullscreen-popup-header-border-bottom: 1px solid get-color('additional', 'light') !default;
+$fullscreen-popup-header-bg: get-color('additional-old', 'ultra') !default;
+$fullscreen-popup-header-border-bottom: 1px solid get-color('additional-old', 'light') !default;
 $fullscreen-popup-header-offset: 0 ($close-dialog-size + spacing('xs')) 0 spacing('base') !default;
 
 $fullscreen-popup-footer-display: flex !default;
@@ -34,8 +34,8 @@ $fullscreen-popup-footer-right: 0 !default;
 $fullscreen-popup-footer-left: 0 !default;
 $fullscreen-popup-footer-bottom: 0 !default;
 $fullscreen-popup-footer-offset: spacing('sm') !default;
-$fullscreen-popup-footer-bg: get-color('additional', 'ultra') !default;
-$fullscreen-popup-footer-border-top: 1px solid get-color('additional', 'light') !default;
+$fullscreen-popup-footer-bg: get-color('additional-old', 'ultra') !default;
+$fullscreen-popup-footer-border-top: 1px solid get-color('additional-old', 'light') !default;
 
 $fullscreen-popup-footer-btn-width: 100% !default;
 $fullscreen-popup-footer-btn-offset: 5px !default;
@@ -63,7 +63,7 @@ $fullscreen-popup-words-vertical-align: middle !default;
 
 $fullscreen-popup-badge-offset: 6px !default;
 $fullscreen-popup-badge-vertical-align: baseline !default;
-$fullscreen-popup-badge-bg: color.adjust(get-color('additional', 'middle'), $lightness: -33%) !default;
+$fullscreen-popup-badge-bg: color.adjust(get-color('additional-old', 'middle'), $lightness: -33%) !default;
 
 $fullscreen-popup-actions-wrapper-width: 100% !default;
 $fullscreen-popup-actions-wrapper-offset: 10px 5px !default;

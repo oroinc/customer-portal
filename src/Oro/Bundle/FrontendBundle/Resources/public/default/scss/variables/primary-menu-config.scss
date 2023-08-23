@@ -1,12 +1,12 @@
 /* @theme: default; */
 
-$primary-menu-link-color: get-color('additional', 'dark') !default;
+$primary-menu-link-color: get-color('additional-old', 'dark') !default;
 $primary-menu-link-color-hover: get-color('ui', 'focus') !default;
-$primary-menu-link-color-current: get-color('additional', 'dark') !default;
+$primary-menu-link-color-current: get-color('additional-old', 'dark') !default;
 $primary-menu-item-inner-offset: 5px 0 0 18px !default;
 $primary-menu-link-font-weight-current: font-weight('bold') !default;
 
-$primary-menu-item-active-background: get-color('primary', 'base') !default;
+$primary-menu-item-active-background: get-color('primary-old', 'base') !default;
 
 $primary-menu-item-inner-offset-tablet: 0 !default;
 $primary-menu-link-inner-offset-tablet: 13px 0 !default;
@@ -16,8 +16,8 @@ $primary-menu-link-text-transform-fullscreen: uppercase !default;
 
 // Fullscreen mode
 
-$primary-menu-fullscreen-mode-item-border: 1px solid get-color('additional', 'light') !default;
+$primary-menu-fullscreen-mode-item-border: 1px solid get-color('additional-old', 'light') !default;
 
 // Tablet mode
 
-$primary-menu-tablet-item-border: 1px solid get-color('additional', 'light') !default;
+$primary-menu-tablet-item-border: 1px solid get-color('additional-old', 'light') !default;

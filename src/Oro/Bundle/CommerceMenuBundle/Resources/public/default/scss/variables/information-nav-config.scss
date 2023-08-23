@@ -11,7 +11,7 @@ $information-nav-title-font-weight: font-weight('semi-bold') !default;
 $information-nav-title-color: null !default;
 
 $information-nav-tablet-small-offset: 0 !default;
-$information-nav-tablet-border-top: 1px solid get-color('additional', 'light') !default;
+$information-nav-tablet-border-top: 1px solid get-color('additional-old', 'light') !default;
 
 $information-nav-title-tablet-small-offset: 0 !default;
 $information-nav-title-tablet-small-inner-offset: (spacing('sm') * 2) 0 !default;
@@ -22,8 +22,8 @@ $information-nav-title-line-height: 1 !default;
 $information-nav-title-text-transform: uppercase !default;
 
 $information-nav-item-offset: spacing('base') 0 0 !default;
-$information-nav-item-content-color: get-color('additional', 'dark') !default;
-$information-nav-item-content-color-hover: get-color('additional', 'dark') !default;
+$information-nav-item-content-color: get-color('additional-old', 'dark') !default;
+$information-nav-item-content-color-hover: get-color('additional-old', 'dark') !default;
 $information-nav-item-content-text-color: $information-nav-item-content-color !default;
 
 // Tablet small

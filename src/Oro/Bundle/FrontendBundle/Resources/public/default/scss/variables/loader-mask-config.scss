@@ -1,14 +1,14 @@
 /* @theme: default; */
 
-$loader-mask-overlay-bg: get-color('additional', 'darker') !default;
+$loader-mask-overlay-bg: get-color('additional-old', 'darker') !default;
 $loader-mask-view-loading-height: 200px !default;
 $loader-mask-loader-content-align: left !default;
-$loader-mask-frame-bg: get-color('additional', 'ultra') !default;
+$loader-mask-frame-bg: get-color('additional-old', 'ultra') !default;
 $loader-mask-frame-width: 180px !default;
 $loader-mask-frame-offset-inner: 20px !default;
 $loader-mask-loader-url: '#{$global-url}/orofrontend/default/images/loader.gif' !default;
-$loader-mask-loader-bg: get-color('additional', 'ultra') !default;
+$loader-mask-loader-bg: get-color('additional-old', 'ultra') !default;
 $loader-mask-loader-content-offset-inner-left: 30px !default;
-$loader-mask-frame-border: 1px solid get-color('additional', 'base') !default;
+$loader-mask-frame-border: 1px solid get-color('additional-old', 'base') !default;
 $loader-mask-frame-border-radius: $base-ui-element-border-radius !default;
 $loader-mask-frame-box-shadow: inset 0 1px 1px rgba(0 0 0 / 5%) !default;

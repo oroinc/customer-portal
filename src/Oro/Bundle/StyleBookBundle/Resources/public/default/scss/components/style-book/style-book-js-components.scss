@@ -2,18 +2,18 @@
 
 @use 'sass:math';
 
-$scroll-view-head-background-color: get-color('additional', 'base') !default;
-$scroll-view-side-head-background-color: get-color('additional', 'base') !default;
+$scroll-view-head-background-color: get-color('additional-old', 'base') !default;
+$scroll-view-side-head-background-color: get-color('additional-old', 'base') !default;
 
-$dom-relocation-example-point-border: 1px solid get-color('additional', 'light') !default;
-$dom-relocation-relocate-background-color: get-color('secondary', 'base') !default;
-$dom-relocation-relocate-color: get-color('additional', 'ultra') !default;
-$dom-relocation-relocate-relocated-background-color: get-color('secondary', 'lighten') !default;
-$dom-relocation-sibling-background-color: get-color('additional', 'light') !default;
+$dom-relocation-example-point-border: 1px solid get-color('additional-old', 'light') !default;
+$dom-relocation-relocate-background-color: get-color('secondary-old', 'base') !default;
+$dom-relocation-relocate-color: get-color('additional-old', 'ultra') !default;
+$dom-relocation-relocate-relocated-background-color: get-color('secondary-old', 'lighten') !default;
+$dom-relocation-sibling-background-color: get-color('additional-old', 'light') !default;
 
-$sticky-panel-box-background-color: get-color('additional', 'light') !default;
+$sticky-panel-box-background-color: get-color('additional-old', 'light') !default;
 
-$popup-gallery-widget-wrapper-background-color: get-color('additional', 'ultra') !default;
+$popup-gallery-widget-wrapper-background-color: get-color('additional-old', 'ultra') !default;
 
 .map-visual {
     min-height: 300px;
@@ -92,9 +92,9 @@ $popup-gallery-widget-wrapper-background-color: get-color('additional', 'ultra')
         $slick-arrow-height: 37px,
         $slick-arrow-outline: none,
         $slick-arrow-border-radius: 100%,
-        $slick-arrow-background: rgba(get-color('additional', 'darker'), .6),
+        $slick-arrow-background: rgba(get-color('additional-old', 'darker'), .6),
         $slick-arrow-icon-size: 12px,
-        $slick-arrow-icon-color: get-color('additional', 'ultra'),
+        $slick-arrow-icon-color: get-color('additional-old', 'ultra'),
         $slick-arrow-icon-hover-color: null,
         $slick-arrow-prev-left: -36px,
         $slick-arrow-next-right: 36px,

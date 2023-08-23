@@ -4,7 +4,7 @@ $filter-toggle-mode-fields-row-min-width: 100% !default;
 
 $filter-toggle-mode-filter-item-width: 100% !default;
 $filter-toggle-mode-filter-item-padding: spacing('sm') 0 !default;
-$filter-toggle-mode-filter-item-border-bottom: 1px solid get-color('additional', 'light') !default;
+$filter-toggle-mode-filter-item-border-bottom: 1px solid get-color('additional-old', 'light') !default;
 
 $filter-toggle-mode-criteria-offset-top: -12px !default;
 $filter-toggle-mode-criteria-offset-left: 0 !default;
@@ -50,7 +50,7 @@ $filter-toggle-mode-filter-item-label-font-size: $base-font-size--large !default
 $filter-toggle-mode-filter-item-label-line-height: 1.25 !default;
 
 $filter-toggle-mode-filter-extra-hint-offset: 6px !default;
-$filter-toggle-mode-filter-extra-hint-color: get-color('additional', 'middle') !default;
+$filter-toggle-mode-filter-extra-hint-color: get-color('additional-old', 'middle') !default;
 
 $filter-toggle-mode-reset-filter-button-inner-offset: 0 !default;
 

@@ -8,7 +8,7 @@ $entity-permission-container-template: 200px 1fr $datagrid-body-cell-action-cell
 
 $permissions-grid-field-permission-container-offset-left: 40px !default;
 $permissions-grid-field-permission-container-offset-inner: spacing('xs') 0 !default;
-$permissions-grid-field-permission-container-border-top: 1px solid get-color('additional', 'light') !default;
+$permissions-grid-field-permission-container-border-top: 1px solid get-color('additional-old', 'light') !default;
 $permissions-grid-field-permission-container-first-child-border-top: 0 !default;
 $permissions-grid-field-permission-container-field-name-float: left !default;
 $permissions-grid-field-permission-container-field-name-width: 120px !default;

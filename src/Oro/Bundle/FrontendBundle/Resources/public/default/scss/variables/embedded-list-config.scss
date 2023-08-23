@@ -6,9 +6,9 @@ $embedded-list-bottom-offset: 25px;
 
 $embedded-list-label-offset-bottom: 25px;
 $embedded-list-label-inner-offset: 0 16px !default;
-$embedded-list-label-background: get-color('additional', 'ultra') !default;
+$embedded-list-label-background: get-color('additional-old', 'ultra') !default;
 $embedded-list-label-line-height: 20px !default;
-$embedded-list-label-line-background: get-color('additional', 'light');
+$embedded-list-label-line-background: get-color('additional-old', 'light');
 $embedded-list-label-font-size: 18px !default;
 $embedded-list-label-text-align: center !default;
 
@@ -22,18 +22,18 @@ $embedded-list-slider-btn-arrow-width: 36px !default;
 $embedded-list-slider-btn-arrow-height: 100px !default;
 $embedded-list-slider-btn-arrow-top-pos: 35% !default;
 $embedded-list-slider-btn-arrow-side-pos: -($embedded-list-slider-btn-arrow-width) !default;
-$embedded-list-slider-btn-arrow-background: get-color('additional', 'light') !default;
+$embedded-list-slider-btn-arrow-background: get-color('additional-old', 'light') !default;
 $embedded-list-slider-btn-arrow-transform: none !default;
 $embedded-list-slider-btn-arrow-hover-background: color.adjust(
-    get-color('additional', 'light'), $lightness: -5%
+    get-color('additional-old', 'light'), $lightness: -5%
 ) !default;
 $embedded-list-slider-btn-arrow-focus-background: color.adjust(
-    get-color('additional', 'light'), $lightness: -5%
+    get-color('additional-old', 'light'), $lightness: -5%
 ) !default;
 
 $embedded-list-slider-arrow-size: 40px !default;
 $embedded-list-slider-arrow-side-offset: 3px !default;
-$embedded-list-slider-icon-color: color.adjust(get-color('additional', 'dark'), $lightness: 16.5%) !default;
+$embedded-list-slider-icon-color: color.adjust(get-color('additional-old', 'dark'), $lightness: 16.5%) !default;
 
 // Embeded Tiles
 $embedded-list-tiles-column-count: 4 !default;

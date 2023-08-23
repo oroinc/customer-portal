@@ -3,9 +3,9 @@
 $launcher-item-icon-size: 16px !default;
 $launcher-item-offset: spacing('xs') 0 !default;
 $launcher-item-action-inner-offset: 0 spacing('sm') !default;
-$launcher-item-icon-color: get-color('additional', 'middle') !default;
+$launcher-item-icon-color: get-color('additional-old', 'middle') !default;
 $launcher-item-icon-action-color: null !default;
-$launcher-item-icon-hover-focus-color: get-color('additional', 'dark') !default;
+$launcher-item-icon-hover-focus-color: get-color('additional-old', 'dark') !default;
 
 $launcher-item-action-text-only-inner-offset: 0 spacing('sm') !default;
 
@@ -15,7 +15,7 @@ $launcher-item-action-icon-only-inner-offset: 0 !default;
 $launcher-item-separator-top: 5px !default;
 $launcher-item-separator-bottom: 5px !default;
 $launcher-item-separator-left: 0 !default;
-$launcher-item-separator-border-left: 1px solid get-color('additional', 'middle') !default;
+$launcher-item-separator-border-left: 1px solid get-color('additional-old', 'middle') !default;
 
 // enable/disable separators
 $launcher-item-separator-text-only: true !default;

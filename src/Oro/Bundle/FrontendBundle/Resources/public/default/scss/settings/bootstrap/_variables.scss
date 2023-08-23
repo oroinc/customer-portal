@@ -53,7 +53,7 @@ $dt-font-weight: $font-weight-normal;
 // Tables
 // Customizes the `.table` component with basic values, each used across all table variations.
 
-$table-color: get-color('additional', 'dark');
+$table-color: get-color('additional-old', 'dark');
 
 // Buttons + Forms
 // Shared variables that are reassigned to `$input-` and `$btn-` specific variables.
@@ -129,11 +129,11 @@ $nav-tabs-link-active-color-focus-visible: $base-ui-bth-focus-style;
 
 $dropdown-font-size: 1rem;
 $dropdown-border-radius: $border-radius;
-$dropdown-color: get-color('additional', 'dark');
-$dropdown-border-color: color.adjust(get-color('additional', 'light'), $lightness: -4%);
+$dropdown-color: get-color('additional-old', 'dark');
+$dropdown-border-color: color.adjust(get-color('additional-old', 'light'), $lightness: -4%);
 $dropdown-box-shadow: 0 2px 8px rgba(0 0 0 / 10%);
-$dropdown-link-active-color: get-color('additional', 'dark');
-$dropdown-link-active-bg: get-color('additional', 'base');
+$dropdown-link-active-color: get-color('additional-old', 'dark');
+$dropdown-link-active-bg: get-color('additional-old', 'base');
 $dropdown-item-padding-y: spacing('sm');
 $dropdown-item-padding-x: spacing('base');
 $dropdown-item-font: list.slash($base-font-size, $base-line-height) $base-font;
@@ -159,19 +159,19 @@ $tooltip-arrow-height: 6px;
 // Popovers
 
 $popover-font-size: 1rem;
-$popover-bg: get-color('additional', 'ultra');
+$popover-bg: get-color('additional-old', 'ultra');
 $popover-max-width: 280px;
 $popover-min-width: 188px;
 $popover-border-width: 1px;
-$popover-border-color: get-color('additional', 'middle');
+$popover-border-color: get-color('additional-old', 'middle');
 $popover-border-radius: 4px;
 $popover-box-shadow: 0 2px 6px 1px rgba(0 0 0 / 12%);
 $popover-header-bg: $popover-bg;
-$popover-header-color: get-color('additional', 'dark');
+$popover-header-color: get-color('additional-old', 'dark');
 $popover-header-padding-y: spacing('base');
 $popover-header-padding-x: spacing('base');
-$popover-body-color: get-color('additional', 'dark');
-$popover-body-light-color: color.adjust(get-color('additional', 'dark'), $lightness: 21%);
+$popover-body-color: get-color('additional-old', 'dark');
+$popover-body-light-color: color.adjust(get-color('additional-old', 'dark'), $lightness: 21%);
 $popover-body-padding-y: $popover-header-padding-y;
 $popover-body-padding-x: $popover-header-padding-x;
 $popover-arrow-width: 16px;

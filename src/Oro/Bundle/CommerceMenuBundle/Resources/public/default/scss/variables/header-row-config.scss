@@ -1,13 +1,13 @@
 /* @theme: default; */
 
-$header-row-border-trigger-background-color: get-color('additional', 'base') !default;
-$header-row-border-toggle-background-color: get-color('additional', 'ultra') !default;
+$header-row-border-trigger-background-color: get-color('additional-old', 'base') !default;
+$header-row-border-toggle-background-color: get-color('additional-old', 'ultra') !default;
 
-$header-row-border-show-trigger-background: get-color('additional', 'ultra') !default;
+$header-row-border-show-trigger-background: get-color('additional-old', 'ultra') !default;
 
-$header-row-border: solid get-color('additional', 'light') !default;
+$header-row-border: solid get-color('additional-old', 'light') !default;
 
-$header-row-trigger-border: 1px solid get-color('additional', 'ultra') !default;
+$header-row-trigger-border: 1px solid get-color('additional-old', 'ultra') !default;
 
 $header-row-show-trigger-box-shadow: inset 0 4px 4px -2px rgba(0 0 0 / 20%) !default;
 $header-row-show-trigger-focus: $focus-visible-style,
@@ -18,4 +18,4 @@ $header-row-border-tablet: null !default;
 $header-row-trigger-background-color-tablet: null !default;
 $header-row-trigger-border-tablet: null !default;
 $header-row-tablet-toggle-box-shadow: 0 2px 4px 0 rgba(0 0 0 / 30%) !default;
-$header-row-tablet-toggle-dropdown-background: get-color('additional', 'ultra') !default;
+$header-row-tablet-toggle-dropdown-background: get-color('additional-old', 'ultra') !default;

@@ -1,7 +1,7 @@
 /* @theme: default; */
 
-$notifications-color: get-color('additional', 'middle') !default;
-$notifications-text-color: get-color('additional', 'dark') !default;
+$notifications-color: get-color('additional-old', 'middle') !default;
+$notifications-text-color: get-color('additional-old', 'dark') !default;
 $notifications-error-color: get-color('ui', 'error') !default;
 $notifications-error-text-color: get-color('ui', 'error-dark') !default;
 $notifications-success-color: get-color('ui', 'success') !default;

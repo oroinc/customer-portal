@@ -74,7 +74,8 @@
             }
 
             &__color-box {
-                font-size: 12px;
+                font-size: 13px;
+                align-self: end;
             }
 
             &__usage {
@@ -109,13 +110,6 @@
             }
         }
 
-        .base-font-minor {
-            &::after {
-                content: '#{$base-font-minor}';
-                color: $style-book-group-element-preview-base-font-minor-color;
-            }
-        }
-
         .base-font {
             &::after {
                 content: '#{$base-font}';
@@ -127,13 +121,6 @@
             &::after {
                 content: '#{$base-line-height}';
                 color: $style-book-group-element-base-line-height-color;
-            }
-        }
-
-        .base-font-icons {
-            &::after {
-                content: '#{$base-font-icon}';
-                color: $style-book-group-element-base-font-icons-color;
             }
         }
 

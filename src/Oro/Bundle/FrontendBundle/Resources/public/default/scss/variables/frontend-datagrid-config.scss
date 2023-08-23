@@ -18,7 +18,7 @@ $frontend-datagrid-responsive-row-tablet-border-top: 1px solid #eceeef !default;
 $frontend-datagrid-responsive-row-has-select-action-tablet-inner-offset-left: 25px !default;
 $frontend-datagrid-responsive-row-has-actions-tablet-inner-offset-right: 205px !default;
 
-$frontend-datagrid-responsive-row-swipe-active-tablet-background-color: get-color('additional', 'base') !default;
+$frontend-datagrid-responsive-row-swipe-active-tablet-background-color: get-color('additional-old', 'base') !default;
 
 $frontend-datagrid-responsive-body-cell-tablet-display: block !default;
 $frontend-datagrid-responsive-body-cell-tablet-border: none !default;
@@ -42,10 +42,10 @@ $frontend-datagrid-has-swipe-action-cell-tablet-top: 0 !default;
 $frontend-datagrid-has-swipe-action-cell-tablet-right: 0 !default;
 $frontend-datagrid-has-swipe-action-cell-tablet-bottom: 0 !default;
 $frontend-datagrid-has-swipe-action-cell-tablet-bg-color: color.adjust(
-    get-color('additional', 'light'), $lightness: -3.53%
+    get-color('additional-old', 'light'), $lightness: -3.53%
 ) !default;
 $frontend-datagrid-has-swipe-action-cell-tablet-icon-color: color.adjust(
-    get-color('additional', 'dark'), $lightness: 21.96%
+    get-color('additional-old', 'dark'), $lightness: 21.96%
 ) !default;
 $frontend-datagrid-has-swipe-action-cell-tablet-left-inner-offset: 0 !default;
 
