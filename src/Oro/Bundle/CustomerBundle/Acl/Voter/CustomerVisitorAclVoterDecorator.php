@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Acl\Voter;
 
 use Oro\Bundle\CustomerBundle\Acl\Cache\CustomerVisitorAclCache;
+use Oro\Bundle\CustomerBundle\Entity\CustomerVisitorOwnerAwareInterface;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\SecurityBundle\Acl\Domain\DomainObjectWrapper;
 use Oro\Bundle\SecurityBundle\Acl\Domain\OneShotIsGrantedObserver;
@@ -40,17 +41,19 @@ class CustomerVisitorAclVoterDecorator implements AclVoterInterface
     public function vote(TokenInterface $token, $subject, array $attributes): int
     {
         if ($token instanceof AnonymousCustomerUserToken) {
-            $websiteId = $this->requestWebsiteProvider->getWebsite()?->getId();
-            if ($websiteId) {
-                $subjectName = $this->getSubjectName($subject);
-                if ($this->visitorAclCache->isVoteResultExist($websiteId, $subjectName, $attributes)) {
-                    return $this->visitorAclCache->getVoteResult($websiteId, $subjectName, $attributes);
+            $subjectName = $this->getSubjectName($subject);
+            if (!is_a($subjectName, CustomerVisitorOwnerAwareInterface::class, true)) {
+                $websiteId = $this->requestWebsiteProvider->getWebsite()?->getId();
+                if ($websiteId) {
+                    if ($this->visitorAclCache->isVoteResultExist($websiteId, $subjectName, $attributes)) {
+                        return $this->visitorAclCache->getVoteResult($websiteId, $subjectName, $attributes);
+                    }
+
+                    $voteResult = $this->wrapped->vote($token, $subject, $attributes);
+                    $this->visitorAclCache->cacheAclResult($websiteId, $subjectName, $attributes, $voteResult);
+
+                    return $voteResult;
                 }
-
-                $voteResult = $this->wrapped->vote($token, $subject, $attributes);
-                $this->visitorAclCache->cacheAclResult($websiteId, $subjectName, $attributes, $voteResult);
-
-                return $voteResult;
             }
         }
 

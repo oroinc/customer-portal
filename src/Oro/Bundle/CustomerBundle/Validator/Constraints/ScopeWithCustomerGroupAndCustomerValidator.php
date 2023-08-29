@@ -2,30 +2,23 @@
 
 namespace Oro\Bundle\CustomerBundle\Validator\Constraints;
 
-use Doctrine\Common\Collections\Collection;
+use Oro\Bundle\ScopeBundle\Entity\Scope;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
+/**
+ * Checks whether the scopes with customer and customer group are used.
+ */
 class ScopeWithCustomerGroupAndCustomerValidator extends ConstraintValidator
 {
-    /**
-     * @param ScopeWithCustomerGroupAndCustomer $constraint
-     *
-     * {@inheritdoc}
-     */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
-        if (!$value instanceof Collection || $value->isEmpty()) {
+        if (!$value instanceof Scope) {
             return;
         }
 
-        foreach ($value->getValues() as $index => $scope) {
-            /** @noinspection PhpUndefinedMethodInspection - field added through entity extend */
-            if ($scope->getCustomer() && $scope->getCustomerGroup()) {
-                $this->context->buildViolation($constraint->message)
-                    ->atPath("[$index]")
-                    ->addViolation();
-            }
+        if ($value->getCustomer() && $value->getCustomerGroup()) {
+            $this->context->addViolation($constraint->message);
         }
     }
 }
