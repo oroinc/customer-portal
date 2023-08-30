@@ -1,0 +1,75 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+              themes: '@OroStyleBook/layouts/default/oro_stylebook_group/icons.html.twig'
+
+        - '@setOption':
+              id: style_book_page_title
+              optionName: defaultValue
+              optionValue: 'oro_stylebook.groups.icons.title'
+
+        - '@setOption':
+              id: style_book_page_description
+              optionName: vars.description
+              optionValue: 'oro_stylebook.groups.icons.content'
+
+        - '@addTree':
+              items:
+                  group_element_icons_view:
+                      blockType: group_element
+                      options:
+                          anchor: icons_table
+                          label: oro_stylebook.groups.icons.title
+                          attr:
+                              class: ' style-book-group-element--grid'
+
+                  style_book_icons_grid:
+                      blockType: block
+
+                  group_element_item_icon:
+                      blockType: group_element_item
+                      options:
+                          source: false
+
+                  group_element_grid_icons_usage:
+                      blockType: group_element
+                      options:
+                          anchor: usage
+                          label: oro_stylebook.groups.icons.usage
+                          attr:
+                              class: ' style-book-group-element--grid'
+
+                  group_element_item_usage_examples:
+                      blockType: group_element_item
+                      options:
+                          source: false
+                          description: oro_stylebook.groups.icons.usage_description
+
+                  group_element_item_usage_examples_grid:
+                      blockType: block
+
+                  group_element_tiles_view:
+                      blockType: group_element
+                      options:
+                          anchor: tiles
+                          label: oro_stylebook.groups.tiles.title
+                          attr:
+                              class: ' style-book-group-element--tiles'
+
+                  group_element_tiles_description:
+                      blockType: group_element_item
+                      options:
+                          description: oro_stylebook.groups.tiles.description
+
+                  style_book_tiles:
+                      blockType: block
+              tree:
+                  style_book_content:
+                      group_element_icons_view:
+                          group_element_item_icon:
+                              style_book_icons_grid: ~
+                          group_element_grid_icons_usage:
+                              group_element_item_usage_examples:
+                                  group_element_item_usage_examples_grid: ~
+
+    conditions: 'context["group"]=="icons"'

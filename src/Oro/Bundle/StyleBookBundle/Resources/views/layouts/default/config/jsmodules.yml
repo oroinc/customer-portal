@@ -15,6 +15,7 @@ dynamic-imports:
         - orostylebook/js/style-book/style-book-playground-widgets
         - orostylebook/js/style-book/style-book-popup-gallery-widget
         - orostylebook/js/style-book/style-book-sticky-panel-view
+        - orostylebook/js/style-book/style-book-icons-grid-view
         - orostylebook/js/style-book/style-book-zoom-widget-view
         - orostylebook/js/style-book/toggle-action-view
 entry:

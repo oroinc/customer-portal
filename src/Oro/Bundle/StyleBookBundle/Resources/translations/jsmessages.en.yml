@@ -247,3 +247,7 @@ oro_stylebook:
                     title: 'Input Number Widget'
                 select2:
                     title: 'Select2 Widget'
+
+        icons:
+            title: 'Icons'
+            usage: 'Usage'

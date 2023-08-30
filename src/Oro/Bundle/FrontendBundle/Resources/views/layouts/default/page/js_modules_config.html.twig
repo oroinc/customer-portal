@@ -5,6 +5,7 @@
         {% set routes = asset('media/js/frontend_routes.json', 'routing') %}
     {% endif %}
 
+    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
     {% import '@OroAsset/Asset.html.twig' as Asset %}
     {{ Asset.js_modules_config({
         'controllers/page-controller': {
@@ -127,6 +128,9 @@
         },
         'orowindows/js/dialog/state/model': {
             urlRoot: path('oro_api_customer_get_windows')
+        },
+        'oroui/js/extend/underscore': {
+            themeSpriteUrl: renderIcon.getThemeSpriteUrl()|trim
         }
     }) }}
 {% endblock %}

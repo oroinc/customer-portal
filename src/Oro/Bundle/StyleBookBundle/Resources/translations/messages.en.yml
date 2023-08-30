@@ -277,3 +277,11 @@ oro_stylebook:
             text_typography_base_m: '$base-font-size--m'
             text_typography_base_l: '$base-font-size--l'
             text_typography_base_large: '$base-font-size--large'
+        icons:
+            title: 'Icons'
+            content: 'Collection of svg icons used in the theme. Each icon is designed on a 24x24 grid with an emphasis on simplicity, consistency, and flexibility.'
+            usage: 'Usage'
+            usage_description: 'The "<b class="bold">add-note</b>" id in the below examples can be replaced with any valid icon name. See the complete list of icon names above.'
+            twig: 'Using in TWIG'
+            html: 'Using in HTML templates'
+            js: 'Using in JS'
