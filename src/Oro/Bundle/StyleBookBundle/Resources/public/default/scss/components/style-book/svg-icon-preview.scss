@@ -9,8 +9,8 @@
         display: flex;
         justify-content: center;
 
-        margin-bottom: $offset-x-s;
-        padding: $offset-y 0;
+        margin-bottom: spacing('xs');
+        padding: spacing('base') 0;
 
         background-color: $svg-icon-preview-bg;
         border-radius: $base-ui-element-border-radius;
