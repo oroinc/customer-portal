@@ -1,0 +1,61 @@
+{#
+    Getting url for svg sprite for a particular theme
+#}
+{%- macro getThemeSpriteUrl() -%}
+    {% set layoutContext = get_layout_context() %}
+    {% set theme = layoutContext.theme %}
+    {{- asset('/build/' ~ theme ~ '/svg-icons/theme-icons.svg') -}}
+{%- endmacro -%}
+
+{#
+    Rendering a svg icon
+    Parameters - array:
+        [
+            'id' - icon id to show
+            'fill' - fill attribute
+            'width' - width attribute
+            'height' - height attribute
+            'class' - class attribute
+            'role' - role attribute
+            'title' - short description for accessibulity
+        ]
+#}
+{% macro icon(parameters) -%}
+    {% if (parameters.id is defined) %}
+        {% import _self as themeIcons %}
+        {% set href = themeIcons.getThemeSpriteUrl()|trim ~ '#' ~ parameters.id  %}
+        {% set fill = parameters.fill|default('currentColor') %}
+        {% set width = parameters.width|default('24px') %}
+        {% set height = parameters.height|default('24px') %}
+        {% set role = parameters.role|default('img') %}
+        {% set ariaHidden = parameters.ariaHidden|default('true') %}
+        {% set titleId = parameters.id|uniqid %}
+
+        {% if parameters.title is defined %}
+            {% set ariaHidden = null %}
+        {% endif %}
+        {% if ariaHidden %}
+            {% set role = parameters.role|default('none') %}
+        {% endif %}
+        <svg
+        {% if parameters.class is defined %}
+            class="{{- parameters.class -}}"
+        {% endif %}
+            role="{{- role -}}"
+            width="{{- width -}}"
+            height="{{- height -}}"
+            fill="{{- fill -}}"
+        {% if parameters.title is defined %}
+            aria-labelledby="{{- titleId -}}"
+        {% endif %}
+        {% if ariaHidden %}
+            aria-hidden="{{- ariaHidden -}}"
+        {% endif %}
+        >
+        {% if parameters.title is defined %}
+            <title id{{- titleId -}}>{{- title -}}</title>
+        {% endif %}
+            <use xlink:href="{{- href -}}"/>
+        </svg>
+    {% endif %}
+{% endmacro %}

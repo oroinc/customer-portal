@@ -303,3 +303,6 @@ oro_stylebook:
         info: 'Info colors are used for info notifications, may be used for a status badge (e.g., “in progress”). System colors aren’t influenced by the brand ones, so it’s not necessary to change them.'
         info-light: 'Info alert background; Info status badge background;'
         info-dark: 'Info text and icon on white and light blue background (e.g., in info alerts, status badges, etc.);'
+        icons:
+            title: 'Icons'
+            usage: 'Usage'

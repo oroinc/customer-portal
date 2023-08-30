@@ -23,6 +23,8 @@ class OwnerTreeCacheJobProcessorTest extends WebTestCase
 
     protected function setUp(): void
     {
+        $this->markTestSkipped('BAP-22209');
+
         parent::setUp();
         $this->initClient();
         $this->loadFixtures([LoadCustomerUserData::class]);

@@ -1,0 +1,15 @@
+<% let orofrontend = _.macros('orofrontend') %>
+<% if (obj.iconsData) { %>
+    <% _.each(iconsData, function(icon) { %>
+        <div class="tiles-item">
+            <div class="svg-icon-preview">
+                <div class="svg-icon-preview__svg">
+                    <%= orofrontend.renderIcon({
+                        id: icon.id
+                    }) %>
+                </div>
+                <div class="svg-icon-preview__name"><%- icon.id %></div>
+            </div>
+        </div>
+    <% }) %>
+<% } %>
