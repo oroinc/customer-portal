@@ -247,6 +247,10 @@ oro_stylebook:
                     title: 'Input Number Widget'
                 select2:
                     title: 'Select2 Widget'
+
+        icons:
+            title: 'Icons'
+            usage: 'Usage'
     color_pallet:
         used_for: 'Used for'
         primary: 'Use a primary color only for primary elements like call-to action buttons, icon buttons, selectors in the checked state, in active  navigation elements (e.g., tabs). This color is to be used sparingly to make the most important elements stand out. Avoid using it for secondary actions or non-interactive elements. Oftentimes, but not necessarily, it’s one of the brand colors. If your brand has several primary colors, please pick one that will be used for primary actions within one UI.'
@@ -303,6 +307,3 @@ oro_stylebook:
         info: 'Info colors are used for info notifications, may be used for a status badge (e.g., “in progress”). System colors aren’t influenced by the brand ones, so it’s not necessary to change them.'
         info-light: 'Info alert background; Info status badge background;'
         info-dark: 'Info text and icon on white and light blue background (e.g., in info alerts, status badges, etc.);'
-        icons:
-            title: 'Icons'
-            usage: 'Usage'
