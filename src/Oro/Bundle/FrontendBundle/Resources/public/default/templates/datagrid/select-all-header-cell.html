@@ -1,13 +1,13 @@
 <% var togglerId = _.uniqueId('dropdown-') %>
 <div class="datagrid-massaction">
     <div class="btn-group dropdown">
-        <label class="btn btn--default btn--size-s">
+        <label class="btn btn--size-small">
             <input type="checkbox" name="is_default"
                    data-input-widget-options="<%- JSON.stringify({checkedParentCssClass:null}) %>"
                    data-select>
             <span class="sr-only"><%- _.__('oro.datagrid.headerCell.selectAll.input.aria_label') %></span>
         </label>
-        <button class="btn btn--default btn--size-s dropdown-toggle dropdown-toggle--no-offset"
+        <button class="btn btn--size-small dropdown-toggle dropdown-toggle--no-offset"
                 id="<%- togglerId %>" data-toggle="dropdown"
                 data-placement="bottom-center"
                 data-modifiers="<%- JSON.stringify({preventOverflow: {enabled: false}, hide: {enabled: false}}) %>"

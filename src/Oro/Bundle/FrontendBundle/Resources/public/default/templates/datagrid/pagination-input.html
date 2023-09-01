@@ -14,7 +14,7 @@
                         <%- _.__('oro.datagrid.pagination.totalPages', {totalPages: state.totalPages || 1}) %>
                     </span>
                 <% } %>
-                <button class="btn btn--size-s btn--default oro-pagination__<%- handle.direction %><% if (handle.className) { %> <%- handle.className %><% } %>"
+                <button class="btn btn--size-small oro-pagination__<%- handle.direction %><% if (handle.className) { %> <%- handle.className %><% } %>"
                         data-grid-pagination-trigger data-grid-pagination-direction="<%- handle.direction %>"
                         <% if (disabled) { %> disabled<% } %>
                         <% if (handle.className) { %> <%- handle.className %><% } %>>

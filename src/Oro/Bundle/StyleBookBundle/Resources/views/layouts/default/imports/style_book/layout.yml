@@ -51,7 +51,7 @@ layout:
                         type: button
                         icon: navicon
                         attr:
-                            class: 'btn btn--default'
+                            class: 'btn'
                 __groups_menu:
                     blockType: container
                 __sticky_panel:

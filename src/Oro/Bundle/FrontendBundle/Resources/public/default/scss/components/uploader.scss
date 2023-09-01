@@ -10,11 +10,6 @@
         border-color: $input-border-color-hover-state;
 
         .action {
-            color: map.get($btn-theme, 'hover-color');
-
-            @include gradient-bg(map.get($btn-theme, 'hover-background'));
-
-            border-color: map.get($btn-theme, 'hover-border');
             text-decoration: none;
         }
 
@@ -30,10 +25,10 @@
     .filename {
         @include base-input;
 
-        border-top-left-radius: $uploader-filename-border-top-left-radius;
-        border-bottom-left-radius: $uploader-filename-border-bottom-left-radius;
+        border-start-start-radius: $uploader-filename-border-start-start-radius;
+        border-end-start-radius: $uploader-filename-border-end-start-radius;
         flex-grow: $uploader-filename-flex-grow;
-        padding-right: $uploader-filename-inner-offset-right;
+        padding-inline-end: $uploader-filename-padding-inline-end;
         order: $uploader-filename-order;
         overflow: $uploader-filename-overflow;
         text-overflow: $uploader-filename-text-overflow;
@@ -41,11 +36,9 @@
     }
 
     .action {
-        @extend %base-button;
-
-        border-top-right-radius: $uploader-action-border-top-right-radius;
-        border-bottom-right-radius: $uploader-action-border-bottom-right-radius;
-        padding: $uploader-action-inner-offset;
+        border-start-end-radius: $uploader-action-border-start-end-radius;
+        border-end-end-radius: $uploader-action-border-end-end-radius;
+        white-space: $uploader-action-white-space;
     }
 
     .input[type='file'] {

@@ -41,7 +41,7 @@
                                 {% endif %}
                             </div>
                             {% set linkAttributes = child.linkAttributes|merge({
-                                'class': 'btn btn--info btn--size-s featured-menu-content__link',
+                                'class': 'btn btn--outlined btn--size-small featured-menu-content__link',
                             }) %}
                             <a href="{{ oro_commercemenu_get_url(child.uri) }}"{{ oro_menu.attributes(linkAttributes) }}>
                                 {{- 'oro.commercemenu.frontend.navigation.items.view.label'|trans ~ ' ' ~ label|upper -}}

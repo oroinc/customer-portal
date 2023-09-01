@@ -16,6 +16,7 @@
             'width' - width attribute
             'height' - height attribute
             'class' - class attribute
+            'extraClass' - extra class
             'role' - role attribute
             'title' - short description for accessibulity
         ]
@@ -24,13 +25,14 @@
     {% if (parameters.id is defined) %}
         {% import _self as themeIcons %}
         {% set href = themeIcons.getThemeSpriteUrl()|trim ~ '#' ~ parameters.id  %}
-        {% set fill = parameters.fill|default('currentColor') %}
-        {% set width = parameters.width|default('24px') %}
-        {% set height = parameters.height|default('24px') %}
+        {% set class = parameters.class|default('theme-icon') %}
         {% set role = parameters.role|default('img') %}
         {% set ariaHidden = parameters.ariaHidden|default('true') %}
         {% set titleId = parameters.id|uniqid %}
 
+        {% if parameters.extraClass is defined %}
+            {% set class = class|trim ~ ' '  ~ parameters.extraClass|trim  %}
+        {% endif %}
         {% if parameters.title is defined %}
             {% set ariaHidden = null %}
         {% endif %}
@@ -38,13 +40,17 @@
             {% set role = parameters.role|default('none') %}
         {% endif %}
         <svg
-        {% if parameters.class is defined %}
-            class="{{- parameters.class -}}"
-        {% endif %}
+            class="{{- class -}}"
             role="{{- role -}}"
+        {% if parameters.width is defined %}
             width="{{- width -}}"
+        {% endif %}
+        {% if parameters.height is defined %}
             height="{{- height -}}"
+        {% endif %}
+        {% if parameters.fill is defined %}
             fill="{{- fill -}}"
+        {% endif %}
         {% if parameters.title is defined %}
             aria-labelledby="{{- titleId -}}"
         {% endif %}

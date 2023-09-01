@@ -56,6 +56,10 @@
     text-transform: capitalize;
 }
 
+.text-clip {
+    @include ellipsis();
+}
+
 .img-fluid {
     @include img-fluid;
 }

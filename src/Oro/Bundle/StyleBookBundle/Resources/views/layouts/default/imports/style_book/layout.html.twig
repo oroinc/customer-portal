@@ -227,7 +227,7 @@
 {% endblock %}
 
 {% block group_element_item_widget %}
-    <div class="style-book-group-element__item">
+    <div class="style-book-group-element__item{% if dark %} style-book-group-element__item--dark{% endif %}">
     {% if label and anchor %}
         {% set attr = layout_attr_defaults(attr, {
             'id': anchor,

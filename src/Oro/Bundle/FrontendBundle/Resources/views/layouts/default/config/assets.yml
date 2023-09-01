@@ -4,11 +4,13 @@ styles:
         - 'bundles/orofrontend/default/scss/settings/global-settings.scss'
 
         # Bootstrap Configs
-        - 'bundles/orofrontend/default/scss/variables/bootstrap/buttons-config.scss'
         - 'bundles/orofrontend/default/scss/variables/bootstrap/dropdown-toggle-split.scss'
 
         # Variables
         - 'bundles/orofrontend/default/scss/variables/base-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/uikit/buttons-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/uikit/button-group-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/uikit/theme-icons-config.scss'
         - 'bundles/orofrontend/default/scss/variables/headings-config.scss'
         - 'bundles/orofrontend/default/scss/variables/captions-config.scss'
         - 'bundles/orofrontend/default/scss/variables/focus-via-arrows-keys-config.scss'
@@ -105,6 +107,9 @@ styles:
         - '~overlayscrollbars/css/OverlayScrollbars.css'
         - '~@oroinc/slick-carousel/slick/slick.scss'
         - 'bundles/orofrontend/default/scss/base/base.scss'
+        - 'bundles/orofrontend/default/scss/components/uikit/buttons.scss'
+        - 'bundles/orofrontend/default/scss/components/uikit/button-group.scss'
+        - 'bundles/orofrontend/default/scss/components/uikit/theme-icons.scss'
         - 'bundles/orofrontend/default/scss/components/utilites.scss'
         - 'bundles/orofrontend/default/scss/components/headings.scss'
         - 'bundles/orofrontend/default/scss/components/captions.scss'

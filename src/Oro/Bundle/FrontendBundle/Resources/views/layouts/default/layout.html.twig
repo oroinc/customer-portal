@@ -25,7 +25,7 @@
         {% set hasVariants = actionsCount > 1 %}
         {% set additionalCss = "btn" %}
         {% if block.parent.vars.class_prefix == 'datagrid_toolbar_button_container' %}
-            {% set additionalCss = additionalCss ~ " btn--info " %}
+            {% set additionalCss = additionalCss ~ " btn--outlined " %}
         {% else %}
             {% set additionalCss = additionalCss ~ " btn" %}
         {% endif %}
@@ -35,15 +35,15 @@
         {% set attr = attr|merge({ class: attr.class|default('') ~ additionalCss}) %}
 
         {% set action = actions|first %}
-        {% set primaryButtonCss = ' btn btn--action btn--size-s direct-link ' ~ action.buttonOptions.class|default('') ~ " "  ~ params.buttonOptions.aCss|default('') %}
+        {% set primaryButtonCss = ' btn btn--outlined btn--size-small direct-link ' ~ action.buttonOptions.class|default('') ~ " "  ~ params.buttonOptions.aCss|default('') %}
 
         {% if hasVariants %}
             <div{{ block('block_attributes') }}>
-                <a class="btn btn--info btn--size-l">
+                <a class="btn btn--outlined btn--size-large">
                     {{ action.label|trim }}
                 </a>
                 {% set togglerId = 'dropdown-'|uniqid %}
-                <a class="btn btn--info btn--size-l dropdown-toggle" href="#" role="button" id="{{ togglerId }}"
+                <a class="btn btn--outlined btn--size-large dropdown-toggle" href="#" role="button" id="{{ togglerId }}"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
                    aria-label="{{ 'oro_frontend.combined_buttons.more_actions.label'|trans }}"></a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="{{ togglerId }}">
@@ -77,10 +77,10 @@
 {% endblock %}
 
 {% block combined_buttons_widget %}
-    {% set dropdownActionClass = dropdownActionClass|default('btn btn--block btn--info btn--size-l direct-link') %}
-    {% set dropdownToggleClass = dropdownToggleClass|default('btn btn--info btn--size-l dropdown-toggle') %}
+    {% set dropdownActionClass = dropdownActionClass|default('btn btn--block btn--outlined btn--size-large direct-link') %}
+    {% set dropdownToggleClass = dropdownToggleClass|default('btn btn--outlined btn--size-large dropdown-toggle') %}
     {% set dropdownItemClass = dropdownItemClass|default('dropdown-item') %}
-    {% set actionButtonClass = actionButtonClass|default('btn btn--action btn--size-s direct-link') %}
+    {% set actionButtonClass = actionButtonClass|default('btn btn--outlined btn--size-small direct-link') %}
 
     {% set buttonsCount = buttons|length %}
     {% if buttonsCount > 0 %}
@@ -91,7 +91,7 @@
         {% if hasVariants %}
             {% set additionalCss = "btn" %}
             {% if block.parent.vars.class_prefix == 'datagrid_toolbar_button_container' %}
-                {% set additionalCss = additionalCss ~ " btn--info " %}
+                {% set additionalCss = additionalCss ~ " btn--outlined " %}
             {% endif %}
             {% if hasVariants %}
                 {% set additionalCss = " btn-group btn-group--flex " %}

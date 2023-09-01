@@ -14,7 +14,7 @@
                 },
                 okText: 'OK',
                 cancelText: 'Cancel',
-                okButtonClass: 'btn btn--info',
+                okButtonClass: 'btn btn--outlined',
                 cancelButtonClass: 'btn cancel',
                 content: {
                     type: 'textarea',
@@ -28,7 +28,7 @@
 
     <div {{ block('block_attributes') }}>
         <div class="style-book-group-element__preview">
-            <button class="btn btn--info" data-action="click open">Open Modal</button>
+            <button class="btn btn--outlined" data-action="click open">Open Modal</button>
         </div>
 
         {{ block_widget(block) }}
@@ -46,7 +46,7 @@
 {% block _style_book_grid_element_modal_html_widget %}
     {% set source_code %}
         <div class="example-container">
-            <button class="btn btn--info" id="modal-toggle">Open Some Modal</button>
+            <button class="btn btn--outlined" id="modal-toggle">Open Some Modal</button>
         </div>
         <script>
             loadModules(['jquery', 'oroui/js/modal'], function ($, Modal) {
@@ -171,8 +171,8 @@
     <div {{ block('block_attributes') }}>
         <div data-example-view>
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn--info" data-toggle>Toggle Loading</button>
-                <button type="button" class="btn btn--info" data-toggle-full-page>Execute full-page loading</button>
+                <button type="button" class="btn btn--outlined" data-toggle>Toggle Loading</button>
+                <button type="button" class="btn btn--outlined" data-toggle-full-page>Execute full-page loading</button>
             </div>
             <div class="view-container" data-loading-container></div>
         </div>
@@ -309,7 +309,7 @@
 
     <div {{ block('block_attributes') }}>
         <div class="style-book-group-element__preview">
-            <button class="btn btn--info" data-action="click render">Open Dialog</button>
+            <button class="btn btn--outlined" data-action="click render">Open Dialog</button>
         </div>
 
         {{ block_widget(block) }}
@@ -499,7 +499,7 @@
 {% block _style_book_grid_element_collapse_widget_simple_template_widget %}
 
     {% set collapseId = 'collapse-'|uniqid %}
-    <button class="btn btn--link btn--size-s btn--no-x-offset"
+    <button class="btn btn--size-small btn--no-padding"
             data-toggle="collapse"
             data-target="{{ '#' ~ collapseId }}"
             aria-controls="{{ collapseId }}"
@@ -551,7 +551,7 @@
 {% block _style_book_grid_element_collapse_widget_simple_hide_trigger_template_widget %}
 
     {% set collapseId = 'collapse-'|uniqid %}
-    <button class="btn btn--action"
+    <button class="btn btn--outlined"
             data-toggle="collapse"
             data-target="{{ '#' ~ collapseId }}"
             aria-controls="{{ collapseId }}"
@@ -610,7 +610,7 @@
         It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.
         The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
     </div>
-    <button class="btn btn--link btn--size-s btn--no-x-offset collapse-toggle"
+    <button class="btn btn--size-small btn--no-padding collapse-toggle"
             data-toggle="collapse"
             data-target="{{ '#' ~ collapseId }}"
             aria-controls="{{ collapseId }}"
@@ -658,7 +658,7 @@
             viewport: 'tablet',
             view: 'orofrontend/default/js/app/views/collapse-view',
             toggleAttrs: {
-                'class': 'btn btn--link btn--size-s btn--no-x-offset',
+                'class': 'btn btn--size-small btn--no-padding',
                 'data-text': 'Open Collapse',
                 'data-icon': 'fa-plus-square-o',
                 'data-collapsed-text': 'Open Collapse',
@@ -685,7 +685,7 @@
             triggerIsFirst: false,
             triggerIconIsFirst: false,
             toggleAttrs: {
-                'class': 'btn btn--link btn--size-s btn--no-x-offset collapse-toggle',
+                'class': 'btn btn--size-small btn--no-padding collapse-toggle',
                 'aria-label': 'oro.ui.collapse.more'|trans,
                 'data-icon': 'fa-angle-down fa--offset-l',
                 'data-text': 'oro.ui.collapse.more'|trans
@@ -747,7 +747,7 @@
         <div class="accordion-group__item">
             {% set itemId1 = 'item-'|uniqid %}
             <h4>
-                <button class="accordion-group__trigger btn--link btn--no-offset"
+                <button class="accordion-group__trigger btn--no-padding"
                         type="button" data-toggle="collapse"
                         data-target="{{ '#' ~ itemId1 }}"
                         aria-controls="{{ itemId1 }}"
@@ -764,7 +764,7 @@
         <div class="accordion-group__item">
             {% set itemId2 = 'item-'|uniqid %}
             <h4>
-                <button class="accordion-group__trigger btn--link btn--no-offset collapsed"
+                <button class="accordion-group__trigger btn--no-padding collapsed"
                         type="button" data-toggle="collapse"
                         data-target="{{ '#' ~ itemId2 }}"
                         aria-expanded="false"
@@ -781,7 +781,7 @@
         <div class="accordion-group__item">
             {% set itemId3 = 'item-'|uniqid %}
             <h4>
-                <button class="accordion-group__trigger btn--link btn--no-offset collapsed"
+                <button class="accordion-group__trigger btn--no-padding collapsed"
                         type="button"
                         data-toggle="collapse"
                         data-target="{{ '#' ~ itemId3 }}"
@@ -855,7 +855,7 @@
 
     <div {{ block('block_attributes') }}>
         <div class="style-book-group-element__preview">
-            <button class="btn btn--info" data-action="click render">Open Fullscreen Popup</button>
+            <button class="btn btn--outlined" data-action="click render">Open Fullscreen Popup</button>
         </div>
 
         {{ block_widget(block) }}
@@ -1438,7 +1438,7 @@
     <div {{ block('block_attributes') }}>
         <div class="dom-relocation-example grid-col-12 grid" data-example-view>
             <div class="grid-col-12">
-                <button data-relocation-trigger class="btn btn--info">Trigger Move</button>
+                <button data-relocation-trigger class="btn btn--outlined">Trigger Move</button>
             </div>
 
             <div class="dom-relocation grid-col-12">
@@ -1522,7 +1522,7 @@
 
     <div {{ block('block_attributes') }}>
         <div class="sticky-panel-example" data-example-view>
-            <button class="btn btn--info" data-toggle>{{ 'oro_stylebook.groups.jscomponent.sticky_panel_view.button.sticky_off'|trans }}</button>
+            <button class="btn btn--outlined" data-toggle>{{ 'oro_stylebook.groups.jscomponent.sticky_panel_view.button.sticky_off'|trans }}</button>
             <div class="sticky-panel-box" data-move-to-sticky>
                 That content will be move to sticky panel...
             </div>

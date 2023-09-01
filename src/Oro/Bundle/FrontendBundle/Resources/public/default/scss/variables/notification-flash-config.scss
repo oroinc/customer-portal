@@ -16,6 +16,7 @@ $notification-flash-close-inner-offset: 5px !default;
 $notification-flash-close-background: none !default;
 $notification-flash-close-border: none !default;
 $notification-flash-close-color: get-color('ui', 'warning-dark') !default;
+$notification-flash-close-cursor: pointer !default;
 $notification-flash-close-icon-size: 20px !default;
 
 $notification-flash-success-background: get-color('ui', 'success') !default;

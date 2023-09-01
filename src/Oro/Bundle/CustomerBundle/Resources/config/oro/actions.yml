@@ -212,7 +212,7 @@ operations:
            - oro_customer_frontend_customer_user_index
         acl_resource: [CREATE, entity:commerce@Oro\Bundle\CustomerBundle\Entity\CustomerUser]
         button_options:
-            class: btn--info
+            class: btn--outlined
             icon: fa-plus fa--small
         order: 10
         actions:
@@ -227,7 +227,7 @@ operations:
             - oro_customer_frontend_customer_user_role_index
         acl_resource: [CREATE, entity:commerce@Oro\Bundle\CustomerBundle\Entity\CustomerUserRole]
         button_options:
-            class: btn--info
+            class: btn--outlined
             icon: fa-plus fa--small
         order: 10
         actions:

@@ -2,9 +2,9 @@
 
 $close-dialog-size: 36px !default;
 $close-dialog-offset: 6px !default;
-$close-dialog-color: $btn-plain-color !default;
-$close-dialog-color-hover: $btn-plain-hover-color !default;
-$close-dialog-cursor: $btn-plain-cursor !default;
+$close-dialog-color: get-color('additional-old', 'middle') !default;
+$close-dialog-color-hover: get-color('additional-old', 'light') !default;
+$close-dialog-cursor: pointer !default;
 
 $close-dialog-icon: $fa-var-close !default;
 $close-dialog-icon-size: $base-font-size--large !default;

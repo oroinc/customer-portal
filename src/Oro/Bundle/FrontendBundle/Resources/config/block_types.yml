@@ -98,6 +98,7 @@ services:
                 -
                     -
                         description: {default: ''}
+                        dark: {default: false}
                         anchor: {default: ''}
                         label: {default: ''}
                         subTreeLvl: {default: 1}

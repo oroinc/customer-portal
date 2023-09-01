@@ -52,7 +52,7 @@ const CollapseView = BaseView.extend({
         });
         this.toggleAttrs = defaults({}, options.toggleAttrs || {}, {
             'type': 'button',
-            'class': 'btn btn--link btn--size-s btn--no-x-offset collapse-toggle',
+            'class': 'btn btn--size-small btn--no-padding collapse-toggle',
             'data-toggle': 'collapse',
             'data-target': `#${this.collapseAttrs.id}`,
             'aria-controls': this.collapseAttrs.id,

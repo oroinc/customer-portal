@@ -148,7 +148,7 @@ define(function(require, exports, module) {
                         'role': 'button',
                         'href': toApply ? null : '#',
                         'aria-disabled': toApply ? true : null
-                    }).addClass('btn btn--link btn--no-x-offset btn--no-y-offset');
+                    }).addClass('btn btn--outlined btn--size-small btn--text btn--no-padding');
                 }
             }
         },

@@ -3,6 +3,7 @@
     <% let titleId = _.uniqueId(obj.id);
        let roleAttr = obj.role ?? 'img';
        let ariaHidden = obj.ariaHidden ?? 'true';
+       let className = obj.class ?? 'theme-icon';
 
         if (obj.title) {
             ariaHidden = void 0;
@@ -10,12 +11,15 @@
         if (ariaHidden) {
             roleAttr = 'none';
         }
+        if (obj.extraClass) {
+            className = `${className.trim()} ${obj.extraClass.trim()}`;
+        }
     %>
-    <svg <% if (obj.class) { %>class="<%- obj.class %>"<% } %>
+    <svg class="<%- className %>"
         role="<%- roleAttr %>"
-        width="<%- obj.width ?? '24px' %>"
-        height="<%- obj.height ?? '24px' %>"
-        fill="<%- obj.fill ?? 'currentColor' %>"
+        <% if (obj.width) { %>width="<%- obj.width %>"<% } %>
+        <% if (obj.height) { %>height="<%- obj.height %>"<% } %>
+        <% if (obj.fill) { %>fill="<%- obj.fill %>"<% } %>
         <% if (obj.title) { %>aria-labelledby="<%- titleId %>"<% } %>
         <% if (ariaHidden !== void 0) { %>aria-hidden="<%- ariaHidden %>"<% } %>
     >

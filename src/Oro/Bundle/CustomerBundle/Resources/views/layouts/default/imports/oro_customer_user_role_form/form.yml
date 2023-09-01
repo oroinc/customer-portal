@@ -34,12 +34,12 @@ layout:
                                 actionOptions:
                                     refreshAction:
                                         launcherOptions:
-                                            className: 'btn btn--default btn--size-s'
+                                            className: 'btn btn--size-small'
                                             icon: 'undo fa--no-offset'
                                             launcherMode: 'icon-only'
                                     resetAction:
                                         launcherOptions:
-                                            className: 'btn btn--default btn--size-s'
+                                            className: 'btn btn--size-small'
                                             icon: 'refresh fa--no-offset'
                                             launcherMode: 'icon-only'
                                 customModules:

@@ -200,6 +200,10 @@
         }
     }
 
+    &__item--dark &__preview {
+        background: $style-book-group-element-preview-dark-background;
+    }
+
     &__code {
         display: block;
 

@@ -16,82 +16,74 @@ layout:
                 group_element_button_view:
                     blockType: group_element_item
                     options:
-                      anchor: button_default
-                      label: oro_stylebook.groups.forms.buttons.default.title
-                      subTreeLvl: 1
+                        anchor: button_default
+                        label: oro_stylebook.groups.forms.buttons.default.title
+                        subTreeLvl: 1
                 style_book_button_element:
                     blockType: block
 
-                group_element_button_action_view:
+                group_element_button_disabled_view:
                     blockType: group_element_item
                     options:
-                      anchor: button_action
-                      label: oro_stylebook.groups.forms.buttons.action.title
-                      subTreeLvl: 1
-                style_book_button_element_action:
+                        anchor: button_disabled
+                        label: oro_stylebook.groups.forms.buttons.disabled.title
+                        subTreeLvl: 1
+                style_book_button_disabled_element:
                     blockType: block
 
-                group_element_button_info_view:
+                group_element_button_inversed_view:
                     blockType: group_element_item
                     options:
-                      anchor: button_info
-                      label: oro_stylebook.groups.forms.buttons.info.title
-                      subTreeLvl: 1
-                style_book_button_element_info:
+                        dark: true
+                        anchor: button_inversed
+                        label: oro_stylebook.groups.forms.buttons.inversed.title
+                        subTreeLvl: 1
+                style_book_button_inversed_element:
                     blockType: block
 
-                group_element_button_primary_view:
+                group_element_button_text_view:
                     blockType: group_element_item
                     options:
-                      anchor: button_primary
-                      label: oro_stylebook.groups.forms.buttons.primary.title
-                      subTreeLvl: 1
-                style_book_button_element_primary:
+                        anchor: button_text
+                        label: oro_stylebook.groups.forms.buttons.text.title
+                        subTreeLvl: 1
+                style_book_button_element_text:
                     blockType: block
 
-                group_element_button_link_view:
+                group_element_button_nopadding_view:
                     blockType: group_element_item
                     options:
-                      anchor: button_link
-                      label: oro_stylebook.groups.forms.buttons.link.title
-                      subTreeLvl: 1
-                style_book_button_element_link:
+                        anchor: button_nopadding
+                        label: oro_stylebook.groups.forms.buttons.nopadding.title
+                        subTreeLvl: 1
+                style_book_button_element_nopadding:
                     blockType: block
 
-                group_element_button_large_size_view:
+                group_element_button_sizes_view:
                     blockType: group_element_item
                     options:
-                      anchor: button_large_size
-                      label: oro_stylebook.groups.forms.buttons.large_size.title
-                      subTreeLvl: 1
-                style_book_button_element_large_size:
+                        anchor: button_sizes
+                        label: oro_stylebook.groups.forms.buttons.sizes.title
+                        subTreeLvl: 1
+                style_book_button_element_sizes:
                     blockType: block
 
-                group_element_button_size_l_view:
+                group_element_button_icon_text_view:
                     blockType: group_element_item
                     options:
-                      anchor: button_size_l
-                      label: oro_stylebook.groups.forms.buttons.size_l.title
-                      subTreeLvl: 1
-                style_book_button_element_size_l:
+                        anchor: button_icon_text
+                        label: oro_stylebook.groups.forms.buttons.icon_text.title
+                        subTreeLvl: 1
+                style_book_button_element_icon_text:
                     blockType: block
 
-                group_element_button_size_m_view:
+                group_element_button_icon_view:
                     blockType: group_element_item
                     options:
-                      anchor: button_size_m
-                      label: oro_stylebook.groups.forms.buttons.size_m.title
-                      subTreeLvl: 1
-                style_book_button_element_size_m:
-                    blockType: block
-
-                group_element_button_size_s_view:
-                    blockType: group_element_item
-                    options:
-                      anchor: button_size_s
-                      label: oro_stylebook.groups.forms.buttons.size_s.title
-                      subTreeLvl: 1
-                style_book_button_element_size_s:
+                        anchor: button_icon
+                        label: oro_stylebook.groups.forms.buttons.icon.title
+                        subTreeLvl: 1
+                style_book_button_element_icon:
                     blockType: block
 
                 group_element_buttons_group:
@@ -103,37 +95,28 @@ layout:
                 group_element_button_element_group_view:
                     blockType: group_element_item
                     options:
-                      anchor: button_drop_down_group
-                      label: oro_stylebook.groups.forms.buttons_group.drop_down_group.title
-                      subTreeLvl: 1
+                        anchor: button_drop_down_group
+                        label: oro_stylebook.groups.forms.buttons_group.drop_down_group.title
+                        subTreeLvl: 1
                 style_book_button_element_group:
                     blockType: block
 
                 group_element_button_element_inline_group_view:
                     blockType: group_element_item
                     options:
-                      anchor: button_inline_group
-                      label: oro_stylebook.groups.forms.buttons_group.inline_group.title
-                      subTreeLvl: 1
+                        anchor: button_inline_group
+                        label: oro_stylebook.groups.forms.buttons_group.inline_group.title
+                        subTreeLvl: 1
                 style_book_button_element_inline_group:
                     blockType: block
 
                 group_element_button_element_btn_group_view:
                     blockType: group_element_item
                     options:
-                      anchor: button_inline_btn_group
-                      label: oro_stylebook.groups.forms.buttons_group.inline_btn_group.title
-                      subTreeLvl: 1
+                        anchor: button_inline_btn_group
+                        label: oro_stylebook.groups.forms.buttons_group.inline_btn_group.title
+                        subTreeLvl: 1
                 style_book_button_element_btn_group:
-                    blockType: block
-
-                group_element_button_element_btn_group_vertical_view:
-                    blockType: group_element_item
-                    options:
-                      anchor: button_inline_group_vertical
-                      label: oro_stylebook.groups.forms.buttons_group.inline_group_vertical.title
-                      subTreeLvl: 1
-                style_book_button_element_btn_group_vertical:
                     blockType: block
 
             tree:
@@ -143,6 +126,20 @@ layout:
                     group_element_buttons:
                         group_element_button_view:
                             style_book_button_element: ~
+                        group_element_button_disabled_view:
+                            style_book_button_disabled_element: ~
+                        group_element_button_inversed_view:
+                            style_book_button_inversed_element: ~
+                        group_element_button_text_view:
+                            style_book_button_element_text: ~
+                        group_element_button_nopadding_view:
+                            style_book_button_element_nopadding: ~
+                        group_element_button_sizes_view:
+                            style_book_button_element_sizes: ~
+                        group_element_button_icon_text_view:
+                            style_book_button_element_icon_text: ~
+                        group_element_button_icon_view:
+                            style_book_button_element_icon: ~
 
                     group_element_buttons_group:
                         group_element_button_element_group_view:
@@ -151,7 +148,5 @@ layout:
                             style_book_button_element_inline_group: ~
                         group_element_button_element_btn_group_view:
                             style_book_button_element_btn_group: ~
-                        group_element_button_element_btn_group_vertical_view:
-                            style_book_button_element_btn_group_vertical: ~
 
     conditions: 'context["group"]=="forms"'

@@ -43,23 +43,21 @@ oro_stylebook:
             buttons:
                 title: Buttons
                 default:
-                    title: Default Button
-                action:
-                    title: Action Button
-                info:
-                    title: Info Button
-                primary:
-                    title: Primary Button
-                link:
-                    title: Link Button
-                large_size:
-                    title: Large Button (type 1, --large)
-                size_l:
-                    title: Large Button (type 2, --size-l)
-                size_m:
-                    title: Medium Button (--size-m)
-                size_s:
-                    title: Small Button (--size-s)
+                    title: Default Buttons
+                disabled:
+                    title: Disabled Buttons
+                inversed:
+                    title: Inversed Buttons
+                text:
+                    title: Text Buttons
+                nopadding:
+                    title: No Padding Buttons
+                sizes:
+                    title: Sizes Button
+                icon_text:
+                    title: Icon Text Button
+                icon:
+                    title: Icon Button
             buttons_group:
                 title: Buttons Group
                 drop_down_group:
@@ -68,8 +66,6 @@ oro_stylebook:
                     title: Inline Icon Button Group
                 inline_btn_group:
                     title: Horizontal Text Button Group
-                inline_group_vertical:
-                    title: Vertical Text Button Group
             notifications:
                 title: Notifications
                 error:

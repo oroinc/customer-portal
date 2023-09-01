@@ -1,0 +1,23 @@
+/* @theme: default; */
+
+.theme-icon {
+    width: $theme-icon-size;
+    height: $theme-icon-size;
+
+    fill: $theme-icon-fill;
+
+    &--medium {
+        width: $theme-icon-medium-size;
+        height: $theme-icon-medium-size;
+    }
+
+    &--small {
+        width: $theme-icon-small-size;
+        height: $theme-icon-small-size;
+    }
+
+    &--xs {
+        width: $theme-icon-xs-size;
+        height: $theme-icon-xs-size;
+    }
+}
