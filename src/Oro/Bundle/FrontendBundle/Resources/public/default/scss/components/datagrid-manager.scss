@@ -286,8 +286,8 @@
             opacity: 0;
             z-index: z('hidden');
 
-            &.focus-visible,
-            &.focus {
+            &:focus-visible,
+            &:focus {
                 + span {
                     background-color: $datagrid-manager-filters-dropdown-content-hover-bg-color;
                 }

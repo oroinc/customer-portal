@@ -72,12 +72,6 @@
 
         border-color: $active-border;
         box-shadow: $active-box-shadow;
-
-        @if ($active-box-shadow and $btn-focus-visible-style) {
-            &.focus-visible:focus {
-                box-shadow: $active-box-shadow, $btn-focus-visible-style;
-            }
-        }
     }
 
     @include button-group-divider(&, $divider-style);

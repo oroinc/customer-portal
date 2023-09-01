@@ -10,8 +10,6 @@ $header-row-border: solid get-color('additional-old', 'light') !default;
 $header-row-trigger-border: 1px solid get-color('additional-old', 'ultra') !default;
 
 $header-row-show-trigger-box-shadow: inset 0 4px 4px -2px rgba(0 0 0 / 20%) !default;
-$header-row-show-trigger-focus: $focus-visible-style,
-                                inset 0 4px 4px -2px rgba(0 0 0 / 20%) !default;
 
 // Tablet
 $header-row-border-tablet: null !default;

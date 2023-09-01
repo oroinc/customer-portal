@@ -42,12 +42,7 @@
             cursor: $search-widget-input-submit-hover-cursor;
         }
 
-        &:focus,
-        &.focus-visible {
-            box-shadow: $search-widget-input-submit-focus-box-shadow;
-        }
-
-        &.focus-visible {
+        &:focus-visible {
             color: $search-widget-input-submit-focus-color;
         }
     }

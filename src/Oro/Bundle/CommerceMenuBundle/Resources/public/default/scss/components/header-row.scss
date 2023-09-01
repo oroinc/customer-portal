@@ -49,10 +49,6 @@
         &.show {
             .header-row__trigger {
                 box-shadow: $header-row-show-trigger-box-shadow;
-
-                &.focus-visible {
-                    box-shadow: $header-row-show-trigger-focus;
-                }
             }
 
             .header-row__toggle {

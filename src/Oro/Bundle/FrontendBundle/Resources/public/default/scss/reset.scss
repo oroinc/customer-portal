@@ -16,6 +16,16 @@ textarea {
     outline: none;
 }
 
+:focus-visible {
+    outline: none;
+    box-shadow: $base-ui-element-focus-style;
+
+    &:disabled,
+    &.disabled {
+        box-shadow: none;
+    }
+}
+
 // Links
 a {
     text-decoration: $link-link-normal-text-decoration;
