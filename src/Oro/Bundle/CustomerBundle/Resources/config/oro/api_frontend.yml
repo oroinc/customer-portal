@@ -37,8 +37,8 @@ api:
                         apiKey:
                             direction: output-only
                     status_codes:
-                        201: false
                         200: Returned when the credentials are valid and API access key exists
+                        201: false
                         403: Returned when the credentials are not valid or API access key does not exist
                         409: false
 
