@@ -37,7 +37,7 @@ class ResourceRestApiGetActionUrlResolver implements ResourceApiUrlResolverInter
 
     /**
      * Sets a predefined identifier of API resource that should be used
-     * if an entity identifier does not exist route parameters or it is NULL.
+     * if an entity identifier does not exist in route parameters or it is NULL.
      * @see \Oro\Bundle\ApiBundle\Request\EntityIdResolverInterface
      */
     public function setDefaultEntityId(string $entityId): void
