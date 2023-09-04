@@ -25,6 +25,7 @@ layout:
                     options:
                         anchor: form_text_one_line
                         label: oro_stylebook.groups.forms.form_text.one_line.title
+                        description: oro_stylebook.groups.forms.form_text.one_line.description
                 form_text:
                     blockType: form_field
                     options:
@@ -67,6 +68,8 @@ layout:
                     options:
                         anchor: form_select
                         label: oro_stylebook.groups.forms.form_select.title
+                        vars:
+                            description: oro_stylebook.groups.forms.form_select.description
                 group_element_item_form_select:
                     blockType: group_element_item
                     options:

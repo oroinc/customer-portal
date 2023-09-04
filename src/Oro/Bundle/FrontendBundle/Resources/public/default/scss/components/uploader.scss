@@ -65,8 +65,6 @@
     }
 
     &.focus {
-        box-shadow: $input-box-shadow-focus-state;
-
         .filename {
             &,
             &:hover {

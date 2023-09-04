@@ -18,6 +18,7 @@ oro_stylebook:
                 title: Text Input
                 one_line:
                     title: One-Line
+                    description: '<b>When to use</b>: a user needs to input unique information that cannot be predicted with a preset of options; a user needs to input memorable data that can be entered more quickly in a free-hand format versus a more complex control.<br><b>When not to use</b>: if entering text isn’t possible or if it’s less convenient than using select controls.'
                 textarea:
                     title: Multi-line
                 password:
@@ -26,6 +27,7 @@ oro_stylebook:
                 title: Date and Time Picker
             form_select:
                 title: Single Option Select
+                description: '<b>When to use</b>: selection may take effect immediately (e.g., sorting) or need a confirmation action if it’s a part of a form; the option names are way too long for selection controls that display all options right away (e.g., segmented controls).<br><b>When not to use</b>: all options should be displayed right away for a smoother user experience.'
                 drop_down:
                     title: Via Drop-Down
                 checkbox:

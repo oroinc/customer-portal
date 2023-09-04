@@ -222,6 +222,9 @@
 
     <div {{ block('block_attributes') }}>
         <h2 id="{{ anchor }}" class="style-book-title">{{ label|trans|raw }}</h2>
+        {% if description is defined and description|length %}
+            <div class="style-book-group-element__description">{{ description|trans|raw }}</div>
+        {% endif %}
         {{ block_widget(block) }}
     </div>
 {% endblock %}

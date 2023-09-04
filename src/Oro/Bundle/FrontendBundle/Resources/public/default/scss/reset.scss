@@ -18,7 +18,7 @@ textarea {
 
 :focus-visible {
     outline: none;
-    box-shadow: $base-ui-element-focus-style;
+    box-shadow: $base-ui-element-focus-visible-style;
 
     &:disabled,
     &.disabled {

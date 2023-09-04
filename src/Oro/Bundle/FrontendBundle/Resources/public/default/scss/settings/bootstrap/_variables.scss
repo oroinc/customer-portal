@@ -93,6 +93,8 @@ $btn-border-radius-l: $border-radius-l;
 
 // Forms
 
+$input-color: $base-ui-element-color;
+$input-padding-x: spacing('md');
 $input-padding-y: 11px;
 $input-line-height: $base-ui-element-line-height;
 $input-border-radius: $border-radius;
@@ -119,7 +121,7 @@ $nav-link-padding-x: 14px;
 $nav-tabs-link-hover-background-color: null;
 $nav-tabs-link-right-offset: null;
 $nav-tabs-link-border: null;
-$nav-tabs-link-active-color-focus-visible: $base-ui-element-focus-style;
+$nav-tabs-link-active-color-focus-visible: $base-ui-element-focus-visible-style;
 
 // Navbar
 // Compute the navbar-brand padding-y so the navbar-brand will have the same height as navbar-text and nav-link
