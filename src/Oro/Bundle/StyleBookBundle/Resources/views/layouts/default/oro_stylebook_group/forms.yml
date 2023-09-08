@@ -100,6 +100,26 @@ layout:
                     options:
                         form: '=data["style_book_form"].getStyleBookFormView()["radio"]'
 
+                group_element_form_radio_disabled:
+                    blockType: group_element_item
+                    options:
+                        anchor: form_radio_disabled
+                        label: oro_stylebook.groups.forms.form_select.radios_disabled.title
+                form_radio_disabled:
+                    blockType: form_field
+                    options:
+                        form: '=data["style_book_form"].getStyleBookFormView()["radios_disabled"]'
+
+                group_element_form_checkboxes_disabled:
+                    blockType: group_element_item
+                    options:
+                        anchor: form_checkboxes_disabled
+                        label: oro_stylebook.groups.forms.form_select.checkboxes_disabled.title
+                form_checkboxes_disabled:
+                    blockType: form_field
+                    options:
+                        form: '=data["style_book_form"].getStyleBookFormView()["checkboxes_disabled"]'
+
                 group_element_form_radios:
                     blockType: group_element_item
                     options:
@@ -135,6 +155,16 @@ layout:
                     options:
                         form: '=data["style_book_form"].getStyleBookFormView()["multiselect"]'
 
+                group_element_form_switch:
+                    blockType: group_element_item
+                    options:
+                        anchor: form_switch
+                        label: oro_stylebook.groups.forms.form_select.switch.title
+                form_switch:
+                    blockType: form_field
+                    options:
+                        form: '=data["style_book_form"].getStyleBookFormView()["switch"]'
+
             tree:
                 style_book_content:
                     group_element_form_text:
@@ -153,10 +183,17 @@ layout:
                             form_select: ~
                         group_element_form_checkbox:
                             form_checkbox:  ~
+                        group_element_form_checkboxes_disabled:
+                            form_checkboxes_disabled: ~
                         group_element_form_radio:
                             form_radio: ~
+                        group_element_form_radio_disabled:
+                            form_radio_disabled: ~
                         group_element_form_radios:
                             form_radios: ~
+                        group_element_form_switch:
+                            form_switch: ~
+
 
                     group_element_form_checkboxes:
                         group_element_item_form_checkboxes:

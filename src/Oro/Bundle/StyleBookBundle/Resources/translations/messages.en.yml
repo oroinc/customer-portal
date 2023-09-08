@@ -32,10 +32,16 @@ oro_stylebook:
                     title: Via Drop-Down
                 checkbox:
                     title: Via Checkbox
+                checkboxes_disabled:
+                    title: Disabled Checkbox
                 radio:
                     title: Via a Radio
+                radios_disabled:
+                    title: Disabled Radio
                 radio_list:
                     title: Via Radio List
+                switch:
+                    title: Toggle Switch
             form_checkboxes:
                 title: Multiple Option Select
                 checkbox:

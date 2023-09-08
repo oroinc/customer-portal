@@ -20,6 +20,8 @@ class StyleBookFormProvider extends AbstractFormProvider
 {
     /**
      * @return FormView
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function getStyleBookFormView()
     {
@@ -33,10 +35,73 @@ class StyleBookFormProvider extends AbstractFormProvider
             ->add('radio', RadioType::class, [
                 'label' => 'You have no choice but select this option. This is also irreversible.',
             ])
+            ->add('radios_disabled', ChoiceType::class, [
+                'choices' => [
+                    'Disabled Radio' => 0,
+                    'Disabled Checked Radio' => 1
+                ],
+                'choice_attr' => [
+                    'Disabled Radio' => [
+                        'disabled' => true
+                    ],
+                    'Disabled Checked Radio' => [
+                        'checked' => true,
+                        'disabled' => true
+                    ]
+                ],
+                'expanded' => true,
+            ])
             ->add('checkboxes', ChoiceType::class, [
                 'choices' => [
                     'Cup of coffee' => 0,
                     'Doughnut' => 1
+                ],
+                'expanded' => true,
+                'multiple' => true
+            ])
+            ->add('checkboxes_disabled', ChoiceType::class, [
+                'choices' => [
+                    'Disabled Checkbox' => 0,
+                    'Disabled Checked Checkbox' => 1
+                ],
+                'choice_attr' => [
+                    'Disabled Checkbox' => [
+                        'disabled' => true
+                    ],
+                    'Disabled Checked Checkbox' => [
+                        'checked' => true,
+                        'disabled' => true
+                    ]
+                ],
+                'expanded' => true,
+                'multiple' => true
+            ])
+            ->add('switch', ChoiceType::class, [
+                'choices' => [
+                    'Switch Off' => 0,
+                    'Switch On' => 1,
+                    'Switch Off Disabled' => 2,
+                    'Switch On Disabled' => 3
+                ],
+                'choice_attr' => [
+                    'Switch Off' => [
+                        'checked' => false,
+                        'role' => 'switch'
+                    ],
+                    'Switch On' => [
+                        'checked' => true,
+                        'role' => 'switch'
+                    ],
+                    'Switch Off Disabled' => [
+                        'checked' => false,
+                        'disabled' => true,
+                        'role' => 'switch'
+                    ],
+                    'Switch On Disabled' => [
+                        'checked' => true,
+                        'disabled' => true,
+                        'role' => 'switch'
+                    ]
                 ],
                 'expanded' => true,
                 'multiple' => true
