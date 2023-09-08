@@ -133,6 +133,28 @@ $btn-palette: (
             'color': get-var-color('destructive', 'disabled')
         )
     ),
+    'plain': (
+        'default': (
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('text', 'secondary')
+        ),
+        'hover': (
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('text', 'primary')
+        ),
+        'focus': (
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('text', 'primary')
+        ),
+        'active': (
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('text', 'primary')
+        )
+    ),
     // Dark theme
     'inverse': (
         'default': (

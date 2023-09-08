@@ -51,6 +51,34 @@
     {{ parent_block_widget(block) }}
 {% endblock %}
 
+{% block _style_book_components_status_label_widget %}
+    <div class="style-book-group-element__preview--space">
+        <div class="status-label status-label--success">Positive</div>
+        <div class="status-label status-label--warning">Warning</div>
+        <div class="status-label status-label--destructive">Negative</div>
+        <div class="status-label status-label--info">Info</div>
+        <div class="status-label">Regular</div>
+    </div>
+{% endblock %}
+
+{% block _style_book_components_product_sticker_new_widget %}
+    <div class="style-book-group-element__preview--square">
+        <div class="product-sticker product-sticker--start-start product-sticker--new_arrival">Start Start</div>
+        <div class="product-sticker product-sticker--start-end product-sticker--new_arrival">Start End</div>
+        <div class="product-sticker product-sticker--end-end product-sticker--new_arrival">End End</div>
+        <div class="product-sticker product-sticker--end-start product-sticker--new_arrival">End Start</div>
+    </div>
+{% endblock %}
+
+{% block _style_book_components_product_sticker_sale_widget %}
+    <div class="style-book-group-element__preview--square">
+        <div class="product-sticker product-sticker--start-start product-sticker--sale">Start Start</div>
+        <div class="product-sticker product-sticker--start-end product-sticker--sale">Start End</div>
+        <div class="product-sticker product-sticker--end-end product-sticker--sale">End End</div>
+        <div class="product-sticker product-sticker--end-start product-sticker--sale">End Start</div>
+    </div>
+{% endblock %}
+
 {% block _style_book_components_functions_widget %}
     {% set sourcePath = sourcePath|default('@OroUIBundlePublic/default/scss/settings/_functions.scss') %}
 

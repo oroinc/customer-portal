@@ -257,6 +257,9 @@ oro_stylebook:
             headings:
                 title: Headings
                 description: 'Global config for all headings'
+            status_label:
+                title: Status Labels
+                description: '<ul><li>To classify an item / element, e.g. through its status.</li><li>To tag it for quick recognition.</li><li>To provide emphasis on a characteristic of an element, e.g., “Sale”.</li></ul>'
             sizes:
                 title: Sizes
                 description: 'This section provides a preview of the scss properties related to the common screen sizes and offsets used in Oro application.'

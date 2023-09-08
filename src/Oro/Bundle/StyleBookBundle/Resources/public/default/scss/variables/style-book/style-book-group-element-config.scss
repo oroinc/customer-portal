@@ -6,6 +6,15 @@ $style-book-group-element-description-border-start: 5px solid get-color('primary
 
 $style-book-group-element-preview-border: 5px solid get-color('additional-old', 'base') !default;
 
+$style-book-group-element-preview-space-margin: spacing('sm') 0 !default;
+
+$style-book-group-element-preview-square-background-color: get-var-color('neutral', 'grey1') !default;
+$style-book-group-element-preview-square-width: 250px !default;
+$style-book-group-element-preview-square-height: 250px !default;
+$style-book-group-element-preview-square-margin: spacing('sm') 0 !default;
+$style-book-group-element-preview-square-border: 1px solid get-var-color('neutral', 'grey2') !default;
+$style-book-group-element-preview-square-position: relative !default;
+
 $style-book-group-element-preview-grid-row-background: get-color('additional-old', 'base') !default;
 
 $style-book-group-element-preview-grid-item-border: 1px solid get-color('additional-old', 'middle') !default;

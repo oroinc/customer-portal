@@ -48,6 +48,19 @@
 
         border: $style-book-group-element-preview-border;
 
+        &--space {
+            margin: $style-book-group-element-preview-space-margin;
+        }
+
+        &--square {
+            background-color: $style-book-group-element-preview-square-background-color;
+            width: $style-book-group-element-preview-square-width;
+            height: $style-book-group-element-preview-square-height;
+            margin: $style-book-group-element-preview-square-margin;
+            border: $style-book-group-element-preview-square-border;
+            position: $style-book-group-element-preview-square-position;
+        }
+
         .checkbox-label {
             padding-right: spacing('base');
         }

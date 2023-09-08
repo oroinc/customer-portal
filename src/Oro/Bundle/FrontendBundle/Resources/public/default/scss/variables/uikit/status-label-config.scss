@@ -1,0 +1,25 @@
+/* @theme: default; */
+
+$status-label-background-color: get-var-color('neutral', 'grey1') !default;
+$status-label-color: get-var-color('text', 'secondary') !default;
+$status-label-border-radius: 2px !default;
+$status-label-display: inline-block !default;
+$status-label-padding: 0 spacing('xs') !default;
+
+$status-label-success-background-color: get-var-color('success', 'light') !default;
+$status-label-success-color: get-var-color('success', 'dark') !default;
+
+$status-label-warning-background-color: get-var-color('warning', 'light') !default;
+$status-label-warning-color: get-var-color('warning', 'dark') !default;
+
+$status-label-destructive-background-color: get-var-color('destructive', 'light') !default;
+$status-label-destructive-color: get-var-color('destructive', 'dark') !default;
+
+$status-label-info-background-color: get-var-color('info', 'light') !default;
+$status-label-info-color: get-var-color('info', 'dark') !default;
+
+$status-label-new-arrival-background-color: get-var-color('secondary', 'c1') !default;
+$status-label-new-arrival-color: get-var-color('text', 'primary') !default;
+
+$status-label-sale-background-color: get-var-color('secondary', 'sale') !default;
+$status-label-sale-color: get-var-color('text', 'inverse') !default;
