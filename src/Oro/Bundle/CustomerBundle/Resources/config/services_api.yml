@@ -122,7 +122,7 @@ services:
     oro_customer.api.frontend.login.set_http_ok_response_status_code:
         class: Oro\Bundle\ApiBundle\Processor\Shared\SetHttpResponseStatusCode
         tags:
-            - { name: oro.api.processor, action: create, group: normalize_result, requestType: frontend&rest, class: Oro\Bundle\CustomerBundle\Api\Model\Login, priority: -29 }
+            - { name: oro.api.processor, action: create, group: normalize_result, requestType: frontend&rest, class: Oro\Bundle\CustomerBundle\Api\Model\Login, priority: -28 }
 
     oro_customer.api.frontend.config.add_owner_validator:
         class: Oro\Bundle\OrganizationBundle\Api\Processor\GetConfig\AddOwnerValidator

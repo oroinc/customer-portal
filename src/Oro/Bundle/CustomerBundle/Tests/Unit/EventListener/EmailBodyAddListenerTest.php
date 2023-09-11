@@ -2,26 +2,26 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Persistence\ObjectManager;
+use Oro\Bundle\ActivityBundle\Manager\ActivityManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\CustomerBundle\EventListener\EmailBodyAddListener;
 use Oro\Bundle\EmailBundle\Entity\Email;
 use Oro\Bundle\EmailBundle\Entity\EmailRecipient;
-use Oro\Bundle\EmailBundle\Entity\Manager\EmailActivityManager;
 use Oro\Bundle\EmailBundle\Event\EmailBodyAdded;
 use Oro\Bundle\EmailBundle\Tests\Unit\Entity\TestFixtures\EmailAddress;
 
 class EmailBodyAddListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var CustomerUserRepository */
+    /** @var CustomerUserRepository|\PHPUnit\Framework\MockObject\MockObject */
     private $repository;
 
-    /** @var ObjectManager */
-    private $manager;
+    /** @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $em;
 
-    /** @var EmailActivityManager */
+    /** @var ActivityManager|\PHPUnit\Framework\MockObject\MockObject */
     private $activityManager;
 
     /** @var EmailBodyAddListener */
@@ -30,22 +30,36 @@ class EmailBodyAddListenerTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         $this->repository = $this->createMock(CustomerUserRepository::class);
+        $this->em = $this->createMock(EntityManagerInterface::class);
+        $this->activityManager = $this->createMock(ActivityManager::class);
 
-        $this->manager = $this->createMock(ObjectManager::class);
-        $this->manager->expects($this->any())
+        $this->em->expects(self::any())
             ->method('getRepository')
             ->with(CustomerUser::class)
             ->willReturn($this->repository);
 
-        $registry = $this->createMock(ManagerRegistry::class);
-        $registry->expects($this->any())
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $doctrine->expects(self::any())
             ->method('getManagerForClass')
             ->with(CustomerUser::class)
-            ->willReturn($this->manager);
+            ->willReturn($this->em);
 
-        $this->activityManager = $this->createMock(EmailActivityManager::class);
+        $this->listener = new EmailBodyAddListener($doctrine, $this->activityManager);
+    }
 
-        $this->listener = new EmailBodyAddListener($registry, $this->activityManager);
+    private function getRecipient(string $type, string $email = null): EmailRecipient
+    {
+        $recipient = new EmailRecipient();
+        $recipient->setType($type);
+
+        if ($email) {
+            $address = new EmailAddress();
+            $address->setEmail($email);
+
+            $recipient->setEmailAddress($address);
+        }
+
+        return $recipient;
     }
 
     public function testLinkToCustomerUser(): void
@@ -63,17 +77,17 @@ class EmailBodyAddListenerTest extends \PHPUnit\Framework\TestCase
         $user->setFirstName('Amanda');
         $user->setLastName('Cole');
 
-        $this->repository->expects($this->once())
+        $this->repository->expects(self::once())
             ->method('findBy')
             ->with(['email' => [$email1, $email2, $email3]])
             ->willReturn([$user]);
 
-        $this->activityManager->expects($this->once())
-            ->method('addAssociation')
-            ->with($entity, $user)
-            ->willReturn([$user]);
+        $this->activityManager->expects(self::once())
+            ->method('addActivityTargets')
+            ->with($entity, [$user])
+            ->willReturn(true);
 
-        $this->manager->expects($this->once())
+        $this->em->expects(self::once())
             ->method('flush');
 
         $this->listener->linkToCustomerUser(new EmailBodyAdded($entity));
@@ -87,13 +101,13 @@ class EmailBodyAddListenerTest extends \PHPUnit\Framework\TestCase
         $user->setFirstName('Amanda');
         $user->setLastName('Cole');
 
-        $this->repository->expects($this->never())
+        $this->repository->expects(self::never())
             ->method('findBy');
 
-        $this->activityManager->expects($this->never())
-            ->method('addAssociation');
+        $this->activityManager->expects(self::never())
+            ->method('addActivityTargets');
 
-        $this->manager->expects($this->never())
+        $this->em->expects(self::never())
             ->method('flush');
 
         $this->listener->linkToCustomerUser(new EmailBodyAdded($entity));
@@ -106,32 +120,17 @@ class EmailBodyAddListenerTest extends \PHPUnit\Framework\TestCase
         $entity = new Email();
         $entity->addRecipient($this->getRecipient(EmailRecipient::TO, $email));
 
-        $this->repository->expects($this->once())
+        $this->repository->expects(self::once())
             ->method('findBy')
             ->with(['email' => [$email]])
             ->willReturn([]);
 
-        $this->activityManager->expects($this->never())
-            ->method('addAssociation');
+        $this->activityManager->expects(self::never())
+            ->method('addActivityTargets');
 
-        $this->manager->expects($this->never())
+        $this->em->expects(self::never())
             ->method('flush');
 
         $this->listener->linkToCustomerUser(new EmailBodyAdded($entity));
-    }
-
-    private function getRecipient(string $type, string $email = null): EmailRecipient
-    {
-        $rcpt = new EmailRecipient();
-        $rcpt->setType($type);
-
-        if ($email) {
-            $address = new EmailAddress();
-            $address->setEmail($email);
-
-            $rcpt->setEmailAddress($address);
-        }
-
-        return $rcpt;
     }
 }

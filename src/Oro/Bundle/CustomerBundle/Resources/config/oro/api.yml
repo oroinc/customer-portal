@@ -36,6 +36,7 @@ api:
 
         Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
             documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer_user_role.md'
+            upsert: false
             actions:
                 update:
                     fields:
