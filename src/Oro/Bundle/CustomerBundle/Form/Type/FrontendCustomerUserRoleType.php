@@ -27,7 +27,7 @@ class FrontendCustomerUserRoleType extends AbstractCustomerUserRoleType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return self::NAME;
     }

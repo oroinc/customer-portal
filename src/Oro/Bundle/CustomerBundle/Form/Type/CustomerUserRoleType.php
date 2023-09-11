@@ -35,7 +35,7 @@ class CustomerUserRoleType extends AbstractCustomerUserRoleType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return self::NAME;
     }

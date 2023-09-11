@@ -69,7 +69,7 @@ class CustomerVoter extends AbstractEntityVoter implements ServiceSubscriberInte
     /**
      * {@inheritDoc}
      */
-    public function vote(TokenInterface $token, $object, array $attributes)
+    public function vote(TokenInterface $token, $object, array $attributes): int
     {
         $user = $this->getUser($token);
         if (!$user instanceof CustomerUser) {

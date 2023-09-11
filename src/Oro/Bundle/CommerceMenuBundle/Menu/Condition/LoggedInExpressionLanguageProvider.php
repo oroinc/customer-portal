@@ -19,7 +19,7 @@ class LoggedInExpressionLanguageProvider implements ExpressionFunctionProviderIn
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new ExpressionFunction('is_logged_in', function () {

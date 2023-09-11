@@ -33,7 +33,7 @@ class WebsiteScopedDataType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'oro_website_scoped_data_type';
     }

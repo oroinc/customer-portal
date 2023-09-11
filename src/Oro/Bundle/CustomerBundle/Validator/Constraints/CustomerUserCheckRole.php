@@ -9,7 +9,7 @@ class CustomerUserCheckRole extends Constraint
     /** @var string */
     public $message = 'oro.customer.message.user_without_role';
 
-    public function getTargets()
+    public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;
     }

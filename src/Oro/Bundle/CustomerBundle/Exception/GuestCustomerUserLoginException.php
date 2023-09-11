@@ -12,7 +12,7 @@ class GuestCustomerUserLoginException extends AccountStatusException
     /**
      * {@inheritdoc}
      */
-    public function getMessageKey()
+    public function getMessageKey(): string
     {
         return 'oro_customer.login.errors.guest';
     }
