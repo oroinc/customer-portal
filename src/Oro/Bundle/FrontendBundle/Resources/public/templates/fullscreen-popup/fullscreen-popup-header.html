@@ -1,16 +1,17 @@
+<% let orofrontend = _.macros('orofrontend') %>
 <% if (label) { %>
-    <div class="fullscreen-popup__label" id="<%- id %>">
-        <span class="fullscreen-popup__text" <% if (closeOnLabel) { %> data-role="close" role="button" tabindex="0"<% } %>>
-            <% if (icon) { %>
-                <% if (badge) { %>
-                    <span class="fullscreen-popup__badge" aria-hidden="true">
-                        <span class="<%- icon %>"></span>
-                    </span>
-                <% } else { %>
-                    <span class="<%- icon %>" aria-hidden="true"></span>
-                <% } %>
-            <% } %>
-            <span class="fullscreen-popup__words" data-role="title"><%- label %></span>
-        </span>
-    </div>
+    <% if (icon) { %>
+        <% let orofrontend = _.macros('orofrontend') %>
+        <button type="button" class="fullscreen-popup__icon btn btn--plain btn--text" data-role="close" aria-label="<%- _.__('Close') %>">
+            <%= orofrontend.renderIcon({id: icon}) %>
+        </button>
+    <% } %>
+    <span class="fullscreen-popup__label" id="<%- id %>"
+         <% if (obj.closeOnLabel) { %> role="button" tabindex="0" data-role="close"<% } %>
+    ><span data-role="title"><%- label %></span></span>
+    <% if (close) { %>
+    <button type="button" class="close-dialog close-dialog--no-ofsset btn btn--plain btn--text" data-role="close" aria-label="<%-_.__('oro_frontend.fullscreen_popup.actions.labels.close') %>">
+        <%= orofrontend.renderIcon({id: 'x', extraClass: 'theme-icon--medium'}) %>
+    </button>
+<% } %>
 <% } %>

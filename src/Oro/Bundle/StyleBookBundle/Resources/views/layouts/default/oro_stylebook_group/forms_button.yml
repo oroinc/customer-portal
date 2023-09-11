@@ -12,12 +12,12 @@ layout:
                     blockType: group_element
                     options:
                         anchor: buttons
-                        label: oro_stylebook.groups.forms.buttons.title
+                        label: oro_stylebook.groups.ui_elements.buttons.title
                 group_element_button_view:
                     blockType: group_element_item
                     options:
                         anchor: button_default
-                        label: oro_stylebook.groups.forms.buttons.default.title
+                        label: oro_stylebook.groups.ui_elements.buttons.default.title
                         subTreeLvl: 1
                 style_book_button_element:
                     blockType: block
@@ -26,7 +26,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: button_disabled
-                        label: oro_stylebook.groups.forms.buttons.disabled.title
+                        label: oro_stylebook.groups.ui_elements.buttons.disabled.title
                         subTreeLvl: 1
                 style_book_button_disabled_element:
                     blockType: block
@@ -36,7 +36,7 @@ layout:
                     options:
                         dark: true
                         anchor: button_inversed
-                        label: oro_stylebook.groups.forms.buttons.inversed.title
+                        label: oro_stylebook.groups.ui_elements.buttons.inversed.title
                         subTreeLvl: 1
                 style_book_button_inversed_element:
                     blockType: block
@@ -45,7 +45,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: button_text
-                        label: oro_stylebook.groups.forms.buttons.text.title
+                        label: oro_stylebook.groups.ui_elements.buttons.text.title
                         subTreeLvl: 1
                 style_book_button_element_text:
                     blockType: block
@@ -54,7 +54,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: button_nopadding
-                        label: oro_stylebook.groups.forms.buttons.nopadding.title
+                        label: oro_stylebook.groups.ui_elements.buttons.nopadding.title
                         subTreeLvl: 1
                 style_book_button_element_nopadding:
                     blockType: block
@@ -63,7 +63,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: button_sizes
-                        label: oro_stylebook.groups.forms.buttons.sizes.title
+                        label: oro_stylebook.groups.ui_elements.buttons.sizes.title
                         subTreeLvl: 1
                 style_book_button_element_sizes:
                     blockType: block
@@ -72,7 +72,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: button_icon_text
-                        label: oro_stylebook.groups.forms.buttons.icon_text.title
+                        label: oro_stylebook.groups.ui_elements.buttons.icon_text.title
                         subTreeLvl: 1
                 style_book_button_element_icon_text:
                     blockType: block
@@ -81,7 +81,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: button_icon
-                        label: oro_stylebook.groups.forms.buttons.icon.title
+                        label: oro_stylebook.groups.ui_elements.buttons.icon.title
                         subTreeLvl: 1
                 style_book_button_element_icon:
                     blockType: block
@@ -90,13 +90,13 @@ layout:
                     blockType: group_element
                     options:
                         anchor: buttons_group
-                        label: oro_stylebook.groups.forms.buttons_group.title
+                        label: oro_stylebook.groups.ui_elements.buttons_group.title
 
                 group_element_button_element_group_view:
                     blockType: group_element_item
                     options:
                         anchor: button_drop_down_group
-                        label: oro_stylebook.groups.forms.buttons_group.drop_down_group.title
+                        label: oro_stylebook.groups.ui_elements.buttons_group.drop_down_group.title
                         subTreeLvl: 1
                 style_book_button_element_group:
                     blockType: block
@@ -105,7 +105,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: button_inline_group
-                        label: oro_stylebook.groups.forms.buttons_group.inline_group.title
+                        label: oro_stylebook.groups.ui_elements.buttons_group.inline_group.title
                         subTreeLvl: 1
                 style_book_button_element_inline_group:
                     blockType: block
@@ -114,7 +114,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: button_inline_btn_group
-                        label: oro_stylebook.groups.forms.buttons_group.inline_btn_group.title
+                        label: oro_stylebook.groups.ui_elements.buttons_group.inline_btn_group.title
                         subTreeLvl: 1
                 style_book_button_element_btn_group:
                     blockType: block
@@ -149,4 +149,4 @@ layout:
                         group_element_button_element_btn_group_view:
                             style_book_button_element_btn_group: ~
 
-    conditions: 'context["group"]=="forms"'
+    conditions: 'context["group"]=="ui_elements"'

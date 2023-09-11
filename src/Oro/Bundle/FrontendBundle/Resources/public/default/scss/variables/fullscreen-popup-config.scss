@@ -12,19 +12,20 @@ $fullscreen-popup-bottom: 0 !default;
 $fullscreen-popup-left: 0 !default;
 $fullscreen-popup-height: auto !default;
 $fullscreen-popup-margin-left: 0 !default;
-$fullscreen-popup-bg: get-color('additional-old', 'ultra') !default;
+$fullscreen-popup-bg: get-var-color('neutral', 'white-100') !default;
 
-$fullscreen-popup-header-display: inline-flex !default;
+$fullscreen-popup-header-display: flex !default;
 $fullscreen-popup-header-align-items: center !default;
 $fullscreen-popup-header-flex-shrink: 0 !default;
-$fullscreen-popup-header-position: relative !default;
+$fullscreen-popup-header-gap: spacing('md');
+
 $fullscreen-popup-header-z-index: z('base') + 1 !default;
-$fullscreen-popup-header-right: 0 !default;
-$fullscreen-popup-header-left: 0 !default;
-$fullscreen-popup-header-min-height: $close-dialog-size !default;
-$fullscreen-popup-header-bg: get-color('additional-old', 'ultra') !default;
-$fullscreen-popup-header-border-bottom: 1px solid get-color('additional-old', 'light') !default;
-$fullscreen-popup-header-offset: 0 ($close-dialog-size + spacing('xs')) 0 spacing('base') !default;
+
+$fullscreen-popup-header-bg: get-var-color('neutral', 'white-100') !default;
+$fullscreen-popup-header-offset: spacing('base') + spacing('sm') !default;
+
+$fullscreen-popup-icon-flex-shrink: 0 !default;
+$fullscreen-popup-icon-align-self: flex-start !default;
 
 $fullscreen-popup-footer-display: flex !default;
 $fullscreen-popup-footer-align-items: center !default;
@@ -33,37 +34,31 @@ $fullscreen-popup-footer-z-index: z('base') + 1 !default;
 $fullscreen-popup-footer-right: 0 !default;
 $fullscreen-popup-footer-left: 0 !default;
 $fullscreen-popup-footer-bottom: 0 !default;
-$fullscreen-popup-footer-offset: spacing('sm') !default;
-$fullscreen-popup-footer-bg: get-color('additional-old', 'ultra') !default;
-$fullscreen-popup-footer-border-top: 1px solid get-color('additional-old', 'light') !default;
+$fullscreen-popup-footer-offset: (
+    spacing('base')
+    spacing('base') + spacing('sm')
+    spacing('base') + spacing('sm')
+) !default;
+$fullscreen-popup-footer-bg: get-var-color('neutral', 'white-100') !default;
+$fullscreen-popup-footer-border-top: 1px solid get-var-color('neutral', 'grey2') !default;
 
 $fullscreen-popup-footer-btn-width: 100% !default;
-$fullscreen-popup-footer-btn-offset: 5px !default;
 
 $fullscreen-popup-content-height: 100% !default;
 $fullscreen-popup-content-overflow: auto !default;
 $fullscreen-popup-content-alert-offset-height: 0 spacing('sm') spacing('sm') !default;
 $fullscreen-popup-content-loader-position: fixed !default;
-$fullscreen-popup-content-offset: 0 !default;
+$fullscreen-popup-content-offset: 0 (spacing('base') + spacing('md') + spacing('sm')) !default;
 
 $fullscreen-popup-label-display: inline-flex !default;
-
-$fullscreen-popup-text-display: inline-flex !default;
-$fullscreen-popup-text-align-items: center !default;
-$fullscreen-popup-text-offset: null !default;
-$fullscreen-popup-text-weight: font-weight('bold') !default;
-$fullscreen-popup-text-cursor: pointer !default;
-$fullscreen-popup-text-text-transform: uppercase !default;
-
-$fullscreen-popup-text-fa-icon-margin-right: spacing('xs') !default;
-$fullscreen-popup-text-fa-icon-line-height: inherit !default;
-$fullscreen-popup-text-fa-icon-vertical-align: top !default;
+$fullscreen-popup-label-justify-content: null !default;
+$fullscreen-popup-label-offset: null !default;
+$fullscreen-popup-label-weight: $headline3-font-weight !default;
+$fullscreen-popup-label-font-size: $headline3-font-size !default;
+$fullscreen-popup-label-line-height: $headline3-line-height !default;
+$fullscreen-popup-label-cursor: pointer !default;
 
 $fullscreen-popup-words-vertical-align: middle !default;
-
-$fullscreen-popup-badge-offset: 6px !default;
-$fullscreen-popup-badge-vertical-align: baseline !default;
-$fullscreen-popup-badge-bg: color.adjust(get-color('additional-old', 'middle'), $lightness: -33%) !default;
 
 $fullscreen-popup-actions-wrapper-width: 100% !default;
 $fullscreen-popup-actions-wrapper-offset: 10px 5px !default;

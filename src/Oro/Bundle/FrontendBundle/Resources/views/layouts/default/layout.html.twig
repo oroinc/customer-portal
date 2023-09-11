@@ -188,7 +188,7 @@
     {% set items = items|default([]) %}
 
     {% set itemsCount = 0 %}
-    {% set btnIcon = 'fa-globe' %}
+    {% set btnIcon = 'globe' %}
     {% set popupLabel = '' %}
 
     {% for key, item in items %}
@@ -200,14 +200,14 @@
             {% endif %}
 
             {% if key == 'currency' %}
-                {% set btnIcon = 'fa-usd' %}
+                {% set btnIcon = 'dollar-sign' %}
                 {% set popupLabel = 'oro_frontend.switcher.info.popup.currency'|trans %}
             {% endif %}
         {% endif %}
     {% endfor %}
 
     {% if itemsCount > 1 %}
-        {% set btnIcon = 'fa-globe' %}
+        {% set btnIcon = 'globe' %}
         {% set popupLabel = 'oro_frontend.switcher.info.popup.localizations_and_currency'|trans %}
     {% endif %}
 
@@ -221,7 +221,7 @@
                         viewport: 'tablet',
                         component: 'oroui/js/app/components/view-component',
                         view: 'orofrontend/default/js/app/views/fullscreen-popup-view',
-                        popupIcon: btnIcon ~ ' fa--gray fa--x-large',
+                        popupIcon: btnIcon,
                         popupLabel: popupLabel,
                         contentElement: '[data-switcher-info-container]',
                         contentAttributes: {
@@ -230,7 +230,8 @@
                     }|json_encode() }}"
             >
                 <span class="nav-trigger__icon nav-trigger__icon--transparent nav-trigger__icon--large" aria-hidden="true">
-                    <span class="{{ btnIcon }} fa--no-offset"></span>
+                    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+                    {{ renderIcon.icon({id: btnIcon}) }}
                 </span>
             </button>
             <div class="switcher-info__container" data-switcher-info-container>

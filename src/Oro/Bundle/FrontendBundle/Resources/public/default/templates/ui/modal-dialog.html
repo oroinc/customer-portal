@@ -1,23 +1,28 @@
+<% let orofrontend = _.macros('orofrontend') %>
 <div class="modal-dialog modal-dialog-centered" aria-hidden="false" role="document">
     <div class="modal-content">
-        <div class="modal-dialog__body">
-            <button class="close-dialog <%- closeButtonClass %>" data-dismiss="modal" data-emulate-btn-press aria-label="<%- _.__('oro.orowindows.dialog.close.aria_label') %>"></button>
+        <div class="modal-header">
             <% if (title) { %>
-                <div class="page-title-wrapper">
-                    <h2 id="<%- modalId %>" class="page-title"><%= title %></h2>
+                <div class="modal-dialog__title-wrapper">
+                    <h3 id="<%- modalId %>" class="h3"><%= title %></h3>
                 </div>
             <% } %>
+            <button class="close-dialog btn btn--plain btn--text <%- closeButtonClass %>" data-dismiss="modal" data-emulate-btn-press aria-label="<%- _.__('oro.orowindows.dialog.close.aria_label') %>">
+                <%= orofrontend.renderIcon({id: 'x', extraClass: 'theme-icon--medium'}) %>
+            </button>
+        </div>
+        <div class="modal-body">
             <div><%= content %></div>
-            <% if (allowCancel || allowOk ) { %>
-                <div class="buttons-equal">
-                    <% if (allowCancel && cancelText) { %>
-                        <button class="cancel <%- cancelButtonClass %>" data-dismiss="modal" data-emulate-btn-press><%- cancelText %></button>
-                    <% } %>
-                    <% if (allowOk && okText) { %>
-                        <button class="ok <%- okButtonClass %>" data-emulate-btn-press><%- okText %></button>
-                    <% } %>
-                </div>
+        </div>
+        <% if (allowCancel || allowOk ) { %>
+        <div class="modal-footer">
+            <% if (allowCancel && cancelText) { %>
+                <button class="cancel <%- cancelButtonClass %>" data-dismiss="modal" data-emulate-btn-press><%- cancelText %></button>
+            <% } %>
+            <% if (allowOk && okText) { %>
+                <button class="ok <%- okButtonClass %>" data-emulate-btn-press><%- okText %></button>
             <% } %>
         </div>
+        <% } %>
     </div>
 </div>

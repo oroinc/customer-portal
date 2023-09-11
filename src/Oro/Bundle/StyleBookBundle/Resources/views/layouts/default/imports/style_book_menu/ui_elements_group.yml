@@ -5,8 +5,8 @@ layout:
                 __form_item:
                     blockType: groups_menu_item
                     options:
-                        label: oro_stylebook.groups.forms.title
-                        group: forms
+                        label: oro_stylebook.groups.ui_elements.title
+                        group: ui_elements
             tree:
                 __root:
                     __form_item: ~

@@ -3,65 +3,42 @@
 $dialog-min-height: 220px !default;
 $dialog-widget-content-border-radius: $base-ui-popup-border-radius !default;
 
-$dialog-title-font-size: $headline1-font-size !default;
-$dialog-title-line-height: $headline1-line-height !default;
-$dialog-widget-content-offset-inner: 4px 40px !default;
-$dialog-widget-content-bg-color: get-color('additional-old', 'ultra') !default;
+$dialog-title-font-size: $headline3-font-size !default;
+$dialog-title-font-weight: $headline3-font-weight !default;
+$dialog-title-line-height: $headline3-line-height !default;
+$dialog-widget-content-offset-inner: spacing('md') spacing('lg') + spacing('md') !default;
+$dialog-widget-content-bg-color: $modal-content-bg !default;
 $dialog-widget-content-border: 0 !default;
-$dialog-widget-content-color: get-color('additional-old', 'dark') !default;
+$dialog-widget-content-color: $body-color !default;
 
-$dialog-titlebar-offset-inner: 40px 40px 12px !default;
+$dialog-titlebar-offset-inner: spacing('lg') spacing('lg') spacing('md') spacing('lg') + spacing('md') !default;
 $dialog-titlebar-font-weight: font-weight('normal') !default;
-$dialog-titlebar-color: get-color('additional-old', 'dark') !default;
+$dialog-titlebar-color: $body-color !default;
 $dialog-titlebar-background: transparent !default;
-$dialog-titlebar-border: 0 !default;
 
-$dialog-titlebar-buttonpane-top: 0 !default;
-$dialog-titlebar-buttonpane-right: 0 !default;
-
-$dialog-buttonpane-offset-inner: 16px 40px 20px !default;
-
+$dialog-buttonpane-offset-inner: spacing('md') spacing('lg') + spacing('md') spacing('lg') + spacing('md') !default;
+$dialog-buttonpane-border-radius: 0 !default;
 $dialog-action-wrapper-side-offset: spacing('sm') !default;
 
 $dialog-draggable-handle-cursor: move !default;
 $dialog-buttons-inner-cursor: pointer !default;
 
-$dialog-messages-offset: 0 0 12px !default;
-$dialog-messages-inner-offset: 0 40px !default;
+$dialog-messages-inner-offset: spacing('md') spacing('lg') + spacing('md') !default;
 
-$dialog-extra-header-content-offset: $dialog-messages-offset !default;
 $dialog-extra-header-content-inner-offset: $dialog-messages-inner-offset !default;
 
-$dialog-notification-offset-inner: 8px 12px !default;
-
-$dialog-btn-success-background: get-color('primary-old', 'base') !default;
-$dialog-btn-success-border: get-color('primary-old', 'base') !default;
-
-$dialog-badge-margin: $fullscreen-popup-badge-offset !default;
-$dialog-badge-bg: $fullscreen-popup-badge-bg !default;
+$ui-dialog-dialog-icon-padding: spacing('sm') spacing('md') !default;
 
 // Fullscreen mode
-$ui-dialog-titlebar-fullscreen-min-height: $fullscreen-popup-header-min-height !default;
 $ui-dialog-titlebar-fullscreen-offset: $fullscreen-popup-header-offset !default;
 $ui-dialog-titlebar-fullscreen-background: $fullscreen-popup-header-bg !default;
-$ui-dialog-titlebar-fullscreen-border: $fullscreen-popup-header-border-bottom !default;
 
-$ui-dialog-title-fullscreen-display: $fullscreen-popup-text-display !default;
-$ui-dialog-title-fullscreen-align-items: $fullscreen-popup-text-align-items !default;
-$ui-dialog-title-fullscreen-offset: $fullscreen-popup-text-offset !default;
-$ui-dialog-title-fullscreen-height: 100% !default;
-$ui-dialog-title-fullscreen-font-size: $base-font-size--s !default;
-$ui-dialog-title-fullscreen-font-weight: $fullscreen-popup-text-weight !default;
-$ui-dialog-title-fullscreen-text-transform: $fullscreen-popup-text-text-transform !default;
+$ui-dialog-content-fullscreen-messages-offset: spacing('md') spacing('lg') + spacing('md') !default;
 
-$ui-dialog-content-fullscreen-messages-margin: 0 !default;
-$ui-dialog-content-fullscreen-messages-offset: spacing('sm') spacing('base') 0 !default;
+$ui-dialog-content-fullscreen-offset: spacing('md') spacing('lg') + spacing('md') !default;
 
-$ui-dialog-content-fullscreen-offset: spacing('sm') spacing('base') !default;
-
-$ui-dialog-extra-header-content-fullscreen-margin: $ui-dialog-content-fullscreen-messages-margin !default;
 $ui-dialog-extra-header-content-fullscreen-offset: $ui-dialog-content-fullscreen-messages-offset !default;
 
-$ui-dialog-buttonpane-offset: 12px !default;
+$ui-dialog-buttonpane-offset: spacing('md') spacing('lg') + spacing('md') spacing('lg') + spacing('md') !default;
 $ui-dialog-buttonpane-background: $fullscreen-popup-footer-bg !default;
 $ui-dialog-buttonpane-border: $fullscreen-popup-footer-border-top !default;

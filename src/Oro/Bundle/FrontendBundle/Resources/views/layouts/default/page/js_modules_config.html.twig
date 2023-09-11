@@ -1,4 +1,6 @@
 {% block _js_modules_config_widget %}
+    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+
     {% if app.debug and oro_frontend.debug_routes %}
         {% set routes = path('oro_frontend_js_routing_js', {_format: 'json'}) %}
     {% else %}
@@ -22,17 +24,20 @@
         },
         'oroui/js/modal': {
             defaults: {
-                okButtonClass: 'btn btn--outlined'
+                cancelButtonClass: 'btn btn--outlined'
             }
         },
         'oroui/js/messenger': {
             storageKey: 'oroAfterFrontReloadMessages'
         },
         'oroui/js/delete-confirmation': {
-            okButtonClass: 'btn btn--outlined'
+            cancelButtonClass: 'btn btn--outlined'
         },
         'orowindows/lib/jquery.dialog.extended': {
-            draggable: false
+            draggable: false,
+            btnCloseClass: 'close-dialog btn btn--plain btn--text',
+            closeText: null,
+            btnCloseIcon: renderIcon.icon({id: 'x', extraClass: 'theme-icon--medium'})
         },
         'orowindows/js/widget/dialog-widget': {
             desktopLoadingBar: true,

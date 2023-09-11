@@ -23,8 +23,7 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
      * @property;
      */
     mainPopupOptions: {
-        popupBadge: true,
-        popupIcon: 'fa-filter',
+        popupIcon: 'sliders',
         popupLabel: __('oro.filter.datagrid-toolbar.filters'),
         footerOptions: {
             templateData: {
@@ -45,8 +44,7 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
      * @property;
      */
     managerPopupOptions: {
-        popupBadge: true,
-        popupIcon: 'fa-plus',
+        popupIcon: 'plus',
         popupLabel: __('oro_frontend.filter_manager.title')
     },
 

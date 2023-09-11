@@ -35,16 +35,23 @@
     }
 
     .ui-dialog-title {
+        display: flex;
+        align-items: center;
+        gap: $fullscreen-popup-header-gap;
+        flex-grow: 1;
         font-size: $dialog-title-font-size;
+        font-weight: $dialog-title-font-weight;
         line-height: $dialog-title-line-height;
     }
 
     .ui-dialog-titlebar {
+        display: flex;
+        align-items: $modal-header-align-items;
+        gap: $modal-header-gap;
         padding: $dialog-titlebar-offset-inner;
 
         font-weight: $dialog-titlebar-font-weight;
 
-        border: $dialog-titlebar-border;
         background: $dialog-titlebar-background;
         color: $dialog-titlebar-color;
 
@@ -56,22 +63,18 @@
     }
 
     .ui-dialog-titlebar-buttonpane {
-        position: absolute;
-        top: $dialog-titlebar-buttonpane-top;
-        right: $dialog-titlebar-buttonpane-right;
+        display: inline-flex;
+        flex-shrink: 0;
+        align-self: flex-start;
     }
 
     .ui-dialog-buttonpane {
         padding: $dialog-buttonpane-offset-inner;
-
         flex-shrink: 0;
 
-        overflow: visible;
+        border-radius: $dialog-buttonpane-border-radius;
 
-        .btn-success {
-            background: $dialog-btn-success-background;
-            border-color: $dialog-btn-success-border;
-        }
+        overflow: visible;
     }
 
     .pull-right .action-wrapper {
@@ -83,20 +86,14 @@
     }
 
     .ui-dialog-messages {
-        margin: $dialog-messages-offset;
         padding: $dialog-messages-inner-offset;
 
         &:empty {
             display: none;
         }
-
-        > [class*='notification-flash'] {
-            padding: $dialog-notification-offset-inner;
-        }
     }
 
     .ui-dialog-extra-header-content {
-        margin: $dialog-extra-header-content-offset;
         padding: $dialog-extra-header-content-inner-offset;
 
         &:empty {
@@ -104,10 +101,19 @@
         }
     }
 
-    .dialog-badge {
-        margin-right: $dialog-badge-margin;
+    .close-dialog {
+        // Hide unused elements
+        .ui-icon,
+        .ui-button-icon-space {
+            display: none;
+        }
+    }
 
-        @include badge($badge-bg: $dialog-badge-bg);
+    .dialog-icon {
+        display: inline-flex;
+        align-self: flex-start;
+        flex-shrink: 0;
+        padding: $ui-dialog-dialog-icon-padding;
     }
 
     &.fullscreen {
@@ -123,34 +129,16 @@
         /* stylelint-enable declaration-no-important */
 
         .ui-dialog-titlebar {
-            min-height: $ui-dialog-titlebar-fullscreen-min-height;
-
             @include safe-area-offset(padding, $ui-dialog-titlebar-fullscreen-offset);
 
             background: $ui-dialog-titlebar-fullscreen-background;
-            border-bottom: $ui-dialog-titlebar-fullscreen-border;
-        }
-
-        .ui-dialog-title {
-            display: $ui-dialog-title-fullscreen-display;
-            align-items: $ui-dialog-title-fullscreen-align-items;
-            padding: $ui-dialog-title-fullscreen-offset;
-            height: $ui-dialog-title-fullscreen-height;
-
-            font-size: $ui-dialog-title-fullscreen-font-size;
-            font-weight: $ui-dialog-title-fullscreen-font-weight;
-            text-transform: $ui-dialog-title-fullscreen-text-transform;
         }
 
         .ui-dialog-messages {
-            margin: $ui-dialog-content-fullscreen-messages-margin;
-
             @include safe-area-offset(padding, $ui-dialog-content-fullscreen-messages-offset);
         }
 
         .ui-dialog-extra-header-content {
-            margin: $ui-dialog-extra-header-content-fullscreen-margin;
-
             @include safe-area-offset(padding, $ui-dialog-extra-header-content-fullscreen-offset);
         }
 

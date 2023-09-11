@@ -17,7 +17,6 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/focus-via-arrows-keys-config.scss'
         - 'bundles/orofrontend/default/scss/variables/animation-config.scss'
         - 'bundles/orofrontend/default/scss/variables/actions-row-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/close-dialog-config.scss'
         - 'bundles/orofrontend/default/scss/variables/grid-config.scss'
         - 'bundles/orofrontend/default/scss/variables/tiles-config.scss'
         - 'bundles/orofrontend/default/scss/variables/breadcrumbs-config.scss'

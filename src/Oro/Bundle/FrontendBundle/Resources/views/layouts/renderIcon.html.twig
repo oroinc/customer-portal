@@ -21,7 +21,7 @@
             'title' - short description for accessibulity
         ]
 #}
-{% macro icon(parameters) -%}
+{% macro icon(parameters) %}
     {% if (parameters.id is defined) %}
         {% import _self as themeIcons %}
         {% set href = themeIcons.getThemeSpriteUrl()|trim ~ '#' ~ parameters.id  %}
@@ -61,7 +61,7 @@
         {% if parameters.title is defined %}
             <title id{{- titleId -}}>{{- title -}}</title>
         {% endif %}
-            <use xlink:href="{{- href -}}"/>
+            <use href="{{- href -}}"/>
         </svg>
     {% endif %}
 {% endmacro %}

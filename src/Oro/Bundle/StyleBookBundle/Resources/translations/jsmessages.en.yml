@@ -81,7 +81,7 @@ oro_stylebook:
         mixins-utils:
             title: utils
     groups:
-        forms:
+        ui_elements:
             form_text:
                 title: Text Input
                 one_line:
@@ -140,6 +140,8 @@ oro_stylebook:
                     title: Inline Icon Button Group
                 inline_btn_group:
                     title: Horizontal Text Button Group
+            status_label:
+                title: Status Labels
             notifications:
                 title: Notifications
                 error:
@@ -166,8 +168,6 @@ oro_stylebook:
                 title: Custom fonts
             headings:
                 title: Headings
-            status_label:
-                title: Status Labels
             sizes:
                 title: Sizes
             functions:

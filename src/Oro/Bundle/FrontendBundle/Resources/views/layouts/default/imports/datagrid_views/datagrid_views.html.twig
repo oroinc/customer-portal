@@ -56,14 +56,17 @@
 {% endblock %}
 
 {% block __datagrid_views__datagrid_views_popup_close_widget %}
+    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+
     {% set attr = layout_attr_defaults(attr, {
         'type': 'button',
-        '~class': 'close-dialog',
+        '~class': 'close-dialog btn btn--plain btn--text',
         'title': 'Close'|trans,
         'aria-label': 'oro_frontend.datagrid_views.close.aria_label'|trans,
         'data-close': ''
     }) %}
-    <button {{ block('block_attributes') }} ></button>
+
+    <button {{ block('block_attributes') }} >{{ renderIcon.icon({id: 'x', extraClass: 'theme-icon--medium'}) }}</button>
 {% endblock %}
 
 {% block __datagrid_views__datagrid_views_popup_container_widget %}
@@ -108,7 +111,7 @@
                 <input type="radio"
                        name="grid-view-<%- gridViewId %>"
                        value="<%- choice.value %>"
-                       data-change-grid-view
+                       data-change-grid-view=""
                     <% if (current === choice.value) { %>
                         checked
                     <% } %>

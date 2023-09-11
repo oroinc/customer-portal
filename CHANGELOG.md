@@ -12,8 +12,8 @@ SCSS `get-nested-map-value` function was removed, use native SCSS `map.get` func
 Widget `oro/frontend-dialog-widget` was renamed to `oro/dialog-widget`, so you have to use `oro/dialog-widget` in your customization.
 This widget no longer uses `fullscreen-popup-view` under the hood to render dialog as fullscreen.
 All logic is done by CSS using an extra class `fullscreen`.
-As a result, `fullscreenViewOptions` property was deleted and properties `popupIcon, popupBadge` and
-events `frontend-dialog:accept, frontend-dialog:cancel, frontend-dialog:close` were renamed to `dialogTitleIcon, dialogTitleBadge`, and `accept, cancel, close`.
+As a result, `fullscreenViewOptions` property was deleted and property `popupIcon` and
+events `frontend-dialog:accept, frontend-dialog:cancel, frontend-dialog:close` were renamed to `dialogTitleIcon`, and `accept, cancel, close`.
 
 
 ## Changes in the Customer Portal package versions

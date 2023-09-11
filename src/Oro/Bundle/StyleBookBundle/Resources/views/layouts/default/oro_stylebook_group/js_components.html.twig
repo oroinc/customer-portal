@@ -14,8 +14,8 @@
                 },
                 okText: 'OK',
                 cancelText: 'Cancel',
-                okButtonClass: 'btn btn--outlined',
-                cancelButtonClass: 'btn cancel',
+                okButtonClass: 'btn',
+                cancelButtonClass: 'btn btn--outlined',
                 content: {
                     type: 'textarea',
                     value: 'Hello'
@@ -839,14 +839,13 @@
             viewConstructor: 'orostylebook/js/style-book/fullscreen-popup-demo-view',
             renderAfter: 'action',
             props: {
-                popupIcon: 'fa-cog',
+                popupIcon: 'settings',
                 popupLabel: 'Fullscreen popup',
                 contentTemplate: {
                     type: 'textarea',
                     value: '<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id turpis quam. Sed sodales metus ac leo scelerisque eleifend. Suspendisse ullamcorper libero mauris, a imperdiet risus consequat eu. Donec imperdiet id quam id hendrerit. Ut sed bibendum massa, vitae venenatis mi. Aliquam tellus risus, faucibus vitae quam id, consectetur accumsan ipsum. Sed at venenatis mauris. Donec finibus mollis libero, eu elementum enim tempus suscipit. Praesent in consectetur mauris. Aenean tristique tellus vitae ligula tristique tincidunt. Donec aliquam dapibus imperdiet. Vestibulum sagittis libero in ipsum semper ullamcorper. Nulla vitae convallis sapien. Nulla vitae est id neque fermentum molestie vulputate ut orci.Nulla eget tellus eget mi aliquam porta. Aliquam commodo tortor sed lacinia maximus. Mauris leo odio, vestibulum ut tortor et, malesuada eleifend sapien. Vivamus efficitur sem in urna viverra porta. Cras egestas mauris eget tristique fringilla. Phasellus a molestie ante. Suspendisse vel rhoncus nisi, ut varius leo. Quisque neque dolor, ullamcorper ut sem in, venenatis iaculis purus. In at lobortis tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel nisi id ante efficitur hendrerit bibendum porta augue. Cras ultricies bibendum lacus, non sollicitudin tellus ultricies nec. Vestibulum eget est leo. Proin non imperdiet ipsum, cursus gravida lorem. Aenean justo urna, fringilla ut pretium quis, pharetra nec velit.</div>'
                 },
                 stopEventsList: 'mousedown focusin',
-                popupBadge: true,
                 stopEventsPropagation: true,
                 keepElement: true
             }

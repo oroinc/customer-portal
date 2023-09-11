@@ -24,7 +24,7 @@ define(function(require) {
         optionNames: BaseView.prototype.optionNames.concat([
             'template', 'templateSelector', 'templateData',
             'popupLabel', 'popupCloseOnLabel',
-            'popupCloseButton', 'popupIcon', 'popupBadge',
+            'popupCloseButton', 'popupIcon',
             'stopEventsPropagation', 'stopEventsList', 'dialogClass'
         ]),
 
@@ -67,11 +67,6 @@ define(function(require) {
          * @property
          */
         popupIcon: false,
-
-        /**
-         * @property
-         */
-        popupBadge: false,
 
         /**
          * @property
@@ -232,8 +227,7 @@ define(function(require) {
                     id: this.cid,
                     label: this.popupLabel,
                     closeOnLabel: this.popupCloseOnLabel,
-                    icon: this.popupIcon,
-                    badge: this.popupBadge
+                    icon: this.popupIcon
                 }, sectionOptions.options.templateData);
             }
         },

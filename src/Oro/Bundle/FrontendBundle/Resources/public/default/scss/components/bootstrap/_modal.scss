@@ -3,21 +3,30 @@
 @import '~@oroinc/bootstrap/scss/modal';
 
 .modal-dialog {
-    &__body {
-        padding: 50px;
+    .modal-content {
+        padding: $modal-content-padding;
     }
-}
 
-.modal-backdrop {
-    &.show {
-        opacity: $modal-backdrop-opacity;
+    .modal-body {
+        padding: $modal-body-padding;
     }
-}
 
-@include breakpoint('mobile') {
-    .modal-dialog {
-        &__body {
-            padding: 25px;
+    .modal-header {
+        align-items: $modal-header-align-items;
+        gap: $modal-header-gap;
+    }
+
+    .modal-footer {
+        gap: $modal-footer-gap;
+
+        // Reset bootstrap modal-footer styles
+        > :not(:first-child) {
+            margin-left: initial;
+        }
+
+        // Reset bootstrap modal-footer styles
+        > :not(:last-child) {
+            margin-right: initial;
         }
     }
 }

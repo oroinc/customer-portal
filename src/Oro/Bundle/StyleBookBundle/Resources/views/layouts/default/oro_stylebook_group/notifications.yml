@@ -9,15 +9,15 @@ layout:
                     blockType: group_element
                     options:
                       anchor: notifications
-                      label: oro_stylebook.groups.forms.notifications.title
+                      label: oro_stylebook.groups.ui_elements.notifications.title
 
                 group_element_item_notification_flash_holder:
                     blockType: group_element_item
                     options:
                       anchor: notification_flash_error
-                      label: oro_stylebook.groups.forms.notifications.error.title
+                      label: oro_stylebook.groups.ui_elements.notifications.error.title
                       subTreeLvl: 1
-                      description: oro_stylebook.groups.forms.notifications.error.description
+                      description: oro_stylebook.groups.ui_elements.notifications.error.description
                 style_book_grid_element_notification_flash:
                     blockType: block
 
@@ -25,9 +25,9 @@ layout:
                     blockType: group_element_item
                     options:
                       anchor: notification_flash_success
-                      label: oro_stylebook.groups.forms.notifications.success.title
+                      label: oro_stylebook.groups.ui_elements.notifications.success.title
                       subTreeLvl: 1
-                      description: oro_stylebook.groups.forms.notifications.success.description
+                      description: oro_stylebook.groups.ui_elements.notifications.success.description
                 style_book_grid_element_notification_flash_success:
                     blockType: block
 
@@ -35,9 +35,9 @@ layout:
                     blockType: group_element_item
                     options:
                       anchor: notification_flash_warning
-                      label: oro_stylebook.groups.forms.notifications.warning.title
+                      label: oro_stylebook.groups.ui_elements.notifications.warning.title
                       subTreeLvl: 1
-                      description: oro_stylebook.groups.forms.notifications.warning.description
+                      description: oro_stylebook.groups.ui_elements.notifications.warning.description
                 style_book_grid_element_notification_flash_warning:
                     blockType: block
 
@@ -45,15 +45,15 @@ layout:
                     blockType: group_element
                     options:
                         anchor: notification_message
-                        label: oro_stylebook.groups.forms.notification_message.title
+                        label: oro_stylebook.groups.ui_elements.notification_message.title
 
                 group_element_item_notification_message_holder:
                     blockType: group_element_item
                     options:
                         anchor: notification_message_error
-                        label: oro_stylebook.groups.forms.notification_message.error.title
+                        label: oro_stylebook.groups.ui_elements.notification_message.error.title
                         subTreeLvl: 1
-                        description: oro_stylebook.groups.forms.notification_message.error.description
+                        description: oro_stylebook.groups.ui_elements.notification_message.error.description
                 style_book_grid_element_notification_message:
                     blockType: block
 
@@ -61,9 +61,9 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: notification_message_warning
-                        label: oro_stylebook.groups.forms.notification_message.warning.title
+                        label: oro_stylebook.groups.ui_elements.notification_message.warning.title
                         subTreeLvl: 1
-                        description: oro_stylebook.groups.forms.notification_message.warning.description
+                        description: oro_stylebook.groups.ui_elements.notification_message.warning.description
                 style_book_grid_element_notification_message_warning:
                   blockType: block
 
@@ -71,9 +71,9 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: notification_message_success
-                        label: oro_stylebook.groups.forms.notification_message.success.title
+                        label: oro_stylebook.groups.ui_elements.notification_message.success.title
                         subTreeLvl: 1
-                        description: oro_stylebook.groups.forms.notification_message.success.description
+                        description: oro_stylebook.groups.ui_elements.notification_message.success.description
                 style_book_grid_element_notification_message_success:
                     blockType: block
 
@@ -95,4 +95,4 @@ layout:
                             group_element_item_notification_message_warning_holder:
                                 style_book_grid_element_notification_message_warning: ~
 
-    conditions: 'context["group"]=="forms"'
+    conditions: 'context["group"]=="ui_elements"'

@@ -65,21 +65,6 @@ layout:
                         source_language: scss
                 style_book_components_headings:
                     blockType: file_printer
-                group_element_components_status_label_view:
-                    blockType: group_element
-                    options:
-                        anchor: status_label
-                        label: oro_stylebook.groups.configs.status_label.title
-                group_element_components_status_label:
-                    blockType: group_element_item
-                    options:
-                        description: oro_stylebook.groups.configs.status_label.description
-                style_book_components_status_label:
-                    blockType: block
-                style_book_components_product_sticker_new:
-                    blockType: block
-                style_book_components_product_sticker_sale:
-                    blockType: block
                 group_element_components_sizes_view:
                     blockType: group_element
                     options:
@@ -148,11 +133,6 @@ layout:
                     group_element_components_headings_view:
                         group_element_components_headings:
                             style_book_components_headings: ~
-                    group_element_components_status_label_view:
-                        group_element_components_status_label:
-                            style_book_components_status_label: ~
-                            style_book_components_product_sticker_new: ~
-                            style_book_components_product_sticker_sale: ~
                     group_element_components_sizes_view:
                         group_element_components_sizes:
                             style_book_components_sizes: ~

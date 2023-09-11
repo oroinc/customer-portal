@@ -133,7 +133,7 @@ $main-menu-button-padding: 0 56px 0 8px !default;
 
 $main-menu-sublist-tablet-background: get-color('additional-old', 'ultra') !default;
 $main-menu-sublist-tablet-position: absolute !default;
-$main-menu-sublist-tablet-top: var(--main-menu-offset-top, $fullscreen-popup-header-min-height) !default;
+$main-menu-sublist-tablet-top: var(--main-menu-offset-top) !default;
 $main-menu-sublist-tablet-bottom: var(--main-menu-offset-bottom, 0) !default;
 $main-menu-sublist-tablet-left: 100% !default;
 $main-menu-sublist-tablet-width: 100% !default;

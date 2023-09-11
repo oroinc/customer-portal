@@ -14,7 +14,14 @@
     }
 
     .dropdown-item {
+        display: flex;
+        align-items: $dropdown-item-align-items;
         font: $dropdown-item-font;
+        gap: $dropdown-item-gap;
+
+        &:hover {
+            background-color: $dropdown-link-only-hover-bg;
+        }
 
         &:not(:disabled) {
             // For `<button>`s
@@ -44,23 +51,5 @@
         width: 100%;
         box-shadow: none;
         border-width: 0;
-    }
-}
-
-.dropdown-toggle {
-    &--no-caret::after {
-        content: none;
-    }
-
-    &--no-offset::after {
-        margin-left: 0;
-    }
-}
-
-@include breakpoint('tablet') {
-    .dropdown-toggle--expanded {
-        &::after {
-            content: none;
-        }
     }
 }

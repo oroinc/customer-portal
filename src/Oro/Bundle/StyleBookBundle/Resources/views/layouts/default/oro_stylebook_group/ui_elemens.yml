@@ -1,17 +1,17 @@
 layout:
     actions:
         - '@setFormTheme':
-            themes: '@OroStyleBook/layouts/default/oro_stylebook_group/forms.html.twig'
+            themes: '@OroStyleBook/layouts/default/oro_stylebook_group/ui_elements.html.twig'
 
         - '@setOption':
             id: style_book_page_title
             optionName: defaultValue
-            optionValue: 'oro_stylebook.groups.forms.title'
+            optionValue: 'oro_stylebook.groups.ui_elements.title'
 
         - '@setOption':
             id: style_book_page_description
             optionName: vars.description
-            optionValue: 'oro_stylebook.groups.forms.content'
+            optionValue: 'oro_stylebook.groups.ui_elements.content'
 
         - '@addTree':
             items:
@@ -19,13 +19,13 @@ layout:
                     blockType: group_element
                     options:
                         anchor: form_text
-                        label: oro_stylebook.groups.forms.form_text.title
+                        label: oro_stylebook.groups.ui_elements.form_text.title
                 group_element_item_form_text:
                     blockType: group_element_item
                     options:
                         anchor: form_text_one_line
-                        label: oro_stylebook.groups.forms.form_text.one_line.title
-                        description: oro_stylebook.groups.forms.form_text.one_line.description
+                        label: oro_stylebook.groups.ui_elements.form_text.one_line.title
+                        description: oro_stylebook.groups.ui_elements.form_text.one_line.description
                 form_text:
                     blockType: form_field
                     options:
@@ -35,7 +35,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: form_text_textarea
-                        label: oro_stylebook.groups.forms.form_text.textarea.title
+                        label: oro_stylebook.groups.ui_elements.form_text.textarea.title
                 form_textarea:
                     blockType: form_field
                     options:
@@ -45,7 +45,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: form_text_password
-                        label: oro_stylebook.groups.forms.form_text.password.title
+                        label: oro_stylebook.groups.ui_elements.form_text.password.title
                 form_password:
                     blockType: form_field
                     options:
@@ -55,7 +55,7 @@ layout:
                     blockType: group_element
                     options:
                         anchor: form_datetime
-                        label: oro_stylebook.groups.forms.form_datetime.title
+                        label: oro_stylebook.groups.ui_elements.form_datetime.title
                 group_element_item_form_datetime:
                     blockType: group_element_item
                 form_datetime:
@@ -67,14 +67,14 @@ layout:
                     blockType: group_element
                     options:
                         anchor: form_select
-                        label: oro_stylebook.groups.forms.form_select.title
+                        label: oro_stylebook.groups.ui_elements.form_select.title
                         vars:
-                            description: oro_stylebook.groups.forms.form_select.description
+                            description: oro_stylebook.groups.ui_elements.form_select.description
                 group_element_item_form_select:
                     blockType: group_element_item
                     options:
                         anchor: form_drop_down
-                        label: oro_stylebook.groups.forms.form_select.drop_down.title
+                        label: oro_stylebook.groups.ui_elements.form_select.drop_down.title
                 form_select:
                     blockType: form_field
                     options:
@@ -84,7 +84,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: form_checkbox
-                        label: oro_stylebook.groups.forms.form_select.checkbox.title
+                        label: oro_stylebook.groups.ui_elements.form_select.checkbox.title
                 form_checkbox: 
                     blockType: form_field
                     options:
@@ -94,7 +94,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: form_radio
-                        label: oro_stylebook.groups.forms.form_select.radio.title
+                        label: oro_stylebook.groups.ui_elements.form_select.radio.title
                 form_radio:
                     blockType: form_field
                     options:
@@ -104,7 +104,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: form_radio_disabled
-                        label: oro_stylebook.groups.forms.form_select.radios_disabled.title
+                        label: oro_stylebook.groups.ui_elements.form_select.radios_disabled.title
                 form_radio_disabled:
                     blockType: form_field
                     options:
@@ -114,7 +114,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: form_checkboxes_disabled
-                        label: oro_stylebook.groups.forms.form_select.checkboxes_disabled.title
+                        label: oro_stylebook.groups.ui_elements.form_select.checkboxes_disabled.title
                 form_checkboxes_disabled:
                     blockType: form_field
                     options:
@@ -124,7 +124,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: form_radio_list
-                        label: oro_stylebook.groups.forms.form_select.radio_list.title
+                        label: oro_stylebook.groups.ui_elements.form_select.radio_list.title
                 form_radios:
                     blockType: form_field
                     options:
@@ -134,12 +134,12 @@ layout:
                     blockType: group_element
                     options:
                         anchor: form_checkboxes
-                        label: oro_stylebook.groups.forms.form_checkboxes.title
+                        label: oro_stylebook.groups.ui_elements.form_checkboxes.title
                 group_element_item_form_checkboxes:
                     blockType: group_element_item
                     options:
                         anchor: form_checkbox_element
-                        label: oro_stylebook.groups.forms.form_checkboxes.checkbox.title
+                        label: oro_stylebook.groups.ui_elements.form_checkboxes.checkbox.title
                 form_checkboxes:
                     blockType: form_field
                     options:
@@ -149,7 +149,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: form_multiselect
-                        label: oro_stylebook.groups.forms.form_checkboxes.drop_down.title
+                        label: oro_stylebook.groups.ui_elements.form_checkboxes.drop_down.title
                 form_multiselect:
                     blockType: form_field
                     options:
@@ -159,7 +159,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: form_switch
-                        label: oro_stylebook.groups.forms.form_select.switch.title
+                        label: oro_stylebook.groups.ui_elements.form_select.switch.title
                 form_switch:
                     blockType: form_field
                     options:
@@ -201,4 +201,4 @@ layout:
                         group_element_form_multiselect:
                             form_multiselect: ~
 
-    conditions: 'context["group"]=="forms"'
+    conditions: 'context["group"]=="ui_elements"'

@@ -57,13 +57,15 @@ define(function(require, exports, module) {
             if (this.applyMarkup) {
                 this.updateDropdownMarkup(instance);
 
-                widget.find('.datagrid-manager__footer').append($('<button></button>', {
+                const icon = _.macros('orofrontend::renderIcon')({id: 'x'});
+                const $button = $('<button></button>', {
                     'type': 'button',
-                    'class': 'close-dialog',
+                    'class': 'close-dialog btn btn--plain btn--text',
                     'title': __('Close'),
                     'aria-label': __('oro_frontend.filter_manager.close.aria_label'),
                     'data-role': 'close'
-                }));
+                });
+                widget.find('.datagrid-manager__footer').append($button.append(icon));
             }
 
             FrontendMultiSelectDecorator.prototype._setDropdownDesign.call(this);

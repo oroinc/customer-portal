@@ -18,55 +18,34 @@
 
     &__header {
         display: $fullscreen-popup-header-display;
-        flex-wrap: wrap;
         align-items: $fullscreen-popup-header-align-items;
         flex-shrink: $fullscreen-popup-header-flex-shrink;
+        gap: $fullscreen-popup-header-gap;
 
-        position: $fullscreen-popup-header-position;
         z-index: $fullscreen-popup-header-z-index;
-        right: $fullscreen-popup-header-right;
-        left: $fullscreen-popup-header-left;
-
-        min-height: $fullscreen-popup-header-min-height;
 
         @include safe-area-offset(padding, $fullscreen-popup-header-offset);
 
         background: $fullscreen-popup-header-bg;
-        border-bottom: $fullscreen-popup-header-border-bottom;
     }
 
-    &__text {
-        display: $fullscreen-popup-text-display;
-        align-items: $fullscreen-popup-text-align-items;
-
-        padding: $fullscreen-popup-text-offset;
-
-        font-size: $base-font-size--s;
-        font-weight: $fullscreen-popup-text-weight;
-        text-transform: $fullscreen-popup-text-text-transform;
-
-        cursor: $fullscreen-popup-text-cursor;
-
-        [class^='fa-'],
-        [class*=' fa-'] {
-            margin-right: $fullscreen-popup-text-fa-icon-margin-right;
-
-            line-height: $fullscreen-popup-text-fa-icon-line-height;
-
-            vertical-align: $fullscreen-popup-text-fa-icon-vertical-align;
-        }
+    &__icon {
+        flex-shrink: $fullscreen-popup-icon-flex-shrink;
+        align-self: $fullscreen-popup-icon-align-self;
     }
 
     &__label {
         display: $fullscreen-popup-label-display;
-    }
+        justify-content: $fullscreen-popup-label-justify-content;
+        flex-grow: 1;
 
-    &__badge {
-        margin-right: $fullscreen-popup-badge-offset;
+        padding: $fullscreen-popup-label-offset;
 
-        @include badge($badge-bg: $fullscreen-popup-badge-bg);
+        font-size: $fullscreen-popup-label-font-size;
+        font-weight: $fullscreen-popup-label-weight;
+        line-height: $fullscreen-popup-label-line-height;
 
-        vertical-align: $fullscreen-popup-badge-vertical-align;
+        cursor: $fullscreen-popup-label-cursor;
     }
 
     &__content {
@@ -107,7 +86,6 @@
 
         > .btn {
             width: $fullscreen-popup-footer-btn-width;
-            margin: $fullscreen-popup-footer-btn-offset;
         }
     }
 
