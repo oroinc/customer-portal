@@ -5,6 +5,7 @@ namespace Oro\Bundle\FrontendBundle\Request;
 use Oro\Bundle\SecurityBundle\Request\SessionHttpKernelDecorator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
@@ -37,7 +38,7 @@ class DynamicSessionHttpKernelDecorator extends SessionHttpKernelDecorator
     /**
      * {@inheritdoc}
      */
-    public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
+    public function handle(Request $request, int $type = self::MASTER_REQUEST, bool $catch = true): Response
     {
         $basePath = $request->getBasePath();
         if ($this->frontendHelper->isFrontendUrl($request->getPathInfo())) {

@@ -50,7 +50,7 @@ class CustomerVoter extends AbstractEntityVoter implements ServiceSubscriberInte
     /**
      * {@inheritDoc}
      */
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return [
             'oro_customer.security.customer_user_provider' => CustomerUserProvider::class,
