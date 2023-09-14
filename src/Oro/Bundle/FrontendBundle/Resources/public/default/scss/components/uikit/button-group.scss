@@ -3,6 +3,7 @@
 @use 'sass:map';
 
 .btn-group {
+    position: relative;
     display: inline-flex;
 
     &--flex {

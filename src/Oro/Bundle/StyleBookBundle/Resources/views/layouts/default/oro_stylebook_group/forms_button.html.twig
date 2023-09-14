@@ -109,12 +109,17 @@
 {% endblock %}
 
 {% block _style_book_button_element_group_widget %}
+    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+    {% set buttonLarge = 'button-'|uniqid %}
+    {% set button = 'button-'|uniqid %}
+    {% set buttonSmall = 'button-'|uniqid %}
     <div class="btn-group">
         <button type="button" class="btn btn--size-large">Button Large with a drop-down</button>
-        <button type="button" id="button-element-group-widget1" data-toggle="dropdown" class="btn btn--size-large dropdown-toggle"
+        <button type="button" id="{{ buttonLarge }}" data-toggle="dropdown" class="btn btn--size-large dropdown-toggle"
            aria-haspopup="true" aria-expanded="false" aria-label="More actions">
+                {{ renderIcon.icon({id: 'chevron-down'}) }}
         </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="button-element-group-widget1">
+        <ul class="dropdown-menu" role="menu" aria-labelledby="{{ buttonLarge }}">
             <li><a class="dropdown-item" role="button" href="#">Action A</a></li>
             <li><a class="dropdown-item" role="button" href="#">Action B</a></li>
             <li><a class="dropdown-item" role="button" href="#">Action C</a></li>
@@ -122,10 +127,11 @@
     </div>
     <div class="btn-group">
         <button type="button" class="btn">Button with a drop-down</button>
-        <button type="button" id="button-element-group-widget2" data-toggle="dropdown" class="btn dropdown-toggle"
+        <button type="button" id="{{ button }}" data-toggle="dropdown" class="btn dropdown-toggle"
            aria-haspopup="true" aria-expanded="false" aria-label="More actions">
+                {{ renderIcon.icon({id: 'chevron-down', extraClass: 'theme-icon--medium'}) }}
         </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="button-element-group-widget2">
+        <ul class="dropdown-menu" role="menu" aria-labelledby="{{ button }}">
             <li><a class="dropdown-item" role="button" href="#">Action A</a></li>
             <li><a class="dropdown-item" role="button" href="#">Action B</a></li>
             <li><a class="dropdown-item" role="button" href="#">Action C</a></li>
@@ -133,10 +139,11 @@
     </div>
     <div class="btn-group">
         <button type="button" class="btn btn--size-small">Button Small with a drop-down</button>
-        <button type="button" id="button-element-group-widget3" data-toggle="dropdown" class="btn btn--size-small dropdown-toggle"
+        <button type="button" id="buttonSmall" data-toggle="dropdown" class="btn btn--size-small dropdown-toggle"
            aria-haspopup="true" aria-expanded="false" aria-label="More actions">
+                {{ renderIcon.icon({id: 'chevron-down', extraClass: 'theme-icon--small'}) }}
         </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="button-element-group-widget3">
+        <ul class="dropdown-menu" role="menu" aria-labelledby="{{ buttonSmall }}">
             <li><a class="dropdown-item" role="button" href="#">Action A</a></li>
             <li><a class="dropdown-item" role="button" href="#">Action B</a></li>
             <li><a class="dropdown-item" role="button" href="#">Action C</a></li>

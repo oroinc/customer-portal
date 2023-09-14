@@ -72,6 +72,10 @@
     transition: none;
 }
 
+.shrink-zero {
+    flex-shrink: 0;
+}
+
 // Need to refactor after removal less from frontend
 .hide-text {
     &[class^='fa-'],
