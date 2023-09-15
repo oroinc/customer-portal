@@ -87,7 +87,7 @@ class CustomerExtension extends AbstractExtension implements ServiceSubscriberIn
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return [
             'oro_customer.security.customer_user_provider' => CustomerUserProvider::class,

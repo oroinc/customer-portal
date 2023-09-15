@@ -14,7 +14,7 @@ class FrontendOwner extends Owner
     /**
      * {@inheritdoc}
      */
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return 'frontend_owner_validator';
     }

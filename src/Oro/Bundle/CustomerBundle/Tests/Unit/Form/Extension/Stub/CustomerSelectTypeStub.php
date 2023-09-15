@@ -12,7 +12,7 @@ class CustomerSelectTypeStub extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return CustomerSelectType::NAME;
     }
@@ -39,7 +39,7 @@ class CustomerSelectTypeStub extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return ChoiceType::class;
     }

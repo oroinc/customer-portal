@@ -28,7 +28,7 @@ class CustomerGroupVoter extends AbstractEntityVoter implements ServiceSubscribe
     /**
      * {@inheritDoc}
      */
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return [
             'oro_config.global' => ConfigManager::class

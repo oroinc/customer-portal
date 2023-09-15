@@ -44,7 +44,7 @@ class MenuScreensConditionType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return static::NAME;
     }
@@ -52,7 +52,7 @@ class MenuScreensConditionType extends AbstractType
     /**
      * @return string
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return ChoiceType::class;
     }

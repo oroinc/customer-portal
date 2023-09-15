@@ -11,7 +11,7 @@ class UniqueCustomerUserNameAndEmail extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return 'oro_customer.customer_user.validator.unique_name_and_email';
     }
@@ -19,7 +19,7 @@ class UniqueCustomerUserNameAndEmail extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function getTargets()
+    public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;
     }
