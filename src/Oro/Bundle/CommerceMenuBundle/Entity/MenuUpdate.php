@@ -147,7 +147,7 @@ class MenuUpdate implements
     /**
      * @var ContentNode|null
      *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\WebCatalogBundle\Entity\ContentNode")
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\WebCatalogBundle\Entity\ContentNode", inversedBy="referencedMenuItems")
      * @ORM\JoinColumn(name="content_node_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
      */
     protected $contentNode;
