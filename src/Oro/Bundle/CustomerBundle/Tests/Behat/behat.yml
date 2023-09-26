@@ -309,7 +309,7 @@ oro_behat_extension:
             element: Select2Entity
 
     Edit Profile Button:
-      selector: 'div.customer-profile__title-wrapper a:contains("Edit")'
+      selector: 'div.customer-profile__title-wrapper button:contains("Edit")'
 
     My Profile Menu Item:
       selector: 'li.primary-menu__item a:contains("My Profile")'
