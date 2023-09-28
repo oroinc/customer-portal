@@ -58,17 +58,12 @@ layout:
 
         - '@add':
             id: notification
-            parentId: page_container
-            siblingId: page_header
+            parentId: wrapper
+            prepend: false
             blockType: block
 
         - '@add':
             id: sticky_header_row
-            parentId: top_sticky_panel_content
-            blockType: block
-
-        - '@add':
-            id: sticky_element_notification
             parentId: top_sticky_panel_content
             blockType: block
 

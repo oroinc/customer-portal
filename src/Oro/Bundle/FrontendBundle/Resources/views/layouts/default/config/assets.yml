@@ -56,7 +56,6 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/title-config.scss'
 
         - 'bundles/orofrontend/default/scss/variables/section-title-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/notifications-config.scss'
         - 'bundles/orofrontend/default/scss/variables/notification-flash-container-config.scss'
         - 'bundles/orofrontend/default/scss/variables/primary-menu-config.scss'
         - 'bundles/orofrontend/default/scss/variables/notification-config.scss'
@@ -149,10 +148,8 @@ styles:
         - 'bundles/orofrontend/default/scss/components/show-more.scss'
         - 'bundles/orofrontend/default/scss/components/grid-scrollable-container.scss'
         - 'bundles/orofrontend/default/scss/components/editable.scss'
-        - 'bundles/orofrontend/default/scss/components/notifications.scss'
         - 'bundles/orofrontend/default/scss/components/primary-menu.scss'
         - 'bundles/orofrontend/default/scss/components/notification.scss'
-        - 'bundles/orofrontend/default/scss/components/notification-message.scss'
         - 'bundles/orofrontend/default/scss/components/notification-flash-container.scss'
         - 'bundles/orofrontend/default/scss/components/notification-flash.scss'
         - 'bundles/orofrontend/default/scss/components/actions-row.scss'

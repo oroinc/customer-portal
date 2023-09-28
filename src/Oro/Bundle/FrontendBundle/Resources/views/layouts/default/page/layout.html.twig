@@ -82,12 +82,7 @@
 
     {% set attr = layout_attr_defaults(attr, {
         'id': 'flash-messages',
-        '~class': ' notification-flash-container',
-        'data-sticky-target': 'top-sticky-panel',
-        'data-sticky': {
-            isSticky: true,
-            placeholderId: 'sticky-element-notification'
-        }
+        '~class': ' notification-flash-container'
     }) %}
 
     {% set flashMessages = [] %}
@@ -110,13 +105,6 @@
     } %}
 
     <div{{ block('block_attributes') }} {{ UI.renderPageComponentAttributes(flashMessageViewOptions) }}></div>
-{% endblock %}
-
-{% block _sticky_element_notification_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-    'id': 'sticky-element-notification'
-    }) %}
-    <div {{ block('block_attributes') }}>{{ block_widget(block) }}</div>
 {% endblock %}
 
 {% block _sticky_header_row_widget %}

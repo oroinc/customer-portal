@@ -5,19 +5,13 @@
 // More about placeholders https://github.com/sass/sass/issues/2808#issuecomment-574413393
 %base-notification,
 .notification {
+    display: flex;
+    gap: $notification-inner-gap;
     padding: $notification-inner-offset;
 
     font-size: $notification-font-size;
 
     border-radius: $notification-border-radius;
-
-    [class^='fa-'] {
-        margin-right: $notification-icon-offset;
-    }
-
-    @at-root #{selector.append(&, '__text')} {
-        vertical-align: $notification-vertical-align;
-    }
 }
 
 %base-notification-success {
@@ -70,29 +64,18 @@
         @extend %base-notification-light;
     }
 
-    &--xmd {
-        @extend %base-notification;
-
-        padding: $notification-xmd-inner-offset;
-
-        [class^='fa-'] {
-            font-size: $notification-xmd-icon-size;
-        }
-    }
-
     &__list {
         margin: $notification-list-margin;
         padding: $notification-list-padding;
     }
 
     &__item {
+        display: flex;
+        gap: $notification-inner-gap;
+        align-items: center;
+
         &:not(:first-child) {
             margin-top: $notification-list-offset;
-        }
-
-        &--flex {
-            display: flex;
-            align-items: baseline;
         }
     }
 }

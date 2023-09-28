@@ -1,14 +1,34 @@
 /* @theme: default; */
 
 .notification-flash-container {
-    width: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: $notification-flash-container-z-index;
+
     margin: $notification-flash-container-offset;
+    width: $notification-flash-container-width;
 
-    @include safe-area-offset(padding, $notification-flash-container-inner-offset);
+    opacity: 1;
 
-    max-width: $notification-flash-container-max-width;
+    @include transition($transition-fade);
 
     &:empty {
-        display: none;
+        opacity: 0;
+    }
+}
+
+@include breakpoint('tablet-small') {
+    .notification-flash-container {
+        margin: $notification-flash-container-tablet-offset;
+        width: $notification-flash-container-tablet-width;
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .notification-flash-container {
+        margin: $notification-flash-container-mobile-offset;
+        width: $notification-flash-container-mobile-width;
     }
 }

@@ -3,6 +3,7 @@
 .theme-icon {
     width: $theme-icon-size;
     height: $theme-icon-size;
+    flex-shrink: 0;
 
     fill: $theme-icon-fill;
 

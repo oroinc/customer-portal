@@ -4,62 +4,57 @@
 // More about placeholders https://github.com/sass/sass/issues/2808#issuecomment-574413393
 %base-notification-flash,
 .notification-flash {
-    margin: 0;
-    padding: $notification-flash-inner-offset;
-
+    position: relative;
     display: flex;
     align-items: center;
-
-    border: $notification-flash-border;
-
+    padding: $notification-flash-inner-offset;
     border-radius: $notification-flash-border-radius;
+
+    &::before {
+        content: '';
+
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 3px;
+        border-radius: 0 $base-ui-element-border-radius $base-ui-element-border-radius 0;
+    }
 
     &:not(:first-child) {
         margin: $notification-flash-offset;
     }
 
-    @at-root #{selector.append(&, '__badge')} {
-        position: relative;
-        width: $notification-flash-badge-size;
-        height: $notification-flash-badge-size;
-        flex: 0 0 auto;
+    @at-root #{selector.append(&, '__close')} {
+        flex-shrink: 0;
         align-self: flex-start;
-        background: $notification-flash-badge-background;
-        color: $notification-flash-badge-color;
-        border-radius: $notification-flash-badge-radius;
+    }
 
-        [class^='fa-'] {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+    @at-root #{selector.append(&, '__icon')} {
+        margin: $notification-flash-icon-offset;
+
+        &--small {
+            margin: $notification-flash-icon-small-offset;
         }
     }
 
-    @at-root #{selector.append(&, '__close')} {
-        margin: $notification-flash-close-offset;
-        padding: $notification-flash-close-inner-offset;
-        flex: 0 0 auto;
-        align-self: flex-start;
-        background: $notification-flash-close-background;
-        border: $notification-flash-close-border;
-        color: $notification-flash-close-color;
+    @at-root #{selector.append(&, '__content')} {
+        display: flex;
+        padding: $notification-flash-content-offset;
+        flex: 1 1 auto;
 
-        cursor: $notification-flash-close-cursor;
+        a {
+            color: inherit;
+            text-decoration: underline;
 
-        [class^='fa-'] {
-            display: block;
-            font-size: $notification-flash-close-icon-size;
+            &:hover {
+                text-decoration: none;
+            }
         }
     }
 
     @at-root #{selector.append(&, '__text')} {
-        padding: $notification-flash-text-offset;
-        flex: 1 1 auto;
-
-        @at-root #{selector.append(&, '__center')} {
-            text-align: center;
-        }
+        font-weight: $notification-flash-text-font-weight;
     }
 }
 
@@ -72,12 +67,8 @@
         background: $notification-flash-success-background;
         color: $notification-flash-success-color;
 
-        .notification-flash__close {
-            color: $notification-flash-success-color;
-        }
-
-        .notification-flash__badge {
-            background: $notification-flash-success-badge-background;
+        &::before {
+            background-color: $notification-flash-success-before-background;
         }
     }
 
@@ -87,15 +78,13 @@
     &-flash--alert {
         @extend %base-notification-flash;
 
+        display: flex;
+        align-items: flex-start;
         background: $notification-flash-warning-background;
         color: $notification-flash-warning-color;
 
-        .notification-flash__close {
-            color: $notification-flash-warning-close-color;
-        }
-
-        .notification-flash__badge {
-            background: $notification-flash-warning-badge-background;
+        &::before {
+            background-color: $notification-flash-warning-before-background;
         }
     }
 
@@ -105,12 +94,8 @@
         background: $notification-flash-error-background;
         color: $notification-flash-error-color;
 
-        .notification-flash__close {
-            color: $notification-flash-error-close-color;
-        }
-
-        .notification-flash__badge {
-            background: $notification-flash-error-badge-background;
+        &::before {
+            background-color: $notification-flash-error-before-background;
         }
     }
 }

@@ -1,32 +1,35 @@
 {% block _style_book_grid_element_notification_flash_widget %}
     <div class="notification-flash notification-flash--error" role="alert">
-        <div class="notification-flash__badge">
-            <span class="fa-exclamation-triangle" aria-hidden="true"></span>
-        </div>
-        <div class="notification-flash__text">
-            Google calendar cannot by synchronized, as Google integration is not yet configured. Please contact system administrator.
+        <div class="notification-flash__content">
+            {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+            {{ renderIcon.icon({id: 'alert-circle', extraClass: 'theme-icon--medium notification-flash__icon'}) }}
+            <div class="notification-flash__text">
+                Google calendar cannot by synchronized, as Google integration is not yet configured. Please contact system administrator.
+            </div>
         </div>
     </div>
 {% endblock %}
 
 {% block _style_book_grid_element_notification_flash_success_widget %}
     <div class="notification-flash notification-flash--success" role="alert">
-        <div class="notification-flash__badge">
-            <span class="fa-check" aria-hidden="true"></span>
-        </div>
-        <div class="notification-flash__text">
-            The shopping list 'PO1463' was successfully created.
+        <div class="notification-flash__content">
+            {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+            {{ renderIcon.icon({id: 'check-circle', extraClass: 'theme-icon--medium notification-flash__icon'}) }}
+            <div class="notification-flash__text">
+                The shopping list 'PO1463' was successfully created.
+            </div>
         </div>
     </div>
 {% endblock %}
 
 {% block _style_book_grid_element_notification_flash_warning_widget %}
     <div class="notification-flash notification-flash--warning" role="alert">
-        <div class="notification-flash__badge">
-            <span class="fa-exclamation-circle" aria-hidden="true"></span>
-        </div>
-        <div class="notification-flash__text">
-            The connection cannot be established at the moment. Please check your internet connection.
+        <div class="notification-flash__content">
+            {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+            {{ renderIcon.icon({id: 'alert-triangle', extraClass: 'theme-icon--medium notification-flash__icon'}) }}
+            <div class="notification-flash__text">
+                The connection cannot be established at the moment. Please check your internet connection.
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -34,7 +37,8 @@
 {% block _style_book_grid_element_notification_message_widget %}
     <div class="notification notification--error" role="alert">
         <div class="notification__item">
-            <span class="fa-exclamation-triangle" aria-hidden="true"></span>
+            {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+            {{ renderIcon.icon({id: 'alert-triangle', extraClass: 'theme-icon--small notification__icon'}) }}
             <span class="notification__text">Please reassign the tasks to a new responsible user before deleting the user with the sales role.</span>
         </div>
     </div>
@@ -43,7 +47,8 @@
 {% block _style_book_grid_element_notification_message_success_widget %}
     <div class="notification notification--success" role="alert">
         <div class="notification__item">
-            <span class="fa-check" aria-hidden="true"></span>
+            {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+            {{ renderIcon.icon({id: 'check-circle', extraClass: 'theme-icon--small notification__icon'}) }}
             <span class="notification__text">The customer information was updated.</span>
         </div>
     </div>
@@ -52,7 +57,8 @@
 {% block _style_book_grid_element_notification_message_warning_widget %}
     <div class="notification notification--warning" role="alert">
         <div class="notification__item">
-            <span class="fa-exclamation-circle" aria-hidden="true"></span>
+            {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+            {{ renderIcon.icon({id: 'alert-circle', extraClass: 'theme-icon--small notification__icon'}) }}
             <span class="notification__text">Please fill in the shipping address in order to proceed with the checkout.</span>
         </div>
     </div>

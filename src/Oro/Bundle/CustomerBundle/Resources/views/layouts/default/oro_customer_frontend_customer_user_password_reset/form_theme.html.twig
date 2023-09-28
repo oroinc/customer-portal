@@ -1,7 +1,8 @@
 {%- block form_errors -%}
     {%- for error in errors -%}
+        {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
         <span class="validation-failed grid-col-12" role="alert">
-            <span class="validation-failed__icon" aria-hidden="true"></span>
+            {{ renderIcon.icon({id: 'alert-circle', extraClass: 'theme-icon--small validation-failed__icon'}) }}
             <span>{{ error.message|trans }}</span>
         </span>
     {%- endfor -%}
