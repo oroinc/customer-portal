@@ -43,6 +43,8 @@
         padding: $notification-flash-content-offset;
         flex: 1 1 auto;
 
+        word-break: break-all;
+
         a {
             color: inherit;
             text-decoration: underline;
@@ -78,8 +80,6 @@
     &-flash--alert {
         @extend %base-notification-flash;
 
-        display: flex;
-        align-items: flex-start;
         background: $notification-flash-warning-background;
         color: $notification-flash-warning-color;
 
