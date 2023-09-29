@@ -68,18 +68,18 @@
 
         overflow: visible;
 
-        .pull-right .action-wrapper {
-            margin-left: $dialog-action-wrapper-side-offset;
-        }
-
-        .pull-left .action-wrapper {
-            margin-right: $dialog-action-wrapper-side-offset;
-        }
-
         .btn-success {
             background: $dialog-btn-success-background;
             border-color: $dialog-btn-success-border;
         }
+    }
+
+    .pull-right .action-wrapper {
+        margin-left: $dialog-action-wrapper-side-offset;
+    }
+
+    .pull-left .action-wrapper {
+        margin-right: $dialog-action-wrapper-side-offset;
     }
 
     .ui-dialog-messages {
@@ -92,6 +92,15 @@
 
         > [class*='notification-flash'] {
             padding: $dialog-notification-offset-inner;
+        }
+    }
+
+    .ui-dialog-extra-header-content {
+        margin: $dialog-extra-header-content-offset;
+        padding: $dialog-extra-header-content-inner-offset;
+
+        &:empty {
+            display: none;
         }
     }
 
@@ -137,6 +146,12 @@
             margin: $ui-dialog-content-fullscreen-messages-margin;
 
             @include safe-area-offset(padding, $ui-dialog-content-fullscreen-messages-offset);
+        }
+
+        .ui-dialog-extra-header-content {
+            margin: $ui-dialog-extra-header-content-fullscreen-margin;
+
+            @include safe-area-offset(padding, $ui-dialog-extra-header-content-fullscreen-offset);
         }
 
         .ui-dialog-content {

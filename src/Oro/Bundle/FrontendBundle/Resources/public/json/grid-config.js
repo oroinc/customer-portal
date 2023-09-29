@@ -697,7 +697,7 @@ define(function() {
                 }
             ],
             gridParams: {},
-            enableFloatingHeaderPlugin: false
+            enableStickyHeaderPlugin: false
         },
         data: {
             data: [

@@ -9,6 +9,11 @@
             display: none;
         }
     }
+
+    &.empty,
+    &:empty {
+        display: none;
+    }
 }
 
 @include breakpoint('mobile') {

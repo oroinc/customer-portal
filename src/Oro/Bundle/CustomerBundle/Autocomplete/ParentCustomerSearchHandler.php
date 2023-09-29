@@ -83,14 +83,6 @@ class ParentCustomerSearchHandler extends SearchHandler
         return [$searchTerm, $customerId];
     }
 
-    /**
-     * @param string $search
-     * @param int $firstResult
-     * @param int $maxResults
-     * @param int $customerId
-     *
-     * @return array
-     */
     private function searchIdsByTermAndExcludedCustomers(
         string $search,
         int $firstResult,

@@ -226,7 +226,7 @@ abstract class AbstractDefaultTypedAddress extends AbstractTypedAddress
     }
 
     /**
-     * @param OrganizationInterface $systemOrganization
+     * @param OrganizationInterface|null $systemOrganization
      * @return AbstractDefaultTypedAddress
      */
     public function setSystemOrganization(OrganizationInterface $systemOrganization = null)

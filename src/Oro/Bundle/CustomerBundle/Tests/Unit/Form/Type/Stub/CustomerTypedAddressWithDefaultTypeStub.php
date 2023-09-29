@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Form\DataTransformer\AddressTypeDefaultTransformer;
 use Symfony\Component\Form\AbstractType;
@@ -14,10 +14,10 @@ class CustomerTypedAddressWithDefaultTypeStub extends AbstractType
 {
     private const NAME = 'oro_customer_typed_address_with_default';
 
-    private EntityManager $em;
     private array $types;
+    private EntityManagerInterface $em;
 
-    public function __construct(array $types, EntityManager $em)
+    public function __construct(array $types, EntityManagerInterface $em)
     {
         $this->types = $types;
         $this->em = $em;
@@ -62,7 +62,7 @@ class CustomerTypedAddressWithDefaultTypeStub extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return self::NAME;
     }

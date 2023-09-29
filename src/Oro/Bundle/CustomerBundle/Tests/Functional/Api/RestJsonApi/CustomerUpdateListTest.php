@@ -15,12 +15,10 @@ class CustomerUpdateListTest extends RestJsonApiUpdateListTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->loadFixtures(
-            [
-                LoadCountriesAndRegions::class,
-                '@OroCustomerBundle/Tests/Functional/Api/DataFixtures/load_customers.yml',
-            ]
-        );
+        $this->loadFixtures([
+            LoadCountriesAndRegions::class,
+            '@OroCustomerBundle/Tests/Functional/Api/DataFixtures/customers_for_update_list.yml'
+        ]);
     }
 
     public function testCreateEntities()

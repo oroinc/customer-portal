@@ -45,7 +45,7 @@ class ForgotPasswordHandler
     }
 
     /**
-     * @param $request
+     * @param Request $request
      *
      * @return bool
      */

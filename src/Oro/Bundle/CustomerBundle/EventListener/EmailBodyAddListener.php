@@ -2,26 +2,24 @@
 
 namespace Oro\Bundle\CustomerBundle\EventListener;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Oro\Bundle\ActivityBundle\Manager\ActivityManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EmailBundle\Entity\Email;
-use Oro\Bundle\EmailBundle\Entity\Manager\EmailActivityManager;
 use Oro\Bundle\EmailBundle\Event\EmailBodyAdded;
 
 /**
- * Links email entity with CustomerUsers which may be found by recipient emails.
+ * Links email entity with customer users which may be found by recipient emails.
  */
 class EmailBodyAddListener
 {
-    /** @var ManagerRegistry */
-    private $registry;
+    private ManagerRegistry $doctrine;
+    private ActivityManager $activityManager;
 
-    /** @var EmailActivityManager */
-    private $activityManager;
-
-    public function __construct(ManagerRegistry $registry, EmailActivityManager $activityManager)
+    public function __construct(ManagerRegistry $doctrine, ActivityManager $activityManager)
     {
-        $this->registry = $registry;
+        $this->doctrine = $doctrine;
         $this->activityManager = $activityManager;
     }
 
@@ -34,18 +32,16 @@ class EmailBodyAddListener
             return;
         }
 
-        $manager = $this->registry->getManagerForClass(CustomerUser::class);
+        /** @var EntityManagerInterface $em */
+        $em = $this->doctrine->getManagerForClass(CustomerUser::class);
 
-        $users = $manager->getRepository(CustomerUser::class)->findBy(['email' => $customerUserEmails]);
+        $users = $em->getRepository(CustomerUser::class)->findBy(['email' => $customerUserEmails]);
         if (!$users) {
             return;
         }
 
-        foreach ($users as $user) {
-            $this->activityManager->addAssociation($email, $user);
-        }
-
-        $manager->flush();
+        $this->activityManager->addActivityTargets($email, $users);
+        $em->flush();
     }
 
     private function getCustomerUserEmails(Email $email): array
@@ -53,11 +49,9 @@ class EmailBodyAddListener
         $emails = [];
         foreach ($email->getRecipients() as $recipient) {
             $address = $recipient->getEmailAddress();
-            if (!$address) {
-                continue;
+            if ($address) {
+                $emails[] = $address->getEmail();
             }
-
-            $emails[] = $address->getEmail();
         }
 
         return $emails;

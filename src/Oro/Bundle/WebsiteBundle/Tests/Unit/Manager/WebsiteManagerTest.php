@@ -6,35 +6,42 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\MaintenanceBundle\Maintenance\MaintenanceModeState;
+use Oro\Bundle\MaintenanceBundle\Maintenance\MaintenanceRestrictionsChecker;
 use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
+class WebsiteManagerTest extends TestCase
 {
-    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $managerRegistry;
+    private ManagerRegistry|MockObject $managerRegistry;
 
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
+    private FrontendHelper|MockObject $frontendHelper;
 
-    /** @var MaintenanceModeState|\PHPUnit\Framework\MockObject\MockObject */
-    private $maintenanceModeState;
+    private MaintenanceModeState|MockObject $maintenanceModeState;
 
-    /** @var WebsiteManager */
-    private $manager;
+    private WebsiteManager $manager;
+
+    private MaintenanceRestrictionsChecker|MockObject $maintenanceRestrictionsChecker;
 
     protected function setUp(): void
     {
         $this->managerRegistry = $this->createMock(ManagerRegistry::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
         $this->maintenanceModeState = $this->createMock(MaintenanceModeState::class);
+        $this->maintenanceRestrictionsChecker = $this->createMock(MaintenanceRestrictionsChecker::class);
 
-        $this->manager = new WebsiteManager($this->managerRegistry, $this->frontendHelper, $this->maintenanceModeState);
+        $this->manager = new WebsiteManager(
+            $this->managerRegistry,
+            $this->frontendHelper,
+            $this->maintenanceModeState,
+            $this->maintenanceRestrictionsChecker
+        );
     }
 
-    public function testGetCurrentWebsite()
+    public function testGetCurrentWebsite(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -61,7 +68,46 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
         self::assertSame($website, $this->manager->getCurrentWebsite());
     }
 
-    public function testGetDefaultWebsite()
+    public function testGetCurrentWebsiteWithEnabledMaintenanceMode(): void
+    {
+        $this
+            ->maintenanceModeState
+            ->expects(self::once())
+            ->method('isOn')
+            ->willReturn(true);
+
+        $this
+            ->maintenanceRestrictionsChecker
+            ->expects(self::once())
+            ->method('isAllowed')
+            ->willReturn(false);
+
+        $this->frontendHelper->expects(self::never())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $repository = $this->createMock(WebsiteRepository::class);
+
+        $website = new Website();
+        $repository->expects(self::never())
+            ->method('getDefaultWebsite')
+            ->willReturn($website);
+
+        $objectManager = $this->createMock(ObjectManager::class);
+        $objectManager->expects(self::never())
+            ->method('getRepository')
+            ->with(Website::class)
+            ->willReturn($repository);
+
+        $this->managerRegistry->expects(self::never())
+            ->method('getManagerForClass')
+            ->with(Website::class)
+            ->willReturn($objectManager);
+
+        self::assertEquals(null, $this->manager->getCurrentWebsite());
+    }
+
+    public function testGetDefaultWebsite(): void
     {
         $this->frontendHelper->expects($this->never())
             ->method('isFrontendRequest');
@@ -87,7 +133,7 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
         self::assertSame($website, $this->manager->getDefaultWebsite());
     }
 
-    public function testGetCurrentWebsiteNonFrontend()
+    public function testGetCurrentWebsiteNonFrontend(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -99,14 +145,14 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
         self::assertNull($this->manager->getCurrentWebsite());
     }
 
-    public function testSetCurrentWebsite()
+    public function testSetCurrentWebsite(): void
     {
         $this->manager->setCurrentWebsite($website = $this->createMock(Website::class));
 
         self::assertSame($website, $this->manager->getCurrentWebsite());
     }
 
-    public function testOnClear()
+    public function testOnClear(): void
     {
         ReflectionUtil::setPropertyValue($this->manager, 'currentWebsite', new Website());
         $this->manager->onClear();

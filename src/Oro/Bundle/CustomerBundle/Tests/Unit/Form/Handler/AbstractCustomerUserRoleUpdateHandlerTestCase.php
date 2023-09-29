@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use Oro\Bundle\CustomerBundle\Acl\Cache\CustomerVisitorAclCache;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -57,6 +58,9 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
     /** @var \PHPUnit\Framework\MockObject\MockObject|AclPrivilegeConfigurableFilter */
     protected $configurableFilter;
 
+    /** @var \PHPUnit\Framework\MockObject\MockObject|CustomerVisitorAclCache */
+    protected $visitorAclCache;
+
     protected array $privilegeConfig = [
         'entity' => ['types' => ['entity'], 'fix_values' => false, 'show_default' => true],
         'action' => ['types' => ['action'], 'fix_values' => false, 'show_default' => true],
@@ -76,6 +80,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         $this->ownershipConfigProvider = $this->createMock(ConfigProvider::class);
         $this->roleRepository = $this->createMock(CustomerUserRoleRepository::class);
         $this->managerRegistry = $this->createMock(ManagerRegistry::class);
+        $this->visitorAclCache = $this->createMock(CustomerVisitorAclCache::class);
 
         $this->doctrineHelper = $this->getMockBuilder(DoctrineHelper::class)
             ->setConstructorArgs([$this->managerRegistry])
@@ -101,7 +106,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
 
     /**
      * @param CustomerUserRole $role
-     * @param Customer|null    $newCustomer
+     * @param Customer         $newCustomer
      * @param CustomerUser[]   $appendUsers
      * @param CustomerUser[]   $removedUsers
      * @param CustomerUser[]   $assignedUsers
@@ -190,12 +195,13 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         $handler->setManagerRegistry($this->managerRegistry);
         $handler->setDoctrineHelper($this->doctrineHelper);
         $handler->setConfigurableFilter($this->configurableFilter);
+        $handler->setVisitorAclCache($this->visitorAclCache);
     }
 
     /**
      * @param CustomerUserRole $role
      * @param int $numberOfUsers
-     * @param Customer $customer
+     * @param Customer|null $customer
      * @param int $offset
      *
      * @return CustomerUser[]

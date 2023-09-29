@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Extend\Entity\Autocomplete\OroCustomerBundle_Entity_CustomerUserRole;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
@@ -12,7 +13,6 @@ use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationAwareInterface;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
-use Oro\Bundle\SecurityBundle\Model\Role;
 use Oro\Bundle\UserBundle\Entity\AbstractRole;
 
 /**
@@ -61,6 +61,7 @@ use Oro\Bundle\UserBundle\Entity\AbstractRole;
  *
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @mixin OroCustomerBundle_Entity_CustomerUserRole
  */
 class CustomerUserRole extends AbstractRole implements OrganizationAwareInterface, ExtendEntityInterface
 {

@@ -93,7 +93,7 @@ class MenuExtension extends AbstractExtension implements ServiceSubscriberInterf
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return [
             'knp_menu.matcher' => MatcherInterface::class,

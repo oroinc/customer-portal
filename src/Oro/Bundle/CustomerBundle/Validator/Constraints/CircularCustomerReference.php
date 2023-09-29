@@ -21,7 +21,7 @@ class CircularCustomerReference extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return 'parent_customer_validator';
     }
@@ -29,7 +29,7 @@ class CircularCustomerReference extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function getTargets()
+    public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;
     }

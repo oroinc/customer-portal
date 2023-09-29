@@ -104,9 +104,6 @@ class FrontendImportExportResult implements CreatedAtAwareInterface
      */
     protected $expired = false;
 
-    /**
-     * @return int
-     */
     public function getId(): ?int
     {
         return $this->id;
@@ -163,9 +160,6 @@ class FrontendImportExportResult implements CreatedAtAwareInterface
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isExpired(): ?bool
     {
         return $this->expired;

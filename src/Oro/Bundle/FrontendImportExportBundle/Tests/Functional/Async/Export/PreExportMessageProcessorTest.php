@@ -63,7 +63,6 @@ class PreExportMessageProcessorTest extends WebTestCase
           MessageQueueConfig::PARAMETER_TOPIC_NAME => ExportTopic::getName()
         ]);
 
-
         $this->createRootJobMyMessage($message);
 
         $this->exportHandler->expects(self::once())

@@ -29,6 +29,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
      */
     public function indexAction(Customer $customer)
     {
+        $this->denyAccessUnlessGranted('oro_navigation_manage_menus');
         $contexts = $this->get(CustomerMenuContextProvider::class)->getContexts($customer);
 
         return [
@@ -156,7 +157,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return array_merge(
             parent::getSubscribedServices(),

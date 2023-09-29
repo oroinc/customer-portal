@@ -15,13 +15,14 @@ class OwnerCacheWarmer extends CacheWarmer
     ) {
     }
 
-    public function isOptional()
+    public function isOptional(): bool
     {
         return false;
     }
 
-    public function warmUp(string $cacheDir)
+    public function warmUp(string $cacheDir): array
     {
         $this->ownerTreeProvider->clearCache();
+        return [];
     }
 }

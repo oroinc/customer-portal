@@ -21,3 +21,10 @@ services:
     oro_customer.tests.model.business_unit_message_factory:
         public: true
         alias: oro_customer.model.business_unit_message_factory
+
+    oro_customer.tests.entity_name_resolver.data_loader:
+        class: Oro\Bundle\CustomerBundle\Tests\Functional\Environment\TestEntityNameResolverDataLoader
+        decorates: oro_entity.tests.entity_name_resolver.data_loader
+        arguments:
+            - '@.inner'
+            - '@oro_customer_user.manager'

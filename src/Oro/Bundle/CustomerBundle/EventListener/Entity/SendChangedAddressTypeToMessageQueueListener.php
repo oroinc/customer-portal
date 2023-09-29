@@ -69,7 +69,7 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
         $this->auditMessageBodyProvider = $auditMessageBodyProvider;
         $this->applicationState = $applicationState;
 
-        $this->allTokens = new \SplObjectStorage;
+        $this->allTokens = new \SplObjectStorage();
 
         $this->collectionInserts = [];
         $this->collectionChanges = [];

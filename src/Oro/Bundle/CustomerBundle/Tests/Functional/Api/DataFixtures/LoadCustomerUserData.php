@@ -9,23 +9,27 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
+use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class LoadTestCustomerUser extends AbstractFixture implements ContainerAwareInterface, DependentFixtureInterface
+class LoadCustomerUserData extends AbstractFixture implements ContainerAwareInterface, DependentFixtureInterface
 {
     use ContainerAwareTrait;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
-        return [LoadOrganization::class, LoadTestUser::class];
+        return [LoadOrganization::class, LoadUser::class];
     }
 
-    public function load(ObjectManager $manager)
+    /**
+     * {@inheritDoc}
+     */
+    public function load(ObjectManager $manager): void
     {
         /** @var CustomerUserManager $userManager */
         $userManager = $this->container->get('oro_customer_user.manager');
@@ -41,7 +45,7 @@ class LoadTestCustomerUser extends AbstractFixture implements ContainerAwareInte
             ->setName('test')
             ->setParent(null)
             ->setOrganization($organization)
-            ->setOwner($this->getReference('testUser'));
+            ->setOwner($this->getReference('user'));
         $manager->persist($customer);
         $manager->flush();
 
@@ -53,13 +57,13 @@ class LoadTestCustomerUser extends AbstractFixture implements ContainerAwareInte
             ->setLastName('test')
             ->setPlainPassword('test_password')
             ->setCustomer($customer)
-            ->setOwner($this->getReference('testUser'))
+            ->setOwner($this->getReference('user'))
             ->setEnabled(true)
             ->setOrganization($organization)
             ->setLoginCount(0)
             ->addUserRole($role);
 
         $userManager->updateUser($user);
-        $this->setReference('testCustomerUser', $user);
+        $this->setReference('customerUser', $user);
     }
 }

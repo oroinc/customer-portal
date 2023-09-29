@@ -32,7 +32,9 @@ data:
                     type: customers
                     id: '<toString(@customer.level_1->id)>'
             owner:
-                data: null
+                data:
+                    type: users
+                    id: '<toString(@user->id)>'
             systemOrganization:
                 data:
                     type: organizations
@@ -78,7 +80,9 @@ data:
                     type: customers
                     id: '<toString(@customer.level_1->id)>'
             owner:
-                data: null
+                data:
+                    type: users
+                    id: '<toString(@user->id)>'
             systemOrganization:
                 data:
                     type: organizations
@@ -124,7 +128,9 @@ data:
                     type: customers
                     id: '<toString(@customer.level_1.1->id)>'
             owner:
-                data: null
+                data:
+                    type: users
+                    id: '<toString(@user->id)>'
             systemOrganization:
                 data:
                     type: organizations

@@ -12,7 +12,7 @@ class ImageTypeStub extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return ImageType::NAME;
     }
@@ -33,7 +33,7 @@ class ImageTypeStub extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return TextType::class;
     }

@@ -139,7 +139,6 @@ class CustomerControllerTest extends WebTestCase
         $this->assertViewPage($html, self::UPDATED_NAME, $newGroup, $internalRating, $newParent);
     }
 
-
     /**
      * @depends testUpdate
      */
@@ -179,7 +178,7 @@ class CustomerControllerTest extends WebTestCase
         bool $isGroupPrepared = false
     ): void {
         $form = $crawler->selectButton('Save and Close')->form(
-            $this->prepareFormValues($name, !$isGroupPrepared ? $group: null, $internalRating, $parent)
+            $this->prepareFormValues($name, !$isGroupPrepared ? $group : null, $internalRating, $parent)
         );
         $redirectAction = $crawler->selectButton('Save and Close')->attr('data-action');
         $form->setValues(['input_action' => $redirectAction]);

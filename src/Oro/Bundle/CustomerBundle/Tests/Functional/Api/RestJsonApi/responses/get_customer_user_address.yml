@@ -29,7 +29,9 @@ data:
                 type: customerusers
                 id: '<toString(@other.user@test.com->id)>'
         owner:
-            data: null
+            data:
+                type: users
+                id: '<toString(@user->id)>'
         systemOrganization:
             data:
                 type: organizations

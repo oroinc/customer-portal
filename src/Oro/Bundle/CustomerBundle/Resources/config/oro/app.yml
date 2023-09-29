@@ -91,6 +91,8 @@ oro_entity:
         Oro\Bundle\CustomerBundle\Entity\Customer:
             full: [ name ]
             short: [ name ]
+        Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+            short: [ firstName ]
         Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
             full: [ label ]
             short: [ label ]

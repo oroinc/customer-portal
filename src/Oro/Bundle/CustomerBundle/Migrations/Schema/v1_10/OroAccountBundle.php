@@ -27,9 +27,9 @@ class OroAccountBundle implements
     OrderedMigrationInterface,
     ContainerAwareInterface
 {
-    use MigrationConstraintTrait,
-        UpdateExtendRelationTrait,
-        ContainerAwareTrait;
+    use MigrationConstraintTrait;
+    use UpdateExtendRelationTrait;
+    use ContainerAwareTrait;
     /**
      * @var RenameExtension
      */

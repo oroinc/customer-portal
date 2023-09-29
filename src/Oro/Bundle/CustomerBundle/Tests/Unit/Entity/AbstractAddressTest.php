@@ -4,121 +4,75 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
-use Oro\Bundle\CustomerBundle\Entity\AbstractAddressToAddressType;
 use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
-/**
- * @SuppressWarnings(PHPMD.TooManyMethods)
- */
 abstract class AbstractAddressTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTestCaseTrait;
 
-    /** @var AddressType */
-    protected $billingType;
+    abstract protected function createAddressEntity(): AbstractDefaultTypedAddress;
 
-    /** @var AddressType */
-    protected $shippingType;
-
-    /** @var AbstractDefaultTypedAddress */
-    protected $address;
-
-    /** @var string */
-    protected $addressEntityClass;
-
-    /**
-     * Constructs a test case with the given name.
-     *
-     * @param string $name
-     * @param array $data
-     * @param string $dataName
-     */
-    public function __construct($name = null, array $data = array(), $dataName = '')
+    public function testTypesCollection(): void
     {
-        $this->addressEntityClass = get_class($this->createAddressEntity());
-        $this->billingType = new AddressType(AddressType::TYPE_BILLING);
-        $this->shippingType = new AddressType(AddressType::TYPE_SHIPPING);
-
-        parent::__construct($name, $data, $dataName);
+        $address = $this->createAddressEntity();
+        $billingType = new AddressType(AddressType::TYPE_BILLING);
+        self::assertPropertyCollections($address, [['types', $billingType]]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp(): void
+    public function testProperties(): void
     {
-        $this->address = $this->createAddressEntity();
-    }
-
-    /**
-     * Test children
-     */
-    public function testTypesCollection()
-    {
-        self::assertPropertyCollections($this->address, [['types', $this->billingType]]);
-    }
-
-    public function testProperties()
-    {
-        self::assertPropertyAccessors($this->address, [
+        $address = $this->createAddressEntity();
+        self::assertPropertyAccessors($address, [
             ['systemOrganization', new Organization()],
             ['owner', new User()],
             ['phone', '11111111111']
         ]);
     }
 
-    public function testGetDefaults()
+    public function testGetDefaults(): void
     {
-        $this->assertCount(0, $this->address->getDefaults());
-        $this->assertInstanceOf(
-            'Doctrine\Common\Collections\ArrayCollection',
-            $this->address->getDefaults()
-        );
-        $this->assertFalse($this->address->hasDefault('billing'));
-        $this->assertFalse($this->address->hasDefault('shipping'));
+        $address = $this->createAddressEntity();
+        $billingType = new AddressType(AddressType::TYPE_BILLING);
+        $shippingType = new AddressType(AddressType::TYPE_SHIPPING);
 
-        $this->address->addType($this->billingType);
-        $this->address->addType($this->shippingType);
-        $this->assertCount(0, $this->address->getDefaults());
+        $this->assertCount(0, $address->getDefaults());
+        $this->assertInstanceOf(ArrayCollection::class, $address->getDefaults());
+        $this->assertFalse($address->hasDefault('billing'));
+        $this->assertFalse($address->hasDefault('shipping'));
 
-        $this->address->setDefaults([$this->billingType, $this->shippingType]);
-        $this->assertCount(2, $this->address->getDefaults());
-        $this->assertTrue($this->address->hasDefault('billing'));
-        $this->assertTrue($this->address->hasDefault('shipping'));
+        $address->addType($billingType);
+        $address->addType($shippingType);
+        $this->assertCount(0, $address->getDefaults());
+
+        $address->setDefaults([$billingType, $shippingType]);
+        $this->assertCount(2, $address->getDefaults());
+        $this->assertTrue($address->hasDefault('billing'));
+        $this->assertTrue($address->hasDefault('shipping'));
     }
 
-    public function testSetDefaults()
+    public function testSetDefaults(): void
     {
-        $types = new ArrayCollection([$this->billingType, $this->shippingType]);
-        $this->assertCount(0, $this->address->getDefaults());
-        $this->address->setTypes($types);
-        $this->assertCount(0, $this->address->getDefaults());
+        $address = $this->createAddressEntity();
+        $billingType = new AddressType(AddressType::TYPE_BILLING);
+        $shippingType = new AddressType(AddressType::TYPE_SHIPPING);
 
-        $this->assertInstanceOf(
-            $this->addressEntityClass,
-            $this->address->setDefaults([$this->billingType])
-        );
+        $types = new ArrayCollection([$billingType, $shippingType]);
+        $this->assertCount(0, $address->getDefaults());
+        $address->setTypes($types);
+        $this->assertCount(0, $address->getDefaults());
 
-        $this->assertCount(1, $this->address->getDefaults());
-        $this->address->setDefaults([$this->billingType, $this->shippingType]);
-        $this->assertCount(2, $this->address->getDefaults());
+        $this->assertSame($address, $address->setDefaults([$billingType]));
 
-        $this->address->setTypes(new ArrayCollection([$this->billingType]));
-        $this->assertCount(0, $this->address->getDefaults());
-        $this->address->setDefaults([$this->shippingType]);
-        $this->assertCount(0, $this->address->getDefaults());
+        $this->assertCount(1, $address->getDefaults());
+        $address->setDefaults([$billingType, $shippingType]);
+        $this->assertCount(2, $address->getDefaults());
+
+        $address->setTypes(new ArrayCollection([$billingType]));
+        $this->assertCount(0, $address->getDefaults());
+        $address->setDefaults([$shippingType]);
+        $this->assertCount(0, $address->getDefaults());
     }
-
-    /**
-     * @return AbstractDefaultTypedAddress
-     */
-    abstract protected function createAddressEntity();
-
-    /**
-     * @return AbstractAddressToAddressType
-     */
-    abstract protected function createAddressToTypeEntity();
 }

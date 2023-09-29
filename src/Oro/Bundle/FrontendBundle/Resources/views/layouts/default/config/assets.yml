@@ -204,6 +204,7 @@ styles:
         - 'bundles/orofrontend/default/scss/components/skip-to-content.scss'
         - 'bundles/orofrontend/default/scss/components/loading-blur.scss'
         - 'bundles/orofrontend/default/scss/components/close-dialog.scss'
+        - 'bundles/orofrontend/default/scss/components/dialog-actions-section.scss'
         - 'bundles/orofrontend/default/scss/components/sidebar-filter-container.scss'
         - 'bundles/orofrontend/default/scss/components/dropdown-search.scss'
         - 'bundles/orofrontend/default/scss/components/scroll-shadow.scss'

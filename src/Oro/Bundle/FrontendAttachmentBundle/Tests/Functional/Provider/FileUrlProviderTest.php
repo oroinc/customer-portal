@@ -126,10 +126,6 @@ class FileUrlProviderTest extends WebTestCase
         ];
     }
 
-    /**
-     * @param array $fileApplications
-     * @param bool $isCoveredByAcl
-     */
     private function updateEntityAttachmentConfig(array $fileApplications, bool $isCoveredByAcl): void
     {
         $configManager = $this->getEntityConfigManager();

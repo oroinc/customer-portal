@@ -25,6 +25,7 @@ oro_behat_extension:
         - Oro\Bundle\EmailBundle\Tests\Behat\Context\EmailContext
         - Oro\Bundle\SearchBundle\Tests\Behat\Context\SearchContext
         - Oro\Bundle\FrontendBundle\Tests\Behat\Context\ApiContext
+        - Oro\Bundle\NavigationBundle\Tests\Behat\Context\ScrollspyContext
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\BrowserTabContext
       paths:
         - '@OroCustomerBundle/Tests/Behat/Features'
@@ -308,7 +309,7 @@ oro_behat_extension:
             element: Select2Entity
 
     Edit Profile Button:
-      selector: 'div.customer-profile__title-wrapper a:contains("Edit")'
+      selector: 'div.customer-profile__title-wrapper button:contains("Edit")'
 
     My Profile Menu Item:
       selector: 'li.primary-menu__item a:contains("My Profile")'

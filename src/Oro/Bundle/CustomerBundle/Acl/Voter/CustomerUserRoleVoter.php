@@ -52,7 +52,7 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
     /**
      * {@inheritDoc}
      */
-    public function vote(TokenInterface $token, $object, array $attributes)
+    public function vote(TokenInterface $token, $object, array $attributes): int
     {
         if (!$object instanceof CustomerUserRole) {
             return self::ACCESS_ABSTAIN;

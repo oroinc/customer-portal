@@ -37,7 +37,7 @@ class CustomerUserCheckRoleValidatorTest extends ConstraintValidatorTestCase
         $customerUser = $this->createMock(CustomerUser::class);
         $customerUser->expects($this->once())
             ->method('getRoles')
-            ->willReturn(null);
+            ->willReturn([]);
         $customerUser->expects($this->once())
             ->method('isEnabled')
             ->willReturn(true);
@@ -54,7 +54,7 @@ class CustomerUserCheckRoleValidatorTest extends ConstraintValidatorTestCase
         $customerUser = $this->createMock(CustomerUser::class);
         $customerUser->expects($this->never())
             ->method('getRoles')
-            ->willReturn(null);
+            ->willReturn([]);
         $customerUser->expects($this->once())
             ->method('isEnabled')
             ->willReturn(false);

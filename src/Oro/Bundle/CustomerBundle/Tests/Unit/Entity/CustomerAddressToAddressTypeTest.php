@@ -11,41 +11,14 @@ class CustomerAddressToAddressTypeTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTestCaseTrait;
 
-    /**
-     * Test setters getters
-     */
-    public function testAccessors()
+    public function testProperties(): void
     {
-        $this->assertPropertyAccessors($this->createAddressToAddressTypeEntity(), [
+        $addressToAddressType = new CustomerAddressToAddressType();
+        $this->assertPropertyAccessors($addressToAddressType, [
             ['id', 1],
-            ['address', $this->createAddressEntity()],
-            ['type', $this->createAddressTypeEntity(AddressType::TYPE_BILLING)],
+            ['address', new CustomerAddress()],
+            ['type', new AddressType(AddressType::TYPE_BILLING)],
             ['default', true],
         ]);
-    }
-
-    /**
-     * @return CustomerAddressToAddressType
-     */
-    protected function createAddressToAddressTypeEntity()
-    {
-        return new CustomerAddressToAddressType();
-    }
-
-    /**
-     * @return CustomerAddress
-     */
-    protected function createAddressEntity()
-    {
-        return new CustomerAddress();
-    }
-
-    /**
-     * @param string $name
-     * @return AddressType
-     */
-    protected function createAddressTypeEntity($name)
-    {
-        return new AddressType($name);
     }
 }

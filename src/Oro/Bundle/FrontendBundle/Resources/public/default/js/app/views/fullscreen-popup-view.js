@@ -25,7 +25,7 @@ define(function(require) {
             'template', 'templateSelector', 'templateData',
             'popupLabel', 'popupCloseOnLabel',
             'popupCloseButton', 'popupIcon', 'popupBadge',
-            'stopEventsPropagation', 'stopEventsList'
+            'stopEventsPropagation', 'stopEventsList', 'dialogClass'
         ]),
 
         sections: ['header', 'content', 'footer'],
@@ -98,6 +98,11 @@ define(function(require) {
         $popup: null,
 
         /**
+         * @property
+         */
+        dialogClass: '',
+
+        /**
          * @inheritdoc
          */
         constructor: function FullscreenPopupView(options) {
@@ -108,6 +113,7 @@ define(function(require) {
          * @inheritdoc
          */
         initialize: function(options) {
+            this.initLayoutOptions = options.initLayoutOptions || {};
             _.each(this.sections, this._initializeSection.bind(this, options));
             return FullscreenPopupView.__super__.initialize.call(this, options);
         },
@@ -149,7 +155,8 @@ define(function(require) {
             let data = FullscreenPopupView.__super__.getTemplateData.call(this);
             data = _.extend({}, data, {
                 id: this.cid,
-                close: this.popupCloseButton
+                close: this.popupCloseButton,
+                dialogClass: this.dialogClass
             });
             return data;
         },
@@ -179,6 +186,10 @@ define(function(require) {
             delete this.$popup;
 
             this.trigger('close');
+        },
+
+        getLayoutElement() {
+            return this.$popup;
         },
 
         closeSection: function(section) {
@@ -229,6 +240,7 @@ define(function(require) {
 
         _onShow: function() {
             this._initPopupEvents();
+            this.initLayout(this.initLayoutOptions);
             manageFocus.focusTabbable(this.$popup);
             mediator.trigger('layout:reposition');
             scrollHelper.disableBodyTouchScroll();

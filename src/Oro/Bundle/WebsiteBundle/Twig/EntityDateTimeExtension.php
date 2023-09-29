@@ -144,7 +144,7 @@ class EntityDateTimeExtension extends AbstractExtension implements ServiceSubscr
     /**
      * {@inheritdoc]
      */
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return [
             'oro_config.global' => ConfigManager::class,

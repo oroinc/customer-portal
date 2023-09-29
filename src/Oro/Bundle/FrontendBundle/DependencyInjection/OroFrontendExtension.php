@@ -43,6 +43,10 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         $loader->load('commands.yml');
         $loader->load('controllers.yml');
 
+        if ('test' === $container->getParameter('kernel.environment')) {
+            $loader->load('services_test.yml');
+        }
+
         $container
             ->getDefinition('oro_frontend.extractor.frontend_exposed_routes_extractor')
             ->replaceArgument(1, $config['routes_to_expose']);

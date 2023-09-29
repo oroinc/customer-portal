@@ -114,7 +114,7 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
         $collection = new PersistentCollection(
             $this->entityManager,
             $this->metadata,
-            new ArrayCollection([new \stdClass])
+            new ArrayCollection([new \stdClass()])
         );
 
         $this->menuItem->expects(self::once())

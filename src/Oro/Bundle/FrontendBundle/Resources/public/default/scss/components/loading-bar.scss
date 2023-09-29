@@ -29,6 +29,16 @@
         position: $loading-bar-block-process-position;
         animation: none;
     }
+
+    &.show {
+        display: block;
+    }
+}
+
+.hide-app-loading-bar {
+    .app-loading-bar {
+        display: none;
+    }
 }
 
 @include keyframe($loading-bar-point-animation-name) {

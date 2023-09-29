@@ -115,9 +115,6 @@ abstract class AbstractCustomerViewListener
      */
     abstract protected function getCustomerViewTemplate();
 
-    /**
-     * @return string
-     */
     abstract protected function getCustomerLabel(): string;
 
     /**
@@ -125,8 +122,5 @@ abstract class AbstractCustomerViewListener
      */
     abstract protected function getCustomerUserViewTemplate();
 
-    /**
-     * @return string
-     */
     abstract protected function getCustomerUserLabel(): string;
 }

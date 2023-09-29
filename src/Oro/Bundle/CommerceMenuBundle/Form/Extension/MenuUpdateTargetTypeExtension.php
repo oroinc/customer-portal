@@ -10,6 +10,7 @@ use Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType;
 use Oro\Bundle\NavigationBundle\Form\Type\RouteChoiceType;
 use Oro\Bundle\NavigationBundle\Menu\ConfigurationBuilder;
 use Oro\Bundle\NavigationBundle\Utils\MenuUpdateUtils;
+use Oro\Bundle\SecurityBundle\Acl\BasicPermission;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Bundle\WebCatalogBundle\Entity\WebCatalog;
 use Oro\Bundle\WebCatalogBundle\Form\Type\ContentNodeFromWebCatalogSelectType;
@@ -22,6 +23,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Adds menu item target fields to the {@see MenuUpdateType}.
@@ -30,11 +32,16 @@ class MenuUpdateTargetTypeExtension extends AbstractTypeExtension
 {
     private WebCatalogProvider $webCatalogProvider;
 
+    private AuthorizationCheckerInterface $authorizationChecker;
+
     private int $maxNestingLevel = 6;
 
-    public function __construct(WebCatalogProvider $webCatalogProvider)
-    {
+    public function __construct(
+        WebCatalogProvider $webCatalogProvider,
+        AuthorizationCheckerInterface $authorizationChecker
+    ) {
         $this->webCatalogProvider = $webCatalogProvider;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     public function setMaxNestingLevel(int $maxNestingLevel): void
@@ -127,6 +134,10 @@ class MenuUpdateTargetTypeExtension extends AbstractTypeExtension
         $webCatalog = $contentNode instanceof ContentNode
             ? $contentNode->getWebCatalog()
             : $this->webCatalogProvider->getWebCatalog();
+
+        if (!$this->authorizationChecker->isGranted(BasicPermission::VIEW, $webCatalog)) {
+            $webCatalog = null;
+        }
 
         $form->add(
             'webCatalog',

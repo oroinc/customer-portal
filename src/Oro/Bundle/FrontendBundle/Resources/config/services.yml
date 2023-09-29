@@ -300,6 +300,7 @@ services:
             - '@oro_frontend.request.frontend_helper'
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 255 }
 
     oro_frontend.event_listener.default_grid_view_load:
         class: Oro\Bundle\FrontendBundle\EventListener\DefaultGridViewLoadListener
@@ -354,3 +355,9 @@ services:
     Oro\Bundle\FrontendBundle\EntityConfig\FrontendFieldConfiguration:
         tags:
             - oro_entity_config.validation.entity_config
+    
+    oro_frontend.cache.page_request_provider:
+        class: Oro\Bundle\FrontendBundle\Provider\FrontendPageRequestProvider
+        parent: oro_platform.cache.provider.page_request_provider.abstract
+        tags:
+            - { name: warmup_page_request_provider }

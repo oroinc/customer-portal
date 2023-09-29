@@ -6,11 +6,10 @@ use Oro\Bundle\ApiBundle\Tests\Functional\RestJsonApiTestCase;
 use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
-use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadTestCustomerUser;
+use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerUserData;
 
 /**
  * @group CommunityEdition
- *
  * @dbIsolationPerTest
  */
 class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
@@ -20,12 +19,12 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->loadFixtures([LoadTestCustomerUser::class]);
+        $this->loadFixtures([LoadCustomerUserData::class]);
     }
 
-    private function setCaseInsensitiveEmailAddresses(bool $value)
+    private function setCaseInsensitiveEmailAddresses(bool $value): void
     {
-        $configManager = self::getConfigManager('global');
+        $configManager = self::getConfigManager();
         $configManager->set('oro_customer.case_insensitive_email_addresses_enabled', $value);
         $configManager->flush();
     }
@@ -56,14 +55,14 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
                     'customer' => [
                         'data' => [
                             'type' => 'customers',
-                            'id'   => '<toString(@testCustomerUser->customer->id)>'
+                            'id'   => '<toString(@customerUser->customer->id)>'
                         ]
                     ],
                     'userRoles'    => [
                         'data' => [
                             [
                                 'type' => 'customeruserroles',
-                                'id'   => '<toString(@testCustomerUser->userRoles[0]->id)>'
+                                'id'   => '<toString(@customerUser->userRoles[0]->id)>'
                             ]
                         ]
                     ]

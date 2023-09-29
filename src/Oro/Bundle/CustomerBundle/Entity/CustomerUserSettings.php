@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Extend\Entity\Autocomplete\OroCustomerBundle_Entity_CustomerUserSettings;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
@@ -20,6 +21,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  *        @ORM\UniqueConstraint(name="unique_cus_user_website", columns={"customer_user_id", "website_id"})
  *    }
  * )
+ * @mixin OroCustomerBundle_Entity_CustomerUserSettings
  */
 class CustomerUserSettings implements ExtendEntityInterface
 {
@@ -140,7 +142,7 @@ class CustomerUserSettings implements ExtendEntityInterface
     }
 
     /**
-     * @param Localization $localization
+     * @param Localization|null $localization
      * @return $this
      */
     public function setLocalization(Localization $localization = null)

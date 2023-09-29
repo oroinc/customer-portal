@@ -43,7 +43,7 @@ class RoleTranslationPrefixResolverTest extends \PHPUnit\Framework\TestCase
     public function getPrefixDataProvider(): array
     {
         return [
-            [new User, RoleTranslationPrefixResolver::BACKEND_PREFIX],
+            [new User(), RoleTranslationPrefixResolver::BACKEND_PREFIX],
             [new CustomerUser(), RoleTranslationPrefixResolver::FRONTEND_PREFIX],
             ['anon.'],
             [null]

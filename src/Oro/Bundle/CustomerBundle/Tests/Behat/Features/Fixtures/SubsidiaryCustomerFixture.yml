@@ -1,0 +1,27 @@
+Oro\Bundle\TaxBundle\Entity\CustomerTaxCode:
+    tax_code_1:
+        code: 'Tax_code_1'
+        organization: '@organization'
+        owner: '@admin'
+    tax_code_2:
+        code: 'Tax_code_2'
+        organization: '@organization'
+        owner: '@admin'
+    tax_code_3:
+        code: 'Tax_code_3'
+        organization: '@organization'
+        owner: '@admin'
+
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    company_A_east:
+        name: 'Company A - East Division'
+        organization: '@organization'
+        owner: '@admin'
+        parent: '@company_A'
+        taxCode: '@tax_code_1'
+    company_A_west:
+        name: 'Company A - West Division'
+        organization: '@organization'
+        owner: '@admin'
+        parent: '@company_A'
+        taxCode: '@tax_code_1'

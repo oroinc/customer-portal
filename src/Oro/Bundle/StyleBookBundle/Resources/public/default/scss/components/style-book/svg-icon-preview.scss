@@ -1,0 +1,18 @@
+/* @theme: default; */
+
+.svg-icon-preview {
+    position: relative;
+
+    text-align: center;
+
+    &__svg {
+        display: flex;
+        justify-content: center;
+
+        margin-bottom: $offset-x-s;
+        padding: $offset-y 0;
+
+        background-color: $svg-icon-preview-bg;
+        border-radius: $base-ui-element-border-radius;
+    }
+}

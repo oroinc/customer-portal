@@ -5,6 +5,7 @@ namespace Oro\Bundle\CommerceMenuBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Extend\Entity\Autocomplete\OroCommerceMenuBundle_Entity_MenuUpdate;
 use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
@@ -89,6 +90,7 @@ use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
  * @method MenuUpdate getDescription(Localization $localization = null)
  * @method MenuUpdate getDefaultDescription()
  * @method MenuUpdate setDefaultDescription($value)
+ * @mixin OroCommerceMenuBundle_Entity_MenuUpdate
  */
 class MenuUpdate implements
     MenuUpdateInterface,
@@ -147,7 +149,7 @@ class MenuUpdate implements
     /**
      * @var ContentNode|null
      *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\WebCatalogBundle\Entity\ContentNode")
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\WebCatalogBundle\Entity\ContentNode", inversedBy="referencedMenuItems")
      * @ORM\JoinColumn(name="content_node_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
      */
     protected $contentNode;

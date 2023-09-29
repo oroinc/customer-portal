@@ -52,10 +52,6 @@ class WYSIWYGTypeExtensionTest extends WebTestCase
         ], $actualOptions['themes']);
     }
 
-    /**
-     * @param array $themeOptions
-     * @param array $actualThemesOptions
-     */
     private function assertThemeOptions(array $themeOptions, array $actualThemesOptions): void
     {
         $hasThemeOptions = false;

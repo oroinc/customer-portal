@@ -67,9 +67,6 @@ class CustomerAddressFixture extends AbstractTemplateRepository implements Templ
         return $this->setProperty(new CustomerAddress(), 'id', 1);
     }
 
-    /**
-     * @return Customer
-     */
     private function createFrontendOwner(): Customer
     {
         $customer = new Customer();

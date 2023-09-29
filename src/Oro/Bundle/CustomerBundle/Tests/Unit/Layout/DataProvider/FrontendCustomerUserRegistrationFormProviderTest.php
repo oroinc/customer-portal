@@ -222,9 +222,9 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
      * @param int $defaultOwnerId
      * @param WebsiteStub $website
      * @param CustomerUserRole $defaultRole
-     * @param FormInterface $form
+     * @param FormInterface|null $form
      * @param string $routerAction
-     * @param User $owner
+     * @param User|null $owner
      */
     private function prepare(
         $defaultOwnerId,

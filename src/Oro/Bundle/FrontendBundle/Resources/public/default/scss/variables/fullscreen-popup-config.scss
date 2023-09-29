@@ -5,7 +5,7 @@
 $fullscreen-popup-display: flex !default;
 $fullscreen-popup-flex-direction: column !default;
 $fullscreen-popup-position: fixed !default;
-$fullscreen-popup-z-index: z('popup') + 1 !default;
+$fullscreen-popup-z-index: z('popup') !default;
 $fullscreen-popup-top: 0 !default;
 $fullscreen-popup-right: 0 !default;
 $fullscreen-popup-bottom: 0 !default;
@@ -16,6 +16,7 @@ $fullscreen-popup-bg: get-color('additional', 'ultra') !default;
 
 $fullscreen-popup-header-display: inline-flex !default;
 $fullscreen-popup-header-align-items: center !default;
+$fullscreen-popup-header-flex-shrink: 0 !default;
 $fullscreen-popup-header-position: relative !default;
 $fullscreen-popup-header-z-index: z('base') + 1 !default;
 $fullscreen-popup-header-right: 0 !default;

@@ -1,33 +1,31 @@
 <?php
+
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub;
 
-use Symfony\Component\Form\AbstractType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FrontendOwnerSelectTypeStub extends AbstractType
+class FrontendOwnerSelectTypeStub extends EntityTypeStub
 {
-    private const NAME = 'oro_customer_frontend_owner_select';
-
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
-        return self::NAME;
+        return 'oro_customer_frontend_owner_select';
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(
-            [
-                'choice_label' => null,
-                'class' => null,
-                'targetObject' => null,
-                'query_builder' => null,
-            ]
-        );
+        parent::configureOptions($resolver);
+        $resolver->setDefaults([
+            'choice_label'  => null,
+            'class'         => null,
+            'targetObject'  => null,
+            'query_builder' => null,
+        ]);
     }
 }

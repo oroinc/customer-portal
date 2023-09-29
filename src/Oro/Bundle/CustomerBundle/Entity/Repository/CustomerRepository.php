@@ -45,7 +45,7 @@ class CustomerRepository extends EntityRepository implements BatchIteratorInterf
 
     /**
      * @param int $customerId
-     * @param AclHelper $aclHelper
+     * @param AclHelper|null $aclHelper
      * @return array
      */
     public function getChildrenIds($customerId, AclHelper $aclHelper = null)

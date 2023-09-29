@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Extend\Entity\Autocomplete\OroCustomerBundle_Entity_CustomerGroup;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
@@ -48,6 +49,7 @@ use Oro\Bundle\UserBundle\Entity\Ownership\UserAwareTrait;
  *          }
  *      }
  * )
+ * @mixin OroCustomerBundle_Entity_CustomerGroup
  */
 class CustomerGroup implements OrganizationAwareInterface, ExtendEntityInterface
 {

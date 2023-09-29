@@ -16,6 +16,7 @@ stylebook_styles:
 
         - 'bundles/orostylebook/default/scss/variables/style-book/style-book-group-element-config.scss'
         - 'bundles/orostylebook/default/scss/variables/style-book/style-book-animation-config.scss'
+        - 'bundles/orostylebook/default/scss/variables/style-book/svg-icon-preview-config.scss'
 
         - '~prismjs/themes/prism-coy.css'
 
@@ -37,6 +38,7 @@ stylebook_styles:
         - 'bundles/orostylebook/default/scss/components/style-book/style-book-animation.scss'
         - 'bundles/orostylebook/default/scss/components/style-book/style-book-sticky-header.scss'
         - 'bundles/orostylebook/default/scss/components/style-book/style-book-js-components.scss'
+        - 'bundles/orostylebook/default/scss/components/style-book/svg-icon-preview.scss'
     output: 'css/stylebook.css'
     auto_rtl_inputs:
         - 'bundles/oro*/**'

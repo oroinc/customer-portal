@@ -71,6 +71,6 @@
 body.loading {
     > .loader-mask {
         position: fixed;
-        z-index: z('fixed');
+        z-index: z('popup') + 100;
     }
 }

@@ -31,92 +31,115 @@ class CustomerUserRelationsProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider customerDataProvider
-     */
-    public function testGetCustomer(CustomerUser $customerUser = null, Customer $expectedCustomer = null)
+    public function testGetCustomer(): void
     {
-        $this->assertEquals($expectedCustomer, $this->provider->getCustomer($customerUser));
-    }
-
-    public function customerDataProvider(): array
-    {
-        $customerUser = new CustomerUser();
         $customer = new Customer();
+        $customerUser = new CustomerUser();
         $customerUser->setCustomer($customer);
 
-        return [
-            [null, null],
-            [$customerUser, $customer]
-        ];
+        self::assertSame($customer, $this->provider->getCustomer($customerUser));
     }
 
-    /**
-     * @dataProvider customerGroupDataProvider
-     */
-    public function testGetCustomerGroup(CustomerUser $customerUser = null, CustomerGroup $expectedCustomerGroup = null)
+    public function testGetCustomerWhenNoCustomerUser(): void
     {
-        $this->assertEquals($expectedCustomerGroup, $this->provider->getCustomerGroup($customerUser));
+        self::assertNull($this->provider->getCustomer());
     }
 
-    public function customerGroupDataProvider(): array
+    public function testGetCustomerGroup(): void
     {
-        $customerUser = new CustomerUser();
+        $customerGroup = new CustomerGroup();
         $customer = new Customer();
-        $customerGroup = new CustomerGroup();
-        $customer->setGroup($customerGroup);
-        $customerUser->setCustomer($customer);
-
-        return [
-            [null, null],
-            [$customerUser, $customerGroup]
-        ];
-    }
-
-    public function testGetCustomerGroupConfig()
-    {
-        $customerGroup = new CustomerGroup();
-        $this->assertCustomerGroupConfigCall($customerGroup);
-
-        $this->assertEquals($customerGroup, $this->provider->getCustomerGroup(null));
-    }
-
-    public function testGetCustomerIncludingEmptyAnonymous()
-    {
-        $customer = new Customer();
-        $customerGroup = new CustomerGroup();
-        $customerGroup->setName('test');
-        $customer->setGroup($customerGroup);
-
-        $this->assertCustomerGroupConfigCall($customerGroup);
-        $this->assertEquals($customer, $this->provider->getCustomerIncludingEmpty(null));
-    }
-
-    public function testGetCustomerIncludingEmptyLogged()
-    {
-        $customer = new Customer();
-        $customer->setName('test2');
-        $customerGroup = new CustomerGroup();
-        $customerGroup->setName('test2');
         $customer->setGroup($customerGroup);
         $customerUser = new CustomerUser();
         $customerUser->setCustomer($customer);
 
-        $this->configManager->expects($this->never())
-            ->method('get');
-
-        $this->assertEquals($customer, $this->provider->getCustomerIncludingEmpty($customerUser));
+        self::assertSame($customerGroup, $this->provider->getCustomerGroup($customerUser));
     }
 
-    protected function assertCustomerGroupConfigCall(CustomerGroup $customerGroup)
+    public function testGetCustomerGroupWhenNoCustomer(): void
     {
-        $this->configManager->expects($this->once())
+        $customerUser = new CustomerUser();
+
+        self::assertNull($this->provider->getCustomerGroup($customerUser));
+    }
+
+    public function testGetCustomerGroupWhenNoCustomerUser(): void
+    {
+        $customerGroup = new CustomerGroup();
+
+        $this->configManager->expects(self::once())
             ->method('get')
             ->with('oro_customer.anonymous_customer_group')
             ->willReturn(10);
-        $this->doctrineHelper->expects($this->once())
+        $this->doctrineHelper->expects(self::once())
             ->method('getEntityReference')
-            ->with('OroCustomerBundle:CustomerGroup', 10)
+            ->with(CustomerGroup::class, 10)
             ->willReturn($customerGroup);
+
+        self::assertSame($customerGroup, $this->provider->getCustomerGroup());
+    }
+
+    public function testGetCustomerGroupWhenNoCustomerUserAndNoAnonymousCustomerGroup(): void
+    {
+        $this->configManager->expects(self::once())
+            ->method('get')
+            ->with('oro_customer.anonymous_customer_group')
+            ->willReturn(null);
+        $this->doctrineHelper->expects(self::never())
+            ->method('getEntityReference');
+
+        self::assertNull($this->provider->getCustomerGroup());
+    }
+
+    public function testGetCustomerIncludingEmpty(): void
+    {
+        $customerGroup = new CustomerGroup();
+        $customer = new Customer();
+        $customer->setGroup($customerGroup);
+        $customerUser = new CustomerUser();
+        $customerUser->setCustomer($customer);
+
+        $this->configManager->expects(self::never())
+            ->method('get');
+        $this->doctrineHelper->expects(self::never())
+            ->method('getEntityReference');
+
+        self::assertSame($customer, $this->provider->getCustomerIncludingEmpty($customerUser));
+    }
+
+    public function testGetCustomerIncludingEmptyWhenNoCustomerUser(): void
+    {
+        $customerGroup = new CustomerGroup();
+        $customer = new Customer();
+        $customer->setGroup($customerGroup);
+
+        $this->configManager->expects(self::once())
+            ->method('get')
+            ->with('oro_customer.anonymous_customer_group')
+            ->willReturn(10);
+        $this->doctrineHelper->expects(self::once())
+            ->method('getEntityReference')
+            ->with(CustomerGroup::class, 10)
+            ->willReturn($customerGroup);
+
+        $createdCustomer = $this->provider->getCustomerIncludingEmpty();
+        self::assertEquals($customer, $createdCustomer);
+        self::assertNotSame($customer, $createdCustomer);
+    }
+
+    public function testGetCustomerIncludingEmptyWhenNoCustomerUserAndNoAnonymousCustomerGroup(): void
+    {
+        $customerGroup = new CustomerGroup();
+        $customer = new Customer();
+        $customer->setGroup($customerGroup);
+
+        $this->configManager->expects(self::once())
+            ->method('get')
+            ->with('oro_customer.anonymous_customer_group')
+            ->willReturn(null);
+        $this->doctrineHelper->expects(self::never())
+            ->method('getEntityReference');
+
+        self::assertEquals(new Customer(), $this->provider->getCustomerIncludingEmpty());
     }
 }

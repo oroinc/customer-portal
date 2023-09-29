@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Oro\Bundle\CustomerBundle\Acl\Cache\CustomerVisitorAclCache;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -13,6 +14,7 @@ use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainOwnershipMetadataProvider;
 use Oro\Bundle\UserBundle\Entity\AbstractRole;
 use Oro\Bundle\UserBundle\Form\Handler\AclRoleHandler;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -20,28 +22,12 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
 {
-    /** @var  RequestStack */
-    protected $requestStack;
-
-    /**
-     * @var ConfigProvider
-     */
-    protected $ownershipConfigProvider;
-
-    /**
-     * @var ChainOwnershipMetadataProvider
-     */
-    protected $chainMetadataProvider;
-
-    /**
-     * @var DoctrineHelper
-     */
-    protected $doctrineHelper;
-
-    /**
-     * @var Customer
-     */
-    protected $originalCustomer;
+    protected RequestStack $requestStack;
+    protected ConfigProvider $ownershipConfigProvider;
+    protected ChainOwnershipMetadataProvider $chainMetadataProvider;
+    protected DoctrineHelper $doctrineHelper;
+    private CustomerVisitorAclCache $visitorAclCache;
+    protected ?Customer $originalCustomer = null;
 
     /**
      * @param RequestStack $requestStack
@@ -65,6 +51,11 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
     public function setDoctrineHelper(DoctrineHelper $doctrineHelper)
     {
         $this->doctrineHelper = $doctrineHelper;
+    }
+
+    public function setVisitorAclCache(CustomerVisitorAclCache $visitorAclCache): void
+    {
+        $this->visitorAclCache = $visitorAclCache;
     }
 
     /**
@@ -137,11 +128,6 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
         return $this->privilegeConfig;
     }
 
-    /**
-     * @param CustomerUserRole|AbstractRole $role
-     * @param array $appendUsers
-     * @param array $removeUsers
-     */
     protected function applyCustomerLimits(CustomerUserRole $role, array &$appendUsers, array &$removeUsers)
     {
         /** @var CustomerUserRoleRepository $roleRepository */
@@ -183,5 +169,22 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
                 }
             );
         }
+    }
+
+    protected function clearAclCache(AbstractRole $role): void
+    {
+        if ($role instanceof CustomerUserRole) {
+            $anonymousRoleWebsiteIds = $this->doctrineHelper->createQueryBuilder(Website::class, 'w')
+                ->where('w.guest_role = :role')
+                ->setParameter('role', $role)
+                ->getQuery()
+                ->getArrayResult();
+
+            foreach ($anonymousRoleWebsiteIds as $websiteId) {
+                $this->visitorAclCache->clearWebsiteData($websiteId['id']);
+            }
+        }
+
+        parent::clearAclCache($role);
     }
 }

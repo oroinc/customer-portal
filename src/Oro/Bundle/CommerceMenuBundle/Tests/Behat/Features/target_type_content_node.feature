@@ -47,7 +47,7 @@ Feature: Target Type Content Node
     When I go to Marketing / Web Catalogs
     And I click view Default Web Catalog in grid
     And I click "Edit Content Tree"
-    And I click "Clearance"
+    And I click on "Clearance"
     And I uncheck "Inherit Parent" element
     And I fill "Content Node Form" with:
       | Content Node Restrictions Customer | Company A |

@@ -1,0 +1,25 @@
+<% var spriteUrl = _.getThemeSpriteUrl(); %>
+<% if (spriteUrl && obj.id) { %>
+    <% let titleId = _.uniqueId(obj.id);
+       let roleAttr = obj.role ?? 'img';
+       let ariaHidden = obj.ariaHidden ?? 'true';
+
+        if (obj.title) {
+            ariaHidden = void 0;
+        }
+        if (ariaHidden) {
+            roleAttr = 'none';
+        }
+    %>
+    <svg <% if (obj.class) { %>class="<%- obj.class %>"<% } %>
+        role="<%- roleAttr %>"
+        width="<%- obj.width ?? '24px' %>"
+        height="<%- obj.height ?? '24px' %>"
+        fill="<%- obj.fill ?? 'currentColor' %>"
+        <% if (obj.title) { %>aria-labelledby="<%- titleId %>"<% } %>
+        <% if (ariaHidden !== void 0) { %>aria-hidden="<%- ariaHidden %>"<% } %>
+    >
+        <% if (obj.title) { %><title id="<%- titleId %>"><%- obj.title %></title><% } %>
+        <use xlink:href="<%- spriteUrl %>#<%- obj.id %>"/>
+    </svg>
+<% } %>
