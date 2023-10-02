@@ -89,7 +89,7 @@
         {#validation markup should be the same as in frontend validator#}
         {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
         <span class="validation-failed" role="alert">
-            {{ renderIcon.icon({id: 'alert-circle', extraClass: 'theme-icon--small validation-failed__icon'}) }}
+            {{ renderIcon.icon({id: 'alert-circle', extraClass: 'theme-icon--medium validation-failed__icon'}) }}
             <span>{{ error.message|trans }}</span>
         </span>
     {%- endfor -%}

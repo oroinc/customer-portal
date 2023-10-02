@@ -1,4 +1,5 @@
 import {macros} from 'underscore';
+import SVGIcon from 'tpl-loader!orofrontend/default/templates/macros/svg-icon.html';
 
 macros('orofrontend', {
     /**
@@ -12,5 +13,5 @@ macros('orofrontend', {
      * @param {Object|string} data.fill optional
      * @param {string?} data.ariaHidden optional
      */
-    renderIcon: require('tpl-loader!orofrontend/default/templates/macros/svg-icon.html')
+    renderIcon: SVGIcon
 });
