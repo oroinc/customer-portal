@@ -246,7 +246,11 @@
         </div>
     {% endif %}
 
-    {% set content = block_widget(block) %}
+    {% set content %}
+         {% block style_book_code_widget %}
+            {{ block_widget(block) }}
+         {% endblock %}
+    {% endset %}
 
     {% if source == true %}
         <div class="style-book-group-element__source">
