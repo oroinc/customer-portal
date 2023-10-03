@@ -1,0 +1,3 @@
+oro_twig_inspector:
+  skip_blocks:
+    - style_book_code_widget
