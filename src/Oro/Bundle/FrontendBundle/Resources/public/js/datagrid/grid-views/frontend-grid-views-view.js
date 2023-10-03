@@ -9,7 +9,7 @@ define(function(require) {
     const manageFocus = require('oroui/js/tools/manage-focus').default;
     const GridViewsView = require('orodatagrid/js/datagrid/grid-views/view');
     const DeleteConfirmation = require('oroui/js/delete-confirmation');
-    const errorTemplate = require('tpl-loader!orodatagrid/templates/datagrid/view-name-error-modal.html');
+    const errorTemplate = require('tpl-loader!orofrontend/templates/datagrid/view-name-error-modal.html');
     require('jquery-ui/tabbable');
 
     const ESCAPE_KEY_CODE = 27;
