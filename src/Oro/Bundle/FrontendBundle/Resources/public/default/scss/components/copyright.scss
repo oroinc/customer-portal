@@ -4,12 +4,19 @@
     margin: $copyright-offset;
     padding: $copyright-inner-offset spacing('base') ($copyright-inner-offset - spacing('base'));
 
-    font-size: $base-font-size - 2;
+    font-size: $base-font-size - 1;
     line-height: normal;
     text-align: center;
 
     border-top: $copyright-border-top;
     color: $copyright-color;
+}
+
+@include breakpoint('tablet-small') {
+    .copyright {
+        border: none;
+        padding: $copyright-offset-table-small;
+    }
 }
 
 @include breakpoint('mobile') {

@@ -1,9 +1,10 @@
 /* @theme: default; */
 
-$page-footer-background: get-color('additional-old', 'base') !default;
-$page-footer-container-offset: null !default;
-$page-footer-inner-offset: 50px 0 spacing('base') !default;
-$page-footer-border-style: solid get-color('additional-old', 'base') !default;
-$page-footer-border-width: 1px 0 0 0 !default;
+$page-footer-background: get-color('neutral', 'grey1') !default;
+$page-footer-container-offset: 0 8px 32px !default;
+$page-footer-inner-offset: 48px 20px spacing('base') !default;
+$page-footer-inner-offset-table-small: spacing('base') spacing('sm') !default;
 $page-footer-container-offset-tablet: null !default;
 $footer-collapse-view-trigger-icon-tablet-color: null !default;
+
+$page-footer-container-offset-tablet-small: 0 8px !default;

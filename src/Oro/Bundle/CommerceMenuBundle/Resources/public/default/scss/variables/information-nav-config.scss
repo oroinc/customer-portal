@@ -2,29 +2,40 @@
 
 @use 'sass:math';
 
-$information-nav-offset: 0 0 spacing('sm') !default;
+$information-nav-responsive-flex: 1 1 100% !default;
+$information-nav-responsive-offset: spacing('sm') 0 !default;
 $information-nav-width: math.div(100%, 3) !default;
 
 $information-nav-title-offset: 0 0 spacing('base') !default;
 $information-nav-title-font-weight: font-weight('semi-bold') !default;
 
-$information-nav-title-color: null !default;
+$information-nav-title-color: get-color('text', 'secondary') !default;
 
 $information-nav-tablet-small-offset: 0 !default;
-$information-nav-tablet-border-top: 1px solid get-color('additional-old', 'light') !default;
 
-$information-nav-title-tablet-small-offset: 0 !default;
-$information-nav-title-tablet-small-inner-offset: (spacing('sm') * 2) 0 !default;
-$information-nav-list-tablet-small-inner-offset-left: spacing('base') !default;
-
-$information-nav-title-font-size: $base-font-size--large !default;
+$information-nav-title-font-size: 18px !default;
 $information-nav-title-line-height: 1 !default;
 $information-nav-title-text-transform: uppercase !default;
+$information-nav-title-font-size-tablet-small: 16px !default;
 
-$information-nav-item-offset: spacing('base') 0 0 !default;
-$information-nav-item-content-color: get-color('additional-old', 'dark') !default;
-$information-nav-item-content-color-hover: get-color('additional-old', 'dark') !default;
+$information-nav-item-offset: 12px 0 0 !default;
+$information-nav-item-content-color: get-color('text', 'secondary') !default;
+$information-nav-item-content-color-hover: get-color('text', 'secondary') !default;
 $information-nav-item-content-text-color: $information-nav-item-content-color !default;
+$information-nav-item-color: get-color('text', 'secondary') !default;
+$information-responsive-border-color: get-color('neutral', 'grey2') !default;
 
 // Tablet small
+$information-nav-responsive-tablet-small-padding: 0 !default;
+$information-nav-responsive-tablet-small-border-bottom: 1px solid $information-responsive-border-color !default;
+
+$information-nav-title-tablet-small-margin: 0 !default;
+
 $information-nav-tablet-small-width: 100% !default;
+
+$information-nav-item-offset: 6px 0 !default;
+
+$information-nav-title-font-size-tablet-small: 16px !default;
+$information-nav-list-offset-tablet-small: 0 4px !default;
+$information-nav-item-offset-tablet-small: 12px 0 !default;
+$information-nav-btn-lone-height: 22px !default;

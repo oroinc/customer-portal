@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import {defaults} from 'underscore';
+import _ from 'underscore';
 import BaseView from 'oroui/js/app/views/base/view';
 
 const CollapseView = BaseView.extend({
@@ -46,11 +46,11 @@ const CollapseView = BaseView.extend({
      * @inheritdoc
      */
     initialize(options) {
-        this.collapseAttrs = defaults({}, options.collapseAttrs || {}, {
+        this.collapseAttrs = _.defaults({}, options.collapseAttrs || {}, {
             'id': this.cid,
             'data-toggle': 'false'
         });
-        this.toggleAttrs = defaults({}, options.toggleAttrs || {}, {
+        this.toggleAttrs = _.defaults({}, options.toggleAttrs || {}, {
             'type': 'button',
             'class': 'btn btn--size-small btn--no-padding collapse-toggle',
             'data-toggle': 'collapse',
@@ -96,9 +96,11 @@ const CollapseView = BaseView.extend({
         let content = [];
 
         if (icon) {
-            content.push(
-                $('<span></span>').attr({'class': icon, 'data-icon': '', 'aria-hidden': true})
-            );
+            const iconEl = _.macros('orofrontend::renderIcon')({
+                id: icon
+            });
+
+            content.push(iconEl);
         }
 
         if (text) {
