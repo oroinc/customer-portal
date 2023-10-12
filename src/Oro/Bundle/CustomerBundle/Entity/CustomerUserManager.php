@@ -14,7 +14,7 @@ use Oro\Bundle\UserBundle\Security\UserLoaderInterface;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\DependencyInjection\ServiceLink;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 /**
  * Provides a set of methods to simplify manage of the CustomerUser entity.
@@ -42,7 +42,7 @@ class CustomerUserManager extends BaseUserManager
     public function __construct(
         UserLoaderInterface $userLoader,
         ManagerRegistry $doctrine,
-        EncoderFactoryInterface $encoderFactory,
+        PasswordHasherFactoryInterface $passwordHasherFactory,
         ConfigManager $configManager,
         ServiceLink $emailProcessor,
         FrontendHelper $frontendHelper,
@@ -51,7 +51,7 @@ class CustomerUserManager extends BaseUserManager
         EnumValueProvider $enumValueProvider,
         LoggerInterface $logger
     ) {
-        parent::__construct($userLoader, $doctrine, $encoderFactory);
+        parent::__construct($userLoader, $doctrine, $passwordHasherFactory);
         $this->configManager = $configManager;
         $this->emailProcessorLink = $emailProcessor;
         $this->frontendHelper = $frontendHelper;

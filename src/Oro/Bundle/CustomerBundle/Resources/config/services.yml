@@ -190,7 +190,7 @@ services:
         arguments:
             - "@oro_customer.security.user_loader"
             - "@doctrine"
-            - "@security.encoder_factory"
+            - '@security.password_hasher_factory'
             - "@oro_config.manager"
             - "@oro_customer_user.manager.mailer_processor_link"
             - "@oro_frontend.request.frontend_helper"
