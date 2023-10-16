@@ -5,9 +5,9 @@ namespace Oro\Bundle\WebsiteBundle\Twig;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\LocaleBundle\DependencyInjection\Configuration;
 use Oro\Bundle\LocaleBundle\Twig\DateTimeExtension;
-use Oro\Bundle\NotificationBundle\Helper\WebsiteAwareEntityHelper;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationAwareInterface;
 use Oro\Bundle\WebsiteBundle\Entity\WebsiteAwareInterface;
+use Oro\Bundle\WebsiteBundle\Helper\WebsiteAwareEntityHelper;
 use Psr\Container\ContainerInterface;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Twig\Environment;
@@ -122,8 +122,9 @@ class EntityDateTimeExtension extends AbstractExtension implements ServiceSubscr
     private function getEntityTimezone($entity)
     {
         $organization = null;
-        if (($entity instanceof WebsiteAwareInterface || $this->getWebsiteAwareHelper()->isWebsiteAware($entity))
-            && $entity->getWebsite()) {
+        if (($entity instanceof WebsiteAwareInterface || $this->getWebsiteAwareEntityHelper()->isWebsiteAware($entity))
+            && $entity->getWebsite()
+        ) {
             $organization = $entity->getWebsite()->getOrganization();
         } elseif ($entity instanceof OrganizationAwareInterface && $entity->getOrganization()) {
             $organization = $entity->getOrganization();
@@ -162,9 +163,9 @@ class EntityDateTimeExtension extends AbstractExtension implements ServiceSubscr
         return $this->container->get('oro_config.global');
     }
 
-    private function getWebsiteAwareHelper(): WebsiteAwareEntityHelper
+    private function getWebsiteAwareEntityHelper(): WebsiteAwareEntityHelper
     {
-        return $this->container->get('oro_notification.entity_website_aware_helper');
+        return $this->container->get('oro_website.website_aware_entity_helper');
     }
 
     private function getDateTimeExtension(Environment $env): DateTimeExtension
