@@ -54,7 +54,7 @@
     }
 }
 
-@include breakpoint('desktop') {
+@include breakpoint('desktop-small') {
     .mega-menu-depth-1 {
         .main-menu__inner--edge & {
             &__list {

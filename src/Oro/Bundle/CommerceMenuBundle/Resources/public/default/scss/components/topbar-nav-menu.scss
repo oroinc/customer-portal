@@ -4,7 +4,7 @@
     display: flex;
 }
 
-@include breakpoint('desktop') {
+@include breakpoint('desktop-small') {
     .topbar-nav-menu {
         justify-content: flex-end;
     }

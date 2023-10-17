@@ -73,20 +73,16 @@
     }
 }
 
-@include breakpoint('product-datagrid-toolbar-narrow') {
-    .datagrid-tool {
-        &__label {
-            display: none;
-        }
-    }
-}
-
 @include breakpoint('tablet') {
     .datagrid-toolbar {
         &.extended {
             .datagrid-tool {
                 &:last-child {
                     flex-basis: auto;
+                }
+
+                &__label {
+                    display: none;
                 }
             }
         }

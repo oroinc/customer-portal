@@ -17,7 +17,7 @@
     }
 }
 
-@include breakpoint('desktop') {
+@include breakpoint('desktop-small') {
     .main-menu-multi {
         .main-menu__inner--edge & {
             &__container {

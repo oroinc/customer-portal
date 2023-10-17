@@ -89,7 +89,7 @@
     }
 }
 
-@include breakpoint('desktop') {
+@include breakpoint('desktop-small') {
     .main-menu-column {
         &:not(:first-child) {
             padding-left: $main-menu-column-offset-inner-left;

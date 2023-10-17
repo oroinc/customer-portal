@@ -8,7 +8,7 @@
     }
 }
 
-@include breakpoint('desktop') {
+@include breakpoint('desktop-small') {
     .main-menu-outer {
         display: $main-menu-outer-desktop-display;
     }

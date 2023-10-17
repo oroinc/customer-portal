@@ -57,7 +57,7 @@
     }
 }
 
-@include breakpoint('desktop') {
+@include breakpoint('desktop-small') {
     .nav-trigger {
         &__count {
             margin-left: 5px;

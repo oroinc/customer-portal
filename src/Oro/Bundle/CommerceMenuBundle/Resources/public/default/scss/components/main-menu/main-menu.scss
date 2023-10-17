@@ -45,7 +45,7 @@
     margin: $main-menu-divider-margin;
 }
 
-@include breakpoint('desktop') {
+@include breakpoint('desktop-small') {
     .main-menu {
         display: $main-menu-display;
         flex-grow: $main-menu-flex-grow;

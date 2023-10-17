@@ -14,7 +14,7 @@
     }
 }
 
-@include breakpoint('desktop') {
+@include breakpoint('desktop-small') {
     .page-content {
         &--has-sidebar {
             width: calc(#{$page-content-width} - #{$page-sidebar-width});

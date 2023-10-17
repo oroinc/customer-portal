@@ -72,7 +72,7 @@
     }
 }
 
-@include breakpoint('desktop') {
+@include breakpoint('desktop-small') {
     %hidden-on-desktop {
         &.hidden-on-desktop {
             // stylelint-disable-next-line declaration-no-important

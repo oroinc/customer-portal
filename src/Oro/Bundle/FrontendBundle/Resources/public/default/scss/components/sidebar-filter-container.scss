@@ -67,7 +67,7 @@ $skeleton-color: get-color('additional-old', 'base');
     max-width: 100%;
 }
 
-@include breakpoint('desktop') {
+@include breakpoint('desktop-small') {
     .sidebar-filter-container {
         /* rtl:begin:ignore */
         &:empty {

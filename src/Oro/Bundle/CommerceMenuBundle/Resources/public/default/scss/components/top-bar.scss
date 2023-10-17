@@ -100,7 +100,7 @@
     }
 }
 
-@include breakpoint('desktop') {
+@include breakpoint('desktop-small') {
     .topbar-navigation {
         &__item {
             &.last {
