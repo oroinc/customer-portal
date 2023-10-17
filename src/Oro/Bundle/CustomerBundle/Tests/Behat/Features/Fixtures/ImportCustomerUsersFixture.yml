@@ -4,8 +4,7 @@ Oro\Bundle\UserBundle\Entity\User:
         email: user2@example.com
         firstName: New
         lastName: Owner
-        password: 3X+qGs+/6Ic/iL+5/t6C5C3C0hYEbhYLtZ/nwJDn5QUYArHkBy90HT220LVErWvKyVH7XoId15dv/uF2+pExiQ==
-        salt: eexx2a8mtsg8o4c8k4w08wo04ccsw8
+        password: <userPassword(@second_user->username)>
         organization: '@organization'
         organizations: ['@organization']
         owner: '@business_unit'
@@ -16,8 +15,7 @@ Oro\Bundle\UserBundle\Entity\User:
         email: userWithAssign1@example.com
         firstName: User
         lastName: WithAssign
-        password: 'QmaXlIqI4mjWgrhmdzslFyICSaC4uK7A+ZpHj2SrUbmmy/y7AOgeciOc4m8g0RYRBymZ8mF1J/h165Op+dwE2g=='
-        salt: m0zv4fjgp7kgwkckskwkcs4wckc4g4w
+        password: <userPassword(@user_with_assign->username)>
         organization: '@organization'
         organizations: ['@organization']
         owner: '@business_unit'
@@ -28,8 +26,7 @@ Oro\Bundle\UserBundle\Entity\User:
         email: userWithoutAssign1@example.com
         firstName: User
         lastName: WithoutAssign
-        password: 'SdFLl3Y/s0SkkLEWz0N4er9Ho55A8VWALDA6tv6r5iJKzcD7TKWMTu3/APfy1/XvbWIpfelMgUq99m5cFs3xrg=='
-        salt: eu22n0pporw4ogoowkwcogco888owks
+        password: <userPassword(@user_without_assign->username)>
         organization: '@organization'
         organizations: ['@organization']
         owner: '@business_unit'
@@ -47,8 +44,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     user1:
         email: 'user1@example.org'
         username: 'user1@example.org'
-        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
-        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
+        password: <userPassword(@user1->username)>
         firstName: 'CustomerUser'
         lastName: 'One'
         enabled: '1'

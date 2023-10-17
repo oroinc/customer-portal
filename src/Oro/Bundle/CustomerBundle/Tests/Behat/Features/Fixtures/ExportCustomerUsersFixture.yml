@@ -12,8 +12,7 @@ Oro\Bundle\UserBundle\Entity\User:
         email: user2@example.com
         firstName: New
         lastName: Owner
-        password: password
-        salt: salt
+        password: <userPassword(@second_user->username)>
         organization: '@organization'
         owner: '@business_unit'
 
@@ -31,8 +30,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     amanda:
         email: 'AmandaRCole@example.org'
         username: 'AmandaRCole@example.org'
-        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
-        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
+        password: <userPassword(@amanda->username)>
         firstName: 'Amanda'
         lastName: 'Cole'
         middleName: 'Middle Co'
@@ -48,8 +46,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     branda:
         email: 'BrandaJSanborn@example.org'
         username: 'BrandaJSanborn@example.org'
-        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
-        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
+        password: <userPassword(@branda->username)>
         firstName: 'Branda'
         lastName: 'Sanborn'
         birthday: <(new \DateTime('1990-10-02 12:00'))>
@@ -63,8 +60,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     ruth:
         email: 'RuthWMaxwell@example.org'
         username: 'RuthWMaxwell@example.org'
-        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
-        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
+        password: <userPassword(@ruth->username)>
         firstName: 'Ruth'
         lastName: 'Maxwell'
         middleName: 'Middle Max'

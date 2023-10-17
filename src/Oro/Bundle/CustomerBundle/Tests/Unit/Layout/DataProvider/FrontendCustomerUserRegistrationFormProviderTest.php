@@ -67,11 +67,10 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         );
     }
 
-    public function testGetRegisterFormView()
+    public function testGetRegisterFormView(): void
     {
         $action = 'form_action';
 
-        $defaultOwnerId = 1;
         $defaultRole = new CustomerUserRole('');
 
         $organization = $this->getEntity(Organization::class);
@@ -85,71 +84,60 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
             ->method('createView')
             ->willReturn($formView);
 
-        $this->prepare($defaultOwnerId, $website, $defaultRole, $form, $action, $owner);
+        $this->prepare(1, $website, $defaultRole, $form, $action, $owner);
 
         $actual = $this->dataProvider->getRegisterFormView();
 
         $this->assertInstanceOf(FormView::class, $actual);
     }
 
-    public function testGetRegisterFormViewOwnerEmpty()
+    public function testGetRegisterFormViewOwnerEmpty(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Application Owner is empty');
 
-        $defaultOwnerId = false;
-
-        $this->prepare($defaultOwnerId);
+        $this->prepare(null, false);
 
         $this->dataProvider->getRegisterFormView();
     }
 
-    public function testGetRegisterFormViewWebsiteEmpty()
+    public function testGetRegisterFormViewWebsiteEmpty(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Website is empty');
 
-        $defaultOwnerId = 1;
-        $website = false;
-
-        $this->prepare($defaultOwnerId, $website);
+        $this->prepare(1);
 
         $this->dataProvider->getRegisterFormView();
     }
 
-    public function testGetRegisterFormViewOrganizationEmpty()
+    public function testGetRegisterFormViewOrganizationEmpty(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Website organization is empty');
 
-        $defaultOwnerId = 1;
-        $website = $this->getEntity(WebsiteStub::class);
-
-        $this->prepare($defaultOwnerId, $website);
+        $this->prepare(1, $this->getEntity(WebsiteStub::class));
 
         $this->dataProvider->getRegisterFormView();
     }
 
-    public function testGetRegisterFormViewEmptyRole()
+    public function testGetRegisterFormViewEmptyRole(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Role "ROLE_USER" was not found');
 
-        $defaultOwnerId = 1;
-        $defaultRole = false;
         $organization = $this->getEntity(Organization::class);
         $website = $this->getEntity(WebsiteStub::class, ['organization' => $organization]);
 
-        $this->prepare($defaultOwnerId, $website, $defaultRole);
+        $this->prepare(1, $website, false);
 
         $this->dataProvider->getRegisterFormView();
     }
 
-    public function testGetRegisterForm()
+    public function testGetRegisterForm(): void
     {
         $action = 'form_action';
 
-        $defaultOwnerId = 1;
         $defaultRole = new CustomerUserRole('');
 
         $organization = $this->getEntity(Organization::class);
@@ -158,82 +146,64 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
 
         $form = $this->createMock(FormInterface::class);
 
-        $this->prepare($defaultOwnerId, $website, $defaultRole, $form, $action, $owner);
+        $this->prepare(1, $website, $defaultRole, $form, $action, $owner);
 
         $actual = $this->dataProvider->getRegisterForm();
 
         $this->assertInstanceOf(FormInterface::class, $actual);
     }
 
-    public function testGetRegisterFormOwnerEmpty()
+    public function testGetRegisterFormOwnerEmpty(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Application Owner is empty');
 
-        $defaultOwnerId = false;
-
-        $this->prepare($defaultOwnerId);
+        $this->prepare(false, false);
 
         $this->dataProvider->getRegisterForm();
     }
 
-    public function testGetRegisterFormWebsiteEmpty()
+    public function testGetRegisterFormWebsiteEmpty(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Website is empty');
 
-        $defaultOwnerId = 1;
-        $website = false;
-
-        $this->prepare($defaultOwnerId, $website);
+        $this->prepare(1);
 
         $this->dataProvider->getRegisterForm();
     }
 
-    public function testGetRegisterFormOrganizationEmpty()
+    public function testGetRegisterFormOrganizationEmpty(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Website organization is empty');
 
-        $defaultOwnerId = 1;
-        $website = $this->getEntity(WebsiteStub::class);
-
-        $this->prepare($defaultOwnerId, $website);
+        $this->prepare(1, $this->getEntity(WebsiteStub::class));
 
         $this->dataProvider->getRegisterForm();
     }
 
-    public function testGetRegisterFormEmptyRole()
+    public function testGetRegisterFormEmptyRole(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Role "ROLE_USER" was not found');
 
-        $defaultOwnerId = 1;
-        $defaultRole = false;
         $organization = $this->getEntity(Organization::class);
         $website = $this->getEntity(WebsiteStub::class, ['organization' => $organization]);
 
-        $this->prepare($defaultOwnerId, $website, $defaultRole);
+        $this->prepare(1, $website, false);
 
         $this->dataProvider->getRegisterForm();
     }
 
-    /**
-     * @param int $defaultOwnerId
-     * @param WebsiteStub $website
-     * @param CustomerUserRole $defaultRole
-     * @param FormInterface|null $form
-     * @param string $routerAction
-     * @param User|null $owner
-     */
     private function prepare(
-        $defaultOwnerId,
-        $website = null,
-        $defaultRole = null,
-        FormInterface $form = null,
-        $routerAction = null,
-        User $owner = null
-    ) {
+        int|false|null $defaultOwnerId,
+        Website|false|null $website = null,
+        CustomerUserRole|false|null $defaultRole = null,
+        ?FormInterface $form = null,
+        ?string $routerAction = null,
+        ?User $owner = null
+    ): void {
         $this->configureDefaultOwner($defaultOwnerId);
         $this->configureCurrentWebsite($website);
         if ($defaultRole) {
@@ -244,10 +214,7 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $this->configureUserRepoFind($owner, $defaultOwnerId);
     }
 
-    /**
-     * @param int $ownerId
-     */
-    private function configureDefaultOwner($ownerId)
+    private function configureDefaultOwner(?int $ownerId): void
     {
         $this->configManager->expects($this->once())
             ->method('get')
@@ -255,28 +222,21 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
             ->willReturn($ownerId);
     }
 
-    /**
-     * @param Website|bool|null $website
-     */
-    private function configureCurrentWebsite($website = null)
+    private function configureCurrentWebsite(Website|false|null $website = null): void
     {
-        if ($website === null) {
-            $this->websiteManager->expects($this->never())
-                ->method('getCurrentWebsite');
-        } else {
+        if (false !== $website) {
             $this->websiteManager->expects($this->once())
                 ->method('getCurrentWebsite')
                 ->willReturn($website);
+        } else {
+            $this->websiteManager->expects($this->never())
+                ->method('getCurrentWebsite');
         }
     }
 
-    /**
-     * @param User|null $owner
-     * @param int|null $ownerId
-     */
-    private function configureUserRepoFind(User $owner = null, $ownerId = null)
+    private function configureUserRepoFind(?User $owner = null, ?int $ownerId = null): void
     {
-        if ($owner === null) {
+        if (null === $owner) {
             $this->em->expects($this->never())
                 ->method('find');
         } else {
@@ -287,9 +247,9 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         }
     }
 
-    private function configureCreateForm(FormInterface $formToCreate = null)
+    private function configureCreateForm(FormInterface $formToCreate = null): void
     {
-        if ($formToCreate === null) {
+        if (null === $formToCreate) {
             $this->formFactory->expects($this->never())
                 ->method('create');
         } else {
@@ -300,12 +260,9 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         }
     }
 
-    /**
-     * @param string|null $action
-     */
-    private function configureRouterGenerator($action = null)
+    private function configureRouterGenerator(?string $action = null): void
     {
-        if ($action === null) {
+        if (null === $action) {
             $this->router->expects($this->never())
                 ->method('generate');
         } else {

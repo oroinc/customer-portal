@@ -8,7 +8,7 @@ use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Test\Functional\RolePermissionExtension;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 /**
  * @dbIsolationPerTest
@@ -140,10 +140,12 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         self::assertEmpty($customerUser->getPlainPassword());
         self::assertNotEmpty($customerUser->getPassword());
         self::assertNotEmpty($customerUser->getSalt());
-        /** @var PasswordEncoderInterface $passwordEncoder */
-        $passwordEncoder = self::getContainer()->get('security.encoder_factory')->getEncoder($customerUser);
+        /** @var PasswordHasherInterface $passwordHasher */
+        $passwordHasher = self::getContainer()->get('security.password_hasher_factory')->getPasswordHasher(
+            $customerUser
+        );
         self::assertTrue(
-            $passwordEncoder->isPasswordValid(
+            $passwordHasher->verify(
                 $customerUser->getPassword(),
                 $data['data']['attributes']['password'],
                 $customerUser->getSalt()

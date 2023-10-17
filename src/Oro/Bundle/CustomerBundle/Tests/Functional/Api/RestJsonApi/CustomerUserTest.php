@@ -9,7 +9,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadWebsiteData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 /**
  * @group CommunityEdition
@@ -115,10 +115,12 @@ class CustomerUserTest extends RestJsonApiTestCase
         self::assertEmpty($customerUser->getPlainPassword());
         self::assertNotEmpty($customerUser->getPassword());
         self::assertNotEmpty($customerUser->getSalt());
-        /** @var PasswordEncoderInterface $passwordEncoder */
-        $passwordEncoder = self::getContainer()->get('security.encoder_factory')->getEncoder($customerUser);
+        /** @var PasswordHasherInterface $passwordHasher */
+        $passwordHasher = self::getContainer()->get('security.password_hasher_factory')->getPasswordHasher(
+            $customerUser
+        );
         self::assertTrue(
-            $passwordEncoder->isPasswordValid(
+            $passwordHasher->verify(
                 $customerUser->getPassword(),
                 $data['data']['attributes']['password'],
                 $customerUser->getSalt()

@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Config;
 
+use Doctrine\Common\Util\ClassUtils;
 use Oro\Bundle\ConfigBundle\Config\AbstractScopeManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAwareInterface;
@@ -9,54 +10,72 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
- * Customer scope manager for configuration on customer level.
+ * The manager for configuration on customer level.
  */
 class CustomerScopeManager extends AbstractScopeManager
 {
-    private ?int $scopeId = null;
-
     private TokenStorageInterface $tokenStorage;
+    private int $scopeId = 0;
 
+    public function setTokenStorage(TokenStorageInterface $tokenStorage): void
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getScopedEntityName(): string
     {
         return 'customer';
     }
 
-    public function getScopeId(): ?int
+    /**
+     * {@inheritDoc}
+     */
+    public function getScopeId(): int
     {
         $this->ensureScopeIdInitialized();
 
         return $this->scopeId;
     }
 
-    public function setScopeId($scopeId): void
+    /**
+     * {@inheritDoc}
+     */
+    public function setScopeId(?int $scopeId): void
     {
         $this->dispatchScopeIdChangeEvent();
 
-        $this->scopeId = $scopeId;
+        $this->scopeId = $scopeId ?? 0;
     }
 
-    protected function isSupportedScopeEntity($entity): bool
+    /**
+     * {@inheritDoc}
+     */
+    protected function isSupportedScopeEntity(object $entity): bool
     {
         return
             $entity instanceof Customer
             || ($entity instanceof CustomerAwareInterface && null !== $entity->getCustomer());
     }
 
-    protected function getScopeEntityIdValue($entity): int
+    /**
+     * {@inheritDoc}
+     */
+    protected function getScopeEntityIdValue(object $entity): int
     {
         if ($entity instanceof Customer) {
-            return $entity->getId();
+            return (int)$entity->getId();
         }
         if ($entity instanceof CustomerAwareInterface) {
             $customer = $entity->getCustomer();
-            if (null === $customer) {
-                throw new \LogicException(sprintf('"%s" does not have a customer.', \get_class($entity)));
+            if (null !== $customer) {
+                return (int)$customer->getId();
             }
-
-            return $customer->getId();
+            throw new \LogicException(sprintf('"%s" does not have a customer.', ClassUtils::getClass($entity)));
         }
-        throw new \LogicException(sprintf('"%s" is not supported.', \get_class($entity)));
+        throw new \LogicException(sprintf('"%s" is not supported.', ClassUtils::getClass($entity)));
     }
 
     /**
@@ -64,23 +83,14 @@ class CustomerScopeManager extends AbstractScopeManager
      */
     protected function ensureScopeIdInitialized(): void
     {
-        if (!$this->scopeId) {
-            $scopeId = 0;
-
+        if (0 === $this->scopeId) {
             $token = $this->tokenStorage->getToken();
             if (null !== $token) {
                 $user = $token->getUser();
-                if ($user instanceof CustomerUserInterface && $user->getCustomer()) {
-                    $scopeId = $user->getCustomer()->getId() ?: $scopeId;
+                if ($user instanceof CustomerUserInterface && null !== $user->getCustomer()) {
+                    $this->scopeId = $user->getCustomer()->getId();
                 }
             }
-
-            $this->scopeId = $scopeId;
         }
-    }
-
-    public function setTokenStorage(TokenStorageInterface $tokenStorage): void
-    {
-        $this->tokenStorage = $tokenStorage;
     }
 }

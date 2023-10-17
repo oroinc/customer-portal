@@ -52,5 +52,38 @@
         .grid__column {
             padding-left: $customer-info-grid-column-offset-inner-left;
         }
+
+        &__table {
+            display: block;
+
+            > tbody {
+                display: block;
+                width: 100%;
+            }
+
+            .customer-info-grid__element,
+            .customer-info-grid__element-label,
+            .customer-info-grid__element-content {
+                display: block;
+                width: 100%;
+            }
+
+            .customer-info-grid__element {
+                padding: $customer-info-grid-element-inner-offset-tablet-small;
+            }
+
+            .customer-info-grid__element-label {
+                padding: $customer-info-grid-element-label-inner-offset-tablet-small;
+            }
+
+            .customer-info-grid__element-content {
+                padding: 0;
+            }
+
+            .order-shipping-tracking-table,
+            .oro-datagrid {
+                margin: 0;
+            }
+        }
     }
 }
