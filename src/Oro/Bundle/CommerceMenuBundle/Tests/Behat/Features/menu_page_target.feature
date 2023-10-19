@@ -61,7 +61,7 @@ Feature: Menu Page Target
     And I go to Marketing / Web Catalogs
     And I click view Default Web Catalog in grid
     And I click "Edit Content Tree"
-    And I click "Clearance"
+    And I click on "Clearance"
     Given I uncheck "Inherit Parent" element
     And I fill "Content Node Form" with:
       | Content Node Restrictions Customer | Company A |
