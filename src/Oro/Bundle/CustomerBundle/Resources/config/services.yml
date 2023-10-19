@@ -1228,14 +1228,6 @@ services:
             - { name: kernel.event_listener, event: oro_ui.scroll_data.before.customer-user-edit, method: onEntityEdit }
             - { name: kernel.event_listener, event: oro_ui.scroll_data.before.customer-user-view, method: onEntityView }
 
-    oro_customer.listener.email_body_add:
-        class: Oro\Bundle\CustomerBundle\EventListener\EmailBodyAddListener
-        arguments:
-            - '@doctrine'
-            - '@oro_activity.manager'
-        tags:
-            - { name: kernel.event_listener, event: oro_email.email_body_added, method: linkToCustomerUser }
-
     oro_customer.provider.customer_config_form_provider:
         class: Oro\Bundle\CustomerBundle\Provider\CustomerConfigurationFormProvider
         parent: oro_config.provider.abstract_provider
