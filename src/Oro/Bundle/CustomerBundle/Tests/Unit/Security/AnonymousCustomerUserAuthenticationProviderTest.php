@@ -41,18 +41,21 @@ class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit\Framework
         );
     }
 
-    public function testSupportsValid()
+    public function testSupportsForNotAnonymousCustomerUserToken(): void
     {
-        $this->assertTrue(
-            $this->provider->supports(new AnonymousCustomerUserToken('User'))
-        );
+        self::assertFalse($this->provider->supports($this->createMock(TokenInterface::class)));
     }
 
-    public function testSupportsInvalid()
+    public function testSupportsForAnonymousCustomerUserTokenWithoutCredentials(): void
     {
-        $this->assertFalse(
-            $this->provider->supports($this->createMock(TokenInterface::class))
-        );
+        self::assertFalse($this->provider->supports(new AnonymousCustomerUserToken('User')));
+    }
+
+    public function testSupportsForAnonymousCustomerUserTokenWithCredentials(): void
+    {
+        $token = new AnonymousCustomerUserToken('User');
+        $token->setCredentials(['visitor_id'=> 1, 'session_id'=> 'test_session']);
+        self::assertTrue($this->provider->supports($token));
     }
 
     public function testAuthenticate()

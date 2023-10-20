@@ -11,6 +11,7 @@ use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\OwnerTreeListenerPass
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\RolesChangeListenerPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Security\AnonymousCustomerUserFactory;
+use Oro\Bundle\CustomerBundle\DependencyInjection\Security\ApiAnonymousCustomerUserFactory;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -21,7 +22,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class OroCustomerBundle extends Bundle
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function build(ContainerBuilder $container)
     {
@@ -40,6 +41,7 @@ class OroCustomerBundle extends Bundle
 
         $extension = $container->getExtension('security');
         $extension->addSecurityListenerFactory(new AnonymousCustomerUserFactory());
+        $extension->addSecurityListenerFactory(new ApiAnonymousCustomerUserFactory());
     }
 
     /**
