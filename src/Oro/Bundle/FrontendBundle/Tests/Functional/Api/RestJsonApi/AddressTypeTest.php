@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Functional\Api\RestJsonApi;
 
+use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadAdminCustomerUserData;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 
 class AddressTypeTest extends FrontendRestJsonApiTestCase
@@ -9,8 +10,7 @@ class AddressTypeTest extends FrontendRestJsonApiTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->enableVisitor();
-        $this->loadVisitor();
+        $this->loadFixtures([LoadAdminCustomerUserData::class]);
     }
 
     public function testGetList()
@@ -18,7 +18,6 @@ class AddressTypeTest extends FrontendRestJsonApiTestCase
         $response = $this->cget(
             ['entity' => 'addresstypes']
         );
-
         $this->assertResponseContains('cget_address_type.yml', $response);
     }
 
@@ -28,7 +27,6 @@ class AddressTypeTest extends FrontendRestJsonApiTestCase
             ['entity' => 'addresstypes'],
             ['filter' => ['id' => 'billing,shipping']]
         );
-
         $this->assertResponseContains('cget_address_type_filter_ids.yml', $response);
     }
 
@@ -37,7 +35,6 @@ class AddressTypeTest extends FrontendRestJsonApiTestCase
         $response = $this->get(
             ['entity' => 'addresstypes', 'id' => 'shipping']
         );
-
         $this->assertResponseContains('get_address_type.yml', $response);
     }
 
@@ -49,7 +46,6 @@ class AddressTypeTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-
         self::assertAllowResponseHeader($response, 'OPTIONS, GET');
     }
 
@@ -61,7 +57,6 @@ class AddressTypeTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-
         self::assertAllowResponseHeader($response, 'OPTIONS, GET');
     }
 
@@ -73,7 +68,6 @@ class AddressTypeTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-
         self::assertAllowResponseHeader($response, 'OPTIONS, GET');
     }
 
@@ -85,7 +79,6 @@ class AddressTypeTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-
         self::assertAllowResponseHeader($response, 'OPTIONS, GET');
     }
 }

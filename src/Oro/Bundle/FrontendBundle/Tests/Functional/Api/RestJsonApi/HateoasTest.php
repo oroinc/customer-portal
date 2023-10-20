@@ -16,8 +16,7 @@ class HateoasTest extends FrontendRestJsonApiTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->enableVisitor();
-        $this->loadVisitor();
+        $this->initializeVisitor();
     }
 
     private function loadProductEntities()

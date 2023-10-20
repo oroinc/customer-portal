@@ -40,6 +40,7 @@ security:
                 realm:    'Secured Frontend API'
                 profile:  'UsernameToken'
             anonymous_customer_user: true
+            api_anonymous_customer_user: true
         frontend:
             pattern:                        ^/
             provider:                       commerce_customer_user

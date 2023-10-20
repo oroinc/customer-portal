@@ -9,17 +9,12 @@ use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
-use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\ReflectionUtil;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTrait;
-
-    private const ENTITY_ID = 3;
-    private const SESSION_ID = 5;
-    private const UPDATE_LATENCY = 500;
-
     /** @var CustomerVisitorManager|\PHPUnit\Framework\MockObject\MockObject */
     private $visitorManager;
 
@@ -40,43 +35,85 @@ class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit\Framework
         );
     }
 
-    public function testSupportsValid()
+    public function testSupportsForNotAnonymousCustomerUserToken(): void
     {
-        $this->assertTrue(
-            $this->provider->supports(new AnonymousCustomerUserToken('User'))
-        );
+        self::assertFalse($this->provider->supports($this->createMock(TokenInterface::class)));
     }
 
-    public function testSupportsInvalid()
+    public function testSupportsForAnonymousCustomerUserTokenWithoutCredentials(): void
     {
-        $this->assertFalse(
-            $this->provider->supports($this->createMock(TokenInterface::class))
-        );
+        self::assertFalse($this->provider->supports(new AnonymousCustomerUserToken('User')));
     }
 
-    public function testAuthenticate()
+    public function testSupportsForAnonymousCustomerUserTokenWithCredentials(): void
     {
+        $token = new AnonymousCustomerUserToken('User');
+        $token->setCredentials(['visitor_id'=> 1, 'session_id'=> 'test_session']);
+        self::assertTrue($this->provider->supports($token));
+    }
+
+    public function testAuthenticateWhenNoCurrentWebsite(): void
+    {
+        $this->expectException(AuthenticationException::class);
+        $this->expectExceptionMessage('The current website cannot be found.');
+
         $token = new AnonymousCustomerUserToken('User', ['ROLE_FOO', 'ROLE_BAR']);
-        $token->setCredentials(['visitor_id'=> self::ENTITY_ID, 'session_id'=> self::SESSION_ID]);
-        $visitor = $this->getEntity(
-            CustomerVisitor::class,
-            ['id' => self::ENTITY_ID, 'session_id' => self::SESSION_ID]
-        );
+        $token->setCredentials(['visitor_id'=> 1, 'session_id'=> 'test_session']);
 
-        $this->visitorManager->expects($this->once())
-            ->method('findOrCreate')
-            ->with(self::ENTITY_ID, self::SESSION_ID)
-            ->willReturn($visitor);
+        $this->websiteManager->expects(self::once())
+            ->method('getCurrentWebsite')
+            ->willReturn(null);
+
+        $this->visitorManager->expects(self::never())
+            ->method('findOrCreate');
+
+        $this->provider->authenticate($token);
+    }
+
+    public function testAuthenticateWhenCurrentWebsiteDoesNotHaveOrganization(): void
+    {
+        $this->expectException(AuthenticationException::class);
+        $this->expectExceptionMessage('The current website is not assigned to an organization.');
+
+        $token = new AnonymousCustomerUserToken('User', ['ROLE_FOO', 'ROLE_BAR']);
+        $token->setCredentials(['visitor_id'=> 1, 'session_id'=> 'test_session']);
+
+        $this->websiteManager->expects(self::once())
+            ->method('getCurrentWebsite')
+            ->willReturn(new Website());
+
+        $this->visitorManager->expects(self::never())
+            ->method('findOrCreate');
+
+        $this->provider->authenticate($token);
+    }
+
+    public function testAuthenticate(): void
+    {
+        $entityId = 1;
+        $sessionId = 'test_session';
+
+        $token = new AnonymousCustomerUserToken('User', ['ROLE_FOO', 'ROLE_BAR']);
+        $token->setCredentials(['visitor_id'=> $entityId, 'session_id'=> $sessionId]);
+
+        $visitor = new CustomerVisitor();
+        ReflectionUtil::setId($visitor, $entityId);
+        $visitor->setSessionId($sessionId);
 
         $organization = new Organization();
         $website = new Website();
         $website->setOrganization($organization);
 
-        $this->websiteManager->expects($this->once())
+        $this->websiteManager->expects(self::once())
             ->method('getCurrentWebsite')
             ->willReturn($website);
 
-        $this->assertEquals(
+        $this->visitorManager->expects(self::once())
+            ->method('findOrCreate')
+            ->with($entityId, $sessionId)
+            ->willReturn($visitor);
+
+        self::assertEquals(
             new AnonymousCustomerUserToken(
                 'User',
                 ['ROLE_FOO', 'ROLE_BAR'],
