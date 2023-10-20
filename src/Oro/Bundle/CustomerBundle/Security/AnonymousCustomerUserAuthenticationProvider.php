@@ -29,7 +29,7 @@ class AnonymousCustomerUserAuthenticationProvider implements AuthenticationProvi
      */
     public function supports(TokenInterface $token)
     {
-        return $token instanceof AnonymousCustomerUserToken;
+        return $token instanceof AnonymousCustomerUserToken && $token->getCredentials();
     }
 
     /**
