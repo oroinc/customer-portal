@@ -144,6 +144,17 @@ system_configuration:
                 choices:
                     oro.customer.system_configuration.fields.maps_enabled.option.yes.label: 1
                     oro.customer.system_configuration.fields.maps_enabled.option.no.label: 0
+        oro_customer.non_authenticated_visitors_api:
+            data_type: boolean
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
+            options:
+                label: oro.customer.system_configuration.fields.non_authenticated_visitors_api.label
+                tooltip: oro.customer.system_configuration.fields.non_authenticated_visitors_api.tooltip
+                required: false
+                attr:
+                    'data-page-component-module': 'orosale/js/app/components/dependent-field-component'
+                    'data-depend-on': 'frontend_web_api'
+                    'data-show-if': 'checked'
         oro_customer.api_key_generation_enabled:
             data_type: boolean
             type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
@@ -208,6 +219,11 @@ system_configuration:
                 children:
                     general_setup:
                         children:
+                            application_settings:
+                                children:
+                                    web_api_settings:
+                                        children:
+                                            - oro_customer.non_authenticated_visitors_api
                             look_and_feel:
                                 children:
                                     map_settings:
