@@ -14,6 +14,8 @@ services:
         arguments:
             - '@oro_locale.helper.localization'
             - '@oro_commerce_menu.provider.menu_update_provider'
+        calls:
+            - [setEventDispatcher, ['@event_dispatcher']]
         tags:
             - { name: oro_menu.builder, priority: 200 }
 
@@ -207,6 +209,8 @@ services:
             - '@oro_web_catalog.request_web_content_scope_provider'
             - '@oro_scope.scope_manager'
             - '@oro_locale.helper.localization'
+        calls:
+            - ['setUriHandler', ['@oro_commerce_menu.handler.sub_folder_uri']]
         tags:
             - { name: oro_menu.builder, priority: 205 }
 
@@ -226,3 +230,20 @@ services:
             - '@oro_navigation.menu_update.cache'
         tags:
             - { name: doctrine.event_listener, event: postRemove }
+
+    oro_commerce_menu.handler.sub_folder_uri:
+        class: Oro\Bundle\CommerceMenuBundle\Handler\SubFolderUriHandler
+        arguments:
+            - '@request_stack'
+            - '@oro_ui.tools.url_helper'
+
+    oro_commerce_menu.event_listener.sub_folder_menu_updates_apply_before:
+        class: Oro\Bundle\CommerceMenuBundle\EventListener\SubFolderMenuUpdatesApplyBeforeListener
+        arguments:
+            - '@oro_commerce_menu.handler.sub_folder_uri'
+        tags:
+            -
+                name: kernel.event_listener
+                event: Oro\Bundle\NavigationBundle\Event\MenuUpdatesApplyBeforeEvent
+                method: onMenuUpdatesApplyBefore
+                priority: 255

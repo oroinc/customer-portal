@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CommerceMenuBundle\Builder;
 
 use Knp\Menu\ItemInterface;
+use Oro\Bundle\CommerceMenuBundle\Handler\SubFolderUriHandler;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
 use Oro\Bundle\ScopeBundle\Manager\ScopeManager;
@@ -23,6 +24,9 @@ class ContentNodeTargetBuilder implements BuilderInterface
     /** @var ScopeManager */
     private $scopeManager;
 
+    /** @var SubFolderUriHandler */
+    private $uriHandler;
+
     public function __construct(
         RequestWebContentScopeProvider $requestWebContentScopeProvider,
         ScopeManager $scopeManager,
@@ -31,6 +35,11 @@ class ContentNodeTargetBuilder implements BuilderInterface
         $this->requestWebContentScopeProvider = $requestWebContentScopeProvider;
         $this->localizationHelper = $localizationHelper;
         $this->scopeManager = $scopeManager;
+    }
+
+    public function setUriHandler(SubFolderUriHandler $uriHandler): void
+    {
+        $this->uriHandler = $uriHandler;
     }
 
     /**
@@ -58,8 +67,7 @@ class ContentNodeTargetBuilder implements BuilderInterface
         }
 
         if ($this->isScopeMatches($contentNode)) {
-            $url = $this->localizationHelper->getLocalizedValue($contentNode->getLocalizedUrls());
-            $menuItem->setUri($url);
+            $menuItem->setUri($this->getUri($contentNode));
         } else {
             $menuItem->setDisplay(false);
         }
@@ -83,5 +91,11 @@ class ContentNodeTargetBuilder implements BuilderInterface
         }
 
         return $scopeMatched;
+    }
+
+    private function getUri(ContentNode $contentNode): string
+    {
+        $uri = $this->localizationHelper->getLocalizedValue($contentNode->getLocalizedUrls());
+        return $this->uriHandler?->hasSubFolder() ? $this->uriHandler->handle($uri) : $uri;
     }
 }

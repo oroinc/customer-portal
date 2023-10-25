@@ -6,12 +6,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Builder\ContentNodeTargetBuilder;
+use Oro\Bundle\CommerceMenuBundle\Handler\SubFolderUriHandler;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\ScopeBundle\Entity\Scope;
 use Oro\Bundle\ScopeBundle\Manager\ScopeManager;
 use Oro\Bundle\ScopeBundle\Model\ScopeCriteria;
+use Oro\Bundle\UIBundle\Tools\UrlHelper;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Bundle\WebCatalogBundle\Provider\RequestWebContentScopeProvider;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\UrlHelper as SymfonyUrlHelper;
+use Symfony\Component\Routing\RequestContext;
 
 class ContentNodeTargetBuilderTest extends \PHPUnit\Framework\TestCase
 {
@@ -103,6 +109,56 @@ class ContentNodeTargetBuilderTest extends \PHPUnit\Framework\TestCase
         $menuItem->expects($this->once())
             ->method('setUri')
             ->with($uri);
+
+        $this->builder->build($menuItem);
+    }
+
+    public function testBuildWhenNoContentNodeScopesAndHasSubFolder(): void
+    {
+        $websitePath = '/es';
+        $baseUrl = $websitePath.'/index.php';
+        $requestStack = $this->createMock(RequestStack::class);
+        $requestContext = new RequestContext();
+        $urlHelper = new UrlHelper(
+            new SymfonyUrlHelper($requestStack),
+            $requestStack,
+            $requestContext,
+        );
+        $uriHandler = new SubFolderUriHandler($requestStack, $urlHelper);
+        $request = Request::create('', server: ['WEBSITE_PATH' => $websitePath]);
+        $requestStack->expects($this->any())
+            ->method('getMainRequest')
+            ->willReturn($request);
+        $requestContext->setBaseUrl($baseUrl);
+        $this->builder->setUriHandler($uriHandler);
+
+        $menuItem = $this->createMock(ItemInterface::class);
+        $menuItem->expects($this->once())
+            ->method('isDisplayed')
+            ->willReturn(true);
+        $menuItem->expects($this->once())
+            ->method('getChildren')
+            ->willReturn([]);
+        $menuItem->expects($this->once())
+            ->method('getExtra')
+            ->with('content_node')
+            ->willReturn($contentNode = $this->createMock(ContentNode::class));
+
+        $contentNode->expects($this->once())
+            ->method('getScopesConsideringParent')
+            ->willReturn($scopes = new ArrayCollection([]));
+        $contentNode->expects($this->once())
+            ->method('getLocalizedUrls')
+            ->willReturn($urls = $this->createMock(Collection::class));
+
+        $this->localizationHelper->expects($this->once())
+            ->method('getLocalizedValue')
+            ->with($urls)
+            ->willReturn($uri = '/sample/uri');
+
+        $menuItem->expects($this->once())
+            ->method('setUri')
+            ->with($baseUrl.$uri);
 
         $this->builder->build($menuItem);
     }
