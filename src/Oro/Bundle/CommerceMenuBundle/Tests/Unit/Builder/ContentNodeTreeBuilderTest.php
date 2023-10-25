@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Builder\ContentNodeTreeBuilder;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
+use Oro\Bundle\CommerceMenuBundle\Handler\SubFolderUriHandler;
 use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\LocaleBundle\Tools\LocalizedFallbackValueHelper;
@@ -29,6 +30,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
     use MenuItemTestTrait;
 
     private MenuContentNodesProviderInterface $menuContentNodesProvider;
+    private SubFolderUriHandler $uriHandler;
 
     private ContentNodeTreeBuilder $builder;
 
@@ -37,11 +39,13 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
         $managerRegistry = $this->createMock(ManagerRegistry::class);
         $this->menuContentNodesProvider = $this->createMock(MenuContentNodesProviderInterface::class);
         $localizationHelper = $this->createMock(LocalizationHelper::class);
+        $this->uriHandler = $this->createMock(SubFolderUriHandler::class);
 
         $this->builder = new ContentNodeTreeBuilder(
             $managerRegistry,
             $this->menuContentNodesProvider,
-            $localizationHelper
+            $localizationHelper,
+            $this->uriHandler,
         );
 
         $entityManager = $this->createMock(EntityManager::class);
