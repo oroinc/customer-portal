@@ -40,6 +40,7 @@ class OroCustomerExtensionTest extends \PHPUnit\Framework\TestCase
                         'enable_swipe_actions_grids'  => ['value' => true, 'scope' => 'app'],
                         'customer_visitor_cookie_lifetime_days'  => ['value' => 30, 'scope' => 'app'],
                         'maps_enabled'  => ['value' => true, 'scope' => 'app'],
+                        'non_authenticated_visitors_api'  => ['value' => false, 'scope' => 'app'],
                         'api_key_generation_enabled'  => ['value' => true, 'scope' => 'app'],
                         'case_insensitive_email_addresses_enabled'  => ['value' => false, 'scope' => 'app'],
                     ]
@@ -57,11 +58,49 @@ class OroCustomerExtensionTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('auto', $customerVisitorCookieFactoryDef->getArgument(0));
         self::assertTrue($customerVisitorCookieFactoryDef->getArgument(1));
         self::assertEquals('lax', $customerVisitorCookieFactoryDef->getArgument(3));
+
+        self::assertSame(
+            [],
+            $container->getDefinition('oro_customer.authentication.decision_maker.api_anonymous_customer_user')
+                ->getArgument('$apiResources')
+        );
+        self::assertSame(
+            [],
+            $container->getDefinition('oro_customer.api_doc.documentation_provider.non_authenticated_visitors')
+                ->getArgument('$apiResources')
+        );
+    }
+
+    public function testLoadWithNonAuthenticatedVisitorsApiConfig(): void
+    {
+        $config = [
+            'frontend_api' => [
+                'non_authenticated_visitors_api_resources' => ['Test\Entity']
+            ]
+        ];
+
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
+
+        $extension = new OroCustomerExtension();
+        $extension->load([$config], $container);
+
+        self::assertSame(
+            $config['frontend_api']['non_authenticated_visitors_api_resources'],
+            $container->getDefinition('oro_customer.authentication.decision_maker.api_anonymous_customer_user')
+                ->getArgument('$apiResources')
+        );
+        self::assertSame(
+            $config['frontend_api']['non_authenticated_visitors_api_resources'],
+            $container->getDefinition('oro_customer.api_doc.documentation_provider.non_authenticated_visitors')
+                ->getArgument('$apiResources')
+        );
     }
 
     public function testPrepend(): void
     {
         $container = new ExtendedContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
         $container->setExtensionConfig('security', [
             [
                 'firewalls' => [

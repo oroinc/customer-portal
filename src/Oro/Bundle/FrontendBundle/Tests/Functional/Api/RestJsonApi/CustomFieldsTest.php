@@ -11,7 +11,7 @@ class CustomFieldsTest extends FrontendRestJsonApiTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->enableVisitor();
+        $this->initializeVisitor();
         $this->loadFixtures([
             '@OroApiBundle/Tests/Functional/DataFixtures/custom_fields.yml'
         ]);

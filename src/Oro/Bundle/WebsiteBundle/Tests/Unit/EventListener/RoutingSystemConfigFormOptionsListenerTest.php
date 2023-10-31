@@ -3,6 +3,7 @@
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\EventListener;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\ConfigBundle\Config\GlobalScopeManager;
 use Oro\Bundle\ConfigBundle\Event\ConfigSettingsFormOptionsEvent;
 use Oro\Bundle\WebsiteBundle\EventListener\RoutingSystemConfigFormOptionsListener;
 
@@ -25,7 +26,7 @@ class RoutingSystemConfigFormOptionsListenerTest extends \PHPUnit\Framework\Test
     {
         $this->configManager->expects(self::once())
             ->method('getScopeEntityName')
-            ->willReturn('app');
+            ->willReturn(GlobalScopeManager::SCOPE_NAME);
 
         $allFormOptions = ['key1' => ['option1' => 'value1']];
         $event = new ConfigSettingsFormOptionsEvent($this->configManager, $allFormOptions);
@@ -37,7 +38,7 @@ class RoutingSystemConfigFormOptionsListenerTest extends \PHPUnit\Framework\Test
     {
         $this->configManager->expects(self::once())
             ->method('getScopeEntityName')
-            ->willReturn('app');
+            ->willReturn(GlobalScopeManager::SCOPE_NAME);
 
         $allFormOptions = [
             'key1'            => ['option1' => 'value1'],
@@ -69,7 +70,7 @@ class RoutingSystemConfigFormOptionsListenerTest extends \PHPUnit\Framework\Test
     {
         $this->configManager->expects(self::once())
             ->method('getScopeEntityName')
-            ->willReturn('app');
+            ->willReturn(GlobalScopeManager::SCOPE_NAME);
 
         $allFormOptions = [
             'key1'                   => ['option1' => 'value1'],

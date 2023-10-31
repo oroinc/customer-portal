@@ -14,9 +14,12 @@ security:
         commerce_customer_user:
             id: oro_customer.security.provider
 
-    encoders:
-        Oro\Bundle\CustomerBundle\Entity\CustomerUser: sha512
-
+    password_hashers:
+        Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+            # the new hasher, along with its options
+            algorithm: sodium
+            migrate_from:
+                - legacy # uses the "legacy" hasher
     firewalls:
         frontend_api_options:
             pattern: '%oro_api.rest.pattern%'
@@ -37,6 +40,7 @@ security:
                 realm:    'Secured Frontend API'
                 profile:  'UsernameToken'
             anonymous_customer_user: true
+            api_anonymous_customer_user: true
         frontend:
             pattern:                        ^/
             provider:                       commerce_customer_user

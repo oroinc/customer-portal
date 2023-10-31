@@ -27,6 +27,15 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     private bool $isVisitorEnabled = false;
 
     /**
+     * Creates a visitor and prepares it to execute API requests under this visitor.
+     */
+    protected function initializeVisitor(): void
+    {
+        $this->enableVisitor();
+        $this->loadVisitor();
+    }
+
+    /**
      * Enables an authorization as a visitor.
      */
     protected function enableVisitor(): void

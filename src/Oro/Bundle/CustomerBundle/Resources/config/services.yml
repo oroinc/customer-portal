@@ -190,7 +190,7 @@ services:
         arguments:
             - "@oro_customer.security.user_loader"
             - "@doctrine"
-            - "@security.encoder_factory"
+            - '@security.password_hasher_factory'
             - "@oro_config.manager"
             - "@oro_customer_user.manager.mailer_processor_link"
             - "@oro_frontend.request.frontend_helper"
@@ -291,6 +291,29 @@ services:
         tags:
             - { name: monolog.logger, channel: security }
 
+    oro_customer.authentication.listener.api_anonymous_customer_user:
+        class: Oro\Bundle\CustomerBundle\Security\Firewall\ApiAnonymousCustomerUserAuthenticationListener
+        abstract: true
+        arguments:
+            - '@security.token_storage'
+            - '@security.authentication.manager'
+            - '@oro_customer.authentication.anonymous_customer_user_roles_provider'
+            - '@oro_api.request_helper'
+            - '@oro_config.manager'
+            - '@oro_customer.authentication.decision_maker.api_anonymous_customer_user'
+            - '@logger'
+        tags:
+            - { name: monolog.logger, channel: security }
+
+    oro_customer.authentication.decision_maker.api_anonymous_customer_user:
+        class: Oro\Bundle\CustomerBundle\Security\Firewall\ApiAnonymousCustomerUserAuthenticationDecisionMaker
+        lazy: true
+        arguments:
+            - !abstract '$apiResources defined in Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension'
+            - '@oro_api.action_processor_bag'
+            - '@oro_frontend.api.rest.routes'
+            - '@oro_api.error_completer_registry'
+
     oro_customer.authentication.customer_visitor_cookie_factory:
         class: Oro\Bundle\CustomerBundle\Security\Firewall\CustomerVisitorCookieFactory
         arguments:
@@ -306,11 +329,17 @@ services:
             - '@doctrine'
 
     oro_customer.authentication.provider.anonymous_customer_user:
-        class: 'Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserAuthenticationProvider'
+        class: Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserAuthenticationProvider
+        abstract: true
         arguments:
             - '@oro_customer.customer_visitor_manager'
             - '@oro_website.manager'
+
+    oro_customer.authentication.provider.api_anonymous_customer_user:
+        class: Oro\Bundle\CustomerBundle\Security\ApiAnonymousCustomerUserAuthenticationProvider
         abstract: true
+        arguments:
+            - '@oro_website.manager'
 
     oro_customer.customer_user_menu:
         class: 'Oro\Bundle\CustomerBundle\Menu\CustomerUserMenuBuilder'
@@ -1227,14 +1256,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_ui.scroll_data.before.customer-user-edit, method: onEntityEdit }
             - { name: kernel.event_listener, event: oro_ui.scroll_data.before.customer-user-view, method: onEntityView }
-
-    oro_customer.listener.email_body_add:
-        class: Oro\Bundle\CustomerBundle\EventListener\EmailBodyAddListener
-        arguments:
-            - '@doctrine'
-            - '@oro_activity.manager'
-        tags:
-            - { name: kernel.event_listener, event: oro_email.email_body_added, method: linkToCustomerUser }
 
     oro_customer.provider.customer_config_form_provider:
         class: Oro\Bundle\CustomerBundle\Provider\CustomerConfigurationFormProvider

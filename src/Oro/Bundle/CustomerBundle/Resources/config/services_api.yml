@@ -1,13 +1,4 @@
 services:
-    oro_customer.api.validate_customer_new_included_entity_existence:
-        class: Oro\Bundle\ApiBundle\Processor\Shared\ValidateNewIncludedEntityExistence
-        arguments:
-            - '@oro_api.form_property_accessor'
-            - '@translator'
-            - { parent: false, children: true }
-        tags:
-            - { name: oro.api.processor, action: customize_form_data, event: post_validate, class: Oro\Bundle\CustomerBundle\Entity\Customer }
-
     oro_customer.api_doc.security_context:
         class: Oro\Bundle\CustomerBundle\Api\ApiDoc\SecurityContext
         decorates: oro_api.api_doc.security_context
@@ -66,6 +57,25 @@ services:
         tags:
             - { name: oro_frontend.api.resource_api_url_resolver, routeName: oro_customer_frontend_customer_user_profile, requestType: rest }
             - { name: oro_frontend.api.resource_api_url_resolver, routeName: oro_customer_frontend_customer_user_view, requestType: rest }
+
+    oro_customer.api_doc.documentation_provider.non_authenticated_visitors:
+        class: Oro\Bundle\CustomerBundle\Api\ApiDoc\NonAuthenticatedVisitorsDocumentationProvider
+        arguments:
+            - !abstract '$apiResources defined in Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension'
+            - '@oro_config.manager'
+            - '@oro_api.value_normalizer'
+            - '@oro_api.resources_provider'
+        tags:
+            - { name: oro.api.documentation_provider, requestType: frontend&rest, priority: -200 }
+
+    oro_customer.api.validate_customer_new_included_entity_existence:
+        class: Oro\Bundle\ApiBundle\Processor\Shared\ValidateNewIncludedEntityExistence
+        arguments:
+            - '@oro_api.form_property_accessor'
+            - '@translator'
+            - { parent: false, children: true }
+        tags:
+            - { name: oro.api.processor, action: customize_form_data, event: post_validate, class: Oro\Bundle\CustomerBundle\Entity\Customer }
 
     oro_customer.api.reload_logged_in_customer_user:
         class: Oro\Bundle\UserBundle\Api\Processor\ReloadLoggedInUser

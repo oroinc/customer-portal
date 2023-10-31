@@ -97,25 +97,25 @@ Feature: Email templates used for customer user registration
     And I focus on "Birthday" field
     And click "Today"
     And fill form with:
-      | Password           | BrandaJSanborn1@example.org |
-      | Confirm Password   | BrandaJSanborn1@example.org |
-      | Customer           | Company B                   |
-      | Send Welcome Email | true                        |
+      | Password                   | BrandaJSanborn1@example.org |
+      | Confirm Password           | BrandaJSanborn1@example.org |
+      | Customer                   | Company B                   |
+      | Administrator (Predefined) | true                        |
+      | Send Welcome Email         | true                        |
     And fill "Customer User Addresses Form" with:
-      | Primary                    | true          |
-      | First Name Add             | Branda        |
-      | Last Name Add              | Sanborn       |
-      | Organization               | Smoke Org     |
-      | Country                    | United States |
-      | Street                     | Market St. 12 |
-      | City                       | San Francisco |
-      | State                      | California    |
-      | Zip/Postal Code            | 90001         |
-      | Billing                    | true          |
-      | Shipping                   | true          |
-      | Default Billing            | true          |
-      | Default Shipping           | true          |
-      | Administrator (Predefined) | true          |
+      | Primary          | true          |
+      | First Name Add   | Branda        |
+      | Last Name Add    | Sanborn       |
+      | Organization     | Smoke Org     |
+      | Country          | United States |
+      | Street           | Market St. 12 |
+      | City             | San Francisco |
+      | State            | California    |
+      | Zip/Postal Code  | 90001         |
+      | Billing          | true          |
+      | Shipping         | true          |
+      | Default Billing  | true          |
+      | Default Shipping | true          |
     And save and close form
     Then should see "Customer User has been saved" flash message
     And email with Subject "Welcome: Branda Sanborn" containing the following was sent:
@@ -141,25 +141,25 @@ Feature: Email templates used for customer user registration
     And I focus on "Birthday" field
     And click "Today"
     And fill form with:
-      | Password           | LonnieVTownsend1@example.org |
-      | Confirm Password   | LonnieVTownsend1@example.org |
-      | Customer           | Company B                    |
-      | Send Welcome Email | false                        |
+      | Password                   | LonnieVTownsend1@example.org |
+      | Confirm Password           | LonnieVTownsend1@example.org |
+      | Customer                   | Company B                    |
+      | Administrator (Predefined) | true                         |
+      | Send Welcome Email         | false                        |
     And fill "Customer User Addresses Form" with:
-      | Primary                    | true          |
-      | First Name Add             | LonnieV       |
-      | Last Name Add              | Townsend      |
-      | Organization               | Smoke Org     |
-      | Country                    | United States |
-      | Street                     | Market St. 15 |
-      | City                       | San Francisco |
-      | State                      | California    |
-      | Zip/Postal Code            | 90001         |
-      | Billing                    | true          |
-      | Shipping                   | true          |
-      | Default Billing            | true          |
-      | Default Shipping           | true          |
-      | Administrator (Predefined) | true          |
+      | Primary          | true          |
+      | First Name Add   | LonnieV       |
+      | Last Name Add    | Townsend      |
+      | Organization     | Smoke Org     |
+      | Country          | United States |
+      | Street           | Market St. 15 |
+      | City             | San Francisco |
+      | State            | California    |
+      | Zip/Postal Code  | 90001         |
+      | Billing          | true          |
+      | Shipping         | true          |
+      | Default Billing  | true          |
+      | Default Shipping | true          |
     And save and close form
     Then should see "Customer User has been saved" flash message
     And email with Subject "Welcome: LonnieV Townsend" was not sent

@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 /**
- * This listener authenticates anonymous (AKA guest) customer users at frontend
+ * Authenticates anonymous customer users at the storefront.
  */
 class AnonymousCustomerUserAuthenticationListener
 {

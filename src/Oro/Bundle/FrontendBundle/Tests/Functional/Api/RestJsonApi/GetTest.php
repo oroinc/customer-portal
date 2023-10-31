@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendBundle\Tests\Functional\Api\RestJsonApi;
 
 use Oro\Bundle\ApiBundle\Request\ApiAction;
 use Oro\Bundle\ApiBundle\Request\JsonApi\JsonApiDocumentBuilder as JsonApiDoc;
+use Oro\Bundle\ApiBundle\Tests\Functional\CheckSkippedEntityTrait;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 
 /**
@@ -14,17 +15,22 @@ use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
  */
 class GetTest extends FrontendRestJsonApiTestCase
 {
+    use CheckSkippedEntityTrait;
+
     protected function setUp(): void
     {
         parent::setUp();
-        $this->enableVisitor();
-        $this->loadVisitor();
+        $this->initializeVisitor();
     }
 
     public function testRestRequests()
     {
         $this->runForEntities(function (string $entityClass, array $excludedActions) {
             if (in_array(ApiAction::GET_LIST, $excludedActions, true)) {
+                return;
+            }
+
+            if ($this->isSkippedEntity($entityClass, ApiAction::GET_LIST)) {
                 return;
             }
 

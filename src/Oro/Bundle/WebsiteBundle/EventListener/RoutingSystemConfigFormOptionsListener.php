@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\WebsiteBundle\EventListener;
 
+use Oro\Bundle\ConfigBundle\Config\GlobalScopeManager;
 use Oro\Bundle\ConfigBundle\Event\ConfigSettingsFormOptionsEvent;
 
 /**
@@ -13,7 +14,7 @@ class RoutingSystemConfigFormOptionsListener
 {
     public function onFormOptions(ConfigSettingsFormOptionsEvent $event): void
     {
-        if ('app' === $event->getConfigManager()->getScopeEntityName()) {
+        if ($event->getConfigManager()->getScopeEntityName() === GlobalScopeManager::SCOPE_NAME) {
             $this->makeFieldNotResettableIfExists($event, 'oro_website.url');
             $this->makeFieldNotResettableIfExists($event, 'oro_website.secure_url');
         }

@@ -5,7 +5,7 @@
 $fullscreen-popup-display: flex !default;
 $fullscreen-popup-flex-direction: column !default;
 $fullscreen-popup-position: fixed !default;
-$fullscreen-popup-z-index: z('popup') !default;
+$fullscreen-popup-z-index: $zindex-modal !default;
 $fullscreen-popup-top: 0 !default;
 $fullscreen-popup-right: 0 !default;
 $fullscreen-popup-bottom: 0 !default;

@@ -12,23 +12,12 @@ use Symfony\Contracts\Cache\CacheInterface;
  */
 class WebsiteManagerStub extends WebsiteManager
 {
-    /** @var WebsiteManager */
-    private $websiteManager;
-
-    /** @var bool */
-    private $enabled = false;
-
-    /** @var bool */
-    private $stubbingSetCurrentWebsiteEnabled = false;
-
-    /** @var Website|null */
-    private $stubCurrentWebsite;
-
-    /** @var Website|null */
-    private $stubDefaultWebsite;
-
-    /** @var CacheInterface */
-    private $cacheProvider;
+    private WebsiteManager $websiteManager;
+    private CacheInterface $cacheProvider;
+    private bool $enabled = false;
+    private bool $stubbingSetCurrentWebsiteEnabled = false;
+    private ?Website $stubCurrentWebsite = null;
+    private ?Website $stubDefaultWebsite = null;
 
     public function __construct(WebsiteManager $websiteManager, CacheInterface $cacheProvider)
     {
@@ -36,17 +25,17 @@ class WebsiteManagerStub extends WebsiteManager
         $this->websiteManager = $websiteManager;
     }
 
-    public function enableStub()
+    public function enableStub(): void
     {
         $this->enabled = true;
     }
 
-    public function enableSetCurrentWebsiteStubbing()
+    public function enableSetCurrentWebsiteStubbing(): void
     {
         $this->stubbingSetCurrentWebsiteEnabled = true;
     }
 
-    public function disableStub()
+    public function disableStub(): void
     {
         $this->enabled = false;
         $this->stubbingSetCurrentWebsiteEnabled = false;
@@ -56,9 +45,9 @@ class WebsiteManagerStub extends WebsiteManager
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getCurrentWebsite()
+    public function getCurrentWebsite(): ?Website
     {
         if ($this->enabled) {
             return $this->stubCurrentWebsite;
@@ -68,9 +57,9 @@ class WebsiteManagerStub extends WebsiteManager
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getDefaultWebsite()
+    public function getDefaultWebsite(): ?Website
     {
         if ($this->enabled) {
             return $this->stubDefaultWebsite;
@@ -79,7 +68,7 @@ class WebsiteManagerStub extends WebsiteManager
         return $this->websiteManager->getDefaultWebsite();
     }
 
-    public function setCurrentWebsiteStub(Website $currentWebsite = null)
+    public function setCurrentWebsiteStub(Website $currentWebsite = null): void
     {
         if (!$this->enabled) {
             $this->enableStub();
@@ -87,7 +76,7 @@ class WebsiteManagerStub extends WebsiteManager
         $this->stubCurrentWebsite = $currentWebsite;
     }
 
-    public function setDefaultWebsiteStub(Website $defaultWebsite = null)
+    public function setDefaultWebsiteStub(Website $defaultWebsite = null): void
     {
         if (!$this->enabled) {
             $this->enableStub();
@@ -103,14 +92,8 @@ class WebsiteManagerStub extends WebsiteManager
         $this->websiteManager->setCurrentWebsite($currentWebsite);
     }
 
-    /**
-     * @param string $method
-     * @param array  $args
-     *
-     * @return mixed
-     */
-    public function __call($method, $args)
+    public function __call(string $method, array $args): mixed
     {
-        return call_user_func_array([$this->websiteManager, $method], $args);
+        return \call_user_func_array([$this->websiteManager, $method], $args);
     }
 }

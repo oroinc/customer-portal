@@ -65,7 +65,7 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
             $this->cookieFactory,
             $this->rolesProvider,
             $this->apiRequestHelper,
-            $this->logger,
+            $this->logger
         );
     }
 
@@ -74,7 +74,7 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
         return new RequestEvent(
             $this->createMock(HttpKernelInterface::class),
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
     }
 
@@ -92,10 +92,7 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
         return base64_encode(json_encode([$visitor->getId(), $visitor->getSessionId()], JSON_THROW_ON_ERROR));
     }
 
-    /**
-     * @dataProvider handleDataProvider
-     */
-    public function testHandleForAnonymousCustomerUserToken(?AnonymousCustomerUserToken $token): void
+    public function testHandleWhenNoToken(): void
     {
         $visitor = $this->getCustomerVisitor(4, 'someSessionId');
         $createdVisitorCookie = new Cookie(AnonymousCustomerUserAuthenticationListener::COOKIE_NAME);
@@ -111,17 +108,12 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
 
         $this->tokenStorage->expects(self::once())
             ->method('getToken')
-            ->willReturn($token);
+            ->willReturn(null);
 
-        if (null === $token) {
-            $this->apiRequestHelper->expects(self::once())
-                ->method('isApiRequest')
-                ->with('/test')
-                ->willReturn(false);
-        } else {
-            $this->apiRequestHelper->expects(self::never())
-                ->method('isApiRequest');
-        }
+        $this->apiRequestHelper->expects(self::once())
+            ->method('isApiRequest')
+            ->with('/test')
+            ->willReturn(false);
 
         $this->rolesProvider->expects(self::once())
             ->method('getRoles')
@@ -159,16 +151,63 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
         );
     }
 
-    public function handleDataProvider(): array
+    public function testHandleForAnonymousCustomerUserToken(): void
     {
-        return [
-            'null token'                       => [
-                'token' => null
+        $token = new AnonymousCustomerUserToken('User');
+
+        $visitor = $this->getCustomerVisitor(4, 'someSessionId');
+        $createdVisitorCookie = new Cookie(AnonymousCustomerUserAuthenticationListener::COOKIE_NAME);
+
+        $request = Request::create('http://test.com/test');
+        $request->cookies->set(
+            AnonymousCustomerUserAuthenticationListener::COOKIE_NAME,
+            $this->getCustomerVisitorCookieValue($visitor)
+        );
+
+        $authenticatedToken = new AnonymousCustomerUserToken('Anonymous Customer User');
+        $authenticatedToken->setVisitor($visitor);
+
+        $this->tokenStorage->expects(self::once())
+            ->method('getToken')
+            ->willReturn($token);
+
+        $this->apiRequestHelper->expects(self::never())
+            ->method('isApiRequest');
+
+        $this->rolesProvider->expects(self::once())
+            ->method('getRoles')
+            ->willReturn(['TEST_ANONYMOUS_ROLE']);
+
+        $this->authenticationManager->expects(self::once())
+            ->method('authenticate')
+            ->willReturnCallback(function (AnonymousCustomerUserToken $token) use ($authenticatedToken) {
+                self::assertEquals('Anonymous Customer User', $token->getUser());
+                self::assertEquals(['TEST_ANONYMOUS_ROLE'], $token->getRoleNames());
+
+                return $authenticatedToken;
+            });
+
+        $this->tokenStorage->expects(self::once())
+            ->method('setToken')
+            ->with(self::identicalTo($authenticatedToken));
+        $this->cookieFactory->expects(self::once())
+            ->method('getCookie')
+            ->with($visitor->getId(), $visitor->getSessionId())
+            ->willReturn($createdVisitorCookie);
+
+        ($this->listener)($this->getRequestEvent($request));
+        self::assertSame(
+            $createdVisitorCookie,
+            $request->attributes->get(AnonymousCustomerUserAuthenticationListener::COOKIE_ATTR_NAME)
+        );
+        self::assertSame($authenticatedToken, ReflectionUtil::getPropertyValue($this->listener, 'rememberedToken'));
+
+        self::assertEquals(
+            [
+                ['info', 'Populated the TokenStorage with an Anonymous Customer User Token.', []]
             ],
-            'AnonymousCustomerUserToken token' => [
-                'token' => new AnonymousCustomerUserToken('User')
-            ]
-        ];
+            $this->logger->cleanLogs()
+        );
     }
 
     public function testHandleWithRememberedToken(): void
@@ -196,12 +235,6 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
             ->method('getRoles')
             ->willReturn([]);
 
-        $token = new AnonymousCustomerUserToken(
-            'User',
-            [new CustomerUserRole()],
-            null,
-            new Organization()
-        );
         $createdToken = new AnonymousCustomerUserToken('Anonymous Customer User');
         $createdToken->setCredentials([
             'visitor_id' => null,
@@ -209,15 +242,20 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
         ]);
         $authenticatedToken = new AnonymousCustomerUserToken('Anonymous Customer User');
 
-        $this->tokenStorage->expects(self::once())
-            ->method('getToken')
-            ->willReturn($token);
-
-        $request = new Request();
+        $request = Request::create('http://test.com/test');
 
         $this->tokenStorage->expects(self::once())
             ->method('getToken')
             ->willReturn(null);
+
+        $this->apiRequestHelper->expects(self::once())
+            ->method('isApiRequest')
+            ->with('/test')
+            ->willReturn(false);
+
+        $this->rolesProvider->expects(self::once())
+            ->method('getRoles')
+            ->willReturn([]);
 
         $this->authenticationManager->expects(self::once())
             ->method('authenticate')
@@ -241,16 +279,27 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
 
     public function testHandleWithAuthenticationException(): void
     {
+        $request = Request::create('http://test.com/test');
+
         $this->tokenStorage->expects(self::once())
             ->method('getToken')
             ->willReturn(null);
+
+        $this->apiRequestHelper->expects(self::once())
+            ->method('isApiRequest')
+            ->with('/test')
+            ->willReturn(false);
+
+        $this->rolesProvider->expects(self::once())
+            ->method('getRoles')
+            ->willReturn(['TEST_ANONYMOUS_ROLE']);
 
         $exception = new AuthenticationException();
         $this->authenticationManager->expects(self::once())
             ->method('authenticate')
             ->willThrowException($exception);
 
-        ($this->listener)($this->getRequestEvent(new Request()));
+        ($this->listener)($this->getRequestEvent($request));
 
         self::assertEquals(
             [

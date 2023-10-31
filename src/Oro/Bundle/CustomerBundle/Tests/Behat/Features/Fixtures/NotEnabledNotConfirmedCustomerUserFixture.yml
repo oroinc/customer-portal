@@ -2,8 +2,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
   customer_users_not_enabled:
     email: 'user_not_enabled@example.org'
     username: 'user_not_enabled@example.org'
-    password: <sentence()>
-    salt: <sentence()>
+    password: <userPassword(@customer_users_not_enabled->username)>
     firstName: 'FirstName_not_enabled'
     lastName: 'LastName_not_enabled'
     enabled: '0'
