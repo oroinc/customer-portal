@@ -29,7 +29,15 @@ class Configuration implements ConfigurationInterface
                 'page_templates' => ['type' => 'array', 'value' => []],
                 'guest_access_enabled' => ['type' => 'boolean', 'value' => true],
                 'filter_value_selectors' => ['type' => 'string', 'value' => self::FILTER_VALUE_SELECTORS_DROPDOWN],
-                'web_api' => ['type' => 'boolean', 'value' => false]
+                'web_api' => ['type' => 'boolean', 'value' => false],
+                'promotional_content' => ['type' => 'string', 'value' => ''],
+                'top_navigation_menu' => ['type' => 'string', 'value' => false],
+                'language_and_currency_switchers' => ['type' => 'string', 'value' => 'hamburger'],
+                'main_navigation_menu' => ['type' => 'string', 'value' => 'commerce_main_menu'],
+                'standalone_main_menu' => ['type' => 'boolean', 'value' => false],
+                'quick_access_button' => ['type' => 'string', 'value' => false],
+                'quick_links' => ['type' => 'string', 'value' => 'commerce_quick_access'],
+                'search_on_smaller_screens' => ['type' => 'string', 'value' => 'integrated'],
             ]
         );
         $rootNodeChildren = $rootNode->children();
