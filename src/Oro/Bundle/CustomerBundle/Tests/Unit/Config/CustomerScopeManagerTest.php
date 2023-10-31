@@ -2,132 +2,40 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Config;
 
-use Doctrine\Persistence\ManagerRegistry;
-use Oro\Bundle\ConfigBundle\Config\ConfigBag;
 use Oro\Bundle\ConfigBundle\Tests\Unit\Config\AbstractScopeManagerTestCase;
 use Oro\Bundle\CustomerBundle\Config\CustomerScopeManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerAwareInterface;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\UserBundle\Entity\User;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Oro\Component\Testing\ReflectionUtil;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Contracts\Cache\CacheInterface;
 
 class CustomerScopeManagerTest extends AbstractScopeManagerTestCase
 {
     /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private TokenStorageInterface $tokenStorage;
+    private $tokenStorage;
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
-
-        $this->manager->setTokenStorage($this->tokenStorage);
-    }
-
-    public function testInitializeScopeId(): void
-    {
-        $token = $this->createMock(TokenInterface::class);
-
-        $token->expects($this->once())
-            ->method('getUser')
-            ->willReturn($this->createCustomerUser(['id' => 123, 'customer' => $this->getScopedEntity()]));
-
-        $this->tokenStorage->expects($this->once())
-            ->method('getToken')
-            ->willReturn($token);
-
-        $this->assertEquals(456, $this->manager->getScopeId());
-    }
-
-    public function testInitializeScopeIdForUserWithEmptyCustomer(): void
-    {
-        $token = $this->createMock(TokenInterface::class);
-        $token->expects($this->once())
-            ->method('getUser')
-            ->willReturn(new CustomerUser());
-
-        $this->tokenStorage->expects($this->once())
-            ->method('getToken')
-            ->willReturn($token);
-
-        $this->assertEquals(0, $this->manager->getScopeId());
-    }
-
-    public function testInitializeScopeIdForUserWithEmptyCustomerIdentity(): void
-    {
-        $token = $this->createMock(TokenInterface::class);
-        $customerUser = $this->createCustomerUser([
-            'id' => 132,
-            'customer' => new Customer()
-        ]);
-
-        $token->expects($this->once())
-            ->method('getUser')
-            ->willReturn($customerUser);
-
-        $this->tokenStorage->expects($this->once())
-            ->method('getToken')
-            ->willReturn($token);
-
-        $this->assertEquals(0, $this->manager->getScopeId());
-    }
-
-    public function testInitializeScopeIdForUnsupportedUserObject(): void
-    {
-        $token = $this->createMock(TokenInterface::class);
-        $token->expects($this->once())
-            ->method('getUser')
-            ->willReturn(new User());
-
-        $this->tokenStorage->expects($this->once())
-            ->method('getToken')
-            ->willReturn($token);
-
-        $this->assertEquals(0, $this->manager->getScopeId());
-    }
-
-    public function testInitializeScopeIdNoToken(): void
-    {
-        $this->tokenStorage->expects($this->once())
-            ->method('getToken')
-            ->willReturn(null);
-
-        $this->assertEquals(0, $this->manager->getScopeId());
-    }
-
-    public function testSetScopeId(): void
-    {
-        $this->tokenStorage->expects($this->never())
-            ->method('getToken');
-
-        $this->manager->setScopeId(789);
-
-        $this->assertEquals(789, $this->manager->getScopeId());
+        parent::setUp();
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function createManager(
-        ManagerRegistry $doctrine,
-        CacheInterface $cache,
-        EventDispatcher $eventDispatcher,
-        ConfigBag $configBag
-    ): CustomerScopeManager {
-        return new CustomerScopeManager(
-            $doctrine,
-            $cache,
-            $eventDispatcher,
-            $configBag,
-        );
+    protected function createManager(): CustomerScopeManager
+    {
+        $manager = new CustomerScopeManager($this->doctrine, $this->cache, $this->dispatcher, $this->configBag);
+        $manager->setTokenStorage($this->tokenStorage);
+
+        return $manager;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getScopedEntityName(): string
     {
@@ -135,15 +43,110 @@ class CustomerScopeManagerTest extends AbstractScopeManagerTestCase
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getScopedEntity(): Customer
     {
-        return $this->getEntity(Customer::class, ['id' => 456]);
+        $entity = new Customer();
+        ReflectionUtil::setId($entity, 456);
+
+        return $entity;
     }
 
-    private function createCustomerUser(array $parameters): CustomerUser
+    private function getCustomerUser(): CustomerUser
     {
-        return $this->getEntity(CustomerUser::class, $parameters);
+        $customerUser = new CustomerUser();
+        ReflectionUtil::setId($customerUser, 123);
+
+        return $customerUser;
+    }
+
+    public function testInitializeScopeId(): void
+    {
+        $customer = $this->getScopedEntity();
+
+        $customerUser = $this->getCustomerUser();
+        $customerUser->setCustomer($customer);
+
+        $token = $this->createMock(TokenInterface::class);
+        $token->expects(self::once())
+            ->method('getUser')
+            ->willReturn($customerUser);
+        $this->tokenStorage->expects(self::once())
+            ->method('getToken')
+            ->willReturn($token);
+
+        self::assertSame($customer->getId(), $this->manager->getScopeId());
+    }
+
+    public function testInitializeScopeIdForUserWithEmptyCustomer(): void
+    {
+        $token = $this->createMock(TokenInterface::class);
+        $token->expects(self::once())
+            ->method('getUser')
+            ->willReturn($this->getCustomerUser());
+        $this->tokenStorage->expects(self::once())
+            ->method('getToken')
+            ->willReturn($token);
+
+        self::assertSame(0, $this->manager->getScopeId());
+    }
+
+    public function testInitializeScopeIdForUnsupportedUserObject(): void
+    {
+        $token = $this->createMock(TokenInterface::class);
+        $token->expects(self::once())
+            ->method('getUser')
+            ->willReturn(new User());
+        $this->tokenStorage->expects(self::once())
+            ->method('getToken')
+            ->willReturn($token);
+
+        self::assertSame(0, $this->manager->getScopeId());
+    }
+
+    public function testInitializeScopeIdNoToken(): void
+    {
+        $this->tokenStorage->expects(self::once())
+            ->method('getToken')
+            ->willReturn(null);
+
+        self::assertSame(0, $this->manager->getScopeId());
+    }
+
+    public function testGetScopeIdFromEntityForCustomerWithEmptyId(): void
+    {
+        self::assertSame(0, $this->manager->getScopeIdFromEntity(new Customer()));
+    }
+
+    public function testGetScopeIdFromEntityForCustomerAwareEntity(): void
+    {
+        $customer = $this->getScopedEntity();
+        $entity = $this->createMock(CustomerAwareInterface::class);
+        $entity->expects(self::exactly(2))
+            ->method('getCustomer')
+            ->willReturn($customer);
+
+        self::assertSame($customer->getId(), $this->manager->getScopeIdFromEntity($entity));
+    }
+
+    public function testGetScopeIdFromEntityForCustomerAwareEntityAssociatedToCustomerWithEmptyId(): void
+    {
+        $entity = $this->createMock(CustomerAwareInterface::class);
+        $entity->expects(self::exactly(2))
+            ->method('getCustomer')
+            ->willReturn(new Customer());
+
+        self::assertSame(0, $this->manager->getScopeIdFromEntity($entity));
+    }
+
+    public function testGetScopeIdFromEntityForCustomerAwareEntityWithoutCustomer(): void
+    {
+        $entity = $this->createMock(CustomerAwareInterface::class);
+        $entity->expects(self::once())
+            ->method('getCustomer')
+            ->willReturn(null);
+
+        self::assertNull($this->manager->getScopeIdFromEntity($entity));
     }
 }

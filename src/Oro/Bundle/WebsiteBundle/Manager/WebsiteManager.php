@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\WebsiteBundle\Manager;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\MaintenanceBundle\Maintenance\MaintenanceModeState;
@@ -10,57 +10,43 @@ use Oro\Bundle\MaintenanceBundle\Maintenance\MaintenanceRestrictionsChecker;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
- * Basic website manager.
- * Provides current website.
+ * Provides methods to manage the current website.
  */
 class WebsiteManager
 {
-    /**
-     * @var ManagerRegistry
-     */
-    protected $managerRegistry;
-
-    /**
-     * @var FrontendHelper
-     */
-    protected $frontendHelper;
-
-    /**
-     * @var Website
-     */
-    protected $currentWebsite;
-
-    /**
-     * @var MaintenanceModeState
-     */
-    protected $maintenance;
-
-    protected MaintenanceRestrictionsChecker $maintenanceRestrictionsChecker;
+    private ManagerRegistry $doctrine;
+    private FrontendHelper $frontendHelper;
+    private MaintenanceModeState $maintenance;
+    private MaintenanceRestrictionsChecker $maintenanceRestrictionsChecker;
+    private ?Website $currentWebsite = null;
 
     public function __construct(
-        ManagerRegistry $managerRegistry,
+        ManagerRegistry $doctrine,
         FrontendHelper $frontendHelper,
         MaintenanceModeState $maintenance,
         MaintenanceRestrictionsChecker $maintenanceRestrictionsChecker
     ) {
-        $this->managerRegistry = $managerRegistry;
+        $this->doctrine = $doctrine;
         $this->frontendHelper = $frontendHelper;
         $this->maintenance = $maintenance;
         $this->maintenanceRestrictionsChecker = $maintenanceRestrictionsChecker;
     }
 
-    /**
-     * @return Website|null
-     */
-    public function getCurrentWebsite()
+    public function getCurrentWebsite(): ?Website
     {
+        if (null !== $this->currentWebsite) {
+            return $this->currentWebsite;
+        }
+
+        if (!$this->frontendHelper->isFrontendRequest()) {
+            return null;
+        }
+
         if ($this->maintenance->isOn() && !$this->maintenanceRestrictionsChecker->isAllowed()) {
             return null;
         }
 
-        if (!($this->currentWebsite)) {
-            $this->currentWebsite = $this->getResolvedWebsite();
-        }
+        $this->currentWebsite = $this->findCurrentWebsite();
 
         return $this->currentWebsite;
     }
@@ -70,41 +56,27 @@ class WebsiteManager
         $this->currentWebsite = $currentWebsite;
     }
 
-    /**
-     * @return Website
-     */
-    public function getDefaultWebsite()
+    public function getDefaultWebsite(): ?Website
     {
         return $this->getEntityManager()
             ->getRepository(Website::class)
             ->getDefaultWebsite();
     }
-
     /**
-     * @return EntityManager
+     * Method should be called to reset internal memory cache of this manager.
      */
-    protected function getEntityManager()
+    public function onClear(): void
     {
-        return $this->managerRegistry->getManagerForClass(Website::class);
+        $this->currentWebsite = null;
     }
 
-    /**
-     * @return Website
-     */
-    protected function getResolvedWebsite()
+    protected function findCurrentWebsite(): ?Website
     {
-        if (!$this->frontendHelper->isFrontendRequest()) {
-            return null;
-        }
-
         return $this->getDefaultWebsite();
     }
 
-    /**
-     * Method should be called to reset saved website
-     */
-    public function onClear()
+    protected function getEntityManager(): EntityManagerInterface
     {
-        $this->currentWebsite = null;
+        return $this->doctrine->getManagerForClass(Website::class);
     }
 }

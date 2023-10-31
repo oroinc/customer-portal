@@ -74,7 +74,9 @@ class EnabledLocalizationsSearchHandlerTest extends WebTestCase
         $this->assertCount(count($expected), $searchItems);
 
         $result = array_map(fn (array $searchResult) => $searchResult['id'], $searchItems);
-        $this->assertEquals(sort($expected), sort($result));
+        sort($expected);
+        sort($result);
+        $this->assertEquals($expected, $result);
     }
 
     private function prepareGlobalLocalizations(array $localizationIds): void

@@ -20,16 +20,16 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\DependencyInjection\ServiceLink;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var EncoderFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $encoderFactory;
+    /** @var PasswordHasherFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $passwordHasherFactory;
 
     /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
     private $configManager;
@@ -60,7 +60,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $this->encoderFactory = $this->createMock(EncoderFactoryInterface::class);
+        $this->passwordHasherFactory = $this->createMock(PasswordHasherFactoryInterface::class);
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->emailProcessor = $this->createMock(Processor::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
@@ -96,7 +96,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $this->userManager = new CustomerUserManager(
             $userLoader,
             $doctrine,
-            $this->encoderFactory,
+            $this->passwordHasherFactory,
             $this->configManager,
             $emailProcessorLink,
             $this->frontendHelper,
@@ -362,13 +362,13 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
             ->with('cu_auth_status')
             ->willReturn(null);
 
-        $encoder = $this->createMock(PasswordEncoderInterface::class);
-        $this->encoderFactory->expects(self::once())
-            ->method('getEncoder')
+        $passwordHasher = $this->createMock(PasswordHasherInterface::class);
+        $this->passwordHasherFactory->expects(self::once())
+            ->method('getPasswordHasher')
             ->with($user)
-            ->willReturn($encoder);
-        $encoder->expects(self::once())
-            ->method('encodePassword')
+            ->willReturn($passwordHasher);
+        $passwordHasher->expects(self::once())
+            ->method('hash')
             ->with($password, $salt)
             ->willReturn($encodedPassword);
 

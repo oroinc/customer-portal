@@ -22,18 +22,13 @@ class AnonymousCustomerUserFactory implements SecurityFactoryInterface
         string $userProviderId,
         ?string $defaultEntryPointId
     ): array {
-        $providerId = 'oro_customer.authentication.provider.anonymous_customer_user.'.$id;
-        $container
-            ->setDefinition(
-                $providerId,
-                new ChildDefinition('oro_customer.authentication.provider.anonymous_customer_user')
-            );
+        $baseProviderId = 'oro_customer.authentication.provider.anonymous_customer_user';
+        $providerId = $baseProviderId . '.' . $id;
+        $container->setDefinition($providerId, new ChildDefinition($baseProviderId));
 
-        $listenerId = 'oro_customer.authentication.listener.anonymous_customer_user.'.$id;
-        $container->setDefinition(
-            $listenerId,
-            new ChildDefinition('oro_customer.authentication.listener.anonymous_customer_user')
-        );
+        $baseListenerId = 'oro_customer.authentication.listener.anonymous_customer_user';
+        $listenerId = $baseListenerId . '.' . $id;
+        $container->setDefinition($listenerId, new ChildDefinition($baseListenerId));
 
         return [$providerId, $listenerId, $defaultEntryPointId];
     }

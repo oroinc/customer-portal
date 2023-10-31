@@ -367,6 +367,7 @@ services:
             - '@doctrine'
             - '@oro_web_catalog.menu.content_nodes_provider'
             - '@oro_locale.helper.localization'
+            - '@oro_commerce_menu.handler.sub_folder_uri'
         tags:
             - { name: oro_menu.builder, priority: 210 }
             - { name: kernel.event_listener, event: Oro\Bundle\NavigationBundle\Event\MenuUpdatesApplyAfterEvent, method: onMenuUpdatesApplyAfter }
@@ -409,3 +410,20 @@ services:
             - ['setLogger', ['@logger']]
         tags:
             - { name: monolog.logger, channel: oro_commerce_menu }
+
+    oro_commerce_menu.handler.sub_folder_uri:
+        class: Oro\Bundle\CommerceMenuBundle\Handler\SubFolderUriHandler
+        arguments:
+            - '@request_stack'
+            - '@oro_ui.tools.url_helper'
+
+    oro_commerce_menu.event_listener.sub_folder_menu_updates_apply_after:
+        class: Oro\Bundle\CommerceMenuBundle\EventListener\SubFolderMenuUpdatesApplyAfterListener
+        arguments:
+            - '@oro_commerce_menu.handler.sub_folder_uri'
+        tags:
+            -
+                name: kernel.event_listener
+                event: Oro\Bundle\NavigationBundle\Event\MenuUpdatesApplyAfterEvent
+                method: onMenuUpdatesApplyAfter
+                priority: 255
