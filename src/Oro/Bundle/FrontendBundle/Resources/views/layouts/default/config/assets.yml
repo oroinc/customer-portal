@@ -9,6 +9,7 @@ styles:
 
         # Variables
         - 'bundles/orofrontend/default/scss/variables/base-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/uikit/theme-icons-config.scss'
         - 'bundles/orofrontend/default/scss/variables/headings-config.scss'
         - 'bundles/orofrontend/default/scss/variables/focus-via-arrows-keys-config.scss'
         - 'bundles/orofrontend/default/scss/variables/animation-config.scss'
@@ -106,6 +107,7 @@ styles:
         - '~overlayscrollbars/css/OverlayScrollbars.css'
         - '~@oroinc/slick-carousel/slick/slick.scss'
         - 'bundles/orofrontend/default/scss/base/base.scss'
+        - 'bundles/orofrontend/default/scss/components/uikit/theme-icons.scss'
         - 'bundles/orofrontend/default/scss/components/utilites.scss'
         - 'bundles/orofrontend/default/scss/components/headings.scss'
         - 'bundles/orofrontend/default/scss/components/animation.scss'
