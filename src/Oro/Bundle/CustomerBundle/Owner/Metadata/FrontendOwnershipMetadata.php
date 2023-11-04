@@ -6,34 +6,28 @@ use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadata;
 
 /**
- * This class represents the entity ownership metadata for CustomerUser
+ * This class represents the storefront entity ownership metadata.
+ * Supported owner types: "NONE", "FRONTEND_CUSTOMER" or "FRONTEND_USER".
  */
 class FrontendOwnershipMetadata extends OwnershipMetadata
 {
-    const OWNER_TYPE_FRONTEND_USER = 4;
-    const OWNER_TYPE_FRONTEND_CUSTOMER = 5;
+    public const OWNER_TYPE_FRONTEND_USER = 4;
+    public const OWNER_TYPE_FRONTEND_CUSTOMER = 5;
 
-    /** @var string */
-    protected $customerFieldName;
+    protected string $customerFieldName;
+    protected string $customerColumnName;
 
-    /** @var string */
-    protected $customerColumnName;
-
-    /**
-     * {@inheritDoc}
-     */
     public function __construct(
-        $ownerType = '',
-        $ownerFieldName = '',
-        $ownerColumnName = '',
-        $organizationFieldName = '',
-        $organizationColumnName = '',
-        $customerFieldName = '',
-        $customerColumnName = ''
+        string $ownerType = '',
+        string $ownerFieldName = '',
+        string $ownerColumnName = '',
+        string $organizationFieldName = '',
+        string $organizationColumnName = '',
+        string $customerFieldName = '',
+        string $customerColumnName = ''
     ) {
         $this->customerFieldName = $customerFieldName;
         $this->customerColumnName = $customerColumnName;
-
         parent::__construct(
             $ownerType,
             $ownerFieldName,
@@ -44,33 +38,33 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function isUserOwned()
+    public function isUserOwned(): bool
     {
         return self::OWNER_TYPE_FRONTEND_USER === $this->ownerType;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function isBusinessUnitOwned()
+    public function isBusinessUnitOwned(): bool
     {
         return self::OWNER_TYPE_FRONTEND_CUSTOMER === $this->ownerType;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function isOrganizationOwned()
+    public function isOrganizationOwned(): bool
     {
         return false;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getAccessLevelNames()
+    public function getAccessLevelNames(): array
     {
         if (!$this->hasOwner()) {
             return [
@@ -79,31 +73,18 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
             ];
         }
 
-        if ($this->isUserOwned()) {
-            $maxLevel = AccessLevel::DEEP_LEVEL;
-            $minLevel = AccessLevel::BASIC_LEVEL;
-        } elseif ($this->isBusinessUnitOwned()) {
-            $maxLevel = AccessLevel::DEEP_LEVEL;
-            $minLevel = AccessLevel::LOCAL_LEVEL;
-        } else {
-            throw new \BadMethodCallException(sprintf('Owner type %s is not supported', $this->ownerType));
-        }
-
-        return AccessLevel::getAccessLevelNames($minLevel, $maxLevel);
+        return AccessLevel::getAccessLevelNames(
+            $this->isUserOwned() ? AccessLevel::BASIC_LEVEL : AccessLevel::LOCAL_LEVEL,
+            AccessLevel::DEEP_LEVEL
+        );
     }
 
-    /**
-     * @return string|null
-     */
-    public function getCustomerFieldName()
+    public function getCustomerFieldName(): string
     {
         return $this->customerFieldName;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getCustomerColumnName()
+    public function getCustomerColumnName(): string
     {
         return $this->customerColumnName;
     }
@@ -132,5 +113,28 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
             $this->customerFieldName,
             $this->customerColumnName
         ] = $serialized;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function resolveOwnerType(string $ownerType): int
+    {
+        $resolvedOwnerType = parent::resolveOwnerType($ownerType);
+        if (self::OWNER_TYPE_NONE !== $resolvedOwnerType
+            && self::OWNER_TYPE_FRONTEND_CUSTOMER !== $resolvedOwnerType
+            && self::OWNER_TYPE_FRONTEND_USER !== $resolvedOwnerType
+        ) {
+            throw new \InvalidArgumentException(sprintf('Unsupported owner type: %s.', $ownerType));
+        }
+
+        return $resolvedOwnerType;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function initialize(): void
+    {
     }
 }
