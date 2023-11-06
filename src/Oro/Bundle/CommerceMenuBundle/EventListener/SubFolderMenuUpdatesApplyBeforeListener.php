@@ -21,7 +21,6 @@ class SubFolderMenuUpdatesApplyBeforeListener
         }
 
         if ($menuUpdates = $event->getMenuUpdates()) {
-//            dd($menuUpdates);
             foreach ($menuUpdates as $menuUpdate) {
                 $menuUpdate->setUri($this->uriHandler->handle((string) $menuUpdate->getUri()));
             }
