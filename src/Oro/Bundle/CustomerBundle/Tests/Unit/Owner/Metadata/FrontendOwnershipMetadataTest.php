@@ -5,106 +5,136 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Owner\Metadata;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class FrontendOwnershipMetadataTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider frontendOwnerTypeException
-     */
-    public function testSetFrontendOwner(array $ownerType, int $expectedOwnerType, array $exceptionDefinition = [])
+    public function testConstructWithoutParameters(): void
     {
-        if ($exceptionDefinition) {
-            [$exception, $message] = $exceptionDefinition;
-            $this->expectException($exception);
-            $this->expectExceptionMessage($message);
-        }
-
-        [$frontendOwnerType, $frontendOwnerFieldName, $frontendOwnerColumnName] = $ownerType;
-        $metadata = new FrontendOwnershipMetadata(
-            $frontendOwnerType,
-            $frontendOwnerFieldName,
-            $frontendOwnerColumnName
-        );
-
-        $this->assertEquals($expectedOwnerType, $metadata->getOwnerType());
-        $this->assertEquals($frontendOwnerFieldName, $metadata->getOwnerFieldName());
-        $this->assertEquals($frontendOwnerColumnName, $metadata->getOwnerColumnName());
+        $metadata = new FrontendOwnershipMetadata();
+        self::assertEquals(FrontendOwnershipMetadata::OWNER_TYPE_NONE, $metadata->getOwnerType());
+        self::assertFalse($metadata->hasOwner());
+        self::assertFalse($metadata->isOrganizationOwned());
+        self::assertFalse($metadata->isBusinessUnitOwned());
+        self::assertFalse($metadata->isUserOwned());
+        self::assertSame('', $metadata->getOrganizationFieldName());
+        self::assertSame('', $metadata->getOrganizationColumnName());
+        self::assertSame('', $metadata->getOwnerFieldName());
+        self::assertSame('', $metadata->getOwnerColumnName());
+        self::assertSame('', $metadata->getCustomerFieldName());
+        self::assertSame('', $metadata->getCustomerColumnName());
     }
 
-    public function frontendOwnerTypeException(): array
+    public function testConstructWithNoneOwnership(): void
+    {
+        $metadata = new FrontendOwnershipMetadata('NONE');
+        self::assertEquals(FrontendOwnershipMetadata::OWNER_TYPE_NONE, $metadata->getOwnerType());
+        self::assertFalse($metadata->hasOwner());
+        self::assertFalse($metadata->isOrganizationOwned());
+        self::assertFalse($metadata->isBusinessUnitOwned());
+        self::assertFalse($metadata->isUserOwned());
+        self::assertSame('', $metadata->getOrganizationFieldName());
+        self::assertSame('', $metadata->getOrganizationColumnName());
+        self::assertSame('', $metadata->getOwnerFieldName());
+        self::assertSame('', $metadata->getOwnerColumnName());
+        self::assertSame('', $metadata->getCustomerFieldName());
+        self::assertSame('', $metadata->getCustomerColumnName());
+    }
+
+    public function testConstructWithCustomerOwnership(): void
+    {
+        $metadata = new FrontendOwnershipMetadata('FRONTEND_CUSTOMER', 'customer', 'customer_id');
+        self::assertEquals(FrontendOwnershipMetadata::OWNER_TYPE_FRONTEND_CUSTOMER, $metadata->getOwnerType());
+        self::assertTrue($metadata->hasOwner());
+        self::assertFalse($metadata->isOrganizationOwned());
+        self::assertTrue($metadata->isBusinessUnitOwned());
+        self::assertFalse($metadata->isUserOwned());
+        self::assertSame('', $metadata->getOrganizationFieldName());
+        self::assertSame('', $metadata->getOrganizationColumnName());
+        self::assertSame('customer', $metadata->getOwnerFieldName());
+        self::assertSame('customer_id', $metadata->getOwnerColumnName());
+        self::assertSame('', $metadata->getCustomerFieldName());
+        self::assertSame('', $metadata->getCustomerColumnName());
+    }
+
+    public function testConstructWithCustomerUserOwnership(): void
+    {
+        $metadata = new FrontendOwnershipMetadata('FRONTEND_USER', 'customerUser', 'customer_user_id');
+        self::assertEquals(FrontendOwnershipMetadata::OWNER_TYPE_FRONTEND_USER, $metadata->getOwnerType());
+        self::assertTrue($metadata->hasOwner());
+        self::assertFalse($metadata->isOrganizationOwned());
+        self::assertFalse($metadata->isBusinessUnitOwned());
+        self::assertTrue($metadata->isUserOwned());
+        self::assertSame('', $metadata->getOrganizationFieldName());
+        self::assertSame('', $metadata->getOrganizationColumnName());
+        self::assertSame('customerUser', $metadata->getOwnerFieldName());
+        self::assertSame('customer_user_id', $metadata->getOwnerColumnName());
+        self::assertSame('', $metadata->getCustomerFieldName());
+        self::assertSame('', $metadata->getCustomerColumnName());
+    }
+
+    public function testConstructWithInvalidOwnerType(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unknown owner type: test.');
+
+        new FrontendOwnershipMetadata('test');
+    }
+
+    public function testConstructCustomerrOwnershipWithoutOwnerFieldName(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The owner field name must not be empty.');
+
+        new FrontendOwnershipMetadata('FRONTEND_USER');
+    }
+
+    public function testConstructCustomerOwnershipWithoutOwnerIdColumnName(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The owner column name must not be empty.');
+
+        new FrontendOwnershipMetadata('FRONTEND_USER', 'customerUser');
+    }
+
+    public function testConstructCustomerUserOwnershipWithoutOwnerFieldName(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The owner field name must not be empty.');
+
+        new FrontendOwnershipMetadata('FRONTEND_CUSTOMER');
+    }
+
+    public function testConstructCustomerUserOwnershipWithoutOwnerIdColumnName(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The owner column name must not be empty.');
+
+        new FrontendOwnershipMetadata('FRONTEND_CUSTOMER', 'customer');
+    }
+
+    /**
+     * @dataProvider constructWithUnsupportedOwnerTypeDataProvider
+     */
+    public function testConstructWithUnsupportedOwnerType(string $ownerType): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(sprintf('Unsupported owner type: %s.', $ownerType));
+
+        new FrontendOwnershipMetadata($ownerType);
+    }
+
+    public function constructWithUnsupportedOwnerTypeDataProvider(): array
     {
         return [
-            [
-                ['FRONTEND_USER', 'customer_user', 'customer_user_id'],
-                FrontendOwnershipMetadata::OWNER_TYPE_FRONTEND_USER,
-            ],
-            [
-                ['FRONTEND_CUSTOMER', 'FRONTEND_CUSTOMER', 'customer_id'],
-                FrontendOwnershipMetadata::OWNER_TYPE_FRONTEND_CUSTOMER,
-            ],
-            [
-                ['UNKNOWN', 'FRONTEND_CUSTOMER', 'customer_id'],
-                FrontendOwnershipMetadata::OWNER_TYPE_FRONTEND_CUSTOMER,
-                [
-                    \InvalidArgumentException::class,
-                    'Unknown owner type: UNKNOWN.',
-                ],
-            ],
-            [
-                ['UNKNOWN', 'FRONTEND_CUSTOMER', 'customer_id'],
-                FrontendOwnershipMetadata::OWNER_TYPE_FRONTEND_CUSTOMER,
-                [
-                    \InvalidArgumentException::class,
-                    'Unknown owner type: UNKNOWN.',
-                ],
-            ],
-            [
-                ['', '', ''],
-                FrontendOwnershipMetadata::OWNER_TYPE_NONE,
-            ],
-            [
-                ['FRONTEND_CUSTOMER', '', 'customer_id'],
-                FrontendOwnershipMetadata::OWNER_TYPE_FRONTEND_CUSTOMER,
-                [
-                    \InvalidArgumentException::class,
-                    'The owner field name must not be empty.',
-                ],
-            ],
-            [
-                ['FRONTEND_CUSTOMER', 'FRONTEND_CUSTOMER', ''],
-                FrontendOwnershipMetadata::OWNER_TYPE_FRONTEND_CUSTOMER,
-                [
-                    \InvalidArgumentException::class,
-                    'The owner column name must not be empty.',
-                ],
-            ],
+            ['USER'],
+            ['BUSINESS_UNIT'],
+            ['ORGANIZATION']
         ];
     }
 
-    public function testIsUserOwned()
-    {
-        $metadata = new FrontendOwnershipMetadata();
-        $this->assertFalse($metadata->isUserOwned());
-
-        $metadata = new FrontendOwnershipMetadata('FRONTEND_USER', 'customer_user', 'customer_user_id');
-        $this->assertTrue($metadata->isUserOwned());
-
-        $metadata = new FrontendOwnershipMetadata('FRONTEND_CUSTOMER', 'FRONTEND_CUSTOMER', 'customer_id');
-        $this->assertFalse($metadata->isUserOwned());
-    }
-
-    public function testIsBusinessUnitOwned()
-    {
-        $metadata = new FrontendOwnershipMetadata();
-        $this->assertFalse($metadata->isBusinessUnitOwned());
-
-        $metadata = new FrontendOwnershipMetadata('FRONTEND_CUSTOMER', 'FRONTEND_CUSTOMER', 'customer_id');
-        $this->assertTrue($metadata->isBusinessUnitOwned());
-
-        $metadata = new FrontendOwnershipMetadata('FRONTEND_USER', 'customer_user', 'customer_user_id');
-        $this->assertFalse($metadata->isBusinessUnitOwned());
-    }
-
-    public function testSerialization()
+    public function testSerialization(): void
     {
         $metadata = new FrontendOwnershipMetadata(
             'FRONTEND_USER',
@@ -115,78 +145,80 @@ class FrontendOwnershipMetadataTest extends \PHPUnit\Framework\TestCase
             'customer',
             'customer_id'
         );
-        $data = serialize($metadata);
 
-        $metadata = new FrontendOwnershipMetadata();
-        $this->assertFalse($metadata->isUserOwned());
-        $this->assertFalse($metadata->isBusinessUnitOwned());
-        $this->assertEquals('', $metadata->getOwnerFieldName());
-        $this->assertEquals('', $metadata->getOwnerColumnName());
+        $unserializedMetadata = unserialize(serialize($metadata));
 
-        $metadata = unserialize($data);
-        $this->assertTrue($metadata->isUserOwned());
-        $this->assertFalse($metadata->isBusinessUnitOwned());
-        $this->assertEquals('customerUser', $metadata->getOwnerFieldName());
-        $this->assertEquals('customer_user_id', $metadata->getOwnerColumnName());
-        $this->assertEquals('organization', $metadata->getOrganizationFieldName());
-        $this->assertEquals('organization_id', $metadata->getOrganizationColumnName());
-        $this->assertEquals('customer', $metadata->getCustomerFieldName());
-        $this->assertEquals('customer_id', $metadata->getCustomerColumnName());
+        self::assertEquals($metadata, $unserializedMetadata);
+        self::assertNotSame($metadata, $unserializedMetadata);
     }
 
-    public function testIsOrganizationOwned()
+    public function testSetState(): void
     {
-        $metadata = new FrontendOwnershipMetadata();
-        $this->assertFalse($metadata->isOrganizationOwned());
+        $metadata = new FrontendOwnershipMetadata(
+            'FRONTEND_USER',
+            'customerUser',
+            'customer_user_id',
+            'organization',
+            'organization_id',
+            'customer',
+            'customer_id'
+        );
+
+        $restoredMetadata = FrontendOwnershipMetadata::__set_state(
+            [
+                'ownerType' => $metadata->getOwnerType(),
+                'organizationFieldName' => $metadata->getOrganizationFieldName(),
+                'organizationColumnName' => $metadata->getOrganizationColumnName(),
+                'ownerFieldName' => $metadata->getOwnerFieldName(),
+                'ownerColumnName' => $metadata->getOwnerColumnName(),
+                'customerFieldName' => $metadata->getCustomerFieldName(),
+                'customerColumnName' => $metadata->getCustomerColumnName(),
+                'not_exists' => true
+            ]
+        );
+
+        self::assertEquals($metadata, $restoredMetadata);
+        self::assertNotSame($metadata, $restoredMetadata);
     }
 
     /**
      * @dataProvider getAccessLevelNamesDataProvider
      */
-    public function testGetAccessLevelNames(array $arguments, array $levels)
+    public function testGetAccessLevelNames(array $params, array $levels): void
     {
-        $reflection = new \ReflectionClass(FrontendOwnershipMetadata::class);
-        /** @var FrontendOwnershipMetadata $metadata */
-        $metadata = $reflection->newInstanceArgs($arguments);
-        $this->assertEquals($levels, $metadata->getAccessLevelNames());
+        [$ownerType, $ownerFieldName, $ownerColumnName] = $params;
+        $metadata = new FrontendOwnershipMetadata($ownerType, $ownerFieldName, $ownerColumnName);
+
+        self::assertEquals($levels, $metadata->getAccessLevelNames());
     }
 
     public function getAccessLevelNamesDataProvider(): array
     {
         return [
             'no owner' => [
-                'arguments' => [],
-                'levels' => [
-                    0 => AccessLevel::NONE_LEVEL_NAME,
-                    5 => AccessLevel::getAccessLevelName(5),
-                ],
+                ['NONE', '', ''],
+                [
+                    AccessLevel::NONE_LEVEL => AccessLevel::NONE_LEVEL_NAME,
+                    AccessLevel::SYSTEM_LEVEL => AccessLevel::getAccessLevelName(AccessLevel::SYSTEM_LEVEL)
+                ]
             ],
             'basic level owned' => [
-                'arguments' => ['FRONTEND_USER', 'owner', 'owner_id'],
-                'levels' => [
-                    0 => AccessLevel::NONE_LEVEL_NAME,
-                    1 => AccessLevel::getAccessLevelName(1),
-                    2 => AccessLevel::getAccessLevelName(2),
-                    3 => AccessLevel::getAccessLevelName(3),
-                ],
+                ['FRONTEND_USER', 'owner', 'owner_id'],
+                [
+                    AccessLevel::NONE_LEVEL => AccessLevel::NONE_LEVEL_NAME,
+                    AccessLevel::BASIC_LEVEL => AccessLevel::getAccessLevelName(AccessLevel::BASIC_LEVEL),
+                    AccessLevel::LOCAL_LEVEL => AccessLevel::getAccessLevelName(AccessLevel::LOCAL_LEVEL),
+                    AccessLevel::DEEP_LEVEL => AccessLevel::getAccessLevelName(AccessLevel::DEEP_LEVEL)
+                ]
             ],
             'local level owned' => [
-                'arguments' => ['FRONTEND_CUSTOMER', 'owner', 'owner_id'],
-                'levels' => [
-                    0 => AccessLevel::NONE_LEVEL_NAME,
-                    2 => AccessLevel::getAccessLevelName(2),
-                    3 => AccessLevel::getAccessLevelName(3),
-                ],
-            ],
+                ['FRONTEND_CUSTOMER', 'owner', 'owner_id'],
+                [
+                    AccessLevel::NONE_LEVEL => AccessLevel::NONE_LEVEL_NAME,
+                    AccessLevel::LOCAL_LEVEL => AccessLevel::getAccessLevelName(AccessLevel::LOCAL_LEVEL),
+                    AccessLevel::DEEP_LEVEL => AccessLevel::getAccessLevelName(AccessLevel::DEEP_LEVEL)
+                ]
+            ]
         ];
-    }
-
-    public function testGetAccessLevelNamesInvalidOwner()
-    {
-        $this->expectException(\BadMethodCallException::class);
-        $this->expectExceptionMessage('Owner type 1 is not supported');
-
-        $metadata = new FrontendOwnershipMetadata('ORGANIZATION', 'owner', 'owner_id');
-        $metadata->getAccessLevelNames();
     }
 }

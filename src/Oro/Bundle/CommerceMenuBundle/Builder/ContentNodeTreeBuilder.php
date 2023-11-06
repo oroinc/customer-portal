@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
+use Oro\Bundle\CommerceMenuBundle\Handler\SubFolderUriHandler;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\LocaleBundle\Tools\LocalizedFallbackValueHelper;
@@ -29,25 +30,17 @@ class ContentNodeTreeBuilder implements BuilderInterface
     public const IS_TREE_ITEM = 'content_node_tree_item';
     public const TREE_ITEM_OPTIONS = 'content_node_tree_item_options';
 
-    private ManagerRegistry $managerRegistry;
-
-    private MenuContentNodesProviderInterface $menuContentNodesProvider;
-
-    private LocalizationHelper $localizationHelper;
-
     /**
      * @var array<string,MenuUpdateApplierContext> Contexts indexed by menu name.
      */
     private array $menuUpdateApplierContexts = [];
 
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        MenuContentNodesProviderInterface $menuContentNodesProvider,
-        LocalizationHelper $localizationHelper
+        private ManagerRegistry $managerRegistry,
+        private MenuContentNodesProviderInterface $menuContentNodesProvider,
+        private LocalizationHelper $localizationHelper,
+        private SubFolderUriHandler $uriHandler,
     ) {
-        $this->managerRegistry = $managerRegistry;
-        $this->menuContentNodesProvider = $menuContentNodesProvider;
-        $this->localizationHelper = $localizationHelper;
     }
 
     public function build(ItemInterface $menu, array $options = [], $alias = null): void
@@ -253,8 +246,10 @@ class ContentNodeTreeBuilder implements BuilderInterface
 
     private function getUri(ResolvedContentNode $resolvedNode, ?Localization $localization): string
     {
-        return (string) $this->localizationHelper
+        $uri = (string) $this->localizationHelper
             ->getLocalizedValue($resolvedNode->getResolvedContentVariant()->getLocalizedUrls(), $localization);
+
+        return $this->uriHandler->hasSubFolder() ? $this->uriHandler->handle($uri) : $uri;
     }
 
     public static function getTreeItemNamePrefix(ItemInterface $menuItem, int $contentNodeId): string
