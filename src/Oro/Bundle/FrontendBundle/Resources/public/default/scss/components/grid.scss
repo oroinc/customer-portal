@@ -3,6 +3,7 @@
 .grid {
     display: grid;
     grid-template-columns: $grid-template-columns;
+    grid-auto-rows: $grid-auto-rows;
     gap: $grid-gap;
 
     &-columns {
