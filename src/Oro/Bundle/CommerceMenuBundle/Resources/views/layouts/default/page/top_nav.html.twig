@@ -16,7 +16,7 @@
             responsive: [
                 {
                     viewport: 'tablet',
-                    moveTo: '[data-main-menu-extra-container]',
+                    moveTo: '[data-top-navigation-extra-container]',
                     startPointClass: 'navigation-menu--align-end navigation-menu--inverse',
                     endpointClass: 'navigation-menu__vertical'
                 }
@@ -41,4 +41,14 @@
 
 {% block _top_nav_menu_container_widget %}
     {{ block_widget(block) }}
+{% endblock %}
+
+{% block _top_nav_extra_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'data-top-navigation-extra-container': ''
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
 {% endblock %}
