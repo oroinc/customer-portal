@@ -19,6 +19,8 @@
 
         vertical-align: middle;
 
+        font-size: $navigation-menu-item-font-size;
+
         gap: $navigation-menu-item-gap;
 
         padding: $navigation-menu-item-inner-offset;
@@ -27,13 +29,19 @@
     }
 
     &__link {
+        font-size: $navigation-menu-link-font-size;
         color: $navigation-menu-link-color;
+
         font-weight: font-weight('semi-bold');
         text-decoration: none;
 
         &:hover {
             color: $navigation-menu-link-color-hover;
         }
+    }
+
+    &--inverse &__inner {
+        color: $navigation-menu-item-color;
     }
 
     &--inverse &__link {
