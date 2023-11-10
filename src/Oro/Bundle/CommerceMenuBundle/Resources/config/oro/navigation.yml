@@ -15,16 +15,16 @@ navigation:
                     dir: 'ltr'
                 extras:
                     position: 10
-            free_shipping:
-                label: 'oro.commercemenu.frontend.navigation.items.free_shipping.label'
-                uri: '/about'
-                attributes:
-                    class: topbar__controls
-                linkAttributes:
-                    class: cart__promo__link
-                extras:
-                    position: 20
-                    safe_label: true
+#            free_shipping:
+#                label: 'oro.commercemenu.frontend.navigation.items.free_shipping.label'
+#                uri: '/about'
+#                attributes:
+#                    class: topbar__controls
+#                linkAttributes:
+#                    class: cart__promo__link
+#                extras:
+#                    position: 20
+#                    safe_label: true
             orders:
                 label: 'oro.commercemenu.frontend.navigation.items.orders.label'
                 route: oro_order_frontend_index
@@ -102,7 +102,6 @@ navigation:
                 scope_type: menu_frontend_visibility
                 children:
                     telephone: ~
-                    free_shipping: ~
 
             commerce_quick_access:
                 type: commerce_quick_access

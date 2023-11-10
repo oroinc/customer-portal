@@ -1,6 +1,6 @@
 {% block _top_nav_controls_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " topbar-navigation"
+        '~class': " navigation-menu"
     }) %}
     {% set dom_relocation_options =  {
         responsive: [
@@ -18,19 +18,19 @@
 
 {% block _top_nav_logged_user_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' topbar-navigation__item topbar-navigation__item--user-name shown-on-desktop'
+        '~class': ' navigation-menu__item navigation-menu__item--user-name shown-on-desktop'
     }) %}
 
     <li {{ block('block_attributes') }}>
         {%- for child in block -%}
-            {{- block_widget(child) -}}{%- if not loop.last %} {% endif -%}
+            <span class="navigation-menu__inner">{{- block_widget(child) -}}{%- if not loop.last %} {% endif -%}</span>
         {%- endfor -%}
     </li>
 {% endblock %}
 
 {% block _top_nav_sign_out_item_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' topbar-navigation__item'
+        '~class': ' navigation-menu__item'
     }) %}
 
     <li {{ block('block_attributes') }}>
@@ -40,7 +40,7 @@
 
 {% block _top_nav_my_customer_item_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' topbar-navigation__item shown-on-desktop'
+        '~class': ' navigation-menu__item shown-on-desktop'
     }) %}
 
     <li {{ block('block_attributes') }}>
@@ -50,7 +50,7 @@
 
 {% block _top_nav_sign_out_link_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' topbar-navigation__link',
+        '~class': ' navigation-menu__inner navigation-menu__link',
         'href': path(route_name),
         'data-dom-relocation-options': {
             responsive: [
@@ -69,7 +69,7 @@
 
 {% block _top_nav_my_customer_link_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' topbar-navigation__link'
+        '~class': ' navigation-menu__inner navigation-menu__link'
     }) %}
 
     {{ block_widget(block, {attr: attr}) }}

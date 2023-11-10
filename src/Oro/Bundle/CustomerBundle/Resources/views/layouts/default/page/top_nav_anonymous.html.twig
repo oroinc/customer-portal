@@ -1,6 +1,6 @@
 {% block _top_authorization_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' pull-left topbar-navigation__item'
+        '~class': ' pull-left navigation-menu__item'
     }) %}
 
     <div {{ block('block_attributes') }}>
@@ -10,7 +10,7 @@
 
 {% block _top_sign_in_link_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' topbar-navigation__link',
+        '~class': ' navigation-menu__inner navigation-menu__link',
         'href': path(route_name)
     }) %}
     <a {{ block('block_attributes') }}>
@@ -20,10 +20,9 @@
 
 {% block _top_registration_link_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' topbar-navigation__link',
+        '~class': ' navigation-menu__inner navigation-menu__link',
         'href': path(route_name)
     }) %}
-    <span class="topbar-navigation__separator">|</span>
     <a {{ block('block_attributes') }}>
         {{- text|trans -}}
     </a>

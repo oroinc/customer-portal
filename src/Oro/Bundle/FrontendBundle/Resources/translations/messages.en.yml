@@ -58,6 +58,7 @@ oro_frontend:
             top_navigation_menu:
                 label: 'Top Navigation Menu'
                 tooltip: 'The selected menu will be rendered above the header.'
+                placeholder: 'Select top navigation menu'
             language_and_currency_switchers:
                 label: 'Language and Currency Switchers'
                 tooltip: 'When "Above the header" option is selected, the language and currency switchers (if applicable) will be rendered above the header on the devices with the sufficient screen width. On smaller screens the language/currency switchers will be placed inside the "hamburger" menu.'
@@ -75,6 +76,7 @@ oro_frontend:
             quick_links:
                 label: 'Quick Links'
                 tooltip: 'The top level items from the selected menu will be added to the header to provide quick access to the most frequently used pages.'
+                placeholder: 'Select quick links'
             search_on_smaller_screens:
                 label: 'Search On Smaller Screens'
                 tooltip: 'On smaller screens the search input can be rendered in its own row to provide easy access to global search.'

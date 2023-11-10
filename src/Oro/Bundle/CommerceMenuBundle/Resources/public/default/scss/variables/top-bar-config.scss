@@ -3,12 +3,16 @@
 $top-bar-menu-item-offset-right: 40px !default;
 $top-bar-menu-item-line-height: 16px !default;
 
-$top-bar-font-size: 12px !default;
-$top-bar-background: get-color('additional-old', 'light') !default;
-$top-bar-color: null !default;
-$top-bar-font-size: null !default;
+$top-bar-font-size: $base-font-size !default;
+$top-bar-background: get-color('neutral', 'dark') !default;
+$top-bar-color: get-color('neutral', 'white-100') !default;
 
-$top-bar-link-color: get-color('additional-old', 'dark') !default;
+$top-bar-link-color: get-color('text', 'primary') !default;
+$top-bar-link-color-hover: get-color('text', 'primary') !default;
+
+$top-bar-link-color-inverse: get-color('neutral', 'white-100') !default;
+$top-bar-link-color-hover-inverse: get-color('text', 'link-hover-on-dark') !default;
+
 $top-bar-list-link-color: get-color('additional-old', 'dark') !default;
 $top-bar-promo-color: get-color('primary-old', 'dark') !default;
 $top-bar-menu-item-offset-inner: spacing('xs') 0 !default;
@@ -16,9 +20,9 @@ $top-bar-menu-item-offset-inner: spacing('xs') 0 !default;
 $top-bar-dropdown-background: get-color('additional-old', 'ultra') !default;
 $top-bar-dropdown-box-shadow: 0 4px 5px 0 rgba(0 0 0 / 40%) !default;
 
-$topbar-navigation-item-tablet-inner-offset: 0 !default;
-$topbar-navigation-item-tablet-border-bottom: 1px solid get-color('additional-old', 'light') !default;
-$topbar-navigation-item-tablet-text-transform: uppercase !default;
-$topbar-navigation-link-tablet-inner-offset: 13px 16px !default;
-$topbar-navigation-link-tablet-border-bottom: 1px solid get-color('additional-old', 'light') !default;
-$topbar-navigation-separator-offset: 0 4px !default;
+$navigation-menu-item-tablet-inner-offset: 0 !default;
+$navigation-menu-item-tablet-border-bottom: 1px solid get-color('additional-old', 'light') !default;
+$navigation-menu-item-tablet-text-transform: uppercase !default;
+$navigation-menu-link-tablet-inner-offset: 13px 16px !default;
+$navigation-menu-link-tablet-border-bottom: 1px solid get-color('additional-old', 'light') !default;
+$navigation-menu-separator-offset: 0 4px !default;

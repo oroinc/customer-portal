@@ -141,7 +141,7 @@
 
 {% block spanElement %}
     {% import _self as oro_menu %}
-    <span{{ oro_menu.attributes(labelAttributes) }} {{ oro_menu.attributes(linkAttributes) }}>{{ block('label') }}</span>
+    <span{{ oro_menu.attributes(labelAttributes) }}>{{ block('label') }}</span>
 {% endblock %}
 
 {% block label %}

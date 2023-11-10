@@ -37,6 +37,7 @@ define(function(require, exports, module) {
             sibling: null,
             moveTo: null,
             endpointClass: 'relocated',
+            startPointClass: '',
             prepend: false,
             responsive: [],
             targetViewport: null,
@@ -142,6 +143,11 @@ define(function(require, exports, module) {
                 options.$originalPosition.children().eq(options.originalOrder - 1).after($el);
             }
 
+            if ($el.data('startPointClass')) {
+                $el.addClass($el.data('startPointClass'));
+                $el.removeData('startPointClass');
+            }
+
             if (options._addedClass) {
                 $el.removeClass(options._addedClass);
             }
@@ -168,6 +174,11 @@ define(function(require, exports, module) {
                 targetOptions.prepend
                     ? $target.prepend($el)
                     : $target.append($el);
+            }
+
+            if (targetOptions.startPointClass) {
+                $el.removeClass(targetOptions.startPointClass);
+                $el.data('startPointClass', targetOptions.startPointClass);
             }
 
             if (options._addedClass) {
