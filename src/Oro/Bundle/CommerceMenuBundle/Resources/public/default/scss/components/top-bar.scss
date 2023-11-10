@@ -55,3 +55,17 @@
         }
     }
 }
+
+@include breakpoint('tablet') {
+    .topbar {
+        display: none;
+
+        .grid__column {
+            display: block;
+            float: none;
+
+            padding: 0;
+            width: 100%;
+        }
+    }
+}
