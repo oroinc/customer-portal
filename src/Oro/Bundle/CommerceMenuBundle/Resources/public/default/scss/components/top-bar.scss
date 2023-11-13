@@ -1,7 +1,6 @@
 /* @theme: default; */
 
 .topbar {
-    background: $top-bar-background;
     color: $top-bar-color;
     font-size: $top-bar-font-size;
 
@@ -60,7 +59,6 @@
     @include list-normalize();
 
     display: flex;
-    justify-content: flex-end;
 
     &--has-sibling {
         margin-right: 10px;
@@ -87,8 +85,6 @@
 
     &__item {
         margin-right: $top-bar-menu-item-offset-right;
-        line-height: $top-bar-menu-item-line-height;
-        padding: $top-bar-menu-item-offset-inner;
 
         &:last-child {
             margin-right: 0;
@@ -98,6 +94,10 @@
     &__separator {
         margin: $topbar-navigation-separator-offset;
     }
+}
+
+.topbar-right {
+    display: flex;
 }
 
 @include breakpoint('desktop-small') {

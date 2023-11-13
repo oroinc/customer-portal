@@ -1,6 +1,14 @@
 {% block _quick_access_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " quick-access-container"
+        '~class': " quick-access-container",
+        'data-dom-relocation-options': {
+            responsive: [
+                {
+                    viewport: 'tablet',
+                    moveTo: '[data-main-menu-extra-container]'
+                }
+            ]
+        }
     }) %}
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
@@ -9,17 +17,10 @@
 
 {% block _quick_access_menu_widget %}
     {% import '@OroNavigation/Menu/menu.html.twig' as oro_menu %}
+    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
     {% if item.displayed and item.extras.isAllowed %}
         {% set attr = layout_attr_defaults(attr, {
-            '~class': ' quick-access',
-            'data-dom-relocation-options': {
-                responsive: [
-                    {
-                        viewport: 'tablet',
-                        moveTo: '[data-main-menu-extra-container]'
-                    }
-                ]
-            }
+            '~class': ' quick-access'
         }) %}
 
         {% set firstItem = true %}
@@ -31,20 +32,20 @@
                 {% endif %}
 
                 {% if child.name == 'orders' %}
-                    {% set badgeClass = 'quick-access__icon--light' %}
-                    {% set iconClass = 'fa-clipboard' %}
+                    {% set badgeClass = '' %}
+                    {% set iconClass = 'file-text' %}
                 {% elseif child.name == 'quotes' %}
                     {% set badgeClass = '' %}
-                    {% set iconClass = 'fa-tags' %}
+                    {% set iconClass = 'tag' %}
                 {% else %}
-                    {% set badgeClass = 'quick-access__icon--dark' %}
-                    {% set iconClass = 'fa-bolt' %}
+                    {% set badgeClass = '' %}
+                    {% set iconClass = 'zap' %}
                 {% endif %}
 
             <li class="quick-access__item">
                 {% set linkAttributes = child.linkAttributes|merge({'class': 'quick-access__link'}) %}
                 <a href="{{ child.uri }}"{{ oro_menu.attributes(linkAttributes) }}>
-                    <span class="quick-access__icon {{ badgeClass }} {{ iconClass }}" aria-hidden="true"></span>
+                    {{ renderIcon.icon({id: iconClass, extraClass: badgeClass ~ ' theme-icon theme-icon--medium'}) }}
                     {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
                     <span class="quick-access__text">{{ label }}</span>
                 </a>

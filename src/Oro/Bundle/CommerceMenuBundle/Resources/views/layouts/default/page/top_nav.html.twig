@@ -11,7 +11,7 @@
 
 {% block _top_nav_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " topbar-navigation topbar-navigation--align-end"
+        '~class': " topbar-navigation"
     }) %}
 
     {% set child_attr = layout_attr_defaults(child_attr, {
@@ -27,4 +27,14 @@
 
 {% block _top_nav_menu_container_widget %}
     {{ block_widget(block) }}
+{% endblock %}
+
+
+{% block _top_nav_topbar_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " topbar-right"
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
 {% endblock %}

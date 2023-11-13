@@ -18,7 +18,7 @@ oro_behat_extension:
         - '@OroFrontendBundle/Tests/Behat/Features'
   elements:
     FrontendMainMenu:
-      selector: '[data-main-menu-container]'
+      selector: '.main-menu-outer'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\FrontendMainMenu
     FrontendMainMenuDropdown:
       selector: '[data-main-menu-item]'

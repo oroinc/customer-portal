@@ -1,32 +1,23 @@
 /* @theme: default; */
 
 .header-row {
-    position: relative;
-    margin-top: spacing('base');
-    border: $header-row-border;
-    border-width: 1px 0;
-    display: flex;
-    max-width: $site-width;
-    margin: 0 auto;
-    justify-content: space-between;
-
-    @include clearfix();
+    position: $header-row-position;
+    display: $header-row-display;
+    justify-content: $header-row-justify-content;
+    align-items: $header-row-align-items;
+    gap: $header-row-gap;
+    padding-bottom: $header-row-padding;
 
     &__trigger {
+        display: block;
+        width: 100%;
         position: relative;
         z-index: z('base');
-        width: 100%;
-        display: block;
         margin: 0;
-        padding: 7px 10px;
+        padding: $header-row-border-trigger-padding;
+        border-radius: $header-row-border-trigger-border-radius;
         background-color: $header-row-border-trigger-background-color;
-        border: 0;
-        border-right: $header-row-trigger-border;
-
-        .main-menu__item:hover {
-            // stylelint-disable-next-line declaration-no-important
-            background-color: transparent !important;
-        }
+        border: none;
     }
 
     &__toggle {
@@ -34,12 +25,6 @@
     }
 
     &.show {
-        .header-row__trigger {
-            background: $header-row-border-show-trigger-background;
-
-            z-index: auto;
-        }
-
         .header-row__toggle {
             display: block;
         }
@@ -47,10 +32,6 @@
 
     &__container {
         &.show {
-            .header-row__trigger {
-                box-shadow: $header-row-show-trigger-box-shadow;
-            }
-
             .header-row__toggle {
                 visibility: inherit;
 
@@ -73,31 +54,11 @@
 }
 
 @include breakpoint('desktop-small') {
-    %hidden-on-desktop {
-        &.hidden-on-desktop {
-            // stylelint-disable-next-line declaration-no-important
-            display: none !important;
-        }
-    }
-
     .header-row {
         &__container {
-            @extend %hidden-on-desktop;
-
             &--unstack {
                 flex-grow: 1;
             }
-        }
-
-        &__trigger {
-            @extend %hidden-on-desktop;
-
-            padding: 0;
-            border: none;
-        }
-
-        &__toggle {
-            @extend %hidden-on-desktop;
         }
     }
 }
@@ -107,7 +68,7 @@
         border: $header-row-border-tablet;
         position: relative;
         z-index: z('base') + 2;
-        margin: 0 (-spacing('xs'));
+        display: none;
 
         &__container {
             position: static;

@@ -2,45 +2,30 @@
 
 .quick-access {
     &__list {
-        text-align: right;
-
-        @include list-normalize();
-        @include clearfix();
+        display: $quick-access-list-display;
+        align-items: $quick-access-list-align-items;
+        gap: $quick-access-list-gap;
     }
 
     &__item {
-        position: relative;
-
-        display: inline-block;
-        margin-left: 10px;
-
-        font-size: $base-font-size;
-    }
-
-    &__text {
-        vertical-align: middle;
+        display: $quick-access-item-display;
+        margin: $quick-access-item-margin;
     }
 
     &__link {
-        display: inline-block;
-        vertical-align: middle;
-
-        font-weight: font-weight('normal');
-        text-overflow: ellipsis;
-        white-space: nowrap;
-
+        display: $quick-access-link-display;
+        align-items: $quick-access-link-align-items;
+        gap: $quick-access-link-gap;
+        font-weight: $quick-access-link-font-weight;
+        text-overflow: $quick-access-link-text-overflow;
+        white-space: $quick-access-link-white-space;
         color: $quick-access-link-color;
-
-        overflow: hidden;
+        overflow: $quick-access-link-overflow;
+        padding: $quick-access-link-padding;
 
         &:hover {
-            text-decoration: none;
-
+            text-decoration: $quick-access-link-hover-text-decoration;
             color: $quick-access-link-hover-color;
-
-            .quick-access__text {
-                text-decoration: underline;
-            }
         }
     }
 
@@ -66,20 +51,8 @@
 
 @include breakpoint('tablet') {
     .quick-access {
-        border-bottom: $quick-access-tablet-border;
-        padding: spacing('base');
-
-        &__list {
-            text-align: left;
-        }
-
-        &__item {
-            display: block;
-
-            margin: 0;
-            padding: 8px 0;
-
-            text-transform: uppercase;
+        &__link {
+            color: $quick-access-link-tablet-color;
         }
 
         &__text {

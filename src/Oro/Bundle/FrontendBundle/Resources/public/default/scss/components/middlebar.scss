@@ -1,29 +1,39 @@
 /* @theme: default; */
 
 .middlebar {
-    --grid-gap: #{$middlebar-grid-gap};
-    --grid-template-columns: #{$middlebar-grid-template-columns};
-
+    display: $middlebar-display;
+    gap: $middlebar-grid-gap;
+    grid-template-columns: $middlebar-grid-template-columns;
     align-items: $middlebar-align-items;
     padding: $middlebar-padding;
+
+    &__right {
+        display: $middlebar-right-display;
+        gap: $middlebar-right-gap;
+    }
 }
 
 @include breakpoint('tablet') {
     .middlebar {
-        --grid-template-columns: #{$middlebar-tablet-grid-template-columns};
-
+        grid-template-columns: $middlebar-tablet-grid-template-columns;
         padding: $middlebar-tablet-padding;
 
         &__left {
-            justify-self: $middlebar-left-tablet-justify-self;
-        }
-
-        &__right {
-            display: $middlebar-right-tablet-display;
+            display: $middlebar-left-tablet-display;
+            gap: $middlebar-left-tablet-gap;
         }
 
         &__center {
-            display: $middlebar-center-tablet-display;
+            grid-column: $middlebar-center-tablet-grid-column;
+            grid-row: $middlebar-center-tablet-grid-row;
+        }
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .middlebar {
+        &__right {
+            gap: $middlebar-right-mobile-landscape-gap;
         }
     }
 }
