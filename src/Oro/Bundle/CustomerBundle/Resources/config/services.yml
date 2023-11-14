@@ -1313,3 +1313,18 @@ services:
             - '@oro_customer.security.acl.visitor.cache'
         tags:
             - { name: doctrine.orm.entity_listener, entity: Oro\Bundle\WebsiteBundle\Entity\Website, event: postUpdate }
+
+    oro_customer.security.doctrine_acl_cache_listener:
+        class: Oro\Bundle\CustomerBundle\Security\Listener\CustomerUserDoctrineAclCacheListener
+        arguments:
+            - '@oro_security.acl_query.cache_provider'
+            - '@oro_customer.owner.tree_provider'
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
+    oro_customer.acl_query.cache_user_info_provider_decorator:
+        class: Oro\Bundle\CustomerBundle\Security\Cache\DoctrineAclCacheCustomerUserInfoProvider
+        decorates: oro_security.acl_query.cache_user_info_provider
+        arguments:
+            - '@oro_security.token_accessor'
+            - '@oro_customer.acl_query.cache_user_info_provider_decorator.inner'

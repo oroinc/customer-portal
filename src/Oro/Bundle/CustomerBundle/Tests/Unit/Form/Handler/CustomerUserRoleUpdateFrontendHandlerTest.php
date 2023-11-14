@@ -49,6 +49,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
                 $this->aclCache,
                 $this->privilegeConfig
             );
+            $this->handler->setQueryCacheProvider($this->queryCacheProvider);
         }
 
         return $this->handler;

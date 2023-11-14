@@ -168,6 +168,7 @@ services:
             - [addExtensionFilter, ['action', 'commerce']]
             - [setConfigurableName, ['commerce']]
             - [setVisitorAclCache, ['@oro_customer.security.acl.visitor.cache']]
+            - [setQueryCacheProvider, ['@oro_security.acl_query.cache_provider']]
 
     oro_customer.form.handler.update_customer_user_role_frontend:
         parent: oro_customer.form.handler.update_customer_user_role
