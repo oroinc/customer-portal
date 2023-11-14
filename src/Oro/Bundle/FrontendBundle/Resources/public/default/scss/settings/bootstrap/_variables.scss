@@ -161,13 +161,17 @@ $dropdown-item-gap: spacing('sm');
 
 // Tooltips
 
-$tooltip-font-size: .875rem;
+$tooltip-font-size: $base-font-size - 1px;
 $tooltip-max-width: 316px;
 $tooltip-border-radius: $border-radius-xs;
-$tooltip-padding-y: spacing('xs');
-$tooltip-padding-x: spacing('sm');
-$tooltip-arrow-width: 12px;
-$tooltip-arrow-height: 6px;
+$tooltip-bg: get-color('neutral', 'white-100');
+$tooltip-color: get-color('text', 'primary');
+$tooltip-padding-y: spacing('sm');
+$tooltip-padding-x: spacing('md');
+$tooltip-box-shadow: 0 3px 6px 0 rgba(91, 126, 131, .14), 0 0 3px 0 rgba(5, 59, 66, .1) !default;
+$tooltip-arrow-width: 0;
+$tooltip-arrow-height: 0;
+$tooltip-opacity: 1;
 
 // Form tooltips must come after regular tooltips
 
