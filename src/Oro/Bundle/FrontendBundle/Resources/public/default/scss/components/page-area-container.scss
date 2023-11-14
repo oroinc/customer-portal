@@ -5,5 +5,4 @@
     max-width: $page-area-container-max-width;
 
     @include make-container();
-    @include clearfix();
 }

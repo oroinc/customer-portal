@@ -3,10 +3,13 @@
 $search-widget-position: relative !default;
 
 $search-widget-wrap-width: 100% !default;
-$search-widget-wrap-max-width: 320px !default;
+$search-widget-wrap-max-width: 400px !default;
 
-$search-widget-input-height: 50px !default;
-$search-widget-input-inner-offset: 0 55px 0 18px !default;
+$search-widget-input-border-radius: 4px !default;
+$search-widget-input-border-color: get-color('neutral', 'grey3') !default;
+$search-widget-input-color: get-color('neutral', 'grey3') !default;
+$search-widget-input-height: 44px !default;
+$search-widget-input-inner-offset: 0 18px 0 55px !default;
 $search-widget-input-width: 100% !default;
 $search-widget-input-position: relative !default;
 
@@ -15,7 +18,7 @@ $search-widget-input-undo-focus-box-shadow: none !default;
 
 $search-widget-input-submit-position: absolute !default;
 $search-widget-input-submit-top: 0 !default;
-$search-widget-input-submit-right: 0 !default;
+$search-widget-input-submit-left: 0 !default;
 $search-widget-input-submit-bottom: 0 !default;
 $search-widget-input-submit-width: 50px !default;
 $search-widget-input-submit-inner-offset: 0 !default;
@@ -23,7 +26,6 @@ $search-widget-input-submit-offset: 0 !default;
 $search-widget-input-submit-font-size: $base-font-size--m - 1px !default;
 $search-widget-input-submit-background: transparent !default;
 $search-widget-input-submit-border: none !default;
-$search-widget-input-submit-color: get-color('additional-old', 'middle') !default;
 
 $search-widget-input-submit-hover-color: get-color('additional-old', 'darker') !default;
 $search-widget-input-submit-hover-cursor: pointer !default;
@@ -32,9 +34,9 @@ $search-widget-input-submit-focus-box-shadow: none !default;
 $search-widget-input-submit-focus-color: get-color('ui', 'focus') !default;
 
 // Tablet
-$search-widget-tablet-offset: spacing('base') spacing('base') !default;
+$search-widget-tablet-offset: spacing('base') 0 0 !default;
 
-$search-widget-input-tablet-height: 45px !default;
+$search-widget-wrap-tablet-max-width: initial !default;
 
-$search-widget-submit-tablet-height: $search-widget-input-tablet-height !default;
+$search-widget-submit-tablet-height: 44px !default;
 $search-widget-submit-tablet-bottom: auto !default;

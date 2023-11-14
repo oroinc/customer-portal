@@ -1,6 +1,6 @@
 {% block _top_nav_controls_dropdown_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " pull-left topbar-customer-menu dropdown"
+        '~class': " topbar-customer-menu dropdown"
     }) %}
 
     <div {{ block('block_attributes') }}>
@@ -21,37 +21,29 @@
 {% endblock %}
 
 {% block _top_nav_customer_dropdown_trigger_widget %}
+    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " topbar-customer-menu__trigger",
+        '~class': " btn btn--outlined-inverse btn--text topbar-customer-menu__trigger",
         'type': 'button',
         'data-toggle': 'dropdown',
         'id': 'topbar-customer-menu-trigger'
     }) %}
 
     <button {{ block('block_attributes') }}>
-        <span class="topbar-customer-menu__greeting">
+        {{ renderIcon.icon({id: 'user', extraClass: 'theme-icon--medium'}) }}
             {{ block_widget(block) }}
-        </span>
-        <span class="fa-angle-down" aria-hidden="true"></span>
+        {{ renderIcon.icon({id: 'chevron-down', extraClass: 'theme-icon--medium topbar-customer-menu__dropdown-icon hide-on-tablet'}) }}
     </button>
 {% endblock %}
 
 {% block _top_nav_user_name_widget%}
-    <span>{{ text }}</span>
+    <span class="hide-on-tablet">{{ text }}</span>
 {% endblock %}
 
 {% block _top_nav_customer_dropdown_sign_out_link_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' navigation-menu__inner  navigation-menu__link sign-out-link',
-        'href': path(route_name),
-        'data-dom-relocation-options': {
-            responsive: [
-                {
-                    viewport: 'tablet',
-                    moveTo: '[data-customer-menu-container]'
-                }
-            ]
-        }
+        'href': path(route_name)
     }) %}
 
     <a {{ block('block_attributes') }}>

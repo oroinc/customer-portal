@@ -1,7 +1,6 @@
 /* @theme: default; */
 
 $top-bar-menu-item-offset-right: 40px !default;
-$top-bar-menu-item-line-height: 16px !default;
 
 $top-bar-font-size: $base-font-size !default;
 $top-bar-background: get-color('neutral', 'dark') !default;
@@ -9,13 +8,15 @@ $top-bar-color: get-color('neutral', 'white-100') !default;
 
 $top-bar-link-color: get-color('text', 'primary') !default;
 $top-bar-link-color-hover: get-color('text', 'primary') !default;
+$top-bar-font-size: 14px !default;
+$top-bar-color: get-color('neutral', 'white-100') !default;
 
 $top-bar-link-color-inverse: get-color('neutral', 'white-100') !default;
 $top-bar-link-color-hover-inverse: get-color('text', 'link-hover-on-dark') !default;
 
+$top-bar-link-color: get-color('neutral', 'white-100') !default;
 $top-bar-list-link-color: get-color('additional-old', 'dark') !default;
-$top-bar-promo-color: get-color('primary-old', 'dark') !default;
-$top-bar-menu-item-offset-inner: spacing('xs') 0 !default;
+$top-bar-promo-color: get-color('secondary', 'main') !default;
 
 $top-bar-dropdown-background: get-color('additional-old', 'ultra') !default;
 $top-bar-dropdown-box-shadow: 0 4px 5px 0 rgba(0 0 0 / 40%) !default;

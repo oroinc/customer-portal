@@ -5,16 +5,28 @@
 // Base styles
 $main-menu-display: flex !default;
 $main-menu-flex-grow: 0 !default;
+$main-menu-gap: 0 spacing('xxl') !default;
 
 $main-menu-link-display: block !default;
-$main-menu-link-line-height: 1.5 !default;
+$main-menu-link-line-height: 1.4286 !default;
+$main-menu-link-font-weight: font-weight('semi-bold') !default;
+$main-menu-link-position: relative !default;
+$main-menu-link-letter-spacing: .2px !default;
 $main-menu-link-background-active: get-color('additional-old', 'base') !default;
 $main-menu-sublist-title-offset: spacing('xs') !default;
 $main-menu-sublist-transition: left .4s linear !default;
 
-$main-menu-button-arrow-width: 33px !default;
-$main-menu-button-arrow-inner-offset: 0 0 0 4px !default;
-$main-menu-button-arrow-text-align: left !default;
+$main-menu-link-after-content: #{"''"} !default;
+$main-menu-link-after-background: get-color('text', 'inverse') !default;
+$main-menu-link-after-width: 100% !default;
+$main-menu-link-after-height: 3px !default;
+$main-menu-link-after-position: absolute !default;
+$main-menu-link-after-inset: auto 0 0 !default;
+$main-menu-link-after-border-radius: 4px 4px 0 0 !default;
+
+$main-menu-button-arrow-width: 28px !default;
+$main-menu-button-arrow-inner-offset: 0 !default;
+$main-menu-button-arrow-text-align: end !default;
 $main-menu-button-arrow-border: none !default;
 $main-menu-button-arrow-background: none !default;
 $main-menu-button-arrow-outline: none !default;
@@ -48,9 +60,9 @@ $main-menu-back-trigger-fullscreen-display: block !default;
 
 $main-menu-link-text-align: center !default;
 $main-menu-link-text-decoration: none !default;
-$main-menu-link-inner-offset: 14px 24px !default;
-$main-menu-link-color: get-color('additional-old', 'dark') !default;
-$main-menu-link-color-hover: get-color('additional-old', 'dark') !default;
+$main-menu-link-inner-offset: spacing('md') 0 !default;
+$main-menu-link-color: get-color('text', 'inverse-70') !default;
+$main-menu-link-color-hover: get-color('text', 'inverse') !default;
 $main-menu-link-text-decoration-focus: none !default;
 $main-menu-link-text-transform: uppercase !default;
 $main-menu-link-grid-column: #{'1 / 3'} !default;
@@ -60,6 +72,7 @@ $main-menu-sublist-container-shadow: 0 2px 5px 0 rgba(0 0 0 / 20%) !default;
 $main-menu-sublist-fullheight-background: get-color('additional-old', 'base') !default;
 $main-menu-sublist-fullheight-box-shadow: 0 2px 6px 1px #{rgba(get-color('additional-old', 'darker'), .12)} !default;
 $main-menu-edge: 50px !default;
+$main-menu-sublist-fullheight-top: calc(100% - #{spacing('sm')}) !default;
 $main-menu-sublist-fullheight-bottom: calc(
     -100vh + #{$main-menu-edge} + var(--main-menu-offset-bottom, 170px)
 ) !default;
@@ -96,6 +109,7 @@ $main-menu-sublist-floated-position: relative !default;
 $main-menu-sublist-floated-top: auto !default;
 $main-menu-sublist-floated-left: auto !default;
 $main-menu-sublist-floated-right: auto !default;
+$main-menu-sublist-floated-transform: translateY(16px) !default;
 
 $main-menu-sublist-container-floated-position: absolute !default;
 $main-menu-sublist-container-floated-right: auto !default;
@@ -110,7 +124,7 @@ $main-menu-sublist-container-centered-translate-rtl:
         min(var(--main-menu-offset-start, 0) + var(--main-menu-offset-width, 0) / 2, 50%)
     ) !default;
 
-$main-menu-item-hover-desktop-background: get-color('additional-old', 'base') !default;
+$main-menu-item-hover-desktop-background: null !default;
 
 // Only Desktop
 $main-menu-outer-container-desktop-display: flex !default;
@@ -119,6 +133,12 @@ $main-menu-outer-desktop-display: flex !default;
 $main-menu-outer-tablet-icon: get-color('additional-old', 'dark') !default;
 
 $main-menu-sublist-container-background: get-color('additional-old', 'ultra') !default;
+
+$main-menu-sublist-container-before-content: #{"''"} !default;
+$main-menu-sublist-container-before-width: 100% !default;
+$main-menu-sublist-container-before-height: spacing('base') !default;
+$main-menu-sublist-container-before-position: absolute !default;
+$main-menu-sublist-container-before-inset: auto 0 calc(100% + 1px) !default;
 
 $main-menu-item-show-mobile-version-background: get-color('additional-old', 'base') !default;
 
@@ -144,7 +164,7 @@ $main-menu-sublist-current-tablet-left: 0 !default;
 $main-menu-sublist-container-tablet-height: 100%;
 $main-menu-sublist-container-tablet-overflow: auto;
 
-$main-menu-button-arrow-icon: $fa-var-angle-down !default;
+$main-menu-button-arrow-icon: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path fill="%23000" fill-rule="evenodd" d="M5.293 8.293a1 1 0 0 1 1.414 0L12 13.586l5.293-5.293a1 1 0 1 1 1.414 1.414l-6 6a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 0-1.414Z"></path></svg>') !default;
 $main-menu-button-arrow-display: inline-block !default;
 
 // Full screen mode

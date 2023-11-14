@@ -18,6 +18,8 @@ layout:
                     prepend: true
                 top_nav_menu_container:
                     blockType: container
+                top_nav_topbar_container:
+                    blockType: container
                 top_nav:
                     blockType: menu
                     options:
@@ -27,5 +29,6 @@ layout:
             tree:
                 page_header:
                     top_nav_container:
-                        top_nav_menu_container:
-                            top_nav: ~
+                        top_nav: ~
+                        top_nav_topbar_container:
+                            top_nav_menu_container: ~

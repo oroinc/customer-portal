@@ -67,11 +67,6 @@ layout:
             parentId: top_sticky_panel_content
             blockType: block
 
-        - '@move':
-            id: top_sticky_panel
-            parentId: page_container
-            siblingId: page_header
-
         - '@setOption':
             id: root
             optionName: languageCode

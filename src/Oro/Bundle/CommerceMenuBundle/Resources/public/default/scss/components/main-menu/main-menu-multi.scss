@@ -19,6 +19,16 @@
 
 @include breakpoint('desktop-small') {
     .main-menu-multi {
+        &__container {
+            &::before {
+                content: $main-menu-multi-container-before-content;
+                width: $main-menu-multi-container-before-width;
+                height: $main-menu-multi-container-before-height;
+                position: $main-menu-multi-container-before-position;
+                inset: $main-menu-multi-container-before-inset;
+            }
+        }
+
         .main-menu__inner--edge & {
             &__container {
                 width: $main-menu-multi-container-edge-desktop-width;

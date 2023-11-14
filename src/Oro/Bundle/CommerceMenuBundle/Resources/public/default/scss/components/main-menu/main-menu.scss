@@ -21,6 +21,14 @@
         display: $main-menu-back-trigger-display;
     }
 
+    &__extra-container {
+        display: none;
+
+        @include fullscreen-mode {
+            display: block;
+        }
+    }
+
     @include fullscreen-mode {
         .main-menu__back-trigger {
             position: $main-menu-back-trigger-fullscreen-position;
@@ -49,6 +57,7 @@
     .main-menu {
         display: $main-menu-display;
         flex-grow: $main-menu-flex-grow;
+        gap: $main-menu-gap;
 
         &__actions {
             display: $main-menu-actions-display;
@@ -75,7 +84,10 @@
         &__link {
             display: $main-menu-link-display;
             padding: $main-menu-link-inner-offset;
+            position: $main-menu-link-position;
             line-height: $main-menu-link-line-height;
+            font-weight: $main-menu-link-font-weight;
+            letter-spacing: $main-menu-link-letter-spacing;
             text-align: $main-menu-link-text-align;
             text-decoration: $main-menu-link-text-decoration;
             text-transform: $main-menu-link-text-transform;
@@ -93,6 +105,36 @@
             }
         }
 
+        &__item.show &__link {
+            color: $main-menu-link-color-hover;
+
+            &::after {
+                content: $main-menu-link-after-content;
+                background: $main-menu-link-after-background;
+                width: $main-menu-link-after-width;
+                height: $main-menu-link-after-height;
+                position: $main-menu-link-after-position;
+                inset: $main-menu-link-after-inset;
+                border-radius: $main-menu-link-after-border-radius;
+            }
+        }
+
+        @media (hover: hover) {
+            &__item:hover &__link {
+                color: $main-menu-link-color-hover;
+
+                &::after {
+                    content: $main-menu-link-after-content;
+                    background: $main-menu-link-after-background;
+                    width: $main-menu-link-after-width;
+                    height: $main-menu-link-after-height;
+                    position: $main-menu-link-after-position;
+                    inset: $main-menu-link-after-inset;
+                    border-radius: $main-menu-link-after-border-radius;
+                }
+            }
+        }
+
         &__button {
             color: $main-menu-link-color;
             border: $main-menu-button-arrow-border;
@@ -106,7 +148,12 @@
             grid-column: $main-menu-button-arrow-grid-column;
             grid-row: $main-menu-button-arrow-grid-row;
 
-            @include fa-icon($main-menu-button-arrow-icon, before, true) {
+            &::before {
+                content: '';
+                background-color: currentColor;
+                mask-image: $main-menu-button-arrow-icon;
+                width: 20px;
+                height: 20px;
                 display: $main-menu-button-arrow-display;
             }
         }
@@ -114,6 +161,16 @@
         &__link + &__button {
             span {
                 display: $main-menu-button-span-display;
+            }
+        }
+
+        &__item.show &__button {
+            color: $main-menu-link-color-hover;
+        }
+
+        @media (hover: hover) {
+            &__item:hover &__button {
+                color: $main-menu-link-color-hover;
             }
         }
 
@@ -129,6 +186,14 @@
             border: $main-menu-sublist-container-d-border;
             background: $main-menu-sublist-container-background;
             box-shadow: $main-menu-sublist-container-shadow;
+
+            &::before {
+                content: $main-menu-sublist-container-before-content;
+                width: $main-menu-sublist-container-before-width;
+                height: $main-menu-sublist-container-before-height;
+                position: $main-menu-sublist-container-before-position;
+                inset: $main-menu-sublist-container-before-inset;
+            }
         }
 
         &__inner {
@@ -146,6 +211,7 @@
                 top: $main-menu-sublist-floated-top;
                 left: $main-menu-sublist-floated-left;
                 right: $main-menu-sublist-floated-right;
+                transform: $main-menu-sublist-floated-transform;
 
                 .main-menu__inner-container {
                     position: $main-menu-sublist-container-floated-position;
@@ -165,6 +231,7 @@
             &--fullheight {
                 background: $main-menu-sublist-fullheight-background;
                 box-shadow: $main-menu-sublist-fullheight-box-shadow;
+                top: $main-menu-sublist-fullheight-top;
                 bottom: $main-menu-sublist-fullheight-bottom;
             }
 

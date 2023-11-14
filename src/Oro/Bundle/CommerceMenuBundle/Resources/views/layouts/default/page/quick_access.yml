@@ -12,6 +12,6 @@ layout:
                     options:
                         item: '=data["menu"].getMenu("commerce_quick_access")'
             tree:
-                middle_bar_right:
+                header_row:
                     quick_access_container:
                         quick_access_menu: ~

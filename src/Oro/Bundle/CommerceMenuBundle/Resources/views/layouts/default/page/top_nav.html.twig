@@ -43,6 +43,15 @@
     {{ block_widget(block) }}
 {% endblock %}
 
+{% block _top_nav_topbar_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " topbar-right"
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
 {% block _top_nav_extra_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
         'data-top-navigation-extra-container': ''

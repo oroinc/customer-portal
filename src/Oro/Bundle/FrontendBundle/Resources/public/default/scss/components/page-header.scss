@@ -3,13 +3,13 @@
 .page-header {
     position: relative;
     padding: $page-header-inner-offset;
-
-    @include clearfix();
+    background-color: $page-header-background-color;
 
     &-content {
         display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        padding: $page-header-padding;
     }
 
     &__inner {

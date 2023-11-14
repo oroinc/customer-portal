@@ -1,12 +1,14 @@
 /* @theme: default; */
 
-$top-bar-cusomer-menu-use-ellipsis: true !default;
-$top-bar-cusomer-menu-trigger-offset-top: 6px 0 0 !default;
-$top-bar-cusomer-menu-use-greeting-length: 250px !default;
-$top-bar-cusomer-menu-use-greeting-align: text-bottom !default;
+$top-bar-customer-menu-dropdown-offset: spacing('sm') !default;
+$top-bar-customer-menu-links-color: get-color('additional-old', 'dark') !default;
+$top-bar-customer-menu-links-hover-color: get-color('additional-old', 'dark') !default;
 
-$top-bar-cusomer-menu-dropdown-offset: spacing('sm') !default;
-$top-bar-cusomer-menu-links-color: get-color('additional-old', 'dark') !default;
-$top-bar-cusomer-menu-links-hover-color: get-color('additional-old', 'dark') !default;
+$top-bar-customer-menu-dropdown-item-offset: spacing('xs') 0 !default;
 
-$top-bar-cusomer-menu-dropdown-item-offset: spacing('xs') 0 !default;
+$top-bar-customer-menu-trigger-color: get-color('neutral', 'white-100') !default;
+$top-bar-customer-menu-trigger-border-radius: 4px !default;
+$top-bar-customer-menu-trigger-padding: 12px !default;
+$top-bar-customer-menu-trigger-font-size: 14px !default;
+$top-bar-customer-menu-trigger-line-height: 20px !default;
+$top-bar-customer-menu-trigger-font-weight: 600 !default;

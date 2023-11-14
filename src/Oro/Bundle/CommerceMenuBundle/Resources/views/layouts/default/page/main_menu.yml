@@ -7,10 +7,6 @@ layout:
                 header_row:
                     blockType: container
                     prepend: false
-                header_row_main_menu:
-                    blockType: container
-                main_menu_extra_container:
-                    blockType: container
                 main_menu_container:
                     blockType: container
                     options:
@@ -18,6 +14,8 @@ layout:
                             hoverPriority: true
                 main_menu_back_trigger:
                     blockType: block
+                main_menu_extra_container:
+                    blockType: container
                 main_menu_outer_container:
                     blockType: container
                 main_menu:
@@ -29,9 +27,14 @@ layout:
             tree:
                 page_header:
                     header_row:
-                        header_row_main_menu:
-                            main_menu_extra_container: ~
-                            main_menu_container:
-                                main_menu_back_trigger: ~
-                                main_menu_outer_container:
-                                    main_menu: ~
+                        main_menu_extra_container: ~
+                        main_menu_container:
+                            main_menu_back_trigger: ~
+                            main_menu_outer_container:
+                                main_menu: ~
+
+        - '@add':
+            id: main_menu_trigger
+            blockType: block
+            parentId: middle_bar_logo
+            prepend: true

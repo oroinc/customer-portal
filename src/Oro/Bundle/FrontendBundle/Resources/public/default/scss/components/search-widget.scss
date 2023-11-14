@@ -13,6 +13,18 @@
         padding: $search-widget-input-inner-offset;
         width: $search-widget-input-width;
         position: $search-widget-input-position;
+        color: $search-widget-input-color;
+        background-color: transparent;
+        border-color: $search-widget-input-border-color;
+        border-radius: $search-widget-input-border-radius;
+
+        &:hover {
+            border-color: $search-widget-input-border-color;
+        }
+
+        @include placeholder {
+            color: $search-widget-input-color;
+        }
 
         &.undo-focus {
             border: $search-widget-input-undo-focus-border;
@@ -21,9 +33,12 @@
     }
 
     &__submit {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         position: $search-widget-input-submit-position;
         top: $search-widget-input-submit-top;
-        right: $search-widget-input-submit-right;
+        left: $search-widget-input-submit-left;
         bottom: $search-widget-input-submit-bottom;
 
         width: $search-widget-input-submit-width;
@@ -35,8 +50,6 @@
         background: $search-widget-input-submit-background;
         border: $search-widget-input-submit-border;
 
-        color: $search-widget-input-submit-color;
-
         @include element-state('hover') {
             color: $search-widget-input-submit-hover-color;
             cursor: $search-widget-input-submit-hover-cursor;
@@ -46,14 +59,19 @@
             color: $search-widget-input-submit-focus-color;
         }
     }
+
+    .search-icon {
+        display: block;
+        fill: $search-widget-input-color;
+    }
 }
 
 @include breakpoint('tablet') {
     .search-widget {
         margin: $search-widget-tablet-offset;
 
-        &__input {
-            height: $search-widget-input-tablet-height;
+        &-wrap {
+            max-width: $search-widget-wrap-tablet-max-width;
         }
 
         &__submit {

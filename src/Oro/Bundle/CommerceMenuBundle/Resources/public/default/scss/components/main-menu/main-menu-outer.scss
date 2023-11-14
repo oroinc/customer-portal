@@ -17,6 +17,7 @@
 @include breakpoint('tablet') {
     .main-menu-outer {
         margin-bottom: 10px;
+        display: none;
 
         &__container {
             display: block;
@@ -40,6 +41,12 @@
             .main-menu__categories {
                 display: block;
             }
+        }
+    }
+
+    .fullscreen-mode {
+        .main-menu-outer {
+            display: block;
         }
     }
 }

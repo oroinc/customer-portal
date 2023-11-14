@@ -1,13 +1,20 @@
 /* @theme: default; */
 
+$header-row-position: relative !default;
+$header-row-display: flex !default;
+$header-row-justify-content: space-between !default;
+$header-row-align-items: center !default;
+$header-row-gap: 30px !default;
+$header-row-padding: 24px !default;
+
 $header-row-border-trigger-background-color: get-color('additional-old', 'base') !default;
-$header-row-border-toggle-background-color: get-color('additional-old', 'ultra') !default;
+$header-row-border-toggle-background-color: transparent !default;
+$header-row-border-trigger-border-radius: 4px !default;
+$header-row-border-trigger-padding: 12px !default;
 
-$header-row-border-show-trigger-background: get-color('additional-old', 'ultra') !default;
+$header-row-border-show-trigger-background: transparent !default;
 
-$header-row-border: solid get-color('additional-old', 'light') !default;
-
-$header-row-trigger-border: 1px solid get-color('additional-old', 'ultra') !default;
+$header-row-border: null !default;
 
 $header-row-show-trigger-box-shadow: inset 0 4px 4px -2px rgba(0 0 0 / 20%) !default;
 
