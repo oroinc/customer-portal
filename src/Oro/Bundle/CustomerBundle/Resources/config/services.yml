@@ -1444,3 +1444,18 @@ services:
         parent: oro_platform.cache.provider.page_request_provider.abstract
         tags:
             - { name: warmup_page_request_provider }
+
+    oro_customer.security.doctrine_acl_cache_listener:
+        class: Oro\Bundle\CustomerBundle\Security\Listener\CustomerUserDoctrineAclCacheListener
+        arguments:
+            - '@oro_security.acl_query.cache_provider'
+            - '@oro_customer.owner.tree_provider'
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
+    oro_customer.acl_query.cache_user_info_provider_decorator:
+        class: Oro\Bundle\CustomerBundle\Security\Cache\DoctrineAclCacheCustomerUserInfoProvider
+        decorates: oro_security.acl_query.cache_user_info_provider
+        arguments:
+            - '@oro_security.token_accessor'
+            - '@.inner'

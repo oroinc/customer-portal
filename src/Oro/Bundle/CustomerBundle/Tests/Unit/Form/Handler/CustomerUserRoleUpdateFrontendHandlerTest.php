@@ -46,6 +46,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
             $this->handler = new CustomerUserRoleUpdateFrontendHandler(
                 $this->formFactory,
                 $this->aclCache,
+                $this->queryCacheProvider,
                 $this->privilegeConfig
             );
         }
