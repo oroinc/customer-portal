@@ -188,6 +188,18 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
             foreach ($anonymousRoleWebsiteIds as $websiteId) {
                 $this->visitorAclCache->clearWebsiteData($websiteId['id']);
             }
+
+            $this->aclCache->clearCache();
+
+            $customers = [];
+            foreach ($role->getCustomerUsers() as $customerUser) {
+                $customers[] = $customerUser->getCustomer()->getId();
+            }
+            $customers = array_unique($customers);
+            if (count($customers)) {
+                $this->queryCacheProvider->clearForEntities(Customer::class, $customers);
+            }
+            return;
         }
 
         parent::clearAclCache($role);
