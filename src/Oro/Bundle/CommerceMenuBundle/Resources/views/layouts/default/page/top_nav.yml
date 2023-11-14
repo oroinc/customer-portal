@@ -29,6 +29,6 @@ layout:
             tree:
                 page_header:
                     top_nav_container:
-                        top_nav: ~
                         top_nav_topbar_container:
+                            top_nav: ~
                             top_nav_menu_container: ~

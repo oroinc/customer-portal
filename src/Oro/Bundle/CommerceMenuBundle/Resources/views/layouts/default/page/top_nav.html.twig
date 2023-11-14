@@ -1,11 +1,9 @@
 {% block _top_nav_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " topbar"
+        '~class': " page-area-container page-header-content hide-on-tablet"
     }) %}
     <div {{ block('block_attributes') }}>
-        <div class="page-area-container page-header-content">
-            {{ block_widget(block) }}
-        </div>
+        {{ block_widget(block) }}
     </div>
 {% endblock %}
 

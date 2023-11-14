@@ -145,7 +145,13 @@
 {% endblock %}
 
 {% block label %}
+    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
     {%- set label = item.extras.custom is defined and item.extras.custom == true ? item.label : item.label|trans -%}
+
+    {% if item.extras.icon is defined %}
+        {{ renderIcon.icon({id: item.extras.icon}) }}
+    {% endif %}
+
     {%- if options.allow_safe_labels and item.getExtra('safe_label', false) -%}
         {{- label|oro_html_sanitize -}}
     {% else %}
