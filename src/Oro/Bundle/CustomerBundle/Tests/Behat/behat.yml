@@ -123,13 +123,6 @@ oro_behat_extension:
           URL: 'routing[oro_website___url][value]'
           Secure URL Use System: 'routing[oro_website___secure_url][use_parent_scope_value]'
           Secure URL: 'routing[oro_website___secure_url][value]'
-    Menu Templates Form:
-      selector: 'form[name="theme"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
-      options:
-        mapping:
-          Use Default: 'theme[oro_customer___user_menu_show_items][use_parent_scope_value]'
-          User Menu: 'theme[oro_customer___user_menu_show_items][value]'
     Theme Templates Form:
       selector: 'form[name="theme"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -268,7 +261,9 @@ oro_behat_extension:
       selector: '.address-list__address div'
 
     Map Icon:
-      selector: '.item-map-button'
+      selector:
+        type: xpath
+        locator: '//a[@title="Map"] | //button[@aria-label="Map"]'
 
     Default Addresses:
       selector:

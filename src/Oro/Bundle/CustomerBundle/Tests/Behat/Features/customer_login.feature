@@ -28,9 +28,10 @@ Feature: Customer login
 
   Scenario: Check successful login and logout of buyer
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I should see text matching "Signed in as: Amanda Cole"
+    And I should see text matching "Amanda Cole"
+    And I click "Account Dropdown"
     Then click "Sign Out"
-    And I should not see text matching "Signed in as: Amanda Cole"
+    And I should not see text matching "Amanda Cole"
 
   Scenario: Check redirect to profile
     Given I signed in as AmandaRCole@example.org on the store frontend
@@ -70,4 +71,4 @@ Feature: Customer login
     Then I should be on Customer User Profile page
     When I restart the browser
     Then I should see "Sign In"
-    And I should not see "Signed in as: Amanda Cole"
+    And I should not see "Amanda Cole"

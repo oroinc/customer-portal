@@ -17,7 +17,7 @@ Feature: Customer User Login Attempts
 
   Scenario: Login with customer user
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I should see text matching "Signed in as: Amanda Cole"
+    And I should see text matching "Amanda Cole"
 
   Scenario: Customer user login attempts
     Given I login as administrator

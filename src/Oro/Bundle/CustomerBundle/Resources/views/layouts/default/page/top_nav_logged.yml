@@ -7,8 +7,6 @@ layout:
                 top_nav_controls:
                     blockType: container
                     prepend: true
-                    options:
-                        visible: '=data["system_config_provider"].getValue("oro_customer.user_menu_show_items")=="all_at_once"'
                 top_nav_logged_user:
                     blockType: container
                 top_nav_signed_in_as_label:

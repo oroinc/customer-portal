@@ -38,9 +38,10 @@ Feature: Customer User with administrator role should able to view and edit Cust
     And save and close form
     And should see "Customer User has been saved" flash message
     And I proceed as the User
+    And I click "Account Dropdown"
     And click "Sign Out"
     And I signed in as Testuser1@test.com on the store frontend
-    And follow "Account"
+    And I click "Account Dropdown"
     And click "Users"
     And click "Create User"
     And fill form with:
@@ -52,18 +53,21 @@ Feature: Customer User with administrator role should able to view and edit Cust
       | Buyer (Predefined) | true             |
     And click "Save"
     And should see "Customer User has been saved" flash message
+    And I click "Account Dropdown"
     And click "Users"
     When click view "newuser@test.com" in grid
     Then should see "CUSTOMER USER - newFirst newLast"
 
   Scenario: View new user
     Given I proceed as the User
+    And I click "Account Dropdown"
     And click "Users"
     When click view "newuser@test.com" in grid
     Then should see "CUSTOMER USER - newFirst newLast"
 
   Scenario: Edit new user
     Given I proceed as the User
+    And I click "Account Dropdown"
     And click "Users"
     When click edit "newuser@test.com" in grid
     Then should see "EDIT CUSTOMER USER - newFirst newLast"

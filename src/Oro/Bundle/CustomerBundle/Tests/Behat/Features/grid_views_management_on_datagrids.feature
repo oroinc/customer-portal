@@ -9,7 +9,7 @@ Feature: grid views management on datagrids
 
   Scenario: Create new default grid view with changed filter
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I follow "Account"
+    And I click "Account Dropdown"
     And I click "Address Book"
     And I hide filter "State" in "Customer Company Addresses Grid" frontend grid
     When I click grid view list on "Customer Company Addresses Grid" grid
@@ -65,7 +65,7 @@ Feature: grid views management on datagrids
 
   Scenario: Check translations for grid view list
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I follow "Account"
+    And I click "Account Dropdown"
     And I click "Address Book"
     And I click "Localization Switcher"
     And I select "Zulu" localization

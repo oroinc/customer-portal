@@ -68,7 +68,7 @@ Feature: Customer user address customer permission
   Scenario: Check address book owner for "Customer user 1"
     Given I proceed as the User
     And I signed in as customer_user_email_1@example.com with password Admin123 on the store frontend
-    And follow "Account"
+    And I click "Account Dropdown"
     And click "Address Book"
     When I click "New Company Address"
     Then I should see the following options for "Customer" select in form "Create Address Form":
@@ -78,7 +78,7 @@ Feature: Customer user address customer permission
 
   Scenario: Check address book owner for "Customer user 2"
     Given I signed in as customer_user_email_2@example.com with password Admin123 on the store frontend
-    And follow "Account"
+    And I click "Account Dropdown"
     And click "Address Book"
     When I click "New Company Address"
     Then I should see the following options for "Customer" select in form "Create Address Form":
@@ -87,7 +87,7 @@ Feature: Customer user address customer permission
 
   Scenario: Check address book owner for "Customer user 3"
     Given I signed in as customer_user_email_3@example.com with password Admin123 on the store frontend
-    And follow "Account"
+    And I click "Account Dropdown"
     And click "Address Book"
     When I click "New Company Address"
     Then I should see the following options for "Customer" select in form "Create Address Form":

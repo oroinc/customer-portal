@@ -14,7 +14,7 @@ Feature: Hide Is Primary Address checkbox for first address
       | Customer User Address | Create:Department (Same Level) |
     And I save and close form
     Then I signed in as AmandaRCole@example.org on the store frontend
-    And I follow "Account"
+    And I click "Account Dropdown"
     And I click "Address Book"
     And I click "New Company Address"
     Then I should not see "Is Primary Address Checkbox" element inside "Create Address Form" element

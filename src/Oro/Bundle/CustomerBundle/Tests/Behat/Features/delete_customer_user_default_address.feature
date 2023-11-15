@@ -3,7 +3,8 @@ Feature: Delete customer user default address
 
   Scenario: Delete customer user default address
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I follow "Account"
+    And I click "Account Dropdown"
+    And I click "My Profile"
     Then I should see "801 Scenic Hwy"
     And I should see "23400 Caldwell Road"
     And I should not see "34500 Capitol Avenue"

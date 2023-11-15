@@ -62,7 +62,7 @@ Feature: Customer address validation
   Scenario: Create customer address from storefront Customer user address page and see validation errors
     Given I proceed as the User
     And I signed in as AmandaRCole@example.org on the store frontend
-    And follow "Account"
+    And I click "Account Dropdown"
     And click "Address Book"
     When click "New Company Address"
     And I fill form with:

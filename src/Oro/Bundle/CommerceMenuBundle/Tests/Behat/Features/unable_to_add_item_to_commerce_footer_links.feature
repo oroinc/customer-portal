@@ -42,5 +42,5 @@ Scenario: Conditions should not affect Show/Hide button
 Scenario: Check updated menu item
   Given I proceed as the Buyer
   And I signed in as AmandaRCole@example.org on the store frontend
-  When I follow "Account"
+  And I click "Account Dropdown"
   Then I should not see "Order History"

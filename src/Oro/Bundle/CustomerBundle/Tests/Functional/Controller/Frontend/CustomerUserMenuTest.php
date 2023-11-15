@@ -29,7 +29,6 @@ class CustomerUserMenuTest extends WebTestCase
      */
     public function testNotFoundPage(): void
     {
-        $this->configManager->set('oro_customer.user_menu_show_items', 'subitems_in_popup');
         $this->configManager->flush();
 
         $this->loginUser(LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_LOCAL);

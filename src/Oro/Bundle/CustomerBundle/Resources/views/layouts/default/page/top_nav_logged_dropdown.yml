@@ -7,8 +7,6 @@ layout:
                 top_nav_controls_dropdown_container:
                     blockType: container
                     prepend: true
-                    options:
-                        visible: '=data["system_config_provider"].getValue("oro_customer.user_menu_show_items")=="subitems_in_popup"'
                 top_nav_user_name:
                     blockType: text
                     options:

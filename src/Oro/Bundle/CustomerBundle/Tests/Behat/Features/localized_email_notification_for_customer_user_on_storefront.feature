@@ -50,7 +50,7 @@ Feature: Localized email notification for customer user on storefront
     Given I am on the homepage
     And click "Localization Switcher"
     And select "<Locale>" localization
-    And follow "Account"
+    And I click "Account Dropdown"
     And click "Users"
     And click "Create User"
     When I fill form with:

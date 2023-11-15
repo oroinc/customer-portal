@@ -45,7 +45,7 @@ Feature: Email templates used for customer user registration
   Scenario: Check email send to the customer user when register by frontstore administrator ("Send Welcome Email" option disabled)
     Given I proceed as the User
     And I signed in as AmandaRCole@example.org on the store frontend
-    And follow "Account"
+    And I click "Account Dropdown"
     And click "Users"
     And click "Create User"
     When fill form with:
@@ -63,7 +63,7 @@ Feature: Email templates used for customer user registration
   Scenario: Check email send to the customer user when register by frontstore administrator ("Send Welcome Email" option enabled)
     Given I proceed as the User
     And I signed in as AmandaRCole@example.org on the store frontend
-    And follow "Account"
+    And I click "Account Dropdown"
     And click "Users"
     And click "Create User"
     When fill form with:

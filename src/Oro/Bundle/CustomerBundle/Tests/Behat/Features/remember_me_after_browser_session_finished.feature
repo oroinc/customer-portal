@@ -9,13 +9,14 @@ Feature: Remember me after browser session finished
       |Password      |AmandaRCole@example.org|
       |Remember Me   |true                   |
     And I click "Sign In"
-    Then I should see "Signed in as: Amanda Cole"
+    Then I should see "Amanda Cole"
     When I restart the browser
-    Then I should see "Signed in as: Amanda Cole"
+    Then I should see "Amanda Cole"
 
   Scenario: Customer user must be logged after deleting session for the customer profile page
-    Given I follow "Account"
+    And I click "Account Dropdown"
+    And I click "My Profile"
     And I should see "Account info"
     When I restart the browser
-    Then I should see "Signed in as: Amanda Cole"
+    Then I should see "Amanda Cole"
     And I should see "Account"

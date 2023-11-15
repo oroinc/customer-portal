@@ -40,6 +40,7 @@ Feature: Customer user confirmation link with autologin
     And I should see "Confirmation successful" flash message
     And I should not see "Sign In"
     And I should see "My Account"
+    And I click "Account Dropdown"
     Then I click "Sign Out"
 
   Scenario: Disable autologin
