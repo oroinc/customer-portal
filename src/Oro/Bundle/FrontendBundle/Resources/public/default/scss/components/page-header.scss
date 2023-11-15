@@ -4,15 +4,25 @@
     position: relative;
     padding: $page-header-inner-offset;
     background-color: $page-header-background-color;
+    display: flex;
+    flex-direction: column;
+
+    gap: $page-header-gap;
 
     &-content {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: $page-header-padding;
     }
 
     &__inner {
         padding: $page-header-inner-inner-offset;
+    }
+}
+
+@include breakpoint('tablet') {
+    .page-header {
+        padding: $page-header-inner-offset-tablet;
+        gap: $page-header-gap-tablet;
     }
 }

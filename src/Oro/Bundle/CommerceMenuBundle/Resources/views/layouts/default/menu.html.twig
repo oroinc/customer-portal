@@ -141,11 +141,17 @@
 
 {% block spanElement %}
     {% import _self as oro_menu %}
-    <span{{ oro_menu.attributes(labelAttributes) }} {{ oro_menu.attributes(linkAttributes) }}>{{ block('label') }}</span>
+    <span{{ oro_menu.attributes(labelAttributes) }}>{{ block('label') }}</span>
 {% endblock %}
 
 {% block label %}
+    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
     {%- set label = item.extras.custom is defined and item.extras.custom == true ? item.label : item.label|trans -%}
+
+    {% if item.extras.icon is defined %}
+        {{ renderIcon.icon({id: item.extras.icon}) }}
+    {% endif %}
+
     {%- if options.allow_safe_labels and item.getExtra('safe_label', false) -%}
         {{- label|oro_html_sanitize -}}
     {% else %}

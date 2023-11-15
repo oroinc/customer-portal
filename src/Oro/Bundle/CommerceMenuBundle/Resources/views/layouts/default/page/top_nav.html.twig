@@ -1,25 +1,37 @@
 {% block _top_nav_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " topbar"
+        '~class': " page-area-container page-header-content hide-on-tablet"
     }) %}
     <div {{ block('block_attributes') }}>
-        <div class="page-area-container page-header-content">
-            {{ block_widget(block) }}
-        </div>
+        {{ block_widget(block) }}
     </div>
 {% endblock %}
 
 {% block _top_nav_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " topbar-navigation"
+        '~class': " navigation-menu navigation-menu--inverse navigation-menu--align-end",
+        'data-dom-relocation-options': {
+            responsive: [
+                {
+                    viewport: 'tablet',
+                    moveTo: '[data-top-navigation-extra-container]',
+                    startPointClass: 'navigation-menu--align-end navigation-menu--inverse',
+                    endpointClass: 'navigation-menu__vertical'
+                }
+            ]
+        }|json_encode
     }) %}
 
     {% set child_attr = layout_attr_defaults(child_attr, {
-        '~class': ' topbar-navigation__item'
+        '~class': ' navigation-menu__item'
     }) %}
 
     {% set link_attr = layout_attr_defaults(link_attr, {
-        '~class': 'topbar-navigation__link'
+        '~class': ' navigation-menu__inner navigation-menu__link'
+    }) %}
+
+    {% set label_attr = layout_attr_defaults(label_attr, {
+        '~class': ' navigation-menu__inner'
     }) %}
 
     {{ parent_block_widget(block) }}
@@ -29,11 +41,20 @@
     {{ block_widget(block) }}
 {% endblock %}
 
-
 {% block _top_nav_topbar_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': " topbar-right"
     }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _top_nav_extra_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'data-top-navigation-extra-container': ''
+    }) %}
+
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>

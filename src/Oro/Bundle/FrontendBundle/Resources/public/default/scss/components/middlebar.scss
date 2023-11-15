@@ -5,7 +5,6 @@
     gap: $middlebar-grid-gap;
     grid-template-columns: $middlebar-grid-template-columns;
     align-items: $middlebar-align-items;
-    padding: $middlebar-padding;
 
     &__right {
         display: $middlebar-right-display;
@@ -16,7 +15,6 @@
 @include breakpoint('tablet') {
     .middlebar {
         grid-template-columns: $middlebar-tablet-grid-template-columns;
-        padding: $middlebar-tablet-padding;
 
         &__left {
             display: $middlebar-left-tablet-display;
