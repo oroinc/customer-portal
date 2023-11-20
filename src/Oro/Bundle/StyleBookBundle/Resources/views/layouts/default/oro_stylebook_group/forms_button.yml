@@ -83,8 +83,11 @@ layout:
                         anchor: button_icon
                         label: oro_stylebook.groups.ui_elements.buttons.icon.title
                         subTreeLvl: 1
+                style_book_button_element_btn_text:
+                    blockType: block
                 style_book_button_element_icon:
                     blockType: block
+
 
                 group_element_buttons_group:
                     blockType: group_element
@@ -139,6 +142,7 @@ layout:
                         group_element_button_icon_text_view:
                             style_book_button_element_icon_text: ~
                         group_element_button_icon_view:
+                            style_book_button_element_btn_text: ~
                             style_book_button_element_icon: ~
 
                     group_element_buttons_group:

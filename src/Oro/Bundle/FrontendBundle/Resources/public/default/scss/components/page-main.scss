@@ -31,3 +31,11 @@
         }
     }
 }
+
+@include breakpoint('mobile-landscape') {
+    .page-main {
+        &__content {
+            @include safe-area-offset(padding, $page-main-mobile-landscape-inner-offset);
+        }
+    }
+}

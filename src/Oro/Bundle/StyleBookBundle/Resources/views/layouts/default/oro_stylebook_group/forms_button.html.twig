@@ -70,7 +70,7 @@
     </button>
 {% endblock %}
 
-{% block _style_book_button_element_icon_widget %}
+{% block _style_book_button_element_btn_text_widget %}
     {%- import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon -%}
     <button type="button" class="btn btn--text">
         {{- renderIcon.icon({id: 'settings', extraClass: 'theme-icon--medium'}) -}}
@@ -88,6 +88,27 @@
         {{- renderIcon.icon({id: 'x', extraClass: 'theme-icon--medium'}) -}}
     </button>
     <button type="button" class="btn btn--plain btn--text">
+        {{- renderIcon.icon({id: 'arrow-left', extraClass: 'theme-icon--medium'}) -}}
+    </button>
+{% endblock %}
+{% block _style_book_button_element_icon_widget %}
+    {%- import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon -%}
+    <button type="button" class="btn btn--icon">
+        {{- renderIcon.icon({id: 'settings', extraClass: 'theme-icon--medium'}) -}}
+    </button>
+    <button type="button" class="btn btn--outlined btn--icon">
+        {{- renderIcon.icon({id: 'settings', extraClass: 'theme-icon--medium'}) -}}
+    </button>
+    <button type="button" class="btn btn--destructive btn--icon">
+        {{- renderIcon.icon({id: 'settings', extraClass: 'theme-icon--medium'}) -}}
+    </button>
+    <button type="button" class="btn btn--destructive-outlined btn--icon">
+        {{- renderIcon.icon({id: 'settings', extraClass: 'theme-icon--medium'}) -}}
+    </button>
+    <button type="button" class="btn btn--plain btn--icon">
+        {{- renderIcon.icon({id: 'x', extraClass: 'theme-icon--medium'}) -}}
+    </button>
+    <button type="button" class="btn btn--plain btn--icon">
         {{- renderIcon.icon({id: 'arrow-left', extraClass: 'theme-icon--medium'}) -}}
     </button>
 {% endblock %}

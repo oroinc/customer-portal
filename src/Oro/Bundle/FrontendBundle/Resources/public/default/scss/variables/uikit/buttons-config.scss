@@ -5,6 +5,7 @@ $btn-var-prefix: 'btn' !default;
 
 // General styles
 $btn-general: (
+    'font-family': inherit,
     'font-weight': font-weight('semi-bold'),
     'border-width': 2px,
     'border-style': solid,
@@ -243,5 +244,14 @@ $btn-text-offsets: (
     ),
     'small': (
         'padding': spacing('xs') spacing('md')
+    )
+) !default;
+
+$btn-icon-offsets: (
+    'default': (
+        'padding': spacing('sm') #{spacing('md') - 2px}
+    ),
+    'small': (
+        'padding': spacing('xs') #{spacing('md') - 2px}
     )
 ) !default;
