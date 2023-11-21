@@ -13,26 +13,20 @@ use Oro\Bundle\SecurityBundle\Owner\Metadata\AbstractOwnershipMetadataProvider;
 use Symfony\Contracts\Cache\CacheInterface;
 
 /**
- * Provides metadata for entities with frontend ownership type
+ * Provides metadata for entities with frontend ownership type.
  */
 class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvider
 {
-    const ALIAS = 'frontend_ownership';
+    public const ALIAS = 'frontend_ownership';
 
     protected EntityClassResolver $entityClassResolver;
     protected TokenAccessorInterface $tokenAccessor;
     private CacheInterface $cache;
+    /** @var array|null [owning entity type => entity class name, ...] */
     private ?array $owningEntityNames;
     private string $businessUnitClass;
     private string $userClass;
 
-    /**
-     * @param array                  $owningEntityNames [owning entity type => entity class name, ...]
-     * @param ConfigManager          $configManager
-     * @param EntityClassResolver    $entityClassResolver
-     * @param TokenAccessorInterface $tokenAccessor
-     * @param CacheInterface          $cache
-     */
     public function __construct(
         array $owningEntityNames,
         ConfigManager $configManager,
@@ -47,6 +41,19 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
         $this->cache = $cache;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function supports(): bool
+    {
+        return
+            $this->tokenAccessor->getUser() instanceof CustomerUser
+            || $this->tokenAccessor->getToken() instanceof AnonymousCustomerUserToken;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getUserClass(): string
     {
         $this->ensureOwningEntityClassesInitialized();
@@ -54,6 +61,9 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
         return $this->userClass;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getBusinessUnitClass(): string
     {
         $this->ensureOwningEntityClassesInitialized();
@@ -61,18 +71,18 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
         return $this->businessUnitClass;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getOrganizationClass(): ?string
     {
         return null;
     }
 
-    public function supports(): bool
-    {
-        return $this->tokenAccessor->getUser() instanceof CustomerUser
-            || $this->tokenAccessor->getToken() instanceof AnonymousCustomerUserToken;
-    }
-
-    public function getMaxAccessLevel($accessLevel, $className = null): int
+    /**
+     * {@inheritDoc}
+     */
+    public function getMaxAccessLevel(int $accessLevel, string $className = null): int
     {
         $maxLevel = $accessLevel;
         if ($accessLevel > AccessLevel::DEEP_LEVEL) {
@@ -89,41 +99,41 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
         return $maxLevel;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function getCache(): CacheInterface
     {
         return $this->cache;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function createNoOwnershipMetadata(): FrontendOwnershipMetadata
     {
         return new FrontendOwnershipMetadata();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function getOwnershipMetadata(ConfigInterface $config): FrontendOwnershipMetadata
     {
-        $ownerType = $config->get('frontend_owner_type');
-        $ownerFieldName = $config->get('frontend_owner_field_name');
-        $ownerColumnName = $config->get('frontend_owner_column_name');
-        $organizationFieldName = $config->get('organization_field_name');
-        $organizationColumnName = $config->get('organization_column_name');
-        $customerFieldName = $config->get('frontend_customer_field_name');
-        $customerColumnName = $config->get('frontend_customer_column_name');
-
-        if (!$ownerType) {
-            $ownerType = '';
-        }
-
         return new FrontendOwnershipMetadata(
-            $ownerType,
-            $ownerFieldName,
-            $ownerColumnName,
-            $organizationFieldName,
-            $organizationColumnName,
-            $customerFieldName,
-            $customerColumnName
+            $config->get('frontend_owner_type', false, ''),
+            $config->get('frontend_owner_field_name', false, ''),
+            $config->get('frontend_owner_column_name', false, ''),
+            $config->get('organization_field_name', false, ''),
+            $config->get('organization_column_name', false, ''),
+            $config->get('frontend_customer_field_name', false, ''),
+            $config->get('frontend_customer_column_name', false, '')
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function getOwnershipConfigs(): array
     {
         // only commerce entities can have frontend ownership

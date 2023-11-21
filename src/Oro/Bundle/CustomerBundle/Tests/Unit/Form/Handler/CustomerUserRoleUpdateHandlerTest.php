@@ -4,7 +4,6 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
@@ -19,7 +18,7 @@ use Oro\Bundle\SecurityBundle\Model\AclPermission;
 use Oro\Bundle\SecurityBundle\Model\AclPrivilege;
 use Oro\Bundle\SecurityBundle\Model\AclPrivilegeIdentity;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
-use Symfony\Component\Cache\Adapter\AbstractAdapter;
+use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -31,6 +30,8 @@ use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;
  */
 class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHandlerTestCase
 {
+    use EntityTrait;
+
     /** @var CustomerUserRoleUpdateHandler */
     private $handler;
 
@@ -48,6 +49,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             $this->handler = new CustomerUserRoleUpdateHandler(
                 $this->formFactory,
                 $this->aclCache,
+                $this->queryCacheProvider,
                 $this->privilegeConfig
             );
         }
@@ -187,12 +189,17 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
         $request->setMethod('POST');
 
         $requestStack = $this->createMock(RequestStack::class);
-        $requestStack->expects(self::once())
+        $requestStack->expects(self::exactly(2))
             ->method('getCurrentRequest')
             ->willReturn($request);
 
         $role = new CustomerUserRole('TEST');
         $roleSecurityIdentity = new RoleSecurityIdentity($role);
+
+        $customer = $this->getEntity(Customer::class, ['id' => 234]);
+        $customerUser = new CustomerUser();
+        $customerUser->setCustomer($customer);
+        $role->addCustomerUser($customerUser);
 
         $objectIdentity = new ObjectIdentity('entity', 'EntityClass');
 
@@ -285,19 +292,9 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             ->with(get_class($role))
             ->willReturn($objectManager);
 
-        $configuration = $this->createMock(Configuration::class);
-        $cache = $this->createMock(AbstractAdapter::class);
-        $this->managerRegistry->expects(self::once())
-            ->method('getManager')
-            ->willReturn($objectManager);
-        $objectManager->expects(self::once())
-            ->method('getConfiguration')
-            ->willReturn($configuration);
-        $configuration->expects(self::once())
-            ->method('getQueryCache')
-            ->willReturn($cache);
-        $cache->expects(self::once())
-            ->method('clear');
+        $this->queryCacheProvider->expects(self::once())
+            ->method('clearForEntities')
+            ->with(Customer::class, [234]);
 
         $expectedFirstEntityPrivilege = $this->createPrivilege('entity', 'entity:FirstClass', 'VIEW');
         $expectedFirstEntityPrivilege->setGroup(CustomerUser::SECURITY_GROUP);
@@ -363,7 +360,12 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             ->method('clearWebsiteData')
             ->with(23);
 
-        $handler = new CustomerUserRoleUpdateHandler($this->formFactory, $this->aclCache, $this->privilegeConfig);
+        $handler = new CustomerUserRoleUpdateHandler(
+            $this->formFactory,
+            $this->aclCache,
+            $this->queryCacheProvider,
+            $this->privilegeConfig
+        );
 
         $this->setRequirementsForHandler($handler);
         $handler->setRequestStack($requestStack);
@@ -478,7 +480,12 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             'action' => ['types' => ['action'], 'fix_values' => false, 'show_default' => true],
             'default' => ['types' => ['(default)'], 'fix_values' => true, 'show_default' => false],
         ];
-        $handler = new CustomerUserRoleUpdateHandler($this->formFactory, $this->aclCache, $privilegeConfig);
+        $handler = new CustomerUserRoleUpdateHandler(
+            $this->formFactory,
+            $this->aclCache,
+            $this->queryCacheProvider,
+            $privilegeConfig
+        );
         $this->setRequirementsForHandler($handler);
 
         $role = new CustomerUserRole('ROLE_ADMIN');

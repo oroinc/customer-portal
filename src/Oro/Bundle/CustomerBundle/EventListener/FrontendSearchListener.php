@@ -12,9 +12,9 @@ use Oro\Bundle\SecurityBundle\EventListener\SearchListener;
 class FrontendSearchListener extends SearchListener
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function collectEntityMapEvent(SearchMappingCollectEvent $event)
+    public function collectEntityMapEvent(SearchMappingCollectEvent $event): void
     {
         $mapConfig = $event->getMappingConfig();
         foreach ($mapConfig as $className => $mapping) {
@@ -36,15 +36,11 @@ class FrontendSearchListener extends SearchListener
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function prepareEntityMapEvent(PrepareEntityMapEvent $event)
+    public function prepareEntityMapEvent(PrepareEntityMapEvent $event): void
     {
         $metadata = $this->metadataProvider->getMetadata($event->getClassName());
-        if (!$metadata) {
-            return;
-        }
-
         $ownerId = $this->getOwnerId($metadata, $event->getEntity());
         if (!$ownerId) {
             return;

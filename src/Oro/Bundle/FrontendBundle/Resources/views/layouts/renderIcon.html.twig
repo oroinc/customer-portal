@@ -11,7 +11,8 @@
     Rendering a svg icon
     Parameters - array:
         [
-            'id' - icon id to show
+            'name' - icon id to show
+            'id' - element id (attribute)
             'fill' - fill attribute
             'width' - width attribute
             'height' - height attribute
@@ -21,10 +22,10 @@
             'title' - short description for accessibulity
         ]
 #}
-{% macro icon(parameters) %}
-    {% if (parameters.id is defined) %}
+{% macro icon(parameters) -%}
+    {% if (parameters.name is defined) %}
         {% import _self as themeIcons %}
-        {% set href = themeIcons.getThemeSpriteUrl()|trim ~ '#' ~ parameters.id  %}
+        {% set href = themeIcons.getThemeSpriteUrl()|trim ~ '#' ~ parameters.name  %}
         {% set class = parameters.class|default('theme-icon') %}
         {% set role = parameters.role|default('img') %}
         {% set ariaHidden = parameters.ariaHidden|default('true') %}
@@ -42,6 +43,9 @@
         <svg
             class="{{- class -}}"
             role="{{- role -}}"
+        {% if parameters.id is defined %}
+            id="{{- parameters.id -}}"
+        {% endif %}
         {% if parameters.width is defined %}
             width="{{- width -}}"
         {% endif %}

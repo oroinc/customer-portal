@@ -1,24 +1,21 @@
 /* @theme: default; */
 
 .theme-icon {
-    width: $theme-icon-size;
-    height: $theme-icon-size;
+    width: var(--theme-icon-size, #{$theme-icon-size});
     flex-shrink: 0;
+    aspect-ratio: 1;
 
     fill: $theme-icon-fill;
 
     &--medium {
-        width: $theme-icon-medium-size;
-        height: $theme-icon-medium-size;
+        --theme-icon-size: #{$theme-icon-medium-size};
     }
 
     &--small {
-        width: $theme-icon-small-size;
-        height: $theme-icon-small-size;
+        --theme-icon-size: #{$theme-icon-small-size};
     }
 
     &--xs {
-        width: $theme-icon-xs-size;
-        height: $theme-icon-xs-size;
+        --theme-icon-size: #{$theme-icon-xs-size};
     }
 }
