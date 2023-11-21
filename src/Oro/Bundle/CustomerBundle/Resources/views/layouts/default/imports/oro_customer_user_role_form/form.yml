@@ -30,6 +30,7 @@ layout:
                         grid_render_parameters:
                             cssClass: 'frontend-datagrid'
                             enableToggleFilters: true
+                            enableStickyHeaderPlugin: false
                             themeOptions:
                                 actionOptions:
                                     refreshAction:
