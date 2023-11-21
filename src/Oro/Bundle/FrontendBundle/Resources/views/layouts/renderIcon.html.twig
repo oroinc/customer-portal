@@ -29,7 +29,7 @@
         {% set class = parameters.class|default('theme-icon') %}
         {% set role = parameters.role|default('img') %}
         {% set ariaHidden = parameters.ariaHidden|default('true') %}
-        {% set titleId = parameters.id|uniqid %}
+        {% set titleId = parameters.name|uniqid %}
 
         {% if parameters.extraClass is defined %}
             {% set class = class|trim ~ ' '  ~ parameters.extraClass|trim  %}
