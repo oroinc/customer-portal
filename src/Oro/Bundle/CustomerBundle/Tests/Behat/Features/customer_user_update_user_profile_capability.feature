@@ -49,6 +49,7 @@ Feature: Customer User Update User Profile capability
     And I save form
     Then I should see "You do not have permission to perform this action"
     And I scroll to top
+    And click on "Flash Message Close Button"
     And I click "Account Dropdown"
     Then I should see an "My Profile" element
 
@@ -97,6 +98,7 @@ Feature: Customer User Update User Profile capability
       | First Name | Kate |
     And I save form
     Then I should see "You do not have permission to perform this action"
+    And click on "Flash Message Close Button"
     And I scroll to top
     And I click "Account Dropdown"
     Then I should see an "My Profile" element

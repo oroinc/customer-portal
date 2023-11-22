@@ -12,6 +12,7 @@ Feature: Customer user roles removing last role frontend
     And I fill form with:
       | Role Title | New Buyer Role |
     And I click on "Second Save Button"
+    And click on "Flash Message Close Button"
     And I click "Account Dropdown"
     And I click "Roles"
     When I click Edit New Buyer Role in grid

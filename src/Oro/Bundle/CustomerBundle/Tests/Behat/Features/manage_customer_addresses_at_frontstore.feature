@@ -104,6 +104,7 @@ Feature: Manage Customer addresses at front-store
       | Default Billing  | true        |
       | Default Shipping | true        |
     And I click "Save"
+    And click on "Flash Message Close Button"
     And I click "Account Dropdown"
     And I click "My Profile"
     Then I should see "Test street"

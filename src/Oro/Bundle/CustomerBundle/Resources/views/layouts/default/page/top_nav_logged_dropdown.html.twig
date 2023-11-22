@@ -1,6 +1,6 @@
 {% block _top_nav_controls_dropdown_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " topbar-customer-menu dropdown"
+        '~class': " customer-menu dropdown"
     }) %}
 
     <div {{ block('block_attributes') }}>
@@ -10,8 +10,8 @@
 
 {% block _top_nav_customer_dropdown_menu_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " topbar-customer-menu__dropdown dropdown-menu",
-        'aria-labelledby': "topbar-customer-menu-trigger",
+        '~class': " customer-menu__dropdown dropdown-menu",
+        'aria-labelledby': "customer-menu-trigger",
         'role': "menu"
     }) %}
 
@@ -23,16 +23,17 @@
 {% block _top_nav_customer_dropdown_trigger_widget %}
     {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " btn btn--outlined-inverse btn--text topbar-customer-menu__trigger",
+        '~class': " btn btn--outlined-inverse btn--text customer-menu__trigger",
         'type': 'button',
         'data-toggle': 'dropdown',
-        'id': 'topbar-customer-menu-trigger'
+        'data-placement': "bottom-end",
+        'id': 'customer-menu-trigger'
     }) %}
 
     <button {{ block('block_attributes') }}>
         {{ renderIcon.icon({id: 'user', extraClass: 'theme-icon--medium'}) }}
             {{ block_widget(block) }}
-        {{ renderIcon.icon({id: 'chevron-down', extraClass: 'theme-icon--medium topbar-customer-menu__dropdown-icon hide-on-tablet'}) }}
+        {{ renderIcon.icon({id: 'chevron-down', extraClass: 'theme-icon--medium customer-menu__dropdown-icon hide-on-tablet'}) }}
     </button>
 {% endblock %}
 
@@ -41,19 +42,20 @@
 {% endblock %}
 
 {% block _top_nav_customer_dropdown_sign_out_link_widget %}
+    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' navigation-menu__inner  navigation-menu__link sign-out-link',
+        '~class': ' dropdown-item dropdown-item--destructive sign-out-link',
         'href': path(route_name)
     }) %}
 
     <a {{ block('block_attributes') }}>
-        <span class="fa-sign-out" aria-hidden="true"></span> {{ text|trans }}
+        {{ renderIcon.icon({id: 'log-out', extraClass: 'theme-icon--medium'}) }} <span>{{ text|trans }}</span>
     </a>
 {% endblock %}
 
 {% block _top_nav_customer_menu_list_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' topbar-customer-menu-list'
+        '~class': ' customer-menu-list'
     }) %}
 
     <ul {{ block('block_attributes') }}>
@@ -78,8 +80,8 @@
                 {% set linkCurrentClass = 'current' %}
             {% endif %}
 
-            <li class="topbar-customer-menu-list__item {{ itemCurrentClass }}">
-                <a href="{{ child.uri }}" class="{{ ' topbar-customer-menu-list__link ' ~ linkCurrentClass }}">
+            <li class="customer-menu-list__item {{ itemCurrentClass }}">
+                <a href="{{ child.uri }}" class="{{ ' dropdown-item text-nowrap' ~ linkCurrentClass }}">
                     {{- child.label|trans -}}
                 </a>
             </li>

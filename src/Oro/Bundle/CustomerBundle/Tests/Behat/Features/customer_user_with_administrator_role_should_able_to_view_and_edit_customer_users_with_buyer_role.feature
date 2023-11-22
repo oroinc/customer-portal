@@ -53,6 +53,7 @@ Feature: Customer User with administrator role should able to view and edit Cust
       | Buyer (Predefined) | true             |
     And click "Save"
     And should see "Customer User has been saved" flash message
+    And click on "Flash Message Close Button"
     And I click "Account Dropdown"
     And click "Users"
     When click view "newuser@test.com" in grid

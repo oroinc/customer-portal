@@ -28,6 +28,8 @@
     }
 
     &__link {
+        width: 100%;
+        justify-content: flex-start;
         font-size: $navigation-menu-link-font-size;
         color: $navigation-menu-link-color;
 

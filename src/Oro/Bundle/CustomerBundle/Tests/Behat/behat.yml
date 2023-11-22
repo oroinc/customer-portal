@@ -131,21 +131,21 @@ oro_behat_extension:
           Theme: 'theme[oro_frontend___frontend_theme][value]'
           Use Default: 'theme[oro_frontend___frontend_theme][use_parent_scope_value]'
     Popup User Menu trigger:
-      selector: '.topbar-customer-menu .topbar-customer-menu__trigger'
+      selector: '.customer-menu .customer-menu__trigger'
     Popup User Menu:
-      selector: '.topbar-customer-menu .topbar-customer-menu-list'
+      selector: '.customer-menu .customer-menu-list'
     Preferred Localization:
       selector: '[name="oro_customer_customer_user[preferredLocalization]"]'
 
     Popup User Menu Link Users:
       selector:
         type: xpath
-        locator: '//*[contains(@class, "topbar-customer-menu-list__item")]/descendant::a[contains(., "Users")]'
+        locator: '//*[contains(@class, "customer-menu-list__item")]/descendant::a[contains(., "Users")]'
 
     Popup User Menu Link Roles:
       selector:
         type: xpath
-        locator: '//*[contains(@class, "topbar-customer-menu-list__item")]/descendant::a[contains(., "Roles")]'
+        locator: '//*[contains(@class, "customer-menu-list__item")]/descendant::a[contains(., "Roles")]'
 
     Configuration:
       selector: '[title="Organization Configuration"]'

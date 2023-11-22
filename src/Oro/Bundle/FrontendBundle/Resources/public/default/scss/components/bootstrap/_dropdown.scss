@@ -27,6 +27,11 @@
             // For `<button>`s
             cursor: pointer;
         }
+
+        &--destructive {
+            color: $dropdown-link-color-destructive;
+            font-weight: $dropdown-link-font-weight-destructive;
+        }
     }
 
     &[x-placement] {

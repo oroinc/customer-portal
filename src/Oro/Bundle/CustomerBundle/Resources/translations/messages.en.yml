@@ -935,7 +935,6 @@ oro.customer:
                 action.label: Action
                 permission.label: Permission
         menu:
-            customer_user_signed_in_as.label: 'Signed in as:'
             customer_user_welcome.label: 'Welcome, '
             customer_user_sign_out.label: 'Sign Out'
             customer_user_profile.label: 'Account'
