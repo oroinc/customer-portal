@@ -28,7 +28,7 @@
         >
             <input class="search-widget__input input input--full"
                    type="text"
-                   value=""
+                   value="{{ app.request.get('search')|e('html_attr') }}"
                    name="search"
                    placeholder="{{ 'oro.website_search.search_field_placeholder'|trans({}, translation_domain) }}"
                    aria-label="{{ 'oro.website_search.search_label'|trans }}"

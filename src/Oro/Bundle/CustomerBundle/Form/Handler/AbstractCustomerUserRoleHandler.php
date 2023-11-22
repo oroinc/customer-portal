@@ -15,28 +15,17 @@ use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainOwnershipMetadataProvider;
 use Oro\Bundle\UserBundle\Entity\AbstractRole;
 use Oro\Bundle\UserBundle\Form\Handler\AclRoleHandler;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Abstract logic for Customer User Role handling.
  */
 abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
 {
-    protected RequestStack $requestStack;
     protected ConfigProvider $ownershipConfigProvider;
     protected ChainOwnershipMetadataProvider $chainMetadataProvider;
     protected DoctrineHelper $doctrineHelper;
     private CustomerVisitorAclCache $visitorAclCache;
     protected ?Customer $originalCustomer = null;
-
-    /**
-     * @param RequestStack $requestStack
-     */
-    public function setRequestStack($requestStack)
-    {
-        $this->requestStack = $requestStack;
-        $this->request = $requestStack->getCurrentRequest();
-    }
 
     public function setOwnershipConfigProvider(ConfigProvider $provider)
     {
@@ -183,6 +172,18 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
             foreach ($anonymousRoleWebsiteIds as $websiteId) {
                 $this->visitorAclCache->clearWebsiteData($websiteId['id']);
             }
+
+            $this->aclCache->clearCache();
+
+            $customers = [];
+            foreach ($role->getCustomerUsers() as $customerUser) {
+                $customers[] = $customerUser->getCustomer()->getId();
+            }
+            $customers = array_unique($customers);
+            if (count($customers)) {
+                $this->queryCacheProvider->clearForEntities(Customer::class, $customers);
+            }
+            return;
         }
 
         parent::clearAclCache($role);

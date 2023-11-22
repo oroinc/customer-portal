@@ -5,3 +5,9 @@
     max-width: $page-area-container-max-width;
     margin: auto;
 }
+
+@include breakpoint('mobile-landscape') {
+    .page-area-container {
+        padding-inline: $page-area-container-mobile-landscape-padding-inline;
+    }
+}

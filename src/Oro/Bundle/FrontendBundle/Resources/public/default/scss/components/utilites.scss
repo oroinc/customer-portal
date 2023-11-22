@@ -76,6 +76,11 @@
     flex-shrink: 0;
 }
 
+.no-offset {
+    // stylelint-disable-next-line declaration-no-important
+    margin: 0 !important;
+}
+
 // Need to refactor after removal less from frontend
 .hide-text {
     &[class^='fa-'],

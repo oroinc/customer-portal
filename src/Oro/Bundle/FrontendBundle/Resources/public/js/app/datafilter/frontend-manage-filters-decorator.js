@@ -57,7 +57,7 @@ define(function(require, exports, module) {
             if (this.applyMarkup) {
                 this.updateDropdownMarkup(instance);
 
-                const icon = _.macros('orofrontend::renderIcon')({id: 'x'});
+                const icon = _.macros('orofrontend::renderIcon')({name: 'x'});
                 const $button = $('<button></button>', {
                     'type': 'button',
                     'class': 'close-dialog btn btn--plain btn--text',

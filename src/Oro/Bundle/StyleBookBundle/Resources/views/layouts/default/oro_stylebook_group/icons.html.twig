@@ -15,7 +15,7 @@
             <pre>
                 <code class="language-markup">
                     {{ "{% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}" }}
-                    {{ "{{ renderIcon.icon({id: 'add-note'}) }}" }}
+                    {{ "{{ renderIcon.icon({name: 'add-note'}) }}" }}
                 </code>
             </pre>
         </div>
@@ -25,7 +25,7 @@
                 <code class="language-markup">
                     <% let orofrontend = _.macros('orofrontend') %>
                     <%= orofrontend.renderIcon({
-                        id: 'add-note'
+                        name: 'add-note'
                     }) %>
                 </code>
             </pre>
@@ -37,7 +37,7 @@
                     import _ from 'underscore';
 
                      const icon = _.macros('orofrontend::renderIcon')({
-                        id: 'add-note'
+                        name: 'add-note'
                     });
                 </code>
             </pre>

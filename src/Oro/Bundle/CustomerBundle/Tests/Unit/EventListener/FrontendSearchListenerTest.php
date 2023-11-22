@@ -11,26 +11,37 @@ use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata;
 use Oro\Bundle\SearchBundle\Event\PrepareEntityMapEvent;
 use Oro\Bundle\SearchBundle\Event\SearchMappingCollectEvent;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
-use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\ReflectionUtil;
 
 class FrontendSearchListenerTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTrait;
+    /** @var OwnershipMetadataProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $metadataProvider;
 
     /** @var FrontendSearchListener */
-    protected $listener;
+    private $listener;
 
-    /** @var OwnershipMetadataProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $metadataProvider;
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->metadataProvider = $this->createMock(OwnershipMetadataProviderInterface::class);
 
         $this->listener = new FrontendSearchListener($this->metadataProvider);
+    }
+
+    private function getCustomer(int $id): Customer
+    {
+        $customer = new Customer();
+        ReflectionUtil::setId($customer, $id);
+
+        return $customer;
+    }
+
+    private function getCustomerUser(int $id): CustomerUser
+    {
+        $customerUser = new CustomerUser();
+        ReflectionUtil::setId($customerUser, $id);
+
+        return $customerUser;
     }
 
     public function testCollectEntityMapEvent()
@@ -68,7 +79,7 @@ class FrontendSearchListenerTest extends \PHPUnit\Framework\TestCase
     public function testPrepareEntityMapEventWithCustomer()
     {
         $entity = new CustomerAddress();
-        $entity->setFrontendOwner($this->getEntity(Customer::class, ['id' => 10]));
+        $entity->setFrontendOwner($this->getCustomer(10));
 
         $metadata = new FrontendOwnershipMetadata('FRONTEND_CUSTOMER', 'frontend_owner', 'frontend_owner_id');
         $this->metadataProvider->expects($this->once())
@@ -85,7 +96,7 @@ class FrontendSearchListenerTest extends \PHPUnit\Framework\TestCase
     public function testPrepareEntityMapEventWithCustomerUser()
     {
         $entity = new CustomerUserAddress();
-        $entity->setFrontendOwner($this->getEntity(CustomerUser::class, ['id' => 15]));
+        $entity->setFrontendOwner($this->getCustomerUser(15));
 
         $metadata = new FrontendOwnershipMetadata('FRONTEND_USER', 'frontend_owner', 'frontend_owner_id');
         $this->metadataProvider->expects($this->once())
@@ -99,31 +110,15 @@ class FrontendSearchListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(15, $resultData['integer']['customer_user_address_frontend_owner']);
     }
 
-    public function testPrepareEntityMapEventWithUnknownType()
+    public function testPrepareEntityMapEventWithoutOwner()
     {
         $entity = new CustomerUserAddress();
-        $entity->setFrontendOwner($this->getEntity(CustomerUser::class, ['id' => 20]));
+        $entity->setFrontendOwner($this->getCustomerUser(20));
 
-        $metadata = new FrontendOwnershipMetadata('USER', 'frontend_owner', 'frontend_owner_id');
+        $metadata = new FrontendOwnershipMetadata();
         $this->metadataProvider->expects($this->once())
             ->method('getMetadata')
             ->willReturn($metadata);
-
-        $event = new PrepareEntityMapEvent($entity, get_class($entity), [], ['alias' => 'customer_user_address']);
-        $this->listener->prepareEntityMapEvent($event);
-        $resultData = $event->getData();
-
-        $this->assertEquals([], $resultData);
-    }
-
-    public function testPrepareEntityMapEventWithoutMetadata()
-    {
-        $entity = new CustomerUserAddress();
-        $entity->setFrontendOwner($this->getEntity(CustomerUser::class, ['id' => 20]));
-
-        $this->metadataProvider->expects($this->once())
-            ->method('getMetadata')
-            ->willReturn(null);
 
         $event = new PrepareEntityMapEvent($entity, get_class($entity), [], ['alias' => 'customer_user_address']);
         $this->listener->prepareEntityMapEvent($event);
@@ -136,7 +131,7 @@ class FrontendSearchListenerTest extends \PHPUnit\Framework\TestCase
     {
         $entity = new CustomerUserAddress();
 
-        $metadata = new FrontendOwnershipMetadata('USER', 'frontend_owner', 'frontend_owner_id');
+        $metadata = new FrontendOwnershipMetadata('FRONTEND_USER', 'frontend_owner', 'frontend_owner_id');
         $this->metadataProvider->expects($this->once())
             ->method('getMetadata')
             ->willReturn($metadata);

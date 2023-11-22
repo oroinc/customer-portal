@@ -17,7 +17,7 @@
         <div class="notification-flash__content">
             <% if (obj.showIcon) { %>
                 <%= orofrontend.renderIcon({
-                    id: iconId,
+                    name: iconId,
                     extraClass: 'theme-icon--small notification-flash__icon notification-flash__icon--small'
                 }) %>
             <% } %>
@@ -28,7 +28,7 @@
         </div>
         <button type="button" class="notification-flash__close btn btn--plain btn--text" title="<%- _.__('Close') %>" data-dismiss="alert" aria-label="<%- _.__('oro_frontend.notification.close.aria_label') %>">
             <%= orofrontend.renderIcon({
-                id: 'x',
+                name: 'x',
                 extraClass: 'theme-icon--small'
             }) %>
         </button>

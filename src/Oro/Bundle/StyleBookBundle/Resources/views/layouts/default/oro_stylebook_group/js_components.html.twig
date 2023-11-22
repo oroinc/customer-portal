@@ -504,7 +504,7 @@
             data-target="{{ '#' ~ collapseId }}"
             aria-controls="{{ collapseId }}"
     >
-        {{ renderIcon.icon({id: 'chevron-down'}) }}
+        {{ renderIcon.icon({name: 'chevron-down'}) }}
         <span class="accordion-group__trigger-text" data-text>Open collapse</span>
     </button>
     <div id="{{ collapseId }}" class="collapse"
@@ -556,7 +556,7 @@
             data-target="{{ '#' ~ collapseId }}"
             aria-controls="{{ collapseId }}"
     >
-        {{ renderIcon.icon({id: 'chevron-down'}) }}
+        {{ renderIcon.icon({name: 'chevron-down'}) }}
         Toggle Elements
     </button>
     <div id="{{ collapseId }}" class="collapse no-transition" data-toggle="false" data-trigger-show-class="hide">
@@ -619,7 +619,7 @@
             aria-controls="{{ collapseId }}"
     >
         <span data-text>{{ 'oro.ui.collapse.more'|trans }}</span>
-        {{ renderIcon.icon({id: 'chevron-down', extraClass: 'theme-icon--medium'}) }}
+        {{ renderIcon.icon({name: 'chevron-down', extraClass: 'theme-icon--medium'}) }}
     </button>
 {% endblock %}
 
@@ -756,7 +756,7 @@
                         aria-controls="{{ itemId1 }}"
                         aria-expanded="false"
                 >
-                    {{ renderIcon.icon({id: 'chevron-down'}) }}
+                    {{ renderIcon.icon({name: 'chevron-down'}) }}
                     <span class="accordion-group__trigger-text">What is Lorem Ipsum?</span>
                 </button>
             </h4>
@@ -773,7 +773,7 @@
                         aria-expanded="false"
                         aria-controls="{{ itemId2 }}"
                 >
-                    {{ renderIcon.icon({id: 'chevron-down'}) }}
+                    {{ renderIcon.icon({name: 'chevron-down'}) }}
                     <span class="accordion-group__trigger-text">Why do we use it?</span>
                 </button>
             </h4>
@@ -791,7 +791,7 @@
                         aria-expanded="false"
                         aria-controls="{{ itemId3 }}"
                 >
-                    {{ renderIcon.icon({id: 'chevron-down'}) }}
+                    {{ renderIcon.icon({name: 'chevron-down'}) }}
                     <span class="accordion-group__trigger-text">Where can I get some?</span>
                 </button>
             </h4>
