@@ -1,63 +1,29 @@
-{% block _quick_access_container_widget %}
+{% block _quick_access_menu_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " quick-access-container",
+        '~class': " navigation-menu navigation-menu--inverse navigation-menu--no-gap",
         'data-dom-relocation-options': {
             responsive: [
                 {
                     viewport: 'tablet',
-                    moveTo: '[data-main-menu-extra-container]'
+                    moveTo: '[data-main-menu-extra-container]',
+                    startPointClass: 'navigation-menu--inverse navigation-menu--no-gap',
+                    endpointClass: 'navigation-menu__vertical'
                 }
             ]
-        }
+        }|json_encode
     }) %}
-    <div {{ block('block_attributes') }}>
-        {{ block_widget(block) }}
-    </div>
-{% endblock %}
 
-{% block _quick_access_menu_widget %}
-    {% import '@OroNavigation/Menu/menu.html.twig' as oro_menu %}
-    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
-    {% if item.displayed and item.extras.isAllowed %}
-        {% set attr = layout_attr_defaults(attr, {
-            '~class': ' quick-access'
-        }) %}
+    {% set child_attr = layout_attr_defaults(child_attr, {
+        '~class': ' navigation-menu__item'
+    }) %}
 
-        {% set firstItem = true %}
-        {% for child in item.children %}
-            {% if child.displayed and child.extras.isAllowed %}
-                {% if firstItem %}
-                    <div {{ block('block_attributes') }}>
-                        <ul class="quick-access__list">
-                {% endif %}
+    {% set link_attr = layout_attr_defaults(link_attr, {
+        '~class': ' navigation-menu__inner navigation-menu__button'
+    }) %}
 
-                {% if child.name == 'orders' %}
-                    {% set badgeClass = '' %}
-                    {% set iconClass = 'file-text' %}
-                {% elseif child.name == 'quotes' %}
-                    {% set badgeClass = '' %}
-                    {% set iconClass = 'tag' %}
-                {% else %}
-                    {% set badgeClass = '' %}
-                    {% set iconClass = 'zap' %}
-                {% endif %}
+    {% set label_attr = layout_attr_defaults(label_attr, {
+        '~class': ' navigation-menu__inner'
+    }) %}
 
-            <li class="quick-access__item">
-                {% set linkAttributes = child.linkAttributes|merge({'class': 'quick-access__link'}) %}
-                <a href="{{ child.uri }}"{{ oro_menu.attributes(linkAttributes) }}>
-                    {{ renderIcon.icon({id: iconClass, extraClass: badgeClass ~ ' theme-icon theme-icon--medium'}) }}
-                    {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
-                    <span class="quick-access__text">{{ label }}</span>
-                </a>
-            </li>
-
-                {% set firstItem = false %}
-            {% endif %}
-        {% endfor %}
-
-        {% if firstItem == false %}
-                </ul>
-            </div>
-        {% endif %}
-    {% endif %}
+    {{ parent_block_widget(block) }}
 {% endblock %}

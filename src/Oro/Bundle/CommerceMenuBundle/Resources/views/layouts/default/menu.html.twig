@@ -149,7 +149,7 @@
     {%- set label = item.extras.custom is defined and item.extras.custom == true ? item.label : item.label|trans -%}
 
     {% if item.extras.icon is defined %}
-        {{ renderIcon.icon({id: item.extras.icon}) }}
+        {{ renderIcon.icon({name: item.extras.icon}) }}
     {% endif %}
 
     {%- if options.allow_safe_labels and item.getExtra('safe_label', false) -%}

@@ -15,15 +15,11 @@ navigation:
                     dir: 'ltr'
                 extras:
                     position: 10
-            orders:
-                label: 'oro.commercemenu.frontend.navigation.items.orders.label'
-                route: oro_order_frontend_index
-            quotes:
-                label: 'oro.commercemenu.frontend.navigation.items.quotes.label'
-                route: oro_sale_quote_frontend_index
             quick_order_form:
                 label: 'oro.commercemenu.frontend.navigation.items.quick_order_form.label'
                 route: oro_product_frontend_quick_add
+                extras:
+                    icon: 'zap'
             about:
                 label: 'oro.commercemenu.frontend.navigation.items.about.label'
                 uri: '/about'
@@ -97,8 +93,6 @@ navigation:
                 type: commerce_quick_access
                 scope_type: menu_frontend_visibility
                 children:
-                    orders: ~
-                    quotes: ~
                     quick_order_form: ~
 
             commerce_main_menu:

@@ -12,13 +12,11 @@ styles:
         - 'bundles/orocommercemenu/default/scss/variables/main-menu/multi/mega-menu-depth-4-config.scss'
         - 'bundles/orocommercemenu/default/scss/variables/navigation-menu-config.scss'
         - 'bundles/orocommercemenu/default/scss/variables/information-nav-config.scss'
-        - 'bundles/orocommercemenu/default/scss/variables/quick-access-config.scss'
         - 'bundles/orocommercemenu/default/scss/variables/featured-menu-config.scss'
         - 'bundles/orocommercemenu/default/scss/variables/header-row-config.scss'
         - 'bundles/orocommercemenu/default/scss/variables/nav-trigger-config.scss'
 
         - 'bundles/orocommercemenu/default/scss/components/header-row.scss'
-        - 'bundles/orocommercemenu/default/scss/components/quick-access.scss'
         - 'bundles/orocommercemenu/default/scss/components/navigation-menu.scss'
         - 'bundles/orocommercemenu/default/scss/components/main-menu/mixins/stack-items.scss'
         - 'bundles/orocommercemenu/default/scss/components/main-menu/main-menu.scss'

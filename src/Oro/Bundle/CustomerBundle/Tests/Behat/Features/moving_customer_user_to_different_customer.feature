@@ -78,7 +78,8 @@ Feature: Moving customer user to different customer
 
   Scenario: Check checkout after moving to another customer
     Given I proceed as the User
-    And I click "Orders"
+    And I click "Account Dropdown"
+    And I click "Order History"
     Then there is no records in "OpenOrdersGrid"
 
   Scenario: Check shopping list customer user after moving to another customer

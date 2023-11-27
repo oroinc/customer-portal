@@ -2,6 +2,7 @@
 
 $navigation-menu-gap: spacing('xl') !default;
 $navigation-menu-vertical-gap: 0 !default;
+$navigation-menu-vertical-gap-tablet: spacing('base') !default;
 
 $navigation-menu-item-color: get-color('text', 'inverse-70') !default;
 $navigation-menu-item-font-size: $base-font-size - 1px !default;
@@ -9,11 +10,18 @@ $navigation-menu-item-gap: spacing('sm') !default;
 $navigation-menu-item-inner-offset: 0 !default;
 $navigation-menu-item-min-height: 44px !default;
 
-$navigation-menu-vartical-item-inner-offset: spacing('sm') spacing('base') !default;
+$navigation-menu-vertical-item-inner-offset: spacing('sm') spacing('base') !default;
 
 $navigation-menu-link-font-size: $base-font-size !default;
 $navigation-menu-link-color: get-color('text', 'primary') !default;
 $navigation-menu-link-color-hover: get-color('text', 'primary') !default;
 
+$navigation-menu-button-border-radius: $base-ui-element-border-radius !default;
+$navigation-menu-button-inner-offset: 0 spacing('md') !default;
+$navigation-menu-button-background-color-hover: get-color('neutral', 'white-30') !default;
+
 $navigation-menu-link-color-inverse: get-color('neutral', 'white-100') !default;
 $navigation-menu-link-color-hover-inverse: get-color('text', 'link-hover-on-dark') !default;
+
+$navigation-menu-link-responsive-color: get-color('neutral', 'dark') !default;
+$navigation-menu-link-responsive-bg-hover: get-color('neutral', 'grey1') !default;

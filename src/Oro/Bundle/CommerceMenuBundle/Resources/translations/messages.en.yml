@@ -102,8 +102,6 @@ oro:
             navigation:
                 items:
                     telephone.label: '1-800-555-5555'
-                    orders.label: 'Orders'
-                    quotes.label: 'Quotes'
                     quick_order_form.label: 'Quick Order Form'
                     about.label: 'About'
                     information.label: 'Information'
