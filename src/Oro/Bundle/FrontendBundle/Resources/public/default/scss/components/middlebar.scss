@@ -6,6 +6,12 @@
     grid-template-columns: $middlebar-grid-template-columns;
     align-items: $middlebar-align-items;
 
+    &__left {
+        display: flex;
+        align-items: center;
+        gap: $middlebar-left-gap;
+    }
+
     &__right {
         display: $middlebar-right-display;
         gap: $middlebar-right-gap;

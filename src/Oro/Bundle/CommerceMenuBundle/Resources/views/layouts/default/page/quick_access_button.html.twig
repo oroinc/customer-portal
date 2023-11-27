@@ -1,0 +1,32 @@
+{% block _quick_access_button_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " quick-access-button-container",
+    }) %}
+    {% set togglerId = 'dropdown-'|uniqid %}
+    <div {{ block('block_attributes') }}>
+        <button id="{{togglerId}}" data-toggle="dropdown" type="button" class="btn btn--outlined-inverse" aria-haspopup="true" aria-expanded="false" aria-label="More actions">{{buttonLabel.name}}</button>
+        <div class="dropdown-menu quick-access-button-menu main-menu__inner-container" role="menu" aria-labelledby="{{togglerId}}">{{ block_widget(block) }}</div>
+    </div>
+{% endblock %}
+
+{% block _quick_access_button_menu_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' quick-access-menu',
+        'role': 'menu'
+    }) %}
+
+    {% set child_attr = layout_attr_defaults(child_attr, {
+        '~class': ' main-menu-column__item quick-access-menu__item',
+        'data-role': 'menuitem'
+    }) %}
+
+    {% set link_attr = layout_attr_defaults(link_attr, {
+        '~class': ' dropdown-item main-menu-column__link quick-access-menu__link',
+        'role': 'menuitem'
+    }) %}
+
+    {% set firstClass = null %}
+    {% set lastClass = null %}
+
+    {{ parent_block_widget(block) }}
+{% endblock %}

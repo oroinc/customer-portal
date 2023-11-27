@@ -1,0 +1,26 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroCommerceMenu/layouts/default/page/quick_access_button.html.twig'
+        - '@addTree':
+            items:
+                quick_access_button_container:
+                    blockType: container
+                    siblingId: ~
+                    options:
+                        visible: '=data["system_config_provider"].getValue("oro_frontend.quick_access_button")'
+                        vars:
+                          buttonLabel: '=data["menu"].getMenu(data["system_config_provider"].getValue("oro_frontend.quick_access_button_label"))'
+                          menu: '=data["menu"].getMenu(data["system_config_provider"].getValue("oro_frontend.quick_access_button"))'
+
+                quick_access_button_menu:
+                    blockType: menu
+                    options:
+                        item: '=data["menu"].getMenu(data["system_config_provider"].getValue("oro_frontend.quick_access_button"))'
+                        vars:
+                          result: '=data["system_config_provider"].getValue("oro_frontend.quick_access_button")'
+                          menu: '=data["menu"].getMenu(data["system_config_provider"].getValue("oro_frontend.quick_access_button"))'
+            tree:
+                middle_bar_logo:
+                    quick_access_button_container:
+                        quick_access_button_menu: ~

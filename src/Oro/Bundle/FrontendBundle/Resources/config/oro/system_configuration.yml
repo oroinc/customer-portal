@@ -128,6 +128,16 @@ system_configuration:
                 tooltip: oro_frontend.system_configuration.fields.quick_access_button.tooltip
                 scope_type: menu_frontend_visibility
 
+        oro_frontend.quick_access_button_label:
+            data_type: string
+            type: Symfony\Component\Form\Extension\Core\Type\TextType
+            options:
+                label: oro_frontend.system_configuration.fields.quick_access_button_label.label
+                tooltip: oro_frontend.system_configuration.fields.quick_access_button_label.tooltip
+                required: true
+                constraints:
+                    - NotBlank: ~
+
         oro_frontend.quick_links:
             data_type: string
             type: Oro\Bundle\NavigationBundle\Form\Type\MenuChoiceType
@@ -178,6 +188,7 @@ system_configuration:
                                             - oro_frontend.main_navigation_menu
                                             - oro_frontend.standalone_main_menu
                                             - oro_frontend.quick_access_button
+                                            - oro_frontend.quick_access_button_label
                                             - oro_frontend.quick_links
                                             - oro_frontend.search_on_smaller_screens
                                     page_templates:

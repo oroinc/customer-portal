@@ -73,9 +73,12 @@
 
     &__link {
         display: $main-menu-column-link-display;
-
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        justify-content: flex-start;
+        gap: 8px;
         max-width: $main-menu-column-link-max-width;
-
         white-space: $main-menu-column-link-white-space;
         word-wrap: $main-menu-column-link-word-wrap;
     }

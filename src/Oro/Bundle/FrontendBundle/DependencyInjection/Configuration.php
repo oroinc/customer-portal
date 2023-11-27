@@ -36,6 +36,7 @@ class Configuration implements ConfigurationInterface
                 'main_navigation_menu' => ['type' => 'string', 'value' => 'commerce_main_menu'],
                 'standalone_main_menu' => ['type' => 'boolean', 'value' => false],
                 'quick_access_button' => ['type' => 'string', 'value' => false],
+                'quick_access_button_label' => ['type' => 'string', 'value' => 'Products'],
                 'quick_links' => ['type' => 'string', 'value' => 'commerce_quick_access'],
                 'search_on_smaller_screens' => ['type' => 'string', 'value' => 'integrated'],
             ]
