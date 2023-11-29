@@ -34,7 +34,6 @@ class ErrorControllerTest extends WebTestCase
     public function testShowActionNotFoundBackend(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
-        $this->client->useHashNavigation(true);
 
         $this->client->followRedirects();
         $this->client->request('GET', '/admin/page-does-not-exist');
