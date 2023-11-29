@@ -58,7 +58,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
             [],
             $this->generateBasicAuthHeader(OroLoadCustomerUserData::AUTH_USER, OroLoadCustomerUserData::AUTH_PW)
         );
-        $this->client->useHashNavigation(true);
+
         $this->loadFixtures(
             [
                 'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers',

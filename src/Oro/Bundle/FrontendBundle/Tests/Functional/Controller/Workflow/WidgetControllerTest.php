@@ -40,7 +40,6 @@ class WidgetControllerTest extends WebTestCase
             LoadWorkflowDefinitions::class,
         ]);
 
-        $this->client->useHashNavigation(true);
         $this->entityManager = $this->client->getContainer()->get('doctrine')
             ->getManagerForClass(WorkflowAwareEntity::class);
         $this->workflowManager = $this->client->getContainer()->get('oro_workflow.manager');

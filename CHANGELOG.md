@@ -2,6 +2,15 @@ The upgrade instructions are available at [Oro documentation website](https://do
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
+## UNRELEASED
+
+### Changed
+
+#### FrontendBundle
+* [Content Providers feature](https://doc.oroinc.com/bundles/platform/UIBundle/content-providers/) is separated now between backoffice and storefront. The tag `oro_ui.content_provider` is used for collecting backoffice content providers and the tag `oro_frontend.content_provider` - for storefront content providers.
+
+
+
 ## 4.2.0 (2020-01-29)
 [Show detailed list of changes](incompatibilities-4-2.md)
 

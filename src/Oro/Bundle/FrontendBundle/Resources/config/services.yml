@@ -2,6 +2,20 @@ parameters:
     oro_platform.collector.template: '@@OroFrontend/Collector/commerce.html.twig'
 
 services:
+    oro_frontend.content_provider.manager:
+        class: Oro\Bundle\UIBundle\ContentProvider\ContentProviderManager
+        arguments:
+            - [] # $providerNames defined in Oro\Bundle\UIBundle\DependencyInjection\Compiler\ContentProviderPass
+            - ~  # $providerContainer defined in Oro\Bundle\UIBundle\DependencyInjection\Compiler\ContentProviderPass
+            - [] # $enabledProviderNames defined in Oro\Bundle\UIBundle\DependencyInjection\Compiler\ContentProviderPass
+
+    oro_frontend.content_provider.flash_messages:
+        class: Oro\Bundle\UIBundle\ContentProvider\FlashMessagesContentProvider
+        arguments:
+            - '@session'
+        tags:
+            - { name: oro_frontend.content_provider, alias: flashMessages }
+
     oro_frontend.listener.js_routing_dump:
         class: 'Oro\Bundle\FrontendBundle\EventListener\JsRoutingDumpListener'
         tags:

@@ -9,7 +9,6 @@ class CountryRegionsControllerTest extends WebTestCase
     protected function setUp(): void
     {
         $this->initClient();
-        $this->client->useHashNavigation(true);
     }
 
     public function testGetAction()
