@@ -210,6 +210,13 @@ services:
         tags:
             - { name: layout.context_configurator }
 
+    oro_frontend.layout_context_configurator.standalone_main_menu:
+        class: 'Oro\Bundle\FrontendBundle\Layout\Extension\StandaloneMainMenuContextConfigurator'
+        arguments:
+            - '@oro_config.global'
+        tags:
+            - { name: layout.context_configurator }
+
     oro_frontend.extractor.frontend_exposed_routes_extractor:
         class: 'Oro\Bundle\FrontendBundle\Extractor\FrontendExposedRoutesExtractor'
         arguments:

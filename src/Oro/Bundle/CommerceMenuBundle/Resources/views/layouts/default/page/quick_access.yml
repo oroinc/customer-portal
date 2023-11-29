@@ -6,8 +6,10 @@ layout:
             items:
                 quick_access_menu:
                     blockType: menu
+                    prepend: true
+                    siblingId: top_nav_controls_dropdown_container
                     options:
                         item: '=data["menu"].getMenu("commerce_quick_access")'
             tree:
-                header_row:
+                middle_bar_right:
                     quick_access_menu: ~

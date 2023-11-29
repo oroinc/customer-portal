@@ -72,7 +72,7 @@ $main-menu-sublist-container-shadow: 0 2px 5px 0 rgba(0 0 0 / 20%) !default;
 $main-menu-sublist-fullheight-background: get-color('additional-old', 'base') !default;
 $main-menu-sublist-fullheight-box-shadow: 0 2px 6px 1px #{rgba(get-color('additional-old', 'darker'), .12)} !default;
 $main-menu-edge: 50px !default;
-$main-menu-sublist-fullheight-top: calc(100% - #{spacing('sm')}) !default;
+$main-menu-sublist-fullheight-top: calc(100% + #{spacing('base')}) !default;
 $main-menu-sublist-fullheight-bottom: calc(
     -100vh + #{$main-menu-edge} + var(--main-menu-offset-bottom, 170px)
 ) !default;

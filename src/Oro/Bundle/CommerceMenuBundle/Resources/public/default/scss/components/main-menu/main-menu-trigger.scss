@@ -11,10 +11,11 @@
     justify-content: $main-menu-trigger-justify-content;
     margin: $main-menu-trigger-margin;
     padding: $main-menu-trigger-padding;
+    cursor: $main-menu-trigger-cursor;
 }
 
 @include breakpoint('desktop-small') {
-    .main-menu-trigger {
+    .main-menu-trigger.main-menu-standalone {
         display: $main-menu-trigger-desktop-small-display;
     }
 }

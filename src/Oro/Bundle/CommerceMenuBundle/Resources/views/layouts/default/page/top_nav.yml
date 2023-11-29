@@ -5,7 +5,7 @@ layout:
 
         - '@add':
               id: top_nav_extra_container
-              parentId: main_menu_extra_container
+              parentId: menus_sidebar_container
               blockType: container
               options:
                   visible: '=data["system_config_provider"].getValue("oro_frontend.top_navigation_menu")'

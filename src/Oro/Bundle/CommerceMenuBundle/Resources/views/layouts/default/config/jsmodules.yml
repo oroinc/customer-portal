@@ -2,4 +2,5 @@ dynamic-imports:
     commons:
         - orocommercemenu/js/app/views/header-row-view
         - orocommercemenu/js/app/views/menu-traveling-view
+        - orocommercemenu/js/app/views/side-panel
         - oronavigation/js/app/views/navigation-menu-view

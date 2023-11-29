@@ -54,22 +54,27 @@ Feature: Mega Menu Items
     Given I proceed as the Buyer
     And I reload the page
     And I should see "Node-1 / Node with loooooooooooooooong name" in main menu
+    And I click on "Main Menu Button"
+    And I hover on "Node1"
     When I hover on "NodeWithLongName"
     Then I should see "Node with loooooooooooooooong name" in the "Tooltip" element
 
   Scenario: Check default openning menu items
     Given I reload the page
-    When I hover on "Node1"
+    When I click on "Main Menu Button"
+    Then I hover on "Node1"
     And I should see an "Node1_1Active" element
     And I should not see an "Node1_3Active" element
     And I hover on "Node1_3"
     And I should not see an "Node1_1Active" element
     And I should see an "Node1_3Active" element
-    And I click on empty space
+    And I click "Close Fullscreen Popup"
+    Then I click on "Main Menu Button"
     And I hover on "Node1"
     And I should not see an "Node1_1Active" element
     And I should see an "Node1_3Active" element
     And I click on "CloseActiveItem"
+    Then I click on "Main Menu Button"
     And I hover on "Node1"
     And I should see an "Node1_1Active" element
     Then I should not see an "Node1_3Active" element
@@ -94,7 +99,8 @@ Feature: Mega Menu Items
     And I save form
     And I proceed as the Buyer
     And I reload the page
-    When I hover on "Node1"
+    When I click on "Main Menu Button"
+    Then I hover on "Node1"
     And I should not see an "OnSaleItem_level_3" element
     Then I should see an "OnSaleImage" element
 
@@ -105,12 +111,14 @@ Feature: Mega Menu Items
     When I move "On Sale" before "Node-1" in tree "Sidebar Menu Tree"
     And I proceed as the Buyer
     And I reload the page
+    Then I click on "Main Menu Button"
     Then I should see an "OnSaleItem_level_1" element
     When I proceed as the Admin
     And I expand "Node-1" in tree "Sidebar Menu Tree"
     And I move "On Sale" before "Node-1-2" in tree "Sidebar Menu Tree"
     And I proceed as the Buyer
     And I reload the page
+    Then I click on "Main Menu Button"
     And I hover on "Node1"
     Then I should see an "OnSaleItem_level_2" element
     When I proceed as the Admin
@@ -120,6 +128,7 @@ Feature: Mega Menu Items
     And I move "On Sale" before "Node-1-1-1-1" in tree "Sidebar Menu Tree"
     And I proceed as the Buyer
     And I reload the page
+    Then I click on "Main Menu Button"
     And I hover on "Node1"
     Then I should see an "OnSaleItem_level_4" element
     When I proceed as the Admin
@@ -130,12 +139,13 @@ Feature: Mega Menu Items
   Scenario: Check accessibility via keyboard, dive deep and exit on close button press
     Given I proceed as the Buyer
     And I reload the page
-    When I focus on "Node1"
-    And I press "ArrowRight" key on "Node1" element
-    And I should see "Node2" element focused
-    And I press "ArrowLeft" key on "Node2" element
-    And I should see "Node1" element focused
+    Then I click on "Main Menu Button"
+    And I focus on "Node1"
     And I press "ArrowDown" key on "Node1" element
+    And I should see "Node2" element focused
+    And I press "ArrowUp" key on "Node2" element
+    And I should see "Node1" element focused
+    And I press "ArrowRight" key on "Node1" element
     And I should see "Node1_1" element focused
     And I press "ArrowRight" key on "Node1_1" element
     And I should see "Node1_1_Title" element focused
@@ -154,7 +164,7 @@ Feature: Mega Menu Items
 
   Scenario: Check accessibility via keyboard, dive deep and exit on press ESC button
     Given I focus on "Node1"
-    When I press "ArrowDown" key on "Node1" element
+    When I press "ArrowRight" key on "Node1" element
     And I should see "Node1_1" element focused
     And I press "ArrowRight" key on "Node1_1" element
     And I should see "Node1_1_Title" element focused
@@ -167,7 +177,7 @@ Feature: Mega Menu Items
 
   Scenario: Check accessibility via keyboard, navigation through different menu levels
     Given I focus on "Node1"
-    When I press "ArrowDown" key on "Node1" element
+    When I press "ArrowRight" key on "Node1" element
     And I should see "Node1_1" element focused
     And I press "ArrowRight" key on "Node1_1" element
     And I should see "Node1_1_Title" element focused
@@ -177,5 +187,6 @@ Feature: Mega Menu Items
     And I should see "Node1_1" element focused
     And I press "ArrowDown" key on "Node1_1" element
     And I should see "Node1_2" element focused
-    And I press "ArrowRight" key on "Node1_2" element
+    And I press "ArrowLeft" key on "Node1_2" element
+    And I press "ArrowDown" key on "Node1" element
     Then I should see "Node2" element focused

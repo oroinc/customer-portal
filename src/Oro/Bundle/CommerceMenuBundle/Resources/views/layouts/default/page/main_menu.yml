@@ -4,9 +4,9 @@ layout:
             themes: '@OroCommerceMenu/layouts/default/page/main_menu.html.twig'
         - '@addTree':
             items:
-                header_row:
+                menus_sidebar_container:
                     blockType: container
-                    prepend: false
+                    prepend: true
                 main_menu_container:
                     blockType: container
                     options:
@@ -25,16 +25,19 @@ layout:
                         depth: 1
                         allow_safe_labels: true
             tree:
-                page_header:
-                    header_row:
-                        main_menu_extra_container: ~
-                        main_menu_container:
-                            main_menu_back_trigger: ~
-                            main_menu_outer_container:
-                                main_menu: ~
+                wrapper:
+                    menus_sidebar_container:
+                        main_menu_extra_container:
+                            main_menu_container:
+                                main_menu_back_trigger: ~
+                                main_menu_outer_container:
+                                    main_menu: ~
 
         - '@add':
             id: main_menu_trigger
             blockType: block
             parentId: middle_bar_logo
             prepend: true
+            options:
+                vars:
+                    standaloneMainMenu: '=data["system_config_provider"].getValue("oro_frontend.standalone_main_menu")'

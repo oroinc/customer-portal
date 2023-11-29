@@ -31,9 +31,9 @@
     }) %}
 
     <button {{ block('block_attributes') }}>
-        {{ renderIcon.icon({id: 'user', extraClass: 'theme-icon--medium'}) }}
+        {{ renderIcon.icon({name: 'user'}) }}
             {{ block_widget(block) }}
-        {{ renderIcon.icon({id: 'chevron-down', extraClass: 'theme-icon--medium customer-menu__dropdown-icon hide-on-tablet'}) }}
+        {{ renderIcon.icon({name: 'chevron-down', extraClass: 'customer-menu__dropdown-icon hide-on-tablet'}) }}
     </button>
 {% endblock %}
 
@@ -49,7 +49,7 @@
     }) %}
 
     <a {{ block('block_attributes') }}>
-        {{ renderIcon.icon({id: 'log-out', extraClass: 'theme-icon--medium'}) }} <span>{{ text|trans }}</span>
+        {{ renderIcon.icon({name: 'log-out'}) }} <span>{{ text|trans }}</span>
     </a>
 {% endblock %}
 

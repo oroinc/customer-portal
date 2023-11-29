@@ -73,43 +73,43 @@
 {% block _style_book_button_element_btn_text_widget %}
     {%- import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon -%}
     <button type="button" class="btn btn--text">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
+        {{- renderIcon.icon({name: 'settings'}) -}}
     </button>
     <button type="button" class="btn btn--outlined btn--text">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
+        {{- renderIcon.icon({name: 'settings'}) -}}
     </button>
     <button type="button" class="btn btn--destructive btn--text">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
+        {{- renderIcon.icon({name: 'settings'}) -}}
     </button>
     <button type="button" class="btn btn--destructive-outlined btn--text">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
+        {{- renderIcon.icon({name: 'settings'}) -}}
     </button>
     <button type="button" class="btn btn--plain btn--text">
-        {{- renderIcon.icon({name: 'x', extraClass: 'theme-icon--medium'}) -}}
+        {{- renderIcon.icon({name: 'x'}) -}}
     </button>
     <button type="button" class="btn btn--plain btn--text">
-        {{- renderIcon.icon({name: 'arrow-left', extraClass: 'theme-icon--medium'}) -}}
+        {{- renderIcon.icon({name: 'arrow-left'}) -}}
     </button>
 {% endblock %}
 {% block _style_book_button_element_icon_widget %}
     {%- import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon -%}
     <button type="button" class="btn btn--icon">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
+        {{- renderIcon.icon({name: 'settings'}) -}}
     </button>
     <button type="button" class="btn btn--outlined btn--icon">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
+        {{- renderIcon.icon({name: 'settings'}) -}}
     </button>
     <button type="button" class="btn btn--destructive btn--icon">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
+        {{- renderIcon.icon({name: 'settings'}) -}}
     </button>
     <button type="button" class="btn btn--destructive-outlined btn--icon">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
+        {{- renderIcon.icon({name: 'settings'}) -}}
     </button>
     <button type="button" class="btn btn--plain btn--icon">
-        {{- renderIcon.icon({name: 'x', extraClass: 'theme-icon--medium'}) -}}
+        {{- renderIcon.icon({name: 'x'}) -}}
     </button>
     <button type="button" class="btn btn--plain btn--icon">
-        {{- renderIcon.icon({name: 'arrow-left', extraClass: 'theme-icon--medium'}) -}}
+        {{- renderIcon.icon({name: 'arrow-left'}) -}}
     </button>
 {% endblock %}
 
@@ -118,13 +118,13 @@
 
     <div class="btn-group">
         <button type="button" class="btn" aria-label="Expand or Collapse Grid Filters">
-            {{ renderIcon.icon({name: 'sliders', extraClass: 'theme-icon--medium'}) }}
+            {{ renderIcon.icon({name: 'sliders'}) }}
         </button>
         <button type="button" class="btn" aria-label="Refresh grid action">
-            {{ renderIcon.icon({name: 'refresh', extraClass: 'theme-icon--medium'}) }}
+            {{ renderIcon.icon({name: 'refresh'}) }}
         </button>
         <button type="button" class="btn" aria-label="Reset grid action">
-            {{ renderIcon.icon({name: 'reset', extraClass: 'theme-icon--medium'}) }}
+            {{ renderIcon.icon({name: 'reset'}) }}
         </button>
     </div>
 {% endblock %}
@@ -150,7 +150,7 @@
         <button type="button" class="btn">Button with a drop-down</button>
         <button type="button" id="{{ button }}" data-toggle="dropdown" class="btn dropdown-toggle"
            aria-haspopup="true" aria-expanded="false" aria-label="More actions">
-                {{ renderIcon.icon({name: 'chevron-down', extraClass: 'theme-icon--medium'}) }}
+                {{ renderIcon.icon({name: 'chevron-down'}) }}
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="{{ button }}">
             <li><a class="dropdown-item" role="button" href="#">Action A</a></li>

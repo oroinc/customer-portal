@@ -6,6 +6,10 @@
 
         background: $mega-menu-depth-1-list-background;
         overflow: $mega-menu-depth-1-list-overflow;
+
+        .main-menu-stack-mode & {
+            overflow: inherit;
+        }
     }
 
     @include main-menu-stack-items();
@@ -46,6 +50,13 @@
             inset-inline: $mega-menu-depth-1-inner-inset-inline;
             box-shadow: $mega-menu-depth-1-inner-box-shadow;
             z-index: $mega-menu-depth-1-inner-z-index;
+
+            .main-menu-stack-mode & {
+                width: 100%;
+                position: absolute;
+                left: 100%;
+                z-index: 0;
+            }
         }
 
         &__item.show &__inner {

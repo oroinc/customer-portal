@@ -2,7 +2,7 @@
     <div class="notification-flash notification-flash--error" role="alert">
         <div class="notification-flash__content">
             {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
-            {{ renderIcon.icon({name: 'alert-circle', extraClass: 'theme-icon--medium notification-flash__icon'}) }}
+            {{ renderIcon.icon({name: 'alert-circle', extraClass: 'notification-flash__icon'}) }}
             <div class="notification-flash__text">
                 Google calendar cannot by synchronized, as Google integration is not yet configured. Please contact system administrator.
             </div>
@@ -14,7 +14,7 @@
     <div class="notification-flash notification-flash--success" role="alert">
         <div class="notification-flash__content">
             {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
-            {{ renderIcon.icon({name: 'check-circle', extraClass: 'theme-icon--medium notification-flash__icon'}) }}
+            {{ renderIcon.icon({name: 'check-circle', extraClass: 'notification-flash__icon'}) }}
             <div class="notification-flash__text">
                 The shopping list 'PO1463' was successfully created.
             </div>
@@ -26,7 +26,7 @@
     <div class="notification-flash notification-flash--warning" role="alert">
         <div class="notification-flash__content">
             {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
-            {{ renderIcon.icon({name: 'alert-triangle', extraClass: 'theme-icon--medium notification-flash__icon'}) }}
+            {{ renderIcon.icon({name: 'alert-triangle', extraClass: 'notification-flash__icon'}) }}
             <div class="notification-flash__text">
                 The connection cannot be established at the moment. Please check your internet connection.
             </div>

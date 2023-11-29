@@ -22,6 +22,8 @@
         flex-shrink: $fullscreen-popup-header-flex-shrink;
         gap: $fullscreen-popup-header-gap;
 
+        justify-content: $fullscreen-popup-header-justify-content;
+
         z-index: $fullscreen-popup-header-z-index;
 
         @include safe-area-offset(padding, $fullscreen-popup-header-offset);
@@ -107,8 +109,44 @@
         }
     }
 
+    &__backdrop {
+        position: fixed;
+        inset: 0;
+
+        background-color: $fullscreen-popup-backdrop-background-color;
+        z-index: $fullscreen-popup-backdrop-z-index;
+
+        transition: $fullscreen-popup-backdrop-transition;
+
+        &:not(.show) {
+            opacity: 0;
+        }
+    }
+
     // Make correct padding of popup content for any content
     .tab-content__wrapper {
         padding: 20px;
+    }
+
+    &--transition {
+        transition: $fullscreen-popup-transition;
+
+        &:not(.show) {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+    }
+}
+
+@include breakpoint('desktop-small') {
+    .fullscreen-popup {
+        &--align-left {
+            right: auto;
+
+            &:not(.show) {
+                opacity: 1;
+                transform: translateX(-100%);
+            }
+        }
     }
 }

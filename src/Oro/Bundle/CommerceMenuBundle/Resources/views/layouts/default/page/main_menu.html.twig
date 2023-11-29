@@ -23,10 +23,19 @@
 {% block _main_menu_extra_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' main-menu__extra-container',
-        'data-main-menu-extra-container': '',
-        'data-header-row-toggle': ''
+        'data-main-menu-extra-container': ''
     }) %}
 
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _menus_sidebar_container_widget %}
+    {% set attr =  layout_attr_defaults(attr, {
+        'data-menus-container': '',
+        '~class': 'hidden'
+    }) %}
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
@@ -41,39 +50,60 @@
         'aria-label': 'oro.commercemenu.menuupdate.menu.label'|trans,
         'data-page-component-module': 'oroui/js/app/components/viewport-component',
         'data-page-component-options': {
-            viewport: 'tablet',
+            viewport: block.vars.standaloneMainMenu ? 'tablet',
             component: 'oroui/js/app/components/view-component',
-            view: 'orofrontend/default/js/app/views/fullscreen-popup-view',
-            contentElement: '[data-main-menu-extra-container]',
+            view: 'orocommercemenu/js/app/views/side-panel',
+            contentElement: '[data-menus-container]',
             popupLabel: 'oro_frontend.fullscreen_popup.menu.label'|trans,
             popupIcon: 'hamburger-menu',
+            headerOptions: {
+                templateData: {
+                    logoSrc: logoSrc|default(asset('bundles/orofrontend/default/images/logo/demob2b-logo-mini.svg'))
+                }
+            },
+            disableBodyTouchScroll: false,
+            dialogClass: 'sidebar-main-menu fullscreen-popup--transition fullscreen-popup--align-left',
             contentAttributes: {
-                'class': 'fullscreen-mode'
+                'class': 'main-menu-stack-mode fullscreen-mode'
             }
         }
     }) %}
+
+    {%- if block.vars.standaloneMainMenu -%}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': ' main-menu-standalone'
+        }) %}
+    {%- endif -%}
+
     <button {{ block('block_attributes') }}>
-        {{- renderIcon.icon({id: 'hamburger-menu'}) -}}
+        {{- renderIcon.icon({name: 'hamburger-menu', extraClass: 'theme-icon--lg'}) -}}
     </button>
 {% endblock %}
 
 {% block _main_menu_container_widget %}
     {% set hoverPriority = hoverPriority|default(false) %}
+    {% set extraClass = oro_config_value('oro_frontend.standalone_main_menu') ? ' main-menu-standalone-mode' : '' %}
     {% set attr =  layout_attr_defaults(attr, {
-        '~class': " main-menu-outer#{hoverPriority ? ' is-hoverable'}",
+        '~class': " main-menu-outer#{hoverPriority ? ' is-hoverable'}" ~ extraClass,
         'data-page-component-view': {
             view: 'orocommercemenu/js/app/views/menu-traveling-view',
             hoverPriority: hoverPriority
-        },
-        'data-dom-relocation-options': {
-            responsive: [
-                {
-                    viewport: 'tablet',
-                    moveTo: '[data-main-menu-extra-container]'
-                }
-            ]
         }
     }) %}
+
+    {% if oro_config_value('oro_frontend.standalone_main_menu') %}
+        {% set attr =  layout_attr_defaults(attr, {
+            'data-dom-relocation-options': {
+                responsive: [
+                    {
+                        viewport: 'tablet',
+                        moveTo: '[data-main-menu-extra-container]',
+                        startPointClass: extraClass
+                    }
+                ]
+            }
+        }) %}
+    {% endif %}
 
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}

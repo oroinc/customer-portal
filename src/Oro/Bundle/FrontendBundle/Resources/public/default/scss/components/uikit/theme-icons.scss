@@ -7,6 +7,10 @@
 
     fill: $theme-icon-fill;
 
+    &--lg {
+        --theme-icon-size: #{$theme-icon-lg-size};
+    }
+
     &--medium {
         --theme-icon-size: #{$theme-icon-medium-size};
     }

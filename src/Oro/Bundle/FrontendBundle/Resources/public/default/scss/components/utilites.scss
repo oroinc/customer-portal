@@ -27,6 +27,14 @@
     overflow: hidden;
 }
 
+.no-scroll-safe {
+    /* rtl:begin:ignore */
+    padding-right: var(--system-scroll-width);
+    /* rtl:end:ignore */
+
+    overflow: hidden;
+}
+
 .disable-touch-scrolling {
     overflow: hidden;
     visibility: hidden;

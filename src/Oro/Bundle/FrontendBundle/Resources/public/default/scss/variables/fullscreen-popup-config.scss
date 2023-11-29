@@ -13,11 +13,17 @@ $fullscreen-popup-left: 0 !default;
 $fullscreen-popup-height: auto !default;
 $fullscreen-popup-margin-left: 0 !default;
 $fullscreen-popup-bg: get-var-color('neutral', 'white-100') !default;
+$fullscreen-popup-transition: opacity 300ms ease-in-out, transform 300ms ease-in-out !default;
+
+$fullscreen-popup-backdrop-background-color: rgba(get-color('neutral', 'dark'), .6) !default;
+$fullscreen-popup-backdrop-z-index: $fullscreen-popup-z-index - 1 !default;
+$fullscreen-popup-backdrop-transition: opacity 300ms !default;
 
 $fullscreen-popup-header-display: flex !default;
 $fullscreen-popup-header-align-items: center !default;
 $fullscreen-popup-header-flex-shrink: 0 !default;
-$fullscreen-popup-header-gap: spacing('md');
+$fullscreen-popup-header-gap: spacing('md') !default;
+$fullscreen-popup-header-justify-content: space-between !default;
 
 $fullscreen-popup-header-z-index: z('base') + 1 !default;
 

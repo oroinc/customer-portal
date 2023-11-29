@@ -22,11 +22,6 @@
     .middlebar {
         grid-template-columns: $middlebar-tablet-grid-template-columns;
 
-        &__left {
-            display: $middlebar-left-tablet-display;
-            gap: $middlebar-left-tablet-gap;
-        }
-
         &__center {
             grid-column: $middlebar-center-tablet-grid-column;
             grid-row: $middlebar-center-tablet-grid-row;

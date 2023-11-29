@@ -210,3 +210,5 @@ oro_behat_extension:
       selector: '.sticky-panel.sticky-panel--top.has-content [data-grid-sorting]'
     Catalog Switcher Into Sticky Panel:
       selector: '.sticky-panel.sticky-panel--top.has-content .catalog-switcher'
+    Sidebar Main Menu Popup:
+      selector: '.sidebar-main-menu'

@@ -25,7 +25,8 @@ define(function(require) {
             'template', 'templateSelector', 'templateData',
             'popupLabel', 'popupCloseOnLabel',
             'popupCloseButton', 'popupIcon',
-            'stopEventsPropagation', 'stopEventsList', 'dialogClass'
+            'stopEventsPropagation', 'stopEventsList', 'dialogClass',
+            'disableBodyTouchScroll'
         ]),
 
         sections: ['header', 'content', 'footer'],
@@ -96,6 +97,8 @@ define(function(require) {
          * @property
          */
         dialogClass: '',
+
+        disableBodyTouchScroll: true,
 
         /**
          * @inheritdoc
@@ -172,7 +175,9 @@ define(function(require) {
 
             this.trigger('beforeclose');
 
-            scrollHelper.enableBodyTouchScroll();
+            if (this.disableBodyTouchScroll) {
+                scrollHelper.enableBodyTouchScroll();
+            }
 
             _.each(this.sections, this.closeSection, this);
 
@@ -235,9 +240,13 @@ define(function(require) {
         _onShow: function() {
             this._initPopupEvents();
             this.initLayout(this.initLayoutOptions);
-            manageFocus.focusTabbable(this.$popup);
+            manageFocus.focusTabbable(this.getFocusTabbableElement());
             mediator.trigger('layout:reposition');
-            scrollHelper.disableBodyTouchScroll();
+
+            if (this.disableBodyTouchScroll) {
+                scrollHelper.disableBodyTouchScroll();
+            }
+
             this.trigger('show');
         },
 
@@ -311,7 +320,7 @@ define(function(require) {
                 .on('keydown', event => manageFocus.preventTabOutOfContainer(event, this.$popup))
                 .one('transitionend', e => {
                     if (e.target === this.$popup[0]) {
-                        manageFocus.focusTabbable(this.$popup);
+                        manageFocus.focusTabbable(this.getFocusTabbableElement());
                     }
                 });
 
@@ -334,6 +343,14 @@ define(function(require) {
          */
         _setPreviousClasses: function($el) {
             $el.attr('class', this.previousClass);
+        },
+
+        /**
+         * Return element for focus after show
+         * @returns {jQuery.Element}
+         */
+        getFocusTabbableElement() {
+            return this.$popup;
         }
     });
 
