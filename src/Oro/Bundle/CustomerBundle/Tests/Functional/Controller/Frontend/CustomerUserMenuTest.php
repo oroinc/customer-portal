@@ -18,7 +18,7 @@ class CustomerUserMenuTest extends WebTestCase
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
-        $this->client->useHashNavigation(true);
+
         $this->loadFixtures([LoadCustomerUserACLData::class]);
 
         $this->configManager = self::getConfigManager();

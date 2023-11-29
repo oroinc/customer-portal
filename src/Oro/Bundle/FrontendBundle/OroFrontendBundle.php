@@ -11,6 +11,7 @@ use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendCurrentApplic
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendDatagridTagsFeaturePass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendDebugRoutesPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendSessionPass;
+use Oro\Bundle\UIBundle\DependencyInjection\Compiler\ContentProviderPass;
 use Oro\Component\DependencyInjection\Compiler\PriorityNamedTaggedServiceWithHandlerCompilerPass;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -27,6 +28,9 @@ class OroFrontendBundle extends Bundle
     {
         parent::build($container);
 
+        $container->addCompilerPass(
+            new ContentProviderPass('oro_frontend.content_provider.manager', 'oro_frontend.content_provider')
+        );
         $container->addCompilerPass(new FrontendDebugRoutesPass());
         $container->addCompilerPass(new FrontendSessionPass());
         $container->addCompilerPass(new FrontendCurrentApplicationProviderPass());
