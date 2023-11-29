@@ -1,4 +1,11 @@
 services:
+    oro_commerce_menu.content_provider.title:
+        class: Oro\Bundle\NavigationBundle\ContentProvider\TitleContentProvider
+        arguments:
+            - '@oro_navigation.title_service'
+        tags:
+            - { name: oro_frontend.content_provider, alias: title }
+
     oro_commerce_menu.scope_criteria_provider.customer:
         parent: oro_customer.customer_scope_criteria_provider
         tags:

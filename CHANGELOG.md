@@ -21,6 +21,14 @@ The current file describes significant changes in the code that may affect the u
 - [2.2.0](#220-2017-05-31)
 
 
+## UNRELEASED
+
+### Changed
+
+#### FrontendBundle
+* [Content Providers feature](https://doc.oroinc.com/bundles/platform/UIBundle/content-providers/) is separated now between backoffice and storefront. The tag `oro_ui.content_provider` is used for collecting backoffice content providers and the tag `oro_frontend.content_provider` - for storefront content providers.
+
+
 ## 5.0.0 (2022-01-26)
 [Show detailed list of changes](incompatibilities-5-0.md)
 
