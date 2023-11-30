@@ -46,7 +46,6 @@ Feature: Checking the address types at different locales
     And I signed in as AmandaRCole@example.org on the store frontend
     And I click "Account Dropdown"
     And I click "Address Book"
-    And I click "Localization Switcher"
     And I click "Zulu"
     Then should see following "Customers Address Book Grid" grid:
       | Customer Address     | Zip/Postal Code | Country       | Type {{ "type": "array" }}                      |
@@ -63,7 +62,6 @@ Feature: Checking the address types at different locales
   Scenario: Check address type on English localization
     And I click "Account Dropdown"
     Given I click "Address Book"
-    When I click "Localization Switcher"
     And I click "English"
     Then should see following "Customers Address Book Grid" grid:
       | Customer Address     | Zip/Postal Code | Country       | Type {{ "type": "array" }}        |

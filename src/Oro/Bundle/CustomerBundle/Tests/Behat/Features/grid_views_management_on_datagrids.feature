@@ -67,7 +67,6 @@ Feature: grid views management on datagrids
     Given I signed in as AmandaRCole@example.org on the store frontend
     And I click "Account Dropdown"
     And I click "Address Book"
-    And I click "Localization Switcher"
-    And I select "Zulu" localization
+    And I click "Zulu"
     When I click grid view list on "Customer Company Addresses Grid" grid
     Then I should see "Saved Views - Zulu"

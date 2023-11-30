@@ -107,7 +107,7 @@
 
 .btn--no-padding,
 .btn--no-padding.btn--text {
-    padding-inline: 0;
+    padding-inline: spacing('xs');
 }
 
 .btn--full,

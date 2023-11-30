@@ -13,6 +13,12 @@
         @include flexible-arrow();
     }
 
+    &-chevron {
+        .dropdown.show & {
+            transform: rotate(180deg);
+        }
+    }
+
     .dropdown-item {
         display: flex;
         align-items: $dropdown-item-align-items;
@@ -31,6 +37,22 @@
         &--destructive {
             color: $dropdown-link-color-destructive;
             font-weight: $dropdown-link-font-weight-destructive;
+        }
+
+        &--active {
+            position: relative;
+            background-color: $dropdown-link-only-hover-bg;
+
+            &:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 3px;
+                border-radius: 0 4px 4px 0;
+                background-color: $dropdown-link-active-state-color;
+            }
         }
     }
 

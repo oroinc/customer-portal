@@ -145,6 +145,7 @@ $dropdown-link-hover-color: get-var-color('text', 'primary');
 $dropdown-link-hover-bg: null;
 $dropdown-link-only-hover-bg: get-var-color('primary', 'light');
 $dropdown-link-active-color: get-var-color('text', 'primary');
+$dropdown-link-active-state-color: get-var-color('primary', 'main') !default;
 $dropdown-link-active-bg: transparent;
 $dropdown-link-disabled-color: get-var-color('text', 'disabled');
 $dropdown-item-padding-y: spacing('md');

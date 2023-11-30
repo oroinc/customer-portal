@@ -20,6 +20,11 @@
     }
 }
 
+.topbar-right {
+    display: flex;
+    gap: 0 32px;
+}
+
 @include breakpoint('tablet') {
     .page-header {
         padding: $page-header-inner-offset-tablet;

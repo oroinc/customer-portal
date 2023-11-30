@@ -9,12 +9,14 @@
 {% endblock %}
 
 {% block _top_sign_in_link_widget %}
+    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' navigation-menu__inner navigation-menu__link',
+        '~class': ' navigation-menu__inner navigation-menu__link text-nowrap',
         'href': path(route_name)
     }) %}
     <a {{ block('block_attributes') }}>
-        <span class="fa-sign-in" aria-hidden="true"></span> {{ text|trans -}}
+        {{ renderIcon.icon({name: 'user', extraClass: 'theme-icon--medium'}) }}
+        {{ text|trans -}}
     </a>
 {% endblock %}
 
