@@ -7,7 +7,7 @@
 {% block _middle_bar_search_widget %}
     {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = attr|merge({
-        class: attr.class|default('') ~ " search-widget-wrap"
+        class: attr.class|default("search-widget--" ~ searchType) ~ " search-widget"
     }) %}
 
     {% set dom_relocation_options =  {

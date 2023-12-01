@@ -2,9 +2,9 @@
 
 .middlebar {
     display: $middlebar-display;
-    gap: $middlebar-grid-gap;
     grid-template-columns: $middlebar-grid-template-columns;
     align-items: $middlebar-align-items;
+    grid-column-gap: $middlebar-grid-gap;
 
     &__left {
         display: flex;
@@ -20,11 +20,18 @@
 
 @include breakpoint('tablet') {
     .middlebar {
-        grid-template-columns: $middlebar-tablet-grid-template-columns;
+        &--standalone {
+            grid-template-columns: $middlebar-tablet-grid-template-columns;
 
-        &__center {
-            grid-column: $middlebar-center-tablet-grid-column;
-            grid-row: $middlebar-center-tablet-grid-row;
+            .middlebar__center {
+                grid-column: $middlebar-center-tablet-grid-column;
+                grid-row: $middlebar-center-tablet-grid-row;
+            }
+        }
+
+        &__left {
+            display: $middlebar-left-tablet-display;
+            gap: $middlebar-left-tablet-gap;
         }
     }
 }

@@ -2,9 +2,9 @@
 
 .search-widget {
     position: $search-widget-position;
+    width: $search-widget-wrap-width;
 
-    &-wrap {
-        width: $search-widget-wrap-width;
+    &--integrated {
         max-width: $search-widget-wrap-max-width;
     }
 
@@ -68,9 +68,11 @@
 
 @include breakpoint('tablet') {
     .search-widget {
-        margin: $search-widget-tablet-offset;
+        &--standalone {
+            margin: $search-widget-tablet-offset;
+        }
 
-        &-wrap {
+        &--integrated {
             max-width: $search-widget-wrap-tablet-max-width;
         }
 
