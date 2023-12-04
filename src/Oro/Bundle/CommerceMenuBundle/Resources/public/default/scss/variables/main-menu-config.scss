@@ -126,6 +126,9 @@ $main-menu-sublist-container-centered-translate-rtl:
 
 $main-menu-item-hover-desktop-background: null !default;
 
+$main-menu-sublist-stack-top: 0 !default;
+$main-menu-sublist-stack-width: auto !default;
+
 // Only Desktop
 $main-menu-outer-container-desktop-display: flex !default;
 $main-menu-outer-container-desktop-justify-content: center !default;
@@ -145,7 +148,7 @@ $main-menu-item-show-mobile-version-background: get-color('additional-old', 'bas
 // Tablet styles
 $main-menu-tablet-border: 1px solid color.adjust(get-color('additional-old', 'base'), $lightness: -5%) !default;
 
-$main-menu-actions-grid-template-columns: 16px auto 1fr 32px 32px !default;
+$main-menu-actions-grid-template-columns: 32px auto 1fr 32px 32px !default;
 
 $main-menu-link-only-child-keys-padding: 0 64px 0 16px !default;
 

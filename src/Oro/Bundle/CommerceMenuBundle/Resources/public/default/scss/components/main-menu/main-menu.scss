@@ -262,10 +262,6 @@
                 grid-template-columns: $main-menu-actions-grid-template-columns;
             }
 
-            &__actions:only-child .main-menu__link:not(.focus-via-arrows-keys:focus) {
-                padding: $main-menu-link-only-child-keys-padding;
-            }
-
             &__button {
                 padding: $main-menu-button-padding;
             }
@@ -289,6 +285,25 @@
             &__inner-container {
                 height: $main-menu-sublist-container-tablet-height;
                 overflow: $main-menu-sublist-container-tablet-overflow;
+            }
+        }
+    }
+}
+
+@include breakpoint('desktop-small') {
+    .main-menu-stack-mode {
+        .main-menu {
+            &__inner {
+                top: $main-menu-sublist-stack-top;
+                width: $main-menu-sublist-stack-width;
+                padding-top: $main-menu-sublist-tablet-top;
+
+                &::before {
+                    content: '';
+                    width: 36px;
+                    position: absolute;
+                    inset: 0 auto 0 -36px;
+                }
             }
         }
     }

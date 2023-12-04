@@ -8,6 +8,16 @@
     }
 }
 
+.main-menu-stack-mode {
+    .main-menu-outer {
+        &__container {
+            display: block;
+
+            overflow: hidden;
+        }
+    }
+}
+
 @include breakpoint('tablet') {
     .main-menu-outer {
         &__container {

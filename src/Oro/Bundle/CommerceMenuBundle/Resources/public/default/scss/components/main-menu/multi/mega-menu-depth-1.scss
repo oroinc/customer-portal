@@ -67,6 +67,12 @@
 
 @include breakpoint('desktop-small') {
     .mega-menu-depth-1 {
+        &__inner {
+            .main-menu-stack-mode & {
+                top: calc(0px - #{$main-menu-sublist-tablet-top});
+            }
+        }
+
         .main-menu__inner--edge & {
             &__list {
                 max-height: $mega-menu-depth-1-inner-edge-desktop-max-height;
