@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Form\Extension;
 
+use Knp\Menu\ItemInterface;
 use Oro\Bundle\AttachmentBundle\Form\Type\ImageType;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuScreensConditionType;
@@ -22,7 +23,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
 /**
- * Adds fields related to CommerceMenuBundle MenuUpdate entity.
+ * Add fields related to CommerceMenuBundle MenuUpdate entity.
  */
 class MenuUpdateExtension extends AbstractTypeExtension
 {
@@ -48,6 +49,7 @@ class MenuUpdateExtension extends AbstractTypeExtension
                 }
 
                 $form = $event->getForm();
+                $menuItem = $form->getConfig()->getOption('menu_item');
                 $form->add(
                     'image',
                     ImageType::class,
@@ -62,7 +64,13 @@ class MenuUpdateExtension extends AbstractTypeExtension
 
                 $form->add(
                     'linkTarget',
-                    LinkTargetType::class
+                    LinkTargetType::class,
+                    [
+                        'empty_data' => LinkTargetType::SAME_WINDOW_VALUE,
+                        'getter' => function (MenuUpdate $menuUpdate) use ($menuItem) {
+                            return $this->getLinkTarget($menuUpdate, $menuItem);
+                        },
+                    ]
                 );
             }
         );
@@ -206,6 +214,17 @@ class MenuUpdateExtension extends AbstractTypeExtension
                     ->setSystemPageRoute(null);
                 break;
         }
+    }
+
+    private function getLinkTarget(MenuUpdate $menuUpdate, ?ItemInterface $menuItem): int
+    {
+        if ($menuUpdate->getId()) {
+            return $menuUpdate->getLinkTarget();
+        }
+
+        return $menuItem && $menuItem->getLinkAttribute('target') === '_blank'
+            ? LinkTargetType::NEW_WINDOW_VALUE
+            : LinkTargetType::SAME_WINDOW_VALUE;
     }
 
     /**

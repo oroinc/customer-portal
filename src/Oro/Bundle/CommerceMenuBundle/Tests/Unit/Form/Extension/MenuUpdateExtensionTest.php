@@ -160,6 +160,8 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
             ->setConditionGroupIdentifier(0);
 
         $menuUpdate = new MenuUpdateStub();
+        $menuUpdate->setId(123);
+        $menuUpdate->setLinkTarget(3);
 
         $form = $this->factory->create(MenuUpdateTypeStub::class, $menuUpdate);
 
@@ -176,16 +178,16 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
                     ],
                 ],
                 'screens' => $screens = ['desktop', 'mobile'],
-                'linkTarget' => 0
             ]
         );
 
         $expected = new MenuUpdateStub();
+        $expected->setId(123);
         $expected->setCondition('false');
         $expected->setImage('image.png');
         $expected->addMenuUserAgentCondition($menuUserAgentCondition);
         $expected->setScreens($screens);
-        $expected->setLinkTarget(0);
+        $expected->setLinkTarget(3);
 
         $this->assertFormIsValid($form);
         $this->assertEquals($expected, $form->getData());
