@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Form\Extension;
 
+use Knp\Menu\ItemInterface;
 use Oro\Bundle\AttachmentBundle\Form\Type\ImageType;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\CommerceMenuBundle\Provider\MenuTemplatesProvider;
@@ -43,6 +44,7 @@ class MenuUpdateGeneralExtension extends AbstractTypeExtension
                 }
 
                 $form = $event->getForm();
+                $menuItem = $form->getConfig()->getOption('menu_item');
                 $form->add(
                     'image',
                     ImageType::class,
@@ -53,7 +55,16 @@ class MenuUpdateGeneralExtension extends AbstractTypeExtension
                     ]
                 );
 
-                $form->add('linkTarget', LinkTargetType::class, ['empty_data' => LinkTargetType::SAME_WINDOW_VALUE]);
+                $form->add(
+                    'linkTarget',
+                    LinkTargetType::class,
+                    [
+                        'empty_data' => LinkTargetType::SAME_WINDOW_VALUE,
+                        'getter' => function (MenuUpdate $menuUpdate) use ($menuItem) {
+                            return $this->getLinkTarget($menuUpdate, $menuItem);
+                        },
+                    ]
+                );
 
                 $form->add(
                     'menuTemplate',
@@ -79,5 +90,16 @@ class MenuUpdateGeneralExtension extends AbstractTypeExtension
         }
 
         return $menuTemplatesChoices;
+    }
+
+    private function getLinkTarget(MenuUpdate $menuUpdate, ?ItemInterface $menuItem): int
+    {
+        if ($menuUpdate->getId()) {
+            return $menuUpdate->getLinkTarget();
+        }
+
+        return $menuItem && $menuItem->getLinkAttribute('target') === '_blank'
+            ? LinkTargetType::NEW_WINDOW_VALUE
+            : LinkTargetType::SAME_WINDOW_VALUE;
     }
 }
