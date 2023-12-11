@@ -12,6 +12,8 @@ define(function(require) {
     const $ = require('jquery');
     const manageFocus = require('oroui/js/tools/manage-focus').default;
 
+    const ESCAPE_KEYCODE = 27;
+
     const FullscreenPopupView = BaseView.extend({
         /**
          * @property
@@ -23,11 +25,13 @@ define(function(require) {
          */
         optionNames: BaseView.prototype.optionNames.concat([
             'template', 'templateSelector', 'templateData',
-            'popupLabel', 'popupCloseOnLabel',
+            'popupName', 'popupLabel', 'popupCloseOnLabel',
             'popupCloseButton', 'popupIcon',
             'stopEventsPropagation', 'stopEventsList', 'dialogClass',
             'disableBodyTouchScroll'
         ]),
+
+        popupName: 'fullscreen-popup',
 
         sections: ['header', 'content', 'footer'],
 
@@ -182,6 +186,7 @@ define(function(require) {
             _.each(this.sections, this.closeSection, this);
 
             this.$popup.find('[data-scroll="true"]').off('touchstart');
+            this.$popup.trigger(`${this.popupName}:closed`);
             this.$popup.remove();
             delete this.$popup;
 
@@ -248,6 +253,7 @@ define(function(require) {
             }
 
             this.trigger('show');
+            this.$popup.trigger(`${this.popupName}:shown`);
         },
 
         _renderSectionContent: function(deferred, section, sectionOptions, option, content) {
@@ -317,7 +323,15 @@ define(function(require) {
             this.$popup
                 .on('click', '[data-role="close"]', this.close.bind(this))
                 .on('touchstart', '[data-scroll="true"]', scrollHelper.removeIOSRubberEffect.bind(this))
-                .on('keydown', event => manageFocus.preventTabOutOfContainer(event, this.$popup))
+                .on('keydown', e => {
+                    if (e.keyCode === ESCAPE_KEYCODE) {
+                        e.stopPropagation();
+                        this.close();
+                        this.$el.focus();
+                    } else {
+                        manageFocus.preventTabOutOfContainer(e, this.$popup);
+                    }
+                })
                 .one('transitionend', e => {
                     if (e.target === this.$popup[0]) {
                         manageFocus.focusTabbable(this.getFocusTabbableElement());

@@ -18,7 +18,6 @@ const SidePanelView = FullScreenPopupView.extend({
         SidePanelView.__super__._onShow.call(this);
         this.$popup.addClass('show');
         document.body.classList.add('no-scroll-safe');
-        document.activeElement.setAttribute('tabindex', 0);
     },
 
     getFocusTabbableElement() {

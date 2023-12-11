@@ -50,10 +50,11 @@
         'aria-label': 'oro.commercemenu.menuupdate.menu.label'|trans,
         'data-page-component-module': 'oroui/js/app/components/viewport-component',
         'data-page-component-options': {
-            viewport: block.vars.standaloneMainMenu ? 'tablet',
+            viewport: block.vars.standaloneMainMenu ? 'tablet' : 'all',
             component: 'oroui/js/app/components/view-component',
             view: 'orocommercemenu/js/app/views/side-panel',
             contentElement: '[data-menus-container]',
+            popupName: 'main-fullscreen-side-panel',
             popupLabel: 'oro_frontend.fullscreen_popup.menu.label'|trans,
             popupIcon: 'hamburger-menu',
             headerOptions: {
@@ -126,10 +127,13 @@
 {% block _main_menu_outer_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' main-menu-outer__container',
-        'data-page-component-view': {
-            view: 'oronavigation/js/app/views/navigation-menu-view',
-            listenToMouseEvents: false
-        }
+        'data-page-component-module': 'orocommercemenu/default/js/components/navigation-menu-component',
+        'data-page-component-options': {
+            listenToDOMEvents: ['main-fullscreen-side-panel:shown'],
+            viewOptions: {
+                listenToMouseEvents: false
+            }
+         }|json_encode
     }) %}
 
     <div {{ block('block_attributes') }}>
