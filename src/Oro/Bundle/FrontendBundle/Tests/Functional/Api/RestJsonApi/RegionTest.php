@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Functional\Api\RestJsonApi;
 
+use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadAdminCustomerUserData;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 
 /**
@@ -14,8 +15,7 @@ class RegionTest extends FrontendRestJsonApiTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->enableVisitor();
-        $this->loadVisitor();
+        $this->loadFixtures([LoadAdminCustomerUserData::class]);
     }
 
     public function testGetList()
@@ -24,7 +24,6 @@ class RegionTest extends FrontendRestJsonApiTestCase
             ['entity' => 'regions'],
             ['filter' => ['country' => 'GB'], 'page' => ['size' => 3]]
         );
-
         $this->assertResponseContains('cget_region.yml', $response);
     }
 
@@ -34,7 +33,6 @@ class RegionTest extends FrontendRestJsonApiTestCase
             ['entity' => 'regions'],
             ['filter' => ['id' => 'GB-ABE,GB-ABD']]
         );
-
         $this->assertResponseContains('cget_region_filter_ids.yml', $response);
     }
 
@@ -44,7 +42,6 @@ class RegionTest extends FrontendRestJsonApiTestCase
             ['entity' => 'regions'],
             ['filter' => ['country' => 'MG,IL'], 'page' => ['size' => 100]]
         );
-
         $this->assertResponseContains('cget_region_filter_countries.yml', $response);
     }
 
@@ -53,7 +50,6 @@ class RegionTest extends FrontendRestJsonApiTestCase
         $response = $this->get(
             ['entity' => 'regions', 'id' => 'GB-ABD']
         );
-
         $this->assertResponseContains('get_region.yml', $response);
     }
 
@@ -65,7 +61,6 @@ class RegionTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-
         self::assertAllowResponseHeader($response, 'OPTIONS, GET');
     }
 
@@ -77,7 +72,6 @@ class RegionTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-
         self::assertAllowResponseHeader($response, 'OPTIONS, GET');
     }
 
@@ -89,7 +83,6 @@ class RegionTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-
         self::assertAllowResponseHeader($response, 'OPTIONS, GET');
     }
 
@@ -101,7 +94,6 @@ class RegionTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-
         self::assertAllowResponseHeader($response, 'OPTIONS, GET');
     }
 
@@ -110,7 +102,6 @@ class RegionTest extends FrontendRestJsonApiTestCase
         $response = $this->getSubresource(
             ['entity' => 'regions', 'id' => 'IL-TA', 'association' => 'country']
         );
-
         $this->assertResponseContains('get_region_country.yml', $response);
     }
 
@@ -119,7 +110,6 @@ class RegionTest extends FrontendRestJsonApiTestCase
         $response = $this->getRelationship(
             ['entity' => 'regions', 'id' => 'IL-TA', 'association' => 'country']
         );
-
         $this->assertResponseContains('get_region_country_id.yml', $response);
     }
 
@@ -131,7 +121,6 @@ class RegionTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-
         self::assertAllowResponseHeader($response, 'OPTIONS, GET');
     }
 }

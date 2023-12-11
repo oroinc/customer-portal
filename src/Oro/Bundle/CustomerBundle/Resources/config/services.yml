@@ -296,6 +296,29 @@ services:
         tags:
             - { name: monolog.logger, channel: security }
 
+    oro_customer.authentication.listener.api_anonymous_customer_user:
+        class: Oro\Bundle\CustomerBundle\Security\Firewall\ApiAnonymousCustomerUserAuthenticationListener
+        abstract: true
+        arguments:
+            - '@security.token_storage'
+            - '@security.authentication.manager'
+            - '@oro_customer.authentication.anonymous_customer_user_roles_provider'
+            - '%oro_api.rest.pattern%'
+            - '@oro_config.manager'
+            - '@oro_customer.authentication.decision_maker.api_anonymous_customer_user'
+            - '@logger'
+        tags:
+            - { name: monolog.logger, channel: security }
+
+    oro_customer.authentication.decision_maker.api_anonymous_customer_user:
+        class: Oro\Bundle\CustomerBundle\Security\Firewall\ApiAnonymousCustomerUserAuthenticationDecisionMaker
+        lazy: true
+        arguments:
+            - !abstract '$apiResources defined in Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension'
+            - '@oro_api.action_processor_bag'
+            - '@oro_frontend.api.rest.routes'
+            - '@oro_api.error_completer_registry'
+
     oro_customer.authentication.customer_visitor_cookie_factory:
         class: Oro\Bundle\CustomerBundle\Security\Firewall\CustomerVisitorCookieFactory
         arguments:
@@ -317,6 +340,12 @@ services:
             - '@oro_website.manager'
             - '%oro_customer.anonymous_customer_user.update_latency%'
         abstract: true
+
+    oro_customer.authentication.provider.api_anonymous_customer_user:
+        class: Oro\Bundle\CustomerBundle\Security\ApiAnonymousCustomerUserAuthenticationProvider
+        abstract: true
+        arguments:
+            - '@oro_website.manager'
 
     oro_customer.customer_user_menu:
         class: 'Oro\Bundle\CustomerBundle\Menu\CustomerUserMenuBuilder'
@@ -1430,3 +1459,18 @@ services:
         parent: oro_platform.cache.provider.page_request_provider.abstract
         tags:
             - { name: warmup_page_request_provider }
+
+    oro_customer.security.doctrine_acl_cache_listener:
+        class: Oro\Bundle\CustomerBundle\Security\Listener\CustomerUserDoctrineAclCacheListener
+        arguments:
+            - '@oro_security.acl_query.cache_provider'
+            - '@oro_customer.owner.tree_provider'
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
+    oro_customer.acl_query.cache_user_info_provider_decorator:
+        class: Oro\Bundle\CustomerBundle\Security\Cache\DoctrineAclCacheCustomerUserInfoProvider
+        decorates: oro_security.acl_query.cache_user_info_provider
+        arguments:
+            - '@oro_security.token_accessor'
+            - '@.inner'

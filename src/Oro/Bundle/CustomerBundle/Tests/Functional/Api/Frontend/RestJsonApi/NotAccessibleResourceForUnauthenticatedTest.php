@@ -6,11 +6,31 @@ use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * The test case to test that 401 response are always returned for unauthorized requests.
+ * The test case to test that 401 response are always returned for unauthenticated requests.
  */
-class NotAccessibleResourceForUnauthorizedTest extends FrontendRestJsonApiTestCase
+class NotAccessibleResourceForUnauthenticatedTest extends FrontendRestJsonApiTestCase
 {
     private const WWW_AUTHENTICATE_HEADER_VALUE = 'WSSE realm="Secured Frontend API", profile="UsernameToken"';
+
+    public function testTryToGetOptionsForList(): void
+    {
+        $response = $this->options(
+            $this->getListRouteName(),
+            ['entity' => 'testapiunaccessiblemodel'],
+            [],
+            false
+        );
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
+    }
+
+    public function testOptionsForItem(): void
+    {
+        $response = $this->options(
+            $this->getItemRouteName(),
+            ['entity' => 'testapiunaccessiblemodel', 'id' => 'test']
+        );
+        self::assertAllowResponseHeader($response, 'OPTIONS, GET');
+    }
 
     public function testAccessGranted()
     {

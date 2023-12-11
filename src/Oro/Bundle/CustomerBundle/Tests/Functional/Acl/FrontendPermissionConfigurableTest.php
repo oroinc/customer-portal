@@ -19,7 +19,6 @@ class FrontendPermissionConfigurableTest extends AbstractPermissionConfigurableT
             $this->generateBasicAuthHeader(OroLoadCustomerUserData::AUTH_USER, OroLoadCustomerUserData::AUTH_PW)
         );
 
-        $this->client->useHashNavigation(true);
         $this->loadFixtures([LoadCustomerUserRoleACLData::class]);
 
         parent::setUp();

@@ -8,9 +8,9 @@ use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\DataAuditEntityMappin
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\FrontendApiPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\LoginManagerPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\OwnerTreeListenerPass;
-use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\RolesChangeListenerPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Security\AnonymousCustomerUserFactory;
+use Oro\Bundle\CustomerBundle\DependencyInjection\Security\ApiAnonymousCustomerUserFactory;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -21,14 +21,13 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class OroCustomerBundle extends Bundle
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
 
         $container->addCompilerPass(new OwnerTreeListenerPass());
-        $container->addCompilerPass(new RolesChangeListenerPass());
         $container->addCompilerPass(new DataAuditEntityMappingPass());
         $container->addCompilerPass(new LoginManagerPass());
         $container->addCompilerPass(new ConfigureFrontendHelperPass());
@@ -40,6 +39,7 @@ class OroCustomerBundle extends Bundle
 
         $extension = $container->getExtension('security');
         $extension->addSecurityListenerFactory(new AnonymousCustomerUserFactory());
+        $extension->addSecurityListenerFactory(new ApiAnonymousCustomerUserFactory());
     }
 
     /**

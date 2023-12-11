@@ -14,7 +14,6 @@ class FrontendCustomerUserProfileTypeTest extends WebTestCase
             [],
             $this->generateBasicAuthHeader(LoadCustomerUserData::GROUP2_EMAIL, LoadCustomerUserData::GROUP2_PASSWORD)
         );
-        $this->client->useHashNavigation(true);
         $this->loadFixtures([LoadCustomerUserData::class]);
     }
 

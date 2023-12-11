@@ -14,6 +14,7 @@ use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclPrivilegeRepository;
+use Oro\Bundle\SecurityBundle\Cache\DoctrineAclCacheProvider;
 use Oro\Bundle\SecurityBundle\Filter\AclPrivilegeConfigurableFilter;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainOwnershipMetadataProvider;
 use Oro\Component\Testing\ReflectionUtil;
@@ -61,6 +62,9 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
     /** @var \PHPUnit\Framework\MockObject\MockObject|CustomerVisitorAclCache */
     protected $visitorAclCache;
 
+    /** @var \PHPUnit\Framework\MockObject\MockObject|DoctrineAclCacheProvider  */
+    protected $queryCacheProvider;
+
     protected array $privilegeConfig = [
         'entity' => ['types' => ['entity'], 'fix_values' => false, 'show_default' => true],
         'action' => ['types' => ['action'], 'fix_values' => false, 'show_default' => true],
@@ -81,6 +85,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         $this->roleRepository = $this->createMock(CustomerUserRoleRepository::class);
         $this->managerRegistry = $this->createMock(ManagerRegistry::class);
         $this->visitorAclCache = $this->createMock(CustomerVisitorAclCache::class);
+        $this->queryCacheProvider = $this->createMock(DoctrineAclCacheProvider::class);
 
         $this->doctrineHelper = $this->getMockBuilder(DoctrineHelper::class)
             ->setConstructorArgs([$this->managerRegistry])
@@ -166,7 +171,11 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         /** @var AbstractCustomerUserRoleHandler|\PHPUnit\Framework\MockObject\MockObject $handler */
         $handler = $this->getMockBuilder(get_class($handlerInstance))
             ->onlyMethods(['processPrivileges'])
-            ->setConstructorArgs([$this->formFactory, $this->aclCache, $this->privilegeConfig])
+            ->setConstructorArgs([
+                $this->formFactory,
+                $this->aclCache,
+                $this->privilegeConfig
+                ])
             ->getMock();
         $this->setRequirementsForHandler($handler);
 
@@ -196,6 +205,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         $handler->setDoctrineHelper($this->doctrineHelper);
         $handler->setConfigurableFilter($this->configurableFilter);
         $handler->setVisitorAclCache($this->visitorAclCache);
+        $handler->setQueryCacheProvider($this->queryCacheProvider);
     }
 
     /**

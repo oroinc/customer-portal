@@ -51,6 +51,12 @@ oro_frontend:
     frontend_api:
         api_doc_views: [frontend_rest_json_api]
 
+oro_customer:
+    frontend_api:
+        non_authenticated_visitors_api_resources:
+            - Oro\Bundle\AddressBundle\Entity\Country
+            - Oro\Bundle\AddressBundle\Entity\Region
+
 oro_navigation:
     js_routing_filename_prefix: '%web_backend_prefix%'
 

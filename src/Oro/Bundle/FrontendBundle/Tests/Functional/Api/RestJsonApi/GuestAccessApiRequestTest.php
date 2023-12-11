@@ -17,8 +17,7 @@ class GuestAccessApiRequestTest extends FrontendRestJsonApiTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->enableVisitor();
-        $this->loadVisitor();
+        $this->initializeVisitor();
     }
 
     protected function tearDown(): void

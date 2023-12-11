@@ -45,6 +45,7 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
         }
 
         $this->configureCustomerVisitorCookieFactory($container, $config);
+        $this->configureNonAuthenticatedVisitorsApi($container, $config);
     }
 
     /**
@@ -71,5 +72,14 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
             ->replaceArgument(0, $config['visitor_session']['cookie_secure'])
             ->replaceArgument(1, $config['visitor_session']['cookie_httponly'])
             ->replaceArgument(3, $config['visitor_session']['cookie_samesite']);
+    }
+
+    private function configureNonAuthenticatedVisitorsApi(ContainerBuilder $container, array $config): void
+    {
+        $apiResources = $config['frontend_api']['non_authenticated_visitors_api_resources'];
+        $container->getDefinition('oro_customer.authentication.decision_maker.api_anonymous_customer_user')
+            ->setArgument('$apiResources', $apiResources);
+        $container->getDefinition('oro_customer.api_doc.documentation_provider.non_authenticated_visitors')
+            ->setArgument('$apiResources', $apiResources);
     }
 }
