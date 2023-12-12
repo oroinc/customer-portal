@@ -6,3 +6,5 @@ $enable-safe-area: true !default;
 $body-bg-color: get-var-color('neutral', 'white-100') !default;
 $body-color: get-var-color('text', 'primary') !default;
 $body-min-width: 360px !default;
+
+$focus-visible-style: null !default;

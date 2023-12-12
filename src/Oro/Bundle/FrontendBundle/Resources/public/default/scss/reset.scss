@@ -17,11 +17,13 @@ textarea {
 }
 
 :focus-visible {
-    outline: none;
-    box-shadow: $base-ui-element-focus-visible-style;
+    outline: $base-ui-element-focus-visible-outline;
+    outline-offset: $base-ui-element-focus-visible-outline-offset;
+    box-shadow: $focus-visible-style;
 
     &:disabled,
     &.disabled {
+        outline: none;
         box-shadow: none;
     }
 }

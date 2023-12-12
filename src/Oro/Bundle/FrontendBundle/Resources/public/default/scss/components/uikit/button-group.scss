@@ -17,6 +17,18 @@
         &:focus-visible {
             z-index: z('base');
         }
+
+        &:focus-visible {
+            box-shadow: map.get($btn-group-focus-shadow-palette, 'default');
+
+            @each $theme-key, $shadow-value in $btn-group-focus-shadow-palette {
+                @if $theme-key != 'default' {
+                    &.btn--#{$theme-key} {
+                        box-shadow: #{$shadow-value};
+                    }
+                }
+            }
+        }
     }
 
     > .btn:not(:first-child),

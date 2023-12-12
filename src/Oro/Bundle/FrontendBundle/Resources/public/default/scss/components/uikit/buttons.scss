@@ -80,16 +80,13 @@
 }
 
 .btn--text {
-    border-width: 0;
-
-    @include render-properties(map.get($btn-text-offsets, 'default'));
-
-    @each $size-key, $size-value in $btn-text-offsets {
-        @if $size-key != 'default' {
-            &.btn--size-#{$size-key} {
-                @include render-properties($size-value);
-            }
-        }
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &:disabled,
+    &.disabled {
+        border-color: transparent;
     }
 }
 
@@ -105,9 +102,8 @@
     }
 }
 
-.btn--no-padding,
-.btn--no-padding.btn--text {
-    padding-inline: 0;
+.btn--no-padding {
+    padding-inline: $btn-no-padding-inline;
 }
 
 .btn--full,

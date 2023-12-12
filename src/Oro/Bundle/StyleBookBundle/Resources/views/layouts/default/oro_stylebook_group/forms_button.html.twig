@@ -136,7 +136,7 @@
     {% set buttonSmall = 'button-'|uniqid %}
     <div class="btn-group">
         <button type="button" class="btn btn--size-large">Button Large with a drop-down</button>
-        <button type="button" id="{{ buttonLarge }}" data-toggle="dropdown" class="btn btn--size-large dropdown-toggle"
+        <button type="button" id="{{ buttonLarge }}" data-toggle="dropdown" class="btn btn--size-large btn--icon dropdown-toggle"
            aria-haspopup="true" aria-expanded="false" aria-label="More actions">
                 {{ renderIcon.icon({name: 'chevron-down'}) }}
         </button>
@@ -148,7 +148,7 @@
     </div>
     <div class="btn-group">
         <button type="button" class="btn">Button with a drop-down</button>
-        <button type="button" id="{{ button }}" data-toggle="dropdown" class="btn dropdown-toggle"
+        <button type="button" id="{{ button }}" data-toggle="dropdown" class="btn btn--icon dropdown-toggle"
            aria-haspopup="true" aria-expanded="false" aria-label="More actions">
                 {{ renderIcon.icon({name: 'chevron-down', extraClass: 'theme-icon--medium'}) }}
         </button>
@@ -160,7 +160,7 @@
     </div>
     <div class="btn-group">
         <button type="button" class="btn btn--size-small">Button Small with a drop-down</button>
-        <button type="button" id="buttonSmall" data-toggle="dropdown" class="btn btn--size-small dropdown-toggle"
+        <button type="button" id="buttonSmall" data-toggle="dropdown" class="btn btn--size-small btn--icon dropdown-toggle"
            aria-haspopup="true" aria-expanded="false" aria-label="More actions">
                 {{ renderIcon.icon({name: 'chevron-down', extraClass: 'theme-icon--small'}) }}
         </button>
