@@ -1,5 +1,7 @@
 /* @theme: default; */
 
+@use 'sass:map';
+
 // Service variables
 $btn-var-prefix: 'btn' !default;
 
@@ -22,6 +24,7 @@ $btn-general: (
 $btn-hover-text-decoration: none !default;
 $btn-cursor: pointer !default;
 $btn-block-display: grid !default;
+$btn-no-padding-inline: 2px !default;
 
 // Color Palette for buttons
 $btn-palette: (
@@ -70,7 +73,7 @@ $btn-palette: (
             'color': get-var-color('primary', 'main')
         ),
         'active': (
-            'background': get-var-color('primary', 'light'),
+            'background': transparent,
             'border-color': get-var-color('primary', 'active'),
             'color': get-var-color('primary', 'active')
         ),
@@ -124,7 +127,7 @@ $btn-palette: (
             'color': get-var-color('destructive', 'base')
         ),
         'active': (
-            'background': get-var-color('destructive', 'light'),
+            'background': transparent,
             'border-color': get-var-color('destructive', 'dark'),
             'color': get-var-color('destructive', 'dark')
         ),
@@ -201,7 +204,7 @@ $btn-palette: (
             'color': get-var-color('neutral', 'white-100')
         ),
         'active': (
-            'background': get-var-color('neutral', 'white-30'),
+            'background': transparent,
             'border-color': get-var-color('neutral', 'white-100'),
             'color': get-var-color('neutral', 'white-100')
         ),
@@ -219,31 +222,22 @@ $btn-sizes: (
         'min-height': 44px,
         'font-size': $base-font-size,
         'line-height': $base-line-height,
-        'padding': spacing('sm') spacing('base'),
+        'padding': spacing('sm') #{spacing('base') - map.get($btn-general, 'border-width')},
         'gap': spacing('sm')
     ),
     'small': (
         'min-height': 32px,
         'font-size': 12px,
         'line-height': 1.333,
-        'padding': spacing('xs') spacing('md'),
+        'padding': spacing('xs') #{spacing('md') - map.get($btn-general, 'border-width')},
         'gap': spacing('xs')
     ),
     'large': (
         'min-height': 54px,
         'font-size': 16px,
         'line-height': 1.5,
-        'padding': spacing('md') spacing('lg'),
+        'padding': spacing('md') #{spacing('lg') - map.get($btn-general, 'border-width')},
         'gap': spacing('sm')
-    )
-) !default;
-
-$btn-text-offsets: (
-    'default': (
-        'padding': spacing('sm') spacing('md')
-    ),
-    'small': (
-        'padding': spacing('xs') spacing('md')
     )
 ) !default;
 
