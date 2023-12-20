@@ -24,6 +24,15 @@ const SidePanelView = FullScreenPopupView.extend({
         return this.content.$el;
     },
 
+    remove() {
+        if (this.$backdrop) {
+            this.$backdrop.remove();
+            delete this.$backdrop;
+        }
+
+        SidePanelView.__super__.remove.call(this);
+    },
+
     close() {
         if (!this.$popup) {
             return;

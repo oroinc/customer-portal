@@ -7,9 +7,14 @@ layout:
                 top_nav_controls_dropdown_container:
                     blockType: container
                     prepend: true
+                    options:
+                        vars:
+                            searchType: '=data["system_config_provider"].getValue("oro_frontend.search_on_smaller_screens")'
                 top_nav_user_name:
                     blockType: text
                     options:
+                        vars:
+                            searchType: '=data["system_config_provider"].getValue("oro_frontend.search_on_smaller_screens")'
                         text: '=data["current_user"].getCurrentUser().getFullName()'
                 top_nav_customer_menu:
                       blockType: menu
@@ -27,7 +32,7 @@ layout:
                         route_name: oro_customer_customer_user_security_logout
                         text: 'oro.customer.frontend.menu.customer_user_sign_out.label'
             tree:
-                middle_bar_right:
+                middle_bar_right_menus:
                     top_nav_controls_dropdown_container:
                         top_nav_customer_dropdown_trigger:
                             top_nav_user_name: ~

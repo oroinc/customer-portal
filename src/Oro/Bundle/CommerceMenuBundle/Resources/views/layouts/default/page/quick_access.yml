@@ -10,6 +10,11 @@ layout:
                     siblingId: top_nav_controls_dropdown_container
                     options:
                         item: '=data["menu"].getMenu("commerce_quick_access")'
+                        vars:
+                            searchType: '=data["system_config_provider"].getValue("oro_frontend.search_on_smaller_screens")'
+                quick_access_menu_item:
+                    blockType: menu_item_simple
             tree:
-                middle_bar_right:
-                    quick_access_menu: ~
+                middle_bar_right_menus:
+                    quick_access_menu:
+                        quick_access_menu_item: ~

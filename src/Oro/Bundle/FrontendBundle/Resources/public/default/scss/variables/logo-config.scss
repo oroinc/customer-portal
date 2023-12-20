@@ -1,8 +1,12 @@
 /* @theme: default; */
 
-$logo-display: block !default;
-$logo-width: 142px !default;
+$logo-display: flex !default;
+$logo-width: 158px !default;
 $logo-height: 44px !default;
+$logo-min-width: 44px !default;
+$logo-min-height: 44px !default;
+
+$logo-inner-offset: 0 spacing('sm') 0 6px !default;
 
 $logo-img-display: block !default;
 $logo-img-max-width: 100% !default;
@@ -10,3 +14,5 @@ $logo-img-width: auto !default;
 $logo-img-height: 100% !default;
 
 $logo-link-opacity: .8 !default;
+
+$logo-mobile-big-inner-offset: 0 spacing('sm') !default;

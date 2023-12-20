@@ -16,6 +16,11 @@
         display: $middlebar-right-display;
         gap: $middlebar-right-gap;
     }
+
+    &__menus {
+        display: flex;
+        gap: $middlebar-menus-gap;
+    }
 }
 
 @include breakpoint('tablet') {
@@ -31,7 +36,6 @@
 
         &__left {
             display: $middlebar-left-tablet-display;
-            gap: $middlebar-left-tablet-gap;
         }
     }
 }
@@ -40,6 +44,16 @@
     .middlebar {
         &__right {
             gap: $middlebar-right-mobile-landscape-gap;
+        }
+    }
+}
+
+@include breakpoint('mobile') {
+    .middlebar {
+        &__right {
+            .middlebar--integrated & {
+                gap: $middlebar-right-mobile-gap;
+            }
         }
     }
 }

@@ -1,7 +1,21 @@
 {% block _top_nav_controls_dropdown_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " customer-menu dropdown"
+        '~class': " customer-menu dropdown hide-block-on-mobile"
     }) %}
+
+    {% if searchType == 'integrated' %}
+        {% set attr = layout_attr_defaults(attr, {
+            'data-dom-relocation-options': {
+                responsive: [
+                    {
+                        viewport: 'mobile',
+                        moveTo: "[data-sidebar-menus-top]",
+                        endpointClass: 'navigation-menu__button'
+                    }
+                ]
+            }
+        }) %}
+    {% endif %}
 
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
@@ -39,7 +53,13 @@
 {% endblock %}
 
 {% block _top_nav_user_name_widget%}
-    <span class="hide-on-tablet">{{ text }}</span>
+    {% set spanClass = 'hide-on-mobile' %}
+
+    {% if searchType == 'integrated' %}
+        {% set spanClass = 'hide-label-on-tablet' %}
+    {% endif %}
+
+    <span class="{{ spanClass }}">{{ text }}</span>
 {% endblock %}
 
 {% block _top_nav_customer_dropdown_sign_out_link_widget %}

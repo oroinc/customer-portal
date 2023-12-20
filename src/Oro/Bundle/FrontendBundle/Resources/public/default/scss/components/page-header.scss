@@ -2,12 +2,15 @@
 
 .page-header {
     position: relative;
-    padding: $page-header-inner-offset;
     background-color: $page-header-background-color;
     display: flex;
     flex-direction: column;
 
     gap: $page-header-gap;
+
+    &--standalone-main-menu {
+        gap: $page-header-gap-lg;
+    }
 
     &-content {
         display: flex;
@@ -16,18 +19,94 @@
     }
 
     &__inner {
-        padding: $page-header-inner-inner-offset;
+        padding-left: $page-header-inner-inner-offset-x;
+        padding-right: $page-header-inner-inner-offset-x;
     }
 }
 
-.topbar-right {
-    display: flex;
-    gap: 0 32px;
+.topbar {
+    &__right,
+    &__left {
+        display: flex;
+        gap: spacing('base') spacing('xl');
+    }
+
+    &__left {
+        justify-content: start;
+    }
+
+    &__right {
+        justify-content: end;
+        margin-inline-start: auto;
+    }
+}
+
+@include breakpoint('desktop-small') {
+    .page-header {
+        &__inner {
+            &:first-child {
+                padding-top: $page-header-inner-inner-offset-y;
+            }
+
+            &:last-child {
+                padding-bottom: $page-header-inner-inner-offset-y;
+            }
+
+            &--standalone-menu {
+                &:last-child {
+                    padding-bottom: $page-header-inner-standalone-inner-offset;
+                }
+            }
+
+            &--no-vertical-offset {
+                &:first-child {
+                    padding-top: 0;
+                }
+
+                &:last-child {
+                    padding-bottom: 0;
+                }
+            }
+        }
+    }
 }
 
 @include breakpoint('tablet') {
     .page-header {
+        --header-inner-gaps: 24px;
+
         padding: $page-header-inner-offset-tablet;
         gap: $page-header-gap-tablet;
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .page-header {
+        --header-inner-gaps: #{spacing('md')};
+    }
+}
+
+@include breakpoint('mobile') {
+    .page-header {
+        &__inner {
+            padding-left: $page-header-inner-inner-offset-mobile-big;
+            padding-right: $page-header-inner-inner-offset-mobile-big;
+        }
+
+        gap: $page-header-gap-mobile;
+        padding: $page-header-inner-offset-mobile-big;
+    }
+}
+
+@each $key, $value in $breakpoints {
+    // Generate classes for media queries for page header context
+    @include breakpoint($key) {
+        .page-header {
+            .hide-block-on-#{$key},
+            .hide-label-on-#{$key}, {
+                // stylelint-disable-next-line declaration-no-important
+                display: none !important;
+            }
+        }
     }
 }

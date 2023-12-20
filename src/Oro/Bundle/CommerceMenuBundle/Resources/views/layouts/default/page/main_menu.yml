@@ -7,6 +7,10 @@ layout:
                 menus_sidebar_container:
                     blockType: container
                     prepend: true
+                menus_sidebar_top:
+                    blockType: container
+                menus_sidebar_bottom:
+                    blockType: container
                 main_menu_container:
                     blockType: container
                     options:
@@ -27,11 +31,13 @@ layout:
             tree:
                 wrapper:
                     menus_sidebar_container:
+                        menus_sidebar_top: ~
                         main_menu_extra_container:
                             main_menu_container:
                                 main_menu_back_trigger: ~
                                 main_menu_outer_container:
                                     main_menu: ~
+                        menus_sidebar_bottom: ~
 
         - '@add':
             id: main_menu_trigger

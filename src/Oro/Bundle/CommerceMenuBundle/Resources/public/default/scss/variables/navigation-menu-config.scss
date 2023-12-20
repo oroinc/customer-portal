@@ -17,7 +17,7 @@ $navigation-menu-link-color: get-color('text', 'primary') !default;
 $navigation-menu-link-color-hover: get-color('text', 'primary') !default;
 
 $navigation-menu-button-border-radius: $base-ui-element-border-radius !default;
-$navigation-menu-button-inner-offset: 0 spacing('md') !default;
+$navigation-menu-button-inner-offset: 0 spacing('base') !default;
 $navigation-menu-button-background-color-hover: get-color('neutral', 'white-30') !default;
 
 $navigation-menu-link-color-inverse: get-color('neutral', 'white-100') !default;

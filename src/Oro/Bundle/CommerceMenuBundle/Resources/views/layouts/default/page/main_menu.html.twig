@@ -13,7 +13,7 @@
         '~class': 'header-row' ~ (blocks.header_row.children|length > 2 ? ' header-row--from-left')
     }) %}
 
-    <div class="page-area-container hide-on-tablet">
+    <div class="page-area-container page-header__inner page-header__inner--standalone-menu hide-on-tablet">
         <div {{ block('block_attributes') }}>
             {{ block_widget(block) }}
         </div>
@@ -22,13 +22,12 @@
 
 {% block _main_menu_extra_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' main-menu__extra-container',
-        'data-main-menu-extra-container': ''
+        '~class': ' main-menu__extra-container sidebar-main-menu__container hide-on-empty',
+        'data-sidebar-menus-middle': '',
+        'data-role': 'sub-menu'
     }) %}
 
-    <div {{ block('block_attributes') }}>
-        {{ block_widget(block) }}
-    </div>
+    <div {{ block('block_attributes') }}>{{ block_widget(block) }}</div>
 {% endblock %}
 
 {% block _menus_sidebar_container_widget %}
@@ -41,12 +40,32 @@
     </div>
 {% endblock %}
 
+{% block _menus_sidebar_top_widget %}
+    {% set attr =  layout_attr_defaults(attr, {
+        '~class': 'sidebar-main-menu__container hide-on-empty',
+        'data-sidebar-menus-top': '',
+        'data-role': 'sub-menu'
+    }) %}
+
+    <div {{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+{% endblock %}
+
+{% block _menus_sidebar_bottom_widget %}
+    {% set attr =  layout_attr_defaults(attr, {
+        '~class': 'sidebar-main-menu__container hide-on-empty',
+        'data-sidebar-menus-bottom': '',
+        'data-role': 'sub-menu'
+    }) %}
+
+    <div {{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+{% endblock %}
+
 {% block _main_menu_trigger_widget %}
     {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
 
     {% set attr =  layout_attr_defaults(attr, {
         'type': 'button',
-        '~class': ' main-menu-trigger',
+        '~class': ' btn btn--outlined-inverse btn--text btn--icon main-menu-trigger',
         'aria-label': 'oro.commercemenu.menuupdate.menu.label'|trans,
         'data-page-component-module': 'oroui/js/app/components/viewport-component',
         'data-page-component-options': {
@@ -59,7 +78,7 @@
             popupIcon: 'hamburger-menu',
             headerOptions: {
                 templateData: {
-                    logoSrc: logoSrc|default(asset('bundles/orofrontend/default/images/logo/demob2b-logo-mini.svg'))
+                    logoSrc: logoSrc|default(asset('bundles/orofrontend/default/images/logo/demob2b-logo-small.svg'))
                 }
             },
             disableBodyTouchScroll: false,
@@ -98,7 +117,7 @@
                 responsive: [
                     {
                         viewport: 'tablet',
-                        moveTo: '[data-main-menu-extra-container]',
+                        moveTo: '[data-sidebar-menus-middle]',
                         startPointClass: extraClass
                     }
                 ]

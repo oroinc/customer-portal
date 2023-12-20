@@ -1,10 +1,13 @@
 {% block _top_nav_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " page-area-container page-header-content hide-on-tablet"
+        '~class': " page-area-container page-header__inner page-header__inner--no-vertical-offset hide-on-tablet"
     }) %}
+    {% set content = block_widget(block) %}
+    {% if content|trim|length > 0 %}
     <div {{ block('block_attributes') }}>
-        {{ block_widget(block) }}
+        {{ content|raw }}
     </div>
+    {% endif %}
 {% endblock %}
 
 {% block _top_nav_widget %}
@@ -14,7 +17,7 @@
             responsive: [
                 {
                     viewport: 'tablet',
-                    moveTo: '[data-top-navigation-extra-container]',
+                    moveTo: '[data-sidebar-menus-bottom]',
                     startPointClass: 'navigation-menu--align-end navigation-menu--inverse',
                     endpointClass: 'navigation-menu__vertical'
                 }
@@ -37,25 +40,14 @@
     {{ parent_block_widget(block) }}
 {% endblock %}
 
-{% block _top_nav_menu_container_widget %}
-    {{ block_widget(block) }}
-{% endblock %}
-
 {% block _top_nav_topbar_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " topbar-right"
+        '~class': " topbar__right"
     }) %}
+    {% set content = block_widget(block) %}
+    {% if content|trim|length > 0 %}
     <div {{ block('block_attributes') }}>
-        {{ block_widget(block) }}
+        {{ content|raw }}
     </div>
-{% endblock %}
-
-{% block _top_nav_extra_container_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        'data-top-navigation-extra-container': ''
-    }) %}
-
-    <div {{ block('block_attributes') }}>
-        {{ block_widget(block) }}
-    </div>
+    {% endif %}
 {% endblock %}

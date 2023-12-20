@@ -12,6 +12,7 @@ layout:
                         vars:
                           buttonLabel: '=data["menu"].getMenu(data["system_config_provider"].getValue("oro_frontend.quick_access_button_label"))'
                           menu: '=data["menu"].getMenu(data["system_config_provider"].getValue("oro_frontend.quick_access_button"))'
+                          searchType: '=data["system_config_provider"].getValue("oro_frontend.search_on_smaller_screens")'
 
                 quick_access_button_menu:
                     blockType: menu

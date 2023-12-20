@@ -31,7 +31,8 @@
             clear_matcher: clear_matcher,
             leaf_class: leaf_class,
             branch_class: branch_class,
-            customItemBlock: customItemBlock
+            customItemBlock: customItemBlock,
+            customLabelBlock: customLabelBlock
         } %}
 
         {% set listAttributes = item.childrenAttributes|merge(attr) %}
@@ -134,14 +135,26 @@
             entityId: app.user.id
         }) }}
     {%- else %}
-        <a href="{{ oro_commercemenu_get_url(item.uri) }}"{{ oro_menu.attributes(linkAttributes) }}>{{ block('label') }}</a>
+        <a href="{{ oro_commercemenu_get_url(item.uri) }}"{{ oro_menu.attributes(linkAttributes) }}>
+            {% if customLabelBlock %}
+                {{ block(customLabelBlock) }}
+            {% else %}
+                {{ block('label') }}
+            {% endif %}
+        </a>
     {% endif %}
 
 {% endblock %}
 
 {% block spanElement %}
     {% import _self as oro_menu %}
-    <span{{ oro_menu.attributes(labelAttributes) }}>{{ block('label') }}</span>
+    <span{{ oro_menu.attributes(labelAttributes) }}>
+        {% if customLabelBlock %}
+            {{ block(customLabelBlock) }}
+        {% else %}
+            {{ block('label') }}
+        {% endif %}
+    </span>
 {% endblock %}
 
 {% block label %}

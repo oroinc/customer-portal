@@ -8,5 +8,6 @@ Feature: Cancel editing account info
     And I click "Account Dropdown"
     And I click "My Profile"
     And I click "Edit"
+    And I wait for action
     And I click "Cancel"
     Then the url should match "/customer/profile"

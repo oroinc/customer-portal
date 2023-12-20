@@ -30,6 +30,12 @@
         '~class': ' page-header'
     }) %}
 
+    {% if oro_config_value('oro_frontend.standalone_main_menu') %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': ' page-header--standalone-main-menu'
+        }) %}
+    {% endif %}
+
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>

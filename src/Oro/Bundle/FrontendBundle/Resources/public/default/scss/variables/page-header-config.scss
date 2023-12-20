@@ -1,9 +1,15 @@
 /* @theme: default; */
 
-$page-header-inner-offset: 0 spacing('lg') spacing('lg') !default;
-$page-header-inner-inner-offset: 20px 0 !default;
+$page-header-inner-inner-offset-y: spacing('base') !default;
+$page-header-inner-inner-offset-x: 28px !default;
+$page-header-inner-standalone-inner-offset: spacing('lg') !default;
 $page-header-background-color: get-color('neutral', 'dark') !default;
-$page-header-gap: spacing('lg') !default;
+$page-header-gap: spacing('md') !default;
+$page-header-gap-lg: spacing('lg') !default;
 
-$page-header-inner-offset-tablet: spacing('base') !default;
+$page-header-inner-offset-tablet: spacing('base') 0 !default;
 $page-header-gap-tablet: spacing('base') !default;
+$page-header-gap-mobile: spacing('md') !default;
+
+$page-header-inner-offset-mobile-big: spacing('base') 0 !default;
+$page-header-inner-inner-offset-mobile-big: spacing('base') !default;

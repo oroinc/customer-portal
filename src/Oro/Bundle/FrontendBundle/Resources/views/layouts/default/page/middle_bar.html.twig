@@ -1,14 +1,26 @@
 {% block _middle_bar_widget %}
-    <div class="page-area-container">
+    <div class="page-area-container page-header__inner">
         {{ parent_block_widget(block) }}
     </div>
 {% endblock %}
 
 {% block _middle_bar_search_widget %}
     {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
-    {% set attr = attr|merge({
-        class: attr.class|default("search-widget--" ~ searchType) ~ " search-widget"
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " search-widget search-widget--" ~ searchType
     }) %}
+
+    {% if standaloneMainMenu %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': ' search-widget--align-left'
+        }) %}
+    {% endif %}
+
+    {% if searchType == 'integrated' %}
+        {% set attr = attr|merge({
+            'data-page-component-view': 'oroproduct/js/app/views/search-widget-view'
+        }) %}
+    {% endif %}
 
     {% set dom_relocation_options =  {
         responsive: [
@@ -23,22 +35,28 @@
                action="{{ url('oro_product_frontend_product_search') }}"
                method="get"
                novalidate="novalidate"
-               class="search-widget"
+               class="search-widget__form"
                role="search"
         >
-            <input class="search-widget__input input input--full"
-                   type="text"
-                   value="{{ app.request.get('search')|e('html_attr') }}"
-                   name="search"
-                   placeholder="{{ 'oro.website_search.search_field_placeholder'|trans({}, translation_domain) }}"
-                   aria-label="{{ 'oro.website_search.search_label'|trans }}"
-                   data-page-component-view="oroproduct/js/app/views/search-autocomplete-view"
-                   maxlength="255"
-            >
-            <button name="oro_website_search_search_button" class="search-widget__submit" type="submit"
-                    aria-label="{{ 'oro.website_search.search_submit_btn'|trans }}">
-                {{ renderIcon.icon({name: 'search', extraClass: 'theme-icon--small search-icon'}) }}
-            </button>
+            <div class="search-widget__input-container">
+                <input class="search-widget__input input input--full"
+                       type="text"
+                       value="{{ app.request.get('search')|e('html_attr') }}"
+                       name="search"
+                       placeholder="{{ 'oro.website_search.search_field_placeholder'|trans({}, translation_domain) }}"
+                       aria-label="{{ 'oro.website_search.search_label'|trans }}"
+                       data-page-component-view="oroproduct/js/app/views/search-autocomplete-view"
+                       maxlength="255"
+                >
+                <button name="oro_website_search_search_button" class="search-widget__submit" type="submit"
+                        aria-label="{{ 'oro.website_search.search_submit_btn'|trans }}">
+                    {{ renderIcon.icon({name: 'search', extraClass: 'search-icon'}) }}
+                </button>
+            </div>
+
+            {% if searchType == 'integrated' %}
+                <button class="btn btn--outlined-inverse btn--text search-widget__cancel" type="reset">Cancel</button>
+            {% endif %}
         </form>
     </div>
 {% endblock %}

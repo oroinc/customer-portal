@@ -102,7 +102,7 @@ oro:
             navigation:
                 items:
                     telephone.label: '1-800-555-5555'
-                    quick_order_form.label: 'Quick Order Form'
+                    quick_order_form.label: 'Quick Order'
                     about.label: 'About'
                     information.label: 'Information'
                     customer_service.label: 'Customer Service'

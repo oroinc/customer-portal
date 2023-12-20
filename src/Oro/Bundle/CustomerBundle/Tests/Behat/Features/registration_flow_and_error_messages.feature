@@ -15,7 +15,7 @@ Feature: Registration flow and error messages
       | Password         | RuthWMaxwell123          |
       | Confirm Password | RuthWMaxwell123          |
     When I click "Create An Account"
-    Then I should see "Please check your email to complete registration"
+    Then I should see "Please check your email to complete registration" flash message and I close it
 
   Scenario: Error message should has correct container and text when user already present
     Given I click "Register"

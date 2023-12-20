@@ -1,16 +1,6 @@
 /* @theme: default; */
 
-$main-menu-trigger-background: transparent !default;
-$main-menu-trigger-width: auto !default;
-$main-menu-trigger-height: 44px !default;
-$main-menu-trigger-color: get-color('neutral', 'white-100') !default;
-$main-menu-trigger-border: none !default;
-$main-menu-trigger-display: grid !default;
-$main-menu-trigger-align-items: center !default;
-$main-menu-trigger-justify-content: start !default;
-$main-menu-trigger-margin: 0 !default;
-$main-menu-trigger-padding: 0 !default;
-$main-menu-trigger-cursor: pointer !default;
+$main-menu-trigger-left-offset: -#{spacing('md')} !default;
 
 // desktop-small
 $main-menu-trigger-desktop-small-display: none !default;

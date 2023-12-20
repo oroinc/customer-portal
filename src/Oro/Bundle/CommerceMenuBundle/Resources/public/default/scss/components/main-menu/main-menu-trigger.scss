@@ -1,17 +1,7 @@
 /* @theme: default; */
 
 .main-menu-trigger {
-    background: $main-menu-trigger-background;
-    width: $main-menu-trigger-width;
-    height: $main-menu-trigger-height;
-    color: $main-menu-trigger-color;
-    border: $main-menu-trigger-border;
-    display: $main-menu-trigger-display;
-    align-items: $main-menu-trigger-align-items;
-    justify-content: $main-menu-trigger-justify-content;
-    margin: $main-menu-trigger-margin;
-    padding: $main-menu-trigger-padding;
-    cursor: $main-menu-trigger-cursor;
+    margin-left: $main-menu-trigger-left-offset;
 }
 
 @include breakpoint('desktop-small') {

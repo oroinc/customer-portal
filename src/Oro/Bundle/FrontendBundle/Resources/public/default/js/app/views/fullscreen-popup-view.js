@@ -127,7 +127,7 @@ define(function(require) {
             if (this.disposed) {
                 return;
             }
-            this.close();
+            this.remove();
             FullscreenPopupView.__super__.dispose.call(this);
         },
 
@@ -179,6 +179,16 @@ define(function(require) {
 
             this.trigger('beforeclose');
 
+            this.remove();
+
+            this.trigger('close');
+        },
+
+        remove() {
+            if (!this.$popup) {
+                return;
+            }
+
             if (this.disableBodyTouchScroll) {
                 scrollHelper.enableBodyTouchScroll();
             }
@@ -189,8 +199,6 @@ define(function(require) {
             this.$popup.trigger(`${this.popupName}:closed`);
             this.$popup.remove();
             delete this.$popup;
-
-            this.trigger('close');
         },
 
         getLayoutElement() {

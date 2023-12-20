@@ -1,7 +1,8 @@
 /* @theme: default; */
 
 .hidden,
-.hide {
+.hide,
+.hide-on-empty:empty {
     // override inline styles
     // stylelint-disable-next-line declaration-no-important
     display: none !important;

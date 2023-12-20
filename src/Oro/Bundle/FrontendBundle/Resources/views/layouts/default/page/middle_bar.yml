@@ -9,3 +9,4 @@ layout:
             options:
                 vars:
                     searchType: '=data["system_config_provider"].getValue("oro_frontend.search_on_smaller_screens")'
+                    standaloneMainMenu: '=data["system_config_provider"].getValue("oro_frontend.standalone_main_menu")'

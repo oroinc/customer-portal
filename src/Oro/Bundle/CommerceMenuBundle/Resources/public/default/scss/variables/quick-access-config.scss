@@ -1,4 +1,7 @@
 /* @theme: default; */
 
+$quick-access-button-inner-offset: 0 spacing('sm') 0 spacing('lg') !default;
+$quick-access-button-label-max-width: 200px !default;
+
 $quick-access-button-focus-color: get-color('neutral', 'focus') !default;
 $quick-access-menu-max-height: 500px !default;

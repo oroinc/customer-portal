@@ -19,7 +19,7 @@ layout:
                         route_name: oro_customer_frontend_customer_user_register
                         text: oro.customer.customeruser.profile.registration
             tree:
-                top_nav_container:
+                middle_bar_right_menus:
                     top_authorization_container:
                         top_sign_in_link: ~
                         top_registration_link: ~

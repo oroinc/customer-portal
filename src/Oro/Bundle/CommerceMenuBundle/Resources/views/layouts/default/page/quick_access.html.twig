@@ -1,17 +1,45 @@
 {% block _quick_access_menu_widget %}
+    {% set domRelocationOptions = [] %}
+
+    {% if oro_config_value('oro_frontend.standalone_main_menu') %}
+        {% set domRelocationOptions = domRelocationOptions|merge([{
+            viewport: 'all',
+            endpointClass: 'navigation-menu--inverse',
+            moveTo: '.page-header__inner--standalone-menu > .header-row'
+        }]) %}
+
+        {% set domRelocationOptions = domRelocationOptions|merge([{
+            viewport: 'tablet',
+            moveTo: '.middlebar__menus',
+            startPointClass: 'navigation-menu--inverse navigation-menu--no-gap',
+            endpointClass: 'navigation-menu--inverse',
+            prepend: true
+        }]) %}
+    {% endif %}
+
+    {% set domRelocationOptions = domRelocationOptions|merge([{
+        viewport: searchType == 'integrated' ? 'mobile-landscape' : 'mobile-big',
+        moveTo: '[data-sidebar-menus-top]',
+        startPointClass: 'navigation-menu--inverse navigation-menu--no-gap',
+        endpointClass: 'navigation-menu__vertical'
+    }]) %}
+
     {% set attr = layout_attr_defaults(attr, {
         '~class': " navigation-menu navigation-menu--inverse navigation-menu--no-gap",
         'data-dom-relocation-options': {
-            responsive: [
-                {
-                    viewport: 'tablet',
-                    moveTo: '[data-main-menu-extra-container]',
-                    startPointClass: 'navigation-menu--inverse navigation-menu--no-gap',
-                    endpointClass: 'navigation-menu__vertical'
-                }
-            ]
+            responsive: domRelocationOptions
         }|json_encode
     }) %}
+
+    {% if searchType == 'integrated' %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': ' hide-block-on-mobile-landscape',
+        }) %}
+    {% else %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': ' hide-block-on-mobile-big',
+        }) %}
+    {% endif %}
 
     {% set child_attr = layout_attr_defaults(child_attr, {
         '~class': ' navigation-menu__item'
@@ -25,5 +53,26 @@
         '~class': ' navigation-menu__inner'
     }) %}
 
+    {% set customLabelBlock = customLabelBlock|default('_quick_access_menu_label') %}
+
     {{ parent_block_widget(block) }}
+{% endblock %}
+
+{% block _quick_access_menu_label %}
+    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+    {%- set label = item.extras.custom is defined and item.extras.custom == true ? item.label : item.label|trans -%}
+    {% if item.extras.icon is defined %}
+        {{ renderIcon.icon({name: item.extras.icon}) }}
+        {% set searchType = oro_config_value('oro_frontend.search_on_smaller_screens') %}
+
+        {% set spanClass = searchType == 'integrated' ? 'hide-label-on-tablet' : 'hide-label-on-mobile-landscape' %}
+    {% endif %}
+
+    <span class="{{ spanClass }}">
+        {%- if options.allow_safe_labels and item.getExtra('safe_label', false) -%}
+            {{- label|oro_html_sanitize -}}
+        {% else %}
+            {{- label -}}
+        {%- endif -%}
+    </span>
 {% endblock %}

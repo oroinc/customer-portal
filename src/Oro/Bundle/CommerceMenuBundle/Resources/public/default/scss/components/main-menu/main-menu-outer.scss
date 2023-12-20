@@ -9,6 +9,11 @@
 }
 
 .main-menu-stack-mode {
+    --btn-outlined-inverse-color: $main-menu-stacked-btn-colors;
+    --btn-outlined-inverse-hover-color: $main-menu-stacked-btn-colors;
+    --btn-outlined-inverse-active-color: $main-menu-stacked-btn-colors;
+    --btn-outlined-inverse-focus-color: $main-menu-stacked-btn-colors;
+
     .main-menu-outer {
         &__container {
             display: block;

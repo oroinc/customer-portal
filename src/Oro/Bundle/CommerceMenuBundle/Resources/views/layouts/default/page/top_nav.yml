@@ -3,21 +3,12 @@ layout:
         - '@setBlockTheme':
             themes: '@OroCommerceMenu/layouts/default/page/top_nav.html.twig'
 
-        - '@add':
-              id: top_nav_extra_container
-              parentId: menus_sidebar_container
-              blockType: container
-              options:
-                  visible: '=data["system_config_provider"].getValue("oro_frontend.top_navigation_menu")'
-
         - '@addTree':
             items:
                 top_nav_container:
                     blockType: container
                     siblingId: ~
                     prepend: true
-                top_nav_menu_container:
-                    blockType: container
                 top_nav_topbar_container:
                     blockType: container
                 top_nav:
@@ -31,4 +22,3 @@ layout:
                     top_nav_container:
                         top_nav_topbar_container:
                             top_nav: ~
-                            top_nav_menu_container: ~

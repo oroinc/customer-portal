@@ -1,10 +1,21 @@
 {% block _quick_access_button_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " quick-access-button-container",
+        '~class': " quick-access-button-container hide-block-on-" ~ (searchType == 'integrated' ? 'mobile-big' : 'tablet-small'),
+        'data-dom-relocation-options': {
+            responsive: [
+                {
+                    viewport: searchType == 'integrated' ? 'mobile-big' : 'tablet-small',
+                    moveTo: "[data-sidebar-menus-top]"
+                }
+            ]
+        }
     }) %}
+
     {% set togglerId = 'dropdown-'|uniqid %}
     <div {{ block('block_attributes') }}>
-        <button id="{{togglerId}}" data-toggle="dropdown" type="button" class="btn btn--outlined-inverse" aria-haspopup="true" aria-expanded="false" aria-label="More actions">{{buttonLabel.name}}</button>
+        <button id="{{togglerId}}" data-toggle="dropdown" type="button" class="btn btn--outlined-inverse" aria-haspopup="true" aria-expanded="false">
+            <span class="btn-label-ellipses">{{buttonLabel.name}}</span>
+        </button>
         <div class="dropdown-menu quick-access-button-menu main-menu__inner-container" role="menu" aria-labelledby="{{togglerId}}">{{ block_widget(block) }}</div>
     </div>
 {% endblock %}

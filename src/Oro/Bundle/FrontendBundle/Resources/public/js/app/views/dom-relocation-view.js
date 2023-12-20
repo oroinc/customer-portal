@@ -137,10 +137,12 @@ define(function(require, exports, module) {
         returnByIndex: function($el) {
             const options = $el.data('dom-relocation-options');
 
-            if (options.originalOrder === 0) {
-                options.$originalPosition.prepend($el);
-            } else {
-                options.$originalPosition.children().eq(options.originalOrder - 1).after($el);
+            const placeholder = [...options.$originalPosition.get(0).childNodes]
+                .find(node => node.nodeType === Element.COMMENT_NODE && node.nodeValue === options.placeholderId);
+
+            if (placeholder) {
+                $(placeholder).after($el);
+                placeholder.remove();
             }
 
             if ($el.data('startPointClass')) {
@@ -164,6 +166,8 @@ define(function(require, exports, module) {
         moveToTarget: function($el, targetOptions) {
             const options = $el.data('dom-relocation-options');
             let $target = $(targetOptions.moveTo).first();
+
+            $el.before(document.createComment(`${options.placeholderId}`));
 
             if (targetOptions.sibling) {
                 $target = $target.find(targetOptions.sibling).first();
@@ -209,6 +213,7 @@ define(function(require, exports, module) {
                     _.defaults(options, this.defaultOptions),
                     {
                         $originalPosition: $el.parent(),
+                        placeholderId: _.uniqueId('dom-relocation-placeholder-'),
                         originalOrder: $el.index(),
                         _loaded: true
                     }
