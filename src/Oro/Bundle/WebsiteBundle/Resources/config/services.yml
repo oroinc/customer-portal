@@ -77,8 +77,7 @@ services:
         arguments:
             - '@oro_config.manager'
             - '@router'
-        calls:
-            - [setMemoryCacheProvider, ['@oro_website.resolver.website_url_resolver.memory_cache']]
+            - '@oro_website.resolver.website_url_resolver.memory_cache'
 
     Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver:
         alias: oro_website.resolver.website_url_resolver
@@ -91,8 +90,7 @@ services:
         arguments:
             - '@oro_config.manager'
             - '@router.default'
-        calls:
-            - [setMemoryCacheProvider, ['@oro_website.resolver.website_system_url_resolver.memory_cache']]
+            - '@oro_website.resolver.website_system_url_resolver.memory_cache'
 
     oro_website.twig.website_extension:
         class: Oro\Bundle\WebsiteBundle\Twig\WebsiteExtension
