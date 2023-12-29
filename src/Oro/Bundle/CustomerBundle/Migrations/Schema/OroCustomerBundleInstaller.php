@@ -4,8 +4,8 @@ namespace Oro\Bundle\CustomerBundle\Migrations\Schema;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Types;
-use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtension;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterface;
+use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareTrait;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareInterface;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
@@ -13,8 +13,8 @@ use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectOrCreateType;
 use Oro\Bundle\CustomerBundle\Migrations\Schema\v1_31\InsertAuthStatusesQuery;
 use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
 use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
-use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
+use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareTrait;
 use Oro\Bundle\EntityExtendBundle\Migration\OroOptions;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
@@ -22,8 +22,6 @@ use Oro\Bundle\ScopeBundle\Migration\Extension\ScopeExtensionAwareInterface;
 use Oro\Bundle\ScopeBundle\Migration\Extension\ScopeExtensionAwareTrait;
 
 /**
- * Handles all migrations logic executed during installation
- *
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessiveClassLength)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
@@ -36,6 +34,8 @@ class OroCustomerBundleInstaller implements
     ScopeExtensionAwareInterface
 {
     use AttachmentExtensionAwareTrait;
+    use ActivityExtensionAwareTrait;
+    use ExtendExtensionAwareTrait;
     use ScopeExtensionAwareTrait;
 
     const ORO_CUSTOMER_TABLE_NAME = 'oro_customer';
@@ -55,31 +55,12 @@ class OroCustomerBundleInstaller implements
     const ORO_CUSTOMER_SALES_REPRESENTATIVES_TABLE_NAME = 'oro_customer_sales_reps';
     const ORO_CUSTOMER_USER_SETTINGS = 'oro_customer_user_settings';
 
-    private ExtendExtension $extendExtension;
-    private ActivityExtension $activityExtension;
-
     /**
      * {@inheritdoc}
      */
     public function getMigrationVersion()
     {
         return 'v1_32';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setActivityExtension(ActivityExtension $activityExtension)
-    {
-        $this->activityExtension = $activityExtension;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setExtendExtension(ExtendExtension $extendExtension)
-    {
-        $this->extendExtension = $extendExtension;
     }
 
     /**

@@ -3,10 +3,10 @@
 namespace Oro\Bundle\WebsiteBundle\Migrations\Schema;
 
 use Doctrine\DBAL\Schema\Schema;
-use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtension;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterface;
-use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
+use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareTrait;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
+use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Oro\Bundle\ScopeBundle\Migration\Extension\ScopeExtensionAwareInterface;
@@ -18,35 +18,11 @@ class OroWebsiteBundleInstaller implements
     ExtendExtensionAwareInterface,
     ScopeExtensionAwareInterface
 {
+    use ActivityExtensionAwareTrait;
+    use ExtendExtensionAwareTrait;
     use ScopeExtensionAwareTrait;
 
-    const WEBSITE_TABLE_NAME = 'oro_website';
-
-    /**
-     * @var ExtendExtension
-     */
-    protected $extendExtension;
-
-    /**
-     * @var ActivityExtension
-     */
-    protected $activityExtension;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setExtendExtension(ExtendExtension $extendExtension)
-    {
-        $this->extendExtension = $extendExtension;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setActivityExtension(ActivityExtension $activityExtension)
-    {
-        $this->activityExtension = $activityExtension;
-    }
+    private const WEBSITE_TABLE_NAME = 'oro_website';
 
     /**
      * {@inheritdoc}
@@ -152,11 +128,6 @@ class OroWebsiteBundleInstaller implements
 
     private function addRelationsToScope(Schema $schema)
     {
-        $this->scopeExtension->addScopeAssociation(
-            $schema,
-            'website',
-            OroWebsiteBundleInstaller::WEBSITE_TABLE_NAME,
-            'name'
-        );
+        $this->scopeExtension->addScopeAssociation($schema, 'website', self::WEBSITE_TABLE_NAME, 'name');
     }
 }

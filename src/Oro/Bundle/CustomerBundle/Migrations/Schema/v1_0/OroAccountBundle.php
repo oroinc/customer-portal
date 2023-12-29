@@ -3,12 +3,12 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_0;
 
 use Doctrine\DBAL\Schema\Schema;
-use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtension;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterface;
+use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareTrait;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareInterface;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareTrait;
-use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
+use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
@@ -23,6 +23,8 @@ class OroAccountBundle implements
     ExtendExtensionAwareInterface
 {
     use AttachmentExtensionAwareTrait;
+    use ActivityExtensionAwareTrait;
+    use ExtendExtensionAwareTrait;
 
     const ORO_B2B_ACCOUNT_TABLE_NAME = 'orob2b_account';
     const ORO_B2B_ACCOUNT_USER_TABLE_NAME = 'orob2b_account_user';
@@ -41,28 +43,6 @@ class OroAccountBundle implements
     const ORO_EMAIL = 'oro_email';
     const ORO_B2B_ACCOUNT_USER_ADDRESS_TABLE_NAME = 'orob2b_account_user_address';
     const ORO_B2B_ACC_USR_ADR_TO_ADR_TYPE_TABLE_NAME = 'orob2b_acc_usr_adr_to_adr_type';
-
-    /** @var ExtendExtension */
-    protected $extendExtension;
-
-    /** @var ActivityExtension */
-    protected $activityExtension;
-
-    /**
-     * Sets the ActivityExtension
-     */
-    public function setActivityExtension(ActivityExtension $activityExtension)
-    {
-        $this->activityExtension = $activityExtension;
-    }
-
-    /**
-     * Sets the ExtendExtension
-     */
-    public function setExtendExtension(ExtendExtension $extendExtension)
-    {
-        $this->extendExtension = $extendExtension;
-    }
 
     /**
      * {@inheritdoc}

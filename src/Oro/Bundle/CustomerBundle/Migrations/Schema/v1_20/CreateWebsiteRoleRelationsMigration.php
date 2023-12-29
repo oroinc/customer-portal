@@ -6,16 +6,15 @@ use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectOrCreateType;
 use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
 use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
-use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
+use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\OrderedMigrationInterface;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class CreateWebsiteRoleRelationsMigration implements Migration, OrderedMigrationInterface, ExtendExtensionAwareInterface
 {
-    /** @var ExtendExtension */
-    protected $extendExtension;
+    use ExtendExtensionAwareTrait;
 
     /**
      * {@inheritdoc}
@@ -23,14 +22,6 @@ class CreateWebsiteRoleRelationsMigration implements Migration, OrderedMigration
     public function getOrder()
     {
         return 10;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setExtendExtension(ExtendExtension $extendExtension)
-    {
-        $this->extendExtension = $extendExtension;
     }
 
     /**
