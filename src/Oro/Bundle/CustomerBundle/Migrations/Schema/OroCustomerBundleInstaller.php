@@ -1123,9 +1123,6 @@ class OroCustomerBundleInstaller implements
         $table->addUniqueIndex(['customer_user_id'], 'UNIQ_F7961166BBB3772B');
     }
 
-    /**
-     * @throws \Doctrine\DBAL\Schema\SchemaException
-     */
     private function addOwnerToOroEmailAddress(Schema $schema): void
     {
         $table = $schema->getTable('oro_email_address');

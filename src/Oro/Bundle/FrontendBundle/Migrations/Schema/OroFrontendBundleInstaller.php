@@ -15,9 +15,9 @@ class OroFrontendBundleInstaller implements Installation, ContainerAwareInterfac
     use ContainerAwareTrait;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getMigrationVersion()
+    public function getMigrationVersion(): string
     {
         // Migration version was increased without creating correct migration
         // Use next version v1_2 in case of new migration and remove this comment
@@ -25,9 +25,9 @@ class OroFrontendBundleInstaller implements Installation, ContainerAwareInterfac
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function up(Schema $schema, QueryBag $queries)
+    public function up(Schema $schema, QueryBag $queries): void
     {
         // update system configuration for installed instances
         if ($this->container->get(ApplicationState::class)->isInstalled()) {
