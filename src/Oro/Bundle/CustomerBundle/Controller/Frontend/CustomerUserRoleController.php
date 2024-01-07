@@ -25,7 +25,7 @@ class CustomerUserRoleController extends AbstractController
      * @Acl(
      *      id="oro_customer_frontend_customer_user_role_index",
      *      type="entity",
-     *      class="OroCustomerBundle:CustomerUserRole",
+     *      class="Oro\Bundle\CustomerBundle\Entity\CustomerUserRole",
      *      permission="VIEW",
      *      group_name="commerce"
      * )
@@ -64,7 +64,7 @@ class CustomerUserRoleController extends AbstractController
      * @Acl(
      *      id="oro_customer_frontend_customer_user_role_create",
      *      type="entity",
-     *      class="OroCustomerBundle:CustomerUserRole",
+     *      class="Oro\Bundle\CustomerBundle\Entity\CustomerUserRole",
      *      permission="CREATE",
      *      group_name="commerce"
      * )
@@ -91,7 +91,7 @@ class CustomerUserRoleController extends AbstractController
         if ($role->isPredefined() && $request->isMethod(Request::METHOD_GET)) {
             $this->addFlash(
                 'warning',
-                $this->get(TranslatorInterface::class)
+                $this->container->get(TranslatorInterface::class)
                     ->trans('oro.customer.customeruserrole.frontend.edit-predifined-role.message')
             );
         }
@@ -101,16 +101,17 @@ class CustomerUserRoleController extends AbstractController
 
     protected function update(CustomerUserRole $role): array|RedirectResponse
     {
-        $handler = $this->get(CustomerUserRoleUpdateFrontendHandler::class);
+        $handler = $this->container->get(CustomerUserRoleUpdateFrontendHandler::class);
         $form = $handler->createForm($role);
 
         // This is cloned role in case of original role was predefined
         $customizableRole = $form->getData();
 
-        $response = $this->get(UpdateHandlerFacade::class)->update(
+        $response = $this->container->get(UpdateHandlerFacade::class)->update(
             $customizableRole,
             $form,
-            $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruserrole.saved.message'),
+            $this->container->get(TranslatorInterface::class)
+                ->trans('oro.customer.controller.customeruserrole.saved.message'),
             null,
             function (CustomerUserRole $role) use ($handler) {
                 return $handler->process($role);

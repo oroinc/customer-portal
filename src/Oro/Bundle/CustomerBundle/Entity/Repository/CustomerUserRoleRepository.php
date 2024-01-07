@@ -45,7 +45,7 @@ class CustomerUserRoleRepository extends EntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         $findResult = $qb
             ->select('customerUser.id')
-            ->from('OroCustomerBundle:CustomerUser', 'customerUser')
+            ->from(CustomerUser::class, 'customerUser')
             ->innerJoin('customerUser.userRoles', 'CustomerUserRole')
             ->where($qb->expr()->eq('CustomerUserRole', ':CustomerUserRole'))
             ->setParameter('CustomerUserRole', $role)
@@ -67,7 +67,7 @@ class CustomerUserRoleRepository extends EntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         $findResult = $qb
             ->select('customerUser')
-            ->from('OroCustomerBundle:CustomerUser', 'customerUser')
+            ->from(CustomerUser::class, 'customerUser')
             ->innerJoin('customerUser.userRoles', 'CustomerUserRole')
             ->where($qb->expr()->eq('CustomerUserRole', ':CustomerUserRole'))
             ->setParameter('CustomerUserRole', $role)

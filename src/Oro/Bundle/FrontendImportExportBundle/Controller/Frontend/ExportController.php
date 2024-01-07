@@ -23,7 +23,7 @@ class ExportController extends AbstractController
      * @Acl(
      *      id="oro_frontendimportexport_result_view",
      *      type="entity",
-     *      class="OroFrontendImportExportBundle:FrontendImportExportResult",
+     *      class="Oro\Bundle\FrontendImportExportBundle\Entity\FrontendImportExportResult",
      *      permission="VIEW"
      * )
      */
@@ -33,7 +33,7 @@ class ExportController extends AbstractController
             throw new ImportExportExpiredException();
         }
 
-        return $this->get(FrontendExportHandler::class)->handleDownloadExportResult($result->getFilename());
+        return $this->container->get(FrontendExportHandler::class)->handleDownloadExportResult($result->getFilename());
     }
 
     public static function getSubscribedServices(): array

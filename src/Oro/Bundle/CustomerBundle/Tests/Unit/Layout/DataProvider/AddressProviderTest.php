@@ -69,7 +69,7 @@ class AddressProviderTest extends \PHPUnit\Framework\TestCase
         $this->fragmentHandler->expects($this->once())
             ->method('render')
             ->with('/address/list/test/url')
-            ->willReturn(['data']);
+            ->willReturn('data');
 
         $this->configManager->expects($this->once())
             ->method('get')
@@ -84,7 +84,7 @@ class AddressProviderTest extends \PHPUnit\Framework\TestCase
                 'addressListUrl' => '/address/list/test/url',
                 'addressCreateUrl' => '/address/create/test/url',
                 'addressUpdateRouteName' => 'oro_customer_frontend_customer_address_update',
-                'currentAddresses' => ['data'],
+                'currentAddresses' => 'data',
                 'addressDeleteRouteName' => 'oro_api_customer_frontend_delete_customer_address',
                 'showMap' => true,
             ],
@@ -120,7 +120,7 @@ class AddressProviderTest extends \PHPUnit\Framework\TestCase
         $this->fragmentHandler->expects($this->once())
             ->method('render')
             ->with('/address/list/test/url?default_only=true')
-            ->willReturn(['data']);
+            ->willReturn('data');
 
         $this->configManager->expects($this->once())
             ->method('get')
@@ -135,7 +135,7 @@ class AddressProviderTest extends \PHPUnit\Framework\TestCase
                 'addressListUrl' => '/address/list/test/url?default_only=true',
                 'addressCreateUrl' => '/address/create/test/url',
                 'addressUpdateRouteName' => 'oro_customer_frontend_customer_address_update',
-                'currentAddresses' => ['data'],
+                'currentAddresses' => 'data',
                 'addressDeleteRouteName' => 'oro_api_customer_frontend_delete_customer_address',
                 'showMap' => true,
             ],
@@ -194,7 +194,7 @@ class AddressProviderTest extends \PHPUnit\Framework\TestCase
         $this->fragmentHandler->expects($this->once())
             ->method('render')
             ->with('/address/list/test/url')
-            ->willReturn(['data']);
+            ->willReturn('data');
 
         $this->configManager->expects($this->once())
             ->method('get')
@@ -209,7 +209,7 @@ class AddressProviderTest extends \PHPUnit\Framework\TestCase
                 'addressListUrl' => '/address/list/test/url',
                 'addressCreateUrl' => '/address/create/test/url',
                 'addressUpdateRouteName' => 'oro_customer_frontend_customer_address_update',
-                'currentAddresses' => ['data'],
+                'currentAddresses' => 'data',
                 'addressDeleteRouteName' => 'oro_api_customer_frontend_delete_customer_address',
                 'showMap' => false,
             ],

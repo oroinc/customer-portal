@@ -37,7 +37,7 @@ class LoadScopeCustomerGroupDemoData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         /** @var CustomerGroup $customerGroup */
-        $customerGroups = $manager->getRepository('OroCustomerBundle:CustomerGroup')->findAll();
+        $customerGroups = $manager->getRepository(CustomerGroup::class)->findAll();
         $scopeManager = $this->container->get('oro_scope.scope_manager');
         foreach ($customerGroups as $customerGroup) {
             $scopeManager->findOrCreate(ScopeManager::BASE_SCOPE, ['customerGroup' => $customerGroup], true);

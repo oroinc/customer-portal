@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\AddressBundle\Form\Handler\AddressHandler;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
@@ -67,22 +68,23 @@ class CustomerAddressController extends AbstractController
     ): array|RedirectResponse {
         $this->prepareEntities($customer, $customerAddress, $request);
 
-        $form = $this->get(FrontendCustomerAddressFormProvider::class)
+        $form = $this->container->get(FrontendCustomerAddressFormProvider::class)
             ->getAddressForm($customerAddress, $customer);
 
-        $manager = $this->getDoctrine()->getManagerForClass(CustomerAddress::class);
+        $manager = $this->container->get('doctrine')->getManagerForClass(CustomerAddress::class);
 
         $handler = new AddressHandler($manager);
 
-        $result = $this->get(UpdateHandlerFacade::class)->update(
+        $result = $this->container->get(UpdateHandlerFacade::class)->update(
             $form->getData(),
             $form,
-            $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeraddress.saved.message'),
+            $this->container->get(TranslatorInterface::class)
+                ->trans('oro.customer.controller.customeraddress.saved.message'),
             $request,
             $handler,
             function (CustomerAddress $customerAddress, FormInterface $form, Request $request) {
                 return [
-                    'backToUrl' => $this->get(SameSiteUrlHelper::class)
+                    'backToUrl' => $this->container->get(SameSiteUrlHelper::class)
                         ->getSameSiteReferer($request, $request->getUri()),
                     'input_action' => \json_encode([
                         'route' => 'oro_customer_frontend_customer_user_address_index',
@@ -129,7 +131,8 @@ class CustomerAddressController extends AbstractController
                 TranslatorInterface::class,
                 FrontendCustomerAddressFormProvider::class,
                 SameSiteUrlHelper::class,
-                UpdateHandlerFacade::class
+                UpdateHandlerFacade::class,
+                'doctrine' => ManagerRegistry::class
             ]
         );
     }

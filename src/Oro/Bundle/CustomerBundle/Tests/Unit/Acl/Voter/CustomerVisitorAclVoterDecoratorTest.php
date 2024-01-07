@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Acl\Voter;
 
 use Oro\Bundle\CustomerBundle\Acl\Cache\CustomerVisitorAclCache;
 use Oro\Bundle\CustomerBundle\Acl\Voter\CustomerVisitorAclVoterDecorator;
+use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Fixtures\CustomerVisitorOwnedEntity;
 use Oro\Bundle\ProductBundle\Entity\Product;
@@ -15,6 +16,7 @@ use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Voter\FieldVote;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class CustomerVisitorAclVoterDecoratorTest extends \PHPUnit\Framework\TestCase
 {
@@ -47,7 +49,7 @@ class CustomerVisitorAclVoterDecoratorTest extends \PHPUnit\Framework\TestCase
 
     public function testVoteOnNotVisitorToken(): void
     {
-        $token = new UsernamePasswordToken('test', 'main', []);
+        $token = new UsernamePasswordToken($this->createMock(UserInterface::class), 'main', []);
         $subject = new Product();
         $attributes = ['VIEW'];
 
@@ -73,7 +75,7 @@ class CustomerVisitorAclVoterDecoratorTest extends \PHPUnit\Framework\TestCase
 
     public function testVoteOnCustomerVisitorOwnerAwareInterfaceSubject(): void
     {
-        $token = new AnonymousCustomerUserToken('test', []);
+        $token = new AnonymousCustomerUserToken(new CustomerVisitor());
         $subject = new CustomerVisitorOwnedEntity();
         $attributes = ['VIEW'];
 
@@ -100,7 +102,7 @@ class CustomerVisitorAclVoterDecoratorTest extends \PHPUnit\Framework\TestCase
     public function testVoteOnCachedStringSubject(): void
     {
         $website = $this->getEntity(Website::class, ['id' => 10]);
-        $token = new AnonymousCustomerUserToken('test', []);
+        $token = new AnonymousCustomerUserToken(new CustomerVisitor());
         $subject = 'some_action';
         $attributes = ['VIEW'];
 
@@ -130,7 +132,7 @@ class CustomerVisitorAclVoterDecoratorTest extends \PHPUnit\Framework\TestCase
     public function testVoteOnNonCachedStringSubject(): void
     {
         $website = $this->getEntity(Website::class, ['id' => 11]);
-        $token = new AnonymousCustomerUserToken('test', []);
+        $token = new AnonymousCustomerUserToken(new CustomerVisitor());
         $subject = 'some_action';
         $attributes = ['VIEW'];
 
@@ -164,7 +166,7 @@ class CustomerVisitorAclVoterDecoratorTest extends \PHPUnit\Framework\TestCase
     public function testVoteSubjects($subject, $expectedSubjectName): void
     {
         $website = $this->getEntity(Website::class, ['id' => 12]);
-        $token = new AnonymousCustomerUserToken('test', []);
+        $token = new AnonymousCustomerUserToken(new CustomerVisitor());
         $attributes = ['VIEW'];
 
         $this->websiteProvider->expects(self::once())

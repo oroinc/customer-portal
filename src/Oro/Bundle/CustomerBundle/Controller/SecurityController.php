@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Controller;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -24,7 +25,7 @@ class SecurityController extends AbstractController
      */
     public function loginAction(Request $request)
     {
-        if ($this->getUser()) {
+        if ($this->getUser() instanceof AbstractUser) {
             return $this->redirect($this->generateUrl('oro_customer_frontend_customer_user_profile'));
         }
 
@@ -35,7 +36,8 @@ class SecurityController extends AbstractController
             return new JsonResponse(['redirectUrl' => $redirectUrl], 401);
         }
 
-        $registrationAllowed = (bool) $this->get(ConfigManager::class)->get('oro_customer.registration_allowed');
+        $registrationAllowed = (bool) $this->container->get(ConfigManager::class)
+            ->get('oro_customer.registration_allowed');
 
         return [
             'data' => [
@@ -54,7 +56,7 @@ class SecurityController extends AbstractController
     {
         if (!$request->isMethod('POST')) {
             return $this->redirectToRoute(
-                $this->getUser()
+                $this->getUser() instanceof AbstractUser
                     ? 'oro_customer_frontend_customer_user_profile'
                     : 'oro_customer_customer_user_security_login'
             );

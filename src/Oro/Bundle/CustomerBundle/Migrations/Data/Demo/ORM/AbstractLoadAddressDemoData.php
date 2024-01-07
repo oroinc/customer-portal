@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectRepository;
+use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\AddressBundle\Entity\Country;
 use Oro\Bundle\AddressBundle\Entity\Region;
 use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
@@ -13,6 +14,9 @@ use Oro\Bundle\MigrationBundle\Fixture\AbstractEntityReferenceFixture;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Abstract class for loading customer address demo data.
+ */
 abstract class AbstractLoadAddressDemoData extends AbstractEntityReferenceFixture implements ContainerAwareInterface
 {
     /** @var ContainerInterface */
@@ -95,16 +99,16 @@ abstract class AbstractLoadAddressDemoData extends AbstractEntityReferenceFixtur
     {
         $doctrine = $this->container->get('doctrine');
         $this->countryRepository = $doctrine
-            ->getManagerForClass('OroAddressBundle:Country')
-            ->getRepository('OroAddressBundle:Country');
+            ->getManagerForClass(Country::class)
+            ->getRepository(Country::class);
 
         $this->regionRepository = $doctrine
-            ->getManagerForClass('OroAddressBundle:Region')
-            ->getRepository('OroAddressBundle:Region');
+            ->getManagerForClass(Region::class)
+            ->getRepository(Region::class);
 
         $this->addressTypeRepository = $doctrine
-            ->getManagerForClass('OroAddressBundle:AddressType')
-            ->getRepository('OroAddressBundle:AddressType');
+            ->getManagerForClass(AddressType::class)
+            ->getRepository(AddressType::class);
     }
 
     /**

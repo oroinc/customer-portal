@@ -6,6 +6,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
+use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * Loads CustomerGroups data
@@ -31,11 +32,11 @@ class LoadCustomerGroupDemoData extends AbstractFixture
      */
     public function load(ObjectManager $manager)
     {
-        /** @var \Oro\Bundle\UserBundle\Entity\User $customerOwner */
+        /** @var User $customerOwner */
         $customerOwner = $this->getFirstUser($manager);
 
         foreach ($this->customerGroups as $groupName) {
-            $customerGroup = $manager->getRepository('OroCustomerBundle:CustomerGroup')
+            $customerGroup = $manager->getRepository(CustomerGroup::class)
                 ->findOneBy(['name' => $groupName]);
 
             if (!$customerGroup) {

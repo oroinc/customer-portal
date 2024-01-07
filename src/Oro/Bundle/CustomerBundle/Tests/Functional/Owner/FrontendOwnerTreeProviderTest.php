@@ -36,7 +36,6 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
     {
         $this->createToken(
             $token['customerUserReference'],
-            $token['customerUserPassword'],
             $token['organizationReference']
         );
 
@@ -681,7 +680,6 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
 
         $this->createToken(
             LoadCustomerUserData::LEVEL_1_EMAIL,
-            LoadCustomerUserData::LEVEL_1_PASSWORD,
             LoadOrganization::ORGANIZATION
         );
 
@@ -689,7 +687,6 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
 
         $this->createToken(
             LoadCustomerUserData::LEVEL_1_1_EMAIL,
-            LoadCustomerUserData::LEVEL_1_1_PASSWORD,
             LoadOrganization::ORGANIZATION
         );
 
@@ -703,7 +700,6 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
 
         $this->createToken(
             LoadCustomerUserData::LEVEL_1_EMAIL,
-            LoadCustomerUserData::LEVEL_1_PASSWORD,
             LoadOrganization::ORGANIZATION
         );
 
@@ -711,7 +707,6 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
 
         $this->createToken(
             LoadCustomerUserData::ORPHAN_EMAIL,
-            LoadCustomerUserData::ORPHAN_PASSWORD,
             LoadOrganization::ORGANIZATION
         );
 
@@ -820,11 +815,10 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
         );
     }
 
-    private function createToken(string $userReference, string $password, string $organizationReference): void
+    private function createToken(string $userReference, string $organizationReference): void
     {
         $token = new UsernamePasswordOrganizationToken(
             $this->getReference($userReference),
-            $password,
             'main',
             $this->getReference($organizationReference)
         );

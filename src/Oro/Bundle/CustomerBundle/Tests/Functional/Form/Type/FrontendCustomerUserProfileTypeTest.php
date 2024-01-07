@@ -36,8 +36,8 @@ class FrontendCustomerUserProfileTypeTest extends WebTestCase
 
         /** @var CustomerUser $expectedUser */
         $expectedUser = $this->getReference(LoadCustomerUserData::GROUP2_EMAIL);
-        $actualUsername = $this->getContainer()->get('security.token_storage')->getToken()->getUsername();
+        $actualUsername = $this->getContainer()->get('security.token_storage')->getToken()->getUserIdentifier();
 
-        $this->assertEquals($expectedUser->getUsername(), $actualUsername);
+        $this->assertEquals($expectedUser->getUserIdentifier(), $actualUsername);
     }
 }

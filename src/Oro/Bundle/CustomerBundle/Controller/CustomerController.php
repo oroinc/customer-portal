@@ -40,7 +40,7 @@ class CustomerController extends AbstractController
      * @Acl(
      *      id="oro_customer_customer_view",
      *      type="entity",
-     *      class="OroCustomerBundle:Customer",
+     *      class="Oro\Bundle\CustomerBundle\Entity\Customer",
      *      permission="VIEW"
      * )
      */
@@ -57,7 +57,7 @@ class CustomerController extends AbstractController
      * @Acl(
      *      id="oro_customer_create",
      *      type="entity",
-     *      class="OroCustomerBundle:Customer",
+     *      class="Oro\Bundle\CustomerBundle\Entity\Customer",
      *      permission="CREATE"
      * )
      */
@@ -84,7 +84,8 @@ class CustomerController extends AbstractController
         $customer = new Customer();
         $customer->setParent($parentCustomer);
 
-        $saveAndReturnActionFormTemplateDataProvider = $this->get(SaveAndReturnActionFormTemplateDataProvider::class);
+        $saveAndReturnActionFormTemplateDataProvider = $this->container
+            ->get(SaveAndReturnActionFormTemplateDataProvider::class);
         $saveAndReturnActionFormTemplateDataProvider
             ->setSaveFormActionRoute(
                 'oro_customer_customer_create_subsidiary',
@@ -121,7 +122,8 @@ class CustomerController extends AbstractController
         $customer = new Customer();
         $customer->setGroup($group);
 
-        $saveAndReturnActionFormTemplateDataProvider = $this->get(SaveAndReturnActionFormTemplateDataProvider::class);
+        $saveAndReturnActionFormTemplateDataProvider = $this->container
+            ->get(SaveAndReturnActionFormTemplateDataProvider::class);
         $saveAndReturnActionFormTemplateDataProvider
             ->setSaveFormActionRoute(
                 'oro_customer_customer_create_for_customer_group',
@@ -146,7 +148,7 @@ class CustomerController extends AbstractController
      * @Acl(
      *      id="oro_customer_customer_update",
      *      type="entity",
-     *      class="OroCustomerBundle:Customer",
+     *      class="Oro\Bundle\CustomerBundle\Entity\Customer",
      *      permission="EDIT"
      * )
      */
@@ -159,10 +161,10 @@ class CustomerController extends AbstractController
         Customer $customer,
         FormTemplateDataProviderInterface|null $resultProvider = null
     ): array|RedirectResponse {
-        return $this->get(UpdateHandlerFacade::class)->update(
+        return $this->container->get(UpdateHandlerFacade::class)->update(
             $customer,
             $this->createForm(CustomerType::class, $customer),
-            $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customer.saved.message'),
+            $this->container->get(TranslatorInterface::class)->trans('oro.customer.controller.customer.saved.message'),
             null,
             null,
             $resultProvider
@@ -178,7 +180,7 @@ class CustomerController extends AbstractController
     {
         return [
             'entity' => $customer,
-            'treeData' => $this->get(CustomerTreeHandler::class)->createTree($customer),
+            'treeData' => $this->container->get(CustomerTreeHandler::class)->createTree($customer),
         ];
     }
 

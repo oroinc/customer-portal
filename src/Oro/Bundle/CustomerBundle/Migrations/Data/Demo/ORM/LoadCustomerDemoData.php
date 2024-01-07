@@ -8,6 +8,7 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
 use Oro\Bundle\MigrationBundle\Fixture\AbstractEntityReferenceFixture;
+use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * Loads Customers demo data for default organization
@@ -70,8 +71,8 @@ class LoadCustomerDemoData extends AbstractEntityReferenceFixture implements Dep
             LoadCustomerInternalRatingDemoData::getDataKeys()
         );
 
-        /** @var \Oro\Bundle\UserBundle\Entity\User $customerOwner */
-        $customerOwner = $manager->getRepository('OroUserBundle:User')->findOneBy([]);
+        /** @var User $customerOwner */
+        $customerOwner = $manager->getRepository(User::class)->findOneBy([]);
 
         foreach ($this->customers as $customerName => $customerData) {
             /** @var CustomerGroup $customerGroup */

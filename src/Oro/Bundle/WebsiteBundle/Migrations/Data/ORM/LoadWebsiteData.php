@@ -7,6 +7,8 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Migrations\Data\ORM\LoadCustomerUserRoles;
+use Oro\Bundle\OrganizationBundle\Entity\BusinessUnit;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
 use Oro\Bundle\OrganizationBundle\Migrations\Data\ORM\LoadOrganizationAndBusinessUnitData;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
@@ -54,12 +56,12 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
              * Get first organization when install OroCommerce over OroCRM
              */
             $organization = $manager
-                ->getRepository('OroOrganizationBundle:Organization')
+                ->getRepository(Organization::class)
                 ->getFirst();
         }
 
         $businessUnit = $manager
-            ->getRepository('OroOrganizationBundle:BusinessUnit')
+            ->getRepository(BusinessUnit::class)
             ->findOneBy(['name' => LoadOrganizationAndBusinessUnitData::MAIN_BUSINESS_UNIT]);
 
         $defaultRole = $this->getReference(LoadCustomerUserRoles::WEBSITE_DEFAULT_ROLE);

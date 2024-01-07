@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\AddressBundle\Form\Handler\AddressHandler;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
@@ -39,7 +40,7 @@ class CustomerUserAddressController extends AbstractController
             throw new AccessDeniedException();
         }
 
-        $addressProvider = $this->get(FrontendAddressProvider::class);
+        $addressProvider = $this->container->get(FrontendAddressProvider::class);
 
         return [
             'entity_class' => CustomerUserAddress::class,
@@ -105,22 +106,23 @@ class CustomerUserAddressController extends AbstractController
     ): array|RedirectResponse {
         $this->prepareEntities($customerUser, $customerAddress, $request);
 
-        $form = $this->get(FrontendCustomerUserAddressFormProvider::class)
+        $form = $this->container->get(FrontendCustomerUserAddressFormProvider::class)
             ->getAddressForm($customerAddress, $customerUser);
 
-        $manager = $this->getDoctrine()->getManagerForClass(CustomerUserAddress::class);
+        $manager = $this->container->get('doctrine')->getManagerForClass(CustomerUserAddress::class);
 
         $handler = new AddressHandler($manager);
 
-        $result = $this->get(UpdateHandlerFacade::class)->update(
+        $result = $this->container->get(UpdateHandlerFacade::class)->update(
             $form->getData(),
             $form,
-            $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruseraddress.saved.message'),
+            $this->container->get(TranslatorInterface::class)
+                ->trans('oro.customer.controller.customeruseraddress.saved.message'),
             $request,
             $handler,
             function (CustomerUserAddress $customerAddress, FormInterface $form, Request $request) use ($customerUser) {
                 return [
-                    'backToUrl' => $this->get(SameSiteUrlHelper::class)
+                    'backToUrl' => $this->container->get(SameSiteUrlHelper::class)
                         ->getSameSiteReferer($request, $request->getUri()),
                     'input_action' => $this->resolveInputAction($customerUser)
                 ];
@@ -168,7 +170,8 @@ class CustomerUserAddressController extends AbstractController
                 FrontendAddressProvider::class,
                 FrontendCustomerUserAddressFormProvider::class,
                 SameSiteUrlHelper::class,
-                UpdateHandlerFacade::class
+                UpdateHandlerFacade::class,
+                'doctrine' => ManagerRegistry::class
             ]
         );
     }

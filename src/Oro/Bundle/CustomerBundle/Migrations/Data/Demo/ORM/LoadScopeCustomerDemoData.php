@@ -9,6 +9,9 @@ use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\ScopeBundle\Entity\Scope;
 
+/**
+ * Loads scopes for customer demo data.
+ */
 class LoadScopeCustomerDemoData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
     const SCOPE_ACCOUNT_REFERENCE_PREFIX = 'scope_customer_demo_data';
@@ -29,7 +32,7 @@ class LoadScopeCustomerDemoData extends AbstractFixture implements FixtureInterf
     public function load(ObjectManager $manager)
     {
         /** @var Customer $customer */
-        $customers = $manager->getRepository('OroCustomerBundle:Customer')->findAll();
+        $customers = $manager->getRepository(Customer::class)->findAll();
         foreach ($customers as $customer) {
             $scope = new Scope();
             $scope->setCustomer($customer);

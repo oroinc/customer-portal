@@ -22,7 +22,7 @@ class AssetsContext extends RequestStackContext
     /**
      * {@inheritdoc}
      */
-    public function getBasePath()
+    public function getBasePath(): string
     {
         return $this->resolver->resolveBasePath(parent::getBasePath());
     }

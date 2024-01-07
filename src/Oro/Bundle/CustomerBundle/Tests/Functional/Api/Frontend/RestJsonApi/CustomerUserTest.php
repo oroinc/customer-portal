@@ -131,7 +131,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         self::assertEquals($data['data']['attributes']['firstName'], $customerUser->getFirstName());
         self::assertEquals($data['data']['attributes']['lastName'], $customerUser->getLastName());
         self::assertEquals($data['data']['attributes']['email'], $customerUser->getEmail());
-        self::assertEquals($customerUser->getEmail(), $customerUser->getUsername());
+        self::assertEquals($customerUser->getEmail(), $customerUser->getUserIdentifier());
         self::assertEquals($websiteId, $customerUser->getWebsite()->getId());
         self::assertEquals($organizationId, $customerUser->getOrganization()->getId());
         self::assertEquals($ownerId, $customerUser->getOwner()->getId());
@@ -142,7 +142,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         self::assertNotEmpty($customerUser->getSalt());
         /** @var PasswordHasherInterface $passwordHasher */
         $passwordHasher = self::getContainer()->get('security.password_hasher_factory')->getPasswordHasher(
-            $customerUser
+            $customerUser::class
         );
         self::assertTrue(
             $passwordHasher->verify(
@@ -181,7 +181,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         self::assertEquals($data['data']['attributes']['firstName'], $customerUser->getFirstName());
         self::assertEquals($data['data']['attributes']['lastName'], $customerUser->getLastName());
         self::assertEquals($data['data']['attributes']['email'], $customerUser->getEmail());
-        self::assertEquals($customerUser->getEmail(), $customerUser->getUsername());
+        self::assertEquals($customerUser->getEmail(), $customerUser->getUserIdentifier());
         self::assertEquals($websiteId, $customerUser->getWebsite()->getId());
         self::assertEquals($organizationId, $customerUser->getOrganization()->getId());
         self::assertEquals($ownerId, $customerUser->getOwner()->getId());

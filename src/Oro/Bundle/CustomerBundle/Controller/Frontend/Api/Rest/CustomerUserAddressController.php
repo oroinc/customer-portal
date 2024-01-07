@@ -19,7 +19,7 @@ class CustomerUserAddressController extends BaseCustomerUserAddressController
             return parent::getCustomerUserAddresses($customerUser);
         }
 
-        return $this->get('oro_customer.provider.frontend.address')->getCurrentCustomerUserAddresses();
+        return $this->container->get('oro_customer.provider.frontend.address')->getCurrentCustomerUserAddresses();
     }
 
     /**

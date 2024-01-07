@@ -66,7 +66,7 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface
 
     protected function updateAccountUserRoles(QueryBag $queries)
     {
-        $anonymousRoleName = 'IS_AUTHENTICATED_ANONYMOUSLY';
+        $anonymousRoleName = 'PUBLIC_ACCESS';
 
         $queries->addPostQuery(
             "UPDATE orob2b_account_user_role SET self_managed = TRUE WHERE role <> '$anonymousRoleName'"

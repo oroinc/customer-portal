@@ -34,7 +34,7 @@ class WidgetController extends AbstractController
      */
     public function startTransitionFormAction($transitionName, $workflowName, Request $request)
     {
-        $processor = $this->get(TransitActionProcessor::class);
+        $processor = $this->container->get(TransitActionProcessor::class);
 
         $context = $this->createProcessorContext(
             $processor,
@@ -66,7 +66,7 @@ class WidgetController extends AbstractController
      */
     public function transitionFormAction($transitionName, WorkflowItem $workflowItem, Request $request)
     {
-        $processor = $this->get(TransitActionProcessor::class);
+        $processor = $this->container->get(TransitActionProcessor::class);
 
         $context = $this->createProcessorContext(
             $processor,

@@ -5,6 +5,9 @@ namespace Oro\Bundle\WebsiteBundle\Provider;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
+/**
+ * Provides information about websites
+ */
 class WebsiteProvider implements WebsiteProviderInterface
 {
     /**
@@ -52,8 +55,8 @@ class WebsiteProvider implements WebsiteProviderInterface
      */
     protected function getDefaultWebsite()
     {
-        return $this->registry->getManagerForClass('OroWebsiteBundle:Website')
-            ->getRepository('OroWebsiteBundle:Website')
+        return $this->registry->getManagerForClass(Website::class)
+            ->getRepository(Website::class)
             ->getDefaultWebsite();
     }
 }

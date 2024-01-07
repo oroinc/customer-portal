@@ -9,7 +9,7 @@ use Psr\Log\LoggerInterface;
 
 class UpdateAnonymousUserRoleQuery extends ParametrizedMigrationQuery
 {
-    const IS_AUTHENTICATED_ANONYMOUSLY  = 'IS_AUTHENTICATED_ANONYMOUSLY';
+    const PUBLIC_ACCESS  = 'PUBLIC_ACCESS';
     const ROLE_FRONTEND_ANONYMOUS  = 'ROLE_FRONTEND_ANONYMOUS';
 
     /**
@@ -39,7 +39,7 @@ class UpdateAnonymousUserRoleQuery extends ParametrizedMigrationQuery
     {
         $sql = 'UPDATE oro_customer_user_role SET role = :role WHERE role = :old_role';
         $parameters = [
-            'old_role' => self::IS_AUTHENTICATED_ANONYMOUSLY,
+            'old_role' => self::PUBLIC_ACCESS,
             'role' => self::ROLE_FRONTEND_ANONYMOUS
         ];
         $types = ['old_role' => Types::STRING, 'role' => Types::STRING];

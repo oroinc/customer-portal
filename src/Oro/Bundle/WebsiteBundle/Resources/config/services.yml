@@ -152,7 +152,9 @@ services:
     oro_website.asset.router:
         parent: router.default
         public: true
-
+        tags:
+            - { name: monolog.logger, channel: router }
+            - { name: container.service_subscriber, id: routing.loader }
     oro_website.provider.url_without_front_controller:
         class: Oro\Bundle\UIBundle\Provider\UrlWithoutFrontControllerProvider
         decorates: oro_ui.provider.url_without_front_controller

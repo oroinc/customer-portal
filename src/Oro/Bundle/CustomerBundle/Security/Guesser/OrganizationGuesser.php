@@ -6,11 +6,10 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\Guesser\OrganizationGuesserInterface;
-use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenInterface;
+use Oro\Bundle\SecurityBundle\Exception\BadUserOrganizationException;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * The organization guesser decorator that guesses an organization to login into the storefront.
@@ -39,26 +38,28 @@ class OrganizationGuesser implements OrganizationGuesserInterface
     /**
      * {@inheritdoc}
      */
-    public function guess(AbstractUser $user, TokenInterface $token = null): ?Organization
+    public function guess(AbstractUser $user): ?Organization
     {
         if ($user instanceof User || !$this->frontendHelper->isFrontendRequest()) {
-            return $this->innerGuesser->guess($user, $token);
+            return $this->innerGuesser->guess($user);
         }
-
+        $organization = null;
         if ($user instanceof CustomerUser) {
-            if ($token instanceof OrganizationAwareTokenInterface) {
-                $organization = $token->getOrganization();
-                if (null !== $organization) {
-                    return $organization;
-                }
-            }
-
             $website = $this->websiteManager->getCurrentWebsite();
-            if (null !== $website) {
-                return $website->getOrganization();
-            }
+            $organization = $website?->getOrganization();
+        }
+        if (null === $organization) {
+            throw new BadUserOrganizationException(
+                'The user does not have active organization assigned to it.'
+            );
+        }
+        if (!$user->isBelongToOrganization($organization, true)) {
+            throw new BadUserOrganizationException(sprintf(
+                'The user does not have access to organization "%s".',
+                $organization->getName()
+            ));
         }
 
-        return null;
+        return $organization;
     }
 }

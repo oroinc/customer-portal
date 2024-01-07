@@ -68,7 +68,6 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
             - Length:
                 min: 6
                 max: 255
-                allowEmptyString: false
         plainPassword:
             - NotBlank:
                 groups: [create]
@@ -137,7 +136,6 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
             - Length:
                 min: 3
                 max: 255
-                allowEmptyString: false
         customerUsers:
             - Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserWithoutRole: ~
 

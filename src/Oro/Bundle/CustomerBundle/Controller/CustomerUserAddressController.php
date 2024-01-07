@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\AddressBundle\Form\Handler\AddressHandler;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
@@ -89,12 +90,12 @@ class CustomerUserAddressController extends AbstractController
 
         $form = $this->createForm(CustomerUserTypedAddressType::class, $address);
 
-        $manager = $this->getDoctrine()->getManagerForClass(CustomerUserAddress::class);
+        $manager = $this->container->get('doctrine')->getManagerForClass(CustomerUserAddress::class);
 
         $handler = new AddressHandler($manager);
 
         if ($handler->process($address, $form, $request)) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->container->get('doctrine')->getManager()->flush();
             $responseData['entity'] = $address;
             $responseData['saved'] = true;
         }
@@ -117,7 +118,7 @@ class CustomerUserAddressController extends AbstractController
             'entityId' => $entity->getId()
         ]);
 
-        $currentAddresses = $this->get('fragment.handler')->render($addressListUrl);
+        $currentAddresses = $this->container->get('fragment.handler')->render($addressListUrl);
 
         return [
             'wid'                    => $request->get('_wid'),
@@ -149,6 +150,7 @@ class CustomerUserAddressController extends AbstractController
             parent::getSubscribedServices(),
             [
                 'fragment.handler' => FragmentHandler::class,
+                'doctrine' => ManagerRegistry::class,
             ]
         );
     }

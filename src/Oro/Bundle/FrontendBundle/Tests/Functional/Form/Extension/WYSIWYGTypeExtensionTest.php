@@ -15,6 +15,8 @@ class WYSIWYGTypeExtensionTest extends WebTestCase
     {
         $this->initClient();
         $this->updateUserSecurityToken(self::AUTH_USER);
+        // Emulate request processing
+        $this->emulateRequest();
     }
 
     public function testFinishView(): void

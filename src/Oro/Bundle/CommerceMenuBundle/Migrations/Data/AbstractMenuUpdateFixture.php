@@ -252,7 +252,6 @@ abstract class AbstractMenuUpdateFixture extends AbstractFixture implements Cont
         $tokenStorage->setToken(
             new UsernamePasswordOrganizationToken(
                 $user,
-                $user->getUsername(),
                 'main',
                 $user->getOrganization(),
                 $user->getUserRoles()

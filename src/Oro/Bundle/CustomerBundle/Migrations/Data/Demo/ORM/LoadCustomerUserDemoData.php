@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
 use Doctrine\Persistence\ObjectManager;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
@@ -31,7 +32,7 @@ class LoadCustomerUserDemoData extends AbstractLoadCustomerUserDemoData
     {
         //Can not use reference here because this fixture is used in tests
         if (!$this->organization) {
-            $this->organization = $manager->getRepository('OroOrganizationBundle:Organization')->findOneBy(
+            $this->organization = $manager->getRepository(Organization::class)->findOneBy(
                 [],
                 ['id' => 'ASC']
             );
@@ -62,8 +63,8 @@ class LoadCustomerUserDemoData extends AbstractLoadCustomerUserDemoData
     protected function getCustomerUserRole($roleLabel, ObjectManager $manager)
     {
         return $this->container->get('doctrine')
-            ->getManagerForClass('OroCustomerBundle:CustomerUserRole')
-            ->getRepository('OroCustomerBundle:CustomerUserRole')
+            ->getManagerForClass(CustomerUserRole::class)
+            ->getRepository(CustomerUserRole::class)
             ->findOneBy(['label' => $roleLabel, 'organization' => $this->getOrganization($manager)]);
     }
 }

@@ -6,6 +6,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\ScopeBundle\Entity\Scope;
 use Oro\Bundle\TestFrameworkBundle\Behat\Isolation\ReferenceRepositoryInitializerInterface;
 use Oro\Bundle\TestFrameworkBundle\Test\DataFixtures\Collection;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 class ReferenceRepositoryInitializer implements ReferenceRepositoryInitializerInterface
 {
@@ -14,7 +15,7 @@ class ReferenceRepositoryInitializer implements ReferenceRepositoryInitializerIn
      */
     public function init(ManagerRegistry $doctrine, Collection $referenceRepository): void
     {
-        $repository = $doctrine->getManager()->getRepository('OroWebsiteBundle:Website');
+        $repository = $doctrine->getManager()->getRepository(Website::class);
         $referenceRepository->set('website1', $repository->findOneBy(['id' => '1']));
 
         $repository = $doctrine->getRepository(Scope::class);
