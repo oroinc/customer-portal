@@ -5,12 +5,12 @@ namespace Oro\Bundle\FrontendImportExportBundle\Migrations\Data\ORM;
 use Oro\Bundle\EmailBundle\Migrations\Data\ORM\AbstractEmailFixture;
 
 /**
- * Load email template for export result.
+ * Loads email templates.
  */
 class LoadEmailTemplates extends AbstractEmailFixture
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getEmailsDir(): string
     {

@@ -12,23 +12,20 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  */
 class LoadCustomerUserDemoData extends AbstractLoadCustomerUserDemoData
 {
-    /**
-     * @var Organization
-     */
-    private $organization;
+    private ?Organization $organization = null;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [LoadCustomerDemoData::class];
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getOrganization(ObjectManager $manager)
+    protected function getOrganization(ObjectManager $manager): Organization
     {
         //Can not use reference here because this fixture is used in tests
         if (!$this->organization) {
@@ -42,29 +39,27 @@ class LoadCustomerUserDemoData extends AbstractLoadCustomerUserDemoData
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getWebsite(ObjectManager $manager)
+    protected function getWebsite(ObjectManager $manager): Website
     {
         return $manager->getRepository(Website::class)->findOneBy(['default' => true]);
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getCustomerUsersCSV()
+    protected function getCustomerUsersCSV(): string
     {
         return '@OroCustomerBundle/Migrations/Data/Demo/ORM/data/customer-users.csv';
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getCustomerUserRole($roleLabel, ObjectManager $manager)
+    protected function getCustomerUserRole($roleLabel, ObjectManager $manager): CustomerUserRole
     {
-        return $this->container->get('doctrine')
-            ->getManagerForClass(CustomerUserRole::class)
-            ->getRepository(CustomerUserRole::class)
+        return $manager->getRepository(CustomerUserRole::class)
             ->findOneBy(['label' => $roleLabel, 'organization' => $this->getOrganization($manager)]);
     }
 }

@@ -4,32 +4,29 @@ namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\ScopeBundle\Entity\Scope;
 
 /**
- * Loads scopes for customer demo data.
+ * Loads scopes for customers.
  */
-class LoadScopeCustomerDemoData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
+class LoadScopeCustomerDemoData extends AbstractFixture implements DependentFixtureInterface
 {
-    const SCOPE_ACCOUNT_REFERENCE_PREFIX = 'scope_customer_demo_data';
+    public const SCOPE_ACCOUNT_REFERENCE_PREFIX = 'scope_customer_demo_data';
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
-        return [
-            LoadCustomerDemoData::class,
-        ];
+        return [LoadCustomerDemoData::class];
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         /** @var Customer $customer */
         $customers = $manager->getRepository(Customer::class)->findAll();
@@ -39,7 +36,6 @@ class LoadScopeCustomerDemoData extends AbstractFixture implements FixtureInterf
             $this->addReference(static::SCOPE_ACCOUNT_REFERENCE_PREFIX . $customer->getName(), $scope);
             $manager->persist($scope);
         }
-
         $manager->flush();
     }
 }

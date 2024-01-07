@@ -6,7 +6,6 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
-use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * Loads CustomerGroups data
@@ -15,12 +14,9 @@ class LoadCustomerGroupDemoData extends AbstractFixture
 {
     use UserUtilityTrait;
 
-    const ACCOUNT_GROUP_REFERENCE_PREFIX = 'customer_group_demo_data';
+    public const ACCOUNT_GROUP_REFERENCE_PREFIX = 'customer_group_demo_data';
 
-    /**
-     * @var array
-     */
-    protected $customerGroups = [
+    private array $customerGroups = [
         'All Customers',
         'Wholesale Customers',
         'Partners',
@@ -28,17 +24,15 @@ class LoadCustomerGroupDemoData extends AbstractFixture
     ];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        /** @var User $customerOwner */
         $customerOwner = $this->getFirstUser($manager);
 
         foreach ($this->customerGroups as $groupName) {
             $customerGroup = $manager->getRepository(CustomerGroup::class)
                 ->findOneBy(['name' => $groupName]);
-
             if (!$customerGroup) {
                 $customerGroup = new CustomerGroup();
                 $customerGroup
@@ -50,7 +44,6 @@ class LoadCustomerGroupDemoData extends AbstractFixture
 
             $this->addReference(static::ACCOUNT_GROUP_REFERENCE_PREFIX . $customerGroup->getName(), $customerGroup);
         }
-
         $manager->flush();
     }
 }
