@@ -3,22 +3,19 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
+use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
 
 class LoadCustomerUserAddressesACLData extends AbstractAddressesFixture implements DependentFixtureInterface
 {
-    const ADDRESS_ACC_1_USER_LOCAL = 'address_customer1_user_local';
-    const ADDRESS_ACC_1_USER_DEEP = 'address_customer1_user_deep';
-    const ADDRESS_ACC_1_USER_BASIC = 'address_customer1_user_basic';
-    const ADDRESS_ACC_1_1_USER_LOCAL = 'address_customer1.1_user_local';
-    const ADDRESS_ACC_2_USER_LOCAL = 'address_customer2_user_local';
+    public const ADDRESS_ACC_1_USER_LOCAL = 'address_customer1_user_local';
+    public const ADDRESS_ACC_1_USER_DEEP = 'address_customer1_user_deep';
+    public const ADDRESS_ACC_1_USER_BASIC = 'address_customer1_user_basic';
+    public const ADDRESS_ACC_1_1_USER_LOCAL = 'address_customer1.1_user_local';
+    public const ADDRESS_ACC_2_USER_LOCAL = 'address_customer2_user_local';
 
-    /**
-     * @var array
-     */
-    protected $addresses = [
+    private array $addresses = [
         [
             'customer_user' => LoadCustomerUserAddressACLData::USER_ACCOUNT_1_ROLE_LOCAL,
             'label' => self::ADDRESS_ACC_1_USER_LOCAL,
@@ -78,28 +75,24 @@ class LoadCustomerUserAddressesACLData extends AbstractAddressesFixture implemen
     ];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
-        return [
-            LoadCustomerUserAddressACLData::class
-        ];
+        return [LoadCustomerUserAddressACLData::class, LoadOrganization::class];
     }
 
     /**
-     * @param EntityManager $manager
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         foreach ($this->addresses as $addressData) {
             $address = new CustomerUserAddress();
-            $address->setSystemOrganization($this->getOrganization($manager));
+            $address->setSystemOrganization($this->getReference(LoadOrganization::ORGANIZATION));
             $address->setFrontendOwner($this->getReference($addressData['customer_user']));
             $this->addAddress($manager, $addressData, $address);
         }
-
         $manager->flush();
     }
 }
