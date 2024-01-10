@@ -212,3 +212,15 @@ oro_behat_extension:
       selector: '.sticky-panel.sticky-panel--top.has-content .catalog-switcher'
     Sidebar Main Menu Popup:
       selector: '.sidebar-main-menu'
+    TopRightBar:
+      selector: '.topbar__right'
+    MiddleLeftSide:
+      selector: '.middlebar__left'
+    MiddleBarMenus:
+      selector: '.middlebar__menus'
+    CustomerMenu:
+      selector: '.customer-menu'
+    PageStandaloneMenuContainer:
+      selector: '.page-header__inner--standalone-menu'
+    StandaloneMenu:
+      selector: '.main-menu-standalone-mode'

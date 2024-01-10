@@ -32,7 +32,7 @@ class Configuration implements ConfigurationInterface
                 'web_api' => ['type' => 'boolean', 'value' => false],
                 'promotional_content' => ['type' => 'string', 'value' => ''],
                 'top_navigation_menu' => ['type' => 'string', 'value' => false],
-                'language_and_currency_switchers' => ['type' => 'string', 'value' => 'hamburger'],
+                'language_and_currency_switchers' => ['type' => 'string', 'value' => 'always_in_hamburger_menu'],
                 'main_navigation_menu' => ['type' => 'string', 'value' => 'commerce_main_menu'],
                 'standalone_main_menu' => ['type' => 'boolean', 'value' => false],
                 'quick_access_button' => ['type' => 'string', 'value' => false],
