@@ -15,6 +15,7 @@ Feature: Removing last role from the customer user on frontend
     And I click "Roles"
     When I click Edit New Buyer Role in grid
     And I uncheck AmandaRCole@example.org record in grid
+    And I scroll to top
     And click "Save"
     Then I should see "You cannot remove last role from Amanda Cole"
 
@@ -30,6 +31,8 @@ Feature: Removing last role from the customer user on frontend
     And I click "Roles"
     And I click Edit New Buyer Role in grid
     And I uncheck AmandaRCole@example.org record in grid
+    # Scroll to top for visible button, because sticky header overlap this button
+    And I scroll to top
     And I click "Save"
     Then I should see "Customer User Role has been saved"
     And click on "Flash Message Close Button"

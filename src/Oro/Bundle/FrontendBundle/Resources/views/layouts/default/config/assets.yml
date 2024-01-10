@@ -239,7 +239,6 @@ print_styles:
         - 'bundles/orofrontend/default/scss/components/print/scroll-top.scss'
         - 'bundles/orofrontend/default/scss/components/print/page-main.scss'
         - 'bundles/orofrontend/default/scss/components/print/box-toolbar.scss'
-        - 'bundles/orofrontend/default/scss/components/print/sticky-panel.scss'
     output: 'css/styles-print.css'
     auto_rtl_inputs:
         - 'bundles/oro*/**'

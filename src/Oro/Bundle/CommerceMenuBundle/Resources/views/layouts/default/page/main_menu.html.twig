@@ -2,14 +2,6 @@
     {% set attr = layout_attr_defaults(attr, {
         'data-page-component-module': 'oroui/js/app/components/view-component',
         'data-page-component-options': {view: 'orocommercemenu/js/app/views/header-row-view'},
-        'data-sticky-target': 'top-sticky-panel',
-        '~data-sticky': {
-            isSticky: true,
-            autoWidth: true,
-            toggleClass: 'header-row--fixed slide-in-down',
-            placeholderId: 'sticky-header-row',
-            viewport: 'tablet'
-        },
         '~class': 'header-row' ~ (blocks.header_row.children|length > 2 ? ' header-row--from-left')
     }) %}
 

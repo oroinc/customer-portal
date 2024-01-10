@@ -318,7 +318,7 @@ layout:
                             - { anchor: 'config-dom_relocation', label: oro_stylebook.groups.jscomponent.tabs.howtouse.config, active: true, widget: 'style_book_grid_element_dom_relocation_config'}
                             - { anchor: 'dom_relocation-html', label: oro_stylebook.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_dom_relocation_html'}
 
-                # Sticky Panel View
+                # Sticky Element
                 group_element_sticky_panel_view:
                     blockType: group_element
                     options:

@@ -1,12 +1,28 @@
 /* @theme: default; */
 
 .page-header {
-    position: relative;
     background-color: $page-header-background-color;
     display: flex;
     flex-direction: column;
 
     gap: $page-header-gap;
+
+    z-index: $sticky-panel-z-index + 2;
+
+    --group-offset-y: var(--sticky-page-header-group-offset-y);
+    --sticky-position-top-offset: var(--sticky-page-header-offset-top, 0);
+
+    transition: $sticky-panel-transition;
+
+    &.in-sticky {
+        &.scrolled-up {
+            transform: translateY(0);
+        }
+
+        &.scroll-down {
+            transform: translateY(calc(var(--group-offset-y, 0) * -1));
+        }
+    }
 
     &--standalone-main-menu {
         gap: $page-header-gap-lg;

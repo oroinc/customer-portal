@@ -231,10 +231,13 @@ oro_stylebook:
             list_slider:
                 title: 'List Slider Component'
             sticky_panel_view:
-                title: 'Sticky Panel View'
+                title: 'Sticky Element'
                 button:
                     sticky_on: 'Off sticky'
                     sticky_off: 'On sticky'
+                set_bottom:
+                    on: 'Set on top'
+                    off: 'Set on bottom'
             mediator:
                 title: 'Mediator'
             dom_relocation:

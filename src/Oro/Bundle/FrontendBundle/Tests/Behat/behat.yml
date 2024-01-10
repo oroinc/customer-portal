@@ -118,19 +118,19 @@ oro_behat_extension:
     DetachedSelect2Result:
       selector: '#select2-drop-mask + .select2-drop .select2-results'
     Active Sticky Panel:
-      selector: ".sticky-panel.sticky-panel--top.has-content"
+      selector: ".sticky.sticky--top.in-sticky"
     Bottom Active Sticky Panel:
-      selector: ".sticky-panel.sticky-panel--bottom.has-content"
+      selector: ".sticky.sticky--bottom.in-sticky"
     Main Menu Into Header:
       selector: ".page-header .header-row"
     Main Menu Into Sticky Panel:
-      selector: ".sticky-panel.sticky-panel--top.has-content .header-row"
+      selector: ".sticky.sticky--top .header-row"
     Product Filter Into Sticky Panel:
-      selector: ".sticky-panel.sticky-panel--top.has-content .filter-box"
+      selector: ".sticky.sticky--top.in-sticky .filter-box"
     Product Filter Into Page Content:
       selector: ".page-content .filter-box"
     Grid Filters Button Into Sticky Panel:
-      selector: ".sticky-panel.sticky-panel--top.has-content .action[title=\"Filter Toggle\"]"
+      selector: ".sticky.sticky--top.in-sticky .action[title=\"Filter Toggle\"]"
     Header:
       selector: ".page-header"
     Copyright:
@@ -201,15 +201,15 @@ oro_behat_extension:
     Catalog Switcher Toggle:
       selector: '.catalog-switcher > .dropdown-toggle'
     Sticky Filters Dropdown:
-      selector: '[data-sticky-name="top-sticky-panel"] a.action[title="Filter Toggle"]'
+      selector: '.sticky.sticky-top a.action[title="Filter Toggle"]'
     Mass Actions Into Sticky Panel:
-      selector: '.sticky-panel.sticky-panel--top.has-content [data-mass-actions-container]'
+      selector: '.sticky.sticky--top.in-sticky [data-mass-actions-container]'
     Pegination Into Sticky Panel:
-      selector: '.sticky-panel.sticky-panel--top.has-content [data-grid-pagesize]'
+      selector: '.sticky.sticky--top.in-sticky [data-grid-pagesize]'
     Sorting Into Sticky Panel:
-      selector: '.sticky-panel.sticky-panel--top.has-content [data-grid-sorting]'
+      selector: '.sticky.sticky--top.in-sticky [data-grid-sorting]'
     Catalog Switcher Into Sticky Panel:
-      selector: '.sticky-panel.sticky-panel--top.has-content .catalog-switcher'
+      selector: '.sticky.sticky--top.in-sticky .catalog-switcher'
     Sidebar Main Menu Popup:
       selector: '.sidebar-main-menu'
     TopRightBar:

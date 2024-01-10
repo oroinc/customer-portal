@@ -2,3 +2,4 @@
 
 $datagrid-massaction-sticky-mode-offset: spacing('sm') !default;
 $datagrid-massaction-sticky-mode-background-color: get-color('additional-old', 'base') !default;
+$datagrid-massaction-sticky-mode-z-index: z('fixed') !default;

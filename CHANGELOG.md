@@ -2,6 +2,20 @@ The upgrade instructions are available at [Oro documentation website](https://do
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
+### Added
+
+#### FrontendBundle
+
+* Added `orofrontend/default/js/app/views/sticky-element-view` and `orofrontend/default/js/app/modules/sticky-manager-module` to provide new sticky element functionality based on CSS `position: sticky` property.
+
+### Removed
+
+#### FrontendBundle
+
+* Removed `orofrontend/default/js/app/views/sticky-panel-view`.
+* Removed component shortcut `data-page-component-sticky`.
+* Removed `__sticky_panel__sticky_panel_widget`, `__sticky_panel__sticky_panel_content_widget` blocks in layout
+
 ### Changed
 
 #### FrontendBundle
