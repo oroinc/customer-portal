@@ -10,8 +10,6 @@ styles:
         - 'bundles/orocustomer/default/scss/variables/customer-profile-config.scss'
         - 'bundles/orocustomer/default/scss/variables/info-list-status-config.scss'
         - 'bundles/orocustomer/default/scss/variables/address-form-config.scss'
-        - 'bundles/orocustomer/default/scss/variables/primary-menu-container-config.scss'
-        - 'bundles/orocustomer/default/scss/variables/primary-menu-title-config.scss'
         - 'bundles/orocustomer/default/scss/variables/map-popover-config.scss'
         - 'bundles/orocustomer/default/scss/variables/registration-instructions-config.scss'
         - 'bundles/orocustomer/default/scss/variables/topbar-customer-menu-config.scss'
@@ -41,8 +39,6 @@ styles:
         - 'bundles/orocustomer/default/scss/components/permissions-grid.scss'
         - 'bundles/orocustomer/default/scss/components/action-permissions.scss'
         - 'bundles/orocustomer/default/scss/components/style.scss'
-        - 'bundles/orocustomer/default/scss/components/primary-menu-container.scss'
-        - 'bundles/orocustomer/default/scss/components/primary-menu-title.scss'
         - 'bundles/orocustomer/default/scss/components/map-popover.scss'
 
 print_styles:

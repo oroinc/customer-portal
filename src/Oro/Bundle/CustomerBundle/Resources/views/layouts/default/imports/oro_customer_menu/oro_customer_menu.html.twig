@@ -1,10 +1,9 @@
 {% block __oro_customer_menu__container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' primary-menu-container primary-menu-container__hidden-on-tablet'
+        '~class': ' primary-menu-container hide-on-tablet'
     }) %}
     <div {{ block('block_attributes') }}>
-        <h2 class="primary-menu-title">{{ 'oro.customer.frontend.menu.customer_user_profile.label'|trans }}</h2>
-        <div class="primary-menu-container__hidden-on-tablet" data-customer-menu-container>
+        <div data-customer-menu-container>
             {{ block_widget(block) }}
         </div>
     </div>
@@ -13,7 +12,7 @@
 {% block __oro_customer_menu__list_widget %}
     {% import '@OroNavigation/Menu/menu.html.twig' as oro_menu %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' primary-menu primary-menu--vertical',
+        '~class': ' primary-menu ',
         'data-page-component-module': 'oroui/js/app/components/view-component',
         'data-page-component-options': {
             view: 'oronavigation/js/app/views/navigation-menu-view'
