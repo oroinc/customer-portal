@@ -1,4 +1,4 @@
-<% let orofrontend = _.macros('orofrontend') %>
+<% let oroui = _.macros('oroui') %>
 <div class="datagrid-manager settings">
     <div class="datagrid-manager__header">
         <h5 class="datagrid-manager__title"><%- _.__('oro_frontend.settings.title') %></h5>
@@ -30,6 +30,6 @@
             data-role="close"
             title="<%- _.__('Close') %>"
             aria-label="<%- _.__('oro_frontend.settings.close.aria_label') %>">
-        <%= orofrontend.renderIcon({name: 'x', extraClass: 'theme-icon--medium'}) %>
+        <%= oroui.renderIcon({name: 'x', extraClass: 'theme-icon--medium'}) %>
     </button>
 </div>

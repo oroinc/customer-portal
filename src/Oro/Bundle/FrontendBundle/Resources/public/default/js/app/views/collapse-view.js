@@ -96,7 +96,7 @@ const CollapseView = BaseView.extend({
         let content = [];
 
         if (icon) {
-            const iconEl = _.macros('orofrontend::renderIcon')({
+            const iconEl = _.macros('oroui::renderIcon')({
                 name: icon
             });
 

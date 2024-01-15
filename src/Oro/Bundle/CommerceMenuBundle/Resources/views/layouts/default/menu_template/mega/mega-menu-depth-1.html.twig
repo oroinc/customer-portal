@@ -1,6 +1,6 @@
 {# First Level #}
 {% block _mega_menu_depth_1_close_widget %}
-    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
         'type': 'button',
         '~class': " close-dialog btn btn--plain btn--text" ~ (class_prefix ? " #{class_prefix}__close"),
