@@ -375,3 +375,38 @@ services:
         parent: oro_platform.cache.provider.page_request_provider.abstract
         tags:
             - { name: warmup_page_request_provider }
+
+    oro_frontend.configuration.theme_aware_provider.raw:
+        class: Oro\Bundle\FrontendBundle\Provider\ThemeAwareRawConfigurationProvider
+        public: false
+        decorates: 'oro_datagrid.configuration.provider.raw'
+        arguments:
+            - '%kernel.cache_dir%/oro/datagrids'
+            - '%kernel.debug%'
+            - '@oro_frontend.request.frontend_helper'
+            - '@.inner'
+            - '@oro_datagrid.configuration.cache.utils'
+            - '@oro_layout.theme_manager'
+            - '@oro_layout.current_theme_provider'
+            - !abstract '$folderPattern defined in Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\ConfigurationProviderPass'
+
+    oro_frontend.consumption.theme_transfer_extension:
+        class: Oro\Bundle\FrontendBundle\Consumption\Extension\ThemeTransferConsumptionExtension
+        arguments:
+            - '@oro_layout.current_theme_provider'
+        tags:
+            - { name: oro_message_queue.consumption.extension }
+
+    oro_frontend.job.theme_transfer_middleware:
+        class: Oro\Bundle\FrontendBundle\Job\ThemeTransferJobMiddleware
+        arguments:
+            - '@oro_layout.current_theme_provider'
+        tags:
+            - { name: oro_message_queue.middleware }
+
+    oro_frontend.theme_manager.request_listener:
+        class: Oro\Bundle\FrontendBundle\EventListener\ThemeManagerRequestSetterListener
+        arguments:
+            - '@oro_layout.current_theme_provider'
+        tags:
+            - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }

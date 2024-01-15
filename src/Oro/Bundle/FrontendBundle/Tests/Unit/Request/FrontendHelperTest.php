@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Request;
 
 use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -16,10 +17,7 @@ class FrontendHelperTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $this->applicationState = $this->createMock(ApplicationState::class);
-        $this->applicationState->expects(self::any())
-            ->method('isInstalled')
-            ->willReturn(true);
+        $this->applicationState = $this->createApplicationState(true);
     }
 
     private function getRequestStack(Request $currentRequest = null): RequestStack
@@ -113,5 +111,27 @@ class FrontendHelperTest extends \PHPUnit\Framework\TestCase
 
         $helper->resetRequestEmulation();
         $this->assertTrue($helper->isFrontendRequest());
+    }
+
+    public function testEmulationHasPriorityOverInstallCheck(): void
+    {
+        $request = Request::create('/frontend');
+        $appState = $this->createApplicationState(false);
+
+        $helper = new FrontendHelper(self::BACKEND_PREFIX, $this->getRequestStack($request), $appState);
+        $helper->emulateFrontendRequest();
+        $this->assertTrue($helper->isFrontendRequest());
+        $helper->emulateBackendRequest();
+        $this->assertFalse($helper->isFrontendRequest());
+    }
+
+    private function createApplicationState(bool $isInstalled): ApplicationState|MockObject
+    {
+        $applicationState = $this->createMock(ApplicationState::class);
+        $applicationState
+            ->method('isInstalled')
+            ->willReturn($isInstalled);
+
+        return $applicationState;
     }
 }

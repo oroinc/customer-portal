@@ -284,7 +284,7 @@ class CustomerAddressControllerTest extends WebTestCase
         $this->loginUser($user);
         $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_address_index'));
         $this->assertSame($indexResponseStatus, $this->client->getResponse()->getStatusCode());
-        $response = $this->client->requestGrid([
+        $response = $this->client->requestFrontendGrid([
             'gridName' => 'frontend-customer-customer-address-grid',
         ]);
 

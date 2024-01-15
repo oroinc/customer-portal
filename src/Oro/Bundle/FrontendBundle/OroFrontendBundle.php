@@ -5,6 +5,7 @@ namespace Oro\Bundle\FrontendBundle;
 use Oro\Bundle\ApiBundle\DependencyInjection\Compiler\ApiDocCompilerPass;
 use Oro\Bundle\ApiBundle\DependencyInjection\Compiler\ApiTaggedServiceTrait;
 use Oro\Bundle\ApiBundle\DependencyInjection\Compiler\ProcessorBagCompilerPass;
+use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\ConfigurationProviderPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendApiDocPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendApiPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendCurrentApplicationProviderPass;
@@ -63,5 +64,6 @@ class OroFrontendBundle extends Bundle
             $container->addCompilerPass(new FrontendApiDocPass());
             $container->moveCompilerPassBefore(ApiDocCompilerPass::class, FrontendApiDocPass::class);
         }
+        $container->addCompilerPass(new ConfigurationProviderPass());
     }
 }
