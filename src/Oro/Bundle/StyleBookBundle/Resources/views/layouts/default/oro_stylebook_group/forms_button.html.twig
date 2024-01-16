@@ -47,7 +47,7 @@
 {% endblock %}
 
 {% block _style_book_button_element_icon_text_widget %}
-    {%- import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon -%}
+    {%- import '@OroUI/layouts/renderIcon.html.twig' as renderIcon -%}
     <button type="button" class="btn">
         {{- renderIcon.icon({name: 'user'}) -}}
         <span>Default Button</span>
@@ -71,7 +71,7 @@
 {% endblock %}
 
 {% block _style_book_button_element_btn_text_widget %}
-    {%- import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon -%}
+    {%- import '@OroUI/layouts/renderIcon.html.twig' as renderIcon -%}
     <button type="button" class="btn btn--text">
         {{- renderIcon.icon({name: 'settings'}) -}}
     </button>
@@ -92,7 +92,7 @@
     </button>
 {% endblock %}
 {% block _style_book_button_element_icon_widget %}
-    {%- import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon -%}
+    {%- import '@OroUI/layouts/renderIcon.html.twig' as renderIcon -%}
     <button type="button" class="btn btn--icon">
         {{- renderIcon.icon({name: 'settings'}) -}}
     </button>
@@ -114,7 +114,7 @@
 {% endblock %}
 
 {% block _style_book_button_element_inline_group_widget %}
-    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
 
     <div class="btn-group">
         <button type="button" class="btn" aria-label="Expand or Collapse Grid Filters">
@@ -130,7 +130,7 @@
 {% endblock %}
 
 {% block _style_book_button_element_group_widget %}
-    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set buttonLarge = 'button-'|uniqid %}
     {% set button = 'button-'|uniqid %}
     {% set buttonSmall = 'button-'|uniqid %}

@@ -497,7 +497,7 @@
 
 {# Simple Collapse Trigger #}
 {% block _style_book_grid_element_collapse_widget_simple_template_widget %}
-    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set collapseId = 'collapse-'|uniqid %}
     <button class="accordion-group__trigger collapsed"
             data-toggle="collapse"
@@ -549,7 +549,7 @@
 
 {# Simple Collapse Hide Trigger Widget #}
 {% block _style_book_grid_element_collapse_widget_simple_hide_trigger_template_widget %}
-    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set collapseId = 'collapse-'|uniqid %}
     <button class="btn btn--outlined"
             data-toggle="collapse"
@@ -596,7 +596,7 @@
 
 {# Overflow Collapse #}
 {% block _style_book_grid_element_collapse_widget_overflow_template_widget %}
-    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set collapseId = 'collapse-'|uniqid %}
     <div id="{{ collapseId }}"
          class="collapse collapse-overflow no-transition"
@@ -744,7 +744,7 @@
 
 {# Accordion Widget #}
 {% block _style_book_grid_element_accordion_widget_template_widget %}
-    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set parentId = 'parent-'|uniqid %}
     <div id="{{ parentId }}" class="accordion-group">
         <div class="accordion-group__item">

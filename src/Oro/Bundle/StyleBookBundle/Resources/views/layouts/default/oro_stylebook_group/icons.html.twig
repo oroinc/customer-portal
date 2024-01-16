@@ -1,5 +1,5 @@
 {% block _style_book_icons_grid_widget %}
-    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     <div class="tiles" style="--tiles-column-count: 7; --tiles-column-gap: 12px; --tiles-row-gap: 12px;"
          data-page-component-view="orostylebook/js/style-book/style-book-icons-grid-view"
          data-page-component-options="{{ {
@@ -14,7 +14,7 @@
             <h3 class="style-book-group-element__title">{{ "oro_stylebook.groups.icons.twig"|trans }}</h3>
             <pre>
                 <code class="language-markup">
-                    {{ "{% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}" }}
+                    {{ "{% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}" }}
                     {{ "{{ renderIcon.icon({name: 'add-note'}) }}" }}
                 </code>
             </pre>
@@ -23,8 +23,8 @@
             <h3 class="style-book-group-element__title">{{ "oro_stylebook.groups.icons.html"|trans }}</h3>
             <pre>
                 <code class="language-markup">
-                    <% let orofrontend = _.macros('orofrontend') %>
-                    <%= orofrontend.renderIcon({
+                    <% let oroui = _.macros('oroui') %>
+                    <%= oroui.renderIcon({
                         name: 'add-note'
                     }) %>
                 </code>
@@ -36,7 +36,7 @@
                 <code class="language-js">
                     import _ from 'underscore';
 
-                     const icon = _.macros('orofrontend::renderIcon')({
+                     const icon = _.macros('oroui::renderIcon')({
                         name: 'add-note'
                     });
                 </code>

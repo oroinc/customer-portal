@@ -60,12 +60,33 @@
         }
 
         &__title {
+            text-transform: $information-nav-title-text-transform;
+            color: $information-nav-title-color;
             font-size: $information-nav-title-font-size-tablet-small;
+            cursor: pointer;
             margin: $information-nav-title-tablet-small-margin;
+
+            padding-block: $information-nav-title-tablet-small-padding-block;
+
+            display: flex;
+            gap: $information-nav-title-tablet-small-gap;
+            align-items: center;
+
+            &:before {
+                content: '';
+                width: $information-nav-title-tablet-small-icon-placeholder-size;
+                height: $information-nav-title-tablet-small-icon-placeholder-size;
+                display: block;
+            }
         }
 
         &__list {
+            display: none;
             padding: $information-nav-list-offset-tablet-small;
+
+            .information-nav__collapse & {
+                display: block;
+            }
         }
 
         &__item {
