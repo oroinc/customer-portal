@@ -12,7 +12,6 @@ app-modules:
     - orofrontend/default/js/app/modules/modals-module
     - orofrontend/default/js/app/modules/object-fit-polyfill-module
     - orofrontend/default/js/app/modules/zoom-disable
-    - orofrontend/default/js/app/modules/template-macros-module
     - orofrontend/default/js/app/modules/sticky-manager-module
     - orofrontend/js/app/modules/component-shortcuts-module
     - orofrontend/js/app/modules/inline-editor-types-map-module

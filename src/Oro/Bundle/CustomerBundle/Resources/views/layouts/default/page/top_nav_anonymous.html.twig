@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block _top_sign_in_link_widget %}
-    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' navigation-menu__inner navigation-menu__link text-nowrap',
         'href': path(route_name)

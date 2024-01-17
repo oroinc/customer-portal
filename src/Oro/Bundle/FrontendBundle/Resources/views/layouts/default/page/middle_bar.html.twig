@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block _middle_bar_search_widget %}
-    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': " search-widget search-widget--" ~ searchType
     }) %}

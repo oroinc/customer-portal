@@ -35,7 +35,7 @@
 {% endblock %}
 
 {% block _top_nav_customer_dropdown_trigger_widget %}
-    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': " btn btn--outlined-inverse btn--text customer-menu__trigger",
         'type': 'button',
@@ -63,7 +63,7 @@
 {% endblock %}
 
 {% block _top_nav_customer_dropdown_sign_out_link_widget %}
-    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' dropdown-item dropdown-item--destructive sign-out-link',
         'href': path(route_name)

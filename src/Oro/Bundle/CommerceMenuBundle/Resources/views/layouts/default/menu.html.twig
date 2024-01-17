@@ -158,7 +158,7 @@
 {% endblock %}
 
 {% block label %}
-    {% import '@OroFrontend/layouts/renderIcon.html.twig' as renderIcon %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {%- set label = item.extras.custom is defined and item.extras.custom == true ? item.label : item.label|trans -%}
 
     {% if item.extras.icon is defined %}
