@@ -2,15 +2,21 @@
 
 $oro-pagination-pager-display: flex !default;
 $oro-pagination-pager-align-items: center !default;
-$oro-pagination-pager-gap: spacing('sm') !default;
+$oro-pagination-pager-gap: spacing('base') !default;
 
-$oro-pagination-total-font-size: $base-font-size - 1px !default;
+$oro-pagination-total-font-size: $base-font-size !default;
 
-$oro-pagination-input-width: 35px !default;
+$oro-pagination-input-width: 56px !default;
 $oro-pagination-input-text-align: center !default;
 $oro-pagination-input-color: get-color('additional-old', 'dark') !default;
 
-$oro-pagination-btn-icon-offset: 0 (spacing('xs') - 2px) !default;
+$oro-pagination-arrow-color: get-color('text', 'primary') !default;
+$oro-pagination-arrow-background: get-color('neutral', 'grey1') !default;
+$oro-pagination-arrow-color-hover: get-color('primary', 'main') !default;
+$oro-pagination-arrow-background-hover: get-color('primary', 'light') !default;
+
+$oro-pagination-arrow-color-disabled: get-color('text', 'disabled') !default;
+$oro-pagination-arrow-transition: color .15s, background-color .15s !default;
 
 // tablet-small
 $oro-pagination-total-display-tablet-small: none !default;

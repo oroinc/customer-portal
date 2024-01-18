@@ -18,20 +18,30 @@
         color: $oro-pagination-input-color;
     }
 
-    &__prev,
-    &__next {
-        i {
-            margin: $oro-pagination-btn-icon-offset;
+    &-arrow {
+        padding: spacing('md');
+        border-radius: 100%;
+        background-color: $oro-pagination-arrow-background;
+        color: $oro-pagination-arrow-color;
+        transition: $oro-pagination-arrow-transition;
+
+        &:hover {
+            background-color: $oro-pagination-arrow-background-hover;
+            color: $oro-pagination-arrow-color-hover;
         }
+
+        &.disabled {
+            color: $oro-pagination-arrow-color-disabled;
+        }
+    }
+
+    &__icon {
+        display: block;
     }
 }
 
 @include breakpoint('tablet-small') {
     .oro-pagination {
-        &__pager {
-            gap: $oro-pagination-pager-tablet-small-gap;
-        }
-
         &__total {
             display: $oro-pagination-total-display-tablet-small;
         }
@@ -42,14 +52,6 @@
     .oro-pagination {
         &__label {
             display: $oro-pagination-label-display-mobile-landscape;
-        }
-    }
-}
-
-@include breakpoint('mobile') {
-    .oro-pagination {
-        &__pager {
-            gap: $oro-pagination-pager-mobile-gap;
         }
     }
 }
