@@ -26,6 +26,20 @@
 
     &--standalone-main-menu {
         gap: $page-header-gap-lg;
+
+        // When header has standalone menu and in same time don't have other sticky siblings
+        // Made roll up viewport header
+        &:not(:has(~ .page-main .sticky)) {
+            --sticky-position-top-offset: calc(var(--sticky-page-header-element-height, 0) * -1);
+
+            transition: top 250ms ease-out;
+
+            &.in-sticky {
+                &.scroll-up {
+                    top: 0;
+                }
+            }
+        }
     }
 
     &-content {
@@ -37,14 +51,23 @@
     &__inner {
         padding-left: $page-header-inner-inner-offset-x;
         padding-right: $page-header-inner-inner-offset-x;
+
+        &--hide-on-empty {
+            &:not(:has(.page-header__element)) {
+                display: none;
+            }
+        }
     }
 }
 
 .topbar {
+    display: flex;
+    justify-content: space-between;
+
     &__right,
     &__left {
         display: flex;
-        gap: spacing('base') spacing('xl');
+        gap: $page-header-topbar-gap;
     }
 
     &__left {
@@ -91,8 +114,28 @@
     .page-header {
         --header-inner-gaps: 24px;
 
-        padding: $page-header-inner-offset-tablet;
-        gap: $page-header-gap-tablet;
+        // If top toolbar doesn't contains any elements below, should add top inner offset
+        &:not(:has(.page-header__element, .page-header__inner:only-child)) {
+            padding-top: $page-header-inner-offset-top-tablet;
+        }
+
+        &__inner {
+            padding-left: $page-header-inner-offset-inner-tablet;
+            padding-right: $page-header-inner-offset-inner-tablet;
+
+            &:only-child {
+                padding-top: spacing('base');
+            }
+
+            &:last-of-type,
+            &:has(+ .hide-on-tablet:last-of-type) {
+                padding-bottom: spacing('base');
+            }
+        }
+
+        &--standalone-main-menu {
+            gap: $page-header-gap-lg-tablet;
+        }
     }
 }
 
@@ -104,13 +147,17 @@
 
 @include breakpoint('mobile') {
     .page-header {
-        &__inner {
-            padding-left: $page-header-inner-inner-offset-mobile-big;
-            padding-right: $page-header-inner-inner-offset-mobile-big;
-        }
-
         gap: $page-header-gap-mobile;
         padding: $page-header-inner-offset-mobile-big;
+
+        &__inner {
+            padding: $page-header-inner-inner-offset-mobile-big;
+
+            &:last-of-type,
+            &:has(+ .hide-on-tablet:last-of-type) {
+                padding: $page-header-inner-inner-offset-mobile-big;
+            }
+        }
     }
 }
 

@@ -7,9 +7,12 @@ $page-header-background-color: get-color('neutral', 'dark') !default;
 $page-header-gap: spacing('md') !default;
 $page-header-gap-lg: spacing('lg') !default;
 
-$page-header-inner-offset-tablet: spacing('base') 0 !default;
-$page-header-gap-tablet: spacing('base') !default;
-$page-header-gap-mobile: spacing('md') !default;
+$page-header-inner-offset-top-tablet: spacing('base') !default;
+$page-header-inner-offset-inner-tablet: spacing('base') !default;
+$page-header-gap-mobile: 0 !default;
+$page-header-gap-lg-tablet: spacing('base') !default;
 
-$page-header-inner-offset-mobile-big: spacing('base') 0 !default;
-$page-header-inner-inner-offset-mobile-big: spacing('base') !default;
+$page-header-inner-offset-mobile-big: spacing('base') !default;
+$page-header-inner-inner-offset-mobile-big: 0 !default;
+
+$page-header-topbar-gap: spacing('base') spacing('xl') !default;

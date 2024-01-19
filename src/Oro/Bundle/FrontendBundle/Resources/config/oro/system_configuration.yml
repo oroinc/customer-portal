@@ -79,7 +79,7 @@ system_configuration:
                 tooltip: oro_frontend.system_configuration.fields.promotional_content.tooltip
                 required: false
                 choices:
-                    promotional_content_block: 'promotional_content_block'
+                    'promotional-content': 'promotional-content'
 
         oro_frontend.top_navigation_menu:
             data_type: string

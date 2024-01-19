@@ -9,7 +9,9 @@ layout:
                     blockType: container
                     siblingId: ~
                     prepend: true
-                top_nav_topbar_container:
+                top_nav_topbar_container_left:
+                    blockType: container
+                top_nav_topbar_container_right:
                     blockType: container
                 top_nav:
                     blockType: menu
@@ -20,5 +22,6 @@ layout:
             tree:
                 page_header:
                     top_nav_container:
-                        top_nav_topbar_container:
+                        top_nav_topbar_container_left: ~
+                        top_nav_topbar_container_right:
                             top_nav: ~

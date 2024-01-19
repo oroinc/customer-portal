@@ -1,7 +1,18 @@
 {% block _top_nav_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " page-area-container page-header__inner page-header__inner--no-vertical-offset hide-on-tablet"
+        '~class': " topbar page-area-container page-header__inner page-header__inner--no-vertical-offset"
     }) %}
+
+    {% if oro_config_value('oro_frontend.promotional_content') %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': " hide-on-mobile"
+        }) %}
+    {% else %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': " hide-on-tablet"
+        }) %}
+    {% endif %}
+
     {% set content = block_widget(block) %}
     {% if content|trim|length > 0 %}
     <div {{ block('block_attributes') }}>
@@ -40,7 +51,20 @@
     {{ parent_block_widget(block) }}
 {% endblock %}
 
-{% block _top_nav_topbar_container_widget %}
+
+{% block _top_nav_topbar_container_left_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " topbar__left"
+    }) %}
+    {% set content = block_widget(block) %}
+    {% if content|trim|length > 0 %}
+        <div {{ block('block_attributes') }}>
+            {{ content|raw }}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block _top_nav_topbar_container_right_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': " topbar__right"
     }) %}
@@ -51,3 +75,4 @@
     </div>
     {% endif %}
 {% endblock %}
+
