@@ -84,6 +84,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/controls-list-config.scss'
         - 'bundles/orofrontend/default/scss/variables/uploader-config.scss'
         - 'bundles/orofrontend/default/scss/variables/switcher-info-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/toggler-config.scss'
 
         - 'bundles/orofrontend/default/scss/variables/popup-gallery-widget-config.scss'
         - 'bundles/orofrontend/default/scss/variables/notes-config.scss'
@@ -210,6 +211,7 @@ styles:
         - 'bundles/orofrontend/default/scss/components/sidebar-filter-container.scss'
         - 'bundles/orofrontend/default/scss/components/dropdown-search.scss'
         - 'bundles/orofrontend/default/scss/components/scroll-shadow.scss'
+        - 'bundles/orofrontend/default/scss/components/toggler.scss'
     output: 'css/styles.css'
     auto_rtl_inputs:
         - 'bundles/oro*/**'
