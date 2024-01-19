@@ -11,6 +11,13 @@ class MenuUpdateStub extends MenuUpdate
      */
     protected $image;
 
+    public function setId($id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     /**
      * @return mixed
      */
