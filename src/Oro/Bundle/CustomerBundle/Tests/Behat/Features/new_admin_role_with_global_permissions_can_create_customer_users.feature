@@ -12,7 +12,7 @@ Feature: New admin role with global permissions can create customer users
     And fill form with:
       | Role | Create Customer User Role |
     And select following permissions:
-      | Customer User | View:Global | Create:Global | Edit:Global | Delete:Global | Assign:Global | Share:Global |
+      | Customer User | View:Global | Create:Global | Edit:Global | Delete:Global | Assign:Global |
     And select following permissions:
       | Website            | View:Global |
       | Customer           | View:Global |
