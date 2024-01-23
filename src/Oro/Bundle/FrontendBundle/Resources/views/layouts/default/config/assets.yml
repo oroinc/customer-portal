@@ -32,6 +32,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/line-clamp-config.scss'
         - 'bundles/orofrontend/default/scss/variables/loading-bar-config.scss'
         - 'bundles/orofrontend/default/scss/variables/middlebar-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/toggler-config.scss'
 
         - 'bundles/orofrontend/default/scss/variables/filters/filters-config.scss'
         - 'bundles/orofrontend/default/scss/variables/filters/filters-dropdown-mode-config.scss'

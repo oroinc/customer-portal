@@ -7,6 +7,50 @@
     border: 2px solid $toggler-background-color;
     background-color: $toggler-background-color;
 
+    &--dropdown {
+        min-width: 0;
+        padding: 0;
+    }
+
+    &--dropdown-btn {
+        display: block;
+        color: $toggler-base-color;
+        font-size: $toggler-font-size;
+        line-height: $toggler-line-height;
+        background-color: $toggler-background-color;
+        border-radius: $toggler-border-radius;
+        box-shadow: none;
+        border: none;
+        text-align: center;
+        padding: 10px;
+        white-space: nowrap;
+        user-select: none;
+        font-weight: 400;
+        cursor: pointer;
+        transition: $toggler-dropdown-btn-transition;
+
+        &:hover {
+            color: $toggler-dropdown-btn-color-hover;
+            background-color: $toggler-dropdown-btn-background-color-hover;
+        }
+
+        .theme-icon {
+            display: block;
+        }
+    }
+
+    .toggle-link {
+        &--active {
+            background-color: $toggler-background-color-active;
+            box-shadow: $toggler-switcher-box-shadow;
+            border-radius: 3px;
+        }
+
+        .theme-icon {
+            display: block;
+        }
+    }
+
     > .toggle-link,
     > label {
         position: relative;
@@ -43,12 +87,6 @@
                 opacity: 0;
             }
         }
-    }
-
-    .toggle-link--active {
-        background-color: $toggler-background-color-active;
-        box-shadow: $toggler-switcher-box-shadow;
-        border-radius: 3px;
     }
 
     > input {

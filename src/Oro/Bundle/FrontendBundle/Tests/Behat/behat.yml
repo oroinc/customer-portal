@@ -209,4 +209,4 @@ oro_behat_extension:
     Sorting Into Sticky Panel:
       selector: '.sticky-panel.sticky-panel--top.has-content [data-grid-sorting]'
     Catalog Switcher Into Sticky Panel:
-      selector: '.sticky-panel.sticky-panel--top.has-content .catalog-switcher'
+      selector: '.sticky-panel.sticky-panel--top.has-content .toggle-container'
