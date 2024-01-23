@@ -1256,10 +1256,10 @@
                 autoplaySpeed: 2000,
                 additionalClass: "embedded-list__slider",
                 embeddedArrowsClass: "embedded-arrows",
-                arrows: true,
-                dots: false,
+                arrows: false,
+                dots: true,
                 infinite: false,
-                mobileEnabled: true,
+                use_slider_on_mobile: true,
             }
         }
     }) %}
@@ -1388,8 +1388,8 @@
 
             SomeExampleView = BaseView.extend({
                 sliderOptions: {
-                    mobileEnabled: true,
-                    slidesToShow: 4,
+                    use_slider_on_mobile: true,
+                    slidesToShow: 5,
                     slidesToScroll: 1,
                     autoplay: false,
                     autoplaySpeed: 2000,
@@ -1976,7 +1976,7 @@
             relatedComponent: 'zoom'
         },
         navOptions: {
-            slidesToShow: 4,
+            slidesToShow: 5,
             slidesToScroll: 1,
             asNavFor: '.product-view-media-gallery',
             focusOnSelect: true,
@@ -2036,7 +2036,7 @@
                         infinite: false
                     },
                     navOptions: {
-                        slidesToShow: 4,
+                        slidesToShow: 5,
                         slidesToScroll: 1,
                         asNavFor: '.popup-gallery-widget__images',
                         focusOnSelect: true,

@@ -4,12 +4,14 @@ define(function(require) {
     const AbstractWidget = require('oroui/js/widget/abstract-widget');
     const $ = require('jquery');
     const _ = require('underscore');
+    const __ = require('orotranslation/js/translator');
     const mediator = require('oroui/js/mediator');
     const routing = require('routing');
     const error = require('oroui/js/error');
     const manageFocus = require('oroui/js/tools/manage-focus').default;
     const Modal = require('oroui/js/modal');
-
+    const arrowTpl = require('tpl-loader!orofrontend/templates/slick-arrow-button.html');
+    const rtl = _.isRTL();
     require('slick');
 
     const PopupGalleryWidget = AbstractWidget.extend({
@@ -41,9 +43,29 @@ define(function(require) {
                 lazyLoad: 'progressive',
                 asNavFor: null,
                 adaptiveHeight: false,
-                dots: true,
+                dots: false,
+                prevArrow: arrowTpl({
+                    ariaLabel: __('Previous'),
+                    iconName: rtl ? 'chevron-right' : 'chevron-left',
+                    iconSize: 'theme-icon',
+                    className: 'slick-prev'
+                }),
+                nextArrow: arrowTpl({
+                    ariaLabel: __('Next'),
+                    iconName: rtl ? 'chevron-left' : 'chevron-right',
+                    iconSize: 'theme-icon',
+                    className: 'slick-next'
+                }),
                 infinite: true,
-                rtl: _.isRTL()
+                rtl: rtl,
+                responsive: [
+                    {
+                        breakpoint: 993,
+                        settings: {
+                            dots: false
+                        }
+                    }
+                ]
             },
             navOptions: {
                 slidesToShow: 7,
@@ -56,7 +78,7 @@ define(function(require) {
                 dots: false,
                 variableWidth: true,
                 infinite: true,
-                rtl: _.isRTL()
+                rtl: rtl
             },
             modalOptions: {
                 // do not render (show) the "Ok" button
