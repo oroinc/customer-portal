@@ -204,8 +204,8 @@ oro_behat_extension:
       selector: '[data-sticky-name="top-sticky-panel"] a.action[title="Filter Toggle"]'
     Mass Actions Into Sticky Panel:
       selector: '.sticky-panel.sticky-panel--top.has-content [data-mass-actions-container]'
-    Pegination Into Sticky Panel:
-      selector: '.sticky-panel.sticky-panel--top.has-content [data-grid-pagesize]'
+    Pagination Bottom Panel:
+      selector: '.datagrid-toolbar-bottom [data-grid-pagesize]'
     Sorting Into Sticky Panel:
       selector: '.sticky-panel.sticky-panel--top.has-content [data-grid-sorting]'
     Catalog Switcher Into Sticky Panel:

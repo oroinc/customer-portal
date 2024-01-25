@@ -21,20 +21,24 @@
 {% endblock %}
 
 {% block __datagrid_toolbar__datagrid_toolbar_sorting_widget %}
-    {% set attr = attr|merge({
-        class: attr.class|default('') ~ " datagrid-tool",
-        'data-grid-sorting': ''
-    }) %}
+    {% set toolbarPosition = attr['data-grid-toolbar']|default('') %}
 
-    <div{{ block('block_attributes') }}></div>
+    {% if toolbarPosition == 'top' %}
+        {% set attr = attr|merge({
+            class: attr.class|default('') ~ " datagrid-tool",
+            'data-grid-sorting': ''
+        }) %}
+
+        <div{{ block('block_attributes') }}></div>
+    {% endif %}
 {% endblock %}
 
 {% block __datagrid_toolbar__datagrid_toolbar_leftside_container_widget %}
-    <% if (toolbarPosition !== 'bottom') { %>
-        <div class="datagrid-toolbar__start" data-section="left-side">
-            {{ block_widget(block) }}
-        </div>
-    <% } %>
+    {% set toolbarPosition = attr['data-grid-toolbar']|default('') %}
+
+    <div class="datagrid-toolbar__start" data-section="left-side">
+        {{ block_widget(block) }}
+    </div>
 {% endblock %}
 
 {% block __datagrid_toolbar__datagrid_toolbar_base_container_widget %}
@@ -43,17 +47,23 @@
         '~class': ' datagrid-toolbar__center',
         'data-section': 'base-side'
     }) %}
+
     <div{{ block('block_attributes') }}>
-        {{ block_widget(block) }}
+        {% for child in block -%}
+            {% if child.vars.visible %}
+                {{ block_widget(child, {attr: {'data-grid-toolbar': toolbarPosition}}) }}
+            {% endif %}
+        {%- endfor %}
     </div>
 {% endblock %}
 
 {% block __datagrid_toolbar__datagrid_toolbar_rightside_container_widget %}
-    <% if (toolbarPosition !== 'bottom') { %>
+    {% set toolbarPosition = attr['data-grid-toolbar']|default('') %}
+    {% if toolbarPosition != 'bottom' %}
         <div class="datagrid-toolbar__end" data-section="right-side">
             {{ block_widget(block) }}
         </div>
-    <% } %>
+    {% endif %}
 {% endblock %}
 
 {% block __datagrid_toolbar__datagrid_toolbar_mass_actions_widget %}
@@ -99,7 +109,9 @@
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' datagrid-tool actions-panel-container'
     }) %}
-    <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+    <% if (toolbarPosition !== 'bottom') { %>
+        <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+    <% } %>
 {% endblock %}
 
 {% block __datagrid_toolbar__datagrid_toolbar_actions_panel_widget %}
@@ -107,7 +119,11 @@
         class: attr.class|default('') ~ " actions-panel form-horizontal",
         'data-grid-actions-panel': ''
     }) %}
-    <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+
+    {% set toolbarPosition = attr['data-grid-toolbar']|default('') %}
+    {% if toolbarPosition != 'bottom' %}
+        <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+    {% endif %}
 {% endblock %}
 
 {% block __datagrid_toolbar__datagrid_toolbar_button_container_widget %}
