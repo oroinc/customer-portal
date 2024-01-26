@@ -9,3 +9,10 @@ services:
             index_0: '@oro_frontend.extractor.frontend_exposed_routes_extractor'
         tags:
             - { name: console.command }
+
+    Oro\Bundle\FrontendBundle\Command\DebugStorefrontRoutesCommand:
+        class: Oro\Bundle\FrontendBundle\Command\DebugStorefrontRoutesCommand
+        arguments:
+            - '@router'
+        tags:
+            - { name: console.command, command: 'oro:debug:storefront-routes' }

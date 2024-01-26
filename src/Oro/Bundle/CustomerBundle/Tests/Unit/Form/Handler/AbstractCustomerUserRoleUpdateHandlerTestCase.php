@@ -134,7 +134,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         $request->setMethod('POST');
 
         $requestStack = $this->createMock(RequestStack::class);
-        $requestStack->expects(self::once())
+        $requestStack->expects(self::exactly(2))
             ->method('getCurrentRequest')
             ->willReturn($request);
 

@@ -29,15 +29,6 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
     private CustomerVisitorAclCache $visitorAclCache;
     protected ?Customer $originalCustomer = null;
 
-    /**
-     * @param RequestStack $requestStack
-     */
-    public function setRequestStack($requestStack)
-    {
-        $this->requestStack = $requestStack;
-        $this->request = $requestStack->getCurrentRequest();
-    }
-
     public function setOwnershipConfigProvider(ConfigProvider $provider)
     {
         $this->ownershipConfigProvider = $provider;
@@ -46,6 +37,14 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
     public function setChainMetadataProvider(ChainOwnershipMetadataProvider $chainMetadataProvider)
     {
         $this->chainMetadataProvider = $chainMetadataProvider;
+    }
+
+    /**
+     * @param RequestStack $requestStack
+     */
+    public function setRequestStack($requestStack)
+    {
+        parent::setRequestStack($requestStack);
     }
 
     public function setDoctrineHelper(DoctrineHelper $doctrineHelper)
