@@ -58,6 +58,8 @@ oro_frontend:
         multiselect:
             placeholder: 'Search'
             aria_label: 'Search filter values'
+        label: 'Filter'
+        title: 'Filter Toggle'
 
     datagrid_views:
         all: "All "

@@ -86,6 +86,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/uploader-config.scss'
         - 'bundles/orofrontend/default/scss/variables/switcher-info-config.scss'
         - 'bundles/orofrontend/default/scss/variables/toggler-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/toggle-filters-action-config.scss'
 
         - 'bundles/orofrontend/default/scss/variables/popup-gallery-widget-config.scss'
         - 'bundles/orofrontend/default/scss/variables/notes-config.scss'

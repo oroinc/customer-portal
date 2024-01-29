@@ -207,7 +207,7 @@ datagrids:
                 type:          navigate
                 label:         oro.grid.action.update
                 link:          update_link
-                icon:          pencil-square-o
+                icon:          pencil
                 acl_resource:  oro_customer_customer_group_update
 
     customer-group-customers-grid-basic:
@@ -707,7 +707,7 @@ datagrids:
                 label:         oro.grid.action.update
                 ariaLabel:     update_aria_label
                 link:          update_link
-                icon:          pencil-square-o
+                icon:          pencil
                 order:         20
                 acl_resource:  oro_customer_frontend_customer_user_role_update
         action_configuration: ['@oro_customer.datagrid.action_permission_provider', "getCustomerUserRolePermission"]
@@ -1071,7 +1071,7 @@ datagrids:
                 label:         oro.grid.action.update
                 ariaLabel:     update_aria_label
                 link:          update_link
-                icon:          pencil-square-o
+                icon:          pencil
                 acl_resource:  oro_customer_frontend_customer_user_update
         action_configuration: ['@oro_customer.datagrid.action_permission_provider', "getUserPermissions"]
         mass_actions:
@@ -1087,7 +1087,7 @@ datagrids:
                 route: oro_datagrid_front_mass_action
                 acl_resource:  oro_customer_frontend_customer_user_delete
                 launcherOptions:
-                    iconClassName: fa-trash-o
+                    icon: trash
                     className: datagrid-massaction__dropdown-item
                 defaultMessages:
                     confirm_title: oro.customer.mass_actions.delete_customers.confirm_title
@@ -1173,7 +1173,7 @@ datagrids:
             show_map:
                 label:         oro.customer.action.customer_frontend_address.map
                 type:          map
-                icon:          map-o
+                icon:          map
                 frontend_type: frontend-map
         action_configuration: ['@oro_customer.datagrid.frontend_customer_address.action_checker', checkActions]
         mass_actions:
@@ -1186,7 +1186,7 @@ datagrids:
                 frontend_type: delete-mass
                 route: oro_datagrid_front_mass_action
                 launcherOptions:
-                    iconClassName: fa-trash-o
+                    icon: trash
                     className: datagrid-massaction__dropdown-item
                 defaultMessages:
                     confirm_title: oro.customer.mass_actions.delete_customer_addresses.confirm_title
@@ -1241,6 +1241,7 @@ datagrids:
             delete:
                 entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerAddress
                 acl_resource:  oro_customer_frontend_customer_address_remove
+                icon: trash
 
     frontend-customer-customer-user-address-grid:
         acl_resource: oro_customer_frontend_customer_user_address_view

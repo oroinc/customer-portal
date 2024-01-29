@@ -57,10 +57,10 @@ define(function(require, exports, module) {
             if (this.applyMarkup) {
                 this.updateDropdownMarkup(instance);
 
-                const icon = _.macros('oroui::renderIcon')({name: 'x'});
+                const icon = _.macros('oroui::renderIcon')({name: 'close'});
                 const $button = $('<button></button>', {
                     'type': 'button',
-                    'class': 'close-dialog btn btn--plain btn--text',
+                    'class': 'close-dialog absolute btn btn--plain btn--text',
                     'title': __('Close'),
                     'aria-label': __('oro_frontend.filter_manager.close.aria_label'),
                     'data-role': 'close'

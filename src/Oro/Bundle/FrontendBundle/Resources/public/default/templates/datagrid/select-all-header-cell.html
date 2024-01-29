@@ -1,19 +1,25 @@
+<% const oroui = _.macros('oroui'); %>
 <% var togglerId = _.uniqueId('dropdown-') %>
 <div class="datagrid-massaction">
-    <div class="btn-group dropdown">
-        <label class="btn btn--size-small">
+    <div class="btn-group">
+        <label class="btn btn--size-small btn--outlined btn--text">
             <input type="checkbox" name="is_default"
                    data-input-widget-options="<%- JSON.stringify({checkedParentCssClass:null}) %>"
                    data-select>
             <span class="sr-only"><%- _.__('oro.datagrid.headerCell.selectAll.input.aria_label') %></span>
         </label>
-        <button class="btn btn--size-small dropdown-toggle dropdown-toggle--no-offset"
+        <button class="btn btn--size-small btn--outlined btn--text dropdown-toggle"
                 id="<%- togglerId %>" data-toggle="dropdown"
                 data-placement="bottom-center"
                 data-modifiers="<%- JSON.stringify({preventOverflow: {enabled: false}, hide: {enabled: false}}) %>"
                 aria-haspopup="true" aria-expanded="false"
                 aria-label="<%- _.__('oro.datagrid.headerCell.selectAll.label') %>"
-        ></button>
+        >
+            <%= oroui.renderIcon({
+                name: 'chevron-down',
+                extraClass: 'theme-icon--small'
+            }) %>
+        </button>
         <ul class="dropdown-menu datagrid-massaction__dropdown-menu" aria-labelledby="<%- togglerId %>">
             <li>
                 <a href="#" class="action dropdown-item" role="button" data-select-all>

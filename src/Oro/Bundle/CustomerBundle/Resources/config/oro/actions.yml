@@ -8,7 +8,7 @@ operations:
             - customer-customer-user-grid
         order: 30
         button_options:
-            icon: fa-close
+            icon: close
         acl_resource: [EDIT, $.data]
         preconditions:
             '@equal': [$enabled, true]
@@ -91,7 +91,7 @@ operations:
                 handler: oro_customer.datagrid.mass_action.customers_enable_switch.handler.disable
                 route: oro_datagrid_front_mass_action
                 route_parameters: []
-                icon: ban
+                icon: close
                 data_identifier: customerUser.id
                 object_identifier: customerUser
                 defaultMessages:
@@ -100,7 +100,7 @@ operations:
                     confirm_ok: oro.customer.mass_actions.disable_customers.confirm_ok
                 acl_resource: oro_customer_frontend_customer_user_update
                 launcherOptions:
-                    iconClassName: fa-ban
+                    icon: ban
                     className: datagrid-massaction__dropdown-item
         actions:
             - '@refresh_grid': frontend-customer-customer-user-grid
@@ -112,7 +112,7 @@ operations:
             - oro_customer_frontend_customer_user_view
         order: 10
         button_options:
-            icon: fa-check
+            icon: check
         acl_resource: [EDIT, $.data]
         preactions:
             - '@get_active_user': $.currentUser
@@ -158,7 +158,7 @@ operations:
                     confirm_ok: oro.customer.mass_actions.enable_customers.confirm_ok
                 acl_resource: oro_customer_frontend_customer_user_update
                 launcherOptions:
-                    iconClassName: fa-check
+                    icon: check
                     className: datagrid-massaction__dropdown-item
         actions:
             - '@refresh_grid': frontend-customer-customer-user-grid
@@ -244,7 +244,7 @@ operations:
         acl_resource: [DELETE, $.data]
         order: 20
         button_options:
-            icon: fa-trash-o
+            icon: trash
         preactions:
             - '@get_active_user': $.currentUser
         preconditions:
@@ -328,7 +328,7 @@ operations:
             - frontend-customer-customer-user-roles-grid
         order: 30
         button_options:
-            icon: fa-trash-o
+            icon: trash
         datagrid_options:
             aria_label: delete_aria_label
         preconditions:
@@ -411,7 +411,7 @@ operations:
                 handler: oro_customer.customer.mass_action.handler.delete
                 label: oro.grid.action.delete
                 link: delete_link
-                icon: trash-o
+                icon: trash
         preconditions:
             '@and':
                 - '@not':
@@ -482,7 +482,7 @@ operations:
                 type: delete
                 label: oro.grid.action.delete
                 link: delete_link
-                icon: trash-o
+                icon: trash
         actions:
             - '@assign_constant_value':
                 attribute: $.removeEventName
@@ -563,7 +563,7 @@ operations:
             '@equal': [ $.data.enabled, true ]
         acl_resource: [password_management]
         button_options:
-            icon: fa-unlock-alt
+            icon: unlock
         frontend_options:
             confirmation:
                 title: oro.customer.customer_user.reset_password.popup.title
@@ -600,7 +600,7 @@ operations:
             - oro_customer_frontend_customer_user_view
         order: 10
         button_options:
-            icon: fa-unlock-alt
+            icon: unlock
         acl_resource: [EDIT, $.data]
         preactions:
             - '@get_active_user': $.currentUser

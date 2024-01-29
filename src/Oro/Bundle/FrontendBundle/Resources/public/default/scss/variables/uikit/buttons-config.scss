@@ -159,6 +159,28 @@ $btn-palette: (
             'color': get-var-color('text', 'primary')
         )
     ),
+    'neutral': (
+        'default': (
+            'background': get-color('neutral', 'grey1'),
+            'border-color': get-color('neutral', 'grey1'),
+            'color': get-var-color('text', 'primary')
+        ),
+        'hover': (
+            'background': get-color('neutral', 'grey2'),
+            'border-color': get-color('neutral', 'grey2'),
+            'color': get-var-color('text', 'primary')
+        ),
+        'focus': (
+            'background': get-color('neutral', 'grey2'),
+            'border-color': get-color('neutral', 'grey2'),
+            'color': get-var-color('text', 'primary')
+        ),
+        'active': (
+            'background': get-color('neutral', 'grey2'),
+            'border-color': get-color('neutral', 'grey2'),
+            'color': get-var-color('text', 'primary')
+        )
+    ),
     // Dark theme
     'inverse': (
         'default': (

@@ -1,7 +1,53 @@
 /* @theme: default; */
 
-@include breakpoint('tablet') {
-    .toggle-filters-action {
-        @include custom-caret();
+.toggle-filters-action {
+    position: relative;
+
+    .filters-selected &,
+    &.filters-selected {
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+
+            border-radius: 50%;
+        }
+
+        &::before {
+            width: $toggle-filters-action-before-size;
+            height: $toggle-filters-action-before-size;
+
+            top: $toggle-filters-action-before-top;
+            left: $toggle-filters-action-before-left;
+            z-index: z('base');
+
+            background-color: $toggle-filters-action-before-color;
+        }
+
+        &::after {
+            width: $toggle-filters-action-after-size;
+            height: $toggle-filters-action-after-size;
+
+            top: $toggle-filters-action-after-top;
+            left: $toggle-filters-action-after-left;
+
+            background: $toggle-filters-action-after-color;
+        }
+
+        @include hover-focus {
+            &:before {
+                background-color: $toggle-filters-action-before-color-hover;
+            }
+
+            &:after {
+                background-color: $toggle-filters-action-after-color-hover;
+            }
+        }
+
+        @include element-state('disabled') {
+            &::before {
+                background-color: $toggle-filters-action-before-color-disabled;
+            }
+        }
     }
 }

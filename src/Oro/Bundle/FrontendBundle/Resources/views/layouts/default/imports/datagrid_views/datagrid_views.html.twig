@@ -60,13 +60,13 @@
 
     {% set attr = layout_attr_defaults(attr, {
         'type': 'button',
-        '~class': 'close-dialog btn btn--plain btn--text',
+        '~class': 'close-dialog absolute btn btn--plain btn--text',
         'title': 'Close'|trans,
         'aria-label': 'oro_frontend.datagrid_views.close.aria_label'|trans,
         'data-close': ''
     }) %}
 
-    <button {{ block('block_attributes') }} >{{ renderIcon.icon({name: 'x', extraClass: 'theme-icon--medium'}) }}</button>
+    <button {{ block('block_attributes') }} >{{ renderIcon.icon({name: 'close', extraClass: 'theme-icon--medium'}) }}</button>
 {% endblock %}
 
 {% block __datagrid_views__datagrid_views_popup_container_widget %}

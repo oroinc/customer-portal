@@ -36,12 +36,12 @@ layout:
                                     refreshAction:
                                         launcherOptions:
                                             className: 'btn btn--size-small'
-                                            icon: 'undo fa--no-offset'
+                                            icon: 'undo'
                                             launcherMode: 'icon-only'
                                     resetAction:
                                         launcherOptions:
                                             className: 'btn btn--size-small'
-                                            icon: 'refresh fa--no-offset'
+                                            icon: 'refresh'
                                             launcherMode: 'icon-only'
                                 customModules:
                                     datagridSettingsComponent: 'orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-view'

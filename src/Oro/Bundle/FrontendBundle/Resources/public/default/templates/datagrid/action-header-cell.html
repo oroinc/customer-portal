@@ -1,11 +1,15 @@
+<% const oroui = _.macros('oroui'); %>
 <% var togglerId = _.uniqueId('dropdown-') %>
 <div class="dropdown datagrid-massaction">
-    <button type="button" class="btn btn--size-small dropdown-toggle" id="<%- togglerId %>"
+    <button type="button" class="btn btn--size-small btn--outlined btn--text dropdown-toggle" id="<%- togglerId %>"
             data-toggle="dropdown" data-placement="bottom-end"
             data-modifiers="<%- JSON.stringify({preventOverflow: {enabled: false}, hide: {enabled: false}}) %>"
             title="<%- _.__('oro.datagrid.mass_action.title') %>"
             aria-label="<%- _.__('oro.datagrid.mass_action.title') %>" aria-haspopup="true" aria-expanded="false">
-        <span class="datagrid-massaction__dots" aria-hidden="true"><%- _.__('oro.datagrid.mass_action.button_title') %></span>
+                <%= oroui.renderIcon({
+                    name: 'more-horizontal',
+                    extraClass: 'theme-icon--small'
+                }) %>
     </button>
     <ul class="dropdown-menu datagrid-massaction__dropdown-menu" aria-labelledby="<%- togglerId %>" data-action-panel></ul>
 </div>
