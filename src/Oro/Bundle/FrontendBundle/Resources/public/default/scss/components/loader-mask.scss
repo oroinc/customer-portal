@@ -17,24 +17,15 @@
     overflow: hidden;
 
     .loader-frame {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-
         width: $loader-mask-frame-width;
-        padding: $loader-mask-frame-offset-inner;
+        height: $loader-mask-frame-height;
+        background: transparent url($loader-mask-loader-url) no-repeat center left;
 
-        font-size: $base-font-size;
-        font-weight: font-weight('bold');
-        line-height: 24px;
-
-        background: $loader-mask-frame-bg;
-        border: $loader-mask-frame-border;
-
-        border-radius: $loader-mask-frame-border-radius;
-        box-shadow: $loader-mask-frame-box-shadow;
-
-        transform: translate(-50%, -50%);
+        max-width: $loader-mask-frame-max-width;
+        max-height: $loader-mask-frame-max-height;
+        z-index: z(base) + 9;
+        background-size: $loader-mask-frame-background-size;
+        aspect-ratio: $loader-mask-frame-aspect-ratio;
 
         .box {
             margin: 20px 0;
@@ -43,19 +34,17 @@
 }
 
 .loader-overlay {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    width: $loader-mask-overlay-width;
+    height: $loader-mask-overlay-height;
 
     background: $loader-mask-overlay-bg;
 
-    opacity: .2;
+    opacity: $loader-mask-overlay-opacity;
 }
 
 .loader-content {
-    padding-left: $loader-mask-loader-content-offset-inner-left;
-    background: $loader-mask-loader-bg url($loader-mask-loader-url) no-repeat center left;
-
-    text-align: $loader-mask-loader-content-align;
+    @include sr-only();
 }
 
 .loading {
@@ -63,7 +52,8 @@
 
     > .loader-mask {
         &.shown {
-            display: block;
+            display: $loader-mask-loader-shown-display;
+            place-items: $loader-mask-loader-shown-place-items;
         }
     }
 }
