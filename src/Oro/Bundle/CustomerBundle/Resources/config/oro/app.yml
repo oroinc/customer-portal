@@ -2,8 +2,8 @@ oro_api:
     api_firewalls:
         frontend_api_wsse_secured:
             feature_name: frontend_web_api
-            feature_firewall_listeners:
-                - Oro\Bundle\WsseAuthenticationBundle\Security\Http\Firewall\WsseAuthenticationListener
+            feature_firewall_authenticators: # FeatureDependAuthenticatorChecker
+                - Oro\Bundle\WsseAuthenticationBundle\Security\Core\Authentication\WsseAuthenticator
         frontend_api_options:
             feature_name: frontend_web_api
         frontend_api_login:
@@ -13,6 +13,8 @@ security:
     providers:
         commerce_customer_user:
             id: oro_customer.security.provider
+        commerce_customer_visitor:
+            id: oro_customer.visitor.security.provider
 
     password_hashers:
         Oro\Bundle\CustomerBundle\Entity\CustomerUser:
@@ -46,7 +48,7 @@ security:
             provider:                       commerce_customer_user
             context:                        customer_identity
             organization-form-login:
-                csrf_token_generator:       security.csrf.token_manager
+                enable_csrf:                true
                 check_path:                 oro_customer_customer_user_security_check
                 login_path:                 oro_customer_customer_user_security_login
                 default_target_path:        oro_frontend_root

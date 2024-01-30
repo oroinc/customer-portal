@@ -42,12 +42,12 @@ class FrontendHelper
      */
     public function isFrontendRequest(): bool
     {
-        if (!$this->applicationState->isInstalled()) {
-            return false;
-        }
-
         if (null !== $this->emulateFrontendRequest) {
             return $this->emulateFrontendRequest;
+        }
+
+        if (!$this->applicationState->isInstalled()) {
+            return false;
         }
 
         $request = $this->requestStack->getMainRequest();

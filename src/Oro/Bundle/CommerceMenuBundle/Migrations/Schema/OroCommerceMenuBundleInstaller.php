@@ -15,27 +15,18 @@ class OroCommerceMenuBundleInstaller implements
 {
     use AttachmentExtensionAwareTrait;
 
-    const ORO_COMMERCE_MENU_UPDATE_TABLE_NAME = 'oro_commerce_menu_upd';
-    const ORO_COMMERCE_MENU_UPDATE_TITLE_TABLE_NAME = 'oro_commerce_menu_upd_title';
-    const ORO_COMMERCE_MENU_UPDATE_DESCRIPTION_TABLE_NAME = 'oro_commerce_menu_upd_descr';
-    const ORO_COMMERCE_MENU_UPDATE_IMAGE_FIELD_NAME = 'image';
-
-    const MAX_MENU_UPDATE_IMAGE_SIZE_IN_MB = 10;
-    const THUMBNAIL_WIDTH_SIZE_IN_PX = 100;
-    const THUMBNAIL_HEIGHT_SIZE_IN_PX = 100;
-
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getMigrationVersion()
+    public function getMigrationVersion(): string
     {
         return 'v1_8';
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function up(Schema $schema, QueryBag $queries)
+    public function up(Schema $schema, QueryBag $queries): void
     {
         /** Tables generation **/
         $this->createOroCommerceMenuUpdateTable($schema);
@@ -56,18 +47,18 @@ class OroCommerceMenuBundleInstaller implements
     /**
      * Create oro_commerce_menu_upd table.
      */
-    protected function createOroCommerceMenuUpdateTable(Schema $schema)
+    private function createOroCommerceMenuUpdateTable(Schema $schema): void
     {
-        $table = $schema->createTable(self::ORO_COMMERCE_MENU_UPDATE_TABLE_NAME);
+        $table = $schema->createTable('oro_commerce_menu_upd');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('key', 'string', ['length' => 100]);
         $table->addColumn('parent_key', 'string', ['length' => 100, 'notnull' => false]);
         $table->addColumn('uri', 'string', ['length' => 8190, 'notnull' => false]);
         $table->addColumn('menu', 'string', ['length' => 100]);
         $table->addColumn('icon', 'string', ['length' => 150, 'notnull' => false]);
-        $table->addColumn('is_active', 'boolean', []);
-        $table->addColumn('is_divider', 'boolean', []);
-        $table->addColumn('is_custom', 'boolean', []);
+        $table->addColumn('is_active', 'boolean');
+        $table->addColumn('is_divider', 'boolean');
+        $table->addColumn('is_custom', 'boolean');
         $table->addColumn('is_synthetic', 'boolean', ['notnull' => true, 'default' => false]);
         $table->addColumn('priority', 'integer', ['notnull' => false]);
         $table->addColumn('scope_id', 'integer', ['notnull' => true]);
@@ -88,11 +79,11 @@ class OroCommerceMenuBundleInstaller implements
     /**
      * Create oro_commerce_menu_upd_title table
      */
-    protected function createOroCommerceMenuUpdateTitleTable(Schema $schema)
+    private function createOroCommerceMenuUpdateTitleTable(Schema $schema): void
     {
-        $table = $schema->createTable(self::ORO_COMMERCE_MENU_UPDATE_TITLE_TABLE_NAME);
-        $table->addColumn('menu_update_id', 'integer', []);
-        $table->addColumn('localized_value_id', 'integer', []);
+        $table = $schema->createTable('oro_commerce_menu_upd_title');
+        $table->addColumn('menu_update_id', 'integer');
+        $table->addColumn('localized_value_id', 'integer');
         $table->setPrimaryKey(['menu_update_id', 'localized_value_id']);
         $table->addUniqueIndex(['localized_value_id']);
     }
@@ -100,9 +91,9 @@ class OroCommerceMenuBundleInstaller implements
     /**
      * Add oro_commerce_menu_upd_title foreign keys.
      */
-    protected function addOroCommerceMenuUpdateTitleForeignKeys(Schema $schema)
+    private function addOroCommerceMenuUpdateTitleForeignKeys(Schema $schema): void
     {
-        $table = $schema->getTable(self::ORO_COMMERCE_MENU_UPDATE_TITLE_TABLE_NAME);
+        $table = $schema->getTable('oro_commerce_menu_upd_title');
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_fallback_localization_val'),
             ['localized_value_id'],
@@ -110,7 +101,7 @@ class OroCommerceMenuBundleInstaller implements
             ['onUpdate' => null, 'onDelete' => 'CASCADE']
         );
         $table->addForeignKeyConstraint(
-            $schema->getTable(self::ORO_COMMERCE_MENU_UPDATE_TABLE_NAME),
+            $schema->getTable('oro_commerce_menu_upd'),
             ['menu_update_id'],
             ['id'],
             ['onUpdate' => null, 'onDelete' => 'CASCADE']
@@ -120,11 +111,11 @@ class OroCommerceMenuBundleInstaller implements
     /**
      * Create `oro_navigation_menu_upd_descr` table
      */
-    protected function createOroCommerceMenuUpdateDescriptionTable(Schema $schema)
+    private function createOroCommerceMenuUpdateDescriptionTable(Schema $schema): void
     {
-        $table = $schema->createTable(self::ORO_COMMERCE_MENU_UPDATE_DESCRIPTION_TABLE_NAME);
-        $table->addColumn('menu_update_id', 'integer', []);
-        $table->addColumn('localized_value_id', 'integer', []);
+        $table = $schema->createTable('oro_commerce_menu_upd_descr');
+        $table->addColumn('menu_update_id', 'integer');
+        $table->addColumn('localized_value_id', 'integer');
         $table->setPrimaryKey(['menu_update_id', 'localized_value_id']);
         $table->addUniqueIndex(['localized_value_id']);
     }
@@ -132,9 +123,9 @@ class OroCommerceMenuBundleInstaller implements
     /**
      * Add `oro_navigation_menu_upd_descr` foreign keys.
      */
-    protected function addOroCommerceMenuUpdateDescriptionForeignKeys(Schema $schema)
+    private function addOroCommerceMenuUpdateDescriptionForeignKeys(Schema $schema): void
     {
-        $table = $schema->getTable(self::ORO_COMMERCE_MENU_UPDATE_DESCRIPTION_TABLE_NAME);
+        $table = $schema->getTable('oro_commerce_menu_upd_descr');
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_fallback_localization_val'),
             ['localized_value_id'],
@@ -142,37 +133,37 @@ class OroCommerceMenuBundleInstaller implements
             ['onUpdate' => null, 'onDelete' => 'CASCADE']
         );
         $table->addForeignKeyConstraint(
-            $schema->getTable(self::ORO_COMMERCE_MENU_UPDATE_TABLE_NAME),
+            $schema->getTable('oro_commerce_menu_upd'),
             ['menu_update_id'],
             ['id'],
             ['onUpdate' => null, 'onDelete' => 'CASCADE']
         );
     }
 
-    public function addOroCommerceMenuUpdateImageAssociation(Schema $schema)
+    private function addOroCommerceMenuUpdateImageAssociation(Schema $schema): void
     {
         $this->attachmentExtension->addImageRelation(
             $schema,
-            self::ORO_COMMERCE_MENU_UPDATE_TABLE_NAME,
-            self::ORO_COMMERCE_MENU_UPDATE_IMAGE_FIELD_NAME,
+            'oro_commerce_menu_upd',
+            'image',
             [
                 'attachment' => [
                     'acl_protected' => false,
                     'use_dam' => true,
                 ]
             ],
-            self::MAX_MENU_UPDATE_IMAGE_SIZE_IN_MB,
-            self::THUMBNAIL_WIDTH_SIZE_IN_PX,
-            self::THUMBNAIL_HEIGHT_SIZE_IN_PX
+            10,
+            100,
+            100
         );
     }
 
     /**
      * Add `oro_commerce_menu_upd` foreign keys.
      */
-    protected function addOroCommerceMenuUpdateForeignKeys(Schema $schema)
+    private function addOroCommerceMenuUpdateForeignKeys(Schema $schema): void
     {
-        $table = $schema->getTable(self::ORO_COMMERCE_MENU_UPDATE_TABLE_NAME);
+        $table = $schema->getTable('oro_commerce_menu_upd');
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_scope'),
             ['scope_id'],
@@ -189,11 +180,11 @@ class OroCommerceMenuBundleInstaller implements
     /**
      * Create `oro_menu_user_agent_condition` table
      */
-    protected function createOroMenuUserAgentConditionTable(Schema $schema)
+    private function createOroMenuUserAgentConditionTable(Schema $schema): void
     {
         $table = $schema->createTable('oro_menu_user_agent_condition');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
-        $table->addColumn('condition_group_identifier', 'integer', []);
+        $table->addColumn('condition_group_identifier', 'integer');
         $table->addColumn('operation', 'string', ['length' => 32]);
         $table->addColumn('value', 'string', ['length' => 255]);
         $table->addColumn('menu_update_id', 'integer', ['notnull' => false]);
@@ -203,7 +194,7 @@ class OroCommerceMenuBundleInstaller implements
     /**
      * Add `oro_menu_user_agent_condition` foreign keys.
      */
-    protected function addOroMenuUserAgentConditionForeignKeys(Schema $schema)
+    private function addOroMenuUserAgentConditionForeignKeys(Schema $schema): void
     {
         $table = $schema->getTable('oro_menu_user_agent_condition');
         $table->addForeignKeyConstraint(

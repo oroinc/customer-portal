@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Security\Listener;
 
-use Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener;
+use Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserAuthenticator;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 /**
@@ -21,9 +21,9 @@ class CustomerVisitorCookieResponseListener
 
         $request = $event->getRequest();
         $response = $event->getResponse();
-        if ($request->attributes->has(AnonymousCustomerUserAuthenticationListener::COOKIE_ATTR_NAME)) {
+        if ($request->attributes->has(AnonymousCustomerUserAuthenticator::COOKIE_ATTR_NAME)) {
             $response->headers->setCookie(
-                $request->attributes->get(AnonymousCustomerUserAuthenticationListener::COOKIE_ATTR_NAME)
+                $request->attributes->get(AnonymousCustomerUserAuthenticator::COOKIE_ATTR_NAME)
             );
         }
     }

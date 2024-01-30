@@ -8,40 +8,35 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\EntityConfigBundle\Migration\UpdateEntityConfigFieldValueQuery;
-use Oro\Bundle\EntityExtendBundle\Migration\ExtendOptionsManager;
+use Oro\Bundle\EntityExtendBundle\Migration\ExtendOptionsManagerAwareInterface;
+use Oro\Bundle\EntityExtendBundle\Migration\ExtendOptionsManagerAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
  * Update ImportExport field configs for Customer, CustomerAddress and CustomerUserAddress entities.
  */
-class UpdateFieldsImportExportConfig implements Migration, ContainerAwareInterface
+class UpdateFieldsImportExportConfig implements Migration, ExtendOptionsManagerAwareInterface
 {
-    use ContainerAwareTrait;
+    use ExtendOptionsManagerAwareTrait;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function up(Schema $schema, QueryBag $queries)
+    public function up(Schema $schema, QueryBag $queries): void
     {
-        $extendOptionsManager = $this->container->get('oro_entity_extend.migration.options_manager');
-
-        $this->updateCustomerConfiguration($extendOptionsManager, $queries);
-        $this->updateCustomerUserConfiguration($extendOptionsManager, $queries);
-        $this->updateCustomerAddressConfiguration($extendOptionsManager, $queries);
-        $this->updateCustomerUserAddressConfiguration($extendOptionsManager, $queries);
+        $this->updateCustomerConfiguration($queries);
+        $this->updateCustomerUserConfiguration($queries);
+        $this->updateCustomerAddressConfiguration($queries);
+        $this->updateCustomerUserAddressConfiguration($queries);
     }
 
     /**
      * Set name field as identity, make addresses excluded.
      */
-    private function updateCustomerConfiguration(
-        ExtendOptionsManager $extendOptionsManager,
-        QueryBag $queries
-    ): void {
-        $extendOptionsManager->mergeColumnOptions(
+    private function updateCustomerConfiguration(QueryBag $queries): void
+    {
+        $this->extendOptionsManager->mergeColumnOptions(
             'oro_customer',
             'id',
             ['importexport' => ['identity' => -1]]
@@ -50,7 +45,7 @@ class UpdateFieldsImportExportConfig implements Migration, ContainerAwareInterfa
             new UpdateEntityConfigFieldValueQuery(Customer::class, 'id', 'importexport', 'identity', -1)
         );
 
-        $extendOptionsManager->mergeColumnOptions(
+        $this->extendOptionsManager->mergeColumnOptions(
             'oro_customer',
             'name',
             ['importexport' => ['identity' => -1]]
@@ -59,7 +54,7 @@ class UpdateFieldsImportExportConfig implements Migration, ContainerAwareInterfa
             new UpdateEntityConfigFieldValueQuery(Customer::class, 'name', 'importexport', 'identity', -1)
         );
 
-        $extendOptionsManager->mergeColumnOptions(
+        $this->extendOptionsManager->mergeColumnOptions(
             'oro_customer',
             'addresses',
             ['importexport' => ['excluded' => true]]
@@ -72,11 +67,9 @@ class UpdateFieldsImportExportConfig implements Migration, ContainerAwareInterfa
     /**
      * Set name field as identity, make addresses excluded.
      */
-    private function updateCustomerUserConfiguration(
-        ExtendOptionsManager $extendOptionsManager,
-        QueryBag $queries
-    ): void {
-        $extendOptionsManager->mergeColumnOptions(
+    private function updateCustomerUserConfiguration(QueryBag $queries): void
+    {
+        $this->extendOptionsManager->mergeColumnOptions(
             'oro_customer_user',
             'addresses',
             ['importexport' => ['excluded' => true]]
@@ -92,11 +85,9 @@ class UpdateFieldsImportExportConfig implements Migration, ContainerAwareInterfa
      *  - add frontendOwner as identity field to prevent address stealing, not excluded, with header "Customer"
      *  - make primary field not excluded
      */
-    private function updateCustomerAddressConfiguration(
-        ExtendOptionsManager $extendOptionsManager,
-        QueryBag $queries
-    ): void {
-        $extendOptionsManager->mergeColumnOptions(
+    private function updateCustomerAddressConfiguration(QueryBag $queries): void
+    {
+        $this->extendOptionsManager->mergeColumnOptions(
             'oro_customer_address',
             'id',
             ['importexport' => ['header' => 'Address ID', 'excluded' => false]]
@@ -108,7 +99,7 @@ class UpdateFieldsImportExportConfig implements Migration, ContainerAwareInterfa
             new UpdateEntityConfigFieldValueQuery(CustomerAddress::class, 'id', 'importexport', 'excluded', false)
         );
 
-        $extendOptionsManager->mergeColumnOptions(
+        $this->extendOptionsManager->mergeColumnOptions(
             'oro_customer_address',
             'frontendOwner',
             ['importexport' => ['identity' => true, 'header' => 'Customer', 'excluded' => false]]
@@ -135,7 +126,7 @@ class UpdateFieldsImportExportConfig implements Migration, ContainerAwareInterfa
             false
         ));
 
-        $extendOptionsManager->mergeColumnOptions(
+        $this->extendOptionsManager->mergeColumnOptions(
             'oro_customer_address',
             'primary',
             ['importexport' => ['excluded' => false]]
@@ -151,11 +142,9 @@ class UpdateFieldsImportExportConfig implements Migration, ContainerAwareInterfa
      *  - add frontendOwner as identity field to prevent address stealing, not excluded, with header "Customer User"
      *  - make primary field not excluded
      */
-    private function updateCustomerUserAddressConfiguration(
-        ExtendOptionsManager $extendOptionsManager,
-        QueryBag $queries
-    ): void {
-        $extendOptionsManager->mergeColumnOptions(
+    private function updateCustomerUserAddressConfiguration(QueryBag $queries): void
+    {
+        $this->extendOptionsManager->mergeColumnOptions(
             'oro_customer_user_address',
             'id',
             ['importexport' => ['header' => 'Address ID', 'excluded' => false]]
@@ -171,7 +160,7 @@ class UpdateFieldsImportExportConfig implements Migration, ContainerAwareInterfa
             new UpdateEntityConfigFieldValueQuery(CustomerUserAddress::class, 'id', 'importexport', 'excluded', false)
         );
 
-        $extendOptionsManager->mergeColumnOptions(
+        $this->extendOptionsManager->mergeColumnOptions(
             'oro_customer_user_address',
             'frontendOwner',
             ['importexport' => ['identity' => true, 'header' => 'Customer User', 'excluded' => false]]
@@ -198,7 +187,7 @@ class UpdateFieldsImportExportConfig implements Migration, ContainerAwareInterfa
             false
         ));
 
-        $extendOptionsManager->mergeColumnOptions(
+        $this->extendOptionsManager->mergeColumnOptions(
             'oro_customer_user_address',
             'primary',
             ['importexport' => ['excluded' => false]]

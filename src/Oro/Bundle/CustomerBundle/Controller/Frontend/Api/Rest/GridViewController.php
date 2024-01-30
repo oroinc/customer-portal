@@ -25,7 +25,7 @@ class GridViewController extends BaseGridViewController
      * @Acl(
      *     id="oro_customer_frontend_gridview_create",
      *     type="entity",
-     *     class="OroCustomerBundle:GridView",
+     *     class="Oro\Bundle\CustomerBundle\Entity\GridView",
      *     permission="CREATE",
      *     group_name="commerce"
      * )
@@ -51,7 +51,7 @@ class GridViewController extends BaseGridViewController
      * @Acl(
      *     id="oro_customer_frontend_gridview_update",
      *     type="entity",
-     *     class="OroCustomerBundle:GridView",
+     *     class="Oro\Bundle\CustomerBundle\Entity\GridView",
      *     permission="EDIT",
      *     group_name="commerce"
      * )
@@ -76,7 +76,7 @@ class GridViewController extends BaseGridViewController
      * @Acl(
      *     id="oro_customer_frontend_gridview_delete",
      *     type="entity",
-     *     class="OroCustomerBundle:GridView",
+     *     class="Oro\Bundle\CustomerBundle\Entity\GridView",
      *     permission="DELETE",
      *     group_name="commerce"
      * )
@@ -108,7 +108,7 @@ class GridViewController extends BaseGridViewController
      * @Acl(
      *     id="oro_customer_frontend_gridview_view",
      *     type="entity",
-     *     class="OroCustomerBundle:GridView",
+     *     class="Oro\Bundle\CustomerBundle\Entity\GridView",
      *     permission="VIEW",
      *     group_name="commerce"
      * )
@@ -123,7 +123,7 @@ class GridViewController extends BaseGridViewController
      */
     public function getManager()
     {
-        return $this->get('oro_customer.grid_view.manager.api');
+        return $this->container->get('oro_customer.grid_view.manager.api');
     }
 
     /**

@@ -16,25 +16,8 @@ class LoginManagerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('oro_customer.security.login_manager')) {
-            return;
-        }
-
         $firewallName = $container->getParameter('oro_customer.firewall_name');
         $loginManager = $container->getDefinition('oro_customer.security.login_manager');
-
-        // inject remember me services
-        if ($container->hasDefinition('security.authentication.rememberme.services.persistent.'.$firewallName)) {
-            $loginManager->replaceArgument(
-                6,
-                new Reference('security.authentication.rememberme.services.persistent.'.$firewallName)
-            );
-        } elseif ($container->hasDefinition('security.authentication.rememberme.services.simplehash.'.$firewallName)) {
-            $loginManager->replaceArgument(
-                6,
-                new Reference('security.authentication.rememberme.services.simplehash.'.$firewallName)
-            );
-        }
 
         // inject user checker
         if ($container->has('security.user_checker.'.$firewallName)) {

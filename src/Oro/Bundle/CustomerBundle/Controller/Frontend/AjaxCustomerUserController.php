@@ -38,7 +38,7 @@ class AjaxCustomerUserController extends AbstractAjaxCustomerUserController
     public function checkEmailAction(Request $request)
     {
         $value = $request->get('value');
-        $validator = $this->get(ValidatorInterface::class);
+        $validator = $this->container->get(ValidatorInterface::class);
         $violations = $validator->validate($value, [new UniqueCustomerUserNameAndEmail()]);
 
         return new JsonResponse(['valid' => count($violations) === 0]);

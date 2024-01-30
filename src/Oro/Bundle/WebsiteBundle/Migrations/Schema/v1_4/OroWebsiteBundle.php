@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\WebsiteBundle\Migrations\Schema\v1_4;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
@@ -10,8 +9,9 @@ use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Types\Types;
 use Oro\Bundle\ConfigBundle\Migration\RenameConfigSectionQuery;
 use Oro\Bundle\MigrationBundle\Migration\Extension\DatabasePlatformAwareInterface;
-use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtension;
+use Oro\Bundle\MigrationBundle\Migration\Extension\DatabasePlatformAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareInterface;
+use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\OrderedMigrationInterface;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedSqlMigrationQuery;
@@ -23,18 +23,11 @@ class OroWebsiteBundle implements
     RenameExtensionAwareInterface,
     OrderedMigrationInterface
 {
-    /**
-     * @var AbstractPlatform
-     */
-    private $platform;
+    use DatabasePlatformAwareTrait;
+    use RenameExtensionAwareTrait;
 
     /**
-     * @var RenameExtension
-     */
-    private $renameExtension;
-
-    /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function up(Schema $schema, QueryBag $queries)
     {
@@ -78,17 +71,6 @@ class OroWebsiteBundle implements
         $table->dropColumn('url');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setDatabasePlatform(AbstractPlatform $platform)
-    {
-        $this->platform = $platform;
-    }
-
-    /**
-     * @throws SchemaException
-     */
     private function addIsDefaultColumn(Schema $schema, QueryBag $queries)
     {
         $table = $schema->getTable('orob2b_website');
@@ -216,21 +198,10 @@ class OroWebsiteBundle implements
     }
 
     /**
-     * Should be executed before:
-     * @see \Oro\Bundle\WebsiteBundle\Migrations\Schema\v1_4\MigrateNotes
-     *
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getOrder()
     {
         return 0;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setRenameExtension(RenameExtension $renameExtension)
-    {
-        $this->renameExtension = $renameExtension;
     }
 }

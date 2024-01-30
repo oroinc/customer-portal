@@ -6,7 +6,7 @@ use Oro\Bundle\ApiBundle\Request\RequestType;
 use Oro\Bundle\ApiBundle\Tests\Functional\RestJsonApiTestCase;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
-use Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener;
+use Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserAuthenticator;
 use Oro\Bundle\FrontendTestFrameworkBundle\Test\WebsiteManagerTrait;
 use Oro\Bundle\SecurityBundle\Csrf\CsrfRequestManager;
 use Oro\Bundle\TestFrameworkBundle\Test\Client;
@@ -86,7 +86,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     {
         $this->assertVisitorEnabled();
 
-        if (null !== $this->client->getCookieJar()->get(AnonymousCustomerUserAuthenticationListener::COOKIE_NAME)) {
+        if (null !== $this->client->getCookieJar()->get(AnonymousCustomerUserAuthenticator::COOKIE_NAME)) {
             return;
         }
 
@@ -139,17 +139,35 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     protected function setVisitorCookie(CustomerVisitor $visitor): void
     {
         $this->assertVisitorEnabled();
+        $this->ensureSessionIsAvailable();
 
-        $cookieJar = $this->client->getCookieJar();
-        $cookieJar->set(new Cookie(
-            AnonymousCustomerUserAuthenticationListener::COOKIE_NAME,
-            base64_encode(json_encode([$visitor->getId(), $visitor->getSessionId()], JSON_THROW_ON_ERROR))
-        ));
-        // set "_csrf" cookie with domain to be sure it was rewritten after previous request
+        // Set needed cookies
         $domain = str_replace('http://', '', Client::LOCAL_URL);
-        $cookieJar->set(new Cookie(CsrfRequestManager::CSRF_TOKEN_ID, 'test_csrf_token', null, null, $domain));
+        $customerVisitorCookie = new Cookie(
+            AnonymousCustomerUserAuthenticator::COOKIE_NAME,
+            base64_encode(json_encode([$visitor->getId(), $visitor->getSessionId()], JSON_THROW_ON_ERROR))
+        );
+        $this->client->getCookieJar()->set($customerVisitorCookie);
+
+        // set "_csrf" cookie with domain to be sure it was rewritten after previous request
+        $csrfCookie = new Cookie(
+            CsrfRequestManager::CSRF_TOKEN_ID,
+            'test_csrf_token',
+            null,
+            null,
+            $domain
+        );
+        $this->client->getCookieJar()->set($csrfCookie);
+
         // a marker for a stateful test API request
-        $cookieJar->set(new Cookie(self::API_TEST_STATEFUL_REQUEST, 'visitor', null, null, $domain));
+        $markerCookie = new Cookie(
+            self::API_TEST_STATEFUL_REQUEST,
+            'visitor',
+            null,
+            null,
+            $domain
+        );
+        $this->client->getCookieJar()->set($markerCookie);
     }
 
     /**
@@ -215,6 +233,12 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         // the '/api/' is one of the skipped patterns for the slug decision maker
         /** @var RequestContext $requestContext */
         $requestContext = self::getContainer()->get('router.request_context');
+
+        // Set host to provide the ability to generate URLs.
+        if (!$requestContext->getHost()) {
+            $requestContext->setHost(Client::LOCAL_HOST);
+        }
+
         $pathInfo = $requestContext->getPathInfo();
         if ('/' === $pathInfo) {
             $requestContext->setPathInfo('/api/');

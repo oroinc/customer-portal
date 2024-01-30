@@ -54,6 +54,8 @@ services:
                         tooltipEnable: {default: false}
                         dividerEnable: {default: true}
                         imageViewAs: {default: 'line'}
+                        not_use_for: {default: null} # Component added back for theme layout BC from version 5.0
+                        use_for: {default: null} # Component added back for theme layout BC from version 5.0
         tags:
             - { name: layout.block_type, alias: menu_item }
 

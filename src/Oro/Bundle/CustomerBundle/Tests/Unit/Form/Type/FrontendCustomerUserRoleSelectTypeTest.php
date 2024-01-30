@@ -94,7 +94,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
             ->method('setDefaults')
             ->with($this->isType('array'))
             ->willReturnCallback(
-                function (array $options) {
+                function (array $options) use ($resolver) {
                     $this->assertArrayHasKey('query_builder', $options);
                     $this->assertInstanceOf(\Closure::class, $options['query_builder']);
                     $this->assertArrayHasKey('acl_options', $options);
@@ -104,6 +104,8 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
                         ],
                         $options['acl_options']
                     );
+
+                    return $resolver;
                 }
             );
         $this->formType->configureOptions($resolver);

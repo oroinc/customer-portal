@@ -4,17 +4,14 @@ namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_6;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
-use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtension;
 use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareInterface;
+use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class OroAccountBundle implements Migration, RenameExtensionAwareInterface
 {
-    /**
-     * @var RenameExtension
-     */
-    protected $renameExtension;
+    use RenameExtensionAwareTrait;
 
     /**
      * {@inheritdoc}
@@ -69,7 +66,7 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface
 
     protected function updateAccountUserRoles(QueryBag $queries)
     {
-        $anonymousRoleName = 'IS_AUTHENTICATED_ANONYMOUSLY';
+        $anonymousRoleName = 'PUBLIC_ACCESS';
 
         $queries->addPostQuery(
             "UPDATE orob2b_account_user_role SET self_managed = TRUE WHERE role <> '$anonymousRoleName'"
@@ -90,13 +87,5 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface
         ) {
             $table->dropColumn('serialized_data');
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setRenameExtension(RenameExtension $renameExtension)
-    {
-        $this->renameExtension = $renameExtension;
     }
 }

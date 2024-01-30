@@ -30,7 +30,7 @@ class CustomerUserController extends AbstractController
      * @Acl(
      *      id="oro_customer_frontend_customer_user_view",
      *      type="entity",
-     *      class="OroCustomerBundle:CustomerUser",
+     *      class="Oro\Bundle\CustomerBundle\Entity\CustomerUser",
      *      permission="VIEW",
      *      group_name="commerce"
      * )
@@ -64,7 +64,7 @@ class CustomerUserController extends AbstractController
      * @Acl(
      *      id="oro_customer_frontend_customer_user_create",
      *      type="entity",
-     *      class="OroCustomerBundle:CustomerUser",
+     *      class="Oro\Bundle\CustomerBundle\Entity\CustomerUser",
      *      permission="CREATE",
      *      group_name="commerce"
      * )
@@ -82,7 +82,7 @@ class CustomerUserController extends AbstractController
      * @Acl(
      *      id="oro_customer_frontend_customer_user_update",
      *      type="entity",
-     *      class="OroCustomerBundle:CustomerUser",
+     *      class="Oro\Bundle\CustomerBundle\Entity\CustomerUser",
      *      permission="EDIT",
      *      group_name="commerce"
      * )
@@ -94,19 +94,20 @@ class CustomerUserController extends AbstractController
 
     protected function update(CustomerUser $customerUser, Request $request): array|RedirectResponse
     {
-        $form = $this->get(FrontendCustomerUserFormProvider::class)
+        $form = $this->container->get(FrontendCustomerUserFormProvider::class)
             ->getCustomerUserForm($customerUser);
         $handler = new CustomerUserHandler(
-            $this->get(CustomerUserManager::class),
-            $this->get(TokenAccessorInterface::class),
-            $this->get(TranslatorInterface::class),
-            $this->get(LoggerInterface::class)
+            $this->container->get(CustomerUserManager::class),
+            $this->container->get(TokenAccessorInterface::class),
+            $this->container->get(TranslatorInterface::class),
+            $this->container->get(LoggerInterface::class)
         );
 
-        $result = $this->get(UpdateHandlerFacade::class)->update(
+        $result = $this->container->get(UpdateHandlerFacade::class)->update(
             $customerUser,
             $form,
-            $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruser.saved.message'),
+            $this->container->get(TranslatorInterface::class)
+                ->trans('oro.customer.controller.customeruser.saved.message'),
             $request,
             $handler
         );

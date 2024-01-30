@@ -2,22 +2,9 @@ The upgrade instructions are available at [Oro documentation website](https://do
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
-### Changed
-
-#### FrontendBundle
-
-SCSS `$base-font-minor` and `$base-font-icon` variables were removed, use `$base-font` and SVG icon instead.
-SCSS `get-nested-map-value` function was removed, use native SCSS `map.get` function instead.
-
-Widget `oro/frontend-dialog-widget` was renamed to `oro/dialog-widget`, so you have to use `oro/dialog-widget` in your customization.
-This widget no longer uses `fullscreen-popup-view` under the hood to render dialog as fullscreen.
-All logic is done by CSS using an extra class `fullscreen`.
-As a result, `fullscreenViewOptions` property was deleted and property `popupIcon` and
-events `frontend-dialog:accept, frontend-dialog:cancel, frontend-dialog:close` were renamed to `dialogTitleIcon`, and `accept, cancel, close`.
-
-
 ## Changes in the Customer Portal package versions
 
+- [6.0.0-BETA](#600-beta-2024-01-08)
 - [5.1.0](#510-2023-03-31)
 - [5.0.0](#500-2022-01-26)
 - [4.2.0](#420-2020-01-29)
@@ -33,6 +20,20 @@ events `frontend-dialog:accept, frontend-dialog:cancel, frontend-dialog:close` w
 - [2.4.0](#240-2017-09-29)
 - [2.3.0](#230-2017-07-28)
 - [2.2.0](#220-2017-05-31)
+
+
+## 6.0.0-BETA (2024-01-08)
+[Show detailed list of changes](incompatibilities-6-0-beta.md)
+
+### Changed
+
+#### FrontendBundle
+* SCSS `$base-font-minor` and `$base-font-icon` variables were removed, use `$base-font` and SVG icon instead.
+* SCSS `get-nested-map-value` function was removed, use native SCSS `map.get` function instead.
+* Widget `oro/frontend-dialog-widget` was renamed to `oro/dialog-widget`, so you have to use `oro/dialog-widget` in your customization. 
+  This widget no longer uses `fullscreen-popup-view` under the hood to render dialog as fullscreen. 
+  All logic is done by CSS using an extra class `fullscreen`.  As a result, `fullscreenViewOptions` property was deleted and properties `popupIcon, popupBadge` and events `frontend-dialog:accept, frontend-dialog:cancel, frontend-dialog:close` were renamed to `dialogTitleIcon, dialogTitleBadge`, and `accept, cancel, close`.
+* [Content Providers feature](https://doc.oroinc.com/bundles/platform/UIBundle/content-providers/) is separated now between backoffice and storefront. The tag `oro_ui.content_provider` is used for collecting backoffice content providers and the tag `oro_frontend.content_provider` - for storefront content providers.
 
 
 ## 5.1.0 (2023-03-31)

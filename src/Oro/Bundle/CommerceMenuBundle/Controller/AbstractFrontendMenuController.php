@@ -12,6 +12,6 @@ abstract class AbstractFrontendMenuController extends AbstractMenuController
 {
     protected function getSavedSuccessMessage(): string
     {
-        return $this->get(TranslatorInterface::class)->trans('oro.commercemenu.menuupdate.saved_message');
+        return $this->container->get(TranslatorInterface::class)->trans('oro.commercemenu.menuupdate.saved_message');
     }
 }

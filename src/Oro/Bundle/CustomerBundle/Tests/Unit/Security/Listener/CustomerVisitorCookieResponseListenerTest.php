@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security\Listener;
 
-use Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener;
+use Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserAuthenticator;
 use Oro\Bundle\CustomerBundle\Security\Listener\CustomerVisitorCookieResponseListener;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +17,7 @@ class CustomerVisitorCookieResponseListenerTest extends \PHPUnit\Framework\TestC
         $cookie = Cookie::create('foo_cookie');
 
         $request = new Request();
-        $request->attributes->set(AnonymousCustomerUserAuthenticationListener::COOKIE_ATTR_NAME, $cookie);
+        $request->attributes->set(AnonymousCustomerUserAuthenticator::COOKIE_ATTR_NAME, $cookie);
 
         $response = new Response();
 

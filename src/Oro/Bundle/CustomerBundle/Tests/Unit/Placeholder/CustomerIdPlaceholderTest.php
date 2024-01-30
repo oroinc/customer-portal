@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Placeholder;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Placeholder\CustomerIdPlaceholder;
+use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -43,7 +44,7 @@ class CustomerIdPlaceholderTest extends \PHPUnit\Framework\TestCase
         $token = $this->createMock(TokenInterface::class);
         $token->expects($this->once())
             ->method('getUser')
-            ->willReturn('Anonymous');
+            ->willReturn(new User());
 
         $this->tokenStorage->expects($this->once())
             ->method('getToken')

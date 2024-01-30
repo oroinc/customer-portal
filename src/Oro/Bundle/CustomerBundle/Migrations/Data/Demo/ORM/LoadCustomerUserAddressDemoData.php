@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 
@@ -13,20 +14,18 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 class LoadCustomerUserAddressDemoData extends AbstractLoadAddressDemoData implements DependentFixtureInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
-        return [__NAMESPACE__ . '\LoadCustomerUserDemoData'];
+        return [LoadCustomerUserDemoData::class];
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        parent::load($manager);
-
         $userManager = $this->container->get('oro_customer_user.manager');
 
         $locator = $this->container->get('file_locator');
@@ -60,9 +59,9 @@ class LoadCustomerUserAddressDemoData extends AbstractLoadAddressDemoData implem
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getNewAddressEntity()
+    protected function getNewAddressEntity(): AbstractDefaultTypedAddress
     {
         return new CustomerUserAddress();
     }

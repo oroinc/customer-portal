@@ -23,27 +23,22 @@ class AnonymousCustomerUserFactoryTest extends \PHPUnit\Framework\TestCase
     {
         $container = new ContainerBuilder();
 
-        $this->factory->create(
+        $this->factory->createAuthenticator(
             $container,
             'fake_id',
             ['update_latency' => 300],
             'fake_user_provider',
-            'fake_default_entry_point'
         );
 
         self::assertEquals(
-            new ChildDefinition('oro_customer.authentication.provider.anonymous_customer_user'),
-            $container->getDefinition('oro_customer.authentication.provider.anonymous_customer_user.fake_id')
-        );
-        self::assertEquals(
-            new ChildDefinition('oro_customer.authentication.listener.anonymous_customer_user'),
-            $container->getDefinition('oro_customer.authentication.listener.anonymous_customer_user.fake_id')
+            new ChildDefinition('oro_customer.anonymous_customer_user.authenticator'),
+            $container->getDefinition('oro_customer.anonymous_customer_user.authenticator.fake_id')
         );
     }
 
     public function testGetPosition(): void
     {
-        self::assertEquals('remember_me', $this->factory->getPosition());
+        self::assertEquals(-60, $this->factory->getPriority());
     }
 
     public function testGetKey(): void

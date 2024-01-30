@@ -20,7 +20,7 @@ class AnonymousCustomerUserTokenTest extends \PHPUnit\Framework\TestCase
         $organization = new Organization();
         ReflectionUtil::setId($organization, 3);
 
-        $token = new AnonymousCustomerUserToken('user', [], $visitor, $organization);
+        $token = new AnonymousCustomerUserToken($visitor, [], $organization);
 
         self::assertSame($visitor, $token->getVisitor());
         self::assertSame($organization, $token->getOrganization());
@@ -33,7 +33,6 @@ class AnonymousCustomerUserTokenTest extends \PHPUnit\Framework\TestCase
 
     public function testSerialization()
     {
-        $user = 'user';
         $role = new CustomerUserRole();
         ReflectionUtil::setId($role, 2);
         $visitor = new CustomerVisitor();
@@ -41,15 +40,11 @@ class AnonymousCustomerUserTokenTest extends \PHPUnit\Framework\TestCase
         $organization = new Organization();
         ReflectionUtil::setId($organization, 3);
 
-        $token = new AnonymousCustomerUserToken($user, [$role], $visitor, $organization);
+        $token = new AnonymousCustomerUserToken($visitor, [$role], $organization);
 
         /** @var AnonymousCustomerUserToken $newToken */
         $newToken = unserialize(serialize($token));
-
         self::assertEquals($token->getUser(), $newToken->getUser());
-
-        self::assertNull($newToken->getVisitor());
-
         self::assertNotSame($token->getRoles()[0], $newToken->getRoles()[0]);
         self::assertEquals($token->getRoles()[0]->getId(), $newToken->getRoles()[0]->getId());
 

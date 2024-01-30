@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
-use Symfony\Component\Security\Http\RememberMe\RememberMeServicesInterface;
+use Symfony\Component\Security\Http\RememberMe\RememberMeHandlerInterface;
 use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategyInterface;
 
 class LoginManagerTest extends \PHPUnit\Framework\TestCase
@@ -36,7 +36,7 @@ class LoginManagerTest extends \PHPUnit\Framework\TestCase
     /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
     private $requestStack;
 
-    /** @var RememberMeServicesInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var RememberMeHandlerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $rememberMe;
 
     /** @var UsernamePasswordOrganizationTokenFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
@@ -59,7 +59,7 @@ class LoginManagerTest extends \PHPUnit\Framework\TestCase
         $this->requestStack->expects(self::once())
             ->method('getCurrentRequest')
             ->willReturn($this->request);
-        $this->rememberMe = $this->createMock(RememberMeServicesInterface::class);
+        $this->rememberMe = $this->createMock(RememberMeHandlerInterface::class);
 
         $this->tokenFactory = $this->createMock(UsernamePasswordOrganizationTokenFactoryInterface::class);
 
@@ -102,7 +102,6 @@ class LoginManagerTest extends \PHPUnit\Framework\TestCase
             ->method('create')
             ->with(
                 $this->isInstanceOf(CustomerUser::class),
-                null,
                 'main',
                 $this->isInstanceOf(Organization::class),
                 $roles
@@ -140,7 +139,6 @@ class LoginManagerTest extends \PHPUnit\Framework\TestCase
             ->method('create')
             ->with(
                 $this->isInstanceOf(CustomerUser::class),
-                null,
                 'main',
                 $this->isInstanceOf(Organization::class),
                 $roles
@@ -148,8 +146,8 @@ class LoginManagerTest extends \PHPUnit\Framework\TestCase
             ->willReturn($token);
 
         $this->rememberMe->expects(self::once())
-            ->method('loginSuccess')
-            ->with($this->request, $response, $token);
+            ->method('createRememberMeCookie')
+            ->with($user);
 
         $this->loginManager->logInUser('main', $user, $response);
     }

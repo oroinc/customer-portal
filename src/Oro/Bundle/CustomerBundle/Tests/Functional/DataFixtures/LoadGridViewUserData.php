@@ -2,14 +2,13 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\GridViewUser;
+use Oro\Bundle\DataGridBundle\Entity\AbstractGridViewUser;
 use Oro\Bundle\DataGridBundle\Tests\Functional\DataFixtures\LoadGridViewUserData as BaseLoadGridViewUserData;
 
 class LoadGridViewUserData extends BaseLoadGridViewUserData
 {
-    /** @var array */
-    protected static $data = [
+    protected static array $data = [
         self::GRID_VIEW_USER_1 => [
             'user' => LoadCustomerUserGridViewACLData::USER_ACCOUNT_1_ROLE_LOCAL,
             'gridView' => LoadGridViewData::GRID_VIEW_1
@@ -29,26 +28,18 @@ class LoadGridViewUserData extends BaseLoadGridViewUserData
     ];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
-        return [LoadGridViewData::class];
+        return [LoadCustomerUserGridViewACLData::class, LoadGridViewData::class];
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function createInstance()
+    protected function createInstance(): AbstractGridViewUser
     {
         return new GridViewUser();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getUserClassName()
-    {
-        return CustomerUser::class;
     }
 }

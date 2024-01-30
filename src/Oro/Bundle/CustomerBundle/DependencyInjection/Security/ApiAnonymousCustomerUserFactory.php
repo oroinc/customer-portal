@@ -2,43 +2,38 @@
 
 namespace Oro\Bundle\CustomerBundle\DependencyInjection\Security;
 
-use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
+use Oro\Bundle\SecurityBundle\Authentication\Listener\OnNoTokenAccessListener;
+use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AuthenticatorFactoryInterface;
+use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\FirewallListenerFactoryInterface;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Configures definitions for anonymous customer user that is not stored in the database.
  */
-class ApiAnonymousCustomerUserFactory implements SecurityFactoryInterface
+class ApiAnonymousCustomerUserFactory implements AuthenticatorFactoryInterface, FirewallListenerFactoryInterface
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function create(
+    public function createAuthenticator(
         ContainerBuilder $container,
-        string $id,
+        string $firewallName,
         array $config,
-        string $userProviderId,
-        ?string $defaultEntryPointId
-    ): array {
-        $baseProviderId = 'oro_customer.authentication.provider.api_anonymous_customer_user';
-        $providerId = $baseProviderId . '.' . $id;
-        $container->setDefinition($providerId, new ChildDefinition($baseProviderId));
+        string $userProviderId
+    ): string {
+        $authenticatorId = 'oro_customer.api_anonymous_customer_user.authenticator.' . $firewallName;
+        $container
+            ->setDefinition(
+                $authenticatorId,
+                new ChildDefinition('oro_customer.api_anonymous_customer_user.authenticator')
+            );
 
-        $baseListenerId = 'oro_customer.authentication.listener.api_anonymous_customer_user';
-        $listenerId = $baseListenerId . '.' . $id;
-        $container->setDefinition($listenerId, new ChildDefinition($baseListenerId));
-
-        return [$providerId, $listenerId, $defaultEntryPointId];
+        return $authenticatorId;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getPosition(): string
+    public function getPriority(): int
     {
-        return 'remember_me';
+        return -60;
     }
 
     /**
@@ -51,5 +46,17 @@ class ApiAnonymousCustomerUserFactory implements SecurityFactoryInterface
 
     public function addConfiguration(NodeDefinition $builder): void
     {
+    }
+
+    public function createListeners(ContainerBuilder $container, string $firewallName, array $config): array
+    {
+        $onNoTokenListenerId = 'oro_customer.authentication.listener.notoken.' . $firewallName;
+        $container
+            ->register($onNoTokenListenerId, OnNoTokenAccessListener::class)
+            ->setArguments([
+                new Reference('security.token_storage'),
+            ]);
+
+        return [$onNoTokenListenerId];
     }
 }

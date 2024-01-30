@@ -20,12 +20,12 @@ abstract class AbstractRolesData extends AbstractFixture implements DependentFix
 {
     use ContainerAwareTrait;
 
-    const ROLES_FILE_NAME = '';
+    protected const ROLES_FILE_NAME = '';
 
     /**
      * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $aclManager = $this->getAclManager();
         $roleData = $this->loadRolesData();
@@ -49,20 +49,9 @@ abstract class AbstractRolesData extends AbstractFixture implements DependentFix
         }
     }
 
-    /**
-     * @param string $name
-     * @param string $label
-     *
-     * @return AbstractRole
-     */
-    abstract protected function createEntity($name, $label);
+    abstract protected function createEntity(string $name, string $label): AbstractRole;
 
-    /**
-     * @param array|null $bundles
-     *
-     * @return array
-     */
-    protected function loadRolesData(array $bundles = null)
+    protected function loadRolesData(array $bundles = null): array
     {
         /** @var Kernel $kernel */
         $kernel = $this->container->get('kernel');
@@ -81,12 +70,7 @@ abstract class AbstractRolesData extends AbstractFixture implements DependentFix
         return $rolesData;
     }
 
-    /**
-     * @param string $bundle
-     *
-     * @return string
-     */
-    protected function getFileName($bundle)
+    protected function getFileName(string $bundle): string
     {
         return sprintf('@%s%s%s', $bundle, '/Migrations/Data/ORM/data/', static::ROLES_FILE_NAME);
     }
@@ -104,12 +88,7 @@ abstract class AbstractRolesData extends AbstractFixture implements DependentFix
         }
     }
 
-    /**
-     * @param AclManager                $aclManager
-     * @param SecurityIdentityInterface $sid
-     * @param array                     $aclData [oid descriptor => [permission, ...], ...]
-     */
-    protected function setPermissions(AclManager $aclManager, SecurityIdentityInterface $sid, array $aclData)
+    protected function setPermissions(AclManager $aclManager, SecurityIdentityInterface $sid, array $aclData): void
     {
         foreach ($aclData as $oidDescriptor => $permissions) {
             $oid = $aclManager->getOid(str_replace('|', ':', $oidDescriptor));
@@ -125,10 +104,7 @@ abstract class AbstractRolesData extends AbstractFixture implements DependentFix
         }
     }
 
-    /**
-     * @return AclManager
-     */
-    protected function getAclManager()
+    protected function getAclManager(): AclManager
     {
         return $this->container->get('oro_security.acl.manager');
     }

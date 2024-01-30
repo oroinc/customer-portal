@@ -30,7 +30,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
     public function indexAction(Customer $customer)
     {
         $this->denyAccessUnlessGranted('oro_navigation_manage_menus');
-        $contexts = $this->get(CustomerMenuContextProvider::class)->getContexts($customer);
+        $contexts = $this->container->get(CustomerMenuContextProvider::class)->getContexts($customer);
 
         return [
             'entity' => $customer,

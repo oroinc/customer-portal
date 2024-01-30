@@ -86,10 +86,12 @@ class MenuUserAgentConditionsCollectionTypeTest extends FormIntegrationTestCase
 
         $builder->expects(self::once())
             ->method('addEventListener')
-            ->willReturnCallback(function ($eventType, $callback, $priority) {
+            ->willReturnCallback(function ($eventType, $callback, $priority) use ($builder) {
                 self::assertEquals(FormEvents::PRE_SET_DATA, $eventType);
                 self::assertEquals('preSetData', $callback[1]);
                 self::assertEquals(10, $priority);
+
+                return $builder;
             });
 
         $this->formType->buildForm($builder, []);

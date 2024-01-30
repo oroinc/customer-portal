@@ -2,6 +2,8 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Extension;
 
+use Knp\Menu\MenuFactory;
+use Knp\Menu\MenuItem;
 use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\AttachmentBundle\Form\Type\ImageType;
 use Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateGeneralExtension;
@@ -102,14 +104,16 @@ class MenuUpdateGeneralExtensionTest extends FormIntegrationTestCase
     {
         $menu = $this->createItem('sample_menu');
         $menuUpdate = new MenuUpdateStub();
+        $menuItem = (new MenuItem('sample_menu_item', new MenuFactory()))->setLinkAttributes(['target' => '_blank']);
 
         $form = $this->factory->create(
             MenuUpdateTypeStub::class,
             $menuUpdate,
-            ['menu' => $menu]
+            ['menu' => $menu, 'menu_item' => $menuItem]
         );
 
         self::assertTrue($form->has('linkTarget'));
+        self::assertSame($form->get('linkTarget')->getData(), LinkTargetType::NEW_WINDOW_VALUE);
     }
 
     public function testSubmitLinkTargetField(): void

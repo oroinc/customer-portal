@@ -109,7 +109,7 @@ class CustomerUserAddressNormalizerTest extends AbstractCustomerAddressNormalize
         $this->assertEquals('US-NY', $address->getRegion()->getCombinedCode());
         $this->assertEquals(42, $address->getFrontendOwner()->getId());
         $this->assertEquals('customer_user@example.com', $address->getFrontendOwner()->getEmail());
-        $this->assertEquals('admin', $address->getOwner()->getUsername());
+        $this->assertEquals('admin', $address->getOwner()->getUserIdentifier());
 
         $this->assertTrue($address->hasTypeWithName('billing'));
         $this->assertTrue($address->hasTypeWithName('shipping'));

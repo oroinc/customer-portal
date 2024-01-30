@@ -2,17 +2,17 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\GridView;
+use Oro\Bundle\DataGridBundle\Entity\AbstractGridView;
 use Oro\Bundle\DataGridBundle\Tests\Functional\DataFixtures\LoadGridViewData as BaseLoadGridViewData;
 
 class LoadGridViewData extends BaseLoadGridViewData
 {
-    const GRID_VIEW_PRIVATE = 'grid_view.private';
-    const GRID_VIEW_PUBLIC = 'grid_view.public';
+    public const GRID_VIEW_PRIVATE = 'grid_view.private';
+    public const GRID_VIEW_PUBLIC = 'grid_view.public';
 
     /** @var array */
-    protected static $data = [
+    protected static array $data = [
         self::GRID_VIEW_PRIVATE => [
             'name' => 'grid-view-private',
             'type' => GridView::TYPE_PRIVATE,
@@ -46,28 +46,18 @@ class LoadGridViewData extends BaseLoadGridViewData
     ];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
-        return [
-            LoadCustomerUserGridViewACLData::class,
-        ];
+        return [LoadCustomerUserGridViewACLData::class];
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function createInstance()
+    protected function createInstance(): AbstractGridView
     {
         return new GridView();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getUserClassName()
-    {
-        return CustomerUser::class;
     }
 }

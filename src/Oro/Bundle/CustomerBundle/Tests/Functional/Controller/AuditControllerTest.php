@@ -15,7 +15,6 @@ class AuditControllerTest extends WebTestCase
             [],
             $this->generateBasicAuthHeader(LoadCustomerUserData::AUTH_USER, LoadCustomerUserData::AUTH_PW)
         );
-        $this->client->useHashNavigation(true);
     }
 
     /**

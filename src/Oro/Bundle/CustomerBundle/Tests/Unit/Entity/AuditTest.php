@@ -22,8 +22,10 @@ class AuditTest extends \PHPUnit\Framework\TestCase
 
     public function testAccessors()
     {
+        $customerUser = new CustomerUser();
+        $customerUser->setUserIdentifier('test');
         $properties = [
-            ['objectName', (string)(new CustomerUser())],
+            ['objectName', (string)$customerUser],
             ['objectId', '2'],
             ['organization', new Organization()],
             ['id', 2],
