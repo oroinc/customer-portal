@@ -69,7 +69,7 @@ class GuestAccessRequestListenerTest extends \PHPUnit\Framework\TestCase
     public function testOnKernelRequestIfGuestAccessAllowed(): void
     {
         $this->event->expects(self::once())
-            ->method('isMasterRequest')
+            ->method('isMainRequest')
             ->willReturn(true);
 
         $this->tokenAccessor->expects(self::once())
@@ -90,7 +90,7 @@ class GuestAccessRequestListenerTest extends \PHPUnit\Framework\TestCase
     public function testOnKernelRequestIfNotMasterRequest(): void
     {
         $this->event->expects(self::once())
-            ->method('isMasterRequest')
+            ->method('isMainRequest')
             ->willReturn(false);
 
         $this->tokenAccessor->expects(self::never())
@@ -102,7 +102,7 @@ class GuestAccessRequestListenerTest extends \PHPUnit\Framework\TestCase
     public function testOnKernelRequestIfAuthenticated(): void
     {
         $this->event->expects(self::once())
-            ->method('isMasterRequest')
+            ->method('isMainRequest')
             ->willReturn(true);
 
         $this->tokenAccessor->expects(self::once())
@@ -247,7 +247,7 @@ class GuestAccessRequestListenerTest extends \PHPUnit\Framework\TestCase
     private function mockEventIsSupported(): void
     {
         $this->event->expects(self::once())
-            ->method('isMasterRequest')
+            ->method('isMainRequest')
             ->willReturn(true);
 
         $this->tokenAccessor->expects(self::once())

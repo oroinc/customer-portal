@@ -4,25 +4,14 @@ namespace Oro\Bundle\CommerceMenuBundle\Migrations\Schema\v1_1;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\StringType;
-use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtension;
 use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareInterface;
+use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class OroCommerceMenuBundle implements Migration, RenameExtensionAwareInterface
 {
-    /**
-     * @var RenameExtension
-     */
-    private $renameExtension;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setRenameExtension(RenameExtension $renameExtension)
-    {
-        $this->renameExtension = $renameExtension;
-    }
+    use RenameExtensionAwareTrait;
 
     /**
      * {@inheritdoc}

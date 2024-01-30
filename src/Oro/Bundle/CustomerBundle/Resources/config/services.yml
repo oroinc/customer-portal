@@ -245,7 +245,7 @@ services:
             - '@oro_frontend.request.frontend_helper'
         tags:
             - { name: kernel.event_listener, event: security.interactive_login, method: onInteractiveLogin }
-            - { name: kernel.event_listener, event: security.authentication.failure, method: onAuthenticationFailure }
+            - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LoginFailureEvent, method: onAuthenticationFailure }
             - { name: container.service_subscriber, id: oro_user.security.login_attempts_handler, key: handler }
             - { name: container.service_subscriber, id: oro_customer.security.login_attempts_handler, key: frontend_handler }
 
@@ -277,34 +277,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
-    oro_customer.authentication.listener.anonymous_customer_user:
-        class: Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener
-        abstract: true
-        arguments:
-            - '@security.token_storage'
-            - '@security.authentication.manager'
-            - '@oro_security.csrf_protected_request_helper'
-            - '@oro_customer.authentication.customer_visitor_cookie_factory'
-            - '@oro_customer.authentication.anonymous_customer_user_roles_provider'
-            - '@oro_api.request_helper'
-            - '@logger'
-        tags:
-            - { name: monolog.logger, channel: security }
-
-    oro_customer.authentication.listener.api_anonymous_customer_user:
-        class: Oro\Bundle\CustomerBundle\Security\Firewall\ApiAnonymousCustomerUserAuthenticationListener
-        abstract: true
-        arguments:
-            - '@security.token_storage'
-            - '@security.authentication.manager'
-            - '@oro_customer.authentication.anonymous_customer_user_roles_provider'
-            - '@oro_api.request_helper'
-            - '@oro_config.manager'
-            - '@oro_customer.authentication.decision_maker.api_anonymous_customer_user'
-            - '@logger'
-        tags:
-            - { name: monolog.logger, channel: security }
-
     oro_customer.authentication.decision_maker.api_anonymous_customer_user:
         class: Oro\Bundle\CustomerBundle\Security\Firewall\ApiAnonymousCustomerUserAuthenticationDecisionMaker
         lazy: true
@@ -328,18 +300,35 @@ services:
             - '@oro_website.manager'
             - '@doctrine'
 
-    oro_customer.authentication.provider.anonymous_customer_user:
-        class: Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserAuthenticationProvider
+    oro_customer.anonymous_customer_user.authenticator:
+        class: Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserAuthenticator
         abstract: true
         arguments:
             - '@oro_customer.customer_visitor_manager'
             - '@oro_website.manager'
+            - '@security.token_storage'
+            - '@oro_customer.anonymous_customer_user.token.factory'
+            - '@oro_security.csrf_protected_request_helper'
+            - '@oro_customer.authentication.customer_visitor_cookie_factory'
+            - '@oro_customer.authentication.anonymous_customer_user_roles_provider'
+            - '@oro_api.request_helper'
+            - '@logger'
 
-    oro_customer.authentication.provider.api_anonymous_customer_user:
-        class: Oro\Bundle\CustomerBundle\Security\ApiAnonymousCustomerUserAuthenticationProvider
+    oro_customer.api_anonymous_customer_user.authenticator:
+        class: Oro\Bundle\CustomerBundle\Security\ApiAnonymousCustomerUserAuthenticator
         abstract: true
         arguments:
             - '@oro_website.manager'
+            - '@security.token_storage'
+            - '@oro_customer.anonymous_customer_user.token.factory'
+            - '@oro_customer.authentication.anonymous_customer_user_roles_provider'
+            - '@oro_api.request_helper'
+            - '@oro_config.manager'
+            - '@oro_customer.authentication.decision_maker.api_anonymous_customer_user'
+            - '@logger'
+
+    oro_customer.anonymous_customer_user.token.factory:
+        class: Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserTokenFactory
 
     oro_customer.customer_user_menu:
         class: 'Oro\Bundle\CustomerBundle\Menu\CustomerUserMenuBuilder'
@@ -387,14 +376,6 @@ services:
         class: 'Oro\Bundle\CustomerBundle\EventListener\LoginListener'
         tags:
             - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
-
-    oro_customer.event_listener.authentication_failure:
-        class: Oro\Bundle\UserBundle\EventListener\AuthenticationFailureListener
-        arguments:
-            - 'frontend'
-            - 'oro_customer.login.errors.bad_credentials'
-        tags:
-            - { name: kernel.event_listener, event: security.authentication.failure, method: onAuthenticationFailure, priority: -255 }
 
     oro_customer.acl.group_provider:
         class: 'Oro\Bundle\CustomerBundle\Acl\Group\AclGroupProvider'
@@ -1105,7 +1086,7 @@ services:
            - '@request_stack'
            - '@oro_security.token.factory.username_password_organization'
            - '@event_dispatcher'
-           - ~ # remember-me services
+           - '@Symfony\Component\Security\Http\RememberMe\RememberMeHandlerInterface'
 
     oro_customer.security.user_checker.decorator:
         decorates: security.user_checker
@@ -1459,3 +1440,14 @@ services:
         arguments:
             - '@oro_security.token_accessor'
             - '@.inner'
+
+    oro_customer.visitor.security.provider:
+        class: Oro\Bundle\CustomerBundle\Provider\CustomerVisitorProvider
+        arguments:
+            - '@oro_customer.customer_visitor_manager'
+            - '@doctrine'
+
+    oro_customer.event_listener.anonymous_login_success_listener:
+        class: Oro\Bundle\CustomerBundle\Security\Listener\AnonymousSuccessLoginListener
+        tags:
+            - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LoginSuccessEvent, method: onSuccess, priority: 100 }

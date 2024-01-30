@@ -35,7 +35,7 @@ class CustomerUserController extends AbstractController
      * @Acl(
      *      id="oro_customer_customer_user_view",
      *      type="entity",
-     *      class="OroCustomerBundle:CustomerUser",
+     *      class="Oro\Bundle\CustomerBundle\Entity\CustomerUser",
      *      permission="VIEW"
      * )
      */
@@ -92,7 +92,7 @@ class CustomerUserController extends AbstractController
     public function getRolesAction(Request $request, string $customerUserId, string $customerId): array
     {
         /** @var DoctrineHelper $doctrineHelper */
-        $doctrineHelper = $this->get(DoctrineHelper::class);
+        $doctrineHelper = $this->container->get(DoctrineHelper::class);
 
         if ($customerUserId) {
             $customerUser = $doctrineHelper->getEntityReference(CustomerUser::class, $customerUserId);
@@ -110,7 +110,7 @@ class CustomerUserController extends AbstractController
         $customerUser->setCustomer($customer);
 
         $form = $this->createForm(CustomerUserType::class, $customerUser);
-        $form->handleRequest($this->get(RequestStack::class)->getMainRequest());
+        $form->handleRequest($this->container->get(RequestStack::class)->getMainRequest());
 
         if (($error = $request->get('error', '')) && $form->has('userRoles')) {
             $form
@@ -129,7 +129,7 @@ class CustomerUserController extends AbstractController
      * @Acl(
      *      id="oro_customer_customer_user_create",
      *      type="entity",
-     *      class="OroCustomerBundle:CustomerUser",
+     *      class="Oro\Bundle\CustomerBundle\Entity\CustomerUser",
      *      permission="CREATE"
      * )
      */
@@ -156,7 +156,8 @@ class CustomerUserController extends AbstractController
         $customerUser = new CustomerUser();
         $customerUser->setCustomer($customer);
 
-        $saveAndReturnActionFormTemplateDataProvider = $this->get(SaveAndReturnActionFormTemplateDataProvider::class);
+        $saveAndReturnActionFormTemplateDataProvider = $this->container
+            ->get(SaveAndReturnActionFormTemplateDataProvider::class);
         $saveAndReturnActionFormTemplateDataProvider
             ->setSaveFormActionRoute(
                 'oro_customer_customer_user_create_for_customer',
@@ -183,7 +184,7 @@ class CustomerUserController extends AbstractController
      * @Acl(
      *      id="oro_customer_customer_user_update",
      *      type="entity",
-     *      class="OroCustomerBundle:CustomerUser",
+     *      class="Oro\Bundle\CustomerBundle\Entity\CustomerUser",
      *      permission="EDIT"
      * )
      */
@@ -199,16 +200,17 @@ class CustomerUserController extends AbstractController
     ): array|RedirectResponse {
         $form = $this->createForm(CustomerUserType::class, $customerUser);
         $handler = new CustomerUserHandler(
-            $this->get(CustomerUserManager::class),
-            $this->get(TokenAccessorInterface::class),
-            $this->get(TranslatorInterface::class),
-            $this->get(LoggerInterface::class)
+            $this->container->get(CustomerUserManager::class),
+            $this->container->get(TokenAccessorInterface::class),
+            $this->container->get(TranslatorInterface::class),
+            $this->container->get(LoggerInterface::class)
         );
 
-        return $this->get(UpdateHandlerFacade::class)->update(
+        return $this->container->get(UpdateHandlerFacade::class)->update(
             $customerUser,
             $form,
-            $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruser.saved.message'),
+            $this->container->get(TranslatorInterface::class)
+                ->trans('oro.customer.controller.customeruser.saved.message'),
             $request,
             $handler,
             $resultProvider

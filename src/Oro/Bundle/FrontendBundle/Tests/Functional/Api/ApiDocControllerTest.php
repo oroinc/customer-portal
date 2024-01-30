@@ -77,6 +77,7 @@ class ApiDocControllerTest extends WebTestCase
 
     public function testFrontendViewViaBackendController()
     {
+        $this->initClient([], $this->generateBasicAuthHeader());
         $response = $this->sendApiDocRequest('frontend_rest_json_api', BackendRestDocUrlGenerator::ROUTE);
         self::assertResponseStatusCodeEquals($response, 404);
     }

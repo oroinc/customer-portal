@@ -34,8 +34,20 @@ services:
         tags:
             - { name: oro.api.entity_id_resolver, id: mine, class: Oro\Bundle\CustomerBundle\Entity\Customer, requestType: frontend, priority: 10 }
 
-    oro_customer.api.frontend.authentication_provider:
-        alias: oro_security.authentication.provider.username_password_organization.frontend
+    oro_customer.api.frontend.authenticator:
+        class: Oro\Bundle\SecurityBundle\Authentication\Authenticator\UsernamePasswordOrganizationAuthenticator
+        arguments:
+            - '@security.http_utils'
+            - '@oro_customer.security.provider'
+            - '@oro_security.authentication.success_handler'
+            - '@oro_security.authentication.failure_handler'
+            - { }
+            - 'frontend'
+            - { frontend: 'oro_customer.login.errors.bad_credentials' }
+        calls:
+            - [ setTokenFactory, [ '@oro_security.token.factory.username_password_organization' ] ]
+            - [ setOrganizationGuesser, [ '@oro_security.authentication.organization_guesser' ] ]
+        public: false
 
     oro_customer.api.resource_type_resolver.customer_user:
         class: Oro\Bundle\FrontendBundle\Api\ResourceTypeResolver
@@ -114,7 +126,11 @@ services:
         class: Oro\Bundle\CustomerBundle\Api\Processor\HandleLogin
         arguments:
             - 'frontend'
-            - '@oro_customer.api.frontend.authentication_provider'
+            - '@oro_customer.api.frontend.authenticator'
+            - '@oro_customer.security.provider'
+            - '@oro_security.authentication.organization_guesser'
+            - '@security.user_checker.frontend'
+            - '@event_dispatcher'
             - '@oro_config.manager'
             - '@oro_api.doctrine_helper'
             - '@translator'

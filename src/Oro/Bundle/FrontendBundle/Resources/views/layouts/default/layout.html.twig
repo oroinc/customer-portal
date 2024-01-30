@@ -130,12 +130,24 @@
 {% endblock %}
 
 {% block embedded_list_widget %}
+    {% set embedded_list_slider_arrow = 'arrows-'|uniqid %}
+    {% set embedded_list_slider_dots = 'dots-'|uniqid %}
+    {% set slider_options = default_slider_options|merge(slider_options) %}
+    {% if use_slider.appendDots is not defined %}
+        {% set slider_options = slider_options|merge({appendDots: '#' ~ embedded_list_slider_dots}) %}
+    {% endif %}
+    {% if use_slider.appendArrows is not defined %}
+        {% set slider_options = slider_options|merge({appendArrows: '#' ~ embedded_list_slider_arrow}) %}
+    {% endif %}
     <div class="embedded-list">
-        {% if use_slider %}
+        {% set useSlider = isMobileVersion()
+            ? slider_options.use_slider_on_mobile is defined and slider_options.use_slider_on_mobile
+            : slider_options %}
+        {% if useSlider %}
             {% set attr = layout_attr_defaults(attr, {
                 'data-page-component-module': 'orofrontend/js/app/components/list-slider-component',
                 '~data-page-component-options': slider_options,
-                '~class': ' embedded-list__slider'
+                '~class': ' embedded-list__slider slider-enabled'
             }) %}
 
             {% set item_attr = layout_attr_defaults(item_attr|default({}), {
@@ -153,13 +165,12 @@
                 'data-name': 'embedded-list-item'
             }) %}
         {% endif %}
-
-        {% if label is defined %}
-            <h2 class="embedded-list__label">
-                <span class="embedded-list__label-inner">{{ label|trans }}</span>
-            </h2>
-        {% endif %}
-
+        <div class="embedded-list__title {{ title_extra_class }}">
+            {% if label is defined %}
+                <h2 class="embedded-list__label">{{ label|trans }}</h2>
+            {% endif %}
+            <div id="{{embedded_list_slider_arrow}}" class="embedded-list__arrows-holder"></div>
+        </div>
         <div {{ block('block_attributes') }}>
             {% set attr = item_attr %}
             {% for item in items %}
@@ -177,6 +188,7 @@
                 </div>
             {% endfor %}
         </div>
+        <div id="{{ embedded_list_slider_dots }}" class="embedded-list__dots-holder"></div>
     </div>
 {% endblock %}
 

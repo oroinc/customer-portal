@@ -1,9 +1,7 @@
 /* @theme: default; */
 
-$skeleton-color: get-color('additional-old', 'base');
-
 @function sidebar-filter-skeleton-primary(
-    $color: get-color('additional-old', 'base'),
+    $color: $skeleton-color,
     $x: 0,
     $y: 0
 ) {
@@ -30,7 +28,7 @@ $skeleton-color: get-color('additional-old', 'base');
 }
 
 @function sidebar-filter-skeleton-secondary(
-    $color: get-color('additional-old', 'base'),
+    $color: $skeleton-color,
     $x: 0,
     $y: 0
 ) {
@@ -84,20 +82,8 @@ $skeleton-color: get-color('additional-old', 'base');
             }
 
             margin-top: spacing('sm');
-
-            animation: 1s ease-in infinite alternate skeleton-pulse;
         }
 
         /* rtl:end:ignore */
-    }
-}
-
-@keyframes skeleton-pulse {
-    0% {
-        opacity: .7;
-    }
-
-    100% {
-        opacity: 1;
     }
 }

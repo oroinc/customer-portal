@@ -1093,6 +1093,35 @@
     </div>
 {% endblock %}
 
+{% block _style_book_scroll_shadow_horizontal_view_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container'
+    }) %}
+
+    <style>
+        .scroll-container {
+            overflow: auto;
+            max-height: 100px
+        }
+    </style>
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview grid">
+            <div class="grid-col-12 scroll-container">
+                <ol data-page-component-view="orofrontend/js/app/views/scroll-shadow-view" class="breadcrumbs start-scroll-from-end" data-scroll-target="" >
+                    {% for i in 0..14 %}
+                        <li class="breadcrumbs__item">
+                            <span>Element {{ i }}</span>
+                            {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+                            <span aria-hidden="true" class="breadcrumbs-separator">{{ renderIcon.icon({name: 'chevron-right', extraClass: 'theme-icon--small'}) }}</span>
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
 {% block _style_book_scroll_shadow_view_config_widget %}
     <div class="playground-source">
         <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
@@ -1256,10 +1285,10 @@
                 autoplaySpeed: 2000,
                 additionalClass: "embedded-list__slider",
                 embeddedArrowsClass: "embedded-arrows",
-                arrows: true,
-                dots: false,
+                arrows: false,
+                dots: true,
                 infinite: false,
-                mobileEnabled: true,
+                use_slider_on_mobile: true,
             }
         }
     }) %}
@@ -1388,8 +1417,8 @@
 
             SomeExampleView = BaseView.extend({
                 sliderOptions: {
-                    mobileEnabled: true,
-                    slidesToShow: 4,
+                    use_slider_on_mobile: true,
+                    slidesToShow: 5,
                     slidesToScroll: 1,
                     autoplay: false,
                     autoplaySpeed: 2000,
@@ -1976,7 +2005,7 @@
             relatedComponent: 'zoom'
         },
         navOptions: {
-            slidesToShow: 4,
+            slidesToShow: 5,
             slidesToScroll: 1,
             asNavFor: '.product-view-media-gallery',
             focusOnSelect: true,
@@ -2036,7 +2065,7 @@
                         infinite: false
                     },
                     navOptions: {
-                        slidesToShow: 4,
+                        slidesToShow: 5,
                         slidesToScroll: 1,
                         asNavFor: '.popup-gallery-widget__images',
                         focusOnSelect: true,

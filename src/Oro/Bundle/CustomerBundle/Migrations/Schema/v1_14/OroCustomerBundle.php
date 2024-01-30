@@ -3,8 +3,8 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_14;
 
 use Doctrine\DBAL\Schema\Schema;
-use Oro\Bundle\MigrationBundle\Migration\Extension\DataStorageExtension;
 use Oro\Bundle\MigrationBundle\Migration\Extension\DataStorageExtensionAwareInterface;
+use Oro\Bundle\MigrationBundle\Migration\Extension\DataStorageExtensionAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -16,20 +16,10 @@ class OroCustomerBundle implements
     DataStorageExtensionAwareInterface
 {
     use ContainerAwareTrait;
-
-    /** @var DataStorageExtension */
-    private $dataStorageExtension;
+    use DataStorageExtensionAwareTrait;
 
     /**
-     * {@inheritdoc}
-     */
-    public function setDataStorageExtension(DataStorageExtension $dataStorageExtension)
-    {
-        $this->dataStorageExtension = $dataStorageExtension;
-    }
-
-    /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function up(Schema $schema, QueryBag $queries)
     {

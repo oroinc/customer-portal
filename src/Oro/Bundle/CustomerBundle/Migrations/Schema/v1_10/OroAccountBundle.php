@@ -7,8 +7,8 @@ use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityExtendBundle\Extend\RelationType;
 use Oro\Bundle\FrontendBundle\Migration\UpdateExtendRelationTrait;
 use Oro\Bundle\InstallerBundle\Migration\UpdateTableFieldQuery;
-use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtension;
 use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareInterface;
+use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\MigrationConstraintTrait;
 use Oro\Bundle\MigrationBundle\Migration\OrderedMigrationInterface;
@@ -30,13 +30,10 @@ class OroAccountBundle implements
     use MigrationConstraintTrait;
     use UpdateExtendRelationTrait;
     use ContainerAwareTrait;
-    /**
-     * @var RenameExtension
-     */
-    private $renameExtension;
+    use RenameExtensionAwareTrait;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function up(Schema $schema, QueryBag $queries)
     {
@@ -1050,17 +1047,7 @@ class OroAccountBundle implements
     }
 
     /**
-     * Sets the RenameExtension
-     */
-    public function setRenameExtension(RenameExtension $renameExtension)
-    {
-        $this->renameExtension = $renameExtension;
-    }
-
-    /**
-     * Get the order of this migration
-     *
-     * @return integer
+     * {@inheritDoc}
      */
     public function getOrder()
     {

@@ -3,16 +3,14 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
 
 class LoadFullCustomerAddress extends AbstractAddressesFixture implements DependentFixtureInterface
 {
-    /**
-     * @var array
-     */
-    protected $addresses = [
+    private array $addresses = [
         [
             'customer' => 'customer.level_1',
             'label' => 'customer.level_1.address_1_full',
@@ -34,21 +32,21 @@ class LoadFullCustomerAddress extends AbstractAddressesFixture implements Depend
     ];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
-        return [LoadCustomers::class];
+        return [LoadCustomers::class, LoadOrganization::class];
     }
 
     /**
-     * @param EntityManager $manager
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
+        /** @var Organization $organization */
+        $organization = $this->getReference(LoadOrganization::ORGANIZATION);
         foreach ($this->addresses as $addressData) {
-            $organization = $this->getOrganization($manager);
             $address = new CustomerAddress();
             $address->setOrganization($organization->getName());
             $address->setSystemOrganization($organization);
@@ -64,7 +62,6 @@ class LoadFullCustomerAddress extends AbstractAddressesFixture implements Depend
             $address->setOwner($customer->getOwner());
             $this->addAddress($manager, $addressData, $address);
         }
-
         $manager->flush();
     }
 }

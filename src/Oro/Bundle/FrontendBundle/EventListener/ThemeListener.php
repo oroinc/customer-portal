@@ -43,7 +43,7 @@ class ThemeListener
 
     public function onKernelView(ViewEvent $event): void
     {
-        if (!$event->isMasterRequest()) {
+        if (!$event->isMainRequest()) {
             return;
         }
 

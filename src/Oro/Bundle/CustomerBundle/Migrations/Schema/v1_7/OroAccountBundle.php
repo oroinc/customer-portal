@@ -6,20 +6,16 @@ use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\ConfigBundle\Migration\RenameConfigSectionQuery;
 use Oro\Bundle\EntityExtendBundle\Extend\RelationType;
 use Oro\Bundle\FrontendBundle\Migration\UpdateExtendRelationQuery;
-use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtension;
 use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareInterface;
+use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\MigrationConstraintTrait;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class OroAccountBundle implements Migration, RenameExtensionAwareInterface
 {
+    use RenameExtensionAwareTrait;
     use MigrationConstraintTrait;
-
-    /**
-     * @var RenameExtension
-     */
-    private $renameExtension;
 
     /**
      * {@inheritdoc}
@@ -341,13 +337,5 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface
             ['id'],
             ['onDelete' => 'SET NULL', 'onUpdate' => null]
         );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setRenameExtension(RenameExtension $renameExtension)
-    {
-        $this->renameExtension = $renameExtension;
     }
 }

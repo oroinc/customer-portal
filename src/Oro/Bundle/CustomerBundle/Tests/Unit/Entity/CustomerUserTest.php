@@ -244,7 +244,7 @@ class CustomerUserTest extends AbstractUserTest
 
         self::assertEquals($serialized[0], $user->getPassword());
         self::assertEquals($serialized[1], $user->getSalt());
-        self::assertEquals($serialized[2], $user->getUsername());
+        self::assertEquals($serialized[2], $user->getUserIdentifier());
         self::assertEquals($serialized[3], $user->isEnabled());
         self::assertEquals($serialized[4], $user->isConfirmed());
         self::assertEquals($serialized[5], $user->getConfirmationToken());

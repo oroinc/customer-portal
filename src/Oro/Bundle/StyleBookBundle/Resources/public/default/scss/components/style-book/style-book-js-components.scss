@@ -92,14 +92,10 @@ $popup-gallery-widget-wrapper-background-color: get-color('additional-old', 'ult
         $slick-arrow-height: 37px,
         $slick-arrow-outline: none,
         $slick-arrow-border-radius: 100%,
-        $slick-arrow-background: rgba(get-color('additional-old', 'darker'), .6),
-        $slick-arrow-icon-size: 12px,
-        $slick-arrow-icon-color: get-color('additional-old', 'ultra'),
-        $slick-arrow-icon-hover-color: null,
+        $slick-arrow-background: rgba(get-color('neutral', 'dark'), .6),
+        $slick-arrow-color: get-color('neutral', 'white-100'),
         $slick-arrow-prev-left: -36px,
         $slick-arrow-next-right: 36px,
-        $slick-arrow-prev-icon: var(--fa-var-chevron-left),
-        $slick-arrow-next-icon: var(--fa-var-chevron-right),
         $slick-arrow-prev-icon-offset: 0 2px 0 0,
         $slick-arrow-next-icon-offset: 0 0 0 2px
     );

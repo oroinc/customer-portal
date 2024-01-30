@@ -61,7 +61,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
     public function testHandleForBackendRequest()
     {
         $request = Request::create('http://localhost/admin/test.php');
-        $type = HttpKernelInterface::MASTER_REQUEST;
+        $type = HttpKernelInterface::MAIN_REQUEST;
         $catch = true;
         $response = $this->createMock(Response::class);
 
@@ -97,7 +97,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
     public function testHandleForFrontendRequest()
     {
         $request = Request::create('http://localhost/test.php');
-        $type = HttpKernelInterface::MASTER_REQUEST;
+        $type = HttpKernelInterface::MAIN_REQUEST;
         $catch = true;
         $response = $this->createMock(Response::class);
 
@@ -178,7 +178,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
         $request->expects(self::once())
             ->method('getBasePath')
             ->willReturn('/subDir');
-        $type = HttpKernelInterface::MASTER_REQUEST;
+        $type = HttpKernelInterface::MAIN_REQUEST;
         $catch = true;
         $response = $this->createMock(Response::class);
 
@@ -220,7 +220,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
         $request->expects(self::once())
             ->method('getBasePath')
             ->willReturn('/subDir');
-        $type = HttpKernelInterface::MASTER_REQUEST;
+        $type = HttpKernelInterface::MAIN_REQUEST;
         $catch = true;
         $response = $this->createMock(Response::class);
 

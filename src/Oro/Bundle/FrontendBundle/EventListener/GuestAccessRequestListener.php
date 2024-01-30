@@ -49,7 +49,7 @@ class GuestAccessRequestListener
 
     public function onKernelRequest(RequestEvent $event): void
     {
-        if (!$event->isMasterRequest()) {
+        if (!$event->isMainRequest()) {
             return;
         }
 

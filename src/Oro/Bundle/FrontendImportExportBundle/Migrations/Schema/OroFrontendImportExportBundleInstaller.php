@@ -6,28 +6,25 @@ use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
-/**
- * Handles all migrations executed during installation.
- */
 class OroFrontendImportExportBundleInstaller implements Installation
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function getMigrationVersion()
+    public function getMigrationVersion(): string
     {
         return 'v1_0';
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function up(Schema $schema, QueryBag $queries)
+    public function up(Schema $schema, QueryBag $queries): void
     {
         $this->createImportExportTable($schema);
     }
 
-    private function createImportExportTable(Schema $schema)
+    private function createImportExportTable(Schema $schema): void
     {
         $table = $schema->createTable('oro_frontend_import_export_result');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
@@ -41,7 +38,7 @@ class OroFrontendImportExportBundleInstaller implements Installation
         $table->addColumn('entity', 'string', ['unique' => false, 'length' => 255, 'notnull' => true]);
         $table->addColumn('options', 'array', ['notnull' => false, 'comment' => '(DC2Type:array)']);
         $table->addColumn('expired', 'boolean', ['default' => '0']);
-        $table->addColumn('created_at', 'datetime', []);
+        $table->addColumn('created_at', 'datetime');
         $table->setPrimaryKey(['id']);
         $table->addUniqueIndex(['filename']);
         $table->addUniqueIndex(['job_id']);

@@ -57,7 +57,7 @@ class GridViewControllerTest extends WebTestCase
         $this->assertNotNull($createdGridView);
         $this->assertEquals(
             LoadCustomerUserGridViewACLData::USER_ACCOUNT_2_ROLE_LOCAL,
-            $createdGridView->getOwner()->getUsername()
+            $createdGridView->getOwner()->getUserIdentifier()
         );
         $this->assertEquals('test view 1', $createdGridView->getName());
         $this->assertEquals(GridView::TYPE_PUBLIC, $createdGridView->getType());
@@ -135,7 +135,7 @@ class GridViewControllerTest extends WebTestCase
 
         $this->assertEquals(
             LoadCustomerUserGridViewACLData::USER_ACCOUNT_2_ROLE_LOCAL,
-            $updatedGridView->getOwner()->getUsername()
+            $updatedGridView->getOwner()->getUserIdentifier()
         );
         $this->assertEquals('test view 2', $updatedGridView->getName());
         $this->assertEquals(GridView::TYPE_PUBLIC, $updatedGridView->getType());

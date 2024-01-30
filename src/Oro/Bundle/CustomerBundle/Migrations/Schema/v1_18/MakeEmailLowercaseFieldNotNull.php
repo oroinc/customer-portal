@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_18;
 
 use Doctrine\DBAL\Schema\Schema;
-use Oro\Bundle\CustomerBundle\Migrations\Schema\OroCustomerBundleInstaller;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\OrderedMigrationInterface;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
@@ -14,19 +13,19 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 class MakeEmailLowercaseFieldNotNull implements Migration, OrderedMigrationInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getOrder()
+    public function getOrder(): int
     {
         return 20;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function up(Schema $schema, QueryBag $queries)
+    public function up(Schema $schema, QueryBag $queries): void
     {
-        $table = $schema->getTable(OroCustomerBundleInstaller::ORO_CUSTOMER_USER_TABLE_NAME);
-        $table->changeColumn('email_lowercase', ['notnull' => true]);
+        $schema->getTable('oro_customer_user')
+            ->changeColumn('email_lowercase', ['notnull' => true]);
     }
 }

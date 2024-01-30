@@ -16,54 +16,20 @@ class LoginManagerPassTest extends \PHPUnit\Framework\TestCase
         $this->compiler = new LoginManagerPass();
     }
 
-    public function testProcessPersistentRememberMe()
+    public function testProcess()
     {
         $container = new ContainerBuilder();
         $loginManagerDef = $container->register('oro_customer.security.login_manager')
             ->setArguments([null, null, null, null, null, null, null]);
         $container->setParameter('oro_customer.firewall_name', 'test_firewall_name');
 
-        $container->register('security.authentication.rememberme.services.persistent.test_firewall_name');
         $container->register('security.user_checker.test_firewall_name');
 
         $this->compiler->process($container);
 
         self::assertEquals(
-            new Reference('security.authentication.rememberme.services.persistent.test_firewall_name'),
-            $loginManagerDef->getArgument(6)
-        );
-        self::assertEquals(
             new Reference('security.user_checker.test_firewall_name'),
             $loginManagerDef->getArgument(1)
         );
-    }
-
-    public function testProcessSimpleHashRememberMe()
-    {
-        $container = new ContainerBuilder();
-        $loginManagerDef = $container->register('oro_customer.security.login_manager')
-            ->setArguments([null, null, null, null, null, null, null]);
-        $container->setParameter('oro_customer.firewall_name', 'test_firewall_name');
-
-        $container->register('security.authentication.rememberme.services.simplehash.test_firewall_name');
-        $container->register('security.user_checker.test_firewall_name');
-
-        $this->compiler->process($container);
-
-        self::assertEquals(
-            new Reference('security.authentication.rememberme.services.simplehash.test_firewall_name'),
-            $loginManagerDef->getArgument(6)
-        );
-        self::assertEquals(
-            new Reference('security.user_checker.test_firewall_name'),
-            $loginManagerDef->getArgument(1)
-        );
-    }
-
-    public function testProcessWithoutDefinition()
-    {
-        $container = new ContainerBuilder();
-
-        $this->compiler->process($container);
     }
 }

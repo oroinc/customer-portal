@@ -2,95 +2,95 @@ acls:
     oro_customer_delete:
         type: entity
         permission: DELETE
-        class: OroCustomerBundle:Customer
+        class: Oro\Bundle\CustomerBundle\Entity\Customer
         category: 'customer_management'
 
     oro_customer_frontend_customer_user_delete:
         type: entity
         permission: DELETE
-        class: OroCustomerBundle:CustomerUser
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerUser
         group_name: "commerce"
         category: 'customer_management'
 
     oro_customer_frontend_customer_user_edit:
         type: entity
         permission: EDIT
-        class: OroCustomerBundle:CustomerUser
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerUser
         group_name: "commerce"
         category: 'customer_management'
 
     oro_customer_customer_address_view:
         type: entity
         permission: VIEW
-        class: OroCustomerBundle:CustomerAddress
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress
         category: 'customer_management'
 
     oro_customer_customer_address_create:
         type: entity
         permission: CREATE
-        class: OroCustomerBundle:CustomerAddress
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress
         category: 'customer_management'
 
     oro_customer_customer_address_update:
         type: entity
         permission: EDIT
-        class: OroCustomerBundle:CustomerAddress
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress
         category: 'customer_management'
 
     oro_customer_customer_address_remove:
         type: entity
         permission: DELETE
-        class: OroCustomerBundle:CustomerAddress
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress
         category: 'customer_management'
 
     oro_customer_customer_user_address_view:
         type: entity
         permission: VIEW
-        class: OroCustomerBundle:CustomerUserAddress
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
         category: 'customer_management'
 
     oro_customer_customer_user_address_create:
         type: entity
         permission: CREATE
-        class: OroCustomerBundle:CustomerUserAddress
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
         category: 'customer_management'
 
     oro_customer_customer_user_address_update:
         type: entity
         permission: EDIT
-        class: OroCustomerBundle:CustomerUserAddress
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
         category: 'customer_management'
 
     oro_customer_customer_user_address_remove:
         type: entity
         permission: DELETE
-        class: OroCustomerBundle:CustomerUserAddress
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
         category: 'customer_management'
 
     oro_customer_frontend_customer_user_view:
         type: entity
         permission: VIEW
-        class: OroCustomerBundle:CustomerUser
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerUser
         group_name: "commerce"
         category: 'customer_management'
 
     oro_customer_frontend_customer_user_role_view:
         type: entity
         permission: VIEW
-        class: OroCustomerBundle:CustomerUserRole
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerUserRole
         group_name: "commerce"
         category: 'customer_management'
 
     oro_customer_frontend_customer_user_role_update:
         type: entity
-        class: OroCustomerBundle:CustomerUserRole
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerUserRole
         permission: EDIT
         group_name: "commerce"
         category: 'customer_management'
 
     oro_customer_frontend_customer_user_role_delete:
         type: entity
-        class: OroCustomerBundle:CustomerUserRole
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerUserRole
         permission: DELETE
         group_name: "commerce"
         category: 'customer_management'
@@ -98,7 +98,7 @@ acls:
     oro_customer_frontend_customer_address_view:
         type: entity
         permission: VIEW
-        class: OroCustomerBundle:CustomerAddress
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress
         group_name: "commerce"
         category: 'customer_management'
         bindings:
@@ -110,21 +110,21 @@ acls:
     oro_customer_frontend_customer_address_create:
         type: entity
         permission: CREATE
-        class: OroCustomerBundle:CustomerAddress
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress
         group_name: "commerce"
         category: 'customer_management'
 
     oro_customer_frontend_customer_address_update:
         type: entity
         permission: EDIT
-        class: OroCustomerBundle:CustomerAddress
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress
         group_name: "commerce"
         category: 'customer_management'
 
     oro_customer_frontend_customer_address_remove:
         type: entity
         permission: DELETE
-        class: OroCustomerBundle:CustomerAddress
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress
         group_name: "commerce"
         category: 'customer_management'
         bindings:
@@ -133,7 +133,7 @@ acls:
     oro_customer_frontend_customer_user_address_view:
         type: entity
         permission: VIEW
-        class: OroCustomerBundle:CustomerUserAddress
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
         group_name: "commerce"
         category: 'customer_management'
         bindings:
@@ -145,21 +145,21 @@ acls:
     oro_customer_frontend_customer_user_address_create:
         type: entity
         permission: CREATE
-        class: OroCustomerBundle:CustomerUserAddress
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
         group_name: "commerce"
         category: 'customer_management'
 
     oro_customer_frontend_customer_user_address_update:
         type: entity
         permission: EDIT
-        class: OroCustomerBundle:CustomerUserAddress
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
         group_name: "commerce"
         category: 'customer_management'
 
     oro_customer_frontend_customer_user_address_remove:
         type: entity
         permission: DELETE
-        class: OroCustomerBundle:CustomerUserAddress
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
         group_name: "commerce"
         category: 'customer_management'
         bindings:

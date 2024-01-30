@@ -37,7 +37,7 @@ class CustomerUserControllerTest extends WebTestCase
     protected function setUp(): void
     {
         $this->initClient();
-        $this->client->useHashNavigation(true);
+
         $this->loadFixtures(
             [
                 LoadCustomerUserACLData::class,
@@ -356,7 +356,7 @@ class CustomerUserControllerTest extends WebTestCase
         $this->loginUser($user);
         $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_index'));
         self::assertSame($indexResponseStatus, $this->client->getResponse()->getStatusCode());
-        $response = $this->client->requestGrid(
+        $response = $this->client->requestFrontendGrid(
             [
                 'gridName' => 'frontend-customer-customer-user-grid',
             ]

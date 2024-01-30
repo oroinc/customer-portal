@@ -8,13 +8,21 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Api\Model\Login;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserApi;
+use Oro\Bundle\SecurityBundle\Authentication\Guesser\OrganizationGuesserInterface;
+use Oro\Bundle\UserBundle\Exception\BadCredentialsException;
 use Oro\Component\ChainProcessor\ContextInterface;
 use Oro\Component\ChainProcessor\ProcessorInterface;
-use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\User\UserCheckerInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\Event\CheckPassportEvent;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -23,24 +31,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class HandleLogin implements ProcessorInterface
 {
-    private string $authenticationProviderKey;
-    private AuthenticationProviderInterface $authenticationProvider;
-    private ConfigManager $configManager;
-    private DoctrineHelper $doctrineHelper;
-    private TranslatorInterface $translator;
-
     public function __construct(
-        string $authenticationProviderKey,
-        AuthenticationProviderInterface $authenticationProvider,
-        ConfigManager $configManager,
-        DoctrineHelper $doctrineHelper,
-        TranslatorInterface $translator
+        private string $firewallName,
+        private AuthenticatorInterface $authenticator,
+        private UserProviderInterface $userProvider,
+        private OrganizationGuesserInterface $organizationGuesser,
+        private UserCheckerInterface $userChecker,
+        private EventDispatcher $eventDispatcher,
+        private ConfigManager $configManager,
+        private DoctrineHelper $doctrineHelper,
+        private TranslatorInterface $translator
     ) {
-        $this->authenticationProviderKey = $authenticationProviderKey;
-        $this->authenticationProvider = $authenticationProvider;
-        $this->configManager = $configManager;
-        $this->doctrineHelper = $doctrineHelper;
-        $this->translator = $translator;
     }
 
     /**
@@ -74,24 +75,28 @@ class HandleLogin implements ProcessorInterface
 
     private function authenticate(Login $model): TokenInterface
     {
-        $token = new UsernamePasswordToken(
-            $model->getEmail(),
-            $model->getPassword(),
-            $this->authenticationProviderKey
+        $passport = new Passport(
+            new UserBadge($model->getEmail(), [$this->userProvider, 'loadUserByIdentifier']),
+            new PasswordCredentials($model->getPassword()),
         );
-        if (!$this->authenticationProvider->supports($token)) {
-            throw new \LogicException(sprintf(
-                'Invalid authentication provider. The provider key is "%s".',
-                $this->authenticationProviderKey
-            ));
-        }
-
         try {
-            return $this->authenticationProvider->authenticate($token);
-        } catch (AuthenticationException $e) {
+            $user = $passport->getUser();
+            $this->userChecker->checkPreAuth($user);
+            $organization = $this->organizationGuesser->guess($user);
+            $passport->setAttribute('organization', $organization);
+            // check the passport (e.g. password checking)
+            $event = new CheckPassportEvent($this->authenticator, $passport);
+            $this->eventDispatcher->dispatch($event);
+            $this->userChecker->checkPostAuth($user);
+
+            return $this->authenticator->createToken($passport, $this->firewallName);
+        } catch (AuthenticationException $exception) {
+            $exception = new BadCredentialsException('Bad credentials.', 0, $exception);
+            $exception->setMessageKey('Invalid credentials.');
+
             throw new AccessDeniedException(sprintf(
                 'The user authentication fails. Reason: %s',
-                $this->translator->trans($e->getMessageKey(), $e->getMessageData(), 'security')
+                $this->translator->trans($exception->getMessageKey(), $exception->getMessageData(), 'security')
             ));
         }
     }

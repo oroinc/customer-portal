@@ -7,8 +7,8 @@ use Oro\Bundle\ConfigBundle\Migration\RenameConfigSectionQuery;
 use Oro\Bundle\EntityExtendBundle\Extend\RelationType;
 use Oro\Bundle\FrontendBundle\Migration\UpdateExtendRelationQuery;
 use Oro\Bundle\InstallerBundle\Migration\UpdateTableFieldQuery;
-use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtension;
 use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareInterface;
+use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\MigrationConstraintTrait;
 use Oro\Bundle\MigrationBundle\Migration\OrderedMigrationInterface;
@@ -16,12 +16,8 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class OroAccountBundle implements Migration, RenameExtensionAwareInterface, OrderedMigrationInterface
 {
+    use RenameExtensionAwareTrait;
     use MigrationConstraintTrait;
-
-    /**
-     * @var RenameExtension
-     */
-    private $renameExtension;
 
     /**
      * {@inheritdoc}
@@ -237,14 +233,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface, Orde
         ));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setRenameExtension(RenameExtension $renameExtension)
-    {
-        $this->renameExtension = $renameExtension;
-    }
-
     private function dropVisibilityTables(Schema $schema, QueryBag $queries)
     {
         $schema->dropTable('oro_category_visibility');
@@ -265,9 +253,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface, Orde
     }
 
     /**
-     * Should be executed before:
-     * @see \Oro\Bundle\CustomerBundle\Migrations\Schema\v1_8\MigrateNotes
-     *
      * {@inheritdoc}
      */
     public function getOrder()

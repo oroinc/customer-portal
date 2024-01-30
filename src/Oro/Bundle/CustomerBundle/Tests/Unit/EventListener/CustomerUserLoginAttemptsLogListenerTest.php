@@ -4,14 +4,14 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener;
 
 use Oro\Bundle\CustomerBundle\EventListener\CustomerUserLoginAttemptsLogListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\SecurityBundle\Authentication\Authenticator\UsernamePasswordOrganizationAuthenticator;
 use Oro\Bundle\UserBundle\Security\LoginAttemptsHandlerInterface;
 use Oro\Component\Testing\Unit\TestContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\Event\AuthenticationFailureEvent;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Http\Event\LoginFailureEvent;
 
 class CustomerUserLoginAttemptsLogListenerTest extends \PHPUnit\Framework\TestCase
 {
@@ -94,9 +94,12 @@ class CustomerUserLoginAttemptsLogListenerTest extends \PHPUnit\Framework\TestCa
 
     public function testOnAuthenticationFailureForBackendRequest(): void
     {
-        $event = new AuthenticationFailureEvent(
-            $this->createMock(UsernamePasswordToken::class),
-            $this->createMock(AuthenticationException::class)
+        $event = new LoginFailureEvent(
+            new BadCredentialsException(),
+            $this->getAuthenticatorMock('test'),
+            new Request(),
+            null,
+            'main'
         );
 
         $this->frontendHelper->expects(self::once())
@@ -114,9 +117,12 @@ class CustomerUserLoginAttemptsLogListenerTest extends \PHPUnit\Framework\TestCa
 
     public function testOnAuthenticationFailureForFrontendRequest(): void
     {
-        $event = new AuthenticationFailureEvent(
-            $this->createMock(UsernamePasswordToken::class),
-            $this->createMock(AuthenticationException::class)
+        $event = new LoginFailureEvent(
+            new BadCredentialsException(),
+            $this->getAuthenticatorMock('test'),
+            new Request(),
+            null,
+            'main'
         );
 
         $this->frontendHelper->expects(self::once())
@@ -130,5 +136,10 @@ class CustomerUserLoginAttemptsLogListenerTest extends \PHPUnit\Framework\TestCa
             ->method(self::anything());
 
         $this->listener->onAuthenticationFailure($event);
+    }
+
+    private function getAuthenticatorMock()
+    {
+        return $this->createMock(UsernamePasswordOrganizationAuthenticator::class);
     }
 }

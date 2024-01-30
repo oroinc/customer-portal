@@ -218,7 +218,7 @@ class TypedAddressAddOrReplaceStrategyTest extends WebTestCase
             'phone' => $existingAddress->getPhone(),
             'primary' => $existingAddress->isPrimary(),
             'frontendOwner' => ['id' => $existingAddress->getFrontendOwner()->getId(), 'name' => null],
-            'owner' => ['username' => $existingAddress->getOwner()->getUsername()],
+            'owner' => ['username' => $existingAddress->getOwner()->getUserIdentifier()],
             'Billing' => true,
             'Default Billing' => true,
             'Shipping' => true,
@@ -232,7 +232,7 @@ class TypedAddressAddOrReplaceStrategyTest extends WebTestCase
         CustomerAddress $existingAddress
     ): void {
         $owner = new User();
-        $owner->setUsername($existingAddress->getOwner()->getUsername());
+        $owner->setUsername($existingAddress->getOwner()->getUserIdentifier());
 
         // Scalars
         $importedEntity->setLabel($existingAddress->getLabel());

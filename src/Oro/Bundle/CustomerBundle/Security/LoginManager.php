@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AccountStatusException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-use Symfony\Component\Security\Http\RememberMe\RememberMeServicesInterface;
+use Symfony\Component\Security\Http\RememberMe\RememberMeHandlerInterface;
 use Symfony\Component\Security\Http\SecurityEvents;
 use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategyInterface;
 
@@ -42,9 +42,9 @@ class LoginManager
     private $requestStack;
 
     /**
-     * @var RememberMeServicesInterface
+     * @var RememberMeHandlerInterface
      */
-    private $rememberMeService;
+    private $rememberMeHandler;
 
     /**
      * @var UsernamePasswordOrganizationTokenFactoryInterface
@@ -66,7 +66,7 @@ class LoginManager
         RequestStack $requestStack,
         UsernamePasswordOrganizationTokenFactoryInterface $tokenFactory,
         EventDispatcherInterface $eventDispatcher,
-        RememberMeServicesInterface $rememberMeService = null
+        RememberMeHandlerInterface $rememberMeHandler = null
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->userChecker = $userChecker;
@@ -74,7 +74,7 @@ class LoginManager
         $this->requestStack = $requestStack;
         $this->tokenFactory = $tokenFactory;
         $this->eventDispatcher = $eventDispatcher;
-        $this->rememberMeService = $rememberMeService;
+        $this->rememberMeHandler = $rememberMeHandler;
     }
 
     public function logInUser($firewallName, AbstractUser $user, Response $response = null)
@@ -88,8 +88,8 @@ class LoginManager
             if (null !== $request) {
                 $this->sessionStrategy->onAuthentication($request, $token);
 
-                if (null !== $response && null !== $this->rememberMeService) {
-                    $this->rememberMeService->loginSuccess($request, $response, $token);
+                if (null !== $response && null !== $this->rememberMeHandler) {
+                    $this->rememberMeHandler->createRememberMeCookie($user);
                 }
             }
 
@@ -110,6 +110,6 @@ class LoginManager
      */
     private function createToken($firewall, AbstractUser $user)
     {
-        return $this->tokenFactory->create($user, null, $firewall, $user->getOrganization(), $user->getUserRoles());
+        return $this->tokenFactory->create($user, $firewall, $user->getOrganization(), $user->getUserRoles());
     }
 }

@@ -107,7 +107,7 @@ class WebsiteListenerTest extends \PHPUnit\Framework\TestCase
             ->willReturn($this->uow);
 
         $args->expects($this->once())
-            ->method('getEntityManager')
+            ->method('getObjectManager')
             ->willReturn($em);
 
         return $args;

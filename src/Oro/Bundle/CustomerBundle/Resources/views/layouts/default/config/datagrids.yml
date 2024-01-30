@@ -1,0 +1,631 @@
+datagrids:
+    frontend-customer-user-role-permission-grid:
+        extends: role-permission-grid
+        source:
+            type: customer-role-frontend-permission-provider
+        acl_resource: oro_customer_frontend_customer_user_role_update
+        options:
+            frontend: true
+            access_level_route: oro_customer_frontend_acl_access_levels
+
+    customer-customer-user-grid-no-filter-base:
+        extended_entity_name: 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
+        acl_resource: oro_customer_customer_user_view
+        options:
+            entityHint: oro.customer.customeruser.entity_plural_label
+            entity_pagination: true
+        source:
+            type:         orm
+            query:
+                select:
+                    - customerUser.id
+                    - customerUser.firstName
+                    - customerUser.lastName
+                    - customerUser.email
+                    - customerUser.enabled
+                    - customerUser.confirmed
+                    - customerUser.isGuest
+                from:
+                    - { table: 'Oro\Bundle\CustomerBundle\Entity\CustomerUser', alias: customerUser }
+        columns:
+            firstName:
+                label: oro.customer.customeruser.first_name.label
+            lastName:
+                label: oro.customer.customeruser.last_name.label
+            email:
+                label: oro.customer.customeruser.email.label
+            enabled:
+                label: oro.customer.customeruser.enabled.label
+                frontend_type: boolean
+            confirmed:
+                label: oro.customer.customeruser.confirmed.label
+                frontend_type: boolean
+            isGuest:
+                label: oro.customer.customeruser.is_guest.label
+                frontend_type: boolean
+        properties:
+            id: ~
+            view_link:
+                type:   url
+                route:  oro_customer_customer_user_view
+                params: [ id ]
+        sorters:
+            columns:
+                firstName:
+                    data_name: customerUser.firstName
+                lastName:
+                    data_name: customerUser.lastName
+                email:
+                    data_name: customerUser.email
+                enabled:
+                    data_name: customerUser.enabled
+                confirmed:
+                    data_name: customerUser.confirmed
+                isGuest:
+                    data_name: customerUser.isGuest
+
+    customer-customer-user-grid-base:
+        extends: customer-customer-user-grid-no-filter-base
+        filters:
+            columns:
+                firstName:
+                    type:      string
+                    data_name: customerUser.firstName
+                lastName:
+                    type:      string
+                    data_name: customerUser.lastName
+                email:
+                    type:      string
+                    data_name: customerUser.email
+                enabled:
+                    type:      boolean
+                    data_name: customerUser.enabled
+                confirmed:
+                    type:      boolean
+                    data_name: customerUser.confirmed
+
+    basic-customer-customer-user-roles-grid:
+        extended_entity_name: 'Oro\Bundle\CustomerBundle\Entity\CustomerUserRole'
+        options:
+            entityHint: oro.customer.customeruserrole.entity_plural_label
+            entity_pagination: true
+        source:
+            type: orm
+            query:
+                select:
+                    - role.id
+                    - role.role
+                    - role.label
+                    - role.selfManaged as self_managed
+                    - role.public
+                    - (CASE WHEN role.customer IS NOT NULL THEN false ELSE true END) as isRolePredefined
+                from:
+                    - { table: 'Oro\Bundle\CustomerBundle\Entity\CustomerUserRole', alias: role }
+        properties:
+            id: ~
+            view_link:
+                type: url
+                params:
+                    - id
+        columns:
+            label:
+                label: oro.customer.customeruserrole.role.label
+            isRolePredefined:
+                type: twig
+                label: oro.customer.customeruserrole.type.label
+                frontend_type: html
+                data_name: isRolePredefined
+                template: '@OroCustomer/CustomerUserRole/Datagrid/Property/isRolePredifined.html.twig'
+        sorters:
+            columns:
+                label:
+                    data_name: role.label
+                isRolePredefined:
+                    data_name: isRolePredefined
+            default:
+                label: ASC
+        filters:
+            columns:
+                label:
+                    type: string
+                    data_name: role.label
+                isRolePredefined:
+                    type: choice
+                    data_name: CAST(isRolePredefined as int)
+                    options:
+                        field_options:
+                            choices:
+                                oro.customer.customeruserrole.type.predefined.label: 1
+                                oro.customer.customeruserrole.type.customizable.label: 0
+        actions:
+            view:
+                type:          navigate
+                label:         oro.grid.action.view
+                link:          view_link
+                icon:          eye
+                rowAction:     true
+
+    frontend-customer-customer-user-roles-grid:
+        acl_resource: oro_customer_frontend_customer_user_role_index
+        extends: basic-customer-customer-user-roles-grid
+        properties:
+            id: ~
+            view_link:
+                type: url
+                route:  oro_customer_frontend_customer_user_role_view
+                params:
+                    - id
+            update_link:
+                type: url
+                route: oro_customer_frontend_customer_user_role_update
+                params:
+                    - id
+            view_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user_role.view.aria_label
+                params: [label]
+            update_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user_role.edit.aria_label
+                params: [label]
+            delete_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user_role.delete.aria_label
+                params: [label]
+        actions:
+            view:
+                acl_resource:  oro_customer_frontend_customer_user_role_view
+                type:          navigate
+                label:         oro.grid.action.view
+                ariaLabel:     view_aria_label
+                link:          view_link
+                icon:          eye
+                order:         10
+                rowAction:     true
+            update:
+                type:          navigate
+                label:         oro.grid.action.update
+                ariaLabel:     update_aria_label
+                link:          update_link
+                icon:          pencil-square-o
+                order:         20
+                acl_resource:  oro_customer_frontend_customer_user_role_update
+        action_configuration: ['@oro_customer.datagrid.action_permission_provider', "getCustomerUserRolePermission"]
+        options:
+            frontend: true
+
+    frontend-customer-customer-users-grid-basic:
+        entity_name: 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
+        options:
+            frontend: true
+        acl_resource: oro_customer_frontend_customer_user_view
+        source:
+            type: orm
+            query:
+                select:
+                    - user.id
+                    - user.firstName
+                    - user.lastName
+                    - CONCAT(user.firstName, CONCAT(' ', user.lastName)) AS fullName
+                    - user.email
+                    - CASE WHEN user.enabled = true AND user.confirmed = true THEN true ELSE false END AS status
+                from:
+                    - { table: 'Oro\Bundle\CustomerBundle\Entity\CustomerUser', alias: user }
+        sorters:
+            columns:
+                fullName:
+                    data_name: fullName
+                email:
+                    data_name: user.email
+                status:
+                    data_name: status
+        properties:
+            id: ~
+            view_link:
+                type:   url
+                route:  oro_customer_frontend_customer_user_view
+                params: [ id ]
+            view_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user.view.aria_label
+                params: [firstName, lastName]
+        actions:
+            view:
+                type:         navigate
+                label:        oro.grid.action.view
+                ariaLabel:    view_aria_label
+                link:         view_link
+                icon:         eye
+                acl_resource: oro_customer_frontend_customer_user_view
+                rowAction:    true
+
+    frontend-customer-customer-users-grid-view:
+        extends: frontend-customer-customer-users-grid-basic
+        source:
+            query:
+                where:
+                    and:
+                        - :role MEMBER OF user.userRoles
+            bind_parameters:
+                -
+                    name: role
+                    default: NULL
+        columns:
+            fullName:
+                label: oro.customer.frontend.customer_user.full_name.label
+                type: twig
+                frontend_type: html
+                data_name: fullName
+                template: '@OroCustomer/CustomerUser/Frontend/Datagrid/fullName.html.twig'
+            email:
+                label: oro.customer.frontend.customer_user.email.label
+                type: twig
+                frontend_type: html
+                data_name: user.email
+                template: '@OroCustomer/CustomerUser/Frontend/Datagrid/email.html.twig'
+            status:
+                label: oro.customer.frontend.customer_user.status.label
+                type: twig
+                frontend_type: html
+                data_name: status
+                template: '@OroCustomer/CustomerUser/Frontend/Datagrid/status.html.twig'
+        filters:
+            columns:
+                fullName:
+                    type:      string
+                    data_name: fullName
+                email:
+                    type:      string
+                    data_name: user.email
+                status:
+                    type: choice
+                    data_name: CAST(status as int)
+                    options:
+                        field_options:
+                            choices:
+                                oro.customer.frontend.customer_user.status_active.label: 1
+                                oro.customer.frontend.customer_user.status_inactive.label: 0
+
+    frontend-customer-customer-users-grid-update:
+        extends: frontend-customer-customer-users-grid-basic
+        columns:
+            hasRole:
+                label: oro.customer.customeruser.has_role.label
+                editable: true
+                frontend_type: boolean
+            fullName:
+                label: oro.customer.frontend.customer_user.full_name.label
+                type: twig
+                frontend_type: html
+                data_name: fullName
+                template: '@OroCustomer/CustomerUser/Frontend/Datagrid/fullName.html.twig'
+            email:
+                label: oro.customer.frontend.customer_user.email.label
+                type: twig
+                frontend_type: html
+                data_name: user.email
+                template: '@OroCustomer/CustomerUser/Frontend/Datagrid/email.html.twig'
+            status:
+                label: oro.customer.frontend.customer_user.status.label
+                type: twig
+                frontend_type: html
+                data_name: status
+                template: '@OroCustomer/CustomerUser/Frontend/Datagrid/status.html.twig'
+        filters:
+            columns:
+                hasRole:
+                    type: boolean
+                    data_name: hasRole
+                fullName:
+                    type:      string
+                    data_name: fullName
+                email:
+                    type:      string
+                    data_name: user.email
+                status:
+                    type: choice
+                    data_name: CAST(status as int)
+                    options:
+                        field_options:
+                            choices:
+                                oro.customer.frontend.customer_user.status_active.label: 1
+                                oro.customer.frontend.customer_user.status_inactive.label: 0
+        sorters:
+            columns:
+                hasRole:
+                    data_name: hasRole
+            default:
+                hasRole: DESC
+        actions:
+            view:
+                rowAction: false
+        options:
+            rowSelection:
+                dataField: id
+                columnName: hasRole
+                selectors:
+                    included: '#roleAppendUsers'
+                    excluded: '#roleRemoveUsers'
+
+    frontend-customer-customer-user-grid:
+        acl_resource: oro_customer_frontend_customer_user_view
+        extends: customer-customer-user-grid-base
+        source:
+            query:
+                select:
+                    - au.name as authStatus
+                join:
+                    left:
+                        - { join: customerUser.auth_status, alias: au }
+                where:
+                    and:
+                        - customerUser.isGuest = false
+        columns:
+            isGuest:
+                renderable: false
+                manageable: false
+            authStatus:
+                label: oro.customer.customeruser.datagrid.auth_status.label
+        properties:
+            id: ~
+            view_link:
+                type:   url
+                route:  oro_customer_frontend_customer_user_view
+                params: [ id ]
+            update_link:
+                type:   url
+                route:  oro_customer_frontend_customer_user_update
+                params: [ id ]
+            view_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user.view.aria_label
+                params: [firstName, lastName]
+            update_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user.edit.aria_label
+                params: [firstName, lastName]
+            enable_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user.enable.aria_label
+                params: [firstName, lastName]
+            disable_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user.disable.aria_label
+                params: [firstName, lastName]
+            delete_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user.delete.aria_label
+                params: [firstName, lastName]
+        filters:
+            columns:
+                authStatus:
+                    type: enum
+                    data_name: au.id
+                    enum_code: cu_auth_status
+        actions:
+            view:
+                type:          navigate
+                label:         oro.grid.action.view
+                ariaLabel:     view_aria_label
+                link:          view_link
+                icon:          eye
+                acl_resource:  oro_customer_frontend_customer_user_view
+                rowAction:     true
+            update:
+                type:          navigate
+                label:         oro.grid.action.update
+                ariaLabel:     update_aria_label
+                link:          update_link
+                icon:          pencil-square-o
+                acl_resource:  oro_customer_frontend_customer_user_update
+        action_configuration: ['@oro_customer.datagrid.action_permission_provider', "getUserPermissions"]
+        mass_actions:
+            delete:
+                label: oro.customer.mass_actions.delete_customers.label
+                type: delete
+                icon: trash
+                entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerUser
+                data_identifier: customerUser.id
+                name: delete
+                frontend_type: delete-mass
+                handler: oro_customer.datagrid.extension.mass_action.handler.delete
+                route: oro_datagrid_front_mass_action
+                acl_resource:  oro_customer_frontend_customer_user_delete
+                launcherOptions:
+                    iconClassName: fa-trash-o
+                    className: datagrid-massaction__dropdown-item
+                defaultMessages:
+                    confirm_title: oro.customer.mass_actions.delete_customers.confirm_title
+                    confirm_content: oro.customer.mass_actions.delete_customers.confirm_content
+                    confirm_ok: oro.customer.mass_actions.delete_customers.confirm_ok
+                confirmMessages:
+                    selected_message: oro.customer.mass_actions.delete_customers.confirm_content
+                messages:
+                    success: oro.customer.mass_actions.delete_customers.success_message
+        options:
+            frontend: true
+
+    frontend-customer-address-grid-base:
+        source:
+            type: orm
+            query:
+                select:
+                    - address
+                    - address.id as id
+                    - address.street as street
+                    - address.city as city
+                    - address.postalCode as zip
+                    - address.primary as isPrimary
+                    - address.label as label
+                    - address.street2 as street2
+                    - address.phone as phone
+                    - region.name as state
+                    - country.name as countryName
+                join:
+                    left:
+                        - { join: address.country, alias: country}
+                        - { join: address.region, alias: region}
+            hints:
+                - HINT_TRANSLATABLE
+        properties:
+            id: ~
+        columns:
+            street:
+                label: oro.customer.customeraddress.entity_label
+            city:
+                label: oro.customer.customeraddress.city.label
+            state:
+                label: oro.customer.customeraddress.region.label
+            zip:
+                label: oro.customer.customeruseraddress.postal_code.label
+            countryName:
+                label: oro.customer.customeraddress.country.label
+            types:
+                label: oro.customer.customeraddress.types.singular_label
+                type: twig
+                frontend_type: html
+                template: '@OroCustomer/Address/Frontend/Datagrid/types.html.twig'
+        sorters:
+            columns:
+                street:
+                    data_name: street
+                city:
+                    data_name: city
+                state:
+                    data_name: state
+                zip:
+                    data_name: zip
+                countryName:
+                    data_name: countryName
+        filters:
+            columns:
+                street:
+                    type:      string
+                    data_name: street
+                city:
+                    type:      string
+                    data_name: city
+                state:
+                    type:      string
+                    data_name: state
+                zip:
+                    type:      string
+                    data_name: zip
+                countryName:
+                    type:      string
+                    data_name: countryName
+        actions:
+            show_map:
+                label:         oro.customer.action.customer_frontend_address.map
+                type:          map
+                icon:          map-o
+                frontend_type: frontend-map
+        action_configuration: ['@oro_customer.datagrid.frontend_customer_address.action_checker', checkActions]
+        mass_actions:
+            delete:
+                label: oro.customer.mass_actions.delete_customer_addresses.label
+                type: delete
+                icon: trash
+                data_identifier: address.id
+                name: delete
+                frontend_type: delete-mass
+                route: oro_datagrid_front_mass_action
+                launcherOptions:
+                    iconClassName: fa-trash-o
+                    className: datagrid-massaction__dropdown-item
+                defaultMessages:
+                    confirm_title: oro.customer.mass_actions.delete_customer_addresses.confirm_title
+                    confirm_content: oro.customer.mass_actions.delete_customer_addresses.confirm_content
+                    confirm_ok: oro.customer.mass_actions.delete_customer_addresses.confirm_ok
+                confirmMessages:
+                    selected_message: oro.customer.mass_actions.delete_customer_addresses.confirm_content
+                messages:
+                    success: oro.customer.mass_actions.delete_customer_addresses.success_message
+        options:
+            frontend: true
+
+    frontend-customer-customer-address-grid:
+        acl_resource: oro_customer_frontend_customer_address_view
+        extends: frontend-customer-address-grid-base
+        options:
+            entityHint: oro.customer.frontend.customer_user_address_book.customer_addresses
+        source:
+            type: orm
+            query:
+                from:
+                    - { table: 'Oro\Bundle\CustomerBundle\Entity\CustomerAddress', alias: address }
+        properties:
+            update_link:
+                type: url
+                route: oro_customer_frontend_customer_address_update
+                params: {entityId: frontendOwner.id , id: id}
+            show_map_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_address.show_map.aria_label
+                params: [street, city, state, zip, countryName]
+            update_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_address.edit.aria_label
+                params: [street, city, state, zip, countryName]
+            delete_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_address.delete.aria_label
+                params: [street, city, state, zip, countryName]
+
+        actions:
+            show_map:
+                ariaLabel:     show_map_aria_label
+            update:
+                label:         oro.customer.action.customer_frontend_address.edit
+                ariaLabel:     update_aria_label
+                type:          navigate
+                link:          update_link
+                icon:          pencil
+                acl_resource:  oro_customer_frontend_customer_address_update
+        mass_actions:
+            delete:
+                entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerAddress
+                acl_resource:  oro_customer_frontend_customer_address_remove
+
+    frontend-customer-customer-user-address-grid:
+        acl_resource: oro_customer_frontend_customer_user_address_view
+        extends: frontend-customer-address-grid-base
+        options:
+            entityHint: oro.customer.customeruser.addresses.label
+        source:
+            type: orm
+            query:
+                from:
+                    - { table: 'Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress', alias: address }
+        properties:
+            update_link:
+                type: url
+                route: oro_customer_frontend_customer_user_address_update
+                params: {entityId: frontendOwner.id , id: id}
+            show_map_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user_address.show_map.aria_label
+                params: [street, city, state, zip, countryName]
+            update_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user_address.edit.aria_label
+                params: [street, city, state, zip, countryName]
+            delete_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user_address.delete.aria_label
+                params: [street, city, state, zip, countryName]
+
+        actions:
+            show_map:
+                ariaLabel:     show_map_aria_label
+            update:
+                label:         oro.customer.action.customer_user_frontend_address.edit
+                ariaLabel:     update_aria_label
+                type:          navigate
+                link:          update_link
+                icon:          pencil
+                acl_resource:  oro_customer_frontend_customer_user_address_update
+        mass_actions:
+            delete:
+                entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
+                acl_resource:  oro_customer_frontend_customer_user_address_remove

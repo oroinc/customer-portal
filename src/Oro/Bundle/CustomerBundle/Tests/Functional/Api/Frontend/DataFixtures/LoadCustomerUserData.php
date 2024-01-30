@@ -70,7 +70,8 @@ class LoadCustomerUserData extends AbstractFixture implements
     {
         $customerUser = new CustomerUser();
 
-        $passwordHasher = $this->container->get('security.password_hasher_factory')->getPasswordHasher($customerUser);
+        $passwordHasher = $this->container->get('security.password_hasher_factory')
+            ->getPasswordHasher($customerUser::class);
         $customerUser
             ->setFirstName('John')
             ->setLastName('Doe')

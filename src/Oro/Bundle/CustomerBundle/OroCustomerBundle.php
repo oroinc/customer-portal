@@ -34,7 +34,7 @@ class OroCustomerBundle extends Bundle
         }
 
         $extension = $container->getExtension('security');
-        $extension->addSecurityListenerFactory(new AnonymousCustomerUserFactory());
-        $extension->addSecurityListenerFactory(new ApiAnonymousCustomerUserFactory());
+        $extension->addAuthenticatorFactory(new AnonymousCustomerUserFactory());
+        $extension->addAuthenticatorFactory(new ApiAnonymousCustomerUserFactory());
     }
 }

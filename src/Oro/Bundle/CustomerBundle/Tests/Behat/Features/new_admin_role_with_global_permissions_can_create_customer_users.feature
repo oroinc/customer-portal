@@ -13,7 +13,7 @@ Feature: New admin role with global permissions can create customer users
       | Role | Create Customer User Role |
     And I click "Entity" in scrollspy
     And select following permissions:
-      | Customer User | View:Global | Create:Global | Edit:Global | Delete:Global | Assign:Global | Share:Global |
+      | Customer User | View:Global | Create:Global | Edit:Global | Delete:Global | Assign:Global |
     And I click "Entity" in scrollspy
     And select following permissions:
       | Customer           | View:Global |

@@ -46,14 +46,14 @@ class UpdateWorkflowACLQuery extends ParametrizedMigrationQuery
         $types = ['class' => Types::INTEGER, 'oid' => Types::STRING];
         $oId = $this->connection->fetchColumn($sql, $params, 0, $types);
 
-        // find sid for role IS_AUTHENTICATED_ANONYMOUSLY
+        // find sid for role PUBLIC_ACCESS
         $sql = 'SELECT id FROM acl_security_identities WHERE identifier = :role';
-        $params = ['role' => 'IS_AUTHENTICATED_ANONYMOUSLY'];
+        $params = ['role' => 'PUBLIC_ACCESS'];
         $types = ['role' => Types::STRING];
         $this->logQuery($logger, $sql, $params, $types);
         $sId = $this->connection->fetchColumn($sql, $params, 0, $types);
 
-        // reset permissions for 'workflow:(root)' and role IS_AUTHENTICATED_ANONYMOUSLY
+        // reset permissions for 'workflow:(root)' and role PUBLIC_ACCESS
         $sql = <<<SQL
 UPDATE acl_entries
 SET mask = :mask

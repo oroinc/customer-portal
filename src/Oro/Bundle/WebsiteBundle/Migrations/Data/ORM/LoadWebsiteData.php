@@ -4,39 +4,29 @@ namespace Oro\Bundle\WebsiteBundle\Migrations\Data\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Migrations\Data\ORM\LoadCustomerUserRoles;
+use Oro\Bundle\OrganizationBundle\Entity\BusinessUnit;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
 use Oro\Bundle\OrganizationBundle\Migrations\Data\ORM\LoadOrganizationAndBusinessUnitData;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
  * Loading website data.
  */
 class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
 {
-    const DEFAULT_WEBSITE_NAME = 'Default';
+    use ContainerAwareTrait;
 
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    public const DEFAULT_WEBSITE_NAME = 'Default';
 
     /**
      * {@inheritDoc}
      */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             LoadOrganizationAndBusinessUnitData::class,
@@ -44,7 +34,10 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
         ];
     }
 
-    public function load(ObjectManager $manager)
+    /**
+     * {@inheritDoc}
+     */
+    public function load(ObjectManager $manager): void
     {
         /** @var OrganizationInterface $organization */
         if ($this->hasReference('default_organization')) {
@@ -53,29 +46,21 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
             /**
              * Get first organization when install OroCommerce over OroCRM
              */
-            $organization = $manager
-                ->getRepository('OroOrganizationBundle:Organization')
-                ->getFirst();
+            $organization = $manager->getRepository(Organization::class)->getFirst();
         }
 
-        $businessUnit = $manager
-            ->getRepository('OroOrganizationBundle:BusinessUnit')
+        $businessUnit = $manager->getRepository(BusinessUnit::class)
             ->findOneBy(['name' => LoadOrganizationAndBusinessUnitData::MAIN_BUSINESS_UNIT]);
 
-        $defaultRole = $this->getReference(LoadCustomerUserRoles::WEBSITE_DEFAULT_ROLE);
-        $guestRole = $this->getReference(LoadCustomerUserRoles::WEBSITE_GUEST_ROLE);
-
         $website = new Website();
-        $website
-            ->setName(self::DEFAULT_WEBSITE_NAME)
-            ->setOrganization($organization)
-            ->setOwner($businessUnit)
-            ->setGuestRole($guestRole)
-            ->setDefaultRole($defaultRole)
-            ->setDefault(true);
+        $website->setName(self::DEFAULT_WEBSITE_NAME);
+        $website->setOrganization($organization);
+        $website->setOwner($businessUnit);
+        $website->setGuestRole($this->getReference(LoadCustomerUserRoles::WEBSITE_GUEST_ROLE));
+        $website->setDefaultRole($this->getReference(LoadCustomerUserRoles::WEBSITE_DEFAULT_ROLE));
+        $website->setDefault(true);
 
         $manager->persist($website);
-        /** @var EntityManager $manager */
         $manager->flush($website);
     }
 }

@@ -100,7 +100,7 @@ class CustomerUserManager extends BaseUserManager
         $sent = $this->getEmailProcessor()->sendWelcomeNotification($user);
         if (!$sent) {
             $this->logger->error(
-                sprintf('Unable to send welcome notification email to user "%s"', $user->getUsername())
+                sprintf('Unable to send welcome notification email to user "%s"', $user->getUserIdentifier())
             );
         }
     }
@@ -121,7 +121,7 @@ class CustomerUserManager extends BaseUserManager
             $this->logger->error(
                 sprintf(
                     'Unable to send welcome notification email for the registered by admin user "%s"',
-                    $user->getUsername()
+                    $user->getUserIdentifier()
                 )
             );
         }
@@ -137,7 +137,7 @@ class CustomerUserManager extends BaseUserManager
         $sent = $this->getEmailProcessor()->sendConfirmationEmail($user);
         if (!$sent) {
             $this->logger->error(
-                sprintf('Unable to send confirmation email to user "%s"', $user->getUsername())
+                sprintf('Unable to send confirmation email to user "%s"', $user->getUserIdentifier())
             );
         }
     }

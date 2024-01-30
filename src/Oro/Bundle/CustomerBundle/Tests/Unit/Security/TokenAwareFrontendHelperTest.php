@@ -48,30 +48,9 @@ class TokenAwareFrontendHelperTest extends \PHPUnit\Framework\TestCase
         return $tokenStorage;
     }
 
-    public function testIsFrontendRequestWithNotAuthenticatedToken()
-    {
-        $token = $this->createMock(TokenInterface::class);
-        $token->expects(self::once())
-            ->method('isAuthenticated')
-            ->willReturn(false);
-        $token->expects(self::never())
-            ->method('getUser');
-
-        $helper = new TokenAwareFrontendHelper(
-            self::BACKEND_PREFIX,
-            $this->getRequestStack(),
-            $this->applicationState,
-            $this->getTokenStorage($token)
-        );
-        $this->assertFalse($helper->isFrontendRequest());
-    }
-
     public function testIsFrontendRequestWithFrontendToken()
     {
         $token = $this->createMock(TokenInterface::class);
-        $token->expects(self::once())
-            ->method('isAuthenticated')
-            ->willReturn(true);
         $token->expects(self::once())
             ->method('getUser')
             ->willReturn($this->createMock(CustomerUser::class));
@@ -88,9 +67,6 @@ class TokenAwareFrontendHelperTest extends \PHPUnit\Framework\TestCase
     public function testIsFrontendRequestWithAnonymousCustomerUserToken()
     {
         $token = $this->createMock(AnonymousCustomerUserToken::class);
-        $token->expects(self::once())
-            ->method('isAuthenticated')
-            ->willReturn(true);
         $token->expects(self::never())
             ->method('getUser');
 
@@ -106,9 +82,6 @@ class TokenAwareFrontendHelperTest extends \PHPUnit\Framework\TestCase
     public function testIsFrontendRequestWithBackendToken()
     {
         $token = $this->createMock(TokenInterface::class);
-        $token->expects(self::once())
-            ->method('isAuthenticated')
-            ->willReturn(true);
         $token->expects(self::once())
             ->method('getUser')
             ->willReturn($this->createMock(User::class));

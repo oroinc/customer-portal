@@ -41,7 +41,7 @@ class CustomerUserRoleController extends AbstractController
      * @Acl(
      *      id="oro_customer_customer_user_role_view",
      *      type="entity",
-     *      class="OroCustomerBundle:CustomerUserRole",
+     *      class="Oro\Bundle\CustomerBundle\Entity\CustomerUserRole",
      *      permission="VIEW"
      * )
      *
@@ -69,7 +69,7 @@ class CustomerUserRoleController extends AbstractController
      * @Acl(
      *      id="oro_customer_customer_user_role_create",
      *      type="entity",
-     *      class="OroCustomerBundle:CustomerUserRole",
+     *      class="Oro\Bundle\CustomerBundle\Entity\CustomerUserRole",
      *      permission="CREATE"
      * )
      *
@@ -87,7 +87,7 @@ class CustomerUserRoleController extends AbstractController
      * @Acl(
      *      id="oro_customer_customer_user_role_update",
      *      type="entity",
-     *      class="OroCustomerBundle:CustomerUserRole",
+     *      class="Oro\Bundle\CustomerBundle\Entity\CustomerUserRole",
      *      permission="EDIT"
      * )
      *
@@ -107,17 +107,18 @@ class CustomerUserRoleController extends AbstractController
      */
     protected function update(CustomerUserRole $role, Request $request)
     {
-        $handler = $this->get(CustomerUserRoleUpdateHandler::class);
+        $handler = $this->container->get(CustomerUserRoleUpdateHandler::class);
         $handler->createForm($role);
         $isWidgetContext = (bool)$request->get('_wid', false);
 
         if ($handler->process($role) && !$isWidgetContext) {
             $request->getSession()->getFlashBag()->add(
                 'success',
-                $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruserrole.saved.message')
+                $this->container->get(TranslatorInterface::class)
+                    ->trans('oro.customer.controller.customeruserrole.saved.message')
             );
 
-            return $this->get(Router::class)->redirect($role);
+            return $this->container->get(Router::class)->redirect($role);
         } else {
             return [
                 'entity' => $role,
@@ -137,12 +138,12 @@ class CustomerUserRoleController extends AbstractController
 
     protected function getRolePrivilegeCategoryProvider(): RolePrivilegeCategoryProvider
     {
-        return $this->get(RolePrivilegeCategoryProvider::class);
+        return $this->container->get(RolePrivilegeCategoryProvider::class);
     }
 
     protected function getRolePrivilegeCapabilityProvider(): RolePrivilegeCapabilityProvider
     {
-        return $this->get(RolePrivilegeCapabilityProvider::class);
+        return $this->container->get(RolePrivilegeCapabilityProvider::class);
     }
 
     /**

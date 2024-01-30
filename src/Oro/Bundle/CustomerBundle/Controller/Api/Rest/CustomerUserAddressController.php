@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Api\Rest;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
@@ -180,7 +181,7 @@ class CustomerUserAddressController extends RestController
      */
     protected function getCustomerUserManager()
     {
-        return $this->get('oro_customer.customer_user.manager.api');
+        return $this->container->get('oro_customer.customer_user.manager.api');
     }
 
     /**
@@ -188,7 +189,7 @@ class CustomerUserAddressController extends RestController
      */
     public function getManager()
     {
-        return $this->get('oro_customer.customer_user_address.manager.api');
+        return $this->container->get('oro_customer.customer_user_address.manager.api');
     }
 
     /**
@@ -249,13 +250,13 @@ class CustomerUserAddressController extends RestController
      */
     protected function getCustomerUserAddresses(CustomerUser $customerUser)
     {
-        $dql = $this->getDoctrine()->getRepository(CustomerUserAddress::class)
+        $dql = $this->container->get('doctrine')->getRepository(CustomerUserAddress::class)
             ->createQueryBuilder('address')
             ->select('address')
             ->where('address.frontendOwner = :frontendOwner')
             ->setParameter('frontendOwner', $customerUser);
 
-        return $this->get('oro_security.acl_helper')->apply($dql)->getResult();
+        return $this->container->get('oro_security.acl_helper')->apply($dql)->getResult();
     }
 
     protected function checkAccess($entity)
@@ -263,5 +264,13 @@ class CustomerUserAddressController extends RestController
         if (!$this->isGranted('VIEW', $entity)) {
             throw $this->createAccessDeniedException();
         }
+    }
+
+    public static function getSubscribedServices(): array
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            ['doctrine' => ManagerRegistry::class]
+        );
     }
 }

@@ -7,11 +7,13 @@
     &__slider {
         // Hide content before slick slider is initialized
         overflow: hidden;
-
         white-space: nowrap;
-
         // Allows to select text in any slides
         user-select: initial;
+
+        margin-left: -$embedded-list-item-offset-inner;
+        margin-right: -$embedded-list-item-offset-inner;
+
         // Prevents to select text if "draggable" option is enabled
         .slick-list.draggable {
             user-select: none;
@@ -25,12 +27,26 @@
                 display: block;
             }
         }
+    }
 
-        &.embedded-arrows {
-            margin: 0 $embedded-list-slider-btn-arrow-width;
-        }
+    &__item {
+        display: inline-block;
+
+        padding-left: $embedded-list-item-offset-inner;
+        padding-right: $embedded-list-item-offset-inner;
+
+        vertical-align: top;
+        white-space: normal;
+    }
+
+    &__title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: $embedded-list-label-offset-bottom;
 
         @include slick-arrow(
+            $slick-arrow-position: static,
             $slick-arrow-transform: $embedded-list-slider-btn-arrow-transform,
             $slick-arrow-background: $embedded-list-slider-btn-arrow-background,
             $slick-arrow-hover-background: $embedded-list-slider-btn-arrow-hover-background,
@@ -38,61 +54,57 @@
             $slick-arrow-top: $embedded-list-slider-btn-arrow-top-pos,
             $slick-arrow-width: $embedded-list-slider-btn-arrow-width,
             $slick-arrow-height: $embedded-list-slider-btn-arrow-height,
-            $slick-arrow-next-right: $embedded-list-slider-btn-arrow-side-pos,
-            $slick-arrow-prev-left: $embedded-list-slider-btn-arrow-side-pos,
-            $slick-arrow-icon-size: $embedded-list-slider-arrow-size,
-            $slick-arrow-icon-color: $embedded-list-slider-icon-color
+            $slick-arrow-next-right: $embedded-list-slider-btn-arrow-inset-inline-end-pos,
+            $slick-arrow-prev-left: $embedded-list-slider-btn-arrow-inset-inline-start-pos,
+            $slick-arrow-border-radius: $embedded-list-slider-btn-border-radius,
         );
     }
 
-    &__item {
-        display: inline-block;
+    &__arrows-holder {
+        display: flex;
+        gap: spacing('base');
+    }
 
-        padding: $embedded-list-item-offset-inner;
+    &__dots-holder {
+        &:empty {
+            display: none;
+        }
 
-        vertical-align: top;
-        white-space: normal;
+        @include slick-dots(
+            $slick-dots-align-items: flex-start
+        );
     }
 
     &__label {
-        position: relative;
-        margin-bottom: $embedded-list-label-offset-bottom;
-
-        line-height: $embedded-list-label-line-height;
-
         text-align: $embedded-list-label-text-align;
-
-        &::before {
-            position: absolute;
-            z-index: z('base');
-            top: 50%;
-            right: 0;
-            left: 0;
-
-            height: 1px;
-
-            content: '';
-
-            background: $embedded-list-label-line-background;
-        }
-
-        &-inner {
-            position: relative;
-            z-index: z('base') + 1;
-
-            display: inline-block;
-            padding: $embedded-list-label-inner-offset;
-
-            vertical-align: top;
-            text-transform: uppercase;
-
-            font-size: $embedded-list-label-font-size;
-            background: $embedded-list-label-background;
-        }
     }
 
     &__tiles {
         --tiles-column-count: #{$embedded-list-tiles-column-count};
+    }
+}
+
+@include breakpoint('tablet-big') {
+    .embedded-list {
+        &__tiles {
+            --tiles-column-count: #{$embedded-list-tiles-tablet-big-column-count};
+        }
+    }
+}
+
+@include breakpoint('tablet') {
+    .embedded-list {
+        margin-bottom: $embedded-list-bottom-offset-tablet;
+
+        &__slider {
+            &.slick-initialized {
+                padding: 0;
+            }
+        }
+
+        &__title {
+            margin-bottom: $embedded-list-title-offset-bottom-tablet;
+        }
     }
 }
 
@@ -116,10 +128,6 @@
     .embedded-list {
         &__label-inner {
             font-size: $embedded-list-label-mobile-font-size;
-        }
-
-        &__tiles {
-            --tiles-column-count: #{$embedded-list-tiles-mobile-column-count};
         }
     }
 }

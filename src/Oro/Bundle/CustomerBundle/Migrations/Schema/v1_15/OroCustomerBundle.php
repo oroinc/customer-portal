@@ -5,38 +5,19 @@ namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_15;
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class OroCustomerBundle implements Migration, ContainerAwareInterface
+class OroCustomerBundle implements Migration
 {
-    /** @var ContainerInterface */
-    protected $container;
-
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function setContainer(ContainerInterface $container = null)
+    public function up(Schema $schema, QueryBag $queries): void
     {
-        $this->container = $container;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function up(Schema $schema, QueryBag $queries)
-    {
-        /** Tables generation **/
         $this->updateCustomerVisitorTable($schema);
-
-        /** Tables modifications **/
         $this->updateCustomerUserTable($schema);
     }
 
-    /**
-     * Update oro_customer_visitor table
-     */
-    protected function updateCustomerVisitorTable(Schema $schema)
+    private function updateCustomerVisitorTable(Schema $schema): void
     {
         $table = $schema->getTable('oro_customer_visitor');
         $table->addColumn('customer_user_id', 'integer', ['notnull' => false]);
@@ -49,10 +30,7 @@ class OroCustomerBundle implements Migration, ContainerAwareInterface
         $table->addUniqueIndex(['customer_user_id'], 'idx_customer_visitor_id_customer_user_id');
     }
 
-    /**
-     * Update oro_customer_user table
-     */
-    private function updateCustomerUserTable(Schema $schema)
+    private function updateCustomerUserTable(Schema $schema): void
     {
         $table = $schema->getTable('oro_customer_user');
         $table->addColumn('is_guest', 'boolean', ['default' => false]);

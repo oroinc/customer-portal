@@ -7,7 +7,6 @@ Oro\Bundle\WebsiteBundle\Entity\Website:
             - Length:
                 min: 2
                 max: 255
-                allowEmptyString: false
         owner:
             - NotBlank: ~
         organization:

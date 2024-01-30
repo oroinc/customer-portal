@@ -12,7 +12,7 @@ use Oro\Bundle\SecurityBundle\Cache\DoctrineAclCacheUserInfoProvider;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
-use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Component\Cache\CacheItem;
 
 class DoctrineAclCacheProviderTest extends \PHPUnit\Framework\TestCase
 {
@@ -48,7 +48,6 @@ class DoctrineAclCacheProviderTest extends \PHPUnit\Framework\TestCase
 
         $namespacesCache = $this->createMock(AdapterInterface::class);
         $cache = $this->createMock(AdapterInterface::class);
-        $batchItem = $this->createMock(ItemInterface::class);
 
         $this->tokenAccessor->expects(self::once())
             ->method('hasUser')
@@ -68,14 +67,11 @@ class DoctrineAclCacheProviderTest extends \PHPUnit\Framework\TestCase
         $namespacesCache->expects(self::once())
             ->method('getItem')
             ->with('Customer_2')
-            ->willReturn($batchItem);
+            ->willReturn($batchItem = new CacheItem());
 
-        $batchItem->expects(self::once())
-            ->method('isHit')
-            ->willReturn(true);
-        $batchItem->expects(self::once())
-            ->method('get')
-            ->willReturn([1548 => true, 1549 => true]);
+        $isHitReflection = new \ReflectionProperty($batchItem, 'isHit');
+        $isHitReflection->setValue($batchItem, true);
+        $batchItem->set([1548 => true, 1549 => true]);
 
         self::assertSame($cache, $this->aclCacheProvider->getCurrentUserCache());
     }
@@ -88,8 +84,8 @@ class DoctrineAclCacheProviderTest extends \PHPUnit\Framework\TestCase
 
         $namespacesCache = $this->createMock(AdapterInterface::class);
         $cache = $this->createMock(AdapterInterface::class);
-        $batchItem = $this->createMock(ItemInterface::class);
-        $batchListItem = $this->createMock(ItemInterface::class);
+        $batchItem = new CacheItem();
+        $batchListItem = new CacheItem();
 
         $this->tokenAccessor->expects(self::once())
             ->method('hasUser')
@@ -120,19 +116,8 @@ class DoctrineAclCacheProviderTest extends \PHPUnit\Framework\TestCase
                 [$batchListItem]
             )->willReturn(true);
 
-        $batchItem->expects(self::once())
-            ->method('isHit')
-            ->willReturn(false);
-        $batchItem->expects(self::once())
-            ->method('set')
-            ->willReturn([1254 => true]);
-
-        $batchListItem->expects(self::once())
-            ->method('isHit')
-            ->willReturn(false);
-        $batchListItem->expects(self::once())
-            ->method('set')
-            ->willReturn([User::class => [2]]);
+        $batchItem->set([1254 => true]);
+        $batchListItem->set([[User::class => [2]]]);
 
         self::assertSame($cache, $this->aclCacheProvider->getCurrentUserCache());
     }
