@@ -187,7 +187,7 @@ datagrids:
                 label:         oro.grid.action.update
                 ariaLabel:     update_aria_label
                 link:          update_link
-                icon:          pencil-square-o
+                icon:          pencil
                 order:         20
                 acl_resource:  oro_customer_frontend_customer_user_role_update
         action_configuration: ['@oro_customer.datagrid.action_permission_provider', "getCustomerUserRolePermission"]
@@ -416,7 +416,7 @@ datagrids:
                 label:         oro.grid.action.update
                 ariaLabel:     update_aria_label
                 link:          update_link
-                icon:          pencil-square-o
+                icon:          pencil
                 acl_resource:  oro_customer_frontend_customer_user_update
         action_configuration: ['@oro_customer.datagrid.action_permission_provider', "getUserPermissions"]
         mass_actions:
