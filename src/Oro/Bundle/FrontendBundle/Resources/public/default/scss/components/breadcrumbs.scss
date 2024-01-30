@@ -1,20 +1,35 @@
 /* @theme: default; */
 
 .breadcrumbs {
-    font-size: $breadcrumbs-font-size;
-
-    color: $breadcrumbs-color;
-
-    margin: $breadcrumbs-offset;
+    display: $breadcrumbs-display;
+    grid-auto-columns: $breadcrumbs-grid-auto-columns;
+    grid-auto-flow: $breadcrumbs-grid-auto-flow;
+    overflow-x: $breadcrumbs-overflow-x;
+    align-items: $breadcrumbs-align-items;
 
     &__item,
     &__link,
-    a,
-    a:hover {
+    a {
         color: $breadcrumbs-link-color;
     }
 
     &__item {
-        display: inline-block;
+        display: $breadcrumbs-item-display;
+        flex: $breadcrumbs-item-flex;
+    }
+
+    &__link {
+        text-decoration: $breadcrumbs-link-text-decoration;
+
+        &:hover {
+            color: $link-color-hover;
+        }
+    }
+
+    &-separator {
+        margin-inline: $breadcrumbs-item-separator-offset-inline;
+        color: $breadcrumbs-item-separator-color;
+        display: $breadcrumbs-item-separator-display;
+        vertical-align: $breadcrumbs-item-separator-item-align;
     }
 }
