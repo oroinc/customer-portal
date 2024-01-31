@@ -37,12 +37,11 @@ class CurrentUserProvider
     public function isFrontendRequest(): bool
     {
         $token = $this->tokenStorage->getToken();
-        if (null === $token || !$token->isAuthenticated()) {
+        if (null === $token || $token->getUser() === null) {
             return false;
         }
 
-        return
-            $token instanceof AnonymousCustomerUserToken
+        return $token instanceof AnonymousCustomerUserToken
             || $token->getUser() instanceof CustomerUserInterface;
     }
 }

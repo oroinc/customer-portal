@@ -2,17 +2,17 @@
 
 namespace Oro\Bundle\WebsiteBundle\Migrations\Schema\v1_3;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\MigrationBundle\Migration\Extension\DatabasePlatformAwareInterface;
+use Oro\Bundle\MigrationBundle\Migration\Extension\DatabasePlatformAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Extension\NameGeneratorAwareInterface;
-use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtension;
+use Oro\Bundle\MigrationBundle\Migration\Extension\NameGeneratorAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareInterface;
+use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
-use Oro\Bundle\MigrationBundle\Tools\DbIdentifierNameGenerator;
 
 class OroWebsiteBundle implements
     Migration,
@@ -20,42 +20,9 @@ class OroWebsiteBundle implements
     NameGeneratorAwareInterface,
     DatabasePlatformAwareInterface
 {
-    /** @var AbstractPlatform */
-    protected $platform;
-
-    /**
-     * @var RenameExtension
-     */
-    protected $renameExtension;
-
-    /**
-     * @var DbIdentifierNameGenerator
-     */
-    protected $nameGenerator;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setDatabasePlatform(AbstractPlatform $platform)
-    {
-        $this->platform = $platform;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setRenameExtension(RenameExtension $renameExtension)
-    {
-        $this->renameExtension = $renameExtension;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setNameGenerator(DbIdentifierNameGenerator $nameGenerator)
-    {
-        $this->nameGenerator = $nameGenerator;
-    }
+    use DatabasePlatformAwareTrait;
+    use NameGeneratorAwareTrait;
+    use RenameExtensionAwareTrait;
 
     /**
      * {@inheritdoc}

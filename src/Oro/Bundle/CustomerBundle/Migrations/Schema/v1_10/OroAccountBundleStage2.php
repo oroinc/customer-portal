@@ -4,10 +4,10 @@ namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_10;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
-use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtension;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterface;
-use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtension;
+use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareInterface;
+use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\MigrationConstraintTrait;
 use Oro\Bundle\MigrationBundle\Migration\OrderedMigrationInterface;
@@ -19,17 +19,9 @@ class OroAccountBundleStage2 implements
     ActivityExtensionAwareInterface,
     OrderedMigrationInterface
 {
+    use RenameExtensionAwareTrait;
+    use ActivityExtensionAwareTrait;
     use MigrationConstraintTrait;
-
-    /**
-     * @var RenameExtension
-     */
-    private $renameExtension;
-
-    /**
-     * @var ActivityExtension
-     **/
-    private $activityExtension;
 
     /**
      * {@inheritdoc}
@@ -405,25 +397,7 @@ class OroAccountBundleStage2 implements
     }
 
     /**
-     * Sets the RenameExtension
-     */
-    public function setRenameExtension(RenameExtension $renameExtension)
-    {
-        $this->renameExtension = $renameExtension;
-    }
-
-    /**
-     * Sets the ActivityExtension
-     */
-    public function setActivityExtension(ActivityExtension $activityExtension)
-    {
-        $this->activityExtension = $activityExtension;
-    }
-
-    /**
-     * Get the order of this migration
-     *
-     * @return integer
+     * {@inheritDoc}
      */
     public function getOrder()
     {

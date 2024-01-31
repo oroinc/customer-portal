@@ -49,7 +49,7 @@ class StyleBookController extends AbstractController
      */
     protected function checkAccess()
     {
-        $isAllowStyleBook = $this->get(AccessHelper::class)->isAllowStyleBook();
+        $isAllowStyleBook = $this->container->get(AccessHelper::class)->isAllowStyleBook();
         if (!$isAllowStyleBook) {
             throw $this->createNotFoundException();
         }

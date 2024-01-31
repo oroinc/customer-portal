@@ -131,7 +131,7 @@ class CustomerUserRoleControllerACLTest extends WebTestCase
         $this->loginUser($user);
         $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_role_index'));
         $this->assertSame($indexResponseStatus, $this->client->getResponse()->getStatusCode());
-        $response = $this->client->requestGrid(
+        $response = $this->client->requestFrontendGrid(
             [
                 'gridName' => 'frontend-customer-customer-user-roles-grid',
             ]

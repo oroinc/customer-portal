@@ -13,6 +13,7 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Owner\EntityOwnerAccessor;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProvider;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
 {
@@ -119,15 +120,15 @@ class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'without token' => [
-                'user' => null,
+                'token' => null,
                 'expectedResult' => false,
             ],
             'unsupported token' => [
-                'user' => new \stdClass(),
+                'token' => $this->createMock(TokenInterface::class),
                 'expectedResult' => false,
             ],
             'supported token' => [
-                'user' => new AnonymousCustomerUserToken(''),
+                'token' => new AnonymousCustomerUserToken(new CustomerVisitor()),
                 'expectedResult' => true,
             ],
         ];

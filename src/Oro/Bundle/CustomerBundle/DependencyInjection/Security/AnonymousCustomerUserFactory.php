@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\DependencyInjection\Security;
 
-use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
+use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AuthenticatorFactoryInterface;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -10,35 +10,22 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 /**
  * Configures Anonymous Customer User definitions
  */
-class AnonymousCustomerUserFactory implements SecurityFactoryInterface
+class AnonymousCustomerUserFactory implements AuthenticatorFactoryInterface
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function create(
+    public function createAuthenticator(
         ContainerBuilder $container,
-        string $id,
+        string $firewallName,
         array $config,
-        string $userProviderId,
-        ?string $defaultEntryPointId
-    ): array {
-        $baseProviderId = 'oro_customer.authentication.provider.anonymous_customer_user';
-        $providerId = $baseProviderId . '.' . $id;
-        $container->setDefinition($providerId, new ChildDefinition($baseProviderId));
+        string $userProviderId
+    ): string {
+        $authenticatorId = 'oro_customer.anonymous_customer_user.authenticator.' . $firewallName;
+        $container
+            ->setDefinition(
+                $authenticatorId,
+                new ChildDefinition('oro_customer.anonymous_customer_user.authenticator')
+            );
 
-        $baseListenerId = 'oro_customer.authentication.listener.anonymous_customer_user';
-        $listenerId = $baseListenerId . '.' . $id;
-        $container->setDefinition($listenerId, new ChildDefinition($baseListenerId));
-
-        return [$providerId, $listenerId, $defaultEntryPointId];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getPosition(): string
-    {
-        return 'remember_me';
+        return $authenticatorId;
     }
 
     /**
@@ -59,5 +46,10 @@ class AnonymousCustomerUserFactory implements SecurityFactoryInterface
                         'this parameter prevent too many requests to the database for update lastVisit datetime.')
                 ->end()
             ->end();
+    }
+
+    public function getPriority(): int
+    {
+        return -60;
     }
 }

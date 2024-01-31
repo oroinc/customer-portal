@@ -6,10 +6,13 @@ use Oro\Bundle\CustomerBundle\Acl\Voter\CustomerVoter;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerOwnerAwareInterface;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
 use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Fixtures\Entity\User;
 use Oro\Bundle\EntityBundle\Exception\NotManageableEntityException;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Oro\Bundle\SecurityBundle\Authentication\Token\AnonymousToken;
 use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\TestContainerBuilder;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
@@ -128,11 +131,6 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
             ->method('getUser')
             ->willReturn($inputData['user']);
 
-        $this->trustResolver->expects($this->any())
-            ->method('isAnonymous')
-            ->with($token)
-            ->willReturn(false);
-
         $this->assertEquals(
             $expectedResult,
             $this->voter->vote($token, $object, $inputData['attributes'])
@@ -150,13 +148,13 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'objectId'      => 2,
                     'object'        => null,
                     'initObjectParams' => null,
-                    'user'          => new \stdClass(),
+                    'user'          => new User(),
                     'attributes'    => [],
                     'grantedViewBasic' => null,
                     'grantedViewLocal' => null,
                     'grantedEditBasic' => null,
                     'grantedEditLocal' => null,
-                    'isGranted'        => null,
+                    'isGranted'        => false,
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
@@ -173,7 +171,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'grantedViewLocal' => null,
                     'grantedEditBasic' => null,
                     'grantedEditLocal' => null,
-                    'isGranted'        => null,
+                    'isGranted'        => false,
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
@@ -190,7 +188,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'grantedViewLocal' => null,
                     'grantedEditBasic' => null,
                     'grantedEditLocal' => null,
-                    'isGranted'        => null,
+                    'isGranted'        => false,
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
@@ -207,7 +205,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'grantedViewLocal' => null,
                     'grantedEditBasic' => null,
                     'grantedEditLocal' => null,
-                    'isGranted'        => null,
+                    'isGranted'        => false,
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
@@ -224,7 +222,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'grantedViewLocal' => false,
                     'grantedEditBasic' => null,
                     'grantedEditLocal' => null,
-                    'isGranted'        => null,
+                    'isGranted'        => false,
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
@@ -241,7 +239,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'grantedViewLocal' => false,
                     'grantedEditBasic' => null,
                     'grantedEditLocal' => null,
-                    'isGranted'        => null,
+                    'isGranted'        => false,
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
@@ -258,7 +256,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'grantedViewLocal' => true,
                     'grantedEditBasic' => null,
                     'grantedEditLocal' => null,
-                    'isGranted'        => null,
+                    'isGranted'        => false,
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
@@ -275,7 +273,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'grantedViewLocal' => true,
                     'grantedEditBasic' => null,
                     'grantedEditLocal' => null,
-                    'isGranted'        => null,
+                    'isGranted'        => false,
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
@@ -292,7 +290,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'grantedViewLocal' => true,
                     'grantedEditBasic' => null,
                     'grantedEditLocal' => null,
-                    'isGranted'        => null,
+                    'isGranted'        => false,
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
@@ -309,7 +307,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'grantedViewLocal' => null,
                     'grantedEditBasic' => true,
                     'grantedEditLocal' => false,
-                    'isGranted'        => null,
+                    'isGranted'        => false,
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
@@ -326,7 +324,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'grantedViewLocal' => null,
                     'grantedEditBasic' => true,
                     'grantedEditLocal' => false,
-                    'isGranted'        => null,
+                    'isGranted'        => false,
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
@@ -343,7 +341,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'grantedViewLocal' => null,
                     'grantedEditBasic' => false,
                     'grantedEditLocal' => true,
-                    'isGranted'        => null,
+                    'isGranted'        => false,
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
@@ -360,7 +358,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'grantedViewLocal' => null,
                     'grantedEditBasic' => false,
                     'grantedEditLocal' => true,
-                    'isGranted'        => null,
+                    'isGranted'        => false,
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
@@ -377,7 +375,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'grantedViewLocal' => null,
                     'grantedEditBasic' => false,
                     'grantedEditLocal' => true,
-                    'isGranted'        => null,
+                    'isGranted'        => false,
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
@@ -515,15 +513,10 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
         $this->authorizationChecker->expects($this->never())
             ->method('isGranted');
 
-        $token = $this->createMock(TokenInterface::class);
+        $token = $this->createMock(AnonymousToken::class);
         $token->expects($this->any())
             ->method('getUser')
-            ->willReturn('anon.');
-
-        $this->trustResolver->expects($this->once())
-            ->method('isAnonymous')
-            ->with($token)
-            ->willReturn(true);
+            ->willReturn(new CustomerVisitor());
 
         $this->relationsProvider->expects($this->once())
             ->method('getCustomerIncludingEmpty')
@@ -557,15 +550,10 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
             ->with($permissionAttribute, $this->getDescriptor())
             ->willReturn($isGranted);
 
-        $token = $this->createMock(TokenInterface::class);
+        $token = $this->createMock(AnonymousToken::class);
         $token->expects($this->any())
             ->method('getUser')
-            ->willReturn('anon.');
-
-        $this->trustResolver->expects($this->once())
-            ->method('isAnonymous')
-            ->with($token)
-            ->willReturn(true);
+            ->willReturn(new CustomerVisitor());
 
         $this->relationsProvider->expects($this->once())
             ->method('getCustomerIncludingEmpty')

@@ -249,15 +249,12 @@ abstract class AbstractMenuUpdateFixture extends AbstractFixture implements Cont
 
     protected function setSecurityContext(TokenStorageInterface $tokenStorage, User $user): void
     {
-        $tokenStorage->setToken(
-            new UsernamePasswordOrganizationToken(
-                $user,
-                $user->getUsername(),
-                'main',
-                $user->getOrganization(),
-                $user->getUserRoles()
-            )
-        );
+        $tokenStorage->setToken(new UsernamePasswordOrganizationToken(
+            $user,
+            'main',
+            $user->getOrganization(),
+            $user->getUserRoles()
+        ));
     }
 
     protected function getData(): array

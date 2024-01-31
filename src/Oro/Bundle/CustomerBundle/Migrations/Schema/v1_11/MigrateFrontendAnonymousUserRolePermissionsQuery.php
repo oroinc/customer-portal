@@ -9,7 +9,7 @@ use Psr\Log\LoggerInterface;
 
 class MigrateFrontendAnonymousUserRolePermissionsQuery extends ParametrizedMigrationQuery
 {
-    const OLD_ROLE_NAME  = 'IS_AUTHENTICATED_ANONYMOUSLY';
+    const OLD_ROLE_NAME  = 'PUBLIC_ACCESS';
     const NEW_ROLE_NAME  = 'ROLE_FRONTEND_ANONYMOUS';
     const PRODUCT_CLASS_NAME = 'Oro\Bundle\ProductBundle\Entity\Product';
     const ROOT_CLASS_NAME = '(root)';

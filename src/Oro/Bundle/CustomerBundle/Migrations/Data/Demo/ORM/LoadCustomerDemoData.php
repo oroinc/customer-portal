@@ -8,6 +8,7 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
 use Oro\Bundle\MigrationBundle\Fixture\AbstractEntityReferenceFixture;
+use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * Loads Customers demo data for default organization
@@ -16,10 +17,9 @@ class LoadCustomerDemoData extends AbstractEntityReferenceFixture implements Dep
 {
     use CreateCustomerTrait;
 
-    const ACCOUNT_REFERENCE_PREFIX = 'customer_demo_data';
+    public const ACCOUNT_REFERENCE_PREFIX = 'customer_demo_data';
 
-    /** @var array */
-    protected $customers = [
+    private array $customers = [
         'Company A' => [
             'group' => 'All Customers',
             'subsidiaries' => [
@@ -49,20 +49,20 @@ class LoadCustomerDemoData extends AbstractEntityReferenceFixture implements Dep
     ];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             LoadCustomerInternalRatingDemoData::class,
-            LoadCustomerGroupDemoData::class,
+            LoadCustomerGroupDemoData::class
         ];
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $internalRatings = $this->getObjectReferencesByIds(
             $manager,
@@ -70,8 +70,8 @@ class LoadCustomerDemoData extends AbstractEntityReferenceFixture implements Dep
             LoadCustomerInternalRatingDemoData::getDataKeys()
         );
 
-        /** @var \Oro\Bundle\UserBundle\Entity\User $customerOwner */
-        $customerOwner = $manager->getRepository('OroUserBundle:User')->findOneBy([]);
+        /** @var User $customerOwner */
+        $customerOwner = $manager->getRepository(User::class)->findOneBy([]);
 
         foreach ($this->customers as $customerName => $customerData) {
             /** @var CustomerGroup $customerGroup */

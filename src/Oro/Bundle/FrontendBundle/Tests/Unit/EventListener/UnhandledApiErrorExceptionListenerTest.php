@@ -65,7 +65,7 @@ class UnhandledApiErrorExceptionListenerTest extends \PHPUnit\Framework\TestCase
         return new ExceptionEvent(
             $this->createMock(HttpKernelInterface::class),
             $request,
-            HttpKernelInterface::MASTER_REQUEST,
+            HttpKernelInterface::MAIN_REQUEST,
             $exception
         );
     }

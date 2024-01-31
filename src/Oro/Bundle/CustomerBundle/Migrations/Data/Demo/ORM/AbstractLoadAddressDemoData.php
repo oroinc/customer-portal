@@ -3,60 +3,33 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\Persistence\ObjectManager;
-use Doctrine\Persistence\ObjectRepository;
+use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\AddressBundle\Entity\Country;
 use Oro\Bundle\AddressBundle\Entity\Region;
 use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 use Oro\Bundle\MigrationBundle\Fixture\AbstractEntityReferenceFixture;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
+/**
+ * The base class for fixtures that load customer and customer user addresses.
+ */
 abstract class AbstractLoadAddressDemoData extends AbstractEntityReferenceFixture implements ContainerAwareInterface
 {
-    /** @var ContainerInterface */
-    protected $container;
+    use ContainerAwareTrait;
 
-    /** @var ObjectRepository|EntityRepository */
-    protected $countryRepository;
-
-    /** @var ObjectRepository|EntityRepository */
-    protected $regionRepository;
-
-    /** @var ObjectRepository|EntityRepository */
-    protected $addressTypeRepository;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function load(ObjectManager $manager)
-    {
-        $this->initRepositories();
-    }
-
-    /**
-     * @param $data
-     * @return AbstractDefaultTypedAddress
-     */
-    protected function createAddress($data)
+    protected function createAddress(array $data): AbstractDefaultTypedAddress
     {
         /** @var Country $country */
-        $country = $this->countryRepository->findOneBy(['iso2Code' => $data['country']]);
+        $country = $this->container->get('doctrine')->getRepository(Country::class)
+            ->findOneBy(['iso2Code' => $data['country']]);
         if (!$country) {
             throw new \RuntimeException('Can\'t find country with ISO ' . $data['country']);
         }
 
         /** @var Region $region */
-        $region = $this->regionRepository->findOneBy(['country' => $country, 'code' => $data['state']]);
+        $region = $this->container->get('doctrine')->getRepository(Region::class)
+            ->findOneBy(['country' => $country, 'code' => $data['state']]);
         if (!$region) {
             throw new \RuntimeException(
                 printf('Can\'t find region with country ISO %s and code %s', $data['country'], $data['state'])
@@ -66,13 +39,13 @@ abstract class AbstractLoadAddressDemoData extends AbstractEntityReferenceFixtur
         $types = [];
         $typesFromData = explode(',', $data['types']);
         foreach ($typesFromData as $type) {
-            $types[] = $this->addressTypeRepository->find($type);
+            $types[] = $this->container->get('doctrine')->getRepository(AddressType::class)->find($type);
         }
 
         $defaultTypes = [];
         $defaultTypesFromData = explode(',', $data['defaultTypes']);
         foreach ($defaultTypesFromData as $defaultType) {
-            $defaultTypes[] = $this->addressTypeRepository->find($defaultType);
+            $defaultTypes[] = $this->container->get('doctrine')->getRepository(AddressType::class)->find($defaultType);
         }
 
         $address = $this->getNewAddressEntity();
@@ -91,26 +64,5 @@ abstract class AbstractLoadAddressDemoData extends AbstractEntityReferenceFixtur
         return $address;
     }
 
-    protected function initRepositories()
-    {
-        $doctrine = $this->container->get('doctrine');
-        $this->countryRepository = $doctrine
-            ->getManagerForClass('OroAddressBundle:Country')
-            ->getRepository('OroAddressBundle:Country');
-
-        $this->regionRepository = $doctrine
-            ->getManagerForClass('OroAddressBundle:Region')
-            ->getRepository('OroAddressBundle:Region');
-
-        $this->addressTypeRepository = $doctrine
-            ->getManagerForClass('OroAddressBundle:AddressType')
-            ->getRepository('OroAddressBundle:AddressType');
-    }
-
-    /**
-     * Return new entity compatible with AbstractDefaultTypedAddress
-     *
-     * @return AbstractDefaultTypedAddress
-     */
-    abstract protected function getNewAddressEntity();
+    abstract protected function getNewAddressEntity(): AbstractDefaultTypedAddress;
 }

@@ -59,6 +59,13 @@ const ScrollShadowView = BaseView.extend({
         });
 
         this.update();
+
+        // Making an element to be scrollable in a while
+        if (this.el.classList.contains('start-scroll-from-end')) {
+            setTimeout(() => {
+                this.el.classList.remove('start-scroll-from-end');
+            }, 0);
+        }
     },
 
     update() {
@@ -111,10 +118,23 @@ const ScrollShadowView = BaseView.extend({
 
     addShadow(target) {
         const {blockStartClass, blockEndClass} = this.options;
-        const {clientHeight, scrollHeight, scrollTop} = target;
+        const {clientHeight, clientWidth, scrollHeight, scrollWidth, scrollTop, scrollLeft} = target;
+        const hasVerticalScrollbar = target.scrollHeight > target.clientHeight;
+        const hasHorizontalScrollbar = target.scrollWidth > target.clientWidth;
 
-        target?.classList.toggle(blockStartClass, scrollTop > 0);
-        target?.classList.toggle(blockEndClass, clientHeight + scrollTop < scrollHeight);
+        if (hasHorizontalScrollbar) {
+            target?.classList.toggle(blockStartClass, scrollLeft > 0);
+            target?.classList.toggle(blockEndClass, clientWidth + scrollLeft < scrollWidth);
+
+            if (!target.classList.contains('horizontal-scrolling')) {
+                target.classList.add('horizontal-scrolling');
+            }
+        }
+
+        if (hasVerticalScrollbar) {
+            target?.classList.toggle(blockStartClass, scrollTop > 0);
+            target?.classList.toggle(blockEndClass, clientHeight + scrollTop < scrollHeight);
+        }
     },
 
     removeShadows() {

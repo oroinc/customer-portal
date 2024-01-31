@@ -38,7 +38,7 @@ class TokenAwareFrontendHelper extends FrontendHelper
     public function isFrontendRequest(): bool
     {
         $token = $this->tokenStorage->getToken();
-        if (null !== $token && $token->isAuthenticated()) {
+        if (null !== $token) {
             return
                 $token instanceof AnonymousCustomerUserToken
                 || $token->getUser() instanceof CustomerUserInterface;

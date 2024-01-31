@@ -17,7 +17,7 @@ class AjaxCustomerUserControllerTest extends WebTestCase
             [],
             $this->generateBasicAuthHeader(LoadLoginCustomerUserData::AUTH_USER, LoadLoginCustomerUserData::AUTH_PW)
         );
-        $this->client->useHashNavigation(true);
+
         $this->loadFixtures([LoadCustomerUserRoleData::class]);
     }
 

@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security;
 
 use Oro\Bundle\CustomerBundle\Security\AuthenticationTrustResolver;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolver as BaseAuthenticationTrustResolver;
 use Symfony\Component\Security\Core\Authentication\Token\RememberMeToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -28,13 +29,17 @@ class AuthenticationTrustResolverTest extends \PHPUnit\Framework\TestCase
 
     public function testIsAnonymous()
     {
-        $this->baseTrustResolver->expects($this->any())
-            ->method('isAnonymous')
-            ->willReturn(false);
-
+        $token = $this->getToken();
+        $token->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->createMock(AbstractUser::class));
+        $rememberMeToken = $this->getRememberMeToken();
+        $rememberMeToken->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->createMock(AbstractUser::class));
         $this->assertFalse($this->resolver->isAnonymous(null));
-        $this->assertFalse($this->resolver->isAnonymous($this->getToken()));
-        $this->assertFalse($this->resolver->isAnonymous($this->getRememberMeToken()));
+        $this->assertFalse($this->resolver->isAnonymous($token));
+        $this->assertFalse($this->resolver->isAnonymous($rememberMeToken));
         $this->assertTrue($this->resolver->isAnonymous($this->getAnonymousCustomerUserToken()));
     }
 

@@ -115,3 +115,23 @@
 .list-unstyled {
     @include list-unstyled;
 }
+
+.start-scroll-from-end {
+    scroll-snap-type: x mandatory;
+
+    > :last-child {
+        scroll-snap-align: start;
+    }
+}
+
+.invisible-scrollbar {
+    &::-webkit-scrollbar {
+        width: 0;
+        display: none;
+    }
+
+    /* for firefox */
+    scrollbar-width: none;
+    /* for MS Edge */
+    -ms-overflow-style: scrollbar;
+}

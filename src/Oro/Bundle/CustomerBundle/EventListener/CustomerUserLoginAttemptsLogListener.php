@@ -5,8 +5,8 @@ namespace Oro\Bundle\CustomerBundle\EventListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\UserBundle\Security\LoginAttemptsHandlerInterface;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\Security\Core\Event\AuthenticationFailureEvent;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Http\Event\LoginFailureEvent;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
 /**
@@ -45,7 +45,7 @@ class CustomerUserLoginAttemptsLogListener implements ServiceSubscriberInterface
     /**
      * {@inheritDoc}
      */
-    public function onAuthenticationFailure(AuthenticationFailureEvent $event): void
+    public function onAuthenticationFailure(LoginFailureEvent $event): void
     {
         $this->getHandler()->onAuthenticationFailure($event);
     }

@@ -67,6 +67,10 @@ twig:
     paths:
         '%kernel.project_dir%/vendor/oro/customer-portal/src/Oro/Bundle/FrontendBundle/Resources/public': 'OroFrontendBundlePublic'
 
+oro_security:
+    access_control:
+        - { path: ^/installer, roles: PUBLIC_ACCESS }
+
 security:
     firewalls:
         assets:
@@ -76,7 +80,6 @@ security:
         install:
             pattern:                        ^/installer
             security:                       false
-            anonymous:                      true
 
         # override pattern
         wsse_secured:

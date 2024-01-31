@@ -3,18 +3,15 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
+use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
 
 class LoadCustomerUserAddresses extends AbstractAddressesFixture implements DependentFixtureInterface
 {
-    const OTHER_USER_LABEL = 'other.user@test.com.address_1';
+    public const OTHER_USER_LABEL = 'other.user@test.com.address_1';
 
-    /**
-     * @var array
-     */
-    protected $addresses = [
+    protected array $addresses = [
         [
             'customer_user' => 'grzegorz.brzeczyszczykiewicz@example.com',
             'label' => 'grzegorz.brzeczyszczykiewicz@example.com.address_1',
@@ -74,26 +71,24 @@ class LoadCustomerUserAddresses extends AbstractAddressesFixture implements Depe
     ];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
-        return [LoadCustomerUserData::class];
+        return [LoadCustomerUserData::class, LoadOrganization::class];
     }
 
     /**
-     * @param EntityManager $manager
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         foreach ($this->addresses as $addressData) {
             $address = new CustomerUserAddress();
-            $address->setSystemOrganization($this->getOrganization($manager));
+            $address->setSystemOrganization($this->getReference(LoadOrganization::ORGANIZATION));
             $address->setFrontendOwner($this->getReference($addressData['customer_user']));
             $this->addAddress($manager, $addressData, $address);
         }
-
         $manager->flush();
     }
 }

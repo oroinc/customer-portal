@@ -5,9 +5,11 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Extend\Entity\Autocomplete\OroCustomerBundle_Entity_CustomerVisitor;
+use Oro\Bundle\CustomerBundle\Security\VisitorIdentifierUtil;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Represents guest user with related CustomerUser (which is empty by default)
@@ -20,7 +22,7 @@ use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
  * @Config
  * @mixin OroCustomerBundle_Entity_CustomerVisitor
  */
-class CustomerVisitor implements ExtendEntityInterface
+class CustomerVisitor implements ExtendEntityInterface, UserInterface
 {
     use ExtendEntityTrait;
 
@@ -142,5 +144,23 @@ class CustomerVisitor implements ExtendEntityInterface
     public function getCustomerUser()
     {
         return $this->customerUser;
+    }
+
+    public function getRoles(): array
+    {
+        return ['ROLE_FRONTEND_ANONYMOUS'];
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getUserIdentifier(): string
+    {
+        if (null === $this->getId()) {
+            return '';
+        }
+
+        return VisitorIdentifierUtil::encodeIdentifier($this->getId(), $this->getSessionId());
     }
 }

@@ -3,21 +3,22 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
 use Oro\Bundle\UserBundle\Entity\Role;
 use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\UserBundle\Entity\UserManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class LoadUserData extends AbstractFixture implements ContainerAwareInterface
+class LoadUserData extends AbstractFixture implements ContainerAwareInterface, DependentFixtureInterface
 {
-    const USER1 = 'admin-user1';
-    const USER2 = 'admin-user2';
+    use ContainerAwareTrait;
 
-    /** @var array */
-    protected $users = [
+    public const USER1 = 'admin-user1';
+    public const USER2 = 'admin-user2';
+
+    private array $users = [
         [
             'email' => 'admin-user1@example.com',
             'username' => self::USER1,
@@ -32,42 +33,37 @@ class LoadUserData extends AbstractFixture implements ContainerAwareInterface
         ],
     ];
 
-    /** @var UserManager */
-    protected $userManager;
-
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function setContainer(ContainerInterface $container = null)
+    public function getDependencies(): array
     {
-        $this->userManager = $container->get('oro_user.manager');
+        return [LoadOrganization::class];
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        /** @var Organization $organization */
-        $organization = $manager->getRepository(Organization::class)->getFirst();
+        $userManager = $this->container->get('oro_user.manager');
         /** @var Role $role */
         $role = $manager->getRepository(Role::class)->findOneBy(['role' => User::ROLE_DEFAULT]);
-
         foreach ($this->users as $item) {
             /* @var User $user */
-            $user = $this->userManager->createUser();
+            $user = $userManager->createUser();
             $user->setUsername($item['username'])
                 ->setEmail($item['email'])
                 ->setFirstName($item['firstname'])
                 ->setLastName($item['lastname'])
                 ->setEnabled(true)
                 ->setPlainPassword($item['email'])
-                ->setOrganization($organization)
+                ->setOrganization($this->getReference(LoadOrganization::ORGANIZATION))
                 ->addUserRole($role);
 
-            $this->userManager->updateUser($user);
+            $userManager->updateUser($user);
 
-            $this->setReference($user->getUsername(), $user);
+            $this->setReference($user->getUserIdentifier(), $user);
         }
     }
 }

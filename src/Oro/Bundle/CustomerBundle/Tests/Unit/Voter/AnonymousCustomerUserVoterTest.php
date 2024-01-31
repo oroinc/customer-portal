@@ -6,6 +6,7 @@ use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\CustomerBundle\Voter\AnonymousCustomerUserVoter;
 use Oro\Bundle\FeatureToggleBundle\Checker\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class AnonymousCustomerUserVoterTest extends \PHPUnit\Framework\TestCase
 {
@@ -44,7 +45,7 @@ class AnonymousCustomerUserVoterTest extends \PHPUnit\Framework\TestCase
     {
         $featureName = 'feature_name';
 
-        $token = new \stdClass();
+        $token = $this->createMock(TokenInterface::class);
         $scopeIdentifier = 1;
         $this->tokenStorage->expects($this->once())
             ->method('getToken')

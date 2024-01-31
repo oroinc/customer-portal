@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Security;
 
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\SecurityBundle\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolver as BaseAuthenticationTrustResolver;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -30,13 +31,18 @@ class AuthenticationTrustResolver extends BaseAuthenticationTrustResolver
      */
     public function isAnonymous(TokenInterface $token = null)
     {
-        return $this->isAnonymousCustomerUser($token) || $this->decoratedResolver->isAnonymous($token);
+        return $this->isAnonymousCustomerUser($token) || ($token && !$token->getUser());
+    }
+
+    public function isAuthenticated(TokenInterface $token = null): bool
+    {
+        return $token && !$token instanceof AnonymousToken && $token->getUser();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isRememberMe(TokenInterface $token = null)
+    public function isRememberMe(TokenInterface $token = null): bool
     {
         return $this->decoratedResolver->isRememberMe($token);
     }
@@ -44,7 +50,7 @@ class AuthenticationTrustResolver extends BaseAuthenticationTrustResolver
     /**
      * {@inheritdoc}
      */
-    public function isFullFledged(TokenInterface $token = null)
+    public function isFullFledged(TokenInterface $token = null): bool
     {
         return !$this->isAnonymousCustomerUser($token) && $this->decoratedResolver->isFullFledged($token);
     }

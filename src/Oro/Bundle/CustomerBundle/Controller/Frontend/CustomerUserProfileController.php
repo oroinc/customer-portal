@@ -50,13 +50,13 @@ class CustomerUserProfileController extends AbstractController
     public function updateAction(Request $request)
     {
         $customerUser = $this->getUser();
-        $form = $this->get(FrontendCustomerUserFormProvider::class)
+        $form = $this->container->get(FrontendCustomerUserFormProvider::class)
             ->getProfileForm($customerUser);
 
-        $handler = $this->get(FrontendCustomerUserHandler::class);
-        $saveMessage = $this->get(TranslatorInterface::class)
+        $handler = $this->container->get(FrontendCustomerUserHandler::class);
+        $saveMessage = $this->container->get(TranslatorInterface::class)
             ->trans('oro.customer.controller.customeruser.profile_updated.message');
-        $resultHandler = $this->get(UpdateHandlerFacade::class)->update(
+        $resultHandler = $this->container->get(UpdateHandlerFacade::class)->update(
             $customerUser,
             $form,
             $saveMessage,
@@ -68,11 +68,12 @@ class CustomerUserProfileController extends AbstractController
             return $resultHandler;
         }
 
-        $fallbackUrl = $this->get('router')->generate('oro_customer_frontend_customer_user_profile');
+        $fallbackUrl = $this->container->get('router')->generate('oro_customer_frontend_customer_user_profile');
 
         return [
             'data' => [
-                'backToUrl' => $this->get(SameSiteUrlHelper::class)->getSameSiteReferer($request, $fallbackUrl),
+                'backToUrl' => $this->container->get(SameSiteUrlHelper::class)
+                    ->getSameSiteReferer($request, $fallbackUrl),
                 'entity' => $customerUser,
             ]
         ];

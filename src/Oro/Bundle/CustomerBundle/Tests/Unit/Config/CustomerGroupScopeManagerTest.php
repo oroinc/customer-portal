@@ -7,7 +7,7 @@ use Oro\Bundle\CustomerBundle\Config\CustomerGroupScopeManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Component\Testing\ReflectionUtil;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -114,7 +114,7 @@ class CustomerGroupScopeManagerTest extends AbstractScopeManagerTestCase
         $token = $this->createMock(TokenInterface::class);
         $token->expects(self::once())
             ->method('getUser')
-            ->willReturn(new Organization());
+            ->willReturn(new User());
         $this->tokenStorage->expects(self::once())
             ->method('getToken')
             ->willReturn($token);

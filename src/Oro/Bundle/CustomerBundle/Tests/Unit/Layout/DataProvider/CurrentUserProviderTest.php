@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Layout\DataProvider;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\CurrentUserProvider;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
@@ -83,9 +84,6 @@ class CurrentUserProviderTest extends \PHPUnit\Framework\TestCase
     {
         $token = $this->createMock(TokenInterface::class);
         $token->expects(self::once())
-            ->method('isAuthenticated')
-            ->willReturn(false);
-        $token->expects(self::never())
             ->method('getUser');
 
         $this->tokenStorage->expects(self::once())
@@ -98,10 +96,7 @@ class CurrentUserProviderTest extends \PHPUnit\Framework\TestCase
     public function testIsFrontendRequestForFrontendToken()
     {
         $token = $this->createMock(TokenInterface::class);
-        $token->expects(self::once())
-            ->method('isAuthenticated')
-            ->willReturn(true);
-        $token->expects(self::once())
+        $token->expects(self::exactly(2))
             ->method('getUser')
             ->willReturn($this->createMock(CustomerUser::class));
 
@@ -115,11 +110,10 @@ class CurrentUserProviderTest extends \PHPUnit\Framework\TestCase
     public function testIsFrontendRequestFoeAnonymousCustomerUserToken()
     {
         $token = $this->createMock(AnonymousCustomerUserToken::class);
+        // anonymous customer visitor
         $token->expects(self::once())
-            ->method('isAuthenticated')
-            ->willReturn(true);
-        $token->expects(self::never())
-            ->method('getUser');
+            ->method('getUser')
+        ->willReturn(new CustomerVisitor());
 
         $this->tokenStorage->expects(self::once())
             ->method('getToken')
@@ -131,10 +125,7 @@ class CurrentUserProviderTest extends \PHPUnit\Framework\TestCase
     public function testIsFrontendRequestForBackendToken()
     {
         $token = $this->createMock(TokenInterface::class);
-        $token->expects(self::once())
-            ->method('isAuthenticated')
-            ->willReturn(true);
-        $token->expects(self::once())
+        $token->expects(self::exactly(2))
             ->method('getUser')
             ->willReturn($this->createMock(User::class));
 

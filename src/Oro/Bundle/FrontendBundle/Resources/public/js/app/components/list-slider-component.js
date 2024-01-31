@@ -1,11 +1,15 @@
 define(function(require) {
     'use strict';
 
-    const EmbeddedListComponent = require('orofrontend/js/app/components/embedded-list-component');
-    const tools = require('oroui/js/tools');
-    const mediator = require('oroui/js/mediator');
     const $ = require('jquery');
     const _ = require('underscore');
+    const __ = require('orotranslation/js/translator');
+    const tools = require('oroui/js/tools');
+    const EmbeddedListComponent = require('orofrontend/js/app/components/embedded-list-component');
+    const mediator = require('oroui/js/mediator');
+    const arrowTpl = require('tpl-loader!orofrontend/templates/slick-arrow-button.html');
+    const rtl = _.isRTL();
+
     require('slick');
 
     const ContentSliderComponent = EmbeddedListComponent.extend({
@@ -13,21 +17,34 @@ define(function(require) {
          * @property {Object}
          */
         options: _.extend({}, EmbeddedListComponent.prototype.options, {
-            useTransform: false, // transform in slick-slider breaks dropdowns
-            mobileEnabled: true,
-            slidesToShow: 4,
+            // transform in slick-slider breaks dropdowns
+            useTransform: false,
+            use_slider_on_mobile: true,
+            slidesToShow: 5,
             slidesToScroll: 1,
             autoplay: false,
             autoplaySpeed: 2000,
             arrows: !tools.isMobile(),
             dots: false,
+            // Showing count of dots before and after an active one
+            maxDotsToShow: 2,
             infinite: false,
             additionalClass: 'embedded-list__slider no-transform',
+            prevArrow: arrowTpl({
+                ariaLabel: __('Previous'),
+                iconName: rtl ? 'chevron-right' : 'chevron-left',
+                className: 'slick-prev'
+            }),
+            nextArrow: arrowTpl({
+                ariaLabel: __('Next'),
+                iconName: rtl ? 'chevron-left' : 'chevron-right',
+                className: 'slick-next'
+            }),
             embeddedArrowsClass: 'embedded-arrows',
             loadingClass: 'loading',
             itemLinkSelector: null,
             processClick: null,
-            rtl: _.isRTL(),
+            rtl: rtl,
             // Enable or disable mouse dragging
             draggable: false
         }),
@@ -49,43 +66,41 @@ define(function(require) {
          * @param options
          */
         initialize: function(options) {
-            const self = this;
-
-            this.options = _.defaults(options || {}, this.options);
+            this.options = this._processOptions(options);
             this.$el = options._sourceElement;
 
             this.listenTo(mediator, 'layout:reposition', this.updatePosition);
             this.addEmbeddedArrowsClass(this.$el, this.options.arrows || false);
 
-            $(this.$el).on('init' + this.eventNamespace(), function(event, slick) {
-                if (self.options.additionalClass) {
-                    self.$el.addClass(self.options.additionalClass);
+            $(this.$el).on('init' + this.eventNamespace(), (event, slick) => {
+                if (this.options.additionalClass) {
+                    this.$el.addClass(this.options.additionalClass);
                 }
 
-                self.$el.removeClass(self.options.loadingClass);
+                this.$el.removeClass(this.options.loadingClass);
 
-                self.$initItems = slick.$slides.slice(
+                this.$initItems = slick.$slides.slice(
                     slick.options.initialSlide,
                     slick.options.slidesToShow * slick.options.slidesPerRow
                 );
+                this.limitDots(slick);
             });
 
-            if (this.options.mobileEnabled) {
-                this.$el.addClass(this.options.loadingClass);
-                this.refreshPositions();
-                $(this.$el).slick(this.options);
-            }
+            this.$el.addClass(this.options.loadingClass);
+            this.refreshPositions();
+            $(this.$el).slick(this.options);
 
             if (this.options.relatedComponent) {
                 this.onChange();
             }
 
-            $(this.$el).on(`destroy${this.eventNamespace()}`, function(event, slick) {
-                self.$el.removeClass(self.options.additionalClass);
+            $(this.$el).on(`destroy${this.eventNamespace()}`, (event, slick) => {
+                this.$el.removeClass(this.options.additionalClass);
             });
 
-            $(this.$el).on(`breakpoint${this.eventNamespace()}`, function(event, slick) {
-                self.addEmbeddedArrowsClass(slick.$slider, slick.options.arrows || false);
+            $(this.$el).on(`breakpoint${this.eventNamespace()}`, (event, slick) => {
+                this.addEmbeddedArrowsClass(slick.$slider, slick.options.arrows || false);
+                this.limitDots(slick);
             });
 
             this.previousSlide = this.$el.slick('slickCurrentSlide');
@@ -93,6 +108,39 @@ define(function(require) {
             if (this.options.processClick) {
                 this.$el.on(`click${this.eventNamespace()}`, this.options.processClick, this.toProcessClick.bind(this));
             }
+        },
+
+        /**
+         * Procces options for each breakpoint
+         * @param {Object} options
+         * @returns {*}
+         * @private
+         */
+        _processOptions(options) {
+            options = _.defaults(options || {}, this.options);
+            const {show_arrows_on_touchscreens: arrowsOnTouchscreens} = options;
+
+            if (arrowsOnTouchscreens === void 0) {
+                return options;
+            }
+
+            if (_.isTouchDevice()) {
+                options.arrows = arrowsOnTouchscreens;
+
+                if (Array.isArray(options.responsive)) {
+                    options.responsive = options.responsive.map(breakpoint => {
+                        if (breakpoint.settings === void 0) {
+                            breakpoint.settings = {};
+                        }
+
+                        breakpoint.settings.arrows = arrowsOnTouchscreens;
+
+                        return breakpoint;
+                    });
+                }
+            }
+
+            return options;
         },
 
         /**
@@ -117,7 +165,7 @@ define(function(require) {
             );
 
             this.previousSlide = currentSlide;
-
+            this.limitDots(slick);
             this.trigger('oro:embedded-list:shown', $shownItems);
         },
 
@@ -169,7 +217,7 @@ define(function(require) {
                 return;
             }
 
-            if (event.target.tagName !== 'A') {
+            if (event.target.tagName !== 'A' && $(event.target).parent('a').length === 0) {
                 event.stopPropagation();
 
                 const $link = $(event.currentTarget)
@@ -189,6 +237,65 @@ define(function(require) {
          */
         eventNamespace: function() {
             return '.sliderEvents' + this.cid;
+        },
+
+        /**
+         * @param {object} slick
+         */
+        limitDots(slick) {
+            if (!this.options.maxDotsToShow) {
+                return;
+            }
+
+            const {$dots} = slick;
+
+            if (!$dots) {
+                return;
+            }
+
+            const $activeDot = $dots.find('.slick-active');
+            // an active dot and others around it
+            const MAX_DOTS_TO_SHOW = 1 + this.options.maxDotsToShow * 2;
+            const $dotsItems = $dots.children();
+            const $dotsBefore = $dotsItems.slice(
+                Math.max(0, $activeDot.index() - this.options.maxDotsToShow),
+                $activeDot.index()
+            );
+            const $dotsAfter = $dotsItems.slice(
+                $activeDot.index() + 1,
+                $activeDot.index() + this.options.maxDotsToShow + 1
+            );
+            let $dotsToShow = $().add($dotsBefore).add($activeDot).add($dotsAfter);
+
+            // Adding extra items is case there is not enough dots before
+            if ($dotsToShow.length < MAX_DOTS_TO_SHOW) {
+                $dotsToShow = $dotsToShow.add($dotsItems.slice(
+                    $dotsToShow.last().index() + 1,
+                    $dotsToShow.last().index() + MAX_DOTS_TO_SHOW - $dotsToShow.length + 1
+                ));
+            }
+
+            // Adding extra items is case there is not enough dots after
+            if ($dotsToShow.length < MAX_DOTS_TO_SHOW) {
+                $dotsToShow = $dotsToShow.add($dotsItems.slice(
+                    Math.max(0, $dotsToShow.first().index() - (MAX_DOTS_TO_SHOW - $dotsToShow.length)),
+                    $dotsToShow.first().index()
+                ));
+            }
+
+            const activeDotHeight = $activeDot.height();
+            const activeDotWidth = $activeDot.width();
+
+            $dotsItems.css({
+                height: 0,
+                width: 0,
+                overflow: 'hidden'
+            }).each((i, el) => $(el).attr('aria-hidden', true));
+            $dotsToShow.css({
+                height: activeDotHeight,
+                width: activeDotWidth,
+                overflow: ''
+            }).each((i, el) => $(el).removeAttr('aria-hidden'));
         },
 
         /**

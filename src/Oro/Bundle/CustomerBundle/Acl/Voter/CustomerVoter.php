@@ -10,6 +10,7 @@ use Oro\Bundle\EntityBundle\Exception\NotManageableEntityException;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\SecurityBundle\Acl\BasicPermission;
 use Oro\Bundle\SecurityBundle\Acl\Voter\AbstractEntityVoter;
+use Oro\Bundle\SecurityBundle\Authentication\Token\AnonymousToken;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -104,7 +105,7 @@ class CustomerVoter extends AbstractEntityVoter implements ServiceSubscriberInte
 
     private function getUser(TokenInterface $token): mixed
     {
-        if ($this->authenticationTrustResolver->isAnonymous($token)) {
+        if ($token instanceof AnonymousToken) {
             $user = new CustomerUser();
             $user->setCustomer($this->getCustomerUserRelationsProvider()->getCustomerIncludingEmpty());
 

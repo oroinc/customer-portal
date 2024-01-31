@@ -29,7 +29,6 @@ class WorkflowControllerTest extends WebTestCase
             [],
             $this->generateBasicAuthHeader(LoadCustomerUserData::AUTH_USER, LoadCustomerUserData::AUTH_PW)
         );
-        $this->client->useHashNavigation(true);
         $this->loadFixtures([LoadWorkflowDefinitions::class]);
 
         $this->entityManager = $this->client->getContainer()->get('doctrine')

@@ -186,12 +186,12 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         $handler->process($role);
 
         foreach ($expectedUsersWithRole as $expectedUser) {
-            self::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
+            self::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUserIdentifier());
             self::assertEquals($persistedUsers[$expectedUser->getEmail()]->getUserRole($role->getRole()), $role);
         }
 
         foreach ($expectedUsersWithoutRole as $expectedUser) {
-            self::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
+            self::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUserIdentifier());
             self::assertEquals($persistedUsers[$expectedUser->getEmail()]->getUserRole($role->getRole()), null);
         }
     }
@@ -268,9 +268,11 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
             ->willReturn('formName');
         $form->expects(self::once())
             ->method('submit')
-            ->willReturnCallback(function () use ($role, $newCustomer) {
+            ->willReturnCallback(function () use ($role, $newCustomer, $form) {
                 $role->setCustomer($newCustomer);
                 $role->setOrganization($newCustomer->getOrganization());
+
+                return $form;
             });
         $form->expects(self::once())
             ->method('isValid')

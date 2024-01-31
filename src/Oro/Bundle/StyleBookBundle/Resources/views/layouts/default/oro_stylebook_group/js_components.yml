@@ -250,6 +250,8 @@ layout:
                         description: oro_stylebook.groups.jscomponent.scroll_shadow_view.description
                 style_book_scroll_shadow_view:
                     blockType: container
+                style_book_scroll_shadow_horizontal_view:
+                    blockType: container
                 group_tabs_scroll_shadow_view:
                     blockType: group_tabs
                     options:
@@ -532,6 +534,7 @@ layout:
                         group_element_item_scroll_shadow_view:
                             style_book_scroll_shadow_view:
                                 group_tabs_scroll_shadow_view: ~
+                            style_book_scroll_shadow_horizontal_view: ~
 
                     group_element_googlemaps_view:
                         group_element_item_googlemaps_view:

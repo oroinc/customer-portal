@@ -3,7 +3,7 @@
 $scroll-shadow-before-content: '' !default;
 $scroll-shadow-before-background: linear-gradient(
     180deg,
-    get-color('additional-old', 'ultra'),
+    get-color('neutral', 'white-100'),
     transparent
 ) !default;
 $scroll-shadow-before-width: 100% !default;
@@ -19,7 +19,7 @@ $scroll-shadow-before-pointer-events: none !default;
 $scroll-shadow-after-content: '' !default;
 $scroll-shadow-after-background: linear-gradient(
     0deg,
-    get-color('additional-old', 'ultra'),
+    get-color('neutral', 'white-100'),
     transparent
 ) !default;
 $scroll-shadow-after-margin-top: $scroll-shadow-before-margin-top !default;
@@ -30,3 +30,22 @@ $scroll-shadow-after-display: $scroll-shadow-before-display !default;
 $scroll-shadow-after-position: $scroll-shadow-before-position !default;
 $scroll-shadow-after-z-index: $scroll-shadow-before-z-index !default;
 $scroll-shadow-after-pointer-events: $scroll-shadow-before-pointer-events !default;
+
+$scroll-shadow-inline-width: 29px !default;
+$scroll-shadow-inline-height: 100% !default;
+$scroll-shadow-inline-top: 0 !default;
+
+$scroll-shadow-inline-before-background: linear-gradient(
+    90deg,
+    get-color('neutral', 'white-100') 28.98%,
+    rgba(255, 255, 255, .01) 107.39%
+) !default;
+
+$scroll-shadow-inline-before-left: -2px !default;
+
+$scroll-shadow-inline-after-background: linear-gradient(
+    -90deg,
+    get-color('neutral', 'white-100') 28.98%, rgba(255, 255, 255, .01) 107.39%
+) !default;
+
+$scroll-shadow-inline-after-right: -2px !default;

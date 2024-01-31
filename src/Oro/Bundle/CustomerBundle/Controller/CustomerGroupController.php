@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Controller;
 
 use Doctrine\Common\Util\ClassUtils;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerGroupHandler;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupType;
@@ -39,7 +40,7 @@ class CustomerGroupController extends AbstractController
      * @Acl(
      *      id="oro_customer_customer_group_view",
      *      type="entity",
-     *      class="OroCustomerBundle:CustomerGroup",
+     *      class="Oro\Bundle\CustomerBundle\Entity\CustomerGroup",
      *      permission="VIEW"
      * )
      * @Template()
@@ -57,7 +58,7 @@ class CustomerGroupController extends AbstractController
      * @Acl(
      *      id="oro_customer_customer_group_create",
      *      type="entity",
-     *      class="OroCustomerBundle:CustomerGroup",
+     *      class="Oro\Bundle\CustomerBundle\Entity\CustomerGroup",
      *      permission="CREATE"
      * )
      */
@@ -72,7 +73,7 @@ class CustomerGroupController extends AbstractController
      * @Acl(
      *      id="oro_customer_customer_group_update",
      *      type="entity",
-     *      class="OroCustomerBundle:CustomerGroup",
+     *      class="Oro\Bundle\CustomerBundle\Entity\CustomerGroup",
      *      permission="EDIT"
      * )
      */
@@ -85,14 +86,15 @@ class CustomerGroupController extends AbstractController
     {
         $form = $this->createForm(CustomerGroupType::class, $group);
         $handler = new CustomerGroupHandler(
-            $this->getDoctrine()->getManagerForClass(ClassUtils::getClass($group)),
-            $this->get(EventDispatcherInterface::class)
+            $this->container->get('doctrine')->getManagerForClass(ClassUtils::getClass($group)),
+            $this->container->get(EventDispatcherInterface::class)
         );
 
-        return $this->get(UpdateHandlerFacade::class)->update(
+        return $this->container->get(UpdateHandlerFacade::class)->update(
             $group,
             $form,
-            $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customergroup.saved.message'),
+            $this->container->get(TranslatorInterface::class)
+                ->trans('oro.customer.controller.customergroup.saved.message'),
             $request,
             $handler
         );
@@ -120,7 +122,8 @@ class CustomerGroupController extends AbstractController
             [
                 TranslatorInterface::class,
                 EventDispatcherInterface::class,
-                UpdateHandlerFacade::class
+                UpdateHandlerFacade::class,
+                'doctrine' => ManagerRegistry::class
             ]
         );
     }

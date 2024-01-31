@@ -41,7 +41,7 @@ oro_frontend_workflow:
 
 oro_frontend_js_routing_js:
     path: "/media/js/frontend_routes.{_format}"
-    defaults: { _controller: oro_frontend.js_routing_controller:indexAction }
+    defaults: { _controller: oro_frontend.js_routing_controller::indexAction }
     requirements:
         _format: json
     options:

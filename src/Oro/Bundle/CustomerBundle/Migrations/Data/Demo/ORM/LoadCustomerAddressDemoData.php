@@ -4,26 +4,28 @@ namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
+/**
+ * Loads customer addresses.
+ */
 class LoadCustomerAddressDemoData extends AbstractLoadAddressDemoData implements DependentFixtureInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
-        return ['Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM\LoadCustomerUserDemoData'];
+        return [LoadCustomerUserDemoData::class];
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        parent::load($manager);
-
         $locator = $this->container->get('file_locator');
         $filePath = $locator->locate('@OroCustomerBundle/Migrations/Data/Demo/ORM/data/customer-users.csv');
         if (is_array($filePath)) {
@@ -33,11 +35,9 @@ class LoadCustomerAddressDemoData extends AbstractLoadAddressDemoData implements
         $handler = fopen($filePath, 'r');
         $headers = fgetcsv($handler, 1000, ',');
 
-        /** @var CustomerUser[] $customerUsers */
-        $customerUsers = $this->getDemoCustomerUsers();
-
         /** @var CustomerUser[] $customerUserByEmail */
         $customerUserByEmail = [];
+        $customerUsers = $this->getDemoCustomerUsers();
         foreach ($customerUsers as $customerUser) {
             $customerUserByEmail[$customerUser->getEmail()] = $customerUser;
         }
@@ -61,9 +61,17 @@ class LoadCustomerAddressDemoData extends AbstractLoadAddressDemoData implements
     }
 
     /**
+     * {@inheritDoc}
+     */
+    protected function getNewAddressEntity(): AbstractDefaultTypedAddress
+    {
+        return new CustomerAddress();
+    }
+
+    /**
      * @return CustomerUser[]
      */
-    protected function getDemoCustomerUsers()
+    private function getDemoCustomerUsers(): array
     {
         $customerUsers = [];
         foreach (LoadCustomerUserDemoData::$customerUsersReferencesNames as $referenceName) {
@@ -71,13 +79,5 @@ class LoadCustomerAddressDemoData extends AbstractLoadAddressDemoData implements
         }
 
         return $customerUsers;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getNewAddressEntity()
-    {
-        return new CustomerAddress();
     }
 }

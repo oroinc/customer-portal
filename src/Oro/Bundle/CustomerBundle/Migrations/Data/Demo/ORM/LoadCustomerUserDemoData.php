@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
 use Doctrine\Persistence\ObjectManager;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
@@ -11,27 +12,24 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  */
 class LoadCustomerUserDemoData extends AbstractLoadCustomerUserDemoData
 {
-    /**
-     * @var Organization
-     */
-    private $organization;
+    private ?Organization $organization = null;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [LoadCustomerDemoData::class];
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getOrganization(ObjectManager $manager)
+    protected function getOrganization(ObjectManager $manager): Organization
     {
         //Can not use reference here because this fixture is used in tests
         if (!$this->organization) {
-            $this->organization = $manager->getRepository('OroOrganizationBundle:Organization')->findOneBy(
+            $this->organization = $manager->getRepository(Organization::class)->findOneBy(
                 [],
                 ['id' => 'ASC']
             );
@@ -41,29 +39,27 @@ class LoadCustomerUserDemoData extends AbstractLoadCustomerUserDemoData
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getWebsite(ObjectManager $manager)
+    protected function getWebsite(ObjectManager $manager): Website
     {
         return $manager->getRepository(Website::class)->findOneBy(['default' => true]);
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getCustomerUsersCSV()
+    protected function getCustomerUsersCSV(): string
     {
         return '@OroCustomerBundle/Migrations/Data/Demo/ORM/data/customer-users.csv';
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getCustomerUserRole($roleLabel, ObjectManager $manager)
+    protected function getCustomerUserRole($roleLabel, ObjectManager $manager): CustomerUserRole
     {
-        return $this->container->get('doctrine')
-            ->getManagerForClass('OroCustomerBundle:CustomerUserRole')
-            ->getRepository('OroCustomerBundle:CustomerUserRole')
+        return $manager->getRepository(CustomerUserRole::class)
             ->findOneBy(['label' => $roleLabel, 'organization' => $this->getOrganization($manager)]);
     }
 }

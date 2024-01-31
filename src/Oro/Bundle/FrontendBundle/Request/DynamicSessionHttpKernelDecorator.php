@@ -38,7 +38,7 @@ class DynamicSessionHttpKernelDecorator extends SessionHttpKernelDecorator
     /**
      * {@inheritdoc}
      */
-    public function handle(Request $request, int $type = self::MASTER_REQUEST, bool $catch = true): Response
+    public function handle(Request $request, int $type = self::MAIN_REQUEST, bool $catch = true): Response
     {
         $basePath = $request->getBasePath();
         if ($this->frontendHelper->isFrontendUrl($request->getPathInfo())) {
