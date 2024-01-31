@@ -55,6 +55,7 @@ oro_frontend:
             promotional_content:
                 label: 'Promotional Content'
                 tooltip: 'The selected content block will be rendered above the header. Please make sure that the provided content is sized properly to fit into the designated area.'
+                placeholder: 'Select Promotional Content'
             top_navigation_menu:
                 label: 'Top Navigation Menu'
                 tooltip: 'The selected menu will be rendered above the header.'

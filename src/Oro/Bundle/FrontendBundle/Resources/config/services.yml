@@ -368,3 +368,27 @@ services:
         parent: oro_platform.cache.provider.page_request_provider.abstract
         tags:
             - { name: warmup_page_request_provider }
+
+    Oro\Bundle\FrontendBundle\SystemConfig\EventListener\HeaderSystemConfigSubscriber:
+        arguments:
+            - '@doctrine'
+        tags:
+            - { name: kernel.event_listener, event: oro_config.settings_form_preset, method: formPreSet }
+            - { name: kernel.event_listener, event: oro_config.settings_before_save, method: beforeSave }
+
+    Oro\Bundle\FrontendBundle\Layout\DataProvider\ThemeHeaderConfigProvider:
+        arguments:
+            - '@oro_config.manager'
+            - '@oro_security.acl_helper'
+            - '@doctrine'
+        tags:
+            - { name: layout.data_provider, alias: theme_header_config }
+
+    Oro\Bundle\FrontendBundle\Acl\Voter\ContentBlockVoter:
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - '@doctrine'
+        calls:
+            - [setClassName, ['Oro\Bundle\CMSBundle\Entity\ContentBlock']]
+        tags:
+            - { name: security.voter }

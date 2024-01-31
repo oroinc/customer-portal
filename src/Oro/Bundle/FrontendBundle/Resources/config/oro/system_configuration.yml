@@ -71,15 +71,13 @@ system_configuration:
                     'data-dependee-id': 'frontend_web_api'
 
         oro_frontend.promotional_content:
-            data_type: string
-            type: Symfony\Component\Form\Extension\Core\Type\ChoiceType
-            search_type: choice
+            data_type: integer
+            type: Oro\Bundle\CMSBundle\Form\Type\ContentBlockSelectType
             options:
                 label: oro_frontend.system_configuration.fields.promotional_content.label
                 tooltip: oro_frontend.system_configuration.fields.promotional_content.tooltip
                 required: false
-                choices:
-                    'promotional-content': 'promotional-content'
+                placeholder: oro_frontend.system_configuration.fields.promotional_content.placeholder
 
         oro_frontend.top_navigation_menu:
             data_type: string
