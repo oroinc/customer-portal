@@ -12,6 +12,14 @@
         order: 1;
     }
 
+    &-select-all-label {
+        display: flex;
+        align-items: center;
+        gap: spacing('sm');
+        cursor: pointer;
+        user-select: none;
+    }
+
     &.sticky-mode {
         display: flex;
         justify-content: space-between;
@@ -40,6 +48,12 @@
 
             .action-group {
                 flex-basis: 100%;
+            }
+        }
+
+        &-select-all-label {
+            > span {
+                display: none;
             }
         }
     }
