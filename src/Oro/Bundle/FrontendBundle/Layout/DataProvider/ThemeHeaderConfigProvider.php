@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CMSBundle\Entity\ContentBlock;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Configuration;
+use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
 /**
@@ -47,5 +48,27 @@ class ThemeHeaderConfigProvider
         }
 
         return '';
+    }
+
+    public function getQuickAccessButton(): array
+    {
+        /** Add functionality at BB-23432 */
+        return [];
+    }
+
+    public function getQuickAccessButtonLabel(): string
+    {
+        /** @var QuickAccessButtonConfig $configValue */
+        $configValue = $this->configManager->get(
+            Configuration::getConfigKeyByName(Configuration::QUICK_ACCESS_BUTTON)
+        );
+
+        return match ($configValue?->getType()) {
+            /** Add correct menu label here at BB-23579 */
+            QuickAccessButtonConfig::TYPE_MENU => $configValue->getMenu(),
+            /** Add correct node label here at BB-23432 */
+            QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE => (string) $configValue->getWebCatalogNode(),
+            default => ''
+        };
     }
 }

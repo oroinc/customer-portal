@@ -8,19 +8,19 @@ layout:
                     blockType: container
                     siblingId: ~
                     options:
-                        visible: '=data["system_config_provider"].getValue("oro_frontend.quick_access_button")'
+                        visible: '=data["theme_header_config"].getQuickAccessButton()'
                         vars:
-                          buttonLabel: '=data["menu"].getMenu(data["system_config_provider"].getValue("oro_frontend.quick_access_button_label"))'
-                          menu: '=data["menu"].getMenu(data["system_config_provider"].getValue("oro_frontend.quick_access_button"))'
+                          buttonLabel: '=data["theme_header_config"].getQuickAccessButtonLabel()'
+                          menu: '=data["theme_header_config"].getQuickAccessButton()'
                           searchType: '=data["system_config_provider"].getValue("oro_frontend.search_on_smaller_screens")'
 
                 quick_access_button_menu:
                     blockType: menu
                     options:
-                        item: '=data["menu"].getMenu(data["system_config_provider"].getValue("oro_frontend.quick_access_button"))'
+                        item: '=data["theme_header_config"].getQuickAccessButton()'
                         vars:
-                          result: '=data["system_config_provider"].getValue("oro_frontend.quick_access_button")'
-                          menu: '=data["menu"].getMenu(data["system_config_provider"].getValue("oro_frontend.quick_access_button"))'
+                          result: '=data["theme_header_config"].getQuickAccessButton()'
+                          menu: '=data["theme_header_config"].getQuickAccessButton()'
             tree:
                 middle_bar_logo:
                     quick_access_button_container:

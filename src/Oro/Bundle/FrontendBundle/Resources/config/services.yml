@@ -441,3 +441,11 @@ services:
             - [setClassName, ['Oro\Bundle\CMSBundle\Entity\ContentBlock']]
         tags:
             - { name: security.voter }
+
+    Oro\Bundle\FrontendBundle\ContentNodeDeletionChecker\ContentNodeInConfigReferencesChecker:
+        arguments:
+            - '@translator'
+            - '@oro_config.manager'
+            - '@oro_website.website.provider'
+        tags:
+            - { name: 'content_node.deletion_checker' }

@@ -22,7 +22,6 @@ class Configuration implements ConfigurationInterface
     public const MAIN_NAVIGATION_MENU = 'main_navigation_menu';
     public const STANDALONE_MAIN_MENU = 'standalone_main_menu';
     public const QUICK_ACCESS_BUTTON = 'quick_access_button';
-    public const QUICK_ACCESS_BUTTON_LABEL = 'quick_access_button_label';
     public const QUICK_LINKS = 'quick_links';
     public const SEARCH_ON_SMALLER_SCREENS = 'search_on_smaller_screens';
 
@@ -47,8 +46,7 @@ class Configuration implements ConfigurationInterface
                 self::LANGUAGE_AND_CURRENCY_SWITCHERS => ['type' => 'string', 'value' => 'always_in_hamburger_menu'],
                 self::MAIN_NAVIGATION_MENU => ['type' => 'string', 'value' => 'commerce_main_menu'],
                 self::STANDALONE_MAIN_MENU => ['type' => 'boolean', 'value' => false],
-                self::QUICK_ACCESS_BUTTON => ['type' => 'string', 'value' => false],
-                self::QUICK_ACCESS_BUTTON_LABEL => ['type' => 'string', 'value' => 'Products'],
+                self::QUICK_ACCESS_BUTTON => ['type' => 'object', 'value' => null],
                 self::QUICK_LINKS => ['type' => 'string', 'value' => 'commerce_quick_access'],
                 self::SEARCH_ON_SMALLER_SCREENS => ['type' => 'string', 'value' => 'integrated'],
             ]

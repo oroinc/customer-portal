@@ -75,3 +75,9 @@ services:
             - '@oro_layout.theme_manager'
         tags:
             - { name: form.type_extension }
+
+    Oro\Bundle\FrontendBundle\Form\Type\QuickAccessButtonConfigType:
+        arguments:
+            - '@oro_config.global'
+        tags:
+            - { name: form.type }

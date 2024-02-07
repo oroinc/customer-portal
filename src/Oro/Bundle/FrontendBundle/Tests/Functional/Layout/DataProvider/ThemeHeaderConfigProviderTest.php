@@ -52,16 +52,15 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
         $this->getContainer()
             ->get('security.token_storage')
             ->setToken(new AnonymousCustomerUserToken(
-                self::USER_NAME,
-                [],
                 $visitor,
+                [],
                 $this->getReference(LoadOrganization::ORGANIZATION)
             ));
 
         $config = self::getConfigManager();
         $config->set(
             Configuration::getConfigKeyByName(Configuration::PROMOTIONAL_CONTENT),
-            $this->getReference('content_block_1')
+            $this->getReference('content_block_1')->getId()
         );
         $config->flush();
         self::assertEquals('content_block_1', $this->provider->getPromotionalBlockAlias());
@@ -75,7 +74,6 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
             ->get('security.token_storage')
             ->setToken(new UsernamePasswordOrganizationToken(
                 $user,
-                false,
                 'k',
                 $user->getOrganization(),
                 $user->getUserRoles()
@@ -84,7 +82,7 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
         $config = self::getConfigManager();
         $config->set(
             Configuration::getConfigKeyByName(Configuration::PROMOTIONAL_CONTENT),
-            $this->getReference('content_block_1')
+            $this->getReference('content_block_1')->getId(),
         );
         $config->flush();
         self::assertEquals('content_block_1', $this->provider->getPromotionalBlockAlias());
@@ -99,7 +97,7 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
         $config = self::getConfigManager();
         $config->set(
             Configuration::getConfigKeyByName(Configuration::PROMOTIONAL_CONTENT),
-            $this->getReference('content_block_1')
+            $this->getReference('content_block_1')->getId(),
         );
         $config->flush();
         self::assertEquals('content_block_1', $this->provider->getPromotionalBlockAlias());
