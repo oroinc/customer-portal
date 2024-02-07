@@ -1,34 +1,50 @@
 import _ from 'underscore';
+import NumberFormatter from 'orolocale/js/formatter/number';
 import FrontendNumberInputWidget from './number';
 import ButtonInputView from './buttonInputView';
 
 const StepIncrementDecrementInputWidget = FrontendNumberInputWidget.extend({
     autoRender: true,
 
-    events: {
-        'click button[data-type="increment"]': 'incrementValue',
-        'click .input-quantity-btn--minus': 'decrementValue',
-    },
+    min: null,
 
-    initialize(options) {
-        FrontendNumberInputWidget.__super__.initialize.call(this, options);
-        this.$el.parent().css('position', 'relative');
-    },
+    max: null,
+
+    step: null,
 
     incrementValue() {
-        console.log('incrementValue ->', );
-
-        this.$el.val(Number(this.$el.val()) + 1);
-    },
-
-    decrementValue() {
-        console.log('decrementValue ->', );
-
-        if (Number(this.$el.val()) <= 1) {
+        if (NumberFormatter.unformatStrict(this.$el.val()) >= NumberFormatter.unformatStrict(this.max)) {
             return;
         }
 
-        this.$el.val(Number(this.$el.val()) - 1);
+        const step = this._calculateStep();
+        this._updateInputValue(NumberFormatter.unformatStrict(this.$el.val()) + step);
+    },
+
+    decrementValue() {
+        if (NumberFormatter.unformatStrict(this.$el.val()) <= NumberFormatter.unformatStrict(this.min)) {
+            return;
+        }
+
+        const step = this._calculateStep();
+        this._updateInputValue(NumberFormatter.unformatStrict(this.$el.val()) - step);
+    },
+
+    _updateInputValue(value) {
+        this.$el.val(value);
+        this.$el.trigger('change');
+        this.$el.trigger('number-widget:change');
+    },
+
+    _rememberAttr() {
+        this.min = this.$el.attr('min') ?? 1;
+        this.max = this.$el.attr('max') ?? Infinity;
+        this.step = this.$el.attr('step') === 'any' ? 1 : this.$el.attr('step') ?? 1;
+        FrontendNumberInputWidget.__super__._rememberAttr.call(this);
+    },
+
+    _calculateStep() {
+        return this.step * Math.pow(10, -this.precision);
     },
 
     render() {
@@ -39,6 +55,7 @@ const StepIncrementDecrementInputWidget = FrontendNumberInputWidget.extend({
             dataType: 'decrement',
             extraClass: 'input-quantity-btn--minus',
             noWrap: true,
+            onClick: this.decrementValue.bind(this),
             icon: 'minus'
         }));
 
@@ -47,6 +64,7 @@ const StepIncrementDecrementInputWidget = FrontendNumberInputWidget.extend({
             dataType: 'increment',
             extraClass: 'input-quantity-btn--plus',
             noWrap: true,
+            onClick: this.incrementValue.bind(this),
             icon: 'plus'
         }));
 

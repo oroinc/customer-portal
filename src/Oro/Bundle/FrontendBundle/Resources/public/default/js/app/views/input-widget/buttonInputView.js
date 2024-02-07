@@ -10,12 +10,20 @@ const template = _.template(`
 
 const ButtonInputView = BaseView.extend({
     optionNames: BaseView.prototype.optionNames.concat([
-        'icon', 'extraClass', 'dataType',
+        'icon', 'extraClass', 'dataType', 'onClick'
     ]),
 
     autoRender: true,
 
     template,
+
+    events: {
+        'click': 'clickHandler'
+    },
+
+    clickHandler() {
+        this.onClick();
+    },
 
     getTemplateData() {
         return {
