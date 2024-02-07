@@ -3,7 +3,7 @@ import InputWidgetManager from 'oroui/js/input-widget-manager';
 import Select2InputWidget from 'oroui/js/app/views/input-widget/select2';
 import FrontendNumberInputWidget from 'orofrontend/default/js/app/views/input-widget/number';
 import StepIncrementDecrementInputWidget from
-    'orofrontend/default/js/app/views/input-widget/stepIncrementDecrementInputWidget';
+    'orofrontend/default/js/app/views/input-widget/step-increment-decrement-input-widget';
 
 Select2InputWidget.prototype.closeOnOverlap = true;
 
