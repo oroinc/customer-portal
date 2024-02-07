@@ -2,8 +2,27 @@
 
 .main-menu-columns {
     display: $main-menu-columns-display;
+    gap: $main-menu-columns-gap;
 
-    padding: $main-menu-columns-inner-offset;
+    &__container {
+        padding: $main-menu-columns-container-padding;
+    }
+
+    &__title {
+        margin-bottom: $main-menu-columns-title-margin-bottom;
+    }
+
+    &__title-link {
+        line-height: $main-menu-columns-title-link-line-height;
+        font-weight: $main-menu-columns-title-link-font-weight;
+        color: $main-menu-columns-title-link-color;
+        text-decoration: $main-menu-columns-title-link-text-decoration;
+
+        &:hover {
+            color: $main-menu-columns-title-link-hover-color;
+            text-decoration: $main-menu-columns-title-link-hover-text-decoration;
+        }
+    }
 
     &--single {
         padding: $main-menu-columns-single-inner-offset;

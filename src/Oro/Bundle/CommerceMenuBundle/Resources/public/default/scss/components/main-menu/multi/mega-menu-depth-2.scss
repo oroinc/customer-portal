@@ -60,7 +60,6 @@
             column-count: $mega-menu-depth-2-list-column-count;
             column-width: $mega-menu-depth-2-list-column-width;
             column-gap: $mega-menu-depth-2-list-column-gap;
-            column-rule: $mega-menu-depth-2-list-column-rule;
             margin-top: $mega-menu-depth-2-list-margin-top;
             padding-inline-end: $mega-menu-depth-2-list-padding-inline-end;
 
@@ -79,9 +78,12 @@
 
         &__list--columns & {
             &__item {
-                margin-inline-end: $mega-menu-depth-2-item-margin-inline-end;
                 padding-top: $mega-menu-depth-2-item-padding-top;
                 break-inside: $mega-menu-depth-2-item-break-inside;
+            }
+
+            &__inner {
+                margin-top: $mega-menu-depth-2-item-inner-margin-top;
             }
         }
 
@@ -96,12 +98,14 @@
         }
 
         &__link {
+            font-weight: $mega-menu-depth-2-link-font-weight;
             color: $mega-menu-depth-2-link-color;
-            text-transform: $mega-menu-depth-2-link-text-transform;
+            text-decoration: $mega-menu-depth-2-link-text-decoration;
             position: $mega-menu-depth-2-link-position;
 
             &:hover {
                 color: $mega-menu-depth-2-link-hover-color;
+                text-decoration: $mega-menu-depth-2-link-hover-text-decoration;
             }
         }
     }

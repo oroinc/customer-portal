@@ -14,6 +14,30 @@
             position: $main-menu-multi-container-position;
             z-index: $main-menu-multi-container-z-index;
         }
+
+        &__container-title {
+            margin-bottom: $main-menu-multi-container-title-margin-bottom;
+            padding-inline: $main-menu-multi-container-title-padding-inline;
+        }
+
+        &__container-title-inner {
+            font-weight: $main-menu-multi-container-title-inner-font-weight;
+            color: $main-menu-multi-container-title-inner-color;
+            text-decoration: $main-menu-multi-container-title-inner-text-decoration;
+
+            &:hover {
+                color: $main-menu-multi-container-title-inner-hover-color;
+                text-decoration: $main-menu-multi-container-title-inner-hover-text-decoration;
+            }
+        }
+    }
+
+    .main-menu-standalone-mode {
+        .main-menu-multi {
+            &__container-inner {
+                border-inline-end: $main-menu-multi-container-inner-border-inline-end;
+            }
+        }
     }
 }
 

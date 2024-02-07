@@ -148,15 +148,6 @@
                 text-align: $main-menu-button-arrow-text-align;
                 grid-column: $main-menu-button-arrow-grid-column;
                 grid-row: $main-menu-button-arrow-grid-row;
-
-                &::before {
-                    content: '';
-                    background-color: currentColor;
-                    mask-image: $main-menu-button-arrow-icon;
-                    width: 20px;
-                    height: 20px;
-                    display: $main-menu-button-arrow-display;
-                }
             }
 
             &__link + .main-menu__button {
@@ -186,7 +177,7 @@
             &__inner-container {
                 border: $main-menu-sublist-container-d-border;
                 background: $main-menu-sublist-container-background;
-                box-shadow: $main-menu-sublist-container-shadow;
+                border-radius: $main-menu-sublist-container-border-radius;
 
                 &::before {
                     content: $main-menu-sublist-container-before-content;
@@ -231,7 +222,7 @@
 
                 &--fullheight {
                     background: $main-menu-sublist-fullheight-background;
-                    box-shadow: $main-menu-sublist-fullheight-box-shadow;
+                    padding-block: $main-menu-sublist-fullheight-padding-block;
                     top: $main-menu-sublist-fullheight-top;
                     bottom: $main-menu-sublist-fullheight-bottom;
                 }
@@ -291,6 +282,79 @@
 }
 
 @include breakpoint('desktop-small') {
+    .body:has(.main-menu-standalone-mode .main-menu__item.show > .main-menu__actions > .main-menu__button) {
+        &::after {
+            content: '';
+            background-color: $main-menu-standalone-backdrop-background-color;
+            position: fixed;
+            inset: 0;
+            opacity: $main-menu-standalone-backdrop-opacity;
+            z-index: $main-menu-standalone-backdrop-z-index;
+        }
+
+        .page-header--standalone-main-menu {
+            z-index: $main-menu-standalone-header-z-index;
+        }
+    }
+
+    .main-menu-standalone-mode {
+        .main-menu {
+            &__button:only-child {
+                display: $main-menu-link-display;
+                padding: $main-menu-link-inner-offset;
+                position: $main-menu-link-position;
+                line-height: $main-menu-link-line-height;
+                font-weight: $main-menu-link-font-weight;
+                letter-spacing: $main-menu-link-letter-spacing;
+                text-align: $main-menu-link-text-align;
+                text-decoration: $main-menu-link-text-decoration;
+                text-transform: $main-menu-link-text-transform;
+                color: $main-menu-link-color;
+                grid-column: $main-menu-button-arrow-only-child-grid-column;
+                grid-row: $main-menu-link-grid-row;
+
+                &:hover {
+                    color: $main-menu-link-color-hover;
+                }
+
+                &:hover,
+                &:focus {
+                    text-decoration: $main-menu-link-text-decoration-focus;
+                }
+            }
+
+            &__item.show .main-menu__button:only-child {
+                color: $main-menu-link-color-hover;
+
+                &::after {
+                    content: $main-menu-link-after-content;
+                    background: $main-menu-link-after-background;
+                    width: $main-menu-link-after-width;
+                    height: $main-menu-link-after-height;
+                    position: $main-menu-link-after-position;
+                    inset: $main-menu-link-after-inset;
+                    border-radius: $main-menu-link-after-border-radius;
+                }
+            }
+
+            @media (hover: hover) {
+                &__item:hover .main-menu__button:only-child {
+                    color: $main-menu-link-color-hover;
+
+                    &::after {
+                        content: $main-menu-link-after-content;
+                        background: $main-menu-link-after-background;
+                        width: $main-menu-link-after-width;
+                        height: $main-menu-link-after-height;
+                        position: $main-menu-link-after-position;
+                        inset: $main-menu-link-after-inset;
+                        border-radius: $main-menu-link-after-border-radius;
+                    }
+                }
+            }
+        }
+    }
+
     .main-menu-stack-mode {
         .main-menu {
             &__inner {

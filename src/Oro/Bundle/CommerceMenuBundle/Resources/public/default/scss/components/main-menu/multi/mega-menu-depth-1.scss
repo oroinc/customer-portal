@@ -15,18 +15,25 @@
     @include main-menu-stack-items();
 
     &__close {
+        position: $mega-menu-depth-1-close-position;
         inset-block-start: $mega-menu-depth-1-close-inset-block-start;
         inset-inline-end: $mega-menu-depth-1-close-inset-inline-end;
     }
 
     &__title {
+        font-size: $mega-menu-depth-1-title-font-size;
         line-height: $mega-menu-depth-1-title-line-height;
-        text-transform: $mega-menu-depth-1-title-text-transform;
         margin-bottom: $mega-menu-depth-1-title-margin-bottom;
         padding-inline-end: $mega-menu-depth-1-title-padding-inline-end;
 
         &-inner {
             color: $mega-menu-depth-1-title-inner-color;
+            text-decoration: $mega-menu-depth-1-title-inner-text-decoration;
+
+            &:hover {
+                color: $mega-menu-depth-1-title-hover-inner-color;
+                text-decoration: $mega-menu-depth-1-title-hover-inner-text-decoration;
+            }
         }
     }
 }
@@ -35,8 +42,6 @@
     .mega-menu-depth-1 {
         &__list {
             max-height: $mega-menu-depth-1-list-max-height;
-            align-self: $mega-menu-depth-1-list-align-self;
-            box-shadow: $mega-menu-depth-1-list-box-shadow;
         }
 
         &__inner {
@@ -48,7 +53,6 @@
             position: $mega-menu-depth-1-inner-position;
             inset-block: $mega-menu-depth-1-inner-inset-block;
             inset-inline: $mega-menu-depth-1-inner-inset-inline;
-            box-shadow: $mega-menu-depth-1-inner-box-shadow;
             z-index: $mega-menu-depth-1-inner-z-index;
 
             .main-menu-stack-mode & {

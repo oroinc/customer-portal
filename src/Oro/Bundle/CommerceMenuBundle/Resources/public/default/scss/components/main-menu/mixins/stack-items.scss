@@ -6,14 +6,6 @@
             background: $main-menu-multi-item-background-hover;
         }
 
-        &:not(:first-child) {
-            border-top: $main-menu-multi-item-border-top;
-        }
-
-        &:last-child {
-            border-bottom: $main-menu-multi-item-border-bottom;
-        }
-
         @media (hover: hover) {
             &:hover {
                 background: $main-menu-multi-item-background-hover;
@@ -27,10 +19,15 @@
         grid-template-columns: $main-menu-multi-actions-grid-template-columns;
 
         &:not(:only-child) {
-            @include fa-icon($main-menu-multi-actions-has-sublist-icon, after, true, true) {
-                font-size: $main-menu-multi-actions-has-sublist-font-size;
+            &::after {
+                content: '';
+                background-color: $main-menu-multi-actions-has-sublist-background-color;
+                mask-image: $main-menu-multi-actions-has-sublist-icon;
+                width: $main-menu-multi-actions-has-sublist-icon-size;
+                height: $main-menu-multi-actions-has-sublist-icon-size;
                 display: $main-menu-multi-actions-has-sublist-display;
                 align-items: $main-menu-multi-actions-has-sublist-align-items;
+                align-self: $main-menu-multi-actions-has-sublist-align-self;
                 justify-content: $main-menu-multi-actions-has-sublist-justify-content;
                 grid-column: $main-menu-multi-actions-has-sublist-grid-column;
                 grid-row: $main-menu-multi-actions-has-sublist-grid-row;
@@ -41,9 +38,10 @@
     &__link {
         display: $main-menu-multi-link-display;
         color: $main-menu-multi-link-color;
-        text-transform: $main-menu-multi-link-text-transform;
         overflow: $main-menu-multi-link-overflow;
         white-space: $main-menu-multi-link-white-space;
+        margin: $main-menu-multi-link-margin;
+        padding: $main-menu-multi-link-padding;
         position: $main-menu-multi-link-position;
         grid-column: $main-menu-multi-link-grid-column;
         grid-row: $main-menu-multi-link-grid-row;
@@ -71,7 +69,6 @@
         font-size: $main-menu-multi-button-font-size;
         color: $main-menu-multi-button-color;
         text-align: $main-menu-multi-button-text-align;
-        text-transform: $main-menu-multi-button-text-transform;
         white-space: $main-menu-multi-button-white-space;
         border: $main-menu-multi-button-border;
         margin: $main-menu-multi-button-margin;

@@ -1,8 +1,20 @@
 /* @theme: default; */
 
+$main-menu-columns-container-padding: 24px 28px !default;
+
+$main-menu-columns-title-margin-bottom: spacing('base') !default;
+
+$main-menu-columns-title-link-line-height: 1.5 !default;
+$main-menu-columns-title-link-font-weight: font-weight('semi-bold') !default;
+$main-menu-columns-title-link-color: get-color('primary', 'main') !default;
+$main-menu-columns-title-link-text-decoration: underline !default;
+
+$main-menu-columns-title-link-hover-color: get-color('primary', 'main') !default;
+$main-menu-columns-title-link-hover-text-decoration: none !default;
+
 $main-menu-columns-display: flex !default;
-$main-menu-columns-inner-offset: 30px 40px !default;
-$main-menu-columns-single-inner-offset: 14px 24px !default;
+$main-menu-columns-gap: 0 72px !default;
+$main-menu-columns-single-inner-offset: 0 !default;
 
 $main-menu-columns-display-tablet: block !default;
 $main-menu-columns-inner-offset-tablet: 0 !default;

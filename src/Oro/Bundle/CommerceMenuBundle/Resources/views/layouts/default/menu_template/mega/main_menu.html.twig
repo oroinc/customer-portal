@@ -4,7 +4,36 @@
     }) %}
 
     <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _menu_item_multi_container_inner_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': class_prefix ? " #{class_prefix}__container-inner"
+    }) %}
+
+    <div {{ block('block_attributes') }}>
         {% do block|merge_context({'menu_items': menu_items}) %}
         {{ block_widget(block) }}
     </div>
+{% endblock %}
+
+{% block _menu_item_multi_container_inner_title_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': class_prefix ? " #{class_prefix}__container-title"
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _menu_item_multi_container_inner_title_inner_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'href': oro_commercemenu_get_url(menu_item.uri),
+        '~class': class_prefix ? " #{class_prefix}__container-title-inner"
+    }) %}
+
+    <a {{ block('block_attributes') }}>{{- menu_item.label -}}</a>
 {% endblock %}

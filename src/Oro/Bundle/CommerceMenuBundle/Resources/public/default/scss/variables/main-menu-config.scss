@@ -36,6 +36,8 @@ $main-menu-button-arrow-cursor: pointer !default;
 $main-menu-button-arrow-grid-column: 2 !default;
 $main-menu-button-arrow-grid-row: 1 !default;
 
+$main-menu-button-arrow-only-child-grid-column: #{'1 / 3'} !default;
+
 $main-menu-button-span-display: none !default;
 
 $main-menu-button-only-child-display: none !default;
@@ -67,11 +69,11 @@ $main-menu-link-text-decoration-focus: none !default;
 $main-menu-link-text-transform: uppercase !default;
 $main-menu-link-grid-column: #{'1 / 3'} !default;
 $main-menu-link-grid-row: 1 !default;
-$main-menu-sublist-container-shadow: 0 2px 5px 0 rgba(0 0 0 / 20%) !default;
+$main-menu-sublist-container-border-radius: 0 0 4px 4px !default;
 
-$main-menu-sublist-fullheight-background: get-color('additional-old', 'base') !default;
-$main-menu-sublist-fullheight-box-shadow: 0 2px 6px 1px #{rgba(get-color('additional-old', 'darker'), .12)} !default;
+$main-menu-sublist-fullheight-background: get-color('neutral', 'white-100') !default;
 $main-menu-edge: 50px !default;
+$main-menu-sublist-fullheight-padding-block: 24px !default;
 $main-menu-sublist-fullheight-top: calc(100% + #{spacing('base')}) !default;
 $main-menu-sublist-fullheight-bottom: calc(
     -100vh + #{$main-menu-edge} + var(--main-menu-offset-bottom, 170px)
@@ -144,6 +146,11 @@ $main-menu-sublist-container-before-position: absolute !default;
 $main-menu-sublist-container-before-inset: auto 0 calc(100% + 1px) !default;
 
 $main-menu-item-show-mobile-version-background: get-color('additional-old', 'base') !default;
+
+$main-menu-standalone-backdrop-background-color: get-color('neutral', 'dark') !default;
+$main-menu-standalone-backdrop-opacity: .6 !default;
+$main-menu-standalone-backdrop-z-index: $zindex-modal-bg !default;
+$main-menu-standalone-header-z-index: $zindex-modal !default;
 
 // Tablet styles
 $main-menu-tablet-border: 1px solid color.adjust(get-color('additional-old', 'base'), $lightness: -5%) !default;

@@ -16,6 +16,7 @@ layout:
                     options:
                         tooltipEnable: true
                         dividerEnable: false
+                        linkEnable: false
                         attr:
                             data-role: 'menuitem'
                 mega_menu_depth_1_inner:
@@ -32,7 +33,7 @@ layout:
                 mega_menu_depth_1_title_inner:
                     blockType: block
             tree:
-                menu_item_multi_container:
+                menu_item_multi_container_inner:
                     # First Level
                     mega_menu_depth_1_list:
                         mega_menu_depth_1_item:
