@@ -42,8 +42,10 @@ class QuickAccessButtonConfigType extends AbstractType
             'scope_type' => 'menu_frontend_visibility',
             'label' => 'oro_frontend.system_configuration.fields.quick_access_button.fields.menu.label',
             'tooltip' => 'oro_frontend.system_configuration.fields.quick_access_button.fields.menu.tooltip',
+            'configs' => [
+                'component' => 'dependent'
+            ],
             'attr' => [
-                'data-page-component-module' => 'orosale/js/app/components/dependent-field-component',
                 'data-depend-on' => 'quick_access_button_type',
                 'data-show-if' => QuickAccessButtonConfig::TYPE_MENU,
             ],
