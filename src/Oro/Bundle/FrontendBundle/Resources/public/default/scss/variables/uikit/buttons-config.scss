@@ -159,6 +159,28 @@ $btn-palette: (
             'color': get-var-color('text', 'primary')
         )
     ),
+    'neutral': (
+        'default': (
+            'background': get-color('neutral', 'grey1'),
+            'border-color': get-color('neutral', 'grey1'),
+            'color': get-var-color('text', 'primary')
+        ),
+        'hover': (
+            'background': get-color('neutral', 'grey2'),
+            'border-color': get-color('neutral', 'grey2'),
+            'color': get-var-color('text', 'primary')
+        ),
+        'focus': (
+            'background': get-color('neutral', 'grey2'),
+            'border-color': get-color('neutral', 'grey2'),
+            'color': get-var-color('text', 'primary')
+        ),
+        'active': (
+            'background': get-color('neutral', 'grey2'),
+            'border-color': get-color('neutral', 'grey2'),
+            'color': get-var-color('text', 'primary')
+        )
+    ),
     'neutral-dark': (
         'default': (
             'background': get-color('neutral', 'grey2'),
@@ -176,9 +198,9 @@ $btn-palette: (
             'color': get-var-color('text', 'primary'),
             /* Focused-state/on-light */
             'outline': 2px solid get-color('neutral', 'focus'),
-            'outline-offset': 1px,
-            'box-shadow': 0 0 0 3px get-color('neutral', 'white-15')
-        ),
+                'outline-offset': 1px,
+                'box-shadow': 0 0 0 3px get-color('neutral', 'white-15')
+            ),
         'active': (
             'background': get-color('neutral', 'grey2'),
             'border-color': get-color('neutral', 'grey2'),
