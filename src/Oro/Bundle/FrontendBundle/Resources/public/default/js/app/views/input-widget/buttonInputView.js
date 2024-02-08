@@ -1,12 +1,6 @@
 import _ from 'underscore';
 import BaseView from 'oroui/js/app/views/base/view';
-
-const template = _.template(`
-    <% let oroui = _.macros('oroui') %>
-    <button type="button" class="btn btn--plain btn--icon input-quantity-btn <%- extraClass %>" data-type="<%- dataType %>">
-        <%= oroui.renderIcon({name: icon}) %>
-    </button>
-`);
+import template from 'tpl-loader!orofrontend/default/templates/button-input.html';
 
 const ButtonInputView = BaseView.extend({
     optionNames: BaseView.prototype.optionNames.concat([
@@ -22,7 +16,9 @@ const ButtonInputView = BaseView.extend({
     },
 
     clickHandler() {
-        this.onClick();
+        if (typeof this.onClick === 'function') {
+            this.onClick();
+        }
     },
 
     getTemplateData() {

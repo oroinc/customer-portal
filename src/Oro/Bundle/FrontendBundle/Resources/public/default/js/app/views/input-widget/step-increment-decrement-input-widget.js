@@ -39,12 +39,24 @@ const StepIncrementDecrementInputWidget = FrontendNumberInputWidget.extend({
     _rememberAttr() {
         this.min = this.$el.attr('min') ?? 1;
         this.max = this.$el.attr('max') ?? Infinity;
-        this.step = this.$el.attr('step') === 'any' ? 1 : this.$el.attr('step') ?? 1;
+        this.step = this.$el.attr('step');
         FrontendNumberInputWidget.__super__._rememberAttr.call(this);
     },
 
     _calculateStep() {
-        return this.step * Math.pow(10, -this.precision);
+        if (_.isUndefined(this.step) && !_.isUndefined(this.precision)) {
+            return Math.pow(10, -this.precision);
+        }
+
+        if (_.isUndefined(this.step) && _.isUndefined(this.precision)) {
+            return 1;
+        }
+
+        if (this.step === 'any') {
+            return 1;
+        }
+
+        return this.step;
     },
 
     render() {
