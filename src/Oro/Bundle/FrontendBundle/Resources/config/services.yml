@@ -418,22 +418,26 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }
 
-    Oro\Bundle\FrontendBundle\SystemConfig\EventListener\HeaderSystemConfigSubscriber:
+    oro_frontend.system_config.event_listener.header_system_config:
+        class: Oro\Bundle\FrontendBundle\SystemConfig\EventListener\HeaderSystemConfigSubscriber
         arguments:
             - '@doctrine'
         tags:
             - { name: kernel.event_listener, event: oro_config.settings_form_preset, method: formPreSet }
             - { name: kernel.event_listener, event: oro_config.settings_before_save, method: beforeSave }
 
-    Oro\Bundle\FrontendBundle\Layout\DataProvider\ThemeHeaderConfigProvider:
+    oro_frontend.layout.data_provider.theme_header_config:
+        class: Oro\Bundle\FrontendBundle\Layout\DataProvider\ThemeHeaderConfigProvider
         arguments:
             - '@oro_config.manager'
             - '@oro_security.acl_helper'
             - '@doctrine'
+            - '@Oro\Bundle\NavigationBundle\Provider\BuilderChainProvider'
         tags:
             - { name: layout.data_provider, alias: theme_header_config }
 
-    Oro\Bundle\FrontendBundle\Acl\Voter\ContentBlockVoter:
+    oro_frontend.acl.voter.content_block:
+        class: Oro\Bundle\FrontendBundle\Acl\Voter\ContentBlockVoter
         arguments:
             - '@oro_entity.doctrine_helper'
             - '@doctrine'
@@ -442,10 +446,32 @@ services:
         tags:
             - { name: security.voter }
 
-    Oro\Bundle\FrontendBundle\ContentNodeDeletionChecker\ContentNodeInConfigReferencesChecker:
+    oro_frontend.content_node_deletion_checker.content_node_in_config_references:
+        class: Oro\Bundle\FrontendBundle\ContentNodeDeletionChecker\ContentNodeInConfigReferencesChecker
         arguments:
             - '@translator'
             - '@oro_config.manager'
             - '@oro_website.website.provider'
         tags:
             - { name: 'content_node.deletion_checker' }
+
+    oro_frontend.menu.frontend.quick_access_button_frontend_menu_menu_builder:
+        class: Oro\Bundle\FrontendBundle\Menu\Frontend\QuickAccessButtonFrontendMenuMenuBuilder
+        public: false
+        arguments:
+            - '@oro_config.manager'
+            - '@oro_menu.configuration_builder'
+        tags:
+            - { name: oro_menu.builder, alias: quick_access_button_menu }
+
+    oro_frontend.menu.frontend.quick_access_button_web_catalog_node_menu_builder:
+        class: Oro\Bundle\FrontendBundle\Menu\Frontend\QuickAccessButtonWebCatalogNodeMenuBuilder
+        public: false
+        arguments:
+            - '@oro_config.manager'
+            - '@oro_web_catalog.menu.content_nodes_provider.storefront'
+            - '@oro_locale.helper.localization'
+            - '@oro_commerce_menu.handler.sub_folder_uri'
+            - '@doctrine'
+        tags:
+            - { name: oro_menu.builder, alias: quick_access_button_menu }

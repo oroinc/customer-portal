@@ -11,6 +11,8 @@ class QuickAccessButtonConfig
 {
     public const TYPE_MENU = 'menu';
     public const TYPE_WEB_CATALOG_NODE = 'web_catalog_node';
+    /** MENU_NOT_RESOLVED constant is used to indicate if menu based on configuration can not be build */
+    public const MENU_NOT_RESOLVED = 'menu_not_resolved';
 
     private ?string $type = null;
     private ?string $menu = null;

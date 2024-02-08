@@ -14,7 +14,7 @@
     {% set togglerId = 'dropdown-'|uniqid %}
     <div {{ block('block_attributes') }}>
         <button id="{{togglerId}}" data-toggle="dropdown" type="button" class="btn btn--outlined-inverse" aria-haspopup="true" aria-expanded="false">
-            <span class="btn-label-ellipses">{{buttonLabel.name}}</span>
+            <span class="btn-label-ellipses">{{ buttonLabel }}</span>
         </button>
         <div class="dropdown-menu quick-access-button-menu main-menu__inner-container" role="menu" aria-labelledby="{{togglerId}}">{{ block_widget(block) }}</div>
     </div>

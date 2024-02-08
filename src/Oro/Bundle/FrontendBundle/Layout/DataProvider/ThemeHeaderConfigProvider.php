@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Oro\Bundle\FrontendBundle\Layout\DataProvider;
 
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Menu\ItemInterface;
+use Knp\Menu\Provider\MenuProviderInterface;
 use Oro\Bundle\CMSBundle\Entity\ContentBlock;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Configuration;
@@ -19,15 +21,18 @@ class ThemeHeaderConfigProvider
     private ConfigManager $configManager;
     private AclHelper $aclHelper;
     private ManagerRegistry $registry;
+    private MenuProviderInterface $menuProvider;
 
     public function __construct(
         ConfigManager $configManager,
         AclHelper $aclHelper,
-        ManagerRegistry $registry
+        ManagerRegistry $registry,
+        MenuProviderInterface $menuProvider,
     ) {
         $this->configManager = $configManager;
         $this->aclHelper = $aclHelper;
         $this->registry = $registry;
+        $this->menuProvider = $menuProvider;
     }
 
     /**
@@ -50,25 +55,24 @@ class ThemeHeaderConfigProvider
         return '';
     }
 
-    public function getQuickAccessButton(): array
-    {
-        /** Add functionality at BB-23432 */
-        return [];
-    }
-
-    public function getQuickAccessButtonLabel(): string
+    public function getQuickAccessButton(): ?ItemInterface
     {
         /** @var QuickAccessButtonConfig $configValue */
         $configValue = $this->configManager->get(
             Configuration::getConfigKeyByName(Configuration::QUICK_ACCESS_BUTTON)
         );
 
-        return match ($configValue?->getType()) {
-            /** Add correct menu label here at BB-23579 */
-            QuickAccessButtonConfig::TYPE_MENU => $configValue->getMenu(),
-            /** Add correct node label here at BB-23432 */
-            QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE => (string) $configValue->getWebCatalogNode(),
-            default => ''
-        };
+        if ($configValue?->getType()) {
+            $menu = $this->menuProvider->get('quick_access_button_menu');
+
+            return $menu->getExtra(QuickAccessButtonConfig::MENU_NOT_RESOLVED, false) ? null : $menu;
+        }
+
+        return null;
+    }
+
+    public function getQuickAccessButtonLabel(): ?string
+    {
+        return $this->getQuickAccessButton()?->getLabel();
     }
 }
