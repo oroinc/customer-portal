@@ -34,6 +34,7 @@ const StepIncrementDecrementInputWidget = FrontendNumberInputWidget.extend({
         this.$el.val(value);
         this.$el.trigger('change');
         this.$el.trigger('number-widget:change');
+        this.$el.focusout();
     },
 
     _rememberAttr() {
