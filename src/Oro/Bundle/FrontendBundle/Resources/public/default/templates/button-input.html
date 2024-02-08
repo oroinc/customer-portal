@@ -1,4 +1,9 @@
 <% let oroui = _.macros('oroui') %>
-<button type="button" class="btn btn--plain btn--icon input-quantity-btn <%- extraClass %>" data-type="<%- dataType %>">
+<button
+    type="button"
+    class="btn btn--outlined btn--text input-quantity-btn <%- extraClass %>"
+    data-type="<%- dataType %>"
+    <%- disabled ? "disabled" : "" %>
+>
     <%= oroui.renderIcon({name: icon}) %>
 </button>

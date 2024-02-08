@@ -4,7 +4,7 @@ import template from 'tpl-loader!orofrontend/default/templates/button-input.html
 
 const ButtonInputView = BaseView.extend({
     optionNames: BaseView.prototype.optionNames.concat([
-        'icon', 'extraClass', 'dataType', 'onClick'
+        'icon', 'extraClass', 'dataType', 'onClick', 'disabled'
     ]),
 
     autoRender: true,
@@ -14,6 +14,8 @@ const ButtonInputView = BaseView.extend({
     events: {
         'click': 'clickHandler'
     },
+
+    disabled: false,
 
     clickHandler() {
         if (typeof this.onClick === 'function') {
@@ -25,7 +27,8 @@ const ButtonInputView = BaseView.extend({
         return {
             extraClass: this.extraClass,
             dataType: this.dataType,
-            icon: this.icon
+            icon: this.icon,
+            disabled: this.disabled
         };
     }
 });
