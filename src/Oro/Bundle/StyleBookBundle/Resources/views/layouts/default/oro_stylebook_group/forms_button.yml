@@ -87,6 +87,8 @@ layout:
                     blockType: block
                 style_book_button_element_icon:
                     blockType: block
+                style_book_button_element_icon_circle:
+                    blockType: block
 
 
                 group_element_buttons_group:
@@ -144,6 +146,7 @@ layout:
                         group_element_button_icon_view:
                             style_book_button_element_btn_text: ~
                             style_book_button_element_icon: ~
+                            style_book_button_element_icon_circle: ~
 
                     group_element_buttons_group:
                         group_element_button_element_group_view:

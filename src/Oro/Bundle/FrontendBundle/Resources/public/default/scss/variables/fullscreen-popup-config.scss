@@ -22,7 +22,7 @@ $fullscreen-popup-header-gap: spacing('md');
 $fullscreen-popup-header-z-index: z('base') + 1 !default;
 
 $fullscreen-popup-header-bg: get-var-color('neutral', 'white-100') !default;
-$fullscreen-popup-header-offset: spacing('base') + spacing('sm') !default;
+$fullscreen-popup-header-offset: spacing('base') spacing('base') spacing('sm') spacing('base') !default;
 
 $fullscreen-popup-icon-flex-shrink: 0 !default;
 $fullscreen-popup-icon-align-self: flex-start !default;
@@ -48,7 +48,7 @@ $fullscreen-popup-content-height: 100% !default;
 $fullscreen-popup-content-overflow: auto !default;
 $fullscreen-popup-content-alert-offset-height: 0 spacing('sm') spacing('sm') !default;
 $fullscreen-popup-content-loader-position: fixed !default;
-$fullscreen-popup-content-offset: 0 (spacing('base') + spacing('md') + spacing('sm')) !default;
+$fullscreen-popup-content-offset: 0 spacing('base') !default;
 
 $fullscreen-popup-label-display: inline-flex !default;
 $fullscreen-popup-label-justify-content: null !default;
