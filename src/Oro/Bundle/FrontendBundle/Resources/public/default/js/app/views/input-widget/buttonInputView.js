@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import BaseView from 'oroui/js/app/views/base/view';
 import template from 'tpl-loader!orofrontend/default/templates/button-input.html';
 
@@ -12,10 +11,14 @@ const ButtonInputView = BaseView.extend({
     template,
 
     events: {
-        'click': 'clickHandler'
+        click: 'clickHandler'
     },
 
     disabled: false,
+
+    constructor: function ButtonInputView(options) {
+        ButtonInputView.__super__.constructor.call(this, options);
+    },
 
     clickHandler() {
         if (typeof this.onClick === 'function') {
