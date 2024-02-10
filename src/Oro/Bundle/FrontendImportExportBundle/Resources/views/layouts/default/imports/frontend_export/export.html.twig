@@ -6,8 +6,9 @@
 {% endblock %}
 
 {% block __frontend_export__export_button_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' btn btn--size-small hide export-button',
+        '~class': ' btn btn--outlined btn--text hide export-button',
         'role': 'button',
         'data-page-component-module': 'oroui/js/app/components/view-component',
         '~data-page-component-options': {
@@ -20,6 +21,6 @@
     }) %}
 
     <button {{ block('block_attributes') }}>
-        <span class="fa-download fa--no-offset" aria-hidden="true"></span>
+        {{ renderIcon.icon({name: 'download'}) }}
     </button>
 {% endblock %}

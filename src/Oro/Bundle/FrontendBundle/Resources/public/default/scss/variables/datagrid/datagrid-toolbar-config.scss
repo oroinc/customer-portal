@@ -1,7 +1,9 @@
 /* @theme: default; */
 
 $datagrid-toolbar-gap: 0 spacing('sm') !default;
-$datagrid-tool-gap: spacing('sm') !default;
+$datagrid-tool-gap-start: 48px !default;
+$datagrid-tool-gap-center: spacing('sm') !default;
+$datagrid-tool-gap-end: spacing('md') !default;
 $datagrid-tool-pagination-info-color: get-color('text', 'secondary') !default;
 
 // Tablet Small
