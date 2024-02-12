@@ -115,3 +115,8 @@ oro_frontend:
             placeholder: 'Quick Search'
             aria_label: 'Search shopping lists'
             no_match: 'No matches found'
+    input_widget:
+        step_input:
+            aria_label: 'Enter the quantity you want to order.'
+            decrease: 'Decrease quantity'
+            increase: 'Increase quantity'
