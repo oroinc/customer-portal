@@ -1,0 +1,10 @@
+<% let oroui = _.macros('oroui') %>
+<button
+    type="button"
+    class="btn btn--outlined btn--text input-quantity-btn <%- extraClass %>"
+    data-type="<%- dataType %>"
+    <%- disabled ? "disabled" : "" %>
+    aria-label="<%- ariaLabel %>"
+>
+    <%= oroui.renderIcon({name: icon}) %>
+</button>
