@@ -17,5 +17,5 @@ $dropdown-search-item-container-item-font-style: spacing('xs') !default;
 
 $dropdown-search-item-container-icon-offset: $dropdown-item-padding-x - $dropdown-search-item-container-offset !default;
 
-$dropdown-search-items-group-offset: 0 spacing('xs') spacing('sm') !default;
+$dropdown-search-items-group-offset: 0 spacing('base') spacing('sm') !default;
 $dropdown-search-items-group-border: 1px solid get-var-color('neutral', 'grey2') !default;

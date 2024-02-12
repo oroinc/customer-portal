@@ -518,7 +518,7 @@ datagrids:
             show_map:
                 label:         oro.customer.action.customer_frontend_address.map
                 type:          map
-                icon:          map-o
+                icon:          map
                 frontend_type: frontend-map
         action_configuration: ['@oro_customer.datagrid.frontend_customer_address.action_checker', checkActions]
         mass_actions:

@@ -36,6 +36,10 @@
 
 @include breakpoint('mobile-big') {
     .datagrid-massaction {
+        &-actions {
+            width: 100%;
+        }
+
         &.sticky-mode {
             flex-wrap: wrap;
             gap: spacing('sm') 0;
@@ -47,6 +51,7 @@
             }
 
             .action-group {
+                width: 100%;
                 flex-basis: 100%;
             }
         }

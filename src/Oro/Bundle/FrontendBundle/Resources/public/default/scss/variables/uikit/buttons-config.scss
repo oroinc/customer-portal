@@ -300,10 +300,10 @@ $btn-sizes: (
 
 $btn-icon-offsets: (
     'default': (
-        'padding': spacing('sm') #{spacing('md') - 2px}
+        'padding': spacing('sm')
     ),
     'small': (
-        'padding': spacing('xs') #{spacing('md') - 2px}
+        'padding': spacing('xs')
     )
 ) !default;
 
