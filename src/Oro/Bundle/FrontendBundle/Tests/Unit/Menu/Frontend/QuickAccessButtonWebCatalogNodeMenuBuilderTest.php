@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Menu\Frontend;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Handler\SubFolderUriHandler;
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\FrontendBundle\Menu\Frontend\QuickAccessButtonWebCatalogNodeMenuBuilder;
 use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
@@ -22,16 +19,12 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\TestCase
 {
-    use ConfigManagerAwareTestTrait;
-
-    private ConfigManager|MockObject $configManager;
     private MenuContentNodesProviderInterface|MockObject $menuContentNodesProvider;
     private ObjectRepository|MockObject $repository;
     private QuickAccessButtonWebCatalogNodeMenuBuilder $builder;
 
     protected function setUp(): void
     {
-        $this->configManager = $this->createMock(ConfigManager::class);
         $this->menuContentNodesProvider = $this->createMock(MenuContentNodesProviderInterface::class);
 
         $localizationHelper = $this->createMock(LocalizationHelper::class);
@@ -51,7 +44,6 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
             ->willReturn($this->repository);
 
         $this->builder = new QuickAccessButtonWebCatalogNodeMenuBuilder(
-            $this->configManager,
             $this->menuContentNodesProvider,
             $localizationHelper,
             $subFolderUriHandler,
@@ -63,15 +55,9 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
     {
         $menuItem = $this->createMock(ItemInterface::class);
 
-        $this->configManager
-            ->expects(self::once())
-            ->method('get')
-            ->with('oro_frontend.quick_access_button')
-            ->willReturn(
-                (new QuickAccessButtonConfig())
-                    ->setType(QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE)
-                    ->setWebCatalogNode(1)
-            );
+        $config = (new QuickAccessButtonConfig())
+            ->setType(QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE)
+            ->setWebCatalogNode(1);
 
         $node = $this->createMock(ContentNode::class);
         $this->repository
@@ -81,10 +67,6 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
             ->willReturn($node);
 
         $resolvedNode = $this->createMock(ResolvedContentNode::class);
-        $resolvedNode
-            ->expects(self::once())
-            ->method('getTitles')
-            ->willReturn(new ArrayCollection());
         $resolvedNode
             ->expects(self::once())
             ->method('getResolvedContentVariant')
@@ -98,18 +80,19 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
             ])
             ->willReturn($resolvedNode);
 
-        $menuItem->expects(self::once())->method('setLabel')->with('localizedValue');
         $menuItem->expects(self::once())->method('setUri')->with('uri_localizedValue');
         $menuItem->expects(self::once())->method('setExtra')->with('translate_disabled', true);
 
-        $this->builder->build($menuItem, ['test' => 'test'], 'quick_access_button_menu');
+        $this->builder->build($menuItem, [
+            'test' => 'test',
+            'qab_config' => $config,
+        ], 'quick_access_button_menu');
     }
 
     public function testBuildWithUnsupportedAlias(): void
     {
         $menuItem = $this->createMock(ItemInterface::class);
 
-        $this->configManager->expects(self::never())->method(self::anything());
         $this->menuContentNodesProvider->expects(self::never())->method(self::anything());
         $this->repository->expects(self::never())->method(self::anything());
         $menuItem->expects(self::never())->method(self::anything());
@@ -121,35 +104,27 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
     {
         $menuItem = $this->createMock(ItemInterface::class);
 
-        $this->configManager
-            ->expects(self::once())
-            ->method('get')
-            ->with('oro_frontend.quick_access_button')
-            ->willReturn(
-                (new QuickAccessButtonConfig())
-                    ->setType(QuickAccessButtonConfig::TYPE_MENU)
-                    ->setMenu('test_menu')
-            );
+        $config = (new QuickAccessButtonConfig())
+            ->setType(QuickAccessButtonConfig::TYPE_MENU)
+            ->setMenu('test_menu');
+
         $this->menuContentNodesProvider->expects(self::never())->method(self::anything());
         $this->repository->expects(self::never())->method(self::anything());
         $menuItem->expects(self::never())->method(self::anything());
 
-        $this->builder->build($menuItem, ['test' => 'test'], 'quick_access_button_menu');
+        $this->builder->build($menuItem, [
+            'test' => 'test',
+            'qab_config' => $config,
+        ], 'quick_access_button_menu');
     }
 
     public function testBuildWithNonExistingNode(): void
     {
         $menuItem = $this->createMock(ItemInterface::class);
 
-        $this->configManager
-            ->expects(self::once())
-            ->method('get')
-            ->with('oro_frontend.quick_access_button')
-            ->willReturn(
-                (new QuickAccessButtonConfig())
-                    ->setType(QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE)
-                    ->setWebCatalogNode(1)
-            );
+        $config = (new QuickAccessButtonConfig())
+            ->setType(QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE)
+            ->setWebCatalogNode(1);
 
         $this->repository
             ->expects(self::once())
@@ -157,27 +132,23 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
             ->with(1)
             ->willReturn(null);
 
-
         $this->menuContentNodesProvider->expects(self::never())->method(self::anything());
 
         $menuItem->expects(self::once())->method('setExtra')->with('menu_not_resolved', true);
 
-        $this->builder->build($menuItem, ['test' => 'test'], 'quick_access_button_menu');
+        $this->builder->build($menuItem, [
+            'test' => 'test',
+            'qab_config' => $config,
+        ], 'quick_access_button_menu');
     }
 
     public function testBuildWithNonResolvedNode(): void
     {
         $menuItem = $this->createMock(ItemInterface::class);
 
-        $this->configManager
-            ->expects(self::once())
-            ->method('get')
-            ->with('oro_frontend.quick_access_button')
-            ->willReturn(
-                (new QuickAccessButtonConfig())
-                    ->setType(QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE)
-                    ->setWebCatalogNode(1)
-            );
+        $config = (new QuickAccessButtonConfig())
+            ->setType(QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE)
+            ->setWebCatalogNode(1);
 
         $node = $this->createMock(ContentNode::class);
         $this->repository
@@ -196,6 +167,9 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
 
         $menuItem->expects(self::once())->method('setExtra')->with('menu_not_resolved', true);
 
-        $this->builder->build($menuItem, ['test' => 'test'], 'quick_access_button_menu');
+        $this->builder->build($menuItem, [
+            'test' => 'test',
+            'qab_config' => $config,
+        ], 'quick_access_button_menu');
     }
 }

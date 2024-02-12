@@ -14,9 +14,22 @@ class QuickAccessButtonConfig
     /** MENU_NOT_RESOLVED constant is used to indicate if menu based on configuration can not be build */
     public const MENU_NOT_RESOLVED = 'menu_not_resolved';
 
+    private array $label = [];
     private ?string $type = null;
     private ?string $menu = null;
     private ?int $webCatalogNode = null;
+
+    public function getLabel(): array
+    {
+        return $this->label;
+    }
+
+    public function setLabel(array $label): self
+    {
+        $this->label = $label;
+
+        return $this;
+    }
 
     public function getType(): ?string
     {

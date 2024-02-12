@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Oro\Bundle\FrontendBundle\Menu\Frontend;
 
 use Knp\Menu\ItemInterface;
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\FrontendBundle\DependencyInjection\Configuration;
 use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
 use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
 
@@ -15,14 +13,11 @@ use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
  */
 class QuickAccessButtonFrontendMenuMenuBuilder implements BuilderInterface
 {
-    private ConfigManager $configManager;
     private BuilderInterface $menuBuilder;
 
     public function __construct(
-        ConfigManager $configManager,
         BuilderInterface $menuBuilder,
     ) {
-        $this->configManager = $configManager;
         $this->menuBuilder = $menuBuilder;
     }
 
@@ -32,10 +27,8 @@ class QuickAccessButtonFrontendMenuMenuBuilder implements BuilderInterface
             return;
         }
 
-        /** @var QuickAccessButtonConfig $configValue */
-        $configValue = $this->configManager->get(
-            Configuration::getConfigKeyByName(Configuration::QUICK_ACCESS_BUTTON)
-        );
+        /** @var QuickAccessButtonConfig|null $configValue */
+        $configValue = $options['qab_config'] ?? null;
 
         if (QuickAccessButtonConfig::TYPE_MENU !== $configValue?->getType()) {
             return;
@@ -52,8 +45,6 @@ class QuickAccessButtonFrontendMenuMenuBuilder implements BuilderInterface
             array_merge($options, ['check_access_not_logged_in' => true]),
             $configValue->getMenu()
         );
-        /** TODO: Add functionality to get label for root menu at BB-23579 */
-        $menu->setLabel($configValue->getMenu());
 
         if (count($menu->getChildren()) === 0 && null == $menu->getUri()) {
             $menu->setExtra(QuickAccessButtonConfig::MENU_NOT_RESOLVED, true);

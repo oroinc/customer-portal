@@ -432,7 +432,7 @@ services:
             - '@oro_config.manager'
             - '@oro_security.acl_helper'
             - '@doctrine'
-            - '@Oro\Bundle\NavigationBundle\Provider\BuilderChainProvider'
+            - '@oro_frontend.provider.quick_access_button_data'
         tags:
             - { name: layout.data_provider, alias: theme_header_config }
 
@@ -459,7 +459,6 @@ services:
         class: Oro\Bundle\FrontendBundle\Menu\Frontend\QuickAccessButtonFrontendMenuMenuBuilder
         public: false
         arguments:
-            - '@oro_config.manager'
             - '@oro_menu.configuration_builder'
         tags:
             - { name: oro_menu.builder, alias: quick_access_button_menu }
@@ -468,10 +467,17 @@ services:
         class: Oro\Bundle\FrontendBundle\Menu\Frontend\QuickAccessButtonWebCatalogNodeMenuBuilder
         public: false
         arguments:
-            - '@oro_config.manager'
             - '@oro_web_catalog.menu.content_nodes_provider.storefront'
             - '@oro_locale.helper.localization'
             - '@oro_commerce_menu.handler.sub_folder_uri'
             - '@doctrine'
         tags:
             - { name: oro_menu.builder, alias: quick_access_button_menu }
+
+    oro_frontend.provider.quick_access_button_data:
+        class: Oro\Bundle\FrontendBundle\Provider\QuickAccessButtonDataProvider
+        arguments:
+            - '@oro_menu.builder_chain'
+            - '@oro_locale.helper.localized_value_extractor'
+            - '@oro_locale.helper.localization'
+            - '@oro_ui.html_tag_helper'

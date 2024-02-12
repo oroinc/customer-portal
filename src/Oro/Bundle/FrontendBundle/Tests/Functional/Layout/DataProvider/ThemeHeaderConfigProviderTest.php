@@ -128,15 +128,14 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
         $config->set(
             Configuration::getConfigKeyByName(Configuration::QUICK_ACCESS_BUTTON),
             (new QuickAccessButtonConfig())
+                ->setLabel(['' => 'label'])
                 ->setType(QuickAccessButtonConfig::TYPE_MENU)
                 ->setMenu('frontend_menu')
         );
         $config->flush();
 
         self::assertInstanceOf(ItemInterface::class, $this->provider->getQuickAccessButton());
-
-        /** TODO: Add test to check expected label for root menu item at BB-23579 */
-        self::assertNotEmpty($this->provider->getQuickAccessButtonLabel());
+        self::assertEquals('label', $this->provider->getQuickAccessButtonLabel());
     }
 
     public function testGetQuickAccessButtonForNonExistingMenu(): void
@@ -145,13 +144,14 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
         $config->set(
             Configuration::getConfigKeyByName(Configuration::QUICK_ACCESS_BUTTON),
             (new QuickAccessButtonConfig())
+                ->setLabel(['' => 'label'])
                 ->setType(QuickAccessButtonConfig::TYPE_MENU)
                 ->setMenu('frontend_menu_34gtd56')
         );
         $config->flush();
 
         self::assertTrue(null === $this->provider->getQuickAccessButton());
-        self::assertTrue(null === $this->provider->getQuickAccessButtonLabel());
+        self::assertEquals('label', $this->provider->getQuickAccessButtonLabel());
     }
 
     public function testGetQuickAccessButtonForWebCatalogNode(): void
@@ -167,6 +167,7 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
         $config->set(
             Configuration::getConfigKeyByName(Configuration::QUICK_ACCESS_BUTTON),
             (new QuickAccessButtonConfig())
+                ->setLabel(['' => 'wcn label'])
                 ->setType(QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE)
                 ->setWebCatalogNode($node->getId())
         );
@@ -175,7 +176,7 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
         $config->flush();
 
         self::assertInstanceOf(ItemInterface::class, $this->provider->getQuickAccessButton());
-        self::assertEquals('web_catalog.node.1.root', $this->provider->getQuickAccessButtonLabel());
+        self::assertEquals('wcn label', $this->provider->getQuickAccessButtonLabel());
         self::assertEmpty($this->provider->getQuickAccessButton()->getChildren());
     }
 
@@ -190,6 +191,7 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
         $config->set(
             Configuration::getConfigKeyByName(Configuration::QUICK_ACCESS_BUTTON),
             (new QuickAccessButtonConfig())
+                ->setLabel(['' => 'label'])
                 ->setType(QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE)
                 ->setWebCatalogNode(-1)
         );
@@ -198,7 +200,7 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
         $config->flush();
 
         self::assertTrue(null === $this->provider->getQuickAccessButton());
-        self::assertTrue(null === $this->provider->getQuickAccessButtonLabel());
+        self::assertEquals('label', $this->provider->getQuickAccessButtonLabel());
     }
 
     public function testGetQuickAccessButtonForNonDefaultWebCatalogNode(): void

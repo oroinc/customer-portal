@@ -6,12 +6,15 @@ namespace Oro\Bundle\FrontendBundle\Form\Type;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
+use Oro\Bundle\LocaleBundle\Form\Type\LocalizedPropertyType;
 use Oro\Bundle\NavigationBundle\Form\Type\MenuChoiceType;
 use Oro\Bundle\WebCatalogBundle\Form\Type\ContentNodeSelectSystemConfigType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Represents Quick Access Button settings for System Configuration
@@ -28,6 +31,18 @@ class QuickAccessButtonConfigType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $isHasConfiguredWebCatalog = (bool) $this->configManager->get('oro_web_catalog.web_catalog');
+
+        $builder->add('label', LocalizedPropertyType::class, [
+            'label' => 'oro_frontend.system_configuration.fields.quick_access_button.fields.label.label',
+            'tooltip' => 'oro_frontend.system_configuration.fields.quick_access_button.fields.label.tooltip',
+            'required' => true,
+            'entry_type' => TextType::class,
+            'entry_options' => [
+                'constraints' => [
+                    new NotBlank()
+                ]
+            ],
+        ]);
 
         $builder->add('type', ChoiceType::class, [
             'label' => 'oro_frontend.system_configuration.fields.quick_access_button.fields.type.label',
@@ -75,10 +90,12 @@ class QuickAccessButtonConfigType extends AbstractType
     private function getChoicesForType(bool $isHasConfiguredWebCatalog): array
     {
         $choices = [
-            QuickAccessButtonConfig::TYPE_MENU => QuickAccessButtonConfig::TYPE_MENU,
+            'oro_frontend.system_configuration.fields.quick_access_button.fields.type.choices.menu' =>
+                QuickAccessButtonConfig::TYPE_MENU,
         ];
         if ($isHasConfiguredWebCatalog) {
-            $choices[QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE] = QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE;
+            $choices['oro_frontend.system_configuration.fields.quick_access_button.fields.type.choices.content_node'] =
+                QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE;
         }
 
         return $choices;

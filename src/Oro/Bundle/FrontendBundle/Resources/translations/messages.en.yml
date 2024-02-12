@@ -75,15 +75,21 @@ oro_frontend:
                 label: 'Quick Access Button'
                 tooltip: 'The quick access button can either open some additional menu, or it can be a direct shortcut to product catalog or another important section of the website.'
                 fields:
+                    label:
+                        label: 'Label'
+                        tooltip: ''
                     type:
                         label: 'Type'
-                        tooltip: 'Type to get the list of items to display'
-                        placeholder: 'Disabled'
+                        tooltip: 'Type of the quick access button'
+                        placeholder: 'None'
+                        choices:
+                            menu: 'Frontend Menu'
+                            content_node: 'Content Node'
                     menu:
                         label: 'Frontend Menu'
                         tooltip: ''
                     web_catalog_node:
-                        label: 'Web Catalog Node'
+                        label: 'Content Node'
                         tooltip: ''
             quick_links:
                 label: 'Quick Links'
