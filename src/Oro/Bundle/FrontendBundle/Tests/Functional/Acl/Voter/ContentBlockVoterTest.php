@@ -42,7 +42,7 @@ class ContentBlockVoterTest extends WebTestCase
         $value = $this->getReference('content_block_1');
 
         $config = self::getConfigManager();
-        $config->set(Configuration::getConfigKeyByName(Configuration::PROMOTIONAL_CONTENT), $value);
+        $config->set(Configuration::getConfigKeyByName(Configuration::PROMOTIONAL_CONTENT), $value->getId());
         $config->flush();
 
         $this->login(self::AUTH_USER, self::AUTH_PW);
@@ -57,7 +57,7 @@ class ContentBlockVoterTest extends WebTestCase
         $config = self::getConfigManager();
         $config->set(
             Configuration::getConfigKeyByName(Configuration::PROMOTIONAL_CONTENT),
-            $value,
+            $value->getId(),
             $this->getReference(LoadOrganization::ORGANIZATION)
         );
         $config->flush();
@@ -85,7 +85,7 @@ class ContentBlockVoterTest extends WebTestCase
         $config = self::getConfigManager();
         $config->set(
             Configuration::getConfigKeyByName(Configuration::PROMOTIONAL_CONTENT),
-            $this->getReference('content_block_2')
+            $this->getReference('content_block_2')->getId()
         );
         $config->flush();
 

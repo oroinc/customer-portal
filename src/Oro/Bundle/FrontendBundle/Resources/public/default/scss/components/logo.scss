@@ -27,6 +27,14 @@ a.logo {
     }
 }
 
+@include breakpoint('desktop-small') {
+    .logo {
+        .page-header--standalone-main-menu & {
+            padding-left: 0;
+        }
+    }
+}
+
 @include breakpoint('mobile-big') {
     .logo {
         padding: $logo-mobile-big-inner-offset;

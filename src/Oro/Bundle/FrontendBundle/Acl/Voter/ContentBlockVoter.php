@@ -28,7 +28,7 @@ class ContentBlockVoter extends AbstractEntityVoter
         BasicPermission::DELETE,
     ];
 
-    protected function getPermissionForAttribute($class, $identifier, $attribute)
+    protected function getPermissionForAttribute($class, $identifier, $attribute): int
     {
         if (empty($identifier) || BasicPermission::DELETE !== $attribute) {
             return self::ACCESS_ABSTAIN;

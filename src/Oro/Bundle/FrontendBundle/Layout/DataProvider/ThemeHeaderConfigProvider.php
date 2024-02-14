@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Oro\Bundle\FrontendBundle\Layout\DataProvider;
 
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Menu\ItemInterface;
 use Oro\Bundle\CMSBundle\Entity\ContentBlock;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Configuration;
+use Oro\Bundle\FrontendBundle\Provider\QuickAccessButtonDataProvider;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
 /**
@@ -17,16 +19,19 @@ class ThemeHeaderConfigProvider
 {
     private ConfigManager $configManager;
     private AclHelper $aclHelper;
-    private ManagerRegistry $registry;
+    private ManagerRegistry $doctrine;
+    private QuickAccessButtonDataProvider $quickAccessButtonDataProvider;
 
     public function __construct(
         ConfigManager $configManager,
         AclHelper $aclHelper,
-        ManagerRegistry $registry
+        ManagerRegistry $doctrine,
+        QuickAccessButtonDataProvider $quickAccessButtonDataProvider,
     ) {
         $this->configManager = $configManager;
         $this->aclHelper = $aclHelper;
-        $this->registry = $registry;
+        $this->doctrine = $doctrine;
+        $this->quickAccessButtonDataProvider = $quickAccessButtonDataProvider;
     }
 
     /**
@@ -41,11 +46,29 @@ class ThemeHeaderConfigProvider
         );
 
         if ($configValue) {
-            return $this->registry
+            return $this->doctrine
                     ->getRepository(ContentBlock::class)
                     ->getContentBlockAliasById($configValue, $this->aclHelper) ?? '';
         }
 
         return '';
+    }
+
+    public function getQuickAccessButton(): ?ItemInterface
+    {
+        $configValue = $this->configManager->get(
+            Configuration::getConfigKeyByName(Configuration::QUICK_ACCESS_BUTTON)
+        );
+
+        return $configValue ? $this->quickAccessButtonDataProvider->getMenu($configValue) : null;
+    }
+
+    public function getQuickAccessButtonLabel(): ?string
+    {
+        $configValue = $this->configManager->get(
+            Configuration::getConfigKeyByName(Configuration::QUICK_ACCESS_BUTTON)
+        );
+
+        return $configValue ? $this->quickAccessButtonDataProvider->getLabel($configValue) : null;
     }
 }

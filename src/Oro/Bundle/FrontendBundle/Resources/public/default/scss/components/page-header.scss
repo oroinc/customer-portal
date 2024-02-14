@@ -58,6 +58,14 @@
             }
         }
     }
+
+    &__promotional-block {
+        color: $page-header-promotional-link-color;
+
+        &:hover {
+            color: $page-header-promotional-link-color;
+        }
+    }
 }
 
 .topbar {
@@ -78,6 +86,12 @@
         justify-content: end;
         margin-inline-start: auto;
     }
+}
+
+.promotional-content-container {
+    display: flex;
+    align-items: center;
+    height: $page-header-promotional-content-height;
 }
 
 @include breakpoint('desktop-small') {
@@ -166,7 +180,7 @@
     @include breakpoint($key) {
         .page-header {
             .hide-block-on-#{$key},
-            .hide-label-on-#{$key}, {
+            .hide-label-on-#{$key} {
                 // stylelint-disable-next-line declaration-no-important
                 display: none !important;
             }
