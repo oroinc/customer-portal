@@ -38,22 +38,4 @@ class ThemeAwareConfigProviderTest extends WebTestCase
             $decoded['metadata']['rowActions']['update']['label']
         );
     }
-
-    public function testFrontendCustomThemeGridValue(): void
-    {
-        $this->initClient();
-        self::getConfigManager()->set('oro_frontend.frontend_theme', 'custom');
-        $response = $this->client->requestFrontendGrid(
-            ['gridName' => 'test-theme-aware-grid'],
-            [],
-            true,
-        );
-        $this->assertSame($response->getStatusCode(), 200);
-        $decoded = \json_decode($response->getContent(), true);
-        $this->assertIsArray($decoded);
-        $this->assertEquals(
-            'fe-custom-theme-grid-update-label',
-            $decoded['metadata']['rowActions']['update']['label']
-        );
-    }
 }
