@@ -39,19 +39,13 @@ class WYSIWYGTypeExtensionTest extends WebTestCase
 
         $defaultTheme = [
             'name' => 'default',
-            'label' => 'Default theme',
+            'label' => 'Refreshing Teal',
             'stylesheet' => '/build/default/css/styles.css',
         ];
         if ($layoutThemeName === 'default') {
             $defaultTheme['active'] = true;
         }
         $this->assertThemeOptions($defaultTheme, $actualOptions['themes']);
-
-        $this->assertThemeOptions([
-            'name' => 'custom',
-            'label' => 'Custom theme',
-            'stylesheet' => '/build/custom/css/styles.css',
-        ], $actualOptions['themes']);
     }
 
     private function assertThemeOptions(array $themeOptions, array $actualThemesOptions): void
