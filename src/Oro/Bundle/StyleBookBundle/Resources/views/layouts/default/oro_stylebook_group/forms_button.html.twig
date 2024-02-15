@@ -10,6 +10,7 @@
     <button type="button" class="btn btn--destructive">Destructive Button</button>
     <button type="button" class="btn btn--outlined">Primary Outlined Button</button>
     <button type="button" class="btn btn--destructive-outlined">Destructive Outlined Button</button>
+    <button type="button" class="btn btn--neutral-dark">Neutral Dark Button</button>
 {% endblock %}
 
 {% block _style_book_button_disabled_element_widget %}
@@ -17,6 +18,7 @@
     <button type="button" class="btn btn--destructive" disabled>Destructive Button</button>
     <button type="button" class="btn btn--outlined" disabled>Primary Outlined Button</button>
     <button type="button" class="btn btn--destructive-outlined" disabled>Destructive Outlined Button</button>
+    <button type="button" class="btn btn--neutral-dark" disabled>Neutral Dark Button</button>
 {% endblock %}
 
 {% block _style_book_button_inversed_element_widget %}
@@ -31,6 +33,7 @@
     <button type="button" class="btn btn--destructive btn--text">Destructive Button</button>
     <button type="button" class="btn btn--outlined btn--text">Primary Outlined Button</button>
     <button type="button" class="btn btn--destructive-outlined btn--text">Destructive Outlined Button</button>
+    <button type="button" class="btn btn--neutral-dark btn--text">Neutral Dark Button</button>
 {% endblock %}
 
 {% block _style_book_button_element_nopadding_widget %}
@@ -38,6 +41,7 @@
     <button type="button" class="btn btn--destructive btn--text btn--no-padding">Destructive Button</button>
     <button type="button" class="btn btn--outlined btn--text btn--no-padding">Primary Outlined Button</button>
     <button type="button" class="btn btn--destructive-outlined btn--text btn--no-padding">Destructive Outlined Button</button>
+    <button type="button" class="btn btn--neutral-dark btn--text btn--no-padding" disabled>Neutral Dark Button</button>
 {% endblock %}
 
 {% block _style_book_button_element_sizes_widget %}
@@ -68,6 +72,11 @@
         <span>Default Button</span>
         {{- renderIcon.icon({name: 'chevron-down'}) -}}
     </button>
+    <button type="button" class="btn btn--neutral-dark">
+        {{- renderIcon.icon({name: 'user'}) -}}
+        <span>Neutral Dark Button</span>
+        {{- renderIcon.icon({name: 'chevron-down'}) -}}
+    </button>
 {% endblock %}
 
 {% block _style_book_button_element_btn_text_widget %}
@@ -83,6 +92,9 @@
     </button>
     <button type="button" class="btn btn--destructive-outlined btn--text">
         {{- renderIcon.icon({name: 'settings'}) -}}
+    </button>
+    <button type="button" class="btn btn--neutral-dark btn--text">
+        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
     </button>
     <button type="button" class="btn btn--plain btn--text">
         {{- renderIcon.icon({name: 'x'}) -}}
@@ -105,11 +117,42 @@
     <button type="button" class="btn btn--destructive-outlined btn--icon">
         {{- renderIcon.icon({name: 'settings'}) -}}
     </button>
+    <button type="button" class="btn btn--neutral-dark btn--icon">
+        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
+    </button>
     <button type="button" class="btn btn--plain btn--icon">
         {{- renderIcon.icon({name: 'x'}) -}}
     </button>
+    <button type="button" class="btn btn--neutral btn--icon">
+        {{ renderIcon.icon({name: 'x', extraClass: 'theme-icon--medium'}) }}
+    </button>
     <button type="button" class="btn btn--plain btn--icon">
         {{- renderIcon.icon({name: 'arrow-left'}) -}}
+    </button>
+{% endblock %}
+
+{% block _style_book_button_element_icon_circle_widget %}
+    {%- import '@OroUI/layouts/renderIcon.html.twig' as renderIcon -%}
+    <button type="button" class="btn btn--icon btn--circle">
+        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
+    </button>
+    <button type="button" class="btn btn--outlined btn--icon btn--circle">
+        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
+    </button>
+    <button type="button" class="btn btn--destructive btn--icon btn--circle">
+        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
+    </button>
+    <button type="button" class="btn btn--destructive-outlined btn--icon btn--circle">
+        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
+    </button>
+    <button type="button" class="btn btn--neutral-dark btn--icon btn--circle">
+        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
+    </button>
+    <button type="button" class="btn btn--plain btn--icon btn--circle">
+        {{- renderIcon.icon({name: 'x', extraClass: 'theme-icon--medium'}) -}}
+    </button>
+    <button type="button" class="btn btn--plain btn--icon btn--circle">
+        {{- renderIcon.icon({name: 'arrow-left', extraClass: 'theme-icon--medium'}) -}}
     </button>
 {% endblock %}
 

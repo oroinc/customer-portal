@@ -17,8 +17,6 @@ $dialog-titlebar-color: $body-color !default;
 $dialog-titlebar-background: transparent !default;
 
 $dialog-buttonpane-offset-inner: spacing('md') spacing('lg') + spacing('md') spacing('lg') + spacing('md') !default;
-$dialog-buttonpane-border-radius: 0 !default;
-$dialog-action-wrapper-side-offset: spacing('sm') !default;
 
 $dialog-draggable-handle-cursor: move !default;
 $dialog-buttons-inner-cursor: pointer !default;
@@ -33,12 +31,19 @@ $ui-dialog-dialog-icon-padding: spacing('sm') spacing('md') !default;
 $ui-dialog-titlebar-fullscreen-offset: $fullscreen-popup-header-offset !default;
 $ui-dialog-titlebar-fullscreen-background: $fullscreen-popup-header-bg !default;
 
-$ui-dialog-content-fullscreen-messages-offset: spacing('md') spacing('lg') + spacing('md') !default;
+$ui-dialog-content-fullscreen-messages-offset: spacing('md') spacing('base') !default;
 
-$ui-dialog-content-fullscreen-offset: spacing('md') spacing('lg') + spacing('md') !default;
+$ui-dialog-content-fullscreen-offset: spacing('md') spacing('base') !default;
 
+$ui-dialog-fullscreen-viewport-offset: 20vh !default;
 $ui-dialog-extra-header-content-fullscreen-offset: $ui-dialog-content-fullscreen-messages-offset !default;
 
-$ui-dialog-buttonpane-offset: spacing('md') spacing('lg') + spacing('md') spacing('lg') + spacing('md') !default;
+$ui-dialog-buttonpane-offset: spacing('md') spacing('base') spacing('lg') !default;
 $ui-dialog-buttonpane-background: $fullscreen-popup-footer-bg !default;
-$ui-dialog-buttonpane-border: $fullscreen-popup-footer-border-top !default;
+$ui-dialog-buttonpane-form-actions-display: flex;
+$ui-dialog-buttonpane-form-actions-width: 100%;
+$ui-dialog-buttonpane-form-actions-justify: flex-end;
+$ui-dialog-buttonpane-form-actions-pull-container-display: flex;
+$ui-dialog-buttonpane-form-actions-pull-container-justify: flex-end;
+
+$ui-dialog-footer-gap: spacing('base');

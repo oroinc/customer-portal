@@ -23,15 +23,17 @@
 
         border: $dialog-widget-content-border;
         color: $dialog-widget-content-color;
-        background-color: $dialog-widget-content-bg-color;
+    }
 
+    &.ui-widget-content {
         @include border-radius($dialog-widget-content-border-radius);
+
+        background-color: $dialog-widget-content-bg-color;
     }
 
     .ui-widget-content {
         padding: $dialog-widget-content-offset-inner;
         overflow-y: auto;
-        border-radius: $dialog-widget-content-border-radius;
     }
 
     .ui-dialog-title {
@@ -66,23 +68,33 @@
         display: inline-flex;
         flex-shrink: 0;
         align-self: flex-start;
+        margin-left: auto;
     }
 
     .ui-dialog-buttonpane {
         padding: $dialog-buttonpane-offset-inner;
         flex-shrink: 0;
 
-        border-radius: $dialog-buttonpane-border-radius;
-
         overflow: visible;
-    }
 
-    .pull-right .action-wrapper {
-        margin-left: $dialog-action-wrapper-side-offset;
-    }
+        // Reset redundant styles
+        .pull-right,
+        .pull-left {
+            float: initial;
+        }
 
-    .pull-left .action-wrapper {
-        margin-right: $dialog-action-wrapper-side-offset;
+        .form-actions {
+            display: $ui-dialog-buttonpane-form-actions-display;
+            justify-content: $ui-dialog-buttonpane-form-actions-justify;
+            gap: $ui-dialog-footer-gap;
+        }
+
+        .widget-actions-section {
+            display: $ui-dialog-buttonpane-form-actions-pull-container-display;
+            justify-content: $ui-dialog-buttonpane-form-actions-pull-container-justify;
+            gap: $ui-dialog-footer-gap;
+            width: $ui-dialog-buttonpane-form-actions-width;
+        }
     }
 
     .ui-dialog-messages {
@@ -117,15 +129,15 @@
     }
 
     &.fullscreen {
-        // Next styles might be updated by JS in different levels while dialog is open,
+        // Next styles might be updated by JS in different levels while dialog is opening,
         // but we need to occupy a dialog a whole screen
         /* stylelint-disable declaration-no-important */
-        top: 0 !important;
+        top: $ui-dialog-fullscreen-viewport-offset !important;
         right: 0 !important;
         left: 0 !important;
         width: 100% !important;
-        height: 100% !important;
-        max-height: 100% !important;
+        height: calc(100% - $ui-dialog-fullscreen-viewport-offset) !important;
+        max-height: calc(100% - $ui-dialog-fullscreen-viewport-offset) !important;
         /* stylelint-enable declaration-no-important */
 
         .ui-dialog-titlebar {
@@ -152,7 +164,26 @@
             @include safe-area-offset(padding, $ui-dialog-buttonpane-offset);
 
             background: $ui-dialog-buttonpane-background;
-            border-top: $ui-dialog-buttonpane-border;
+
+            .action-wrapper,
+            .pull-right:only-child,
+            .pull-left:only-child {
+                width: 100%;
+
+                .btn {
+                    width: 100%;
+                }
+            }
+        }
+
+        &.stretched {
+            // Next styles might be updated by JS in different levels while dialog is opening,
+            // but we need to occupy a dialog a whole screen
+            /* stylelint-disable declaration-no-important */
+            top: 0 !important;
+            height: 100% !important;
+            max-height: 100% !important;
+            /* stylelint-enable declaration-no-important */
         }
     }
 }

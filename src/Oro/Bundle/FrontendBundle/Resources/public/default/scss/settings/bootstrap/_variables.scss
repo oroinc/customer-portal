@@ -217,12 +217,13 @@ $modal-header-padding: 0 0 spacing('md') spacing('md');
 $modal-body-padding: spacing('md');
 
 $modal-content-padding: spacing('base') + spacing('sm');
+$modal-content-padding-mobile-landscape: spacing('base') spacing('xs') spacing('xs');
 $modal-header-align-items: center;
 $modal-header-gap: spacing('sm');
 
 // Margin between elements in footer, must be lower than or equal to 2 * $modal-inner-padding
 
-$modal-dialog-margin: 10px;
+$modal-dialog-margin: 0px;
 $modal-dialog-sm-up-margin-y: 30px;
 $modal-title-padding: 15px;
 $modal-title-line-height: $line-height-base;

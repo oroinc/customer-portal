@@ -8,11 +8,12 @@ define(function(require, exports, module) {
     let config = require('module-config').default(module.id);
 
     config = _.extend({
-        togglePoint: 165,
+        toggleFactor: 4, // number of viewport heights to set treshold for scroll-to-top button to appear
         duration: 500,
         easing: 'swing',
         allowLanding: true,
         bottomOffset: 20,
+        parentElement: '[data-role="page-main-container"]',
         props: {
             scrollTop: 0
         }
@@ -22,11 +23,12 @@ define(function(require, exports, module) {
         autoRender: true,
 
         options: {
-            togglePoint: config.togglePoint,
+            toggleFactor: config.toggleFactor,
             duration: config.duration,
             easing: config.easing,
             allowLanding: config.allowLanding,
             bottomOffset: config.bottomOffset,
+            parentElement: config.parentElement,
             props: config.props
         },
 
@@ -100,7 +102,11 @@ define(function(require, exports, module) {
                 return;
             }
 
-            if (this.isApplicable && this.$window.scrollTop() > this.options.togglePoint) {
+            const threshold = Math.ceil(
+                (this.$window.height() * this.options.toggleFactor) + $(this.options.parentElement).position().top
+            );
+
+            if (this.isApplicable && this.$document.scrollTop() > threshold) {
                 this.$el.addClass('scroll-top-visible');
                 this.$el.attr('aria-hidden', false);
                 this.land();
