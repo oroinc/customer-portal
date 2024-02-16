@@ -16,6 +16,5 @@ InputWidgetManager.addWidget('select2', {
 
 InputWidgetManager.addWidget('number', {
     selector: 'input[type="number"], [data-input-widget="number"]',
-    priority: 20,
     Widget: FrontendNumberInputWidget
 });

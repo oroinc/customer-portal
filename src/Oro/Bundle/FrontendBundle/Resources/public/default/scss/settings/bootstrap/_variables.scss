@@ -150,7 +150,7 @@ $dropdown-link-disabled-color: get-var-color('text', 'disabled');
 $dropdown-item-padding-y: spacing('md');
 $dropdown-item-padding-x: spacing('base');
 $dropdown-item-font: list.slash($base-font-size, $base-line-height) $base-font;
-$dropdown-item-align-items: center;
+$dropdown-item-align-items: flex-start;
 $dropdown-item-gap: spacing('sm');
 
 // Pagination

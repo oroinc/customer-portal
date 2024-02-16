@@ -91,6 +91,7 @@
         &::after,
         &::before {
             font-size: $base-font-size;
+            vertical-align: middle;
         }
     }
 
