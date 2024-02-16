@@ -711,6 +711,9 @@ oro.customer:
         shortcut_list_customer_user_roles.label: 'Show customer user roles'
         shortcut_list_customer_user_roles.description: 'View list of customer user roles'
 
+        customer_user_profiles_and_addresses.label: Profiles & Addresses
+        customer_user_saved.label: Saved
+
         customer_user.label: My Account
         customer_user_profile.label: My Profile
         customer_user_login.label: Login

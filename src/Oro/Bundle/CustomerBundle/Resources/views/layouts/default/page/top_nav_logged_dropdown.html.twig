@@ -89,26 +89,45 @@
     {% if app.request.attributes.get('_route') %}
         {% set requestUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
     {% endif %}
-    {% set found = false %}
 
     {% for child in item.children %}
         {% if child.displayed and child.extras.isAllowed %}
-            {% set currentUrl = child.uri %}
-            {% set itemCurrentClass = '' %}
-            {% set linkCurrentClass = '' %}
-            {% if currentUrl in requestUrl and not found %}
-                {% set itemCurrentClass = 'current' %}
-                {% set linkCurrentClass = 'current' %}
-            {% endif %}
+            {% set uri = child.uri %}
+            {% set label = child.label %}
+            {{ block('_top_nav_customer_menu_item_link_widget') }}
 
-            <li class="customer-menu-list__item {{ itemCurrentClass }}">
-                <a href="{{ child.uri }}" class="{{ ' dropdown-item text-nowrap' ~ linkCurrentClass }}">
-                    {{- child.label|trans -}}
-                </a>
-            </li>
-            {% if currentUrl in requestUrl and not found %}
-                {% set found = true %}
+            {% if child.children|length %}
+                {% set found = false %}
+                {% for subChild in child.children %}
+                    {% if subChild.displayed and subChild.extras.isAllowed %}
+                        {% set uri = subChild.uri %}
+                        {% set label = subChild.label %}
+                        {% set linkCurrentClass = '' %}
+                        {% if uri in requestUrl and not found %}
+                            {% set linkCurrentClass = 'dropdown-item--active' %}
+                        {% endif %}
+
+                        {{ block('_top_nav_customer_menu_item_link_widget') }}
+
+                        {% if uri in requestUrl and not found %}
+                            {% set found = true %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                <div class="dropdown-divider"></div>
             {% endif %}
         {% endif %}
     {% endfor %}
+{% endblock %}
+
+{% block _top_nav_customer_menu_item_link_widget %}
+    {% if uri == '#' %}
+        <span class="dropdown-header">{{- child.label|trans -}}</span>
+    {% else %}
+        <li class="customer-menu-list__item">
+            <a href="{{ uri }}" class="{{ ' dropdown-item text-nowrap ' ~ linkCurrentClass }}">
+                {{- label|trans -}}
+            </a>
+        </li>
+    {% endif %}
 {% endblock %}
