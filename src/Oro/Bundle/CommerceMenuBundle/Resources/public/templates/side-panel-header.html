@@ -1,9 +1,9 @@
-<% let orofrontend = _.macros('oroui') %>
+<% let oroui = _.macros('oroui') %>
 <div class="mini-logo">
     <img src="<%- logoSrc %>">
 </div>
 <% if (close) { %>
     <button type="button" class="close-dialog close-dialog--no-ofsset btn btn--plain btn--text" data-role="close" aria-label="<%-_.__('oro_frontend.fullscreen_popup.actions.labels.close') %>">
-        <%= orofrontend.renderIcon({name: 'x'}) %>
+        <%= oroui.renderIcon({name: 'x'}) %>
     </button>
 <% } %>

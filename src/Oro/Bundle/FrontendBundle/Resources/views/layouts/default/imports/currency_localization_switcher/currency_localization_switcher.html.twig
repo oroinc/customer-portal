@@ -1,0 +1,69 @@
+{% block __currency_localization_switcher__currency_localization_container_widget %}
+    {% if useLocalizations|default(false) or useCurrencies|default(false) %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': ' page-header__element localization-currency-switcher' ~ (sidePanelMode ? ' side-panel-currency-localization' : ' currency-localization-control__container'),
+            'data-page-component-view': 'orofrontend/js/app/views/currency-localization/currency-localization-control-view',
+            '~data-page-component-options': {
+                sidePanelMode: sidePanelMode,
+                redirectRoute: app.request.get('_route'),
+                redirectRouteParameters: app.request.get('_route_params')|json_encode,
+                redirectQueryParameters: app.request.query.all|json_encode
+            }
+        }) %}
+
+        {% if oro_config_value('oro_frontend.language_and_currency_switchers') == 'above_header' %}
+            {% set threshold = ''%}
+
+            {% if oro_config_value('oro_frontend.promotional_content') != false and oro_config_value('oro_frontend.top_navigation_menu') != false %}
+                {% set threshold = 'mobile' %}
+            {% elseif oro_config_value('oro_frontend.promotional_content') == false and oro_config_value('oro_frontend.top_navigation_menu') == false %}
+                {% set threshold = 'mobile-big' %}
+            {% endif %}
+
+            {% if threshold != ''  %}
+                {% set attr = layout_attr_defaults(attr, {
+                    '~class': ' hide-block-on-' ~ threshold,
+                    'data-dom-relocation-options': {
+                        responsive: [
+                            {
+                                viewport: threshold,
+                                moveTo: '[data-menus-footer-container]',
+                                startPointClass: 'currency-localization-control__container',
+                                endpointClass: 'side-panel-currency-localization'
+                            }
+                        ]
+                    }
+                }) %}
+            {% endif %}
+        {% endif %}
+
+        <div {{ block('block_attributes') }}>
+            {{ block_widget(block) }}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block __currency_localization_switcher__currency_localization_container_inner_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+
+    {% if oro_config_value('oro_frontend.promotional_content') != '' %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': ' localization-currency-switcher'
+        }) %}
+
+        <div {{ block('block_attributes') }}>
+            <button
+                data-toggle="dropdown"
+                type="button"
+                class="btn btn--outlined-inverse btn--text btn--no-padding"
+                data-placement="bottom-end"
+            >
+                {{ renderIcon.icon({ name: 'globe' }) }}
+                {{ renderIcon.icon({ name: 'chevron-down' , extraClass: 'dropdown-menu-chevron' }) }}
+            </button>
+            <div class="dropdown-menu currency-localization-control-dropdown" role="menu" aria-labelledby="<%- togglerId %>"></div>
+        </div>
+    {% endif %}
+
+    {{ block_widget(block) }}
+{% endblock %}

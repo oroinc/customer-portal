@@ -56,7 +56,7 @@ Feature: Customer login
   Scenario: Check translated unsuccessful login error
     Given I proceed as the User
     And I am on the homepage
-    And I click "Zulu"
+    And I select "Zulu" localization
     And I click "Sign In"
     And I fill form with:
       | Email Address | NotExistingAddress@example.com |

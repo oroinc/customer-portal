@@ -31,6 +31,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/line-clamp-config.scss'
         - 'bundles/orofrontend/default/scss/variables/loading-bar-config.scss'
         - 'bundles/orofrontend/default/scss/variables/middlebar-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/toggler-config.scss'
 
         - 'bundles/orofrontend/default/scss/variables/filters/filters-config.scss'
         - 'bundles/orofrontend/default/scss/variables/filters/filters-dropdown-mode-config.scss'
@@ -95,6 +96,8 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/skip-to-content-config.scss'
         - 'bundles/orofrontend/default/scss/variables/dropdown-search-config.scss'
         - 'bundles/orofrontend/default/scss/variables/scroll-shadow-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/side-panel-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/currency-localization-control-config.scss'
 
         # Components
         # reset.scss must be first in list due to that  file must have the lowest priority
@@ -209,6 +212,10 @@ styles:
         - 'bundles/orofrontend/default/scss/components/sidebar-filter-container.scss'
         - 'bundles/orofrontend/default/scss/components/dropdown-search.scss'
         - 'bundles/orofrontend/default/scss/components/scroll-shadow.scss'
+        - 'bundles/orofrontend/default/scss/components/side-panel.scss'
+        - 'bundles/orofrontend/default/scss/components/toggler.scss'
+        - 'bundles/orofrontend/default/scss/components/toggler-vertical.scss'
+        - 'bundles/orofrontend/default/scss/components/currency-localization-control.scss'
     output: 'css/styles.css'
     auto_rtl_inputs:
         - 'bundles/oro*/**'

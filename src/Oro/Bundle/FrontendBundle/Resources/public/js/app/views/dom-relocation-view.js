@@ -112,7 +112,7 @@ define(function(require, exports, module) {
                     this.returnByIndex($el);
                 }
 
-                mediator.trigger('layout:content-relocated', $el);
+                mediator.trigger('layout:content-relocated', $el, targetOptions);
             }, this);
         },
 

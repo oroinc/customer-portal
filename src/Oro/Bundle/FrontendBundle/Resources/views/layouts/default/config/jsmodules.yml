@@ -53,6 +53,7 @@ dynamic-imports:
         - orofrontend/js/app/views/page/content-view
         - orofrontend/js/app/views/scroll-view
         - orofrontend/js/app/views/scroll-shadow-view
+        - orofrontend/js/app/views/currency-localization/currency-localization-control-view
     orodatagrid:
         - orofrontend/default/js/app/views/choice-filter
         - orofrontend/js/app/components/frontend-datagrid-component

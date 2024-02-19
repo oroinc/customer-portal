@@ -11,6 +11,9 @@ layout:
                     blockType: container
                 menus_sidebar_bottom:
                     blockType: container
+                menus_footer_sidebar_container:
+                    blockType: container
+                    prepend: true
                 main_menu_container:
                     blockType: container
                     options:
@@ -38,6 +41,7 @@ layout:
                                 main_menu_outer_container:
                                     main_menu: ~
                         menus_sidebar_bottom: ~
+                    menus_footer_sidebar_container: ~
 
         - '@add':
             id: main_menu_trigger
@@ -47,3 +51,11 @@ layout:
             options:
                 vars:
                     standaloneMainMenu: '=data["system_config_provider"].getValue("oro_frontend.standalone_main_menu")'
+                    currencies: '=data["oro_pricing_currency"].getAvailableCurrencies()'
+                    selected_currency: '=data["oro_pricing_currency"].getUserCurrency()'
+                    localizations: '=data["frontend_localization"].getEnabledLocalizations()'
+                    selected_localization: '=data["frontend_localization"].getCurrentLocalization()'
+                    currency_display: '=data["system_config_provider"].getValue("oro_currency.currency_display")'
+                    show_currency_localization_switchers: '=data["system_config_provider"].getValue("oro_frontend.language_and_currency_switchers") == "always_in_hamburger_menu"'
+                    top_navigation_menu_enabled: '=data["system_config_provider"].getValue("oro_frontend.top_navigation_menu") !== false'
+                    promotional_content_enabled: '=data["system_config_provider"].getValue("oro_frontend.promotional_content") !== ""'

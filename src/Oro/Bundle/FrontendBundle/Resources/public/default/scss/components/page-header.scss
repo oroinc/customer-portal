@@ -162,14 +162,12 @@
 @include breakpoint('mobile') {
     .page-header {
         gap: $page-header-gap-mobile;
-        padding: $page-header-inner-offset-mobile-big;
 
         &__inner {
-            padding: $page-header-inner-inner-offset-mobile-big;
-
-            &:last-of-type,
-            &:has(+ .hide-on-tablet:last-of-type) {
-                padding: $page-header-inner-inner-offset-mobile-big;
+            // In case when page header have promotion block and language/currency switcher
+            // Handle multiple page header inners on mobile view
+            &:not(:only-child):not(:last-of-type) {
+                margin-bottom: spacing('md');
             }
         }
     }

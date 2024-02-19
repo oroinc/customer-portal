@@ -1,0 +1,20 @@
+<% let oroui = _.macros('oroui') %>
+<div class="currency-localization-btn-wrapper">
+    <button class="side-panel-currency-localization-trigger" type="button" data-name="side-panel-footer-expand">
+        <span class="side-panel-currency-localization-trigger__label">
+            <% if (localizations.items.length > 1) { %>
+                <%= oroui.renderIcon({ name: 'globe', extraClass: 'side-panel-footer-localization__icon' }) %>
+                <span data-name="localization-label"><%- localizations.selected.title %></span>
+            <% } %>
+            <% if (currencies.items.length > 1) { %>
+                <%= oroui.renderIcon({ name: 'credit-card', extraClass: 'side-panel-footer-localization__icon' }) %>
+                <span data-name="currency-label"><%- currencies.selected.title %></span>
+            <% } %>
+        </span>
+        <span class="side-panel-currency-localization-trigger__icon">
+            <%= oroui.renderIcon({ name: iconChevron }) %>
+        </span>
+    </button>
+</div>
+
+<div data-localization-form-container class="currency-localization-control__form-container"></div>

@@ -14,6 +14,10 @@ layout:
             id: scroll_top
             root: page_main
 
+        -
+            id: currency_localization_switcher
+            root: menus_footer_sidebar_container
+
     actions:
         - '@setBlockTheme':
             themes: '@OroFrontend/layouts/default/page/layout.html.twig'
