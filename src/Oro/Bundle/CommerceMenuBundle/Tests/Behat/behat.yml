@@ -60,6 +60,9 @@ oro_behat_extension:
     Main Menu Button:
       selector: 'button.main-menu-trigger'
 
+    Frontend Main Menu Close Button:
+      selector: '[data-role="close"]'
+
     And User Agent Condition:
       selector: '.control-group-collection .add-list-item'
 

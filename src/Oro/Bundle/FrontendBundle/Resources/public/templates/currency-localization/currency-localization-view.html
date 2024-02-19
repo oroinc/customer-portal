@@ -1,0 +1,15 @@
+<% let oroui = _.macros('oroui') %>
+<% var togglerId = _.uniqueId('currency-localization-dropdown'); %>
+<button
+    id="<%- togglerId %>"
+    data-toggle="dropdown"
+    type="button"
+    class="btn btn--outlined-inverse btn--text btn--no-padding"
+    aria-label="<%- _.__('oro_frontend.dropdown.currency_localization_form.more_actions') %>"
+    data-placement="bottom-end"
+>
+    <%= oroui.renderIcon({ name: 'globe' }) %>
+    <%= oroui.renderIcon({ name: 'chevron-down' , extraClass: 'dropdown-menu-chevron' }) %>
+</button>
+
+<div class="dropdown-menu currency-localization-control-dropdown" data-localization-form-container role="menu" aria-labelledby="<%- togglerId %>"></div>

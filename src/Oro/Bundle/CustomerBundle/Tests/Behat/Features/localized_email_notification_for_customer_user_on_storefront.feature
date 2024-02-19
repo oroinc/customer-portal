@@ -48,7 +48,7 @@ Feature: Localized email notification for customer user on storefront
 
   Scenario Outline: Check email send to the customer user when register by storefront administrator by different localizations
     Given I am on the homepage
-    And I click "Localization Switcher Button"
+    And I select "<Locale>" localization
     And I click "Account Dropdown"
     And click "Users"
     And click "Create User"

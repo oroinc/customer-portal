@@ -32,6 +32,16 @@
     </div>
 {% endblock %}
 
+{% block _menus_footer_sidebar_container_widget %}
+    {% set attr =  layout_attr_defaults(attr, {
+        'data-menus-footer-container': '',
+        '~class': 'hidden'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
 {% block _menus_sidebar_top_widget %}
     {% set attr =  layout_attr_defaults(attr, {
         '~class': 'sidebar-main-menu__container hide-on-empty',
@@ -61,10 +71,11 @@
         'aria-label': 'oro.commercemenu.menuupdate.menu.label'|trans,
         'data-page-component-module': 'oroui/js/app/components/viewport-component',
         'data-page-component-options': {
-            viewport: block.vars.standaloneMainMenu ? 'tablet' : 'all',
+            viewport: block.vars.standaloneMainMenu ? 'mobile-big' : 'all',
             component: 'oroui/js/app/components/view-component',
             view: 'orocommercemenu/js/app/views/side-panel',
             contentElement: '[data-menus-container]',
+            footerElement: '[data-menus-footer-container]',
             popupName: 'main-fullscreen-side-panel',
             popupLabel: 'oro_frontend.fullscreen_popup.menu.label'|trans,
             popupIcon: 'hamburger-menu',
@@ -77,6 +88,9 @@
             dialogClass: 'sidebar-main-menu fullscreen-popup--transition fullscreen-popup--align-left',
             contentAttributes: {
                 'class': 'main-menu-stack-mode fullscreen-mode'
+            },
+            footerAttributes: {
+                'class': ' side-panel-footer-container'
             }
         }
     }) %}

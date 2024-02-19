@@ -1,17 +1,26 @@
-import $ from 'jquery';
 import FullScreenPopupView from 'orofrontend/default/js/app/views/fullscreen-popup-view';
 import SidePanelHeader from './side-panel-header';
+import SidePanelFooterView from './side-panel-footer-view';
+import SidePanelBackdropView from './side-panel-backdrop-view';
 
 const SidePanelView = FullScreenPopupView.extend({
     constructor: function SidePanelView(options) {
         options.headerView = SidePanelHeader;
+
         SidePanelView.__super__.constructor.call(this, options);
     },
 
     show() {
         SidePanelView.__super__.show.call(this);
 
-        this.createBackdrop();
+        this.subview('backdrop', new SidePanelBackdropView({
+            container: this.$popup.parent(),
+            onClickCallback: () => {
+                this.close();
+            }
+        }));
+
+        this.subview('backdrop').show();
     },
 
     _onShow() {
@@ -24,13 +33,18 @@ const SidePanelView = FullScreenPopupView.extend({
         return this.content.$el;
     },
 
-    remove() {
-        if (this.$backdrop) {
-            this.$backdrop.remove();
-            delete this.$backdrop;
+    showSection(section) {
+        const promise = SidePanelView.__super__.showSection.call(this, section);
+
+        if (section === 'footer') {
+            this.subview('sidePanelFooterView', new SidePanelFooterView({
+                el: this[section].$el[0],
+                $popup: this.$popup,
+                ...this[section].options
+            }));
         }
 
-        SidePanelView.__super__.remove.call(this);
+        return promise;
     },
 
     close() {
@@ -39,34 +53,12 @@ const SidePanelView = FullScreenPopupView.extend({
         }
 
         this.$popup.removeClass('show');
-        this.removeBackdrop();
+        this.subview('backdrop').hide();
         document.body.classList.remove('no-scroll-safe');
 
         this.$popup.one('transitionend', () => {
             SidePanelView.__super__.close.call(this);
         });
-    },
-
-    createBackdrop() {
-        if (!this.$backdrop) {
-            this.$backdrop = $('<div class="fullscreen-popup__backdrop" />');
-        }
-
-        this.$popup.before(this.$backdrop);
-        this.$backdrop.on(`click${this.eventNamespace()}`, this.close.bind(this));
-        setTimeout(() => this.$backdrop.addClass('show'));
-    },
-
-    removeBackdrop() {
-        if (this.$backdrop) {
-            this.$backdrop.removeClass('show');
-            this.$backdrop.off(this.eventNamespace());
-
-            this.$backdrop.one('transitionend', () => {
-                this.$backdrop.remove();
-                delete this.$backdrop;
-            });
-        }
     }
 });
 

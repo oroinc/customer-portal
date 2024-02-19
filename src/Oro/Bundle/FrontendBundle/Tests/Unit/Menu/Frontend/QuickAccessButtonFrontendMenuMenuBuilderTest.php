@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Menu\Frontend;
 
 use Knp\Menu\ItemInterface;
+use Knp\Menu\MenuFactory;
+use Knp\Menu\MenuItem;
 use Oro\Bundle\FrontendBundle\Menu\Frontend\QuickAccessButtonFrontendMenuMenuBuilder;
 use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
 use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class QuickAccessButtonFrontendMenuMenuBuilderTest extends \PHPUnit\Framework\TestCase
+class QuickAccessButtonFrontendMenuMenuBuilderTest extends TestCase
 {
     private BuilderInterface|MockObject $menuBuilder;
     private QuickAccessButtonFrontendMenuMenuBuilder $builder;
@@ -115,5 +118,99 @@ class QuickAccessButtonFrontendMenuMenuBuilderTest extends \PHPUnit\Framework\Te
             'test' => 'test',
             'qab_config' => $config,
         ], 'quick_access_button_menu');
+    }
+
+    public function testBuildWithNestingLevelDefault(): void
+    {
+        $menuFactory = new MenuFactory();
+        $menuItem = new MenuItem('test', $menuFactory);
+        $menuItem->setDisplay(true);
+        $menuItem->setDisplayChildren(true);
+
+        $menuItemLevel1 = $menuItem->addChild('level1');
+        $menuItemLevel1->setDisplay(true);
+        $menuItemLevel1->setDisplayChildren(true);
+
+        $menuItemLevel2 = $menuItemLevel1->addChild('level2');
+        $menuItemLevel2->setDisplay(true);
+        $menuItemLevel2->setDisplayChildren(true);
+
+        $config = (new QuickAccessButtonConfig())
+            ->setType(QuickAccessButtonConfig::TYPE_MENU)
+            ->setMenu('test_menu');
+        $this->menuBuilder
+            ->expects(self::once())
+            ->method('build')
+            ->with($menuItem, [
+                'check_access_not_logged_in' => true,
+                'test' => 'test',
+                'qab_config' => $config,
+            ], 'test_menu')
+            ->willReturn($menuItem);
+
+        $this->builder->setMaxNestingLevel(0);
+        $this->builder->build($menuItem, [
+            'test' => 'test',
+            'qab_config' => $config,
+        ], 'quick_access_button_menu');
+
+        self::assertEquals(true, $menuItem->isDisplayed());
+        self::assertEquals(true, $menuItem->getDisplayChildren());
+
+        self::assertEquals([$menuItemLevel1], array_values($menuItem->getChildren()));
+        self::assertEquals([$menuItemLevel2], array_values($menuItemLevel1->getChildren()));
+
+        self::assertEquals(true, $menuItemLevel1->isDisplayed());
+        self::assertEquals(false, $menuItemLevel1->getDisplayChildren());
+
+        self::assertEquals(false, $menuItemLevel2->isDisplayed());
+        self::assertEquals(false, $menuItemLevel2->getDisplayChildren());
+    }
+
+    public function testBuildWithNestingLevelTwoLevels(): void
+    {
+        $menuFactory = new MenuFactory();
+        $menuItem = new MenuItem('test', $menuFactory);
+        $menuItem->setDisplay(true);
+        $menuItem->setDisplayChildren(true);
+
+        $menuItemLevel1 = $menuItem->addChild('level1');
+        $menuItemLevel1->setDisplay(true);
+        $menuItemLevel1->setDisplayChildren(true);
+
+        $menuItemLevel2 = $menuItemLevel1->addChild('level2');
+        $menuItemLevel2->setDisplay(true);
+        $menuItemLevel2->setDisplayChildren(true);
+
+        $config = (new QuickAccessButtonConfig())
+            ->setType(QuickAccessButtonConfig::TYPE_MENU)
+            ->setMenu('test_menu');
+        $this->menuBuilder
+            ->expects(self::once())
+            ->method('build')
+            ->with($menuItem, [
+                'check_access_not_logged_in' => true,
+                'test' => 'test',
+                'qab_config' => $config,
+            ], 'test_menu')
+            ->willReturn($menuItem);
+
+        $this->builder->setMaxNestingLevel(2);
+        $this->builder->build($menuItem, [
+            'test' => 'test',
+            'qab_config' => $config,
+        ], 'quick_access_button_menu');
+
+        self::assertEquals(true, $menuItem->isDisplayed());
+        self::assertEquals(true, $menuItem->getDisplayChildren());
+
+        self::assertEquals([$menuItemLevel1], array_values($menuItem->getChildren()));
+        self::assertEquals([$menuItemLevel2], array_values($menuItemLevel1->getChildren()));
+
+        self::assertEquals(true, $menuItemLevel1->isDisplayed());
+        self::assertEquals(true, $menuItemLevel1->getDisplayChildren());
+
+        self::assertEquals(true, $menuItemLevel2->isDisplayed());
+        self::assertEquals(false, $menuItemLevel2->getDisplayChildren());
     }
 }

@@ -116,10 +116,15 @@
         background-color: $fullscreen-popup-backdrop-background-color;
         z-index: $fullscreen-popup-backdrop-z-index;
 
+        .fullscreen-popup & {
+            z-index: $fullscreen-popup-footer-z-index;
+        }
+
         transition: $fullscreen-popup-backdrop-transition;
 
         &:not(.show) {
             opacity: 0;
+            visibility: hidden;
         }
     }
 

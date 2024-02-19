@@ -158,6 +158,8 @@ oro_stylebook:
                     title: Warning
                 success:
                     title: Success
+            toggler:
+                title: 'Toggler'
         configs:
             title: 'Components config'
             colors:

@@ -84,3 +84,18 @@
         min-width: 100%;
     }
 }
+
+.dropdown-header {
+    display: flex;
+    align-items: center;
+    min-height: $dropdown-header-min-height;
+
+    padding: $dropdown-header-padding;
+
+    font-size: $dropdown-header-font-size;
+    font-weight: $dropdown-header-font-weight;
+}
+
+.dropdown-divider {
+    margin-inline: $dropdown-divider-margin-inline;
+}

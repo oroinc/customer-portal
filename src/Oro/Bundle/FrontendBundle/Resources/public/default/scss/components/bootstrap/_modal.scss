@@ -30,3 +30,11 @@
         }
     }
 }
+
+@include breakpoint('mobile-landscape') {
+    .modal-dialog {
+        .modal-content {
+            padding: $modal-content-padding-mobile-landscape;
+        }
+    }
+}

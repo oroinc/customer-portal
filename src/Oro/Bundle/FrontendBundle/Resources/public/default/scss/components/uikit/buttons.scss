@@ -103,6 +103,20 @@
     }
 }
 
+.btn--circle {
+    border-radius: 50%;
+
+    @include render-properties(map.get($btn-circle-offsets, 'default'));
+
+    @each $size-key, $size-value in $btn-circle-offsets {
+        @if $size-key != 'default' {
+            &.btn--size-#{$size-key} {
+                @include render-properties($size-value);
+            }
+        }
+    }
+}
+
 .btn--no-padding {
     padding-inline: $btn-no-padding-inline;
 }

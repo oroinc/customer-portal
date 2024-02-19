@@ -85,6 +85,8 @@ oro_stylebook:
                 warning:
                     title: Warning
                     description: '<strong>Warning</strong>'
+            toggler:
+                title: 'Toggler'
             notification_message:
                 title: Notification Message
                 error:

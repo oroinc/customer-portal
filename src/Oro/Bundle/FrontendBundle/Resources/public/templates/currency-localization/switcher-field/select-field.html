@@ -1,0 +1,12 @@
+<div class="currency-localization-control__item" data-control-type="select">
+    <h5 class="currency-localization-control__title">
+        <%- title %>
+    </h5>
+    <select id="<%- id %>-<%- name %>-select" name="<%- name %>" data-name="<%- name %>" class="form-field-select select select--full" <%- _.isMobile() ? 'data-skip-input-widgets' : '' %>>
+        <% for (const item of items) { %>
+            <option value="<%- item.value %>" <%- item.selected ? "selected" : "" %>>
+                <%- item.label %>
+            </option>
+        <% } %>
+    </select>
+</div>

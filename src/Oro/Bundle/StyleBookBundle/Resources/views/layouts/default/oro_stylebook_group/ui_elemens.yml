@@ -85,7 +85,7 @@ layout:
                     options:
                         anchor: form_checkbox
                         label: oro_stylebook.groups.ui_elements.form_select.checkbox.title
-                form_checkbox: 
+                form_checkbox:
                     blockType: form_field
                     options:
                         form: '=data["style_book_form"].getStyleBookFormView()["checkbox"]'

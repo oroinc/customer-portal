@@ -5,3 +5,9 @@ $quick-access-button-label-max-width: 200px !default;
 
 $quick-access-button-focus-color: get-color('neutral', 'focus') !default;
 $quick-access-menu-max-height: 500px !default;
+$quick-access-menu-item-color: get-color('text', 'primary') !default;
+$quick-access-menu-divider: 1px solid get-color('neutral', 'grey2') !default;
+$quick-access-menu-margin: spacing('xs') spacing('base') !default;
+$quick-access-menu-item-title-padding: 14px spacing('base') !default;
+$quick-access-menu-item-title-font-size: 12px !default;
+$quick-access-menu-item-title-line-height: 16px !default;
