@@ -6,6 +6,7 @@ define(function(require) {
      */
     const $ = require('jquery');
     const _ = require('underscore');
+    const BaseModel = require('oroui/js/app/models/base/model');
     require('jquery.validate');
 
     return {
@@ -22,6 +23,13 @@ define(function(require) {
         modelEvents: null,
 
         elementEventNamespace: '.elementEvent',
+
+        modelAttr: {},
+
+        /**
+         * @property {Backbone.Model}
+         */
+        model: null,
 
         deferredInitializeCheck: function(options, checkOptions) {
             const $deferredInitialize = this.$el.parent().closest('[data-layout="deferred-initialize"]');
@@ -98,6 +106,19 @@ define(function(require) {
             for (let i = 0, length = props.length; i < length; i++) {
                 delete this[props[i]];
             }
+        },
+
+        initModel: function(options) {
+            if (!this.model) {
+                this.model = new BaseModel();
+            }
+
+            this.modelAttr = $.extend(true, {}, this.modelAttr || {}, options.modelAttr || {});
+            _.each(this.modelAttr, function(value, attribute) {
+                if (!this.model.has(attribute)) {
+                    this.model.set(attribute, value);
+                }
+            }, this);
         },
 
         initializeModelElements: function() {
