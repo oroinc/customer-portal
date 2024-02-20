@@ -9,7 +9,6 @@
     background: $scroll-shadow-before-background;
     width: $scroll-shadow-before-width;
     height: $scroll-shadow-before-height;
-    margin-top: $scroll-shadow-before-margin-top;
     pointer-events: $scroll-shadow-before-pointer-events;
 }
 
@@ -22,24 +21,31 @@
     background: $scroll-shadow-after-background;
     width: $scroll-shadow-after-width;
     height: $scroll-shadow-after-height;
-    margin-top: $scroll-shadow-after-margin-top;
     pointer-events: $scroll-shadow-after-pointer-events;
 }
 
 .horizontal-scrolling {
+    overflow-x: auto;
+
     &.shadow-start::before,
     &.shadow-end::after {
         width: $scroll-shadow-inline-width;
         height: $scroll-shadow-inline-height;
-        top: $scroll-shadow-inline-top;
+        top: var(--shadow-start-top, #{$scroll-shadow-inline-top});
     }
 
     &.shadow-start::before {
-        left: $scroll-shadow-inline-before-left;
+        left: var(--shadow-start-left, #{$scroll-shadow-inline-before-left});
+        margin-right: -$scroll-shadow-inline-width;
         background: $scroll-shadow-inline-before-background;
     }
     &.shadow-end::after {
-        right: $scroll-shadow-inline-after-right;
+        right: var(--shadow-start-right, #{$scroll-shadow-inline-after-right});
+        margin-left: -$scroll-shadow-inline-width;
         background: $scroll-shadow-inline-after-background;
     }
+}
+
+.vertical-scrolling {
+    overflow-y: scroll;
 }

@@ -10,6 +10,11 @@ const ScrollShadowView = BaseView.extend({
         blockEndClass: 'shadow-end'
     },
 
+    listen: {
+        'viewport:change mediator': 'setScrollOffsets',
+        'layout:reposition mediator': 'setScrollOffsets'
+    },
+
     /**
      * @inheritdoc
      */
@@ -58,6 +63,7 @@ const ScrollShadowView = BaseView.extend({
             }
         });
 
+        this.setScrollOffsets();
         this.update();
 
         // Making an element to be scrollable in a while
@@ -123,15 +129,13 @@ const ScrollShadowView = BaseView.extend({
         const hasHorizontalScrollbar = target.scrollWidth > target.clientWidth;
 
         if (hasHorizontalScrollbar) {
+            target.classList.add('horizontal-scrolling');
             target?.classList.toggle(blockStartClass, scrollLeft > 0);
             target?.classList.toggle(blockEndClass, clientWidth + scrollLeft < scrollWidth);
-
-            if (!target.classList.contains('horizontal-scrolling')) {
-                target.classList.add('horizontal-scrolling');
-            }
         }
 
         if (hasVerticalScrollbar) {
+            target.classList.add('vertical-scrolling');
             target?.classList.toggle(blockStartClass, scrollTop > 0);
             target?.classList.toggle(blockEndClass, clientHeight + scrollTop < scrollHeight);
         }
@@ -148,6 +152,18 @@ const ScrollShadowView = BaseView.extend({
         const {blockStartClass, blockEndClass} = this.options;
 
         target.shadowEl?.classList.remove([blockStartClass, blockEndClass]);
+    },
+
+    setScrollOffsets() {
+        for (const [side, selector] of Object.entries(this.options.scrollOffsets || {})) {
+            let value = this.$(selector).outerHeight(true);
+
+            if (['left', 'right'].includes(side)) {
+                value = this.$(selector).outerWidth(true);
+            }
+
+            this.el.style.setProperty(`--shadow-start-${side}`, `${value}px`);
+        }
     },
 
     /**

@@ -160,6 +160,13 @@ oro_behat_extension:
         mapping:
           Use Default: 'theme[oro_frontend___filter_value_selectors][use_parent_scope_value]'
           Value Selectors: 'theme[oro_frontend___filter_value_selectors][value]'
+    Display Price Tiers:
+      selector: 'form[name="theme"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Use Default: 'theme[oro_product___product_details_display_price_tiers_as][use_parent_scope_value]'
+          Display Price Tiers As: 'theme[oro_product___product_details_display_price_tiers_as][value]'
     Filter By Step:
       selector:
         locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"Filter By Step")]/..'

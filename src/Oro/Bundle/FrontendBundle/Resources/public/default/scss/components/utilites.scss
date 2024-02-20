@@ -115,6 +115,11 @@
     }
 }
 
+.scrollable-container {
+    display: grid;
+    grid-auto-flow: column;
+}
+
 .invisible-scrollbar {
     &::-webkit-scrollbar {
         width: 0;
@@ -125,4 +130,8 @@
     scrollbar-width: none;
     /* for MS Edge */
     -ms-overflow-style: scrollbar;
+}
+
+.stretch {
+    width: 100%;
 }
