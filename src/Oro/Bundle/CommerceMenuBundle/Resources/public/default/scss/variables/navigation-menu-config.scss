@@ -1,8 +1,18 @@
 /* @theme: default; */
 
-$navigation-menu-gap: spacing('xl') !default;
+$navigation-menu-gap: spacing('lg') !default;
+$navigation-menu-sm-gap: spacing('sm') !default;
 $navigation-menu-vertical-gap: 0 !default;
 $navigation-menu-vertical-gap-tablet: spacing('base') !default;
+$navigation-menu-gap-mobile: spacing('md') !default;
+
+$navigation-menu-link-color-mobile: get-color('primary', 'main') !default;
+$navigation-menu-link-color-active-mobile: get-color('neutral', 'white-100') !default;
+$navigation-menu-link-background-active-mobile: get-color('neutral', 'white-30') !default;
+
+$navigation-menu-vertical-link-color-mobile: get-color('primary', 'main') !default;
+$navigation-menu-vertical-link-background-active-mobile: get-color('primary', 'light') !default;
+$navigation-menu-link-margin-top-mobile: 4px !default;
 
 $navigation-menu-item-color: get-color('text', 'inverse-70') !default;
 $navigation-menu-item-font-size: $base-font-size - 1px !default;
@@ -25,3 +35,5 @@ $navigation-menu-link-color-hover-inverse: get-color('text', 'link-hover-on-dark
 
 $navigation-menu-link-responsive-color: get-color('neutral', 'dark') !default;
 $navigation-menu-link-responsive-bg-hover: get-color('neutral', 'grey1') !default;
+
+$navigation-menu-sm-gap-mobile: spacing('xs') !default;

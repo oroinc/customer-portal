@@ -60,14 +60,20 @@
 
 @include breakpoint('mobile-big') {
     .quick-access-button-container {
-        margin: 0;
+        padding: $quick-access-button-inner-offset-mobile-big;
 
-        .btn-label-ellipses {
-            max-width: 100%;
+        .btn {
+            width: 100%;
+            justify-content: start;
+            color: $quick-access-button-color-mobile-big;
+            border: none;
+            padding: 0 spacing('base');
+            border-radius: 0;
+
+            &:focus,
+            &:hover {
+                background-color: $quick-access-button-background-active-mobile-big;
+            }
         }
-    }
-
-    .quick-access-button-menu {
-        max-height: 100%;
     }
 }

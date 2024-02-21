@@ -43,7 +43,6 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
                         'promotional_content' => ['value' => '', 'scope' => 'app'],
                         'top_navigation_menu' => ['value' => false, 'scope' => 'app'],
                         'language_and_currency_switchers' => ['value' => 'always_in_hamburger_menu', 'scope' => 'app'],
-                        'main_navigation_menu' => ['value' => 'commerce_main_menu', 'scope' => 'app'],
                         'standalone_main_menu' => ['value' => false, 'scope' => 'app'],
                         'quick_access_button' => ['value' => null, 'scope' => 'app'],
                         'quick_links' => ['value' => 'commerce_quick_access', 'scope' => 'app'],

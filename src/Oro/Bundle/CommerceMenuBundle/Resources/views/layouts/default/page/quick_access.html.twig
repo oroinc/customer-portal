@@ -11,7 +11,7 @@
         {% set domRelocationOptions = domRelocationOptions|merge([{
             viewport: 'tablet',
             moveTo: '.middlebar__menus',
-            startPointClass: 'navigation-menu--inverse navigation-menu--no-gap',
+            startPointClass: 'navigation-menu--inverse navigation-menu--sm-gap',
             endpointClass: 'navigation-menu--inverse',
             prepend: true
         }]) %}
@@ -20,12 +20,12 @@
     {% set domRelocationOptions = domRelocationOptions|merge([{
         viewport: searchType == 'integrated' ? 'mobile-landscape' : 'mobile-big',
         moveTo: '[data-sidebar-menus-top]',
-        startPointClass: 'navigation-menu--inverse navigation-menu--no-gap',
+        startPointClass: 'navigation-menu--inverse navigation-menu--sm-gap',
         endpointClass: 'navigation-menu__vertical'
     }]) %}
 
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " navigation-menu navigation-menu--inverse navigation-menu--no-gap",
+        '~class': " navigation-menu navigation-menu--inverse navigation-menu--sm-gap",
         'data-dom-relocation-options': {
             responsive: domRelocationOptions
         }|json_encode
@@ -68,7 +68,7 @@
         {% set spanClass = searchType == 'integrated' ? 'hide-label-on-tablet' : 'hide-label-on-mobile-landscape' %}
     {% endif %}
 
-    <span class="{{ spanClass }}">
+    <span class="{{ spanClass|default('') }}">
         {%- if options.allow_safe_labels and item.getExtra('safe_label', false) -%}
             {{- label|oro_html_sanitize -}}
         {% else %}

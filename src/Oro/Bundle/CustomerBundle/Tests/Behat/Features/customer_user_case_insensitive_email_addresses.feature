@@ -78,7 +78,7 @@ Feature: Customer User Case Insensitive Email Addresses
     And click "Sign Out"
 
   Scenario: Check registration is not allowed when same email in lowercase exists when "Case Insensitive Email Addresses" is enabled
-    Given I click "Register"
+    Given I click "Sign Up"
     And Page title equals to "Registration"
     And I should see a "Registration Form" element
     And I fill "Registration Form" with:
@@ -100,7 +100,7 @@ Feature: Customer User Case Insensitive Email Addresses
     Then I should see "Configuration saved" flash message
     When I proceed as the Buyer
     And I am on the homepage
-    And I click "Register"
+    And I click "Sign Up"
     And I fill "Registration Form" with:
       | Company Name     | OroCommerce              |
       | First Name       | Ruth                     |

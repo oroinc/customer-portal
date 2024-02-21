@@ -3,11 +3,11 @@
         '~class': " topbar page-area-container page-header__inner page-header__inner--hide-on-empty page-header__inner--no-vertical-offset"
     }) %}
 
-    {% if oro_config_value('oro_frontend.promotional_content') and oro_config_value('oro_frontend.language_and_currency_switchers') != 'above_header' %}
+    {% if oro_config_value('oro_frontend.promotional_content') == false and oro_config_value('oro_frontend.language_and_currency_switchers') != 'above_header' %}
         {% set attr = layout_attr_defaults(attr, {
             '~class': " hide-on-mobile"
         }) %}
-    {% elseif oro_config_value('oro_frontend.promotional_content') == false and oro_config_value('oro_frontend.language_and_currency_switchers') != 'above_header' %}
+    {% elseif oro_config_value('oro_frontend.promotional_content') == false and oro_config_value('oro_frontend.language_and_currency_switchers') != 'above_header' and oro_config_value('oro_frontend.top_navigation_menu') == '' %}
         {% set attr = layout_attr_defaults(attr, {
             '~class': " hide-on-tablet"
         }) %}
@@ -75,4 +75,3 @@
     </div>
     {% endif %}
 {% endblock %}
-

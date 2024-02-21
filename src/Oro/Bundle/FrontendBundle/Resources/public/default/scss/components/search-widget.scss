@@ -10,6 +10,7 @@
 
     &__input-container {
         flex-basis: 100%;
+        position: relative;
     }
 
     &__input {
@@ -99,6 +100,7 @@
 
         &--full &__input-container {
             padding-left: spacing('base');
+            padding-right: spacing('base');
             flex-basis: 100%;
         }
 
@@ -113,7 +115,6 @@
         }
 
         &--full &__submit {
-            top: spacing('base');
             left: spacing('base');
         }
     }
@@ -127,11 +128,6 @@
 
         &--integrated {
             max-width: $search-widget-wrap-tablet-max-width;
-        }
-
-        &__submit {
-            height: $search-widget-submit-tablet-height;
-            bottom: $search-widget-submit-tablet-bottom;
         }
     }
 }

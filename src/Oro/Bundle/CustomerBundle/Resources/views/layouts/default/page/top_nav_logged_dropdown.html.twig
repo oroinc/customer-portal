@@ -1,10 +1,11 @@
 {% block _top_nav_controls_dropdown_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " customer-menu dropdown hide-block-on-mobile"
+        '~class': " customer-menu dropdown"
     }) %}
 
     {% if searchType == 'integrated' %}
         {% set attr = layout_attr_defaults(attr, {
+            '~class': ' hide-block-on-mobile',
             'data-dom-relocation-options': {
                 responsive: [
                     {

@@ -69,13 +69,6 @@
         z-index: z('base') + 2;
         display: none;
 
-        &__container {
-            position: static;
-
-            flex-grow: 1;
-            flex-basis: auto;
-        }
-
         &__trigger {
             background-color: $header-row-trigger-background-color-tablet;
             border-right: $header-row-trigger-border-tablet;
@@ -99,6 +92,19 @@
 
             &.show {
                 display: block;
+            }
+        }
+
+        &__container {
+            position: static;
+
+            flex-grow: 1;
+            flex-basis: auto;
+
+            &.show-by-hover {
+                .header-row__toggle {
+                    display: flex;
+                }
             }
         }
 

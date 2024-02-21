@@ -8,7 +8,7 @@ Feature: Expired reset password token regeneration
 
   Scenario: Expired reset password token regeneration
     Given I am on the homepage
-    When I click "Sign In"
+    When I click "Log In"
     And I click "Forgot Your Password?"
     And I fill form with:
       | Email Address | test@example.org |

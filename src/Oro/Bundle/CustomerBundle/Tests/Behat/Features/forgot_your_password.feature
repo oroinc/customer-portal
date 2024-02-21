@@ -7,7 +7,7 @@ Feature: Forgot your password
 
   Scenario: Verify validation errors
     Given I am on the homepage
-    When I click "Sign In"
+    When I click "Log In"
     And I click "Forgot Your Password?"
 
     When I fill form with:
@@ -26,7 +26,7 @@ Feature: Forgot your password
 
   Scenario: Verify not existing email address
     Given I am on the homepage
-    When I click "Sign In"
+    When I click "Log In"
     And I click "Forgot Your Password?"
     And I fill form with:
       | Email Address | nonexisting@example.com |
@@ -35,7 +35,7 @@ Feature: Forgot your password
 
   Scenario: Verify recovery message
     Given I am on the homepage
-    When I click "Sign In"
+    When I click "Log In"
     And I click "Forgot Your Password?"
     And I fill form with:
       | Email Address | AmandaRCole@example.org |

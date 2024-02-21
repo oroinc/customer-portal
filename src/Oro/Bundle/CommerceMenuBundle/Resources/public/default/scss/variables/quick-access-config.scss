@@ -1,10 +1,14 @@
 /* @theme: default; */
 
 $quick-access-button-inner-offset: 0 spacing('sm') 0 spacing('lg') !default;
+$quick-access-button-inner-offset-mobile-big: 0 0 4px !default;
 $quick-access-button-label-max-width: 200px !default;
 
 $quick-access-button-focus-color: get-color('neutral', 'focus') !default;
 $quick-access-menu-max-height: 500px !default;
+$quick-access-button-color-mobile-big: get-color('primary', 'main') !default;
+$quick-access-button-background-active-mobile-big: get-color('primary', 'light') !default;
+
 $quick-access-menu-item-color: get-color('text', 'primary') !default;
 $quick-access-menu-divider: 1px solid get-color('neutral', 'grey2') !default;
 $quick-access-menu-margin: spacing('xs') spacing('base') !default;
