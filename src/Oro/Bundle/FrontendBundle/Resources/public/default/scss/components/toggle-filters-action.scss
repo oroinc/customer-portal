@@ -3,6 +3,10 @@
 .toggle-filters-action {
     position: relative;
 
+    // Removing an excess border in case filters in sidebar are used
+    // stylelint-disable-next-line declaration-no-important
+    border-inline-end-color: transparent !important;
+
     .filters-selected &,
     &.filters-selected {
         &::before,
