@@ -4,7 +4,7 @@ Feature: Registration flow and error messages
 
   Scenario: Registration page is visible and after successful registration user should see correct message
     Given I am on homepage
-    And I click "Register"
+    And I click "Sign Up"
     And Page title equals to "Registration"
     And I should see a "Registration Form" element
     And I fill "Registration Form" with:
@@ -18,7 +18,7 @@ Feature: Registration flow and error messages
     Then I should see "Please check your email to complete registration" flash message and I close it
 
   Scenario: Error message should has correct container and text when user already present
-    Given I click "Register"
+    Given I click "Sign Up"
     And I fill "Registration Form" with:
       | Company Name     | OroCommerce              |
       | First Name       | Ruth                     |
@@ -30,7 +30,7 @@ Feature: Registration flow and error messages
     Then I should see that "Customer User Registration Error Container" contains "This email is already used."
 
   Scenario: Error message has correct container and text when registration form has empty field
-    Given I click "Register"
+    Given I click "Sign Up"
     And I fill "Registration Form" with:
       | Company Name     | OroCommerce              |
       | Last Name        | Maxwell                  |
@@ -42,7 +42,7 @@ Feature: Registration flow and error messages
 
   Scenario: Company Name field validation
     Given I am on the homepage
-    And click "Sign In"
+    And click "Log In"
     And click "Create An Account"
     When I fill form with:
       | First Name        | Dan           |

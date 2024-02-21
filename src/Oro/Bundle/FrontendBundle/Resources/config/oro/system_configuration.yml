@@ -101,16 +101,6 @@ system_configuration:
                     oro_frontend.system_configuration.fields.language_and_currency_switchers.choices.above_the_header: 'above_header'
                     oro_frontend.system_configuration.fields.language_and_currency_switchers.choices.hamburger: 'always_in_hamburger_menu'
 
-        oro_frontend.main_navigation_menu:
-            data_type: string
-            type: Oro\Bundle\NavigationBundle\Form\Type\MenuChoiceType
-            options:
-                label: oro_frontend.system_configuration.fields.main_navigation_menu.label
-                scope_type: menu_frontend_visibility
-                required: true
-                constraints:
-                    - NotBlank: ~
-
         oro_frontend.standalone_main_menu:
             data_type: boolean
             type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
@@ -172,7 +162,6 @@ system_configuration:
                                             - oro_frontend.promotional_content
                                             - oro_frontend.top_navigation_menu
                                             - oro_frontend.language_and_currency_switchers
-                                            - oro_frontend.main_navigation_menu
                                             - oro_frontend.standalone_main_menu
                                             - oro_frontend.quick_access_button
                                             - oro_frontend.quick_links

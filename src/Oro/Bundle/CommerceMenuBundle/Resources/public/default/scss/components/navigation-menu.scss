@@ -7,6 +7,10 @@
     justify-content: flex-end;
     gap: $navigation-menu-gap;
 
+    &--sm-gap {
+        gap: $navigation-menu-sm-gap;
+    }
+
     &--align-end {
         margin-left: auto;
     }
@@ -46,9 +50,11 @@
         font-weight: font-weight('semi-bold');
         text-decoration: none;
 
-        &:hover {
-            text-decoration: none;
-            color: $navigation-menu-link-color-hover;
+        @media (hover: hover) {
+            &:hover {
+                text-decoration: none;
+                color: $navigation-menu-link-color-hover;
+            }
         }
     }
 
@@ -61,18 +67,22 @@
         font-weight: font-weight('normal');
         text-decoration: underline;
 
-        &:hover {
-            color: $navigation-menu-link-color-hover-inverse;
+        @media (hover: hover) {
+            &:hover {
+                color: $navigation-menu-link-color-hover-inverse;
 
-            text-decoration: none;
+                text-decoration: none;
+            }
         }
     }
 
     &--inverse &__button {
         color: $navigation-menu-link-color-inverse;
 
-        &:hover {
-            background: $navigation-menu-button-background-color-hover;
+        @media (hover: hover) {
+            &:hover {
+                background: $navigation-menu-button-background-color-hover;
+            }
         }
     }
 
@@ -86,8 +96,55 @@
         justify-content: start;
         padding: $navigation-menu-vertical-item-inner-offset;
 
-        &:hover {
+        @media (hover: hover) {
+            &:hover {
+                background: $navigation-menu-button-background-color-hover;
+            }
+        }
+
+        &:active {
             background: $navigation-menu-button-background-color-hover;
+        }
+    }
+}
+
+@include breakpoint('mobile') {
+    .navigation-menu {
+        gap: $navigation-menu-gap-mobile;
+
+        &--sm-gap {
+            gap: $navigation-menu-sm-gap-mobile;
+        }
+
+        &__button {
+            + .navigation-menu__button {
+                margin-top: $navigation-menu-link-margin-top-mobile;
+            }
+
+            width: 100%;
+            justify-content: start;
+            color: $navigation-menu-link-color-mobile;
+            font-weight: font-weight('semi-bold');
+            padding: 0 spacing('base');
+
+            &:active {
+                color: $navigation-menu-link-color-active-mobile;
+                background-color: $navigation-menu-link-background-active-mobile;
+            }
+        }
+
+        &__button--side-menu {
+            &:active {
+                color: $navigation-menu-vertical-link-color-mobile;
+                background-color: $navigation-menu-vertical-link-background-active-mobile;
+            }
+
+            @media (hover: hover) {
+                &:hover {
+                    color: $navigation-menu-vertical-link-color-mobile;
+                    background-color: $navigation-menu-vertical-link-background-active-mobile;
+                }
+            }
         }
     }
 }

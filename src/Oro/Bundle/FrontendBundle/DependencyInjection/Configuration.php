@@ -19,7 +19,6 @@ class Configuration implements ConfigurationInterface
     public const PROMOTIONAL_CONTENT = 'promotional_content';
     public const TOP_NAVIGATION_MENU = 'top_navigation_menu';
     public const LANGUAGE_AND_CURRENCY_SWITCHERS = 'language_and_currency_switchers';
-    public const MAIN_NAVIGATION_MENU = 'main_navigation_menu';
     public const STANDALONE_MAIN_MENU = 'standalone_main_menu';
     public const QUICK_ACCESS_BUTTON = 'quick_access_button';
     public const QUICK_LINKS = 'quick_links';
@@ -44,7 +43,6 @@ class Configuration implements ConfigurationInterface
                 self::PROMOTIONAL_CONTENT => ['type' => 'integer', 'value' => null],
                 self::TOP_NAVIGATION_MENU => ['type' => 'string', 'value' => false],
                 self::LANGUAGE_AND_CURRENCY_SWITCHERS => ['type' => 'string', 'value' => 'always_in_hamburger_menu'],
-                self::MAIN_NAVIGATION_MENU => ['type' => 'string', 'value' => 'commerce_main_menu'],
                 self::STANDALONE_MAIN_MENU => ['type' => 'boolean', 'value' => false],
                 self::QUICK_ACCESS_BUTTON => ['type' => 'object', 'value' => null],
                 self::QUICK_LINKS => ['type' => 'string', 'value' => 'commerce_quick_access'],

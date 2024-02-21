@@ -14,11 +14,11 @@ Feature: Reset customer user password
   Scenario: Ensure customer user can log in
     Given I proceed as the Unauthorized
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I fill form with:
       | Email Address | NancyJSallee@example.org |
       | Password      | NancyJSallee@example.org |
-    When I click "Sign In"
+    When I click "Log In"
     Then I should see "Nancy Sallee"
     And I click "Account Dropdown"
     And I click "Sign Out"
@@ -43,11 +43,11 @@ Feature: Reset customer user password
   Scenario: Check that customer user cannot log in
     Given I proceed as the Unauthorized
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I fill form with:
       | Email Address | NancyJSallee@example.org |
       | Password      | NancyJSallee@example.org |
-    When I click "Sign In"
+    When I click "Log In"
     Then I should see "Your login was unsuccessful"
 
   Scenario: Reset password by emails link
@@ -62,11 +62,11 @@ Feature: Reset customer user password
   Scenario: Login with new password
     Given I proceed as the Unauthorized
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I fill form with:
       | Email Address | NancyJSallee@example.org |
       | Password      | NancyJSallee@example.org1 |
-    When I click "Sign In"
+    When I click "Log In"
     Then I should see "Nancy Sallee"
     And I click "Account Dropdown"
     And I click "Sign Out"
@@ -94,11 +94,11 @@ Feature: Reset customer user password
   Scenario: Check that customer user cannot log in after the password was reset on store front
     Given I proceed as the Unauthorized
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I fill form with:
       | Email Address | NancyJSallee@example.org |
       | Password      | NancyJSallee@example.org1 |
-    When I click "Sign In"
+    When I click "Log In"
     Then I should see "Your login was unsuccessful"
 
   Scenario: Reset password by emails link
@@ -113,11 +113,11 @@ Feature: Reset customer user password
   Scenario: Login with new password
     Given I proceed as the Unauthorized
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I fill form with:
       | Email Address | NancyJSallee@example.org |
       | Password      | NancyJSallee@example.org2 |
-    When I click "Sign In"
+    When I click "Log In"
     Then I should see "Nancy Sallee"
     And I click "Account Dropdown"
     And I click "Sign Out"

@@ -1,6 +1,6 @@
 {% block _top_authorization_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' navigation-menu navigation-menu--inverse'
+        '~class': ' navigation-menu navigation-menu--inverse navigation-menu--sm-gap'
     }) %}
 
     <div {{ block('block_attributes') }}>
@@ -11,21 +11,59 @@
 {% block _top_sign_in_link_widget %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' navigation-menu__inner navigation-menu__link text-nowrap',
+        '~class': ' navigation-menu__button navigation-menu__inner text-nowrap',
         'href': path(route_name)
     }) %}
+
+    {% if oro_config_value('oro_shopping_list.availability_for_guests') == true %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': ' hide-block-on-mobile',
+            'data-dom-relocation-options': {
+                responsive: [
+                    {
+                        viewport: 'mobile',
+                        moveTo: '[data-sidebar-menus-top]',
+                        endpointClass: 'navigation-menu__button--side-menu'
+                    }
+                ]
+            }|json_encode
+        }) %}
+    {% endif %}
+
     <a {{ block('block_attributes') }}>
-        {{ renderIcon.icon({name: 'user', extraClass: 'theme-icon--medium'}) }}
-        {{ text|trans -}}
+        {{ renderIcon.icon({name: 'log-in'}) }}
+        <span class="hide-label-on-{{ oro_config_value('oro_product.guest_quick_order_form') == true ? 'tablet' : 'mobile-big' }}">
+            {{- text|trans -}}
+        </span>
     </a>
 {% endblock %}
 
 {% block _top_registration_link_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' navigation-menu__inner navigation-menu__link',
+        '~class': ' navigation-menu__button navigation-menu__inner text-nowrap',
         'href': path(route_name)
     }) %}
+
+    {% if oro_config_value('oro_shopping_list.availability_for_guests') == true %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': ' hide-block-on-mobile',
+            'data-dom-relocation-options': {
+                responsive: [
+                    {
+                        viewport: 'mobile',
+                        moveTo: '[data-sidebar-menus-top]',
+                        endpointClass: 'navigation-menu__button--side-menu'
+                    }
+                ]
+            }|json_encode
+        }) %}
+    {% endif %}
+
     <a {{ block('block_attributes') }}>
-        {{- text|trans -}}
+        {{ renderIcon.icon({name: 'user'}) }}
+        <span class="hide-label-on-{{ oro_config_value('oro_product.guest_quick_order_form') == true ? 'tablet' : 'mobile-big' }}">
+            {{- text|trans -}}
+        </span>
     </a>
 {% endblock %}

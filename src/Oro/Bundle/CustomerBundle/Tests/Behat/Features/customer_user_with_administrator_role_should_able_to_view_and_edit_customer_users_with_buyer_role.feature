@@ -11,7 +11,7 @@ Feature: Customer User with administrator role should able to view and edit Cust
   Scenario: Create new user and edit him
     Given I proceed as the User
     And I am on the homepage
-    And click "Sign In"
+    And click "Log In"
     And click "Create An Account"
     And fill form with:
       | Company Name     | TestCompany        |

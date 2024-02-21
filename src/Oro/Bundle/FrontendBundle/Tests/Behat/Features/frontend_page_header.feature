@@ -99,7 +99,7 @@ Feature: Frontend Page Header
     And I fill form with:
       | Top Navigation Menu             |                       |
       | Language and Currency Switchers | Above the header      |
-      | Quick Access Button             | frontend_menu         |
+      | Quick Access Button             | Frontend Menu         |
       | Standalone Main Menu            | false                 |
       | Quick Links                     | commerce_quick_access |
       | Quick Access Button Label       | Test Label            |

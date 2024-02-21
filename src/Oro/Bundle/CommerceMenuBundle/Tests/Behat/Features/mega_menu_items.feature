@@ -54,6 +54,8 @@ Feature: Mega Menu Items
     Given I proceed as the Buyer
     And I reload the page
     And I should see "Node-1 / Node with loooooooooooooooong name" in main menu
+    And I reload the page
+    And I click on "Main Menu Button"
     And I hover on "Node1"
     When I hover on "NodeWithLongName"
     Then I should see "Node with loooooooooooooooong name" in the "Tooltip" element
@@ -67,7 +69,7 @@ Feature: Mega Menu Items
     And I hover on "Node1_3"
     And I should not see an "Node1_1Active" element
     And I should see an "Node1_3Active" element
-    And I click "Close Fullscreen Popup"
+    And I reload the page
     Then I click on "Main Menu Button"
     And I hover on "Node1"
     And I should not see an "Node1_1Active" element

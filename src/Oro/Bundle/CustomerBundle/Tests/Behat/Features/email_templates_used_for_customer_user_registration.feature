@@ -22,7 +22,7 @@ Feature: Email templates used for customer user registration
   Scenario: Check email send to the customer user when register by itself
     Given I proceed as the User
     And I am on the homepage
-    And click "Sign In"
+    And click "Log In"
     And click "Create An Account"
     And I fill "Registration Form" with:
       | Company Name     | OroCommerce              |
