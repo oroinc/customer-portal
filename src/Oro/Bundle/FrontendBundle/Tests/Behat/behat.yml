@@ -224,3 +224,11 @@ oro_behat_extension:
       selector: '.page-header__inner--standalone-menu'
     StandaloneMenu:
       selector: '.main-menu-standalone-mode'
+    Theme Settings Form:
+      selector: 'form[id^="theme"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Quick Access Button Label: 'theme[oro_frontend___quick_access_button][value][label][default]'
+          Quick Access Button Type: 'theme[oro_frontend___quick_access_button][value][type]'
+          Quick Access Button Frontend Menu: 'theme[oro_frontend___quick_access_button][value][menu]'

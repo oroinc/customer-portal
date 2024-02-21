@@ -15,7 +15,7 @@ const SidePanelHeader = BaseView.extend({
     desktopMode: false,
 
     listen: {
-        'viewport:tablet mediator': 'render'
+        'viewport:mobile-big mediator': 'render'
     },
 
     constructor: function SidePanelHeader(...args) {
@@ -35,7 +35,7 @@ const SidePanelHeader = BaseView.extend({
     },
 
     isFullscreen() {
-        return viewportManager.isApplicable('tablet');
+        return viewportManager.isApplicable('mobile-big');
     }
 });
 

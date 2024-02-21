@@ -28,3 +28,9 @@ $main-menu-multi-container-edge-desktop-width: 1216px !default;
 $main-menu-multi-container-edge-desktop-max-width: calc(100vw - 16px) !default;
 $main-menu-multi-container-edge-desktop-margin-inline-end: auto !default;
 $main-menu-multi-container-edge-desktop-flex-shrink: 0 !default;
+
+/* Menu Stack Mode */
+$main-menu-multi-stack-mode-container-title-inner-color: get-color('text', 'primary') !default;
+
+$main-menu-multi-stack-mode-container-title-hover-color: get-color('primary', 'hover') !default;
+$main-menu-multi-stack-mode-container-title-hover-background: get-color('primary', 'light') !default;

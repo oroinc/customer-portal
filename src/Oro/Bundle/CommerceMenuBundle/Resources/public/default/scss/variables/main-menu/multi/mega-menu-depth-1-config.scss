@@ -24,7 +24,7 @@ $mega-menu-depth-1-close-inset-inline-end: 20px !default;
 $mega-menu-depth-1-title-font-size: $base-font-size !default;
 $mega-menu-depth-1-title-line-height: 1.5 !default;
 $mega-menu-depth-1-title-margin-bottom: 24px !default;
-$mega-menu-depth-1-title-padding-inline-end: 32px !default;
+$mega-menu-depth-1-title-padding-inline: 40px spacing('lg') !default;
 
 $mega-menu-depth-1-title-inner-color: get-color('primary', 'main') !default;
 $mega-menu-depth-1-title-inner-text-decoration: underline !default;
@@ -35,6 +35,11 @@ $mega-menu-depth-1-title-hover-inner-text-decoration: none !default;
 $mega-menu-depth-1-inner-edge-desktop-min-height: 100% !default;
 $mega-menu-depth-1-inner-edge-desktop-max-height: 734px !default;
 $mega-menu-depth-1-inner-edge-desktop-bottom: auto !default;
+
+// Main stack menu mode
+$mega-menu-depth-1-stack-mode-title-hover-inner-color: get-color('primary', 'hover') !default;
+
+$mega-menu-depth-1-stack-mode-inner-box-shadow: 0 0 0 1px get-color('neutral', 'grey2') !default;
 
 // Tablet
 $mega-menu-depth-1-list-tablet-height: 100% !default;
@@ -48,9 +53,11 @@ $mega-menu-depth-1-inner-mobile-big-left: 100% !default;
 $mega-menu-depth-1-inner-mobile-big-bottom: 0 !default;
 $mega-menu-depth-1-inner-mobile-big-z-index: z('base') + 2 !default;
 $mega-menu-depth-1-inner-mobile-big-width: 100% !default;
-$mega-menu-depth-1-inner-mobile-big-background: get-color('additional-old', 'ultra') !default;
-$mega-menu-depth-1-inner-mobile-big-transition: left .4s linear !default;
+$mega-menu-depth-1-inner-mobile-big-background: get-color('neutral', 'white-100') !default;
+$mega-menu-depth-1-inner-mobile-big-transition: left 230ms cubic-bezier(.5, .5, .25, 1),
+    opacity 230ms cubic-bezier(.5, .5, .25, 1) !default;
 
 $mega-menu-depth-1-inner-mobile-big-current-left: 0 !default;
 
 $mega-menu-depth-1-title-mobile-big-display: none !default;
+$mega-menu-depth-1-title-mobile-big-inner-color: get-color('text', 'primary') !default;

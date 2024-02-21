@@ -47,6 +47,17 @@ const SidePanelView = FullScreenPopupView.extend({
         return promise;
     },
 
+    remove() {
+        if (this.$backdrop) {
+            this.$backdrop.remove();
+            delete this.$backdrop;
+        }
+
+        document.body.classList.remove('no-scroll-safe');
+
+        SidePanelView.__super__.remove.call(this);
+    },
+
     close() {
         if (!this.$popup) {
             return;

@@ -18,3 +18,7 @@ $main-menu-columns-single-inner-offset: 0 !default;
 
 $main-menu-columns-display-tablet: block !default;
 $main-menu-columns-inner-offset-tablet: 0 !default;
+
+/* Menu Stack Mode */
+$main-menu-columns-stack-mode-title-link-color: get-color('text', 'primary') !default;
+$main-menu-columns-item-background-hover: get-color('primary', 'light') !default;

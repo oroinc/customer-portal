@@ -16,7 +16,7 @@
                     href="{{ oro_commercemenu_get_url(menu_item.uri) }}"
                     class="main-menu-columns__title-link"
                 >
-                    {{- menu_item.label -}}
+                    {{- 'oro.commercemenu.frontend.navigation.section_title'|trans({'%section_title%': menu_item.label}) -}}
                 </a>
             </div>
             <div class="main-menu-columns">

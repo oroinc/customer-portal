@@ -18,7 +18,7 @@ layout:
                     blockType: container
                     options:
                         vars:
-                            hoverPriority: true
+                            hoverPriority: '=data["system_config_provider"].getValue("oro_frontend.standalone_main_menu")'
                 main_menu_back_trigger:
                     blockType: block
                 main_menu_extra_container:

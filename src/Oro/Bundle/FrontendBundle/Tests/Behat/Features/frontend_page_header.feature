@@ -26,18 +26,19 @@ Feature: Frontend Page Header
       | Enabled Currencies | [US Dollar ($), Euro (€)] |
     And I submit form
     Then I should see "Configuration saved" flash message
-
     When I follow "Commerce/Design/Theme" on configuration sidebar
     And uncheck "Use default" for "Top Navigation Menu" field
     And uncheck "Use default" for "Language and Currency Switchers" field
     And uncheck "Use default" for "Quick Access Button" field
     And uncheck "Use default" for "Standalone Main Menu" field
     And uncheck "Use default" for "Quick Links" field
-    And I fill form with:
-      | Top Navigation Menu             | commerce_top_nav         |
-      | Language and Currency Switchers | always_in_hamburger_menu |
-      | Quick Access Button             | frontend_menu            |
-      | Standalone Main Menu            | true                     |
+    And I fill "Theme Settings Form" with:
+      | Top Navigation Menu               | commerce_top_nav         |
+      | Language and Currency Switchers   | always_in_hamburger_menu |
+      | Quick Access Button Label         | Product                  |
+      | Quick Access Button Type          | Frontend Menu            |
+      | Quick Access Button Frontend Menu | frontend_menu            |
+      | Standalone Main Menu              | true                     |
     And I submit form
     Then I should see "Configuration saved" flash message
 
@@ -67,12 +68,12 @@ Feature: Frontend Page Header
 
   Scenario: Promotional content block - no, top navigation menu - no, language/currency switching - no, quick access button - yes, standalone main menu - no, quick links - yes
     Given I proceed as the Admin
-    When I fill form with:
-      | Top Navigation Menu             |                          |
-      | Language and Currency Switchers | always_in_hamburger_menu |
-      | Quick Access Button             | frontend_menu            |
-      | Standalone Main Menu            | false                    |
-      | Quick Links                     | commerce_quick_access    |
+    And I fill "Theme Settings Form" with:
+      | Top Navigation Menu               |                          |
+      | Language and Currency Switchers   | always_in_hamburger_menu |
+      | Quick Access Button Frontend Menu | frontend_menu            |
+      | Standalone Main Menu              | false                    |
+      | Quick Links                       | commerce_quick_access    |
     And I submit form
     Then I should see "Configuration saved" flash message
 
@@ -95,14 +96,13 @@ Feature: Frontend Page Header
 
   Scenario: Promotional content block - yes, top navigation menu - no, language/currency switcher - yes, quick access button - yes, standalone main menu - no, quick links - yes.
     Given I proceed as the Admin
-    When uncheck "Use default" for "Quick Access Button Label" field
-    And I fill form with:
-      | Top Navigation Menu             |                       |
-      | Language and Currency Switchers | Above the header      |
-      | Quick Access Button             | frontend_menu         |
-      | Standalone Main Menu            | false                 |
-      | Quick Links                     | commerce_quick_access |
-      | Quick Access Button Label       | Test Label            |
+    And I fill "Theme Settings Form" with:
+      | Top Navigation Menu               |                       |
+      | Language and Currency Switchers   | Above the header      |
+      | Quick Access Button Frontend Menu | frontend_menu         |
+      | Standalone Main Menu              | false                 |
+      | Quick Links                       | commerce_quick_access |
+      | Quick Access Button Label         | Test Label            |
     And I submit form
     Then I should see "Configuration saved" flash message
 
@@ -119,10 +119,10 @@ Feature: Frontend Page Header
 
   Scenario: Promotional content block - yes, top navigation menu - yes, language/currency switcher - yes,  quick access button - no, standalone main menu - yes, quick links - yes.
     Given I proceed as the Admin
-    When I fill form with:
+    When I fill "Theme Settings Form" with:
       | Top Navigation Menu             | commerce_top_nav      |
       | Language and Currency Switchers | Above the header      |
-      | Quick Access Button             |                       |
+      | Quick Access Button Type        | None                  |
       | Standalone Main Menu            | true                  |
       | Quick Links                     | commerce_quick_access |
       | Quick Access Button Label       | Product               |
@@ -133,7 +133,7 @@ Feature: Frontend Page Header
     When I reload the page
     Then I should see "PageStandaloneMenuContainer" element with text "Quick Order" inside "Header" element
     And I should see "MiddleBarMenus" element with text "Amanda Cole" inside "Header" element
-    And I should see "MiddleLeftSide" element with text "Product" inside "Header" element
+    And I should not see "MiddleLeftSide" element with text "Product" inside "Header" element
     And I should see "TopRightBar" element with text "1-800-555-5555 Contact Us" inside "Header" element
     And I should see "Header" element with text "Resource Library About Contact Us" inside "Header" element
 
@@ -145,7 +145,7 @@ Feature: Frontend Page Header
   Scenario: Search on smaller screens - standalone.
     Given I proceed as the Admin
     When uncheck "Use default" for "Search On Smaller Screens" field
-    And I fill form with:
+    And I fill "Theme Settings Form" with:
       | Search On Smaller Screens | Standalone |
     And I submit form
     Then I should see "Configuration saved" flash message

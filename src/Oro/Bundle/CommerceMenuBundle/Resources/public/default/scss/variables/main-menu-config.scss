@@ -45,7 +45,6 @@ $main-menu-button-only-child-display: none !default;
 $main-menu-back-trigger-text-transform: uppercase !default;
 $main-menu-back-trigger-font-weight: font-weight('bold') !default;
 $main-menu-back-trigger-margin: 0 !default;
-$main-menu-back-trigger-display: none !default;
 
 $main-menu-back-trigger-use-base-style: true !default;
 $main-menu-back-trigger-padding: 7px 0 !default;
@@ -56,9 +55,9 @@ $main-menu-back-trigger-color: color.adjust(get-color('additional-old', 'dark'),
 $main-menu-back-trigger-appearance: true !default;
 
 $main-menu-back-trigger-fullscreen-position: absolute !default;
-$main-menu-back-trigger-fullscreen-top: 0 !default;
-$main-menu-back-trigger-fullscreen-z-index: z('base') + 1 !default;
-$main-menu-back-trigger-fullscreen-display: block !default;
+$main-menu-back-trigger-fullscreen-top: spacing('base') !default;
+$main-menu-back-trigger-fullscreen-z-index: z('base') + 3 !default;
+$main-menu-back-trigger-fullscreen-display: flex !default;
 
 $main-menu-link-text-align: center !default;
 $main-menu-link-text-decoration: none !default;
@@ -135,9 +134,8 @@ $main-menu-sublist-stack-width: auto !default;
 $main-menu-outer-container-desktop-display: flex !default;
 $main-menu-outer-container-desktop-justify-content: center !default;
 $main-menu-outer-desktop-display: flex !default;
-$main-menu-outer-tablet-icon: get-color('additional-old', 'dark') !default;
 
-$main-menu-sublist-container-background: get-color('additional-old', 'ultra') !default;
+$main-menu-sublist-container-background: get-color('neutral', 'white-100') !default;
 
 $main-menu-sublist-container-before-content: #{"''"} !default;
 $main-menu-sublist-container-before-width: 100% !default;
@@ -145,23 +143,21 @@ $main-menu-sublist-container-before-height: spacing('base') !default;
 $main-menu-sublist-container-before-position: absolute !default;
 $main-menu-sublist-container-before-inset: auto 0 calc(100% + 1px) !default;
 
-$main-menu-item-show-mobile-version-background: get-color('additional-old', 'base') !default;
-
 $main-menu-standalone-backdrop-background-color: get-color('neutral', 'dark') !default;
 $main-menu-standalone-backdrop-opacity: .6 !default;
 $main-menu-standalone-backdrop-z-index: $zindex-modal-bg !default;
 $main-menu-standalone-header-z-index: $zindex-modal !default;
 
 // Tablet styles
-$main-menu-tablet-border: 1px solid color.adjust(get-color('additional-old', 'base'), $lightness: -5%) !default;
 
-$main-menu-actions-grid-template-columns: 32px auto 1fr 32px 32px !default;
+$main-menu-actions-grid-template-columns: auto auto 1fr 32px 20px !default;
+$main-menu-actions-margin-inline: spacing('lg') !default;
 
 $main-menu-link-only-child-keys-padding: 0 64px 0 16px !default;
 
 $main-menu-button-padding: 0 56px 0 8px !default;
 
-$main-menu-sublist-tablet-background: get-color('additional-old', 'ultra') !default;
+$main-menu-sublist-tablet-background: get-color('neutral', 'white-100') !default;
 $main-menu-sublist-tablet-position: absolute !default;
 $main-menu-sublist-tablet-top: var(--main-menu-offset-top) !default;
 $main-menu-sublist-tablet-bottom: var(--main-menu-offset-bottom, 0) !default;
@@ -174,9 +170,16 @@ $main-menu-sublist-current-tablet-left: 0 !default;
 $main-menu-sublist-container-tablet-height: 100%;
 $main-menu-sublist-container-tablet-overflow: auto;
 
-$main-menu-button-arrow-icon: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path fill="%23000" fill-rule="evenodd" d="M5.293 8.293a1 1 0 0 1 1.414 0L12 13.586l5.293-5.293a1 1 0 1 1 1.414 1.414l-6 6a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 0-1.414Z"></path></svg>') !default;
+$main-menu-button-close-icon: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path fill="%23000" fill-rule="evenodd" d="M18.7071 6.70711C19.0976 6.31658 19.0976 5.68342 18.7071 5.29289C18.3166 4.90237 17.6834 4.90237 17.2929 5.29289L12 10.5858L6.70711 5.29289C6.31658 4.90237 5.68342 4.90237 5.29289 5.29289C4.90237 5.68342 4.90237 6.31658 5.29289 6.70711L10.5858 12L5.29289 17.2929C4.90237 17.6834 4.90237 18.3166 5.29289 18.7071C5.68342 19.0976 6.31658 19.0976 6.70711 18.7071L12 13.4142L17.2929 18.7071C17.6834 19.0976 18.3166 19.0976 18.7071 18.7071C19.0976 18.3166 19.0976 17.6834 18.7071 17.2929L13.4142 12L18.7071 6.70711Z"></path></svg>') !default;
+$main-menu-button-chevron-left-icon: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path fill="%23000" fill-rule="evenodd" d="M15.7071 5.29289C16.0976 5.68342 16.0976 6.31658 15.7071 6.70711L10.4142 12L15.7071 17.2929C16.0976 17.6834 16.0976 18.3166 15.7071 18.7071C15.3166 19.0976 14.6834 19.0976 14.2929 18.7071L8.29289 12.7071C7.90237 12.3166 7.90237 11.6834 8.29289 11.2929L14.2929 5.29289C14.6834 4.90237 15.3166 4.90237 15.7071 5.29289Z"></path></svg>') !default;
+
 $main-menu-button-arrow-display: inline-block !default;
 
 // Full screen mode
 $main-menu-button-arrow-fullscreen-offset: 12px !default;
 $main-menu-button-arrow-fullscreen-text-align: right !default;
+
+// Stack mode
+$main-menu-stack-mode-actions-height: 60px !default;
+$main-menu-stack-mode-actions-margin-inline: spacing('lg') !default;
+$main-menu-stack-mode-button-inset: 0 -#{spacing('lg')} !default;

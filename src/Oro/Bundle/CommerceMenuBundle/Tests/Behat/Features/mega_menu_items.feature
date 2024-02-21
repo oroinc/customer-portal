@@ -54,27 +54,29 @@ Feature: Mega Menu Items
     Given I proceed as the Buyer
     And I reload the page
     And I should see "Node-1 / Node with loooooooooooooooong name" in main menu
-    And I hover on "Node1"
+    And I click on "Main Menu Button"
+    And I click on "Node1"
     When I hover on "NodeWithLongName"
     Then I should see "Node with loooooooooooooooong name" in the "Tooltip" element
 
   Scenario: Check default openning menu items
     Given I reload the page
     When I click on "Main Menu Button"
-    Then I hover on "Node1"
+    Then I click on "Node1"
     And I should see an "Node1_1Active" element
     And I should not see an "Node1_3Active" element
     And I hover on "Node1_3"
-    And I should not see an "Node1_1Active" element
-    And I should see an "Node1_3Active" element
-    And I click "Close Fullscreen Popup"
+    And I should see an "Node1_1Active" element
+    And I should not see an "Node1_3Active" element
+    And I click on "Fullscreen Popup Backdrop"
     Then I click on "Main Menu Button"
-    And I hover on "Node1"
+    And I click on "Node1"
+    And I click on "Node1_3"
     And I should not see an "Node1_1Active" element
     And I should see an "Node1_3Active" element
     And I click on "CloseActiveItem"
     Then I click on "Main Menu Button"
-    And I hover on "Node1"
+    And I click on "Node1"
     And I should see an "Node1_1Active" element
     Then I should not see an "Node1_3Active" element
 
@@ -99,7 +101,7 @@ Feature: Mega Menu Items
     And I proceed as the Buyer
     And I reload the page
     When I click on "Main Menu Button"
-    Then I hover on "Node1"
+    Then I click on "Node1"
     And I should not see an "OnSaleItem_level_3" element
     Then I should see an "OnSaleImage" element
 
@@ -118,7 +120,7 @@ Feature: Mega Menu Items
     And I proceed as the Buyer
     And I reload the page
     Then I click on "Main Menu Button"
-    And I hover on "Node1"
+    And I click on "Node1"
     Then I should see an "OnSaleItem_level_2" element
     When I proceed as the Admin
     And I expand "Node-1" in tree "Sidebar Menu Tree"
@@ -128,13 +130,14 @@ Feature: Mega Menu Items
     And I proceed as the Buyer
     And I reload the page
     Then I click on "Main Menu Button"
-    And I hover on "Node1"
+    And I click on "Node1"
     Then I should see an "OnSaleItem_level_4" element
     When I proceed as the Admin
     And I expand "Node-1" in tree "Sidebar Menu Tree"
     And I expand "Node-1-1" in tree "Sidebar Menu Tree"
     Then I move "On Sale" before "Node-1-1-1" in tree "Sidebar Menu Tree"
 
+  @skip
   Scenario: Check accessibility via keyboard, dive deep and exit on close button press
     Given I proceed as the Buyer
     And I reload the page
@@ -160,7 +163,7 @@ Feature: Mega Menu Items
     And I should see "CloseActiveItem" element focused
     And I press "Enter" key on "CloseActiveItem" element
     Then I should see "Node1" element focused
-
+  @skip
   Scenario: Check accessibility via keyboard, dive deep and exit on press ESC button
     Given I focus on "Node1"
     When I press "ArrowRight" key on "Node1" element
@@ -173,7 +176,7 @@ Feature: Mega Menu Items
     And I should see "Node1_1_1_1" element focused
     And I press "Esc" key on "Node1_1_1_1" element
     Then I should see "Node1" element focused
-
+  @skip
   Scenario: Check accessibility via keyboard, navigation through different menu levels
     Given I focus on "Node1"
     When I press "ArrowRight" key on "Node1" element

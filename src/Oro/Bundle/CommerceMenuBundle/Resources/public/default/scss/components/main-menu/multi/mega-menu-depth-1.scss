@@ -21,10 +21,7 @@
     }
 
     &__title {
-        font-size: $mega-menu-depth-1-title-font-size;
-        line-height: $mega-menu-depth-1-title-line-height;
-        margin-bottom: $mega-menu-depth-1-title-margin-bottom;
-        padding-inline-end: $mega-menu-depth-1-title-padding-inline-end;
+        text-decoration: underline;
 
         &-inner {
             color: $mega-menu-depth-1-title-inner-color;
@@ -33,6 +30,56 @@
             &:hover {
                 color: $mega-menu-depth-1-title-hover-inner-color;
                 text-decoration: $mega-menu-depth-1-title-hover-inner-text-decoration;
+            }
+        }
+    }
+}
+
+@at-root {
+    .main-menu-stack-mode {
+        .mega-menu-depth-1 {
+            @include main-menu-stack-actions-arrow();
+
+            &__button {
+                padding: 0;
+                margin: 0;
+            }
+
+            &__actions {
+                height: 44px;
+
+                &:after {
+                    transform: rotate(0deg);
+                }
+            }
+
+            &__title {
+                &-inner {
+                    display: inline-grid;
+                    align-items: center;
+                    padding: 0 24px 0 40px;
+                    height: 44px;
+
+                    @media (hover: hover) {
+                        &:hover {
+                            color: $mega-menu-depth-1-stack-mode-title-hover-inner-color;
+                            text-decoration: none;
+                        }
+                    }
+                }
+            }
+
+            &__close {
+                inset-block-start: spacing('sm');
+                inset-inline-end: spacing('lg');
+            }
+
+            &__link {
+                font-weight: normal;
+            }
+
+            &__actions:only-child .mega-menu-depth-1__link:not(.focus-via-arrows-keys:focus) {
+                padding: 0;
             }
         }
     }
@@ -54,12 +101,15 @@
             inset-block: $mega-menu-depth-1-inner-inset-block;
             inset-inline: $mega-menu-depth-1-inner-inset-inline;
             z-index: $mega-menu-depth-1-inner-z-index;
+            gap: spacing('lg');
 
             .main-menu-stack-mode & {
-                width: 100%;
                 position: absolute;
                 left: 100%;
                 z-index: 0;
+                padding-inline: 0;
+
+                box-shadow: $mega-menu-depth-1-stack-mode-inner-box-shadow;
             }
         }
 
@@ -67,16 +117,29 @@
             display: $mega-menu-depth-1-inner-current-display;
         }
     }
+
+    .main-menu-stack-mode {
+        .mega-menu-depth-1 {
+            &__item .mega-menu-depth-1__inner {
+                padding-block-start: var(--main-menu-offset-top, 60px);
+                grid-gap: 0;
+                min-width: max-content;
+            }
+
+            &__actions {
+                margin-inline: 40px 24px;
+            }
+
+            &__button {
+                margin: 0;
+                padding: 0;
+            }
+        }
+    }
 }
 
 @include breakpoint('desktop-small') {
     .mega-menu-depth-1 {
-        &__inner {
-            .main-menu-stack-mode & {
-                top: calc(0px - #{$main-menu-sublist-tablet-top});
-            }
-        }
-
         .main-menu__inner--edge & {
             &__list {
                 max-height: $mega-menu-depth-1-inner-edge-desktop-max-height;
@@ -102,15 +165,23 @@
         &__list {
             height: $mega-menu-depth-1-list-tablet-height;
         }
-
-        &__close {
-            display: $mega-menu-depth-1-close-tablet-display;
-        }
     }
 }
 
 @include breakpoint('mobile-big') {
     .mega-menu-depth-1 {
+        &__close {
+            display: none;
+        }
+
+        &__button {
+            font-weight: font-weight('normal');
+        }
+
+        &__actions {
+            margin-inline: spacing('base');
+        }
+
         &__inner {
             position: $mega-menu-depth-1-inner-mobile-big-position;
             top: $mega-menu-depth-1-inner-mobile-big-top;
@@ -122,12 +193,21 @@
             transition: $mega-menu-depth-1-inner-mobile-big-transition;
         }
 
-        &__item.show &__inner {
-            left: $mega-menu-depth-1-inner-mobile-big-current-left;
+        @include main-menu-stack-mobile-title();
+
+        &__title-inner {
+            color: $mega-menu-depth-1-title-mobile-big-inner-color;
         }
 
-        &__title {
-            display: $mega-menu-depth-1-title-mobile-big-display;
+        .main-menu-stack-mode & {
+            &__title-inner {
+                padding: 0 spacing('base');
+            }
+
+            &__close {
+                inset-block-start: spacing('base');
+                inset-inline-end: spacing('base');
+            }
         }
     }
 }

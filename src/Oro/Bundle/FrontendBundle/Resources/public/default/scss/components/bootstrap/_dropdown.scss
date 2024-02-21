@@ -99,3 +99,18 @@
 .dropdown-divider {
     margin-inline: $dropdown-divider-margin-inline;
 }
+
+.dropdown-fullscreen {
+    overflow: hidden;
+
+    .dropdown-menu {
+        position: absolute;
+        inset: 0;
+    }
+
+    &.show {
+        position: fixed;
+        inset: 0;
+        z-index: z('dropdown');
+    }
+}

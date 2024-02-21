@@ -124,3 +124,4 @@ oro:
                     help.label: 'Help'
                     sales.label: 'Sales Representative'
                     view.label: 'VIEW'
+                section_title: 'All %section_title%'

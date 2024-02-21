@@ -1,23 +1,51 @@
 /* @theme: default; */
 
-@mixin main-menu-stack-items {
-    &__item {
-        &.show {
-            background: $main-menu-multi-item-background-hover;
-        }
+@mixin main-menu-stack-mobile-title($namespace: '&') {
+    #{$namespace}__inner {
+        box-shadow: $main-menu-multi-title-container-box-shadow;
+        inset-inline: 100% auto;
 
-        @media (hover: hover) {
-            &:hover {
-                background: $main-menu-multi-item-background-hover;
-            }
+        padding-block-start: var(--main-menu-offset-top, 60px);
+
+        opacity: 0;
+
+        &:before {
+            content: attr(data-menu-item-label);
+            position: absolute;
+            inset: spacing('lg') 60px 0;
+
+            height: $main-menu-multi-actions-height;
+
+            display: block;
+
+            font-size: $base-font-size--large + 2;
+            font-weight: font-weight('semi-bold');
+            text-align: center;
+
+            white-space: nowrap;
+
+            @include ellipsis();
+
+            transform: translateX(100px);
+            opacity: 0;
+
+            transition: transform cubic-bezier(.5, .5, .25, 1), opacity cubic-bezier(.5, .5, .25, 1);
         }
     }
 
-    &__actions {
-        height: $main-menu-multi-actions-height;
-        display: $main-menu-multi-actions-display;
-        grid-template-columns: $main-menu-multi-actions-grid-template-columns;
+    #{$namespace}__item.show #{$namespace}__inner {
+        left: $mega-menu-depth-1-inner-mobile-big-current-left;
+        opacity: 1;
 
+        &:before {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+}
+
+@mixin main-menu-stack-actions-arrow {
+    &__actions {
         &:not(:only-child) {
             &::after {
                 content: '';
@@ -34,14 +62,40 @@
             }
         }
     }
+}
+
+@mixin main-menu-stack-items {
+    &__item {
+        &.show {
+            background: $main-menu-multi-item-background-show;
+        }
+
+        &:not(:first-of-type) .main-menu__actions {
+            border-top: $main-menu-multi-item-border-bottom;
+        }
+
+        @media (hover: hover) {
+            &:hover {
+                background: $main-menu-multi-item-background-hover;
+            }
+        }
+    }
+
+    &__actions {
+        height: $main-menu-multi-actions-height;
+        display: $main-menu-multi-actions-display;
+        grid-template-columns: $main-menu-multi-actions-grid-template-columns;
+    }
 
     &__link {
         display: $main-menu-multi-link-display;
         color: $main-menu-multi-link-color;
+        text-transform: $main-menu-multi-link-text-transform;
+        font-weight: $main-menu-multi-link-font-weight;
         overflow: $main-menu-multi-link-overflow;
         white-space: $main-menu-multi-link-white-space;
-        margin: $main-menu-multi-link-margin;
-        padding: $main-menu-multi-link-padding;
+        margin: 0;
+        padding: 0;
         position: $main-menu-multi-link-position;
         grid-column: $main-menu-multi-link-grid-column;
         grid-row: $main-menu-multi-link-grid-row;

@@ -44,7 +44,7 @@
 
 {% block _menus_sidebar_top_widget %}
     {% set attr =  layout_attr_defaults(attr, {
-        '~class': 'sidebar-main-menu__container hide-on-empty',
+        '~class': 'sidebar-main-menu__container sidebar-main-menu__top hide-on-empty',
         'data-sidebar-menus-top': '',
         'data-role': 'sub-menu'
     }) %}
@@ -54,7 +54,7 @@
 
 {% block _menus_sidebar_bottom_widget %}
     {% set attr =  layout_attr_defaults(attr, {
-        '~class': 'sidebar-main-menu__container hide-on-empty',
+        '~class': 'sidebar-main-menu__container sidebar-main-menu__bottom hide-on-empty',
         'data-sidebar-menus-bottom': '',
         'data-role': 'sub-menu'
     }) %}
@@ -137,15 +137,16 @@
 {% endblock %}
 
 {% block _main_menu_back_trigger_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' main-menu__back-trigger',
+        '~class': ' btn btn--plain btn--icon main-menu__back-trigger',
         'type': 'button',
         'data-go-to': 'prev'
     }) %}
 
     <button {{ block('block_attributes') }}>
-        <span class="fa-chevron-left" aria-hidden="true"></span>
-        {{ 'oro_frontend.fullscreen_popup.back.label'|trans }}
+        {{ renderIcon.icon({name: 'chevron-left', extraClass: 'theme-icon--lg'}) }}
     </button>
 {% endblock %}
 

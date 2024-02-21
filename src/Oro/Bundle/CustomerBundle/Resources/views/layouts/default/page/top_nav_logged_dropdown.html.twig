@@ -10,7 +10,7 @@
                     {
                         viewport: 'mobile',
                         moveTo: "[data-sidebar-menus-top]",
-                        endpointClass: 'navigation-menu__button'
+                        endpointClass: 'navigation-menu__button dropdown-fullscreen'
                     }
                 ]
             }
@@ -48,7 +48,7 @@
     <button {{ block('block_attributes') }}>
         {{ renderIcon.icon({name: 'user'}) }}
             {{ block_widget(block) }}
-        {{ renderIcon.icon({name: 'chevron-down', extraClass: 'customer-menu__dropdown-icon hide-on-tablet'}) }}
+        {{ renderIcon.icon({name: 'chevron-down', extraClass: 'customer-menu__dropdown-icon hide-block-on-tablet'}) }}
     </button>
 {% endblock %}
 
