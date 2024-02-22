@@ -56,6 +56,9 @@ const SidePanelView = FullScreenPopupView.extend({
         this.subview('backdrop').hide();
         document.body.classList.remove('no-scroll-safe');
 
+        if (parseFloat(this.$popup.css('transition-duration')) === 0) {
+            return SidePanelView.__super__.close.call(this);
+        }
         this.$popup.one('transitionend', () => {
             SidePanelView.__super__.close.call(this);
         });
