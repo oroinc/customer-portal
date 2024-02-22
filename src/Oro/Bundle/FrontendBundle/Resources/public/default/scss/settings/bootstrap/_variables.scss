@@ -20,9 +20,10 @@ $body-color: get-var-color('text', 'primary');
 
 // Links
 // Style anchor elements.
-
 $link-color: get-var-color('text', 'link');
 $link-hover-color: get-var-color('text', 'link-hover');
+$link-decoration: underline;
+$link-hover-decoration: underline;
 
 // Paragraphs
 // Style p element.

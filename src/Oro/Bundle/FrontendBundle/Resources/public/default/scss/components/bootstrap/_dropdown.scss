@@ -18,6 +18,7 @@
         align-items: $dropdown-item-align-items;
         font: $dropdown-item-font;
         gap: $dropdown-item-gap;
+        text-decoration: none;
 
         &:hover {
             background-color: $dropdown-link-only-hover-bg;

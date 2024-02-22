@@ -73,11 +73,9 @@
     &__link {
         display: inline-block;
         color: $top-bar-link-color;
-        text-decoration: none;
 
         &:hover {
             color: $top-bar-link-color;
-            text-decoration: underline;
         }
 
         .decorated {

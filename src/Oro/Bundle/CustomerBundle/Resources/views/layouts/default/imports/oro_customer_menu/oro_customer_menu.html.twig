@@ -34,7 +34,7 @@
 
                         <li class="primary-menu__item {{ itemCurrentClass }}">
                             {% set linkAttributes = menuItem.linkAttributes|merge({
-                                'class': 'primary-menu__link ' ~ linkCurrentClass,
+                                'class': 'primary-menu__link no-decoration ' ~ linkCurrentClass,
                             }) %}
                             <a href="{{ menuItem.uri }}"{{ oro_menu.attributes(linkAttributes) }}>{{ menuItem.label|trans }}</a>
                         </li>

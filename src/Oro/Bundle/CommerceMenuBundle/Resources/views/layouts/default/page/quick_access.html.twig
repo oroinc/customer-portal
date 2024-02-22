@@ -42,7 +42,7 @@
                 {% endif %}
 
             <li class="quick-access__item">
-                {% set linkAttributes = child.linkAttributes|merge({'class': 'quick-access__link'}) %}
+                {% set linkAttributes = child.linkAttributes|merge({'class': 'quick-access__link no-decoration'}) %}
                 <a href="{{ child.uri }}"{{ oro_menu.attributes(linkAttributes) }}>
                     <span class="quick-access__icon {{ badgeClass }} {{ iconClass }}" aria-hidden="true"></span>
                     {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}

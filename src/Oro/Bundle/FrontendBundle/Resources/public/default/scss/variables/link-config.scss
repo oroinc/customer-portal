@@ -1,8 +1,16 @@
 /* @theme: default; */
 
-$link-color: get-var-color('text', 'link') !default;
-$link-color-current: get-var-color('text', 'link') !default;
-$link-color-hover: get-var-color('text', 'link-hover') !default;
+//Active
+$link-active-color: null !default;
+$link-active-decoration: null !default;
 
-$link-link-normal-text-decoration: none !default;
-$link-link-hover-text-decoration: underline !default;
+//Focus
+$link-focus-color: null !default;
+$link-focus-decoration: null !default;
+
+//Visited
+$link-visited-color: null !default;
+$link-visited-decoration: null !default;
+
+//No-decorated
+$link-hover-decoration-no-decorated: null !default;

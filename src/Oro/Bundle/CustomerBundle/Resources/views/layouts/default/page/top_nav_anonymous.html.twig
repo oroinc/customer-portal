@@ -10,7 +10,7 @@
 
 {% block _top_sign_in_link_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' topbar-navigation__link',
+        '~class': ' topbar-navigation__link no-decoration',
         'href': path(route_name)
     }) %}
     <a {{ block('block_attributes') }}>
@@ -20,7 +20,7 @@
 
 {% block _top_registration_link_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' topbar-navigation__link',
+        '~class': ' topbar-navigation__link no-decoration',
         'href': path(route_name)
     }) %}
     <span class="topbar-navigation__separator">|</span>

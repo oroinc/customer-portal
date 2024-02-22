@@ -14,6 +14,8 @@
         @include render-var-properties(map.get($btn-palette, 'default', 'default'), $btn-var-prefix);
     }
 
+    text-decoration: none;
+
     &:hover {
         @if map.has-key($btn-palette, 'default', 'hover') {
             @include render-var-properties(
@@ -23,7 +25,7 @@
         }
 
         // Disable text-decoration if we use link as button
-        text-decoration: $btn-hover-text-decoration;
+        text-decoration: none;
     }
 
     &:focus {
