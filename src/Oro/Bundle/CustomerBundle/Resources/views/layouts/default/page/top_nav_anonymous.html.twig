@@ -11,7 +11,7 @@
 {% block _top_sign_in_link_widget %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' navigation-menu__button navigation-menu__inner text-nowrap',
+        '~class': ' navigation-menu__button navigation-menu__inner text-nowrap no-decoration',
         'href': path(route_name)
     }) %}
 
@@ -41,7 +41,7 @@
 {% block _top_registration_link_widget %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' navigation-menu__button navigation-menu__inner text-nowrap',
+        '~class': ' navigation-menu__button navigation-menu__inner text-nowrap no-decoration',
         'href': path(route_name)
     }) %}
 
