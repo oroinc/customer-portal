@@ -3,6 +3,7 @@ import _ from 'underscore';
 import __ from 'orotranslation/js/translator';
 import NumberFormatter from 'orolocale/js/formatter/number';
 import IncrementButtonView from 'orofrontend/default/js/app/views/increment-input/increment-button-view';
+import numeral from 'numeral';
 
 import BaseView from 'oroui/js/app/views/base/view';
 
@@ -89,7 +90,9 @@ const IncrementInputView = BaseView.extend({
         }
 
         $input.val(
-            NumberFormatter.unformatStrict($input.val()) + this._calculateStep()
+            NumberFormatter.unformatStrict(
+                numeral($input.val()).add(this._calculateStep()).value()
+            )
         );
         this._afterSetInputValue();
     },
@@ -105,7 +108,9 @@ const IncrementInputView = BaseView.extend({
         }
 
         $input.val(
-            NumberFormatter.unformatStrict($input.val()) - this._calculateStep()
+            NumberFormatter.unformatStrict(
+                numeral($input.val()).subtract(this._calculateStep()).value()
+            )
         );
         this._afterSetInputValue();
     },
