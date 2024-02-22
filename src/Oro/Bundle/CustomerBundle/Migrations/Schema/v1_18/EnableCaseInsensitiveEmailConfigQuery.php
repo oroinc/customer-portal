@@ -29,7 +29,7 @@ class EnableCaseInsensitiveEmailConfigQuery extends ParametrizedMigrationQuery
             return;
         }
 
-        $result = $this->connection->fetchAll(
+        $result = $this->connection->fetchAllAssociative(
             'SELECT 1
             FROM information_schema.columns
             WHERE TABLE_SCHEMA = ?
@@ -77,6 +77,6 @@ class EnableCaseInsensitiveEmailConfigQuery extends ParametrizedMigrationQuery
         $stmt->bindValue(':createdAt', $now, 'datetime');
         $stmt->bindValue(':updatedAt', $now, 'datetime');
 
-        $stmt->execute();
+        $stmt->executeQuery();
     }
 }

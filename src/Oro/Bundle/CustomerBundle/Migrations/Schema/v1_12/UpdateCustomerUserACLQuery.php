@@ -39,24 +39,24 @@ class UpdateCustomerUserACLQuery extends ParametrizedMigrationQuery
         $params = ['class' => '(root)'];
         $types = ['class' => 'string'];
         $this->logQuery($logger, $sql, $params, $types);
-        $classId = $this->connection->fetchColumn($sql, $params, 0, $types);
+        $classId = $this->connection->fetchOne($sql, $params, $types);
 
         $sql = 'SELECT id FROM acl_object_identities WHERE class_id = :class and object_identifier = :oid';
         $params = ['class' => $classId, 'oid' => 'entity'];
         $types = ['class' => Types::INTEGER, 'oid' => Types::STRING];
-        $oid = $this->connection->fetchColumn($sql, $params, 0, $types);
+        $oid = $this->connection->fetchOne($sql, $params, $types);
 
         $sql = 'SELECT id FROM acl_security_identities WHERE identifier = :role';
         $params = ['role' => 'ROLE_FRONTEND_ADMINISTRATOR'];
         $types = ['role' => Types::STRING];
         $this->logQuery($logger, $sql, $params, $types);
-        $adminSid = $this->connection->fetchColumn($sql, $params, 0, $types);
+        $adminSid = $this->connection->fetchOne($sql, $params, $types);
 
         $sql = 'SELECT id FROM acl_security_identities WHERE identifier = :role';
         $params = ['role' => 'ROLE_FRONTEND_BUYER'];
         $types = ['role' => Types::STRING];
         $this->logQuery($logger, $sql, $params, $types);
-        $buyerSid = $this->connection->fetchColumn($sql, $params, 0, $types);
+        $buyerSid = $this->connection->fetchOne($sql, $params, $types);
 
         $this->updateAceMasks($logger, $dryRun, $oid, $adminSid);
         $this->updateAceMasks($logger, $dryRun, $oid, $buyerSid);
@@ -74,7 +74,7 @@ class UpdateCustomerUserACLQuery extends ParametrizedMigrationQuery
         $params = ['oid' => $oid, 'sid' => $sid];
         $types = ['oid' => Types::INTEGER, 'sid' => Types::INTEGER];
         $this->logQuery($logger, $sql, $params, $types);
-        $rows = $this->connection->fetchAll($sql, $params, $types);
+        $rows = $this->connection->fetchAllAssociative($sql, $params, $types);
 
         $forUpdate = [];
         foreach ($rows as $row) {

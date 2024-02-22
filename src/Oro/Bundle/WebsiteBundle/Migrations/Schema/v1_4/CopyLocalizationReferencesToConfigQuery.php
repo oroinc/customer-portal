@@ -28,7 +28,9 @@ class CopyLocalizationReferencesToConfigQuery extends ParametrizedMigrationQuery
      */
     public function execute(LoggerInterface $logger)
     {
-        $result = $this->connection->fetchAll('SELECT website_id, localization_id FROM orob2b_websites_localizations');
+        $result = $this->connection->fetchAllAssociative(
+            'SELECT website_id, localization_id FROM orob2b_websites_localizations'
+        );
 
         $relations = [];
         foreach ($result as $localizationRel) {
@@ -48,8 +50,8 @@ class CopyLocalizationReferencesToConfigQuery extends ParametrizedMigrationQuery
                 ]
             );
 
-            $this->prepareEnabledLocalizationsInsertStatement($websiteId, $localizationIds)->execute();
-            $this->prepareDefaultLocalizationStatement($websiteId, reset($localizationIds))->execute();
+            $this->prepareEnabledLocalizationsInsertStatement($websiteId, $localizationIds)->executeQuery();
+            $this->prepareDefaultLocalizationStatement($websiteId, reset($localizationIds))->executeQuery();
         }
     }
 

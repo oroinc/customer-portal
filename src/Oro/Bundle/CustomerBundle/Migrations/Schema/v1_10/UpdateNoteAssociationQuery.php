@@ -69,7 +69,7 @@ class UpdateNoteAssociationQuery extends ParametrizedMigrationQuery
         $types = ['class' => 'string'];
 
         $this->logQuery($logger, $sql, $params, $types);
-        $result = $this->connection->fetchAssoc($sql, $params, $types);
+        $result = $this->connection->fetchAssociative($sql, $params, $types);
         $config = $this->connection->convertToPHPValue($result['data'], 'array');
         $key = 'manyToOne|Oro\\Bundle\\NoteBundle\\Entity\\Note|Oro\\Bundle\\CustomerBundle\\Entity\\'
             . $this->targetClass . '|' . $fieldName;

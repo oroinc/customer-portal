@@ -6,6 +6,9 @@ use Oro\Bundle\MigrationBundle\Migration\ArrayLogger;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedMigrationQuery;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Replace OroB2B with Oro namespace in OroCommerce application
+ */
 class UpdateSerializedClassNames extends ParametrizedMigrationQuery
 {
     /**
@@ -56,9 +59,9 @@ class UpdateSerializedClassNames extends ParametrizedMigrationQuery
         $table = $this->table;
         $field = $this->field;
 
-        $statement = $this->connection->query("SELECT id, $field FROM $table");
+        $statement = $this->connection->executeQuery("SELECT id, $field FROM $table");
 
-        while ($entity = $statement->fetch(\PDO::FETCH_ASSOC)) {
+        while ($entity = $statement->fetchAssociative()) {
             $originalValue = base64_decode($entity[$field]);
 
             preg_match_all('/\"(OroB2B.*?)\"/', $originalValue, $matches, PREG_SET_ORDER);
