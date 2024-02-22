@@ -33,6 +33,7 @@
     &__dropdown-toggle {
         padding-right: $action-permissions-dropdown-toggle-offset;
 
+        text-decoration: none;
         cursor: pointer;
 
         &::after {

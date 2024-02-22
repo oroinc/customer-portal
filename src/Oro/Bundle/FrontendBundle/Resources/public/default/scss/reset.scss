@@ -28,17 +28,6 @@ textarea {
     }
 }
 
-// Links
-a {
-    text-decoration: $link-link-normal-text-decoration;
-
-    @include link();
-
-    @include element-state('hover') {
-        text-decoration: $link-link-hover-text-decoration;
-    }
-}
-
 /* stylelint-disable-next-line comment-word-disallowed-list */
 // TODO: Remove reset of ul, ol
 ul,

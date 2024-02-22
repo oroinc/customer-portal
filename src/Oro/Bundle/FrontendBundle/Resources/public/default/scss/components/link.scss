@@ -1,25 +1,37 @@
 /* @theme: default; */
 
-.link {
-    @include link();
+a {
+    // Reusing a global variable located in FrontendBundle/Resources/public/default/scss/settings/bootstrap/_variables.scss.
+    color: $link-color;
 
-    text-decoration: none;
+    // Reusing a global variable located in FrontendBundle/Resources/public/default/scss/settings/bootstrap/_variables.scss.
+    text-decoration: $link-decoration;
 
-    &:hover {
-        text-decoration: underline;
-    }
-
-    &.disabled {
-        text-decoration: none;
-
-        cursor: default;
-    }
-
-    &--none-decoration {
+    &.no-decoration {
         text-decoration: none;
 
         &:hover {
-            text-decoration: none;
+            text-decoration: $link-hover-decoration-no-decorated;
         }
+    }
+
+    &:hover {
+        color: $link-hover-color;
+        text-decoration: $link-hover-decoration;
+    }
+
+    &:active {
+        color: $link-active-color;
+        text-decoration: $link-active-decoration;
+    }
+
+    &:focus {
+        color: $link-focus-color;
+        text-decoration: $link-focus-decoration;
+    }
+
+    &:visited {
+        color: $link-visited-color;
+        text-decoration: $link-visited-decoration;
     }
 }

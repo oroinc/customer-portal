@@ -57,6 +57,7 @@ events `frontend-dialog:accept, frontend-dialog:cancel, frontend-dialog:close` w
 
 #### FrontendBundle
 * SCSS `$base-font-minor` and `$base-font-icon` variables were removed, use `$base-font` and SVG icon instead.
+* SCSS 'link' mixin was removed, use `@extend a` for applying link styles.  
 * SCSS `get-nested-map-value` function was removed, use native SCSS `map.get` function instead.
 * Widget `oro/frontend-dialog-widget` was renamed to `oro/dialog-widget`, so you have to use `oro/dialog-widget` in your customization. 
   This widget no longer uses `fullscreen-popup-view` under the hood to render dialog as fullscreen. 
