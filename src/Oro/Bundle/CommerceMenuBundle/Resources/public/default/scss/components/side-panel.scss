@@ -104,6 +104,8 @@
                 box-shadow: none;
 
                 transition: $side-panel-dropdown-menu-transition;
+
+                overflow-y: auto;
             }
 
             .btn[data-toggle='dropdown'] {
