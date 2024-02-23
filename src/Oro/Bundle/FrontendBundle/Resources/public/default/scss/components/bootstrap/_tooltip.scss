@@ -38,6 +38,8 @@ $tooltip-border-radius: 4px;
     &:not(.not-expand) {
         text-align: left;
     }
+
+    @include base-disabled-style(1);
 }
 
 .tooltip-container {

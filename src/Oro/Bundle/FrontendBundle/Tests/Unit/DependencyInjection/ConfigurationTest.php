@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\DependencyInjection;
 
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Configuration;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
@@ -75,5 +76,32 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         ];
         $processedConfig = $this->processConfiguration($configs);
         $this->assertEquals($configs[0]['session'], $processedConfig['session']);
+    }
+
+    /**
+     * @dataProvider dataProvider
+     */
+    public function testGetConfigKeyByName(string $expected, string $key, string $separator)
+    {
+        self::assertSame($expected, Configuration::getConfigKeyByName($key, $separator));
+    }
+
+    public function dataProvider(): \Generator
+    {
+        yield [
+            'expected' => 'oro_frontend.key',
+            'key' => 'key',
+            'separator' => ConfigManager::SECTION_MODEL_SEPARATOR
+        ];
+        yield [
+            'expected' => 'oro_frontend___key',
+            'key' => 'key',
+            'separator' => ConfigManager::SECTION_VIEW_SEPARATOR
+        ];
+        yield [
+            'expected' => 'oro_frontend||key',
+            'key' => 'key',
+            'separator' => '||'
+        ];
     }
 }

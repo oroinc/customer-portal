@@ -69,15 +69,16 @@ Feature: Customer User Case Insensitive Email Addresses
   Scenario: Check successful login with lowercase email when "Case Insensitive Email Addresses" is enabled
     Given I proceed as the Buyer
     When I signed in as amandarcole@example.org with password AmandaRCole@example.org on the store frontend
-    Then I should see text matching "Signed in as: Amanda Cole"
+    Then I should see text matching "Amanda Cole"
 
   Scenario: Check successful login with original email when "Case Insensitive Email Addresses" is enabled
     Given I signed in as AmandaRCole@example.org with password AmandaRCole@example.org on the store frontend
-    Then I should see text matching "Signed in as: Amanda Cole"
+    Then I should see text matching "Amanda Cole"
+    And I click "Account Dropdown"
     And click "Sign Out"
 
   Scenario: Check registration is not allowed when same email in lowercase exists when "Case Insensitive Email Addresses" is enabled
-    Given I click "Register"
+    Given I click "Sign Up"
     And Page title equals to "Registration"
     And I should see a "Registration Form" element
     And I fill "Registration Form" with:
@@ -99,7 +100,7 @@ Feature: Customer User Case Insensitive Email Addresses
     Then I should see "Configuration saved" flash message
     When I proceed as the Buyer
     And I am on the homepage
-    And I click "Register"
+    And I click "Sign Up"
     And I fill "Registration Form" with:
       | Company Name     | OroCommerce              |
       | First Name       | Ruth                     |

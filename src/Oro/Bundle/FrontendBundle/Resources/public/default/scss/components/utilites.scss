@@ -1,7 +1,13 @@
 /* @theme: default; */
 
+[data-disable-animation='1'] * {
+    // stylelint-disable-next-line declaration-no-important
+    transition: none !important;
+}
+
 .hidden,
-.hide {
+.hide,
+.hide-on-empty:empty {
     // override inline styles
     // stylelint-disable-next-line declaration-no-important
     display: none !important;
@@ -24,6 +30,14 @@
 }
 
 .no-scroll {
+    overflow: hidden;
+}
+
+.no-scroll-safe {
+    /* rtl:begin:ignore */
+    padding-right: var(--system-scroll-width);
+    /* rtl:end:ignore */
+
     overflow: hidden;
 }
 
@@ -116,6 +130,11 @@
     }
 }
 
+.scrollable-container {
+    display: grid;
+    grid-auto-flow: column;
+}
+
 .invisible-scrollbar {
     &::-webkit-scrollbar {
         width: 0;
@@ -126,4 +145,8 @@
     scrollbar-width: none;
     /* for MS Edge */
     -ms-overflow-style: scrollbar;
+}
+
+.stretch {
+    width: 100%;
 }

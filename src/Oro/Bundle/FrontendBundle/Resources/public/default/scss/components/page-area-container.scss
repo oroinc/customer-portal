@@ -3,9 +3,7 @@
 .page-area-container {
     width: $page-area-container-width;
     max-width: $page-area-container-max-width;
-    padding-inline: $page-area-container-padding-inline;
-
-    @include clearfix();
+    margin: 0 auto;
 }
 
 @include breakpoint('mobile-landscape') {

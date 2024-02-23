@@ -12,6 +12,7 @@ $dom-relocation-relocate-relocated-background-color: get-color('secondary-old', 
 $dom-relocation-sibling-background-color: get-color('additional-old', 'light') !default;
 
 $sticky-panel-box-background-color: get-color('additional-old', 'light') !default;
+$sticky-panel-box-shadow: 0 0 10px get-color('additional-old', 'dark') !default;
 
 $popup-gallery-widget-wrapper-background-color: get-color('additional-old', 'ultra') !default;
 
@@ -158,11 +159,34 @@ $popup-gallery-widget-wrapper-background-color: get-color('additional-old', 'ult
 }
 
 .sticky-panel-box {
-    margin-top: 20px;
     background-color: $sticky-panel-box-background-color;
     height: 50px;
     line-height: 50px;
     text-align: center;
+    width: 100%;
+    box-shadow: $sticky-panel-box-shadow;
+
+    &.sticky--bottom {
+        margin-top: auto;
+    }
+}
+
+.sticky-panel-content {
+    height: 2000px;
+    display: flex;
+
+    background-image: $style-book-group-element-name-background-image;
+    background-size: $style-book-group-element-name-background-size;
+    background-position: $style-book-group-element-name-background-position;
+}
+
+.sticky-panel-container {
+    margin-top: 20px;
+    height: 400px;
+    overflow: auto;
+
+    border: $style-book-tab-content-border;
+    border-radius: $style-book-nav-tabs-border-radius;
 }
 
 .popup-gallery {

@@ -1,6 +1,8 @@
 /* @theme: default; */
 
 $style-book-header-border-bottom: 1px solid get-color('additional-old', 'light') !default;
+$style-book-header-background: get-color('additional-old', 'ultra') !default;
+$style-book-header-z-index: z('fixed') !default;
 
 $style-book-header-inner-display: flex !default;
 $style-book-header-inner-align-items: center !default;

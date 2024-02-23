@@ -1,7 +1,22 @@
 {% block _top_nav_controls_dropdown_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " pull-left topbar-customer-menu dropdown"
+        '~class': " customer-menu dropdown"
     }) %}
+
+    {% if searchType == 'integrated' %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': ' hide-block-on-mobile',
+            'data-dom-relocation-options': {
+                responsive: [
+                    {
+                        viewport: 'mobile',
+                        moveTo: "[data-sidebar-menus-top]",
+                        endpointClass: 'navigation-menu__button dropdown-fullscreen'
+                    }
+                ]
+            }
+        }) %}
+    {% endif %}
 
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
@@ -10,8 +25,8 @@
 
 {% block _top_nav_customer_dropdown_menu_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " topbar-customer-menu__dropdown dropdown-menu",
-        'aria-labelledby': "topbar-customer-menu-trigger",
+        '~class': " customer-menu__dropdown dropdown-menu dropdown-menu-right dropdown-menu-full-width",
+        'aria-labelledby': "customer-menu-trigger",
         'role': "menu"
     }) %}
 
@@ -21,47 +36,48 @@
 {% endblock %}
 
 {% block _top_nav_customer_dropdown_trigger_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " topbar-customer-menu__trigger",
+        '~class': " btn btn--outlined-inverse btn--text customer-menu__trigger",
         'type': 'button',
         'data-toggle': 'dropdown',
-        'id': 'topbar-customer-menu-trigger'
+        'data-placement': "bottom-end",
+        'data-popper': 'false',
+        'id': 'customer-menu-trigger'
     }) %}
 
     <button {{ block('block_attributes') }}>
-        <span class="topbar-customer-menu__greeting">
+        {{ renderIcon.icon({name: 'user'}) }}
             {{ block_widget(block) }}
-        </span>
-        <span class="fa-angle-down" aria-hidden="true"></span>
+        {{ renderIcon.icon({name: 'chevron-down', extraClass: 'customer-menu__dropdown-icon hide-block-on-tablet'}) }}
     </button>
 {% endblock %}
 
 {% block _top_nav_user_name_widget%}
-    <span>{{ text }}</span>
+    {% set spanClass = 'hide-on-mobile' %}
+
+    {% if searchType == 'integrated' %}
+        {% set spanClass = 'hide-label-on-tablet' %}
+    {% endif %}
+
+    <span class="{{ spanClass }}">{{ text }}</span>
 {% endblock %}
 
 {% block _top_nav_customer_dropdown_sign_out_link_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' topbar-navigation__link sign-out-link',
-        'href': path(route_name),
-        'data-dom-relocation-options': {
-            responsive: [
-                {
-                    viewport: 'tablet',
-                    moveTo: '[data-customer-menu-container]'
-                }
-            ]
-        }
+        '~class': ' dropdown-item dropdown-item--destructive sign-out-link no-decoration',
+        'href': path(route_name)
     }) %}
 
     <a {{ block('block_attributes') }}>
-        <span class="fa-sign-out" aria-hidden="true"></span> {{ text|trans }}
+        {{ renderIcon.icon({name: 'log-out'}) }} <span>{{ text|trans }}</span>
     </a>
 {% endblock %}
 
 {% block _top_nav_customer_menu_list_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' topbar-customer-menu-list'
+        '~class': ' customer-menu-list'
     }) %}
 
     <ul {{ block('block_attributes') }}>
@@ -74,26 +90,45 @@
     {% if app.request.attributes.get('_route') %}
         {% set requestUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
     {% endif %}
-    {% set found = false %}
 
     {% for child in item.children %}
         {% if child.displayed and child.extras.isAllowed %}
-            {% set currentUrl = child.uri %}
-            {% set itemCurrentClass = '' %}
-            {% set linkCurrentClass = '' %}
-            {% if currentUrl in requestUrl and not found %}
-                {% set itemCurrentClass = 'current' %}
-                {% set linkCurrentClass = 'current' %}
-            {% endif %}
+            {% set uri = child.uri %}
+            {% set label = child.label %}
+            {{ block('_top_nav_customer_menu_item_link_widget') }}
 
-            <li class="topbar-customer-menu-list__item {{ itemCurrentClass }}">
-                <a href="{{ child.uri }}" class="{{ ' topbar-customer-menu-list__link ' ~ linkCurrentClass }}">
-                    {{- child.label|trans -}}
-                </a>
-            </li>
-            {% if currentUrl in requestUrl and not found %}
-                {% set found = true %}
+            {% if child.children|length %}
+                {% set found = false %}
+                {% for subChild in child.children %}
+                    {% if subChild.displayed and subChild.extras.isAllowed %}
+                        {% set uri = subChild.uri %}
+                        {% set label = subChild.label %}
+                        {% set linkCurrentClass = '' %}
+                        {% if uri in requestUrl and not found %}
+                            {% set linkCurrentClass = 'dropdown-item--active' %}
+                        {% endif %}
+
+                        {{ block('_top_nav_customer_menu_item_link_widget') }}
+
+                        {% if uri in requestUrl and not found %}
+                            {% set found = true %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                <div class="dropdown-divider"></div>
             {% endif %}
         {% endif %}
     {% endfor %}
+{% endblock %}
+
+{% block _top_nav_customer_menu_item_link_widget %}
+    {% if uri == '#' %}
+        <span class="dropdown-header">{{- child.label|trans -}}</span>
+    {% else %}
+        <li class="customer-menu-list__item">
+            <a href="{{ uri }}" class="{{ ' dropdown-item text-nowrap ' ~ linkCurrentClass }}">
+                {{- label|trans -}}
+            </a>
+        </li>
+    {% endif %}
 {% endblock %}

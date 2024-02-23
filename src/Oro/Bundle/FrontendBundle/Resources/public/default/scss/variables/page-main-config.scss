@@ -1,9 +1,9 @@
 /* @theme: default; */
 
-$page-main-offset-top: 15px !default;
+$page-main-offset-top: spacing('base') !default;
 $page-main-max-width: $site-width !default;
 $page-main-inner-offset: 0 28px !default;
 $page-main-content-offset: 0 auto 70px !default;
 
 // mobile-landscape
-$page-main-mobile-landscape-inner-offset: 0 spacing('base') !default;
+$page-main-mobile-landscape-inner-offset: spacing('base') spacing('base') 0 !default;

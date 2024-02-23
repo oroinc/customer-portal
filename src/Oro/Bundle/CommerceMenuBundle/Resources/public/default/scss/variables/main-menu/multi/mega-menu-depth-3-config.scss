@@ -4,14 +4,18 @@ $mega-menu-depth-3-item-margin-top: spacing('sm') !default;
 
 $mega-menu-depth-3-button-display: none !default;
 
-$mega-menu-depth-3-link-color: get-color('additional-old', 'dark') !default;
-$mega-menu-depth-3-link-hover-color: get-color('additional-old', 'dark') !default;
+$mega-menu-depth-3-link-color: get-color('text', 'primary') !default;
+$mega-menu-depth-3-link-hover-color: get-color('text', 'primary') !default;
 $mega-menu-depth-3-link-position: relative !default;
 
 $mega-menu-depth-3-divider-margin-top: spacing('sm') !default;
 
 $mega-menu-depth-3-inner-margin-bottom: spacing('base') !default;
 $mega-menu-depth-3-inner-padding-inline-start: spacing('base') !default;
+
+// Menu Stack Mode
+$mega-menu-depth-3-stack-mode-link-color: get-color('primary', 'hover') !default;
+$mega-menu-depth-3-stack-mode-link-background-color: get-color('primary', 'light') !default;
 
 // Mobile Big
 $mega-menu-depth-3-list-mobile-big-height: 100% !default;
@@ -26,6 +30,7 @@ $mega-menu-depth-3-inner-mobile-big-bottom: 0 !default;
 $mega-menu-depth-3-inner-mobile-big-z-index: z('base') + 2 !default;
 $mega-menu-depth-3-inner-mobile-big-width: 100% !default;
 $mega-menu-depth-3-inner-mobile-big-background: get-color('additional-old', 'ultra') !default;
-$mega-menu-depth-3-inner-mobile-big-transition: left .4s linear !default;
+$mega-menu-depth-3-inner-mobile-big-transition: left 230ms cubic-bezier(.5, .5, .25, 1),
+    opacity 230ms cubic-bezier(.5, .5, .25, 1) !default;
 
 $mega-menu-depth-3-inner-mobile-big-current-left: 0 !default;

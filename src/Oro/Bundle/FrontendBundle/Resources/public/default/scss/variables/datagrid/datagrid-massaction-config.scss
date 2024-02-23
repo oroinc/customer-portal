@@ -6,3 +6,5 @@ $datagrid-massaction-product-counter-color: get-color('neutral', 'white-100') !d
 
 $datagrid-massaction-sticky-mode-offset-mobile-landscape: spacing('base') !default;
 $datagrid-massaction-select-all-label-input-offset: spacing('md') !default;
+$datagrid-massaction-sticky-mode-offset: spacing('sm') !default;
+$datagrid-massaction-sticky-mode-z-index: z('fixed') !default;

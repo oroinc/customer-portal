@@ -85,6 +85,8 @@ oro_stylebook:
                 warning:
                     title: Warning
                     description: '<strong>Warning</strong>'
+            toggler:
+                title: 'Toggler'
             notification_message:
                 title: Notification Message
                 error:
@@ -182,11 +184,14 @@ oro_stylebook:
                 title: 'DOM Relocation View'
                 description: 'DOM relocation view helps you move the DOM element between containers when the browser window is resized. For example, you can move the menu from the top into the hamburger menu. For more information, see the <a href="https://doc.oroinc.com/bundles/commerce/FrontendBundle/dom-relocation-view/#bundle-docs-commerce-customer-portal-frontend-bundle-dom">Oro bundle documentation</a>.'
             sticky_panel_view:
-                title: 'Sticky Panel View'
-                description: 'The sticky panel helps you pin the content block to the top of the page whenever it moves outside the visible area. Click the button to preview the sticky effect. For more information, see the <a href="https://doc.oroinc.com/bundles/commerce/FrontendBundle/sticky-panel-view">Oro bundle documentation</a>'
+                title: 'Sticky Element'
+                description: 'The sticky elements can utilize a CSS-based solution <code class="language-markup">position: sticky</code> with the addition of some JavaScript helpers. To enable a sticky element, simply apply the CSS class <code class="language-markup">sticky sticky—top</code> and include additional parameters through the <code class="language-markup">data-sticky</code> attribute. For more information, see the <a href="https://doc.oroinc.com/bundles/commerce/FrontendBundle/sticky-panel-view">Oro bundle documentation</a>'
                 button:
                     sticky_on: 'Disable sticky mode'
                     sticky_off: 'Enable sticky mode'
+                set_bottom:
+                    on: 'Set on top'
+                    off: 'Set on bottom'
             mediator:
                 title: 'Mediator'
                 description: 'This section previews the existing mediators. The mediators are handlers for event triggers that help inform the related processes of the changes or the events. For more information, see the <a href="https://doc.oroinc.com/bundles/platform/UIBundle/client-side/mediator-handlers/#bundle-docs-platform-ui-bundle-mediator-handlers">Oro bundle documentation</a>'

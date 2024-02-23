@@ -7,46 +7,6 @@
     border: 2px solid $toggler-background-color;
     background-color: $toggler-background-color;
 
-    &--dropdown-btn {
-        display: block;
-        color: $toggler-dropdown-btn-color;
-        font-size: $toggler-font-size;
-        line-height: $toggler-line-height;
-        background-color: $toggler-background-color;
-        border-radius: $toggler-border-radius;
-        box-shadow: none;
-        border: none;
-        text-align: center;
-        padding: $toggler-padding;
-        white-space: nowrap;
-        user-select: none;
-        font-weight: 400;
-        cursor: pointer;
-        transition: $toggler-dropdown-btn-transition;
-
-        &:hover {
-            color: $toggler-dropdown-btn-color-hover;
-            background-color: $toggler-dropdown-btn-background-color-hover;
-        }
-
-        .theme-icon {
-            display: block;
-        }
-    }
-
-    .toggle-link.toggle-link {
-        &--active {
-            color: $toggler-active-color;
-            background-color: $toggler-background-color-active;
-            box-shadow: $toggler-switcher-box-shadow;
-            border-radius: 3px;
-        }
-
-        .theme-icon {
-            display: block;
-        }
-    }
-
     > .toggle-link,
     > label {
         position: relative;
@@ -61,27 +21,39 @@
         user-select: none;
         font-weight: 400;
 
+        @include ellipsis();
+
         &:hover {
             cursor: pointer;
             text-decoration: none;
+            color: $toggler-hover-color;
+            background-color: $toggler-hover-background-color;
         }
 
-        &:after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 100%;
-            width: 1px;
-            height: $toggle-divider-height;
-            margin-top: -($toggle-divider-height / 2);
-            background-color: $toggle-divider-color;
-            transition: opacity .2s ease-in-out;
-        }
-
-        &:last-child {
+        &:not(:first-of-type) {
             &:after {
-                opacity: 0;
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 1px;
+                height: $toggle-divider-height;
+                margin-top: -($toggle-divider-height / 2);
+                background-color: $toggle-divider-color;
+                transition: opacity .2s ease-in-out;
             }
+        }
+    }
+
+    .toggle-link--active {
+        color: $toggler-color-active;
+        background-color: $toggler-background-color-active;
+        box-shadow: $toggler-switcher-box-shadow;
+        border-radius: 3px;
+
+        + .toggle-link:after,
+        &:after {
+            display: none;
         }
     }
 
@@ -99,24 +71,22 @@
         }
 
         &:checked + label {
+            color: $toggler-color-active;
             background-color: $toggler-background-color-active;
             box-shadow: $toggler-switcher-box-shadow;
             border-radius: 3px;
 
-            &:after {
-                opacity: 0;
+            /* stylelint-disable selector-max-compound-selectors */
+            &:after,
+            + input + label:after {
+                display: none;
             }
+            /* stylelint-enable selector-max-compound-selectors */
         }
-    }
 
-    &--dropdown {
-        min-width: 0;
-        padding: 0;
-
-        .toggle-container {
-            > .toggle-link {
-                color: $toggler-dropdown-btn-color;
-            }
+        &:disabled + label {
+            color: $toggler-disabled-color;
+            background-color: $toggler-disabled-background-color;
         }
     }
 }

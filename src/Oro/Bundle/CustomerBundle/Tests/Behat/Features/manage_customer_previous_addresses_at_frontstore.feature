@@ -23,12 +23,14 @@ Feature: Manage Customer previous addresses at front-store
 
   Scenario: Check my previous address on profile page
     Given I signed in as AmandaRCole@example.org on the store frontend
-    When I follow "Account"
+    And I click "Account Dropdown"
+    And I click "My Profile"
     Then I should see "<script>alert(9)</script>"
     And I should see "<script>alert(11)</script>, <script>alert(12)</script>, DE-BE"
 
   Scenario: Check my previous address at Address Book
-    When I click "Address Book"
+    And I click "Account Dropdown"
+    And I click "Address Book"
     Then I should see following "Customer Company User Addresses Grid" grid:
       | Customer Address          | City                       | State  | Zip/Postal Code            | Country | Type {{ "type": "array" }}        |
       | <script>alert(9)</script> | <script>alert(11)</script> | Berlin | <script>alert(12)</script> | Germany | Default Shipping, Default Billing |

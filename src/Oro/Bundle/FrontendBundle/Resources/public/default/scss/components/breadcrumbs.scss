@@ -1,11 +1,7 @@
 /* @theme: default; */
 
 .breadcrumbs {
-    display: $breadcrumbs-display;
-    grid-auto-columns: $breadcrumbs-grid-auto-columns;
-    grid-auto-flow: $breadcrumbs-grid-auto-flow;
-    overflow-x: $breadcrumbs-overflow-x;
-    align-items: $breadcrumbs-align-items;
+    grid-auto-columns: max-content;
 
     &__item,
     &__link,
@@ -22,7 +18,7 @@
         text-decoration: $breadcrumbs-link-text-decoration;
 
         &:hover {
-            color: $link-color-hover;
+            color: $link-hover-color;
         }
     }
 

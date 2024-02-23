@@ -7,7 +7,7 @@ Feature: Frontend customer address default billing shipping
 
   Scenario: Checking default billing/shipping for one address does not influence another address's type
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I follow "Account"
+    And I click "Account Dropdown"
     And I click "Address Book"
     And I click "New Address"
 

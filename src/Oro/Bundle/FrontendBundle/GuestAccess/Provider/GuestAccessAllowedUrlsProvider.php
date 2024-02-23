@@ -32,6 +32,7 @@ class GuestAccessAllowedUrlsProvider implements GuestAccessAllowedUrlsProviderIn
         '^/localization/set-current-localization$',
         '^/productprice/set-current-currency$',
         '^/cookies-accepted$',
+        '^/set-current-currency-and-localization$',
     ];
 
     /**

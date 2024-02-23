@@ -51,10 +51,6 @@
             font-size: 38px;
         }
     }
-
-    .cart-widget__content {
-        white-space: nowrap;
-    }
 }
 
 @include breakpoint('desktop-small') {
@@ -73,41 +69,8 @@
             display: none;
         }
 
-        .cart-widget__content {
-            position: relative;
-            margin: 0;
-        }
-
         .fa-angle-down {
             display: none;
-        }
-
-        .cart-widget__text {
-            display: inline;
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            visibility: hidden;
-            font-size: 0;
-        }
-
-        .cart-widget__text strong {
-            position: absolute;
-            top: -3px;
-            right: 25px;
-
-            padding: 3px 5px 3px 1px;
-
-            font-size: 10px;
-            line-height: 1;
-
-            text-align: left;
-
-            color: $nav-trigger-tablet-strong-color;
-            border-radius: 16px;
-            background-color: $nav-trigger-tablet-strong-background-color;
-
-            visibility: visible;
         }
     }
 }

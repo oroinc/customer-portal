@@ -11,7 +11,7 @@ Feature: Popup user menu
   # all menu items are displayed on the page
   # menu items are displayed in a drop-down when user clicks on the user name
   # Use different welcome messages in the templates:
-  # default template (all at once) - "Signed in as: John Doe"
+  # default template (all at once) - "John Doe"
   # when only name is shown - "Welcome, John Doe"
   #
   # Configuration
@@ -35,11 +35,6 @@ Feature: Popup user menu
     And I login as administrator
     And go to System/ Configuration
     And I follow "Commerce/Design/Theme" on configuration sidebar
-    And fill "Menu Templates Form" with:
-      | Use Default | false                    |
-      | User Menu   | Show subitems in a popup |
-    When save form
-    Then I should see "Configuration saved" flash message
 
   Scenario: Enable "Roles" page view for Buyer role
     And go to Customers/ Customer User Roles

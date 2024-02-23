@@ -18,7 +18,8 @@ system_configuration:
             title: oro_frontend.system_configuration.groups.website_access.title
         filter_settings:
             title: oro_frontend.system_configuration.groups.filter_settings.title
-
+        header_settings:
+            title: oro_frontend.system_configuration.groups.header_settings.title
     fields:
         oro_frontend.frontend_theme:
             data_type: string
@@ -69,6 +70,72 @@ system_configuration:
                 attr:
                     'data-dependee-id': 'frontend_web_api'
 
+        oro_frontend.promotional_content:
+            data_type: integer
+            type: Oro\Bundle\CMSBundle\Form\Type\ContentBlockSelectType
+            options:
+                label: oro_frontend.system_configuration.fields.promotional_content.label
+                tooltip: oro_frontend.system_configuration.fields.promotional_content.tooltip
+                required: false
+                placeholder: oro_frontend.system_configuration.fields.promotional_content.placeholder
+
+        oro_frontend.top_navigation_menu:
+            data_type: string
+            type: Oro\Bundle\NavigationBundle\Form\Type\MenuChoiceType
+            options:
+                label: oro_frontend.system_configuration.fields.top_navigation_menu.label
+                tooltip: oro_frontend.system_configuration.fields.top_navigation_menu.tooltip
+                configs:
+                    placeholder: oro_frontend.system_configuration.fields.top_navigation_menu.placeholder
+                    allowClear: true
+                scope_type: menu_frontend_visibility
+
+        oro_frontend.language_and_currency_switchers:
+            data_type: string
+            type: Symfony\Component\Form\Extension\Core\Type\ChoiceType
+            search_type: choice
+            options:
+                label: oro_frontend.system_configuration.fields.language_and_currency_switchers.label
+                tooltip: oro_frontend.system_configuration.fields.language_and_currency_switchers.tooltip
+                choices:
+                    oro_frontend.system_configuration.fields.language_and_currency_switchers.choices.above_the_header: 'above_header'
+                    oro_frontend.system_configuration.fields.language_and_currency_switchers.choices.hamburger: 'always_in_hamburger_menu'
+
+        oro_frontend.standalone_main_menu:
+            data_type: boolean
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
+            options:
+                label: oro_frontend.system_configuration.fields.standalone_main_menu.label
+                tooltip: oro_frontend.system_configuration.fields.standalone_main_menu.tooltip
+
+        oro_frontend.quick_access_button:
+            data_type: object
+            type: Oro\Bundle\FrontendBundle\Form\Type\QuickAccessButtonConfigType
+            options:
+                label: oro_frontend.system_configuration.fields.quick_access_button.label
+                tooltip: oro_frontend.system_configuration.fields.quick_access_button.tooltip
+
+        oro_frontend.quick_links:
+            data_type: string
+            type: Oro\Bundle\NavigationBundle\Form\Type\MenuChoiceType
+            options:
+                label: oro_frontend.system_configuration.fields.quick_links.label
+                tooltip: oro_frontend.system_configuration.fields.quick_links.tooltip
+                configs:
+                    placeholder: oro_frontend.system_configuration.fields.quick_links.placeholder
+                    allowClear: true
+                scope_type: menu_frontend_visibility
+
+        oro_frontend.search_on_smaller_screens:
+            data_type: string
+            type: Symfony\Component\Form\Extension\Core\Type\ChoiceType
+            search_type: choice
+            options:
+                label: oro_frontend.system_configuration.fields.search_on_smaller_screens.label
+                tooltip: oro_frontend.system_configuration.fields.search_on_smaller_screens.tooltip
+                choices:
+                    oro_frontend.system_configuration.fields.search_on_smaller_screens.choices.integrated: 'integrated'
+                    oro_frontend.system_configuration.fields.search_on_smaller_screens.choices.standalone: 'standalone'
     tree:
         system_configuration:
             platform:
@@ -90,6 +157,15 @@ system_configuration:
                                     theme_settings:
                                         children:
                                             - oro_frontend.frontend_theme
+                                    header_settings:
+                                        children:
+                                            - oro_frontend.promotional_content
+                                            - oro_frontend.top_navigation_menu
+                                            - oro_frontend.language_and_currency_switchers
+                                            - oro_frontend.standalone_main_menu
+                                            - oro_frontend.quick_access_button
+                                            - oro_frontend.quick_links
+                                            - oro_frontend.search_on_smaller_screens
                                     page_templates:
                                         children:
                                             - oro_frontend.page_templates

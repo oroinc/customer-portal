@@ -1,0 +1,31 @@
+{% block _style_book_toggler_view_widget %}
+    <div class="toggle-container">
+        <input type="radio" id="localization-english" name="localization-name" value="english" checked />
+        <label for="localization-english">English</label>
+        <input type="radio" id="localization-canada" name="localization-name" value="canada" />
+        <label for="localization-canada">Canada</label>
+        <input type="radio" id="localization-french" name="localization-name" value="french" />
+        <label for="localization-french">French</label>
+    </div>
+{% endblock %}
+
+
+{% block _style_book_toggler_link_view_widget %}
+    <div class="toggle-container">
+        <a href="#" class="toggle-link">Gallery</a>
+        <a href="#" class="toggle-link toggle-link--active">List View</a>
+        <a href="#" class="toggle-link">Compact View</a>
+    </div>
+{% endblock %}
+
+{% block _style_book_toggler_vertical_view_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+    <div class="toggle-container-vertical">
+        <input type="radio" id="localization-english1" name="localization-name1" value="english" checked />
+        <label for="localization-english1">English {{ renderIcon.icon({name: 'check', extraClass: 'toggle-container-vertical__icon'}) }}</label>
+        <input type="radio" id="localization-canada1" name="localization-name1" value="canada" />
+        <label for="localization-canada1">Canada {{ renderIcon.icon({name: 'check', extraClass: 'toggle-container-vertical__icon'}) }}</label>
+        <input type="radio" id="localization-french1" name="localization-name1" value="french" />
+        <label for="localization-french1">French {{ renderIcon.icon({name: 'check', extraClass: 'toggle-container-vertical__icon'}) }}</label>
+    </div>
+{% endblock %}

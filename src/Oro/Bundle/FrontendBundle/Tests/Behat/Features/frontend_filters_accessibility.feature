@@ -7,7 +7,7 @@ Feature: Frontend filters accessibility
 
   Scenario: Setup filters list for feature's test
     Given I login as AmandaRCole@example.org buyer
-    And follow "Account"
+    And I click "Account Dropdown"
     When click "Users"
     Then I should see "All Users"
     And I click "Grid Filters Button"

@@ -115,6 +115,12 @@ oro_frontend:
             placeholder: 'Quick Search'
             aria_label: 'Search shopping lists'
             no_match: 'No matches found'
+        currency_localization_form:
+            save: 'Save'
+            cancel: 'Cancel'
+            more_actions: 'More actions'
+            localization_title: 'Localization'
+            currency_title: 'Currency'
     input_widget:
         step_input:
             aria_label: 'Enter the quantity you want to order.'

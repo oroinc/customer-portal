@@ -64,8 +64,7 @@ Feature: System Configuration - Main Navigation Menu
   Scenario: Check that the chosen menu for the customer scope is displayed on storefront
     Given I proceed as the Buyer
     When I reload the page
-    Then I should see "Live Chat" in main menu
-    And I should not see "Contact Us" in main menu
+    Then I should see "Contact Us" in main menu
     And I should not see "About" in main menu
     And I should not see "My Account" in main menu
     And I should not see "Catalog" in main menu

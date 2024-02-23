@@ -24,14 +24,6 @@ ComponentShortcutsManager.add('print-page', {
     }
 });
 
-ComponentShortcutsManager.add('sticky', {
-    moduleName: 'oroui/js/app/components/view-component',
-    scalarOption: 'offsetSelector',
-    options: {
-        view: 'orofrontend/default/js/app/views/sticky-view'
-    }
-});
-
 ComponentShortcutsManager.add('proxy-focus', {
     moduleName: 'oroui/js/app/components/view-component',
     scalarOption: 'focusElementSelector',

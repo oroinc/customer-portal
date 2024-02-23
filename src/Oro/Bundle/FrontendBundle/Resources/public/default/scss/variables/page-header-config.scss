@@ -1,4 +1,21 @@
 /* @theme: default; */
 
-$page-header-inner-offset: 0 !default;
-$page-header-inner-inner-offset: 20px 0 !default;
+$page-header-inner-inner-offset-y: spacing('base') !default;
+$page-header-inner-inner-offset-x: 28px !default;
+$page-header-inner-standalone-inner-offset: spacing('lg') !default;
+$page-header-background-color: get-color('neutral', 'dark') !default;
+$page-header-gap: spacing('md') !default;
+$page-header-gap-lg: spacing('lg') !default;
+
+$page-header-inner-offset-top-tablet: spacing('base') !default;
+$page-header-inner-offset-inner-tablet: spacing('base') !default;
+$page-header-gap-mobile: 0 !default;
+
+$page-header-gap-lg-tablet: spacing('base') !default;
+
+$page-header-inner-inner-offset-mobile: 0 !default;
+
+$page-header-topbar-gap: spacing('base') spacing('xl') !default;
+
+$page-header-promotional-link-color: get-color('neutral', 'white-100') !default;
+$page-header-promotional-content-height: 44px !default;

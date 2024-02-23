@@ -6,6 +6,33 @@
     }
 }
 
+@at-root {
+    .main-menu-stack-mode {
+        .mega-menu-depth-4 {
+            &__item {
+                margin-top: 0;
+            }
+
+            &__link {
+                display: grid;
+                align-items: center;
+                padding-inline: 40px 24px;
+                min-height: 44px;
+
+                transition: all 200ms ease-in-out;
+
+                @media (hover: hover) {
+                    &:hover {
+                        background-color: $mega-menu-depth-3-stack-mode-link-background-color;
+                        color: $mega-menu-depth-3-stack-mode-link-color;
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+}
+
 @include breakpoint('mega-menu-wide') {
     .mega-menu-depth-4 {
         &__item {
@@ -40,8 +67,26 @@
 
         @include main-menu-stack-items();
 
+        &__actions {
+            height: 44px;
+            margin-inline: spacing('base');
+
+            &:after {
+                transform: rotate(0deg);
+            }
+        }
+
         &__divider {
             display: $mega-menu-depth-4-divider-mobile-big-display;
+        }
+
+        .main-menu-stack-mode & {
+            &__link {
+                font-weight: font-weight('normal');
+                text-decoration: none;
+                padding-inline: 0;
+                margin-inline-end: spacing('lg');
+            }
         }
     }
 }

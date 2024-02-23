@@ -44,10 +44,9 @@ Feature: Checking the address types at different locales
   Scenario: Check address type on Zulu localization
     Given I proceed as the User
     And I signed in as AmandaRCole@example.org on the store frontend
-    When I follow "Account"
+    And I click "Account Dropdown"
     And I click "Address Book"
-    And I click "Localization Switcher"
-    And I click "Zulu"
+    And I select "Zulu" localization
     Then should see following "Customers Address Book Grid" grid:
       | Customer Address     | Zip/Postal Code | Country       | Type {{ "type": "array" }}                      |
       | 801 Scenic Hwy       | 33844           | United States | Default Shipping - Zulu, Default Billing - Zulu |
@@ -61,9 +60,9 @@ Feature: Checking the address types at different locales
       | Default Shipping Zulu | false |
 
   Scenario: Check address type on English localization
+    And I click "Account Dropdown"
     Given I click "Address Book"
-    When I click "Localization Switcher"
-    And I click "English"
+    And I select "English (United States)" localization
     Then should see following "Customers Address Book Grid" grid:
       | Customer Address     | Zip/Postal Code | Country       | Type {{ "type": "array" }}        |
       | 801 Scenic Hwy       | 33844           | United States | Default Shipping, Default Billing |

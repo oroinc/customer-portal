@@ -1,32 +1,38 @@
 /* stylelint-disable property-no-vendor-prefix,selector-pseudo-class-no-unknown */
 
 @mixin styled-scrollbar(
+    $track-color: $scrollbar-track-color,
     $color: $scrollbar-color,
-    $color-bg: $scrollbar-color-bg,
+    $color-hover: $scrollbar-color-hover,
     $size: $scrollbar-size,
     $border-radius: $scrollbar-thumb-radius,
-    $thumb-border: $scrollbar-thumb-border
 ) {
-    &::-webkit-scrollbar-thumb {
-        border-radius: $border-radius;
-        border: $thumb-border; /* should match background, can't be transparent */
-        background-color: $color;
-    }
+    /* Firefox's Track */
+    scrollbar-width: thin;
+    /* color of the handle and scrollbar track */
+    scrollbar-color: $scrollbar-color $track-color;
 
-    &::-webkit-scrollbar-track {
-        background-color: $color-bg;
-        border-radius: $border-radius;
-    }
-
+    /* Track */
     &::-webkit-scrollbar {
         -webkit-appearance: none;
 
+        /* width of the scrollbar */
         &:vertical {
             width: $size;
         }
 
         &:horizontal {
             height: $size;
+        }
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        background: $scrollbar-color;
+        border-radius: $scrollbar-thumb-radius;
+
+        &:hover {
+            background: $color-hover;
         }
     }
 }

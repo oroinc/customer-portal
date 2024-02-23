@@ -1,0 +1,17 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+              themes: '@OroFrontend/layouts/default/imports/currency_localization_switcher/currency_localization_switcher.html.twig'
+
+        - '@add':
+            id: __currency_localization_container
+            blockType: container
+            options:
+                vars:
+                    sidePanelMode: true
+            parentId: __root
+
+        - '@add':
+            id: __currency_localization_container_inner
+            blockType: container
+            parentId: __currency_localization_container

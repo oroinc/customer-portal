@@ -30,6 +30,7 @@ Scenario: Conditions should not affect Show/Hide button
   Given I proceed as the Admin
   And I go to System/ Frontend Menus
   And click view oro_customer_menu in grid
+  And I click Orders in menu tree
   And I click Order History in menu tree
   And I should see following buttons:
     | Hide |
@@ -42,5 +43,5 @@ Scenario: Conditions should not affect Show/Hide button
 Scenario: Check updated menu item
   Given I proceed as the Buyer
   And I signed in as AmandaRCole@example.org on the store frontend
-  When I follow "Account"
+  And I click "Account Dropdown"
   Then I should not see "Order History"

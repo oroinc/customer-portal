@@ -1,30 +1,77 @@
 {% block _top_nav_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " topbar"
+        '~class': " topbar page-area-container page-header__inner page-header__inner--hide-on-empty page-header__inner--no-vertical-offset"
     }) %}
+
+    {% if oro_config_value('oro_frontend.promotional_content') == false and oro_config_value('oro_frontend.language_and_currency_switchers') != 'above_header' %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': " hide-on-mobile"
+        }) %}
+    {% elseif oro_config_value('oro_frontend.promotional_content') == false and oro_config_value('oro_frontend.language_and_currency_switchers') != 'above_header' and oro_config_value('oro_frontend.top_navigation_menu') == '' %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': " hide-on-tablet"
+        }) %}
+    {% endif %}
+
+    {% set content = block_widget(block) %}
+    {% if content|trim|length > 0 %}
     <div {{ block('block_attributes') }}>
-        <div class="page-area-container page-header-content">
-            {{ block_widget(block) }}
-        </div>
+        {{ content|raw }}
     </div>
+    {% endif %}
 {% endblock %}
 
 {% block _top_nav_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " topbar-navigation topbar-navigation--align-end"
+        '~class': " navigation-menu navigation-menu--inverse navigation-menu--align-end page-header__element hide-block-on-tablet-small",
+        'data-dom-relocation-options': {
+            responsive: [
+                {
+                    viewport: 'tablet-small',
+                    moveTo: '[data-sidebar-menus-bottom]',
+                    startPointClass: 'navigation-menu--align-end navigation-menu--inverse',
+                    endpointClass: 'navigation-menu__vertical'
+                }
+            ]
+        }|json_encode
     }) %}
 
     {% set child_attr = layout_attr_defaults(child_attr, {
-        '~class': ' topbar-navigation__item'
+        '~class': ' navigation-menu__item'
     }) %}
 
     {% set link_attr = layout_attr_defaults(link_attr, {
-        '~class': 'topbar-navigation__link'
+        '~class': ' navigation-menu__inner navigation-menu__link no-decoration'
+    }) %}
+
+    {% set label_attr = layout_attr_defaults(label_attr, {
+        '~class': ' navigation-menu__inner'
     }) %}
 
     {{ parent_block_widget(block) }}
 {% endblock %}
 
-{% block _top_nav_menu_container_widget %}
-    {{ block_widget(block) }}
+
+{% block _top_nav_topbar_container_left_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " topbar__left"
+    }) %}
+    {% set content = block_widget(block) %}
+    {% if content|trim|length > 0 %}
+        <div {{ block('block_attributes') }}>
+            {{ content|raw }}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block _top_nav_topbar_container_right_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " topbar__right"
+    }) %}
+    {% set content = block_widget(block) %}
+    {% if content|trim|length > 0 %}
+    <div {{ block('block_attributes') }}>
+        {{ content|raw }}
+    </div>
+    {% endif %}
 {% endblock %}

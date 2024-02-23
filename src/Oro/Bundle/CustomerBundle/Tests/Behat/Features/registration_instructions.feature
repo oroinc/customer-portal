@@ -28,7 +28,7 @@ Feature: Registration Instructions
   Scenario: Default condition
     Given I proceed as the User
     When I am on homepage
-    And click "Sign In"
+    And click "Log In"
     Then I should not see "To register for a new account, contact a sales representative at 1 (800) 555-0123"
 
   Scenario: Show Registration Instructions with default text

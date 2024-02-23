@@ -11,9 +11,5 @@ layout:
             blockType: breadcrumbs
             options:
                 menu_name: "frontend_menu"
-        - '@remove':
-            id: sidebar_customer_menu_container
-        - '@move':
-            id: head_customer_menu_container
-            parentId: page_sidebar
-            prepend: true
+
+    conditions: 'context["is_logged_in"]'

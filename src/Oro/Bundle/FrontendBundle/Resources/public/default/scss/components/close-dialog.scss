@@ -5,13 +5,12 @@
     flex-shrink: 0;
     font-size: 0;
     gap: initial;
-    padding-right: 0;
-    padding-left: spacing('base');
 
     &.absolute {
         position: absolute;
         top: 0;
         right: 0;
         z-index: z('base') + 1;
+        margin: var(--close-dialog-offset, #{spacing('base')});
     }
 }

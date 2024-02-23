@@ -21,7 +21,7 @@ Feature: Customer user confirmation link with autologin
   Scenario: Check when register with enabled Confirmation and Auto Login
     Given I proceed as the User
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I click "Create An Account"
     And I fill "Registration Form" with:
       | Company Name     | OroCommerce              |
@@ -31,15 +31,16 @@ Feature: Customer user confirmation link with autologin
       | Password         | FrontULastN1@example.org |
       | Confirm Password | FrontULastN1@example.org |
     When I click "Create An Account"
-    Then I should see "Sign In"
+    Then I should see "Log In"
     And I should not see "My Account"
     And email with Subject "Confirmation of account registration" containing the following was sent:
       | Body | Please follow this link to confirm your email address: Confirm |
     When I follow "Confirm" link from the email
     Then I should not see "404 Not Found"
     And I should see "Confirmation successful" flash message
-    And I should not see "Sign In"
+    And I should not see "Log In"
     And I should see "My Account"
+    And I click "Account Dropdown"
     Then I click "Sign Out"
 
   Scenario: Disable autologin
@@ -53,7 +54,7 @@ Feature: Customer user confirmation link with autologin
   Scenario: Check when register with enabled Confirmation and disabled Auto Login
     Given I proceed as the User
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I click "Create An Account"
     And I fill "Registration Form" with:
       | Company Name     | OroCommerce              |
@@ -63,14 +64,14 @@ Feature: Customer user confirmation link with autologin
       | Password         | FrontULastN2@example.org |
       | Confirm Password | FrontULastN2@example.org |
     When I click "Create An Account"
-    Then I should see "Sign In"
+    Then I should see "Log In"
     And I should not see "My Account"
     And email with Subject "Confirmation of account registration" containing the following was sent:
       | Body | Please follow this link to confirm your email address: Confirm |
     When I follow "Confirm" link from the email
     Then I should not see "404 Not Found"
     And I should see "Confirmation successful" flash message
-    And I should see "Sign In"
+    And I should see "Log In"
     And I should not see "My Account"
 
   Scenario: Disable confirmation
@@ -85,7 +86,7 @@ Feature: Customer user confirmation link with autologin
   Scenario: Check when register with disabled Confirmation and Auto Login
     Given I proceed as the User
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I click "Create An Account"
     And I fill "Registration Form" with:
       | Company Name     | OroCommerce              |
@@ -95,7 +96,7 @@ Feature: Customer user confirmation link with autologin
       | Password         | FrontULastN3@example.org |
       | Confirm Password | FrontULastN3@example.org |
     When I click "Create An Account"
-    Then I should see "Sign In"
+    Then I should see "Log In"
     And I should not see "My Account"
 
   Scenario: Enable autologin
@@ -109,7 +110,7 @@ Feature: Customer user confirmation link with autologin
   Scenario: Check when register with disabled Confirmation and Enabled Auto Login
     Given I proceed as the User
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I click "Create An Account"
     And I fill "Registration Form" with:
       | Company Name     | OroCommerce              |
@@ -119,5 +120,5 @@ Feature: Customer user confirmation link with autologin
       | Password         | FrontULastN4@example.org |
       | Confirm Password | FrontULastN4@example.org |
     When I click "Create An Account"
-    Then I should not see "Sign In"
+    Then I should not see "Log In"
     And I should see "My Account"

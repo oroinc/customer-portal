@@ -619,7 +619,7 @@
             aria-controls="{{ collapseId }}"
     >
         <span data-text>{{ 'oro.ui.collapse.more'|trans }}</span>
-        {{ renderIcon.icon({name: 'chevron-down', extraClass: 'theme-icon--medium'}) }}
+        {{ renderIcon.icon({name: 'chevron-down'}) }}
     </button>
 {% endblock %}
 
@@ -1539,7 +1539,7 @@
     </div>
 {% endblock %}
 
-{# Sticky Panel View #}
+{# Sticky Element #}
 
 {% block _style_book_sticky_panel_view_widget %}
     {% set attr = layout_attr_defaults(attr, {
@@ -1553,9 +1553,14 @@
 
     <div {{ block('block_attributes') }}>
         <div class="sticky-panel-example" data-example-view>
-            <button class="btn btn--outlined" data-toggle>{{ 'oro_stylebook.groups.jscomponent.sticky_panel_view.button.sticky_off'|trans }}</button>
-            <div class="sticky-panel-box" data-move-to-sticky>
-                That content will be move to sticky panel...
+            <button class="btn btn--outlined" data-bottom>{{ 'oro_stylebook.groups.jscomponent.sticky_panel_view.set_bottom.off'|trans }}</button>
+
+            <div class="sticky-panel-container">
+                <div class="sticky-panel-content">
+                    <div class="sticky-panel-box sticky sticky--top" data-sticky>
+                        That content is sticky...
+                    </div>
+                </div>
             </div>
         </div>
         {{ block_widget(block) }}
@@ -1567,18 +1572,18 @@
     {% import '@OroUI/macros.html.twig' as UI %}
 
     {% set attributes = {
+        'class': 'some-box sticky sticky--top',
         'data-sticky': {
-            'autoWidth': true,
-            'toggleClass': 'sticked',
-            'placeholderId': 'style-book-sticky-header'
-        },
-        'data-sticky-target': 'top-sticky-panel'
+            'toggleClass': 'sticked', {# Toggle class when element became sticky #}
+            'namespace': 'my-sticky-block' {# Provide set global CSS variables for using into your styles #},
+            'sentinel': 'some-other-sticky-block' {# Detect colision when element overhide sentinel element #}
+        #}
     } %}" %}
 
     {% set source_code %}
         {{ options|raw }}
 
-    <div class="some-box" {{ "{{ UI.renderPageComponentAttributes(attributes) }}"|raw }}>
+    <div {{ "{{ UI.attributes(attributes) }}"|raw }}>
         Content that should be sticky
     </div>
     {% endset %}

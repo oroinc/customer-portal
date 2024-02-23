@@ -1,0 +1,163 @@
+/* @theme: default; */
+
+.sidebar-main-menu {
+    .fullscreen-popup {
+        &__header {
+            padding: $side-panel-header-padding;
+        }
+
+        &__content {
+            padding: $side-panel-content-padding;
+        }
+    }
+
+    .mini-logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: $side-panel-logo-width;
+        height: $side-panel-logo-height;
+
+        img {
+            max-width: $side-panel-logo-img-max-width;
+        }
+    }
+}
+
+@include breakpoint('mega-menu-wide') {
+    .sidebar-main-menu {
+        width: $side-panel-menu-width;
+
+        &:has(.main-menu__item.show .mega-menu-depth-1__item.show) {
+            .fullscreen-popup__header .close-dialog {
+                display: none;
+            }
+        }
+
+        .side-panel-currency-localization {
+            min-width: calc(#{$side-panel-menu-width} - #{spacing('xl')});
+        }
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .sidebar-main-menu {
+        .fullscreen-popup {
+            &__header {
+                padding: spacing('base') spacing('base') 0;
+            }
+
+            &__label {
+                transition: $side-panel-label-transition;
+            }
+
+            &__icon {
+                padding: 0;
+                transition: $side-panel-icon-transition;
+            }
+        }
+
+        &:has(.show) {
+            .fullscreen-popup__label {
+                transform: translateX(-24px);
+                opacity: 0;
+            }
+
+            .fullscreen-popup__icon {
+                transform: translateX(-24px);
+                opacity: 0;
+            }
+        }
+
+        .close-dialog {
+            padding: 0;
+            min-width: 44px;
+            justify-content: end;
+        }
+
+        &__container {
+            padding-block: spacing('sm');
+        }
+
+        &__top {
+            --btn-outlined-inverse-hover-color: #{$side-panel-top-menu-container-color};
+
+            border-bottom: $side-panel-menu-container-border;
+
+            .navigation-menu__button {
+                color: $side-panel-top-menu-container-menu-btn-color;
+            }
+        }
+
+        &__bottom {
+            border-top: $side-panel-menu-container-border;
+        }
+
+        .dropdown-fullscreen {
+            .dropdown-menu {
+                margin-block-start: var(--main-menu-offset-top, 60px);
+                opacity: 0;
+                inset-inline-start: 100%;
+                display: block;
+
+                box-shadow: none;
+
+                transition: $side-panel-dropdown-menu-transition;
+
+                overflow-y: auto;
+            }
+
+            .btn[data-toggle='dropdown'] {
+                --btn-justify-content: start;
+
+                padding-inline: 0;
+
+                width: 100%;
+
+                .theme-icon:last-child {
+                    position: absolute;
+                    justify-self: end;
+                    transform: rotate(-90deg);
+                }
+            }
+
+            &.show {
+                .btn[data-toggle='dropdown'] {
+                    --btn-font-size: #{$side-panel-dropdown-toggle-font-size};
+                    --btn-outlined-inverse-hover-color: #{$side-panel-header-label-color};
+                    --btn-outlined-inverse-color: #{$side-panel-header-label-color};
+                    --theme-icon-size: 24px;
+
+                    position: absolute;
+                    inset: 14px 2px auto;
+
+                    grid-template-columns: 24px 1fr 24px;
+
+                    opacity: 1;
+
+                    // Make proper view dropdown toggle above fullscreen popup header
+                    z-index: $side-panel-dropdown-toggle-z-index;
+
+                    .theme-icon {
+                        display: none;
+                    }
+
+                    &:before {
+                        content: '';
+                        display: block;
+                        background-color: currentColor;
+                        mask-image: $main-menu-button-chevron-left-icon;
+                        width: 24px;
+                        height: 24px;
+                    }
+                }
+
+                .dropdown-menu {
+                    opacity: 1;
+                    inset-inline-start: 0;
+                }
+            }
+        }
+    }
+}

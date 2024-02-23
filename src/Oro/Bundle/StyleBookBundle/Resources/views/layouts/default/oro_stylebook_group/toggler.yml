@@ -1,0 +1,33 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroStyleBook/layouts/default/oro_stylebook_group/toggler.html.twig'
+
+        - '@addTree':
+            items:
+                group_element_toggler_view:
+                    blockType: group_element
+                    options:
+                        anchor: toggler
+                        label: oro_stylebook.groups.ui_elements.toggler.title
+                group_element_item_toggler_view:
+                    blockType: group_element_item
+                    options:
+                        anchor: toggler
+                        subTreeLvl: 1
+                style_book_toggler_view:
+                    blockType: block
+                style_book_toggler_vertical_view:
+                    blockType: block
+                style_book_toggler_link_view:
+                    blockType: block
+
+            tree:
+                style_book_content:
+                        group_element_toggler_view:
+                            group_element_item_toggler_view:
+                                style_book_toggler_view: ~
+                                style_book_toggler_vertical_view: ~
+                                style_book_toggler_link_view: ~
+
+    conditions: 'context["group"]=="ui_elements"'

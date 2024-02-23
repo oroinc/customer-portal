@@ -1,0 +1,15 @@
+layout:
+    actions:
+        - '@add':
+            id: header_row
+            parentId: page_header
+            blockType: container
+            prepend: false
+            options:
+                visible: '=data["system_config_provider"].getValue("oro_frontend.standalone_main_menu")'
+
+        - '@move':
+            id: main_menu_container
+            parentId: header_row
+
+    conditions: 'context["standalone_main_menu"]'

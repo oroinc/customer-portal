@@ -2,48 +2,31 @@ define(function(require) {
     'use strict';
 
     const BaseView = require('oroui/js/app/views/base/view');
-    const mediator = require('oroui/js/mediator');
     const _ = require('underscore');
 
     const StyleBookStickyPanel = BaseView.extend({
         events: {
-            'click [data-toggle]': 'toggle'
+            'click [data-bottom]': 'setBottom'
         },
-
-        moved: false,
 
         constructor: function StyleBookStickyPanel(options) {
             return StyleBookStickyPanel.__super__.constructor.call(this, options);
         },
 
-        initialize: function(options) {
-            StyleBookStickyPanel.__super__.initialize.call(this, options);
-        },
+        setBottom() {
+            const $box = this.$('.sticky-panel-box');
 
-        toggle: function() {
-            if (!this.moved) {
-                this.$('[data-move-to-sticky]')
-                    .attr('data-sticky-target', 'top-sticky-panel')
-                    .attr('data-sticky', JSON.stringify({
-                        toggleClass: 'sticked',
-                        placeholderId: 'style-book-sticky-header',
-                        alwaysInSticky: true
-                    }));
+            if ($box.hasClass('sticky--top')) {
+                $box.removeClass('sticky--top');
+                $box.addClass('sticky--bottom');
+
+                this.$('[data-bottom]').text(_.__('oro_stylebook.groups.jscomponent.sticky_panel_view.set_bottom.on'));
             } else {
-                this.$el.find('[data-move-to-sticky]')
-                    .removeAttr('data-sticky-target')
-                    .removeAttr('data-sticky');
+                $box.removeClass('sticky--bottom');
+                $box.addClass('sticky--top');
+
+                this.$('[data-bottom]').text(_.__('oro_stylebook.groups.jscomponent.sticky_panel_view.set_bottom.off'));
             }
-
-            this.moved = !this.moved;
-
-            this.$('[data-toggle]').text(
-                this.moved
-                    ? _.__('oro_stylebook.groups.jscomponent.sticky_panel_view.button.sticky_on')
-                    : _.__('oro_stylebook.groups.jscomponent.sticky_panel_view.button.sticky_off')
-            );
-
-            mediator.trigger('page:afterChange');
         }
     });
 

@@ -194,6 +194,7 @@
 {% block menu_inner_widget %}
     {% set attr = layout_attr_defaults(attr, {
         'id': controlsId,
+        'data-menu-item-label': menu_item.label,
         '~class': class_prefix ? " #{class_prefix}__inner" ~ (layoutType ? " #{class_prefix}__inner--#{layoutType}")
     }) %}
 

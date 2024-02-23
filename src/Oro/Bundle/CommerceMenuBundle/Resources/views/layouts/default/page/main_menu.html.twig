@@ -2,18 +2,10 @@
     {% set attr = layout_attr_defaults(attr, {
         'data-page-component-module': 'oroui/js/app/components/view-component',
         'data-page-component-options': {view: 'orocommercemenu/js/app/views/header-row-view'},
-        'data-sticky-target': 'top-sticky-panel',
-        '~data-sticky': {
-            isSticky: true,
-            autoWidth: true,
-            toggleClass: 'header-row--fixed slide-in-down',
-            placeholderId: 'sticky-header-row',
-            viewport: 'tablet'
-        },
         '~class': 'header-row' ~ (blocks.header_row.children|length > 2 ? ' header-row--from-left')
     }) %}
 
-    <div class="page-area-container">
+    <div class="page-area-container page-header__inner page-header__inner--standalone-menu hide-on-tablet">
         <div {{ block('block_attributes') }}>
             {{ block_widget(block) }}
         </div>
@@ -22,62 +14,122 @@
 
 {% block _main_menu_extra_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        'data-main-menu-extra-container': '',
-        'data-header-row-toggle': ''
+        '~class': ' main-menu__extra-container sidebar-main-menu__container hide-on-empty',
+        'data-sidebar-menus-middle': '',
+        'data-role': 'sub-menu'
     }) %}
 
+    <div {{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+{% endblock %}
+
+{% block _menus_sidebar_container_widget %}
+    {% set attr =  layout_attr_defaults(attr, {
+        'data-menus-container': '',
+        '~class': 'hidden'
+    }) %}
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
 {% endblock %}
 
-{% block _header_row_main_menu_widget %}
-    <div class="header-row__container header-row__container--unstack">
-        <button class="header-row__trigger hidden-on-desktop"
-                type="button"
-                aria-label="{{ 'oro.commercemenu.menuupdate.menu.label'|trans }}"
-                data-page-component-module="oroui/js/app/components/viewport-component"
-                data-page-component-options="{{ {
-                    viewport: 'tablet',
-                    component: 'oroui/js/app/components/view-component',
-                    view: 'orofrontend/default/js/app/views/fullscreen-popup-view',
-                    contentElement: '[data-main-menu-extra-container]',
-                    popupLabel: 'oro_frontend.fullscreen_popup.menu.label'|trans,
-                    popupIcon: 'hamburger-menu',
-                    contentAttributes: {
-                        'class': 'fullscreen-mode'
-                    }
-                }|json_encode() }}"
-        >
-            <span class="nav-trigger__icon nav-trigger__icon--transparent nav-trigger__icon--large" aria-hidden="true">
-                <span class="fa-navicon fa--no-offset"></span>
-            </span>
-        </button>
-        <div class="header-row__toggle">
-            <div class="header-row__dropdown" data-main-menu-container>
-                {{ block_widget(block) }}
-            </div>
-        </div>
+{% block _menus_footer_sidebar_container_widget %}
+    {% set attr =  layout_attr_defaults(attr, {
+        'data-menus-footer-container': '',
+        '~class': 'hidden'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
     </div>
+{% endblock %}
+
+{% block _menus_sidebar_top_widget %}
+    {% set attr =  layout_attr_defaults(attr, {
+        '~class': 'sidebar-main-menu__container sidebar-main-menu__top hide-on-empty',
+        'data-sidebar-menus-top': '',
+        'data-role': 'sub-menu'
+    }) %}
+
+    <div {{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+{% endblock %}
+
+{% block _menus_sidebar_bottom_widget %}
+    {% set attr =  layout_attr_defaults(attr, {
+        '~class': 'sidebar-main-menu__container sidebar-main-menu__bottom hide-on-empty',
+        'data-sidebar-menus-bottom': '',
+        'data-role': 'sub-menu'
+    }) %}
+
+    <div {{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+{% endblock %}
+
+{% block _main_menu_trigger_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+
+    {% set attr =  layout_attr_defaults(attr, {
+        'type': 'button',
+        '~class': ' btn btn--outlined-inverse btn--text btn--icon main-menu-trigger',
+        'aria-label': 'oro.commercemenu.menuupdate.menu.label'|trans,
+        'data-page-component-module': 'oroui/js/app/components/viewport-component',
+        'data-page-component-options': {
+            viewport: block.vars.standaloneMainMenu ? 'tablet' : 'all',
+            component: 'oroui/js/app/components/view-component',
+            view: 'orocommercemenu/js/app/views/side-panel',
+            contentElement: '[data-menus-container]',
+            footerElement: '[data-menus-footer-container]',
+            popupName: 'main-fullscreen-side-panel',
+            popupLabel: 'oro_frontend.fullscreen_popup.menu.label'|trans,
+            popupIcon: 'hamburger-menu',
+            headerOptions: {
+                templateData: {
+                    logoSrc: logoSrc|default(asset('bundles/orofrontend/default/images/logo/demob2b-logo-small.svg'))
+                }
+            },
+            disableBodyTouchScroll: false,
+            dialogClass: 'sidebar-main-menu fullscreen-popup--transition fullscreen-popup--align-left',
+            contentAttributes: {
+                'class': 'main-menu-stack-mode fullscreen-mode'
+            },
+            footerAttributes: {
+                'class': ' side-panel-footer-container'
+            }
+        }
+    }) %}
+
+    {%- if block.vars.standaloneMainMenu -%}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': ' main-menu-standalone'
+        }) %}
+    {%- endif -%}
+
+    <button {{ block('block_attributes') }}>
+        {{- renderIcon.icon({name: 'hamburger-menu', extraClass: 'theme-icon--lg'}) -}}
+    </button>
 {% endblock %}
 
 {% block _main_menu_container_widget %}
     {% set hoverPriority = hoverPriority|default(false) %}
+    {% set extraClass = oro_config_value('oro_frontend.standalone_main_menu') ? ' main-menu-standalone-mode' : '' %}
     {% set attr =  layout_attr_defaults(attr, {
-        '~class': " main-menu-outer#{hoverPriority ? ' is-hoverable'}",
+        '~class': " main-menu-outer#{hoverPriority ? ' is-hoverable'}" ~ extraClass,
         'data-page-component-view': {
             view: 'orocommercemenu/js/app/views/menu-traveling-view',
             hoverPriority: hoverPriority
-        },
-        'data-dom-relocation-options': {
-            responsive: [
-                {
-                    viewport: 'tablet',
-                    moveTo: '[data-main-menu-extra-container]'
-                }
-            ]
         }
     }) %}
+
+    {% if oro_config_value('oro_frontend.standalone_main_menu') %}
+        {% set attr =  layout_attr_defaults(attr, {
+            'data-dom-relocation-options': {
+                responsive: [
+                    {
+                        viewport: 'tablet',
+                        moveTo: '[data-sidebar-menus-middle]',
+                        startPointClass: extraClass
+                    }
+                ]
+            }
+        }) %}
+    {% endif %}
 
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
@@ -85,25 +137,29 @@
 {% endblock %}
 
 {% block _main_menu_back_trigger_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' main-menu__back-trigger',
+        '~class': ' btn btn--plain btn--icon main-menu__back-trigger',
         'type': 'button',
         'data-go-to': 'prev'
     }) %}
 
     <button {{ block('block_attributes') }}>
-        <span class="fa-chevron-left" aria-hidden="true"></span>
-        {{ 'oro_frontend.fullscreen_popup.back.label'|trans }}
+        {{ renderIcon.icon({name: 'chevron-left', extraClass: 'theme-icon--lg'}) }}
     </button>
 {% endblock %}
 
 {% block _main_menu_outer_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' main-menu-outer__container',
-        'data-page-component-view': {
-            view: 'oronavigation/js/app/views/navigation-menu-view',
-            listenToMouseEvents: false
-        }
+        'data-page-component-module': 'orocommercemenu/default/js/components/navigation-menu-component',
+        'data-page-component-options': {
+            listenToDOMEvents: ['main-fullscreen-side-panel:shown'],
+            viewOptions: {
+                listenToMouseEvents: false
+            }
+         }|json_encode
     }) %}
 
     <div {{ block('block_attributes') }}>

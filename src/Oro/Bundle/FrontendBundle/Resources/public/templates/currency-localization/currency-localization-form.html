@@ -1,0 +1,9 @@
+<form data-name="currency-localization-control-form" class="currency-localization-control__form">
+    <div class="currency-localization-control__content"></div>
+    <% if (widthSubmitButton) { %>
+        <div class="currency-localization-control__actions">
+            <button class="btn btn--outlined" type="reset"><%- _.__('oro_frontend.dropdown.currency_localization_form.cancel') %></button>
+            <button class="btn" type="submit"><%- _.__('oro_frontend.dropdown.currency_localization_form.save') %></button>
+        </div>
+    <% } %>
+</form>

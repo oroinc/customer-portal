@@ -8,6 +8,7 @@ layout:
                     blockType: menu_item
                     options:
                         class_prefix: 'main-menu'
+                        linkEnable: false
                         vars:
                             menu_item: '=data["menu_item"]'
                 menu_item_inner:
@@ -24,8 +25,20 @@ layout:
                     blockType: container
                     options:
                         class_prefix: 'main-menu-multi'
+                menu_item_multi_container_inner:
+                    blockType: container
+                menu_item_multi_container_inner_title:
+                    blockType: container
+                menu_item_multi_container_inner_title_inner:
+                    blockType: block
+                menu_item_multi_close:
+                    blockType: block
             tree:
                 menu_item_root:
                     menu_item:
                         menu_item_inner:
-                            menu_item_multi_container: ~
+                            menu_item_multi_container:
+                                menu_item_multi_container_inner:
+                                    menu_item_multi_container_inner_title:
+                                        menu_item_multi_container_inner_title_inner: ~
+                            menu_item_multi_close: ~

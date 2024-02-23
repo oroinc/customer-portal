@@ -1,18 +1,194 @@
 /* @theme: default; */
 
 .page-header {
-    position: relative;
-    padding: $page-header-inner-offset;
+    background-color: $page-header-background-color;
+    display: flex;
+    flex-direction: column;
 
-    @include clearfix();
+    gap: $page-header-gap;
+
+    z-index: $sticky-panel-z-index + 2;
+
+    --group-offset-y: var(--sticky-page-header-group-offset-y);
+    --sticky-position-top-offset: var(--sticky-page-header-offset-top, 0);
+
+    transition: $sticky-panel-transition;
+
+    &.in-sticky {
+        &.scrolled-up {
+            transform: translateY(0);
+        }
+
+        &.scroll-down {
+            transform: translateY(calc(var(--group-offset-y, 0) * -1));
+        }
+    }
+
+    &--standalone-main-menu {
+        gap: $page-header-gap-lg;
+
+        // When header has standalone menu and in same time don't have other sticky siblings
+        // Made roll up viewport header
+        &:not(:has(~ .page-main .sticky)) {
+            --sticky-position-top-offset: calc(var(--sticky-page-header-element-height, 0) * -1);
+
+            transition: top 250ms ease-out;
+
+            &.in-sticky {
+                &.scroll-up {
+                    top: 0;
+                }
+            }
+        }
+    }
 
     &-content {
         display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
     }
 
     &__inner {
-        padding: $page-header-inner-inner-offset;
+        padding-left: $page-header-inner-inner-offset-x;
+        padding-right: $page-header-inner-inner-offset-x;
+
+        &--hide-on-empty {
+            &:not(:has(.page-header__element)) {
+                display: none;
+            }
+        }
+    }
+
+    &__promotional-block {
+        color: $page-header-promotional-link-color;
+
+        &:hover {
+            color: $page-header-promotional-link-color;
+        }
+    }
+
+    .customer-menu {
+        &__dropdown {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+    }
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+
+    &__right,
+    &__left {
+        display: flex;
+        gap: $page-header-topbar-gap;
+    }
+
+    &__left {
+        justify-content: start;
+    }
+
+    &__right {
+        justify-content: end;
+        margin-inline-start: auto;
+    }
+}
+
+.promotional-content-container {
+    display: flex;
+    align-items: center;
+    height: $page-header-promotional-content-height;
+}
+
+@include breakpoint('desktop-small') {
+    .page-header {
+        &__inner {
+            &:first-child {
+                padding-top: $page-header-inner-inner-offset-y;
+            }
+
+            &:last-child {
+                padding-bottom: $page-header-inner-inner-offset-y;
+            }
+
+            &--standalone-menu {
+                &:last-child {
+                    padding-bottom: $page-header-inner-standalone-inner-offset;
+                }
+            }
+
+            &--no-vertical-offset {
+                &:first-child {
+                    padding-top: 0;
+                }
+
+                &:last-child {
+                    padding-bottom: 0;
+                }
+            }
+        }
+    }
+}
+
+@include breakpoint('tablet') {
+    .page-header {
+        --header-inner-gaps: 24px;
+
+        // If top toolbar doesn't contains any elements below, should add top inner offset
+        &:not(:has(.page-header__element, .page-header__inner:only-child)) {
+            padding-top: $page-header-inner-offset-top-tablet;
+        }
+
+        &__inner {
+            padding-left: $page-header-inner-offset-inner-tablet;
+            padding-right: $page-header-inner-offset-inner-tablet;
+
+            &:only-child {
+                padding-top: spacing('base');
+            }
+
+            &:last-of-type,
+            &:has(+ .hide-on-tablet:last-of-type) {
+                padding-bottom: spacing('base');
+            }
+        }
+
+        &--standalone-main-menu {
+            gap: $page-header-gap-lg-tablet;
+        }
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .page-header {
+        --header-inner-gaps: #{spacing('md')};
+    }
+}
+
+@include breakpoint('mobile') {
+    .page-header {
+        gap: $page-header-gap-mobile;
+
+        &__inner {
+            // In case when page header have promotion block and language/currency switcher
+            // Handle multiple page header inners on mobile view
+            &:not(:only-child):not(:last-of-type) {
+                margin-bottom: spacing('md');
+            }
+        }
+    }
+}
+
+@each $key, $value in $breakpoints {
+    // Generate classes for media queries for page header context
+    @include breakpoint($key) {
+        .page-header {
+            .hide-block-on-#{$key},
+            .hide-label-on-#{$key} {
+                // stylelint-disable-next-line declaration-no-important
+                display: none !important;
+            }
+        }
     }
 }

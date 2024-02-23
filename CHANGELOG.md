@@ -2,6 +2,34 @@ The upgrade instructions are available at [Oro documentation website](https://do
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
+### Added
+
+#### FrontendBundle
+
+* Added `orofrontend/default/js/app/views/sticky-element-view` and `orofrontend/default/js/app/modules/sticky-manager-module` to provide new sticky element functionality based on CSS `position: sticky` property.
+
+### Removed
+
+#### FrontendBundle
+
+* Removed `orofrontend/default/js/app/views/sticky-panel-view`.
+* Removed component shortcut `data-page-component-sticky`.
+* Removed `__sticky_panel__sticky_panel_widget`, `__sticky_panel__sticky_panel_content_widget` blocks in layout
+
+### Changed
+
+#### FrontendBundle
+
+SCSS `$base-font-minor` and `$base-font-icon` variables were removed, use `$base-font` and SVG icon instead.
+SCSS `get-nested-map-value` function was removed, use native SCSS `map.get` function instead.
+
+Widget `oro/frontend-dialog-widget` was renamed to `oro/dialog-widget`, so you have to use `oro/dialog-widget` in your customization.
+This widget no longer uses `fullscreen-popup-view` under the hood to render dialog as fullscreen.
+All logic is done by CSS using an extra class `fullscreen`.
+As a result, `fullscreenViewOptions` property was deleted and property `popupIcon` and
+events `frontend-dialog:accept, frontend-dialog:cancel, frontend-dialog:close` were renamed to `dialogTitleIcon`, and `accept, cancel, close`.
+
+
 ## Changes in the Customer Portal package versions
 
 - [6.0.0-BETA](#600-beta-2024-01-08)
@@ -29,6 +57,7 @@ The current file describes significant changes in the code that may affect the u
 
 #### FrontendBundle
 * SCSS `$base-font-minor` and `$base-font-icon` variables were removed, use `$base-font` and SVG icon instead.
+* SCSS 'link' mixin was removed, use `@extend a` for applying link styles.  
 * SCSS `get-nested-map-value` function was removed, use native SCSS `map.get` function instead.
 * Widget `oro/frontend-dialog-widget` was renamed to `oro/dialog-widget`, so you have to use `oro/dialog-widget` in your customization. 
   This widget no longer uses `fullscreen-popup-view` under the hood to render dialog as fullscreen. 

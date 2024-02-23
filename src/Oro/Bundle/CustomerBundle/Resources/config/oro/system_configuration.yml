@@ -8,8 +8,6 @@ system_configuration:
         customer_users_registration:
             title: oro.customer.system_configuration.groups.customer_users_registration.title
             icon: 'fa-user-plus'
-        menu_templates:
-            title: oro.customer.system_configuration.groups.menu_templates.title
         customer_visitor_section:
             title: oro.customer.system_configuration.groups.customer_visitor_section.title
         map_settings:
@@ -90,19 +88,6 @@ system_configuration:
             options:
                 label: oro.customer.system_configuration.fields.registration_instructions_text.label
                 required: false
-        oro_customer.user_menu_show_items:
-            data_type: string
-            type: Symfony\Component\Form\Extension\Core\Type\ChoiceType
-            search_type: choice
-            priority: 50
-            options:
-                label: oro.customer.system_configuration.fields.user_menu_show_items.label
-                required: true
-                constraints:
-                    - NotBlank: ~
-                choices:
-                    oro.customer.system_configuration.fields.user_menu_show_items.option.all_at_once.label: all_at_once
-                    oro.customer.system_configuration.fields.user_menu_show_items.option.subitems_in_popup.label: subitems_in_popup
         oro_customer.enable_responsive_grids:
             data_type: boolean
             type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
@@ -208,9 +193,6 @@ system_configuration:
                         children:
                             theme:
                                 children:
-                                    menu_templates:
-                                        children:
-                                            - oro_customer.user_menu_show_items
                                     responsive_grid_settings:
                                         children:
                                             - oro_customer.enable_responsive_grids

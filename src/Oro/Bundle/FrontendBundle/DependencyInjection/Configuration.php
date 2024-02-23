@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\DependencyInjection;
 
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ConfigBundle\DependencyInjection\SettingsBuilder;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -10,9 +11,18 @@ use Symfony\Component\HttpFoundation\Cookie;
 
 class Configuration implements ConfigurationInterface
 {
-    const ROOT_NODE = 'oro_frontend';
-    const FILTER_VALUE_SELECTORS_ALL_AT_ONCE = 'all_at_once';
-    const FILTER_VALUE_SELECTORS_DROPDOWN = 'dropdown';
+    public const ROOT_NODE = 'oro_frontend';
+
+    public const FILTER_VALUE_SELECTORS_ALL_AT_ONCE = 'all_at_once';
+    public const FILTER_VALUE_SELECTORS_DROPDOWN = 'dropdown';
+
+    public const PROMOTIONAL_CONTENT = 'promotional_content';
+    public const TOP_NAVIGATION_MENU = 'top_navigation_menu';
+    public const LANGUAGE_AND_CURRENCY_SWITCHERS = 'language_and_currency_switchers';
+    public const STANDALONE_MAIN_MENU = 'standalone_main_menu';
+    public const QUICK_ACCESS_BUTTON = 'quick_access_button';
+    public const QUICK_LINKS = 'quick_links';
+    public const SEARCH_ON_SMALLER_SCREENS = 'search_on_smaller_screens';
 
     /**
      * {@inheritdoc}
@@ -29,7 +39,14 @@ class Configuration implements ConfigurationInterface
                 'page_templates' => ['type' => 'array', 'value' => []],
                 'guest_access_enabled' => ['type' => 'boolean', 'value' => true],
                 'filter_value_selectors' => ['type' => 'string', 'value' => self::FILTER_VALUE_SELECTORS_DROPDOWN],
-                'web_api' => ['type' => 'boolean', 'value' => false]
+                'web_api' => ['type' => 'boolean', 'value' => false],
+                self::PROMOTIONAL_CONTENT => ['type' => 'integer', 'value' => null],
+                self::TOP_NAVIGATION_MENU => ['type' => 'string', 'value' => false],
+                self::LANGUAGE_AND_CURRENCY_SWITCHERS => ['type' => 'string', 'value' => 'always_in_hamburger_menu'],
+                self::STANDALONE_MAIN_MENU => ['type' => 'boolean', 'value' => false],
+                self::QUICK_ACCESS_BUTTON => ['type' => 'object', 'value' => null],
+                self::QUICK_LINKS => ['type' => 'string', 'value' => 'commerce_quick_access'],
+                self::SEARCH_ON_SMALLER_SCREENS => ['type' => 'string', 'value' => 'integrated'],
             ]
         );
         $rootNodeChildren = $rootNode->children();
@@ -130,5 +147,12 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end();
+    }
+
+    public static function getConfigKeyByName(
+        string $key,
+        string $separator = ConfigManager::SECTION_MODEL_SEPARATOR
+    ): string {
+        return sprintf('%s%s%s', self::ROOT_NODE, $separator, $key);
     }
 }
