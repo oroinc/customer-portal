@@ -1,0 +1,29 @@
+<% let oroui = _.macros('oroui') %>
+<div class="side-panel-currency-localization-info">
+    <span class="side-panel-currency-localization-trigger__label">
+        <%= oroui.renderIcon({ name: icon, extraClass: 'side-panel-footer-localization__icon' }) %>
+        <% let i = 0; %>
+        <% var context = obj[name] %>
+        <% if (context) { %>
+            <% for (const item of context.items) { %>
+                <% if (context.selected.value === item.value) { %>
+                    <span
+                        class="side-panel-currency-localization-info__item side-panel-currency-localization-info__item--active text-nowrap"
+                        data-name="<%- context.name %>-label">
+                        <%- item.title %>
+                    </span>
+                <% } else { %>
+                    <a class="side-panel-currency-localization-info__item text-nowrap" href="#" data-<%- context.name %>="<%- item.value %>">
+                        <%- item.title %>
+                    </a>
+            <% } %>
+                <% if (i === 0) { %>
+                    <span class="divider" aria-hidden="true"></span>
+                <% } %>
+                <% i++; %>
+            <% } %>
+        <% } %>
+    </span>
+</div>
+
+<div data-localization-form-container class="currency-localization-control__form-container"></div>

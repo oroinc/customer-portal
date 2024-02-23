@@ -1,10 +1,52 @@
+{% block _menu_item_multi_close_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+    {% set attr = layout_attr_defaults(attr, {
+        'type': 'button',
+        '~class': " close-dialog btn btn--plain btn--text" ~ (class_prefix ? " #{class_prefix}__close"),
+        'title': 'Close'|trans,
+        'aria-label': 'oro.commercemenu.multi.close.aria_label'|trans,
+        'data-role': 'close'
+    }) %}
+
+    <button {{ block('block_attributes') }}>{{ renderIcon.icon({name: 'x'}) }}</button>
+{% endblock %}
+
 {% block _menu_item_multi_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': class_prefix ? " #{class_prefix}__container"
     }) %}
 
     <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _menu_item_multi_container_inner_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': class_prefix ? " #{class_prefix}__container-inner"
+    }) %}
+
+    <div {{ block('block_attributes') }}>
         {% do block|merge_context({'menu_items': menu_items}) %}
         {{ block_widget(block) }}
     </div>
+{% endblock %}
+
+{% block _menu_item_multi_container_inner_title_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': class_prefix ? " #{class_prefix}__container-title"
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _menu_item_multi_container_inner_title_inner_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'href': oro_commercemenu_get_url(menu_item.uri),
+        '~class': class_prefix ? " #{class_prefix}__container-title-inner"
+    }) %}
+
+    <a {{ block('block_attributes') }}>{{- 'oro.commercemenu.frontend.navigation.section_title'|trans({'%section_title%': menu_item.label}) -}}</a>
 {% endblock %}

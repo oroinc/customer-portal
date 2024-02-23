@@ -156,7 +156,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $crawler = $this->client->followRedirect();
         self::assertEquals(
-            'Sign In',
+            'Log In',
             trim($crawler->filter('.login-form h1')->html())
         );
         self::assertStringContainsString('Please check your email to complete registration', $crawler->html());
@@ -176,7 +176,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $result = $this->client->getResponse();
         self::assertHtmlResponseStatusCodeEquals($result, 200);
-        self::assertStringContainsString('Sign In', $crawler->html());
+        self::assertStringContainsString('Log In', $crawler->html());
 
         $user = $this->getCustomerUser(['email' => self::EMAIL]);
         self::assertNotEmpty($user);
@@ -260,7 +260,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $result = $this->client->getResponse();
         self::assertHtmlResponseStatusCodeEquals($result, 200);
         self::assertEquals(
-            'Sign In',
+            'Log In',
             trim($crawler->filter('.login-form h1')->html())
         );
 
@@ -306,7 +306,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         self::assertHtmlResponseStatusCodeEquals($result, 200);
         self::assertEquals(
-            'Sign In',
+            'Log In',
             trim($crawler->filter('.login-form h1')->html())
         );
         self::assertStringContainsString('Password was created successfully.', $crawler->html());

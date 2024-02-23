@@ -21,7 +21,6 @@ $btn-general: (
     'justify-content': center
 ) !default;
 
-$btn-hover-text-decoration: none !default;
 $btn-cursor: pointer !default;
 $btn-block-display: grid !default;
 $btn-no-padding-inline: 2px !default;
@@ -212,6 +211,28 @@ $btn-palette: (
             'color': get-var-color('text', 'disabled')
         )
     ),
+    'colored': (
+        'default': (
+                'background': transparent,
+                'border-color': transparent,
+                'color': get-var-color('text', 'secondary')
+        ),
+        'hover': (
+                'background': transparent,
+                'border-color': transparent,
+                'color': get-var-color('primary', 'main')
+        ),
+        'focus': (
+                'background': transparent,
+                'border-color': transparent,
+                'color': get-var-color('primary', 'main')
+        ),
+        'active': (
+                'background': transparent,
+                'border-color': transparent,
+                'color': get-var-color('primary', 'main')
+        )
+    ),
     // Dark theme
     'inverse': (
         'default': (
@@ -266,7 +287,29 @@ $btn-palette: (
             'border-color': get-var-color('neutral', 'white-30'),
             'color': get-var-color('text', 'disabled')
         )
-    )
+    ),
+    'colored-inverse': (
+        'default': (
+                'background': transparent,
+                'border-color': transparent,
+                'color': get-var-color('text', 'inverse')
+        ),
+        'hover': (
+                'background': transparent,
+                'border-color': transparent,
+                'color': get-var-color('text', 'link-hover-on-dark')
+        ),
+        'focus': (
+                'background': transparent,
+                'border-color': transparent,
+                'color': get-var-color('text', 'link-hover-on-dark')
+        ),
+        'active': (
+                'background': transparent,
+                'border-color': transparent,
+                'color': get-var-color('text', 'link-hover-on-dark')
+        )
+    ),
 ) !default;
 
 // List of buttons size

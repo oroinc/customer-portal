@@ -1,0 +1,55 @@
+/* @theme: default; */
+
+.toggle-container-vertical {
+    height: 100%;
+    overflow-y: auto;
+
+    label {
+        display: block;
+        position: relative;
+        flex: 1 1 100%;
+        color: $toggler-base-color;
+        font-size: $toggler-font-size;
+        line-height: $toggler-line-height;
+        padding: 14px 12px;
+        border: 1px solid $toggle-vertical-border-color;
+        transition: all .2s ease-in-out;
+        white-space: nowrap;
+        user-select: none;
+        font-weight: 400;
+        cursor: pointer;
+        border-radius: $toggler-border-radius;
+    }
+
+    &__icon {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        margin-top: -10px;
+        opacity: 0;
+        color: $toggle-vertical-icon-color-active;
+        transition: opacity .2s ease-in-out;
+    }
+
+    input {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+        height: 1px;
+        width: 1px;
+        border: 0;
+        overflow: hidden;
+
+        + label {
+            margin-bottom: 10px;
+        }
+
+        &:checked + label {
+            background-color: $toggle-vertical-background-color-active;
+            border-color: $toggle-vertical-border-color-active;
+
+            .toggle-container-vertical__icon {
+                opacity: 1;
+            }
+        }
+    }
+}

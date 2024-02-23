@@ -58,9 +58,10 @@ oro_behat_extension:
         locator: '//div[contains(@class,"page-footer")]//button//span[contains(text(), "Information")]'
 
     Main Menu Button:
-      selector:
-        type: xpath
-        locator: '//div[contains(@class,"header-row")]//button[contains(@class, "header-row__trigger")]//span[contains(@class, "fa-navicon")]/ancestor::button'
+      selector: 'button.main-menu-trigger'
+
+    Frontend Main Menu Close Button:
+      selector: '[data-role="close"]'
 
     And User Agent Condition:
       selector: '.control-group-collection .add-list-item'

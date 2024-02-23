@@ -18,9 +18,6 @@ class Configuration implements ConfigurationInterface
     const DEFAULT_REGISTRATION_INSTRUCTIONS_TEXT
         = 'To register for a new account, contact a sales representative at 1 (800) 555-0123';
 
-    const USER_MENU_SHOW_ITEMS_ALL_AT_ONCE = 'all_at_once';
-    const USER_MENU_SHOW_ITEMS_SUBITEMS_IN_POPUP = 'subitems_in_popup';
-
     const SECONDS_IN_DAY = 86400;
 
     /**
@@ -46,7 +43,6 @@ class Configuration implements ConfigurationInterface
                     'value' => self::DEFAULT_REGISTRATION_INSTRUCTIONS_TEXT,
                 ],
                 'company_name_field_enabled' => ['type' => 'boolean', 'value' => true],
-                'user_menu_show_items' => ['type' => 'string', 'value' => self::USER_MENU_SHOW_ITEMS_ALL_AT_ONCE],
                 'enable_responsive_grids' => ['type' => 'boolean', 'value' => true],
                 'enable_swipe_actions_grids' => ['type' => 'boolean', 'value' => true],
                 'customer_visitor_cookie_lifetime_days' => ['type' => 'integer', 'value' => 30],

@@ -35,6 +35,7 @@ oro_frontend:
             guests.title: 'Guests'
             website_access.title: 'Website Access'
             filter_settings.title: 'Filter Settings'
+            header_settings.title: 'Header'
         fields:
             frontend_theme.label: 'Theme'
             page_template_collection.label: 'Page Templates'
@@ -51,6 +52,55 @@ oro_frontend:
                     all_at_once: 'All at once'
             web_api:
                 label: Enable Storefront API
+            promotional_content:
+                label: 'Promotional Content'
+                tooltip: 'The selected content block will be rendered above the header. Please make sure that the provided content is sized properly to fit into the designated area.'
+                placeholder: 'Select Promotional Content'
+            top_navigation_menu:
+                label: 'Top Navigation Menu'
+                tooltip: 'The selected menu will be rendered above the header.'
+                placeholder: 'Select top navigation menu'
+            language_and_currency_switchers:
+                label: 'Language and Currency Switchers'
+                tooltip: 'When "Above the header" option is selected, the language and currency switchers (if applicable) will be rendered above the header on the devices with the sufficient screen width. On smaller screens the language/currency switchers will be placed inside the "hamburger" menu.'
+                choices:
+                    above_the_header: 'Above the header'
+                    hamburger: 'Always in the "hamburger" menu'
+            main_navigation_menu:
+                label: 'Main Navigation Menu'
+            standalone_main_menu:
+                label: 'Standalone Main Menu'
+                tooltip: 'The main navigation menu can either be rendered separately to provide easy access to its top level items on the devices with sufficient screen width, or it can be combined with other navigational elements in the "hamburger" menu.'
+            quick_access_button:
+                label: 'Quick Access Button'
+                tooltip: 'The quick access button can either open some additional menu, or it can be a direct shortcut to product catalog or another important section of the website.'
+                fields:
+                    label:
+                        label: 'Label'
+                        tooltip: ''
+                    type:
+                        label: 'Type'
+                        tooltip: 'Type of the quick access button'
+                        placeholder: 'None'
+                        choices:
+                            menu: 'Frontend Menu'
+                            content_node: 'Content Node'
+                    menu:
+                        label: 'Frontend Menu'
+                        tooltip: ''
+                    web_catalog_node:
+                        label: 'Content Node'
+                        tooltip: ''
+            quick_links:
+                label: 'Quick Links'
+                tooltip: 'The top level items from the selected menu will be added to the header to provide quick access to the most frequently used pages.'
+                placeholder: 'Select quick links'
+            search_on_smaller_screens:
+                label: 'Search On Smaller Screens'
+                tooltip: 'On smaller screens the search input can be rendered in its own row to provide easy access to global search.'
+                choices:
+                    integrated: 'Integrated'
+                    standalone: 'Standalone'
         messages:
             no_page_templates: 'No templates available.'
 

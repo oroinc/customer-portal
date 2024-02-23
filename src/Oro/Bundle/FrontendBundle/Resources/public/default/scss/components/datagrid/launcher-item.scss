@@ -69,22 +69,20 @@
     }
 
     .dropdown-item.action {
-        @include link();
-
-        text-decoration: $link-link-normal-text-decoration;
-
         @include element-state('focus') {
             background-color: initial;
         }
 
         @include element-state('hover') {
-            text-decoration: $link-link-hover-text-decoration;
+            text-decoration: $link-hover-decoration;
             background-color: initial;
         }
     }
 
     .dropdown-menu & {
         .action {
+            text-decoration: none;
+
             &.mode-icon-text,
             &.mode-text-only {
                 padding: $launcher-item-action-text-only-inner-offset;

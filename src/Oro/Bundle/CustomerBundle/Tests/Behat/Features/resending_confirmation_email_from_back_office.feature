@@ -13,7 +13,7 @@ Feature: Resending confirmation email from back office
   Scenario: Register new user and don't follow the confirmation link
     Given I proceed as the User
     And I am on homepage
-    Then I click "Register"
+    Then I click "Sign Up"
     Given I fill "Registration Form" with:
       | Company Name     | Company Inc              |
       | First Name       | New                      |

@@ -12,7 +12,7 @@ Feature: Visibility of Company Name Field on registration page
   Scenario: Check that Company Name Field is visible by default
     Given I proceed as the User
     And I am on homepage
-    Then I click "Register"
+    Then I click "Sign Up"
     And I should see a "Registration Form" element
     And I should see that "Registration Form" contains "Company Name"
 
@@ -62,5 +62,5 @@ Feature: Visibility of Company Name Field on registration page
     And submit form
     And I should see "Configuration saved" flash message
     And I proceed as the User
-    Then I click "Register"
+    Then I click "Sign Up"
     And I should see that "Registration Form" does not contain "Company Name"

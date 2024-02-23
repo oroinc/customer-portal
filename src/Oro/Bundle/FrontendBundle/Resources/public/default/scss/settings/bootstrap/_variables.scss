@@ -20,9 +20,10 @@ $body-color: get-var-color('text', 'primary');
 
 // Links
 // Style anchor elements.
-
 $link-color: get-var-color('text', 'link');
 $link-hover-color: get-var-color('text', 'link-hover');
+$link-decoration: underline;
+$link-hover-decoration: underline;
 
 // Paragraphs
 // Style p element.
@@ -137,7 +138,7 @@ $dropdown-color: get-var-color('text', 'primary');
 $dropdown-border-color: transparent;
 $dropdown-border-width: 0;
 $dropdown-spacer: spacing('xs');
-$dropdown-box-shadow: 0 4px 12px rgba(91 126 131 / .14), 0 0 4px rgba(5 59 66 / .08);
+$dropdown-box-shadow: 0px 3px 12px 0px rgba(91, 126, 131, .14), 0px 0px 4px 0px rgba(5, 59, 66, .08);
 $dropdown-padding-y: spacing('sm');
 
 $dropdown-link-hover-color: get-var-color('text', 'primary');
@@ -145,6 +146,7 @@ $dropdown-link-hover-color: get-var-color('text', 'primary');
 $dropdown-link-hover-bg: null;
 $dropdown-link-only-hover-bg: get-var-color('primary', 'light');
 $dropdown-link-active-color: get-var-color('text', 'primary');
+$dropdown-link-active-state-color: get-var-color('primary', 'main') !default;
 $dropdown-link-active-bg: transparent;
 $dropdown-link-disabled-color: get-var-color('text', 'disabled');
 $dropdown-item-padding-y: spacing('md');
@@ -153,6 +155,19 @@ $dropdown-item-font: list.slash($base-font-size, $base-line-height) $base-font;
 $dropdown-item-align-items: center;
 $dropdown-item-gap: spacing('sm');
 
+$dropdown-link-color-destructive: get-color('destructive', 'main') !default;
+$dropdown-link-font-weight-destructive: font-weight('normal') !default;
+
+$dropdown-divider-margin-x: spacing('xs');
+$dropdown-divider-bg: get-color('neutral', 'grey2');
+
+$dropdown-header-color: get-color('text', 'primary');
+$dropdown-header-padding: 0 spacing('base') !default;
+$dropdown-header-min-height: 44px !default;
+$dropdown-header-font-size: $base-font-size--xs !default;
+$dropdown-header-font-weight: font-weight('semi-bold') !default;
+
+$dropdown-divider-margin-inline: spacing('base') !default;
 // Pagination
 
 // Jumbotron
@@ -161,13 +176,17 @@ $dropdown-item-gap: spacing('sm');
 
 // Tooltips
 
-$tooltip-font-size: .875rem;
+$tooltip-font-size: $base-font-size - 1px;
 $tooltip-max-width: 316px;
 $tooltip-border-radius: $border-radius-xs;
-$tooltip-padding-y: spacing('xs');
-$tooltip-padding-x: spacing('sm');
-$tooltip-arrow-width: 12px;
-$tooltip-arrow-height: 6px;
+$tooltip-bg: get-color('neutral', 'white-100');
+$tooltip-color: get-color('text', 'primary');
+$tooltip-padding-y: spacing('sm');
+$tooltip-padding-x: spacing('md');
+$tooltip-box-shadow: 0 3px 6px 0 rgba(91, 126, 131, .14), 0 0 3px 0 rgba(5, 59, 66, .1) !default;
+$tooltip-arrow-width: 0;
+$tooltip-arrow-height: 0;
+$tooltip-opacity: 1;
 
 // Form tooltips must come after regular tooltips
 

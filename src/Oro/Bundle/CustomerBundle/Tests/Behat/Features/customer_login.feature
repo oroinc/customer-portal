@@ -19,18 +19,19 @@ Feature: Customer login
 
   Scenario: Check unsuccessful login error
     Given I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I fill form with:
       | Email Address | NotExistingAddress@example.com |
       | Password      | test                           |
-    When I click "Sign In"
+    When I click "Log In"
     Then I should see "Your login was unsuccessful. Please check your e-mail address and password before trying again. If you have forgotten your password, follow \"Forgot Your password?\" link."
 
   Scenario: Check successful login and logout of buyer
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I should see text matching "Signed in as: Amanda Cole"
+    And I should see text matching "Amanda Cole"
+    And I click "Account Dropdown"
     Then click "Sign Out"
-    And I should not see text matching "Signed in as: Amanda Cole"
+    And I should not see text matching "Amanda Cole"
 
   Scenario: Check redirect to profile
     Given I signed in as AmandaRCole@example.org on the store frontend
@@ -55,13 +56,12 @@ Feature: Customer login
   Scenario: Check translated unsuccessful login error
     Given I proceed as the User
     And I am on the homepage
-    And I click "Localization Switcher"
     And I select "Zulu" localization
-    And I click "Sign In"
+    And I click "Log In"
     And I fill form with:
       | Email Address | NotExistingAddress@example.com |
       | Password      | test                           |
-    When I click "Sign In"
+    When I click "Log In"
     Then I should see "Your login was unsuccessful - Zulu"
 
   Scenario: Check redirect to login page after remove session
@@ -69,5 +69,5 @@ Feature: Customer login
     When I go to "/customer/user/login-check"
     Then I should be on Customer User Profile page
     When I restart the browser
-    Then I should see "Sign In"
-    And I should not see "Signed in as: Amanda Cole"
+    Then I should see "Log In"
+    And I should not see "Amanda Cole"

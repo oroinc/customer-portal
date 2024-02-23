@@ -1,53 +1,58 @@
 /* @theme: default; */
 
-$main-menu-multi-item-border-top: 1px solid get-color('additional-old', 'light') !default;
-$main-menu-multi-item-border-bottom: 1px solid get-color('additional-old', 'light') !default;
-$main-menu-multi-item-background-hover: get-color('additional-old', 'base') !default;
+$main-menu-multi-item-background-hover: get-color('primary', 'light') !default;
+$main-menu-multi-item-border-bottom: 1px solid get-color('neutral', 'grey2') !default;
+$main-menu-multi-item-background-hover: get-color('primary', 'light') !default;
+$main-menu-multi-item-background-show: get-color('neutral', 'grey1') !default;
 
-$main-menu-multi-actions-height: 48px !default;
+$main-menu-multi-actions-height: 44px !default;
 $main-menu-multi-actions-display: grid !default;
-$main-menu-multi-actions-grid-template-columns: 32px auto 1fr 32px 32px !default;
+$main-menu-multi-actions-grid-template-columns: auto auto 1fr 32px 20px !default;
 
-$main-menu-multi-actions-has-sublist-icon: var(--fa-var-angle-right) !default;
-$main-menu-multi-actions-has-sublist-font-size: $base-font-size !default;
+$main-menu-multi-actions-has-sublist-background-color: currentColor !default;
+$main-menu-multi-actions-has-sublist-icon: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path fill="%23000" fill-rule="evenodd" d="M8.293 5.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414L13.586 12 8.293 6.707a1 1 0 0 1 0-1.414Z"></path></svg>') !default;
+$main-menu-multi-actions-has-sublist-icon-size: 20px !default;
 $main-menu-multi-actions-has-sublist-display: flex !default;
 $main-menu-multi-actions-has-sublist-align-items: center !default;
+$main-menu-multi-actions-has-sublist-align-self: center !default;
 $main-menu-multi-actions-has-sublist-justify-content: center !default;
 $main-menu-multi-actions-has-sublist-grid-column: 5 !default;
 $main-menu-multi-actions-has-sublist-grid-row: 1 !default;
 
-$main-menu-multi-link-margin: 0 32px !default;
+$main-menu-multi-link-margin: 8px !default;
+$main-menu-multi-link-padding: 0 56px 0 8px !default;
 $main-menu-multi-link-display: inline-flex !default;
-$main-menu-multi-link-color: get-color('additional-old', 'dark') !default;
-$main-menu-multi-link-text-transform: uppercase !default;
+$main-menu-multi-link-color: get-color('text', 'primary') !default;
+$main-menu-multi-link-text-transform: null !default;
+$main-menu-multi-link-font-weight: font-weight('semi-bold') !default;
 $main-menu-multi-link-position: relative !default;
 $main-menu-multi-link-overflow: hidden !default;
 $main-menu-multi-link-white-space: nowrap !default;
-$main-menu-multi-link-grid-column: 2 !default;
+$main-menu-multi-link-grid-column: #{'1 / 6'} !default;
 $main-menu-multi-link-grid-row: 1 !default;
 $main-menu-multi-link-align-items: center !default;
-$main-menu-multi-link-align-self: center !default;
+$main-menu-multi-link-align-self: initial !default;
 $main-menu-multi-link-z-index: z('base') + 1 !default;
 
 $main-menu-multi-link-focus-keys-grid-column: #{'1 / 6'} !default;
 $main-menu-multi-link-focus-keys-align-self: initial !default;
 $main-menu-multi-link-focus-keys-margin: 8px !default;
-$main-menu-multi-link-focus-keys-padding: 0 56px 0 24px !default;
+$main-menu-multi-link-focus-keys-padding: 0 !default;
 
 $main-menu-multi-link-only-child-keys-grid-column: #{'1 / 6'} !default;
 $main-menu-multi-link-only-child-keys-align-self: initial !default;
-$main-menu-multi-link-only-child-keys-padding: 0 64px 0 32px !default;
+$main-menu-multi-link-only-child-keys-padding: 0 !default;
 
 $main-menu-multi-button-background: none !default;
 $main-menu-multi-button-font-family: $base-font !default;
 $main-menu-multi-button-font-size: $base-font-size !default;
-$main-menu-multi-button-color: get-color('additional-old', 'dark') !default;
+$main-menu-multi-button-font-weight: font-weight('semi-bold') !default;
+$main-menu-multi-button-color: get-color('text', 'primary') !default;
 $main-menu-multi-button-text-align: start !default;
-$main-menu-multi-button-text-transform: uppercase !default;
 $main-menu-multi-button-white-space: nowrap !default;
 $main-menu-multi-button-border: none !default;
 $main-menu-multi-button-margin: 8px !default;
-$main-menu-multi-button-padding: 0 56px 0 24px !default;
+$main-menu-multi-button-padding: 0 56px 0 32px !default;
 $main-menu-multi-button-grid-column: #{'1 / 6'} !default;
 $main-menu-multi-button-grid-row: 1 !default;
 $main-menu-multi-button-position: relative !default;
@@ -63,3 +68,5 @@ $main-menu-multi-button-span-show-display: block !default;
 $main-menu-multi-button-span-show-text-overflow: ellipsis !default;
 $main-menu-multi-button-span-show-overflow: hidden !default;
 $main-menu-multi-button-span-visibility: hidden !default;
+
+$main-menu-multi-title-container-box-shadow: 0 0 5px get-color('neutral', 'grey2') !default;

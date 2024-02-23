@@ -2,10 +2,15 @@
 
 .search-widget {
     position: $search-widget-position;
+    width: $search-widget-wrap-width;
 
-    &-wrap {
-        width: $search-widget-wrap-width;
+    &--align-left {
         max-width: $search-widget-wrap-max-width;
+    }
+
+    &__input-container {
+        flex-basis: 100%;
+        position: relative;
     }
 
     &__input {
@@ -13,6 +18,27 @@
         padding: $search-widget-input-inner-offset;
         width: $search-widget-input-width;
         position: $search-widget-input-position;
+        color: $search-widget-input-color;
+        background-color: transparent;
+        border-color: $search-widget-input-border-color;
+        border-radius: $search-widget-input-border-radius;
+
+        &:hover {
+            border-color: $search-widget-input-border-color;
+        }
+
+        &:focus {
+            border-width: $search-widget-input-focus-border-width;
+            border-color: $search-widget-input-focus-border-color;
+        }
+
+        @include placeholder {
+            color: $search-widget-input-color;
+        }
+
+        &:placeholder-shown {
+            text-overflow: $search-widget-input-placeholder-text-overflow;
+        }
 
         &.undo-focus {
             border: $search-widget-input-undo-focus-border;
@@ -21,9 +47,12 @@
     }
 
     &__submit {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         position: $search-widget-input-submit-position;
         top: $search-widget-input-submit-top;
-        right: $search-widget-input-submit-right;
+        left: $search-widget-input-submit-left;
         bottom: $search-widget-input-submit-bottom;
 
         width: $search-widget-input-submit-width;
@@ -35,8 +64,6 @@
         background: $search-widget-input-submit-background;
         border: $search-widget-input-submit-border;
 
-        color: $search-widget-input-submit-color;
-
         @include element-state('hover') {
             color: $search-widget-input-submit-hover-color;
             cursor: $search-widget-input-submit-hover-cursor;
@@ -46,19 +73,61 @@
             color: $search-widget-input-submit-focus-color;
         }
     }
+
+    .search-icon {
+        display: block;
+        fill: $search-widget-input-color;
+    }
+
+    &__cancel {
+        display: none;
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .search-widget {
+        &--full {
+            display: flex;
+            align-items: center;
+            gap: spacing('xs');
+
+            background: $search-widget-full-background-color;
+            position: absolute;
+            inset: 0;
+            width: auto;
+            z-index: 1;
+        }
+
+        &--full &__input-container {
+            padding-left: spacing('base');
+            padding-right: spacing('base');
+            flex-basis: 100%;
+        }
+
+        &__form {
+            display: flex;
+            align-items: center;
+            flex-basis: 100%;
+        }
+
+        &--full &__cancel {
+            display: inline-block;
+        }
+
+        &--full &__submit {
+            left: spacing('base');
+        }
+    }
 }
 
 @include breakpoint('tablet') {
     .search-widget {
-        margin: $search-widget-tablet-offset;
-
-        &__input {
-            height: $search-widget-input-tablet-height;
+        &--standalone {
+            margin: $search-widget-tablet-offset;
         }
 
-        &__submit {
-            height: $search-widget-submit-tablet-height;
-            bottom: $search-widget-submit-tablet-bottom;
+        &--integrated {
+            max-width: $search-widget-wrap-tablet-max-width;
         }
     }
 }

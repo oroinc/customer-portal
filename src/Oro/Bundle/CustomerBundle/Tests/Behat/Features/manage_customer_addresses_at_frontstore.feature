@@ -23,8 +23,10 @@ Feature: Manage Customer addresses at front-store
 
   Scenario: Check Buttons under DataGrids
     Given I signed in as NancyJSallee@example.org on the store frontend
-    When I follow "Account"
+    And I click "Account Dropdown"
+    And I click "My Profile"
     Then I should see "Address book is empty"
+    And I click "Account Dropdown"
     When I click "Address Book"
     Then I should see "New Address"
     And I should see "New Company Address"
@@ -74,14 +76,14 @@ Feature: Manage Customer addresses at front-store
 
   Scenario: Check addresses of user that have same customer at User access level
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I follow "Account"
+    And I click "Account Dropdown"
     And I click "Users"
     When I click view "Nancy" in grid
     Then I should not see "alert(9)"
     And I should not see "alert(11), alert(12), DE-BE"
 
   Scenario: First and Last name, default for current customer user's info, during company address addition
-    Given I follow "Account"
+    And I click "Account Dropdown"
     And I click "Address Book"
     And I click "New Company Address"
     Then "OroForm" must contains values:
@@ -89,7 +91,7 @@ Feature: Manage Customer addresses at front-store
       | Last Name  | Cole   |
 
   Scenario: Create address using country without region
-    Given I follow "Account"
+    And I click "Account Dropdown"
     When I click "Address Book"
     And I click "New Address"
     And I fill form with:
@@ -102,9 +104,12 @@ Feature: Manage Customer addresses at front-store
       | Default Billing  | true        |
       | Default Shipping | true        |
     And I click "Save"
+    And click on "Flash Message Close Button"
+    And I click "Account Dropdown"
     And I click "My Profile"
     Then I should see "Test street"
     And I should see "Test city, 12345, AI"
+    And I click "Account Dropdown"
     And I click "Sign Out"
 
   Scenario: Enable permissions to manage addresses for customer users from the same department
@@ -122,12 +127,13 @@ Feature: Manage Customer addresses at front-store
 
   Scenario: Check Edit and Delete address buttons for not own address on profile page
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I follow "Account"
+    And I click "Account Dropdown"
     When I click "My Profile"
     And click edit alert(9) address
     Then "OroForm" must contains values:
       | Street | alert(9) |
-    When I click "My Profile"
+    And I click "Account Dropdown"
+    And I click "My Profile"
     And delete alert(9) address
     And click "Yes, Delete" in confirmation dialogue
     Then should not see "alert(9)"

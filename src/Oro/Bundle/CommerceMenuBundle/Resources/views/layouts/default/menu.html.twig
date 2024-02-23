@@ -31,7 +31,8 @@
             clear_matcher: clear_matcher,
             leaf_class: leaf_class,
             branch_class: branch_class,
-            customItemBlock: customItemBlock
+            customItemBlock: customItemBlock,
+            customLabelBlock: customLabelBlock
         } %}
 
         {% set listAttributes = item.childrenAttributes|merge(attr) %}
@@ -134,18 +135,36 @@
             entityId: app.user.id
         }) }}
     {%- else %}
-        <a href="{{ oro_commercemenu_get_url(item.uri) }}"{{ oro_menu.attributes(linkAttributes) }}>{{ block('label') }}</a>
+        <a href="{{ oro_commercemenu_get_url(item.uri) }}"{{ oro_menu.attributes(linkAttributes) }}>
+            {% if customLabelBlock %}
+                {{ block(customLabelBlock) }}
+            {% else %}
+                {{ block('label') }}
+            {% endif %}
+        </a>
     {% endif %}
 
 {% endblock %}
 
 {% block spanElement %}
     {% import _self as oro_menu %}
-    <span{{ oro_menu.attributes(labelAttributes) }} {{ oro_menu.attributes(linkAttributes) }}>{{ block('label') }}</span>
+    <span{{ oro_menu.attributes(labelAttributes) }}>
+        {% if customLabelBlock %}
+            {{ block(customLabelBlock) }}
+        {% else %}
+            {{ block('label') }}
+        {% endif %}
+    </span>
 {% endblock %}
 
 {% block label %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {%- set label = item.extras.custom is defined and item.extras.custom == true ? item.label : item.label|trans -%}
+
+    {% if item.extras.icon is defined %}
+        {{ renderIcon.icon({name: item.extras.icon}) }}
+    {% endif %}
+
     {%- if options.allow_safe_labels and item.getExtra('safe_label', false) -%}
         {{- label|oro_html_sanitize -}}
     {% else %}

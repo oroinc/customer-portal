@@ -9,7 +9,7 @@ Feature: Customer user roles datagrid check
 
   Scenario: Customer user role check datagrid manager
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I follow "Account"
+    And I click "Account Dropdown"
     And I click "Roles"
     And I click Edit Administrator in grid
     When I click on "FrontendGridColumnManagerButton"

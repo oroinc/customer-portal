@@ -8,10 +8,13 @@ layout:
                     blockType: container
                     prepend: true
                     options:
-                        visible: '=data["system_config_provider"].getValue("oro_customer.user_menu_show_items")=="subitems_in_popup"'
+                        vars:
+                            searchType: '=data["system_config_provider"].getValue("oro_frontend.search_on_smaller_screens")'
                 top_nav_user_name:
                     blockType: text
                     options:
+                        vars:
+                            searchType: '=data["system_config_provider"].getValue("oro_frontend.search_on_smaller_screens")'
                         text: '=data["current_user"].getCurrentUser().getFullName()'
                 top_nav_customer_menu:
                       blockType: menu
@@ -23,20 +26,15 @@ layout:
                     blockType: container
                 top_nav_customer_dropdown_trigger:
                     blockType: container
-                top_nav_customer_dropdown_trigger_welcome_label:
-                    blockType: text
-                    options:
-                        text: 'oro.customer.frontend.menu.customer_user_welcome.label'
                 top_nav_customer_dropdown_sign_out_link:
                     blockType: link
                     options:
                         route_name: oro_customer_customer_user_security_logout
                         text: 'oro.customer.frontend.menu.customer_user_sign_out.label'
             tree:
-                top_nav_container:
+                middle_bar_right_menus:
                     top_nav_controls_dropdown_container:
                         top_nav_customer_dropdown_trigger:
-                            top_nav_customer_dropdown_trigger_welcome_label: ~
                             top_nav_user_name: ~
                         top_nav_customer_dropdown_menu:
                             top_nav_customer_menu_list:

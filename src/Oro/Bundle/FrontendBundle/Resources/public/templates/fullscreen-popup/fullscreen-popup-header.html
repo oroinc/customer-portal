@@ -1,7 +1,6 @@
 <% let oroui = _.macros('oroui') %>
 <% if (label) { %>
     <% if (icon) { %>
-        <% let oroui = _.macros('oroui') %>
         <button type="button" class="fullscreen-popup__icon btn btn--plain btn--text" data-role="close" aria-label="<%- _.__('Close') %>">
             <%= oroui.renderIcon({name: icon}) %>
         </button>
@@ -11,7 +10,7 @@
     ><span data-role="title"><%- label %></span></span>
     <% if (close) { %>
     <button type="button" class="close-dialog close-dialog--no-ofsset btn btn--plain btn--text" data-role="close" aria-label="<%-_.__('oro_frontend.fullscreen_popup.actions.labels.close') %>">
-        <%= oroui.renderIcon({name: 'x', extraClass: 'theme-icon--medium'}) %>
+        <%= oroui.renderIcon({name: 'x'}) %>
     </button>
 <% } %>
 <% } %>

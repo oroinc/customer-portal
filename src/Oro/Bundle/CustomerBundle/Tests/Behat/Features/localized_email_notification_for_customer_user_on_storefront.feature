@@ -48,9 +48,8 @@ Feature: Localized email notification for customer user on storefront
 
   Scenario Outline: Check email send to the customer user when register by storefront administrator by different localizations
     Given I am on the homepage
-    And click "Localization Switcher"
-    And select "<Locale>" localization
-    And follow "Account"
+    And I select "<Locale>" localization
+    And I click "Account Dropdown"
     And click "Users"
     And click "Create User"
     When I fill form with:
@@ -61,7 +60,7 @@ Feature: Localized email notification for customer user on storefront
       | Confirm Password   | <Email> |
       | Buyer (Predefined) | true    |
       | Send Welcome Email | true    |
-    And click "Save"
+    And click "Save" in "Customer Frontend Customer User" element
     Then I should see "Customer User has been saved" flash message
     And email with Subject "<Subject>" containing the following was sent:
       | Body | <Body> |

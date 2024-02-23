@@ -14,6 +14,10 @@ layout:
             id: scroll_top
             root: page_main
 
+        -
+            id: currency_localization_switcher
+            root: menus_footer_sidebar_container
+
     actions:
         - '@setBlockTheme':
             themes: '@OroFrontend/layouts/default/page/layout.html.twig'
@@ -66,11 +70,6 @@ layout:
             id: sticky_header_row
             parentId: top_sticky_panel_content
             blockType: block
-
-        - '@move':
-            id: top_sticky_panel
-            parentId: page_container
-            siblingId: page_header
 
         - '@setOption':
             id: root

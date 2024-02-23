@@ -2,11 +2,66 @@
 
 .main-menu-columns {
     display: $main-menu-columns-display;
+    gap: $main-menu-columns-gap;
 
-    padding: $main-menu-columns-inner-offset;
+    &__container {
+        padding: $main-menu-columns-container-padding;
+    }
+
+    &__title {
+        margin-bottom: $main-menu-columns-title-margin-bottom;
+    }
+
+    &__title-link {
+        line-height: $main-menu-columns-title-link-line-height;
+        font-weight: $main-menu-columns-title-link-font-weight;
+        color: $main-menu-columns-title-link-color;
+        text-decoration: $main-menu-columns-title-link-text-decoration;
+
+        &:hover {
+            color: $main-menu-columns-title-link-hover-color;
+            text-decoration: $main-menu-columns-title-link-hover-text-decoration;
+        }
+    }
+
+    &__title-inner {
+        @include ellipsis();
+    }
 
     &--single {
         padding: $main-menu-columns-single-inner-offset;
+    }
+}
+
+@at-root {
+    .main-menu-stack-mode {
+        .main-menu-columns {
+            padding: 0;
+
+            flex-direction: column;
+
+            &__title {
+                padding: 0 0 0 40px;
+                margin-bottom: 0;
+
+                @media (hover: hover) {
+                    &:not(&--image):hover {
+                        background: $main-menu-columns-item-background-hover;
+                    }
+                }
+            }
+
+            &__title-link {
+                min-height: 44px;
+                display: grid;
+                align-items: center;
+                color: $main-menu-columns-stack-mode-title-link-color;
+            }
+
+            &__container {
+                padding: 0;
+            }
+        }
     }
 }
 
@@ -15,5 +70,16 @@
         display: $main-menu-columns-display-tablet;
 
         @include safe-area-offset(padding, $main-menu-columns-inner-offset-tablet);
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .main-menu-stack-mode {
+        .main-menu-columns {
+            &__title {
+                padding: 0 spacing('base');
+                margin-bottom: 0;
+            }
+        }
     }
 }

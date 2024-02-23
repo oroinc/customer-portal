@@ -1,0 +1,52 @@
+{% block _quick_access_button_container_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " quick-access-button-container dropdown hide-block-on-" ~ (searchType == 'integrated' ? 'mobile-big' : 'tablet-small'),
+        'data-dom-relocation-options': {
+            responsive: [
+                {
+                    viewport: searchType == 'integrated' ? 'mobile-big' : 'tablet-small',
+                    moveTo: "[data-sidebar-menus-top]",
+                    endpointClass: 'dropdown-fullscreen navigation-menu__button'
+                }
+            ]
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {% if menu.children|length > 0 %}
+            {% set togglerId = 'dropdown-'|uniqid %}
+            <button id="{{togglerId}}" data-toggle="dropdown"  data-popper="false" type="button" class="btn btn--outlined-inverse" aria-haspopup="true" aria-expanded="false">
+                <span class="btn-label-ellipses">{{ buttonLabel }}</span>
+                {{ renderIcon.icon({name: 'chevron-down', extraClass: 'quick-access-button-icon'}) }}
+            </button>
+            <div class="dropdown-menu quick-access-button-menu dropdown-menu-left dropdown-menu-full-width main-menu__inner-container" role="menu" aria-labelledby="{{togglerId}}">{{ block_widget(block) }}</div>
+        {% elseif menu.uri != null %}
+            <a href="{{menu.uri}}" class="btn btn--outlined-inverse">
+                <span class="btn-label-ellipses">{{ buttonLabel }}</span>
+            </a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block _quick_access_button_menu_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' quick-access-menu',
+        'role': 'menu'
+    }) %}
+
+    {% set child_attr = layout_attr_defaults(child_attr, {
+        '~class': ' quick-access-menu-column__item quick-access-menu__item',
+        'data-role': 'menuitem'
+    }) %}
+
+    {% set link_attr = layout_attr_defaults(link_attr, {
+        '~class': ' dropdown-item quick-access-menu-column__link quick-access-menu__link',
+        'role': 'menuitem'
+    }) %}
+
+    {% set firstClass = null %}
+    {% set lastClass = null %}
+
+    {{ parent_block_widget(block) }}
+{% endblock %}

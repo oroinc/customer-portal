@@ -9,7 +9,7 @@ Feature: Frontend grid boolean filter for customer users
 
   Scenario: Check filter by enabled
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I follow "Account"
+    And I click "Account Dropdown"
     And I click "Users"
     When I check "Yes" in "Filter By Enabled" filter
     Then I should see following grid:

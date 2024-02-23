@@ -9,15 +9,15 @@ Feature: Customer User Login Attempts
 
   Scenario: Try to login with wrong customer user
     Given I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I fill form with:
       | Email Address | NotExistingAddress@example.com |
       | Password      | test                           |
-    When I click "Sign In"
+    When I click "Log In"
 
   Scenario: Login with customer user
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I should see text matching "Signed in as: Amanda Cole"
+    And I should see text matching "Amanda Cole"
 
   Scenario: Customer user login attempts
     Given I login as administrator

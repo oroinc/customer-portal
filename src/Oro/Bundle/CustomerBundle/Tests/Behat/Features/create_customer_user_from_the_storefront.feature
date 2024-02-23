@@ -10,7 +10,7 @@ Feature: Create customer user from the store-front
 
   Scenario: Create new user with invalid email from front-store
     Given I signed in as NancyJSallee@example.org on the store frontend
-    And follow "Account"
+    And I click "Account Dropdown"
     And click "Users"
     And click "Create User"
     And fill form with:
@@ -32,12 +32,15 @@ Feature: Create customer user from the store-front
       | Email Address    | newuser@test.com |
     And click "Save"
     And should see "Customer User has been saved" flash message
+    And click on "Flash Message Close Button"
+    And I click "Account Dropdown"
     And click "Users"
     When click view "newuser@test.com" in grid
     Then should see "CUSTOMER USER - newFirst newLast"
 
   Scenario: Create new user from front-store with generated password
-    Given I click "Users"
+    And I click "Account Dropdown"
+    And I click "Users"
     And click "Create User"
     And fill form with:
       | Email Address      | newuser2@test.com |
@@ -47,11 +50,14 @@ Feature: Create customer user from the store-front
       | Buyer (Predefined) | true              |
     And click "Save"
     And should see "Customer User has been saved" flash message
+    And click on "Flash Message Close Button"
+    And I click "Account Dropdown"
     And click "Users"
     When click view "newuser2@test.com" in grid
     Then should see "CUSTOMER USER - newFirst2 newLast2"
 
   Scenario: Customer user should not see not self-managed roles in roles list during customer editing
+    And I click "Account Dropdown"
     Given I click "Users"
     And I click "Create User"
     Then I should see "customer assigned self managed"

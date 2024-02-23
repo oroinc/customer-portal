@@ -4,14 +4,18 @@ layout:
             themes: '@OroCommerceMenu/layouts/default/page/quick_access.html.twig'
         - '@addTree':
             items:
-                quick_access_container:
-                    blockType: container
-                    prepend: false
                 quick_access_menu:
                     blockType: menu
+                    prepend: true
+                    siblingId: top_nav_controls_dropdown_container
                     options:
-                        item: '=data["menu"].getMenu("commerce_quick_access")'
+                        visible: '=data["system_config_provider"].getValue("oro_frontend.quick_links")'
+                        item: '=data["menu"].getMenu(data["system_config_provider"].getValue("oro_frontend.quick_links"))'
+                        vars:
+                            searchType: '=data["system_config_provider"].getValue("oro_frontend.search_on_smaller_screens")'
+                quick_access_menu_item:
+                    blockType: menu_item_simple
             tree:
-                middle_bar_right:
-                    quick_access_container:
-                        quick_access_menu: ~
+                middle_bar_right_menus:
+                    quick_access_menu:
+                        quick_access_menu_item: ~

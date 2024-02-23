@@ -17,7 +17,7 @@ Feature: Frontend Grid Views
 
   Scenario: Create new grid view, checked that settings are saved, delete grid view
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I follow "Account"
+    And I click "Account Dropdown"
     And I click "Users"
     When I hide all columns in "Customer Users Grid" except First Name, Last Name, Email Address
     When I filter Filter By First Name as contains "FirstName_3"
@@ -41,4 +41,5 @@ Feature: Frontend Grid Views
     Then I should see "View has been successfully deleted" flash message
     When I click grid view list on "Customer Users Grid" grid
     Then I should not see "Test_View_1"
+    And I click "Account Dropdown"
     And I click "Sign Out"

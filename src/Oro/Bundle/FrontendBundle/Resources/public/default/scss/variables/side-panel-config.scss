@@ -1,0 +1,20 @@
+/* @theme: default; */
+
+$side-panel-footer-padding: spacing('sm') spacing('base') !default;
+$side-panel-footer-trigger-font-size: 14px !default;
+$side-panel-footer-trigger-padding: 6px 0px !default;
+$side-panel-footer-trigger-text-color: get-color('text', 'primary') !default;
+$side-panel-footer-trigger-icon-color: get-color('text', 'secondary') !default;
+$side-panel-footer-trigger-icon-color-hover: get-color('primary', 'main') !default;
+$side-panel-footer-trigger-icon-background-color: get-color('neutral', 'grey1') !default;
+$side-panel-footer-trigger-icon-background-color-hover: get-color('primary', 'light') !default;
+$side-panel-footer-trigger-icon-padding: 6px !default;
+$side-panel-footer-trigger-text-divider-color: get-color('neutral', 'grey2') !default;
+$side-panel-footer-localization-gap: spacing('md') !default;
+$side-panel-footer-item-padding: spacing('md') 0 !default;
+$side-panel-footer-item-line-height: 1.4 !default;
+$side-panel-footer-icon-color: get-color('neutral', 'grey3') !default;
+$side-panel-footer-mobile-backdrop-color: rgba(get-color('neutral', 'dark'), .6) !default;
+$side-panel-footer-trigger-text-divider-margin: 0 spacing('md') !default;
+
+$side-panel-currency-localization-info-inner-offset: spacing('md') 0 !default;

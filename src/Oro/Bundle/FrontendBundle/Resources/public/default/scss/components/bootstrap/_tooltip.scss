@@ -15,17 +15,19 @@
 
     .arrow {
         &::before {
-            @include base-disabled-style(.75);
+            @include base-disabled-style(1);
         }
     }
 }
 
 .tooltip-inner {
+    box-shadow: $tooltip-box-shadow;
+
     &:not(.not-expand) {
         text-align: left;
     }
 
-    @include base-disabled-style(.75);
+    @include base-disabled-style(1);
 }
 
 .tooltip-container {

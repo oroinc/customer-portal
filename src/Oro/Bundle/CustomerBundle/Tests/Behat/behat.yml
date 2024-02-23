@@ -123,13 +123,6 @@ oro_behat_extension:
           URL: 'routing[oro_website___url][value]'
           Secure URL Use System: 'routing[oro_website___secure_url][use_parent_scope_value]'
           Secure URL: 'routing[oro_website___secure_url][value]'
-    Menu Templates Form:
-      selector: 'form[name="theme"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
-      options:
-        mapping:
-          Use Default: 'theme[oro_customer___user_menu_show_items][use_parent_scope_value]'
-          User Menu: 'theme[oro_customer___user_menu_show_items][value]'
     Theme Templates Form:
       selector: 'form[name="theme"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -138,21 +131,21 @@ oro_behat_extension:
           Theme: 'theme[oro_frontend___frontend_theme][value]'
           Use Default: 'theme[oro_frontend___frontend_theme][use_parent_scope_value]'
     Popup User Menu trigger:
-      selector: '.topbar-customer-menu .topbar-customer-menu__trigger'
+      selector: '.customer-menu .customer-menu__trigger'
     Popup User Menu:
-      selector: '.topbar-customer-menu .topbar-customer-menu-list'
+      selector: '.customer-menu .customer-menu-list'
     Preferred Localization:
       selector: '[name="oro_customer_customer_user[preferredLocalization]"]'
 
     Popup User Menu Link Users:
       selector:
         type: xpath
-        locator: '//*[contains(@class, "topbar-customer-menu-list__item")]/descendant::a[contains(., "Users")]'
+        locator: '//*[contains(@class, "customer-menu-list__item")]/descendant::a[contains(., "Users")]'
 
     Popup User Menu Link Roles:
       selector:
         type: xpath
-        locator: '//*[contains(@class, "topbar-customer-menu-list__item")]/descendant::a[contains(., "Roles")]'
+        locator: '//*[contains(@class, "customer-menu-list__item")]/descendant::a[contains(., "Roles")]'
 
     Configuration:
       selector: '[title="Organization Configuration"]'
@@ -268,7 +261,9 @@ oro_behat_extension:
       selector: '.address-list__address div'
 
     Map Icon:
-      selector: '.item-map-button'
+      selector:
+        type: xpath
+        locator: '//a[@title="Map"] | //button[@aria-label="Map"]'
 
     Default Addresses:
       selector:
@@ -292,6 +287,12 @@ oro_behat_extension:
       selector:
         type: xpath
         locator: '//h2[contains(., "My Addresses")]/ancestor::*[contains(concat(" ", normalize-space(@class), " "), " list-address-book ")] '
+
+    Customer Frontend Customer User:
+      selector: '[name="oro_customer_frontend_customer_user"]'
+
+    Address Form:
+      selector: '.address-form'
 
     Is Primary Address Checkbox:
       selector: 'label[for*="oro_customer_frontend_typed_address_primary"]'

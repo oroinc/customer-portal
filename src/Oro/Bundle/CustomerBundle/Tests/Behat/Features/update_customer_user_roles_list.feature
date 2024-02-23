@@ -13,7 +13,7 @@ Feature: Update Customer User Roles List
   Scenario: Check customer users list with default roles list
     Given I operate as the User
     And I signed in as AmandaRCole@example.org on the store frontend
-    And I follow "Account"
+    And I click "Account Dropdown"
     And I click "Users"
     Then I should see following records in grid:
       | Amanda |
@@ -33,7 +33,7 @@ Feature: Update Customer User Roles List
   Scenario: Check customer users list with updated roles list
     Given I operate as the User
     And I signed in as AmandaRCole@example.org on the store frontend
-    And I follow "Account"
+    And I click "Account Dropdown"
     And I click "Users"
     Then I should see following records in grid:
       | Amanda |

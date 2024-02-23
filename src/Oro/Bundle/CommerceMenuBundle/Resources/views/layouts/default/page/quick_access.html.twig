@@ -1,62 +1,78 @@
-{% block _quick_access_container_widget %}
+{% block _quick_access_menu_widget %}
+    {% set domRelocationOptions = [] %}
+
+    {% if oro_config_value('oro_frontend.standalone_main_menu') %}
+        {% set domRelocationOptions = domRelocationOptions|merge([{
+            viewport: 'all',
+            endpointClass: 'navigation-menu--inverse',
+            moveTo: '.page-header__inner--standalone-menu > .header-row'
+        }]) %}
+
+        {% set domRelocationOptions = domRelocationOptions|merge([{
+            viewport: 'tablet',
+            moveTo: '.middlebar__menus',
+            startPointClass: 'navigation-menu--inverse navigation-menu--sm-gap',
+            endpointClass: 'navigation-menu--inverse',
+            prepend: true
+        }]) %}
+    {% endif %}
+
+    {% set domRelocationOptions = domRelocationOptions|merge([{
+        viewport: searchType == 'integrated' ? 'mobile-landscape' : 'mobile-big',
+        moveTo: '[data-sidebar-menus-top]',
+        startPointClass: 'navigation-menu--inverse navigation-menu--sm-gap',
+        endpointClass: 'navigation-menu__vertical'
+    }]) %}
+
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " quick-access-container"
+        '~class': " navigation-menu navigation-menu--inverse navigation-menu--sm-gap",
+        'data-dom-relocation-options': {
+            responsive: domRelocationOptions
+        }|json_encode
     }) %}
-    <div {{ block('block_attributes') }}>
-        {{ block_widget(block) }}
-    </div>
+
+    {% if searchType == 'integrated' %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': ' hide-block-on-mobile-landscape',
+        }) %}
+    {% else %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': ' hide-block-on-mobile-big',
+        }) %}
+    {% endif %}
+
+    {% set child_attr = layout_attr_defaults(child_attr, {
+        '~class': ' navigation-menu__item'
+    }) %}
+
+    {% set link_attr = layout_attr_defaults(link_attr, {
+        '~class': ' navigation-menu__inner navigation-menu__button no-decoration'
+    }) %}
+
+    {% set label_attr = layout_attr_defaults(label_attr, {
+        '~class': ' navigation-menu__inner'
+    }) %}
+
+    {% set customLabelBlock = customLabelBlock|default('_quick_access_menu_label') %}
+
+    {{ parent_block_widget(block) }}
 {% endblock %}
 
-{% block _quick_access_menu_widget %}
-    {% import '@OroNavigation/Menu/menu.html.twig' as oro_menu %}
-    {% if item.displayed and item.extras.isAllowed %}
-        {% set attr = layout_attr_defaults(attr, {
-            '~class': ' quick-access',
-            'data-dom-relocation-options': {
-                responsive: [
-                    {
-                        viewport: 'tablet',
-                        moveTo: '[data-main-menu-extra-container]'
-                    }
-                ]
-            }
-        }) %}
+{% block _quick_access_menu_label %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+    {%- set label = item.extras.custom is defined and item.extras.custom == true ? item.label : item.label|trans -%}
+    {% if item.extras.icon is defined %}
+        {{ renderIcon.icon({name: item.extras.icon}) }}
+        {% set searchType = oro_config_value('oro_frontend.search_on_smaller_screens') %}
 
-        {% set firstItem = true %}
-        {% for child in item.children %}
-            {% if child.displayed and child.extras.isAllowed %}
-                {% if firstItem %}
-                    <div {{ block('block_attributes') }}>
-                        <ul class="quick-access__list">
-                {% endif %}
-
-                {% if child.name == 'orders' %}
-                    {% set badgeClass = 'quick-access__icon--light' %}
-                    {% set iconClass = 'fa-clipboard' %}
-                {% elseif child.name == 'quotes' %}
-                    {% set badgeClass = '' %}
-                    {% set iconClass = 'fa-tags' %}
-                {% else %}
-                    {% set badgeClass = 'quick-access__icon--dark' %}
-                    {% set iconClass = 'fa-bolt' %}
-                {% endif %}
-
-            <li class="quick-access__item">
-                {% set linkAttributes = child.linkAttributes|merge({'class': 'quick-access__link'}) %}
-                <a href="{{ child.uri }}"{{ oro_menu.attributes(linkAttributes) }}>
-                    <span class="quick-access__icon {{ badgeClass }} {{ iconClass }}" aria-hidden="true"></span>
-                    {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
-                    <span class="quick-access__text">{{ label }}</span>
-                </a>
-            </li>
-
-                {% set firstItem = false %}
-            {% endif %}
-        {% endfor %}
-
-        {% if firstItem == false %}
-                </ul>
-            </div>
-        {% endif %}
+        {% set spanClass = searchType == 'integrated' ? 'hide-label-on-tablet' : 'hide-label-on-mobile-landscape' %}
     {% endif %}
+
+    <span class="{{ spanClass|default('') }}">
+        {%- if options.allow_safe_labels and item.getExtra('safe_label', false) -%}
+            {{- label|oro_html_sanitize -}}
+        {% else %}
+            {{- label -}}
+        {%- endif -%}
+    </span>
 {% endblock %}

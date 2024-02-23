@@ -1,0 +1,11 @@
+/* @theme: default; */
+
+.main-menu-trigger {
+    margin-left: $main-menu-trigger-left-offset;
+}
+
+@include breakpoint('desktop-small') {
+    .main-menu-trigger.main-menu-standalone {
+        display: $main-menu-trigger-desktop-small-display;
+    }
+}

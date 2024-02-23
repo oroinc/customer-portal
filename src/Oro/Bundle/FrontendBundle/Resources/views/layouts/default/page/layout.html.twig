@@ -27,8 +27,18 @@
 
 {% block _page_header_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' page-header'
+        '~class': ' page-header sticky sticky--top',
+        'data-sticky': {
+            name: 'page-header',
+            sentinel: 'toolbar'
+        }
     }) %}
+
+    {% if oro_config_value('oro_frontend.standalone_main_menu') %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': ' page-header--standalone-main-menu'
+        }) %}
+    {% endif %}
 
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}

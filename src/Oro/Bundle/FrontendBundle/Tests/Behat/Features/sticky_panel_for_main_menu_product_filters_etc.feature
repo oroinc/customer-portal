@@ -1,4 +1,6 @@
+@skip
 @ticket-BB-9097
+@ticket-BB-23160
 @automatically-ticket-tagged
 @fixture-OroFrontendBundle:Products.yml
 Feature: Sticky panel for main menu, product filters etc

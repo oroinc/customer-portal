@@ -29,7 +29,6 @@ class CustomerUserMenuTest extends WebTestCase
      */
     public function testNotFoundPage(): void
     {
-        $this->configManager->set('oro_customer.user_menu_show_items', 'subitems_in_popup');
         $this->configManager->flush();
 
         $this->loginUser(LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_LOCAL);
@@ -37,7 +36,7 @@ class CustomerUserMenuTest extends WebTestCase
         $this->assertResponseStatusCodeEquals($this->client->getResponse(), 404);
         $this->assertPageTitleSame('Not Found');
 
-        $menu = $crawler->filterXPath('//ul[contains(@class, "topbar-customer-menu-list")]/li');
+        $menu = $crawler->filterXPath('//ul[contains(@class, "customer-menu-list")]/li');
         // Only 3 items as there are no other permissions
         $this->assertCount(3, $menu);
     }
