@@ -4,6 +4,10 @@
     &__container {
         height: $main-menu-multi-container-height;
     }
+
+    &__container-title-inner {
+        @include ellipsis();
+    }
 }
 
 @include breakpoint('mega-menu-wide') {

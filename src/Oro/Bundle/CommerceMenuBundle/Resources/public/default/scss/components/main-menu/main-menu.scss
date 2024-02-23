@@ -275,7 +275,7 @@
 
             &__button {
                 font-weight: font-weight('semi-bold');
-                padding: 0;
+                padding: 0 spacing('lg') 0 0;
                 margin: 0;
 
                 &::before {

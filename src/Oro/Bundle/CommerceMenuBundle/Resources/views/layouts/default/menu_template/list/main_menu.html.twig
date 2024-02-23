@@ -10,7 +10,9 @@
                     href="{{ oro_commercemenu_get_url(menu_item.uri) }}"
                     class="main-menu-columns__title-link"
                 >
-                    {{- 'oro.commercemenu.frontend.navigation.section_title'|trans({'%section_title%': menu_item.label}) -}}
+                    <span class="main-menu-columns__title-inner">
+                        {{- 'oro.commercemenu.frontend.navigation.section_title'|trans({'%section_title%': menu_item.label}) -}}
+                    </span>
                 </a>
             </div>
             <div class="main-menu-columns main-menu-columns--single">

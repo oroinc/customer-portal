@@ -24,6 +24,10 @@
         }
     }
 
+    &__title-inner {
+        @include ellipsis();
+    }
+
     &--single {
         padding: $main-menu-columns-single-inner-offset;
     }

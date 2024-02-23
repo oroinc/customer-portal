@@ -60,7 +60,7 @@
 
 @include breakpoint('mobile-big') {
     .quick-access-button-container {
-        padding: $quick-access-button-inner-offset-mobile-big;
+        margin: $quick-access-button-inner-offset-mobile-big;
 
         .btn {
             width: 100%;
