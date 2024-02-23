@@ -42,22 +42,22 @@ Feature: Mega Menu Items
     And I click on "Node-1" in tree "Sidebar Menu Tree"
     When I click "Create Menu Item"
     And I fill "Commerce Menu Form" with:
-      | Title       | Node with loooooooooooooooong name |
-      | Target Type | Content Node                       |
+      | Title       | Node with loooooooooooooooooooooooooooooooong name |
+      | Target Type | Content Node                                       |
     And I expand "Node-1" in tree "Menu Update Content Node Field"
     And I click on "Node-1-1" in tree "Menu Update Content Node Field"
     And I save form
     And I should see "Menu item saved successfully." flash message
-    Then I should see "Node with loooooooooooooooong name" belongs to "Node-1" in tree "Sidebar Menu Tree"
+    Then I should see "Node with loooooooooooooooooooooooooooooooong name" belongs to "Node-1" in tree "Sidebar Menu Tree"
 
   Scenario: Check tooltip when hover over menu item with long name
     Given I proceed as the Buyer
     And I reload the page
-    And I should see "Node-1 / Node with loooooooooooooooong name" in main menu
+    And I should see "Node-1 / Node with loooooooooooooooooooooooooooooooong name" in main menu
     And I click on "Main Menu Button"
     And I click on "Node1"
     When I hover on "NodeWithLongName"
-    Then I should see "Node with loooooooooooooooong name" in the "Tooltip" element
+    Then I should see "Node with loooooooooooooooooooooooooooooooong name" in the "Tooltip" element
 
   Scenario: Check default openning menu items
     Given I reload the page

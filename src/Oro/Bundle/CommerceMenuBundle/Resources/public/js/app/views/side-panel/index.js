@@ -1,3 +1,4 @@
+import mediator from 'oroui/js/mediator';
 import FullScreenPopupView from 'orofrontend/default/js/app/views/fullscreen-popup-view';
 import SidePanelHeader from './side-panel-header';
 import SidePanelFooterView from './side-panel-footer-view';
@@ -44,7 +45,15 @@ const SidePanelView = FullScreenPopupView.extend({
             }));
         }
 
+        mediator.trigger(`${this.popupName}:${section}:shown`);
+
         return promise;
+    },
+
+    closeSection(section) {
+        SidePanelView.__super__.closeSection.call(this, section);
+
+        mediator.trigger(`${this.popupName}:${section}:closed`);
     },
 
     remove() {
@@ -65,6 +74,7 @@ const SidePanelView = FullScreenPopupView.extend({
 
         this.$popup.removeClass('show');
         this.subview('backdrop').hide();
+        this.subview('sidePanelFooterView').hide();
         document.body.classList.remove('no-scroll-safe');
 
         if (parseFloat(this.$popup.css('transition-duration')) === 0) {

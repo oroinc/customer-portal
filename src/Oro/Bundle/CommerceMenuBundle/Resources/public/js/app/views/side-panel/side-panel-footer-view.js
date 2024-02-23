@@ -26,7 +26,7 @@ const SidePanelFooterView = BaseView.extend({
         }
     },
 
-    expandCollapseFooter(event) {
+    expandCollapseFooter() {
         this.toggleExpand(!this.isExpanded);
 
         if (!this.isExpanded) {
@@ -38,6 +38,11 @@ const SidePanelFooterView = BaseView.extend({
         this.subview('backdrop').toggle(state);
         this.$popup.toggleClass('side-menu-footer-expand', state);
         this.isExpanded = state;
+    },
+
+    hide() {
+        this.toggleExpand(false);
+        this.$('form').trigger('reset');
     },
 
     render() {

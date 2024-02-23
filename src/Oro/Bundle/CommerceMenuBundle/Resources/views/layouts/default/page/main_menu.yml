@@ -13,7 +13,6 @@ layout:
                     blockType: container
                 menus_footer_sidebar_container:
                     blockType: container
-                    prepend: true
                 main_menu_container:
                     blockType: container
                     options:

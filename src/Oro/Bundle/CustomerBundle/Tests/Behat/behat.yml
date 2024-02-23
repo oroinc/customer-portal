@@ -288,6 +288,12 @@ oro_behat_extension:
         type: xpath
         locator: '//h2[contains(., "My Addresses")]/ancestor::*[contains(concat(" ", normalize-space(@class), " "), " list-address-book ")] '
 
+    Customer Frontend Customer User:
+      selector: '[name="oro_customer_frontend_customer_user"]'
+
+    Address Form:
+      selector: '.address-form'
+
     Is Primary Address Checkbox:
       selector: 'label[for*="oro_customer_frontend_typed_address_primary"]'
 

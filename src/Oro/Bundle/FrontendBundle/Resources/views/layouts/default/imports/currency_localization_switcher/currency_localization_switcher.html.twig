@@ -1,13 +1,28 @@
 {% block __currency_localization_switcher__currency_localization_container_widget %}
     {% if useLocalizations|default(false) or useCurrencies|default(false) %}
+        {% set currentRoute = app.request.get('_route') %}
+        {% set routeParameters = app.request.get('_route_params') %}
+        {% if routeParameters['_used_slug'] is defined %}
+            {% set urlParts = [routeParameters['_used_slug'].url] %}
+            {% if routeParameters['_context_url_attributes'] is defined %}
+                {% for key, context in routeParameters['_context_url_attributes'] %}
+                    {% if context['_used_slug'] is defined %}
+                        {% set urlParts = urlParts|merge([context['_used_slug'].url]) %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% set routeParameters = routeParameters|merge({'_used_slug_url': urlParts}) %}
+        {% endif %}
+        {% set queryParameters = app.request.query.all %}
+
         {% set attr = layout_attr_defaults(attr, {
             '~class': ' page-header__element localization-currency-switcher' ~ (sidePanelMode ? ' side-panel-currency-localization' : ' currency-localization-control__container'),
             'data-page-component-view': 'orofrontend/js/app/views/currency-localization/currency-localization-control-view',
             '~data-page-component-options': {
                 sidePanelMode: sidePanelMode,
-                redirectRoute: app.request.get('_route'),
-                redirectRouteParameters: app.request.get('_route_params')|json_encode,
-                redirectQueryParameters: app.request.query.all|json_encode
+                redirectRoute: currentRoute,
+                redirectRouteParameters: routeParameters|json_encode,
+                redirectQueryParameters: queryParameters|json_encode
             }
         }) %}
 
@@ -32,6 +47,12 @@
                                 endpointClass: 'side-panel-currency-localization'
                             }
                         ]
+                    }
+                }) %}
+            {% else %}
+                {% set attr = layout_attr_defaults(attr, {
+                    '~data-page-component-options': {
+                        autoRender: true
                     }
                 }) %}
             {% endif %}

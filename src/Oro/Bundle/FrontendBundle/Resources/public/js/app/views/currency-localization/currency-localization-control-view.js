@@ -24,8 +24,6 @@ const CurrencyLocalizationControlView = BaseView.extend({
         'redirectQueryParameters'
     ]),
 
-    autoRender: true,
-
     template,
 
     templateDropdown,
@@ -55,7 +53,9 @@ const CurrencyLocalizationControlView = BaseView.extend({
 
     listen: {
         'layout:content-relocated mediator': 'onRelocated',
-        'viewport:mobile-big mediator': 'render'
+        'viewport:mobile-big mediator': 'render',
+        'main-fullscreen-side-panel:footer:shown mediator': 'render',
+        'main-fullscreen-side-panel:footer:closed mediator': 'disposeForm'
     },
 
     constructor: function CurrencyLocalizationControlView(...args) {
@@ -210,6 +210,12 @@ const CurrencyLocalizationControlView = BaseView.extend({
         }
 
         return this;
+    },
+
+    disposeForm() {
+        if (this.subview('currencyLocalizationForm')) {
+            this.subview('currencyLocalizationForm').dispose();
+        }
     },
 
     updateLabels(name, label) {

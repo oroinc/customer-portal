@@ -20,7 +20,6 @@ Feature: Frontend Page Header
       | Default Localization  | English (United States)                                              |
     And I submit form
     Then I should see "Configuration saved" flash message
-
     When I follow "Commerce/Catalog/Pricing" on configuration sidebar
     And fill "Pricing Form" with:
       | Enabled Currencies | [US Dollar ($), Euro (€)] |
@@ -108,13 +107,13 @@ Feature: Frontend Page Header
 
     Given I proceed as the Buyer
     When I reload the page
-    Then I should see "$(US Dollar) €(Euro)"
+    Then I should see "$ €"
     And I should see "English"
     And I should see "MiddleLeftSide" element with text "Test Label" inside "Header" element
 
     Given I proceed as the user_mobile
     When I reload the page
-    Then I should not see "$(US Dollar) €(Euro)"
+    Then I should not see "$ €"
     And I should not see "English"
 
   Scenario: Promotional content block - yes, top navigation menu - yes, language/currency switcher - yes,  quick access button - no, standalone main menu - yes, quick links - yes.

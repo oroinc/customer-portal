@@ -69,7 +69,7 @@ oro_behat_extension:
     NodeWithLongName:
       selector:
         type: 'xpath'
-        locator: '//*[@data-main-menu-item]//span[contains(text(),"Node with loooooooooooooooong name")]/ancestor::*[@data-main-menu-item="2"]'
+        locator: '//*[@data-main-menu-item]//span[contains(text(),"Node with loooooooooooooooooooooooooooooooong name")]/ancestor::*[@data-main-menu-item="2"]'
     OnSaleImage:
       selector:
         type: xpath
