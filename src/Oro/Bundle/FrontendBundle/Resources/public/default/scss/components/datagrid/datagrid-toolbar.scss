@@ -45,6 +45,7 @@
     &-pagination-info {
         padding: spacing('xs') 0;
         color: $datagrid-tool-pagination-info-color;
+        font-size: $datagrid-tool-pagination-info-font-size;
     }
 
     .page-size {
@@ -132,10 +133,27 @@
             display: none;
         }
     }
+
+    .export-button {
+        padding-left: spacing('sm');
+        padding-right: spacing('sm');
+    }
 }
 
 @include breakpoint('mobile-big') {
     .datagrid-toolbar {
+        &__start {
+            gap: $datagrid-tool-mobile-big-gap;
+        }
+
+        &__center {
+            gap: $datagrid-tool-mobile-big-gap;
+        }
+
+        &__end {
+            gap: $datagrid-tool-mobile-big-gap;
+        }
+
         .page-size {
             .select2-chosen-extra {
                 display: none;

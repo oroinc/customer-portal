@@ -3,13 +3,11 @@
 .product-selected-counter {
     display: block;
     color: $datagrid-massaction-product-counter-color;
-    order: -1;
 }
 
 .datagrid-massaction {
     &-close-container {
         text-align: right;
-        order: 1;
     }
 
     &-select-all-label {
@@ -56,10 +54,8 @@
             }
         }
 
-        &-select-all-label {
-            > span {
-                display: none;
-            }
+        &-select-all-label__text {
+            display: none;
         }
     }
 }
@@ -68,6 +64,10 @@
     .datagrid-massaction {
         &.sticky-mode {
             padding: $datagrid-massaction-sticky-mode-offset-mobile-landscape;
+        }
+
+        &-select-all-label__input {
+            padding: $datagrid-massaction-select-all-label-input-offset;
         }
     }
 }

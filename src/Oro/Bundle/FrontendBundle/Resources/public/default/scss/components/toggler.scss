@@ -7,14 +7,9 @@
     border: 2px solid $toggler-background-color;
     background-color: $toggler-background-color;
 
-    &--dropdown {
-        min-width: 0;
-        padding: 0;
-    }
-
     &--dropdown-btn {
         display: block;
-        color: $toggler-base-color;
+        color: $toggler-dropdown-btn-color;
         font-size: $toggler-font-size;
         line-height: $toggler-line-height;
         background-color: $toggler-background-color;
@@ -22,7 +17,7 @@
         box-shadow: none;
         border: none;
         text-align: center;
-        padding: 10px;
+        padding: $toggler-padding;
         white-space: nowrap;
         user-select: none;
         font-weight: 400;
@@ -39,8 +34,9 @@
         }
     }
 
-    .toggle-link {
+    .toggle-link.toggle-link {
         &--active {
+            color: $toggler-active-color;
             background-color: $toggler-background-color-active;
             box-shadow: $toggler-switcher-box-shadow;
             border-radius: 3px;
@@ -109,6 +105,17 @@
 
             &:after {
                 opacity: 0;
+            }
+        }
+    }
+
+    &--dropdown {
+        min-width: 0;
+        padding: 0;
+
+        .toggle-container {
+            > .toggle-link {
+                color: $toggler-dropdown-btn-color;
             }
         }
     }

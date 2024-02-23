@@ -5,11 +5,13 @@ $datagrid-tool-gap-start: 48px !default;
 $datagrid-tool-gap-center: spacing('sm') !default;
 $datagrid-tool-gap-end: spacing('md') !default;
 $datagrid-tool-pagination-info-color: get-color('text', 'secondary') !default;
+$datagrid-tool-pagination-info-font-size: 13px !default;
 
 // Tablet Small
 $datagrid-toolbar-tablet-small-gap: 0 spacing('xs') !default;
-$datagrid-tool-tablet-small-gap: spacing('xs') !default;
+$datagrid-tool-tablet-small-gap: spacing('lg') !default;
+$datagrid-tool-mobile-big-gap: spacing('base') !default;
+$datagrid-tool-mobile-gap: spacing('md') !default;
 
 // Mobile
 $datagrid-toolbar-mobile-gap: 0 2px !default;
-$datagrid-tool-mobile-gap: 2px !default;

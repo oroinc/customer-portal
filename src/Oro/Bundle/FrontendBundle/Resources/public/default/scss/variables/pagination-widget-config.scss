@@ -18,8 +18,6 @@ $oro-pagination-arrow-background-hover: get-color('primary', 'light') !default;
 $oro-pagination-arrow-color-disabled: get-color('text', 'disabled') !default;
 $oro-pagination-arrow-transition: color .15s, background-color .15s !default;
 
-// tablet-small
-$oro-pagination-total-display-tablet-small: none !default;
 $oro-pagination-pager-tablet-small-gap: spacing('xs') !default;
 
 // mobile-landscape

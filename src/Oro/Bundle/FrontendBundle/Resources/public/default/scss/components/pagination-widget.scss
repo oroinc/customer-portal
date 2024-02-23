@@ -40,14 +40,6 @@
     }
 }
 
-@include breakpoint('tablet-small') {
-    .oro-pagination {
-        &__total {
-            display: $oro-pagination-total-display-tablet-small;
-        }
-    }
-}
-
 @include breakpoint('mobile-landscape') {
     .oro-pagination {
         &__label {

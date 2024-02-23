@@ -2,7 +2,9 @@
     {% set attr = attr|merge({
         class: attr.class|default('') ~ ' datagrid-tool'
     }) %}
-    <div {{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+    {% if toolbarPosition is defined and toolbarPosition == 'top' %}
+        <div {{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+    {% endif %}
 {% endblock %}
 
 {% block __frontend_export__export_button_widget %}

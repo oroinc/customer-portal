@@ -12,3 +12,10 @@
         padding: $sorting-popup-radio-inner-offset;
     }
 }
+
+@include breakpoint('tablet-small') {
+    .sorting-btn {
+        padding-left: spacing('sm');
+        padding-right: spacing('sm');
+    }
+}

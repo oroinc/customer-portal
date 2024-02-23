@@ -18,3 +18,7 @@ $toggle-filters-action-after-left: calc(
 ) !default;
 $toggle-filters-action-after-color: get-var-color('neutral', 'white-100') !default;
 $toggle-filters-action-after-color-hover: inherit !default;
+
+$toggle-filters-action-background-mobile: get-color('neutral', 'grey1') !default;
+$toggle-filters-action-color-mobile: get-color('text', 'primary') !default;
+$toggle-filters-action-width: 44px !default;
