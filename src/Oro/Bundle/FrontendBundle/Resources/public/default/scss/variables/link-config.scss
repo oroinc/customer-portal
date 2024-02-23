@@ -14,3 +14,9 @@ $link-visited-decoration: null !default;
 
 //No-decorated
 $link-hover-decoration-no-decorated: null !default;
+
+// Inverse
+$link-inverse-color: get-var-color('text', 'inverse') !default;
+$link-inverse-hover-color: get-var-color('text', 'link-hover-on-dark') !default;
+$link-inverse-disabled-color: get-var-color('text', 'inverse-70') !default;
+$link-inverse-visited-color: null !default;

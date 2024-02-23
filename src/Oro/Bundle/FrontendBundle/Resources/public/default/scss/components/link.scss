@@ -7,14 +7,6 @@ a {
     // Reusing a global variable located in FrontendBundle/Resources/public/default/scss/settings/bootstrap/_variables.scss.
     text-decoration: $link-decoration;
 
-    &.no-decoration {
-        text-decoration: none;
-
-        &:hover {
-            text-decoration: $link-hover-decoration-no-decorated;
-        }
-    }
-
     &:hover {
         color: $link-hover-color;
         text-decoration: $link-hover-decoration;
@@ -33,5 +25,29 @@ a {
     &:visited {
         color: $link-visited-color;
         text-decoration: $link-visited-decoration;
+    }
+
+    &.no-decoration {
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: $link-hover-decoration-no-decorated;
+        }
+    }
+
+    &.inverse {
+        color: $link-inverse-color;
+
+        &:hover {
+            color: $link-inverse-hover-color;
+        }
+
+        &:visited {
+            color: $link-inverse-visited-color;
+        }
+
+        &.disabled {
+            color: $link-inverse-disabled-color;
+        }
     }
 }
