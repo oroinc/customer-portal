@@ -66,6 +66,13 @@
             color: $page-header-promotional-link-color;
         }
     }
+
+    .customer-menu {
+        &__dropdown {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+    }
 }
 
 .topbar {
@@ -156,13 +163,6 @@
 @include breakpoint('mobile-big') {
     .page-header {
         --header-inner-gaps: #{spacing('md')};
-
-        .customer-menu {
-            &__dropdown {
-                max-height: 80vh;
-                overflow-y: auto;
-            }
-        }
     }
 }
 
