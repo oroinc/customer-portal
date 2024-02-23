@@ -6,6 +6,9 @@ use Oro\Bundle\MigrationBundle\Migration\ArrayLogger;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedMigrationQuery;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Migration to update clas name  from OroB2B to Oro
+ */
 class UpdateClassNamesQuery extends ParametrizedMigrationQuery
 {
     /**
@@ -56,9 +59,9 @@ class UpdateClassNamesQuery extends ParametrizedMigrationQuery
         $table = $this->table;
         $field = $this->field;
 
-        $statement = $this->connection->query("SELECT id, $field FROM $table WHERE $field LIKE 'OroB2B%'");
+        $statement = $this->connection->executeQuery("SELECT id, $field FROM $table WHERE $field LIKE 'OroB2B%'");
 
-        while ($entity = $statement->fetch(\PDO::FETCH_ASSOC)) {
+        while ($entity = $statement->fetchAssociative()) {
             $originalClass = $entity[$field];
             $class = preg_replace('/^OroB2B/', 'Oro', $originalClass, 1);
 

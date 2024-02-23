@@ -117,7 +117,7 @@ class ClassMigration
     {
         try {
             $preparedFrom = $this->prepareFrom($defaultConnection, $from);
-            $configCheck = $defaultConnection->fetchColumn(
+            $configCheck = $defaultConnection->fetchOne(
                 'SELECT id FROM oro_entity_config WHERE class_name LIKE :preparedFrom LIMIT 1',
                 ['preparedFrom' => "%$preparedFrom%"]
             );
@@ -151,7 +151,7 @@ class ClassMigration
      */
     protected function updateEntityConfigTable(Connection $configConnection, $from, $to)
     {
-        $entities = $configConnection->fetchAll('SELECT id, class_name, data FROM oro_entity_config');
+        $entities = $configConnection->fetchAllAssociative('SELECT id, class_name, data FROM oro_entity_config');
         foreach ($entities as $entity) {
             $id = $entity['id'];
             $originalClassName = $entity['class_name'];
@@ -178,7 +178,7 @@ class ClassMigration
      */
     protected function updateEntityConfigFieldTables(Connection $configConnection, $from, $to)
     {
-        $fields = $configConnection->fetchAll('SELECT id, data FROM oro_entity_config_field');
+        $fields = $configConnection->fetchAllAssociative('SELECT id, data FROM oro_entity_config_field');
         foreach ($fields as $field) {
             $id = $field['id'];
             $originalData = $field['data'];
@@ -195,7 +195,7 @@ class ClassMigration
             }
         }
 
-        $indexValues = $configConnection->fetchAll(
+        $indexValues = $configConnection->fetchAllAssociative(
             "SELECT id, value FROM oro_entity_config_index_value WHERE code = 'module_name'"
         );
         foreach ($indexValues as $indexValue) {
@@ -222,7 +222,7 @@ class ClassMigration
     protected function migrateTableColumn(Connection $connection, $table, $column, $from, $to)
     {
         $preparedFrom = $this->prepareFrom($connection, $from);
-        $rows = $connection->fetchAll(
+        $rows = $connection->fetchAllAssociative(
             "SELECT id, $column FROM $table WHERE $column LIKE :preparedFrom",
             ['preparedFrom' => "%$preparedFrom%"]
         );
