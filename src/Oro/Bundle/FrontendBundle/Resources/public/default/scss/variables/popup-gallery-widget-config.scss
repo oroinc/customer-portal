@@ -8,7 +8,7 @@ $popup-gallery-loader-url: '#{$global-url}/orofrontend/default/images/loader.svg
 $popup-gallery-widget-arrow-prev-icon-offset: 0 2px 0 0 !default;
 $popup-gallery-widget-arrow-next-icon-offset: 0 0 0 2px !default;
 $popup-gallery-widget-arrow-side-position: 0 !default;
-$popup-gallery-widget-arrow-bg: get-color('additional-old', 'darker', 60%) !default;
+$popup-gallery-widget-arrow-bg: get-color('neutral', 'dark', 60%) !default;
 $popup-gallery-widget-arrow-border-radius: 100% !default;
 
 $popup-gallery-widget-dialog-max-width: 610px !default;
@@ -16,8 +16,8 @@ $popup-gallery-widget-dialog-max-height: 710px !default;
 
 $popup-gallery-widget-thumbnails-offset-inner: 0 13px !default;
 $popup-gallery-widget-thumbnails-img-offset: 0 2px !default;
-$popup-gallery-widget-thumbnails-img-border: 1px solid get-color('additional-old', 'middle') !default;
-$popup-gallery-widget-thumbnails-img-active-border: 2px solid get-color('ui', 'focus') !default;
+$popup-gallery-widget-thumbnails-img-border: 1px solid get-color('neutral', 'grey2') !default;
+$popup-gallery-widget-thumbnails-img-active-border: 2px solid get-color('primary', 'active') !default;
 $popup-gallery-widget-thumbnail-arrow-width: 24px !default;
 $popup-gallery-widget-thumbnail-arrow-height: 24px !default;
 $popup-gallery-widget-thumbnail-arrow-side-position: -20px !default;

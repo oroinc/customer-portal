@@ -12,7 +12,7 @@ $main-menu-link-line-height: 1.4286 !default;
 $main-menu-link-font-weight: font-weight('semi-bold') !default;
 $main-menu-link-position: relative !default;
 $main-menu-link-letter-spacing: .2px !default;
-$main-menu-link-background-active: get-color('additional-old', 'base') !default;
+$main-menu-link-background-active: get-color('neutral', 'grey2') !default;
 $main-menu-sublist-title-offset: spacing('xs') !default;
 $main-menu-sublist-transition: left .4s linear !default;
 
@@ -50,8 +50,8 @@ $main-menu-back-trigger-use-base-style: true !default;
 $main-menu-back-trigger-padding: 7px 0 !default;
 $main-menu-back-trigger-border: none !default;
 $main-menu-back-trigger-border-radius: 0 !default;
-$main-menu-back-trigger-background-color: get-color('additional-old', 'ultra') !default;
-$main-menu-back-trigger-color: color.adjust(get-color('additional-old', 'dark'), $lightness: 41%) !default;
+$main-menu-back-trigger-background-color: get-color('neutral', 'white-100') !default;
+$main-menu-back-trigger-color: color.adjust(get-color('neutral', 'dark'), $lightness: 41%) !default;
 $main-menu-back-trigger-appearance: true !default;
 
 $main-menu-back-trigger-fullscreen-position: absolute !default;
@@ -82,7 +82,7 @@ $main-menu-sublist-edge-display: flex !default;
 $main-menu-sublist-edge-justify-content: end !default;
 $main-menu-sublist-edge-inset-inline-start: var(--main-menu-offset-start, 0) !default;
 
-$main-menu-item-nested-background: get-color('additional-old', 'base') !default;
+$main-menu-item-nested-background: get-color('neutral', 'grey1') !default;
 $main-menu-item-flex-grow: 0 !default;
 
 $main-menu-actions-display: grid !default;
@@ -90,12 +90,12 @@ $main-menu-actions-not-only-child-grid-template-columns: 1fr $main-menu-button-a
 
 $main-menu-divider-border-width: 1px 0 0 0 !default;
 $main-menu-divider-border-style: solid !default;
-$main-menu-divider-border-color: get-color('additional-old', 'light') !default;
+$main-menu-divider-border-color: get-color('neutral', 'grey1') !default;
 $main-menu-divider-margin: 0 !default;
 
 // Desktop styles
 $main-menu-button-arrow-d-width: 20px !default;
-$main-menu-sublist-container-d-border: 1px solid get-color('additional-old', 'light') !default;
+$main-menu-sublist-container-d-border: 1px solid get-color('neutral', 'grey1') !default;
 $main-menu-sublist-container-d-z-index: z('base') + 10 !default;
 $main-menu-back-trigger-width: 200px !default;
 $main-menu-back-trigger-align: left !default;

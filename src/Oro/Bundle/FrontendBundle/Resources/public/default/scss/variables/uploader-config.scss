@@ -11,9 +11,9 @@ $uploader-filename-overflow: hidden !default;
 $uploader-filename-padding-inline-end: 52px !default;
 $uploader-filename-text-overflow: ellipsis !default;
 $uploader-filename-white-space: nowrap !default;
-$uploader-filename-focus-hover-border-color: get-color('additional-old', 'light') !default;
+$uploader-filename-focus-hover-border-color: get-color('neutral', 'grey1') !default;
 
-$uploader-filename-placeholder-color: get-color('additional-old', 'middle') !default;
+$uploader-filename-placeholder-color: get-color('neutral', 'grey2') !default;
 
 $uploader-action-border-start-end-radius: 0 !default;
 $uploader-action-border-end-end-radius: 0 !default;

@@ -88,7 +88,14 @@
         font-size: $filter-dropdown-mode-criteria-selector-icon-font-size;
         line-height: $filter-dropdown-mode-criteria-selector-icon-line-height;
 
-        @include fa-icon($filter-dropdown-mode-criteria-selector-icon-fa-icon);
+        &:before {
+            content: '';
+            display: block;
+            width: $filter-dropdown-mode-criteria-selector-icon-size;
+            height: $filter-dropdown-mode-criteria-selector-icon-size;
+            mask-image: $filter-dropdown-mode-criteria-selector-icon-mask;
+            background-color: $filter-dropdown-mode-criteria-selector-icon-color;
+        }
     }
 
     .filter-default {
@@ -158,6 +165,10 @@
 
     .filters-manager-trigger {
         width: $filter-dropdown-mode-filters-manager-trigger-width;
+
+        > span {
+            display: none;
+        }
     }
 
     .ui-multiselect {

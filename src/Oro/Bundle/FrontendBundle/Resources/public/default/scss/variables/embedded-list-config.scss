@@ -6,8 +6,8 @@ $embedded-list-bottom-offset: null !default;
 $embedded-list-bottom-offset-tablet: 40px !default;
 
 $embedded-list-label-offset-bottom: spacing('lg') !default;
-$embedded-list-label-background: get-color('additional-old', 'ultra') !default;
-$embedded-list-label-line-background: get-color('additional-old', 'light');
+$embedded-list-label-background: get-color('neutral', 'white-100') !default;
+$embedded-list-label-line-background: get-color('neutral', 'grey1');
 $embedded-list-label-text-align: start !default;
 $embedded-list-item-offset-inner: spacing('md') !default;
 

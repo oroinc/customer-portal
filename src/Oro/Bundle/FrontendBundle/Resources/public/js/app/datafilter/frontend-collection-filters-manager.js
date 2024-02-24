@@ -77,15 +77,13 @@ define(function(require, exports, module) {
         _setButtonDesign: function($button) {
             $button
                 .attr({
-                    'class': `${$button.attr('class')} filters-manager-trigger btn btn--size-small`,
+                    'class': `${$button.attr('class')} filters-manager-trigger btn btn--plain btn--text`,
                     'title': __('oro_frontend.filter_manager.label'),
                     'aria-label': __('oro_frontend.filter_manager.button_aria_label')
                 })
-                .find('span')
-                .attr({
-                    'aria-hidden': true,
-                    'class': 'fa-plus fa--no-offset hide-text'
-                });
+                .prepend(_.macros('oroui::renderIcon')({
+                    name: 'plus'
+                }));
         },
 
         /**

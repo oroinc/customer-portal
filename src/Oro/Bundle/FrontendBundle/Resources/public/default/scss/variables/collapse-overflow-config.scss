@@ -9,6 +9,6 @@ $collapse-overflow-blur-height: math.round($base-font-size * $base-line-height) 
 $collapse-overflow-increased-blur-height: math.round($base-font-size * $base-line-height) * 3 !default;
 $collapse-overflow-blur-bg: linear-gradient(
     to top,
-    get-color('additional-old', 'ultra'),
-    get-color('additional-old', 'ultra', 10%)
+    get-color('neutral', 'white-100'),
+    get-color('neutral', 'white-100', 10%)
 ) !default;

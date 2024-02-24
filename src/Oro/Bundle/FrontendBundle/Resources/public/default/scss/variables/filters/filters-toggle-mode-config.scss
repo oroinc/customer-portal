@@ -4,7 +4,7 @@ $filter-toggle-mode-fields-row-min-width: 100% !default;
 
 $filter-toggle-mode-filter-item-width: 100% !default;
 $filter-toggle-mode-filter-item-padding: spacing('sm') 0 !default;
-$filter-toggle-mode-filter-item-border-bottom: 1px solid get-color('additional-old', 'light') !default;
+$filter-toggle-mode-filter-item-border-bottom: 1px solid get-color('neutral', 'grey1') !default;
 
 $filter-toggle-mode-criteria-offset-top: -12px !default;
 $filter-toggle-mode-criteria-offset-left: 0 !default;
@@ -33,6 +33,10 @@ $filter-toggle-mode-criteria-selector-icon-fa-icon: var(--fa-var-angle-right) !d
 $filter-toggle-mode-criteria-selector-icon-font-size: $base-font-size--large !default;
 $filter-toggle-mode-criteria-selector-icon-line-height: 1 !default;
 
+$filter-toggle-mode-criteria-selector-icon-size: 24px !default;
+$filter-toggle-mode-criteria-selector-icon-color: get-color('text', 'secondary') !default;
+$filter-toggle-mode-criteria-selector-icon-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path fill="%23000" fill-rule="evenodd" d="M8.29289 5.29289C8.68342 4.90237 9.31658 4.90237 9.70711 5.29289L15.7071 11.2929C16.0976 11.6834 16.0976 12.3166 15.7071 12.7071L9.70711 18.7071C9.31658 19.0976 8.68342 19.0976 8.29289 18.7071C7.90237 18.3166 7.90237 17.6834 8.29289 17.2929L13.5858 12L8.29289 6.70711C7.90237 6.31658 7.90237 5.68342 8.29289 5.29289Z"></path></svg>') !default;
+
 $filter-toggle-mode-items-hint-offset-top: spacing('xs') !default;
 $filter-toggle-mode-items-hint-offset-bottom: 12px !default;
 $filter-toggle-mode-in-sticky-criteria-hint-item-offset: 0 !default;
@@ -50,11 +54,11 @@ $filter-toggle-mode-filter-item-label-font-size: $base-font-size--large !default
 $filter-toggle-mode-filter-item-label-line-height: 1.25 !default;
 
 $filter-toggle-mode-filter-extra-hint-offset: 6px !default;
-$filter-toggle-mode-filter-extra-hint-color: get-color('additional-old', 'middle') !default;
+$filter-toggle-mode-filter-extra-hint-color: get-color('neutral', 'grey2') !default;
 
 $filter-toggle-mode-reset-filter-button-inner-offset: 0 !default;
 
-$filter-toggle-mode-filters-manager-trigger-width: 32px !default;
+$filter-toggle-mode-filters-manager-trigger-width: 44px !default;
 
 $filter-toggle-mode-start-end-max-width: 100% !default;
 

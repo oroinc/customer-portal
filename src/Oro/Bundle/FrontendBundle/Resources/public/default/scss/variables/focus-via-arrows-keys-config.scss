@@ -2,7 +2,7 @@
 
 @use 'sass:color';
 
-$focus-via-arrows-keys-color: get-color('primary-old', 'light') !default;
+$focus-via-arrows-keys-color: get-color('secondary', 'c2') !default;
 
 $focus-via-arrows-keys-style:
     0 0 0 2px $focus-via-arrows-keys-color,
@@ -13,7 +13,7 @@ $focus-via-arrows-keys-grid-cell-style:
     inset 0 0 6px color.adjust($focus-via-arrows-keys-color, $lightness: 1%) !default;
 
 $focus-via-arrows-keys-button-style:
-    0 0 0 1px get-color('additional-old', 'ultra'),
+    0 0 0 1px get-color('neutral', 'white-100'),
     0 0 0 3px $focus-via-arrows-keys-color,
     0 0 6px color.adjust($focus-via-arrows-keys-color, $lightness: 1%) !default;
 
@@ -24,4 +24,4 @@ $focus-via-arrows-keys-checkbox-icon-style:
 $focus-via-arrows-keys-radio-icon-style: $focus-via-arrows-keys-checkbox-icon-style !default;
 
 // Focus Visible
-$focus-via-arrows-keys-checkbox-border-color: get-color('primary-old', 'light') !default;
+$focus-via-arrows-keys-checkbox-border-color: get-color('secondary', 'c2') !default;

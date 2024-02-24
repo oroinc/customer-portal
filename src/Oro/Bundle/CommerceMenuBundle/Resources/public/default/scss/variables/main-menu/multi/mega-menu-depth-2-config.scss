@@ -30,7 +30,7 @@ $mega-menu-depth-2-list-grid-gap: 32px 8px !default;
 $mega-menu-depth-2-list-only-child-grid-row: #{1 / 3} !default;
 
 $mega-menu-depth-2-list-before-content: '' !default;
-$mega-menu-depth-2-list-before-background: get-color('additional-old', 'ultra') !default;
+$mega-menu-depth-2-list-before-background: get-color('neutral', 'white-100') !default;
 $mega-menu-depth-2-list-before-height: $mega-menu-depth-2-list-row-gap !default;
 $mega-menu-depth-2-list-before-display: block !default;
 $mega-menu-depth-2-list-before-margin-bottom: -$mega-menu-depth-2-list-row-gap !default;
@@ -76,7 +76,7 @@ $mega-menu-depth-2-inner-mobile-big-left: 100% !default;
 $mega-menu-depth-2-inner-mobile-big-bottom: 0 !default;
 $mega-menu-depth-2-inner-mobile-big-z-index: z('base') + 2 !default;
 $mega-menu-depth-2-inner-mobile-big-width: 100% !default;
-$mega-menu-depth-2-inner-mobile-big-background: get-color('additional-old', 'ultra') !default;
+$mega-menu-depth-2-inner-mobile-big-background: get-color('neutral', 'white-100') !default;
 $mega-menu-depth-2-inner-mobile-big-transition: left 230ms cubic-bezier(.5, .5, .25, 1),
     opacity 230ms cubic-bezier(.5, .5, .25, 1) !default;
 

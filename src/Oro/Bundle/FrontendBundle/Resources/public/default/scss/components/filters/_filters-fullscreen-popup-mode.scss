@@ -41,13 +41,8 @@
         width: $filter-manager-fullscreen-popup-mode-trigger-width;
         margin: $filter-manager-fullscreen-popup-mode-trigger-offset;
 
-        [class^='fa-'],
-        [class*=' fa-'] {
-            &::before {
-                content: none;
-            }
-
-            font: $filter-manager-fullscreen-popup-mode-trigger-font;
+        > span {
+            display: inline;
         }
     }
 }

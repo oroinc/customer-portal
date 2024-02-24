@@ -290,13 +290,15 @@ operations:
             title: oro.customer.action.customer_user.edit_btn.title
             options:
                 ariaLabel: oro.customer.action.customer_user.edit_btn.aria_label
+                noLinkLabel: true
+                icon: pencil
+        button_options:
+            class: btn--icon
         applications: [commerce]
         routes:
             - oro_customer_frontend_customer_user_profile
         acl_resource: oro_customer_frontend_update_own_profile
         order: 5
-        button_options:
-            icon: fa-pencil
         actions:
             - '@redirect':
                 parameters:
@@ -304,13 +306,14 @@ operations:
 
     oro_customer_frontend_edit_role:
         label: oro.customer.frontend.action.customer_user_role.edit
+        frontend_options:
+            options:
+                icon: pencil
         applications: [commerce]
         routes:
             - oro_customer_frontend_customer_user_role_view
         acl_resource: [EDIT, entity:commerce@Oro\Bundle\CustomerBundle\Entity\CustomerUserRole]
         order: 10
-        button_options:
-            icon: fa-pencil
         actions:
             - '@redirect':
                 parameters:

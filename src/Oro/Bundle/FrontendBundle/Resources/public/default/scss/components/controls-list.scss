@@ -25,21 +25,4 @@
             border-left: 0;
         }
     }
-
-    [class^='fa-'],
-    [class*=' fa-'] {
-        vertical-align: baseline;
-    }
-
-    i {
-        margin-right: 3px;
-
-        font-size: $font-icon-button-m;
-    }
-
-    .btn {
-        padding: 0;
-
-        line-height: inherit;
-    }
 }

@@ -2,4 +2,4 @@
 
 @use 'sass:color';
 
-$datagrid-manager-search-pseudo-color: color.scale(get-color('additional-old', 'middle'), $alpha: -27%) !default;
+$datagrid-manager-search-pseudo-color: color.scale(get-color('neutral', 'grey2'), $alpha: -27%) !default;

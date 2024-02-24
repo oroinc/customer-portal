@@ -70,13 +70,14 @@
     <ul{{ block('block_attributes') }}>
         {% for button in buttons %}
             <li>
-                {% include button.template with button.templateData|merge({onlyLink: true, noIconText: true, aClass:'btn btn--link'}) %}
+                {% include button.template with button.templateData|merge({onlyLink: true, noIconText: true, aClass:'btn btn--neutral-dark'}) %}
             </li>
         {% endfor %}
     </ul>
 {% endblock %}
 
 {% block combined_buttons_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set dropdownActionClass = dropdownActionClass|default('btn btn--block btn--outlined btn--size-large direct-link') %}
     {% set dropdownToggleClass = dropdownToggleClass|default('btn btn--outlined btn--size-large dropdown-toggle') %}
     {% set dropdownItemClass = dropdownItemClass|default('dropdown-item') %}
@@ -104,7 +105,9 @@
                 <button id="{{ togglerId }}" class="{{ dropdownToggleClass }}" data-toggle="dropdown"
                    data-placement="bottom-end" data-inherit-parent-width="strictly" aria-haspopup="true" aria-expanded="true"
                    title="{{ 'oro_frontend.combined_buttons.more_actions.label'|trans }}"
-                   aria-label="{{ 'oro_frontend.combined_buttons.more_actions.aria_label'|trans }}"></button>
+                   aria-label="{{ 'oro_frontend.combined_buttons.more_actions.aria_label'|trans }}">
+                    {{ renderIcon.icon({name: 'chevron-down'}) }}
+                </button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="{{ togglerId }}">
                     {% for button in buttons|slice(1) %}
                         <li>

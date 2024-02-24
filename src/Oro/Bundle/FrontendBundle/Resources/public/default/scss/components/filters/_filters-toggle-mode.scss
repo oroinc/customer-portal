@@ -58,11 +58,22 @@
         font-size: $filter-toggle-mode-criteria-selector-icon-font-size;
         line-height: $filter-toggle-mode-criteria-selector-icon-line-height;
 
-        @include fa-icon($filter-toggle-mode-criteria-selector-icon-fa-icon, before, false, true);
+        &:before {
+            content: '';
+            display: block;
+            width: $filter-toggle-mode-criteria-selector-icon-size;
+            height: $filter-toggle-mode-criteria-selector-icon-size;
+            mask-image: $filter-toggle-mode-criteria-selector-icon-mask;
+            background-color: $filter-toggle-mode-criteria-selector-icon-color;
+        }
     }
 
     .filters-manager-trigger {
         width: $filter-toggle-mode-filters-manager-trigger-width;
+
+        span {
+            display: none;
+        }
     }
 
     .fields-row {

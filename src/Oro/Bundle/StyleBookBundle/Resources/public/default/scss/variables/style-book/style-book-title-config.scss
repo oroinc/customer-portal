@@ -5,5 +5,5 @@
 $style-book-title-offset: 0 0 10px !default;
 $style-book-title-inner-offset: 8px 5px 5px 10px !default;
 $style-book-title-font-size: 18px !default;
-$style-book-title-b-color: color.adjust(get-color('additional-old', 'base'), $lightness: 2%) !default;
-$style-book-title-border-bottom: 1px solid get-color('additional-old', 'light') !default;
+$style-book-title-b-color: color.adjust(get-color('neutral', 'grey1'), $lightness: 2%) !default;
+$style-book-title-border-bottom: 1px solid get-color('neutral', 'grey1') !default;

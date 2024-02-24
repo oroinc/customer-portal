@@ -9,10 +9,10 @@ export default $.extend(true, {}, config, {
     },
     appearance: {
         'dropdown-mode': {
-            criteriaClass: ' btn btn--size-small btn--full'
+            criteriaClass: ' btn btn--outlined btn--full'
         },
         'toggle-mode': {
-            criteriaClass: ' btn btn--text btn--full'
+            criteriaClass: ' btn btn--outlined btn--full'
         }
     }
 });

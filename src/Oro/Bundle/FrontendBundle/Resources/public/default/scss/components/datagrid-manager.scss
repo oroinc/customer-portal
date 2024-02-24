@@ -1,6 +1,8 @@
 /* @theme: default; */
 
 .datagrid-manager {
+    --close-dialog-offset: #{spacing('sm')};
+
     &__title {
         margin-bottom: $datagrid-manager-title-offset;
     }

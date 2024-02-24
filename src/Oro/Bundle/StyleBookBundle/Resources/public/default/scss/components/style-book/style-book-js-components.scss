@@ -2,19 +2,19 @@
 
 @use 'sass:math';
 
-$scroll-view-head-background-color: get-color('additional-old', 'base') !default;
-$scroll-view-side-head-background-color: get-color('additional-old', 'base') !default;
+$scroll-view-head-background-color: get-color('neutral', 'grey2') !default;
+$scroll-view-side-head-background-color: get-color('neutral', 'grey2') !default;
 
-$dom-relocation-example-point-border: 1px solid get-color('additional-old', 'light') !default;
+$dom-relocation-example-point-border: 1px solid get-color('neutral', 'grey1') !default;
 $dom-relocation-relocate-background-color: get-color('secondary-old', 'base') !default;
-$dom-relocation-relocate-color: get-color('additional-old', 'ultra') !default;
-$dom-relocation-relocate-relocated-background-color: get-color('secondary-old', 'lighten') !default;
-$dom-relocation-sibling-background-color: get-color('additional-old', 'light') !default;
+$dom-relocation-relocate-color: get-color('neutral', 'white-100') !default;
+$dom-relocation-relocate-relocated-background-color: get-color('neutral', 'focus') !default;
+$dom-relocation-sibling-background-color: get-color('neutral', 'grey1') !default;
 
-$sticky-panel-box-background-color: get-color('additional-old', 'light') !default;
-$sticky-panel-box-shadow: 0 0 10px get-color('additional-old', 'dark') !default;
+$sticky-panel-box-background-color: get-color('neutral', 'grey1') !default;
+$sticky-panel-box-shadow: 0 0 10px get-color('neutral', 'dark') !default;
 
-$popup-gallery-widget-wrapper-background-color: get-color('additional-old', 'ultra') !default;
+$popup-gallery-widget-wrapper-background-color: get-color('neutral', 'white-100') !default;
 
 .map-visual {
     min-height: 300px;

@@ -1,8 +1,8 @@
 /* @theme: default; */
 
-$badge-background-color-dark: get-color('additional-old', 'darker') !default;
-$badge-background-color-light: get-color('secondary-old', 'main') !default;
-$badge-background-color-info: get-color('secondary-old', 'base') !default;
+$badge-background-color-dark: get-color('neutral', 'dark') !default;
+$badge-background-color-light: get-color('secondary', 'c1') !default;
+$badge-background-color-info: get-color('secondary', 'c3') !default;
 
 $badge-size: 26px !default;
 $badge-font-size: 14px !default;
@@ -12,4 +12,4 @@ $badge-inner-offset-right: 8px !default;
 $badge-font-size-xs: 10px !default;
 $badge-size-xs: 16px !default;
 
-$badge-rectangle-background: get-color('additional-old', 'light') !default;
+$badge-rectangle-background: get-color('neutral', 'grey3') !default;

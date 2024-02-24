@@ -83,7 +83,6 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/datagrid/datagrid-filters-config.scss'
         - 'bundles/orofrontend/default/scss/variables/controls-list-config.scss'
         - 'bundles/orofrontend/default/scss/variables/uploader-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/switcher-info-config.scss'
         - 'bundles/orofrontend/default/scss/variables/toggler-config.scss'
         - 'bundles/orofrontend/default/scss/variables/toggle-filters-action-config.scss'
 
@@ -191,7 +190,6 @@ styles:
         - 'bundles/orofrontend/default/scss/components/table.scss'
         - 'bundles/orofrontend/default/scss/components/search-widget.scss'
         - 'bundles/orofrontend/default/scss/components/search-container.scss'
-        - 'bundles/orofrontend/default/scss/components/switcher-info.scss'
         - 'bundles/orofrontend/default/scss/components/loader-mask.scss'
         - 'bundles/orofrontend/default/scss/components/fullscreen-popup.scss'
         - 'bundles/orofrontend/default/scss/components/warning-list.scss'

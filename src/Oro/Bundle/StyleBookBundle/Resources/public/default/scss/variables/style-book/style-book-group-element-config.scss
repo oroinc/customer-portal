@@ -2,9 +2,9 @@
 
 @use 'sass:color';
 
-$style-book-group-element-description-border-start: 5px solid get-color('primary-old', 'base') !default;
+$style-book-group-element-description-border-start: 5px solid get-color('alternative', 'main') !default;
 
-$style-book-group-element-preview-border: 5px solid get-color('additional-old', 'base') !default;
+$style-book-group-element-preview-border: 5px solid get-color('neutral', 'grey1') !default;
 
 $style-book-group-element-preview-space-margin: spacing('sm') 0 !default;
 
@@ -15,17 +15,17 @@ $style-book-group-element-preview-square-margin: spacing('sm') 0 !default;
 $style-book-group-element-preview-square-border: 1px solid get-var-color('neutral', 'grey2') !default;
 $style-book-group-element-preview-square-position: relative !default;
 
-$style-book-group-element-preview-grid-row-background: get-color('additional-old', 'base') !default;
+$style-book-group-element-preview-grid-row-background: get-color('neutral', 'grey1') !default;
 
-$style-book-group-element-preview-grid-item-border: 1px solid get-color('additional-old', 'middle') !default;
-$style-book-group-element-preview-grid-item-background: get-color('additional-old', 'light') !default;
+$style-book-group-element-preview-grid-item-border: 1px solid get-color('neutral', 'grey3') !default;
+$style-book-group-element-preview-grid-item-background: get-color('neutral', 'grey1') !default;
 $style-book-group-element-preview-grid-item-padding: spacing('sm') !default;
 
 $style-book-group-element-preview-dark-background: get-color('neutral', 'dark') !default;
 
-$style-book-group-element-color-palette-border: 1px solid get-color('additional-old', 'middle') !default;
+$style-book-group-element-color-palette-border: 1px solid get-color('neutral', 'grey3') !default;
 
-$style-book-group-element-color-border: 1px solid get-color('additional-old', 'middle') !default;
+$style-book-group-element-color-border: 1px solid get-color('neutral', 'grey3') !default;
 
 $style-book-group-element-name-background-image:
     linear-gradient(
@@ -41,12 +41,12 @@ $style-book-group-element-name-background-size: 10px 10px !default;
 $style-book-group-element-name-background-position: 0 0, 0 0, 0 5px, 5px -5px, -5px 0px !default;
 
 $style-book-group-element-typography-color: color.adjust(
-    get-color('additional-old', 'middle'),
+    get-color('neutral', 'grey2'),
     $lightness: -10%
 ) !default;
 
-$style-book-group-element-base-font-color: get-color('additional-old', 'dark') !default;
+$style-book-group-element-base-font-color: get-color('neutral', 'dark') !default;
 
-$style-book-group-element-base-line-height-color: get-color('additional-old', 'dark') !default;
+$style-book-group-element-base-line-height-color: get-color('neutral', 'dark') !default;
 
-$style-book-group-element-code-color: get-color('additional-old', 'base') !default;
+$style-book-group-element-code-color: get-color('neutral', 'grey3') !default;
