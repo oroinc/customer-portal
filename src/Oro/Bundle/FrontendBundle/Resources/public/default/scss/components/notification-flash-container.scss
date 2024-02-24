@@ -2,7 +2,7 @@
 
 .notification-flash-container {
     position: fixed;
-    top: calc(var(--sticky-page-header-element-height, 0) - var(--sticky-page-header-group-offset-y, 0) * 1px);
+    top: 0;
     right: 0;
     left: 0;
     z-index: $notification-flash-container-z-index;

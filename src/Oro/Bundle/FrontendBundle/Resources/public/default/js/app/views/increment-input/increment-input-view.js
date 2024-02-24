@@ -162,7 +162,7 @@ const IncrementInputView = BaseView.extend({
         }
 
         if (this.$el.children().length > 1) {
-            throw new Error('Input widget container must be empty contain only one input field');
+            throw new Error('Input widget container must contain only one input field');
         }
 
         this.$el.addClass('form-quantity-row');
