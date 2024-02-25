@@ -9,8 +9,8 @@ use Oro\Bundle\CustomerBundle\JsTree\CustomerTreeHandler;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\FormBundle\Provider\FormTemplateDataProviderInterface;
 use Oro\Bundle\FormBundle\Provider\SaveAndReturnActionFormTemplateDataProvider;
-use Oro\Bundle\SecurityBundle\Annotation\Acl;
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\SecurityBundle\Attribute\Acl;
+use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -22,11 +22,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class CustomerController extends AbstractController
 {
-    /**
-     * @Route("/", name="oro_customer_customer_index")
-     * @Template
-     * @AclAncestor("oro_customer_customer_view")
-     */
+    #[Route(path: '/', name: 'oro_customer_customer_index')]
+    #[Template]
+    #[AclAncestor('oro_customer_customer_view')]
     public function indexAction(): array
     {
         return [
@@ -34,16 +32,9 @@ class CustomerController extends AbstractController
         ];
     }
 
-    /**
-     * @Route("/view/{id}", name="oro_customer_customer_view", requirements={"id"="\d+"})
-     * @Template
-     * @Acl(
-     *      id="oro_customer_customer_view",
-     *      type="entity",
-     *      class="Oro\Bundle\CustomerBundle\Entity\Customer",
-     *      permission="VIEW"
-     * )
-     */
+    #[Route(path: '/view/{id}', name: 'oro_customer_customer_view', requirements: ['id' => '\d+'])]
+    #[Template]
+    #[Acl(id: 'oro_customer_customer_view', type: 'entity', class: Customer::class, permission: 'VIEW')]
     public function viewAction(Customer $customer): array
     {
         return [
@@ -51,30 +42,21 @@ class CustomerController extends AbstractController
         ];
     }
 
-    /**
-     * @Route("/create", name="oro_customer_customer_create")
-     * @Template("@OroCustomer/Customer/update.html.twig")
-     * @Acl(
-     *      id="oro_customer_create",
-     *      type="entity",
-     *      class="Oro\Bundle\CustomerBundle\Entity\Customer",
-     *      permission="CREATE"
-     * )
-     */
+    #[Route(path: '/create', name: 'oro_customer_customer_create')]
+    #[Template('@OroCustomer/Customer/update.html.twig')]
+    #[Acl(id: 'oro_customer_create', type: 'entity', class: Customer::class, permission: 'CREATE')]
     public function createAction(): array|RedirectResponse
     {
         return $this->update(new Customer());
     }
 
-    /**
-     * @Route(
-     *     "/create/subsidiary/{parentCustomer}",
-     *     name="oro_customer_customer_create_subsidiary",
-     *     requirements={"parentCustomer"="\d+"}
-     * )
-     * @Template("@OroCustomer/Customer/update.html.twig")
-     * @AclAncestor("oro_customer_create")
-     */
+    #[Route(
+        path: '/create/subsidiary/{parentCustomer}',
+        name: 'oro_customer_customer_create_subsidiary',
+        requirements: ['parentCustomer' => '\d+']
+    )]
+    #[Template('@OroCustomer/Customer/update.html.twig')]
+    #[AclAncestor('oro_customer_create')]
     public function createSubsidiaryAction(Customer $parentCustomer): array|RedirectResponse
     {
         if (!$this->isGranted('VIEW', $parentCustomer)) {
@@ -104,15 +86,13 @@ class CustomerController extends AbstractController
         return $this->update($customer, $saveAndReturnActionFormTemplateDataProvider);
     }
 
-    /**
-     * @Route(
-     *     "/create/customer-group/{group}",
-     *     name="oro_customer_customer_create_for_customer_group",
-     *     requirements={"group"="\d+"}
-     * )
-     * @Template("@OroCustomer/Customer/update.html.twig")
-     * @AclAncestor("oro_customer_create")
-     */
+    #[Route(
+        path: '/create/customer-group/{group}',
+        name: 'oro_customer_customer_create_for_customer_group',
+        requirements: ['group' => '\d+']
+    )]
+    #[Template('@OroCustomer/Customer/update.html.twig')]
+    #[AclAncestor('oro_customer_create')]
     public function createForCustomerGroupAction(CustomerGroup $group): array|RedirectResponse
     {
         if (!$this->isGranted('VIEW', $group)) {
@@ -142,16 +122,9 @@ class CustomerController extends AbstractController
         return $this->update($customer, $saveAndReturnActionFormTemplateDataProvider);
     }
 
-    /**
-     * @Route("/update/{id}", name="oro_customer_customer_update", requirements={"id"="\d+"})
-     * @Template
-     * @Acl(
-     *      id="oro_customer_customer_update",
-     *      type="entity",
-     *      class="Oro\Bundle\CustomerBundle\Entity\Customer",
-     *      permission="EDIT"
-     * )
-     */
+    #[Route(path: '/update/{id}', name: 'oro_customer_customer_update', requirements: ['id' => '\d+'])]
+    #[Template]
+    #[Acl(id: 'oro_customer_customer_update', type: 'entity', class: Customer::class, permission: 'EDIT')]
     public function updateAction(Customer $customer): array|RedirectResponse
     {
         return $this->update($customer);
@@ -171,11 +144,9 @@ class CustomerController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/info/{id}", name="oro_customer_customer_info", requirements={"id"="\d+"})
-     * @Template("@OroCustomer/Customer/widget/info.html.twig")
-     * @AclAncestor("oro_customer_customer_view")
-     */
+    #[Route(path: '/info/{id}', name: 'oro_customer_customer_info', requirements: ['id' => '\d+'])]
+    #[Template('@OroCustomer/Customer/widget/info.html.twig')]
+    #[AclAncestor('oro_customer_customer_view')]
     public function infoAction(Customer $customer): array
     {
         return [

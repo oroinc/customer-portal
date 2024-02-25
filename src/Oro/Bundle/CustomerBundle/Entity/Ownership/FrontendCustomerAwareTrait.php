@@ -2,20 +2,18 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity\Ownership;
 
+use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 
+/**
+* FrontendCustomerAware trait
+*
+*/
 trait FrontendCustomerAwareTrait
 {
-    /**
-     * @var Customer
-     *
-     * @ORM\ManyToOne(
-     *      targetEntity="Oro\Bundle\CustomerBundle\Entity\Customer",
-     *      cascade={"persist"}
-     * )
-     * @ORM\JoinColumn(name="customer_id", referencedColumnName="id", onDelete="SET NULL")
-     */
-    protected $customer;
+    #[ORM\ManyToOne(targetEntity: Customer::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'customer_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
+    protected ?Customer $customer = null;
 
     /**
      * @return Customer|null

@@ -2,38 +2,31 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Security\UserApiKeyInterface;
 
 /**
  * The entity that represents API access keys for customer users.
- *
- * @ORM\Table(name="oro_customer_user_api")
- * @ORM\Entity()
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'oro_customer_user_api')]
 class CustomerUserApi implements UserApiKeyInterface
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    #[ORM\Id]
+    #[ORM\Column(type: Types::INTEGER)]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    protected ?int $id = null;
 
-    /**
-     * @var CustomerUser
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser", inversedBy="apiKeys", fetch="LAZY")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
-     */
-    protected $user;
+    #[ORM\ManyToOne(targetEntity: CustomerUser::class, fetch: 'LAZY', inversedBy: 'apiKeys')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    protected ?CustomerUser $user = null;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="api_key", type="crypted_string", unique=true, length=255, nullable=false)
      */
+    #[ORM\Column(name: 'api_key', type: 'crypted_string', length: 255, unique: true, nullable: false)]
     protected $apiKey;
 
     /**

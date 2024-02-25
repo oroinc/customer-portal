@@ -7,7 +7,7 @@ use Oro\Bundle\AddressBundle\Form\Handler\AddressHandler;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressType;
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,11 +21,9 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CustomerAddressController extends AbstractController
 {
-    /**
-     * @Route("/address-book/{id}", name="oro_customer_address_book", requirements={"id"="\d+"})
-     * @Template("@OroCustomer/Address/widget/addressBook.html.twig")
-     * @AclAncestor("oro_customer_customer_address_view")
-     */
+    #[Route(path: '/address-book/{id}', name: 'oro_customer_address_book', requirements: ['id' => '\d+'])]
+    #[Template('@OroCustomer/Address/widget/addressBook.html.twig')]
+    #[AclAncestor('oro_customer_customer_address_view')]
     public function addressBookAction(Request $request, Customer $customer): array
     {
         return [
@@ -34,31 +32,28 @@ class CustomerAddressController extends AbstractController
         ];
     }
 
-    /**
-     * @Route(
-     *      "/{entityId}/address-create",
-     *      name="oro_customer_address_create",
-     *      requirements={"entityId"="\d+"}
-     * )
-     * @Template("@OroCustomer/Address/widget/update.html.twig")
-     * @AclAncestor("oro_customer_customer_address_create")
-     * @ParamConverter("customer", options={"id" = "entityId"})
-     */
+    #[Route(
+        path: '/{entityId}/address-create',
+        name: 'oro_customer_address_create',
+        requirements: ['entityId' => '\d+']
+    )]
+    #[Template('@OroCustomer/Address/widget/update.html.twig')]
+    #[ParamConverter('customer', options: ['id' => 'entityId'])]
+    #[AclAncestor('oro_customer_customer_address_create')]
     public function createAction(Request $request, Customer $customer): array
     {
         return $this->update($request, $customer, new CustomerAddress());
     }
 
-    /**
-     * @Route(
-     *      "/{entityId}/address-update/{id}",
-     *      name="oro_customer_address_update",
-     *      requirements={"entityId"="\d+","id"="\d+"},defaults={"id"=0}
-     * )
-     * @Template("@OroCustomer/Address/widget/update.html.twig")
-     * @AclAncestor("oro_customer_customer_address_update")
-     * @ParamConverter("customer", options={"id" = "entityId"})
-     */
+    #[Route(
+        path: '/{entityId}/address-update/{id}',
+        name: 'oro_customer_address_update',
+        requirements: ['entityId' => '\d+', 'id' => '\d+'],
+        defaults: ['id' => 0]
+    )]
+    #[Template('@OroCustomer/Address/widget/update.html.twig')]
+    #[ParamConverter('customer', options: ['id' => 'entityId'])]
+    #[AclAncestor('oro_customer_customer_address_update')]
     public function updateAction(Request $request, Customer $customer, CustomerAddress $address): array
     {
         return $this->update($request, $customer, $address);

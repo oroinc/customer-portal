@@ -4,59 +4,47 @@ namespace Oro\Bundle\WebsiteBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Extend\Entity\Autocomplete\OroWebsiteBundle_Entity_Website;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareTrait;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationAwareInterface;
 use Oro\Bundle\OrganizationBundle\Entity\Ownership\AuditableBusinessUnitAwareTrait;
+use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Component\Website\WebsiteInterface;
 
 /**
  * Website entity class.
  *
- * @ORM\Table(
- *     name="oro_website",
- *     indexes={
- *          @ORM\Index(name="idx_oro_website_created_at", columns={"created_at"}),
- *          @ORM\Index(name="idx_oro_website_updated_at", columns={"updated_at"})
- *      },
- *      uniqueConstraints={
- *          @ORM\UniqueConstraint(name="uidx_oro_website_name_organization",
- *          columns={"name", "organization_id"})
- *      },
- * )
- * @ORM\Entity(repositoryClass="Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository")
- * @Config(
- *      routeName="oro_multiwebsite_index",
- *      routeView="oro_multiwebsite_view",
- *      routeUpdate="oro_multiwebsite_update",
- *      defaultValues={
- *          "entity"={
- *              "icon"="fa-briefcase"
- *          },
- *          "ownership"={
- *              "owner_type"="BUSINESS_UNIT",
- *              "owner_field_name"="owner",
- *              "owner_column_name"="business_unit_owner_id",
- *              "organization_field_name"="organization",
- *              "organization_column_name"="organization_id"
- *          },
- *          "dataaudit"={
- *              "auditable"=true
- *          },
- *          "security"={
- *              "type"="ACL",
- *              "group_name"=""
- *          }
- *      }
- * )
- * @ORM\HasLifecycleCallbacks()
  * @mixin OroWebsiteBundle_Entity_Website
  */
+#[ORM\Entity(repositoryClass: WebsiteRepository::class)]
+#[ORM\Table(name: 'oro_website')]
+#[ORM\Index(columns: ['created_at'], name: 'idx_oro_website_created_at')]
+#[ORM\Index(columns: ['updated_at'], name: 'idx_oro_website_updated_at')]
+#[ORM\UniqueConstraint(name: 'uidx_oro_website_name_organization', columns: ['name', 'organization_id'])]
+#[ORM\HasLifecycleCallbacks]
+#[Config(
+    routeName: 'oro_multiwebsite_index',
+    routeView: 'oro_multiwebsite_view',
+    routeUpdate: 'oro_multiwebsite_update',
+    defaultValues: [
+        'entity' => ['icon' => 'fa-briefcase'],
+        'ownership' => [
+            'owner_type' => 'BUSINESS_UNIT',
+            'owner_field_name' => 'owner',
+            'owner_column_name' => 'business_unit_owner_id',
+            'organization_field_name' => 'organization',
+            'organization_column_name' => 'organization_id'
+        ],
+        'dataaudit' => ['auditable' => true],
+        'security' => ['type' => 'ACL', 'group_name' => '']
+    ]
+)]
 class Website implements OrganizationAwareInterface, WebsiteInterface, ExtendEntityInterface
 {
     use DatesAwareTrait;
@@ -64,58 +52,31 @@ class Website implements OrganizationAwareInterface, WebsiteInterface, ExtendEnt
     use ExtendEntityTrait;
 
     /**
-     * @var Collection|Website[]
-     *
-     * @ORM\ManyToMany(targetEntity="Website", mappedBy="relatedWebsites")
+     * @var Collection<int, Website>
      */
-    protected $inversedWebsites;
+    #[ORM\ManyToMany(targetEntity: Website::class, mappedBy: 'relatedWebsites')]
+    protected ?Collection $inversedWebsites = null;
 
     /**
-     * @var Collection|Website[]
-     *
-     * @ORM\ManyToMany(targetEntity="Website", inversedBy="inversedWebsites")
-     * @ORM\JoinTable(
-     *      name="oro_related_website",
-     *      joinColumns={@ORM\JoinColumn(name="website_id", referencedColumnName="id", onDelete="CASCADE")},
-     *      inverseJoinColumns={
-     *          @ORM\JoinColumn(name="related_website_id", referencedColumnName="id", onDelete="CASCADE")
-     *      }
-     * )
+     * @var Collection<int, Website>
      */
-    protected $relatedWebsites;
+    #[ORM\ManyToMany(targetEntity: Website::class, inversedBy: 'inversedWebsites')]
+    #[ORM\JoinTable(name: 'oro_related_website')]
+    #[ORM\JoinColumn(name: 'website_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'related_website_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    protected ?Collection $relatedWebsites = null;
 
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    #[ORM\Id]
+    #[ORM\Column(type: Types::INTEGER)]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    protected ?int $id = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          },
-     *         "importexport"={
-     *              "identity"=true,
-     *          }
-     *      }
-     * )
-     */
-    protected $name;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['identity' => true]])]
+    protected ?string $name = null;
 
-    /**
-     * @ORM\Column(name="is_default", type="boolean")
-     *
-     * @var bool
-     */
-    protected $default = false;
+    #[ORM\Column(name: 'is_default', type: Types::BOOLEAN)]
+    protected ?bool $default = false;
 
     /**
      * Website constructor.
@@ -200,9 +161,8 @@ class Website implements OrganizationAwareInterface, WebsiteInterface, ExtendEnt
 
     /**
      * Pre persist event listener
-     *
-     * @ORM\PrePersist
      */
+    #[ORM\PrePersist]
     public function prePersist()
     {
         $this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
@@ -211,9 +171,8 @@ class Website implements OrganizationAwareInterface, WebsiteInterface, ExtendEnt
 
     /**
      * Pre update event handler
-     *
-     * @ORM\PreUpdate
      */
+    #[ORM\PreUpdate]
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));

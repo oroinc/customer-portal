@@ -8,7 +8,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Event\FilterCustomerUserResponseEvent;
 use Oro\Bundle\CustomerBundle\Handler\CustomerRegistrationHandler;
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Oro\Bundle\UIBundle\Route\Router;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,11 +26,11 @@ class CustomerUserRegisterController extends AbstractController
     /**
      * Create customer user form
      *
-     * @Route("/registration", name="oro_customer_frontend_customer_user_register")
-     * @Layout()
      * @param Request $request
      * @return array|RedirectResponse
      */
+    #[Route(path: '/registration', name: 'oro_customer_frontend_customer_user_register')]
+    #[Layout]
     public function registerAction(Request $request)
     {
         if ($this->getUser() instanceof AbstractUser) {
@@ -77,10 +77,10 @@ class CustomerUserRegisterController extends AbstractController
     }
 
     /**
-     * @Route("/confirm-email", name="oro_customer_frontend_customer_user_confirmation")
      * @param Request $request
      * @return RedirectResponse
      */
+    #[Route(path: '/confirm-email', name: 'oro_customer_frontend_customer_user_confirmation')]
     public function confirmEmailAction(Request $request)
     {
         $userManager = $this->container->get(CustomerUserManager::class);

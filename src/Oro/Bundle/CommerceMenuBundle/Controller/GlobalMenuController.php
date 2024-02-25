@@ -11,17 +11,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Commerce menu controller for global level.
- *
- * @Route("/menu/frontend/global")
  */
+#[Route(path: '/menu/frontend/global')]
 class GlobalMenuController extends AbstractFrontendMenuController
 {
     /**
-     * @Route("/", name="oro_commerce_menu_global_menu_index")
-     * @Template
      *
      * @return array
      */
+    #[Route(path: '/', name: 'oro_commerce_menu_global_menu_index')]
+    #[Template]
     public function indexAction()
     {
         $this->denyAccessUnlessGranted('oro_navigation_manage_menus');
@@ -30,51 +29,50 @@ class GlobalMenuController extends AbstractFrontendMenuController
     }
 
     /**
-     * @Route("/{menuName}", name="oro_commerce_menu_global_menu_view")
-     * @Template("@OroCommerceMenu/GlobalMenu/update.html.twig")
      *
      * @param string $menuName
      *
      * @return array
      */
+    #[Route(path: '/{menuName}', name: 'oro_commerce_menu_global_menu_view')]
+    #[Template('@OroCommerceMenu/GlobalMenu/update.html.twig')]
     public function viewAction($menuName)
     {
         return $this->update($menuName, null);
     }
 
     /**
-     * @Route("/{menuName}/create/{parentKey}", name="oro_commerce_menu_global_menu_create")
-     * @Template("@OroCommerceMenu/GlobalMenu/update.html.twig")
      *
      * @param string      $menuName
      * @param string|null $parentKey
      *
      * @return array|RedirectResponse
      */
+    #[Route(path: '/{menuName}/create/{parentKey}', name: 'oro_commerce_menu_global_menu_create')]
+    #[Template('@OroCommerceMenu/GlobalMenu/update.html.twig')]
     public function createAction($menuName, $parentKey = null)
     {
         return parent::create($menuName, $parentKey);
     }
 
     /**
-     * @Route("/{menuName}/update/{key}", name="oro_commerce_menu_global_menu_update")
-     * @Template
      *
      * @return array|RedirectResponse
      */
+    #[Route(path: '/{menuName}/update/{key}', name: 'oro_commerce_menu_global_menu_update')]
+    #[Template]
     public function updateAction(string $menuName, ?string $key = null)
     {
         return parent::update($menuName, $key);
     }
 
     /**
-     * @Route("/{menuName}/move", name="oro_commerce_menu_global_menu_move")
      *
      * @param Request $request
      * @param string  $menuName
-     *
      * @return array|RedirectResponse
      */
+    #[Route(path: '/{menuName}/move', name: 'oro_commerce_menu_global_menu_move')]
     public function moveAction(Request $request, $menuName)
     {
         return parent::move($request, $menuName);

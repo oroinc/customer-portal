@@ -13,7 +13,7 @@ class MenuUserAgentConditionTest extends \PHPUnit\Framework\TestCase
     public function testGetExtras()
     {
         $properties = [
-            ['id', '123'],
+            ['id', 123],
             ['menuUpdate', new MenuUpdate()],
             ['conditionGroupIdentifier', 1],
             ['operation', 'does not contain'],

@@ -7,7 +7,7 @@ use Oro\Bundle\ConfigBundle\Form\Handler\ConfigHandler;
 use Oro\Bundle\ConfigBundle\Provider\AbstractProvider;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Provider\CustomerConfigurationFormProvider;
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Oro\Bundle\SyncBundle\Content\DataUpdateTopicSender;
 use Oro\Bundle\SyncBundle\Content\TagGeneratorInterface;
 use Psr\Container\ContainerInterface;
@@ -18,7 +18,7 @@ use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * The controller to handle the the customer configuration.
+ * The controller to handle the customer configuration.
  */
 class CustomerConfigurationController implements ServiceSubscriberInterface
 {
@@ -29,16 +29,14 @@ class CustomerConfigurationController implements ServiceSubscriberInterface
         $this->container = $container;
     }
 
-    /**
-     * @Route(
-     *      "/customer/{id}/{activeGroup}/{activeSubGroup}",
-     *      name="oro_customer_config",
-     *      requirements={"id"="\d+"},
-     *      defaults={"activeGroup" = null, "activeSubGroup" = null}
-     * )
-     * @Template()
-     * @AclAncestor("oro_customer_customer_update")
-     */
+    #[Route(
+        path: '/customer/{id}/{activeGroup}/{activeSubGroup}',
+        name: 'oro_customer_config',
+        requirements: ['id' => '\d+'],
+        defaults: ['activeGroup' => null, 'activeSubGroup' => null]
+    )]
+    #[Template]
+    #[AclAncestor('oro_customer_customer_update')]
     public function customerConfigAction(
         Request $request,
         Customer $entity,

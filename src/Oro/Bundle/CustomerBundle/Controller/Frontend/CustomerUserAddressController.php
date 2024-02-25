@@ -9,8 +9,8 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserAddressFormProvider;
 use Oro\Bundle\CustomerBundle\Provider\FrontendAddressProvider;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\LayoutBundle\Attribute\Layout;
+use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Oro\Bundle\SecurityBundle\Util\SameSiteUrlHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,10 +28,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class CustomerUserAddressController extends AbstractController
 {
-    /**
-     * @Route("/", name="oro_customer_frontend_customer_user_address_index")
-     * @Layout(vars={"entity_class", "customer_address_count", "customer_user_address_count"})
-     */
+    #[Route(path: '/', name: 'oro_customer_frontend_customer_user_address_index')]
+    #[Layout(vars: ['entity_class', 'customer_address_count', 'customer_user_address_count'])]
     public function indexAction(): array
     {
         if (!$this->isGranted('oro_customer_frontend_customer_address_view')
@@ -52,31 +50,27 @@ class CustomerUserAddressController extends AbstractController
         ];
     }
 
-    /**
-     * @Route(
-     *     "/{entityId}/address-create",
-     *     name="oro_customer_frontend_customer_user_address_create",
-     *     requirements={"entityId":"\d+"}
-     * )
-     * @AclAncestor("oro_customer_frontend_customer_user_address_create")
-     * @Layout
-     * @ParamConverter("customerUser", options={"id" = "entityId"})
-     */
+    #[Route(
+        path: '/{entityId}/address-create',
+        name: 'oro_customer_frontend_customer_user_address_create',
+        requirements: ['entityId' => '\d+']
+    )]
+    #[Layout]
+    #[ParamConverter('customerUser', options: ['id' => 'entityId'])]
+    #[AclAncestor('oro_customer_frontend_customer_user_address_create')]
     public function createAction(CustomerUser $customerUser, Request $request): array|RedirectResponse
     {
         return $this->update($customerUser, new CustomerUserAddress(), $request);
     }
 
-    /**
-     * @Route(
-     *     "/{entityId}/address/{id}/update",
-     *     name="oro_customer_frontend_customer_user_address_update",
-     *     requirements={"entityId":"\d+", "id":"\d+"}
-     * )
-     * @AclAncestor("oro_customer_frontend_customer_user_address_update")
-     * @Layout
-     * @ParamConverter("customerUser", options={"id" = "entityId"})
-     */
+    #[Route(
+        path: '/{entityId}/address/{id}/update',
+        name: 'oro_customer_frontend_customer_user_address_update',
+        requirements: ['entityId' => '\d+', 'id' => '\d+']
+    )]
+    #[Layout]
+    #[ParamConverter('customerUser', options: ['id' => 'entityId'])]
+    #[AclAncestor('oro_customer_frontend_customer_user_address_update')]
     public function updateAction(
         CustomerUser $customerUser,
         CustomerUserAddress $customerAddress,

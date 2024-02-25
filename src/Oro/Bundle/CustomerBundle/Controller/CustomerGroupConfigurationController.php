@@ -7,7 +7,7 @@ use Oro\Bundle\ConfigBundle\Form\Handler\ConfigHandler;
 use Oro\Bundle\ConfigBundle\Provider\AbstractProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Provider\CustomerGroupConfigurationFormProvider;
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Oro\Bundle\SyncBundle\Content\DataUpdateTopicSender;
 use Oro\Bundle\SyncBundle\Content\TagGeneratorInterface;
 use Psr\Container\ContainerInterface;
@@ -29,16 +29,14 @@ class CustomerGroupConfigurationController implements ServiceSubscriberInterface
         $this->container = $container;
     }
 
-    /**
-     * @Route(
-     *      "/customerGroup/{id}/{activeGroup}/{activeSubGroup}",
-     *      name="oro_customer_group_config",
-     *      requirements={"id"="\d+"},
-     *      defaults={"activeGroup" = null, "activeSubGroup" = null}
-     * )
-     * @Template()
-     * @AclAncestor("oro_customer_customer_group_update")
-     */
+    #[Route(
+        path: '/customerGroup/{id}/{activeGroup}/{activeSubGroup}',
+        name: 'oro_customer_group_config',
+        requirements: ['id' => '\d+'],
+        defaults: ['activeGroup' => null, 'activeSubGroup' => null]
+    )]
+    #[Template]
+    #[AclAncestor('oro_customer_customer_group_update')]
     public function customerGroupConfigAction(
         Request $request,
         CustomerGroup $entity,

@@ -2,8 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity\Repository;
 
+use Oro\Bundle\CustomerBundle\Entity\NavigationItem;
 use Oro\Bundle\NavigationBundle\Entity\Repository\PinbarTabRepository as BasePinbarTabRepository;
 
+/**
+ *  PinbarTab Repository
+ */
 class PinbarTabRepository extends BasePinbarTabRepository
 {
     /**
@@ -11,6 +15,6 @@ class PinbarTabRepository extends BasePinbarTabRepository
      */
     protected function getNavigationItemClassName()
     {
-        return 'Oro\Bundle\CustomerBundle\Entity\NavigationItem';
+        return NavigationItem::class;
     }
 }

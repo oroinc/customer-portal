@@ -16,7 +16,7 @@ use Oro\Bundle\ImportExportBundle\Strategy\Import\ConfigurableAddOrReplaceStrate
  */
 class TypedAddressAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 {
-    protected Collection $addressTypes;
+    protected ?Collection $addressTypes = null;
     protected bool $ownershipError = false;
     private bool $isMarkedForRemoval = false;
 

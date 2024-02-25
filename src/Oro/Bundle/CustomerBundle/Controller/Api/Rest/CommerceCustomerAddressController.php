@@ -7,7 +7,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Oro\Bundle\SoapBundle\Controller\Api\Rest\RestController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,9 +27,9 @@ class CommerceCustomerAddressController extends RestController
      *      description="Get customer address",
      *      resource=true
      * )
-     * @AclAncestor("oro_customer_customer_address_view")
      * @return Response
      */
+    #[AclAncestor('oro_customer_customer_address_view')]
     public function getAction(int $entityId, int $addressId)
     {
         /** @var Customer $customer */
@@ -57,11 +57,10 @@ class CommerceCustomerAddressController extends RestController
      *      description="Get all addresses items",
      *      resource=true
      * )
-     * @AclAncestor("oro_customer_customer_address_view")
      * @param int $entityId
-     *
      * @return JsonResponse
      */
+    #[AclAncestor('oro_customer_customer_address_view')]
     public function cgetAction(int $entityId)
     {
         /** @var Customer $customer */
@@ -87,12 +86,11 @@ class CommerceCustomerAddressController extends RestController
      *      description="Delete address items",
      *      resource=true
      * )
-     * @AclAncestor("oro_customer_customer_address_remove")
      * @param int $entityId
      * @param int $addressId
-     *
      * @return Response
      */
+    #[AclAncestor('oro_customer_customer_address_remove')]
     public function deleteAction(int $entityId, int $addressId)
     {
         /** @var CustomerAddress $address */
@@ -117,9 +115,9 @@ class CommerceCustomerAddressController extends RestController
      *      description="Get customer address by type",
      *      resource=true
      * )
-     * @AclAncestor("oro_customer_customer_address_view")
      * @return Response
      */
+    #[AclAncestor('oro_customer_customer_address_view')]
     public function getByTypeAction(int $entityId, $typeName)
     {
         /** @var Customer $customer */
@@ -145,9 +143,9 @@ class CommerceCustomerAddressController extends RestController
      *      description="Get customer primary address",
      *      resource=true
      * )
-     * @AclAncestor("oro_customer_customer_address_view")
      * @return Response
      */
+    #[AclAncestor('oro_customer_customer_address_view')]
     public function getPrimaryAction(int $entityId)
     {
         /** @var Customer $customer */

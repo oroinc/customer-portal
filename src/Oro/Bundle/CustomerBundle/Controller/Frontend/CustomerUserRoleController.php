@@ -5,8 +5,8 @@ namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateFrontendHandler;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
-use Oro\Bundle\SecurityBundle\Annotation\Acl;
+use Oro\Bundle\LayoutBundle\Attribute\Layout;
+use Oro\Bundle\SecurityBundle\Attribute\Acl;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,17 +19,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class CustomerUserRoleController extends AbstractController
 {
-    /**
-     * @Route("/", name="oro_customer_frontend_customer_user_role_index")
-     * @Layout(vars={"entity_class"})
-     * @Acl(
-     *      id="oro_customer_frontend_customer_user_role_index",
-     *      type="entity",
-     *      class="Oro\Bundle\CustomerBundle\Entity\CustomerUserRole",
-     *      permission="VIEW",
-     *      group_name="commerce"
-     * )
-     */
+    #[Route(path: '/', name: 'oro_customer_frontend_customer_user_role_index')]
+    #[Layout(vars: ['entity_class'])]
+    #[Acl(
+        id: 'oro_customer_frontend_customer_user_role_index',
+        type: 'entity',
+        class: CustomerUserRole::class,
+        permission: 'VIEW',
+        groupName: 'commerce'
+    )]
     public function indexAction(): array
     {
         return [
@@ -37,10 +35,8 @@ class CustomerUserRoleController extends AbstractController
         ];
     }
 
-    /**
-     * @Route("/view/{id}", name="oro_customer_frontend_customer_user_role_view", requirements={"id"="\d+"})
-     * @Layout()
-     */
+    #[Route(path: '/view/{id}', name: 'oro_customer_frontend_customer_user_role_view', requirements: ['id' => '\d+'])]
+    #[Layout]
     public function viewAction(CustomerUserRole $role): array
     {
         $isGranted = $role->isPredefined()
@@ -58,26 +54,26 @@ class CustomerUserRoleController extends AbstractController
         ];
     }
 
-    /**
-     * @Route("/create", name="oro_customer_frontend_customer_user_role_create")
-     * @Layout()
-     * @Acl(
-     *      id="oro_customer_frontend_customer_user_role_create",
-     *      type="entity",
-     *      class="Oro\Bundle\CustomerBundle\Entity\CustomerUserRole",
-     *      permission="CREATE",
-     *      group_name="commerce"
-     * )
-     */
+    #[Route(path: '/create', name: 'oro_customer_frontend_customer_user_role_create')]
+    #[Layout]
+    #[Acl(
+        id: 'oro_customer_frontend_customer_user_role_create',
+        type: 'entity',
+        class: CustomerUserRole::class,
+        permission: 'CREATE',
+        groupName: 'commerce'
+    )]
     public function createAction(): array|RedirectResponse
     {
         return $this->update(new CustomerUserRole());
     }
 
-    /**
-     * @Route("/update/{id}", name="oro_customer_frontend_customer_user_role_update", requirements={"id"="\d+"})
-     * @Layout()
-     */
+    #[Route(
+        path: '/update/{id}',
+        name: 'oro_customer_frontend_customer_user_role_update',
+        requirements: ['id' => '\d+']
+    )]
+    #[Layout]
     public function updateAction(CustomerUserRole $role, Request $request): array|RedirectResponse
     {
         $isGranted = $role->isPredefined()

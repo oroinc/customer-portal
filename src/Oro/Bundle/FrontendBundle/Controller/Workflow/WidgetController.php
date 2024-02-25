@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Controller\Workflow;
 
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Oro\Bundle\WorkflowBundle\Entity\WorkflowItem;
 use Oro\Bundle\WorkflowBundle\Processor\Context\LayoutDialogResultType;
 use Oro\Bundle\WorkflowBundle\Processor\Context\TransitionContext;
@@ -19,19 +19,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class WidgetController extends AbstractController
 {
     /**
-     * @Route(
-     *      "/workflow/widget/start/{workflowName}/{transitionName}",
-     *      name="oro_frontend_workflow_widget_start_transition_form"
-     * )
      *
-     * @Layout
      *
      * @param string $transitionName
      * @param string $workflowName
      * @param Request $request
-     *
      * @return Response|array
      */
+    #[Route(
+        path: '/workflow/widget/start/{workflowName}/{transitionName}',
+        name: 'oro_frontend_workflow_widget_start_transition_form'
+    )]
+    #[Layout]
     public function startTransitionFormAction($transitionName, $workflowName, Request $request)
     {
         $processor = $this->container->get(TransitActionProcessor::class);
@@ -50,20 +49,19 @@ class WidgetController extends AbstractController
     }
 
     /**
-     * @Route(
-     *      "/workflow/widget/transit/{workflowItemId}/{transitionName}",
-     *      name="oro_frontend_workflow_widget_transition_form"
-     * )
-     * @ParamConverter("workflowItem", options={"id"="workflowItemId"})
      *
-     * @Layout
      *
      * @param string $transitionName
      * @param WorkflowItem $workflowItem
      * @param Request $request
-     *
      * @return Response|array
      */
+    #[Route(
+        path: '/workflow/widget/transit/{workflowItemId}/{transitionName}',
+        name: 'oro_frontend_workflow_widget_transition_form'
+    )]
+    #[Layout]
+    #[ParamConverter('workflowItem', options: ['id' => 'workflowItemId'])]
     public function transitionFormAction($transitionName, WorkflowItem $workflowItem, Request $request)
     {
         $processor = $this->container->get(TransitActionProcessor::class);
