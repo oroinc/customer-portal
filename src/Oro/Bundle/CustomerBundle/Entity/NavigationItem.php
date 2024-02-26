@@ -2,32 +2,25 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\NavigationBundle\Entity\AbstractNavigationItem;
+use Oro\Bundle\NavigationBundle\Entity\Repository\NavigationItemRepository;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 
 /**
  * Navigation Entity
- *
- * @ORM\Entity(repositoryClass="Oro\Bundle\NavigationBundle\Entity\Repository\NavigationItemRepository")
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="oro_cus_navigation_item",
- *      indexes={@ORM\Index(name="oro_sorted_items_idx", columns={"customer_user_id", "position"})})
  */
+#[ORM\Entity(repositoryClass: NavigationItemRepository::class)]
+#[ORM\Table(name: 'oro_cus_navigation_item')]
+#[ORM\Index(columns: ['customer_user_id', 'position'], name: 'oro_sorted_items_idx')]
+#[ORM\HasLifecycleCallbacks]
 class NavigationItem extends AbstractNavigationItem
 {
-    /**
-     * @var AbstractUser $user
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser")
-     * @ORM\JoinColumn(name="customer_user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     */
-    protected $user;
+    #[ORM\ManyToOne(targetEntity: CustomerUser::class)]
+    #[ORM\JoinColumn(name: 'customer_user_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    protected ?AbstractUser $user = null;
 
-    /**
-     * @var string $type
-     *
-     * @ORM\Column(name="type", type="string", length=20, nullable=false)
-     */
-    protected $type;
+    #[ORM\Column(name: 'type', type: Types::STRING, length: 20, nullable: false)]
+    protected ?string $type = null;
 }

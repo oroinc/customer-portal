@@ -3,22 +3,19 @@
 namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Oro\Bundle\CustomerBundle\Entity\Repository\PinbarTabRepository;
 use Oro\Bundle\NavigationBundle\Entity\AbstractPinbarTab;
+use Oro\Bundle\NavigationBundle\Entity\NavigationItemInterface;
 
 /**
  * Pinbar Tab Entity
- *
- * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\PinbarTabRepository")
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="oro_cus_nav_item_pinbar")
  */
+#[ORM\Entity(repositoryClass: PinbarTabRepository::class)]
+#[ORM\Table(name: 'oro_cus_nav_item_pinbar')]
+#[ORM\HasLifecycleCallbacks]
 class PinbarTab extends AbstractPinbarTab
 {
-    /**
-     * @var NavigationItem $item
-     *
-     * @ORM\OneToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\NavigationItem", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="item_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     */
-    protected $item;
+    #[ORM\OneToOne(targetEntity: NavigationItem::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name: 'item_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    protected ?NavigationItemInterface $item = null;
 }

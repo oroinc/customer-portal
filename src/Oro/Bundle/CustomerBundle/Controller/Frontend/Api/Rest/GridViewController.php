@@ -3,8 +3,9 @@
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Oro\Bundle\CustomerBundle\Entity\GridView;
 use Oro\Bundle\DataGridBundle\Controller\Api\Rest\GridViewController as BaseGridViewController;
-use Oro\Bundle\SecurityBundle\Annotation\Acl;
+use Oro\Bundle\SecurityBundle\Attribute\Acl;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,14 +23,14 @@ class GridViewController extends BaseGridViewController
      *      description="Create grid view",
      *      resource=true,
      * )
-     * @Acl(
-     *     id="oro_customer_frontend_gridview_create",
-     *     type="entity",
-     *     class="Oro\Bundle\CustomerBundle\Entity\GridView",
-     *     permission="CREATE",
-     *     group_name="commerce"
-     * )
      */
+    #[Acl(
+        id: 'oro_customer_frontend_gridview_create',
+        type: 'entity',
+        class: GridView::class,
+        permission: 'CREATE',
+        groupName: 'commerce'
+    )]
     public function postAction(Request $request)
     {
         return parent::postAction($request);
@@ -48,14 +49,14 @@ class GridViewController extends BaseGridViewController
      *          {"name"="id", "dataType"="integer"},
      *      }
      * )
-     * @Acl(
-     *     id="oro_customer_frontend_gridview_update",
-     *     type="entity",
-     *     class="Oro\Bundle\CustomerBundle\Entity\GridView",
-     *     permission="EDIT",
-     *     group_name="commerce"
-     * )
      */
+    #[Acl(
+        id: 'oro_customer_frontend_gridview_update',
+        type: 'entity',
+        class: GridView::class,
+        permission: 'EDIT',
+        groupName: 'commerce'
+    )]
     public function putAction(Request $request, $id)
     {
         return parent::putAction($request, $id);
@@ -73,14 +74,14 @@ class GridViewController extends BaseGridViewController
      *          {"name"="id", "dataType"="integer"},
      *      }
      * )
-     * @Acl(
-     *     id="oro_customer_frontend_gridview_delete",
-     *     type="entity",
-     *     class="Oro\Bundle\CustomerBundle\Entity\GridView",
-     *     permission="DELETE",
-     *     group_name="commerce"
-     * )
      */
+    #[Acl(
+        id: 'oro_customer_frontend_gridview_delete',
+        type: 'entity',
+        class: GridView::class,
+        permission: 'DELETE',
+        groupName: 'commerce'
+    )]
     public function deleteAction($id)
     {
         return parent::deleteAction($id);
@@ -105,14 +106,14 @@ class GridViewController extends BaseGridViewController
      *      },
      *      defaults={"default"="false"}
      * )
-     * @Acl(
-     *     id="oro_customer_frontend_gridview_view",
-     *     type="entity",
-     *     class="Oro\Bundle\CustomerBundle\Entity\GridView",
-     *     permission="VIEW",
-     *     group_name="commerce"
-     * )
      */
+    #[Acl(
+        id: 'oro_customer_frontend_gridview_view',
+        type: 'entity',
+        class: GridView::class,
+        permission: 'VIEW',
+        groupName: 'commerce'
+    )]
     public function defaultAction($id, $default = false, $gridName = null)
     {
         return parent::defaultAction($id, $default, $gridName);

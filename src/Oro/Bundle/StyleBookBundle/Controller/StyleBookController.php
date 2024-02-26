@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\StyleBookBundle\Controller;
 
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Oro\Bundle\StyleBookBundle\Helper\AccessHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -13,10 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class StyleBookController extends AbstractController
 {
-    /**
-     * @Layout(vars={"group"})
-     * @Route("/", name="oro_stylebook")
-     */
+    #[Route(path: '/', name: 'oro_stylebook')]
+    #[Layout(vars: ['group'])]
     public function indexAction()
     {
         $this->checkAccess();
@@ -26,16 +24,11 @@ class StyleBookController extends AbstractController
     }
 
     /**
-     * @Layout(vars={"group"})
-     * @Route(
-     *     "/{group}/",
-     *     name="oro_stylebook_group",
-     *     requirements={"group"="\w+"}
-     * )
      * @param string $group
-     *
      * @return array
      */
+    #[Route(path: '/{group}/', name: 'oro_stylebook_group', requirements: ['group' => '\w+'])]
+    #[Layout(vars: ['group'])]
     public function groupAction($group)
     {
         $this->checkAccess();

@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Controller;
 
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -11,10 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class FrontendController extends AbstractController
 {
-    /**
-     * @Layout
-     * @Route("/", name="oro_frontend_root")
-     */
+    #[Route(path: '/', name: 'oro_frontend_root')]
+    #[Layout]
     public function indexAction()
     {
         return [];

@@ -7,7 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Oro\Bundle\UIBundle\Route\Router;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,10 +23,12 @@ class ResetController extends AbstractController
 {
     const SESSION_EMAIL = 'oro_customer_user_reset_email';
 
-    /**
-     * @Layout()
-     * @Route("/reset-request", name="oro_customer_frontend_customer_user_reset_request", methods={"GET", "POST"})
-     */
+    #[Route(
+        path: '/reset-request',
+        name: 'oro_customer_frontend_customer_user_reset_request',
+        methods: ['GET', 'POST']
+    )]
+    #[Layout]
     public function requestAction()
     {
         if ($this->getUser() instanceof AbstractUser) {
@@ -50,10 +52,9 @@ class ResetController extends AbstractController
 
     /**
      * Tell the user to check his email
-     *
-     * @Layout()
-     * @Route("/check-email", name="oro_customer_frontend_customer_user_reset_check_email", methods={"GET"})
      */
+    #[Route(path: '/check-email', name: 'oro_customer_frontend_customer_user_reset_check_email', methods: ['GET'])]
+    #[Layout]
     public function checkEmailAction(Request $request)
     {
         $session = $request->getSession();
@@ -75,11 +76,11 @@ class ResetController extends AbstractController
     /**
      * Reset user password
      *
-     * @Layout
-     * @Route("/reset", name="oro_customer_frontend_customer_user_password_reset", methods={"GET", "POST"})
      * @param Request $request
      * @return array|RedirectResponse
      */
+    #[Route(path: '/reset', name: 'oro_customer_frontend_customer_user_password_reset', methods: ['GET', 'POST'])]
+    #[Layout]
     public function resetAction(Request $request)
     {
         $token = $request->get('token');

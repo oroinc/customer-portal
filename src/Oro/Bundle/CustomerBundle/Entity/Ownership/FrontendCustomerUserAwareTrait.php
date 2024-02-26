@@ -2,19 +2,20 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity\Ownership;
 
+use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
+/**
+* FrontendCustomerUserAware trait
+*
+*/
 trait FrontendCustomerUserAwareTrait
 {
     use FrontendCustomerAwareTrait;
 
-    /**
-     * @var CustomerUser
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser")
-     * @ORM\JoinColumn(name="customer_user_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
-     */
-    protected $customerUser;
+    #[ORM\ManyToOne(targetEntity: CustomerUser::class)]
+    #[ORM\JoinColumn(name: 'customer_user_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
+    protected ?CustomerUser $customerUser = null;
 
     /**
      * @return CustomerUser|null

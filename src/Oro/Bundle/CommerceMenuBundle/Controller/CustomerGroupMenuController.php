@@ -15,17 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * The controller for the customer group menu.
- * @Route("/menu/customer-group")
  */
+#[Route(path: '/menu/customer-group')]
 class CustomerGroupMenuController extends AbstractFrontendMenuController
 {
     /**
-     * @Route("/{id}", name="oro_commerce_menu_customer_group_menu_index")
-     * @Template
-     *
      * @param CustomerGroup $customerGroup
      * @return array
      */
+    #[Route(path: '/{id}', name: 'oro_commerce_menu_customer_group_menu_index')]
+    #[Template]
     public function indexAction(CustomerGroup $customerGroup)
     {
         $this->denyAccessUnlessGranted('oro_navigation_manage_menus');
@@ -39,15 +38,15 @@ class CustomerGroupMenuController extends AbstractFrontendMenuController
     }
 
     /**
-     * @Route(
-     *      "/context/",
-     *      name="oro_commerce_menu_customer_group_menu_context_index",
-     *      requirements={"id"="\d+"}
-     * )
-     * @Template("@OroCommerceMenu/CustomerGroupMenu/widget/contextIndex.html.twig")
      * @param Request $request
      * @return array
      */
+    #[Route(
+        path: '/context/',
+        name: 'oro_commerce_menu_customer_group_menu_context_index',
+        requirements: ['id' => '\d+']
+    )]
+    #[Template('@OroCommerceMenu/CustomerGroupMenu/widget/contextIndex.html.twig')]
     public function contextIndexAction(Request $request)
     {
         $context = $this->getContextFromRequest($request, $this->getAllowedContextKeys());
@@ -57,13 +56,13 @@ class CustomerGroupMenuController extends AbstractFrontendMenuController
     }
 
     /**
-     * @Route("/{menuName}/view", name="oro_commerce_menu_customer_group_menu_view")
-     * @Template("@OroCommerceMenu/CustomerGroupMenu/update.html.twig")
      *
      * @param string  $menuName
      * @param Request $request
      * @return array
      */
+    #[Route(path: '/{menuName}/view', name: 'oro_commerce_menu_customer_group_menu_view')]
+    #[Template('@OroCommerceMenu/CustomerGroupMenu/update.html.twig')]
     public function viewAction(Request $request, $menuName)
     {
         $context = $this->getContextFromRequest($request, $this->getAllowedContextKeys());
@@ -72,13 +71,13 @@ class CustomerGroupMenuController extends AbstractFrontendMenuController
     }
 
     /**
-     * @Route("/{menuName}/create/{parentKey}", name="oro_commerce_menu_customer_group_menu_create")
-     * @Template("@OroCommerceMenu/CustomerGroupMenu/update.html.twig")
      * @param Request     $request
      * @param string      $menuName
      * @param string|null $parentKey
      * @return array|RedirectResponse
      */
+    #[Route(path: '/{menuName}/create/{parentKey}', name: 'oro_commerce_menu_customer_group_menu_create')]
+    #[Template('@OroCommerceMenu/CustomerGroupMenu/update.html.twig')]
     public function createAction(Request $request, $menuName, $parentKey = null)
     {
         $context = $this->getContextFromRequest($request, $this->getAllowedContextKeys());
@@ -87,11 +86,11 @@ class CustomerGroupMenuController extends AbstractFrontendMenuController
     }
 
     /**
-     * @Route("/{menuName}/update/{key}", name="oro_commerce_menu_customer_group_menu_update")
-     * @Template
      *
      * @return array|RedirectResponse
      */
+    #[Route(path: '/{menuName}/update/{key}', name: 'oro_commerce_menu_customer_group_menu_update')]
+    #[Template]
     public function updateAction(Request $request, string $menuName, string $key = null)
     {
         $context = $this->getContextFromRequest($request, $this->getAllowedContextKeys());
@@ -100,13 +99,12 @@ class CustomerGroupMenuController extends AbstractFrontendMenuController
     }
 
     /**
-     * @Route("/{menuName}/move", name="oro_commerce_menu_customer_group_menu_move")
      *
      * @param Request $request
      * @param string  $menuName
-     *
      * @return array|RedirectResponse
      */
+    #[Route(path: '/{menuName}/move', name: 'oro_commerce_menu_customer_group_menu_move')]
     public function moveAction(Request $request, $menuName)
     {
         $context = $this->getContextFromRequest($request, $this->getAllowedContextKeys());

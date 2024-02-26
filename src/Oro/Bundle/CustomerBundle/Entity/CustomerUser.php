@@ -4,17 +4,22 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Extend\Entity\Autocomplete\OroCustomerBundle_Entity_CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserSelectType;
 use Oro\Bundle\EmailBundle\Entity\EmailInterface;
 use Oro\Bundle\EmailBundle\Entity\EmailOwnerInterface;
 use Oro\Bundle\EmailBundle\Model\EmailHolderInterface;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Security\AdvancedApiUserInterface;
@@ -25,54 +30,6 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
  * The entity that represents a person who acts on behalf of the company
  * to buy products using OroCommerce store frontend.
  *
- * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository")
- * @ORM\Table(
- *     name="oro_customer_user",
- *     indexes={
- *         @ORM\Index(name="idx_oro_customer_user_email", columns={"email"}),
- *         @ORM\Index(name="idx_oro_customer_user_email_lowercase", columns={"email_lowercase"}),
- *     }
- * )
- * @ORM\HasLifecycleCallbacks()
- * @Config(
- *      routeName="oro_customer_customer_user_index",
- *      routeView="oro_customer_customer_user_view",
- *      routeUpdate="oro_customer_customer_user_update",
- *      defaultValues={
- *          "entity"={
- *              "icon"="fa-user",
- *              "contact_information"={
- *                  "email"={
- *                      {"fieldName"="contactInformation"}
- *                  }
- *              }
- *          },
- *          "ownership"={
- *              "owner_type"="USER",
- *              "owner_field_name"="owner",
- *              "owner_column_name"="owner_id",
- *              "frontend_owner_type"="FRONTEND_CUSTOMER",
- *              "frontend_owner_field_name"="customer",
- *              "frontend_owner_column_name"="customer_id",
- *              "organization_field_name"="organization",
- *              "organization_column_name"="organization_id"
- *          },
- *          "form"={
- *              "form_type"="Oro\Bundle\CustomerBundle\Form\Type\CustomerUserSelectType",
- *              "grid_name"="customer-customer-user-select-grid"
- *          },
- *          "security"={
- *              "type"="ACL",
- *              "group_name"="commerce"
- *          },
- *          "dataaudit"={
- *              "auditable"=true
- *          },
- *          "grid"={
- *              "context"="customer-customer-user-select-grid"
- *          }
- *      }
- * )
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.ExcessiveClassLength)
@@ -80,6 +37,36 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @mixin OroCustomerBundle_Entity_CustomerUser
  */
+#[ORM\Entity(repositoryClass: CustomerUserRepository::class)]
+#[ORM\Table(name: 'oro_customer_user')]
+#[ORM\Index(columns: ['email'], name: 'idx_oro_customer_user_email')]
+#[ORM\Index(columns: ['email_lowercase'], name: 'idx_oro_customer_user_email_lowercase')]
+#[ORM\HasLifecycleCallbacks]
+#[Config(
+    routeName: 'oro_customer_customer_user_index',
+    routeView: 'oro_customer_customer_user_view',
+    routeUpdate: 'oro_customer_customer_user_update',
+    defaultValues: [
+        'entity' => [
+            'icon' => 'fa-user',
+            'contact_information' => ['email' => [['fieldName' => 'contactInformation']]]
+        ],
+        'ownership' => [
+            'owner_type' => 'USER',
+            'owner_field_name' => 'owner',
+            'owner_column_name' => 'owner_id',
+            'frontend_owner_type' => 'FRONTEND_CUSTOMER',
+            'frontend_owner_field_name' => 'customer',
+            'frontend_owner_column_name' => 'customer_id',
+            'organization_field_name' => 'organization',
+            'organization_column_name' => 'organization_id'
+        ],
+        'form' => ['form_type' => CustomerUserSelectType::class, 'grid_name' => 'customer-customer-user-select-grid'],
+        'security' => ['type' => 'ACL', 'group_name' => 'commerce'],
+        'dataaudit' => ['auditable' => true],
+        'grid' => ['context' => 'customer-customer-user-select-grid']
+    ]
+)]
 class CustomerUser extends AbstractUser implements
     CustomerUserInterface,
     EmailHolderInterface,
@@ -93,459 +80,165 @@ class CustomerUser extends AbstractUser implements
 
     const SECURITY_GROUP = 'commerce';
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "order"=1
-     *          }
-     *      }
-     * )
-     */
-    protected $id;
+    #[ORM\Id]
+    #[ORM\Column(type: Types::INTEGER)]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ConfigField(defaultValues: ['importexport' => ['order' => 1]])]
+    protected ?int $id = null;
 
     /**
-     * @var CustomerUserRole[]|Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUserRole", inversedBy="customerUsers")
-     * @ORM\JoinTable(
-     *      name="oro_cus_user_access_role",
-     *      joinColumns={
-     *          @ORM\JoinColumn(name="customer_user_id", referencedColumnName="id", onDelete="CASCADE")
-     *      },
-     *      inverseJoinColumns={
-     *          @ORM\JoinColumn(name="customer_user_role_id", referencedColumnName="id", onDelete="CASCADE")
-     *      }
-     * )
-     * @ConfigField(
-     *      defaultValues={
-     *          "entity"={
-     *              "label"="oro.customer.customeruser.roles.label",
-     *              "description"="oro.customer.customeruser.roles.description"
-     *          },
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          },
-     *          "importexport"={
-     *              "order"=45
-     *          }
-     *      }
-     * )
+     * @var Collection<int, CustomerUserRole>
      */
-    protected $userRoles;
+    #[ORM\ManyToMany(targetEntity: CustomerUserRole::class, inversedBy: 'customerUsers')]
+    #[ORM\JoinTable(name: 'oro_cus_user_access_role')]
+    #[ORM\JoinColumn(name: 'customer_user_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'customer_user_role_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ConfigField(
+        defaultValues: [
+            'entity' => [
+                'label' => 'oro.customer.customeruser.roles.label',
+                'description' => 'oro.customer.customeruser.roles.description'
+            ],
+            'dataaudit' => ['auditable' => true],
+            'importexport' => ['order' => 45]
+        ]
+    )]
+    protected ?Collection $userRoles = null;
+
+    #[ORM\ManyToOne(targetEntity: Customer::class, cascade: ['persist'], inversedBy: 'users')]
+    #[ORM\JoinColumn(name: 'customer_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['order' => 40]])]
+    protected ?Customer $customer = null;
+
+    #[ORM\Column(type: Types::BOOLEAN)]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['order' => 60]])]
+    protected ?bool $confirmed = true;
+
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[ConfigField(
+        defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['identity' => true, 'order' => 30]]
+    )]
+    protected ?string $email = null;
+
+    #[ORM\Column(name: 'email_lowercase', type: Types::STRING, length: 255)]
+    #[ConfigField(
+        defaultValues: ['dataaudit' => ['auditable' => false], 'importexport' => ['excluded' => true]],
+        mode: 'hidden'
+    )]
+    protected ?string $emailLowercase = null;
+
+    #[ORM\Column(name: 'name_prefix', type: Types::STRING, length: 255, nullable: true)]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['order' => 5]])]
+    protected ?string $namePrefix = null;
+
+    #[ORM\Column(name: 'first_name', type: Types::STRING, length: 255, nullable: true)]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['order' => 10]])]
+    protected ?string $firstName = null;
+
+    #[ORM\Column(name: 'middle_name', type: Types::STRING, length: 255, nullable: true)]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['order' => 15]])]
+    protected ?string $middleName = null;
+
+    #[ORM\Column(name: 'last_name', type: Types::STRING, length: 255, nullable: true)]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['order' => 20]])]
+    protected ?string $lastName = null;
+
+    #[ORM\Column(name: 'name_suffix', type: Types::STRING, length: 255, nullable: true)]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['order' => 25]])]
+    protected ?string $nameSuffix = null;
+
+    #[ORM\Column(name: 'birthday', type: Types::DATE_MUTABLE, nullable: true)]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['order' => 27]])]
+    protected ?\DateTimeInterface $birthday = null;
 
     /**
-     * @var Customer
-     *
-     * @ORM\ManyToOne(
-     *      targetEntity="Oro\Bundle\CustomerBundle\Entity\Customer",
-     *      inversedBy="users",
-     *      cascade={"persist"}
-     * )
-     * @ORM\JoinColumn(name="customer_id", referencedColumnName="id", onDelete="SET NULL")
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          },
-     *          "importexport"={
-     *              "order"=40
-     *          }
-     *      }
-     * )
+     * @var Collection<int, CustomerUserAddress>
      */
-    protected $customer;
+    #[ORM\OneToMany(
+        mappedBy: 'frontendOwner',
+        targetEntity: CustomerUserAddress::class,
+        cascade: ['all'],
+        orphanRemoval: true
+    )]
+    #[ORM\OrderBy(['primary' => Criteria::DESC])]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['excluded' => true]])]
+    protected ?Collection $addresses = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'owner_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['order' => 80]])]
+    protected ?User $owner = null;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(type="boolean")
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          },
-     *          "importexport"={
-     *              "order"=60
-     *          }
-     *      }
-     * )
+     * @var Collection<int, CustomerUserApi>
      */
-    protected $confirmed = true;
+    #[ORM\OneToMany(
+        mappedBy: 'user',
+        targetEntity: CustomerUserApi::class,
+        cascade: ['persist', 'remove'],
+        fetch: 'EXTRA_LAZY',
+        orphanRemoval: true
+    )]
+    #[ConfigField(
+        defaultValues: ['importexport' => ['excluded' => true], 'email' => ['available_in_template' => false]]
+    )]
+    protected ?Collection $apiKeys = null;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          },
-     *          "importexport"={
-     *              "identity"=true,
-     *              "order"=30
-     *          }
-     *      }
-     * )
+     * @var Collection<int, User>
      */
-    protected $email;
+    #[ORM\ManyToMany(targetEntity: User::class)]
+    #[ORM\JoinTable(name: 'oro_customer_user_sales_reps')]
+    #[ORM\JoinColumn(name: 'customer_user_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
+    protected ?Collection $salesRepresentatives = null;
+
+    #[ORM\Column(name: 'created_at', type: Types::DATETIME_MUTABLE)]
+    #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
+    protected ?\DateTimeInterface $createdAt = null;
+
+    #[ORM\Column(name: 'updated_at', type: Types::DATETIME_MUTABLE)]
+    #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
+    protected ?\DateTimeInterface $updatedAt = null;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="email_lowercase", type="string", length=255)
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=false
-     *          },
-     *          "importexport"={
-     *              "excluded"=true
-     *          }
-     *      },
-     *      mode="hidden"
-     * )
+     * @var Collection<int, CustomerUserSettings>
      */
-    protected $emailLowercase;
+    #[ORM\OneToMany(
+        mappedBy: 'customerUser',
+        targetEntity: CustomerUserSettings::class,
+        cascade: ['all'],
+        orphanRemoval: true
+    )]
+    #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
+    protected ?Collection $settings = null;
 
-    /**
-     * Name prefix
-     *
-     * @var string
-     *
-     * @ORM\Column(name="name_prefix", type="string", length=255, nullable=true)
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          },
-     *          "importexport"={
-     *              "order"=5
-     *          }
-     *      }
-     * )
-     */
-    protected $namePrefix;
+    #[ORM\ManyToOne(targetEntity: Website::class)]
+    #[ORM\JoinColumn(name: 'website_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
+    #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
+    protected ?Website $website = null;
 
-    /**
-     * First name
-     *
-     * @var string
-     *
-     * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          },
-     *          "importexport"={
-     *              "order"=10
-     *          }
-     *      }
-     * )
-     */
-    protected $firstName;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['order' => 50]])]
+    protected ?bool $enabled = true;
 
-    /**
-     * Middle name
-     *
-     * @var string
-     *
-     * @ORM\Column(name="middle_name", type="string", length=255, nullable=true)
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          },
-     *          "importexport"={
-     *              "order"=15
-     *          }
-     *      }
-     * )
-     */
-    protected $middleName;
+    #[ORM\ManyToOne(targetEntity: Organization::class)]
+    #[ORM\JoinColumn(name: 'organization_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
+    #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
+    protected ?OrganizationInterface $organization = null;
 
-    /**
-     * Last name
-     *
-     * @var string
-     *
-     * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          },
-     *          "importexport"={
-     *              "order"=20,
-     *          }
-     *      }
-     * )
-     */
-    protected $lastName;
+    #[ORM\Column(name: 'login_count', type: Types::INTEGER, options: ['default' => 0, 'unsigned' => true])]
+    #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
+    protected ?int $loginCount = null;
 
-    /**
-     * Name suffix
-     *
-     * @var string
-     *
-     * @ORM\Column(name="name_suffix", type="string", length=255, nullable=true)
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          },
-     *          "importexport"={
-     *              "order"=25
-     *          }
-     *      }
-     * )
-     */
-    protected $nameSuffix;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
+    protected ?string $username = null;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="birthday", type="date", nullable=true)
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          },
-     *          "importexport"={
-     *              "order"=27
-     *          }
-     *      }
-     * )
-     */
-    protected $birthday;
-
-    /**
-     * @var Collection|CustomerUserAddress[]
-     *
-     * @ORM\OneToMany(
-     *      targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress",
-     *      mappedBy="frontendOwner",
-     *      cascade={"all"},
-     *      orphanRemoval=true
-     * )
-     * @ORM\OrderBy({"primary" = "DESC"})
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          },
-     *          "importexport"={
-     *              "excluded"=true
-     *          }
-     *      }
-     * )
-     */
-    protected $addresses;
-
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          },
-     *          "importexport"={
-     *              "order"=80
-     *          }
-     *      }
-     * )
-     */
-    protected $owner;
-
-    /**
-     * @var CustomerUserApi[]|Collection
-     *
-     * @ORM\OneToMany(
-     *     targetEntity="CustomerUserApi",
-     *     mappedBy="user",
-     *     cascade={"persist", "remove"},
-     *     orphanRemoval=true,
-     *     fetch="EXTRA_LAZY"
-     * )
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "excluded"=true
-     *          },
-     *          "email"={
-     *              "available_in_template"=false
-     *          }
-     *      }
-     * )
-     */
-    protected $apiKeys;
-
-    /**
-     * @var Collection|User[]
-     *
-     * @ORM\ManyToMany(targetEntity="Oro\Bundle\UserBundle\Entity\User")
-     * @ORM\JoinTable(
-     *      name="oro_customer_user_sales_reps",
-     *      joinColumns={
-     *          @ORM\JoinColumn(name="customer_user_id", referencedColumnName="id", onDelete="CASCADE")
-     *      },
-     *      inverseJoinColumns={
-     *          @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
-     *      }
-     * )
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "excluded"=true
-     *          }
-     *      }
-     * )
-     */
-    protected $salesRepresentatives;
-
-    /**
-     * @var \DateTime $createdAt
-     *
-     * @ORM\Column(name="created_at", type="datetime")
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "excluded"=true
-     *          }
-     *      }
-     * )
-     */
-    protected $createdAt;
-
-    /**
-     * @var \DateTime $updatedAt
-     *
-     * @ORM\Column(name="updated_at", type="datetime")
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "excluded"=true
-     *          }
-     *      }
-     * )
-     */
-    protected $updatedAt;
-
-    /**
-     * @var ArrayCollection|CustomerUserSettings[]
-     *
-     * @ORM\OneToMany(
-     *      targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUserSettings",
-     *      mappedBy="customerUser",
-     *      cascade={"all"},
-     *      orphanRemoval=true
-     * )
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "excluded"=true
-     *          }
-     *      }
-     * )
-     */
-    protected $settings;
-
-    /**
-     * @var Website
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\WebsiteBundle\Entity\Website")
-     * @ORM\JoinColumn(name="website_id", referencedColumnName="id", onDelete="SET NULL")
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "excluded"=true
-     *          }
-     *      }
-     * )
-     */
-    protected $website;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(type="boolean")
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          },
-     *          "importexport"={
-     *              "order"=50
-     *          }
-     *      }
-     * )
-     */
-    protected $enabled = true;
-
-    /**
-     * @var Organization
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
-     * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "excluded"=true
-     *          }
-     *      }
-     * )
-     */
-    protected $organization;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="login_count", type="integer", options={"default"=0, "unsigned"=true})
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "excluded"=true
-     *          }
-     *      }
-     * )
-     */
-    protected $loginCount;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "excluded"=true
-     *          }
-     *      }
-     * )
-     */
-    protected $username;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="is_guest", type="boolean", options={"default"=false})
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "order"=50
-     *          }
-     *      }
-     * )
-     */
-    protected $isGuest = false;
+    #[ORM\Column(name: 'is_guest', type: Types::BOOLEAN, options: ['default' => false])]
+    #[ConfigField(defaultValues: ['importexport' => ['order' => 50]])]
+    protected ?bool $isGuest = false;
 
     /**
      * {@inheritdoc}
@@ -1151,9 +844,8 @@ class CustomerUser extends AbstractUser implements
 
     /**
      * Pre persist event listener
-     *
-     * @ORM\PrePersist
      */
+    #[ORM\PrePersist]
     public function prePersist()
     {
         $this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
@@ -1165,9 +857,8 @@ class CustomerUser extends AbstractUser implements
 
     /**
      * Invoked before the entity is updated.
-     *
-     * @ORM\PreUpdate
      */
+    #[ORM\PreUpdate]
     public function preUpdate(PreUpdateEventArgs $event)
     {
         $excludedFields = ['lastLogin', 'loginCount'];

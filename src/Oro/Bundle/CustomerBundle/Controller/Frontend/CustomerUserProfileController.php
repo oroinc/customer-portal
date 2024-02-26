@@ -5,8 +5,8 @@ namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 use Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\LayoutBundle\Attribute\Layout;
+use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Oro\Bundle\SecurityBundle\Util\SameSiteUrlHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -21,11 +21,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class CustomerUserProfileController extends AbstractController
 {
     /**
-     * @Route("/", name="oro_customer_frontend_customer_user_profile")
-     * @Layout
-     *
      * @return array
      */
+    #[Route(path: '/', name: 'oro_customer_frontend_customer_user_profile')]
+    #[Layout]
     public function profileAction()
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
@@ -40,13 +39,13 @@ class CustomerUserProfileController extends AbstractController
     /**
      * Edit customer user form
      *
-     * @Route("/update", name="oro_customer_frontend_customer_user_profile_update")
-     * @Layout()
-     * @AclAncestor("oro_customer_frontend_update_own_profile")
      *
      * @param Request $request
      * @return array|RedirectResponse
      */
+    #[Route(path: '/update', name: 'oro_customer_frontend_customer_user_profile_update')]
+    #[Layout]
+    #[AclAncestor('oro_customer_frontend_update_own_profile')]
     public function updateAction(Request $request)
     {
         $customerUser = $this->getUser();

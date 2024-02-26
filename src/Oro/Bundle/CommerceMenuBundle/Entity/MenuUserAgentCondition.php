@@ -2,12 +2,15 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
- * @ORM\Table(name="oro_menu_user_agent_condition")
- */
+* Entity that represents Menu User Agent Condition
+*
+*/
+#[ORM\Entity]
+#[ORM\Table(name: 'oro_menu_user_agent_condition')]
 class MenuUserAgentCondition
 {
     const OPERATION_CONTAINS = 'contains';
@@ -15,41 +18,23 @@ class MenuUserAgentCondition
     const OPERATION_MATCHES = 'matches';
     const OPERATION_DOES_NOT_MATCHES = 'does_not_match';
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer", name="id")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    #[ORM\Id]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    protected ?int $id = null;
 
-    /**
-     * @var MenuUpdate
-     *
-     * @ORM\ManyToOne(targetEntity="MenuUpdate", inversedBy="menuUserAgentConditions")
-     * @ORM\JoinColumn(name="menu_update_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    protected $menuUpdate;
+    #[ORM\ManyToOne(targetEntity: MenuUpdate::class, inversedBy: 'menuUserAgentConditions')]
+    #[ORM\JoinColumn(name: 'menu_update_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    protected ?MenuUpdate $menuUpdate = null;
 
-    /**
-     * @var integer $conditionGroupIdentifier
-     *
-     * @ORM\Column(name="condition_group_identifier", type="integer")
-     */
-    protected $conditionGroupIdentifier;
+    #[ORM\Column(name: 'condition_group_identifier', type: Types::INTEGER)]
+    protected ?int $conditionGroupIdentifier = null;
 
-    /**
-     * @var string $operation
-     *
-     * @ORM\Column(name="operation", type="string", length=32)
-     */
-    protected $operation;
+    #[ORM\Column(name: 'operation', type: Types::STRING, length: 32)]
+    protected ?string $operation = null;
 
-    /**
-     * @var string $value
-     *
-     * @ORM\Column(name="value", type="string", length=255)
-     */
-    protected $value;
+    #[ORM\Column(name: 'value', type: Types::STRING, length: 255)]
+    protected ?string $value = null;
 
     /**
      * Get id

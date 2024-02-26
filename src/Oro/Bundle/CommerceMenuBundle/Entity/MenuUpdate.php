@@ -4,10 +4,12 @@ namespace Oro\Bundle\CommerceMenuBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Extend\Entity\Autocomplete\OroCommerceMenuBundle_Entity_MenuUpdate;
 use Oro\Bundle\AttachmentBundle\Entity\File;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\CommerceMenuBundle\Entity\Repository\MenuUpdateRepository;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
@@ -18,69 +20,6 @@ use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 /**
  * Commerce Menu Update entity
  *
- * @ORM\Entity(repositoryClass="Oro\Bundle\CommerceMenuBundle\Entity\Repository\MenuUpdateRepository")
- * @ORM\Table(
- *      name="oro_commerce_menu_upd",
- *      uniqueConstraints={
- *          @ORM\UniqueConstraint(
- *              name="oro_commerce_menu_upd_uidx",
- *              columns={"key", "scope_id", "menu"}
- *          )
- *      }
- * )
- * @ORM\AssociationOverrides({
- *      @ORM\AssociationOverride(
- *          name="titles",
- *          joinTable=@ORM\JoinTable(
- *              name="oro_commerce_menu_upd_title",
- *              joinColumns={
- *                  @ORM\JoinColumn(
- *                      name="menu_update_id",
- *                      referencedColumnName="id",
- *                      onDelete="CASCADE"
- *                  )
- *              },
- *              inverseJoinColumns={
- *                  @ORM\JoinColumn(
- *                      name="localized_value_id",
- *                      referencedColumnName="id",
- *                      onDelete="CASCADE",
- *                      unique=true
- *                  )
- *              }
- *          )
- *      ),
- *      @ORM\AssociationOverride(
- *          name="descriptions",
- *          joinTable=@ORM\JoinTable(
- *              name="oro_commerce_menu_upd_descr",
- *              joinColumns={
- *                  @ORM\JoinColumn(
- *                      name="menu_update_id",
- *                      referencedColumnName="id",
- *                      onDelete="CASCADE"
- *                  )
- *              },
- *              inverseJoinColumns={
- *                  @ORM\JoinColumn(
- *                      name="localized_value_id",
- *                      referencedColumnName="id",
- *                      onDelete="CASCADE",
- *                      unique=true
- *                  )
- *              }
- *          )
- *      )
- * })
- * @Config(
- *      routeName="oro_commerce_menu_global_menu_index",
- *      defaultValues={
- *          "entity"={
- *              "icon"="fa-th"
- *          }
- *      }
- * )
- * @ORM\HasLifecycleCallbacks()
  *
  * @method File getImage()
  * @method MenuUpdate setImage(File $image)
@@ -92,6 +31,54 @@ use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
  * @method MenuUpdate setDefaultDescription($value)
  * @mixin OroCommerceMenuBundle_Entity_MenuUpdate
  */
+#[ORM\Entity(repositoryClass: MenuUpdateRepository::class)]
+#[ORM\Table(name: 'oro_commerce_menu_upd')]
+#[ORM\UniqueConstraint(name: 'oro_commerce_menu_upd_uidx', columns: ['key', 'scope_id', 'menu'])]
+#[ORM\AssociationOverrides([
+    new ORM\AssociationOverride(
+        name: 'titles',
+        joinColumns: [
+        new ORM\JoinColumn(
+            name: 'menu_update_id',
+            referencedColumnName: 'id',
+            onDelete: 'CASCADE'
+        )
+        ],
+        inverseJoinColumns: [
+            new ORM\JoinColumn(
+                name: 'localized_value_id',
+                referencedColumnName: 'id',
+                unique: true,
+                onDelete: 'CASCADE'
+            )
+        ],
+        joinTable: new ORM\JoinTable(name: 'oro_commerce_menu_upd_title')
+    ),
+    new ORM\AssociationOverride(
+        name: 'descriptions',
+        joinColumns: [
+        new ORM\JoinColumn(
+            name: 'menu_update_id',
+            referencedColumnName: 'id',
+            onDelete: 'CASCADE'
+        )
+        ],
+        inverseJoinColumns: [
+            new ORM\JoinColumn(
+                name: 'localized_value_id',
+                referencedColumnName: 'id',
+                unique: true,
+                onDelete: 'CASCADE'
+            )
+        ],
+        joinTable: new ORM\JoinTable(name: 'oro_commerce_menu_upd_descr')
+    )
+])]
+#[ORM\HasLifecycleCallbacks]
+#[Config(
+    routeName: 'oro_commerce_menu_global_menu_index',
+    defaultValues: ['entity' => ['icon' => 'fa-th']]
+)]
 class MenuUpdate implements
     MenuUpdateInterface,
     ExtendEntityInterface
@@ -120,63 +107,45 @@ class MenuUpdate implements
     public const MENU_TEMPLATE = 'menu_template';
     public const MAX_TRAVERSE_LEVEL = 'max_traverse_level';
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="`condition`", type="string", length=512, nullable=true)
-     */
-    protected $condition;
+    #[ORM\Column(name: '`condition`', type: Types::STRING, length: 512, nullable: true)]
+    protected ?string $condition = null;
 
     /**
-     * @var Collection|MenuUserAgentCondition[]
-     *
-     * @ORM\OneToMany(
-     *     targetEntity="Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition",
-     *      mappedBy="menuUpdate",
-     *      cascade={"ALL"},
-     *      orphanRemoval=true
-     * )
+     * @var Collection<int, MenuUserAgentCondition>
      */
-    protected $menuUserAgentConditions;
+    #[ORM\OneToMany(
+        mappedBy: 'menuUpdate',
+        targetEntity: MenuUserAgentCondition::class,
+        cascade: ['ALL'],
+        orphanRemoval: true
+    )]
+    protected ?Collection $menuUserAgentConditions = null;
 
     /**
      * @var array
-     *
-     * @ORM\Column(name="screens", type="array", nullable=true)
      */
+    #[ORM\Column(name: 'screens', type: Types::ARRAY, nullable: true)]
     protected $screens = [];
 
-    /**
-     * @var ContentNode|null
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\WebCatalogBundle\Entity\ContentNode", inversedBy="referencedMenuItems")
-     * @ORM\JoinColumn(name="content_node_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
-     */
-    protected $contentNode;
+    #[ORM\ManyToOne(targetEntity: ContentNode::class, inversedBy: 'referencedMenuItems')]
+    #[ORM\JoinColumn(name: 'content_node_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+    protected ?ContentNode $contentNode = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="system_page_route", type="string", length=255, nullable=true)
-     */
-    protected $systemPageRoute;
+    #[ORM\Column(name: 'system_page_route', type: Types::STRING, length: 255, nullable: true)]
+    protected ?string $systemPageRoute = null;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="link_target", type="smallint", nullable=false,
-     *     options={"default"=\Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate::LINK_TARGET_SAME_WINDOW}))
-     */
-    protected $linkTarget = self::LINK_TARGET_SAME_WINDOW;
+    #[ORM\Column(
+        name: 'link_target',
+        type: Types::SMALLINT,
+        nullable: false,
+        options: ['default' => MenuUpdate::LINK_TARGET_SAME_WINDOW]
+    )]
+    protected int $linkTarget = self::LINK_TARGET_SAME_WINDOW;
 
-    /**
-     * @ORM\Column(name="menu_template", type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(name: 'menu_template', type: Types::STRING, length: 255, nullable: true)]
     protected ?string $menuTemplate = null;
 
-    /**
-     * @ORM\Column(name="max_traverse_level", type="smallint", nullable=true)
-     */
+    #[ORM\Column(name: 'max_traverse_level', type: Types::SMALLINT, nullable: true)]
     protected ?int $maxTraverseLevel = null;
 
     /**
@@ -288,11 +257,6 @@ class MenuUpdate implements
         return $this->contentNode;
     }
 
-    /**
-     * @param string|null $systemPageRoute
-     *
-     * @return MenuUpdate
-     */
     public function setSystemPageRoute(?string $systemPageRoute): self
     {
         $this->systemPageRoute = $systemPageRoute;
