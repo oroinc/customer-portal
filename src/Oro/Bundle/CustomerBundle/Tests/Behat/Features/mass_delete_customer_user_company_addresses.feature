@@ -40,7 +40,7 @@ Feature: Mass delete customer user company addresses
     Given I proceed as the User
     When I reload the page
     Then I should see Delete action in "Customer Company User Addresses Grid"
-    And I wait for action
+    And I scroll to top
     And I should see Delete action in "Customer Company Addresses Grid"
     When I don't select any record from "Customer Company Addresses Grid"
     And I click "Delete" link from select all mass action dropdown in "Customer Company Addresses Grid"

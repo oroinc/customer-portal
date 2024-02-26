@@ -75,7 +75,12 @@ const StickyElementView = BaseView.extend({
         placeholder.classList.add('sticky-placeholder');
         placeholder.setAttribute('aria-hidden', true);
 
-        this.$el.before(placeholder);
+        if (this.group === 'top') {
+            this.$el.before(placeholder);
+        } else {
+            this.$el.after(placeholder);
+        }
+
         this.stickyPlaceholder = placeholder;
     },
 

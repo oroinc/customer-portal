@@ -121,6 +121,8 @@ oro_behat_extension:
       selector: ".sticky.sticky--top.in-sticky"
     Bottom Active Sticky Panel:
       selector: ".sticky.sticky--bottom.in-sticky"
+    Bottom Not Active Sticky Panel:
+      selector: ".sticky.sticky--bottom"
     Main Menu Into Header:
       selector: ".page-header .header-row"
     Main Menu Into Sticky Panel:
