@@ -8,7 +8,7 @@ use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManager;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\LocaleBundle\Manager\LocalizationManager;
 use Oro\Bundle\PricingBundle\Manager\UserCurrencyManager;
-use Oro\Bundle\SecurityBundle\Annotation\CsrfProtection;
+use Oro\Bundle\SecurityBundle\Attribute\CsrfProtection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,14 +21,12 @@ class AjaxCurrencyAndLocalizationController extends AbstractController
 {
     use RedirectLocalizationControllerTrait;
 
-    /**
-     * @Route(
-     *     "/set-current-currency-and-localization",
-     *     name="oro_frontend_set_current_currency_and_localization",
-     *     methods={"POST"}
-     * )
-     * @CsrfProtection()
-     */
+    #[Route(
+        path: '/set-current-currency-and-localization',
+        name: 'oro_frontend_set_current_currency_and_localization',
+        methods: ['POST']
+    )]
+    #[CsrfProtection()]
     public function setCurrentCurrencyAndLocalizationAction(Request $request): JsonResponse
     {
         $currencyResponse = $this->doSetCurrentCurrency($request);
