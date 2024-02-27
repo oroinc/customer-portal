@@ -6,8 +6,8 @@ $filter-criteria-selector-icon-height: 24px !default;
 $filter-criteria-selector-icon-color: get-color('neutral', 'dark') !default;
 $filter-criteria-selector-icon-display: block !default;
 $filter-criteria-hint-max-width: 250px !default;
-$filter-criteria-hint-item-color: get-color('neutral', 'white-100') !default;
-$filter-criteria-hint-item-bg: get-color('neutral', 'grey3') !default;
+$filter-criteria-hint-item-color: get-color('text', 'primary') !default;
+$filter-criteria-hint-item-bg: get-color('neutral', 'grey1') !default;
 $filter-criteria-hint-label-offset-end: 2px !default;
 
 $filter-trigger-wrapper-display: inline-block !default;
@@ -21,8 +21,8 @@ $filter-date-range-offset: null !default;
 $filter-separator-width: 22px !default;
 $filter-separator-text-align: center !default;
 
-$filter-reset-color: get-color('neutral', 'white-100') !default;
-$filter-reset-hover-color: color.adjust(get-color('neutral', 'white-100'), $lightness: -10%) !default;
+$filter-reset-color: null !default;
+$filter-reset-hover-color: null !default;
 
 $filter-value-range-display: flex !default;
 $filter-value-range-align-items: center !default;
@@ -55,7 +55,7 @@ $filter-actions-align-items: flex-start !default;
 $filter-box-dropdown-mode-in-sticky-offset: auto !default;
 $filter-box-dropdown-mode-margin: 4px 0 0 !default;
 $filter-box-dropdown-mode-inner-offset: 8px !default;
-$filter-box-dropdown-mode-background: get-color('neutral', 'grey1') !default;
+$filter-box-dropdown-mode-background: null !default;
 $filter-box-dropdown-mode-use-corner: true !default;
 $filter-box-dropdown-mode-corner-position-r: 15px !default;
 $filter-box-dropdown-mode-corner-position-b: 100% !default;

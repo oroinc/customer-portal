@@ -1,6 +1,7 @@
 /* @theme: default; */
 
 .page-content {
+    padding-top: $page-content-offset-top;
     width: $page-content-width;
 
     @include clearfix();
@@ -11,6 +12,12 @@
 
     &--has-sidebar-right {
         padding: $page-content-with-sidebar-right-inner-offset;
+    }
+}
+
+@include breakpoint('tablet') {
+    .page-content {
+        padding-top: $page-content-tablet-offset-top;
     }
 }
 

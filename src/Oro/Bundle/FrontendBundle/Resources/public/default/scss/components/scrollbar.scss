@@ -12,6 +12,9 @@
     /* color of the handle and scrollbar track */
     scrollbar-color: $scrollbar-color $track-color;
 
+    padding-bottom: $size;
+    margin-bottom: -$size;
+
     /* Track */
     &::-webkit-scrollbar {
         -webkit-appearance: none;

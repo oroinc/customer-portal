@@ -2,6 +2,7 @@
 
 .sticky {
     position: sticky;
+    z-index: z('base') + 1;
 
     &--top {
         top: var(--sticky-position-top-offset, 0);
@@ -21,6 +22,7 @@
 }
 
 .sticky-placeholder {
+    display: block;
     visibility: hidden;
     pointer-events: none;
 }

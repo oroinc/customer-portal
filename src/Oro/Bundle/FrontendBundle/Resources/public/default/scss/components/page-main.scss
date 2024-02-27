@@ -20,22 +20,19 @@
     }
 
     &__header {
+        padding-top: $page-main-header-offset-top;
         width: 100%;
     }
 }
 
 @include breakpoint('tablet') {
     .page-main {
+        padding-top: $page-main-tablet-offset-top;
+
         &__content {
             flex-direction: column;
-        }
-    }
-}
 
-@include breakpoint('mobile-landscape') {
-    .page-main {
-        &__content {
-            @include safe-area-offset(padding, $page-main-mobile-landscape-inner-offset);
+            @include safe-area-offset(padding, $page-main-mobile-tablet-inner-offset);
         }
     }
 }

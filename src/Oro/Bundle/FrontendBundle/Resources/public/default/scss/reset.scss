@@ -21,6 +21,8 @@ textarea {
     outline-offset: $base-ui-element-focus-visible-outline-offset;
     box-shadow: $focus-visible-style;
 
+    &[data-skip-focus-decoration],
+    [data-skip-focus-decoration-inner-elements] &,
     &:disabled,
     &.disabled {
         outline: none;

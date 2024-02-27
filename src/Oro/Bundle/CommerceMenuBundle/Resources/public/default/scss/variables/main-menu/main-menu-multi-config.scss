@@ -31,6 +31,8 @@ $main-menu-multi-container-edge-desktop-flex-shrink: 0 !default;
 
 /* Menu Stack Mode */
 $main-menu-multi-stack-mode-container-title-inner-color: get-color('text', 'primary') !default;
+$main-menu-multi-stack-mode-container-title-inner-text-decoration: underline !default;
+$main-menu-multi-stack-mode-container-title-inner-text-decoration-hover: underline !default;
 
 $main-menu-multi-stack-mode-container-title-hover-color: get-color('primary', 'hover') !default;
 $main-menu-multi-stack-mode-container-title-hover-background: get-color('primary', 'light') !default;

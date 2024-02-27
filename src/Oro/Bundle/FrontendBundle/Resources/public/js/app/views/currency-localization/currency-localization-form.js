@@ -174,7 +174,6 @@ const CurrencyLocalizationFormView = BaseView.extend({
 
                 if (redirectTo) {
                     mediator.execute('redirectTo', {url: redirectTo}, {redirect: true}).fail(() => {
-                        console.log('hideLoading');
                         mediator.execute('hideLoading');
                     });
                 } else {

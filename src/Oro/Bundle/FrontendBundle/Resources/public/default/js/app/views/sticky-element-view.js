@@ -38,7 +38,7 @@ const StickyElementView = BaseView.extend({
      */
     sentinel: null,
 
-    CHANGE_SCROLL_DIR_TIMEOUT: 100,
+    CHANGE_SCROLL_DIR_TIMEOUT: 200,
 
     prefix: 'sticky',
 

@@ -1,3 +1,4 @@
-<button type="button" class="btn btn--text clear-search-button" data-role="clear">
-    <span class="fa-close fa--no-offset" aria-hidden="true"></span>
+<% let oroui = _.macros('oroui') %>
+<button type="button" class="btn btn--icon btn--plain btn--size-small clear-search-button" data-role="clear">
+    <%= oroui.renderIcon({name: 'close', extraClass: 'theme-icon--small'}) %>
 </button>

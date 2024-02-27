@@ -2,13 +2,6 @@
 
 .clear-search-button {
     position: absolute;
-    top: 50%;
-    right: 4px;
-    transform: translate(0, -50%);
-
-    // fix vertical align of icon
-    span::before {
-        position: relative;
-        top: -1px;
-    }
+    top: 0;
+    right: 0;
 }

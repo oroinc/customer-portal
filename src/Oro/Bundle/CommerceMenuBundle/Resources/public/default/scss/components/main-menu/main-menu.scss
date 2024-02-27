@@ -3,6 +3,10 @@
 .main-menu {
     @include list-normalize();
 
+    a {
+        text-decoration: none;
+    }
+
     &__back-trigger {
         text-transform: $main-menu-back-trigger-text-transform;
         font-weight: $main-menu-back-trigger-font-weight;

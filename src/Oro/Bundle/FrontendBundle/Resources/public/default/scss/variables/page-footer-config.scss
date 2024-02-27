@@ -1,10 +1,8 @@
 /* @theme: default; */
 
 $page-footer-background: get-color('neutral', 'grey1') !default;
-$page-footer-container-offset: 0 8px 32px !default;
+$page-footer-container-offset: 0 28px 32px !default;
 $page-footer-inner-offset: 48px 0 spacing('base') !default;
-$page-footer-inner-offset-table-small: spacing('base') 0 !default;
+$page-footer-inner-offset-table: spacing('base') 0 !default;
 $page-footer-container-offset-tablet: null !default;
 $footer-collapse-view-trigger-icon-tablet-color: null !default;
-
-$page-footer-container-offset-tablet-small: 0 8px !default;

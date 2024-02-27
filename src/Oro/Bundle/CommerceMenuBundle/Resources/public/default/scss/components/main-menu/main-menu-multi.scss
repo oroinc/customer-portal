@@ -69,6 +69,11 @@
 
             &__container-title-inner {
                 color: $main-menu-multi-stack-mode-container-title-inner-color;
+                text-decoration: $main-menu-multi-stack-mode-container-title-inner-text-decoration;
+
+                &:hover {
+                    text-decoration: $main-menu-multi-stack-mode-container-title-inner-text-decoration-hover;
+                }
             }
         }
     }

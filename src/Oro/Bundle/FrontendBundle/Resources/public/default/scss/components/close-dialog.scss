@@ -11,6 +11,6 @@
         top: 0;
         right: 0;
         z-index: z('base') + 1;
-        margin: var(--close-dialog-offset, #{spacing('base')});
+        margin: var(--close-dialog-offset, 0);
     }
 }

@@ -59,6 +59,10 @@
                 }
             }
         }
+
+        &.btn--text {
+            border-inline-start-color: transparent;
+        }
     }
 
     > .btn:not(:last-child):not(.dropdown-toggle):not(:focus),
@@ -73,6 +77,10 @@
                     border-inline-end-color: #{$divider-value};
                 }
             }
+        }
+
+        &.btn--text {
+            border-inline-end-color: transparent;
         }
     }
 }

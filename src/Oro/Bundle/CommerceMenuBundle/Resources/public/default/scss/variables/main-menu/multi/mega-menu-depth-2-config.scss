@@ -18,8 +18,9 @@ $mega-menu-depth-2-scroll-display: grid !default;
 $mega-menu-depth-2-scroll-gap: 24px 0 !default;
 $mega-menu-depth-2-scroll-grid-template-rows: 1fr auto !default;
 
-$mega-menu-depth-2-scroll-shadow-margin: -#{spacing('xs')} !default;
-$mega-menu-depth-2-scroll-shadow-padding: spacing('xs') !default;
+$mega-menu-depth-2-scroll-shadow-margin: 0 !default;
+$mega-menu-depth-2-scroll-shadow-padding: 0 var(--system-scroll-width, #{spacing('base')}) 0 0 !default;
+$mega-menu-depth-2-scroll-shadow-offset: spacing('xs') !default;
 $mega-menu-depth-2-scroll-shadow-overflow: auto !default;
 $mega-menu-depth-2-scroll-shadow-height: 100% !default;
 

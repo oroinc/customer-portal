@@ -7,6 +7,8 @@
 
 @include breakpoint('tablet') {
     .page-footer {
+        padding: $page-footer-inner-offset-table;
+
         .collapse-view {
             &__trigger {
                 &-icon {
@@ -14,11 +16,5 @@
                 }
             }
         }
-    }
-}
-
-@include breakpoint('tablet-small') {
-    .page-footer {
-        padding: $page-footer-inner-offset-table-small;
     }
 }

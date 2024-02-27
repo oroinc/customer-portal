@@ -35,12 +35,12 @@ layout:
                                 actionOptions:
                                     refreshAction:
                                         launcherOptions:
-                                            className: 'btn btn--size-small'
+                                            className: 'btn btn--size-small btn--neutral'
                                             icon: 'undo'
                                             launcherMode: 'icon-only'
                                     resetAction:
                                         launcherOptions:
-                                            className: 'btn btn--size-small'
+                                            className: 'btn btn--size-small btn--neutral'
                                             icon: 'refresh'
                                             launcherMode: 'icon-only'
                                 customModules:

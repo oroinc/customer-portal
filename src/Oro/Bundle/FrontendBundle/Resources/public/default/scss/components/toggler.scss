@@ -7,8 +7,42 @@
     border: 2px solid $toggler-background-color;
     background-color: $toggler-background-color;
 
+    &--dropdown {
+        min-width: 0;
+        padding: 0;
+    }
+
+    &--dropdown-btn {
+        display: block;
+        color: $toggler-dropdown-btn-color;
+        font-size: $toggler-font-size;
+        line-height: $toggler-line-height;
+        background-color: $toggler-background-color;
+        border-radius: $toggler-border-radius;
+        box-shadow: none;
+        border: none;
+        text-align: center;
+        padding: $toggler-padding;
+        white-space: nowrap;
+        user-select: none;
+        font-weight: 400;
+        cursor: pointer;
+        transition: $toggler-dropdown-btn-transition;
+
+        &:hover {
+            color: $toggler-dropdown-btn-color-hover;
+            background-color: $toggler-dropdown-btn-background-color-hover;
+        }
+
+        .theme-icon {
+            display: block;
+        }
+    }
+
     > .toggle-link,
     > label {
+        display: flex;
+        justify-content: center;
         position: relative;
         flex: 1 1 100%;
         color: $toggler-base-color;

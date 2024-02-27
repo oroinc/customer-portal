@@ -84,14 +84,15 @@ const IncrementInputView = BaseView.extend({
      */
     doIncrementValue() {
         const $input = this.$el.find('input');
+        const value = $input.val() || 0;
 
-        if (NumberFormatter.unformatStrict($input.val()) >= NumberFormatter.unformatStrict(this.max)) {
+        if (NumberFormatter.unformatStrict(value) >= NumberFormatter.unformatStrict(this.max)) {
             return;
         }
 
         $input.val(
             NumberFormatter.unformatStrict(
-                numeral($input.val()).add(this._calculateStep()).value()
+                numeral(value).add(this._calculateStep()).value()
             )
         );
         this._afterSetInputValue();
@@ -102,14 +103,15 @@ const IncrementInputView = BaseView.extend({
      */
     doDecrementValue() {
         const $input = this.$el.find('input');
+        const value = $input.val() || 0;
 
-        if (NumberFormatter.unformatStrict($input.val()) <= NumberFormatter.unformatStrict(this.min)) {
+        if (NumberFormatter.unformatStrict(value) <= NumberFormatter.unformatStrict(this.min)) {
             return;
         }
 
         $input.val(
             NumberFormatter.unformatStrict(
-                numeral($input.val()).subtract(this._calculateStep()).value()
+                numeral(value).subtract(this._calculateStep()).value()
             )
         );
         this._afterSetInputValue();
@@ -121,7 +123,7 @@ const IncrementInputView = BaseView.extend({
      */
     _afterSetInputValue(value) {
         const $input = this.$el.find('input');
-        const validator = this.$el.find('input').closest('form').data('validator');
+        const validator = $input.closest('form').data('validator');
 
         if (validator) {
             validator.element($input);

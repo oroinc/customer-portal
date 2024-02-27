@@ -146,6 +146,11 @@
         font-size: $filter-dropdown-mode-items-hint-font-size;
 
         clear: both;
+
+        display: flex;
+        flex-wrap: wrap;
+
+        gap: spacing('sm') spacing('base');
     }
 
     .filter-criteria-hint-item {
@@ -155,12 +160,6 @@
         padding: $filter-dropdown-mode-criteria-hint-item-offset-inner;
 
         border-radius: $filter-dropdown-mode-criteria-hint-item-border-radius;
-    }
-
-    .reset-filter-button {
-        position: absolute;
-        top: $filter-dropdown-mode-reset-filter-button-top-pos;
-        right: $filter-dropdown-mode-reset-filter-button-right-pos;
     }
 
     .filters-manager-trigger {

@@ -6,12 +6,18 @@ $toggler-background-color: get-color('neutral', 'grey1') !default;
 $toggler-background-color-active: get-color('neutral', 'white-100') !default;
 $toggler-color-active: get-color('primary', 'active') !default;
 $toggler-switcher-box-shadow: 0px 1px 11px 0px #5b7e8321, 0px 0px 4px 0px #053b4217 !default;
+$toggler-padding: 12px !default;
 $toggler-font-size: 14px !default;
-$toggler-line-height: 1.4 !default;
+$toggler-line-height: 1.4286 !default;
 $toggler-border-radius: 4px !default;
 
 $toggler-hover-color: get-color('primary', 'hover') !default;
 $toggler-hover-background-color: get-color('neutral', 'white-50') !default;
+
+$toggler-dropdown-btn-color: get-color('text', 'primary') !default;
+$toggler-dropdown-btn-color-hover: get-color('primary', 'main') !default;
+$toggler-dropdown-btn-background-color-hover: get-color('primary', 'light') !default;
+$toggler-dropdown-btn-transition: color .15s ease-in-out, background-color .15s ease-in-out !default;
 
 $toggler-disabled-color: get-color('text', 'disabled') !default;
 $toggler-disabled-background-color: transparent !default;

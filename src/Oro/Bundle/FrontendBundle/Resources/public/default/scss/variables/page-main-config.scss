@@ -2,8 +2,11 @@
 
 $page-main-offset-top: spacing('base') !default;
 $page-main-max-width: $site-width !default;
-$page-main-inner-offset: 0 28px !default;
+$page-main-inner-offset: 0 28px 0 !default;
 $page-main-content-offset: 0 auto 70px !default;
 
-// mobile-landscape
-$page-main-mobile-landscape-inner-offset: spacing('base') spacing('base') 0 !default;
+$page-main-header-offset-top: spacing('sm') !default;
+
+// Tablet
+$page-main-mobile-tablet-inner-offset: 0 spacing('base') 0 !default;
+$page-main-tablet-offset-top: spacing('sm') !default;

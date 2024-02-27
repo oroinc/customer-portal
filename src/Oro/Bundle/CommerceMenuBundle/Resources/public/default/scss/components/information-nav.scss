@@ -35,8 +35,6 @@
         &-content {
             @at-root {
                 a#{&} {
-                    display: block;
-                    line-height: 20px;
                     color: $information-nav-item-content-color;
 
                     &:hover {

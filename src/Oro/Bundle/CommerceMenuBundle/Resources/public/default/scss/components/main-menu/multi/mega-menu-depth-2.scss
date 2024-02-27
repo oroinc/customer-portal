@@ -98,11 +98,11 @@
             padding: $mega-menu-depth-2-scroll-shadow-padding;
 
             &.shadow-start::before {
-                top: -$mega-menu-depth-2-scroll-shadow-padding;
+                top: -$mega-menu-depth-2-scroll-shadow-offset;
             }
 
             &.shadow-end::after {
-                bottom: -$mega-menu-depth-2-scroll-shadow-padding;
+                bottom: -$mega-menu-depth-2-scroll-shadow-offset;
             }
         }
 

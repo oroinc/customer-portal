@@ -99,6 +99,11 @@
         font-size: $filter-toggle-mode-items-hint-font-size;
 
         clear: both;
+
+        display: flex;
+        flex-wrap: wrap;
+
+        gap: spacing('sm') spacing('base');
     }
 
     .filter-criteria-hint-item {
