@@ -227,7 +227,7 @@ services:
     oro_frontend.layout_context_configurator.standalone_main_menu:
         class: 'Oro\Bundle\FrontendBundle\Layout\Extension\StandaloneMainMenuContextConfigurator'
         arguments:
-            - '@oro_config.global'
+            - '@oro_config.manager'
         tags:
             - { name: layout.context_configurator }
 
