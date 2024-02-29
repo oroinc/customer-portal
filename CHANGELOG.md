@@ -32,7 +32,7 @@ events `frontend-dialog:accept, frontend-dialog:cancel, frontend-dialog:close` w
 
 ## Changes in the Customer Portal package versions
 
-- [6.0.0-BETA](#600-beta-2024-01-08)
+- [6.0.0-RC](#600-rc-2024-02-29)
 - [5.1.0](#510-2023-03-31)
 - [5.0.0](#500-2022-01-26)
 - [4.2.0](#420-2020-01-29)
@@ -50,8 +50,8 @@ events `frontend-dialog:accept, frontend-dialog:cancel, frontend-dialog:close` w
 - [2.2.0](#220-2017-05-31)
 
 
-## 6.0.0-BETA (2024-01-08)
-[Show detailed list of changes](incompatibilities-6-0-beta.md)
+## 6.0.0-RC (2024-02-29)
+[Show detailed list of changes](incompatibilities-6-0-rc.md)
 
 ### Changed
 
