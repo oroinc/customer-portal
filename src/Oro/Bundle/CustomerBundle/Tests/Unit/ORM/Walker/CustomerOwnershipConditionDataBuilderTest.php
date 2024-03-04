@@ -104,10 +104,11 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
         int $accessLevel,
         bool $isGranted,
         array $expected
-    ) {
+    ): void {
+        $context = ['test' => 1];
         $this->ownerConditionBuilder->expects($this->any())
             ->method('getAclConditionData')
-            ->with(self::ENTITY_NAME, self::PERMISSIONS)
+            ->with(self::ENTITY_NAME, self::PERMISSIONS, $context)
             ->willReturn($parentResult);
 
         $this->metadataProvider->expects($this->any())
@@ -132,7 +133,10 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
             )
             ->willReturn($isGranted);
 
-        $this->assertEquals($expected, $this->builder->getAclConditionData(self::ENTITY_NAME, self::PERMISSIONS));
+        $this->assertEquals(
+            $expected,
+            $this->builder->getAclConditionData(self::ENTITY_NAME, self::PERMISSIONS, $context)
+        );
     }
 
     /**
@@ -255,7 +259,7 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
         );
     }
 
-    private function buildTestTree()
+    private function buildTestTree(): void
     {
         /**
          * org3
@@ -288,7 +292,7 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
         $this->tree->addUserBusinessUnit('user31', 'org3', 'c31');
     }
 
-    private function buildTree()
+    private function buildTree(): void
     {
         $subordinateBusinessUnits = [
             'c3'  => ['c31', 'c32', 'c321'],

@@ -49,9 +49,12 @@ class CustomerOwnershipConditionDataBuilder implements AclConditionDataBuilderIn
     /**
      * {@inheritDoc}
      */
-    public function getAclConditionData(string $entityClassName, string|array $permissions = 'VIEW'): ?array
-    {
-        $constraint = $this->ownerConditionBuilder->getAclConditionData($entityClassName, $permissions);
+    public function getAclConditionData(
+        string $entityClassName,
+        string|array $permissions = 'VIEW',
+        array $context = []
+    ): ?array {
+        $constraint = $this->ownerConditionBuilder->getAclConditionData($entityClassName, $permissions, $context);
 
         $metadata = $this->metadataProvider->getMetadata($entityClassName);
         if ($metadata instanceof FrontendOwnershipMetadata
