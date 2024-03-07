@@ -87,12 +87,12 @@ define(function(require) {
                 },
                 {
                     name: 'share',
-                    icon: 'reply-all',
+                    icon: 'bookmark',
                     priority: 10
                 },
                 {
                     name: 'unshare',
-                    icon: 'share',
+                    icon: 'bookmark-filled',
                     priority: 10
                 },
                 {
@@ -107,7 +107,7 @@ define(function(require) {
                 },
                 {
                     name: 'use_as_default',
-                    icon: 'th',
+                    icon: 'grid',
                     priority: 20
 
                 }

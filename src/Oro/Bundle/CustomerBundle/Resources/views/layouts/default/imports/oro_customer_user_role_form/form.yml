@@ -67,7 +67,6 @@ layout:
                     options:
                         action: submit
                         text: oro.customer.action.customer_user_role.save_label
-                        style: auto
                         attr:
                             'class': 'role-submit '
                 __customer_user_role_form_actions_cancel_top:
@@ -76,7 +75,7 @@ layout:
                         route_name: oro_customer_frontend_customer_user_role_index
                         text: oro.customer.action.customer_user_role.cancel_label
                         attr:
-                            'class': 'btn '
+                            'class': 'btn btn--outlined '
                 __customer_user_role_form_actions_bottom:
                     blockType: container
                 __customer_user_role_form_actions_update_bottom:
@@ -84,7 +83,6 @@ layout:
                     options:
                         action: submit
                         text: oro.customer.action.customer_user_role.save_label
-                        style: auto
                         attr:
                             'class': 'role-submit '
                 __customer_user_role_form_actions_cancel_bottom:
@@ -93,7 +91,7 @@ layout:
                         route_name: oro_customer_frontend_customer_user_role_index
                         text: oro.customer.action.customer_user_role.cancel_label
                         attr:
-                            'class': 'btn btn-primary '
+                            'class': 'btn btn--outlined '
                 __customer_user_role_form_actions_input_action:
                     blockType: input
                     options:
@@ -109,10 +107,10 @@ layout:
                             __customer_user_role_form_actions_input_action: ~
                             __customer_user_role_form_fields: ~
                             __customer_user_role_form_actions_top:
-                                __customer_user_role_form_actions_update_top: ~
                                 __customer_user_role_form_actions_cancel_top: ~
+                                __customer_user_role_form_actions_update_top: ~
                             __customer_user_role_form_users: ~
                             __customer_user_role_form_actions_bottom:
-                                __customer_user_role_form_actions_update_bottom: ~
                                 __customer_user_role_form_actions_cancel_bottom: ~
+                                __customer_user_role_form_actions_update_bottom: ~
                         __customer_user_role_form_end: ~
