@@ -14,7 +14,7 @@ Feature: Frontend All Grid View Label
   Scenario: Check All grid view label
     Given I proceed as the Buyer
     And I signed in as AmandaRCole@example.org on the store frontend
-    And follow "Account"
+    And I click "Account Dropdown"
     When click "Users"
     Then I should see "All Users"
 

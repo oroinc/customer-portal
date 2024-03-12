@@ -1,0 +1,22 @@
+{% block _form_datetime_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' input input--full'
+    }) %}
+
+    {{ form_widget(form, {'attr': attr }) }}
+{% endblock %}
+
+{% block _form_select_widget %}
+    <div class="grid" style="--grid-gap: 8px 4px;">
+        <div class="grid-col-12">{{ form_widget(form, {}) }}</div>
+        <div class="grid-col-12">
+            {% set selectId = 'collapse-'|uniqid %}
+            <label for="{{ selectId }}" class="label label--full required">Select with inline label</label>
+            <select id="{{ selectId }}" name="select" class="select select--full" data-label="Sort by:" data-lavel-class="hide-on-mobile-landscape">
+                <option value="relevance">Relevance</option>
+                <option value="sku">SKU</option>
+                <option value="price">Price</option>
+            </select>
+        </div>
+    </div>
+{% endblock %}

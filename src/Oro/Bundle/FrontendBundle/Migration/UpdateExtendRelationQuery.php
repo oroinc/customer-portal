@@ -81,7 +81,7 @@ class UpdateExtendRelationQuery extends ParametrizedMigrationQuery
      */
     protected function processQueries(LoggerInterface $logger, $dryRun = false)
     {
-        $row = $this->connection->fetchAssoc(
+        $row = $this->connection->fetchAssociative(
             'SELECT id, data FROM oro_entity_config WHERE class_name = ? LIMIT 1',
             [$this->entityFrom]
         );

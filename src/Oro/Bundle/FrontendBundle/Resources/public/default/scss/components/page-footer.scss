@@ -2,21 +2,12 @@
 
 .page-footer {
     padding: $page-footer-inner-offset;
-
-    border: 0 $page-footer-border-style;
-    border-width: $page-footer-border-width;
     background: $page-footer-background;
-
-    &-container {
-        padding: $page-footer-container-offset;
-    }
 }
 
 @include breakpoint('tablet') {
     .page-footer {
-        &-container {
-            padding: $page-footer-container-offset-tablet;
-        }
+        padding: $page-footer-inner-offset-table;
 
         .collapse-view {
             &__trigger {

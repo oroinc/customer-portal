@@ -1,5 +1,13 @@
 /* @theme: default; */
 
-$notification-flash-container-offset: $offset-y auto !default;
-$notification-flash-container-inner-offset: $offset-x-m !default;
-$notification-flash-container-max-width: $site-width !default;
+$notification-flash-container-width: 500px !default;
+$notification-flash-container-offset: 28px 28px 0 auto !default;
+$notification-flash-container-z-index: z('popup') + 50 !default;
+
+// Tablet
+$notification-flash-container-tablet-offset: 28px spacing('base') 0 auto !default;
+$notification-flash-container-tablet-width: 400px !default;
+
+// Mobile
+$notification-flash-container-mobile-offset: 28px auto 0 !default;
+$notification-flash-container-mobile-width: 328px !default;

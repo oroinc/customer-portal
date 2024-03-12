@@ -26,10 +26,27 @@ class FrontendMenuContext extends OroFeatureContext implements
 
         $isMenuItemVisibleExpectation = empty(trim($negotiation));
         /** @var FrontendMainMenu $mainMenu */
-        $mainMenu = $this->createElement('FrontendMainMenu');
-        $hasLink = $mainMenu->hasLink($path);
+        $mainMenuTrigger = $this->createElement('Main Menu Button');
+        $sidebarMainMenuPopup = $this->createElement('Sidebar Main Menu Popup');
+        $needClose = false;
+        if ($mainMenuTrigger->isIsset() && !$sidebarMainMenuPopup->isIsset()) {
+            $mainMenuTrigger->click();
+            $needClose = true;
+        }
 
-        self::assertSame($isMenuItemVisibleExpectation, $hasLink);
+        $this->spin(function () use ($path, $isMenuItemVisibleExpectation) {
+            $mainMenu = $this->createElement('FrontendMainMenu');
+            $hasLink = $mainMenu->hasLink($path);
+            self::assertSame($isMenuItemVisibleExpectation, $hasLink);
+            return !is_null($hasLink);
+        }, 5);
+
+        if ($needClose) {
+            $this->spin(function (): void {
+                $close = $this->getPage()->find('css', '[data-role="close"]');
+                $close->click();
+            }, 5);
+        }
     }
 
     /**

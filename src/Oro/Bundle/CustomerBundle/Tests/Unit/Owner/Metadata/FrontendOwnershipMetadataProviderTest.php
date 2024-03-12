@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Owner\Metadata;
 
 use Oro\Bundle\CacheBundle\Generator\UniversalCacheKeyGenerator;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
@@ -13,6 +14,7 @@ use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityConfigBundle\Config\Id\EntityConfigId;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
@@ -167,7 +169,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
 
         $this->tokenAccessor->expects(self::any())
             ->method('getToken')
-            ->willReturn(new \stdClass());
+            ->willReturn($this->createMock(TokenInterface::class));
 
         self::assertEquals($expectedResult, $this->provider->supports());
     }
@@ -198,7 +200,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
 
         $this->tokenAccessor->expects(self::any())
             ->method('getToken')
-            ->willReturn(new AnonymousCustomerUserToken(''));
+            ->willReturn(new AnonymousCustomerUserToken(new CustomerVisitor()));
 
         self::assertTrue($this->provider->supports());
     }

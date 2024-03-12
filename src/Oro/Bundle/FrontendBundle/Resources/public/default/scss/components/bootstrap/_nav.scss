@@ -20,12 +20,12 @@
 .nav-tabs {
     .nav-link {
         @if $nav-tabs-link-active-color-focus-visible {
-            &.focus-visible {
+            &:focus-visible {
                 position: relative;
-
-                box-shadow: $nav-tabs-link-active-color-focus-visible;
             }
         }
+
+        text-decoration: none;
 
         border: $nav-tabs-link-border;
         margin-right: $nav-tabs-link-right-offset;

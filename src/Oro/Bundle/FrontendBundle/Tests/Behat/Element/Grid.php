@@ -55,6 +55,11 @@ class Grid extends BaseGrid
         $this->elementFactory->createElement('GridMassCheckMenu')->clickLink($title);
     }
 
+    public function massVisibleOnPageCheck()
+    {
+        $this->elementFactory->createElement('GridMassCheckboxLabel')->click();
+    }
+
     public function openGridViewDropdown(): void
     {
         $gridViewsDropdown = $this->getElement('FrontendGridViewsDropdown');

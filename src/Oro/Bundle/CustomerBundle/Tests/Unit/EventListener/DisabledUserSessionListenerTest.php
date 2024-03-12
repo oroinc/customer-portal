@@ -33,7 +33,7 @@ class DisabledUserSessionListenerTest extends \PHPUnit\Framework\TestCase
         $event = new ExceptionEvent(
             $this->createMock(HttpKernelInterface::class),
             $request,
-            HttpKernelInterface::MASTER_REQUEST,
+            HttpKernelInterface::MAIN_REQUEST,
             new LockedException()
         );
 
@@ -59,7 +59,7 @@ class DisabledUserSessionListenerTest extends \PHPUnit\Framework\TestCase
         $event = new ExceptionEvent(
             $this->createMock(HttpKernelInterface::class),
             $request,
-            HttpKernelInterface::MASTER_REQUEST,
+            HttpKernelInterface::MAIN_REQUEST,
             new LockedException()
         );
 

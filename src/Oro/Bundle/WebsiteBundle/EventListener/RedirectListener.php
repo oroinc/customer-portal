@@ -58,7 +58,7 @@ class RedirectListener implements RedirectListenerInterface
     private function isSupported(RequestEvent $event): bool
     {
         return
-            $event->isMasterRequest()
+            $event->isMainRequest()
             && !$event->getResponse() instanceof RedirectResponse
             && $this->frontendHelper->isFrontendRequest()
             && !str_starts_with($event->getRequest()->getPathInfo(), '/media/cache/');

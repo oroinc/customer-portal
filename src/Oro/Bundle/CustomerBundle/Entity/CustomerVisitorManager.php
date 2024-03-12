@@ -14,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class CustomerVisitorManager
 {
     private ManagerRegistry $doctrine;
-    private ?string $writeConnectionName = null;
+    private ?string $writeConnectionName;
 
     public function __construct(ManagerRegistry $doctrine, ?string $writeConnectionName = null)
     {

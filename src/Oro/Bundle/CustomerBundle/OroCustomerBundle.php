@@ -8,7 +8,6 @@ use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\DataAuditEntityMappin
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\FrontendApiPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\LoginManagerPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\OwnerTreeListenerPass;
-use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\RolesChangeListenerPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Security\AnonymousCustomerUserFactory;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Security\ApiAnonymousCustomerUserFactory;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
@@ -25,7 +24,6 @@ class OroCustomerBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new OwnerTreeListenerPass());
-        $container->addCompilerPass(new RolesChangeListenerPass());
         $container->addCompilerPass(new DataAuditEntityMappingPass());
         $container->addCompilerPass(new LoginManagerPass());
         $container->addCompilerPass(new ConfigureFrontendHelperPass());
@@ -36,7 +34,7 @@ class OroCustomerBundle extends Bundle
         }
 
         $extension = $container->getExtension('security');
-        $extension->addSecurityListenerFactory(new AnonymousCustomerUserFactory());
-        $extension->addSecurityListenerFactory(new ApiAnonymousCustomerUserFactory());
+        $extension->addAuthenticatorFactory(new AnonymousCustomerUserFactory());
+        $extension->addAuthenticatorFactory(new ApiAnonymousCustomerUserFactory());
     }
 }

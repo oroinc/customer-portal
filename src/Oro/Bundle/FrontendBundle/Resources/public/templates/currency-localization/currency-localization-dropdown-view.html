@@ -1,0 +1,50 @@
+<% let oroui = _.macros('oroui') %>
+
+<% _.each(availableControls, function(control) { %>
+    <% var context = obj[control] %>
+    <% if (context && context.items.length > 2) { %>
+        <div class="dropdown">
+            <% var togglerId = _.uniqueId(control + '-dropdown'); %>
+            <button
+                id="<%- togglerId %>"
+                data-toggle="dropdown"
+                type="button"
+                class="btn btn--outlined-inverse btn--text btn--no-padding <%- context.name %>-switcher <%- context.name %>-switcher--<%- context.selected.formattingCode %>"
+                aria-label="<%- _.__('oro_frontend.dropdown.currency_localization_form.more_actions') %>"
+                data-placement="bottom-end"
+                data-popper="false"
+            >
+                <%= oroui.renderIcon({ name: context.icon }) %>
+                <%- _.__(context.selected.title) %>
+                <%= oroui.renderIcon({ name: 'chevron-down' , extraClass: 'dropdown-menu-chevron' }) %>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="<%- togglerId %>">
+                <ul class="<%- context.name %>-menu-list">
+                    <% _.each(context.items, function(item) { %>
+                        <li class="<%- context.name %>-switcher__item <%- context.name %>-switcher__item--<%- item.formattingCode %>">
+                            <% if (context.selected.value === item.value) { %>
+                                <span class="dropdown-item text-nowrap dropdown-item--active" dir="auto"><%- _.__(item.title) %></span>
+                            <% } else { %>
+                                <a class="dropdown-item text-nowrap" href="#" data-<%- context.name %>="<%- item.value %>" dir="auto"><%- _.__(item.title) %></a>
+                            <% } %>
+                        </li>
+                    <% }) %>
+                </ul>
+            </div>
+        </div>
+    <% } else if (context && context.items.length === 2) { %>
+        <div class="oro-toolbar__content">
+            <%= oroui.renderIcon({ name: context.icon, extraClass: 'theme-icon--medium oro-toolbar__icon' }) %>
+            <% _.each(context.items, function(item, index) { %>
+                <% if (index !== 0) { %>
+                    <span class="divider" aria-hidden="true"></span>
+                <% } %>
+                <% if (context.selected.value === item.value) { %>
+                    <span class="oro-toolbar__link oro-toolbar__link--active text-nowrap" dir="auto"><%- _.__(item.title) %></span>
+                <% } else { %>
+                    <a class="oro-toolbar__link text-nowrap" href="#" data-<%- context.name %>="<%- item.value %>" dir="auto"><%- _.__(item.title) %></a>
+                <% } %>
+            <% }) %>
+        </div>
+    <% } %>
+<% }) %>

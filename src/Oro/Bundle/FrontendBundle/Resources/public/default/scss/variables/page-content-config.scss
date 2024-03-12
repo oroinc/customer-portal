@@ -1,11 +1,15 @@
-/* @theme: default; */
+/* @theme: default */
 
-$page-content-width: 100%;
-$page-content-with-sidebar-inner-offset-start: 24px;
-$page-content-with-sidebar-inner-offset-end: 24px;
-$page-content-with-sidebar-inner-offset: 0 0 0 $page-content-with-sidebar-inner-offset-start;
+$page-content-offset-top: $page-main-offset-top !default;
+$page-content-width: 100% !default;
+$page-content-with-sidebar-inner-offset-start: 24px !default;
+$page-content-with-sidebar-inner-offset-end: 24px !default;
+$page-content-with-sidebar-inner-offset: (
+    $page-content-offset-top 0 0 $page-content-with-sidebar-inner-offset-start
+) !default;
 
-$page-content-with-sidebar-right-inner-offset: 0 $page-content-with-sidebar-inner-offset-end 0 0;
+$page-content-with-sidebar-right-inner-offset: 0 $page-content-with-sidebar-inner-offset-end 0 0 !default;
 
 // Tablet
-$page-content-with-sidebar-tables-s-inner-offset: 0;
+$page-content-with-sidebar-tables-s-inner-offset: 0 !default;
+$page-content-tablet-offset-top: $page-main-tablet-offset-top !default;

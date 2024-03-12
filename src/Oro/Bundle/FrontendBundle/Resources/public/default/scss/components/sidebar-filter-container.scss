@@ -1,9 +1,7 @@
 /* @theme: default; */
 
-$skeleton-color: get-color('additional', 'base');
-
 @function sidebar-filter-skeleton-primary(
-    $color: get-color('additional', 'base'),
+    $color: $skeleton-color,
     $x: 0,
     $y: 0
 ) {
@@ -30,7 +28,7 @@ $skeleton-color: get-color('additional', 'base');
 }
 
 @function sidebar-filter-skeleton-secondary(
-    $color: get-color('additional', 'base'),
+    $color: $skeleton-color,
     $x: 0,
     $y: 0
 ) {
@@ -67,7 +65,7 @@ $skeleton-color: get-color('additional', 'base');
     max-width: 100%;
 }
 
-@include breakpoint('desktop') {
+@include breakpoint('desktop-small') {
     .sidebar-filter-container {
         /* rtl:begin:ignore */
         &:empty {
@@ -83,21 +81,9 @@ $skeleton-color: get-color('additional', 'base');
                 );
             }
 
-            margin-top: $offset-y-m;
-
-            animation: 1s ease-in infinite alternate skeleton-pulse;
+            margin-top: spacing('sm');
         }
 
         /* rtl:end:ignore */
-    }
-}
-
-@keyframes skeleton-pulse {
-    0% {
-        opacity: .7;
-    }
-
-    100% {
-        opacity: 1;
     }
 }

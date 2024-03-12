@@ -2,76 +2,56 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 
 /**
  * The entity that stores login attempts of customer users.
- *
- * @ORM\Entity()
- * @ORM\Table(
- *     name="oro_customer_user_login",
- *     indexes={@ORM\Index(name="oro_cuser_log_att_at_idx", columns={"attempt_at"})}
- * )
- * @Config(
- *      defaultValues={
- *          "security"={
- *              "type"="ACL",
- *              "group_name"="",
- *              "category"="account_management",
- *              "permissions"="VIEW"
- *          }
- *      }
- * )
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'oro_customer_user_login')]
+#[ORM\Index(columns: ['attempt_at'], name: 'oro_cuser_log_att_at_idx')]
+#[Config(
+    defaultValues: [
+        'security' => [
+            'type' => 'ACL',
+            'group_name' => '',
+            'category' => 'account_management',
+            'permissions' => 'VIEW'
+        ]
+    ]
+)]
 class CustomerUserLoginAttempt
 {
-    /**
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     */
-    private string $id;
+    #[ORM\Column(name: 'id', type: Types::GUID)]
+    #[ORM\Id]
+    private ?string $id = null;
 
-    /**
-     * @Doctrine\ORM\Mapping\Column(name="attempt_at", type="datetime")
-     */
-    protected \DateTime $attemptAt;
+    #[ORM\Column(name: 'attempt_at', type: Types::DATETIME_MUTABLE)]
+    protected ?\DateTime $attemptAt = null;
 
-    /**
-     * @ORM\Column(name="success", type="boolean", nullable=false)
-     */
-    private bool $success;
+    #[ORM\Column(name: 'success', type: Types::BOOLEAN, nullable: false)]
+    private ?bool $success = null;
 
-    /**
-     * @ORM\Column(name="source", type="integer", nullable=false)
-     */
-    private int $source;
+    #[ORM\Column(name: 'source', type: Types::INTEGER, nullable: false)]
+    private ?int $source = null;
 
-    /**
-     * @ORM\Column(name="username", type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(name: 'username', type: Types::STRING, length: 255, nullable: true)]
     private ?string $username;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-     */
+    #[ORM\ManyToOne(targetEntity: CustomerUser::class)]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
     private ?CustomerUser $user;
 
-    /**
-     * @ORM\Column(name="ip", type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(name: 'ip', type: Types::STRING, length: 255, nullable: true)]
     private ?string $ip;
 
-    /**
-     * @ORM\Column(name="user_agent", type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(name: 'user_agent', type: Types::STRING, length: 255, nullable: true)]
     private ?string $userAgent;
 
-    /**
-     * @ORM\Column(name="context", type="json", nullable=false)
-     */
-    private array $context;
+    #[ORM\Column(name: 'context', type: Types::JSON, nullable: false)]
+    private ?array $context = null;
 
     public function getId(): string
     {

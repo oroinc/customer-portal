@@ -15,11 +15,6 @@ define(function(require, exports, module) {
 
     const FrontendFullScreenFiltersAction = ToggleFiltersAction.extend({
         /**
-         * @property;
-         */
-        counterBadgeView: CounterBadgeView,
-
-        /**
          * @inheritdoc
          */
         constructor: function FrontendFullScreenFiltersAction(options) {
@@ -51,11 +46,12 @@ define(function(require, exports, module) {
             this.listenTo(mediator, 'viewport:change', this.updateFiltersStateView);
 
             if (config.showCounterBadge) {
-                this.counterBadgeView = new this.counterBadgeView();
-                this.listenTo(mediator, {
-                    [`filterManager:selectedFilters:count:${this.datagrid.name}`]: this.onUpdateFiltersCount
-                });
+                this.subview('badge', new CounterBadgeView());
             }
+
+            this.listenTo(mediator, {
+                [`filterManager:selectedFilters:count:${this.datagrid.name}`]: this.onUpdateFiltersCount
+            });
         },
 
         updateFiltersStateView() {
@@ -103,12 +99,38 @@ define(function(require, exports, module) {
             this.fullscreenFilters.showMainPopup();
         },
 
+        /**
+         * Handler on filters selected state are changed
+         * @param count
+         */
         onUpdateFiltersCount: function(count) {
+            this.markAsFiltersAsChanged( count > 0);
+            this.setBadgeCount(count);
+        },
+
+        /**
+         * @param {boolean} selected
+         */
+        markAsFiltersAsChanged(selected = false) {
+            if (this.launcherInstance) {
+                this.launcherInstance.$el.toggleClass('filters-selected', selected);
+            }
+        },
+
+        /**
+         * Set e new count to badge view if it exists
+         * @param count
+         */
+        setBadgeCount(count) {
+            if (this.subviewsByName['badge'] === void 0 || this.subviewsByName['badge'].disposed) {
+                return;
+            }
+
             if (typeof count !== 'number') {
                 return;
             }
 
-            this.counterBadgeView.setCount(count);
+            this.subview('badge').setCount(count);
         },
 
         createLauncher: function(options) {

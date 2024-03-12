@@ -27,7 +27,7 @@
         }
 
         // Prevents all next focusable elements to be dimmed by a blur from a 'overflow-mode' element
-        + .focus-visible:focus {
+        + :focus-visible {
             position: relative;
         }
 

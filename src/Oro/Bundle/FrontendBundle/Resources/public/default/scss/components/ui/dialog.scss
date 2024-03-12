@@ -23,28 +23,37 @@
 
         border: $dialog-widget-content-border;
         color: $dialog-widget-content-color;
-        background-color: $dialog-widget-content-bg-color;
+    }
 
+    &.ui-widget-content {
         @include border-radius($dialog-widget-content-border-radius);
+
+        background-color: $dialog-widget-content-bg-color;
     }
 
     .ui-widget-content {
         padding: $dialog-widget-content-offset-inner;
         overflow-y: auto;
-        border-radius: $dialog-widget-content-border-radius;
     }
 
     .ui-dialog-title {
+        display: flex;
+        align-items: center;
+        gap: $fullscreen-popup-header-gap;
+        flex-grow: 1;
         font-size: $dialog-title-font-size;
+        font-weight: $dialog-title-font-weight;
         line-height: $dialog-title-line-height;
     }
 
     .ui-dialog-titlebar {
+        display: flex;
+        align-items: $modal-header-align-items;
+        gap: $modal-header-gap;
         padding: $dialog-titlebar-offset-inner;
 
         font-weight: $dialog-titlebar-font-weight;
 
-        border: $dialog-titlebar-border;
         background: $dialog-titlebar-background;
         color: $dialog-titlebar-color;
 
@@ -56,47 +65,47 @@
     }
 
     .ui-dialog-titlebar-buttonpane {
-        position: absolute;
-        top: $dialog-titlebar-buttonpane-top;
-        right: $dialog-titlebar-buttonpane-right;
+        display: inline-flex;
+        flex-shrink: 0;
+        align-self: flex-start;
+        margin-left: auto;
     }
 
     .ui-dialog-buttonpane {
         padding: $dialog-buttonpane-offset-inner;
-
         flex-shrink: 0;
 
         overflow: visible;
 
-        .btn-success {
-            background: $dialog-btn-success-background;
-            border-color: $dialog-btn-success-border;
+        // Reset redundant styles
+        .pull-right,
+        .pull-left {
+            float: initial;
+        }
+
+        .form-actions {
+            display: $ui-dialog-buttonpane-form-actions-display;
+            justify-content: $ui-dialog-buttonpane-form-actions-justify;
+            gap: $ui-dialog-footer-gap;
+        }
+
+        .widget-actions-section {
+            display: $ui-dialog-buttonpane-form-actions-pull-container-display;
+            justify-content: $ui-dialog-buttonpane-form-actions-pull-container-justify;
+            gap: $ui-dialog-footer-gap;
+            width: $ui-dialog-buttonpane-form-actions-width;
         }
     }
 
-    .pull-right .action-wrapper {
-        margin-left: $dialog-action-wrapper-side-offset;
-    }
-
-    .pull-left .action-wrapper {
-        margin-right: $dialog-action-wrapper-side-offset;
-    }
-
     .ui-dialog-messages {
-        margin: $dialog-messages-offset;
         padding: $dialog-messages-inner-offset;
 
         &:empty {
             display: none;
         }
-
-        > [class*='notification-flash'] {
-            padding: $dialog-notification-offset-inner;
-        }
     }
 
     .ui-dialog-extra-header-content {
-        margin: $dialog-extra-header-content-offset;
         padding: $dialog-extra-header-content-inner-offset;
 
         &:empty {
@@ -104,53 +113,44 @@
         }
     }
 
-    .dialog-badge {
-        margin-right: $dialog-badge-margin;
+    .close-dialog {
+        // Hide unused elements
+        .ui-icon,
+        .ui-button-icon-space {
+            display: none;
+        }
+    }
 
-        @include badge($badge-bg: $dialog-badge-bg);
+    .dialog-icon {
+        display: inline-flex;
+        align-self: flex-start;
+        flex-shrink: 0;
+        padding: $ui-dialog-dialog-icon-padding;
     }
 
     &.fullscreen {
-        // Next styles might be updated by JS in different levels while dialog is open,
+        // Next styles might be updated by JS in different levels while dialog is opening,
         // but we need to occupy a dialog a whole screen
         /* stylelint-disable declaration-no-important */
-        top: 0 !important;
+        top: $ui-dialog-fullscreen-viewport-offset !important;
         right: 0 !important;
         left: 0 !important;
         width: 100% !important;
-        height: 100% !important;
-        max-height: 100% !important;
+        height: calc(100% - $ui-dialog-fullscreen-viewport-offset) !important;
+        max-height: calc(100% - $ui-dialog-fullscreen-viewport-offset) !important;
         /* stylelint-enable declaration-no-important */
 
         .ui-dialog-titlebar {
-            min-height: $ui-dialog-titlebar-fullscreen-min-height;
-
             @include safe-area-offset(padding, $ui-dialog-titlebar-fullscreen-offset);
 
             background: $ui-dialog-titlebar-fullscreen-background;
-            border-bottom: $ui-dialog-titlebar-fullscreen-border;
-        }
-
-        .ui-dialog-title {
-            display: $ui-dialog-title-fullscreen-display;
-            align-items: $ui-dialog-title-fullscreen-align-items;
-            padding: $ui-dialog-title-fullscreen-offset;
-            height: $ui-dialog-title-fullscreen-height;
-
-            font-size: $ui-dialog-title-fullscreen-font-size;
-            font-weight: $ui-dialog-title-fullscreen-font-weight;
-            text-transform: $ui-dialog-title-fullscreen-text-transform;
         }
 
         .ui-dialog-messages {
-            margin: $ui-dialog-content-fullscreen-messages-margin;
-
             @include safe-area-offset(padding, $ui-dialog-content-fullscreen-messages-offset);
         }
 
         .ui-dialog-extra-header-content {
-            margin: $ui-dialog-extra-header-content-fullscreen-margin;
-
             @include safe-area-offset(padding, $ui-dialog-extra-header-content-fullscreen-offset);
         }
 
@@ -164,7 +164,26 @@
             @include safe-area-offset(padding, $ui-dialog-buttonpane-offset);
 
             background: $ui-dialog-buttonpane-background;
-            border-top: $ui-dialog-buttonpane-border;
+
+            .action-wrapper,
+            .pull-right:only-child,
+            .pull-left:only-child {
+                width: 100%;
+
+                .btn {
+                    width: 100%;
+                }
+            }
+        }
+
+        &.stretched {
+            // Next styles might be updated by JS in different levels while dialog is opening,
+            // but we need to occupy a dialog a whole screen
+            /* stylelint-disable declaration-no-important */
+            top: 0 !important;
+            height: 100% !important;
+            max-height: 100% !important;
+            /* stylelint-enable declaration-no-important */
         }
     }
 }

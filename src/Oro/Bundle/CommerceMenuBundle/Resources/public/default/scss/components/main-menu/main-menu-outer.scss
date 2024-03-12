@@ -8,16 +8,23 @@
     }
 }
 
-@include breakpoint('desktop') {
+.main-menu-stack-mode {
+    --btn-outlined-inverse-color: $main-menu-stacked-btn-colors;
+    --btn-outlined-inverse-hover-color: $main-menu-stacked-btn-colors;
+    --btn-outlined-inverse-active-color: $main-menu-stacked-btn-colors;
+    --btn-outlined-inverse-focus-color: $main-menu-stacked-btn-colors;
+
     .main-menu-outer {
-        display: $main-menu-outer-desktop-display;
+        &__container {
+            display: block;
+
+            overflow: hidden;
+        }
     }
 }
 
 @include breakpoint('tablet') {
     .main-menu-outer {
-        margin-bottom: 10px;
-
         &__container {
             display: block;
 
@@ -29,17 +36,16 @@
             vertical-align: middle;
         }
 
-        .collapse-view {
-            &__trigger-icon {
-                margin-right: 5px;
-                color: $main-menu-outer-tablet-icon;
-            }
-        }
-
         &.expanded {
             .main-menu__categories {
                 display: block;
             }
+        }
+    }
+
+    .fullscreen-mode {
+        .main-menu-outer {
+            display: block;
         }
     }
 }

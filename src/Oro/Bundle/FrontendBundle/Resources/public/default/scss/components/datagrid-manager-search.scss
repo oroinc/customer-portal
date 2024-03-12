@@ -3,7 +3,7 @@
 .datagrid-manager-search {
     position: relative;
 
-    margin-bottom: $offset-y-m;
+    margin-bottom: spacing('sm');
 
     &.empty {
         @include fa-icon($fa-var-search, after);

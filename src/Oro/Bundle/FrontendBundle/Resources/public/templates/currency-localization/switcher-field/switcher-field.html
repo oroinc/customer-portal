@@ -1,0 +1,11 @@
+<div class="currency-localization-control__item" data-control-type="toggle">
+    <h5 class="currency-localization-control__title">
+        <%- title %>
+    </h5>
+    <div class="toggle-container">
+        <% for (const item of items) { %>
+            <input type="radio" id="<%- id %>-<%- item.value %>" name="<%- name %>" value="<%- item.value %>" <%- item.selected ? "checked" : "" %> />
+            <label for="<%- id %>-<%- item.value %>"><%- item.label %></label>
+        <% } %>
+    </div>
+</div>

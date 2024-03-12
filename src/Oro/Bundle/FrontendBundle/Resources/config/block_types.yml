@@ -35,9 +35,11 @@ services:
                         items: {required: true}
                         items_data: {default: []}
                         item_extra_class: {default: ''}
+                        title_extra_class: {default: ''}
                         item_key: {default: item}
                         use_slider: {default: false}
-                        slider_options: {default: {slidesToShow: 4}}
+                        slider_options: {default: {slidesToShow: 5}}
+                        default_slider_options: {default: {slidesToShow: 5}, required: false}
             - [setName, ['embedded_list']]
         tags:
             - { name: layout.block_type, alias: embedded_list }
@@ -98,6 +100,7 @@ services:
                 -
                     -
                         description: {default: ''}
+                        dark: {default: false}
                         anchor: {default: ''}
                         label: {default: ''}
                         subTreeLvl: {default: 1}

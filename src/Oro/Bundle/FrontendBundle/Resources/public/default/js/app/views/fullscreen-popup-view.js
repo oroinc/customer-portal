@@ -12,6 +12,8 @@ define(function(require) {
     const $ = require('jquery');
     const manageFocus = require('oroui/js/tools/manage-focus').default;
 
+    const ESCAPE_KEYCODE = 27;
+
     const FullscreenPopupView = BaseView.extend({
         /**
          * @property
@@ -23,10 +25,13 @@ define(function(require) {
          */
         optionNames: BaseView.prototype.optionNames.concat([
             'template', 'templateSelector', 'templateData',
-            'popupLabel', 'popupCloseOnLabel',
-            'popupCloseButton', 'popupIcon', 'popupBadge',
-            'stopEventsPropagation', 'stopEventsList', 'dialogClass'
+            'popupName', 'popupLabel', 'popupCloseOnLabel',
+            'popupCloseButton', 'popupIcon',
+            'stopEventsPropagation', 'stopEventsList', 'dialogClass',
+            'disableBodyTouchScroll'
         ]),
+
+        popupName: 'fullscreen-popup',
 
         sections: ['header', 'content', 'footer'],
 
@@ -71,11 +76,6 @@ define(function(require) {
         /**
          * @property
          */
-        popupBadge: false,
-
-        /**
-         * @property
-         */
         previousClass: null,
 
         events: {
@@ -102,6 +102,8 @@ define(function(require) {
          */
         dialogClass: '',
 
+        disableBodyTouchScroll: true,
+
         /**
          * @inheritdoc
          */
@@ -125,7 +127,7 @@ define(function(require) {
             if (this.disposed) {
                 return;
             }
-            this.close();
+            this.remove();
             FullscreenPopupView.__super__.dispose.call(this);
         },
 
@@ -177,15 +179,26 @@ define(function(require) {
 
             this.trigger('beforeclose');
 
-            scrollHelper.enableBodyTouchScroll();
+            this.remove();
+
+            this.trigger('close');
+        },
+
+        remove() {
+            if (!this.$popup) {
+                return;
+            }
+
+            if (this.disableBodyTouchScroll) {
+                scrollHelper.enableBodyTouchScroll();
+            }
 
             _.each(this.sections, this.closeSection, this);
 
             this.$popup.find('[data-scroll="true"]').off('touchstart');
+            this.$popup.trigger(`${this.popupName}:closed`);
             this.$popup.remove();
             delete this.$popup;
-
-            this.trigger('close');
         },
 
         getLayoutElement() {
@@ -232,8 +245,7 @@ define(function(require) {
                     id: this.cid,
                     label: this.popupLabel,
                     closeOnLabel: this.popupCloseOnLabel,
-                    icon: this.popupIcon,
-                    badge: this.popupBadge
+                    icon: this.popupIcon
                 }, sectionOptions.options.templateData);
             }
         },
@@ -241,10 +253,15 @@ define(function(require) {
         _onShow: function() {
             this._initPopupEvents();
             this.initLayout(this.initLayoutOptions);
-            manageFocus.focusTabbable(this.$popup);
+            manageFocus.focusTabbable(this.getFocusTabbableElement());
             mediator.trigger('layout:reposition');
-            scrollHelper.disableBodyTouchScroll();
+
+            if (this.disableBodyTouchScroll) {
+                scrollHelper.disableBodyTouchScroll();
+            }
+
             this.trigger('show');
+            this.$popup.trigger(`${this.popupName}:shown`);
         },
 
         _renderSectionContent: function(deferred, section, sectionOptions, option, content) {
@@ -314,10 +331,18 @@ define(function(require) {
             this.$popup
                 .on('click', '[data-role="close"]', this.close.bind(this))
                 .on('touchstart', '[data-scroll="true"]', scrollHelper.removeIOSRubberEffect.bind(this))
-                .on('keydown', event => manageFocus.preventTabOutOfContainer(event, this.$popup))
+                .on('keydown', e => {
+                    if (e.keyCode === ESCAPE_KEYCODE) {
+                        e.stopPropagation();
+                        this.close();
+                        this.$el.focus();
+                    } else {
+                        manageFocus.preventTabOutOfContainer(e, this.$popup);
+                    }
+                })
                 .one('transitionend', e => {
                     if (e.target === this.$popup[0]) {
-                        manageFocus.focusTabbable(this.$popup);
+                        manageFocus.focusTabbable(this.getFocusTabbableElement());
                     }
                 });
 
@@ -340,6 +365,14 @@ define(function(require) {
          */
         _setPreviousClasses: function($el) {
             $el.attr('class', this.previousClass);
+        },
+
+        /**
+         * Return element for focus after show
+         * @returns {jQuery.Element}
+         */
+        getFocusTabbableElement() {
+            return this.$popup;
         }
     });
 

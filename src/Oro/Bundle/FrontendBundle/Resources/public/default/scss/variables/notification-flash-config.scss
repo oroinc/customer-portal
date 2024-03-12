@@ -1,34 +1,30 @@
 /* @theme: default; */
 
-@use 'sass:color';
+$notification-flash-offset: spacing('md') 0 0 !default;
+$notification-flash-inner-offset: 0 0 0 spacing('md') !default;
+$notification-flash-border-radius: 0 4px 4px 0 !default;
 
-$notification-flash-offset: 15px 0 0 !default;
-$notification-flash-inner-offset: 15px !default;
-$notification-flash-text-offset: 0 15px !default;
-$notification-flash-border: none !default;
-$notification-flash-border-radius: 3px !default;
-$notification-flash-badge-size: 20px !default;
-$notification-flash-badge-background: color.adjust(get-color('additional', 'middle'), $lightness: -35.2%) !default;
-$notification-flash-badge-color: get-color('additional', 'ultra') !default;
-$notification-flash-badge-radius: 50% !default;
-$notification-flash-close-offset: -5px !default;
-$notification-flash-close-inner-offset: 5px !default;
-$notification-flash-close-background: none !default;
-$notification-flash-close-border: none !default;
-$notification-flash-close-color: get-color('ui', 'warning-dark') !default;
-$notification-flash-close-icon-size: 20px !default;
+$notification-flash-icon-offset: 0 spacing('sm') 0 0 !default;
+$notification-flash-icon-small-offset: 2px spacing('sm') 0 0 !default;
 
-$notification-flash-success-background: get-color('ui', 'success') !default;
-$notification-flash-success-color: get-color('ui', 'success-dark') !default;
-$notification-flash-success-close-color: get-color('ui', 'success-dark') !default;
-$notification-flash-success-badge-background: get-color('ui', 'success-dark') !default;
+$notification-flash-content-offset: spacing('sm') 0 !default;
 
-$notification-flash-warning-background: get-color('ui', 'warning') !default;
-$notification-flash-warning-color: get-color('ui', 'warning-dark') !default;
-$notification-flash-warning-close-color: get-color('ui', 'warning-dark') !default;
-$notification-flash-warning-badge-background: get-color('ui', 'warning-dark') !default;
+$notification-flash-text-font-weight: font-weight('semi-bold') !default;
 
-$notification-flash-error-background: get-color('ui', 'error') !default;
-$notification-flash-error-color: get-color('ui', 'error-dark') !default;
-$notification-flash-error-close-color: get-color('ui', 'error-dark') !default;
-$notification-flash-error-badge-background: get-color('ui', 'error-dark') !default;
+$notification-flash-success-background: get-color('success', 'light') !default;
+$notification-flash-success-before-background: get-color('success', 'dark') !default;
+$notification-flash-success-color: get-color('success', 'dark') !default;
+$notification-flash-success-close-color: get-color('success', 'dark') !default;
+$notification-flash-success-badge-background: get-color('success', 'dark') !default;
+
+$notification-flash-warning-background: get-color('warning', 'light') !default;
+$notification-flash-warning-before-background: get-color('warning', 'dark') !default;
+$notification-flash-warning-color: get-color('warning', 'dark') !default;
+$notification-flash-warning-close-color: get-color('warning', 'dark') !default;
+$notification-flash-warning-badge-background: get-color('warning', 'dark') !default;
+
+$notification-flash-error-background: get-color('destructive', 'light') !default;
+$notification-flash-error-before-background: get-color('destructive', 'dark') !default;
+$notification-flash-error-color: get-color('destructive', 'dark') !default;
+$notification-flash-error-close-color: get-color('destructive', 'dark') !default;
+$notification-flash-error-badge-background: get-color('destructive', 'dark') !default;

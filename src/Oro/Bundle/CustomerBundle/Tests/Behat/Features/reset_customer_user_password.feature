@@ -14,12 +14,13 @@ Feature: Reset customer user password
   Scenario: Ensure customer user can log in
     Given I proceed as the Unauthorized
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I fill form with:
       | Email Address | NancyJSallee@example.org |
       | Password      | NancyJSallee@example.org |
-    When I click "Sign In"
-    Then I should see "Signed in as: Nancy Sallee"
+    When I click "Log In"
+    Then I should see "Nancy Sallee"
+    And I click "Account Dropdown"
     And I click "Sign Out"
 
   Scenario: Reset customer user password from the admin panel
@@ -42,11 +43,11 @@ Feature: Reset customer user password
   Scenario: Check that customer user cannot log in
     Given I proceed as the Unauthorized
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I fill form with:
       | Email Address | NancyJSallee@example.org |
       | Password      | NancyJSallee@example.org |
-    When I click "Sign In"
+    When I click "Log In"
     Then I should see "Your login was unsuccessful"
 
   Scenario: Reset password by emails link
@@ -61,18 +62,19 @@ Feature: Reset customer user password
   Scenario: Login with new password
     Given I proceed as the Unauthorized
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I fill form with:
       | Email Address | NancyJSallee@example.org |
       | Password      | NancyJSallee@example.org1 |
-    When I click "Sign In"
-    Then I should see "Signed in as: Nancy Sallee"
+    When I click "Log In"
+    Then I should see "Nancy Sallee"
+    And I click "Account Dropdown"
     And I click "Sign Out"
 
   Scenario: Reset customer user password from storefront
     Given I proceed as the Unauthorized
     And I signed in as AmandaRCole@example.org on the store frontend
-    And I follow "Account"
+    And I click "Account Dropdown"
     And I click "Users"
     When I click "Reset password" on row "NancyJSallee@example.org" in grid
     Then should see "Customer user NancyJSallee@example.org will receive the email to reset password and will be disabled from login." in confirmation dialogue
@@ -86,16 +88,17 @@ Feature: Reset customer user password
     And I remember "RESET PASSWORD" link from the email
     And I should see NancyJSallee@example.org in grid with following data:
       | Password | Reset |
+    And I click "Account Dropdown"
     And I click "Sign Out"
 
   Scenario: Check that customer user cannot log in after the password was reset on store front
     Given I proceed as the Unauthorized
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I fill form with:
       | Email Address | NancyJSallee@example.org |
       | Password      | NancyJSallee@example.org1 |
-    When I click "Sign In"
+    When I click "Log In"
     Then I should see "Your login was unsuccessful"
 
   Scenario: Reset password by emails link
@@ -110,10 +113,11 @@ Feature: Reset customer user password
   Scenario: Login with new password
     Given I proceed as the Unauthorized
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I fill form with:
       | Email Address | NancyJSallee@example.org |
       | Password      | NancyJSallee@example.org2 |
-    When I click "Sign In"
-    Then I should see "Signed in as: Nancy Sallee"
+    When I click "Log In"
+    Then I should see "Nancy Sallee"
+    And I click "Account Dropdown"
     And I click "Sign Out"

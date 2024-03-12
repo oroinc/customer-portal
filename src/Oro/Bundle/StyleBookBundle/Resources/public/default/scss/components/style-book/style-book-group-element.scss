@@ -17,7 +17,7 @@
 
     &__description {
         margin: 20px 0;
-        padding: $offset-x;
+        padding: spacing('base');
 
         border-left: $style-book-group-element-description-border-start;
 
@@ -48,8 +48,21 @@
 
         border: $style-book-group-element-preview-border;
 
+        &--space {
+            margin: $style-book-group-element-preview-space-margin;
+        }
+
+        &--square {
+            background-color: $style-book-group-element-preview-square-background-color;
+            width: $style-book-group-element-preview-square-width;
+            height: $style-book-group-element-preview-square-height;
+            margin: $style-book-group-element-preview-square-margin;
+            border: $style-book-group-element-preview-square-border;
+            position: $style-book-group-element-preview-square-position;
+        }
+
         .checkbox-label {
-            padding-right: $offset-y;
+            padding-right: spacing('base');
         }
 
         .color-palette {
@@ -74,7 +87,8 @@
             }
 
             &__color-box {
-                font-size: 12px;
+                font-size: 13px;
+                align-self: end;
             }
 
             &__usage {
@@ -87,40 +101,14 @@
                 padding: 10px;
                 margin-top: 5px;
 
-                color: $style-book-group-element-color-name-color;
+                border: $style-book-group-element-color-border;
+
+                background-image: $style-book-group-element-name-background-image;
+                background-size: $style-book-group-element-name-background-size;
+                background-position: $style-book-group-element-name-background-position;
 
                 &--title {
                     font-weight: font-weight('bold');
-                }
-
-                &--additional-ultra {
-                    color: $style-book-group-element-color-additional-ultra-color;
-
-                    border: $style-book-group-element-color-additional-ultra-border;
-                }
-
-                &--additional-base {
-                    color: $style-book-group-element-color-additional-base-color;
-                }
-
-                &--additional-light {
-                    color: $style-book-group-element-color-additional-light-color;
-                }
-
-                &--additional-middle {
-                    color: $style-book-group-element-color-additional-middle-color;
-                }
-
-                &--ui-error {
-                    color: $style-book-group-element-color-ui-error-color;
-                }
-
-                &--ui-success {
-                    color: $style-book-group-element-color-ui-success-color;
-                }
-
-                &--ui-warning {
-                    color: $style-book-group-element-color-ui-warning-color;
                 }
             }
         }
@@ -135,13 +123,6 @@
             }
         }
 
-        .base-font-minor {
-            &::after {
-                content: '#{$base-font-minor}';
-                color: $style-book-group-element-preview-base-font-minor-color;
-            }
-        }
-
         .base-font {
             &::after {
                 content: '#{$base-font}';
@@ -153,13 +134,6 @@
             &::after {
                 content: '#{$base-line-height}';
                 color: $style-book-group-element-base-line-height-color;
-            }
-        }
-
-        .base-font-icons {
-            &::after {
-                content: '#{$base-font-icon}';
-                color: $style-book-group-element-base-font-icons-color;
             }
         }
 
@@ -239,10 +213,14 @@
         }
     }
 
+    &__item--dark &__preview {
+        background: $style-book-group-element-preview-dark-background;
+    }
+
     &__code {
         display: block;
 
-        padding: $offset-x;
+        padding: spacing('base');
         margin: 0;
 
         word-break: break-all;

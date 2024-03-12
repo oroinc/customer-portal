@@ -1,6 +1,7 @@
 define(function(require, exports, module) {
     'use strict';
 
+    const $ = require('jquery');
     const _ = require('underscore');
     const __ = require('orotranslation/js/translator');
     const tools = require('oroui/js/tools');
@@ -9,13 +10,15 @@ define(function(require, exports, module) {
     const DatagridSettingView = require('orodatagrid/js/app/views/grid/datagrid-settings-view');
 
     let config = require('module-config').default(module.id);
-    config = _.extend({
-        icon: 'cog',
+    config = $.extend(true, {
+        icon: 'columns',
+        actionClassNames: 'btn--neutral btn--icon',
         wrapperClassName: 'datagrid-settings',
         label: __('oro.datagrid.settings.title'),
         ariaLabel: __('oro.datagrid.settings.title_aria_label'),
         attributes: {
-            'data-placement': (tools.isMobile() ? 'bottom-end' : 'left-start')
+            'data-placement': (tools.isMobile() ? 'bottom-end' : 'left-start'),
+            'data-modifiers': JSON.stringify({flip: {enabled: false}})
         }
     }, config);
 

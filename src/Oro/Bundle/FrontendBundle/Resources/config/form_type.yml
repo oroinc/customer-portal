@@ -67,3 +67,17 @@ services:
             - '@oro_entity_config.config_manager'
         tags:
             - { name: form.type_extension }
+
+    oro_frontend.form.extension.contact_request_bc:
+        class: Oro\Bundle\FrontendBundle\Form\Extension\ContactRequestBCExtension
+        arguments:
+            - '@oro_layout.current_theme_provider'
+            - '@oro_layout.theme_manager'
+        tags:
+            - { name: form.type_extension }
+
+    Oro\Bundle\FrontendBundle\Form\Type\QuickAccessButtonConfigType:
+        arguments:
+            - '@oro_config.global'
+        tags:
+            - { name: form.type }

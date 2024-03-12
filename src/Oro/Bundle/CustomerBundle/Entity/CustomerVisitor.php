@@ -2,64 +2,49 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Extend\Entity\Autocomplete\OroCustomerBundle_Entity_CustomerVisitor;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\CustomerBundle\Security\VisitorIdentifierUtil;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Represents guest user with related CustomerUser (which is empty by default)
- * @ORM\Table(
- *     name="oro_customer_visitor",
- *     indexes={@Index(name="id_session_id_idx", columns={"id", "session_id"})}
- * )
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks()
- * @Config
  * @mixin OroCustomerBundle_Entity_CustomerVisitor
  */
-class CustomerVisitor implements ExtendEntityInterface
+#[ORM\Entity]
+#[ORM\Table(name: 'oro_customer_visitor')]
+#[Index(columns: ['id', 'session_id'], name: 'id_session_id_idx')]
+#[ORM\HasLifecycleCallbacks]
+#[Config]
+class CustomerVisitor implements ExtendEntityInterface, UserInterface
 {
     use ExtendEntityTrait;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private ?int $id = null;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="last_visit", type="datetime")
-     */
-    private $lastVisit;
+    #[ORM\Column(name: 'last_visit', type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $lastVisit;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="session_id", type="string", length=255, nullable=false)
-     */
-    private $sessionId;
+    #[ORM\Column(name: 'session_id', type: Types::STRING, length: 255, nullable: false)]
+    private ?string $sessionId = null;
 
-    /**
-     * @var CustomerUser $customerUser
-     *
-     * @ORM\OneToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser", cascade={"persist"})
-     * @ORM\JoinColumn(
-     *     name="customer_user_id",
-     *     referencedColumnName="id",
-     *     nullable=true,
-     *     unique=true,
-     *     onDelete="SET NULL"
-     * )
-     */
-    private $customerUser;
+    #[ORM\OneToOne(targetEntity: CustomerUser::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(
+        name: 'customer_user_id',
+        referencedColumnName: 'id',
+        unique: true,
+        nullable: true,
+        onDelete: 'SET NULL'
+    )]
+    private ?CustomerUser $customerUser = null;
 
     /**
      * {@inheritdoc}
@@ -117,9 +102,7 @@ class CustomerVisitor implements ExtendEntityInterface
         return $this;
     }
 
-    /**
-     * @ORM\PrePersist
-     */
+    #[ORM\PrePersist]
     public function prePersist()
     {
         $this->sessionId = CustomerVisitorManager::generateSessionId();
@@ -142,5 +125,23 @@ class CustomerVisitor implements ExtendEntityInterface
     public function getCustomerUser()
     {
         return $this->customerUser;
+    }
+
+    public function getRoles(): array
+    {
+        return ['ROLE_FRONTEND_ANONYMOUS'];
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getUserIdentifier(): string
+    {
+        if (null === $this->getId()) {
+            return '';
+        }
+
+        return VisitorIdentifierUtil::encodeIdentifier($this->getId(), $this->getSessionId());
     }
 }

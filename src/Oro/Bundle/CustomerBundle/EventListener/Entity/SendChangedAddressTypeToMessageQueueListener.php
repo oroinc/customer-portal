@@ -103,7 +103,7 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
             return;
         }
 
-        $em = $eventArgs->getEntityManager();
+        $em = $eventArgs->getObjectManager();
 
         $this->prepareScheduledEntityUpdates($em);
         $this->prepareScheduledCollectionUpdates($em);
@@ -152,7 +152,7 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
             return;
         }
 
-        $em = $eventArgs->getEntityManager();
+        $em = $eventArgs->getObjectManager();
 
         try {
             [$updates, $collectionUpdates] = $this->processUpdates($em);

@@ -4,18 +4,18 @@ styles:
         - 'bundles/orofrontend/default/scss/settings/global-settings.scss'
 
         # Bootstrap Configs
-        - 'bundles/orofrontend/default/scss/variables/bootstrap/buttons-config.scss'
         - 'bundles/orofrontend/default/scss/variables/bootstrap/dropdown-toggle-split.scss'
 
         # Variables
         - 'bundles/orofrontend/default/scss/variables/base-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/uikit/buttons-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/uikit/button-group-config.scss'
         - 'bundles/orofrontend/default/scss/variables/uikit/theme-icons-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/uikit/status-label-config.scss'
         - 'bundles/orofrontend/default/scss/variables/headings-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/captions-config.scss'
         - 'bundles/orofrontend/default/scss/variables/focus-via-arrows-keys-config.scss'
         - 'bundles/orofrontend/default/scss/variables/animation-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/actions-row-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/custom-icons-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/close-dialog-config.scss'
         - 'bundles/orofrontend/default/scss/variables/grid-config.scss'
         - 'bundles/orofrontend/default/scss/variables/tiles-config.scss'
         - 'bundles/orofrontend/default/scss/variables/breadcrumbs-config.scss'
@@ -31,6 +31,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/line-clamp-config.scss'
         - 'bundles/orofrontend/default/scss/variables/loading-bar-config.scss'
         - 'bundles/orofrontend/default/scss/variables/middlebar-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/toggler-config.scss'
 
         - 'bundles/orofrontend/default/scss/variables/filters/filters-config.scss'
         - 'bundles/orofrontend/default/scss/variables/filters/filters-dropdown-mode-config.scss'
@@ -55,7 +56,6 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/title-config.scss'
 
         - 'bundles/orofrontend/default/scss/variables/section-title-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/notifications-config.scss'
         - 'bundles/orofrontend/default/scss/variables/notification-flash-container-config.scss'
         - 'bundles/orofrontend/default/scss/variables/primary-menu-config.scss'
         - 'bundles/orofrontend/default/scss/variables/notification-config.scss'
@@ -83,7 +83,8 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/datagrid/datagrid-filters-config.scss'
         - 'bundles/orofrontend/default/scss/variables/controls-list-config.scss'
         - 'bundles/orofrontend/default/scss/variables/uploader-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/switcher-info-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/toggler-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/toggle-filters-action-config.scss'
 
         - 'bundles/orofrontend/default/scss/variables/popup-gallery-widget-config.scss'
         - 'bundles/orofrontend/default/scss/variables/notes-config.scss'
@@ -96,9 +97,10 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/skip-to-content-config.scss'
         - 'bundles/orofrontend/default/scss/variables/dropdown-search-config.scss'
         - 'bundles/orofrontend/default/scss/variables/scroll-shadow-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/side-panel-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/currency-localization-control-config.scss'
 
         # Components
-
         # reset.scss must be first in list due to that  file must have the lowest priority
         - 'bundles/orofrontend/default/scss/reset.scss'
         # Bootstrap Optional Components
@@ -107,9 +109,14 @@ styles:
         - '~overlayscrollbars/css/OverlayScrollbars.css'
         - '~@oroinc/slick-carousel/slick/slick.scss'
         - 'bundles/orofrontend/default/scss/base/base.scss'
+        - 'bundles/orofrontend/default/scss/components/uikit/buttons.scss'
+        - 'bundles/orofrontend/default/scss/components/uikit/button-group.scss'
         - 'bundles/orofrontend/default/scss/components/uikit/theme-icons.scss'
+        - 'bundles/orofrontend/default/scss/components/uikit/status-label.scss'
         - 'bundles/orofrontend/default/scss/components/utilites.scss'
+        - 'bundles/orofrontend/default/scss/components/sticky-panel.scss'
         - 'bundles/orofrontend/default/scss/components/headings.scss'
+        - 'bundles/orofrontend/default/scss/components/captions.scss'
         - 'bundles/orofrontend/default/scss/components/animation.scss'
         - 'bundles/orofrontend/default/scss/components/ui/dialog.scss'
         - 'bundles/orofrontend/default/scss/components/ui/extend/ui-multiselect-menu.scss'
@@ -145,10 +152,8 @@ styles:
         - 'bundles/orofrontend/default/scss/components/show-more.scss'
         - 'bundles/orofrontend/default/scss/components/grid-scrollable-container.scss'
         - 'bundles/orofrontend/default/scss/components/editable.scss'
-        - 'bundles/orofrontend/default/scss/components/notifications.scss'
         - 'bundles/orofrontend/default/scss/components/primary-menu.scss'
         - 'bundles/orofrontend/default/scss/components/notification.scss'
-        - 'bundles/orofrontend/default/scss/components/notification-message.scss'
         - 'bundles/orofrontend/default/scss/components/notification-flash-container.scss'
         - 'bundles/orofrontend/default/scss/components/notification-flash.scss'
         - 'bundles/orofrontend/default/scss/components/actions-row.scss'
@@ -186,16 +191,13 @@ styles:
         - 'bundles/orofrontend/default/scss/components/table.scss'
         - 'bundles/orofrontend/default/scss/components/search-widget.scss'
         - 'bundles/orofrontend/default/scss/components/search-container.scss'
-        - 'bundles/orofrontend/default/scss/components/switcher-info.scss'
         - 'bundles/orofrontend/default/scss/components/loader-mask.scss'
         - 'bundles/orofrontend/default/scss/components/fullscreen-popup.scss'
         - 'bundles/orofrontend/default/scss/components/warning-list.scss'
         - 'bundles/orofrontend/default/scss/components/slick.scss'
-        - 'bundles/orofrontend/default/scss/components/sticky-panel.scss'
         - 'bundles/orofrontend/default/scss/components/scroll-top.scss'
         - 'bundles/orofrontend/default/scss/components/popup-gallery-widget.scss'
         - 'bundles/orofrontend/default/scss/components/notes.scss'
-        - 'bundles/orofrontend/default/scss/components/custom-icons.scss'
         - 'bundles/orofrontend/default/scss/components/focus-via-arrows-keys.scss'
         - 'bundles/orofrontend/default/scss/components/clear-search-button.scss'
         - 'bundles/orofrontend/default/scss/components/toggle-filters-action.scss'
@@ -210,6 +212,10 @@ styles:
         - 'bundles/orofrontend/default/scss/components/sidebar-filter-container.scss'
         - 'bundles/orofrontend/default/scss/components/dropdown-search.scss'
         - 'bundles/orofrontend/default/scss/components/scroll-shadow.scss'
+        - 'bundles/orofrontend/default/scss/components/side-panel.scss'
+        - 'bundles/orofrontend/default/scss/components/toggler.scss'
+        - 'bundles/orofrontend/default/scss/components/toggler-vertical.scss'
+        - 'bundles/orofrontend/default/scss/components/currency-localization-control.scss'
     output: 'css/styles.css'
     auto_rtl_inputs:
         - 'bundles/oro*/**'
@@ -239,7 +245,6 @@ print_styles:
         - 'bundles/orofrontend/default/scss/components/print/scroll-top.scss'
         - 'bundles/orofrontend/default/scss/components/print/page-main.scss'
         - 'bundles/orofrontend/default/scss/components/print/box-toolbar.scss'
-        - 'bundles/orofrontend/default/scss/components/print/sticky-panel.scss'
     output: 'css/styles-print.css'
     auto_rtl_inputs:
         - 'bundles/oro*/**'

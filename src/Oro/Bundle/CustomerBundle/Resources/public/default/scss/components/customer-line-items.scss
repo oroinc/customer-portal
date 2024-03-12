@@ -36,7 +36,7 @@
 
             .input {
                 vertical-align: $customer-line-items-table-cell-vertical-align;
-                margin-right: $offset-y-m;
+                margin-right: spacing('sm');
             }
 
             .fields-row-error {

@@ -1,0 +1,82 @@
+/* @theme: default; */
+
+.localization-switcher,
+.currency-switcher,
+.localization-currency-switcher {
+    .page-header__inner & {
+        font-weight: 400;
+
+        .theme-icon {
+            color: $currency-localization-icon-color;
+        }
+    }
+}
+
+.currency-localization-control {
+    &-dropdown {
+        width: $currency-localization-dropdown-width;
+        padding: $currency-localization-dropdown-padding;
+
+        .localization-switcher,
+        .currency-switcher {
+            width: 100%;
+        }
+    }
+
+    &__title {
+        margin-bottom: $currency-localization-title-indent;
+    }
+
+    &__actions {
+        display: flex;
+        gap: $currency-localization-actions-gap;
+        padding-block: $currency-localization-content-padding-block;
+
+        .btn {
+            width: 100%;
+        }
+    }
+
+    &__container {
+        display: flex;
+        gap: spacing('base') spacing('xl');
+
+        .localization-currency-switcher {
+            display: none;
+        }
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: $currency-localization-content-gap;
+        height: 100%;
+
+        .dropdown {
+            .btn {
+                justify-content: space-between;
+            }
+        }
+    }
+}
+
+.localization-menu-list,
+.currency-menu-list {
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+@include breakpoint('mobile-big') {
+    .currency-localization-control {
+        &__container {
+            .localization-switcher,
+            .currency-switcher {
+                display: none;
+            }
+
+            .localization-currency-switcher {
+                display: block;
+            }
+        }
+    }
+}

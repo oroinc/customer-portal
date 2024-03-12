@@ -29,11 +29,10 @@ define(function(require, exports, module) {
          * @property
          */
         popupOptions: _.extend({}, {
-            popupBadge: true,
-            popupIcon: 'fa-cog',
+            popupIcon: 'settings',
             popupLabel: _.__('oro_frontend.datagrid.manage_grid'),
             contentElement: null
-        }, _.pick(config.popupOptions, 'popupBadge', 'popupIcon', 'popupLabel', 'popupCloseButton')),
+        }, _.pick(config.popupOptions, 'popupIcon', 'popupLabel', 'popupCloseButton')),
 
         /**
          * @inheritdoc

@@ -24,7 +24,7 @@ Feature: Mass delete customer user company addresses
   Scenario: Delete mass action is not available for Customer User when Customer Addresses delete is disallowed
     Given I proceed as the User
     And I signed in as AmandaRCole@example.org on the store frontend
-    When I follow "Account"
+    And I click "Account Dropdown"
     And I click "Address Book"
     Then I should see Delete action in "Customer Company User Addresses Grid"
     And I shouldn't see Delete action in "Customer Company Addresses Grid"
@@ -40,6 +40,7 @@ Feature: Mass delete customer user company addresses
     Given I proceed as the User
     When I reload the page
     Then I should see Delete action in "Customer Company User Addresses Grid"
+    And I scroll to top
     And I should see Delete action in "Customer Company Addresses Grid"
     When I don't select any record from "Customer Company Addresses Grid"
     And I click "Delete" link from select all mass action dropdown in "Customer Company Addresses Grid"

@@ -1,46 +1,74 @@
 /* @theme: default; */
 
+.product-selected-counter {
+    display: block;
+    color: $datagrid-massaction-product-counter-color;
+}
+
 .datagrid-massaction {
-    &__dots {
-        display: inline-block;
-        vertical-align: middle;
-        height: 12px;
-
-        font-size: 20px;
-        line-height: 0;
+    &-close-container {
+        text-align: right;
     }
 
-    &__dropdown-menu {
-        min-width: 0;
-        max-width: 300px;
-
-        &--stretch {
-            min-width: 100%;
-        }
-    }
-
-    &__action-trigger {
-        color: inherit;
-
-        @include hover-focus {
-            text-decoration: inherit;
-
-            color: inherit;
-        }
-    }
-
-    .dropdown-menu__placeholder {
-        display: none;
-    }
-
-    .dropdown-toggle {
-        margin: auto;
+    &-select-all-label {
+        display: flex;
+        align-items: center;
+        gap: spacing('sm');
+        cursor: pointer;
+        user-select: none;
     }
 
     &.sticky-mode {
         display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
         padding: $datagrid-massaction-sticky-mode-offset;
-
         background-color: $datagrid-massaction-sticky-mode-background-color;
+
+        .datagrid-massaction-close-container,
+        .product-selected-counter {
+            flex: 0 0 30%;
+        }
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .datagrid-massaction {
+        &-actions {
+            width: 100%;
+        }
+
+        &.sticky-mode {
+            flex-wrap: wrap;
+            gap: spacing('sm') 0;
+
+            .datagrid-massaction-close-container,
+            .product-selected-counter {
+                flex-basis: 50%;
+                order: -1;
+            }
+
+            .action-group {
+                width: 100%;
+                flex-basis: 100%;
+            }
+        }
+
+        &-select-all-label__text {
+            display: none;
+        }
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .datagrid-massaction {
+        &.sticky-mode {
+            padding: $datagrid-massaction-sticky-mode-offset-mobile-landscape;
+        }
+
+        &-select-all-label__input {
+            padding: $datagrid-massaction-select-all-label-input-offset;
+        }
     }
 }

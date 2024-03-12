@@ -14,10 +14,12 @@ use Oro\Bundle\SecurityBundle\Model\AclPrivilegeIdentity;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\User\InMemoryUser;
 
 class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRoleUpdateHandlerTestCase
 {
@@ -46,6 +48,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
             $this->handler = new CustomerUserRoleUpdateFrontendHandler(
                 $this->formFactory,
                 $this->aclCache,
+                $this->queryCacheProvider,
                 $this->privilegeConfig
             );
         }
@@ -62,8 +65,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         CustomerUser $customerUser,
         CustomerUserRole $expectedPredefinedRole = null
     ): void {
-        $request = new Request();
-        $request->setMethod('POST');
+        $requestStack = $this->createRequestStack('POST');
 
         $isPredefinedRole = $role->isPredefined();
         $form = $this->createMock(FormInterface::class);
@@ -108,7 +110,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
             )
             ->willReturn($form);
 
-        $this->handler->setRequest($request);
+        $this->handler->setRequestStack($requestStack);
         $this->handler->setTokenStorage($this->tokenStorage);
 
         $token = $this->createMock(TokenInterface::class);
@@ -152,15 +154,15 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         CustomerUser $customerUser,
         array $existingPrivileges
     ): void {
-        $request = new Request();
-        $request->setMethod('GET');
+        $requestStack = $this->createRequestStack('GET');
 
         $form = $this->createMock(FormInterface::class);
         $this->formFactory->expects(self::once())
             ->method('create')
             ->willReturn($form);
 
-        $this->handler->setRequest($request);
+
+        $this->handler->setRequestStack($requestStack);
         $this->handler->setTokenStorage($this->tokenStorage);
 
         $token = $this->createMock(TokenInterface::class);
@@ -251,16 +253,15 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
     public function testMissingCustomerUser(): void
     {
         $this->expectException(AccessDeniedException::class);
-        $request = new Request();
-        $request->setMethod('POST');
+        $requestStack = $this->createRequestStack('POST');
 
-        $this->handler->setRequest($request);
+        $this->handler->setRequestStack($requestStack);
         $this->handler->setTokenStorage($this->tokenStorage);
 
         $token = $this->createMock(TokenInterface::class);
         $token->expects(self::any())
             ->method('getUser')
-            ->willReturn(new \stdClass());
+            ->willReturn(new InMemoryUser('test', null));
         $this->tokenStorage->expects(self::any())
             ->method('getToken')
             ->willReturn($token);
@@ -318,5 +319,15 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
                 'changeCustomerProcessed'  => false,
             ],
         ];
+    }
+
+    protected function createRequestStack(string $method): RequestStack
+    {
+        $request = new Request();
+        $request->setMethod($method);
+        $requestStack = $this->createMock(RequestStack::class);
+        $requestStack->method('getCurrentRequest')->willReturn($request);
+
+        return $requestStack;
     }
 }

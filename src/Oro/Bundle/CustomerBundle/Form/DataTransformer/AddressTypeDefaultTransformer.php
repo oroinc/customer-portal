@@ -6,6 +6,9 @@ use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Symfony\Component\Form\DataTransformerInterface;
 
+/**
+ * Transforms default address types to array and vice versa.
+ */
 class AddressTypeDefaultTransformer implements DataTransformerInterface
 {
     /** @var ObjectManager */
@@ -43,7 +46,7 @@ class AddressTypeDefaultTransformer implements DataTransformerInterface
             return [];
         }
 
-        $addresses = $this->om->getRepository('OroAddressBundle:AddressType')->findBy(['name' => $value['default']]);
+        $addresses = $this->om->getRepository(AddressType::class)->findBy(['name' => $value['default']]);
 
         return $addresses;
     }

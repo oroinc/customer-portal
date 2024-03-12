@@ -2,11 +2,37 @@
 
 $main-menu-multi-container-height: 100% !default;
 $main-menu-multi-container-display: grid !default;
-$main-menu-multi-container-grid-template-columns: 320px 1fr !default;
+$main-menu-multi-container-grid-template-columns: 260px 1fr !default;
 $main-menu-multi-container-position: relative !default;
 $main-menu-multi-container-z-index: z('base') !default;
+
+$main-menu-multi-container-before-content: #{"''"} !default;
+$main-menu-multi-container-before-width: 100% !default;
+$main-menu-multi-container-before-height: spacing('base') !default;
+$main-menu-multi-container-before-position: absolute !default;
+$main-menu-multi-container-before-inset: auto 0 calc(100% + 24px) !default;
+
+$main-menu-multi-container-inner-border-inline-end: 1px solid get-color('neutral', 'grey2') !default;
+
+$main-menu-multi-container-title-margin-bottom: spacing('base') !default;
+$main-menu-multi-container-title-padding-inline: 28px !default;
+
+$main-menu-multi-container-title-inner-font-weight: font-weight('semi-bold') !default;
+$main-menu-multi-container-title-inner-color: get-color('primary', 'main') !default;
+$main-menu-multi-container-title-inner-text-decoration: underline !default;
+
+$main-menu-multi-container-title-inner-hover-color: get-color('primary', 'main') !default;
+$main-menu-multi-container-title-inner-hover-text-decoration: underline !default;
 
 $main-menu-multi-container-edge-desktop-width: 1216px !default;
 $main-menu-multi-container-edge-desktop-max-width: calc(100vw - 16px) !default;
 $main-menu-multi-container-edge-desktop-margin-inline-end: auto !default;
 $main-menu-multi-container-edge-desktop-flex-shrink: 0 !default;
+
+/* Menu Stack Mode */
+$main-menu-multi-stack-mode-container-title-inner-color: get-color('text', 'primary') !default;
+$main-menu-multi-stack-mode-container-title-inner-text-decoration: underline !default;
+$main-menu-multi-stack-mode-container-title-inner-text-decoration-hover: underline !default;
+
+$main-menu-multi-stack-mode-container-title-hover-color: get-color('primary', 'hover') !default;
+$main-menu-multi-stack-mode-container-title-hover-background: get-color('primary', 'light') !default;

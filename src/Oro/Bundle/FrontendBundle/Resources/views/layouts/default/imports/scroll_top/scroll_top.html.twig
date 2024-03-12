@@ -2,19 +2,19 @@
     {% set attr = layout_attr_defaults(attr, {
         'data-page-component-module': 'oroui/js/app/components/view-component',
         'data-page-component-options': {
-            'view': 'orofrontend/default/js/app/views/scroll-top-view',
-            'viewport': 'desktop'
+            'view': 'orofrontend/default/js/app/views/scroll-top-view'
         },
         'data-emulate-btn-press': '',
         'data-scroll-top': '',
-        '~class': ' scroll-top scroll-top--' ~ scroll_top_position,
+        '~class': ' btn btn--circle btn--neutral-dark scroll-top scroll-top--' ~ scroll_top_position,
         'aria-label': 'oro_frontend.scroll_to_the_top'|trans,
         role: 'button',
         tabindex: '0'
     }) %}
     {% if enabled is defined and enabled == true %}
         <div {{ block('block_attributes') }}>
-            <span class="fa-arrow-circle-up fa--no-offset fa--xxxl" aria-hidden="true"></span>
+            {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+            {{ renderIcon.icon({name: 'chevron-up'}) }}
         </div>
     {% endif %}
 {% endblock %}

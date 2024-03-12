@@ -1,0 +1,4 @@
+css:
+    inputs:
+        # Styles
+        - 'bundles/orofrontend/scss/form.scss'

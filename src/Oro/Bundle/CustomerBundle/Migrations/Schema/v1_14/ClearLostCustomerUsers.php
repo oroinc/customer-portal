@@ -54,7 +54,7 @@ class ClearLostCustomerUsers implements MessageProcessorInterface, TopicSubscrib
         /** @var Connection $connection */
         $connection = $this->queryHelper->getManager(CustomerUser::class)->getConnection();
         $maxItemNumber = $connection
-            ->fetchColumn(
+            ->fetchOne(
                 sprintf(
                     'select max(id) from %s',
                     $this->queryHelper->getTableName(CustomerUser::class)

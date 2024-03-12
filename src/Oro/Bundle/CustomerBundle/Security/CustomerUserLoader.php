@@ -59,7 +59,7 @@ class CustomerUserLoader implements UserLoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadUserByUsername(string $username): ?UserInterface
+    public function loadUserByIdentifier(string $username): ?UserInterface
     {
         // username and email for customer users are equal
         return $this->loadUserByEmail($username);

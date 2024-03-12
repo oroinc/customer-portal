@@ -1,0 +1,86 @@
+/* @theme: default; */
+
+@use 'sass:map';
+
+.btn-group {
+    position: relative;
+    display: inline-flex;
+
+    &--flex {
+        display: flex;
+    }
+
+    > .btn {
+        position: relative;
+
+        &:focus,
+        &:focus-visible {
+            z-index: z('base');
+        }
+
+        &:focus-visible {
+            box-shadow: map.get($btn-group-focus-shadow-palette, 'default');
+
+            @each $theme-key, $shadow-value in $btn-group-focus-shadow-palette {
+                @if $theme-key != 'default' {
+                    &.btn--#{$theme-key} {
+                        box-shadow: #{$shadow-value};
+                    }
+                }
+            }
+        }
+    }
+
+    > .btn:not(:first-child),
+    > .btn-group:not(:first-child) > .btn {
+        border-start-start-radius: 0;
+        border-end-start-radius: 0;
+        border-inline-start-width: $btn-group-divider-width;
+        margin-inline-start: -($btn-group-divider-width);
+    }
+
+    > .btn:not(:last-child):not(.dropdown-toggle),
+    > .btn-group:not(:last-child) > .btn {
+        border-start-end-radius: 0;
+        border-end-end-radius: 0;
+        border-inline-end-width: $btn-group-divider-width;
+    }
+
+    > .btn:not(:first-child):not(:focus),
+    > .btn:not(:first-child):not(:focus-visible),
+    > .btn-group:not(:first-child) > .btn:not(:focus),
+    > .btn-group:not(:first-child) > .btn:not(:focus-visible) {
+        border-inline-start-color: map.get($btn-group-divider-palette, 'default');
+
+        @each $theme-key, $divider-value in $btn-group-divider-palette {
+            @if $theme-key != 'default' {
+                &.btn--#{$theme-key} {
+                    border-inline-start-color: #{$divider-value};
+                }
+            }
+        }
+
+        &.btn--text {
+            border-inline-start-color: transparent;
+        }
+    }
+
+    > .btn:not(:last-child):not(.dropdown-toggle):not(:focus),
+    > .btn:not(:last-child):not(.dropdown-toggle):not(:focus-visible),
+    > .btn-group:not(:last-child) > .btn:not(:focus),
+    > .btn-group:not(:last-child) > .btn:not(:focus-visible) {
+        border-inline-end-color: map.get($btn-group-divider-palette, 'default');
+
+        @each $theme-key, $divider-value in $btn-group-divider-palette {
+            @if $theme-key != 'default' {
+                &.btn--#{$theme-key} {
+                    border-inline-end-color: #{$divider-value};
+                }
+            }
+        }
+
+        &.btn--text {
+            border-inline-end-color: transparent;
+        }
+    }
+}

@@ -2,24 +2,29 @@
 
 namespace Oro\Bundle\FrontendBundle\Migrations\Data\ORM;
 
+use Oro\Bundle\OrganizationBundle\Migrations\Data\ORM\LoadOrganizationAndBusinessUnitData;
+use Oro\Bundle\UserBundle\Entity\AbstractRole;
 use Oro\Bundle\UserBundle\Entity\Role;
 
+/**
+ * Loads user roles.
+ */
 class LoadUserRolesData extends AbstractRolesData
 {
-    const ROLES_FILE_NAME = 'backend_roles.yml';
+    protected const ROLES_FILE_NAME = 'backend_roles.yml';
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
-        return ['Oro\Bundle\OrganizationBundle\Migrations\Data\ORM\LoadOrganizationAndBusinessUnitData'];
+        return [LoadOrganizationAndBusinessUnitData::class];
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function createEntity($name, $label)
+    protected function createEntity(string $name, string $label): AbstractRole
     {
         $entity = new Role($name);
         $entity->setLabel($label);

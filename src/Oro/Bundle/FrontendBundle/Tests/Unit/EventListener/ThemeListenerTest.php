@@ -77,14 +77,14 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
                 'fullRedirect' => false,
             ],
             'frontend' => [
-                'requestType' => HttpKernelInterface::MASTER_REQUEST,
+                'requestType' => HttpKernelInterface::MAIN_REQUEST,
                 'isFrontendRequest' => true,
                 'expectedLayoutTheme' => 'test_layout_theme',
                 'hashNavigation' => true,
                 'fullRedirect' => true,
             ],
             'backend' => [
-                'requestType' => HttpKernelInterface::MASTER_REQUEST,
+                'requestType' => HttpKernelInterface::MAIN_REQUEST,
                 'isFrontendRequest' => false,
                 'expectedLayoutTheme' => null,
                 'hashNavigation' => false,
@@ -117,7 +117,7 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
 
         $this->listener->onKernelView($event);
 
-        if ($deletedAnnotation && $requestType === HttpKernelInterface::MASTER_REQUEST) {
+        if ($deletedAnnotation && $requestType === HttpKernelInterface::MAIN_REQUEST) {
             self::assertFalse($request->attributes->has($deletedAnnotation));
         }
     }
@@ -132,7 +132,7 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
                 'deletedAnnotation' => false,
             ],
             'backend master request' => [
-                'requestType' => HttpKernelInterface::MASTER_REQUEST,
+                'requestType' => HttpKernelInterface::MAIN_REQUEST,
                 'isFrontendRequest' => false,
                 'hasTheme' => false,
                 'deletedAnnotation' => false,
@@ -144,7 +144,7 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
                 'deletedAnnotations' => '_layout',
             ],
             'frontend master request with layout theme' => [
-                'requestType' => HttpKernelInterface::MASTER_REQUEST,
+                'requestType' => HttpKernelInterface::MAIN_REQUEST,
                 'isFrontendRequest' => true,
                 'hasTheme' => true,
                 'deletedAnnotations' => '_template',

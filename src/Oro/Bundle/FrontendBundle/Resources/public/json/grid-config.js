@@ -58,7 +58,7 @@ define(function() {
                     frontend_type: 'delete-mass',
                     route: 'oro_datagrid_front_mass_action',
                     launcherOptions: {
-                        iconClassName: 'fa-trash'
+                        icon: 'trash'
                     },
                     defaultMessages: {
                         confirm_title: 'oro.customer.mass_actions.delete_customer_addresses.confirm_title',
@@ -843,15 +843,15 @@ define(function() {
             actionOptions: {
                 refreshAction: {
                     launcherOptions: {
-                        className: 'btn btn--default btn--size-s refresh-action',
-                        icon: 'undo fa--no-offset',
+                        className: 'btn btn--size-small btn--plain btn--icon refresh-action',
+                        icon: 'undo',
                         launcherMode: 'icon-only'
                     }
                 },
                 resetAction: {
                     launcherOptions: {
-                        className: 'btn btn--default btn--size-s reset-action',
-                        icon: 'refresh fa--no-offset',
+                        className: 'btn btn--size-small btn--plain btn--icon reset-action',
+                        icon: 'refresh',
                         launcherMode: 'icon-only'
                     }
                 }

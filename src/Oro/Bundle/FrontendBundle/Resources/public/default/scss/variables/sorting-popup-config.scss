@@ -1,5 +1,5 @@
 /* @theme: default; */
 
-$sorting-popup-inner-offset: $offset-x-m 0 !default;
-$sorting-popup-title-inner-offset: 0 $offset-x-m !default;
-$sorting-popup-radio-inner-offset: $offset-x-m !default;
+$sorting-popup-inner-offset: spacing('sm') 0 !default;
+$sorting-popup-title-inner-offset: 0 spacing('sm') !default;
+$sorting-popup-radio-inner-offset: spacing('sm') !default;

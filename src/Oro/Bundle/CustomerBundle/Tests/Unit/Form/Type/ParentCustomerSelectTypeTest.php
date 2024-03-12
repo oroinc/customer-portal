@@ -32,7 +32,7 @@ class ParentCustomerSelectTypeTest extends \PHPUnit\Framework\TestCase
             ->method('setDefaults')
             ->with($this->isType('array'))
             ->willReturnCallback(
-                function (array $options) {
+                function (array $options) use ($resolver) {
                     $this->assertArrayHasKey('autocomplete_alias', $options);
                     $this->assertArrayHasKey('configs', $options);
                     $this->assertEquals('oro_customer_parent', $options['autocomplete_alias']);
@@ -43,6 +43,8 @@ class ParentCustomerSelectTypeTest extends \PHPUnit\Framework\TestCase
                         ],
                         $options['configs']
                     );
+
+                    return $resolver;
                 }
             );
 

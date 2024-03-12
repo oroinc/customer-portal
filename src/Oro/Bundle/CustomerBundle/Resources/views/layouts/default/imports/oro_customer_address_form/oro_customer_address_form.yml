@@ -23,7 +23,6 @@ layout:
                     options:
                         action: submit
                         text: oro.customer.frontend.address.buttons.save
-                        style: auto
                         attr:
                             'class': 'role-submit '
                 __form_actions_cancel:
@@ -32,7 +31,7 @@ layout:
                         path: '=data["backToUrl"]'
                         text: oro.customer.frontend.address.buttons.cancel
                         attr:
-                            'class': 'btn '
+                            'class': 'btn btn--outlined '
                 __form_required_label:
                     blockType: block
                 __form_actions_input_action:
@@ -48,8 +47,8 @@ layout:
                         __form: ~
                         __form_actions:
                             __form_actions_input_action: ~
-                            __form_actions_update: ~
                             __form_actions_cancel: ~
+                            __form_actions_update: ~
                         __form_required_label: ~
         - '@move':
             id: __form_actions

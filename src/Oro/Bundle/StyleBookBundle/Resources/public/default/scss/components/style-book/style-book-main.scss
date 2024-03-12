@@ -5,19 +5,19 @@
     flex-wrap: wrap;
     flex-direction: row;
 
-    padding: $offset-y + 10px 0;
+    padding: spacing('base') + 10px 0;
 
     .content-section {
-        margin-bottom: $offset-y + 10px;
+        margin-bottom: spacing('base') + 10px;
 
         &__text {
             &:not(:first-child) {
-                margin-top: $offset-y-m;
+                margin-top: spacing('sm');
             }
         }
 
         &__sub-title {
-            margin-bottom: $offset-y-m;
+            margin-bottom: spacing('sm');
 
             font-size: $base-font-size--m;
             text-transform: uppercase;

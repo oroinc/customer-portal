@@ -36,7 +36,6 @@ layout:
                     options:
                         type: button
                         action: submit
-                        style: auto
                         text: ''
                 __links:
                     blockType: container

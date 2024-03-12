@@ -1,0 +1,7 @@
+layout:
+    actions:
+        - '@move':
+              id: quick_access_menu
+              parentId: header_row
+
+    conditions: 'context["standalone_main_menu"]'

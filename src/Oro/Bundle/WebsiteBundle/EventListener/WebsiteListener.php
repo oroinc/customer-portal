@@ -23,7 +23,7 @@ class WebsiteListener
 
     public function onFlush(OnFlushEventArgs $args)
     {
-        if ($this->hasScheduledWebsites($args->getEntityManager()->getUnitOfWork())) {
+        if ($this->hasScheduledWebsites($args->getObjectManager()->getUnitOfWork())) {
             $this->cacheableWebsiteProvider->clearCache();
         }
     }

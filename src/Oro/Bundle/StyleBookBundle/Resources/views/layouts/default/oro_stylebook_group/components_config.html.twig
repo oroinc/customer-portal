@@ -22,20 +22,20 @@
             // Enable your local fonts
             $theme-fonts: (
                 'main': (
-                    'family': 'Lato',
+                    'family': 'Poppins',
                     'variants': (
                         (
-                            'path': '#{$global-url}/orofrontend/default/fonts/lato/lato-regular-webfont',
+                            'path': '#{$global-url}/orofrontend/default/fonts/poppins/Poppins-Regular-subset',
                             'weight': 400,
                             'style': normal
                         ),
                         (
-                            'path': '#{$global-url}/orofrontend/default/fonts/lato/lato-bold-webfont',
+                            'path': '#{$global-url}/orofrontend/default/fonts/poppins/Poppins-Bold-subset',
                             'weight': 700,
                             'style': normal
                         )
                     ),
-                    'formats': ('woff2', 'woff', 'ttf', 'eot', 'svg') // Add only needed formats
+                    'formats': ('woff') // Add only needed formats
                 )
             )
 
@@ -59,12 +59,12 @@
 
 {% block _style_book_components_animation_widget %}
     <div class="btn-toolbar">
-        <button class="btn btn--default" data-role="animate" data-animation="fade-in">Fade In</button>
-        <button class="btn btn--default" data-role="animate" data-animation="fade-out">Fade Out</button>
-        <button class="btn btn--default" data-role="animate" data-animation="fade-in-down">Fade In Down</button>
-        <button class="btn btn--default" data-role="animate" data-animation="fade-in-up">Fade In Up</button>
-        <button class="btn btn--default" data-role="animate" data-animation="slide-in-down">Slide In Down</button>
-        <button class="btn btn--default" data-role="animate" data-animation="slide-in-up">Slide In Up</button>
+        <button class="btn" data-role="animate" data-animation="fade-in">Fade In</button>
+        <button class="btn" data-role="animate" data-animation="fade-out">Fade Out</button>
+        <button class="btn" data-role="animate" data-animation="fade-in-down">Fade In Down</button>
+        <button class="btn" data-role="animate" data-animation="fade-in-up">Fade In Up</button>
+        <button class="btn" data-role="animate" data-animation="slide-in-down">Slide In Down</button>
+        <button class="btn" data-role="animate" data-animation="slide-in-up">Slide In Up</button>
     </div>
     <div class="style-book-animation" data-role="animate-me"></div>
     <script>
@@ -88,11 +88,7 @@
 
 {% block _style_book_components_typography_widget %}
     <p class="example-typography base-font">{{ 'oro_stylebook.groups.configs.text_typography_font'|trans }}</p>
-    <p class="example-typography base-font-minor">{{ 'oro_stylebook.groups.configs.text_typography_font_minor'|trans }}</p>
     <p class="example-typography base-line-height">{{ 'oro_stylebook.groups.configs.text_typography_line_height'|trans }}</p>
-    <br>
-    <p class="example-typography base-font-icons">{{ 'oro_stylebook.groups.configs.text_typography_font_icons'|trans }}</p>
-    <p class="example-typography base-font-icons">{{ 'oro_stylebook.groups.configs.text_typography_font_icons_custom'|trans }}</p>
     <br>
     <p class="example-typography root-font-size">{{ 'oro_stylebook.groups.configs.text_typography_root'|trans }}</p>
     <p class="example-typography base-font-size--s">{{ 'oro_stylebook.groups.configs.text_typography_base_s'|trans }}</p>

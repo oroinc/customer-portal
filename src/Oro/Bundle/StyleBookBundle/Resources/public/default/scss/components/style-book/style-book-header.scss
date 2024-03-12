@@ -2,6 +2,8 @@
 
 .style-book-header {
     border-bottom: $style-book-header-border-bottom;
+    background: $style-book-header-background;
+    z-index: $style-book-header-z-index;
 
     &__inner {
         display: $style-book-header-inner-display;

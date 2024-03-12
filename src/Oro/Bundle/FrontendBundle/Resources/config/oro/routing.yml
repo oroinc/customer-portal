@@ -13,6 +13,12 @@ oro_frontend_datagrid:
 oro_frontend_api:
     resource: "@OroFrontendBundle/Resources/config/oro/routing_api.yml"
 
+oro_frontend_currency_and_localization_ajax:
+    resource:     "@OroFrontendBundle/Controller/Frontend/AjaxCurrencyAndLocalizationController.php"
+    type:         annotation
+    options:
+        frontend: true
+
 oro_frontend_dictionary_search:
     path: /dictionary/{dictionary}/search
     defaults: { _controller: Oro\Bundle\EntityBundle\Controller\DictionaryController::searchAction }
@@ -41,7 +47,7 @@ oro_frontend_workflow:
 
 oro_frontend_js_routing_js:
     path: "/media/js/frontend_routes.{_format}"
-    defaults: { _controller: oro_frontend.js_routing_controller:indexAction }
+    defaults: { _controller: oro_frontend.js_routing_controller::indexAction }
     requirements:
         _format: json
     options:

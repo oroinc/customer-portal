@@ -5,20 +5,12 @@
     visibility: hidden;
     transition: opacity .4s;
 
-    // Slick slider customization
     @include slick-arrow(
-        $slick-arrow-width: $popup-gallery-widget-arrow-width,
-        $slick-arrow-height: $popup-gallery-widget-arrow-height,
         $slick-arrow-outline: none,
         $slick-arrow-border-radius: $popup-gallery-widget-arrow-border-radius,
         $slick-arrow-background: $popup-gallery-widget-arrow-bg,
-        $slick-arrow-icon-size: $popup-gallery-widget-arrow-icon-size,
-        $slick-arrow-icon-color: $popup-gallery-widget-arrow-icon-color,
-        $slick-arrow-icon-hover-color: null,
         $slick-arrow-prev-left: $popup-gallery-widget-arrow-side-position,
         $slick-arrow-next-right: $popup-gallery-widget-arrow-side-position,
-        $slick-arrow-prev-icon: $popup-gallery-widget-arrow-prev-icon,
-        $slick-arrow-next-icon: $popup-gallery-widget-arrow-next-icon,
         $slick-arrow-prev-icon-offset: $popup-gallery-widget-arrow-prev-icon-offset,
         $slick-arrow-next-icon-offset: $popup-gallery-widget-arrow-next-icon-offset
     );
@@ -29,17 +21,29 @@
         margin: auto;
     }
 
+    .modal-header,
+    .modal-body {
+        padding: 0;
+    }
+
+    .modal-header {
+        justify-content: flex-end;
+        position: relative;
+
+        .close-dialog {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            right: 0;
+        }
+    }
+
     &__images {
         transition: opacity .4s;
         opacity: 0;
         visibility: hidden;
 
         @include slick-dots();
-
-        .slick-dots {
-            // stylelint-disable-next-line declaration-no-important
-            display: none !important;
-        }
     }
 
     &__image {
@@ -55,7 +59,7 @@
         .slick-loading {
             min-width: 200px;
             min-height: 200px;
-            background: get-color('additional', 'ultra') url($popup-gallery-loader-url) no-repeat 50% 50%;
+            background: get-color('neutral', 'white-100') url($popup-gallery-loader-url) no-repeat 50% 50%;
         }
     }
 
@@ -69,7 +73,6 @@
         @include slick-arrow(
             $slick-arrow-width: $popup-gallery-widget-thumbnail-arrow-width,
             $slick-arrow-height: $popup-gallery-widget-thumbnail-arrow-height,
-            $slick-arrow-icon-size: $popup-gallery-widget-thumbnail-arrow-icon-size,
             $slick-arrow-next-right: $popup-gallery-widget-thumbnail-arrow-side-position,
             $slick-arrow-prev-left: $popup-gallery-widget-thumbnail-arrow-side-position
         );
@@ -87,7 +90,7 @@
             }
 
             &.slick-current img {
-                border: $popup-gallery-widget-thumbnails-img-active-border;
+                border: $product-view-media-gallery-slick-slide-current-item-border;
             }
         }
     }
@@ -139,17 +142,6 @@
         &__images {
             .slick-list {
                 border: 0;
-            }
-
-            .slick-arrow {
-                // break inline styles
-                // stylelint-disable-next-line declaration-no-important
-                display: none !important;
-            }
-
-            .slick-dots {
-                // stylelint-disable-next-line declaration-no-important
-                display: inline-block !important;
             }
         }
 

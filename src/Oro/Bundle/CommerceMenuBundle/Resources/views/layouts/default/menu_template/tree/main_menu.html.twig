@@ -10,9 +10,21 @@
     }) %}
 
     <div {{ block('block_attributes') }}>
-        <div class="main-menu-columns">
-            {% do block|merge_context({'menu_items': menu_item.children}) %}
-            {{ block_widget(block) }}
+        <div class="main-menu-columns__container">
+            <div class="main-menu-columns__title">
+                <a 
+                    href="{{ oro_commercemenu_get_url(menu_item.uri) }}"
+                    class="main-menu-columns__title-link"
+                >
+                    <span class="main-menu-columns__title-inner">
+                        {{- 'oro.commercemenu.frontend.navigation.section_title'|trans({'%section_title%': menu_item.label}) -}}
+                    </span>
+                </a>
+            </div>
+            <div class="main-menu-columns">
+                {% do block|merge_context({'menu_items': menu_item.children}) %}
+                {{ block_widget(block) }}
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -27,15 +39,21 @@
     {% set menu_items = menu_items|filter(item => item.extras.image is defined and item.extras.image) %}
     {% if menu_items is not empty %}
         {% do block|merge_context({'menu_items': menu_items}) %}
-        {{ block('_menu_second_level_column') }}
+        {{ block('_menu_second_level_sale_column') }}
     {% endif %}
 {% endblock %}
 
 {% block _menu_second_level_column %}
     <div class="main-menu-column {{ addClass|default('') }}" data-role="sub-menu">
-        <p class="main-menu-column__title">
+        {{ block_widget(block) }}
+    </div>
+{% endblock  %}
+
+{% block _menu_second_level_sale_column %}
+    <div class="main-menu-column {{ addClass|default('') }}" data-role="sub-menu">
+        <div class="main-menu-column__sale-title">
             {{- label -}}
-        </p>
+        </div>
         {{ block_widget(block) }}
     </div>
 {% endblock  %}

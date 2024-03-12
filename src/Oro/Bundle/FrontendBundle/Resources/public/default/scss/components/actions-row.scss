@@ -11,42 +11,6 @@
 
     &__item {
         display: inline-block;
-
-        &::before {
-            display: inline-block;
-            height: $base-font-size - 2px;
-            margin: 0 2px;
-
-            border-left: 1px solid;
-
-            vertical-align: middle;
-
-            opacity: .65;
-        }
-
-        &:not(:first-child) {
-            &::before {
-                content: '';
-            }
-        }
-
-        &--separate-light {
-            &::before {
-                border-left-color: $actions-row-separate-light-border;
-
-                opacity: 1;
-            }
-        }
-
-        &--separate {
-            margin: 0 3px;
-
-            color: $actions-row-separate-color;
-
-            cursor: default;
-
-            vertical-align: middle;
-        }
     }
 
     &__icon {
@@ -58,14 +22,6 @@
     }
 
     &__button {
-        display: inline-block;
-        padding: 2px 4px;
-
-        cursor: pointer;
-
-        border: 0;
-        background: transparent;
-
         &:hover {
             .actions-row__icon {
                 opacity: 1;
@@ -83,9 +39,8 @@
         }
 
         &__button {
-            padding: 2px 6px;
-
             font-size: $base-font-size + 2px;
+            margin-inline-start: spacing('xs');
         }
     }
 }

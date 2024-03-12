@@ -1,0 +1,199 @@
+/* @theme: default; */
+
+.side-panel-footer {
+    padding: $side-panel-footer-padding;
+
+    &-localization {
+        display: flex;
+        align-items: center;
+        gap: $side-panel-footer-localization-gap;
+
+        &__item {
+            padding: $side-panel-footer-item-padding;
+            line-height: $side-panel-footer-item-line-height;
+        }
+
+        &__icon {
+            color: $side-panel-footer-icon-color;
+        }
+    }
+
+    &-container {
+        width: 100%;
+    }
+}
+
+.side-panel-currency-localization {
+    width: 100%;
+    height: 100%;
+
+    &-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        box-shadow: none;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        font-size: $side-panel-footer-trigger-font-size;
+        padding: $side-panel-footer-trigger-padding;
+        font-family: inherit;
+
+        &__icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: $side-panel-footer-trigger-icon-padding;
+            border-radius: 100%;
+            color: $side-panel-footer-trigger-icon-color;
+            background-color: $side-panel-footer-trigger-icon-background-color;
+            transition: transform .2s;
+        }
+
+        &:hover {
+            .side-panel-currency-localization-trigger__icon {
+                color: $side-panel-footer-trigger-icon-color-hover;
+                background-color: $side-panel-footer-trigger-icon-background-color-hover;
+            }
+        }
+
+        &__label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            .divider {
+                width: 1px;
+                height: 14px;
+                background-color: $side-panel-footer-trigger-text-divider-color;
+            }
+        }
+    }
+}
+
+.side-panel-currency-localization-info {
+    padding: $side-panel-currency-localization-info-inner-offset;
+
+    &__item {
+        text-decoration: none;
+        color: $side-panel-footer-trigger-text-color;
+        min-width: 20px;
+        text-align: center;
+
+        @include ellipsis();
+
+        &--active {
+            font-weight: 600;
+        }
+    }
+}
+
+.sidebar-main-menu {
+    &.side-menu-footer-expand {
+        .fullscreen-popup__backdrop {
+            display: none;
+        }
+
+        &:has(.side-panel-currency-localization) {
+            .fullscreen-popup__content {
+                display: none;
+            }
+
+            .currency-localization-btn-wrapper {
+                padding-bottom: spacing('base');
+            }
+
+            .side-panel-currency-localization-trigger {
+                flex-direction: row-reverse;
+
+                &__icon {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+    }
+
+    &:not(.side-menu-footer-expand) {
+        [data-name='currency-localization-control-form'] {
+            display: none;
+        }
+    }
+
+    .fullscreen-popup__footer:not(:has(.side-panel-currency-localization)) {
+        display: none;
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .sidebar-main-menu {
+        &.side-menu-footer-expand {
+            &:has(.side-panel-currency-localization) {
+                .fullscreen-popup {
+                    &__content,
+                    &__backdrop {
+                        display: block;
+                    }
+
+                    &__footer {
+                        z-index: 3;
+                        position: absolute;
+                        max-height: 100%;
+                        align-items: stretch;
+                    }
+                }
+
+                .side-panel-currency-localization-trigger {
+                    flex-direction: row;
+                }
+            }
+
+            &:has(.toggle-container-vertical) {
+                .toggle-container-vertical {
+                    height: calc(100% - 21px);
+                }
+
+                .currency-localization-control {
+                    &__form-container {
+                        height: calc(100% - 60px);
+                    }
+
+                    &__form,
+                    &__item {
+                        height: 100%;
+                    }
+                }
+            }
+
+            &:has(.select) {
+                .fullscreen-popup {
+                    &__footer {
+                        top: 0;
+                    }
+                }
+
+                .side-panel-currency-localization {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .currency-localization-control {
+                    &__form {
+                        min-height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: stretch;
+                    }
+
+                    &__form-container {
+                        height: 100%;
+                    }
+
+                    &__actions {
+                        margin-top: auto;
+                    }
+                }
+            }
+        }
+    }
+}

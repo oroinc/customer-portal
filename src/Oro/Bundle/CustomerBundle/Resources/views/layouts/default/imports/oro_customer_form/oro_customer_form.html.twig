@@ -79,7 +79,7 @@
     {% for child in childs %}
         <div>
             {% set attr = layout_attr_defaults(child.vars.attr, {
-                '~class': ' link'
+                '~class': ' '
             }) %}
             {{ block_widget(child, {attr: attr}) }}
         </div>

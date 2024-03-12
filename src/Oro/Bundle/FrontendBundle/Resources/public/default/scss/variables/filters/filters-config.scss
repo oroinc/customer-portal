@@ -2,17 +2,17 @@
 
 @use 'sass:color';
 
-$filter-criteria-selector-icon-height: 16px !default;
-$filter-criteria-selector-icon-color: get-color('additional', 'dark') !default;
+$filter-criteria-selector-icon-height: 24px !default;
+$filter-criteria-selector-icon-color: get-color('neutral', 'dark') !default;
 $filter-criteria-selector-icon-display: block !default;
 $filter-criteria-hint-max-width: 250px !default;
-$filter-criteria-hint-item-color: get-color('additional', 'ultra') !default;
-$filter-criteria-hint-item-bg: get-color('additional', 'middle') !default;
+$filter-criteria-hint-item-color: get-color('text', 'primary') !default;
+$filter-criteria-hint-item-bg: get-color('neutral', 'grey1') !default;
 $filter-criteria-hint-label-offset-end: 2px !default;
 
 $filter-trigger-wrapper-display: inline-block !default;
-$filter-trigger-wrapper-dropdown-toggle-background-color: get-color('additional', 'ultra') !default;
-$filter-trigger-wrapper-dropdown-toggle-color: get-color('primary', 'dark') !default;
+$filter-trigger-wrapper-dropdown-toggle-background-color: get-color('neutral', 'white-100') !default;
+$filter-trigger-wrapper-dropdown-toggle-color: get-color('warning', 'dark') !default;
 $filter-trigger-wrapper-dropdown-toggle-border-color: transparent !default;
 $filter-trigger-wrapper-dropdown-toggle-box-shadow: none !default;
 
@@ -21,8 +21,8 @@ $filter-date-range-offset: null !default;
 $filter-separator-width: 22px !default;
 $filter-separator-text-align: center !default;
 
-$filter-reset-color: get-color('additional', 'ultra') !default;
-$filter-reset-hover-color: color.adjust(get-color('additional', 'ultra'), $lightness: -10%) !default;
+$filter-reset-color: null !default;
+$filter-reset-hover-color: null !default;
 
 $filter-value-range-display: flex !default;
 $filter-value-range-align-items: center !default;
@@ -33,7 +33,7 @@ $filter-start-end-display: flex !default;
 
 $filter-datepicker-box-icon-top: 5px !default;
 
-$filter-action-row-offset-top: $offset-y !default;
+$filter-action-row-offset-top: spacing('base') !default;
 
 $filter-dropdown-menu-calendar-max-width: 287px !default;
 $filter-dropdown-item-active-weight: font-weight('bold') !default;
@@ -45,9 +45,9 @@ $filter-container-title-flex-grow: 1 !default;
 $filter-container-title-flex-shrink: 1 !default;
 $filter-container-manager-flex-grow: 0 !default;
 $filter-container-manager-flex-shrink: 0 !default;
-$filter-container-manager-offset-top: $offset-y-m !default;
+$filter-container-manager-offset-top: spacing('sm') !default;
 
-$filter-actions-gap: $offset-x-m !default;
+$filter-actions-gap: spacing('sm') !default;
 $filter-actions-align-self: flex-start !default;
 $filter-actions-align-items: flex-start !default;
 
@@ -55,22 +55,22 @@ $filter-actions-align-items: flex-start !default;
 $filter-box-dropdown-mode-in-sticky-offset: auto !default;
 $filter-box-dropdown-mode-margin: 4px 0 0 !default;
 $filter-box-dropdown-mode-inner-offset: 8px !default;
-$filter-box-dropdown-mode-background: get-color('additional', 'base') !default;
+$filter-box-dropdown-mode-background: null !default;
 $filter-box-dropdown-mode-use-corner: true !default;
 $filter-box-dropdown-mode-corner-position-r: 15px !default;
 $filter-box-dropdown-mode-corner-position-b: 100% !default;
 $filter-box-dropdown-mode-corner-size: 8px !default;
 
 $filter-box-apply-offset: 8px !default;
-$filter-box-apply-background-color: get-color('additional', 'ultra') !default;
+$filter-box-apply-background-color: get-color('neutral', 'white-100') !default;
 $filter-box-apply-box-shadow: 0 2px 6px 1px rgba(0 0 0 / 12%) !default;
-$filter-box-apply-border: 1px solid get-color('additional', 'middle') !default;
+$filter-box-apply-border: 1px solid get-color('neutral', 'grey1') !default;
 $filter-box-apply-arrow-height: 18px !default;
 $filter-box-apply-arrow-width: 19px !default;
-$filter-box-apply-arrow-box-shadow: 0 0 0 1px get-color('additional', 'middle') !default;
+$filter-box-apply-arrow-box-shadow: 0 0 0 1px get-color('neutral', 'grey1') !default;
 $filter-box-apply-arrow-placeholder: 10px !default;
 
-$multiselect-filter-no-found-offset-top: $offset-y-s !default;
+$multiselect-filter-no-found-offset-top: spacing('xs') !default;
 
 // Filter Range
 $filter-input-group-prefix-width: 30px !default;

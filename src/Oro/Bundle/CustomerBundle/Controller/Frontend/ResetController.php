@@ -7,8 +7,9 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Oro\Bundle\UIBundle\Route\Router;
+use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,22 +23,24 @@ class ResetController extends AbstractController
 {
     const SESSION_EMAIL = 'oro_customer_user_reset_email';
 
-    /**
-     * @Layout()
-     * @Route("/reset-request", name="oro_customer_frontend_customer_user_reset_request", methods={"GET", "POST"})
-     */
+    #[Route(
+        path: '/reset-request',
+        name: 'oro_customer_frontend_customer_user_reset_request',
+        methods: ['GET', 'POST']
+    )]
+    #[Layout]
     public function requestAction()
     {
-        if ($this->getUser()) {
+        if ($this->getUser() instanceof AbstractUser) {
             return $this->redirect($this->generateUrl('oro_customer_frontend_customer_user_profile'));
         }
 
         /** @var CustomerUserPasswordRequestHandler $handler */
-        $handler = $this->get(CustomerUserPasswordRequestHandler::class);
-        $form = $this->get(FrontendCustomerUserFormProvider::class)
+        $handler = $this->container->get(CustomerUserPasswordRequestHandler::class);
+        $form = $this->container->get(FrontendCustomerUserFormProvider::class)
             ->getForgotPasswordForm();
 
-        $request = $this->get('request_stack')->getCurrentRequest();
+        $request = $this->container->get('request_stack')->getCurrentRequest();
         $email = $handler->process($form, $request);
         if ($email) {
             $request->getSession()->set(static::SESSION_EMAIL, $email);
@@ -49,10 +52,9 @@ class ResetController extends AbstractController
 
     /**
      * Tell the user to check his email
-     *
-     * @Layout()
-     * @Route("/check-email", name="oro_customer_frontend_customer_user_reset_check_email", methods={"GET"})
      */
+    #[Route(path: '/check-email', name: 'oro_customer_frontend_customer_user_reset_check_email', methods: ['GET'])]
+    #[Layout]
     public function checkEmailAction(Request $request)
     {
         $session = $request->getSession();
@@ -74,11 +76,11 @@ class ResetController extends AbstractController
     /**
      * Reset user password
      *
-     * @Layout
-     * @Route("/reset", name="oro_customer_frontend_customer_user_password_reset", methods={"GET", "POST"})
      * @param Request $request
      * @return array|RedirectResponse
      */
+    #[Route(path: '/reset', name: 'oro_customer_frontend_customer_user_password_reset', methods: ['GET', 'POST'])]
+    #[Layout]
     public function resetAction(Request $request)
     {
         $token = $request->get('token');
@@ -89,7 +91,7 @@ class ResetController extends AbstractController
         }
         if (null === $user) {
             throw $this->createNotFoundException(
-                $this->get(TranslatorInterface::class)->trans(
+                $this->container->get(TranslatorInterface::class)->trans(
                     'oro.customer.controller.customeruser.token_not_found.message',
                     ['%token%' => $token]
                 )
@@ -108,15 +110,15 @@ class ResetController extends AbstractController
         }
 
         /** @var CustomerUserPasswordResetHandler $handler */
-        $handler = $this->get(CustomerUserPasswordResetHandler::class);
-        $form = $this->get(FrontendCustomerUserFormProvider::class)
+        $handler = $this->container->get(CustomerUserPasswordResetHandler::class);
+        $form = $this->container->get(FrontendCustomerUserFormProvider::class)
             ->getResetPasswordForm($user);
 
         $actionParameter = $request->get(Router::ACTION_PARAMETER);
         if ($handler->process($form, $request)) {
             // force user logout
             $session->invalidate();
-            $this->get('security.token_storage')->setToken(null);
+            $this->container->get('security.token_storage')->setToken(null);
 
             $session->getFlashBag()->add(
                 'success',
@@ -124,7 +126,7 @@ class ResetController extends AbstractController
             );
 
             if ($actionParameter) {
-                $response = $this->get(Router::class)->redirect($user);
+                $response = $this->container->get(Router::class)->redirect($user);
             } else {
                 $response = $this->redirect($this->generateUrl('oro_customer_customer_user_security_login'));
             }
@@ -143,7 +145,7 @@ class ResetController extends AbstractController
 
     protected function getUserManager(): CustomerUserManager
     {
-        return $this->get(CustomerUserManager::class);
+        return $this->container->get(CustomerUserManager::class);
     }
 
     /**

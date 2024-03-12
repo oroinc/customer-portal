@@ -1,6 +1,7 @@
 define(function(require) {
     'use strict';
 
+    const _ = require('underscore');
     const MapAction = require('oro/datagrid/action/map-action');
     const viewportManager = require('oroui/js/viewport-manager').default;
     const Popover = require('bootstrap-popover');
@@ -72,7 +73,7 @@ define(function(require) {
 
             this.fullscreenView = new FullscreenPopupView({
                 contentElement: this.$mapContainerFrame,
-                popupIcon: 'fa-chevron-left'
+                popupIcon: _.isRTL() ? 'chevron-right' : 'chevron-left'
             });
             this.fullscreenView.on('close', onClose);
             this.fullscreenView.show();

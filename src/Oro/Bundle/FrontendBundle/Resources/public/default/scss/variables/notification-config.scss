@@ -1,23 +1,20 @@
 /* @theme: default; */
 
-$notification-inner-offset: 5px 10px !default;
-$notification-xmd-inner-offset: 20px 15px !default;
+$notification-inner-offset: spacing('xs') spacing('sm') !default;
 
-$notification-font-size: 13px !default;
+$notification-inner-gap: spacing('sm') !default;
+$notification-font-size: $base-font-size--s !default;
 $notification-border-radius: $base-ui-element-border-radius !default;
-$notification-icon-offset: 5px !default;
-$notification-xmd-icon-size: 20px !default;
-$notification-list-offset: 5px !default;
-$notification-vertical-align: middle !default;
+$notification-list-offset: spacing('xs') !default;
 
-$notification-list-margin: $offset-y-m 0 !default;
-$notification-list-padding: 0 0 0 35px !default;
+$notification-list-margin: spacing('sm') 0 !default;
+$notification-list-padding: 0 0 0 spacing('xl') !default;
 
-$notification-success-background: get-color('ui', 'success');
-$notification-success-color: get-color('ui', 'success-dark');
+$notification-success-background: get-var-color('success', 'light');
+$notification-success-color: get-var-color('success', 'dark');
 
-$notification-warning-background: get-color('ui', 'warning');
-$notification-warning-color: get-color('ui', 'warning-dark');
+$notification-warning-background: get-var-color('warning', 'light');
+$notification-warning-color: get-var-color('warning', 'dark');
 
-$notification-error-background: get-color('ui', 'error') !default;
-$notification-error-color: get-color('ui', 'error-dark') !default;
+$notification-error-background: get-var-color('destructive', 'light') !default;
+$notification-error-color: get-var-color('destructive', 'dark') !default;

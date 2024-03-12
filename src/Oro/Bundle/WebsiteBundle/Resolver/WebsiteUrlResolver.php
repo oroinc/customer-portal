@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\WebsiteBundle\Resolver;
 
-use Oro\Bundle\CacheBundle\Provider\MemoryCacheProviderAwareTrait;
+use Oro\Bundle\CacheBundle\Provider\MemoryCacheProviderInterface;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EmailBundle\Provider\UrlProviderTrait;
 use Oro\Component\Website\WebsiteInterface;
@@ -15,18 +15,21 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class WebsiteUrlResolver
 {
     use UrlProviderTrait;
-    use MemoryCacheProviderAwareTrait;
 
-    private const CONFIG_URL        = 'oro_website.url';
+    private const CONFIG_URL = 'oro_website.url';
     private const CONFIG_SECURE_URL = 'oro_website.secure_url';
 
-    /** @var ConfigManager */
-    protected $configManager;
+    protected ConfigManager $configManager;
+    protected MemoryCacheProviderInterface $memoryCacheProvider;
 
-    public function __construct(ConfigManager $configManager, UrlGeneratorInterface $urlGenerator)
-    {
+    public function __construct(
+        ConfigManager $configManager,
+        UrlGeneratorInterface $urlGenerator,
+        MemoryCacheProviderInterface $memoryCacheProvider
+    ) {
         $this->configManager = $configManager;
         $this->urlGenerator = $urlGenerator;
+        $this->memoryCacheProvider = $memoryCacheProvider;
     }
 
     /**
@@ -39,7 +42,7 @@ class WebsiteUrlResolver
     {
         $cacheKey = 'url_' . ($website ? $website->getId() : 0);
 
-        return $this->getMemoryCacheProvider()->get($cacheKey, function () use ($website, $clearUrl) {
+        return $this->memoryCacheProvider->get($cacheKey, function () use ($website, $clearUrl) {
             $url = $this->configManager->get(self::CONFIG_URL, false, false, $website);
             if ($url && $clearUrl) {
                 $url = $this->getCleanUrl($url);
@@ -59,7 +62,7 @@ class WebsiteUrlResolver
     {
         $cacheKey = 'secure_url_' . ($website ? $website->getId() : 0);
 
-        return $this->getMemoryCacheProvider()->get($cacheKey, function () use ($website, $clearUrl) {
+        return $this->memoryCacheProvider->get($cacheKey, function () use ($website, $clearUrl) {
             $url = $this->getSecureUrl($website);
             if ($url && $clearUrl) {
                 $url = $this->getCleanUrl($url);

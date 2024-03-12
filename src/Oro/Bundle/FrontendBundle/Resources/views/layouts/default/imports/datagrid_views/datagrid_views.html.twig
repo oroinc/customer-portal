@@ -56,14 +56,17 @@
 {% endblock %}
 
 {% block __datagrid_views__datagrid_views_popup_close_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+
     {% set attr = layout_attr_defaults(attr, {
         'type': 'button',
-        '~class': 'close-dialog',
+        '~class': 'close-dialog absolute btn btn--plain btn--text',
         'title': 'Close'|trans,
         'aria-label': 'oro_frontend.datagrid_views.close.aria_label'|trans,
         'data-close': ''
     }) %}
-    <button {{ block('block_attributes') }} ></button>
+
+    <button {{ block('block_attributes') }} >{{ renderIcon.icon({name: 'close', extraClass: 'theme-icon--medium'}) }}</button>
 {% endblock %}
 
 {% block __datagrid_views__datagrid_views_popup_container_widget %}
@@ -108,7 +111,7 @@
                 <input type="radio"
                        name="grid-view-<%- gridViewId %>"
                        value="<%- choice.value %>"
-                       data-change-grid-view
+                       data-change-grid-view=""
                     <% if (current === choice.value) { %>
                         checked
                     <% } %>
@@ -116,13 +119,14 @@
                 <span class="grid-views__text-line line-clamp" aria-hidden="true"><%- choice.label %></span>
             </label>
         </div>
+        <% let oroui = _.macros('oroui') %>
         <% if (showActions[iterate]) { %>
             <div class="grid-views__actions">
                 <ol class="actions-row">
                     <% _.each(actions[iterate], function(action) { %>
                         <% if (action.enabled) { %>
                             <li class="actions-row__item">
-                                <button class="actions-row__button"
+                                <button class="btn btn--icon btn--size-small btn--text btn--plain"
                                         type="button"
                                         aria-label="<%- action.label %> <%- choice.label %>"
                                         title="<%- action.label %>"
@@ -130,7 +134,10 @@
                                         data-choice-value="<%- choice.value %>"
                                 >
                                     <% if (action.icon) { %>
-                                        <span class="actions-row__icon fa-<%- action.icon %>" aria-hidden="true"></span>
+                                        <%= oroui.renderIcon({
+                                            name: action.icon,
+                                            extraClass: 'theme-icon--small'
+                                        }) %>
                                     <% } %>
                                 </button>
                             </li>
@@ -149,7 +156,7 @@
 
     <div {{ block('block_attributes') }}>
         <div class="grid-views__toggle-container">
-            <button class="btn btn--link btn--size-s btn--block"
+            <button class="btn btn--size-small btn--block"
                     type="button"
                     data-role="save-new"
                     data-switch-edit-button=""
@@ -175,14 +182,14 @@
                 <div class="grid-col-12 grid-views__form-footer">
                     <div class="grid-views__button-group">
                         <button type="button"
-                                class="btn btn--info btn--size-s"
+                                class="btn btn--size-small"
                                 data-grid-view-update
                                 aria-label="<%- _.__('oro_frontend.datagrid_views.add.aria_label') %>"
                                 data-text-add="<%- _.__('oro_frontend.datagrid_views.add') %>"
                                 data-text-save="<%- _.__('oro_frontend.datagrid_views.save') %>"
                         ><%- _.__('oro_frontend.datagrid_views.add') %></button>
                         <button type="button"
-                                class="btn btn--size-s"
+                                class="btn btn--outlined btn--size-small"
                                 data-cancel-edit
                                 aria-label="<%- _.__('oro_frontend.datagrid_views.cancel.aria_label') %>"
                         ><%- _.__("oro_frontend.datagrid_views.cancel") %></button>

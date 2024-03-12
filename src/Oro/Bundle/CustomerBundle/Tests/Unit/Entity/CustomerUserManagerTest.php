@@ -110,6 +110,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     public function testConfirmRegistration(): void
     {
         $user = new CustomerUser();
+        $user->setUserIdentifier('test');
         $user->setConfirmed(false);
 
         $this->emailProcessor->expects(self::once())
@@ -125,6 +126,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     public function testConfirmRegistrationByAdmin(): void
     {
         $user = new CustomerUser();
+        $user->setUserIdentifier('test');
         $user->setConfirmed(false);
 
         $this->emailProcessor->expects(self::once())
@@ -140,6 +142,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     public function testSendWelcomeRegisteredByAdminEmail(): void
     {
         $user = new CustomerUser();
+        $user->setUserIdentifier('test');
 
         $this->emailProcessor->expects(self::once())
             ->method('sendWelcomeForRegisteredByAdminNotification')
@@ -153,6 +156,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     public function testRegisterConfirmationRequiredNotFrontendRequest(): void
     {
         $user = new CustomerUser();
+        $user->setUserIdentifier('test');
         $user->setEnabled(false);
 
         $this->frontendHelper->expects(self::once())
@@ -198,6 +202,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $websiteSettings = new CustomerUserSettings($website);
         $websiteSettings->setLocalization($defaultLocalization);
         $user = new CustomerUser();
+        $user->setUserIdentifier('test');
         $user->setWebsiteSettings($websiteSettings);
         $user->setConfirmed(false);
 
@@ -239,6 +244,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
             ->willReturn(true);
 
         $user = new CustomerUser();
+        $user->setUserIdentifier('test');
         $user->setConfirmed(false);
 
         $website = new Website();
@@ -274,6 +280,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     public function testRegisterConfirmationNotRequired(): void
     {
         $user = new CustomerUser();
+        $user->setUserIdentifier('test');
         $user->setConfirmed(false);
 
         $this->configManager->expects(self::once())
@@ -294,6 +301,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     {
         $currentLocalizationCode = 'fr_FR';
         $user = new CustomerUser();
+        $user->setUserIdentifier('test');
 
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -320,6 +328,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     public function testSendResetPasswordEmail(): void
     {
         $user = new CustomerUser();
+        $user->setUserIdentifier('test');
         $this->emailProcessor->expects(self::once())
             ->method('sendResetPasswordEmail')
             ->with($user);
@@ -354,6 +363,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $salt = 'salt';
 
         $user = new CustomerUser();
+        $user->setUserIdentifier('test');
         $user->setPlainPassword($password);
         $user->setSalt($salt);
 
@@ -406,6 +416,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     public function testUpdateUserForUserWithoutAuthStatus(): void
     {
         $user = new CustomerUser();
+        $user->setUserIdentifier('test');
         $defaultAuthStatus = new TestEnumValue('auth_status_1', 'Auth Status 1');
 
         $this->enumValueProvider->expects(self::once())
@@ -427,6 +438,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     public function testUpdateUserForUserWithAuthStatus(): void
     {
         $user = new CustomerUser();
+        $user->setUserIdentifier('test');
         $authStatus = new TestEnumValue('auth_status_1', 'Auth Status 1');
         $user->setAuthStatus($authStatus);
 
@@ -447,6 +459,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     public function testSetAuthStatus(): void
     {
         $customerUser = new CustomerUser();
+        $customerUser->setUserIdentifier('test');
         self::assertNull($customerUser->getAuthStatus());
 
         $this->enumValueProvider->expects(self::once())

@@ -250,6 +250,8 @@ layout:
                         description: oro_stylebook.groups.jscomponent.scroll_shadow_view.description
                 style_book_scroll_shadow_view:
                     blockType: container
+                style_book_scroll_shadow_horizontal_view:
+                    blockType: container
                 group_tabs_scroll_shadow_view:
                     blockType: group_tabs
                     options:
@@ -318,7 +320,7 @@ layout:
                             - { anchor: 'config-dom_relocation', label: oro_stylebook.groups.jscomponent.tabs.howtouse.config, active: true, widget: 'style_book_grid_element_dom_relocation_config'}
                             - { anchor: 'dom_relocation-html', label: oro_stylebook.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_dom_relocation_html'}
 
-                # Sticky Panel View
+                # Sticky Element
                 group_element_sticky_panel_view:
                     blockType: group_element
                     options:
@@ -532,6 +534,7 @@ layout:
                         group_element_item_scroll_shadow_view:
                             style_book_scroll_shadow_view:
                                 group_tabs_scroll_shadow_view: ~
+                            style_book_scroll_shadow_horizontal_view: ~
 
                     group_element_googlemaps_view:
                         group_element_item_googlemaps_view:

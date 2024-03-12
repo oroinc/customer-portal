@@ -7,27 +7,16 @@ use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Oro\Bundle\ScopeBundle\Migration\Extension\ScopeExtensionAwareInterface;
 use Oro\Bundle\ScopeBundle\Migration\Extension\ScopeExtensionAwareTrait;
-use Oro\Bundle\WebsiteBundle\Migrations\Schema\OroWebsiteBundleInstaller;
 
 class OroWebsiteBundle implements Migration, ScopeExtensionAwareInterface
 {
     use ScopeExtensionAwareTrait;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function up(Schema $schema, QueryBag $queries)
+    public function up(Schema $schema, QueryBag $queries): void
     {
-        $this->addRelationsToScope($schema);
-    }
-
-    private function addRelationsToScope(Schema $schema)
-    {
-        $this->scopeExtension->addScopeAssociation(
-            $schema,
-            'website',
-            OroWebsiteBundleInstaller::WEBSITE_TABLE_NAME,
-            'name'
-        );
+        $this->scopeExtension->addScopeAssociation($schema, 'website', 'oro_website', 'name');
     }
 }

@@ -18,7 +18,7 @@ oro_behat_extension:
         - '@OroFrontendBundle/Tests/Behat/Features'
   elements:
     FrontendMainMenu:
-      selector: '[data-main-menu-container]'
+      selector: '.main-menu-outer'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\FrontendMainMenu
     FrontendMainMenuDropdown:
       selector: '[data-main-menu-item]'
@@ -69,7 +69,7 @@ oro_behat_extension:
     NodeWithLongName:
       selector:
         type: 'xpath'
-        locator: '//*[@data-main-menu-item]//span[contains(text(),"Node with loooooooooooooooong name")]/ancestor::*[@data-main-menu-item="2"]'
+        locator: '//*[@data-main-menu-item]//span[contains(text(),"Node with loooooooooooooooooooooooooooooooong name")]/ancestor::*[@data-main-menu-item="2"]'
     OnSaleImage:
       selector:
         type: xpath
@@ -118,19 +118,21 @@ oro_behat_extension:
     DetachedSelect2Result:
       selector: '#select2-drop-mask + .select2-drop .select2-results'
     Active Sticky Panel:
-      selector: ".sticky-panel.sticky-panel--top.has-content"
+      selector: ".sticky.sticky--top.in-sticky"
     Bottom Active Sticky Panel:
-      selector: ".sticky-panel.sticky-panel--bottom.has-content"
+      selector: ".sticky.sticky--bottom.in-sticky"
+    Bottom Not Active Sticky Panel:
+      selector: ".sticky.sticky--bottom"
     Main Menu Into Header:
       selector: ".page-header .header-row"
     Main Menu Into Sticky Panel:
-      selector: ".sticky-panel.sticky-panel--top.has-content .header-row"
+      selector: ".sticky.sticky--top .header-row"
     Product Filter Into Sticky Panel:
-      selector: ".sticky-panel.sticky-panel--top.has-content .filter-box"
+      selector: ".sticky.sticky--top.in-sticky .filter-box"
     Product Filter Into Page Content:
       selector: ".page-content .filter-box"
     Grid Filters Button Into Sticky Panel:
-      selector: ".sticky-panel.sticky-panel--top.has-content .action[title=\"Filter Toggle\"]"
+      selector: ".sticky.sticky--top.in-sticky .action[title=\"Filter Toggle\"]"
     Header:
       selector: ".page-header"
     Copyright:
@@ -160,6 +162,13 @@ oro_behat_extension:
         mapping:
           Use Default: 'theme[oro_frontend___filter_value_selectors][use_parent_scope_value]'
           Value Selectors: 'theme[oro_frontend___filter_value_selectors][value]'
+    Display Price Tiers:
+      selector: 'form[name="theme"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Use Default: 'theme[oro_product___product_details_display_price_tiers_as][use_parent_scope_value]'
+          Display Price Tiers As: 'theme[oro_product___product_details_display_price_tiers_as][value]'
     Filter By Step:
       selector:
         locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"Filter By Step")]/..'
@@ -201,12 +210,36 @@ oro_behat_extension:
     Catalog Switcher Toggle:
       selector: '.catalog-switcher > .dropdown-toggle'
     Sticky Filters Dropdown:
-      selector: '[data-sticky-name="top-sticky-panel"] a.action[title="Filter Toggle"]'
+      selector: '.sticky.sticky-top a.action[title="Filter Toggle"]'
     Mass Actions Into Sticky Panel:
-      selector: '.sticky-panel.sticky-panel--top.has-content [data-mass-actions-container]'
+      selector: '.sticky.sticky--top.in-sticky [data-mass-actions-container]'
+    Pagination Bottom Panel:
+      selector: '.datagrid-toolbar-bottom [data-grid-pagesize]'
     Pegination Into Sticky Panel:
-      selector: '.sticky-panel.sticky-panel--top.has-content [data-grid-pagesize]'
+      selector: '.sticky.sticky--top.in-sticky [data-grid-pagesize]'
     Sorting Into Sticky Panel:
-      selector: '.sticky-panel.sticky-panel--top.has-content [data-grid-sorting]'
+      selector: '.sticky.sticky--top.in-sticky [data-grid-sorting]'
     Catalog Switcher Into Sticky Panel:
-      selector: '.sticky-panel.sticky-panel--top.has-content .catalog-switcher'
+      selector: '.sticky.sticky--top.in-sticky .toggle-container'
+    Sidebar Main Menu Popup:
+      selector: '.sidebar-main-menu'
+    TopRightBar:
+      selector: '.topbar__right'
+    MiddleLeftSide:
+      selector: '.middlebar__left'
+    MiddleBarMenus:
+      selector: '.middlebar__menus'
+    CustomerMenu:
+      selector: '.customer-menu'
+    PageStandaloneMenuContainer:
+      selector: '.page-header__inner--standalone-menu'
+    StandaloneMenu:
+      selector: '.main-menu-standalone-mode'
+    Theme Settings Form:
+      selector: 'form[id^="theme"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Quick Access Button Label: 'theme[oro_frontend___quick_access_button][value][label][default]'
+          Quick Access Button Type: 'theme[oro_frontend___quick_access_button][value][type]'
+          Quick Access Button Frontend Menu: 'theme[oro_frontend___quick_access_button][value][menu]'

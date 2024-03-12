@@ -8,6 +8,7 @@ layout:
                     blockType: menu_item
                     options:
                         class_prefix: 'main-menu'
+                        linkEnable: false
                         vars:
                             menu_item: '=data["menu_item"]'
                 menu_item_inner:

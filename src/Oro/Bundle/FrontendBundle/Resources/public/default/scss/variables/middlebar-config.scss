@@ -1,13 +1,29 @@
 /* @theme: default; */
 
-$middlebar-grid-gap: 0 16px !default;
-$middlebar-grid-template-columns: 1fr minmax(320px, auto) 1fr !default;
+$middlebar-grid-gap: var(--header-inner-gaps, #{spacing('lg')}) !default;
+$middlebar-grid-template-columns: auto 1fr auto !default;
+$middlebar-display: grid !default;
 $middlebar-align-items: center !default;
-$middlebar-padding: 20px 0 !default;
+$middlebar-padding: 24px 0 !default;
+
+$middlebar-right-display: flex !default;
+$middlebar-right-gap: var(--header-inner-right-gaps, spacing('lg')) !default;
+
+$middlebar-left-gap: var(--header-inner-left-gaps, 0) !default;
+
+$middlebar-menus-gap: var(--header-inner-menus-gaps, spacing('sm')) !default;
 
 // Tablet
 $middlebar-tablet-grid-template-columns: 1fr !default;
-$middlebar-tablet-padding: 10px 0 !default;
-$middlebar-left-tablet-justify-self: center !default;
-$middlebar-center-tablet-display: none !default;
-$middlebar-right-tablet-display: none !default;
+$middlebar-tablet-padding: spacing('base') spacing('sm') !default;
+
+$middlebar-left-tablet-display: flex !default;
+
+$middlebar-center-tablet-grid-column: #{'1 / 3'} !default;
+$middlebar-center-tablet-grid-row: #{'2 / 3'} !default;
+
+// mobile-landscape
+$middlebar-right-mobile-landscape-gap: spacing('md') !default;
+
+// mobile
+$middlebar-right-mobile-gap: 0 !default;

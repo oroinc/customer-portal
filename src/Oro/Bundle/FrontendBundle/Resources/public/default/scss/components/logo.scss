@@ -2,8 +2,12 @@
 
 .logo {
     display: $logo-display;
-    width: $logo-width;
-    height: $logo-height;
+    max-width: $logo-width;
+    max-height: $logo-height;
+    min-width: $logo-min-width;
+    min-height: $logo-min-height;
+
+    padding: $logo-inner-offset;
 
     &--print-only {
         display: none;
@@ -20,5 +24,19 @@
 a.logo {
     &:hover {
         opacity: $logo-link-opacity;
+    }
+}
+
+@include breakpoint('desktop-small') {
+    .logo {
+        .page-header--standalone-main-menu & {
+            padding-left: 0;
+        }
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .logo {
+        padding: $logo-mobile-big-inner-offset;
     }
 }

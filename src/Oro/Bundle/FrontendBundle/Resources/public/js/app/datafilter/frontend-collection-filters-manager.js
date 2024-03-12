@@ -77,15 +77,13 @@ define(function(require, exports, module) {
         _setButtonDesign: function($button) {
             $button
                 .attr({
-                    'class': `${$button.attr('class')} filters-manager-trigger btn btn--default btn--size-s`,
+                    'class': `${$button.attr('class')} filters-manager-trigger btn btn--icon btn--neutral-dark`,
                     'title': __('oro_frontend.filter_manager.label'),
                     'aria-label': __('oro_frontend.filter_manager.button_aria_label')
                 })
-                .find('span')
-                .attr({
-                    'aria-hidden': true,
-                    'class': 'fa-plus fa--no-offset hide-text'
-                });
+                .prepend(_.macros('oroui::renderIcon')({
+                    name: 'settings'
+                }));
         },
 
         /**
@@ -98,7 +96,7 @@ define(function(require, exports, module) {
             // Use link to keep focus even on disabled state
             return $(`
                 <div class="datagrid-manager__footer">
-                    <a href="#" role="button" class="btn btn--link btn--no-x-offset btn--no-y-offset"
+                    <a href="#" role="button" class="btn btn--no-padding"
                         data-role="reset-filters">
                         <span class="fa-refresh" aria-hidden="true"></span>${this.multiselectResetButtonLabel}
                     </a>

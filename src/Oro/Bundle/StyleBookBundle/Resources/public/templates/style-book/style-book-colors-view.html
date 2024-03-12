@@ -5,13 +5,19 @@
                 <span class="color-palette__palette-title--key">$palette:</span>
                 <span class="color-palette__palette-title--value"><%- palette %></span>
             </h3>
+            <% if (colors.description) { %>
+                <p class="style-book-group-element__description"><%- colors.description %></p>
+            <% } %>
             <div class="grid">
-                <% _.each(colors, function(color, key) { %>
-                    <div class="color-palette__color-box grid-col-4 grid-col-mobile-landscape-6 grid-col-mobile-12">
-                        $key:
-                        <strong class="color-palette__name--title"><%- key %></strong>
-                        <div class="color-palette__name color-palette__name--<%- palette %>-<%- key %>" style="background: <%- color %>;"><%- color %></div>
-                        <code class="color-palette__usage language-css">get-color('<%- palette %>', '<%- key %>');</code>
+                <% _.each(colors.colors, function(color, key, index) { %>
+                    <div class="color-palette__color-box grid-col-6 grid-col-mobile-12">
+                        <div class="color-palette__line">$key: <strong class="color-palette__name--title"><%- color.key %></strong></div>
+                        <% if (color.description) { %>
+                        <div><%- _.__('oro_stylebook.color_pallet.used_for') %>: <%- color.description %></div>
+                        <% } %>
+                        <div class="color-palette__line">#color: <strong class="color-palette__name--title" stye><%- color.color %></strong></div>
+                        <div class="color-palette__name color-palette__name--<%- palette %>-<%- key %>" style="--color-palette-background: <%- color.color %>;"></div>
+                        <code class="color-palette__usage language-css">get-color('<%- palette %>', '<%- color.key %>');</code>
                     </div>
                 <% }); %>
             </div>

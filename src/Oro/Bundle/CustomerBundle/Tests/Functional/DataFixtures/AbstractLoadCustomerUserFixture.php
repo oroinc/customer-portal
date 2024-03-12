@@ -3,73 +3,75 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
+use Oro\Bundle\SecurityBundle\Acl\Extension\EntityAclExtension;
+use Oro\Bundle\SecurityBundle\Acl\Extension\ObjectIdentityHelper;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainOwnershipMetadataProvider;
 use Oro\Bundle\SecurityBundle\Tests\Functional\DataFixtures\SetRolePermissionsTrait;
-use Oro\Bundle\UserBundle\Entity\Repository\RoleRepository;
-use Oro\Bundle\UserBundle\Entity\Role;
+use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser;
 use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\UserBundle\Migrations\Data\ORM\LoadRolesData;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-abstract class AbstractLoadCustomerUserFixture extends AbstractFixture implements ContainerAwareInterface
+abstract class AbstractLoadCustomerUserFixture extends AbstractFixture implements
+    ContainerAwareInterface,
+    DependentFixtureInterface
 {
     use ContainerAwareTrait;
     use SetRolePermissionsTrait;
 
-    /** @return array */
-    abstract protected function getCustomers();
+    abstract protected function getCustomers(): array;
 
-    /** @return array */
-    abstract protected function getRoles();
+    abstract protected function getRoles(): array;
 
-    /** @return array */
-    abstract protected function getCustomerUsers();
+    abstract protected function getCustomerUsers(): array;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+    public function getDependencies(): array
+    {
+        return [LoadUser::class];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function load(ObjectManager $manager): void
     {
         $this->loadRoles($manager);
         $this->loadCustomers($manager);
-        $this->loadCustomerUsers($manager);
+        $this->loadCustomerUsers();
     }
 
-    protected function loadCustomers(ObjectManager $manager)
+    protected function loadCustomers(ObjectManager $manager): void
     {
-        $defaultUser = $this->getUser($manager);
-        $organization = $defaultUser->getOrganization();
-
+        $defaultUser = $this->getUser();
         foreach ($this->getCustomers() as $item) {
             $customer = new Customer();
-            $customer
-                ->setName($item['name'])
-                ->setOrganization($organization)
-                ->setOwner($defaultUser);
+            $customer->setName($item['name']);
+            $customer->setOrganization($defaultUser->getOrganization());
+            $customer->setOwner($defaultUser);
             if (isset($item['parent'])) {
                 $customer->setParent($this->getReference($item['parent']));
             }
             $manager->persist($customer);
-
             $this->addReference($item['name'], $customer);
         }
-
         $manager->flush();
     }
 
-    protected function loadRoles(ObjectManager $manager)
+    protected function loadRoles(ObjectManager $manager): void
     {
         /* @var AclManager $aclManager */
         $aclManager = $this->container->get('oro_security.acl.manager');
-
         foreach ($this->getRoles() as $key => $items) {
             $role = new CustomerUserRole(CustomerUserRole::PREFIX_ROLE . $key);
             $role->setLabel($key);
@@ -77,30 +79,24 @@ abstract class AbstractLoadCustomerUserFixture extends AbstractFixture implement
 
             foreach ($items as $acls) {
                 $oidDescriptor = isset($acls['class'])
-                    ? 'entity:' . $acls['class']
+                    ? ObjectIdentityHelper::encodeIdentityString(EntityAclExtension::NAME, $acls['class'])
                     : $acls['oid'];
                 $this->setRolePermissions($aclManager, $role, $oidDescriptor, $acls['acls']);
             }
-
             $this->setReference($key, $role);
         }
-
         $manager->flush();
         $aclManager->flush();
     }
 
-    protected function loadCustomerUsers(ObjectManager $manager)
+    protected function loadCustomerUsers(): void
     {
         /* @var CustomerUserManager $userManager */
         $userManager = $this->container->get('oro_customer_user.manager');
-
-        $defaultUser = $this->getUser($manager);
-        $organization = $defaultUser->getOrganization();
-
+        $defaultUser = $this->getUser();
         foreach ($this->getCustomerUsers() as $item) {
             /* @var CustomerUser $customerUser */
             $customerUser = $userManager->createUser();
-
             $customerUser
                 ->setEmail($item['email'])
                 ->setCustomer($this->getReference($item['customer']))
@@ -108,14 +104,12 @@ abstract class AbstractLoadCustomerUserFixture extends AbstractFixture implement
                 ->setFirstName($item['firstname'])
                 ->setLastName($item['lastname'])
                 ->setConfirmed(true)
-                ->setOrganization($organization)
+                ->setOrganization($defaultUser->getOrganization())
                 ->addUserRole($this->getReference($item['role']))
                 ->setSalt('')
                 ->setPlainPassword($item['password'])
                 ->setEnabled(true);
-
             $userManager->updateUser($customerUser);
-
             $this->setReference($item['email'], $customerUser);
         }
     }
@@ -131,43 +125,16 @@ abstract class AbstractLoadCustomerUserFixture extends AbstractFixture implement
         CustomerUserRole $role,
         string $oidDescriptor,
         array $permissions
-    ) {
+    ): void {
         /* @var ChainOwnershipMetadataProvider $chainMetadataProvider */
         $chainMetadataProvider = $this->container->get('oro_security.owner.metadata_provider.chain');
         $chainMetadataProvider->startProviderEmulation(FrontendOwnershipMetadataProvider::ALIAS);
-
-        $this->setPermissions(
-            $aclManager,
-            $role,
-            [$oidDescriptor => $permissions]
-        );
-
+        $this->setPermissions($aclManager, $role, [$oidDescriptor => $permissions]);
         $chainMetadataProvider->stopProviderEmulation();
     }
 
-    /**
-     * @param ObjectManager $manager
-     * @return User
-     */
-    protected function getUser(ObjectManager $manager)
+    protected function getUser(): User
     {
-        /** @var RoleRepository $roleRepository */
-        $roleRepository = $manager->getRepository(Role::class);
-        /** @var Role $role */
-        $role = $roleRepository->findOneBy(['role' => LoadRolesData::ROLE_ADMINISTRATOR]);
-
-        if (!$role) {
-            throw new \RuntimeException(sprintf('%s role should exist.', LoadRolesData::ROLE_ADMINISTRATOR));
-        }
-
-        $user = $roleRepository->getFirstMatchedUser($role);
-
-        if (!$user) {
-            throw new \RuntimeException(
-                sprintf('At least one user with role %s should exist.', LoadRolesData::ROLE_ADMINISTRATOR)
-            );
-        }
-
-        return $user;
+        return $this->getReference(LoadUser::USER);
     }
 }

@@ -1,0 +1,28 @@
+/* @theme: default; */
+
+%caption-1 {
+    font-size: $caption-1-font-size;
+    line-height: $caption-1-line-height;
+    font-weight: $caption-1-font-weight;
+    font-style: $caption-1-font-style;
+}
+
+%caption-2 {
+    font-size: $caption-2-font-size;
+    line-height: $caption-2-line-height;
+    font-weight: $caption-2-font-weight;
+}
+
+%caption-3 {
+    font-size: $caption-3-font-size;
+    line-height: $caption-3-line-height;
+    font-weight: $caption-3-font-weight;
+}
+
+%label-placeholder {
+    font-size: $label-placeholder-font-size;
+    line-height: $label-placeholder-line-height;
+    font-weight: $label-placeholder-font-weight;
+    text-transform: $label-placeholder-text-transform;
+    letter-spacing: $label-placeholder-letter-spacing;
+}

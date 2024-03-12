@@ -1,14 +1,15 @@
 {# First Level #}
 {% block _mega_menu_depth_1_close_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
         'type': 'button',
-        '~class': " close-dialog" ~ (class_prefix ? " #{class_prefix}__close"),
+        '~class': " close-dialog btn btn--plain btn--text" ~ (class_prefix ? " #{class_prefix}__close"),
         'title': 'Close'|trans,
         'aria-label': 'oro.commercemenu.multi.close.aria_label'|trans,
         'data-role': 'close'
     }) %}
 
-    <button {{ block('block_attributes') }}></button>
+    <button {{ block('block_attributes') }}>{{ renderIcon.icon({name: 'close'}) }}</button>
 {% endblock %}
 
 {% block _mega_menu_depth_1_title_widget %}
@@ -16,9 +17,9 @@
         '~class': class_prefix ? " #{class_prefix}__title"
     }) %}
 
-    <h2 {{ block('block_attributes') }}>
+    <h5 {{ block('block_attributes') }}>
         {{ block_widget(block) }}
-    </h2>
+    </h5>
 {% endblock %}
 
 {% block _mega_menu_depth_1_title_inner_widget %}
@@ -27,5 +28,5 @@
         '~class': class_prefix ? " #{class_prefix}__title-inner"
     }) %}
 
-    <a {{ block('block_attributes') }}>{{- menu_item.label -}}</a>
+    <a {{ block('block_attributes') }}>{{- 'oro.commercemenu.frontend.navigation.section_title'|trans({'%section_title%': menu_item.label}) -}}</a>
 {% endblock %}

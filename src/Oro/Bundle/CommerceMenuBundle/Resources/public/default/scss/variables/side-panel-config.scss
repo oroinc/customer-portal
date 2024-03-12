@@ -1,0 +1,27 @@
+/* @theme: default; */
+
+$side-panel-logo-width: 44px !default;
+$side-panel-logo-height: 44px !default;
+$side-panel-logo-img-max-width: 28px !default;
+
+$side-panel-header-padding: spacing('sm') spacing('sm') spacing('sm') spacing('lg') !default;
+$side-panel-content-padding: 0 !default;
+
+/* Side Menu Mode */
+$side-panel-menu-width: 360px !default;
+
+/* Mobile big */
+$side-panel-header-label-color: get-color('text', 'primary') !default;
+
+$side-panel-top-menu-container-color: get-color('primary', 'main') !default;
+$side-panel-top-menu-container-menu-btn-color: get-color('primary', 'main') !default;
+
+$side-panel-menu-container-border: 1px solid get-color('neutral', 'grey2') !default;
+
+$side-panel-label-transition: transform 230ms, opacity 230ms;
+$side-panel-icon-transition: transform 230ms, opacity 230ms;
+$side-panel-dropdown-menu-transition: inset-inline-start 230ms cubic-bezier(.5, .5, .25, 1),
+    opacity 230ms cubic-bezier(.5, .5, .25, 1);
+
+$side-panel-dropdown-toggle-z-index: z('dropdown') + 2 !default;
+$side-panel-dropdown-toggle-font-size: 18px !default;

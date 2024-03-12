@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Controller\Workflow;
 
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Oro\Bundle\WorkflowBundle\Entity\WorkflowItem;
 use Oro\Bundle\WorkflowBundle\Processor\Context\LayoutPageResultType;
 use Oro\Bundle\WorkflowBundle\Processor\Context\TransitionContext;
@@ -19,22 +19,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class WorkflowController extends AbstractController
 {
     /**
-     * @Route(
-     *      "/workflow/start/{workflowName}/{transitionName}",
-     *      name="oro_frontend_workflow_start_transition_form"
-     * )
      *
-     * @Layout(vars={"transitionName", "workflowName"})
      *
      * @param string $workflowName
      * @param string $transitionName
      * @param Request $request
-     *
      * @return array|Response
      */
+    #[Route(
+        path: '/workflow/start/{workflowName}/{transitionName}',
+        name: 'oro_frontend_workflow_start_transition_form'
+    )]
+    #[Layout(vars: ['transitionName', 'workflowName'])]
     public function startTransitionAction($workflowName, $transitionName, Request $request)
     {
-        $processor = $this->get(TransitActionProcessor::class);
+        $processor = $this->container->get(TransitActionProcessor::class);
 
         $context = $this->createProcessorContext(
             $processor,
@@ -50,23 +49,22 @@ class WorkflowController extends AbstractController
     }
 
     /**
-     * @Route(
-     *      "/workflow/transit/{workflowItemId}/{transitionName}",
-     *      name="oro_frontend_workflow_transition_form"
-     * )
-     * @ParamConverter("workflowItem", options={"id"="workflowItemId"})
      *
-     * @Layout(vars={"transitionName", "workflowName"})
      *
      * @param string $transitionName
      * @param WorkflowItem $workflowItem
      * @param Request $request
-     *
      * @return array|Response
      */
+    #[Route(
+        path: '/workflow/transit/{workflowItemId}/{transitionName}',
+        name: 'oro_frontend_workflow_transition_form'
+    )]
+    #[Layout(vars: ['transitionName', 'workflowName'])]
+    #[ParamConverter('workflowItem', options: ['id' => 'workflowItemId'])]
     public function transitionAction($transitionName, WorkflowItem $workflowItem, Request $request)
     {
-        $processor = $this->get(TransitActionProcessor::class);
+        $processor = $this->container->get(TransitActionProcessor::class);
 
         $context = $this->createProcessorContext(
             $processor,

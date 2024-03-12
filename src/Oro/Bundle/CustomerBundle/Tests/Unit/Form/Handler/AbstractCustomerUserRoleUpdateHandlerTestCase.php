@@ -14,6 +14,7 @@ use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclPrivilegeRepository;
+use Oro\Bundle\SecurityBundle\Cache\DoctrineAclCacheProvider;
 use Oro\Bundle\SecurityBundle\Filter\AclPrivilegeConfigurableFilter;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainOwnershipMetadataProvider;
 use Oro\Component\Testing\ReflectionUtil;
@@ -61,6 +62,9 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
     /** @var \PHPUnit\Framework\MockObject\MockObject|CustomerVisitorAclCache */
     protected $visitorAclCache;
 
+    /** @var \PHPUnit\Framework\MockObject\MockObject|DoctrineAclCacheProvider  */
+    protected $queryCacheProvider;
+
     protected array $privilegeConfig = [
         'entity' => ['types' => ['entity'], 'fix_values' => false, 'show_default' => true],
         'action' => ['types' => ['action'], 'fix_values' => false, 'show_default' => true],
@@ -81,6 +85,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         $this->roleRepository = $this->createMock(CustomerUserRoleRepository::class);
         $this->managerRegistry = $this->createMock(ManagerRegistry::class);
         $this->visitorAclCache = $this->createMock(CustomerVisitorAclCache::class);
+        $this->queryCacheProvider = $this->createMock(DoctrineAclCacheProvider::class);
 
         $this->doctrineHelper = $this->getMockBuilder(DoctrineHelper::class)
             ->setConstructorArgs([$this->managerRegistry])
@@ -129,7 +134,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         $request->setMethod('POST');
 
         $requestStack = $this->createMock(RequestStack::class);
-        $requestStack->expects(self::once())
+        $requestStack->expects(self::exactly(2))
             ->method('getCurrentRequest')
             ->willReturn($request);
 
@@ -166,7 +171,12 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         /** @var AbstractCustomerUserRoleHandler|\PHPUnit\Framework\MockObject\MockObject $handler */
         $handler = $this->getMockBuilder(get_class($handlerInstance))
             ->onlyMethods(['processPrivileges'])
-            ->setConstructorArgs([$this->formFactory, $this->aclCache, $this->privilegeConfig])
+            ->setConstructorArgs([
+                $this->formFactory,
+                $this->aclCache,
+                $this->queryCacheProvider,
+                $this->privilegeConfig
+                ])
             ->getMock();
         $this->setRequirementsForHandler($handler);
 
@@ -176,12 +186,12 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         $handler->process($role);
 
         foreach ($expectedUsersWithRole as $expectedUser) {
-            self::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
+            self::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUserIdentifier());
             self::assertEquals($persistedUsers[$expectedUser->getEmail()]->getUserRole($role->getRole()), $role);
         }
 
         foreach ($expectedUsersWithoutRole as $expectedUser) {
-            self::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
+            self::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUserIdentifier());
             self::assertEquals($persistedUsers[$expectedUser->getEmail()]->getUserRole($role->getRole()), null);
         }
     }
@@ -258,9 +268,11 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
             ->willReturn('formName');
         $form->expects(self::once())
             ->method('submit')
-            ->willReturnCallback(function () use ($role, $newCustomer) {
+            ->willReturnCallback(function () use ($role, $newCustomer, $form) {
                 $role->setCustomer($newCustomer);
                 $role->setOrganization($newCustomer->getOrganization());
+
+                return $form;
             });
         $form->expects(self::once())
             ->method('isValid')

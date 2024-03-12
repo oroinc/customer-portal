@@ -8,9 +8,11 @@ define(function(require, exports, module) {
     const FullscreenFilters = require('orofrontend/js/app/datafilter/fullscreen-filters').default;
     const config = require('module-config').default(module.id);
     const launcherOptions = _.extend({
-        className: 'btn',
-        icon: 'filter',
-        label: __('oro.filter.datagrid-toolbar.filters'),
+        className: 'toggle-filters-action btn btn--outlined btn--no-padding btn--text',
+        launcherMode: 'icon-text',
+        icon: 'sliders',
+        label: __('oro_frontend.filters.label'),
+        title: __('oro_frontend.filters.title'),
         ariaLabel: __('oro.filter.datagrid-toolbar.aria_label')
     }, config.launcherOptions || {});
 
@@ -52,7 +54,7 @@ define(function(require, exports, module) {
                 options = Object.assign({}, options, toolbarOptions.customAction.options);
             }
 
-            toolbarOptions.addToolbarAction(new Action(options));
+            toolbarOptions.addToolbarExtraAction(new Action(options));
         },
 
         dispose() {

@@ -1,0 +1,41 @@
+/* @theme: default; */
+
+.status-label {
+    @extend %label-placeholder;
+
+    background-color: $status-label-background-color;
+    color: $status-label-color;
+    border-radius: $status-label-border-radius;
+    display: $status-label-display;
+    padding: $status-label-padding;
+
+    &--success {
+        background-color: $status-label-success-background-color;
+        color: $status-label-success-color;
+    }
+
+    &--warning {
+        background-color: $status-label-warning-background-color;
+        color: $status-label-warning-color;
+    }
+
+    &--destructive {
+        background-color: $status-label-destructive-background-color;
+        color: $status-label-destructive-color;
+    }
+
+    &--info {
+        background-color: $status-label-info-background-color;
+        color: $status-label-info-color;
+    }
+
+    &--new_arrival {
+        background-color: $status-label-new-arrival-background-color;
+        color: $status-label-new-arrival-color;
+    }
+
+    &--sale {
+        background-color: $status-label-sale-background-color;
+        color: $status-label-sale-color;
+    }
+}

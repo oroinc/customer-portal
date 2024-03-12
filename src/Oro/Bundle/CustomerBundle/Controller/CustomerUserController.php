@@ -11,8 +11,8 @@ use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\FormBundle\Provider\FormTemplateDataProviderInterface;
 use Oro\Bundle\FormBundle\Provider\SaveAndReturnActionFormTemplateDataProvider;
-use Oro\Bundle\SecurityBundle\Annotation\Acl;
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\SecurityBundle\Attribute\Acl;
+use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -29,16 +29,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class CustomerUserController extends AbstractController
 {
-    /**
-     * @Route("/view/{id}", name="oro_customer_customer_user_view", requirements={"id"="\d+"})
-     * @Template("@OroCustomer/CustomerUser/view.html.twig")
-     * @Acl(
-     *      id="oro_customer_customer_user_view",
-     *      type="entity",
-     *      class="OroCustomerBundle:CustomerUser",
-     *      permission="VIEW"
-     * )
-     */
+    #[Route(path: '/view/{id}', name: 'oro_customer_customer_user_view', requirements: ['id' => '\d+'])]
+    #[Template('@OroCustomer/CustomerUser/view.html.twig')]
+    #[Acl(id: 'oro_customer_customer_user_view', type: 'entity', class: CustomerUser::class, permission: 'VIEW')]
     public function viewAction(CustomerUser $customerUser): array
     {
         return [
@@ -46,11 +39,9 @@ class CustomerUserController extends AbstractController
         ];
     }
 
-    /**
-     * @Route("/", name="oro_customer_customer_user_index")
-     * @Template("@OroCustomer/CustomerUser/index.html.twig")
-     * @AclAncestor("oro_customer_customer_user_view")
-     */
+    #[Route(path: '/', name: 'oro_customer_customer_user_index')]
+    #[Template('@OroCustomer/CustomerUser/index.html.twig')]
+    #[AclAncestor('oro_customer_customer_user_view')]
     public function indexAction(): array
     {
         return [
@@ -58,21 +49,17 @@ class CustomerUserController extends AbstractController
         ];
     }
 
-    /**
-     * @Route("/login-attempts", name="oro_customer_login_attempts")
-     * @Template("@OroCustomer/CustomerUser/loginAttempts.html.twig")
-     * @AclAncestor("oro_customer_view_user_login_attempt")
-     */
+    #[Route(path: '/login-attempts', name: 'oro_customer_login_attempts')]
+    #[Template('@OroCustomer/CustomerUser/loginAttempts.html.twig')]
+    #[AclAncestor('oro_customer_view_user_login_attempt')]
     public function loginAttemptsAction(): array
     {
         return [];
     }
 
-    /**
-     * @Route("/info/{id}", name="oro_customer_customer_user_info", requirements={"id"="\d+"})
-     * @Template("@OroCustomer/CustomerUser/widget/info.html.twig")
-     * @AclAncestor("oro_customer_customer_user_view")
-     */
+    #[Route(path: '/info/{id}', name: 'oro_customer_customer_user_info', requirements: ['id' => '\d+'])]
+    #[Template('@OroCustomer/CustomerUser/widget/info.html.twig')]
+    #[AclAncestor('oro_customer_customer_user_view')]
     public function infoAction(CustomerUser $customerUser): array
     {
         return [
@@ -80,19 +67,18 @@ class CustomerUserController extends AbstractController
         ];
     }
 
-    /**
-     * @Route("/get-roles/{customerUserId}/{customerId}",
-     *      name="oro_customer_customer_user_roles",
-     *      requirements={"customerId"="\d+", "customerUserId"="\d+"},
-     *      defaults={"customerId"=0, "customerUserId"=0}
-     * )
-     * @Template("@OroCustomer/CustomerUser/widget/roles.html.twig")
-     * @AclAncestor("oro_customer_customer_user_view")
-     */
+    #[Route(
+        path: '/get-roles/{customerUserId}/{customerId}',
+        name: 'oro_customer_customer_user_roles',
+        requirements: ['customerId' => '\d+', 'customerUserId' => '\d+'],
+        defaults: ['customerId' => 0, 'customerUserId' => 0]
+    )]
+    #[Template('@OroCustomer/CustomerUser/widget/roles.html.twig')]
+    #[AclAncestor('oro_customer_customer_user_view')]
     public function getRolesAction(Request $request, string $customerUserId, string $customerId): array
     {
         /** @var DoctrineHelper $doctrineHelper */
-        $doctrineHelper = $this->get(DoctrineHelper::class);
+        $doctrineHelper = $this->container->get(DoctrineHelper::class);
 
         if ($customerUserId) {
             $customerUser = $doctrineHelper->getEntityReference(CustomerUser::class, $customerUserId);
@@ -110,7 +96,7 @@ class CustomerUserController extends AbstractController
         $customerUser->setCustomer($customer);
 
         $form = $this->createForm(CustomerUserType::class, $customerUser);
-        $form->handleRequest($this->get(RequestStack::class)->getMainRequest());
+        $form->handleRequest($this->container->get(RequestStack::class)->getMainRequest());
 
         if (($error = $request->get('error', '')) && $form->has('userRoles')) {
             $form
@@ -123,30 +109,22 @@ class CustomerUserController extends AbstractController
 
     /**
      * Create customer user form
-     *
-     * @Route("/create", name="oro_customer_customer_user_create")
-     * @Template("@OroCustomer/CustomerUser/update.html.twig")
-     * @Acl(
-     *      id="oro_customer_customer_user_create",
-     *      type="entity",
-     *      class="OroCustomerBundle:CustomerUser",
-     *      permission="CREATE"
-     * )
      */
+    #[Route(path: '/create', name: 'oro_customer_customer_user_create')]
+    #[Template('@OroCustomer/CustomerUser/update.html.twig')]
+    #[Acl(id: 'oro_customer_customer_user_create', type: 'entity', class: CustomerUser::class, permission: 'CREATE')]
     public function createAction(Request $request): array|RedirectResponse
     {
         return $this->update(new CustomerUser(), $request);
     }
 
-    /**
-     * @Route(
-     *     "/create/customer/{customer}",
-     *     name="oro_customer_customer_user_create_for_customer",
-     *     requirements={"customer"="\d+"}
-     * )
-     * @Template("@OroCustomer/CustomerUser/update.html.twig")
-     * @AclAncestor("oro_customer_customer_user_create")
-     */
+    #[Route(
+        path: '/create/customer/{customer}',
+        name: 'oro_customer_customer_user_create_for_customer',
+        requirements: ['customer' => '\d+']
+    )]
+    #[Template('@OroCustomer/CustomerUser/update.html.twig')]
+    #[AclAncestor('oro_customer_customer_user_create')]
     public function createForCustomerAction(Customer $customer, Request $request): array|RedirectResponse
     {
         if (!$this->isGranted('VIEW', $customer)) {
@@ -156,7 +134,8 @@ class CustomerUserController extends AbstractController
         $customerUser = new CustomerUser();
         $customerUser->setCustomer($customer);
 
-        $saveAndReturnActionFormTemplateDataProvider = $this->get(SaveAndReturnActionFormTemplateDataProvider::class);
+        $saveAndReturnActionFormTemplateDataProvider = $this->container
+            ->get(SaveAndReturnActionFormTemplateDataProvider::class);
         $saveAndReturnActionFormTemplateDataProvider
             ->setSaveFormActionRoute(
                 'oro_customer_customer_user_create_for_customer',
@@ -177,16 +156,10 @@ class CustomerUserController extends AbstractController
 
     /**
      * Edit customer user form
-     *
-     * @Route("/update/{id}", name="oro_customer_customer_user_update", requirements={"id"="\d+"})
-     * @Template("@OroCustomer/CustomerUser/update.html.twig")
-     * @Acl(
-     *      id="oro_customer_customer_user_update",
-     *      type="entity",
-     *      class="OroCustomerBundle:CustomerUser",
-     *      permission="EDIT"
-     * )
      */
+    #[Route(path: '/update/{id}', name: 'oro_customer_customer_user_update', requirements: ['id' => '\d+'])]
+    #[Template('@OroCustomer/CustomerUser/update.html.twig')]
+    #[Acl(id: 'oro_customer_customer_user_update', type: 'entity', class: CustomerUser::class, permission: 'EDIT')]
     public function updateAction(CustomerUser $customerUser, Request $request): array|RedirectResponse
     {
         return $this->update($customerUser, $request);
@@ -199,16 +172,17 @@ class CustomerUserController extends AbstractController
     ): array|RedirectResponse {
         $form = $this->createForm(CustomerUserType::class, $customerUser);
         $handler = new CustomerUserHandler(
-            $this->get(CustomerUserManager::class),
-            $this->get(TokenAccessorInterface::class),
-            $this->get(TranslatorInterface::class),
-            $this->get(LoggerInterface::class)
+            $this->container->get(CustomerUserManager::class),
+            $this->container->get(TokenAccessorInterface::class),
+            $this->container->get(TranslatorInterface::class),
+            $this->container->get(LoggerInterface::class)
         );
 
-        return $this->get(UpdateHandlerFacade::class)->update(
+        return $this->container->get(UpdateHandlerFacade::class)->update(
             $customerUser,
             $form,
-            $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruser.saved.message'),
+            $this->container->get(TranslatorInterface::class)
+                ->trans('oro.customer.controller.customeruser.saved.message'),
             $request,
             $handler,
             $resultProvider

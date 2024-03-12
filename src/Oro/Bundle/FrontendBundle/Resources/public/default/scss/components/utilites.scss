@@ -1,7 +1,13 @@
 /* @theme: default; */
 
+[data-disable-animation='1'] * {
+    // stylelint-disable-next-line declaration-no-important
+    transition: none !important;
+}
+
 .hidden,
-.hide {
+.hide,
+.hide-on-empty:empty {
     // override inline styles
     // stylelint-disable-next-line declaration-no-important
     display: none !important;
@@ -24,6 +30,14 @@
 }
 
 .no-scroll {
+    overflow: hidden;
+}
+
+.no-scroll-safe {
+    /* rtl:begin:ignore */
+    padding-right: var(--system-scroll-width);
+    /* rtl:end:ignore */
+
     overflow: hidden;
 }
 
@@ -56,6 +70,10 @@
     text-transform: capitalize;
 }
 
+.text-clip {
+    @include ellipsis();
+}
+
 .img-fluid {
     @include img-fluid;
 }
@@ -68,6 +86,15 @@
     transition: none;
 }
 
+.shrink-zero {
+    flex-shrink: 0;
+}
+
+.no-offset {
+    // stylelint-disable-next-line declaration-no-important
+    margin: 0 !important;
+}
+
 // Need to refactor after removal less from frontend
 .hide-text {
     &[class^='fa-'],
@@ -78,6 +105,7 @@
         &::after,
         &::before {
             font-size: $base-font-size;
+            vertical-align: middle;
         }
     }
 
@@ -92,4 +120,33 @@
 
 .list-unstyled {
     @include list-unstyled;
+}
+
+.start-scroll-from-end {
+    scroll-snap-type: x mandatory;
+
+    > :last-child {
+        scroll-snap-align: start;
+    }
+}
+
+.scrollable-container {
+    display: grid;
+    grid-auto-flow: column;
+}
+
+.invisible-scrollbar {
+    &::-webkit-scrollbar {
+        width: 0;
+        display: none;
+    }
+
+    /* for firefox */
+    scrollbar-width: none;
+    /* for MS Edge */
+    -ms-overflow-style: scrollbar;
+}
+
+.stretch {
+    width: 100%;
 }

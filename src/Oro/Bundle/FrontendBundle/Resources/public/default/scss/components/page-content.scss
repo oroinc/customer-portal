@@ -1,6 +1,7 @@
 /* @theme: default; */
 
 .page-content {
+    padding-top: $page-content-offset-top;
     width: $page-content-width;
 
     @include clearfix();
@@ -14,7 +15,13 @@
     }
 }
 
-@include breakpoint('desktop') {
+@include breakpoint('tablet') {
+    .page-content {
+        padding-top: $page-content-tablet-offset-top;
+    }
+}
+
+@include breakpoint('desktop-small') {
     .page-content {
         &--has-sidebar {
             width: calc(#{$page-content-width} - #{$page-sidebar-width});

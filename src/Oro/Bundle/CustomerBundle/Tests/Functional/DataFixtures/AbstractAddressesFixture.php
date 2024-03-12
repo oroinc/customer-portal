@@ -3,18 +3,19 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\AddressBundle\Entity\Country;
 use Oro\Bundle\AddressBundle\Entity\Region;
 use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
 
 abstract class AbstractAddressesFixture extends AbstractFixture
 {
-    protected function addAddress(EntityManager $manager, array $addressData, AbstractDefaultTypedAddress $address)
-    {
+    protected function addAddress(
+        ObjectManager $manager,
+        array $addressData,
+        AbstractDefaultTypedAddress $address
+    ): void {
         $defaults = [];
         foreach ($addressData['types'] as $type => $isDefault) {
             /** @var AddressType $addressType */
@@ -39,13 +40,7 @@ abstract class AbstractAddressesFixture extends AbstractFixture
         $this->addReference($addressData['label'], $address);
     }
 
-    /**
-     * @param EntityManager $manager
-     * @param string        $countryCode
-     *
-     * @return Country
-     */
-    protected function getCountry(EntityManager $manager, $countryCode)
+    protected function getCountry(ObjectManager $manager, string $countryCode): Country
     {
         $referenceName = 'country.' . $countryCode;
         if ($this->hasReference($referenceName)) {
@@ -58,13 +53,7 @@ abstract class AbstractAddressesFixture extends AbstractFixture
         return $country;
     }
 
-    /**
-     * @param EntityManager $manager
-     * @param string        $regionCode
-     *
-     * @return Region
-     */
-    protected function getRegion(EntityManager $manager, $regionCode)
+    protected function getRegion(ObjectManager $manager, string $regionCode): Region
     {
         $referenceName = 'region.' . $regionCode;
         if ($this->hasReference($referenceName)) {
@@ -75,15 +64,5 @@ abstract class AbstractAddressesFixture extends AbstractFixture
         $this->addReference($referenceName, $region);
 
         return $region;
-    }
-
-    /**
-     * @param ObjectManager $manager
-     *
-     * @return Organization
-     */
-    protected function getOrganization(ObjectManager $manager)
-    {
-        return $manager->getRepository(Organization::class)->getFirst();
     }
 }

@@ -43,7 +43,7 @@ class RecordOwnerDataListener
             return;
         }
 
-        $entity = $args->getEntity();
+        $entity = $args->getObject();
         $className = ClassUtils::getClass($entity);
         if ($this->configManager->hasConfig($className)) {
             $config = $this->configManager->getEntityConfig(self::CONFIG_SCOPE, $className);

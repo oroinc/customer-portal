@@ -10,6 +10,11 @@ const ScrollShadowView = BaseView.extend({
         blockEndClass: 'shadow-end'
     },
 
+    listen: {
+        'viewport:change mediator': 'setScrollOffsets',
+        'layout:reposition mediator': 'setScrollOffsets'
+    },
+
     /**
      * @inheritdoc
      */
@@ -58,7 +63,15 @@ const ScrollShadowView = BaseView.extend({
             }
         });
 
+        this.setScrollOffsets();
         this.update();
+
+        // Making an element to be scrollable in a while
+        if (this.el.classList.contains('start-scroll-from-end')) {
+            setTimeout(() => {
+                this.el.classList.remove('start-scroll-from-end');
+            }, 0);
+        }
     },
 
     update() {
@@ -111,10 +124,21 @@ const ScrollShadowView = BaseView.extend({
 
     addShadow(target) {
         const {blockStartClass, blockEndClass} = this.options;
-        const {clientHeight, scrollHeight, scrollTop} = target;
+        const {clientHeight, clientWidth, scrollHeight, scrollWidth, scrollTop, scrollLeft} = target;
+        const hasVerticalScrollbar = target.scrollHeight > target.clientHeight;
+        const hasHorizontalScrollbar = target.scrollWidth > target.clientWidth;
 
-        target?.classList.toggle(blockStartClass, scrollTop > 0);
-        target?.classList.toggle(blockEndClass, clientHeight + scrollTop < scrollHeight);
+        if (hasHorizontalScrollbar) {
+            target.classList.add('horizontal-scrolling');
+            target?.classList.toggle(blockStartClass, scrollLeft > 0);
+            target?.classList.toggle(blockEndClass, clientWidth + scrollLeft < scrollWidth);
+        }
+
+        if (hasVerticalScrollbar) {
+            target.classList.add('vertical-scrolling');
+            target?.classList.toggle(blockStartClass, scrollTop > 0);
+            target?.classList.toggle(blockEndClass, clientHeight + scrollTop < scrollHeight);
+        }
     },
 
     removeShadows() {
@@ -128,6 +152,18 @@ const ScrollShadowView = BaseView.extend({
         const {blockStartClass, blockEndClass} = this.options;
 
         target.shadowEl?.classList.remove([blockStartClass, blockEndClass]);
+    },
+
+    setScrollOffsets() {
+        for (const [side, selector] of Object.entries(this.options.scrollOffsets || {})) {
+            let value = this.$(selector).outerHeight(true);
+
+            if (['left', 'right'].includes(side)) {
+                value = this.$(selector).outerWidth(true);
+            }
+
+            this.el.style.setProperty(`--shadow-start-${side}`, `${value}px`);
+        }
     },
 
     /**

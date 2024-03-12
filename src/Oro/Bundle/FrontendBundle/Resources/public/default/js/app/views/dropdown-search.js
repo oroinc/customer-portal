@@ -28,19 +28,19 @@ const DropdownSearch = BaseView.extend({
 
     searchClassName: 'dropdown-search-container',
 
-    inputClassName: 'input input--full input--size-s',
+    inputClassName: 'input input--full',
 
     inputPlaceholder: __('oro_frontend.dropdown.quick_search.placeholder'),
 
     inputAriaLabel: __('oro_frontend.dropdown.quick_search.aria_label'),
 
-    buttonClassName: 'btn btn--plain',
+    buttonClassName: 'btn btn--plain btn--icon btn--size-small',
 
     buttonAriaLabel: __('oro_frontend.dropdown.quick_search.clear'),
 
-    iconClassName: 'fa fa-search fa--no-offset',
+    iconClassName: 'search',
 
-    actionIconClassName: 'fa fa-remove fa--no-offset',
+    actionIconClassName: 'close',
 
     /**
      * @inheritdoc
@@ -75,6 +75,9 @@ const DropdownSearch = BaseView.extend({
     },
 
     createHighlight() {
+        this.$el.find('.entity-name').each((i, el) => {
+            el.replaceWith(el.innerText);
+        });
         this.subview('highlight', new HighlightTextView({
             el: this.el,
             ...this.getHighlightOptions()

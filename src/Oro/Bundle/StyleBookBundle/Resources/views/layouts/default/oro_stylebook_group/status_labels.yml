@@ -1,0 +1,31 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+              themes: '@OroStyleBook/layouts/default/oro_stylebook_group/status_labels.html.twig'
+
+        - '@addTree':
+            items:
+                group_element_components_status_label_view:
+                    blockType: group_element
+                    options:
+                        anchor: status_label
+                        label: oro_stylebook.groups.ui_elements.status_label.title
+                group_element_components_status_label:
+                    blockType: group_element_item
+                    options:
+                        description: oro_stylebook.groups.ui_elements.status_label.description
+                style_book_components_status_label:
+                    blockType: block
+                style_book_components_product_sticker_new:
+                    blockType: block
+                style_book_components_product_sticker_sale:
+                    blockType: block
+            tree:
+                style_book_content:
+                    group_element_components_status_label_view:
+                        group_element_components_status_label:
+                            style_book_components_status_label: ~
+                            style_book_components_product_sticker_new: ~
+                            style_book_components_product_sticker_sale: ~
+
+    conditions: 'context["group"]=="ui_elements"'

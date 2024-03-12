@@ -1,7 +1,7 @@
 /* @theme: default; */
 
 .inline-view-editor {
-    margin-bottom: $offset-y-m;
+    margin-bottom: spacing('sm');
 
     &__input-wrap {
         display: inline-block;
@@ -16,7 +16,7 @@
     &__btn-wrap {
         display: inline-block;
 
-        margin-left: $offset-y-m;
+        margin-left: spacing('sm');
     }
 
     .btn {

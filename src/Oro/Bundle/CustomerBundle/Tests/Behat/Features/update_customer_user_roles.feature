@@ -10,7 +10,7 @@ Feature: Update customer user roles
       | User  | second_session |
     And I proceed as the User
     And I signed in as NancyJSallee@example.org on the store frontend
-    And I follow "Account"
+    And I click "Account Dropdown"
     And I click "Users"
     And click Edit NancyJSallee@example.org in grid
     And I fill form with:
@@ -30,7 +30,7 @@ Feature: Update customer user roles
   Scenario: Customer user unable to update his roles
     Given I proceed as the User
     And I signed in as AmandaRCole@example.org on the store frontend
-    And I follow "Account"
+    And I click "Account Dropdown"
     And I click "Users"
     And I should not see following actions for AmandaRCole@example.org in grid:
       | Edit |

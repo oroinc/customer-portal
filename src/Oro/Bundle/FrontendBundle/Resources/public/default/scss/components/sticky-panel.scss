@@ -1,36 +1,28 @@
 /* @theme: default; */
 
-.sticky-panel {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: $sticky-panel-z-index;
+.sticky {
+    position: sticky;
+    z-index: z('base') + 1;
 
-    display: none;
-    width: 100%;
-
-    background: $sticky-panel-background;
+    &--top {
+        top: var(--sticky-position-top-offset, 0);
+    }
 
     &--bottom {
-        top: auto;
-        bottom: 0;
+        bottom: var(--sticky-position-top-offset, 0);
     }
 
-    &--background-less {
-        background: transparent;
+    @each $key, $value in $breakpoints {
+        @include breakpoint($key) {
+            &--on-#{$key} {
+                position: sticky;
+            }
+        }
     }
+}
 
-    &__content {
-        width: $sticky-panel-width;
-        margin: 0 auto;
-    }
-
-    &__toolbar {
-        background: $sticky-panel-background;
-        box-shadow: $sticky-panel-box-shadow;
-    }
-
-    &.has-content {
-        display: block;
-    }
+.sticky-placeholder {
+    display: block;
+    visibility: hidden;
+    pointer-events: none;
 }

@@ -5,6 +5,7 @@ $grid-template-columns: var(
     --grid-template-columns,
     repeat(var(--grid-column-count, #{$grid-column-count}), minmax(0, 1fr))
 ) !default;
-$grid-gap: var(--grid-gap, #{$offset-x}) !default;
+$grid-auto-rows: var(--grid-auto-rows, auto) !default;
+$grid-gap: var(--grid-gap, #{spacing('base')}) !default;
 
 $grid-aligns: start, center, end !default;

@@ -6,3 +6,7 @@ layout:
             id: middle_bar_search
             parentId: middle_bar_center
             blockType: block
+            options:
+                vars:
+                    searchType: '=data["system_config_provider"].getValue("oro_frontend.search_on_smaller_screens")'
+                    standaloneMainMenu: '=data["system_config_provider"].getValue("oro_frontend.standalone_main_menu")'

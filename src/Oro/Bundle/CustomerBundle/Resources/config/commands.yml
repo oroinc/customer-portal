@@ -5,6 +5,6 @@ services:
     Oro\Bundle\CustomerBundle\Command\GenerateCustomerUserWsseHeaderCommand:
         arguments:
             - '@doctrine'
-            - '@oro_wsse_authentication.service_locator.encoder' # Created in WsseSecurityListenerFactory
+            - '@oro_wsse_authentication.service_locator.hasher' # Created in WsseSecurityAuthenticatorFactory
         tags:
             - { name: console.command }

@@ -1,3 +1,4 @@
+<% let oroui = _.macros('oroui') %>
 <div class="datagrid-manager settings">
     <div class="datagrid-manager__header">
         <h5 class="datagrid-manager__title"><%- _.__('oro_frontend.settings.title') %></h5>
@@ -5,19 +6,19 @@
     <div class="datagrid-manager-filter" data-role="datagrid-settings-filter"></div>
     <div class="datagrid-manager__actions">
         <button type="button"
-                class="btn btn--link btn--no-x-offset btn--no-y-offset"
+                class="btn--outlined btn--text btn--no-padding btn--size-small"
                 data-role="datagrid-settings-select-all"
         ><%- _.__('oro.datagrid.settings.select_all')%></button>
         <span class="datagrid-manager__separator" aria-hidden="true">|</span>
         <button type="button"
-                class="btn btn--link btn--no-x-offset btn--no-y-offset"
+                class="btn--outlined btn--text btn--no-padding btn--size-small"
                 data-role="datagrid-settings-unselect-all"
         ><%- _.__('oro.datagrid.settings.deselect_all')%></button>
     </div>
     <div class="datagrid-manager-table" data-role="datagrid-settings-table"></div>
     <div class="datagrid-manager__footer" data-role="datagrid-settings-footer">
         <button type="button"
-                class="btn btn--link btn--no-x-offset btn--no-y-offset datagrid-manager__reset-btn"
+                class="btn btn--outlined btn--text btn--no-padding btn--size-small datagrid-manager__reset-btn"
                 data-role="datagrid-settings-reset"
         >
             <span class="fa fa-refresh" aria-hidden="true"></span>
@@ -25,8 +26,10 @@
         </button>
     </div>
     <button type="button"
-            class="close-dialog"
+            class="close-dialog absolute btn btn--plain btn--text"
             data-role="close"
             title="<%- _.__('Close') %>"
-            aria-label="<%- _.__('oro_frontend.settings.close.aria_label') %>"></button>
+            aria-label="<%- _.__('oro_frontend.settings.close.aria_label') %>">
+        <%= oroui.renderIcon({name: 'close', extraClass: 'theme-icon--medium'}) %>
+    </button>
 </div>

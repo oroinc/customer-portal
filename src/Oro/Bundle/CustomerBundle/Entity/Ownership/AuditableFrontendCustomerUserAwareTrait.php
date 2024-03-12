@@ -2,27 +2,22 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity\Ownership;
 
+use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 
+/**
+* AuditableFrontendCustomerUserAware trait
+*
+*/
 trait AuditableFrontendCustomerUserAwareTrait
 {
     use AuditableFrontendCustomerAwareTrait;
 
-    /**
-     * @var CustomerUser
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser", cascade={"persist"})
-     * @ORM\JoinColumn(name="customer_user_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          }
-     *      }
-     * )
-     */
-    protected $customerUser;
+    #[ORM\ManyToOne(targetEntity: CustomerUser::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'customer_user_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
+    protected ?CustomerUser $customerUser = null;
 
     /**
      * @return CustomerUser|null

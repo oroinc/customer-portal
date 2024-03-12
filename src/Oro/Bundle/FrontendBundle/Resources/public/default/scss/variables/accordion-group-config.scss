@@ -1,13 +1,20 @@
 /* @theme: default; */
 
-$accordion-group-trigger-font-size: inherit !default;
+$accordion-group-trigger-background: none !default;
+$accordion-group-trigger-width: 100% !default;
+$accordion-group-trigger-font-size: 18px !default;
+$accordion-group-trigger-font-weight: font-weight('semi-bold') !default;
+$accordion-group-trigger-line-height: 1.5 !default;
+$accordion-group-trigger-color: currentColor !default;
+$accordion-group-trigger-border: none !default;
+$accordion-group-trigger-display: grid !default;
+$accordion-group-trigger-grid-auto-flow: column !default;
+$accordion-group-trigger-gap: spacing('sm') !default;
+$accordion-group-trigger-align-items: center !default;
+$accordion-group-trigger-justify-content: start !default;
+$accordion-group-trigger-padding-block: spacing('base') !default;
+$accordion-group-trigger-padding-inline: 0 !default;
 
-$accordion-group-trigger-expanded-color: get-color('additional', 'dark') !default;
-$accordion-group-container-offset: 0 0 $offset-y 0 !default;
+$accordion-group-divider: 1px solid get-var-color('neutral', 'grey2') !default;
 
-$accordion-group-trigger-icon-color: get-color('additional', 'dark') !default;
-$accordion-group-trigger-icon-offset: -2px $offset-x-s 0 !default;
-$accordion-group-trigger-icon-size: 16px !default;
-$accordion-group-trigger-icon-transition: transform 200ms linear !default;
-
-$accordion-group-container-offset: $offset-y !default;
+$accordion-group-container-offset: 0 0 spacing('base') 0 !default;

@@ -1,6 +1,12 @@
 /* @theme: default; */
 
-$page-main-offset-top: 15px !default;
+$page-main-offset-top: spacing('base') !default;
 $page-main-max-width: $site-width !default;
-$page-main-inner-offset: 0 $offset-x-m !default;
+$page-main-inner-offset: 0 28px 0 !default;
 $page-main-content-offset: 0 auto 70px !default;
+
+$page-main-header-offset-top: spacing('sm') !default;
+
+// Tablet
+$page-main-mobile-tablet-inner-offset: 0 spacing('base') 0 !default;
+$page-main-tablet-offset-top: spacing('sm') !default;

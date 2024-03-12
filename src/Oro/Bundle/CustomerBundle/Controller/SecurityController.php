@@ -3,7 +3,8 @@
 namespace Oro\Bundle\CustomerBundle\Controller;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Oro\Bundle\LayoutBundle\Attribute\Layout;
+use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -16,15 +17,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="oro_customer_customer_user_security_login")
-     * @Layout()
      *
      * @param Request $request
      * @return array|RedirectResponse
      */
+    #[Route(path: '/login', name: 'oro_customer_customer_user_security_login')]
+    #[Layout]
     public function loginAction(Request $request)
     {
-        if ($this->getUser()) {
+        if ($this->getUser() instanceof AbstractUser) {
             return $this->redirect($this->generateUrl('oro_customer_frontend_customer_user_profile'));
         }
 
@@ -35,7 +36,8 @@ class SecurityController extends AbstractController
             return new JsonResponse(['redirectUrl' => $redirectUrl], 401);
         }
 
-        $registrationAllowed = (bool) $this->get(ConfigManager::class)->get('oro_customer.registration_allowed');
+        $registrationAllowed = (bool) $this->container->get(ConfigManager::class)
+            ->get('oro_customer.registration_allowed');
 
         return [
             'data' => [
@@ -45,16 +47,16 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/login-check", name="oro_customer_customer_user_security_check")
      *
      * @param Request $request
      * @return RedirectResponse
      */
+    #[Route(path: '/login-check', name: 'oro_customer_customer_user_security_check')]
     public function checkAction(Request $request)
     {
         if (!$request->isMethod('POST')) {
             return $this->redirectToRoute(
-                $this->getUser()
+                $this->getUser() instanceof AbstractUser
                     ? 'oro_customer_frontend_customer_user_profile'
                     : 'oro_customer_customer_user_security_login'
             );
@@ -66,9 +68,7 @@ class SecurityController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/logout", name="oro_customer_customer_user_security_logout")
-     */
+    #[Route(path: '/logout', name: 'oro_customer_customer_user_security_logout')]
     public function logoutAction()
     {
         throw new \RuntimeException('You must activate the logout in your security firewall configuration.');

@@ -18,55 +18,36 @@
 
     &__header {
         display: $fullscreen-popup-header-display;
-        flex-wrap: wrap;
         align-items: $fullscreen-popup-header-align-items;
         flex-shrink: $fullscreen-popup-header-flex-shrink;
+        gap: $fullscreen-popup-header-gap;
 
-        position: $fullscreen-popup-header-position;
+        justify-content: $fullscreen-popup-header-justify-content;
+
         z-index: $fullscreen-popup-header-z-index;
-        right: $fullscreen-popup-header-right;
-        left: $fullscreen-popup-header-left;
-
-        min-height: $fullscreen-popup-header-min-height;
 
         @include safe-area-offset(padding, $fullscreen-popup-header-offset);
 
         background: $fullscreen-popup-header-bg;
-        border-bottom: $fullscreen-popup-header-border-bottom;
     }
 
-    &__text {
-        display: $fullscreen-popup-text-display;
-        align-items: $fullscreen-popup-text-align-items;
-
-        padding: $fullscreen-popup-text-offset;
-
-        font-size: $base-font-size--s;
-        font-weight: $fullscreen-popup-text-weight;
-        text-transform: $fullscreen-popup-text-text-transform;
-
-        cursor: $fullscreen-popup-text-cursor;
-
-        [class^='fa-'],
-        [class*=' fa-'] {
-            margin-right: $fullscreen-popup-text-fa-icon-margin-right;
-
-            line-height: $fullscreen-popup-text-fa-icon-line-height;
-
-            vertical-align: $fullscreen-popup-text-fa-icon-vertical-align;
-        }
+    &__icon {
+        flex-shrink: $fullscreen-popup-icon-flex-shrink;
+        align-self: $fullscreen-popup-icon-align-self;
     }
 
     &__label {
         display: $fullscreen-popup-label-display;
-    }
+        justify-content: $fullscreen-popup-label-justify-content;
+        flex-grow: 1;
 
-    &__badge {
-        margin-right: $fullscreen-popup-badge-offset;
+        padding: $fullscreen-popup-label-offset;
 
-        @include badge($badge-bg: $fullscreen-popup-badge-bg);
+        font-size: $fullscreen-popup-label-font-size;
+        font-weight: $fullscreen-popup-label-weight;
+        line-height: $fullscreen-popup-label-line-height;
 
-        vertical-align: $fullscreen-popup-badge-vertical-align;
+        cursor: $fullscreen-popup-label-cursor;
     }
 
     &__content {
@@ -107,7 +88,6 @@
 
         > .btn {
             width: $fullscreen-popup-footer-btn-width;
-            margin: $fullscreen-popup-footer-btn-offset;
         }
     }
 
@@ -129,8 +109,49 @@
         }
     }
 
+    &__backdrop {
+        position: fixed;
+        inset: 0;
+
+        background-color: $fullscreen-popup-backdrop-background-color;
+        z-index: $fullscreen-popup-backdrop-z-index;
+
+        .fullscreen-popup & {
+            z-index: $fullscreen-popup-footer-z-index;
+        }
+
+        transition: $fullscreen-popup-backdrop-transition;
+
+        &:not(.show) {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+
     // Make correct padding of popup content for any content
     .tab-content__wrapper {
         padding: 20px;
+    }
+
+    &--transition {
+        transition: $fullscreen-popup-transition;
+
+        &:not(.show) {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+    }
+}
+
+@include breakpoint('mobile-big-min') {
+    .fullscreen-popup {
+        &--align-left {
+            right: auto;
+
+            &:not(.show) {
+                opacity: 1;
+                transform: translateX(-100%);
+            }
+        }
     }
 }

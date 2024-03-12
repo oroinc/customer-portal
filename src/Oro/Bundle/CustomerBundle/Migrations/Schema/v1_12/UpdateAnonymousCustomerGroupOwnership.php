@@ -39,7 +39,7 @@ SQL;
 
         $this->logQuery($logger, $selectOrganizationQuery);
 
-        $organizationId = $this->connection->fetchColumn($selectOrganizationQuery);
+        $organizationId = $this->connection->fetchOne($selectOrganizationQuery);
 
         $selectUserQuery = <<<'SQL'
 SELECT u.id FROM oro_user u
@@ -59,7 +59,7 @@ SQL;
 
         $this->logQuery($logger, $selectUserQuery, $params, $types);
 
-        $userId = $this->connection->fetchColumn($selectUserQuery, $params, 0, $types);
+        $userId = $this->connection->fetchOne($selectUserQuery, $params, $types);
 
         $selectAnonymousCustomerGroup = <<<'SQL'
 SELECT cv.text_value FROM oro_config_value cv
@@ -78,7 +78,7 @@ SQL;
         ];
 
         $anonymousCustomerGroupId = $this->connection
-            ->fetchColumn($selectAnonymousCustomerGroup, $params, 0, $types);
+            ->fetchOne($selectAnonymousCustomerGroup, $params, $types);
 
         $updateQuery = <<<'SQL'
 UPDATE oro_customer_group 

@@ -2,11 +2,10 @@
 
 $mega-menu-depth-2-list-column-count: 4 !default;
 $mega-menu-depth-2-list-column-width: 200px !default;
-$mega-menu-depth-2-list-column-gap: 48px !default;
-$mega-menu-depth-2-list-row-gap: $offset-y !default;
-$mega-menu-depth-2-list-column-rule: 1px solid get-color('additional', 'light') !default;
+$mega-menu-depth-2-list-column-gap: 144px !default;
+$mega-menu-depth-2-list-row-gap: spacing('base') !default;
 $mega-menu-depth-2-list-margin-top: -$mega-menu-depth-2-list-row-gap !default;
-$mega-menu-depth-2-list-padding-inline-end: $offset-x !default;
+$mega-menu-depth-2-list-padding-inline-end: spacing('base') !default;
 
 $mega-menu-depth-2-image-link-display: block !default;
 
@@ -19,8 +18,9 @@ $mega-menu-depth-2-scroll-display: grid !default;
 $mega-menu-depth-2-scroll-gap: 24px 0 !default;
 $mega-menu-depth-2-scroll-grid-template-rows: 1fr auto !default;
 
-$mega-menu-depth-2-scroll-shadow-margin: -$offset-y-s !default;
-$mega-menu-depth-2-scroll-shadow-padding: $offset-y-s !default;
+$mega-menu-depth-2-scroll-shadow-margin: 0 !default;
+$mega-menu-depth-2-scroll-shadow-padding: 0 var(--system-scroll-width, #{spacing('base')}) 0 0 !default;
+$mega-menu-depth-2-scroll-shadow-offset: spacing('xs') !default;
 $mega-menu-depth-2-scroll-shadow-overflow: auto !default;
 $mega-menu-depth-2-scroll-shadow-height: 100% !default;
 
@@ -31,30 +31,42 @@ $mega-menu-depth-2-list-grid-gap: 32px 8px !default;
 $mega-menu-depth-2-list-only-child-grid-row: #{1 / 3} !default;
 
 $mega-menu-depth-2-list-before-content: '' !default;
-$mega-menu-depth-2-list-before-background: get-color('additional', 'ultra') !default;
+$mega-menu-depth-2-list-before-background: get-color('neutral', 'white-100') !default;
 $mega-menu-depth-2-list-before-height: $mega-menu-depth-2-list-row-gap !default;
 $mega-menu-depth-2-list-before-display: block !default;
 $mega-menu-depth-2-list-before-margin-bottom: -$mega-menu-depth-2-list-row-gap !default;
-$mega-menu-depth-2-list-before-margin-inline-end: -$offset-x !default;
+$mega-menu-depth-2-list-before-margin-inline-end: -#{spacing('base')} !default;
 $mega-menu-depth-2-list-before-column-span: all !default;
 $mega-menu-depth-2-list-before-position: relative !default;
 $mega-menu-depth-2-list-before-pointer-events: none !default;
 
-$mega-menu-depth-2-item-margin-inline-end: -$offset-x !default;
-$mega-menu-depth-2-item-padding-top: $offset-y !default;
+$mega-menu-depth-2-item-margin-inline-end: -#{spacing('base')} !default;
+$mega-menu-depth-2-item-padding-top: spacing('base') !default;
 $mega-menu-depth-2-item-break-inside: avoid !default;
+
+$mega-menu-depth-2-item-inner-margin-top: spacing('base') !default;
 
 $mega-menu-depth-2-button-display: none !default;
 
-$mega-menu-depth-2-link-color: get-color('primary', 'dark') !default;
+$mega-menu-depth-2-link-color: get-color('primary', 'main') !default;
 $mega-menu-depth-2-link-text-transform: uppercase !default;
+$mega-menu-depth-2-link-font-weight: font-weight('semi-bold') !default;
+$mega-menu-depth-2-link-text-decoration: underline !default;
 $mega-menu-depth-2-link-position: relative !default;
 
-$mega-menu-depth-2-link-hover-color: get-color('primary', 'dark') !default;
+$mega-menu-depth-2-link-hover-color: get-color('primary', 'main') !default;
+$mega-menu-depth-2-link-hover-text-decoration: none !default;
 
 $mega-menu-depth-2-featured-list-display: grid !default;
-$mega-menu-depth-2-featured-list-gap: $offset-y 24px !default;
+$mega-menu-depth-2-featured-list-gap: spacing('base') 24px !default;
 $mega-menu-depth-2-featured-list-grid-template-columns: repeat(auto-fit, 220px) !default;
+
+// Menu Stack Mode
+$mega-menu-depth-2-stack-mode-link-hover-color: get-color('primary', 'hover') !default;
+$mega-menu-depth-2-stack-mode-link-hover-background-color: get-color('primary', 'light') !default;
+
+$mega-menu-depth-2-stack-mode-link-list-columns-color: get-color('text', 'primary') !default;
+$mega-menu-depth-2-stack-mode-link-list-columns-hover-color: get-color('text', 'primary') !default;
 
 // Mobile Big
 $mega-menu-depth-2-list-only-child-mobile-big-grid-row: #{1 / 3} !default;
@@ -65,8 +77,9 @@ $mega-menu-depth-2-inner-mobile-big-left: 100% !default;
 $mega-menu-depth-2-inner-mobile-big-bottom: 0 !default;
 $mega-menu-depth-2-inner-mobile-big-z-index: z('base') + 2 !default;
 $mega-menu-depth-2-inner-mobile-big-width: 100% !default;
-$mega-menu-depth-2-inner-mobile-big-background: get-color('additional', 'ultra') !default;
-$mega-menu-depth-2-inner-mobile-big-transition: left .4s linear !default;
+$mega-menu-depth-2-inner-mobile-big-background: get-color('neutral', 'white-100') !default;
+$mega-menu-depth-2-inner-mobile-big-transition: left 230ms cubic-bezier(.5, .5, .25, 1),
+    opacity 230ms cubic-bezier(.5, .5, .25, 1) !default;
 
 $mega-menu-depth-2-inner-mobile-big-current-left: 0 !default;
 

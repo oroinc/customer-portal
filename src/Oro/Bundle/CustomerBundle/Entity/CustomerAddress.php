@@ -4,116 +4,76 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Extend\Entity\Autocomplete\OroCustomerBundle_Entity_CustomerAddress;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerAddressRepository;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 
 /**
  * Customer Address entity.
  *
- * @ORM\Table("oro_customer_address")
- * @ORM\HasLifecycleCallbacks()
- * @Config(
- *       defaultValues={
- *          "entity"={
- *              "icon"="fa-map-marker"
- *          },
- *          "activity"={
- *              "immutable"=true
- *          },
- *          "attachment"={
- *              "immutable"=true
- *          },
- *          "ownership"={
- *              "owner_type"="USER",
- *              "owner_field_name"="owner",
- *              "owner_column_name"="owner_id",
- *              "frontend_owner_type"="FRONTEND_CUSTOMER",
- *              "frontend_owner_field_name"="frontendOwner",
- *              "frontend_owner_column_name"="frontend_owner_id",
- *              "organization_field_name"="systemOrganization",
- *              "organization_column_name"="system_org_id"
- *          },
- *          "security"={
- *              "type"="ACL",
- *              "group_name"="commerce"
- *          }
- *      }
- * )
- * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\CustomerAddressRepository")
  * @mixin OroCustomerBundle_Entity_CustomerAddress
  */
+#[ORM\Entity(repositoryClass: CustomerAddressRepository::class)]
+#[ORM\Table('oro_customer_address')]
+#[ORM\HasLifecycleCallbacks]
+#[Config(
+    defaultValues: [
+        'entity' => ['icon' => 'fa-map-marker'],
+        'activity' => ['immutable' => true],
+        'attachment' => ['immutable' => true],
+        'ownership' => [
+            'owner_type' => 'USER',
+            'owner_field_name' => 'owner',
+            'owner_column_name' => 'owner_id',
+            'frontend_owner_type' => 'FRONTEND_CUSTOMER',
+            'frontend_owner_field_name' => 'frontendOwner',
+            'frontend_owner_column_name' => 'frontend_owner_id',
+            'organization_field_name' => 'systemOrganization',
+            'organization_column_name' => 'system_org_id'
+        ],
+        'security' => ['type' => 'ACL', 'group_name' => 'commerce']
+    ]
+)]
 class CustomerAddress extends AbstractDefaultTypedAddress implements AddressPhoneAwareInterface, ExtendEntityInterface
 {
     use ExtendEntityTrait;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "header"="Address ID"
-     *          }
-     *      }
-     * )
-     */
-    protected $id;
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ConfigField(defaultValues: ['importexport' => ['header' => 'Address ID']])]
+    protected ?int $id = null;
 
     /**
      * @var Customer|null
-     *
-     * @ORM\ManyToOne(targetEntity="Customer", inversedBy="addresses")
-     * @ORM\JoinColumn(name="frontend_owner_id", referencedColumnName="id", onDelete="CASCADE")
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "header"="Customer",
-     *              "identity"=true
-     *          }
-     *      }
-     * )
      */
+    #[ORM\ManyToOne(targetEntity: Customer::class, inversedBy: 'addresses')]
+    #[ORM\JoinColumn(name: 'frontend_owner_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ConfigField(defaultValues: ['importexport' => ['header' => 'Customer', 'identity' => true]])]
     protected $frontendOwner;
 
     /**
-     * @var Collection|CustomerUserAddressToAddressType[]
-     *
-     * @ORM\OneToMany(
-     *      targetEntity="CustomerAddressToAddressType",
-     *      mappedBy="address",
-     *      cascade={"persist", "remove", "detach", "refresh"},
-     *      orphanRemoval=true
-     * )
+     * @var Collection<int, CustomerAddressToAddressType>
      */
-    protected $types;
+    #[ORM\OneToMany(
+        mappedBy: 'address',
+        targetEntity: CustomerAddressToAddressType::class,
+        cascade: ['persist', 'remove', 'detach', 'refresh'],
+        orphanRemoval: true
+    )]
+    protected ?Collection $types = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="phone", type="string", length=255, nullable=true)
-     * @ConfigField(
-     *  defaultValues={
-     *      "entity"={
-     *          "contact_information"="phone"
-     *      }
-     *  }
-     * )
-     */
-    protected $phone;
+    #[ORM\Column(name: 'phone', type: Types::STRING, length: 255, nullable: true)]
+    #[ConfigField(defaultValues: ['entity' => ['contact_information' => 'phone']])]
+    protected ?string $phone = null;
 
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_primary", type="boolean", nullable=true)
-     */
-    protected $primary;
+    #[ORM\Column(name: 'is_primary', type: Types::BOOLEAN, nullable: true)]
+    protected ?bool $primary = null;
 
     public function __construct()
     {

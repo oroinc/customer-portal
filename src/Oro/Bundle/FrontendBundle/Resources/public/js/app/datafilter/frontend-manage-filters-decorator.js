@@ -57,13 +57,15 @@ define(function(require, exports, module) {
             if (this.applyMarkup) {
                 this.updateDropdownMarkup(instance);
 
-                widget.find('.datagrid-manager__footer').append($('<button></button>', {
+                const icon = _.macros('oroui::renderIcon')({name: 'close'});
+                const $button = $('<button></button>', {
                     'type': 'button',
-                    'class': 'close-dialog',
+                    'class': 'close-dialog absolute btn btn--plain btn--text',
                     'title': __('Close'),
                     'aria-label': __('oro_frontend.filter_manager.close.aria_label'),
                     'data-role': 'close'
-                }));
+                });
+                widget.find('.datagrid-manager__footer').append($button.append(icon));
             }
 
             FrontendMultiSelectDecorator.prototype._setDropdownDesign.call(this);
@@ -148,7 +150,7 @@ define(function(require, exports, module) {
                         'role': 'button',
                         'href': toApply ? null : '#',
                         'aria-disabled': toApply ? true : null
-                    }).addClass('btn btn--link btn--no-x-offset btn--no-y-offset');
+                    }).addClass('btn btn--outlined btn--size-small btn--text btn--no-padding');
                 }
             }
         },

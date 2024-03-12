@@ -11,7 +11,7 @@ Feature: Customer user reset password link expire
   Scenario: Change password for another customer user on back office not affected reset password link
     Given I proceed as the Unauthorized
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I click "Forgot Your Password?"
     And I fill form with:
       | Email Address | AmandaRCole@example.org |
@@ -37,7 +37,7 @@ Feature: Customer user reset password link expire
   Scenario: Reset password link must be expire after customer user login
     Given I proceed as the Unauthorized
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I click "Forgot Your Password?"
     And I fill form with:
       | Email Address | AmandaRCole@example.org |
@@ -55,7 +55,7 @@ Feature: Customer user reset password link expire
   Scenario: Reset password link must be expire after customer user change his password
     Given I proceed as the Unauthorized
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I click "Forgot Your Password?"
     And I fill form with:
       | Email Address | AmandaRCole@example.org |
@@ -65,8 +65,9 @@ Feature: Customer user reset password link expire
     And I should be on Customer User Password Reset page
 
     Given I proceed as the User
-    When I follow "Account"
-    And I click "Edit Profile Button"
+    And I click "Account Dropdown"
+    And I click "My Profile"
+    And I click "Edit"
     And I fill "Customer User Profile Form" with:
       | Password         | NeWpAsW0Rd    |
       | New Password     | NeWpAsW0RdDDD |
@@ -81,7 +82,7 @@ Feature: Customer user reset password link expire
   Scenario: Reset password link must be expire after customer user change his email
     Given I proceed as the Unauthorized
     And I am on the homepage
-    And I click "Sign In"
+    And I click "Log In"
     And I click "Forgot Your Password?"
     And I fill form with:
       | Email Address | AmandaRCole@example.org |
@@ -91,7 +92,7 @@ Feature: Customer user reset password link expire
     And I should be on Customer User Password Reset page
 
     Given I proceed as the User
-    When I follow "Account"
+    And I click "Account Dropdown"
     And I click "Edit Profile Button"
     And I fill "Customer User Profile Form" with:
       | Email Address | new-amanda-email@example.com |

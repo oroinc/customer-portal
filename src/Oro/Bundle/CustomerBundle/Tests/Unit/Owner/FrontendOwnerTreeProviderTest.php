@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Owner;
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Async\Topic\CustomerCalculateOwnerTreeCacheTopic;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
@@ -46,7 +45,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
         $conn = new ConnectionMock([], new DriverMock());
         $conn->setDatabasePlatform(new MySqlPlatform());
         $em = $this->getTestEntityManager($conn);
-        $em->getConfiguration()->setMetadataDriverImpl(new AnnotationDriver(new AnnotationReader()));
+        $em->getConfiguration()->setMetadataDriverImpl(new AttributeDriver([]));
 
         $doctrine = $this->createMock(ManagerRegistry::class);
         $doctrine->expects(self::any())

@@ -104,7 +104,7 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
         $repository->expects($this->never())
             ->method('findUserByEmail');
 
-        $this->assertSame($user, $this->userLoader->loadUserByUsername($username));
+        $this->assertSame($user, $this->userLoader->loadUserByIdentifier($username));
     }
 
     /**
@@ -132,7 +132,7 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
             ->with($username, $caseInsensitiveEmailAddressesEnabled)
             ->willReturn($user);
 
-        $this->assertSame($user, $this->userLoader->loadUserByUsername($username));
+        $this->assertSame($user, $this->userLoader->loadUserByIdentifier($username));
     }
 
     /**

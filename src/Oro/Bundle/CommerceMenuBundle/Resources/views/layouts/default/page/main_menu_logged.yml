@@ -10,5 +10,5 @@ layout:
                     options:
                         visible: 'context["is_logged_in"]'
             tree:
-                header_row:
+                middle_bar_right:
                     header_row_shopping: ~

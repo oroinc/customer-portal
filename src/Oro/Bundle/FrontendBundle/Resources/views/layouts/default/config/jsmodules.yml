@@ -5,13 +5,14 @@ aliases:
     orofrontend/js/app/views/frontend-search-boolean-filter$: orofrontend/default/js/app/views/frontend-search-boolean-filter
     orofrontend/js/app/views/frontend-select-filter$: orofrontend/default/js/app/views/frontend-select-filter
     slick$: '@oroinc/slick-carousel/slick/slick'
+    sticky-element$: orofrontend/default/js/app/views/sticky-element-view
 app-modules:
     - orofrontend/default/js/app/modules/input-widgets
     - orofrontend/default/js/app/modules/modals-app-loading-bar-module
     - orofrontend/default/js/app/modules/modals-module
     - orofrontend/default/js/app/modules/object-fit-polyfill-module
     - orofrontend/default/js/app/modules/zoom-disable
-    - orofrontend/default/js/app/modules/template-macros-module
+    - orofrontend/default/js/app/modules/sticky-manager-module
     - orofrontend/js/app/modules/component-shortcuts-module
     - orofrontend/js/app/modules/inline-editor-types-map-module
 configs:
@@ -37,7 +38,7 @@ dynamic-imports:
         - orofrontend/default/js/app/views/fullscreen-popup-view
         - orofrontend/default/js/app/views/proxy-focus-view
         - orofrontend/default/js/app/views/scroll-top-view
-        - orofrontend/default/js/app/views/sticky-panel-view
+        - orofrontend/default/js/app/views/sticky-element-view
         - orofrontend/default/js/widgets/elastic-area-widget
         - orofrontend/default/js/widgets/expand-text-widget
         - orofrontend/default/js/widgets/print-page-widget
@@ -52,6 +53,8 @@ dynamic-imports:
         - orofrontend/js/app/views/page/content-view
         - orofrontend/js/app/views/scroll-view
         - orofrontend/js/app/views/scroll-shadow-view
+        - orofrontend/js/app/views/currency-localization/currency-localization-control-view
+        - orofrontend/default/js/app/views/increment-input/increment-input-view
     orodatagrid:
         - orofrontend/default/js/app/views/choice-filter
         - orofrontend/js/app/components/frontend-datagrid-component

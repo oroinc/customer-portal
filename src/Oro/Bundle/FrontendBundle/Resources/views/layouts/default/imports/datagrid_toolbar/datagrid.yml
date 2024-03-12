@@ -16,7 +16,7 @@ layout:
             optionValue: false
         - '@move':
             id: __datagrid_toolbar_sorting
-            parentId: __datagrid_toolbar_leftside_container
+            parentId: __datagrid_toolbar_rightside_container
         - '@move':
             id: __datagrid_toolbar_mass_actions
             parentId: __datagrid_toolbar_leftside_container
@@ -27,6 +27,9 @@ layout:
         - '@move':
             id: __datagrid_toolbar_pagination
             parentId: __datagrid_toolbar_base_container
+        - '@move':
+            id: __datagrid_toolbar_pagination_info
+            parentId: __datagrid_toolbar_leftside_container
         - '@move':
             id: __datagrid_toolbar_page_size
             parentId: __datagrid_toolbar_rightside_container

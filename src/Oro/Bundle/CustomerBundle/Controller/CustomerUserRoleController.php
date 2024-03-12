@@ -4,8 +4,8 @@ namespace Oro\Bundle\CustomerBundle\Controller;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateHandler;
-use Oro\Bundle\SecurityBundle\Annotation\Acl;
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\SecurityBundle\Attribute\Acl;
+use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Oro\Bundle\UIBundle\Route\Router;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCapabilityProvider;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
@@ -22,12 +22,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class CustomerUserRoleController extends AbstractController
 {
     /**
-     * @Route("/", name="oro_customer_customer_user_role_index")
-     * @Template
-     * @AclAncestor("oro_customer_customer_user_role_view")
      *
      * @return array
      */
+    #[Route(path: '/', name: 'oro_customer_customer_user_role_index')]
+    #[Template]
+    #[AclAncestor('oro_customer_customer_user_role_view')]
     public function indexAction()
     {
         return [
@@ -36,18 +36,17 @@ class CustomerUserRoleController extends AbstractController
     }
 
     /**
-     * @Route("/view/{id}", name="oro_customer_customer_user_role_view", requirements={"id"="\d+"})
-     * @Template
-     * @Acl(
-     *      id="oro_customer_customer_user_role_view",
-     *      type="entity",
-     *      class="OroCustomerBundle:CustomerUserRole",
-     *      permission="VIEW"
-     * )
-     *
      * @param CustomerUserRole $role
      * @return array
      */
+    #[Route(path: '/view/{id}', name: 'oro_customer_customer_user_role_view', requirements: ['id' => '\d+'])]
+    #[Template]
+    #[Acl(
+        id: 'oro_customer_customer_user_role_view',
+        type: 'entity',
+        class: CustomerUserRole::class,
+        permission: 'VIEW'
+    )]
     public function viewAction(CustomerUserRole $role)
     {
         return [
@@ -64,37 +63,36 @@ class CustomerUserRoleController extends AbstractController
     }
 
     /**
-     * @Route("/create", name="oro_customer_customer_user_role_create")
-     * @Template("@OroCustomer/CustomerUserRole/update.html.twig")
-     * @Acl(
-     *      id="oro_customer_customer_user_role_create",
-     *      type="entity",
-     *      class="OroCustomerBundle:CustomerUserRole",
-     *      permission="CREATE"
-     * )
-     *
      * @param Request $request
      * @return array
      */
+    #[Route(path: '/create', name: 'oro_customer_customer_user_role_create')]
+    #[Template('@OroCustomer/CustomerUserRole/update.html.twig')]
+    #[Acl(
+        id: 'oro_customer_customer_user_role_create',
+        type: 'entity',
+        class: CustomerUserRole::class,
+        permission: 'CREATE'
+    )]
     public function createAction(Request $request)
     {
         return $this->update(new CustomerUserRole(), $request);
     }
 
     /**
-     * @Route("/update/{id}", name="oro_customer_customer_user_role_update", requirements={"id"="\d+"})
-     * @Template
-     * @Acl(
-     *      id="oro_customer_customer_user_role_update",
-     *      type="entity",
-     *      class="OroCustomerBundle:CustomerUserRole",
-     *      permission="EDIT"
-     * )
      *
      * @param Request $request
      * @param CustomerUserRole $role
      * @return array
      */
+    #[Route(path: '/update/{id}', name: 'oro_customer_customer_user_role_update', requirements: ['id' => '\d+'])]
+    #[Template]
+    #[Acl(
+        id: 'oro_customer_customer_user_role_update',
+        type: 'entity',
+        class: CustomerUserRole::class,
+        permission: 'EDIT'
+    )]
     public function updateAction(Request $request, CustomerUserRole $role)
     {
         return $this->update($role, $request);
@@ -107,17 +105,18 @@ class CustomerUserRoleController extends AbstractController
      */
     protected function update(CustomerUserRole $role, Request $request)
     {
-        $handler = $this->get(CustomerUserRoleUpdateHandler::class);
+        $handler = $this->container->get(CustomerUserRoleUpdateHandler::class);
         $handler->createForm($role);
         $isWidgetContext = (bool)$request->get('_wid', false);
 
         if ($handler->process($role) && !$isWidgetContext) {
             $request->getSession()->getFlashBag()->add(
                 'success',
-                $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruserrole.saved.message')
+                $this->container->get(TranslatorInterface::class)
+                    ->trans('oro.customer.controller.customeruserrole.saved.message')
             );
 
-            return $this->get(Router::class)->redirect($role);
+            return $this->container->get(Router::class)->redirect($role);
         } else {
             return [
                 'entity' => $role,
@@ -137,12 +136,12 @@ class CustomerUserRoleController extends AbstractController
 
     protected function getRolePrivilegeCategoryProvider(): RolePrivilegeCategoryProvider
     {
-        return $this->get(RolePrivilegeCategoryProvider::class);
+        return $this->container->get(RolePrivilegeCategoryProvider::class);
     }
 
     protected function getRolePrivilegeCapabilityProvider(): RolePrivilegeCapabilityProvider
     {
-        return $this->get(RolePrivilegeCapabilityProvider::class);
+        return $this->container->get(RolePrivilegeCapabilityProvider::class);
     }
 
     /**

@@ -94,7 +94,7 @@ class ConfigMigration
      */
     protected function updateEntityConfigTable(Connection $configConnection, $from, $to, $className)
     {
-        $entity = $configConnection->fetchAssoc(
+        $entity = $configConnection->fetchAssociative(
             'SELECT id, class_name, data FROM oro_entity_config WHERE class_name = ?',
             [$className]
         );
@@ -126,7 +126,7 @@ class ConfigMigration
      */
     protected function updateEntityConfigFieldTables(Connection $configConnection, $from, $to, $className)
     {
-        $entity = $configConnection->fetchAssoc(
+        $entity = $configConnection->fetchAssociative(
             'SELECT id, class_name, data FROM oro_entity_config WHERE class_name = ?',
             [$className]
         );
@@ -134,7 +134,7 @@ class ConfigMigration
             return;
         }
         $id = $entity['id'];
-        $fields = $configConnection->fetchAll(
+        $fields = $configConnection->fetchAllAssociative(
             'SELECT id, data FROM oro_entity_config_field WHERE entity_id = ?',
             [$id]
         );
@@ -154,7 +154,7 @@ class ConfigMigration
             }
         }
 
-        $indexValues = $configConnection->fetchAll(
+        $indexValues = $configConnection->fetchAllAssociative(
             "SELECT id, value FROM oro_entity_config_index_value WHERE code = 'module_name'"
         );
         foreach ($indexValues as $indexValue) {

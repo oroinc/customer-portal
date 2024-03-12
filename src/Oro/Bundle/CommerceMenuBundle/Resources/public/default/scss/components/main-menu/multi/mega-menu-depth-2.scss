@@ -33,6 +33,60 @@
     }
 }
 
+@at-root {
+    .main-menu-stack-mode {
+        .mega-menu-depth-2 {
+            @include main-menu-stack-actions-arrow();
+
+            &__link {
+                font-weight: font-weight('semi-bold');
+                text-decoration: underline;
+                text-transform: none;
+
+                display: grid;
+                align-items: center;
+                padding-inline: 40px 24px;
+                min-height: 44px;
+
+                transition: all 200ms ease-in-out;
+
+                @media (hover: hover) {
+                    &:hover {
+                        background-color: $mega-menu-depth-2-stack-mode-link-hover-background-color;
+                        color: $mega-menu-depth-2-stack-mode-link-hover-color;
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+            &__list--columns {
+                &:has(.mega-menu-depth-2__inner) {
+                    display: grid;
+                    grid-template-columns: repeat(var(--menu-grid-column-count, 4), minmax(260px, 1fr));
+                    gap: spacing('xl') spacing('massive');
+
+                    &:before {
+                        display: none;
+                    }
+                }
+
+                // Set grid column count depend on child count
+                @for $i from 4 through 2 {
+                    &:not(:has(> :nth-child(#{$i}))) {
+                        --menu-grid-column-count: #{$i - 1};
+                    }
+                }
+            }
+
+            &__scroll-shadow {
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
 @include breakpoint('mega-menu-wide') {
     .mega-menu-depth-2 {
         &__scroll {
@@ -44,11 +98,11 @@
             padding: $mega-menu-depth-2-scroll-shadow-padding;
 
             &.shadow-start::before {
-                top: -$mega-menu-depth-2-scroll-shadow-padding;
+                top: -$mega-menu-depth-2-scroll-shadow-offset;
             }
 
             &.shadow-end::after {
-                bottom: -$mega-menu-depth-2-scroll-shadow-padding;
+                bottom: -$mega-menu-depth-2-scroll-shadow-offset;
             }
         }
 
@@ -60,7 +114,6 @@
             column-count: $mega-menu-depth-2-list-column-count;
             column-width: $mega-menu-depth-2-list-column-width;
             column-gap: $mega-menu-depth-2-list-column-gap;
-            column-rule: $mega-menu-depth-2-list-column-rule;
             margin-top: $mega-menu-depth-2-list-margin-top;
             padding-inline-end: $mega-menu-depth-2-list-padding-inline-end;
 
@@ -79,9 +132,12 @@
 
         &__list--columns & {
             &__item {
-                margin-inline-end: $mega-menu-depth-2-item-margin-inline-end;
                 padding-top: $mega-menu-depth-2-item-padding-top;
                 break-inside: $mega-menu-depth-2-item-break-inside;
+            }
+
+            &__inner {
+                margin-top: $mega-menu-depth-2-item-inner-margin-top;
             }
         }
 
@@ -96,12 +152,80 @@
         }
 
         &__link {
+            font-weight: $mega-menu-depth-2-link-font-weight;
             color: $mega-menu-depth-2-link-color;
-            text-transform: $mega-menu-depth-2-link-text-transform;
+            text-decoration: $mega-menu-depth-2-link-text-decoration;
             position: $mega-menu-depth-2-link-position;
 
             &:hover {
                 color: $mega-menu-depth-2-link-hover-color;
+                text-decoration: $mega-menu-depth-2-link-hover-text-decoration;
+            }
+        }
+    }
+
+    .main-menu-stack-mode {
+        .mega-menu-depth-2 {
+            &__actions {
+                &:not(:only-child)::after {
+                    display: none;
+                }
+            }
+
+            &__inner {
+                margin-top: 0;
+            }
+
+            &__scroll {
+                grid-template-rows: max-content auto;
+            }
+
+            &__featured-list {
+                padding: 0 24px 0 40px;
+            }
+
+            &__list--columns {
+                column-count: auto;
+                column-width: auto;
+                column-rule: none;
+
+                &:not(:has(.mega-menu-depth-2__inner)) {
+                    .mega-menu-depth-2__link {
+                        font-weight: font-weight('normal');
+                        color: $mega-menu-depth-2-stack-mode-link-list-columns-color;
+                        text-decoration: none;
+
+                        @media (hover: hover) {
+                            color: $mega-menu-depth-2-stack-mode-link-list-columns-hover-color;
+                        }
+                    }
+
+                    .mega-menu-depth-2__item:not(:first-child) {
+                        padding-top: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include breakpoint('tablet-big') {
+    .main-menu-stack-mode {
+        .mega-menu-depth-2 {
+            &__list--columns {
+                // stylelint-disable-next-line declaration-no-important
+                --menu-grid-column-count: 3 !important;
+            }
+        }
+    }
+}
+
+@include breakpoint('tablet') {
+    .main-menu-stack-mode {
+        .mega-menu-depth-2 {
+            &__list--columns {
+                // stylelint-disable-next-line declaration-no-important
+                --menu-grid-column-count: 2 !important;
             }
         }
     }
@@ -126,12 +250,40 @@
             transition: $mega-menu-depth-2-inner-mobile-big-transition;
         }
 
-        &__item.show &__inner {
-            left: $mega-menu-depth-2-inner-mobile-big-current-left;
-        }
+        @include main-menu-stack-mobile-title();
 
         &__featured {
             padding: $mega-menu-depth-2-featured-mobile-big-padding;
+        }
+
+        .main-menu-stack-mode & {
+            &__actions {
+                height: 44px;
+                margin-inline: spacing('base');
+
+                &:after {
+                    transform: rotate(0deg);
+                }
+            }
+
+            &__title-inner {
+                padding: 0 spacing('base');
+            }
+
+            &__link {
+                font-weight: font-weight('normal');
+                text-decoration: none;
+                padding-inline: 0;
+                margin-inline-end: spacing('lg');
+            }
+
+            &__actions:only-child .mega-menu-depth-2__link:not(.focus-via-arrows-keys:focus) {
+                padding: 0;
+            }
+
+            &__list--columns:has(.mega-menu-depth-2__inner) {
+                display: block;
+            }
         }
     }
 }

@@ -5,31 +5,30 @@
     flex-wrap: wrap;
     justify-content: space-between;
     gap: $datagrid-toolbar-gap;
-    margin: 6px 0;
 
     &__start {
         display: flex;
         align-items: center;
-        gap: $datagrid-tool-gap;
+        gap: $datagrid-tool-gap-start;
         flex-grow: 1;
-        padding: $offset-y-s 0;
+        padding: spacing('xs') 0;
     }
 
     &__center {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: $datagrid-tool-gap;
-        padding: $offset-y-s 0;
+        gap: $datagrid-tool-gap-center;
+        padding: spacing('xs') 0;
     }
 
     &__end {
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        gap: $datagrid-tool-gap;
+        gap: $datagrid-tool-gap-end;
         flex-grow: 1;
-        padding: $offset-y-s 0;
+        padding: spacing('xs') 0;
     }
 
     &__panel {
@@ -38,8 +37,13 @@
 
     &-sticky-container {
         margin: 0 auto;
-        padding: 0 $offset-x-m;
         max-width: $site-width;
+    }
+
+    &-pagination-info {
+        padding: spacing('xs') 0;
+        color: $datagrid-tool-pagination-info-color;
+        font-size: $datagrid-tool-pagination-info-font-size;
     }
 
     .page-size {
@@ -73,11 +77,9 @@
     }
 }
 
-@include breakpoint('product-datagrid-toolbar-narrow') {
-    .datagrid-tool {
-        &__label {
-            display: none;
-        }
+.catalog-actions-panel-container {
+    &:not(:has(.actions-panel)) {
+        display: none;
     }
 }
 
@@ -87,6 +89,10 @@
             .datagrid-tool {
                 &:last-child {
                     flex-basis: auto;
+                }
+
+                &__label {
+                    display: none;
                 }
             }
         }
@@ -125,6 +131,33 @@
             display: none;
         }
     }
+
+    .export-button {
+        padding-left: spacing('sm');
+        padding-right: spacing('sm');
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .datagrid-toolbar {
+        &__start {
+            gap: $datagrid-tool-mobile-big-gap;
+        }
+
+        &__center {
+            gap: $datagrid-tool-mobile-big-gap;
+        }
+
+        &__end {
+            gap: $datagrid-tool-mobile-big-gap;
+        }
+
+        .page-size {
+            .select2-chosen-extra {
+                display: none;
+            }
+        }
+    }
 }
 
 @include breakpoint('mobile') {
@@ -144,6 +177,28 @@
         &__end {
             gap: $datagrid-tool-mobile-gap;
             padding: 1px 0;
+        }
+
+        &-bottom {
+            flex-wrap: wrap;
+            gap: spacing('base');
+
+            .datagrid-toolbar__center {
+                flex: 1 0 100%;
+                order: 1;
+            }
+
+            .datagrid-toolbar__start {
+                order: 2;
+            }
+
+            .datagrid-toolbar__end {
+                order: 3;
+            }
+
+            .oro-pagination {
+                width: 100%;
+            }
         }
 
         .page-size {

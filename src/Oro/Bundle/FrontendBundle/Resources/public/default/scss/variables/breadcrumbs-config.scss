@@ -1,6 +1,13 @@
 /* @theme: default; */
 
-$breadcrumbs-font-size: $base-font-size--s - 1 !default;
-$breadcrumbs-color: get-color('additional', 'dark') !default;
-$breadcrumbs-offset: -3px 0 12px !default;
-$breadcrumbs-link-color: get-color('additional', 'dark') !default;
+$breadcrumbs-item-display: block !default;
+$breadcrumbs-item-flex: 0 0 auto !default;
+
+$breadcrumbs-link-color: get-color('text', 'primary') !default;
+$breadcrumbs-link-text-decoration: underline !default;
+
+$breadcrumbs-item-separator-icon-width: 16px !default;
+$breadcrumbs-item-separator-offset-inline: 8px !default;
+$breadcrumbs-item-separator-color: get-color('text', 'secondary') !default;
+$breadcrumbs-item-separator-item-align: middle !default;
+$breadcrumbs-item-separator-display: inline-flex !default;

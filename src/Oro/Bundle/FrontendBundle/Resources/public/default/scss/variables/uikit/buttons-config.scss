@@ -1,0 +1,365 @@
+/* @theme: default; */
+
+@use 'sass:map';
+
+// Service variables
+$btn-var-prefix: 'btn' !default;
+
+// General styles
+$btn-general: (
+    'font-family': inherit,
+    'font-weight': font-weight('semi-bold'),
+    'border-width': 2px,
+    'border-style': solid,
+    'border-radius': $base-ui-element-border-radius,
+    'vertical-align': middle,
+    'appearance': none,
+    'user-select': none,
+    'display': inline-grid,
+    'grid-auto-flow': column,
+    'align-items': center,
+    'justify-content': center
+) !default;
+
+$btn-cursor: pointer !default;
+$btn-block-display: grid !default;
+$btn-no-padding-inline: 2px !default;
+
+// Color Palette for buttons
+$btn-palette: (
+    // Light Theme
+    'default': (
+        'default': (
+            'background': get-var-color('primary', 'main'),
+            'border-color': transparent,
+            'color': get-var-color('text', 'inverse')
+        ),
+        'hover': (
+            'background': get-var-color('primary', 'hover'),
+            'border-color': transparent,
+            'color': get-var-color('text', 'inverse')
+        ),
+        'focus': (
+            'background': get-var-color('primary', 'main'),
+            'border-color': transparent,
+            'color': get-var-color('text', 'inverse')
+        ),
+        'active': (
+            'background': get-var-color('primary', 'active'),
+            'border-color': transparent,
+            'color': get-var-color('text', 'inverse')
+        ),
+        'disabled': (
+            'background': get-var-color('primary', 'disabled'),
+            'border-color': transparent,
+            'color': get-var-color('neutral', 'grey1')
+        )
+    ),
+    'outlined': (
+        'default': (
+            'background': transparent,
+            'border-color': get-var-color('primary', 'main'),
+            'color': get-var-color('primary', 'main')
+        ),
+        'hover': (
+            'background': get-var-color('primary', 'light'),
+            'border-color': get-var-color('primary', 'hover'),
+            'color': get-var-color('primary', 'hover')
+        ),
+        'focus': (
+            'background': transparent,
+            'border-color': get-var-color('primary', 'main'),
+            'color': get-var-color('primary', 'main')
+        ),
+        'active': (
+            'background': transparent,
+            'border-color': get-var-color('primary', 'active'),
+            'color': get-var-color('primary', 'active')
+        ),
+        'disabled': (
+            'background': transparent,
+            'border-color': get-var-color('neutral', 'grey2'),
+            'color': get-var-color('text', 'disabled')
+        )
+    ),
+    'destructive': (
+        'default': (
+            'background': get-var-color('destructive', 'base'),
+            'border-color': transparent,
+            'color': get-var-color('text', 'inverse')
+        ),
+        'hover': (
+            'background': get-var-color('destructive', 'main'),
+            'border-color': transparent,
+            'color': get-var-color('text', 'inverse')
+        ),
+        'focus': (
+            'background': get-var-color('destructive', 'base'),
+            'border-color': transparent,
+            'color': get-var-color('text', 'inverse')
+        ),
+        'active': (
+            'background': get-var-color('destructive', 'dark'),
+            'border-color': transparent,
+            'color': get-var-color('text', 'inverse')
+        ),
+        'disabled': (
+            'background': get-var-color('destructive', 'disabled'),
+            'border-color': transparent,
+            'color': get-var-color('text', 'inverse')
+        )
+    ),
+    'destructive-outlined': (
+        'default': (
+            'background': transparent,
+            'border-color': get-var-color('destructive', 'base'),
+            'color': get-var-color('destructive', 'base')
+        ),
+        'hover': (
+            'background': get-var-color('destructive', 'light'),
+            'border-color': get-var-color('destructive', 'main'),
+            'color': get-var-color('destructive', 'main')
+        ),
+        'focus': (
+            'background': transparent,
+            'border-color': get-var-color('destructive', 'base'),
+            'color': get-var-color('destructive', 'base')
+        ),
+        'active': (
+            'background': transparent,
+            'border-color': get-var-color('destructive', 'dark'),
+            'color': get-var-color('destructive', 'dark')
+        ),
+        'disabled': (
+            'background': transparent,
+            'border-color': get-var-color('destructive', 'disabled'),
+            'color': get-var-color('destructive', 'disabled')
+        )
+    ),
+    'plain': (
+        'default': (
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('text', 'secondary')
+        ),
+        'hover': (
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('text', 'primary')
+        ),
+        'focus': (
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('text', 'primary')
+        ),
+        'active': (
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('text', 'primary')
+        )
+    ),
+    'neutral': (
+        'default': (
+            'background': get-color('neutral', 'grey1'),
+            'border-color': get-color('neutral', 'grey1'),
+            'color': get-var-color('text', 'primary')
+        ),
+        'hover': (
+            'background': get-color('neutral', 'grey2'),
+            'border-color': get-color('neutral', 'grey2'),
+            'color': get-var-color('text', 'primary')
+        ),
+        'focus': (
+            'background': get-color('neutral', 'grey2'),
+            'border-color': get-color('neutral', 'grey2'),
+            'color': get-var-color('text', 'primary')
+        ),
+        'active': (
+            'background': get-color('neutral', 'grey2'),
+            'border-color': get-color('neutral', 'grey2'),
+            'color': get-var-color('text', 'primary')
+        )
+    ),
+    'neutral-dark': (
+        'default': (
+            'background': get-color('neutral', 'grey2'),
+            'border-color': get-color('neutral', 'grey2'),
+            'color': get-var-color('text', 'primary')
+        ),
+        'hover': (
+            'background': get-color('primary', 'light'),
+            'border-color': get-color('primary', 'light'),
+            'color': get-color('primary', 'main')
+        ),
+        'focus': (
+            'background': get-color('neutral', 'grey2'),
+            'border-color': get-color('neutral', 'white-15'),
+            'color': get-var-color('text', 'primary'),
+            /* Focused-state/on-light */
+            'outline': 2px solid get-color('neutral', 'focus'),
+                'outline-offset': 1px,
+                'box-shadow': 0 0 0 3px get-color('neutral', 'white-15')
+            ),
+        'active': (
+            'background': get-color('neutral', 'grey2'),
+            'border-color': get-color('neutral', 'grey2'),
+            'color': get-var-color('text', 'primary')
+        ),
+        'disabled': (
+            'background': get-color('neutral', 'grey1'),
+            'border-color': get-color('neutral', 'grey1'),
+            'color': get-var-color('text', 'disabled')
+        )
+    ),
+    'colored': (
+        'default': (
+                'background': transparent,
+                'border-color': transparent,
+                'color': get-var-color('text', 'secondary')
+        ),
+        'hover': (
+                'background': transparent,
+                'border-color': transparent,
+                'color': get-var-color('primary', 'main')
+        ),
+        'focus': (
+                'background': transparent,
+                'border-color': transparent,
+                'color': get-var-color('primary', 'main')
+        ),
+        'active': (
+                'background': transparent,
+                'border-color': transparent,
+                'color': get-var-color('primary', 'main')
+        )
+    ),
+    // Dark theme
+    'inverse': (
+        'default': (
+            'background': get-var-color('neutral', 'white-100'),
+            'border-color': transparent,
+            'color': get-var-color('text', 'primary')
+        ),
+        'hover': (
+            'background': get-var-color('neutral', 'grey1'),
+            'border-color': transparent,
+            'color': get-var-color('text', 'primary')
+        ),
+        'focus': (
+            'background': get-var-color('neutral', 'white-100'),
+            'border-color': transparent,
+            'color': get-var-color('text', 'primary')
+        ),
+        'active': (
+            'background': get-var-color('neutral', 'grey2'),
+            'border-color': transparent,
+            'color': get-var-color('text', 'primary')
+        ),
+        'disabled': (
+            'background': get-var-color('neutral', 'white-50'),
+            'border-color': transparent,
+            'color': get-var-color('text', 'primary')
+        )
+    ),
+    'outlined-inverse': (
+        'default': (
+            'background': transparent,
+            'border-color': get-var-color('neutral', 'white-100'),
+            'color': get-var-color('text', 'inverse')
+        ),
+        'hover': (
+            'background': get-var-color('neutral', 'white-30'),
+            'border-color': get-var-color('neutral', 'white-100'),
+            'color': get-var-color('text', 'inverse')
+        ),
+        'focus': (
+            'background': transparent,
+            'border-color': get-var-color('neutral', 'white-100'),
+            'color': get-var-color('neutral', 'white-100')
+        ),
+        'active': (
+            'background': transparent,
+            'border-color': get-var-color('neutral', 'white-100'),
+            'color': get-var-color('neutral', 'white-100')
+        ),
+        'disabled': (
+            'background': transparent,
+            'border-color': get-var-color('neutral', 'white-30'),
+            'color': get-var-color('text', 'disabled')
+        )
+    ),
+    'colored-inverse': (
+        'default': (
+                'background': transparent,
+                'border-color': transparent,
+                'color': get-var-color('text', 'inverse')
+        ),
+        'hover': (
+                'background': transparent,
+                'border-color': transparent,
+                'color': get-var-color('text', 'link-hover-on-dark')
+        ),
+        'focus': (
+                'background': transparent,
+                'border-color': transparent,
+                'color': get-var-color('text', 'link-hover-on-dark')
+        ),
+        'active': (
+                'background': transparent,
+                'border-color': transparent,
+                'color': get-var-color('text', 'link-hover-on-dark')
+        )
+    ),
+) !default;
+
+// List of buttons size
+$btn-sizes-default-min-height: 44px !default;
+$btn-sizes-small-min-height: 32px !default;
+$btn-sizes-large-min-height: 54px !default;
+
+$btn-sizes: (
+    'default': (
+        'min-height': $btn-sizes-default-min-height,
+        'font-size': $base-font-size,
+        'line-height': $base-line-height,
+        'padding': spacing('sm') #{spacing('base') - map.get($btn-general, 'border-width')},
+        'gap': spacing('sm')
+    ),
+    'small': (
+        'min-height': $btn-sizes-small-min-height,
+        'font-size': 12px,
+        'line-height': 1.333,
+        'padding': spacing('xs') #{spacing('md') - map.get($btn-general, 'border-width')},
+        'gap': spacing('xs')
+    ),
+    'large': (
+        'min-height': $btn-sizes-large-min-height,
+        'font-size': 16px,
+        'line-height': 1.5,
+        'padding': spacing('md') #{spacing('lg') - map.get($btn-general, 'border-width')},
+        'gap': spacing('sm')
+    )
+) !default;
+
+$btn-icon-offsets: (
+    'default': (
+        'padding': spacing('sm') #{spacing('md') - 2px}
+    ),
+    'small': (
+        'padding': spacing('xs') #{spacing('md') - 2px}
+    )
+) !default;
+
+$btn-circle-offsets: (
+    'default': (
+        'padding': spacing('sm'),
+        'min-width': $btn-sizes-default-min-height,
+    ),
+    'small': (
+        'padding': spacing('xs'),
+        'min-width': $btn-sizes-small-min-height,
+    ),
+    'large': (
+        'min-width': $btn-sizes-large-min-height
+    )
+) !default;

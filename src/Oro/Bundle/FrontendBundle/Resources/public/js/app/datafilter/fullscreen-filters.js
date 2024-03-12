@@ -23,15 +23,14 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
      * @property;
      */
     mainPopupOptions: {
-        popupBadge: true,
-        popupIcon: 'fa-filter',
+        popupIcon: 'sliders',
         popupLabel: __('oro.filter.datagrid-toolbar.filters'),
         footerOptions: {
             templateData: {
                 buttons: [
                     {
                         'type': 'button',
-                        'class': 'btn btn--info btn--block btn--size-s',
+                        'class': 'btn btn--outlined',
                         'role': 'apply',
                         'label': __('oro_frontend.filters.apply_all'),
                         'disabled': 'disabled'
@@ -45,8 +44,7 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
      * @property;
      */
     managerPopupOptions: {
-        popupBadge: true,
-        popupIcon: 'fa-plus',
+        popupIcon: 'plus',
         popupLabel: __('oro_frontend.filter_manager.title')
     },
 

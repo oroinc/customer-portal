@@ -37,6 +37,7 @@ define(function(require, exports, module) {
             sibling: null,
             moveTo: null,
             endpointClass: 'relocated',
+            startPointClass: '',
             prepend: false,
             responsive: [],
             targetViewport: null,
@@ -111,7 +112,7 @@ define(function(require, exports, module) {
                     this.returnByIndex($el);
                 }
 
-                mediator.trigger('layout:content-relocated', $el);
+                mediator.trigger('layout:content-relocated', $el, targetOptions);
             }, this);
         },
 
@@ -136,10 +137,17 @@ define(function(require, exports, module) {
         returnByIndex: function($el) {
             const options = $el.data('dom-relocation-options');
 
-            if (options.originalOrder === 0) {
-                options.$originalPosition.prepend($el);
-            } else {
-                options.$originalPosition.children().eq(options.originalOrder - 1).after($el);
+            const placeholder = [...options.$originalPosition.get(0).childNodes]
+                .find(node => node.nodeType === Element.COMMENT_NODE && node.nodeValue === options.placeholderId);
+
+            if (placeholder) {
+                $(placeholder).after($el);
+                placeholder.remove();
+            }
+
+            if ($el.data('startPointClass')) {
+                $el.addClass($el.data('startPointClass'));
+                $el.removeData('startPointClass');
             }
 
             if (options._addedClass) {
@@ -159,6 +167,8 @@ define(function(require, exports, module) {
             const options = $el.data('dom-relocation-options');
             let $target = $(targetOptions.moveTo).first();
 
+            $el.before(document.createComment(`${options.placeholderId}`));
+
             if (targetOptions.sibling) {
                 $target = $target.find(targetOptions.sibling).first();
                 targetOptions.prepend
@@ -168,6 +178,11 @@ define(function(require, exports, module) {
                 targetOptions.prepend
                     ? $target.prepend($el)
                     : $target.append($el);
+            }
+
+            if (targetOptions.startPointClass) {
+                $el.removeClass(targetOptions.startPointClass);
+                $el.data('startPointClass', targetOptions.startPointClass);
             }
 
             if (options._addedClass) {
@@ -198,6 +213,7 @@ define(function(require, exports, module) {
                     _.defaults(options, this.defaultOptions),
                     {
                         $originalPosition: $el.parent(),
+                        placeholderId: _.uniqueId('dom-relocation-placeholder-'),
                         originalOrder: $el.index(),
                         _loaded: true
                     }

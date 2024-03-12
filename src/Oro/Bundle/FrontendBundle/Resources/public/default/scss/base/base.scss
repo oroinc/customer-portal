@@ -63,31 +63,3 @@ $css-breakpoints: null;
         }
     }
 }
-
-table {
-    border-spacing: 0;
-    border-collapse: collapse;
-}
-
-button,
-input,
-optgroup,
-select,
-textarea {
-    color: inherit;
-}
-
-:focus {
-    outline: none;
-}
-
-// Links
-a {
-    text-decoration: $link-link-normal-text-decoration;
-
-    @include link();
-
-    @include element-state('hover') {
-        text-decoration: $link-link-hover-text-decoration;
-    }
-}

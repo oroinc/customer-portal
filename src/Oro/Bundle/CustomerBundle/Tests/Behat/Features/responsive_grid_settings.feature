@@ -17,7 +17,7 @@ Feature: Responsive Grid Settings
   Scenario: Check default value (Enable) for datagrid on front store
     Given I proceed as the User
     And I signed in as AmandaRCole@example.org on the store frontend
-    And I follow "Account"
+    And I click "Account Dropdown"
     And I click "Requests For Quote"
     Then I should see an "Customer User Responsive Datagrid" element
 

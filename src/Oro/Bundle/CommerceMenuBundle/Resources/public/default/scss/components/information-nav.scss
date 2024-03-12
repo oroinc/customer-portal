@@ -1,12 +1,9 @@
 /* @theme: default; */
 
 .information-nav {
-    padding: $information-nav-offset;
-
     &--responsive {
-        display: inline-block;
-        vertical-align: top;
-        width: $information-nav-width;
+        flex: $information-nav-responsive-flex;
+        padding: $information-nav-responsive-offset;
     }
 
     &__title {
@@ -29,8 +26,10 @@
     }
 
     &__item {
-        &:not(:first-child) {
-            margin: $information-nav-item-offset;
+        padding: $information-nav-item-offset;
+
+        &:first-child {
+            padding-top: 0;
         }
 
         &-content {
@@ -53,29 +52,54 @@
 
 @include breakpoint('tablet-small') {
     .information-nav {
-        padding: $information-nav-tablet-small-offset;
-
-        border-top: $information-nav-tablet-border-top;
-
         &--responsive {
-            width: $information-nav-tablet-small-width;
+            border-bottom: $information-nav-responsive-tablet-small-border-bottom;
+            padding: $information-nav-responsive-tablet-small-padding;
         }
 
         &__title {
-            margin: $information-nav-title-tablet-small-offset;
-            padding: $information-nav-title-tablet-small-inner-offset;
+            text-transform: $information-nav-title-text-transform;
+            color: $information-nav-title-color;
+            font-size: $information-nav-title-font-size-tablet-small;
+            cursor: pointer;
+            margin: $information-nav-title-tablet-small-margin;
+
+            padding-block: $information-nav-title-tablet-small-padding-block;
+
+            display: flex;
+            gap: $information-nav-title-tablet-small-gap;
+            align-items: center;
+
+            &:before {
+                content: '';
+                width: $information-nav-title-tablet-small-icon-placeholder-size;
+                height: $information-nav-title-tablet-small-icon-placeholder-size;
+                display: block;
+            }
         }
 
         &__list {
-            margin-bottom: $offset-y-m * 2;
-            padding-left: $information-nav-list-tablet-small-inner-offset-left;
-
             display: none;
+            padding: $information-nav-list-offset-tablet-small;
 
-            .collapse &,
-            .collapsing & {
+            .information-nav__collapse & {
                 display: block;
             }
+        }
+
+        &__item {
+            padding: $information-nav-item-offset-tablet-small;
+
+            &:first-child {
+                padding: $information-nav-item-offset-tablet-small;
+            }
+        }
+
+        .accordion-group__trigger {
+            text-transform: $information-nav-title-text-transform;
+            color: $information-nav-title-color;
+            font-size: $information-nav-title-font-size-tablet-small;
+            cursor: pointer;
         }
     }
 }

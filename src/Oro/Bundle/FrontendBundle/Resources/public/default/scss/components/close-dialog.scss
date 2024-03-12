@@ -1,36 +1,16 @@
 /* @theme: default; */
 
 .close-dialog {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: z('base') + 1;
-
-    width: $close-dialog-size - ($close-dialog-offset * 2);
-    height: $close-dialog-size - ($close-dialog-offset * 2);
-    margin: $close-dialog-offset;
-    padding: 0;
-
-    border-width: 0;
-    background-color: transparent;
-    color: $close-dialog-color;
-
-    cursor: $close-dialog-cursor;
-
+    align-self: flex-start;
+    flex-shrink: 0;
     font-size: 0;
-    text-align: center;
+    gap: initial;
 
-    &:hover,
-    &:focus {
-        color: $close-dialog-color-hover;
-    }
-
-    &:disabled {
-        @include base-disabled-style();
-    }
-
-    @include fa-icon($close-dialog-icon, before, true) {
-        font-size: $close-dialog-icon-size;
-        line-height: 1;
+    &.absolute {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: z('base') + 1;
+        margin: var(--close-dialog-offset, 0);
     }
 }

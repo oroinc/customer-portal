@@ -7,11 +7,11 @@
     background: $dropdown-menu-calendar-background;
 
     .tab-content {
-        padding: $offset-y-m ($offset-x-m - 2px) 0;
+        padding: spacing('sm') (spacing('sm') - 2px) 0;
     }
 
     .ui-datevariables-div {
-        padding: $offset-x-m;
+        padding: spacing('sm');
 
         .ui_date_variable {
             @include element-state('hover') {
@@ -48,7 +48,7 @@
                 background-color: $dropdown-menu-calendar-tabs-link-background-color;
 
                 &::before {
-                    margin-right: $offset-x-s;
+                    margin-right: spacing('xs');
                     display: inline-block;
                 }
 

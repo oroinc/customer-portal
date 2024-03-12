@@ -2,6 +2,14 @@
 
 @import '~@oroinc/bootstrap/scss/tooltip';
 
+$tooltip-background-color: get-color('neutral', 'white-100');
+$tooltip-color: get-color('text', 'primary');
+$tooltip-box-shadow: 0px 3px 6px 0px rgba(91, 126, 131, .14), 0px 0px 3px 0px rgba(5, 59, 66, .1);
+$tooltip-font-size: 13px;
+$tooltip-line-height: 20px;
+$tooltip-padding: spacing('sm') spacing('md');
+$tooltip-border-radius: 4px;
+
 .tooltip {
     // Tooltip can be over of any fixed element
     &--high {
@@ -14,18 +22,24 @@
     }
 
     .arrow {
-        &::before {
-            @include base-disabled-style(.75);
-        }
+        display: none;
     }
 }
 
 .tooltip-inner {
+    padding: $tooltip-padding;
+    border-radius: $tooltip-border-radius;
+    background-color: $tooltip-background-color;
+    color: $tooltip-color;
+    box-shadow: $tooltip-box-shadow;
+    font-size: $tooltip-font-size;
+    line-height: $tooltip-line-height;
+
     &:not(.not-expand) {
         text-align: left;
     }
 
-    @include base-disabled-style(.75);
+    @include base-disabled-style(1);
 }
 
 .tooltip-container {

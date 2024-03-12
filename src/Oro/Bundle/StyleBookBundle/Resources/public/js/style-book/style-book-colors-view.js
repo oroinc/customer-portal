@@ -47,12 +47,26 @@ define(function(require) {
             let paletteName = this._getProperty(['palette', paletteIndex]);
 
             while (paletteName.length) {
+                const transPaletteKey = `oro_stylebook.color_pallet.${paletteName}`;
+                const transPaletteResult = _.__(transPaletteKey);
                 let keyIndex = 0;
                 colorPalette[paletteName] = {};
+                colorPalette[paletteName]['colors'] = {};
+                colorPalette[paletteName]['description'] = transPaletteKey !== transPaletteResult
+                    ? transPaletteResult : null;
+
 
                 while (this._getProperty([paletteName, keyIndex]).length) {
                     const key = this._getProperty([paletteName, keyIndex]);
-                    colorPalette[paletteName][key] = this._getProperty([paletteName, key]);
+                    const transColorPaletteKey = `oro_stylebook.color_pallet.${paletteName}-${key}`;
+                    const transColorPaletteResult = _.__(transColorPaletteKey);
+
+                    colorPalette[paletteName]['colors'] [key] = {
+                        key,
+                        color: this._getProperty([paletteName, key]),
+                        description: transColorPaletteKey !== transColorPaletteResult
+                            ? transColorPaletteResult : null
+                    };
 
                     keyIndex++;
                 }

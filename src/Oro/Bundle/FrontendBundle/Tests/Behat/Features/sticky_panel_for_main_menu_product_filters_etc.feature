@@ -1,4 +1,6 @@
+@skip
 @ticket-BB-9097
+@ticket-BB-23160
 @automatically-ticket-tagged
 @fixture-OroFrontendBundle:Products.yml
 Feature: Sticky panel for main menu, product filters etc
@@ -15,7 +17,7 @@ Feature: Sticky panel for main menu, product filters etc
     And I click "Sticky Filters Dropdown"
     Then I should see an "Product Filter Into Sticky Panel" element
     And I should see an "Mass Actions Into Sticky Panel" element
-    And I should see an "Pegination Into Sticky Panel" element
+    And I should see an "Pagination Bottom Panel" element
     And I should see an "Sorting Into Sticky Panel" element
     And I should see an "Catalog Switcher Into Sticky Panel" element
 

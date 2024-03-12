@@ -41,15 +41,13 @@ class AclPermissionController
         $this->roleTranslationPrefixResolver = $roleTranslationPrefixResolver;
     }
 
-    /**
-     * @Route(
-     *      "/acl-access-levels/{oid}/{permission}",
-     *      name="oro_customer_acl_access_levels",
-     *      requirements={"oid"="[\w]+:[\w\:\(\)\|]+", "permission"="[\w/]+"},
-     *      defaults={"_format"="json", "permission"=null}
-     * )
-     * @Template
-     */
+    #[Route(
+        path: '/acl-access-levels/{oid}/{permission}',
+        name: 'oro_customer_acl_access_levels',
+        requirements: ['oid' => '[\w]+:[\w\:\(\)\|]+', 'permission' => '[\w/]+'],
+        defaults: ['_format' => 'json', 'permission' => null]
+    )]
+    #[Template]
     public function aclAccessLevelsAction(string $oid, string $permission = null): array
     {
         if (ObjectIdentityHelper::getExtensionKeyFromIdentityString($oid) === EntityAclExtension::NAME) {

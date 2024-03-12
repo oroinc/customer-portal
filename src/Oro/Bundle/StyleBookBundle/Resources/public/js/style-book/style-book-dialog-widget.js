@@ -33,7 +33,7 @@ define(function(require) {
             demoContent.text(this.content);
             demoContent.prependTo(content);
 
-            content.find('.widget-actions').append('<button class="btn btn--info">Accept</button>');
+            content.find('.widget-actions').append('<button class="btn btn--outlined">Accept</button>');
             content = content.parent().html();
             return StyleBookDialogWidget.__super__._onContentLoad.call(this, content);
         },

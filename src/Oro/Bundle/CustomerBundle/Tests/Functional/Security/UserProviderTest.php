@@ -40,18 +40,18 @@ class UserProviderTest extends WebTestCase
         $loggedUser = $this->getContainer()->get('oro_security.token_accessor')->getUser();
         $originalId = $loggedUser->getId();
         $this->assertInstanceOf(CustomerUser::class, $loggedUser);
-        $this->assertSame(LoadCustomerUserData::EMAIL, $loggedUser->getUsername(), 'logged user email');
+        $this->assertSame(LoadCustomerUserData::EMAIL, $loggedUser->getUserIdentifier(), 'logged user email');
 
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getReference(LoadCustomerUserData::EMAIL);
         $customerUser->setEmail(LoadCustomerUserData::LEVEL_1_EMAIL);
-        $this->assertSame(LoadCustomerUserData::LEVEL_1_EMAIL, $loggedUser->getUsername(), 'email after change');
+        $this->assertSame(LoadCustomerUserData::LEVEL_1_EMAIL, $loggedUser->getUserIdentifier(), 'email after change');
         $this->assertSame($originalId, $customerUser->getId());
         $this->assertSame($originalId, $loggedUser->getId());
 
         $this->refreshUser($customerUser);
 
-        $this->assertSame(LoadCustomerUserData::EMAIL, $loggedUser->getUsername(), 'email after refresh');
+        $this->assertSame(LoadCustomerUserData::EMAIL, $loggedUser->getUserIdentifier(), 'email after refresh');
         $this->assertSame($originalId, $loggedUser->getId());
     }
 
@@ -67,14 +67,14 @@ class UserProviderTest extends WebTestCase
 
         $originalId = $loggedUser->getId();
         $this->assertInstanceOf(CustomerUser::class, $loggedUser);
-        $this->assertSame(LoadCustomerUserData::EMAIL, $loggedUser->getUsername(), 'logged user email');
+        $this->assertSame(LoadCustomerUserData::EMAIL, $loggedUser->getUserIdentifier(), 'logged user email');
 
         $loggedUser->setEmail(LoadCustomerUserData::LEVEL_1_EMAIL);
         $em->detach($loggedUser);
 
         $loggedUser = $this->refreshUser($loggedUser);
 
-        $this->assertSame(LoadCustomerUserData::EMAIL, $loggedUser->getUsername(), 'email after refresh');
+        $this->assertSame(LoadCustomerUserData::EMAIL, $loggedUser->getUserIdentifier(), 'email after refresh');
         $this->assertSame($originalId, $loggedUser->getId());
     }
 }

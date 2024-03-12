@@ -46,8 +46,9 @@ Feature: Target Window for Frontend Menu Items
 
   Scenario: Check that Frontend Menu Items opens as configured
     Given I go to the homepage
-    And I should see "New Main About"
-    When I click "New Main About"
+    And I click on "Main Menu Button"
+    And I should see "New Main About" in main menu
+    When I click "New Main About" in hamburger menu
     Then a new browser tab is opened and I switch to it
     And I should see "New Footer About"
     When I click "New Footer About"

@@ -25,7 +25,7 @@
         {% set hasVariants = actionsCount > 1 %}
         {% set additionalCss = "btn" %}
         {% if block.parent.vars.class_prefix == 'datagrid_toolbar_button_container' %}
-            {% set additionalCss = additionalCss ~ " btn--info " %}
+            {% set additionalCss = additionalCss ~ " btn--outlined " %}
         {% else %}
             {% set additionalCss = additionalCss ~ " btn" %}
         {% endif %}
@@ -35,15 +35,15 @@
         {% set attr = attr|merge({ class: attr.class|default('') ~ additionalCss}) %}
 
         {% set action = actions|first %}
-        {% set primaryButtonCss = ' btn btn--action btn--size-s direct-link ' ~ action.buttonOptions.class|default('') ~ " "  ~ params.buttonOptions.aCss|default('') %}
+        {% set primaryButtonCss = ' btn btn--outlined btn--size-small direct-link ' ~ action.buttonOptions.class|default('') ~ " "  ~ params.buttonOptions.aCss|default('') %}
 
         {% if hasVariants %}
             <div{{ block('block_attributes') }}>
-                <a class="btn btn--info btn--size-l">
+                <a class="btn btn--outlined btn--size-large">
                     {{ action.label|trim }}
                 </a>
                 {% set togglerId = 'dropdown-'|uniqid %}
-                <a class="btn btn--info btn--size-l dropdown-toggle" href="#" role="button" id="{{ togglerId }}"
+                <a class="btn btn--outlined btn--size-large dropdown-toggle" href="#" role="button" id="{{ togglerId }}"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
                    aria-label="{{ 'oro_frontend.combined_buttons.more_actions.label'|trans }}"></a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="{{ togglerId }}">
@@ -70,17 +70,18 @@
     <ul{{ block('block_attributes') }}>
         {% for button in buttons %}
             <li>
-                {% include button.template with button.templateData|merge({onlyLink: true, noIconText: true, aClass:'btn btn--link'}) %}
+                {% include button.template with button.templateData|merge({onlyLink: true, noIconText: true, aClass:'btn btn--neutral-dark'}) %}
             </li>
         {% endfor %}
     </ul>
 {% endblock %}
 
 {% block combined_buttons_widget %}
-    {% set dropdownActionClass = dropdownActionClass|default('btn btn--block btn--info btn--size-l direct-link') %}
-    {% set dropdownToggleClass = dropdownToggleClass|default('btn btn--info btn--size-l dropdown-toggle') %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+    {% set dropdownActionClass = dropdownActionClass|default('btn btn--block btn--outlined btn--size-large direct-link') %}
+    {% set dropdownToggleClass = dropdownToggleClass|default('btn btn--outlined btn--size-large dropdown-toggle') %}
     {% set dropdownItemClass = dropdownItemClass|default('dropdown-item') %}
-    {% set actionButtonClass = actionButtonClass|default('btn btn--action btn--size-s direct-link') %}
+    {% set actionButtonClass = actionButtonClass|default('btn btn--outlined btn--size-small direct-link') %}
 
     {% set buttonsCount = buttons|length %}
     {% if buttonsCount > 0 %}
@@ -91,7 +92,7 @@
         {% if hasVariants %}
             {% set additionalCss = "btn" %}
             {% if block.parent.vars.class_prefix == 'datagrid_toolbar_button_container' %}
-                {% set additionalCss = additionalCss ~ " btn--info " %}
+                {% set additionalCss = additionalCss ~ " btn--outlined " %}
             {% endif %}
             {% if hasVariants %}
                 {% set additionalCss = " btn-group btn-group--flex " %}
@@ -104,7 +105,9 @@
                 <button id="{{ togglerId }}" class="{{ dropdownToggleClass }}" data-toggle="dropdown"
                    data-placement="bottom-end" data-inherit-parent-width="strictly" aria-haspopup="true" aria-expanded="true"
                    title="{{ 'oro_frontend.combined_buttons.more_actions.label'|trans }}"
-                   aria-label="{{ 'oro_frontend.combined_buttons.more_actions.aria_label'|trans }}"></button>
+                   aria-label="{{ 'oro_frontend.combined_buttons.more_actions.aria_label'|trans }}">
+                    {{ renderIcon.icon({name: 'chevron-down'}) }}
+                </button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="{{ togglerId }}">
                     {% for button in buttons|slice(1) %}
                         <li>
@@ -130,12 +133,24 @@
 {% endblock %}
 
 {% block embedded_list_widget %}
+    {% set embedded_list_slider_arrow = 'arrows-'|uniqid %}
+    {% set embedded_list_slider_dots = 'dots-'|uniqid %}
+    {% set slider_options = default_slider_options|merge(slider_options) %}
+    {% if use_slider.appendDots is not defined %}
+        {% set slider_options = slider_options|merge({appendDots: '#' ~ embedded_list_slider_dots}) %}
+    {% endif %}
+    {% if use_slider.appendArrows is not defined %}
+        {% set slider_options = slider_options|merge({appendArrows: '#' ~ embedded_list_slider_arrow}) %}
+    {% endif %}
     <div class="embedded-list">
-        {% if use_slider %}
+        {% set useSlider = isMobileVersion()
+            ? slider_options.use_slider_on_mobile is defined and slider_options.use_slider_on_mobile
+            : slider_options %}
+        {% if useSlider %}
             {% set attr = layout_attr_defaults(attr, {
                 'data-page-component-module': 'orofrontend/js/app/components/list-slider-component',
                 '~data-page-component-options': slider_options,
-                '~class': ' embedded-list__slider'
+                '~class': ' embedded-list__slider slider-enabled'
             }) %}
 
             {% set item_attr = layout_attr_defaults(item_attr|default({}), {
@@ -153,13 +168,12 @@
                 'data-name': 'embedded-list-item'
             }) %}
         {% endif %}
-
-        {% if label is defined %}
-            <h2 class="embedded-list__label">
-                <span class="embedded-list__label-inner">{{ label|trans }}</span>
-            </h2>
-        {% endif %}
-
+        <div class="embedded-list__title {{ title_extra_class }}">
+            {% if label is defined %}
+                <h2 class="embedded-list__label">{{ label|trans }}</h2>
+            {% endif %}
+            <div id="{{embedded_list_slider_arrow}}" class="embedded-list__arrows-holder"></div>
+        </div>
         <div {{ block('block_attributes') }}>
             {% set attr = item_attr %}
             {% for item in items %}
@@ -177,74 +191,10 @@
                 </div>
             {% endfor %}
         </div>
+        <div id="{{ embedded_list_slider_dots }}" class="embedded-list__dots-holder"></div>
     </div>
 {% endblock %}
 
 {% block attribute_file_widget %}
     {{ oro_file_view(value) }}
-{% endblock %}
-
-{% block _switcher_info_trigger_widget %}
-    {% set items = items|default([]) %}
-
-    {% set itemsCount = 0 %}
-    {% set btnIcon = 'fa-globe' %}
-    {% set popupLabel = '' %}
-
-    {% for key, item in items %}
-        {% if item|length > 1 %}
-            {% set itemsCount = itemsCount + 1 %}
-
-            {% if key == 'localizations' %}
-                {% set popupLabel = 'oro_frontend.switcher.info.popup.localizations'|trans %}
-            {% endif %}
-
-            {% if key == 'currency' %}
-                {% set btnIcon = 'fa-usd' %}
-                {% set popupLabel = 'oro_frontend.switcher.info.popup.currency'|trans %}
-            {% endif %}
-        {% endif %}
-    {% endfor %}
-
-    {% if itemsCount > 1 %}
-        {% set btnIcon = 'fa-globe' %}
-        {% set popupLabel = 'oro_frontend.switcher.info.popup.localizations_and_currency'|trans %}
-    {% endif %}
-
-    {% if itemsCount %}
-        <div class="header-row__container hidden-on-desktop">
-            <button class="header-row__trigger hidden-on-desktop"
-                    aria-label="{{ popupLabel }}"
-                    type="button"
-                    data-page-component-module="oroui/js/app/components/viewport-component"
-                    data-page-component-options="{{ {
-                        viewport: 'tablet',
-                        component: 'oroui/js/app/components/view-component',
-                        view: 'orofrontend/default/js/app/views/fullscreen-popup-view',
-                        popupIcon: btnIcon ~ ' fa--gray fa--x-large',
-                        popupLabel: popupLabel,
-                        contentElement: '[data-switcher-info-container]',
-                        contentAttributes: {
-                            'class': 'switcher-info__container oro-toolbar fullscreen-mode'
-                        }
-                    }|json_encode() }}"
-            >
-                <span class="nav-trigger__icon nav-trigger__icon--transparent nav-trigger__icon--large" aria-hidden="true">
-                    <span class="{{ btnIcon }} fa--no-offset"></span>
-                </span>
-            </button>
-            <div class="switcher-info__container" data-switcher-info-container>
-                {% for key, item in items %}
-                    {% if item|length > 1 %}
-                        <div class="switcher-info__section">
-                            {% if itemsCount > 1 %}
-                                <div class="switcher-info__title">{{ ('oro_frontend.switcher.info.' ~ key)|trans }}</div>
-                            {% endif %}
-                            <div class="switcher-info__target" data-switcher-{{ key }}-target></div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-    {% endif %}
 {% endblock %}

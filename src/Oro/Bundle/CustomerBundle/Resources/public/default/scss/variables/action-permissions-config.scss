@@ -2,21 +2,21 @@
 
 $action-permissions-display: grid !default;
 $action-permissions-grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)) !default;
-$action-permissions-gap: 0 $offset-x !default;
+$action-permissions-gap: 0 spacing('base') !default;
 
 $action-permissions-offset-right: 24px !default;
 $action-permissions-offset-left: 24px !default;
 $action-permissions-item-wrapper-max-width: 100% !default;
-$action-permissions-item-wrapper-offset-inner: 2px $offset-x-m + 2px 2px 2px !default;
+$action-permissions-item-wrapper-offset-inner: 2px spacing('sm') + 2px 2px 2px !default;
 $action-permissions-item-wrapper-dropdown-toggle-right: 0 !default;
-$action-permissions-dropdown-toggle-offset: $offset-y-s !default;
+$action-permissions-dropdown-toggle-offset: spacing('xs') !default;
 $action-permissions-item-wrapper-toggle-icon-right: 0 !default;
-$action-permissions-item-wrapper-toggle-icon-offset-top: $offset-y-m !default;
+$action-permissions-item-wrapper-toggle-icon-offset-top: spacing('sm') !default;
 $action-permissions-item-wrapper-toggle-icon-offset-left: 0 !default;
-$action-permissions-item-wrapper-toggle-icon-color: get-color('additional', 'darker') !default;
+$action-permissions-item-wrapper-toggle-icon-color: get-color('neutral', 'dark') !default;
 $action-permissions-item-wrapper-no-access-opacity: .4 !default;
-$action-permissions-item-wrapper-changed-background: get-color('additional', 'base') !default;
-$action-permissions-item-wrapper-changed-box-shadow: 0 0 0 3px get-color('additional', 'base') !default;
+$action-permissions-item-wrapper-changed-background: get-color('neutral', 'grey1') !default;
+$action-permissions-item-wrapper-changed-box-shadow: 0 0 0 3px get-color('neutral', 'grey2') !default;
 $action-permissions-dropdown-min-width: 0 !default;
 $action-permissions-dropdown-white-space: nowrap !default;
 $action-permissions-dropdown-z-index: z('fixed') - 1 !default;

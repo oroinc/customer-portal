@@ -2,37 +2,36 @@
 
 .accordion-group {
     &__trigger {
+        background: $accordion-group-trigger-background;
+        width: $accordion-group-trigger-width;
+        font-family: $base-ui-element-font-family;
         font-size: $accordion-group-trigger-font-size;
+        font-weight: $accordion-group-trigger-font-weight;
+        line-height: $accordion-group-trigger-line-height;
+        color: $accordion-group-trigger-color;
+        border: $accordion-group-trigger-border;
+        display: $accordion-group-trigger-display;
+        grid-auto-flow: $accordion-group-trigger-grid-auto-flow;
+        gap: $accordion-group-trigger-gap;
+        align-items: $accordion-group-trigger-align-items;
+        justify-content: $accordion-group-trigger-justify-content;
+        padding-block: $accordion-group-trigger-padding-block;
+        padding-inline: $accordion-group-trigger-padding-inline;
 
-        &-icon {
-            margin: $accordion-group-trigger-icon-offset;
-            font-size: $accordion-group-trigger-icon-size;
-            transition: $accordion-group-trigger-icon-transition;
-            color: $accordion-group-trigger-icon-color;
+        .theme-icon {
+            display: block;
         }
 
-        &:focus,
-        &:hover {
-            text-decoration: none;
-        }
-
-        &-text {
-            &:focus,
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-
-        &:not(.collapsed) {
-            color: $accordion-group-trigger-expanded-color;
-
-            .accordion-group__trigger-icon {
-                transform: rotate(90deg);
-            }
+        &:not(.collapsed) .theme-icon {
+            transform: rotate(180deg);
         }
     }
 
+    &__item + &__item {
+        border-top: $accordion-group-divider;
+    }
+
     .collapse {
-        margin: $accordion-group-container-offset;
+        padding: $accordion-group-container-offset;
     }
 }

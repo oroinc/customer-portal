@@ -51,12 +51,8 @@ layout:
                         type: button
                         icon: navicon
                         attr:
-                            class: 'btn btn--default'
+                            class: 'btn'
                 __groups_menu:
-                    blockType: container
-                __sticky_panel:
-                    blockType: container
-                __sticky_panel_content:
                     blockType: container
                 __sticky_header:
                     blockType: container
@@ -91,11 +87,6 @@ layout:
                                         __mobile_actions:
                                             __mobile_menu_action: ~
                                         __groups_menu: ~
-                            __sticky_panel:
-                                __sticky_panel_content:
-                                    __sticky_header: ~
-                                    __sticky_element:
-                                        __sticky_element_sidebar: ~
                             __main:
                                 __content:
                                     __page_description: ~

@@ -3,29 +3,34 @@
 .primary-menu {
     @include list-normalize();
 
-    display: flex;
+    display: $primary-menu-display;
+    flex-direction: $primary-menu-flex-direction;
 
     &__link {
         color: $primary-menu-link-color;
+        padding-inline-start: $primary-menu-link-inner-offset-start;
+        padding-inline-end: $primary-menu-link-inner-offset-end;
+        padding-block: $primary-menu-link-inner-offset-block;
+        height: $primary-menu-link-height;
+        width: $primary-menu-link-width;
+        display: $primary-menu-link-display;
+        align-items: $primary-menu-link-vertical-align;
+        flex: 1;
 
         @include element-state('hover') {
-            color: $primary-menu-link-color-hover;
-        }
-
-        &--current {
-            color: $primary-menu-link-color-current;
-
-            @include element-state('hover') {
-                color: $primary-menu-link-color-current;
-            }
+            background: $primary-menu-item-active-background;
+            color: $primary-menu-link-color;
+            text-decoration: $primary-menu-link-text-decoration;
         }
     }
 
     &__item {
-        position: relative;
+        position: $primary-menu-item-position;
         flex: 0 1 auto;
-
-        padding: $primary-menu-item-inner-offset;
+        height: auto;
+        min-height: $primary-menu-item-height;
+        display: $primary-menu-item-display;
+        flex-flow: $primary-menu-item-flex-flow;
 
         .primary-menu {
             display: none;
@@ -34,21 +39,19 @@
         &--current,
         &.active {
             &::before {
-                top: 10px;
+                top: 0;
                 left: 0;
 
-                width: 7px;
-                height: 7px;
+                width: $primary-menu-item-active-border-width;
+                height: 100%;
 
-                border-radius: 50%;
-                background: $primary-menu-item-active-background;
+                border-radius: $primary-menu-item-active-border-radius;
+                background: $primary-menu-item-active-border-background;
 
                 @include after();
             }
 
-            > .primary-menu__link {
-                font-weight: $primary-menu-link-font-weight-current;
-            }
+            background: $primary-menu-item-active-background;
 
             > .primary-menu {
                 display: block;
@@ -57,63 +60,8 @@
 
         &--offset-m {
             &:not(:first-child) {
-                margin-left: $offset-x-m;
+                margin-left: spacing('sm');
             }
-        }
-    }
-
-    &__badge {
-        i {
-            vertical-align: middle;
-        }
-    }
-
-    &--vertical {
-        display: block;
-    }
-
-    @include fullscreen-mode {
-        .primary-menu__item {
-            border-top: 0;
-            border-bottom: $primary-menu-fullscreen-mode-item-border;
-        }
-
-        .primary-menu__link {
-            padding: $primary-menu-link-inner-offset-fullscreen;
-
-            text-transform: $primary-menu-link-text-transform-fullscreen;
-        }
-    }
-}
-
-@include breakpoint('tablet') {
-    .primary-menu {
-        &__link {
-            display: block;
-            padding: $primary-menu-link-inner-offset-tablet;
-        }
-
-        &__item {
-            padding: $primary-menu-item-inner-offset-tablet;
-
-            border-top: $primary-menu-tablet-item-border;
-
-            &--current,
-            &.active {
-                &::before {
-                    content: none;
-                }
-
-                .primary-menu__link {
-                    color: inherit;
-                }
-            }
-        }
-
-        .fa-minus,
-        .fa-plus {
-            right: 13px;
-            top: 15px;
         }
     }
 }

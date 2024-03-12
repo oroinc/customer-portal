@@ -6,7 +6,7 @@
         '~class': ' information-nav__item'
     }) %}
     {% set link_attr = layout_attr_defaults(link_attr, {
-        '~class': ' information-nav__item-content'
+        '~class': ' information-nav__item-content no-decoration'
     }) %}
 
     {% if item.displayed and item.extras.isAllowed %}
@@ -18,14 +18,14 @@
                         viewport: 'tablet-small',
                         view: 'orofrontend/default/js/app/views/collapse-view',
                         toggleAttrs: {
-                            'class': 'btn btn--plain btn--default-color information-nav__title',
+                            'class': 'accordion-group__trigger',
                             'data-text': label,
-                            'data-icon': 'fa-caret-right fa--offset-xl-r'
+                            'data-icon': 'chevron-down'
                         },
                         collapseAttrs: {
-                            'class': 'collapse',
-                            'data-trigger-icon-show-class': 'fa-caret-down',
-                            'data-trigger-icon-hide-class': 'fa-caret-right'
+                            'class': 'information-nav__collapse collapse',
+                            'data-trigger-icon-show-class': 'chevron-up',
+                            'data-trigger-icon-hide-class': 'chevron-down'
                         }
                     } %}
                     <section class="information-nav information-nav--responsive">

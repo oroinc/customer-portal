@@ -1,7 +1,69 @@
 /* @theme: default; */
 
-@include breakpoint('tablet') {
+.toggle-filters-action {
+    position: relative;
+
+    // Removing an excess border in case filters in sidebar are used
+    // stylelint-disable-next-line declaration-no-important
+    border-inline-end-color: transparent !important;
+
+    .filters-selected &,
+    &.filters-selected {
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+
+            border-radius: 50%;
+        }
+
+        &::before {
+            width: $toggle-filters-action-before-size;
+            height: $toggle-filters-action-before-size;
+
+            top: $toggle-filters-action-before-top;
+            left: $toggle-filters-action-before-left;
+            z-index: z('base');
+
+            background-color: $toggle-filters-action-before-color;
+        }
+
+        &::after {
+            width: $toggle-filters-action-after-size;
+            height: $toggle-filters-action-after-size;
+
+            top: $toggle-filters-action-after-top;
+            left: $toggle-filters-action-after-left;
+
+            background: $toggle-filters-action-after-color;
+        }
+
+        @include hover-focus {
+            &:before {
+                background-color: $toggle-filters-action-before-color-hover;
+            }
+
+            &:after {
+                background-color: $toggle-filters-action-after-color-hover;
+            }
+        }
+
+        @include element-state('disabled') {
+            &::before {
+                background-color: $toggle-filters-action-before-color-disabled;
+            }
+        }
+    }
+}
+
+@include breakpoint('mobile') {
     .toggle-filters-action {
-        @include custom-caret();
+        width: $toggle-filters-action-width;
+        background-color: $toggle-filters-action-background-mobile;
+        color: $toggle-filters-action-color-mobile;
+
+        // Hide action's labelS
+        font-size: 0;
+        gap: 0;
     }
 }

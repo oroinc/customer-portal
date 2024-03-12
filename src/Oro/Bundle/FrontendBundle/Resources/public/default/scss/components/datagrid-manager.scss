@@ -1,6 +1,8 @@
 /* @theme: default; */
 
 .datagrid-manager {
+    --close-dialog-offset: #{spacing('sm')};
+
     &__title {
         margin-bottom: $datagrid-manager-title-offset;
     }
@@ -76,7 +78,7 @@
         // stylelint-disable-next-line declaration-no-important
         height: auto !important;
         max-height: $datagrid-manager-filters-dropdown-max-height;
-        margin-bottom: $offset-y-m;
+        margin-bottom: spacing('sm');
         list-style: none;
         overflow-y: auto;
     }
@@ -84,8 +86,8 @@
     &__list-item {
         width: 100%;
 
-        margin-top: $offset-y-m;
-        padding-right: $offset-x-s;
+        margin-top: spacing('sm');
+        padding-right: spacing('xs');
 
         &--half {
             width: 50%;
@@ -93,11 +95,11 @@
     }
 
     &__footer {
-        margin-top: $offset-y-m;
+        margin-top: spacing('sm');
     }
 
     &__no-columns {
-        padding: $offset-y;
+        padding: spacing('base');
 
         text-align: center;
 
@@ -158,7 +160,7 @@
     }
 
     &.ui-widget-fullscreen {
-        padding: 0 $offset-y;
+        padding: 0 spacing('base');
 
         .datagrid-manager__header {
             .close-filters,
@@ -173,7 +175,7 @@
         }
 
         .datagrid-manager__actions {
-            padding: $offset-y 0 $offset-y-s;
+            padding: spacing('base') 0 spacing('xs');
         }
     }
 
@@ -286,8 +288,8 @@
             opacity: 0;
             z-index: z('hidden');
 
-            &.focus-visible,
-            &.focus {
+            &:focus-visible,
+            &:focus {
                 + span {
                     background-color: $datagrid-manager-filters-dropdown-content-hover-bg-color;
                 }

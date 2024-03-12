@@ -1,15 +1,8 @@
 {% block __style_book_sidebar__container_widget %}
     {% if block.count > 0 %}
         {% set attr = layout_attr_defaults(attr, {
-            '~class': ' style-book-sidebar',
+            '~class': ' style-book-sidebar sticky sticky--top',
             'data-role': 'style-book-sidebar',
-            'data-page-component-module': "oroui/js/app/components/viewport-component",
-            '~data-page-component-options': {
-                viewport: 'tablet',
-                component: 'oroui/js/app/components/view-component',
-                view: 'orostylebook/js/style-book/sticky-sidebar-view',
-                excludeTarget: '.style-book-header'
-            }
         }) %}
 
         <aside {{ block('block_attributes') }}>

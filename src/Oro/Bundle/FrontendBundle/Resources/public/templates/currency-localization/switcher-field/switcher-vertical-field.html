@@ -1,0 +1,15 @@
+<% let oroui = _.macros('oroui') %>
+<div class="currency-localization-control__item" data-control-type="toggle-vertical">
+    <h5 class="currency-localization-control__title">
+        <%- title %>
+    </h5>
+    <div class="toggle-container-vertical">
+        <% for (const item of items) { %>
+            <input type="radio" id="<%- id %>-<%- item.value %>" name="<%- name %>" value="<%- item.value %>" <%- item.selected ? "checked" : "" %> />
+            <label for="<%- id %>-<%- item.value %>">
+                <%- item.label %>
+                <%= oroui.renderIcon({ name: 'check', extraClass: 'toggle-container-vertical__icon' }) %>
+            </label>
+        <% } %>
+    </div>
+</div>

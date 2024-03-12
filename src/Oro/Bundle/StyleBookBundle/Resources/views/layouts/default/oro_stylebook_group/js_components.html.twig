@@ -14,8 +14,8 @@
                 },
                 okText: 'OK',
                 cancelText: 'Cancel',
-                okButtonClass: 'btn btn--info',
-                cancelButtonClass: 'btn cancel',
+                okButtonClass: 'btn',
+                cancelButtonClass: 'btn btn--outlined',
                 content: {
                     type: 'textarea',
                     value: 'Hello'
@@ -28,7 +28,7 @@
 
     <div {{ block('block_attributes') }}>
         <div class="style-book-group-element__preview">
-            <button class="btn btn--info" data-action="click open">Open Modal</button>
+            <button class="btn btn--outlined" data-action="click open">Open Modal</button>
         </div>
 
         {{ block_widget(block) }}
@@ -46,7 +46,7 @@
 {% block _style_book_grid_element_modal_html_widget %}
     {% set source_code %}
         <div class="example-container">
-            <button class="btn btn--info" id="modal-toggle">Open Some Modal</button>
+            <button class="btn btn--outlined" id="modal-toggle">Open Some Modal</button>
         </div>
         <script>
             loadModules(['jquery', 'oroui/js/modal'], function ($, Modal) {
@@ -171,8 +171,8 @@
     <div {{ block('block_attributes') }}>
         <div data-example-view>
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn--info" data-toggle>Toggle Loading</button>
-                <button type="button" class="btn btn--info" data-toggle-full-page>Execute full-page loading</button>
+                <button type="button" class="btn btn--outlined" data-toggle>Toggle Loading</button>
+                <button type="button" class="btn btn--outlined" data-toggle-full-page>Execute full-page loading</button>
             </div>
             <div class="view-container" data-loading-container></div>
         </div>
@@ -309,7 +309,7 @@
 
     <div {{ block('block_attributes') }}>
         <div class="style-book-group-element__preview">
-            <button class="btn btn--info" data-action="click render">Open Dialog</button>
+            <button class="btn btn--outlined" data-action="click render">Open Dialog</button>
         </div>
 
         {{ block_widget(block) }}
@@ -497,19 +497,19 @@
 
 {# Simple Collapse Trigger #}
 {% block _style_book_grid_element_collapse_widget_simple_template_widget %}
-
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set collapseId = 'collapse-'|uniqid %}
-    <button class="btn btn--link btn--size-s btn--no-x-offset"
+    <button class="accordion-group__trigger collapsed"
             data-toggle="collapse"
             data-target="{{ '#' ~ collapseId }}"
             aria-controls="{{ collapseId }}"
     >
-        <span class="fa-plus-square-o fa--offset-l" aria-hidden="true" data-icon></span>
-        <span data-text>Open collapse</span>
+        {{ renderIcon.icon({name: 'chevron-down'}) }}
+        <span class="accordion-group__trigger-text" data-text>Open collapse</span>
     </button>
     <div id="{{ collapseId }}" class="collapse"
-         data-trigger-icon-show-class="fa-minus-square-o"
-         data-trigger-icon-hide-class="fa-plus-square-o"
+         data-trigger-icon-show-class="chevron-down"
+         data-trigger-icon-hide-class="chevron-up"
          data-collapsed-text="Open Collapse"
          data-expanded-text="Close Collapse"
     >
@@ -549,13 +549,16 @@
 
 {# Simple Collapse Hide Trigger Widget #}
 {% block _style_book_grid_element_collapse_widget_simple_hide_trigger_template_widget %}
-
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set collapseId = 'collapse-'|uniqid %}
-    <button class="btn btn--action"
+    <button class="btn btn--outlined"
             data-toggle="collapse"
             data-target="{{ '#' ~ collapseId }}"
             aria-controls="{{ collapseId }}"
-    ><span class="fa-caret-square-o-down" aria-hidden="true"></span>Toggle Elements</button>
+    >
+        {{ renderIcon.icon({name: 'chevron-down'}) }}
+        Toggle Elements
+    </button>
     <div id="{{ collapseId }}" class="collapse no-transition" data-toggle="false" data-trigger-show-class="hide">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec laoreet nisl. Suspendisse et tincidunt libero. Aenean pulvinar quam vitae sapien porttitor, non tempor orci dictum. Mauris nisl diam, fringilla eu lectus sed, accumsan congue tellus. Cras quis dui eget dui fermentum gravida non et erat. Proin id fringilla nunc. Ut ullamcorper pulvinar ligula eu pulvinar. Nullam egestas cursus magna placerat bibendum. Nam iaculis elit ac massa bibendum, id dapibus nisl mattis.
     </div>
@@ -593,7 +596,7 @@
 
 {# Overflow Collapse #}
 {% block _style_book_grid_element_collapse_widget_overflow_template_widget %}
-
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set collapseId = 'collapse-'|uniqid %}
     <div id="{{ collapseId }}"
          class="collapse collapse-overflow no-transition"
@@ -610,13 +613,13 @@
         It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.
         The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
     </div>
-    <button class="btn btn--link btn--size-s btn--no-x-offset collapse-toggle"
+    <button class="btn btn--outlined btn--size-small btn--text btn--no-padding collapse-toggle"
             data-toggle="collapse"
             data-target="{{ '#' ~ collapseId }}"
             aria-controls="{{ collapseId }}"
     >
         <span data-text>{{ 'oro.ui.collapse.more'|trans }}</span>
-        <span class="fa-angle-down fa--offset-l" aria-hidden="true" data-icon></span>
+        {{ renderIcon.icon({name: 'chevron-down'}) }}
     </button>
 {% endblock %}
 
@@ -658,16 +661,16 @@
             viewport: 'tablet',
             view: 'orofrontend/default/js/app/views/collapse-view',
             toggleAttrs: {
-                'class': 'btn btn--link btn--size-s btn--no-x-offset',
+                'class': 'accordion-group__trigger',
                 'data-text': 'Open Collapse',
-                'data-icon': 'fa-plus-square-o',
+                'data-icon': 'chevron-down',
                 'data-collapsed-text': 'Open Collapse',
                 'data-expanded-text': 'Close Collapse'
             },
             collapseAttrs: {
                 'class': 'collapse',
-                'data-trigger-icon-show-class': 'fa-minus-square-o',
-                'data-trigger-icon-hide-class': 'fa-plus-square-o',
+                'data-trigger-icon-show-class': 'chevron-up',
+                'data-trigger-icon-hide-class': 'chevron-down',
                 'data-toggle': true
             }
         } %}
@@ -685,16 +688,16 @@
             triggerIsFirst: false,
             triggerIconIsFirst: false,
             toggleAttrs: {
-                'class': 'btn btn--link btn--size-s btn--no-x-offset collapse-toggle',
+                'class': 'btn btn--outlined btn--size-small btn--text btn--no-padding collapse-toggle',
                 'aria-label': 'oro.ui.collapse.more'|trans,
-                'data-icon': 'fa-angle-down fa--offset-l',
+                'data-icon': 'chevron-down',
                 'data-text': 'oro.ui.collapse.more'|trans
             },
             collapseAttrs: {
                 'class': 'collapse collapse-overflow',
                 'data-check-overflow': true,
-                'data-trigger-icon-show-class': 'fa-angle-up',
-                'data-trigger-icon-hide-class': 'fa-angle-down',
+                'data-trigger-icon-show-class': 'chevron-up',
+                'data-trigger-icon-hide-class': 'chevron-down',
                 'data-collapsed-text': 'oro.ui.collapse.more'|trans,
                 'data-expanded-text': 'oro.ui.collapse.less'|trans
             }
@@ -741,19 +744,19 @@
 
 {# Accordion Widget #}
 {% block _style_book_grid_element_accordion_widget_template_widget %}
-
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set parentId = 'parent-'|uniqid %}
     <div id="{{ parentId }}" class="accordion-group">
         <div class="accordion-group__item">
             {% set itemId1 = 'item-'|uniqid %}
             <h4>
-                <button class="accordion-group__trigger btn--link btn--no-offset"
+                <button class="accordion-group__trigger"
                         type="button" data-toggle="collapse"
                         data-target="{{ '#' ~ itemId1 }}"
                         aria-controls="{{ itemId1 }}"
                         aria-expanded="false"
                 >
-                    <span class="accordion-group__trigger-icon fa-caret-right" aria-hidden="true"></span>
+                    {{ renderIcon.icon({name: 'chevron-down'}) }}
                     <span class="accordion-group__trigger-text">What is Lorem Ipsum?</span>
                 </button>
             </h4>
@@ -764,13 +767,13 @@
         <div class="accordion-group__item">
             {% set itemId2 = 'item-'|uniqid %}
             <h4>
-                <button class="accordion-group__trigger btn--link btn--no-offset collapsed"
+                <button class="accordion-group__trigger collapsed"
                         type="button" data-toggle="collapse"
                         data-target="{{ '#' ~ itemId2 }}"
                         aria-expanded="false"
                         aria-controls="{{ itemId2 }}"
                 >
-                    <span class="accordion-group__trigger-icon fa-caret-right" aria-hidden="true"></span>
+                    {{ renderIcon.icon({name: 'chevron-down'}) }}
                     <span class="accordion-group__trigger-text">Why do we use it?</span>
                 </button>
             </h4>
@@ -781,14 +784,14 @@
         <div class="accordion-group__item">
             {% set itemId3 = 'item-'|uniqid %}
             <h4>
-                <button class="accordion-group__trigger btn--link btn--no-offset collapsed"
+                <button class="accordion-group__trigger collapsed"
                         type="button"
                         data-toggle="collapse"
                         data-target="{{ '#' ~ itemId3 }}"
                         aria-expanded="false"
                         aria-controls="{{ itemId3 }}"
                 >
-                    <span class="accordion-group__trigger-icon fa-caret-right" aria-hidden="true"></span>
+                    {{ renderIcon.icon({name: 'chevron-down'}) }}
                     <span class="accordion-group__trigger-text">Where can I get some?</span>
                 </button>
             </h4>
@@ -839,14 +842,13 @@
             viewConstructor: 'orostylebook/js/style-book/fullscreen-popup-demo-view',
             renderAfter: 'action',
             props: {
-                popupIcon: 'fa-cog',
+                popupIcon: 'settings',
                 popupLabel: 'Fullscreen popup',
                 contentTemplate: {
                     type: 'textarea',
                     value: '<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id turpis quam. Sed sodales metus ac leo scelerisque eleifend. Suspendisse ullamcorper libero mauris, a imperdiet risus consequat eu. Donec imperdiet id quam id hendrerit. Ut sed bibendum massa, vitae venenatis mi. Aliquam tellus risus, faucibus vitae quam id, consectetur accumsan ipsum. Sed at venenatis mauris. Donec finibus mollis libero, eu elementum enim tempus suscipit. Praesent in consectetur mauris. Aenean tristique tellus vitae ligula tristique tincidunt. Donec aliquam dapibus imperdiet. Vestibulum sagittis libero in ipsum semper ullamcorper. Nulla vitae convallis sapien. Nulla vitae est id neque fermentum molestie vulputate ut orci.Nulla eget tellus eget mi aliquam porta. Aliquam commodo tortor sed lacinia maximus. Mauris leo odio, vestibulum ut tortor et, malesuada eleifend sapien. Vivamus efficitur sem in urna viverra porta. Cras egestas mauris eget tristique fringilla. Phasellus a molestie ante. Suspendisse vel rhoncus nisi, ut varius leo. Quisque neque dolor, ullamcorper ut sem in, venenatis iaculis purus. In at lobortis tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel nisi id ante efficitur hendrerit bibendum porta augue. Cras ultricies bibendum lacus, non sollicitudin tellus ultricies nec. Vestibulum eget est leo. Proin non imperdiet ipsum, cursus gravida lorem. Aenean justo urna, fringilla ut pretium quis, pharetra nec velit.</div>'
                 },
                 stopEventsList: 'mousedown focusin',
-                popupBadge: true,
                 stopEventsPropagation: true,
                 keepElement: true
             }
@@ -855,7 +857,7 @@
 
     <div {{ block('block_attributes') }}>
         <div class="style-book-group-element__preview">
-            <button class="btn btn--info" data-action="click render">Open Fullscreen Popup</button>
+            <button class="btn btn--outlined" data-action="click render">Open Fullscreen Popup</button>
         </div>
 
         {{ block_widget(block) }}
@@ -1091,6 +1093,35 @@
     </div>
 {% endblock %}
 
+{% block _style_book_scroll_shadow_horizontal_view_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container'
+    }) %}
+
+    <style>
+        .scroll-container {
+            overflow: auto;
+            max-height: 100px
+        }
+    </style>
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview grid">
+            <div class="grid-col-12 scroll-container">
+                <ol data-page-component-view="orofrontend/js/app/views/scroll-shadow-view" class="breadcrumbs start-scroll-from-end" data-scroll-target="" >
+                    {% for i in 0..14 %}
+                        <li class="breadcrumbs__item">
+                            <span>Element {{ i }}</span>
+                            {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+                            <span aria-hidden="true" class="breadcrumbs-separator">{{ renderIcon.icon({name: 'chevron-right', extraClass: 'theme-icon--small'}) }}</span>
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
 {% block _style_book_scroll_shadow_view_config_widget %}
     <div class="playground-source">
         <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
@@ -1254,10 +1285,10 @@
                 autoplaySpeed: 2000,
                 additionalClass: "embedded-list__slider",
                 embeddedArrowsClass: "embedded-arrows",
-                arrows: true,
-                dots: false,
+                arrows: false,
+                dots: true,
                 infinite: false,
-                mobileEnabled: true,
+                use_slider_on_mobile: true,
             }
         }
     }) %}
@@ -1386,8 +1417,8 @@
 
             SomeExampleView = BaseView.extend({
                 sliderOptions: {
-                    mobileEnabled: true,
-                    slidesToShow: 4,
+                    use_slider_on_mobile: true,
+                    slidesToShow: 5,
                     slidesToScroll: 1,
                     autoplay: false,
                     autoplaySpeed: 2000,
@@ -1438,7 +1469,7 @@
     <div {{ block('block_attributes') }}>
         <div class="dom-relocation-example grid-col-12 grid" data-example-view>
             <div class="grid-col-12">
-                <button data-relocation-trigger class="btn btn--info">Trigger Move</button>
+                <button data-relocation-trigger class="btn btn--outlined">Trigger Move</button>
             </div>
 
             <div class="dom-relocation grid-col-12">
@@ -1508,7 +1539,7 @@
     </div>
 {% endblock %}
 
-{# Sticky Panel View #}
+{# Sticky Element #}
 
 {% block _style_book_sticky_panel_view_widget %}
     {% set attr = layout_attr_defaults(attr, {
@@ -1522,9 +1553,14 @@
 
     <div {{ block('block_attributes') }}>
         <div class="sticky-panel-example" data-example-view>
-            <button class="btn btn--info" data-toggle>{{ 'oro_stylebook.groups.jscomponent.sticky_panel_view.button.sticky_off'|trans }}</button>
-            <div class="sticky-panel-box" data-move-to-sticky>
-                That content will be move to sticky panel...
+            <button class="btn btn--outlined" data-bottom>{{ 'oro_stylebook.groups.jscomponent.sticky_panel_view.set_bottom.off'|trans }}</button>
+
+            <div class="sticky-panel-container">
+                <div class="sticky-panel-content">
+                    <div class="sticky-panel-box sticky sticky--top" data-sticky>
+                        That content is sticky...
+                    </div>
+                </div>
             </div>
         </div>
         {{ block_widget(block) }}
@@ -1536,18 +1572,18 @@
     {% import '@OroUI/macros.html.twig' as UI %}
 
     {% set attributes = {
+        'class': 'some-box sticky sticky--top',
         'data-sticky': {
-            'autoWidth': true,
-            'toggleClass': 'sticked',
-            'placeholderId': 'style-book-sticky-header'
-        },
-        'data-sticky-target': 'top-sticky-panel'
+            'toggleClass': 'sticked', {# Toggle class when element became sticky #}
+            'namespace': 'my-sticky-block' {# Provide set global CSS variables for using into your styles #},
+            'sentinel': 'some-other-sticky-block' {# Detect colision when element overhide sentinel element #}
+        #}
     } %}" %}
 
     {% set source_code %}
         {{ options|raw }}
 
-    <div class="some-box" {{ "{{ UI.renderPageComponentAttributes(attributes) }}"|raw }}>
+    <div {{ "{{ UI.attributes(attributes) }}"|raw }}>
         Content that should be sticky
     </div>
     {% endset %}
@@ -1974,7 +2010,7 @@
             relatedComponent: 'zoom'
         },
         navOptions: {
-            slidesToShow: 4,
+            slidesToShow: 5,
             slidesToScroll: 1,
             asNavFor: '.product-view-media-gallery',
             focusOnSelect: true,
@@ -2034,7 +2070,7 @@
                         infinite: false
                     },
                     navOptions: {
-                        slidesToShow: 4,
+                        slidesToShow: 5,
                         slidesToScroll: 1,
                         asNavFor: '.popup-gallery-widget__images',
                         focusOnSelect: true,

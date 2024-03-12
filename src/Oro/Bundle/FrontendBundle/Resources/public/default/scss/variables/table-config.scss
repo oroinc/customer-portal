@@ -1,18 +1,18 @@
 /* @theme: default; */
 
 $table-font-family: $base-font !default;
-$table-margin-bottom: $offset-y !default;
+$table-margin-bottom: spacing('base') !default;
 $table-text-align: left !default;
-$table-row-padding: $offset-y-s !default;
-$table-head-padding: $offset-y-m !default;
+$table-row-padding: spacing('xs') !default;
+$table-head-padding: spacing('sm') !default;
 
-$base-table-border-color: get-color('additional', 'light') !default;
+$base-table-border-color: get-color('neutral', 'grey1') !default;
 $base-table-border: 1px solid $base-table-border-color !default;
 
 $table-border-top: $base-table-border !default;
 $table-width: 100% !default;
 
-$table-thead-background-color: get-color('additional', 'base') !default;
+$table-thead-background-color: get-color('neutral', 'grey1') !default;
 $table-thead-font-weight: font-weight('bold') !default;
 $table-thead-th-border: $base-table-border !default;
 $table-thead-th-vertical-align: middle !default;

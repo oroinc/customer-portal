@@ -24,4 +24,5 @@ Feature: Target Type None
   Scenario: Check menu items on store front
     Given I proceed as the Buyer
     When I am on the homepage
+    And I click on "Main Menu Button"
     Then I should see "NoneTarget"

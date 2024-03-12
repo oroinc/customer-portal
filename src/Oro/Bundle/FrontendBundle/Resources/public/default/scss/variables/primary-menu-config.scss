@@ -1,23 +1,28 @@
 /* @theme: default; */
 
-$primary-menu-link-color: get-color('additional', 'dark') !default;
-$primary-menu-link-color-hover: get-color('ui', 'focus') !default;
-$primary-menu-link-color-current: get-color('additional', 'dark') !default;
-$primary-menu-item-inner-offset: 5px 0 0 18px !default;
-$primary-menu-link-font-weight-current: font-weight('bold') !default;
+$primary-menu-display: flex !default;
+$primary-menu-flex-direction: column !default;
 
-$primary-menu-item-active-background: get-color('primary', 'base') !default;
+$primary-menu-link-color: get-color('text', 'primary') !default;
+$primary-menu-link-color-current: get-color('text', 'primary') !default;
+$primary-menu-link-text-decoration: none !default;
+$primary-menu-link-height: 100% !default;
+$primary-menu-link-width: 100% !default;
+$primary-menu-link-display: flex !default;
+$primary-menu-link-vertical-align: center !default;
+$primary-menu-link-inner-offset-start: spacing('lg') !default;
+$primary-menu-link-inner-offset-end: spacing('base') !default;
+$primary-menu-link-inner-offset-block: spacing('xmd') !default;
+$primary-menu-item-height: 44px !default;
+$primary-menu-item-position: relative !default;
+$primary-menu-item-active-background: get-color('primary', 'light') !default;
+$primary-menu-item-active-border-background: get-color('primary', 'main') !default;
+$primary-menu-item-active-border-width: 3px !default;
+$primary-menu-item-active-border-radius: 0 $base-ui-element-border-radius $base-ui-element-border-radius 0 !default;
+$primary-menu-item-display: flex !default;
+$primary-menu-item-flex-flow: column !default;
 
 $primary-menu-item-inner-offset-tablet: 0 !default;
-$primary-menu-link-inner-offset-tablet: 13px 0 !default;
+$primary-menu-link-inner-offset-tablet: spacing('xmd') 0 !default;
 
-$primary-menu-link-inner-offset-fullscreen: 13px 16px !default;
-$primary-menu-link-text-transform-fullscreen: uppercase !default;
-
-// Fullscreen mode
-
-$primary-menu-fullscreen-mode-item-border: 1px solid get-color('additional', 'light') !default;
-
-// Tablet mode
-
-$primary-menu-tablet-item-border: 1px solid get-color('additional', 'light') !default;
+$primary-menu-link-inner-offset-fullscreen: spacing('xmd') 0 !default;

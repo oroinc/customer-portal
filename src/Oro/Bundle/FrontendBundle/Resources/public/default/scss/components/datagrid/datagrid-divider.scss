@@ -6,7 +6,7 @@
         display: inline-flex;
         width: 1px;
         height: 16px;
-        margin: 0 $offset-x-m;
+        margin: 0 spacing('sm');
 
         line-height: 1;
 
@@ -35,7 +35,7 @@
 @include breakpoint('mobile') {
     .datagrid-divider {
         &::before {
-            margin: 0 $offset-x-s;
+            margin: 0 spacing('xs');
             visibility: hidden;
         }
     }

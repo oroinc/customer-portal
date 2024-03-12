@@ -1,0 +1,9 @@
+<% let oroui = _.macros('oroui') %>
+<button type="button" aria-label="<%- ariaLabel %>" class="slick-arrow <% if(obj.className) { %> <%- className %><% } %>">
+    <% const iconConfig = {name: iconName};
+        if (obj.iconSize) {
+            iconConfig.extraClass = iconSize;
+        }
+    %>
+    <%= oroui.renderIcon(iconConfig) %>
+</button>

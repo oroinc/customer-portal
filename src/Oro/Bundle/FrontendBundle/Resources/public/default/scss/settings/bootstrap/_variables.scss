@@ -12,15 +12,18 @@
 // Color system
 
 // Options
+$enable-caret: false;
 
 // Body
 // Settings for the `<body>` element.
+$body-color: get-var-color('text', 'primary');
 
 // Links
 // Style anchor elements.
-
-$link-color: get-color('ui', 'normal');
-$link-hover-color: get-color('ui', 'normal');
+$link-color: get-var-color('text', 'link');
+$link-hover-color: get-var-color('text', 'link-hover');
+$link-decoration: underline;
+$link-hover-decoration: underline;
 
 // Paragraphs
 // Style p element.
@@ -53,15 +56,15 @@ $dt-font-weight: $font-weight-normal;
 // Tables
 // Customizes the `.table` component with basic values, each used across all table variations.
 
-$table-color: get-color('additional', 'dark');
+$table-color: $body-color;
 
 // Buttons + Forms
 // Shared variables that are reassigned to `$input-` and `$btn-` specific variables.
 
 $input-btn-padding-y: 10px;
 $input-btn-padding-x: 13px;
-$input-btn-padding-y-sm: $offset-y-s;
-$input-btn-padding-y-lg: $offset-y-m;
+$input-btn-padding-y-sm: spacing('xs');
+$input-btn-padding-y-lg: spacing('sm');
 
 // Buttons
 // For each of Bootstrap's buttons, define text, background, and border color.
@@ -93,6 +96,8 @@ $btn-border-radius-l: $border-radius-l;
 
 // Forms
 
+$input-color: $base-ui-element-color;
+$input-padding-x: spacing('md');
 $input-padding-y: 11px;
 $input-line-height: $base-ui-element-line-height;
 $input-border-radius: $border-radius;
@@ -119,7 +124,7 @@ $nav-link-padding-x: 14px;
 $nav-tabs-link-hover-background-color: null;
 $nav-tabs-link-right-offset: null;
 $nav-tabs-link-border: null;
-$nav-tabs-link-active-color-focus-visible: $base-ui-bth-focus-style;
+$nav-tabs-link-active-color-focus-visible: $base-ui-element-focus-visible-style;
 
 // Navbar
 // Compute the navbar-brand padding-y so the navbar-brand will have the same height as navbar-text and nav-link
@@ -127,17 +132,42 @@ $nav-tabs-link-active-color-focus-visible: $base-ui-bth-focus-style;
 // Dropdowns
 // Dropdown menu container and contents.
 
-$dropdown-font-size: 1rem;
+$dropdown-font-size: $base-font-size;
 $dropdown-border-radius: $border-radius;
-$dropdown-color: get-color('additional', 'dark');
-$dropdown-border-color: color.adjust(get-color('additional', 'light'), $lightness: -4%);
-$dropdown-box-shadow: 0 2px 8px rgba(0 0 0 / 10%);
-$dropdown-link-active-color: get-color('additional', 'dark');
-$dropdown-link-active-bg: get-color('additional', 'base');
-$dropdown-item-padding-y: $offset-y-m;
-$dropdown-item-padding-x: $offset-x;
-$dropdown-item-font: list.slash($base-font-size, $base-line-height) $base-font;
+$dropdown-color: get-var-color('text', 'primary');
+$dropdown-border-color: transparent;
+$dropdown-border-width: 0;
+$dropdown-spacer: spacing('xs');
+$dropdown-box-shadow: 0px 3px 12px 0px rgba(91, 126, 131, .14), 0px 0px 4px 0px rgba(5, 59, 66, .08);
+$dropdown-padding-y: spacing('sm');
 
+$dropdown-link-hover-color: get-var-color('text', 'primary');
+// next variable is used fof both hover and focus
+$dropdown-link-hover-bg: null;
+$dropdown-link-only-hover-bg: get-var-color('primary', 'light');
+$dropdown-link-active-color: get-var-color('text', 'primary');
+$dropdown-link-active-state-color: get-var-color('primary', 'main') !default;
+$dropdown-link-active-bg: transparent;
+$dropdown-link-disabled-color: get-var-color('text', 'disabled');
+$dropdown-item-padding-y: spacing('md');
+$dropdown-item-padding-x: spacing('base');
+$dropdown-item-font: list.slash($base-font-size, $base-line-height) $base-font;
+$dropdown-item-align-items: flex-start;
+$dropdown-item-gap: spacing('sm');
+
+$dropdown-link-color-destructive: get-color('destructive', 'main') !default;
+$dropdown-link-font-weight-destructive: font-weight('normal') !default;
+
+$dropdown-divider-margin-x: spacing('xs');
+$dropdown-divider-bg: get-color('neutral', 'grey2');
+
+$dropdown-header-color: get-color('text', 'primary');
+$dropdown-header-padding: 0 spacing('base') !default;
+$dropdown-header-min-height: 44px !default;
+$dropdown-header-font-size: $base-font-size--xs !default;
+$dropdown-header-font-weight: font-weight('semi-bold') !default;
+
+$dropdown-divider-margin-inline: spacing('base') !default;
 // Pagination
 
 // Jumbotron
@@ -146,32 +176,36 @@ $dropdown-item-font: list.slash($base-font-size, $base-line-height) $base-font;
 
 // Tooltips
 
-$tooltip-font-size: .875rem;
+$tooltip-font-size: $base-font-size - 1px;
 $tooltip-max-width: 316px;
 $tooltip-border-radius: $border-radius-xs;
-$tooltip-padding-y: $offset-y-s;
-$tooltip-padding-x: $offset-x-m;
-$tooltip-arrow-width: 12px;
-$tooltip-arrow-height: 6px;
+$tooltip-bg: get-color('neutral', 'white-100');
+$tooltip-color: get-color('text', 'primary');
+$tooltip-padding-y: spacing('sm');
+$tooltip-padding-x: spacing('md');
+$tooltip-box-shadow: 0 3px 6px 0 rgba(91, 126, 131, .14), 0 0 3px 0 rgba(5, 59, 66, .1) !default;
+$tooltip-arrow-width: 0;
+$tooltip-arrow-height: 0;
+$tooltip-opacity: 1;
 
 // Form tooltips must come after regular tooltips
 
 // Popovers
 
+$popover-hide-arrow: true;
 $popover-font-size: 1rem;
-$popover-bg: get-color('additional', 'ultra');
+$popover-bg: get-color('neutral', 'white-100');
 $popover-max-width: 280px;
 $popover-min-width: 188px;
-$popover-border-width: 1px;
-$popover-border-color: get-color('additional', 'middle');
+$popover-border-width: 0;
+$popover-border-color: transparent;
 $popover-border-radius: 4px;
-$popover-box-shadow: 0 2px 6px 1px rgba(0 0 0 / 12%);
+$popover-box-shadow: 0 4px 12px 0 rgba(91 126 131 / .14), 0 0 4px 0 rgba(5 59 66 / .08);
 $popover-header-bg: $popover-bg;
-$popover-header-color: get-color('additional', 'dark');
-$popover-header-padding-y: $offset-y;
-$popover-header-padding-x: $offset-x;
-$popover-body-color: get-color('additional', 'dark');
-$popover-body-light-color: color.adjust(get-color('additional', 'dark'), $lightness: 21%);
+$popover-header-color: $body-color;
+$popover-header-padding-y: spacing('sm');
+$popover-header-padding-x: spacing('base');
+$popover-body-color: $body-color;
 $popover-body-padding-y: $popover-header-padding-y;
 $popover-body-padding-x: $popover-header-padding-x;
 $popover-arrow-width: 16px;
@@ -190,29 +224,37 @@ $popover-arrow-outer-color: $popover-border-color;
 // Modals
 
 // Padding applied to the modal body
-$modal-inner-padding: 15px;
+$modal-inner-padding: spacing('md');
+$modal-header-padding: 0 0 spacing('md') spacing('md');
+$modal-body-padding: spacing('md');
+
+$modal-content-padding: spacing('base') + spacing('sm');
+$modal-content-padding-mobile-landscape: spacing('base') spacing('xs') spacing('xs');
+$modal-header-align-items: center;
+$modal-header-gap: spacing('sm');
 
 // Margin between elements in footer, must be lower than or equal to 2 * $modal-inner-padding
 
-$modal-dialog-margin: 10px;
+$modal-dialog-margin: 0px;
 $modal-dialog-sm-up-margin-y: 30px;
 $modal-title-padding: 15px;
 $modal-title-line-height: $line-height-base;
 $modal-content-bg: #fff;
-$modal-content-border-color: rgba(0 0 0 / 20%);
-$modal-content-border-width: $border-width;
+$modal-content-border-color: transparent;
+$modal-content-border-width: 0;
 $modal-content-border-radius: $base-ui-popup-border-radius;
 $modal-content-xs-box-shadow: 0 3px 9px rgba(0 0 0 / 50%);
 $modal-content-sm-up-box-shadow: 0 5px 15px rgba(0 0 0 / 50%);
-$modal-backdrop-bg: #000;
-$modal-backdrop-opacity: .5;
-$modal-header-border-color: #e5e5e5;
+$modal-backdrop-bg: get-var-color('neutral', 'dark');
+$modal-backdrop-opacity: .6;
+$modal-header-border-color: transparent;
 $modal-footer-border-color: $modal-header-border-color;
+$modal-footer-gap: spacing('base');
 $modal-header-border-width: $modal-content-border-width;
 $modal-footer-border-width: $modal-header-border-width;
 
 $modal-lg: 900px;
-$modal-md: 600px;
+$modal-md: 500px;
 $modal-sm: 300px;
 
 // Alerts

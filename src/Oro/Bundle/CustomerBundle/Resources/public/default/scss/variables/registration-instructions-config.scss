@@ -1,9 +1,9 @@
 /* @theme: default; */
 
-$registration-instructions-background: get-color('additional', 'ultra') !default;
-$registration-instructions-offset: ($offset-y * 2) 0 0 !default;
-$registration-instructions-inner-offset: ($offset-y-m * 2) !default;
-$registration-instructions-color: get-color('additional', 'dark') !default;
+$registration-instructions-background: get-color('neutral', 'white-100') !default;
+$registration-instructions-offset: (spacing('base') * 2) 0 0 !default;
+$registration-instructions-inner-offset: (spacing('sm') * 2) !default;
+$registration-instructions-color: get-color('neutral', 'dark') !default;
 $registration-instructions-text-align: null !default;
 
 $registration-instructions-tablet-small-font-size: $base-font-size + 1 !default;

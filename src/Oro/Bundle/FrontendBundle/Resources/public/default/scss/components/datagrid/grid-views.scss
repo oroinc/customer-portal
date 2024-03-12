@@ -4,7 +4,7 @@
     position: relative;
 
     margin: $grid-views-offset;
-    padding: $offset-y-m 0;
+    padding: spacing('sm') 0;
 
     border-bottom: $grid-views-border-bottom;
 
@@ -17,7 +17,7 @@
     &__aditional {
         float: right;
 
-        margin-left: $offset-y;
+        margin-left: spacing('base');
     }
 
     &__dropdown {
@@ -74,7 +74,7 @@
     }
 
     &__actions {
-        padding-left: $offset-x-s;
+        padding-left: spacing('xs');
         color: $grid-views-actions-color;
         white-space: nowrap;
     }
@@ -123,17 +123,17 @@
     }
 
     &__form-content {
-        --grid-gap: #{$offset-y-m};
+        --grid-gap: #{spacing('sm')};
     }
 
     &__button-group {
         display: flex;
-        gap: #{$offset-y-s};
+        gap: #{spacing('xs')};
     }
 
     &__form-footer {
         display: flex;
-        gap: $offset-x;
+        gap: spacing('base');
         align-items: center;
     }
 }

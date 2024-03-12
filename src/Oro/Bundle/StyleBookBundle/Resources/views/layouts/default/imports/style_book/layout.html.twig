@@ -24,13 +24,11 @@
 
 {% block __style_book__header_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' style-book-header',
+        '~class': ' style-book-header sticky sticky--top',
         'data-sticky': {
-            'autoWidth': true,
             'toggleClass': 'sticked',
-            'placeholderId': 'style-book-sticky-header'
-        },
-        'data-sticky-target': 'top-sticky-panel'
+            'namespace': 'style-book-header'
+        }
     }) %}
 
     <div {{ block('block_attributes') }}>
@@ -106,28 +104,6 @@
     <ul {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </ul>
-{% endblock %}
-
-{% block __style_book__sticky_panel_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        'data-page-component-module': 'oroui/js/app/components/view-component',
-        'data-page-component-options': {
-            'view': 'orofrontend/default/js/app/views/sticky-panel-view'
-        },
-        'data-sticky-name': 'top-sticky-panel',
-        'data-stick-to': 'top',
-        '~class': ' sticky-panel'
-    }) %}
-    <div{{ block('block_attributes') }}>
-        {{ block_widget(block) }}
-    </div>
-{% endblock %}
-
-{% block __style_book__sticky_panel_content_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' sticky-panel__content'
-    }) %}
-    <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
 {% endblock %}
 
 {% block __style_book__sticky_header_widget %}
@@ -222,12 +198,15 @@
 
     <div {{ block('block_attributes') }}>
         <h2 id="{{ anchor }}" class="style-book-title">{{ label|trans|raw }}</h2>
+        {% if description is defined and description|length %}
+            <div class="style-book-group-element__description">{{ description|trans|raw }}</div>
+        {% endif %}
         {{ block_widget(block) }}
     </div>
 {% endblock %}
 
 {% block group_element_item_widget %}
-    <div class="style-book-group-element__item">
+    <div class="style-book-group-element__item{% if dark %} style-book-group-element__item--dark{% endif %}">
     {% if label and anchor %}
         {% set attr = layout_attr_defaults(attr, {
             'id': anchor,

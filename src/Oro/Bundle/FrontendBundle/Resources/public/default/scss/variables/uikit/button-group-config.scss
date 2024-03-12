@@ -1,0 +1,23 @@
+/* @theme: default; */
+
+$btn-group-divider-width: 1px !default;
+$btn-group-divider-color: get-var-color('neutral', 'white-30') !default;
+$btn-group-focus-shadow: 0 0 0 1px get-color('neutral', 'white-100') !default;
+
+$btn-group-divider-palette: (
+    'default': get-var-color('neutral', 'white-30'),
+    'outlined': get-var-color('primary', 'main'),
+    'destructive': get-var-color('neutral', 'white-30'),
+    'destructive-outlined': get-var-color('destructive', 'base'),
+    'inverse': get-var-color('neutral', 'grey1'),
+    'outlined-inverse': get-var-color('neutral', 'white-100')
+) !default;
+
+$btn-group-focus-shadow-palette: (
+    'default': $btn-group-focus-shadow,
+    'outlined': $btn-group-focus-shadow,
+    'destructive': $btn-group-focus-shadow,
+    'destructive-outlined': $btn-group-focus-shadow,
+    'inverse': none,
+    'outlined-inverse': none
+) !default;
