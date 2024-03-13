@@ -5,3 +5,4 @@ dynamic-imports:
         - orocommercemenu/js/app/views/menu-traveling-view
         - orocommercemenu/js/app/views/side-panel
         - oronavigation/js/app/views/navigation-menu-view
+        - orocommercemenu/js/app/views/menu-breadcrumbs/menu-breadcrumbs-collection-view

@@ -3,10 +3,6 @@
 .main-menu {
     @include list-normalize();
 
-    a {
-        text-decoration: none;
-    }
-
     &__back-trigger {
         text-transform: $main-menu-back-trigger-text-transform;
         font-weight: $main-menu-back-trigger-font-weight;
@@ -429,7 +425,7 @@
                     transition: $mega-menu-depth-1-inner-mobile-big-transition;
                 }
 
-                @include main-menu-stack-mobile-title('.main-menu');
+                @include main-menu-stack-mobile-title('.main-menu', 0px);
 
                 &__close {
                     --theme-icon-size: 24px;

@@ -1,0 +1,11 @@
+<% let oroui = _.macros('oroui') %>
+<button type="button" data-go-to-level="<%- level %>" class="breadcrumbs__link"><%- label %></button>
+
+<% if (separator && !last) { %>
+    <span aria-hidden="true" class="breadcrumbs-separator">
+        <%= oroui.renderIcon({
+            name: 'chevron-right',
+            extraClass: 'theme-icon--small'
+        }) %>
+    </span>
+<% } %>

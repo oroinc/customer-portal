@@ -13,6 +13,7 @@ const MenuTravelingView = BaseView.extend({
         isHoverableClass: 'is-hoverable',
         closeTrigger: '[data-role="close"]',
         menuBarSelector: '[data-menu-bar]',
+        menuSelector: '[role="menu"]',
         rootItemSelector: '[data-main-menu-item="1"]',
         itemSelector: '[data-main-menu-item]',
         itemLabelSelector: '[data-name="menu-label"]',
@@ -44,7 +45,8 @@ const MenuTravelingView = BaseView.extend({
 
     listen: {
         'layout:reposition mediator': 'setCSSProperty',
-        'viewport:change mediator': 'onViewportChange'
+        'viewport:change mediator': 'onViewportChange',
+        'menu-traveling:toggle:previous-level mediator': 'onTogglePreviousLevel'
     },
 
     /** @property */
@@ -295,8 +297,27 @@ const MenuTravelingView = BaseView.extend({
         });
     },
 
+    /**
+     * Toggle previous sections
+     *
+     * @param {number} levels - Set how many level need go previous. Set "-2" for go 2 level up.
+     */
+    onTogglePreviousLevel(levels = 0) {
+        while (levels < 0) {
+            this.goToPrevSection();
+            levels++;
+        }
+    },
+
     toggleItem(item, force) {
         item.classList.toggle(this.options.currentClass, force);
+
+        item.closest(this.options.menuSelector).dispatchEvent(new CustomEvent('menu-traveling:toggle-menu-item', {
+            detail: {
+                force,
+                item
+            }
+        }));
     },
 
     highlightBranchUp(item) {

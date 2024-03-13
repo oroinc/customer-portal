@@ -35,9 +35,14 @@ layout:
                     blockType: container
                 mega_menu_depth_2_featured_items:
                     blockType: container
+                mega_menu_depth_2_breadcrumbs:
+                    blockType: breadcrumbs
+                    options:
+                        breadcrumbs: '[]'
             tree:
                 mega_menu_depth_1_inner:
                     # Second Level
+                    mega_menu_depth_2_breadcrumbs: ~
                     mega_menu_depth_2_scroll_shadow:
                         mega_menu_depth_2_scroll:
                             mega_menu_depth_2_list:

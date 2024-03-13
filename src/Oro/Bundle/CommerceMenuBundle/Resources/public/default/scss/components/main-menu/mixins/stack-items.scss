@@ -1,11 +1,11 @@
 /* @theme: default; */
 
-@mixin main-menu-stack-mobile-title($namespace: '&') {
+@mixin main-menu-stack-mobile-title($namespace: '&', $offset: 44px) {
     #{$namespace}__inner {
         box-shadow: $main-menu-multi-title-container-box-shadow;
         inset-inline: 100% auto;
 
-        padding-block-start: var(--main-menu-offset-top, 60px);
+        padding-block-start: calc(var(--main-menu-offset-top, 60px) + #{$offset});
 
         opacity: 0;
 
@@ -94,6 +94,7 @@
         font-weight: $main-menu-multi-link-font-weight;
         overflow: $main-menu-multi-link-overflow;
         white-space: $main-menu-multi-link-white-space;
+        text-decoration: none;
         margin: 0;
         padding: 0;
         position: $main-menu-multi-link-position;

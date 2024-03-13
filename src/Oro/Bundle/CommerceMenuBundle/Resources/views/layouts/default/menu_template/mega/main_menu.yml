@@ -25,6 +25,10 @@ layout:
                     blockType: container
                     options:
                         class_prefix: 'main-menu-multi'
+                menu_item_multi_breadcrumbs:
+                    blockType: block
+                    options:
+                        class_prefix: 'main-menu-multi'
                 menu_item_multi_container_inner:
                     blockType: container
                 menu_item_multi_container_inner_title:
@@ -38,6 +42,7 @@ layout:
                     menu_item:
                         menu_item_inner:
                             menu_item_multi_container:
+                                menu_item_multi_breadcrumbs: ~
                                 menu_item_multi_container_inner:
                                     menu_item_multi_container_inner_title:
                                         menu_item_multi_container_inner_title_inner: ~

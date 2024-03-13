@@ -21,6 +21,26 @@
     </div>
 {% endblock %}
 
+{% block _menu_item_multi_breadcrumbs_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': class_prefix ? " #{class_prefix}__breadcrumbs breadcrumbs scrollable-container",
+        'data-page-component-view': 'orocommercemenu/js/app/views/menu-breadcrumbs/menu-breadcrumbs-collection-view',
+        'data-page-component-options': {
+            'initialBreadcrumbs': [{
+                label: 'Menu',
+                level: 0
+            }, {
+                label: menu_item.label,
+                level: 1
+            }]
+        }|json_encode,
+        'data-scroll-target': '',
+        'data-role': 'breadcrumbs'
+    }) %}
+
+    <div {{ block('block_attributes') }}></div>
+{% endblock %}
+
 {% block _menu_item_multi_container_inner_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': class_prefix ? " #{class_prefix}__container-inner"
