@@ -18,14 +18,6 @@
                 min-height: 44px;
 
                 transition: all 200ms ease-in-out;
-
-                @media (hover: hover) {
-                    &:hover {
-                        background-color: $mega-menu-depth-3-stack-mode-link-background-color;
-                        color: $mega-menu-depth-3-stack-mode-link-color;
-                        text-decoration: underline;
-                    }
-                }
             }
         }
     }
@@ -65,6 +57,16 @@
 
     .main-menu-stack-mode {
         .mega-menu-depth-3 {
+            &__link {
+                @media (hover: hover) {
+                    &:hover {
+                        background-color: $mega-menu-depth-3-stack-mode-link-background-color;
+                        color: $mega-menu-depth-3-stack-mode-link-color;
+                        text-decoration: underline;
+                    }
+                }
+            }
+
             &__actions {
                 &:not(:only-child)::after {
                     display: none;

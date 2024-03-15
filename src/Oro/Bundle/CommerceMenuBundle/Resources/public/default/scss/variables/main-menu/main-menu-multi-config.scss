@@ -36,3 +36,8 @@ $main-menu-multi-stack-mode-container-title-inner-text-decoration-hover: underli
 
 $main-menu-multi-stack-mode-container-title-hover-color: get-color('primary', 'hover') !default;
 $main-menu-multi-stack-mode-container-title-hover-background: get-color('primary', 'light') !default;
+
+/* Menu Breadcrumbs */
+
+$main-menu-breadcrumbs-transition: opacity 230ms cubic-bezier(.5, .5, .25, 1),
+    transform 230ms cubic-bezier(.5, .5, .25, 1) !default;

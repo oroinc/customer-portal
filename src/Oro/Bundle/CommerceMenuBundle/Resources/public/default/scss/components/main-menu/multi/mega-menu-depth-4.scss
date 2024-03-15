@@ -56,6 +56,20 @@
             margin-top: $mega-menu-depth-4-divider-margin-top;
         }
     }
+
+    .main-menu-stack-mode {
+        .mega-menu-depth-4 {
+            &__link {
+                @media (hover: hover) {
+                    &:hover {
+                        background-color: $mega-menu-depth-3-stack-mode-link-background-color;
+                        color: $mega-menu-depth-3-stack-mode-link-color;
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
 }
 
 @include breakpoint('mobile-big') {
