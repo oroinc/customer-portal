@@ -10,7 +10,7 @@ api:
             identifier_field_names: [id]
             fields:
                 id:
-                    data_type: int
+                    data_type: string
                 name:
                     data_type: string
             actions:
