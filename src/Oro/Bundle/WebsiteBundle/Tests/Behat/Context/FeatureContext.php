@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Behat\Context;
 
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
 
 /**
@@ -36,5 +37,23 @@ class FeatureContext extends OroFeatureContext
 
         static::assertStringContainsString($path, $currentUrl, 'Url does not contain path');
         static::assertStringContainsString($baseUrl, $currentUrl, 'Url does not contain base domain');
+    }
+
+    /**
+     * @Given /^(?:|I )set global website url from application url$/
+     */
+    public function setGlobalWebsiteUrlFromApplicationUrl()
+    {
+        /** @var ConfigManager $configManager */
+        $configManager = $this->getAppContainer()->get('oro_config.global');
+        $url = $configManager->get('oro_ui.application_url');
+
+        $applicationHost = parse_url($url, PHP_URL_HOST);
+        $applicationPort = parse_url($url, PHP_URL_PORT);
+        $host = implode(':', array_filter([$applicationHost, $applicationPort]));
+
+        $configManager->set('oro_website.url', sprintf('http://%s', $host));
+        $configManager->set('oro_website.secure_url', sprintf('https://%s', $host));
+        $configManager->flush();
     }
 }
