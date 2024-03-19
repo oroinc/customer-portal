@@ -1,4 +1,5 @@
 @ticket-BB-21885
+@regression
 @fixture-OroCommerceMenuBundle:mega_menu_items/customer_user.yml
 @fixture-OroCommerceMenuBundle:mega_menu_items/web_catalog.yml
 @fixture-OroCommerceMenuBundle:mega_menu_items/content_nodes.yml
@@ -137,58 +138,90 @@ Feature: Mega Menu Items
     And I expand "Node-1-1" in tree "Sidebar Menu Tree"
     Then I move "On Sale" before "Node-1-1-1" in tree "Sidebar Menu Tree"
 
-  @skip
+    And I go to System / Configuration
+    And I follow "Commerce/Design/Theme" on configuration sidebar
+    And uncheck "Use default" for "Standalone Main Menu" field
+    And I fill "Theme Settings Form" with:
+      | Standalone Main Menu | true |
+    And I submit form
+    Then I should see "Configuration saved" flash message
+
   Scenario: Check accessibility via keyboard, dive deep and exit on close button press
     Given I proceed as the Buyer
     And I reload the page
-    Then I click on "Main Menu Button"
-    And I focus on "Node1"
-    And I press "ArrowDown" key on "Node1" element
-    And I should see "Node2" element focused
-    And I press "ArrowUp" key on "Node2" element
-    And I should see "Node1" element focused
+    When I focus on "Node1"
     And I press "ArrowRight" key on "Node1" element
-    And I should see "Node1_1" element focused
-    And I press "ArrowRight" key on "Node1_1" element
-    And I should see "Node1_1_Title" element focused
-    And I press "ArrowDown" key on "Node1_1_Title" element
-    And I should see "Node1_1_1" element focused
-    And I press "ArrowDown" key on "Node1_1_1" element
-    And I should see "Node1_1_1_1" element focused
-    And I press "ArrowUp" key on "Node1_1_1_1" element
-    And I should see "Node1_1_1" element focused
-    And I press "ArrowUp" key on "Node1_1_1" element
-    And I should see "Node1_1_Title" element focused
-    And I press "ArrowUp" key on "Node1_1_Title" element
-    And I should see "CloseActiveItem" element focused
-    And I press "Enter" key on "CloseActiveItem" element
+    Then I should see "Node2" element focused
+
+    When I press "ArrowLeft" key on "Node2" element
     Then I should see "Node1" element focused
-  @skip
+
+    When I press "ArrowDown" key on "Node1" element
+    Then I should see "All Node_1" element focused
+
+    When I press "ArrowDown" key on "All Node_1" element
+    Then I should see "Node1_1" element focused
+
+    When I press "ArrowRight" key on "Node1_1" element
+    Then I should see "All Node1_1_Title" element focused
+
+    When I press "ArrowDown" key on "All Node1_1_Title" element
+    Then I should see "Node1_1_1" element focused
+
+    When I press "ArrowDown" key on "Node1_1_1" element
+    Then I should see "Node1_1_1_1" element focused
+
+    When I press "ArrowUp" key on "Node1_1_1_1" element
+    Then I should see "Node1_1_1" element focused
+
+    When I press "ArrowUp" key on "Node1_1_1" element
+    Then I should see "All Node1_1_Title" element focused
+
+    When I press "ArrowUp" key on "All Node1_1_Title" element
+    Then I should see "CloseActiveItem" element focused
+
+    When I press "Enter" key on "CloseActiveItem" element
+    Then I should see "Node1" element focused
+
   Scenario: Check accessibility via keyboard, dive deep and exit on press ESC button
     Given I focus on "Node1"
-    When I press "ArrowRight" key on "Node1" element
-    And I should see "Node1_1" element focused
-    And I press "ArrowRight" key on "Node1_1" element
-    And I should see "Node1_1_Title" element focused
-    And I press "ArrowDown" key on "Node1_1_Title" element
-    And I should see "Node1_1_1" element focused
-    And I press "ArrowDown" key on "Node1_1_1" element
-    And I should see "Node1_1_1_1" element focused
-    And I press "Esc" key on "Node1_1_1_1" element
+    When I press "ArrowDown" key on "Node1" element
+    Then I should see "All Node_1" element focused
+
+    When I press "ArrowDown" key on "All Node_1" element
+    Then I should see "Node1_1" element focused
+
+    When I press "ArrowRight" key on "Node1_1" element
+    Then I should see "All Node1_1_Title" element focused
+
+    When I press "ArrowDown" key on "All Node1_1_Title" element
+    Then I should see "Node1_1_1" element focused
+
+    When I press "ArrowDown" key on "Node1_1_1" element
+    Then I should see "Node1_1_1_1" element focused
+
+    When I press "Esc" key on "Node1_1_1_1" element
     Then I should see "Node1" element focused
-  @skip
+
   Scenario: Check accessibility via keyboard, navigation through different menu levels
     Given I focus on "Node1"
-    When I press "ArrowRight" key on "Node1" element
-    And I should see "Node1_1" element focused
-    And I press "ArrowRight" key on "Node1_1" element
-    And I should see "Node1_1_Title" element focused
-    And I press "ArrowDown" key on "Node1_1_Title" element
-    And I should see "Node1_1_1" element focused
-    And I press "ArrowLeft" key on "Node1_1_1" element
-    And I should see "Node1_1" element focused
-    And I press "ArrowDown" key on "Node1_1" element
-    And I should see "Node1_2" element focused
-    And I press "ArrowLeft" key on "Node1_2" element
-    And I press "ArrowDown" key on "Node1" element
+    When I press "ArrowDown" key on "Node1" element
+    And I should see "All Node_1" element focused
+
+    When I press "ArrowDown" key on "All Node_1" element
+    Then I should see "Node1_1" element focused
+
+    When I press "ArrowRight" key on "Node1_1" element
+    Then I should see "All Node1_1_Title" element focused
+
+    When I press "ArrowDown" key on "All Node1_1_Title" element
+    Then I should see "Node1_1_1" element focused
+
+    When I press "ArrowLeft" key on "Node1_1_1" element
+    Then I should see "Node1_1" element focused
+
+    When I press "ArrowDown" key on "Node1_1" element
+    Then I should see "Node1_2" element focused
+
+    When I press "ArrowRight" key on "Node1_2" element
     Then I should see "Node2" element focused

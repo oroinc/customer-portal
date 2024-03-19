@@ -8,16 +8,19 @@ layout:
                 mega_menu_depth_1_list:
                     blockType: menu_list
                     options:
+                        tagName: 'div'
                         class_prefix: 'mega-menu-depth-1'
                         attr:
-                            data-role: 'sub-menu'
+                            role: 'list'
                 mega_menu_depth_1_item:
                     blockType: menu_item
                     options:
                         tooltipEnable: true
                         dividerEnable: false
                         linkEnable: false
+                        tagName: 'div'
                         attr:
+                            role: 'listitem'
                             data-role: 'menuitem'
                 mega_menu_depth_1_inner:
                     blockType: menu_inner

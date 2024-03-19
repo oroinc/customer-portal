@@ -103,19 +103,6 @@
         align-items: $main-menu-multi-link-align-items;
         align-self: $main-menu-multi-link-align-self;
         z-index: $main-menu-multi-link-z-index;
-
-        &.focus-via-arrows-keys:focus {
-            grid-column: $main-menu-multi-link-focus-keys-grid-column;
-            align-self: $main-menu-multi-link-focus-keys-align-self;
-            margin: $main-menu-multi-link-focus-keys-margin;
-            padding: $main-menu-multi-link-focus-keys-padding;
-        }
-    }
-
-    &__actions:only-child &__link:not(.focus-via-arrows-keys:focus) {
-        grid-column: $main-menu-multi-link-only-child-keys-grid-column;
-        align-self: $main-menu-multi-link-only-child-keys-align-self;
-        padding: $main-menu-multi-link-only-child-keys-padding;
     }
 
     &__button {

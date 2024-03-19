@@ -27,23 +27,27 @@ layout:
                     blockType: menu_list
                     options:
                         class_prefix: 'main-menu-column'
+                        tagName: 'div'
                         attr:
-                            data-role: 'sub-menu'
+                            role: 'list'
                 menu_item_depth_1_item:
                     blockType: menu_item_simple
                     options:
+                        tagName: 'div'
                         attr:
-                            data-role: 'menuitem'
+                            role: 'listitem'
                 menu_item_depth_2_list:
                     blockType: menu_list
                     options:
+                        tagName: 'div'
                         attr:
-                            data-role: 'sub-menu'
+                            role: 'list'
                 menu_item_depth_2_item:
                     blockType: menu_item_simple
                     options:
+                        tagName: 'div'
                         attr:
-                            data-role: 'menuitem'
+                            role: 'listitem'
             tree:
                 menu_item_root:
                     menu_item:

@@ -246,11 +246,13 @@
                 }
             }
 
-            &__item.show .main-menu__inner {
+            &__item.show .main-menu__inner,
+            .show.main-menu__inner {
                 display: block;
             }
 
-            &__item.show .main-menu__inner--edge {
+            &__item.show .main-menu__inner--edge,
+            .show.main-menu__inner--edge {
                 display: $main-menu-sublist-edge-display;
             }
         }

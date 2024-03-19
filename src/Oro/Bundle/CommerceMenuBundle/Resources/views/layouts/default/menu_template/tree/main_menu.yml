@@ -28,48 +28,56 @@ layout:
                     blockType: menu_list
                     options:
                         class_prefix: 'main-menu-column'
+                        tagName: 'div'
                         attr:
-                            data-role: 'sub-menu'
+                            role: 'list'
                 menu_item_depth_1_item:
                     blockType: menu_item_simple
                     options:
                         imageViewAs: false
+                        tagName: 'div'
                         attr:
-                            data-role: 'menuitem'
+                            role: 'listitem'
                 menu_item_depth_2_list:
                     blockType: menu_list
                     options:
+                        tagName: 'div'
                         attr:
-                            data-role: 'sub-menu'
+                            role: 'list'
                 menu_item_depth_2_item:
                     blockType: menu_item_simple
                     options:
+                        tagName: 'div'
                         attr:
-                            data-role: 'menuitem'
+                            role: 'list'
                 menu_item_depth_3_list:
                     blockType: menu_list
                     options:
+                        tagName: 'div'
                         attr:
-                            data-role: 'sub-menu'
+                            role: 'list'
                 menu_item_depth_3_item:
                     blockType: menu_item_simple
                     options:
+                        tagName: 'div'
                         attr:
-                            data-role: 'menuitem'
+                            role: 'list'
                 menu_second_level_sale_head:
                     blockType: container
                 on_sale_depth_1_list:
                     blockType: menu_list
                     options:
                         class_prefix: 'main-menu-column'
+                        tagName: 'div'
                         attr:
-                            data-role: 'sub-menu'
+                            role: 'list'
                 on_sale_depth_1_item:
                     blockType: menu_item
                     options:
                         imageViewAs: 'image'
+                        tagName: 'div'
                         attr:
-                            data-role: 'menuitem'
+                            role: 'list'
             tree:
                 menu_item_root:
                     menu_item:

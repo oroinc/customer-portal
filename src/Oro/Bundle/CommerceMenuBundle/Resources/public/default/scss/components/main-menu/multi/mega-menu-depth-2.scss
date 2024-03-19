@@ -279,10 +279,6 @@
                 margin-inline-end: spacing('lg');
             }
 
-            &__actions:only-child .mega-menu-depth-2__link:not(.focus-via-arrows-keys:focus) {
-                padding: 0;
-            }
-
             &__list--columns:has(.mega-menu-depth-2__inner) {
                 display: block;
             }

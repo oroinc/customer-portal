@@ -77,10 +77,6 @@
             &__link {
                 font-weight: normal;
             }
-
-            &__actions:only-child .mega-menu-depth-1__link:not(.focus-via-arrows-keys:focus) {
-                padding: 0;
-            }
         }
     }
 }

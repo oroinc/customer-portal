@@ -34,15 +34,6 @@ $main-menu-multi-link-align-items: center !default;
 $main-menu-multi-link-align-self: initial !default;
 $main-menu-multi-link-z-index: z('base') + 1 !default;
 
-$main-menu-multi-link-focus-keys-grid-column: #{'1 / 6'} !default;
-$main-menu-multi-link-focus-keys-align-self: initial !default;
-$main-menu-multi-link-focus-keys-margin: 8px !default;
-$main-menu-multi-link-focus-keys-padding: 0 !default;
-
-$main-menu-multi-link-only-child-keys-grid-column: #{'1 / 6'} !default;
-$main-menu-multi-link-only-child-keys-align-self: initial !default;
-$main-menu-multi-link-only-child-keys-padding: 0 !default;
-
 $main-menu-multi-button-background: none !default;
 $main-menu-multi-button-font-family: $base-font !default;
 $main-menu-multi-button-font-size: $base-font-size !default;

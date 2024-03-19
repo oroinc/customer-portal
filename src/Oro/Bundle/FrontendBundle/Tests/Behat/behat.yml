@@ -30,10 +30,18 @@ oro_behat_extension:
       selector:
         type: 'xpath'
         locator: '//*[@data-main-menu-item]//span[contains(text(),"Node-2")]/..'
+    All Node_1:
+      selector:
+        type: 'xpath'
+        locator: '//*[@data-main-menu-item]//a[contains(text(),"All Node-1")]'
     Node1_1:
       selector:
         type: 'xpath'
         locator: '//*[@data-main-menu-item]//span[contains(text(),"Node-1-1")]/..'
+    All Node1_1_Title:
+      selector:
+        type: 'xpath'
+        locator: '//*[@data-main-menu-item]//a[contains(text(),"All Node-1-1")]'
     Node1_1_Title:
       selector:
         type: 'xpath'

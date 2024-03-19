@@ -4,19 +4,20 @@
     }) %}
 
     <div {{ block('block_attributes') }}>
-        <div class="main-menu-columns__container">
-            <div class="main-menu-columns__title">
+        <div class="main-menu-columns__container" data-role="sub-menu">
+            <div class="main-menu-columns__title" data-role="sub-menu">
                 <a 
                     href="{{ oro_commercemenu_get_url(menu_item.uri) }}"
                     class="main-menu-columns__title-link"
+                    data-role="list-item"
                 >
                     <span class="main-menu-columns__title-inner">
                         {{- 'oro.commercemenu.frontend.navigation.section_title'|trans({'%section_title%': menu_item.label}) -}}
                     </span>
                 </a>
             </div>
-            <div class="main-menu-columns main-menu-columns--single">
-                <div class="main-menu-column" data-role="sub-menu">
+            <div class="main-menu-columns main-menu-columns--single" data-role="sub-menu">
+                <div class="main-menu-column">
                     {% do block|merge_context({'menu_items': menu_item.children}) %}
                     {{ block_widget(block) }}
                 </div>

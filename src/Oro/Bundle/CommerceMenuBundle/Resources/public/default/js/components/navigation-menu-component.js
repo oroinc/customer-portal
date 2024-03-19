@@ -66,10 +66,6 @@ const NavigationMenuComponent = BaseComponent.extend({
     initView(options = {}) {
         this.disposeView();
 
-        if (this.viewOptions.el.closest('.sidebar-main-menu').length) {
-            return;
-        }
-
         this.view = new NavigationMenuView({
             ...this.viewOptions,
             ...options

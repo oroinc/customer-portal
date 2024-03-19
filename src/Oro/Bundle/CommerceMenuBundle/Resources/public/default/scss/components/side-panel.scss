@@ -7,6 +7,9 @@
         }
 
         &__content {
+            // Preventing focus visible style from being cut
+            --focus-visible-outline-offset: -2px;
+
             padding: $side-panel-content-padding;
         }
     }
