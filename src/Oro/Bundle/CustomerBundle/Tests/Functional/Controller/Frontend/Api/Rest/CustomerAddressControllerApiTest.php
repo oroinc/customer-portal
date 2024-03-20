@@ -4,7 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller\Frontend\Api\Res
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
-use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadAdminCustomerUserData;
+use Oro\Bundle\CustomerBundle\Tests\Functional\ApiFrontend\DataFixtures\LoadAdminCustomerUserData;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Test\Functional\RolePermissionExtension;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
@@ -20,13 +20,10 @@ class CustomerAddressControllerApiTest extends WebTestCase
     protected function setUp(): void
     {
         $this->initClient();
-
-        $this->loadFixtures(
-            [
-                LoadAdminCustomerUserData::class,
-                '@OroCustomerBundle/Tests/Functional/Api/Frontend/DataFixtures/customer_address.yml',
-            ]
-        );
+        $this->loadFixtures([
+            LoadAdminCustomerUserData::class,
+            '@OroCustomerBundle/Tests/Functional/ApiFrontend/DataFixtures/customer_address.yml',
+        ]);
 
         parent::setUp();
     }
@@ -412,14 +409,14 @@ class CustomerAddressControllerApiTest extends WebTestCase
         self::assertEquals(['code' => 403], $result);
     }
 
-    private function loginCustomerUser()
+    private function loginCustomerUser(): void
     {
         self::getClientInstance()->setServerParameters(
             self::generateBasicAuthHeader('frontend_admin_api@example.com', 'test')
         );
     }
 
-    private function assertResponseDataHaveLabels(array $expectedLabels, array $resultData)
+    private function assertResponseDataHaveLabels(array $expectedLabels, array $resultData): void
     {
         foreach ($resultData as $result) {
             $label = $result['label'];
