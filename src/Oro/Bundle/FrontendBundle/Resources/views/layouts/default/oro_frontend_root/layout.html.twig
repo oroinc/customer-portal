@@ -1,0 +1,13 @@
+{% block title_widget -%}
+    {% apply spaceless %}
+        <title>{{ value }}</title>
+    {% endapply %}
+{% endblock %}
+
+{% block _home_page_content_widget %}
+    {% set attr = attr|merge({
+        class: attr.class|default('') ~ " home-page"
+    }) %}
+
+    {{ parent_block_widget(block) }}
+{% endblock %}

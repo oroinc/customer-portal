@@ -242,6 +242,7 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
         $this->assertFormOptionEqual(false, 'disabled', $form->get('contentNode'));
         $this->assertFormOptionEqual(false, 'disabled', $form->get('category'));
         $this->assertFormOptionEqual(false, 'disabled', $form->get('systemPageRoute'));
+        $this->assertFormOptionEqual('/^oro_\w+(?<!frontend_root)$/', 'name_filter', $form->get('systemPageRoute'));
         $this->assertFormOptionEqual(false, 'disabled', $form->get('uri'));
 
         $form->submit($submitData);
@@ -320,6 +321,7 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
         $this->assertFormOptionEqual(false, 'disabled', $form->get('contentNode'));
         $this->assertFormOptionEqual(false, 'disabled', $form->get('category'));
         $this->assertFormOptionEqual(false, 'disabled', $form->get('systemPageRoute'));
+        $this->assertFormOptionEqual('/^oro_\w+(?<!frontend_root)$/', 'name_filter', $form->get('systemPageRoute'));
         $this->assertFormOptionEqual(false, 'disabled', $form->get('uri'));
 
         $form->submit($submitData);
@@ -403,6 +405,7 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
         $this->assertFormOptionEqual(true, 'disabled', $form->get('contentNode'));
         $this->assertFormOptionEqual(true, 'disabled', $form->get('category'));
         $this->assertFormOptionEqual(true, 'disabled', $form->get('systemPageRoute'));
+        $this->assertFormOptionEqual('/^oro_\w+(?<!frontend_root)$/', 'name_filter', $form->get('systemPageRoute'));
         $this->assertFormOptionEqual(true, 'disabled', $form->get('uri'));
 
         $form->submit($submitData);

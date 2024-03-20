@@ -23,4 +23,7 @@ oro_behat_extension:
               element: Select2Entity
           Main Navigation Menu Use Default: 'routing[oro_commerce_menu___main_navigation_menu][use_parent_scope_value]'
           Main Navigation Menu: 'routing[oro_commerce_menu___main_navigation_menu][value]'
-
+          Homepage:
+            type: 'css'
+            locator: 'input[id^="routing_oro_cms___home_page_value-uid"]'
+            element: Select2Entity

@@ -199,6 +199,7 @@ class MenuUpdateTargetTypeExtension extends AbstractTypeExtension
                 'menu_name' => 'frontend_menu',
                 'disabled' => $isDisabled,
                 'error_bubbling' => false,
+                'name_filter' => '/^oro_\w+(?<!frontend_root)$/',
             ]
         );
     }

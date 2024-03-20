@@ -24,6 +24,8 @@ Feature: Featured menu, displayed on the main front page
     And I save form
     Then I should see "Menu item saved successfully." flash message
 
+  @skip
+  # Unskip and apply after adding Featured Menu for the new theme
   Scenario: Use new menu item on frontend
     Given I proceed as the Guest
     When I am on the homepage
@@ -40,6 +42,8 @@ Feature: Featured menu, displayed on the main front page
     And I save form
     Then I should see "Menu item saved successfully." flash message
 
+  @skip
+  # Unskip and apply after adding Featured Menu for the new theme
   Scenario: Use edited menu item on frontend
     Given I proceed as the Guest
     When I am on the homepage
@@ -71,6 +75,8 @@ Feature: Featured menu, displayed on the main front page
     And I save form
     Then I should see "Menu item saved successfully." flash message
 
+  @skip
+  # Unskip and apply after adding Featured Menu for the new theme
   Scenario: Check visibility of menu item for unauthorized users
     Given I proceed as the Guest
     When I am on the homepage
