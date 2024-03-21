@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller\Frontend;
+namespace Oro\Bundle\CustomerBundle\Tests\Functional\ControllerFrontend;
 
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
