@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * This processor is used to test that 4xx responses for storefront visitors are correct.
- * @see \Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\RestJsonApi\NotAccessibleResourceForVisitorTest
+ * @see \Oro\Bundle\CustomerBundle\Tests\Functional\ApiFrontend\RestJsonApi\NotAccessibleResourceForVisitorTest
  */
 class HandleSpecialIdentifiers implements ProcessorInterface
 {

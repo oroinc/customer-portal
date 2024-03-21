@@ -3,14 +3,11 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Command;
 
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
-use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
+use Oro\Bundle\FrontendBundle\Tests\Functional\ApiFrontend\FrontendRestJsonApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class GenerateCustomerUserWsseHeaderCommandTest extends FrontendRestJsonApiTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->initClient();
@@ -18,13 +15,7 @@ class GenerateCustomerUserWsseHeaderCommandTest extends FrontendRestJsonApiTestC
         $this->setCurrentWebsite();
     }
 
-    /**
-     * @param string $email
-     * @param string $password
-     *
-     * @return string
-     */
-    private function getApiKey($email, $password): string
+    private function getApiKey(string $email, string $password): string
     {
         $response = $this->post(
             ['entity' => 'login'],
@@ -37,6 +28,8 @@ class GenerateCustomerUserWsseHeaderCommandTest extends FrontendRestJsonApiTestC
             [],
             false
         );
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_OK);
+
         $content = self::jsonToArray($response->getContent());
 
         return $content['meta']['apiKey'];
@@ -45,7 +38,7 @@ class GenerateCustomerUserWsseHeaderCommandTest extends FrontendRestJsonApiTestC
     public function testGenerateWsseHeader()
     {
         $apiKey = $this->getApiKey(LoadCustomerUserData::EMAIL, LoadCustomerUserData::PASSWORD);
-        $result = $this->runCommand('oro:customer-user:wsse:generate-header', [$apiKey]);
+        $result = self::runCommand('oro:customer-user:wsse:generate-header', [$apiKey]);
 
         self::assertStringContainsString(
             'To use WSSE authentication add following headers to the request:',
@@ -69,12 +62,12 @@ class GenerateCustomerUserWsseHeaderCommandTest extends FrontendRestJsonApiTestC
             false
         );
 
-        $this->assertResponseStatusCodeNotEquals($response, Response::HTTP_UNAUTHORIZED);
+        self::assertResponseStatusCodeNotEquals($response, Response::HTTP_UNAUTHORIZED);
     }
 
     public function testGenerateWsseHeaderOnWrongApiKey()
     {
-        $result = $this->runCommand('oro:customer-user:wsse:generate-header', ['wrongKey']);
+        $result = self::runCommand('oro:customer-user:wsse:generate-header', ['wrongKey']);
 
         self::assertStringNotContainsString('To use WSSE authentication add following headers', $result);
         self::assertStringNotContainsString('Authorization: WSSE profile="UsernameToken"', $result);

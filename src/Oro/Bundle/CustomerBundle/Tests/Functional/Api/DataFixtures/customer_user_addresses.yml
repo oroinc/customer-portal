@@ -3,7 +3,7 @@ dependencies:
   - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization
   - Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerData
   - Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserAddresses
-  - Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadWebsiteData
+  - Oro\Bundle\WebsiteBundle\Tests\Functional\DataFixtures\LoadWebsite
 
 Oro\Bundle\OrganizationBundle\Entity\Organization:
     another_organization:
