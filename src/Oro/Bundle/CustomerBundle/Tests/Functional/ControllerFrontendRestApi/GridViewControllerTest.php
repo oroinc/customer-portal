@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller\Frontend\Api\Rest;
+namespace Oro\Bundle\CustomerBundle\Tests\Functional\ControllerFrontendRestApi;
 
 use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\CustomerBundle\Entity\GridView;
