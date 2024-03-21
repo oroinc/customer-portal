@@ -1,13 +1,16 @@
 /* @theme: default; */
 
 $notification-flash-container-width: 500px !default;
-$notification-flash-container-offset: 28px 28px 0 auto !default;
-$notification-flash-container-z-index: z('popup') + 50 !default;
+$notification-flash-container-offset-top: 28px !default;
+$notification-flash-container-offset-right: 28px !default;
+$notification-flash-container-offset-left: auto !default;
+$notification-flash-container-z-index: z('fixed') !default;
 
 // Tablet
 $notification-flash-container-tablet-offset: 28px spacing('base') 0 auto !default;
 $notification-flash-container-tablet-width: 400px !default;
 
 // Mobile
-$notification-flash-container-mobile-offset: 28px auto 0 !default;
-$notification-flash-container-mobile-width: 328px !default;
+$notification-flash-container-mobile-offset-t: spacing('sm') !default;
+$notification-flash-container-mobile-offset-horizontal: spacing('base') !default;
+$notification-flash-container-mobile-width: auto !default;

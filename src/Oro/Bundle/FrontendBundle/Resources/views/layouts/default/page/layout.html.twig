@@ -31,12 +31,14 @@
         'data-sticky': {
             name: 'page-header',
             sentinel: 'toolbar'
-        }
+        },
+        'data-page-header': ''
     }) %}
 
     {% if oro_config_value('oro_frontend.standalone_main_menu') %}
         {% set attr = layout_attr_defaults(attr, {
-            '~class': ' page-header--standalone-main-menu'
+            '~class': ' page-header--standalone-main-menu',
+            'data-page-header': ''
         }) %}
     {% endif %}
 
@@ -106,7 +108,7 @@
     {% endif %}
 
     {% set flashMessageViewOptions = {
-        view: 'oroui/js/app/views/page/messages-view',
+        view: 'orofrontend/default/js/app/views/frontend-messages-view',
         options: {
             autoRender: true,
             initializeMessenger: true,

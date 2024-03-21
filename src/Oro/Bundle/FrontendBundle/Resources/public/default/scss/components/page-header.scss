@@ -5,7 +5,7 @@
     display: flex;
     flex-direction: column;
 
-    z-index: $sticky-panel-z-index;
+    z-index: $sticky-panel-z-index + 1;
 
     gap: $page-header-gap;
 

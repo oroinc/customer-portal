@@ -29,6 +29,7 @@ configs:
     orofrontend/js/app/plugins/frontend-datagrid-settings-plugin: {}
     orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-column-view: {}
     orofrontend/js/app/views/dom-relocation-view: {}
+    orofrontend/default/js/app/views/frontend-messages-view: {}
     orofrontend/js/datagrid/cell/frontend-action-cell: {}
 dynamic-imports:
     commons:
@@ -38,6 +39,7 @@ dynamic-imports:
         - orofrontend/default/js/app/views/fullscreen-popup-view
         - orofrontend/default/js/app/views/proxy-focus-view
         - orofrontend/default/js/app/views/scroll-top-view
+        - orofrontend/default/js/app/views/frontend-messages-view
         - orofrontend/default/js/app/views/sticky-element-view
         - orofrontend/default/js/widgets/elastic-area-widget
         - orofrontend/default/js/widgets/expand-text-widget

@@ -7,12 +7,14 @@
     left: 0;
     z-index: $notification-flash-container-z-index;
 
-    margin: $notification-flash-container-offset;
+    margin-top: calc(var(--notification-extra-offset-top, 116px) + #{$notification-flash-container-offset-top});
+    margin-right: $notification-flash-container-offset-right;
+    margin-left: $notification-flash-container-offset-left;
     width: $notification-flash-container-width;
 
     opacity: 1;
 
-    transition: opacity 300ms linear, top 300ms linear;
+    transition: opacity 300ms linear, top 300ms linear, margin-top 300ms;
 
     &:empty {
         opacity: 0;
@@ -21,14 +23,18 @@
 
 @include breakpoint('tablet-small') {
     .notification-flash-container {
-        margin: $notification-flash-container-tablet-offset;
+        margin-top:
+            calc(
+                var(--notification-extra-offset-top, 116px) + #{$notification-flash-container-mobile-offset-t}
+            );
         width: $notification-flash-container-tablet-width;
     }
 }
 
 @include breakpoint('mobile-landscape') {
     .notification-flash-container {
-        margin: $notification-flash-container-mobile-offset;
+        margin-left: $notification-flash-container-mobile-offset-horizontal;
+        margin-right: $notification-flash-container-mobile-offset-horizontal;
         width: $notification-flash-container-mobile-width;
     }
 }
