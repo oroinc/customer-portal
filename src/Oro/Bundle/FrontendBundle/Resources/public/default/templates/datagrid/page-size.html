@@ -1,8 +1,7 @@
 <% if ((collectionState.totalRecords || 0) > Math.min.apply(null, items.map(function(item){return item.size || item}))) { %>
     <% var labelId = _.uniqueId('datagrid-toolbar-label-') %>
-    <span id="<%- labelId %>" class="datagrid-tool__label"><%- _.__("Per page") %>: &nbsp;</span>
     <div class="action-selectbox-custom-in-pager">
-        <select class="select" name="action" data-grid-pagesize-selector aria-labelledby="<%- labelId %>">
+        <select class="select" data-label="<%- _.__("Per page") %>:" name="action" data-grid-pagesize-selector aria-labelledby="<%- labelId %>">
             <% _.each(items, function (item) { %>
                 <option <% if (item === currentPageSize || (!_.isUndefined(item.size) && item.size === currentPageSize)) { %>selected<% } %>
                         value="<% if (_.isUndefined(item.size)) { %><%- item %><% } else { %><%- item.size %><% } %>"

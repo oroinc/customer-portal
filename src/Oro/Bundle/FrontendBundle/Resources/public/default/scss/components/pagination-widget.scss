@@ -21,9 +21,13 @@
     &-arrow {
         padding: spacing('md');
         border-radius: 100%;
+        border: none;
+        align-items: center;
+        display: flex;
         background-color: $oro-pagination-arrow-background;
         color: $oro-pagination-arrow-color;
         transition: $oro-pagination-arrow-transition;
+        cursor: pointer;
 
         &:hover {
             background-color: $oro-pagination-arrow-background-hover;

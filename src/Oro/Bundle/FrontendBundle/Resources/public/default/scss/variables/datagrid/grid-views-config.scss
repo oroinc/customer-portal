@@ -2,7 +2,7 @@
 
 @use 'sass:color';
 
-$grid-views-border-bottom: 1px solid get-color('neutral', 'grey1') !default;
+$grid-views-border-bottom: null !default;
 
 $grid-views-offset: 0 !default;
 
