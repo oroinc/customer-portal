@@ -1,5 +1,22 @@
 /* @theme: default; */
 
 .login-form {
-    @extend %single-form-page;
+    .notification {
+        margin-bottom: $base-ui-grid-row-gap;
+    }
+
+    .check-remember-me {
+        font-size: $base-font-size--s;
+    }
+
+    .form-extra-fields {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: spacing('md') 0;
+    }
+
+    .form-actions__wrapper {
+        margin-top: $base-ui-grid-row-gap;
+    }
 }

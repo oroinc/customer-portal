@@ -1,9 +1,16 @@
 /* @theme: default; */
 
 .check-email {
-    @extend %single-form-page;
+    .form-link__wrapper {
+        margin-top: spacing('xs');
+    }
+}
 
-    &--size-m {
-        @extend %single-form-page--size-m;
+@include breakpoint('mobile') {
+    .check-email {
+        .form-link__wrapper {
+            justify-content: left;
+            text-align: left;
+        }
     }
 }

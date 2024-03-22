@@ -7,15 +7,6 @@
     </div>
 {%- endblock %}
 
-{% block _login_page_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' login-form'
-    }) %}
-    <div {{ block('block_attributes') }}>
-        {{ block('container_widget') }}
-    </div>
-{% endblock %}
-
 {% block __oro_customer_form_login__login_form_start_widget %}
     {% set attr = layout_attr_defaults(attr, {
         'id': 'form-login',
@@ -30,13 +21,31 @@
         },
     }) %}
     <form {{ block('block_attributes') }}>
-        <div class="grid">
-            {{ block_widget(block) }}
+        {{ block_widget(block) }}
  {% endblock %}
 
+
+
+{% block __oro_customer_form_login__login_form_fields_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'class': 'grid'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __oro_customer_form_login__login_form_extra_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'class': 'grid-col-12 form-extra-fields'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
 {% block __oro_customer_form_login__login_form_end_widget %}
-            {{ block_widget(block) }}
-        </div>
+        {{ block_widget(block) }}
     </form>
 {% endblock %}
 
@@ -54,10 +63,6 @@
     <div class="grid-col-12">
         <div class="notification notification--error">{{ block_widget(block, {text: text}) }}</div>
     </div>
-{% endblock %}
-
-{% block __oro_customer_form_login__login_form_remember_widget %}
-    {{ block_row(block) }}
 {% endblock %}
 
 {% block __oro_customer_form_login__login_form_username_widget %}
@@ -96,3 +101,10 @@
         label_attr: label_attr
     }) }}
 {% endblock %}
+
+{% block _login_form_remember_widget %}
+    <div class="check-remember-me">
+        {{ block_row(block) }}
+    </div>
+{% endblock %}
+

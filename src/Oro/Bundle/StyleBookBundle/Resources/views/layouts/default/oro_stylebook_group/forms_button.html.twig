@@ -42,10 +42,10 @@
 
 {% block _style_book_button_element_nopadding_widget %}
     <button type="button" class="btn btn--no-padding btn--text">Default Button</button>
-    <button type="button" class="btn btn--no-padding btn--destructive btn--text">Destructive Button</button>
-    <button type="button" class="btn btn--no-padding btn--outlined btn--text">Primary Outlined Button</button>
-    <button type="button" class="btn btn--no-padding btn--destructive-outlined btn--text">Destructive Outlined Button</button>
-    <button type="button" class="btn btn--no-padding btn--neutral-dark btn--text" disabled>Neutral Dark Button</button>
+    <button type="button" class="btn btn--no-padding btn--text btn--destructive">Destructive Button</button>
+    <button type="button" class="btn btn--no-padding btn--text btn--outlined">Primary Outlined Button</button>
+    <button type="button" class="btn btn--no-padding btn--text btn--destructive-outlined">Destructive Outlined Button</button>
+    <button type="button" class="btn btn--no-padding btn--text btn--neutral-dark" disabled>Neutral Dark Button</button>
 {% endblock %}
 
 {% block _style_book_button_element_sizes_widget %}
@@ -102,11 +102,6 @@
     </button>
     <button type="button" class="btn btn--text btn--plain">
         {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    <button type="button" class="btn btn--plain btn--text">
-        {{- renderIcon.icon({name: 'close', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-    <button type="button" class="btn btn--plain btn--text">
-        {{- renderIcon.icon({name: 'arrow-left', extraClass: 'theme-icon--medium'}) -}}
     </button>
 {% endblock %}
 
@@ -130,16 +125,9 @@
     <button type="button" class="btn btn--icon btn--plain">
         {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
     </button>
-    <button type="button" class="btn btn--plain btn--icon">
-        {{- renderIcon.icon({name: 'close', extraClass: 'theme-icon--medium'}) -}}
     <button type="button" class="btn btn--icon btn--neutral">
         {{ renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) }}
     </button>
-    <button type="button" class="btn btn--neutral btn--icon">
-        {{ renderIcon.icon({name: 'close', extraClass: 'theme-icon--medium'}) }}
-    </button>
-    <button type="button" class="btn btn--plain btn--icon">
-        {{- renderIcon.icon({name: 'arrow-left', extraClass: 'theme-icon--medium'}) -}}
     <button type="button" class="btn btn--icon btn--colored">
         {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
     </button>
@@ -162,12 +150,10 @@
     <button type="button" class="btn btn--icon btn--circle btn--neutral-dark">
         {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
     </button>
-    <button type="button" class="btn btn--plain btn--icon btn--circle">
-        {{- renderIcon.icon({name: 'close', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-    <button type="button" class="btn btn--plain btn--icon btn--circle">
-        {{- renderIcon.icon({name: 'arrow-left', extraClass: 'theme-icon--medium'}) -}}
     <button type="button" class="btn btn--icon btn--circle btn--plain">
+        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
+    </button>
+    <button type="button" class="btn btn--icon btn--circle btn--colored">
         {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
     </button>
 {% endblock %}

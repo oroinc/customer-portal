@@ -15,10 +15,10 @@ Feature: Reset customer user password
     Given I proceed as the Unauthorized
     And I am on the homepage
     And I click "Log In"
-    And I fill form with:
-      | Email Address | NancyJSallee@example.org |
-      | Password      | NancyJSallee@example.org |
-    When I click "Log In"
+    And I fill "Customer Login Form" with:
+      | Email    | NancyJSallee@example.org |
+      | Password | NancyJSallee@example.org |
+    When I click "Log In Button"
     Then I should see "Nancy Sallee"
     And I click "Account Dropdown"
     And I click "Sign Out"
@@ -44,29 +44,29 @@ Feature: Reset customer user password
     Given I proceed as the Unauthorized
     And I am on the homepage
     And I click "Log In"
-    And I fill form with:
-      | Email Address | NancyJSallee@example.org |
-      | Password      | NancyJSallee@example.org |
-    When I click "Log In"
+    And I fill "Customer Login Form" with:
+      | Email    | NancyJSallee@example.org |
+      | Password | NancyJSallee@example.org |
+    When I click "Log In Button"
     Then I should see "Your login was unsuccessful"
 
   Scenario: Reset password by emails link
     Given I proceed as the Unauthorized
     And I follow remembered "RESET PASSWORD" link from the email
-    When I fill form with:
+    When I fill "Customer Reset Form" with:
       | Password         | NancyJSallee@example.org1 |
       | Confirm Password | NancyJSallee@example.org1 |
-    And click "Create"
-    Then I should see "Password was created successfully."
+    And click "Save Changes"
+    Then I should see "Password successfully changed"
 
   Scenario: Login with new password
     Given I proceed as the Unauthorized
     And I am on the homepage
     And I click "Log In"
-    And I fill form with:
-      | Email Address | NancyJSallee@example.org |
-      | Password      | NancyJSallee@example.org1 |
-    When I click "Log In"
+    And I fill "Customer Login Form" with:
+      | Email    | NancyJSallee@example.org |
+      | Password | NancyJSallee@example.org1 |
+    When I click "Log In Button"
     Then I should see "Nancy Sallee"
     And I click "Account Dropdown"
     And I click "Sign Out"
@@ -95,29 +95,29 @@ Feature: Reset customer user password
     Given I proceed as the Unauthorized
     And I am on the homepage
     And I click "Log In"
-    And I fill form with:
-      | Email Address | NancyJSallee@example.org |
-      | Password      | NancyJSallee@example.org1 |
-    When I click "Log In"
+    And I fill "Customer Login Form" with:
+      | Email    | NancyJSallee@example.org |
+      | Password | NancyJSallee@example.org1 |
+    When I click "Log In Button"
     Then I should see "Your login was unsuccessful"
 
   Scenario: Reset password by emails link
     Given I proceed as the Unauthorized
     And I follow remembered "RESET PASSWORD" link from the email
-    When I fill form with:
+    When I fill "Customer Reset Form" with:
       | Password         | NancyJSallee@example.org2 |
       | Confirm Password | NancyJSallee@example.org2 |
-    And click "Create"
-    Then I should see "Password was created successfully."
+    And click "Save Changes"
+    Then I should see "Password successfully changed"
 
   Scenario: Login with new password
     Given I proceed as the Unauthorized
     And I am on the homepage
     And I click "Log In"
-    And I fill form with:
-      | Email Address | NancyJSallee@example.org |
-      | Password      | NancyJSallee@example.org2 |
-    When I click "Log In"
+    And I fill "Customer Login Form" with:
+      | Email    | NancyJSallee@example.org |
+      | Password | NancyJSallee@example.org2 |
+    When I click "Log In Button"
     Then I should see "Nancy Sallee"
     And I click "Account Dropdown"
     And I click "Sign Out"

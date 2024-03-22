@@ -30,8 +30,8 @@ Feature: Frontend Grid Views
     And I reload the page
     Then I should see "Test_View_1"
     And I should see following grid:
-      |First Name      |Last Name       |Email Address          |
-      |FirstName_3     |LastName_3      |user_3@example.org     |
+      |First Name      |Last Name       |Email Address      |
+      |FirstName_3     |LastName_3      |user_3@example.org |
     And I shouldn't see "Enabled" column in grid
     And I shouldn't see "Confirmed" column in grid
 

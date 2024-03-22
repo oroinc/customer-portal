@@ -12,15 +12,15 @@ Feature: Customer User with administrator role should able to view and edit Cust
     Given I proceed as the User
     And I am on the homepage
     And click "Log In"
-    And click "Create An Account"
+    And click "Sign Up"
     And fill form with:
       | Company Name     | TestCompany        |
       | First Name       | Test_O             |
       | Last Name        | Test_M             |
-      | Email Address    | Testuser1@test.com |
+      | Email            | Testuser1@test.com |
       | Password         | Testuser1@test.com |
       | Confirm Password | Testuser1@test.com |
-    And click "Create An Account"
+    And click "Create Account"
     And I proceed as the Admin
     And login as administrator
     And go to Customers/Customer Users
@@ -45,7 +45,7 @@ Feature: Customer User with administrator role should able to view and edit Cust
     And click "Users"
     And click "Create User"
     And fill form with:
-      | Email Address      | newuser@test.com |
+      | Email              | newuser@test.com |
       | First Name         | newFirst         |
       | Last Name          | newLast          |
       | Password           | 25253124Ff       |

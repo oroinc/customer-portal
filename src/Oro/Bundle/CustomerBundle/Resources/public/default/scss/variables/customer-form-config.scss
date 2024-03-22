@@ -1,4 +1,7 @@
 /* @theme: default; */
 
-$customer-form-group-grid-background: get-color('neutral', 'grey1') !default;
-$customer-form-grid-background: get-color('neutral', 'grey1') !default;
+$customer-form-group-grid-background: null !default;
+$customer-form-grid-background: null !default;
+
+$customer-form-grid-gap: $base-ui-grid-row-gap spacing('base') !default;
+$customer-form-grid-offset-top: spacing('xl') !default;

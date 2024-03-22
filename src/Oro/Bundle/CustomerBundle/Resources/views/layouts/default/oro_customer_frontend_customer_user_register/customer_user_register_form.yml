@@ -4,32 +4,53 @@ layout:
             id: oro_customer_form
             namespace: registration
             root: page_content
+
     actions:
-        - '@setBlockTheme':
-            themes: '@OroCustomer/layouts/default/oro_customer_frontend_customer_user_register/customer_user_register_form.html.twig'
+        - '@setOption':
+            id: registration_page
+            optionName: attr.class
+            optionValue: 'register-form single-form-page no-asterisks'
+
         - '@setOption':
             id: registration_label
             optionName: text
             optionValue: oro.customer.customeruser.profile.register
+
         - '@setOption':
             id: registration_description
             optionName: text
             optionValue: oro.customer.customeruser.profile.register.description
+
         - '@setOption':
             id: registration_form
             optionName: form
             optionValue: '=data["oro_customer_frontend_customer_user_register"].getRegisterFormView()'
+
         - '@setOption':
             id: registration_form_submit
             optionName: text
             optionValue: oro.customer.customeruser.profile.create_an_customer
+
         - '@add':
-            id: registration_link_back
+            id: registration_wrapper_login
             parentId: registration_links
+            blockType: container
+
+        - '@add':
+            id: registration_label_login
+            parentId: registration_wrapper_login
+            blockType: text
+            options:
+                text: oro.customer.frontend.action.back_to_login.title
+
+        - '@add':
+            id: registration_link_login
+            parentId: registration_wrapper_login
             blockType: link
             options:
                 route_name: oro_customer_customer_user_security_login
                 text: oro.customer.frontend.action.back_to_login.label
+
         - '@add':
             id: registration_input_action
             parentId: registration_form_submit_wrapper
@@ -39,15 +60,9 @@ layout:
                 name: input_action
                 value:
                     route: oro_customer_customer_user_security_login
-        - '@add':
-            id: registration_footer
-            blockType: container
-            parentId: registration_form
-            siblingId: registration_form_end
-            prepend: true
-        - '@move':
-            id: registration_form_submit_wrapper
-            parentId: registration_footer
-        - '@move':
-            id: registration_form_additional
-            parentId: registration_footer
+
+        - '@setOption':
+            id: registration_all_required_label
+            optionName: vars.showAllRequiredLabel
+            optionValue: true
+

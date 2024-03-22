@@ -8,6 +8,9 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Represents a form type for customer user password reset
+ */
 class CustomerUserPasswordResetType extends AbstractType
 {
     const NAME = 'oro_customer_customer_user_password_reset';
@@ -30,7 +33,7 @@ class CustomerUserPasswordResetType extends AbstractType
                 'first_options' => [
                     'label' => 'oro.customer.customeruser.password.label',
                     'attr' => [
-                        'placeholder' => 'oro.customer.customeruser.placeholder.password'
+                        'placeholder' => 'oro.customer.customeruser.placeholder.password',
                     ]
                 ],
                 'second_options' => [

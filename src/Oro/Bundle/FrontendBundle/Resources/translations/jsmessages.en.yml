@@ -3,6 +3,10 @@ oro_frontend:
         inlineEditing:
             action.save: Save
             action.cancel: Cancel
+        password:
+            aria_label:
+                to_show: Show Password
+                to_hide: Hide Password
     unexpected_error: "An unexpected error has occurred. Please contact the system administrator."
     item_deleted: "Item has been deleted."
     widget_form_component:

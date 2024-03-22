@@ -6,11 +6,5 @@
 
     background: $registration-instructions-background;
     text-align: $registration-instructions-text-align;
-}
-
-@include breakpoint('tablet-small') {
-    .registration-instructions {
-        font-size: $registration-instructions-tablet-small-font-size;
-        text-align: $registration-instructions-tablet-small-text-align;
-    }
+    font-size: $registration-instructions-font-size;
 }

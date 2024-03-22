@@ -36,3 +36,11 @@
         }
     }
 }
+
+@include breakpoint('mobile') {
+    .page-main {
+        &__content {
+            margin: $page-main-content-offset-mobile;
+        }
+    }
+}

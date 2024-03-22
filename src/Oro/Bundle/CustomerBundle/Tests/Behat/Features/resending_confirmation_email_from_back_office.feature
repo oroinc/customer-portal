@@ -18,10 +18,10 @@ Feature: Resending confirmation email from back office
       | Company Name     | Company Inc              |
       | First Name       | New                      |
       | Last Name        | Maxwell                  |
-      | Email Address    | RuthWMaxwell@example.org |
+      | Email            | RuthWMaxwell@example.org |
       | Password         | RuthWMaxwell123          |
       | Confirm Password | RuthWMaxwell123          |
-    When I click "Create An Account"
+    When I click "Create Account"
     Then I should see "Please check your email to complete registration" flash message
     And email with Subject "Confirmation of account registration" containing the following was sent:
       | Body | Please follow this link to confirm your email address: Confirm |

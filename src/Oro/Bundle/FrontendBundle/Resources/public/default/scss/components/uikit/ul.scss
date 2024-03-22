@@ -1,0 +1,14 @@
+/* @theme: default; */
+
+.unordered-list {
+    padding-inline-start: $ul-padding-inline-start;
+
+    li {
+        padding: $li-padding;
+        color: $li-color;
+
+        &::marker {
+            color: $li-marker-color;
+        }
+    }
+}

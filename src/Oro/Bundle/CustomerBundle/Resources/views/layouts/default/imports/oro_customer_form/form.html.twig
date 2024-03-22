@@ -4,3 +4,32 @@
     {% set parentClass = "grid-col-12" %}
     {{ parent() }}
 {% endblock %}
+
+{%- block form_errors -%}
+    {%- for error in errors -%}
+        {#validation markup should be the same as in frontend validator#}
+        <div class="form-row grid-col-12">
+            <span class="validation-failed" role="alert">
+                <span class="validation-failed__icon" aria-hidden="true"></span>
+                <span>{{ error.message|trans }}</span>
+            </span>
+        </div>
+    {%- endfor -%}
+{%- endblock form_errors -%}
+
+{% block password_row %}
+    <div class="form-row grid-col-12">
+        {{ form_label(form) }}
+        {% if attr.showDescription is defined  %}
+            <div class="password-requires">
+                <ul class="unordered-list">
+                    <li>{{ 'oro.customer.form.label.password_requires.first'|trans }}</li>
+                    <li>{{ 'oro.customer.form.label.password_requires.second'|trans }}</li>
+                    <li>{{ 'oro.customer.form.label.password_requires.third'|trans }}</li>
+                </ul>
+            </div>
+        {% endif %}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+    </div>
+{%  endblock %}

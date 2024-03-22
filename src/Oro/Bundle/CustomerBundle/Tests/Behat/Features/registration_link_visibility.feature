@@ -15,7 +15,7 @@ Feature: Registration Link Visibility
     And I am on homepage
     And I should see "Log In"
     Then I click "Sign Up"
-    And Page title equals to "Registration"
+    And Page title equals to "Sign Up"
     And I should see a "Registration Form" element
 
   Scenario: Check that registration link is not visible after disable "Show Registration Link" option

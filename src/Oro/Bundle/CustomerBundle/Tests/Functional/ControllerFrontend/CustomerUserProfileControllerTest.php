@@ -111,7 +111,7 @@ class CustomerUserProfileControllerTest extends WebTestCase
 
         self::assertStringContainsString(
             'The password fields must match.',
-            $crawler->filter('.password_first span')->html()
+            $crawler->filter('.password_first span span:last-child')->html()
         );
     }
 
@@ -140,7 +140,7 @@ class CustomerUserProfileControllerTest extends WebTestCase
 
         self::assertStringContainsString(
             'This value should be the user\'s current password.',
-            $crawler->filter('.current_password span')->html()
+            $crawler->filter('.current_password span span:last-child')->html()
         );
     }
 }

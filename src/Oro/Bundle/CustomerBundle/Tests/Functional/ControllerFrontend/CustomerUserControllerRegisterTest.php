@@ -34,7 +34,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $result = $this->client->getResponse();
         self::assertHtmlResponseStatusCodeEquals($result, 200);
 
-        $form = $crawler->selectButton('Create An Account')->form();
+        $form = $crawler->selectButton('Create Account')->form();
 
         $submittedData = [
             'oro_customer_frontend_customer_user_register' => [
@@ -193,7 +193,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $result = $this->client->getResponse();
         self::assertHtmlResponseStatusCodeEquals($result, 200);
 
-        $form = $crawler->selectButton('Create An Account')->form();
+        $form = $crawler->selectButton('Create Account')->form();
         $submittedData = [
             'oro_customer_frontend_customer_user_register' => [
                 '_token' => $form->get('oro_customer_frontend_customer_user_register[_token]')->getValue(),
@@ -231,7 +231,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
                 ]
             )
         );
-        $form = $crawler->selectButton('Create')->form();
+        $form = $crawler->selectButton('Save Changes')->form();
 
         $submittedData = [
             'oro_customer_customer_user_password_reset' => [
@@ -264,11 +264,11 @@ class CustomerUserControllerRegisterTest extends WebTestCase
             trim($crawler->filter('.login-form h1')->html())
         );
 
-        $forgotPasswordLink = $crawler->filter('a:contains("Forgot Your Password?")')->link();
+        $forgotPasswordLink = $crawler->filter('a:contains("Forgot Password?")')->link();
         $crawler = $this->client->click($forgotPasswordLink);
         $result = $this->client->getResponse();
         self::assertHtmlResponseStatusCodeEquals($result, 200);
-        self::assertEquals('Forgot Your Password?', $crawler->filter('h1')->html());
+        self::assertEquals('Reset Password', $crawler->filter('h1')->html());
 
         $this->assertKnownEmail($crawler);
 
@@ -286,9 +286,9 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $result = $this->client->getResponse();
         self::assertHtmlResponseStatusCodeEquals($result, 200);
-        self::assertEquals('Create New Password', $crawler->filter('h1')->html());
+        self::assertEquals('Change Password', $crawler->filter('h1')->html());
 
-        $form = $crawler->selectButton('Create')->form();
+        $form = $crawler->selectButton('Save Changes')->form();
 
         $submittedData = [
             'oro_customer_customer_user_password_reset' => [
@@ -309,7 +309,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
             'Log In',
             trim($crawler->filter('.login-form h1')->html())
         );
-        self::assertStringContainsString('Password was created successfully.', $crawler->html());
+        self::assertStringContainsString('Password successfully changed', $crawler->html());
     }
 
     private function getCustomerUser(array $criteria): ?CustomerUser
@@ -320,7 +320,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
     private function submitRegisterForm(Crawler $crawler, string $email): Crawler
     {
-        $form = $crawler->selectButton('Create An Account')->form();
+        $form = $crawler->selectButton('Create Account')->form();
         $submittedData = [
             'oro_customer_frontend_customer_user_register' => [
                 '_token' => $form->get('oro_customer_frontend_customer_user_register[_token]')->getValue(),
@@ -342,7 +342,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
     private function assertKnownEmail(Crawler $crawler): void
     {
-        $form = $crawler->selectButton('Request')->form();
+        $form = $crawler->selectButton('Reset Password')->form();
         $submittedData = [
             'oro_customer_customer_user_password_request' => [
                 '_token' => $form->get('oro_customer_customer_user_password_request[_token]')->getValue(),
@@ -381,7 +381,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $crawler = $this->client->followRedirect();
 
-        self::assertEquals('Check Email', $crawler->filter('h1')->html());
+        self::assertEquals('Change Password', $crawler->filter('h1')->html());
     }
 
     public function testConfirmEmailSameUsernameForUserAndVisitor(): void

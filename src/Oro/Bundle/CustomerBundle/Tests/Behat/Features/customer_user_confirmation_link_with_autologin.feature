@@ -22,7 +22,7 @@ Feature: Customer user confirmation link with autologin
     Given I proceed as the User
     And I am on the homepage
     And I click "Log In"
-    And I click "Create An Account"
+    And I click "Sign Up"
     And I fill "Registration Form" with:
       | Company Name     | OroCommerce              |
       | First Name       | Front1                   |
@@ -30,7 +30,7 @@ Feature: Customer user confirmation link with autologin
       | Email Address    | FrontULastN1@example.org |
       | Password         | FrontULastN1@example.org |
       | Confirm Password | FrontULastN1@example.org |
-    When I click "Create An Account"
+    When I click "Create Account"
     Then I should see "Log In"
     And I should not see "My Account"
     And email with Subject "Confirmation of account registration" containing the following was sent:
@@ -55,7 +55,7 @@ Feature: Customer user confirmation link with autologin
     Given I proceed as the User
     And I am on the homepage
     And I click "Log In"
-    And I click "Create An Account"
+    And I click "Sign Up"
     And I fill "Registration Form" with:
       | Company Name     | OroCommerce              |
       | First Name       | Front2                   |
@@ -63,7 +63,7 @@ Feature: Customer user confirmation link with autologin
       | Email Address    | FrontULastN2@example.org |
       | Password         | FrontULastN2@example.org |
       | Confirm Password | FrontULastN2@example.org |
-    When I click "Create An Account"
+    When I click "Create Account"
     Then I should see "Log In"
     And I should not see "My Account"
     And email with Subject "Confirmation of account registration" containing the following was sent:
@@ -87,7 +87,7 @@ Feature: Customer user confirmation link with autologin
     Given I proceed as the User
     And I am on the homepage
     And I click "Log In"
-    And I click "Create An Account"
+    And I click "Sign Up"
     And I fill "Registration Form" with:
       | Company Name     | OroCommerce              |
       | First Name       | Front3                   |
@@ -95,7 +95,7 @@ Feature: Customer user confirmation link with autologin
       | Email Address    | FrontULastN3@example.org |
       | Password         | FrontULastN3@example.org |
       | Confirm Password | FrontULastN3@example.org |
-    When I click "Create An Account"
+    When I click "Create Account"
     Then I should see "Log In"
     And I should not see "My Account"
 
@@ -111,7 +111,7 @@ Feature: Customer user confirmation link with autologin
     Given I proceed as the User
     And I am on the homepage
     And I click "Log In"
-    And I click "Create An Account"
+    And I click "Sign Up"
     And I fill "Registration Form" with:
       | Company Name     | OroCommerce              |
       | First Name       | Front4                   |
@@ -119,6 +119,6 @@ Feature: Customer user confirmation link with autologin
       | Email Address    | FrontULastN4@example.org |
       | Password         | FrontULastN4@example.org |
       | Confirm Password | FrontULastN4@example.org |
-    When I click "Create An Account"
+    When I click "Create Account"
     Then I should not see "Log In"
     And I should see "My Account"

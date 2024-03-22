@@ -23,15 +23,15 @@ Feature: Email templates used for customer user registration
     Given I proceed as the User
     And I am on the homepage
     And click "Log In"
-    And click "Create An Account"
+    And click "Sign Up"
     And I fill "Registration Form" with:
       | Company Name     | OroCommerce              |
       | First Name       | FrontU                   |
       | Last Name        | LastN                    |
-      | Email Address    | FrontULastN1@example.org |
+      | Email            | FrontULastN1@example.org |
       | Password         | FrontULastN1@example.org |
       | Confirm Password | FrontULastN1@example.org |
-    When I click "Create An Account"
+    When I click "Create Account"
     Then email with Subject "Welcome: FrontU LastN" containing the following was sent:
       | Body | Dear FrontU LastN,                                                                             |
       | Body | Welcome to ORO.                                                                                |
@@ -49,7 +49,7 @@ Feature: Email templates used for customer user registration
     And click "Users"
     And click "Create User"
     When fill form with:
-      | Email Address      | AmandaChild1@test.com |
+      | Email              | AmandaChild1@test.com |
       | First Name         | Amanda                |
       | Last Name          | Child                 |
       | Password           | AmandaChild1@test.com |
@@ -67,13 +67,13 @@ Feature: Email templates used for customer user registration
     And click "Users"
     And click "Create User"
     When fill form with:
-      | Email Address      | BrandaChild1@test.com |
+      | Email              | BrandaChild1@test.com |
       | First Name         | Branda                |
       | Last Name          | Child                 |
+      | Send Welcome Email | true                  |
       | Password           | BrandaChild1@test.com |
       | Confirm Password   | BrandaChild1@test.com |
       | Buyer (Predefined) | true                  |
-      | Send Welcome Email | true                  |
     And click "Save"
     Then should see "Customer User has been saved" flash message
     And email with Subject "Welcome: Branda Child" containing the following was sent:
@@ -97,11 +97,11 @@ Feature: Email templates used for customer user registration
     And I focus on "Birthday" field
     And click "Today"
     And fill form with:
+      | Customer                   | Company B                   |
+      | Send Welcome Email         | true                        |
       | Password                   | BrandaJSanborn1@example.org |
       | Confirm Password           | BrandaJSanborn1@example.org |
-      | Customer                   | Company B                   |
       | Administrator (Predefined) | true                        |
-      | Send Welcome Email         | true                        |
     And fill "Customer User Addresses Form" with:
       | Primary          | true          |
       | First Name Add   | Branda        |
@@ -141,11 +141,11 @@ Feature: Email templates used for customer user registration
     And I focus on "Birthday" field
     And click "Today"
     And fill form with:
+      | Administrator (Predefined) | true                         |
+      | Send Welcome Email         | false                        |
       | Password                   | LonnieVTownsend1@example.org |
       | Confirm Password           | LonnieVTownsend1@example.org |
       | Customer                   | Company B                    |
-      | Administrator (Predefined) | true                         |
-      | Send Welcome Email         | false                        |
     And fill "Customer User Addresses Form" with:
       | Primary          | true          |
       | First Name Add   | LonnieV       |

@@ -56,10 +56,10 @@ Feature: Localized email notification for customer user on storefront
       | Email Address      | <Email> |
       | First Name         | Branda  |
       | Last Name          | Cole    |
+      | Send Welcome Email | true    |
       | Password           | <Email> |
       | Confirm Password   | <Email> |
       | Buyer (Predefined) | true    |
-      | Send Welcome Email | true    |
     And click "Save" in "Customer Frontend Customer User" element
     Then I should see "Customer User has been saved" flash message
     And email with Subject "<Subject>" containing the following was sent:

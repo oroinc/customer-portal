@@ -2,6 +2,7 @@ import 'oroui/js/app/modules/input-widgets';
 import InputWidgetManager from 'oroui/js/input-widget-manager';
 import Select2InputWidget from 'oroui/js/app/views/input-widget/select2';
 import FrontendNumberInputWidget from 'orofrontend/default/js/app/views/input-widget/number';
+import FrontendPasswordInputWidget from 'orofrontend/default/js/app/views/input-widget/password';
 
 Select2InputWidget.prototype.closeOnOverlap = true;
 
@@ -17,4 +18,9 @@ InputWidgetManager.addWidget('select2', {
 InputWidgetManager.addWidget('number', {
     selector: 'input[type="number"], [data-input-widget="number"]',
     Widget: FrontendNumberInputWidget
+});
+
+InputWidgetManager.addWidget('password', {
+    selector: 'input[type="password"], [data-input-widget="password"]',
+    Widget: FrontendPasswordInputWidget
 });

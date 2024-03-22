@@ -102,7 +102,7 @@ class FrontendCustomerUserProfileType extends AbstractType
                 EmailType::class,
                 [
                     'required' => true,
-                    'label' => 'oro.customer.customeruser.email.label'
+                    'label' => 'oro.customer.customeruser.email.label_short'
                 ]
             )
             ->add(

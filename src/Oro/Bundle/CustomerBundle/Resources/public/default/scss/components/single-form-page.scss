@@ -1,0 +1,79 @@
+/* @theme: default; */
+
+.single-form-page {
+    --grid-gap: #{$single-form-page-grid-gap};
+
+    max-width: $single-form-page-width;
+    margin: $single-form-page-offset-outer;
+
+    background: $single-form-page-bg;
+
+    form {
+        padding-top: $single-form-form-padding-top;
+    }
+
+    .required-label,
+    .all-required-label {
+        padding: $single-form-required-label-padding;
+    }
+
+    .form-title-wrapper {
+        display: $single-form-form-title-wrapper-display;
+        margin-bottom: $single-form-form-title-wrapper-margin-bottom;
+        align-items: $single-form-form-title-wrapper-align-items;
+
+        .btn-back {
+            position: $single-form-btn-back-position;
+            left: $single-form-btn-back-left;
+            margin-left: $single-form-btn-back-margin-left;
+        }
+    }
+
+    .form-title {
+        text-align: $single-form-page-form-title-align;
+        flex: $single-form-page-form-title-flex;
+    }
+
+    .form-link__wrapper {
+        min-height: $single-form-link-wrapper-min-height;
+        display: $single-form-link-wrapper-display;
+        align-items: $single-form-link-wrapper-align-items;
+        justify-content: $single-form-link-wrapper-justify-content;
+        color: $single-form-link-wrapper-color;
+        font-size: $single-form-link-wrapper-font-size;
+        text-align: $single-form-link-wrapper-text-align;
+        margin-top: $single-form-link-wrapper-margin-top;
+
+        a {
+            margin: $single-form-link-wrapper-a-padding;
+        }
+    }
+
+    .form-subtitle {
+        text-align: $single-form-subtitle-text-align;
+        margin-bottom: $single-form-subtitle-margin-bottom;
+    }
+
+    .form-actions__wrapper {
+        display: $single-form-action-wrapper-display;
+        grid-auto-columns: $single-form-action-wrapper-grid-auto-columns;
+        grid-auto-flow: $single-form-action-wrapper-grid-auto-flow;
+        gap: $single-form-action-wrapper-gap;
+    }
+}
+
+@include breakpoint('tablet') {
+    .single-form-page {
+        padding: $single-form-page-offset-inner-tablet;
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .single-form-page {
+        max-width: $single-form-page-width-mobile;
+
+        .form-actions__wrapper {
+            grid-auto-columns: $single-form-actions-grid-auto-column-mobile;
+        }
+    }
+}

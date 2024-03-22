@@ -33,10 +33,10 @@ Feature: Visibility of Company Name Field on registration page
     Given I fill "Registration Form" with:
       | First Name       | New                      |
       | Last Name        | Maxwell                  |
-      | Email Address    | RuthWMaxwell@example.org |
+      | Email            | RuthWMaxwell@example.org |
       | Password         | RuthWMaxwell123          |
       | Confirm Password | RuthWMaxwell123          |
-    When I click "Create An Account"
+    When I click "Create Account"
     Then I should see "Please check your email to complete registration"
 
   Scenario: Check that company name consists of first name and last name when "Require Company Name" option is disabled

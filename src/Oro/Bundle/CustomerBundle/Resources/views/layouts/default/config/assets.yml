@@ -1,7 +1,5 @@
 styles:
     inputs:
-        - 'bundles/orocustomer/default/scss/settings/global-settings.scss'
-
         - 'bundles/orocustomer/default/scss/variables/single-form-page-config.scss'
         - 'bundles/orocustomer/default/scss/variables/check-email-config.scss'
         - 'bundles/orocustomer/default/scss/variables/customer-info-grid-config.scss'
@@ -18,13 +16,11 @@ styles:
         - 'bundles/orocustomer/default/scss/variables/capabilities-config.scss'
         - 'bundles/orocustomer/default/scss/variables/customer-form-config.scss'
 
+        - 'bundles/orocustomer/default/scss/components/single-form-page.scss'
         - 'bundles/orocustomer/default/scss/components/customer-profile.scss'
         - 'bundles/orocustomer/default/scss/components/info-list.scss'
         - 'bundles/orocustomer/default/scss/components/info-list-status.scss'
         - 'bundles/orocustomer/default/scss/components/login-form.scss'
-        - 'bundles/orocustomer/default/scss/components/register-form.scss'
-        - 'bundles/orocustomer/default/scss/components/forgot-password-form.scss'
-        - 'bundles/orocustomer/default/scss/components/reset-password-form.scss'
         - 'bundles/orocustomer/default/scss/components/check-email.scss'
         - 'bundles/orocustomer/default/scss/components/registration-instructions.scss'
         - 'bundles/orocustomer/default/scss/components/customer-info-grid.scss'

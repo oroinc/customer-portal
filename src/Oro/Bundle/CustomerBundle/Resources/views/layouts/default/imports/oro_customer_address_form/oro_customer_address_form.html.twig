@@ -25,5 +25,5 @@
         'aria-hidden': 'true'
     }) %}
 
-    <p {{ block('block_attributes') }}><sup>*</sup> {{ 'oro.customer.form.label.required'|trans }}</p>
+    <p {{ block('block_attributes') }}><span class="required-symbol" aria-hidden="true">*</span> {{ 'oro.customer.form.label.required'|trans }}</p>
 {% endblock %}

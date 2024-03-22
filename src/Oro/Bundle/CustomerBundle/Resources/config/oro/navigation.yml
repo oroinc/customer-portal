@@ -392,7 +392,7 @@ navigation:
         oro_customer_frontend_customer_user_profile_update: 'oro.customer.customeruser.profile.edit'
 
         oro_customer_customer_user_security_login: 'oro.customer.customeruser.profile.login'
-        oro_customer_frontend_customer_user_register: 'oro.customer.customeruser.profile.registration.title'
+        oro_customer_frontend_customer_user_register: 'oro.customer.customeruser.profile.register'
         oro_customer_frontend_customer_user_reset_request: 'oro.customer.customeruser.profile.forgot_password'
         oro_customer_frontend_customer_user_reset_check_email: 'oro.customer.customeruser.profile.check_email.title'
         oro_customer_frontend_customer_user_password_reset: 'oro.customer.customeruser.profile.reset_password.title'

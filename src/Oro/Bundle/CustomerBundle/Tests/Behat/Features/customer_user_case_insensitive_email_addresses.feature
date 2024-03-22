@@ -79,16 +79,16 @@ Feature: Customer User Case Insensitive Email Addresses
 
   Scenario: Check registration is not allowed when same email in lowercase exists when "Case Insensitive Email Addresses" is enabled
     Given I click "Sign Up"
-    And Page title equals to "Registration"
+    And Page title equals to "Sign Up"
     And I should see a "Registration Form" element
     And I fill "Registration Form" with:
       | Company Name     | OroCommerce              |
       | First Name       | Ruth                     |
       | Last Name        | Maxwell                  |
-      | Email Address    | amandarcole@example.org  |
+      | Email            | amandarcole@example.org  |
       | Password         | amandarcolE@example.org1 |
       | Confirm Password | amandarcolE@example.org1 |
-    When I click "Create An Account"
+    When I click "Create Account"
     Then I should see that "Customer User Registration Error Container" contains "This email is already used."
 
   Scenario: Check that you cant enable "Case Insensitive Email Addresses" options while there are customer users with same lowercase emails exist
@@ -105,10 +105,10 @@ Feature: Customer User Case Insensitive Email Addresses
       | Company Name     | OroCommerce              |
       | First Name       | Ruth                     |
       | Last Name        | Maxwell                  |
-      | Email Address    | amandarcole@example.org  |
+      | Email            | amandarcole@example.org  |
       | Password         | amandarcolE@example.org1 |
       | Confirm Password | amandarcolE@example.org1 |
-    And I click "Create An Account"
+    And I click "Create Account"
     Then I should see "Please check your email to complete registration"
     When I proceed as the Admin
     And I go to System/Configuration

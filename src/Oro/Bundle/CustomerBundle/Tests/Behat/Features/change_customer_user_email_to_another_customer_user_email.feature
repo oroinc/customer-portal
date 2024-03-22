@@ -7,7 +7,7 @@ Feature: Change customer user email to another customer user email
     And I click "My Profile"
     And I click "Edit"
     And I fill form with:
-      | Email Address | AmandaRCole@example.org |
+      | Email | AmandaRCole@example.org |
     And I click "Save"
     Then I should see "This email is already used."
     And I click "Cancel"

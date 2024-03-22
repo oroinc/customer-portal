@@ -129,7 +129,12 @@ oro.customer:
             save.label: 'Save'
             cancel.label: 'Cancel'
         label:
-            required: 'Required Fields'
+            required: 'required info'
+            all_required: '* all fields are mandatory'
+            password_requires:
+                first: 'At least 8 characters'
+                second: 'An upper case letter'
+                third: 'A number'
 
     address:
         add: 'New Address'
@@ -197,6 +202,7 @@ oro.customer:
             description:             Email that serves as a username for the customer user account on the OroCommerce store frontend.  **This field is not represented in UI**
         email:
             label:                   'Email Address'
+            label_short:             'Email'
             description:             Email of the customer user.
         auth_status:
             label:                   Password status
@@ -204,6 +210,8 @@ oro.customer:
         password:
             label:                   'Password'
             description:             Password that is used to log into the customer user account. The password must conform to the system security policy.
+            aria_label.to_show:      Show Password
+            aria_label.to_hide:      Hide Password
             reset_password:
                 label: Reset password
                 title: Check Email
@@ -296,25 +304,34 @@ oro.customer:
             company_name: 'Company Name'
             company: 'Company'
             registration.title: 'Registration'
-            register: 'Registration'
-            register.description: 'Please register if you do not have an account. A sales representative will contact you shortly.'
-            create_an_customer: 'Create An Account'
+            register: 'Sign Up'
+            register.description: 'Create an account to keep track of your orders, quotes, shopping lists, and more.'
+            create_an_customer: 'Create Account'
+            exist_account: 'Don’t have an account?'
             create_an_customer_and_continue: 'Create an Account and Continue'
-            forgot_password: 'Forgot Your Password?'
+            forgot_password: 'Forgot Password?'
+            reset_password_title: 'Reset Password'
             enter_password: 'Enter your password'
             reset_password:
-                title: 'Create New Password'
-                label: 'Create'
+                title: 'Change Password'
+                label: 'Save Changes'
+                subtitle: 'We’ve sent a reset code to your inbox. Please enter it below to proceed.'
+                resend.label: 'Didn’t receive the email? '
+                resend.action: 'Resend'
+                cancel.label: 'Changed your mind?'
+                cancel.action: 'Log In'
             remember_me: 'Remember Me'
             login: 'Log In'
             login_and_continue: 'Sign In and Continue'
             registration: 'Sign Up'
             return_to_login: 'Return to Login'
-            password_reset.message: 'Password was created successfully.'
-            request_password.label: 'Request'
+            cancel: 'Cancel'
+            password_reset.message: 'Password successfully changed'
+            request_password.label: 'Reset Password'
+            request_password.subtitle: 'Enter the email address you used to log in, and we’ll send you a reset code.'
             check_email:
-                title: 'Check Email'
-                message: 'If there is a user account associated with %email% you will receive an email with a link to reset your password.'
+                title: 'Change Password'
+                message: 'Please check  <strong>%email%</strong> for a reset link and follow it to set a new password.'
             edit: 'Edit Profile'
             label: 'Profile'
             password.reset.ttl_expired.message: 'The reset password link has expired.'
@@ -332,12 +349,12 @@ oro.customer:
                     roles.label: 'Roles'
 
         placeholder:
-            company_name: 'Company Inc.'
-            first_name: 'John'
-            last_name: 'Smith'
-            email: 'name@domain.com'
-            password: 'Enter your password'
-            password_confirmation: 'Reenter your password'
+            company_name: ''
+            first_name: ''
+            last_name: ''
+            email: ''
+            password: ''
+            password_confirmation: ''
 
         import:
             message:
@@ -912,7 +929,8 @@ oro.customer:
         customer_user_link.text: '< Back to Customer User List'
         action:
             back.label: "< Back"
-            back_to_login.label: "Already have an account? Log in >"
+            back_to_login.title: "Already have an account?"
+            back_to_login.label: "Log In"
             customer_address:
                 show_map.aria_label: 'Show %street% %city% %state% %zip% %countryName% address map'
                 edit.aria_label: 'Edit %street% %city% %state% %zip% %countryName% address'

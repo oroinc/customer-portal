@@ -31,6 +31,29 @@ oro_behat_extension:
         - '@OroCustomerBundle/Tests/Behat/Features'
 
   elements:
+    Customer Login Form:
+      selector: 'form[id="form-login"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Email: '_username'
+          Password: '_password'
+
+    Customer Reset Form:
+      selector: 'form[name="oro_customer_customer_user_password_reset"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Password: 'oro_customer_customer_user_password_reset[plainPassword][first]'
+          Confirm Password: 'oro_customer_customer_user_password_reset[plainPassword][second]'
+
+    Customer Password Request Form:
+      selector: 'form[name="oro_customer_customer_user_password_request"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Email: 'oro_customer_customer_user_password_request[email]'
+
     CustomerUserRoleForm:
       selector: "form[id*='_customer_user_role']"
       class: Oro\Bundle\UserBundle\Tests\Behat\Element\UserRoleForm
@@ -92,7 +115,7 @@ oro_behat_extension:
     Customer Company Address Button:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"] .grid-views .grid-views__aditional .btn'
     Customer User Registration Error Container:
-      selector: ".input + span.validation-failed"
+      selector: ".validation-failed"
     Customer User Responsive Datagrid:
       selector: ".frontend-datagrid--responsive"
     Customer Users Registration form:
@@ -468,6 +491,11 @@ oro_behat_extension:
     Save Button in Modal:
       selector:
         locator: '//*[contains(@class,"ok btn btn-primary") and contains(text(), "Save")]'
+        type: xpath
+
+    Log In Button:
+      selector:
+        locator: '//button[contains(@class,"btn") and contains(text(), "Log In")]'
         type: xpath
 
   pages:

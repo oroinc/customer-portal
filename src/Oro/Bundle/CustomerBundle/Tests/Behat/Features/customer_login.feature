@@ -20,10 +20,10 @@ Feature: Customer login
   Scenario: Check unsuccessful login error
     Given I am on the homepage
     And I click "Log In"
-    And I fill form with:
-      | Email Address | NotExistingAddress@example.com |
-      | Password      | test                           |
-    When I click "Log In"
+    And I fill "Customer Login Form" with:
+      | Email    | NotExistingAddress@example.com |
+      | Password | test                           |
+    When I click "Log In Button"
     Then I should see "Your login was unsuccessful. Please check your e-mail address and password before trying again. If you have forgotten your password, follow \"Forgot Your password?\" link."
 
   Scenario: Check successful login and logout of buyer
@@ -41,7 +41,7 @@ Feature: Customer login
   Scenario: Proper email validation message
     Given I login as usernameNotEmail buyer
     And I should see validation errors:
-      | Email Address | This value is not a valid email address. |
+      | Email | This value is not a valid email address. |
 
   Scenario: Add translation for unsuccessful login error on frontstore
     Given I proceed as the Admin
@@ -58,9 +58,9 @@ Feature: Customer login
     And I am on the homepage
     And I select "Zulu" localization
     And I click "Log In"
-    And I fill form with:
-      | Email Address | NotExistingAddress@example.com |
-      | Password      | test                           |
+    And I fill "Customer Login Form" with:
+      | Email    | NotExistingAddress@example.com |
+      | Password | test                           |
     When I click "Log In"
     Then I should see "Your login was unsuccessful - Zulu"
 

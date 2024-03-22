@@ -1,6 +1,10 @@
 /* @theme: default; */
 
 %customer-form {
+    --grid-gap: #{$customer-form-grid-gap};
+
+    margin-top: $customer-form-grid-offset-top;
+
     .form-group {
         legend {
             text-transform: uppercase;
@@ -9,7 +13,6 @@
         }
 
         .grid {
-            padding: 28px 32px;
             background: $customer-form-group-grid-background;
         }
     }
@@ -20,7 +23,7 @@
 }
 
 %customer-form-grid {
-    padding: 28px 32px;
+    --grid-gap: #{$customer-form-grid-gap};
 
     background: $customer-form-grid-background;
 }

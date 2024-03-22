@@ -21,16 +21,15 @@ layout:
                     options:
                         visible: '=text!=null'
                         text: ''
+                        escape: false
                 __form:
                     blockType: form
                 __form_submit_wrapper:
                     blockType: container
-                    siblingId: __form_additional
+                    siblingId: __form_end
                     prepend: true
                 __form_additional:
                     blockType: container
-                    siblingId: __form_end
-                    prepend: true
                 __form_submit:
                     blockType: button
                     options:
@@ -41,6 +40,11 @@ layout:
                     blockType: container
                 __required_label:
                     blockType: block
+                __all_required_label:
+                    blockType: block
+                    options:
+                        vars:
+                            showAllRequiredLabel: false
             tree:
                 __root:
                     __page_wrapper:
@@ -48,9 +52,10 @@ layout:
                             __label_wrapper:
                                 __label: ~
                             __description: ~
+                            __required_label: ~
+                            __all_required_label: ~
                             __form:
                                 __form_submit_wrapper:
                                     __form_submit: ~
-                                __form_additional:
-                                    __links: ~
-                                    __required_label: ~
+                            __form_additional:
+                                __links: ~

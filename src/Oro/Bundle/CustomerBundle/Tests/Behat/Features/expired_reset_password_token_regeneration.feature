@@ -9,11 +9,11 @@ Feature: Expired reset password token regeneration
   Scenario: Expired reset password token regeneration
     Given I am on the homepage
     When I click "Log In"
-    And I click "Forgot Your Password?"
-    And I fill form with:
-      | Email Address | test@example.org |
-    And I confirm reset password
-    Then I should see "If there is a user account associated with test@example.org you will receive an email with a link to reset your password."
+    And I click "Forgot Password?"
+    And I fill "Customer Password Request Form" with:
+      | Email | test@example.org |
+    And I click "Reset Password"
+    Then I should see "Please check test@example.org for a reset link and follow it to set a new password."
     And Email should contains the following:
       | To      | test@example.org            |
       | Subject | Reset Account User Password |

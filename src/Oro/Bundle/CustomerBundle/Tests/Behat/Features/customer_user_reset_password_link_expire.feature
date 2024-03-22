@@ -12,10 +12,10 @@ Feature: Customer user reset password link expire
     Given I proceed as the Unauthorized
     And I am on the homepage
     And I click "Log In"
-    And I click "Forgot Your Password?"
+    And I click "Forgot Password?"
     And I fill form with:
-      | Email Address | AmandaRCole@example.org |
-    When I click "Request"
+      | Email | AmandaRCole@example.org |
+    When I click "Reset Password"
     And I follow link from the email
     Then I should not see "Not Found"
     And I should be on Customer User Password Reset page
@@ -38,10 +38,10 @@ Feature: Customer user reset password link expire
     Given I proceed as the Unauthorized
     And I am on the homepage
     And I click "Log In"
-    And I click "Forgot Your Password?"
+    And I click "Forgot Password?"
     And I fill form with:
-      | Email Address | AmandaRCole@example.org |
-    When I click "Request"
+      | Email | AmandaRCole@example.org |
+    When I click "Reset Password"
     And I follow link from the email
     Then I should not see "Not Found"
     And I should be on Customer User Password Reset page
@@ -56,10 +56,10 @@ Feature: Customer user reset password link expire
     Given I proceed as the Unauthorized
     And I am on the homepage
     And I click "Log In"
-    And I click "Forgot Your Password?"
+    And I click "Forgot Password?"
     And I fill form with:
-      | Email Address | AmandaRCole@example.org |
-    When I click "Request"
+      | Email | AmandaRCole@example.org |
+    When I click "Reset Password"
     And I follow link from the email
     Then I should not see "Not Found"
     And I should be on Customer User Password Reset page
@@ -83,10 +83,10 @@ Feature: Customer user reset password link expire
     Given I proceed as the Unauthorized
     And I am on the homepage
     And I click "Log In"
-    And I click "Forgot Your Password?"
+    And I click "Forgot Password?"
     And I fill form with:
-      | Email Address | AmandaRCole@example.org |
-    When I click "Request"
+      | Email | AmandaRCole@example.org |
+    When I click "Reset Password"
     And I follow link from the email
     Then I should not see "Not Found"
     And I should be on Customer User Password Reset page
@@ -95,7 +95,7 @@ Feature: Customer user reset password link expire
     And I click "Account Dropdown"
     And I click "Edit Profile Button"
     And I fill "Customer User Profile Form" with:
-      | Email Address | new-amanda-email@example.com |
+      | Email | new-amanda-email@example.com |
     And I click "Save"
     Then I should see "Customer User profile updated" flash message
 

@@ -85,7 +85,7 @@ class FrontendCustomerUserRegistrationType extends AbstractType
                 EmailType::class,
                 [
                     'required' => true,
-                    'label' => 'oro.customer.customeruser.email.label',
+                    'label' => 'oro.customer.customeruser.email.label_short',
                     'attr' => ['placeholder' => 'oro.customer.customeruser.placeholder.email']
                 ]
             );
