@@ -51,11 +51,11 @@ $mega-menu-depth-2-button-display: none !default;
 $mega-menu-depth-2-link-color: get-color('primary', 'main') !default;
 $mega-menu-depth-2-link-text-transform: uppercase !default;
 $mega-menu-depth-2-link-font-weight: font-weight('semi-bold') !default;
-$mega-menu-depth-2-link-text-decoration: underline !default;
+$mega-menu-depth-2-link-text-decoration: none !default;
 $mega-menu-depth-2-link-position: relative !default;
 
 $mega-menu-depth-2-link-hover-color: get-color('primary', 'main') !default;
-$mega-menu-depth-2-link-hover-text-decoration: none !default;
+$mega-menu-depth-2-link-hover-text-decoration: underline !default;
 
 $mega-menu-depth-2-featured-list-display: grid !default;
 $mega-menu-depth-2-featured-list-gap: spacing('base') 24px !default;

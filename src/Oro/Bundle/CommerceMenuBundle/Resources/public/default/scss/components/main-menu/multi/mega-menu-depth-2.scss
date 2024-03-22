@@ -40,7 +40,6 @@
 
             &__link {
                 font-weight: font-weight('semi-bold');
-                text-decoration: underline;
                 text-transform: none;
 
                 display: grid;
@@ -163,7 +162,6 @@
                     &:hover {
                         background-color: $mega-menu-depth-2-stack-mode-link-hover-background-color;
                         color: $mega-menu-depth-2-stack-mode-link-hover-color;
-                        text-decoration: underline;
                     }
                 }
             }
@@ -199,6 +197,10 @@
 
                         @media (hover: hover) {
                             color: $mega-menu-depth-2-stack-mode-link-list-columns-hover-color;
+
+                            &:hover {
+                                text-decoration: underline;
+                            }
                         }
                     }
 

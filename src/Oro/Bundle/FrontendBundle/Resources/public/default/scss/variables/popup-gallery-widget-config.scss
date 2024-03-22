@@ -10,9 +10,9 @@ $popup-gallery-widget-arrow-next-icon-offset: 0 0 0 2px !default;
 $popup-gallery-widget-arrow-side-position: 0 !default;
 $popup-gallery-widget-arrow-bg: get-color('neutral', 'dark', 60%) !default;
 $popup-gallery-widget-arrow-border-radius: 100% !default;
-
-$popup-gallery-widget-dialog-max-width: 610px !default;
-$popup-gallery-widget-dialog-max-height: 710px !default;
+// product_gallery_popup image width + modal's offset
+$popup-gallery-widget-dialog-max-width: 860px + $modal-content-padding !default;
+$popup-gallery-widget-dialog-max-height: initial !default;
 
 $popup-gallery-widget-thumbnails-offset-inner: 0 13px !default;
 $popup-gallery-widget-thumbnails-img-offset: 0 2px !default;

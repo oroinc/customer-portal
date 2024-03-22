@@ -119,6 +119,10 @@
     }
 }
 
+.btn--rounded {
+    border-radius: $btn-rounded-border-radius;
+}
+
 .btn--no-padding {
     padding-inline: $btn-no-padding-inline;
 }

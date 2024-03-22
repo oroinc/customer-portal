@@ -70,6 +70,10 @@
 
     &__item &__link {
         color: $main-menu-column-link-color;
+
+        &:hover {
+            text-decoration: $main-menu-column-link-hover-text-decoration;
+        }
     }
 
     &__image-link {

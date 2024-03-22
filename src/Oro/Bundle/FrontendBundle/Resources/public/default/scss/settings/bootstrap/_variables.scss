@@ -23,7 +23,7 @@ $body-color: get-var-color('text', 'primary');
 $link-color: get-var-color('text', 'link');
 $link-hover-color: get-var-color('text', 'link-hover');
 $link-decoration: underline;
-$link-hover-decoration: underline;
+$link-hover-decoration: none;
 
 // Paragraphs
 // Style p element.
@@ -61,8 +61,8 @@ $table-color: $body-color;
 // Buttons + Forms
 // Shared variables that are reassigned to `$input-` and `$btn-` specific variables.
 
-$input-btn-padding-y: 10px;
-$input-btn-padding-x: 13px;
+$input-btn-padding-y: spacing('xmd');
+$input-btn-padding-x: spacing('md');
 $input-btn-padding-y-sm: spacing('xs');
 $input-btn-padding-y-lg: spacing('sm');
 

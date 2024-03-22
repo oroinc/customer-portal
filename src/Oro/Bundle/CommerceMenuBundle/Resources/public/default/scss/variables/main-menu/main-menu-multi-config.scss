@@ -22,7 +22,7 @@ $main-menu-multi-container-title-inner-color: get-color('primary', 'main') !defa
 $main-menu-multi-container-title-inner-text-decoration: underline !default;
 
 $main-menu-multi-container-title-inner-hover-color: get-color('primary', 'main') !default;
-$main-menu-multi-container-title-inner-hover-text-decoration: underline !default;
+$main-menu-multi-container-title-inner-hover-text-decoration: none !default;
 
 $main-menu-multi-container-edge-desktop-width: 1216px !default;
 $main-menu-multi-container-edge-desktop-max-width: calc(100vw - 16px) !default;
@@ -32,7 +32,7 @@ $main-menu-multi-container-edge-desktop-flex-shrink: 0 !default;
 /* Menu Stack Mode */
 $main-menu-multi-stack-mode-container-title-inner-color: get-color('text', 'primary') !default;
 $main-menu-multi-stack-mode-container-title-inner-text-decoration: underline !default;
-$main-menu-multi-stack-mode-container-title-inner-text-decoration-hover: underline !default;
+$main-menu-multi-stack-mode-container-title-inner-text-decoration-hover: none !default;
 
 $main-menu-multi-stack-mode-container-title-hover-color: get-color('primary', 'hover') !default;
 $main-menu-multi-stack-mode-container-title-hover-background: get-color('primary', 'light') !default;

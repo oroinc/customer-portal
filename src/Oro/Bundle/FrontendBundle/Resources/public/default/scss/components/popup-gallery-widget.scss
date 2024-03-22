@@ -17,7 +17,7 @@
 
     .modal-dialog {
         max-width: $popup-gallery-widget-dialog-max-width;
-        max-height: $popup-gallery-widget-dialog-max-width;
+        max-height: $popup-gallery-widget-dialog-max-height;
         margin: auto;
     }
 
@@ -86,11 +86,11 @@
             }
 
             img {
-                border: $popup-gallery-widget-thumbnails-img-border;
+                box-shadow: $product-view-media-gallery-slick-slide-current-item-box-shadow;
             }
 
             &.slick-current img {
-                border: $product-view-media-gallery-slick-slide-current-item-border;
+                box-shadow: $product-view-media-gallery-slick-slide-item-box-shadow;
             }
         }
     }

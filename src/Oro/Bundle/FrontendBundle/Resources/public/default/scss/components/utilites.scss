@@ -151,6 +151,11 @@
     width: 100%;
 }
 
+.cover-img {
+    object-fit: cover;
+    object-position: center;
+}
+
 .inline-flex {
     display: inline-flex;
 }

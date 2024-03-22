@@ -36,9 +36,11 @@
         &__link {
             color: $mega-menu-depth-3-link-color;
             position: $mega-menu-depth-3-link-position;
+            text-decoration: $mega-menu-depth-3-link-text-decoration;
 
             &:hover {
                 color: $mega-menu-depth-3-link-hover-color;
+                text-decoration: $mega-menu-depth-3-link-hover-text-decoration;
             }
         }
 
@@ -62,7 +64,6 @@
                     &:hover {
                         background-color: $mega-menu-depth-3-stack-mode-link-background-color;
                         color: $mega-menu-depth-3-stack-mode-link-color;
-                        text-decoration: underline;
                     }
                 }
             }
