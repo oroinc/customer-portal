@@ -50,7 +50,7 @@ layout:
                                     className: 'btn-group not-expand frontend-datagrid__panel'
                                 itemsCounter:
                                     className: 'datagrid-tool'
-                                    transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.users'
+                                    transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.usersPlural'
                                 hideItemsCounter: false
                             filterContainerSelector: '[data-grid-toolbar="top"] [data-role="filter-container"]'
                         form: '=data["oro_customer_frontend_customer_user_role_form"].getRoleFormView(data["entity"])'

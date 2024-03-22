@@ -17,4 +17,4 @@ layout:
             id: customer_user_roles_datagrid
             optionName: grid_render_parameters.toolbarOptions.itemsCounter
             optionValue:
-                transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.roles'
+                transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.rolesPlural'

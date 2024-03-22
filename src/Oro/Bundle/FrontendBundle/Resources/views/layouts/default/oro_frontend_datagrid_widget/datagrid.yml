@@ -18,7 +18,7 @@ layout:
         - '@setOption':
             id: widget_datagrid
             optionName: grid_render_parameters.toolbarOptions.itemsCounter.transTemplate
-            optionValue: 'oro_frontend.datagrid.pagination.totalRecords.products'
+            optionValue: 'oro_frontend.datagrid.pagination.totalRecords.productsPlural'
 
         - '@setOption':
             id: widget_datagrid

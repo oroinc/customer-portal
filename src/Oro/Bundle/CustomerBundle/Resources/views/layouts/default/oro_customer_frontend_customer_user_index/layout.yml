@@ -23,4 +23,4 @@ layout:
             id: customer_users_datagrid
             optionName: grid_render_parameters.toolbarOptions.itemsCounter
             optionValue:
-                transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.users'
+                transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.usersPlural'

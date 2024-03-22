@@ -65,7 +65,7 @@ layout:
             id: __user_addresses_datagrid
             optionName: grid_render_parameters.toolbarOptions.itemsCounter
             optionValue:
-                transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.addresses'
+                transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.addressesPlural'
 
         - '@setOption':
               id: __user_addresses_datagrid_toolbar_button_container

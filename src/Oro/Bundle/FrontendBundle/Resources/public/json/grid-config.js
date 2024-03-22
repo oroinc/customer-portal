@@ -872,7 +872,7 @@ define(function() {
             },
             itemsCounter: {
                 className: 'datagrid-tool',
-                transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.companyAddresses'
+                transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.companyAddressesPlural'
             },
             hideItemsCounter: false
         },
