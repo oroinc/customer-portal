@@ -73,7 +73,7 @@ $main-menu-sublist-container-border-radius: 0 0 4px 4px !default;
 $main-menu-sublist-fullheight-background: get-color('neutral', 'white-100') !default;
 $main-menu-edge: 50px !default;
 $main-menu-sublist-fullheight-padding-block: 24px !default;
-$main-menu-sublist-fullheight-top: calc(100% + #{spacing('base')}) !default;
+$main-menu-sublist-fullheight-top: calc(100% + #{spacing('md')}) !default;
 $main-menu-sublist-fullheight-bottom: calc(
     -100vh + #{$main-menu-edge} + var(--main-menu-offset-bottom, 170px)
 ) !default;
@@ -110,7 +110,8 @@ $main-menu-sublist-floated-position: relative !default;
 $main-menu-sublist-floated-top: auto !default;
 $main-menu-sublist-floated-left: auto !default;
 $main-menu-sublist-floated-right: auto !default;
-$main-menu-sublist-floated-transform: translateY(16px) !default;
+$main-menu-sublist-floated-padding-top: spacing('md') !default;
+$main-menu-sublist-floated-margin-bottom: -#{spacing('md')} !default;
 
 $main-menu-sublist-container-floated-position: absolute !default;
 $main-menu-sublist-container-floated-right: auto !default;
@@ -132,7 +133,7 @@ $main-menu-sublist-stack-width: auto !default;
 
 // Only Desktop
 $main-menu-outer-container-desktop-display: flex !default;
-$main-menu-outer-container-desktop-justify-content: center !default;
+$main-menu-outer-container-desktop-justify-content: start !default;
 $main-menu-outer-desktop-display: flex !default;
 
 $main-menu-sublist-container-background: get-color('neutral', 'white-100') !default;

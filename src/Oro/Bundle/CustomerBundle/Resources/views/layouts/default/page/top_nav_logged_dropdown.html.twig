@@ -43,7 +43,20 @@
         'data-toggle': 'dropdown',
         'data-placement': "bottom-end",
         'data-popper': 'false',
-        'id': 'customer-menu-trigger'
+        'id': 'customer-menu-trigger',
+        'data-page-component-module': 'oroui/js/app/components/viewport-component',
+        '~data-page-component-options': {
+            viewport: 'mobile-big',
+            component: 'oroui/js/app/components/view-component',
+            view: 'orofrontend/default/js/app/views/fullscreen-popup-view',
+            popupIcon: 'user',
+            popupLabel: popupLabel,
+            dialogClass: 'sidebar-main-menu',
+            contentElement: '.customer-menu__dropdown',
+            contentAttributes: {
+                'class': 'customer-menu__dropdown dropdown-menu fullscreen'
+            }
+        }
     }) %}
 
     <button {{ block('block_attributes') }}>

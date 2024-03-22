@@ -25,6 +25,14 @@
 
 @include breakpoint('tablet') {
     .middlebar {
+        &__left {
+            display: $middlebar-left-tablet-display;
+        }
+    }
+}
+
+@include breakpoint('tablet-small') {
+    .middlebar {
         &--standalone {
             grid-template-columns: $middlebar-tablet-grid-template-columns;
 
@@ -32,10 +40,6 @@
                 grid-column: $middlebar-center-tablet-grid-column;
                 grid-row: $middlebar-center-tablet-grid-row;
             }
-        }
-
-        &__left {
-            display: $middlebar-left-tablet-display;
         }
     }
 }

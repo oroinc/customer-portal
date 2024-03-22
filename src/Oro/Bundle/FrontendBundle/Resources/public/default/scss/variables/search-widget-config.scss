@@ -42,9 +42,10 @@ $search-widget-input-submit-focus-color: get-color('neutral', 'focus') !default;
 // Full width
 
 $search-widget-full-background-color: $page-header-background-color !default;
+$search-widget-full-inset: auto 0 spacing('md') !default;
 
 // Tablet
-$search-widget-tablet-offset: spacing('base') 0 0 !default;
+$search-widget-tablet-offset: spacing('md') 0 0 !default;
 
 $search-widget-wrap-tablet-max-width: initial !default;
 

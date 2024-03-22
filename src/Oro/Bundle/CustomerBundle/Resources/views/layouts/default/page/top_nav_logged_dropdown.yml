@@ -26,6 +26,9 @@ layout:
                     blockType: container
                 top_nav_customer_dropdown_trigger:
                     blockType: container
+                    options:
+                        vars:
+                            popupLabel: '=data["current_user"].getCurrentUser().getFullName()'
                 top_nav_customer_dropdown_sign_out_link:
                     blockType: link
                     options:

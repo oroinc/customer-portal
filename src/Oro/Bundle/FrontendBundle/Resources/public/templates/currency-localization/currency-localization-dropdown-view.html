@@ -9,7 +9,7 @@
                 id="<%- togglerId %>"
                 data-toggle="dropdown"
                 type="button"
-                class="btn btn--outlined-inverse btn--text btn--no-padding <%- context.name %>-switcher <%- context.name %>-switcher--<%- context.selected.formattingCode %>"
+                class="btn btn--colored-inverse btn--text btn--no-padding <%- context.name %>-switcher <%- context.name %>-switcher--<%- context.selected.formattingCode %>"
                 aria-label="<%- _.__('oro_frontend.dropdown.currency_localization_form.more_actions') %>"
                 data-placement="bottom-end"
                 data-popper="false"
@@ -34,7 +34,7 @@
         </div>
     <% } else if (context && context.items.length === 2) { %>
         <div class="oro-toolbar__content">
-            <%= oroui.renderIcon({ name: context.icon, extraClass: 'theme-icon--medium oro-toolbar__icon' }) %>
+            <%= oroui.renderIcon({ name: context.icon, extraClass: 'theme-icon--medium' }) %>
             <% _.each(context.items, function(item, index) { %>
                 <% if (index !== 0) { %>
                     <span class="divider" aria-hidden="true"></span>

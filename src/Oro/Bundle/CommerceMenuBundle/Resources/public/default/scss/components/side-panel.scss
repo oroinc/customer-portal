@@ -115,12 +115,13 @@
                 --btn-justify-content: start;
 
                 padding-inline: 0;
+                position: relative;
 
                 width: 100%;
 
                 .theme-icon:last-child {
                     position: absolute;
-                    justify-self: end;
+                    right: 0;
                     transform: rotate(-90deg);
                 }
             }

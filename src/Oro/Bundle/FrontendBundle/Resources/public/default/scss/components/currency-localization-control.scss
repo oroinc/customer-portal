@@ -5,10 +5,7 @@
 .localization-currency-switcher {
     .page-header__inner & {
         font-weight: 400;
-
-        .theme-icon {
-            color: $currency-localization-icon-color;
-        }
+        --btn-colored-inverse-color: #{$currency-localization-icon-color};
     }
 }
 

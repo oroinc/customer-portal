@@ -1,4 +1,5 @@
 {% block _quick_access_button_container_widget %}
+    {% import '@OroUI/macros.html.twig' as UI %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': " quick-access-button-container dropdown hide-block-on-" ~ (searchType == 'integrated' ? 'mobile-big' : 'tablet-small'),
@@ -16,7 +17,30 @@
     <div {{ block('block_attributes') }}>
         {% if menu.children|length > 0 %}
             {% set togglerId = 'dropdown-'|uniqid %}
-            <button id="{{togglerId}}" data-toggle="dropdown"  data-popper="false" type="button" class="btn btn--outlined-inverse" aria-haspopup="true" aria-expanded="false">
+            <button
+                id="{{togglerId}}"
+                data-toggle="dropdown"
+                data-popper="false"
+                type="button"
+                class="btn btn--outlined-inverse"
+                aria-haspopup="true"
+                aria-expanded="false"
+                {{ UI.renderPageComponentAttributes({
+                    module: 'oroui/js/app/components/viewport-component',
+                    options: {
+                        viewport: 'mobile-big',
+                        component: 'oroui/js/app/components/view-component',
+                        view: 'orofrontend/default/js/app/views/fullscreen-popup-view',
+                        popupIcon: 'hamburger-menu',
+                        popupLabel: buttonLabel,
+                        dialogClass: 'sidebar-main-menu',
+                        contentElement: '.quick-access-button-menu',
+                        contentAttributes: {
+                            'class': 'dropdown-menu quick-access-button-menu fullscreen'
+                        }
+                    },
+                }) }}
+            >
                 <span class="btn-label-ellipses">{{ buttonLabel }}</span>
                 {{ renderIcon.icon({name: 'chevron-down', extraClass: 'quick-access-button-icon'}) }}
             </button>

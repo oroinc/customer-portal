@@ -4,9 +4,4 @@ layout:
             id: __currency_localization_container
             parentId: top_nav_topbar_container
 
-#        - '@setOption':
-#            id: __currency_localization_container
-#            optionName: vars.sidePanelMode
-#            optionValue: false
-
     conditions: 'context["language_and_currency_switchers_above_header"]'

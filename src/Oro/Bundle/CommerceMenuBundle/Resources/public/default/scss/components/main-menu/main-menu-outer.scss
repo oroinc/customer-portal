@@ -23,6 +23,16 @@
     }
 }
 
+.main-menu-standalone-mode {
+    &.main-menu-outer {
+        flex: 1 0 0;
+
+        .main-menu {
+            flex-shrink: 0;
+        }
+    }
+}
+
 @include breakpoint('tablet') {
     .main-menu-outer {
         &__container {

@@ -95,13 +95,7 @@
 
             &__item {
                 margin: 0;
-                padding: 0 0 0 40px;
-
-                @media (hover: hover) {
-                    &:not(&--image):hover {
-                        background: $main-menu-multi-item-background-hover;
-                    }
-                }
+                padding: 0;
 
                 &--image {
                     padding: 0 spacing('lg');
@@ -111,6 +105,38 @@
             &__link {
                 color: $main-menu-multi-link-color;
                 height: 44px;
+                max-width: 100%;
+                position: relative;
+
+                &:before {
+                    content: '';
+                    position: absolute;
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    right: 100%;
+                    top: 0;
+                }
+
+                @media (hover: hover) {
+                    &:hover {
+                        background: $main-menu-multi-item-background-hover;
+
+                        &::before {
+                            background: $main-menu-multi-item-background-hover;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include breakpoint('mega-menu-wide') {
+    .main-menu-stack-mode {
+        .main-menu-column {
+            &__link {
+                padding: 0 0 0 40px;
             }
         }
     }

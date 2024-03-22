@@ -26,7 +26,7 @@
             }
         }) %}
 
-        {% if oro_config_value('oro_frontend.language_and_currency_switchers') == 'above_header' %}
+        {% if oro_config_value('oro_frontend.language_and_currency_switchers') == 'above_header' or oro_config_value('oro_frontend.standalone_main_menu') == true %}
             {% set threshold = ''%}
 
             {% if oro_config_value('oro_frontend.promotional_content') != false and oro_config_value('oro_frontend.top_navigation_menu') != false %}
@@ -76,7 +76,7 @@
             <button
                 data-toggle="dropdown"
                 type="button"
-                class="btn btn--outlined-inverse btn--text btn--no-padding"
+                class="btn btn--colored-inverse btn--text btn--no-padding"
                 data-placement="bottom-end"
             >
                 {{ renderIcon.icon({ name: 'globe' }) }}

@@ -132,6 +132,14 @@
             }
         }
     }
+
+    .main-menu-standalone-mode {
+        .mega-menu-depth-1 {
+            &__actions:only-child .mega-menu-depth-1__link:not(.focus-via-arrows-keys:focus) {
+                padding-left: 40px;
+            }
+        }
+    }
 }
 
 @include breakpoint('desktop-small') {

@@ -216,11 +216,16 @@
                     top: $main-menu-sublist-floated-top;
                     left: $main-menu-sublist-floated-left;
                     right: $main-menu-sublist-floated-right;
-                    transform: $main-menu-sublist-floated-transform;
+                    padding-top: $main-menu-sublist-floated-padding-top;
+                    margin-bottom: $main-menu-sublist-floated-margin-bottom;
 
                     .main-menu__inner-container {
                         position: $main-menu-sublist-container-floated-position;
                         right: $main-menu-sublist-container-floated-right;
+
+                        overflow-y: auto;
+
+                        max-height: calc(100vh - var(--sticky-page-header-element-height, 0));
                     }
                 }
 

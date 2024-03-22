@@ -9,4 +9,4 @@ layout:
             optionName: vars.sidePanelMode
             optionValue: false
 
-    conditions: 'context["language_and_currency_switchers_above_header"]'
+    conditions: 'context["language_and_currency_switchers_above_header"] || context["standalone_main_menu"]'

@@ -4,10 +4,6 @@
     position: $search-widget-position;
     width: $search-widget-wrap-width;
 
-    &--align-left {
-        max-width: $search-widget-wrap-max-width;
-    }
-
     &__input-container {
         flex-basis: 100%;
         position: relative;
@@ -93,7 +89,7 @@
 
             background: $search-widget-full-background-color;
             position: absolute;
-            inset: 0;
+            inset: $search-widget-full-inset;
             width: auto;
             z-index: 1;
         }
@@ -120,7 +116,7 @@
     }
 }
 
-@include breakpoint('tablet') {
+@include breakpoint('tablet-small') {
     .search-widget {
         &--standalone {
             margin: $search-widget-tablet-offset;
