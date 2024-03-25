@@ -43,6 +43,7 @@
     {% import '@OroUI/macros.html.twig' as UI %}
     {% import '@OroEmail/actions.html.twig' as EmailActions %}
     {% import '@OroEmail/macros.html.twig' as Email %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
 
     {% set attr = layout_attr_defaults(attr, {
         'class': ' customer-profile__data'
@@ -135,7 +136,7 @@
                 <div class="info-list__desc">
                     {% if customerUser.authStatus.id == 'active' %}
                         <div class="info-list-status">
-                            <span class="fa fa-check" aria-hidden="true"></span>
+                            {{ renderIcon.icon({name: 'check'}) }}
                             {{- customerUser.authStatus.name -}}
                         </div>
                     {% else %}
@@ -162,9 +163,10 @@
 {% endblock %}
 
 {% block customer_user_view_information_status %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% if customerUser.enabled == true %}
         <div class="info-list-status">
-            <span class="fa fa-check" aria-hidden="true"></span>
+            {{ renderIcon.icon({name: 'check'}) }}
             {{- 'oro.customer.customeruser.profile.statuses.enabled'|trans -}}
         </div>
     {% else %}
@@ -175,8 +177,9 @@
     {% endif %}
 
     {% if customerUser.confirmed == true %}
+        {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
         <div class="info-list-status">
-            <span class="fa fa-check" aria-hidden="true"></span>
+            {{ renderIcon.icon({name: 'check'}) }}
             {{- 'oro.customer.customeruser.profile.statuses.confirmed'|trans -}}
         </div>
     {% else %}

@@ -5,6 +5,7 @@ $customer-profile-container-display: flex !default;
 
 $customer-profile-data-offset-inner: 12px 0 50px 35px !default;
 $customer-profile-data-width: 100% !default;
+$customer-profile-gap: 24px !default;
 $customer-profile-data-border: 1px solid get-color('neutral', 'grey1') !default;
 
 $customer-profile-controls-wrapper-display: inline-flex !default;
@@ -27,3 +28,10 @@ $customer-profile-border-top: 1px solid get-color('neutral', 'grey1') !default;
 $customer-profile-mobile-data-offset-inner: 12px 0 20px 0 !default;
 $customer-profile-container-mobile-big-display: block !default;
 $customer-profile-mobile-big-border-top: 0 !default;
+
+$customer-profile-title-text-font-size: 18px !default;
+$customer-profile-title-text-line-height: 1.5 !default;
+$customer-profile-title-text-font-weight: 600 !default;
+
+$customer-profile-page-title-flex-grow: 1 !default;
+$customer-profile-page-title-margin-bottom: 10px !default;

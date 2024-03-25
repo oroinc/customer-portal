@@ -20,7 +20,7 @@ layout:
                     options:
                         type: button
                         action: button
-                        icon: print
+                        icon: printer
                         attr:
                             'data-page-component-print-page': ''
                             'class': 'btn btn--link'

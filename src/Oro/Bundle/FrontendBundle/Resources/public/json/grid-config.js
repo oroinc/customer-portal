@@ -111,7 +111,7 @@ define(function() {
                     label: 'Delete',
                     rowAction: false,
                     link: '#',
-                    icon: 'trash-o',
+                    icon: 'trash',
                     order: 520,
                     name: 'delete',
                     frontend_type: 'button-widget',

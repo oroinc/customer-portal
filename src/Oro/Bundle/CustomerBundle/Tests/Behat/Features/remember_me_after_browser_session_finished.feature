@@ -16,7 +16,7 @@ Feature: Remember me after browser session finished
   Scenario: Customer user must be logged after deleting session for the customer profile page
     And I click "Account Dropdown"
     And I click "My Profile"
-    And I should see "Account info"
+    And I should see "Account Info"
     When I restart the browser
     Then I should see "Amanda Cole"
     And I should see "Account"

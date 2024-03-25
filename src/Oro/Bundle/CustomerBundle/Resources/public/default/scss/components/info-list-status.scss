@@ -1,6 +1,9 @@
 /* @theme: default; */
 
 .info-list-status {
+    display: flex;
+    align-items: center;
+    gap: spacing('xs');
     margin-right: 3px;
 
     color: $info-list-status-color;

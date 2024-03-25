@@ -9,4 +9,4 @@ Feature: Customer user view own profile
   Scenario: User can see own profile
     Given I signed in as NancyJSallee@example.org on the store frontend
     And I click "Account Dropdown"
-    Then I should see "My profile"
+    Then I should see "My Profile"

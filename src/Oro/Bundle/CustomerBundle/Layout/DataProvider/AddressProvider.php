@@ -6,6 +6,9 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * Provides list of addresses for my profile page
+ */
 class AddressProvider
 {
     /** @var UrlGeneratorInterface */
@@ -122,7 +125,7 @@ class AddressProvider
             'addressListUrl' => $addressListUrl,
             'addressCreateUrl' => $addressCreateUrl,
             'addressUpdateRouteName' => $this->updateRouteName,
-            'currentAddresses' => $this->fragmentHandler->render($addressListUrl),
+            'currentAddresses' => json_decode($this->fragmentHandler->render($addressListUrl), true),
             'addressDeleteRouteName' => $this->deleteRouteName,
             'showMap' => $this->configManager->get('oro_customer.maps_enabled'),
         ];

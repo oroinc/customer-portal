@@ -1,20 +1,23 @@
 /* @theme: default; */
 
+$address-list-item-border-radius: 4px !default;
+$address-list-item-border-radius-active: 0 4px 4px 0 !default;
+
 $address-list-border: 1px solid get-color('neutral', 'grey1') !default;
 
-$address-list-primary-color: get-color('neutral', 'white-100') !default;
-$address-list-primary-background-color: get-color('neutral', 'dark') !default;
+$address-list-primary-color: get-color('info', 'dark') !default;
+$address-list-primary-background-color: get-color('info', 'light') !default;
 
 $address-list-item-v-space: 20px !default;
-$address-list-item-offset: spacing('sm') spacing('sm') spacing('base') spacing('base') !default;
+$address-list-item-offset: spacing('base') !default;
 $address-list-item-border-bottom: 1px solid get-color('neutral', 'grey1') !default;
-
+$address-list-item-hover-background: rgba(get-color('primary', 'light'), .5) !default;
 $address-list-item-active-background: get-color('primary', 'light') !default;
 
 $address-list-item-border: 1px solid get-color('neutral', 'grey3');
 $address-list-item-background-color: get-color('neutral', 'grey2');
-
-$address-list-primary-border-radius: $base-ui-element-border-radius !default;
+$address-list-primary-letter-spacing: .2px !default;
+$address-list-primary-border-radius: 2px !default;
 
 $address-list-button-display: inline-flex !default;
 $address-list-button-offset: 1px 6px !default;
@@ -25,5 +28,24 @@ $address-list-button-color: get-color('neutral', 'grey2') !default;
 $address-list-button-border: 1px solid get-color('neutral', 'grey2') !default;
 $address-list-button-hover-color: get-color('primary', 'hover') !default;
 
+$address-list-item-type-color: get-color('text', 'secondary') !default;
+$address-list-item-margin-bottom: spacing('base') !default;
+
+$address-list-item-active-mark-color: get-color('primary', 'main') !default;
+$address-list-item-active-mark-border-radius: 0 4px 4px 0 !default;
+$address-list-item-active-mark-width: 3px !default;
+
+$address-list-item-active-divider-color: get-color('neutral', 'grey2') !default;
+$address-list-item-active-divider-bottom-offset: -8px !default;
+
+$address-list-empty-content-gap: 24px !default;
+$address-list-empty-content-text-color: get-color('text', 'secondary') !default;
+
 // Tablet Small
 $address-list-item-v-space-tablet-small: 16px !default;
+
+// Mobile
+
+$address-list-link-width-mobile-landscape: 44px !default;
+$address-list-link-width-background-mobile-landscape: get-color('neutral', 'grey1') !default;
+$address-list-link-width-color-mobile-landscape: get-color('text', 'primary') !default;

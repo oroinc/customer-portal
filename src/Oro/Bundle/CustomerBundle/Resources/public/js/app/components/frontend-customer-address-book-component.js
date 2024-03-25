@@ -67,7 +67,7 @@ define(function(require) {
                 showMap: options.showMap
             });
 
-            addressBook.getCollection().reset(JSON.parse(options.currentAddresses));
+            addressBook.getCollection().reset(options.currentAddresses);
             options._sourceElement.children('.view-loading').remove();
         }
     });

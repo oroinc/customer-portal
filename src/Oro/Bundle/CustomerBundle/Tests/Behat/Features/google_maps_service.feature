@@ -16,7 +16,7 @@ Feature: Google maps service
     And I click "Account Dropdown"
     And I click "My Profile"
     When I click on "Address Item" with title "23400 Caldwell Road"
-    Then I should see "Map Container" element inside "Default Addresses" element
+    Then I should see "Map Container" element inside "Address List" element
 
   Scenario: Check google maps shows on address grid
     And I click "Account Dropdown"

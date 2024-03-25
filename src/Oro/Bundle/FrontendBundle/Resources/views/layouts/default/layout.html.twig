@@ -70,7 +70,7 @@
     <ul{{ block('block_attributes') }}>
         {% for button in buttons %}
             <li>
-                {% include button.template with button.templateData|merge({onlyLink: true, noIconText: true, aClass:'btn btn--neutral-dark'}) %}
+                {% include button.template with button.templateData|merge({onlyLink: true, noIconText: true, aClass:'btn btn--plain btn--icon btn--neutral-dark'}) %}
             </li>
         {% endfor %}
     </ul>
@@ -123,7 +123,8 @@
 {% endblock %}
 
 {% block icon_block -%}
-    <span class="fa-{{ icon }}{% if icon_class is defined %} {{ icon_class }}{% endif %}" aria-hidden="true"></span>
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+    {{ renderIcon.icon({name: icon, extraClass: icon_class is defined ? icon_class : ''}) }}
 {%- endblock %}
 
 {% block back_link_widget %}

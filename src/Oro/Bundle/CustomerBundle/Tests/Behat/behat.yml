@@ -199,7 +199,7 @@ oro_behat_extension:
     Edit User Address:
       selector:
         type: xpath
-        locator: '//button[@class=" address-list__button item-edit-button"]'
+        locator: '//button[contains(@class, "item-edit-button")]'
 
     Delete Address Button Edit Page:
       selector: '.oro-address-collection button.removeRow'
@@ -291,7 +291,10 @@ oro_behat_extension:
     Default Addresses:
       selector:
         type: xpath
-        locator: '//h2[contains(., "Default addresses")]/..'
+        locator: '//h2[contains(., "Default Addresses")]/..'
+
+    Address List:
+      selector: '.address-list'
 
     Map Button:
       selector:

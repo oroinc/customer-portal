@@ -432,7 +432,7 @@ datagrids:
                 route: oro_datagrid_front_mass_action
                 acl_resource:  oro_customer_frontend_customer_user_delete
                 launcherOptions:
-                    iconClassName: fa-trash-o
+                    iconClassName: trash
                     className: datagrid-massaction__dropdown-item
                 defaultMessages:
                     confirm_title: oro.customer.mass_actions.delete_customers.confirm_title
@@ -531,7 +531,7 @@ datagrids:
                 frontend_type: delete-mass
                 route: oro_datagrid_front_mass_action
                 launcherOptions:
-                    iconClassName: fa-trash-o
+                    iconClassName: trash
                     className: datagrid-massaction__dropdown-item
                 defaultMessages:
                     confirm_title: oro.customer.mass_actions.delete_customer_addresses.confirm_title

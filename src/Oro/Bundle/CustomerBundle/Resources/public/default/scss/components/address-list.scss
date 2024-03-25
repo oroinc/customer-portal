@@ -10,101 +10,68 @@
 
 .map-visual-frame {
     height: 320px;
-    margin-top: $address-list-item-v-space;
-    margin-left: 2%;
-
     flex-basis: 54%;
 }
 
 .address-list {
     display: flex;
     flex-direction: row;
-    margin-left: 35px;
-    border-top: $address-list-border;
     justify-content: space-between;
+    gap: 0 104px;
 
-    &__item {
-        position: relative;
-        padding-top: spacing('sm');
-        padding-right: 50px;
+    &__manage-link {
+        font-size: $base-font-size--xs;
+    }
+
+    &__item-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: spacing('sm');
     }
 
     &__primary {
-        display: inline-block;
-        font-size: $base-font-size--s - 1;
+        font-size: $base-font-size--xs;
+        text-transform: uppercase;
         color: $address-list-primary-color;
         border-radius: $address-list-primary-border-radius;
         background-color: $address-list-primary-background-color;
-        margin: 12px 0 0;
-        padding: 3px 7px;
-    }
-
-    &__adress {
-        line-height: 1.6;
+        letter-spacing: $address-list-primary-letter-spacing;
+        padding: 0 4px;
+        font-weight: font-weight('medium');
     }
 
     &__type {
-        margin-top: spacing('sm');
+        font-weight: font-weight('light');
+        font-style: italic;
+        color: $address-list-item-type-color;
+        padding-bottom: spacing('base');
 
-        font-size: $base-font-size;
-
-        color: $address-list-type-color;
+        &:last-child {
+            padding-bottom: 0;
+        }
     }
 
     &__actions {
-        font-size: 0;
-        position: absolute;
-        top: 0;
-        right: 0;
-        white-space: nowrap;
-    }
+        flex-shrink: 0;
 
-    &__manage {
-        padding: 20px 0;
-    }
-
-    &__button {
-        display: $address-list-button-display;
-        padding: $address-list-button-offset;
-        font-size: $base-font-size;
-        cursor: pointer;
-        color: $address-list-button-color;
-        // reset default styles
-        border: 0;
-        border-radius: 0;
-        background: transparent;
-
-        &.item-map-button {
+        .item-map-button {
             display: none;
             border-right: none;
         }
+    }
 
-        // override icon right margin
-        [class^='fa-'],
-        [class*=' fa-'] {
-            margin-right: 0;
-        }
-
-        &:not(:last-child) {
-            border-right: $address-list-button-border;
-        }
-
-        &:hover {
-            text-decoration: inherit;
-
-            color: $address-list-button-hover-color;
-        }
+    &__empty-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: $address-list-empty-content-gap;
+        color: $address-list-empty-content-text-color;
     }
 
     &-section {
         margin-bottom: spacing('base');
-    }
-
-    &__manage-link {
-        @include fa-icon(var(--fa-var-angle-right), after, true, true) {
-            display: inline-block;
-            margin-left: $font-icon-offset-end;
-        }
     }
 
     .view-loading {
@@ -121,17 +88,52 @@
 }
 
 .map-address-list {
-    flex-basis: 44%;
+    flex-basis: 680px;
     flex-grow: 1;
     list-style: none;
-    padding-top: $address-list-item-v-space;
 
     .map-item {
+        position: relative;
         padding: $address-list-item-offset;
-        border-bottom: $address-list-item-border-bottom;
+        border-radius: $address-list-item-border-radius;
+        margin-bottom: $address-list-item-margin-bottom;
+
+        &:after {
+            content: '';
+            position: absolute;
+            bottom: $address-list-item-active-divider-bottom-offset;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: $address-list-item-active-divider-color;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+
+            &:after {
+                display: none;
+            }
+        }
+
+        &:hover {
+            background-color: $address-list-item-hover-background;
+        }
 
         &.active {
-            background: $address-list-item-active-background;
+            border-radius: $address-list-item-border-radius-active;
+            background-color: $address-list-item-active-background;
+
+            &:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: $address-list-item-active-mark-width;
+                background-color: $address-list-item-active-mark-color;
+                border-radius: $address-list-item-active-mark-border-radius;
+            }
         }
     }
 }
@@ -154,16 +156,12 @@
     }
 }
 
-@include breakpoint('tablet-small') {
+@include breakpoint('tablet') {
     .address-list {
         margin-left: 0;
 
-        &__button.item-map-button {
+        .item-map-button {
             display: inline-flex;
-        }
-
-        &__item {
-            padding-right: 75px;
         }
     }
 
@@ -185,5 +183,27 @@
         // Override inline styles
         // stylelint-disable-next-line declaration-no-important
         display: none !important;
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .address-list {
+        &__manage-link {
+            width: $address-list-link-width-mobile-landscape;
+            background-color: $address-list-link-width-background-mobile-landscape;
+            color: $address-list-link-width-color-mobile-landscape;
+
+            // Hide action's labelS
+            font-size: 0;
+            gap: 0;
+
+            margin-left: auto;
+        }
+    }
+}
+
+@include breakpoint('mobile') {
+    .map-address-list {
+        padding-top: 0;
     }
 }

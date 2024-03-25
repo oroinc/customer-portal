@@ -140,7 +140,9 @@ oro.customer:
         add: 'New Address'
         cancel: 'Cancel'
         save: 'Save'
-        manage: 'Manage Addresses'
+        add_address: 'Add address'
+        manage: 'Go to Personal Addresses'
+        no_addresses: 'No addresses saved yet'
 
     customergroup:
         entity_label:           'Customer Group'
@@ -909,7 +911,7 @@ oro.customer:
             customer_user.view: 'Customer User - %identifier%'
             customer_user.edit: 'Edit Customer User'
             customer_user.create: 'Create User'
-            customer_user.my_profile: 'My profile'
+            customer_user.my_profile: 'My Profile'
 
             page:
                 customer_user_role.create: Create Role
@@ -922,9 +924,9 @@ oro.customer:
                 users.label: Users
 
             customer_user.user_profile: 'User profile'
-            customer_user.account_info: 'Account info'
-            customer_user.address_book: 'Address book'
-            customer_user.default_addresses: 'Default addresses'
+            customer_user.account_info: 'Account Info'
+            customer_user.address_book: 'Address Book'
+            customer_user.default_addresses: 'Default Addresses'
 
         customer_user_link.text: '< Back to Customer User List'
         action:

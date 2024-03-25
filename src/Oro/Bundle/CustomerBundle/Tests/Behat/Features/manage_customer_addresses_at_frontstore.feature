@@ -25,7 +25,7 @@ Feature: Manage Customer addresses at front-store
     Given I signed in as NancyJSallee@example.org on the store frontend
     And I click "Account Dropdown"
     And I click "My Profile"
-    Then I should see "Address book is empty"
+    Then I should see "No addresses saved yet"
     And I click "Account Dropdown"
     When I click "Address Book"
     Then I should see "New Address"

@@ -8,7 +8,7 @@ operations:
             - customer-customer-user-grid
         order: 30
         button_options:
-            icon: close
+            icon: fa-close
         acl_resource: [EDIT, $.data]
         preconditions:
             '@equal': [$enabled, true]
@@ -112,7 +112,10 @@ operations:
             - oro_customer_frontend_customer_user_view
         order: 10
         button_options:
-            icon: check
+            icon: fa-check
+        frontend_options:
+            options:
+                icon: check
         acl_resource: [EDIT, $.data]
         preactions:
             - '@get_active_user': $.currentUser
@@ -213,7 +216,7 @@ operations:
         acl_resource: [CREATE, entity:commerce@Oro\Bundle\CustomerBundle\Entity\CustomerUser]
         button_options:
             class: btn--outlined
-            icon: fa-plus fa--small
+            icon: plus
         order: 10
         actions:
            - '@redirect':
@@ -228,7 +231,10 @@ operations:
         acl_resource: [CREATE, entity:commerce@Oro\Bundle\CustomerBundle\Entity\CustomerUserRole]
         button_options:
             class: btn--outlined
-            icon: fa-plus fa--small
+            icon: fa-plus
+        frontend_options:
+            options:
+                icon: plus
         order: 10
         actions:
             - '@redirect':
@@ -244,7 +250,7 @@ operations:
         acl_resource: [DELETE, $.data]
         order: 20
         button_options:
-            icon: trash
+            icon: fa-trash
         preactions:
             - '@get_active_user': $.currentUser
         preconditions:
@@ -253,6 +259,8 @@ operations:
             confirmation:
                 message: oro.customer.customer_user.delete_confirm
                 component: oroui/js/delete-confirmation
+            options:
+                icon: trash
         actions:
             - '@run_action_group':
                 action_group: DELETE
@@ -277,6 +285,9 @@ operations:
         order: 5
         button_options:
             icon: fa-pencil
+        frontend_options:
+            options:
+                icon: pencil
         actions:
             - '@redirect':
                 parameters:
@@ -331,9 +342,12 @@ operations:
             - frontend-customer-customer-user-roles-grid
         order: 30
         button_options:
-            icon: trash
+            icon: fa-trash
         datagrid_options:
             aria_label: delete_aria_label
+        frontend_options:
+            options:
+                icon: trash
         preconditions:
             '@and':
                 - '@acl_granted': [oro_customer_frontend_customer_user_role_delete]
@@ -532,7 +546,10 @@ operations:
             - acl_resource
         acl_resource: oro_customer_frontend_customer_address_remove
         button_options:
-            icon: trash
+            icon: fa-trash
+        frontend_options:
+            options:
+                icon: trash
         datagrid_options:
             aria_label: delete_aria_label
         datagrids:
@@ -566,7 +583,7 @@ operations:
             '@equal': [ $.data.enabled, true ]
         acl_resource: [password_management]
         button_options:
-            icon: unlock
+            icon: fa-unlock
         frontend_options:
             confirmation:
                 title: oro.customer.customer_user.reset_password.popup.title
@@ -603,7 +620,7 @@ operations:
             - oro_customer_frontend_customer_user_view
         order: 10
         button_options:
-            icon: unlock
+            icon: fa-unlock
         acl_resource: [EDIT, $.data]
         preactions:
             - '@get_active_user': $.currentUser
