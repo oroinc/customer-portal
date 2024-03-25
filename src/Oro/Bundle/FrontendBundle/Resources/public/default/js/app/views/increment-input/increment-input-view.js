@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import _ from 'underscore';
 import __ from 'orotranslation/js/translator';
 import NumberFormatter from 'orolocale/js/formatter/number';
 import IncrementButtonView from 'orofrontend/default/js/app/views/increment-input/increment-button-view';
@@ -72,10 +71,11 @@ const IncrementInputView = BaseView.extend({
         }));
 
         const $input = this.$el.find('input');
+        const step = Number.parseInt($input.attr('step'));
 
         this.min = $input.attr('min') ?? 0;
         this.max = $input.attr('max') ?? Infinity;
-        this.step = $input.attr('step');
+        this.step = Number.isNaN(step) ? 1 : step;
         this.precision = $input.data('precision') === void 0 ? null : $input.data('precision');
     },
 
@@ -84,15 +84,15 @@ const IncrementInputView = BaseView.extend({
      */
     doIncrementValue() {
         const $input = this.$el.find('input');
-        const value = $input.val() || 0;
+        const value = NumberFormatter.unformatStrict($input.val()) || 0;
 
-        if (NumberFormatter.unformatStrict(value) >= NumberFormatter.unformatStrict(this.max)) {
+        if (value >= NumberFormatter.unformatStrict(this.max)) {
             return;
         }
 
         $input.val(
             NumberFormatter.unformatStrict(
-                numeral(value).add(this._calculateStep()).value()
+                numeral(value).add(this.getStep()).value()
             )
         );
         this._afterSetInputValue();
@@ -103,15 +103,15 @@ const IncrementInputView = BaseView.extend({
      */
     doDecrementValue() {
         const $input = this.$el.find('input');
-        const value = $input.val() || 0;
+        const value = NumberFormatter.unformatStrict($input.val()) || 0;
 
-        if (NumberFormatter.unformatStrict(value) <= NumberFormatter.unformatStrict(this.min)) {
+        if (value <= NumberFormatter.unformatStrict(this.min)) {
             return;
         }
 
         $input.val(
             NumberFormatter.unformatStrict(
-                numeral(value).subtract(this._calculateStep()).value()
+                numeral(value).subtract(this.getStep()).value()
             )
         );
         this._afterSetInputValue();
@@ -121,9 +121,10 @@ const IncrementInputView = BaseView.extend({
      * Run validation or any other commands after input value is changed
      * @private
      */
-    _afterSetInputValue(value) {
+    _afterSetInputValue() {
         const $input = this.$el.find('input');
         const validator = $input.closest('form').data('validator');
+        $input.trigger('change');
 
         if (validator) {
             validator.element($input);
@@ -131,24 +132,16 @@ const IncrementInputView = BaseView.extend({
     },
 
     /**
-     * Define incremental count
+     * Define step to calculate
      * @returns {number}
      * @private
      */
-    _calculateStep() {
-        if (_.isUndefined(this.step) && !_.isUndefined(this.precision)) {
-            return Math.pow(10, -this.precision);
+    getStep() {
+        if (typeof this.step === 'number' && this.step > 0) {
+            return this.step;
         }
 
-        if (_.isUndefined(this.step) && _.isUndefined(this.precision)) {
-            return 1;
-        }
-
-        if (this.step === 'any') {
-            return 1;
-        }
-
-        return this.step;
+        return 1;
     },
 
     /**

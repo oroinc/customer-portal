@@ -5,7 +5,7 @@ $page-main-max-width: $site-width !default;
 $page-main-inner-offset: 0 28px 0 !default;
 $page-main-content-offset: 0 auto spacing('enormous') !default;
 
-$page-main-header-offset-top: 4px !default;
+$page-main-header-offset-top: spacing('xs') !default;
 
 // Tablet
 $page-main-mobile-tablet-inner-offset: 0 spacing('base') 0 !default;
