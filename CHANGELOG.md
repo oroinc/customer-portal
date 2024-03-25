@@ -1,6 +1,7 @@
 The upgrade instructions are available at [Oro documentation website](https://doc.oroinc.com/master/backend/setup/upgrade-to-new-version/).
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
+## UNRELEASED
 
 ### Added
 
@@ -20,10 +21,11 @@ The current file describes significant changes in the code that may affect the u
 
 #### FrontendBundle
 
+* Changed format of options that prepares `RuleEditorOptionsConfigurator` <sup>[[?]](https://github.com/oroinc/customer-portal/tree/master/src/Oro/Bundle/FrontendBundle/Form/OptionsConfigurator/RuleEditorOptionsConfigurator.php)</sup>, removed `entities` field and added `supportedNames` and `entityDataProvider`
+* Widget `oro/frontend-dialog-widget` was renamed to `oro/dialog-widget`, so you have to use `oro/dialog-widget` in your customization.
 SCSS `$base-font-minor` and `$base-font-icon` variables were removed, use `$base-font` and SVG icon instead.
 SCSS `get-nested-map-value` function was removed, use native SCSS `map.get` function instead.
 
-Widget `oro/frontend-dialog-widget` was renamed to `oro/dialog-widget`, so you have to use `oro/dialog-widget` in your customization.
 This widget no longer uses `fullscreen-popup-view` under the hood to render dialog as fullscreen.
 All logic is done by CSS using an extra class `fullscreen`.
 As a result, `fullscreenViewOptions` property was deleted and property `popupIcon` and
@@ -112,7 +114,7 @@ events `frontend-dialog:accept, frontend-dialog:cancel, frontend-dialog:close` w
 
 #### FrontendBundle
 
-The widgets `collapse-widget`, `collapse-group-widget`, `rows-collapse-widget` were removed, use the `bootstrap-collapse` instead.
+- The widgets `collapse-widget`, `collapse-group-widget`, `rows-collapse-widget` were removed, use the `bootstrap-collapse` instead.
 - As a result, you need to update your `html`:
 
   **layout.twig**

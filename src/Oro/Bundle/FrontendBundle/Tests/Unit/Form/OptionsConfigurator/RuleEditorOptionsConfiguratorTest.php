@@ -16,7 +16,7 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
         $configurator->configureOptions($resolver);
 
         $this->expectException(MissingOptionsException::class);
-        $this->expectExceptionMessage('The required option "entities" is missing.');
+        $this->expectExceptionMessage('The required option "supportedNames" is missing.');
 
         $resolver->resolve([]);
     }
@@ -38,17 +38,17 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
     public function invalidOptionsDataProvider(): array
     {
         return [
-            'entities type' => [['entities' => true]],
-            'allowedOperations type' => [['entities' => [], 'allowedOperations' => false]],
-            'dataSource type' => [['entities' => [], 'dataSource' => 'source']],
-            'pageComponent type' => [['entities' => [], 'pageComponent' => []]],
+            'supportedNames type' => [['supportedNames' => true]],
+            'allowedOperations type' => [['supportedNames' => [], 'allowedOperations' => false]],
+            'dataSource type' => [['supportedNames' => [], 'dataSource' => 'source']],
+            'pageComponent type' => [['supportedNames' => [], 'pageComponent' => []]],
         ];
     }
 
     public function testConfigureOptionsMinimal()
     {
         $options = [
-            'entities' => []
+            'supportedNames' => []
         ];
 
         $resolver = new OptionsResolver();
@@ -56,12 +56,10 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
         $configurator->configureOptions($resolver);
 
         $expected = [
-            'pageComponent' => 'oroui/js/app/components/view-component',
-            'pageComponentOptions' => [
-                'view' => 'oroform/js/app/views/expression-editor-view',
-            ],
+            'pageComponent' => 'oroform/js/app/components/expression-editor-component',
+            'pageComponentOptions' => [],
+            'supportedNames' => [],
             'dataSource' => [],
-            'entities' => []
         ];
         $this->assertEquals($expected, $resolver->resolve($options));
     }
@@ -69,10 +67,11 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
     public function testConfigureOptionsFull()
     {
         $options = [
-            'entities' => [
-                'root_entities' => ['App\Entity\PriceList' => 'price_list']
-            ],
+            'supportedNames' => ['App\Entity\PriceList' => 'price_list'],
             'dataSource' => ['price_list' => 'test'],
+            'dataProviderConfig' => [
+                'optionsFilter' =>  ['exclude' => false, 'unidirectional' => false]
+            ],
             'pageComponent' => 'custom-component',
             'pageComponentOptions' => [
                 'view' => 'custom-view',
@@ -90,10 +89,11 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
                 'view' => 'custom-view',
             ],
             'dataSource' => ['price_list' => 'test'],
-            'entities' => [
-                'root_entities' => ['App\Entity\PriceList' => 'price_list']
-            ],
-            'allowedOperations' => ['math']
+            'supportedNames' => ['App\Entity\PriceList' => 'price_list'],
+            'allowedOperations' => ['math'],
+            'dataProviderConfig' => [
+                'optionsFilter' =>  ['exclude' => false, 'unidirectional' => false]
+            ]
         ];
         $this->assertEquals($expected, $resolver->resolve($options));
     }
