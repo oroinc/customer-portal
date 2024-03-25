@@ -39,19 +39,25 @@
                role="search"
         >
             <div class="search-widget__input-container">
-                <input class="search-widget__input input input--full"
-                       type="text"
-                       value="{{ app.request.get('search')|e('html_attr') }}"
-                       name="search"
-                       placeholder="{{ 'oro.website_search.search_field_placeholder'|trans({}, translation_domain) }}"
-                       aria-label="{{ 'oro.website_search.search_label'|trans }}"
-                       data-page-component-view="oroproduct/js/app/views/search-autocomplete-view"
-                       maxlength="255"
-                >
-                <button name="oro_website_search_search_button" class="search-widget__submit" type="submit"
-                        aria-label="{{ 'oro.website_search.search_submit_btn'|trans }}">
-                    {{ renderIcon.icon({name: 'search', extraClass: 'search-icon'}) }}
-                </button>
+                <div class="search-widget__input-holder">
+                    <input class="search-widget__input input input--full"
+                           type="text"
+                           value="{{ app.request.get('search')|e('html_attr') }}"
+                           name="search"
+                           placeholder="{{ 'oro.website_search.search_field_placeholder'|trans({}, translation_domain) }}"
+                           aria-label="{{ 'oro.website_search.search_label'|trans }}"
+                           data-page-component-view="oroproduct/js/app/views/search-autocomplete-view"
+                           maxlength="255"
+                    >
+                    <button name="oro_website_search_search_button" class="search-widget__input-btn search-widget__input-btn--prefix search-widget__submit" type="submit"
+                            aria-label="{{ 'oro.website_search.search_submit_btn'|trans }}">
+                        {{ renderIcon.icon({name: 'search', extraClass: 'search-icon'}) }}
+                    </button>
+                    <button name="oro_website_search_search_button_reset" class="search-widget__input-btn search-widget__input-btn--postfix search-widget__reset" type="button"
+                            aria-label="{{ 'oro.website_search.search_submit_btn_reset'|trans }}">
+                        {{ renderIcon.icon({name: 'close', extraClass: 'reset-icon'}) }}
+                    </button>
+                </div>
             </div>
 
             {% if searchType == 'integrated' %}

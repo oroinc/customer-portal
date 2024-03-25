@@ -19,7 +19,7 @@
             transform: translateY(0);
         }
 
-        &.scroll-down {
+        &.scroll-down:not(:has([aria-expanded='true'])) {
             transform: translateY(calc(var(--group-offset-y, 0) * -1));
         }
     }
@@ -31,7 +31,7 @@
 
         // When header has standalone menu and in same time don't have other sticky siblings
         // Made roll up viewport header
-        &:not(:has(~ .page-main .sticky, :hover)) {
+        &:not(:has(~ .page-main .sticky, :hover, [aria-expanded='true'])) {
             --sticky-position-top-offset: calc(var(--sticky-page-header-element-height, 0) * -1);
 
             transition: top 250ms ease-out;

@@ -1,5 +1,5 @@
 import BaseView from 'oroui/js/app/views/base/view';
-import SidePanelBackdropView from './side-panel-backdrop-view';
+import BackdropView from 'oroui/js/app/views/backdrop-view';
 
 const SidePanelFooterView = BaseView.extend({
     optionNames: BaseView.prototype.optionNames.concat(['$popup']),
@@ -48,7 +48,7 @@ const SidePanelFooterView = BaseView.extend({
     render() {
         SidePanelFooterView.__super__.render.call(this);
 
-        this.subview('backdrop', new SidePanelBackdropView({
+        this.subview('backdrop', new BackdropView({
             container: this.$popup,
             onClickCallback: () => {
                 this.toggleExpand(false);

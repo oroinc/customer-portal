@@ -12,6 +12,7 @@ $search-widget-input-height: 44px !default;
 $search-widget-input-inner-offset: 0 18px 0 40px !default;
 $search-widget-input-width: 100% !default;
 $search-widget-input-position: relative !default;
+$search-widget-input-icon-color: get-color('neutral', 'white-100') !default;
 
 $search-widget-input-placeholder-text-overflow: ellipsis !default;
 
@@ -22,22 +23,23 @@ $search-widget-input-focus-border-color: get-color('neutral', 'white-100') !defa
 $search-widget-input-undo-focus-border: $input-border !default;
 $search-widget-input-undo-focus-box-shadow: none !default;
 
-$search-widget-input-submit-position: absolute !default;
-$search-widget-input-submit-top: 0 !default;
-$search-widget-input-submit-left: 0 !default;
-$search-widget-input-submit-bottom: 0 !default;
-$search-widget-input-submit-width: 40px !default;
-$search-widget-input-submit-inner-offset: 0 0 0 spacing('xs') !default;
-$search-widget-input-submit-offset: 0 !default;
-$search-widget-input-submit-font-size: $base-font-size--m - 1px !default;
-$search-widget-input-submit-background: transparent !default;
-$search-widget-input-submit-border: none !default;
+$search-widget-input-btn-position: absolute !default;
+$search-widget-input-btn-top: 0 !default;
+$search-widget-input-btn-left: 0 !default;
+$search-widget-input-btn-right: 0 !default;
+$search-widget-input-btn-bottom: 0 !default;
+$search-widget-input-btn-min-width: 40px !default;
+$search-widget-input-btn-inner-offset: spacing('sm') 10px !default;
+$search-widget-input-btn-offset: 0 !default;
+$search-widget-input-btn-font-size: $base-font-size--m - 1px !default;
+$search-widget-input-btn-background: transparent !default;
+$search-widget-input-btn-border: none !default;
 
-$search-widget-input-submit-hover-color: get-color('neutral', 'dark') !default;
-$search-widget-input-submit-hover-cursor: pointer !default;
+$search-widget-input-btn-hover-color: get-color('neutral', 'grey3') !default;
+$search-widget-input-btn-hover-cursor: pointer !default;
 
-$search-widget-input-submit-focus-box-shadow: none !default;
-$search-widget-input-submit-focus-color: get-color('neutral', 'focus') !default;
+$search-widget-input-btn-focus-box-shadow: none !default;
+$search-widget-input-btn-focus-color: get-color('neutral', 'focus') !default;
 
 // Full width
 
@@ -49,5 +51,4 @@ $search-widget-tablet-offset: spacing('md') 0 0 !default;
 
 $search-widget-wrap-tablet-max-width: initial !default;
 
-$search-widget-submit-tablet-height: 44px !default;
-$search-widget-submit-tablet-bottom: auto !default;
+$search-widget-btn-tablet-bottom: auto !default;

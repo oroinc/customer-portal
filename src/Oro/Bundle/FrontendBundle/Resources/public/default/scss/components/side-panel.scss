@@ -91,7 +91,7 @@
 
 .sidebar-main-menu {
     &.side-menu-footer-expand {
-        .fullscreen-popup__backdrop {
+        .backdrop-view {
             display: none;
         }
 
@@ -129,9 +129,12 @@
     .sidebar-main-menu {
         &.side-menu-footer-expand {
             &:has(.side-panel-currency-localization) {
+                .backdrop-view {
+                    display: block;
+                }
+
                 .fullscreen-popup {
-                    &__content,
-                    &__backdrop {
+                    &__content {
                         display: block;
                     }
 

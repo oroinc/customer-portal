@@ -70,6 +70,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/datagrid-divider-config.scss'
 
         - 'bundles/orofrontend/default/scss/variables/fullscreen-popup-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/backdrop-view-config.scss'
         - 'bundles/orofrontend/default/scss/variables/ui/jquery-ui-config.scss'
         - 'bundles/orofrontend/default/scss/variables/ui/dialog-config.scss'
         - 'bundles/orofrontend/default/scss/variables/ui/datepicker-config.scss'
@@ -196,6 +197,7 @@ styles:
         - 'bundles/orofrontend/default/scss/components/search-widget.scss'
         - 'bundles/orofrontend/default/scss/components/search-container.scss'
         - 'bundles/orofrontend/default/scss/components/loader-mask.scss'
+        - 'bundles/orofrontend/default/scss/components/backdrop-view.scss'
         - 'bundles/orofrontend/default/scss/components/fullscreen-popup.scss'
         - 'bundles/orofrontend/default/scss/components/warning-list.scss'
         - 'bundles/orofrontend/default/scss/components/slick.scss'

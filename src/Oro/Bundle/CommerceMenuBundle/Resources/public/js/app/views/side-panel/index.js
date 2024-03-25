@@ -1,8 +1,8 @@
 import mediator from 'oroui/js/mediator';
+import BackdropView from 'oroui/js/app/views/backdrop-view';
 import FullScreenPopupView from 'orofrontend/default/js/app/views/fullscreen-popup-view';
 import SidePanelHeader from './side-panel-header';
 import SidePanelFooterView from './side-panel-footer-view';
-import SidePanelBackdropView from './side-panel-backdrop-view';
 
 const SidePanelView = FullScreenPopupView.extend({
     constructor: function SidePanelView(options) {
@@ -14,7 +14,7 @@ const SidePanelView = FullScreenPopupView.extend({
     show() {
         SidePanelView.__super__.show.call(this);
 
-        this.subview('backdrop', new SidePanelBackdropView({
+        this.subview('backdrop', new BackdropView({
             container: this.$popup.parent(),
             onClickCallback: () => {
                 this.close();

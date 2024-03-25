@@ -109,28 +109,13 @@
         }
     }
 
-    &__backdrop {
-        position: fixed;
-        inset: 0;
-
-        background-color: $fullscreen-popup-backdrop-background-color;
-        z-index: $fullscreen-popup-backdrop-z-index;
-
-        .fullscreen-popup & {
-            z-index: $fullscreen-popup-footer-z-index;
-        }
-
-        transition: $fullscreen-popup-backdrop-transition;
-
-        &:not(.show) {
-            opacity: 0;
-            visibility: hidden;
-        }
-    }
-
     // Make correct padding of popup content for any content
     .tab-content__wrapper {
         padding: 20px;
+    }
+
+    .backdrop-view {
+        z-index: $fullscreen-popup-footer-z-index;
     }
 
     &--transition {

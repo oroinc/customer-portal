@@ -1,0 +1,14 @@
+.backdrop-view {
+    position: fixed;
+    inset: 0;
+
+    background-color: $backdrop-background-color;
+    z-index: $backdrop-z-index;
+
+    transition: $backdrop-transition;
+
+    &:not(.show) {
+        opacity: 0;
+        visibility: hidden;
+    }
+}

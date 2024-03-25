@@ -18,6 +18,7 @@
         background-color: transparent;
         border-color: $search-widget-input-border-color;
         border-radius: $search-widget-input-border-radius;
+        z-index: $zindex-modal;
 
         &:hover {
             border-color: $search-widget-input-border-color;
@@ -42,46 +43,70 @@
         }
     }
 
-    &__submit {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: $search-widget-input-submit-position;
-        top: $search-widget-input-submit-top;
-        left: $search-widget-input-submit-left;
-        bottom: $search-widget-input-submit-bottom;
+    &__input-btn {
+        position: $search-widget-input-btn-position;
+        z-index: $zindex-modal;
+        top: $search-widget-input-btn-top;
+        bottom: $search-widget-input-btn-bottom;
+        color: $search-widget-input-icon-color;
+        padding: $search-widget-input-btn-inner-offset;
+        min-width: $search-widget-input-btn-min-width;
+        margin: $search-widget-input-btn-offset;
+        font-size: $search-widget-input-btn-font-size;
+        background: $search-widget-input-btn-background;
+        border: $search-widget-input-btn-border;
 
-        width: $search-widget-input-submit-width;
-        padding: $search-widget-input-submit-inner-offset;
-        margin: $search-widget-input-submit-offset;
+        &--prefix {
+            left: $search-widget-input-btn-left;
+        }
 
-        font-size: $search-widget-input-submit-font-size;
-
-        background: $search-widget-input-submit-background;
-        border: $search-widget-input-submit-border;
+        &--postfix {
+            right: $search-widget-input-btn-right;
+        }
 
         @include element-state('hover') {
-            color: $search-widget-input-submit-hover-color;
-            cursor: $search-widget-input-submit-hover-cursor;
+            color: $search-widget-input-btn-hover-color;
+            cursor: $search-widget-input-btn-hover-cursor;
         }
 
         &:focus-visible {
-            color: $search-widget-input-submit-focus-color;
+            color: $search-widget-input-btn-focus-color;
         }
     }
 
+    .reset-icon,
     .search-icon {
         display: block;
-        fill: $search-widget-input-color;
     }
 
+    &__reset,
     &__cancel {
         display: none;
     }
 }
 
+@include breakpoint('tablet') {
+    .search-widget {
+        position: static;
+
+        &--standalone {
+            margin: $search-widget-tablet-offset;
+        }
+
+        &--integrated {
+            max-width: $search-widget-wrap-tablet-max-width;
+        }
+    }
+}
+
 @include breakpoint('mobile-landscape') {
     .search-widget {
+        position: relative;
+
+        &__input {
+            padding-right: 40px;
+        }
+
         &--full {
             display: flex;
             align-items: center;
@@ -95,9 +120,14 @@
         }
 
         &--full &__input-container {
+            position: static;
             padding-left: spacing('base');
             padding-right: spacing('base');
             flex-basis: 100%;
+        }
+
+        &--full &__reset {
+            display: block;
         }
 
         &__form {
@@ -110,20 +140,8 @@
             display: inline-block;
         }
 
-        &--full &__submit {
-            left: spacing('base');
-        }
-    }
-}
-
-@include breakpoint('tablet-small') {
-    .search-widget {
-        &--standalone {
-            margin: $search-widget-tablet-offset;
-        }
-
-        &--integrated {
-            max-width: $search-widget-wrap-tablet-max-width;
+        &__input-holder {
+            position: relative;
         }
     }
 }
