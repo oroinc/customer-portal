@@ -139,7 +139,7 @@
         <span class="dropdown-header">{{- child.label|trans -}}</span>
     {% else %}
         <li class="customer-menu-list__item">
-            <a href="{{ uri }}" class="{{ ' dropdown-item text-nowrap ' ~ linkCurrentClass }}">
+            <a href="{{ uri }}" class="{{ ' dropdown-item text-nowrap ' ~ linkCurrentClass ?? '' }}">
                 {{- label|trans -}}
             </a>
         </li>
