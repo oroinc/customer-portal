@@ -9,7 +9,6 @@ use Oro\Bundle\ApiBundle\Request\RequestType;
 use Oro\Bundle\ApiBundle\Request\ValueNormalizer;
 use Oro\Bundle\ApiBundle\Request\Version;
 use Oro\Bundle\ApiBundle\Util\ValueNormalizerUtil;
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 
 /**
  * Builds a documentation about the storefront API resources that can be used by non-authenticated visitors.
@@ -17,18 +16,15 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 class NonAuthenticatedVisitorsDocumentationProvider implements DocumentationProviderInterface
 {
     private array $apiResources;
-    private ConfigManager $configManager;
     private ValueNormalizer $valueNormalizer;
     private ResourcesProvider $resourcesProvider;
 
     public function __construct(
         array $apiResources,
-        ConfigManager $configManager,
         ValueNormalizer $valueNormalizer,
         ResourcesProvider $resourcesProvider
     ) {
         $this->apiResources = $apiResources;
-        $this->configManager = $configManager;
         $this->valueNormalizer = $valueNormalizer;
         $this->resourcesProvider = $resourcesProvider;
     }
@@ -38,10 +34,6 @@ class NonAuthenticatedVisitorsDocumentationProvider implements DocumentationProv
      */
     public function getDocumentation(RequestType $requestType): ?string
     {
-        if (!$this->configManager->get('oro_customer.non_authenticated_visitors_api')) {
-            return null;
-        }
-
         $apiResources = $this->getNonAuthenticatedVisitorsApiResources($requestType);
         if (empty($apiResources)) {
             return null;
@@ -79,10 +71,10 @@ class NonAuthenticatedVisitorsDocumentationProvider implements DocumentationProv
 
     private function getTemplate(): string
     {
-        return <<<MARKDOWN
-The following API resources can be used by non-authenticated visitors:
-
-%s
-MARKDOWN;
+        return
+            'The following API resources can be used by non-authenticated visitors'
+            . ' when "Enable Guest Storefront API" configuration option is enabled:'
+            . "\n\n"
+            . '%s';
     }
 }

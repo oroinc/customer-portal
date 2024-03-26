@@ -8,14 +8,10 @@ use Oro\Bundle\ApiBundle\Request\DataType;
 use Oro\Bundle\ApiBundle\Request\RequestType;
 use Oro\Bundle\ApiBundle\Request\ValueNormalizer;
 use Oro\Bundle\ApiBundle\Request\Version;
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Api\ApiDoc\NonAuthenticatedVisitorsDocumentationProvider;
 
 class NonAuthenticatedVisitorsDocumentationProviderTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
-
     /** @var ResourcesProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $resourcesProvider;
 
@@ -24,7 +20,6 @@ class NonAuthenticatedVisitorsDocumentationProviderTest extends \PHPUnit\Framewo
 
     protected function setUp(): void
     {
-        $this->configManager = $this->createMock(ConfigManager::class);
         $this->resourcesProvider = $this->createMock(ResourcesProvider::class);
 
         $valueNormalizer = $this->createMock(ValueNormalizer::class);
@@ -37,35 +32,14 @@ class NonAuthenticatedVisitorsDocumentationProviderTest extends \PHPUnit\Framewo
 
         $this->provider = new NonAuthenticatedVisitorsDocumentationProvider(
             ['Test\Entity3', 'Test\Entity2', 'Test\Entity1'],
-            $this->configManager,
             $valueNormalizer,
             $this->resourcesProvider
         );
     }
 
-    public function testGetDocumentationWhenAccessToNonAuthenticatedVisitorsDenied(): void
-    {
-        $requestType = new RequestType(['test']);
-
-        $this->configManager->expects(self::once())
-            ->method('get')
-            ->with('oro_customer.non_authenticated_visitors_api')
-            ->willReturn(false);
-
-        $this->resourcesProvider->expects(self::never())
-            ->method('isResourceEnabled');
-
-        self::assertNull($this->provider->getDocumentation($requestType));
-    }
-
     public function testGetDocumentationWhenNoApiResourcesForNonAuthenticatedVisitors(): void
     {
         $requestType = new RequestType(['test']);
-
-        $this->configManager->expects(self::once())
-            ->method('get')
-            ->with('oro_customer.non_authenticated_visitors_api')
-            ->willReturn(true);
 
         $this->resourcesProvider->expects(self::exactly(3))
             ->method('isResourceEnabled')
@@ -78,11 +52,6 @@ class NonAuthenticatedVisitorsDocumentationProviderTest extends \PHPUnit\Framewo
     {
         $requestType = new RequestType(['test']);
 
-        $this->configManager->expects(self::once())
-            ->method('get')
-            ->with('oro_customer.non_authenticated_visitors_api')
-            ->willReturn(true);
-
         $this->resourcesProvider->expects(self::exactly(3))
             ->method('isResourceEnabled')
             ->willReturnMap([
@@ -91,15 +60,12 @@ class NonAuthenticatedVisitorsDocumentationProviderTest extends \PHPUnit\Framewo
                 ['Test\Entity3', ApiAction::OPTIONS, Version::LATEST, $requestType, true]
             ]);
 
-        $expectedDocumentation = <<<MARKDOWN
-The following API resources can be used by non-authenticated visitors:
-
-- testEntity1
-- testEntity3
-MARKDOWN;
-
         self::assertEquals(
-            $expectedDocumentation,
+            'The following API resources can be used by non-authenticated visitors'
+            . ' when "Enable Guest Storefront API" configuration option is enabled:'
+            . "\n"
+            . "\n- testEntity1"
+            . "\n- testEntity3",
             $this->provider->getDocumentation($requestType)
         );
     }

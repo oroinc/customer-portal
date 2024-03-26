@@ -74,7 +74,6 @@ services:
         class: Oro\Bundle\CustomerBundle\Api\ApiDoc\NonAuthenticatedVisitorsDocumentationProvider
         arguments:
             - !abstract '$apiResources defined in Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension'
-            - '@oro_config.manager'
             - '@oro_api.value_normalizer'
             - '@oro_api.resources_provider'
         tags:
