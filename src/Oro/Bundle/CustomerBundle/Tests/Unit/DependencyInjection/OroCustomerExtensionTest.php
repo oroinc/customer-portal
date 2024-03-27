@@ -35,6 +35,9 @@ class OroCustomerExtensionTest extends \PHPUnit\Framework\TestCase
                             'scope' => 'app'
                         ],
                         'company_name_field_enabled'  => ['value' => true, 'scope' => 'app'],
+                        /** Start Requirement for "Default Theme 50/51" */
+                        'user_menu_show_items'  => ['value' => 'all_at_once', 'scope' => 'app'],
+                        /** End Requirement for "Default Theme 50/51" */
                         'enable_responsive_grids'  => ['value' => true, 'scope' => 'app'],
                         'enable_swipe_actions_grids'  => ['value' => true, 'scope' => 'app'],
                         'customer_visitor_cookie_lifetime_days'  => ['value' => 30, 'scope' => 'app'],

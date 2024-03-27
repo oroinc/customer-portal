@@ -45,7 +45,7 @@ class Configuration implements ConfigurationInterface
                 self::LANGUAGE_AND_CURRENCY_SWITCHERS => ['type' => 'string', 'value' => 'always_in_hamburger_menu'],
                 self::STANDALONE_MAIN_MENU => ['type' => 'boolean', 'value' => false],
                 self::QUICK_ACCESS_BUTTON => ['type' => 'object', 'value' => null],
-                self::QUICK_LINKS => ['type' => 'string', 'value' => 'commerce_quick_access'],
+                self::QUICK_LINKS => ['type' => 'string', 'value' => 'commerce_quick_access_refreshing_teal'],
                 self::SEARCH_ON_SMALLER_SCREENS => ['type' => 'string', 'value' => 'integrated'],
             ]
         );

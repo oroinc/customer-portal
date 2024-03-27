@@ -29,7 +29,7 @@ Scenario: Check added menu item
 Scenario: Conditions should not affect Show/Hide button
   Given I proceed as the Admin
   And I go to System/ Frontend Menus
-  And click view oro_customer_menu in grid
+  And click view oro_customer_menu_refreshing_teal in grid
   And I click Orders in menu tree
   And I click Order History in menu tree
   And I should see following buttons:

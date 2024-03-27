@@ -57,7 +57,7 @@ Feature: System Configuration - Main Navigation Menu
     When I follow "System Configuration/Websites/Routing" on configuration sidebar
     And uncheck "Use Customer Group" for "Main Navigation Menu" field
     And I fill form with:
-      | Main Navigation Menu | commerce_top_nav |
+      | Main Navigation Menu | commerce_top_nav_refreshing_teal |
     And I click "Save settings"
     Then I should see "Configuration saved" flash message
 

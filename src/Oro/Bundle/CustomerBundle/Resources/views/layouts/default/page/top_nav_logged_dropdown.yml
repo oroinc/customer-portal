@@ -19,7 +19,7 @@ layout:
                 top_nav_customer_menu:
                       blockType: menu
                       options:
-                          item: '=data["menu"].getMenu("oro_customer_menu")'
+                          item: '=data["menu"].getMenu("oro_customer_menu_refreshing_teal")'
                 top_nav_customer_menu_list:
                     blockType: container
                 top_nav_customer_dropdown_menu:

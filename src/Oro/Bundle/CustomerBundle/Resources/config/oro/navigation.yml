@@ -319,8 +319,32 @@ navigation:
                                     oro_customer_frontend_customer_user_role_update: ~
                                     oro_customer_frontend_customer_user_role_view: ~
                             oro_customer_frontend_customer_user_profile_update: ~
-
+            # Start Requirement for "Default Theme 50/51"
             oro_customer_menu:
+                scope_type: menu_frontend_visibility
+                children:
+                    oro_customer_frontend_customer_user_profile:
+                        children:
+                            oro_customer_frontend_customer_user_profile_update: ~
+                    oro_customer_frontend_customer_user_address_index:
+                        children:
+                            oro_customer_frontend_customer_personal_address_create: ~
+                            oro_customer_frontend_customer_personal_address_update: ~
+                            oro_customer_frontend_customer_company_address_create: ~
+                            oro_customer_frontend_customer_company_address_update: ~
+                    oro_customer_frontend_customer_user_index:
+                        children:
+                            oro_customer_frontend_customer_user_create: ~
+                            oro_customer_frontend_customer_user_update: ~
+                            oro_customer_frontend_customer_user_view: ~
+                    oro_customer_frontend_customer_user_role_index:
+                        children:
+                            oro_customer_frontend_customer_user_role_create: ~
+                            oro_customer_frontend_customer_user_role_update: ~
+                            oro_customer_frontend_customer_user_role_view: ~
+            # End Requirement for "Default Theme 50/51"
+
+            oro_customer_menu_refreshing_teal:
                 scope_type: menu_frontend_visibility
                 children:
                     oro_customer_frontend_customer_user_profiles_and_addresses:

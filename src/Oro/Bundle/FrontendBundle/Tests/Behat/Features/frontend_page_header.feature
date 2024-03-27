@@ -32,12 +32,12 @@ Feature: Frontend Page Header
     And uncheck "Use default" for "Standalone Main Menu" field
     And uncheck "Use default" for "Quick Links" field
     And I fill "Theme Settings Form" with:
-      | Top Navigation Menu               | commerce_top_nav         |
-      | Language and Currency Switchers   | always_in_hamburger_menu |
-      | Quick Access Button Label         | Product                  |
-      | Quick Access Button Type          | Frontend Menu            |
-      | Quick Access Button Frontend Menu | frontend_menu            |
-      | Standalone Main Menu              | true                     |
+      | Top Navigation Menu               | commerce_top_nav_refreshing_teal |
+      | Language and Currency Switchers   | always_in_hamburger_menu         |
+      | Quick Access Button Label         | Product                          |
+      | Quick Access Button Type          | Frontend Menu                    |
+      | Quick Access Button Frontend Menu | frontend_menu                    |
+      | Standalone Main Menu              | true                             |
     And I submit form
     Then I should see "Configuration saved" flash message
 
@@ -68,11 +68,11 @@ Feature: Frontend Page Header
   Scenario: Promotional content block - no, top navigation menu - no, language/currency switching - no, quick access button - yes, standalone main menu - no, quick links - yes
     Given I proceed as the Admin
     And I fill "Theme Settings Form" with:
-      | Top Navigation Menu               |                          |
-      | Language and Currency Switchers   | always_in_hamburger_menu |
-      | Quick Access Button Frontend Menu | frontend_menu            |
-      | Standalone Main Menu              | false                    |
-      | Quick Links                       | commerce_quick_access    |
+      | Top Navigation Menu               |                                       |
+      | Language and Currency Switchers   | always_in_hamburger_menu              |
+      | Quick Access Button Frontend Menu | frontend_menu                         |
+      | Standalone Main Menu              | false                                 |
+      | Quick Links                       | commerce_quick_access_refreshing_teal |
     And I submit form
     Then I should see "Configuration saved" flash message
 
@@ -96,12 +96,12 @@ Feature: Frontend Page Header
   Scenario: Promotional content block - yes, top navigation menu - no, language/currency switcher - yes, quick access button - yes, standalone main menu - no, quick links - yes.
     Given I proceed as the Admin
     And I fill "Theme Settings Form" with:
-      | Top Navigation Menu               |                       |
-      | Language and Currency Switchers   | Above the header      |
-      | Quick Access Button Frontend Menu | frontend_menu         |
-      | Standalone Main Menu              | false                 |
-      | Quick Links                       | commerce_quick_access |
-      | Quick Access Button Label         | Test Label            |
+      | Top Navigation Menu               |                                       |
+      | Language and Currency Switchers   | Above the header                      |
+      | Quick Access Button Frontend Menu | frontend_menu                         |
+      | Standalone Main Menu              | false                                 |
+      | Quick Links                       | commerce_quick_access_refreshing_teal |
+      | Quick Access Button Label         | Test Label                            |
     And I submit form
     Then I should see "Configuration saved" flash message
 
@@ -119,12 +119,12 @@ Feature: Frontend Page Header
   Scenario: Promotional content block - yes, top navigation menu - yes, language/currency switcher - yes,  quick access button - no, standalone main menu - yes, quick links - yes.
     Given I proceed as the Admin
     When I fill "Theme Settings Form" with:
-      | Top Navigation Menu             | commerce_top_nav      |
-      | Language and Currency Switchers | Above the header      |
-      | Quick Access Button Type        | None                  |
-      | Standalone Main Menu            | true                  |
-      | Quick Links                     | commerce_quick_access |
-      | Quick Access Button Label       | Product               |
+      | Top Navigation Menu             | commerce_top_nav_refreshing_teal      |
+      | Language and Currency Switchers | Above the header                      |
+      | Quick Access Button Type        | None                                  |
+      | Standalone Main Menu            | true                                  |
+      | Quick Links                     | commerce_quick_access_refreshing_teal |
+      | Quick Access Button Label       | Product                               |
     And I submit form
     Then I should see "Configuration saved" flash message
 

@@ -15,6 +15,24 @@ navigation:
                     dir: 'ltr'
                 extras:
                     position: 10
+            # Start Requirement for "Default Theme 50/51"
+            free_shipping:
+                label: 'oro.commercemenu.frontend.navigation.items.free_shipping.label'
+                uri: '/about'
+                attributes:
+                    class: topbar__controls
+                linkAttributes:
+                    class: cart__promo__link
+                extras:
+                    position: 20
+                    safe_label: true
+            orders:
+                label: 'oro.commercemenu.frontend.navigation.items.orders.label'
+                route: oro_order_frontend_index
+            quotes:
+                label: 'oro.commercemenu.frontend.navigation.items.quotes.label'
+                route: oro_sale_quote_frontend_index
+            # End Requirement for "Default Theme 50/51"
             quick_order_form:
                 label: 'oro.commercemenu.frontend.navigation.items.quick_order_form.label'
                 route: oro_product_frontend_quick_add
@@ -83,13 +101,32 @@ navigation:
             frontend_menu:
                 scope_type: menu_frontend_visibility
 
+            # Start Requirement for "Default Theme 50/51"
             commerce_top_nav:
                 type: commerce_top_nav
                 scope_type: menu_frontend_visibility
                 children:
                     telephone: ~
+                    free_shipping: ~
+            # End Requirement for "Default Theme 50/51"
 
+            commerce_top_nav_refreshing_teal:
+                type: commerce_top_nav
+                scope_type: menu_frontend_visibility
+                children:
+                    telephone: ~
+
+            # Start Requirement for "Default Theme 50/51"
             commerce_quick_access:
+                type: commerce_quick_access
+                scope_type: menu_frontend_visibility
+                children:
+                    orders: ~
+                    quotes: ~
+                    quick_order_form: ~
+            # End Requirement for "Default Theme 50/51"
+
+            commerce_quick_access_refreshing_teal:
                 type: commerce_quick_access
                 scope_type: menu_frontend_visibility
                 children:

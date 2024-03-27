@@ -922,6 +922,7 @@ services:
             - "@security.authorization_checker"
         tags:
             - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu, method: onNavigationConfigure }
+            - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu_refreshing_teal, method: onNavigationConfigure }
 
     oro_customer.datagrid.extension.mass_action.handler.delete:
         parent: oro_datagrid.extension.mass_action.handler.delete
@@ -1075,6 +1076,7 @@ services:
         parent: oro_navigation.event_listener.navigation_items
         tags:
             - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu, method: onNavigationConfigure }
+            - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu_refreshing_teal, method: onNavigationConfigure }
 
     oro_customer.security.login_manager:
         class: Oro\Bundle\CustomerBundle\Security\LoginManager

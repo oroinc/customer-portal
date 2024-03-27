@@ -776,6 +776,9 @@ oro.customer:
             customer.title: 'Customer'
             customer_users.title: 'Customer Users'
             customer_users_registration.title: 'Customer Users Registration'
+            # Start Requirement for "Default Theme 50/51"
+            menu_templates.title: 'Menu Templates'
+            # End Requirement for "Default Theme 50/51"
             customer_visitor_section.title: 'Customer Visitor'
             map_settings.title: 'Map Settings'
             responsive_grid_settings.title: 'Grid Settings'
@@ -803,6 +806,13 @@ oro.customer:
             company_name_field_enabled:
                 label: 'Require Company Name'
                 tooltip: 'Enable the option to display the company name field in the registration form in the storefront. Required for individual customers who do not belong to any company.'
+            # Start Requirement for "Default Theme 50/51"
+            user_menu_show_items:
+                label: 'User Menu'
+                option:
+                    all_at_once.label: 'Show all items at once'
+                    subitems_in_popup.label: 'Show subitems in a popup'
+            # End Requirement for "Default Theme 50/51"
             enable_responsive_grids:
                 label: 'Responsive grids'
                 tooltip: 'Enable the option to make storefront grids responsible, realigning row cells to fit various screen sizes.'
@@ -958,6 +968,9 @@ oro.customer:
                 action.label: Action
                 permission.label: Permission
         menu:
+            # Start Requirement for "Default Theme 50/51"
+            customer_user_signed_in_as.label: 'Signed in as:'
+            # End Requirement for "Default Theme 50/51"
             customer_user_welcome.label: 'Welcome, '
             customer_user_sign_out.label: 'Sign Out'
             customer_user_profile.label: 'Account'
