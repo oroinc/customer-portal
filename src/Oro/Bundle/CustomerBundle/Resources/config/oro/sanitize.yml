@@ -1,0 +1,37 @@
+oro_sanitize:
+    entity:
+        oro_cus_pagestate: truncate_cascade
+        oro_cus_navigation_history: truncate
+        oro_customer:
+            fields:
+                name: md5
+        oro_customer_address:
+            fields:
+                street: md5
+                street2: md5
+                city: md5
+                postal_code: postal_code
+                label: md5
+                organization: md5
+                last_name: md5
+                phone: generic_phone
+        oro_customer_user:
+            fields:
+                username: email
+                email: email
+                email_lowercase: email
+                last_name: md5
+                password: md5
+        oro_customer_user_address:
+            fields:
+                street: md5
+                street2: md5
+                city: md5
+                postal_code: postal_code
+                label: md5
+                organization: md5
+                last_name: md5
+                phone: generic_phone
+        oro_customer_user_api:
+            fields:
+                api_key: md5
