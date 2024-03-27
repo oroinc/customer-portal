@@ -58,6 +58,7 @@
 {% endblock %}
 
 {% block _page_title_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set additionalClasses = {
         classPrefix: class_prefix ? ' {{ class_prefix }}-page-title',
         hasActions: hasActions is defined ? ' page-title--has-actions'
@@ -69,9 +70,7 @@
     {% if content|length %}
         <h1{{ block('block_attributes') }}>
             {% if titleIcon is defined and titleIcon != null %}
-            <span class="badge">
-                <span class="{{ titleIcon }}" aria-hidden="true"></span>
-            </span>
+            {{ renderIcon.icon({name: 'zap', extraClass: 'theme-icon--lg'}) }}
             {% endif %}
             <span class="page-title__text">{{ content|raw }}</span>
         </h1>

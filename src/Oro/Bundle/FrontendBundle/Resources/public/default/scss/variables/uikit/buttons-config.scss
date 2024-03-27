@@ -157,6 +157,11 @@ $btn-palette: (
             'background': transparent,
             'border-color': transparent,
             'color': get-var-color('text', 'primary')
+        ),
+        'disabled': (
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('text', 'disabled')
         )
     ),
     'neutral': (
