@@ -43,28 +43,25 @@
 
     .filter-criteria-selector {
         display: $filter-toggle-mode-criteria-selector-display;
-        flex-direction: $filter-toggle-mode-criteria-selector-flex-direction;
-        align-content: $filter-toggle-mode-criteria-selector-align-content;
+        grid-auto-flow: $filter-toggle-mode-criteria-selector-grid-auto-flow;
         align-items: $filter-toggle-mode-criteria-selector-align-items;
+        gap: $filter-toggle-mode-criteria-selector-gap;
         padding: $filter-toggle-mode-criteria-selector-offset-inner;
         margin: $filter-toggle-mode-criteria-selector-offset;
-    }
 
-    .filter-criteria-selector-icon-wrap {
-        right: $filter-toggle-mode-criteria-selector-icon-right-pos;
-    }
+        width: 100%;
+        min-height: $filter-toggle-mode-criteria-selector-min-height;
 
-    .filter-criteria-selector-icon {
-        font-size: $filter-toggle-mode-criteria-selector-icon-font-size;
-        line-height: $filter-toggle-mode-criteria-selector-icon-line-height;
+        color: $filter-toggle-mode-criteria-selector-color;
+        font-weight: $filter-toggle-mode-criteria-selector-font-weight;
 
-        &:before {
-            content: '';
-            display: block;
-            width: $filter-toggle-mode-criteria-selector-icon-size;
-            height: $filter-toggle-mode-criteria-selector-icon-size;
-            mask-image: $filter-toggle-mode-criteria-selector-icon-mask;
-            background-color: $filter-toggle-mode-criteria-selector-icon-color;
+        border: none;
+        background: none;
+
+        &.active {
+            .filter-criteria-selector-icon {
+                transform: rotate(180deg);
+            }
         }
     }
 
@@ -89,6 +86,10 @@
 
     .filter-items {
         margin-bottom: spacing('sm');
+
+        > :empty {
+            display: none;
+        }
     }
 
     .filter-items-hint {
@@ -109,12 +110,13 @@
     .filter-criteria-hint-item {
         display: inline-flex;
         flex-direction: row;
-        flex-wrap: wrap;
         align-items: center;
         margin: $filter-toggle-mode-criteria-hint-item-offset;
         padding: $filter-toggle-mode-criteria-hint-item-offset-inner;
 
         border-radius: $filter-toggle-mode-criteria-hint-item-border-radius;
+
+        max-width: 100%;
     }
 
     .reset-filter-button {
@@ -147,9 +149,6 @@
 
     .filter-criteria {
         display: none;
-        margin-top: $filter-toggle-mode-criteria-offset-top;
-        // stylelint-disable-next-line declaration-no-important
-        margin-left: $filter-toggle-mode-criteria-offset-left !important;
         padding: $filter-toggle-mode-criteria-offset-inner;
         // stylelint-disable-next-line declaration-no-important
         visibility: $filter-toggle-mode-criteria-visibility !important;
@@ -199,10 +198,6 @@
             display: none;
         }
 
-        .filter-criteria-selector-icon {
-            transform: $filter-toggle-mode-open-filter-criteria-selector-icon-transform;
-        }
-
         .filter-criteria {
             display: block;
         }
@@ -215,10 +210,6 @@
     }
 
     .filter-select-oro-wrapper {
-        margin-bottom: 12px;
-    }
-
-    .filter-start-date {
         margin-bottom: 12px;
     }
 

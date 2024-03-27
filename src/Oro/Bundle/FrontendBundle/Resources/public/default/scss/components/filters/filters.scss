@@ -9,19 +9,6 @@
     text-align: left;
 }
 
-.filter-criteria-selector-icon-wrap {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.filter-criteria-selector-icon {
-    height: $filter-criteria-selector-icon-height;
-    transition: transform linear 250ms;
-    color: $filter-criteria-selector-icon-color;
-    display: $filter-criteria-selector-icon-display;
-}
-
 .filter-date-range {
     display: flex;
     justify-content: space-between;

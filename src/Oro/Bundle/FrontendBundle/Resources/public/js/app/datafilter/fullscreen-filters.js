@@ -30,7 +30,7 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
                 buttons: [
                     {
                         'type': 'button',
-                        'class': 'btn btn--outlined',
+                        'class': 'btn',
                         'role': 'apply',
                         'label': __('oro_frontend.filters.apply_all'),
                         'disabled': 'disabled'

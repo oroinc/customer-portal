@@ -209,7 +209,7 @@ define(function(require, exports, module) {
         setDropdownHeaderSearchDesign: function(instance) {
             instance.header
                 .find('input')
-                .addClass('input input--full input--size-s')
+                .addClass('input input--full')
                 .wrap(
                     $('<div></div>', {'class': 'datagrid-manager-search empty'})
                 );

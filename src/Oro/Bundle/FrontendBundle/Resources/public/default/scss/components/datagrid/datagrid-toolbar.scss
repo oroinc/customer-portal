@@ -5,13 +5,13 @@
     flex-wrap: wrap;
     justify-content: space-between;
     gap: $datagrid-toolbar-gap;
+    padding: spacing('sm') 0;
 
     &__start {
         display: flex;
         align-items: center;
         gap: $datagrid-tool-gap-start;
         flex-grow: 1;
-        padding: spacing('xs') 0;
     }
 
     &__center {
@@ -19,7 +19,6 @@
         align-items: center;
         justify-content: center;
         gap: $datagrid-tool-gap-center;
-        padding: spacing('xs') 0;
     }
 
     &__end {
@@ -28,11 +27,18 @@
         justify-content: flex-end;
         gap: $datagrid-tool-gap-end;
         flex-grow: 1;
-        padding: spacing('xs') 0;
     }
 
     &__panel {
         width: 100%;
+    }
+
+    &--offset-top-lg {
+        margin-top: spacing('lg');
+    }
+
+    &--offset-bottom-lg {
+        margin-bottom: spacing('lg');
     }
 
     &-sticky-container {

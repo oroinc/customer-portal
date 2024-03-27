@@ -96,7 +96,7 @@ layout:
         - '@setOption':
             id: __user_addresses_datagrid_toolbar
             optionName: attr.class
-            optionValue: 'datagrid-toolbar datagrid-toolbar--offset-s extended'
+            optionValue: 'datagrid-toolbar datagrid-toolbar--offset-bottom-lg extended'
 
 #    TODO: return condition in BB-4263
 #    conditions: 'context["customer_address_count"]>=8'

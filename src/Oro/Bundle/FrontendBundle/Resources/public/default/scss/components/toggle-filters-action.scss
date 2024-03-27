@@ -65,5 +65,15 @@
         // Hide action's labelS
         font-size: 0;
         gap: 0;
+
+        &.filters-selected {
+            &::before {
+                background-color: $toggle-filters-action-color-mobile;
+            }
+
+            &::after {
+                background: $toggle-filters-action-background-mobile;
+            }
+        }
     }
 }

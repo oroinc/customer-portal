@@ -3,5 +3,5 @@
 $sticky-panel-z-index: z('fixed') !default;
 
 // Inner container
-$sticky-panel-box-shadow: 0 2px 5px 0 rgba(0 0 0 / 20%) !default;
+$sticky-panel-box-shadow: 0px 3px 3px 0px rgba(5, 59, 66, .03), 0px 7px 12px 0px rgba(91, 126, 131, .12) !default;
 $sticky-panel-transition: transform 250ms ease-out !default;

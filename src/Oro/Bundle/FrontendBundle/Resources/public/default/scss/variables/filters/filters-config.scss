@@ -31,7 +31,7 @@ $filter-value-range-justify-content: space-between !default;
 $filter-start-end-width: 100% !default;
 $filter-start-end-display: flex !default;
 
-$filter-datepicker-box-icon-top: 5px !default;
+$filter-datepicker-box-icon-top: spacing('md') !default;
 
 $filter-action-row-offset-top: spacing('base') !default;
 
@@ -53,8 +53,8 @@ $filter-actions-align-items: flex-start !default;
 
 // Filters Dropdown Mode
 $filter-box-dropdown-mode-in-sticky-offset: auto !default;
-$filter-box-dropdown-mode-margin: 4px 0 0 !default;
-$filter-box-dropdown-mode-inner-offset: 8px !default;
+$filter-box-dropdown-mode-margin: spacing('lg') 0 0 0 !default;
+$filter-box-dropdown-mode-inner-offset: 0 !default;
 $filter-box-dropdown-mode-background: null !default;
 $filter-box-dropdown-mode-use-corner: true !default;
 $filter-box-dropdown-mode-corner-position-r: 15px !default;

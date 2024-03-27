@@ -3,12 +3,10 @@
 $filter-toggle-mode-fields-row-min-width: 100% !default;
 
 $filter-toggle-mode-filter-item-width: 100% !default;
-$filter-toggle-mode-filter-item-padding: spacing('sm') 0 !default;
-$filter-toggle-mode-filter-item-border-bottom: 1px solid get-color('neutral', 'grey1') !default;
+$filter-toggle-mode-filter-item-padding: spacing('md') 0 !default;
+$filter-toggle-mode-filter-item-border-bottom: 1px solid get-color('neutral', 'grey2') !default;
 
-$filter-toggle-mode-criteria-offset-top: -12px !default;
-$filter-toggle-mode-criteria-offset-left: 0 !default;
-$filter-toggle-mode-criteria-offset-inner: 12px 0 !default;
+$filter-toggle-mode-criteria-offset-inner: spacing('sm') 0 spacing('md') !default;
 $filter-toggle-mode-criteria-visibility: visible !default;
 $filter-toggle-mode-criteria-value-field-frame-width: 100% !default;
 
@@ -21,11 +19,16 @@ $filter-toggle-mode-product-price-filter-inner-offset-left: 0 !default;
 $filter-toggle-mode-unit-filter-separator-display: none !default;
 
 $filter-toggle-mode-criteria-selector-display: flex !default;
+$filter-toggle-mode-criteria-selector-grid-auto-flow: column !default;
 $filter-toggle-mode-criteria-selector-flex-direction: row !default;
 $filter-toggle-mode-criteria-selector-align-content: space-between !default;
-$filter-toggle-mode-criteria-selector-align-items: baseline !default;
-$filter-toggle-mode-criteria-selector-offset-inner: null !default;
-$filter-toggle-mode-criteria-selector-offset: 8px 0 !default;
+$filter-toggle-mode-criteria-selector-align-items: center !default;
+$filter-toggle-mode-criteria-selector-gap: spacing('sm') !default;
+$filter-toggle-mode-criteria-selector-offset-inner: 0 !default;
+$filter-toggle-mode-criteria-selector-offset: 0 !default;
+$filter-toggle-mode-criteria-selector-color: get-color('text', 'primary') !default;
+$filter-toggle-mode-criteria-selector-font-weight: font-weight('semi-bold') !default;
+$filter-toggle-mode-criteria-selector-min-height: 44px !default;
 
 $filter-toggle-mode-criteria-selector-icon-right-pos: spacing('sm') !default;
 
@@ -54,7 +57,7 @@ $filter-toggle-mode-filter-item-label-font-size: $base-font-size--large !default
 $filter-toggle-mode-filter-item-label-line-height: 1.25 !default;
 
 $filter-toggle-mode-filter-extra-hint-offset: 6px !default;
-$filter-toggle-mode-filter-extra-hint-color: get-color('neutral', 'grey2') !default;
+$filter-toggle-mode-filter-extra-hint-color: get-color('text', 'secondary') !default;
 
 $filter-toggle-mode-reset-filter-button-inner-offset: 0 !default;
 

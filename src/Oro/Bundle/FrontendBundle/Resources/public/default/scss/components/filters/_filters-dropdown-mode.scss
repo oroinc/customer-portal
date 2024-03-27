@@ -72,30 +72,21 @@
         }
     }
 
+    .filter-action-row {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .filter-update {
+        margin-inline-start: auto;
+    }
+
     .criteria-visible {
         display: block;
     }
 
     .criteria-hidden {
         display: none;
-    }
-
-    .filter-criteria-selector-icon-wrap {
-        right: $filter-dropdown-mode-criteria-selector-icon-right;
-    }
-
-    .filter-criteria-selector-icon {
-        font-size: $filter-dropdown-mode-criteria-selector-icon-font-size;
-        line-height: $filter-dropdown-mode-criteria-selector-icon-line-height;
-
-        &:before {
-            content: '';
-            display: block;
-            width: $filter-dropdown-mode-criteria-selector-icon-size;
-            height: $filter-dropdown-mode-criteria-selector-icon-size;
-            mask-image: $filter-dropdown-mode-criteria-selector-icon-mask;
-            background-color: $filter-dropdown-mode-criteria-selector-icon-color;
-        }
     }
 
     .filter-default {
@@ -125,7 +116,11 @@
         flex-basis: 0;
         justify-content: flex-start;
         align-items: baseline;
-        gap: 4px;
+        gap: spacing('base');
+
+        > :empty {
+            display: none;
+        }
 
         + .filter-actions {
             margin-left: spacing('sm');
@@ -182,10 +177,6 @@
         .filter-criteria {
             opacity: 1;
             visibility: visible;
-        }
-
-        .filter-criteria-selector-icon {
-            transform: $filter-dropdown-mode-open-filter-criteria-selector-icon-transform;
         }
     }
 

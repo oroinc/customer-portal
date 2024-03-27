@@ -6,9 +6,9 @@ $filter-dropdown-mode-ui-multiselect-menu-bg: get-color('neutral', 'white-100') 
 $filter-dropdown-mode-ui-multiselect-menu-helper-reset-offset-inner: 0 20px !default;
 $filter-dropdown-mode-ui-multiselect-menu-header-div-offset-inner: 13px 20px spacing('sm') !default;
 
-$filter-dropdown-mode-criteria-min-width: 340px !default;
+$filter-dropdown-mode-criteria-min-width: 270px !default;
 $filter-dropdown-mode-criteria-offset-inner: 16px !default;
-$filter-dropdown-mode-criteria-offset-top: 0 !default;
+$filter-dropdown-mode-criteria-offset-top: spacing('xs') !default;
 $filter-dropdown-mode-criteria-value-field-frame-width: 100% !default;
 $filter-dropdown-mode-criteria-selector-offset-inner: 22px !default;
 $filter-dropdown-mode-criteria-selector-border: 1px solid get-color('neutral', 'grey1') !default;
@@ -42,10 +42,10 @@ $filter-dropdown-mode-reset-filter-button-right-pos: 5px !default;
 
 $filter-dropdown-mode-filters-manager-trigger-width: 44px !default;
 
-$filter-dropdown-mode-fields-row-min-width: 225px !default;
+$filter-dropdown-mode-fields-row-min-width: 270px !default;
 
-$filter-dropdown-mode-item-flex-basis: 225px !default;
-$filter-dropdown-mode-items-hint-offset-inner: 8px 130px 0 0 !default;
+$filter-dropdown-mode-item-flex-basis: 270px !default;
+$filter-dropdown-mode-items-hint-offset-inner: spacing('lg') 0 0 0 !default;
 $filter-dropdown-mode-items-hint-line-height: 20px !default;
 $filter-dropdown-mode-items-hint-font-size: 14px !default;
 
