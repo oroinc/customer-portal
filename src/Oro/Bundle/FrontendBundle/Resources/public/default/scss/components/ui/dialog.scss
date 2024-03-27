@@ -106,8 +106,6 @@
     }
 
     .ui-dialog-extra-header-content {
-        padding: $dialog-extra-header-content-inner-offset;
-
         &:empty {
             display: none;
         }
