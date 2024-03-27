@@ -1,0 +1,334 @@
+{# @name = base_storefront #}
+{# @subject = Base template you can use for storefront emails #}
+{# @type = html #}
+{# @isSystem = 1 #}
+{# @isEditable = 1 #}
+
+<!--{% set websiteName = system.websiteName|default(system.organizationName|default('OroCommerce')) %}-->
+
+<!--{% set styleP = "display: inline-block; padding: 0; margin: 0; color: #002434; font-family: Arial; font-size: 14px; font-style: normal; font-weight: 400; line-height: 21px;" %}-->
+<!--{% set styleH1 = "margin-bottom: 12px; font-family: Arial; font-size: 24px; font-style: normal; font-weight: 700; line-height: 36px;" %}-->
+<!--{% set styleH2 = "margin-bottom: 12px; color: #002434; font-family: Arial; font-size: 16px; font-style: normal; font-weight: 700; line-height: 24px;" %}-->
+<!--{% set styleLink = "color: #1642E4; text-decoration: underline;" %}-->
+<!--{% set styleImg = "display: inline-block; border: 0; line-height: 100%; outline: none; text-decoration: none; vertical-align: middle;" %}-->
+<!--{% set styleContentBlock = "border-radius: 16px; background: #FFF; padding: 24px;" %}-->
+<!--{% set styleMainTable = "max-width: 600px;" %}-->
+<!--{% set styleLightTextColor = "color: #45606E; font-weight: 400;" %}-->
+<!--{% set styleBoldText = "font-weight: 700;" %}-->
+
+{# Button #}
+<!--{% set styleBtn = "display: inline-block; outline: none; text-decoration: none;" %}-->
+<!--{% set styleBtnWrapper = "border-radius: 4px; background-color: #0A7F8F;" %}-->
+<!--{% set styleBtnPadding = "padding: 8px 16px;" %}-->
+<!--{% set styleBtnText = "font-size: 14px; font-family: Arial; font-style: normal; font-weight: 700; line-height: 28px; text-transform: capitalize; color: #ffffff; text-decoration: none;" %}-->
+
+<!--{% set styleEmptyRowH12 = "line-height: 12px; height: 12px; padding: 0;" %}-->
+<!--{% set styleEmptyRowH16 = "line-height: 16px; height: 16px; padding: 0;" %}-->
+<!--{% set styleEmptyRowH20 = "line-height: 20px; height: 20px; padding: 0;" %}-->
+<!--{% set styleEmptyRowH32 = "line-height: 32px; height: 32px; padding: 0;" %}-->
+<!--{% set styleDividerLine = "border-top: 1px solid #D4DCDD;" %}-->
+<!--{% set styleSenderText = "display: inline-block; padding: 0; margin: 0; color: #002434; font-family: Arial; font-size: 14px; font-style: italic; font-weight: 400; line-height: 21px;" %}-->
+<!--{% set styleNotes = "color: #002434; font-size: 14px; font-style: italic; font-weight: 400; line-height: 20px;" %}-->
+
+{# Footer #}
+<!--{% set styleSocialLink = "margin: 0; color: #002434; font-family: Arial; font-size: 14px; font-style: normal; font-weight: 400; line-height: 21px;" %}-->
+<!--{% set styleCopyright = "display: inline-block; padding: 0; margin: 0; color: #665742; font-family: Arial; font-size: 11px; font-style: normal; font-weight: 400; line-height: 16px;" %}-->
+<!--{% set styleUnsubscribe= "display: inline-block; padding: 0; margin: 0; color: #002434; font-family: Arial; font-size: 11px; font-style: normal; font-weight: 400; line-height: 16px; text-decoration-line: underline;" %}-->
+<!--{% set styleSocialIconTd = "border-radius: 50%; background-color: #E1CBAC; padding: 10px;" %}-->
+<!--{% set styleSocialIcon = "display: inline-block; width: 20px; height: 20px;" %}-->
+<!--{% set styleDividerFooter = "border-top: 1px solid #BFA177;" %}-->
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>{% block title %}{{ websiteName }}{% endblock title %}</title>
+        <!--Help character display properly.-->
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!--Set the initial scale of the email.-->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--Force Outlook clients to render with a better MS engine.-->
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <!--prevent Apple from reformatting and zooming messages.-->
+        <meta name="x-apple-disable-message-reformatting">
+
+        <style>
+            body { width: 100% !important; height: 100% !important; margin: 0; padding: 0; }
+            body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+            p, h1, h2, h3 { padding: 0; margin: 0; }
+            .link:hover { color: #0d77d6 !important; text-decoration: none !important; }
+            .social-icon:hover { transition: 0.3s !important; opacity: 0.8 !important; }
+            .btn:hover { background-color: #075963 !important; }
+        </style>
+
+        <!--Mobile Styles-->
+        <style>
+            @media screen and (max-width: 600px) {
+                .main-content { border-radius: 0 !important; padding: 32px 16px !important; }
+                .full-width-on-mobile { display: block; width: 100%; }
+            }
+        </style>
+
+        <!--[if (gte mso 9)|(IE)]>
+        <style type="text/css">
+            table { border-collapse: collapse; border-spacing: 0; mso-table-lspace: 0pt !important; mso-table-rspace: 0pt !important; }
+        </style>
+        <![endif]-->
+
+        {% block additionalStyleBlock %}{% endblock additionalStyleBlock %}
+
+    <body style="background-color: #D4B589; margin: 0 !important; padding: 0 !important;">
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td align="center" background="{{ system.websiteURL }}bundles/orofrontend/email-images/top-part-img.jpg" style="background-repeat: no-repeat;">
+                <!--[if (gte mso 9)|(IE)]>
+                <table role="presentation" align="center" border="0" cellspacing="0" cellpadding="0" width="600">
+                    <tr>
+                        <td align="center" valign="top" width="600">
+                <![endif]-->
+
+                <table style="{{ styleMainTable }}" width="100%" role="presentation">
+                    <!--logo-->
+                    <tr>
+                        <td align="center" valign="top" style="padding: 32px 0;">
+                            <a href="{{ system.websiteURL }}" target="_blank">
+                                <img src="{{ system.websiteURL }}bundles/orofrontend/email-images/logo.png" width="90" height="30" alt="{{ system.organizationName|default('') }}">
+                            </a>
+                        </td>
+                    </tr>
+
+                    <!--main content-->
+                    <tr>
+                        <td class="main-content" style="{{ styleContentBlock }}">
+                            {% block content %}
+                                <h1 style = "{{ styleH1 }}">Hello John Doe,</h1>
+                                <p style="{{ styleP }}">Your <a href="#" target="_blank" class="link" style="{{ styleLink }}">Architectural Lighting</a> product data export has been finished.</p>
+
+                                <!--empty space-->
+                                <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td height="32" style="{{ styleEmptyRowH32 }}">&nbsp;</td>
+                                    </tr>
+                                </table>
+
+                                <a style="{{ styleBtn }}" href="#" target="_blank">
+                                    <table class="btn" role="presentation" border="0" cellspacing="0" cellpadding="0" style="{{ styleBtnWrapper }}">
+                                        <tr>
+                                            <td valign="middle" style="{{ styleBtnPadding }}">
+                                                <span style="{{ styleBtnText }}">Example Simple Link</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </a>
+
+                                <!--empty space-->
+                                <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td height="32" style="{{ styleEmptyRowH32 }}">&nbsp;</td>
+                                    </tr>
+                                </table>
+
+                                <a style="{{ styleBtn }}" href="#" target="_blank">
+                                    <table class="btn" role="presentation" border="0" cellspacing="0" cellpadding="0" style="{{ styleBtnWrapper }}">
+                                        <tr>
+                                            <td valign="middle" style="padding: 8px 8px 8px 16px;">
+                                                <img style="display: inline-block; border: 0; line-height: 100%; outline: none; text-decoration: none; vertical-align: middle;" src="{{ system.websiteURL }}bundles/orofrontend/email-images/download.png" width="20" height="20">
+                                            </td>
+                                            <td valign="middle" style="padding: 8px 16px 8px 0;">
+                                                <span style="{{ styleBtnText }}">Example Link With Icon</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </a>
+
+                                <!--empty space-->
+                                <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td height="32" style="{{ styleEmptyRowH32 }}">&nbsp;</td>
+                                    </tr>
+                                </table>
+
+                                <p style="{{ styleBoldText }}">Example Bold Text </p>
+
+                                <p style="{{ styleLightTextColor }}">Example Light Text </p>
+
+                                <!--empty space-->
+                                <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td height="32" style="{{ styleEmptyRowH32 }}">&nbsp;</td>
+                                    </tr>
+                                </table>
+
+                                <!--line example-->
+                                <p>Example Gray Line Below: </p>
+                                <table role="presentation" border="0" cellspacing="0" cellpadding="0" width="100%">
+                                    <tr>
+                                        <td height="16" style="{{ styleEmptyRowH16 }}">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td height="16" style="{{ styleDividerLine }} {{ styleEmptyRowH16 }}">&nbsp;</td>
+                                    </tr>
+                                </table>
+                            {% endblock content %}
+
+                            <!--Greetings block-->
+                            {% block greetings %}
+                                <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td style="padding-top: 32px">
+                                            <p style="{{ styleSenderText }}">Thank you</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p style="{{ styleSenderText }}">{{ organizationName|default(system.organizationName) }}</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            {% endblock greetings%}
+                        </td>
+                    </tr>
+
+                    <!--footer-->
+                    <tr>
+                        <td style="padding: 48px 5px 24px;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <!--social-->
+                                <tr>
+                                    <!--contact info-->
+                                    <td class="full-width-on-mobile" style="padding-right: 20px;">
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                            <!--{% if system.contactInfo.email|default('') %}-->
+                                            <tr>
+                                                <td style="padding: 8px 0;">
+                                                    <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+                                                        <tr>
+                                                            <td style="padding-right: 8px">
+                                                                <img style="{{ styleImg }}" src="{{ system.websiteURL }}bundles/orofrontend/email-images/mail.png" alt="Email" width="18" height="18"/>
+                                                            </td>
+                                                            <td>
+                                                                <a style="{{ styleSocialLink }} text-decoration: underline;" href="mailto:{{ system.contactInfo.email }}" target="_blank">
+                                                                    <span>{{ system.contactInfo.email }}</span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <!--{% endif %}-->
+                                            <!--{% if system.contactInfo.phone|default('') %}-->
+                                            <tr>
+                                                <td style="padding: 8px 0;">
+                                                    <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+                                                        <tr>
+                                                            <td style="padding-right: 8px">
+                                                                <img style="{{ styleImg }}" src="{{ system.websiteURL }}bundles/orofrontend/email-images/phone.png" alt="Phone" width="18" height="18"/>
+                                                            </td>
+                                                            <td>
+                                                                <a style="{{ styleSocialLink }} text-decoration: none;" href="tel:{{ system.contactInfo.phone }}" target="_blank">
+                                                                    <span>{{ system.contactInfo.phone }}</span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <!--{% endif %}-->
+                                            <tr>
+                                                <td style="padding: 8px 0;">
+                                                    <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+                                                        <tr>
+                                                            <td style="padding-right: 8px">
+                                                                <img style="{{ styleImg }}" src="{{ system.websiteURL }}bundles/orofrontend/email-images/map.png" alt="Address" width="18" height="18">
+                                                            </td>
+                                                            <td>
+                                                                <a style="{{ styleSocialLink }} font-style: italic; text-decoration: none;" href="#" target="_blank">
+                                                                    <span>1901 Avenue of the Stars, Suite 1900, Los Angeles, CA, 90067</span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+
+                                    <!--social links-->
+                                    <td class="full-width-on-mobile" valign="top" style="padding: 8px 0;">
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td align="center" valign="middle">
+                                                    <table>
+                                                        <tr>
+                                                            <td align="center" valign="middle" style="{{ styleSocialIconTd }}" class="social-icon">
+                                                                <a style="{{ styleSocialIcon }}" href="https://www.facebook.com/OroInc/" target="_blank">
+                                                                    <img style="{{ styleImg }}" src="{{ system.websiteURL }}bundles/orofrontend/email-images/facebook.png" alt="Facebook" width="20" height="20">
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td align="center" valign="middle" style="padding: 0 12px;">
+                                                    <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+                                                        <tr>
+                                                            <td valign="middle" style="{{ styleSocialIconTd }}" class="social-icon">
+                                                                <a style="{{ styleSocialIcon }}" href="https://www.linkedin.com/company/oro-inc-" target="_blank">
+                                                                    <img style="{{ styleImg }}" src="{{ system.websiteURL }}bundles/orofrontend/email-images/linkedin.png" alt="Linkedin" width="20" height="20">
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td align="center" valign="middle">
+                                                    <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+                                                        <tr>
+                                                            <td align="center" valign="middle" style="{{ styleSocialIconTd }}" class="social-icon">
+                                                                <a style="{{ styleSocialIcon }}" href="https://twitter.com/oro_inc" target="_blank">
+                                                                    <img style="{{ styleImg }}" src="{{ system.websiteURL }}bundles/orofrontend/email-images/twitter.png" alt="Twitter" width="20" height="20">
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <!--line-->
+                                <tr>
+                                    <td colspan="2">
+                                        <table role="presentation" border="0" cellspacing="0" cellpadding="0" width="100%">
+                                            <tr>
+                                                <td height="12" style="{{ styleEmptyRowH12 }}">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td height="20" style="{{ styleDividerFooter }} {{ styleEmptyRowH20 }}">&nbsp;</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <!--copyright-->
+                                <tr>
+                                    <td colspan="2" align="left" valign="top">
+                                        <p style="{{ styleCopyright }}">Copyright {{ 'now'|date('Y') }} {{ system.organizationName|default('OroInc') }}. All rights reserved.</p>
+                                    </td>
+                                    <!--<td align="right" valign="top">-->
+                                        <!--<a href="#" style="{{ styleUnsubscribe }} white-space: nowrap;" target="_blank">Unsubscribe</a>-->
+                                    <!--</td>-->
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <!--[if (gte mso 9)|(IE)]>
+                </td>
+                </tr>
+                </table>
+                <![endif]-->
+            </td>
+        </tr>
+    </table>
+    </body>
+</html>
+

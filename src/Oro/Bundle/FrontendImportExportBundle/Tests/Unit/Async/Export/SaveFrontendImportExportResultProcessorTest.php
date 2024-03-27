@@ -98,7 +98,7 @@ class SaveFrontendImportExportResultProcessorTest extends \PHPUnit\Framework\Tes
         $this->exportResultNotificationSender->expects(self::once())
             ->method('sendEmailNotification')
             ->with($importExportResult)
-            ->willReturn([$emailUser]);
+            ->willReturn($emailUser);
 
         $result = $this->saveExportResultProcessor->process($message, $this->createMock(SessionInterface::class));
 

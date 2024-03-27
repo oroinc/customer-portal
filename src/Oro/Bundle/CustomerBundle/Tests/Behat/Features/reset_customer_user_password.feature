@@ -32,11 +32,11 @@ Feature: Reset customer user password
     When I click "Reset" in confirmation dialogue
     Then I should see "Password reset request has been sent to NancyJSallee@example.org." flash message
     And Email should contains the following:
-      | Subject | Please reset your password                                               |
-      | To      | NancyJSallee@example.org                                                 |
-      | Body    | Hi, Nancy Sallee!                                                        |
-      | Body    | The administrator has requested a password reset for your user profile.  |
-    And I remember "RESET PASSWORD" link from the email
+      | Subject | Please reset your password                                              |
+      | To      | NancyJSallee@example.org                                                |
+      | Body    | Hello, Nancy Sallee!                                                    |
+      | Body    | The administrator has requested a password reset for your user profile. |
+    And I remember "Reset Password" link from the email
     And I should see NancyJSallee@example.org in grid with following data:
       | Password | Reset |
 
@@ -52,7 +52,7 @@ Feature: Reset customer user password
 
   Scenario: Reset password by emails link
     Given I proceed as the Unauthorized
-    And I follow remembered "RESET PASSWORD" link from the email
+    And I follow remembered "Reset Password" link from the email
     When I fill "Customer Reset Form" with:
       | Password         | NancyJSallee@example.org1 |
       | Confirm Password | NancyJSallee@example.org1 |
@@ -81,11 +81,11 @@ Feature: Reset customer user password
     When I click "Reset" in confirmation dialogue
     Then I should see "Password reset request has been sent to NancyJSallee@example.org." flash message
     And Email should contains the following:
-      | Subject | Please reset your password                                               |
-      | To      | NancyJSallee@example.org                                                 |
-      | Body    | Hi, Nancy Sallee!                                                        |
-      | Body    | The administrator has requested a password reset for your user profile.  |
-    And I remember "RESET PASSWORD" link from the email
+      | Subject | Please reset your password                                              |
+      | To      | NancyJSallee@example.org                                                |
+      | Body    | Hello, Nancy Sallee!                                                    |
+      | Body    | The administrator has requested a password reset for your user profile. |
+    And I remember "Reset Password" link from the email
     And I should see NancyJSallee@example.org in grid with following data:
       | Password | Reset |
     And I click "Account Dropdown"
@@ -103,7 +103,7 @@ Feature: Reset customer user password
 
   Scenario: Reset password by emails link
     Given I proceed as the Unauthorized
-    And I follow remembered "RESET PASSWORD" link from the email
+    And I follow remembered "Reset Password" link from the email
     When I fill "Customer Reset Form" with:
       | Password         | NancyJSallee@example.org2 |
       | Confirm Password | NancyJSallee@example.org2 |

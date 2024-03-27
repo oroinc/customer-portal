@@ -6,6 +6,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Controller\EmailMessageAssertionTrait;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadUserAndGuestWithSameUsername;
+use Oro\Bundle\MessageQueueBundle\Test\Functional\MessageQueueExtension;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Mime\Email as SymfonyEmail;
@@ -13,6 +14,7 @@ use Symfony\Component\Mime\Email as SymfonyEmail;
 class CustomerUserControllerRegisterTest extends WebTestCase
 {
     use EmailMessageAssertionTrait;
+    use MessageQueueExtension;
 
     private const EMAIL = 'john.doe@example.com';
     private const PASSWORD = '123456';
@@ -86,8 +88,10 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $result = $this->client->getResponse();
         self::assertHtmlResponseStatusCodeEquals($result, 200);
 
+        self::purgeMessageQueue();
         $this->submitRegisterForm($crawler, $email);
 
+        self::consume();
         $emailMessages = self::getMailerMessages();
         self::assertCount(1, $emailMessages);
 
@@ -136,7 +140,10 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $user = $this->getCustomerUser(['email' => self::EMAIL]);
 
         $applicationUrl = self::getConfigManager(null)->get('oro_ui.application_url');
-        $confirmMessage = 'Please follow this link to confirm your email address: <a href="'
+        $expectedString1 = 'Please follow this link to confirm your email address:';
+        self::assertStringContainsString($expectedString1, $emailMessage->getHtmlBody());
+
+        $expectedString2 = 'href="'
             . $applicationUrl
             . htmlspecialchars(
                 $this->getUrl(
@@ -147,7 +154,8 @@ class CustomerUserControllerRegisterTest extends WebTestCase
                 )
             )
             . '">Confirm</a>';
-        self::assertStringContainsString($confirmMessage, $emailMessage->getHtmlBody());
+        self::assertStringContainsString($expectedString2, $emailMessage->getHtmlBody());
+
 
         $user = $this->getCustomerUser(['email' => self::EMAIL]);
         self::assertNotEmpty($user);

@@ -196,3 +196,7 @@ oro_frontend:
                 currency: 'Currency'
             localizations: 'Language'
             currency: 'Currency'
+
+    emailtemplate:
+        website_url: 'Website URL'
+        website_name: 'Website name'

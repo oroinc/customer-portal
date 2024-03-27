@@ -34,3 +34,6 @@ oro:
                 secure_url.label:       Secure URL
     scope:
         website.label:                  Website
+
+    email:
+        emailtemplate.website.label:    Website

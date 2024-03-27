@@ -67,7 +67,7 @@ class SaveFrontendExportResultProcessorTest extends WebTestCase
                     self::assertEquals(FrontendImportExportResult::class, $importExportResult->getEntity());
                 }
             )
-            ->willReturn([$this->createMock(EmailUser::class)]);
+            ->willReturn($this->createMock(EmailUser::class));
 
         self::assertEquals(
             MessageProcessorInterface::ACK,

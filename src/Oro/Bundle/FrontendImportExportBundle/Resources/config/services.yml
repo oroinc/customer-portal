@@ -43,7 +43,7 @@ services:
     oro_frontend_importexport.manager.export_result_notification_sender:
         class: Oro\Bundle\FrontendImportExportBundle\Manager\ExportResultNotificationSender
         arguments:
-            - '@oro_email.sender.aggregated_email_templates'
+            - '@oro_email.sender.email_template_sender'
             - '@oro_frontend_importexport.async.export_result_summarizer'
             - '@oro_notification.model.notification_settings'
             - '@oro_website.manager'

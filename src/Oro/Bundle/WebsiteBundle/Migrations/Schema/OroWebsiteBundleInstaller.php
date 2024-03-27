@@ -5,6 +5,10 @@ namespace Oro\Bundle\WebsiteBundle\Migrations\Schema;
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterface;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareTrait;
+use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
+use Oro\Bundle\EntityConfigBundle\Entity\ConfigModel;
+use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
+use Oro\Bundle\EntityExtendBundle\Migration\ExtendOptionsManager;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
@@ -27,7 +31,7 @@ class OroWebsiteBundleInstaller implements
      */
     public function getMigrationVersion(): string
     {
-        return 'v1_7';
+        return 'v1_8';
     }
 
     /**
@@ -45,6 +49,8 @@ class OroWebsiteBundleInstaller implements
 
         $this->activityExtension->addActivityAssociation($schema, 'oro_note', 'oro_website');
         $this->scopeExtension->addScopeAssociation($schema, 'website', 'oro_website', 'name');
+
+        $this->addWebsiteToEmailTemplate($schema, $queries);
     }
 
     /**
@@ -115,5 +121,36 @@ class OroWebsiteBundleInstaller implements
             ['id'],
             ['onDelete' => 'SET NULL', 'onUpdate' => null]
         );
+    }
+
+    private function addWebsiteToEmailTemplate(Schema $schema, QueryBag $queries): void
+    {
+        $this->extendExtension->addManyToOneRelation(
+            $schema,
+            'oro_email_template',
+            'website',
+            'oro_website',
+            'name',
+            [
+                ExtendOptionsManager::MODE_OPTION => ConfigModel::MODE_READONLY,
+                'extend' => [
+                    'is_extend' => true,
+                    'owner' => ExtendScope::OWNER_CUSTOM,
+                    'nullable' => true,
+                    'on_delete' => 'CASCADE',
+                ],
+                'datagrid' => [
+                    'is_visible' => DatagridScope::IS_VISIBLE_TRUE,
+                    'show_filter' => true,
+                ],
+                'form' => ['is_enabled' => false],
+                'merge' => ['display' => false],
+                'dataaudit' => ['auditable' => true],
+            ]
+        );
+
+        $emailTemplateTable = $schema->getTable('oro_email_template');
+        $emailTemplateTable->dropIndex('UQ_NAME');
+        $emailTemplateTable->addUniqueIndex(['name', 'entityName', 'website_id'], 'UQ_NAME');
     }
 }

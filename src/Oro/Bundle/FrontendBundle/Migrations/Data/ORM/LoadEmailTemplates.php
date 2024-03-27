@@ -1,12 +1,13 @@
 <?php
 
-namespace Oro\Bundle\FrontendImportExportBundle\Migrations\Data\ORM;
+namespace Oro\Bundle\FrontendBundle\Migrations\Data\ORM;
 
 use Oro\Bundle\EmailBundle\Migrations\Data\ORM\AbstractHashEmailMigration;
 use Oro\Bundle\MigrationBundle\Fixture\VersionedFixtureInterface;
 
 /**
  * Loads email templates.
+ * Loads new templates if not present, updates existing as configured by {@see self::getEmailHashesToUpdate}.
  */
 class LoadEmailTemplates extends AbstractHashEmailMigration implements VersionedFixtureInterface
 {
@@ -14,23 +15,16 @@ class LoadEmailTemplates extends AbstractHashEmailMigration implements Versioned
     {
         return $this->container
             ->get('kernel')
-            ->locateResource('@OroFrontendImportExportBundle/Migrations/Data/ORM/emails');
+            ->locateResource('@OroFrontendBundle/Migrations/Data/ORM/data/emails');
     }
 
     public function getVersion(): string
     {
-        return '1.1';
+        return '1.0';
     }
 
     protected function getEmailHashesToUpdate(): array
     {
-        return [
-            'frontend_export_result_success' => [
-                'b57a5a863cf19dd1656b9e2339dfe8fa', // 1.0
-            ],
-            'frontend_export_result_error' => [
-                '46bd2f5b2ada6843db643891563585a2', // 1.0
-            ],
-        ];
+        return [];
     }
 }

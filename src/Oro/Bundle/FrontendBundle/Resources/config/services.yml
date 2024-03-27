@@ -481,3 +481,19 @@ services:
             - '@oro_locale.helper.localized_value_extractor'
             - '@oro_locale.helper.localization'
             - '@oro_ui.html_tag_helper'
+
+    oro_frontend.email_template_candidates.layout_theme_aware:
+        class: Oro\Bundle\FrontendBundle\EmailTemplateCandidates\LayoutThemeAwareEmailTemplateCandidatesProvider
+        arguments:
+            - '@oro_config.manager'
+        tags:
+            - { name: oro_email.email_template_candidates_provider, priority: 10 }
+
+    oro_frontend.emailtemplate.variable_provider.system:
+        class: Oro\Bundle\FrontendBundle\Provider\EmailTemplateSystemVariablesProvider
+        arguments:
+            - '@oro_website.manager'
+            - '@oro_website.resolver.website_url_resolver'
+            - '@translator'
+        tags:
+            - { name: oro_email.emailtemplate.variable_provider, scope: system }

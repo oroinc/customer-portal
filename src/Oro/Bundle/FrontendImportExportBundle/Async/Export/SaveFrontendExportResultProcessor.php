@@ -99,8 +99,8 @@ class SaveFrontendExportResultProcessor implements
             return self::REJECT;
         }
 
-        $emailUsers = $this->exportResultNotificationSender->sendEmailNotification($frontendImportExportResult);
-        if (!$emailUsers) {
+        $emailUser = $this->exportResultNotificationSender->sendEmailNotification($frontendImportExportResult);
+        if ($emailUser === null) {
             $this->logger->error(
                 sprintf(
                     'Failed to send the export result notification email for customer user with id #%d',

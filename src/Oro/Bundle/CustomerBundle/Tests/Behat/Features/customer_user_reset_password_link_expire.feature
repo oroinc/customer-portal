@@ -16,7 +16,7 @@ Feature: Customer user reset password link expire
     And I fill form with:
       | Email | AmandaRCole@example.org |
     When I click "Reset Password"
-    And I follow link from the email
+    And I follow "[^\n]+\/customer\/user\/reset[^\<]+" link from the email
     Then I should not see "Not Found"
     And I should be on Customer User Password Reset page
 
@@ -30,8 +30,8 @@ Feature: Customer user reset password link expire
     And I save and close form
     Then I should see "Customer User has been saved" flash message
 
-    Given I proceed as the Unauthorized
-    Then I follow link from the email
+    When I proceed as the Unauthorized
+    And I follow "[^\n]+\/customer\/user\/reset[^\<]+" link from the email
     Then I should see "Not Found"
 
   Scenario: Reset password link must be expire after customer user login
@@ -42,14 +42,14 @@ Feature: Customer user reset password link expire
     And I fill form with:
       | Email | AmandaRCole@example.org |
     When I click "Reset Password"
-    And I follow link from the email
+    And I follow "[^\n]+\/customer\/user\/reset[^\<]+" link from the email
     Then I should not see "Not Found"
     And I should be on Customer User Password Reset page
 
     Given I proceed as the User
     When I signed in as AmandaRCole@example.org with password NeWpAsW0Rd on the store frontend
     And I proceed as the Unauthorized
-    And I follow link from the email
+    And I follow "[^\n]+\/customer\/user\/reset[^\<]+" link from the email
     Then I should see "Not Found"
 
   Scenario: Reset password link must be expire after customer user change his password
@@ -60,7 +60,7 @@ Feature: Customer user reset password link expire
     And I fill form with:
       | Email | AmandaRCole@example.org |
     When I click "Reset Password"
-    And I follow link from the email
+    And I follow "[^\n]+\/customer\/user\/reset[^\<]+" link from the email
     Then I should not see "Not Found"
     And I should be on Customer User Password Reset page
 
@@ -75,8 +75,8 @@ Feature: Customer user reset password link expire
     And I click "Save"
     Then I should see "Customer User profile updated" flash message
 
-    Given I proceed as the Unauthorized
-    When I follow link from the email
+    When I proceed as the Unauthorized
+    And I follow "[^\n]+\/customer\/user\/reset[^\<]+" link from the email
     Then I should see "Not Found"
 
   Scenario: Reset password link must be expire after customer user change his email
@@ -87,7 +87,7 @@ Feature: Customer user reset password link expire
     And I fill form with:
       | Email | AmandaRCole@example.org |
     When I click "Reset Password"
-    And I follow link from the email
+    And I follow "[^\n]+\/customer\/user\/reset[^\<]+" link from the email
     Then I should not see "Not Found"
     And I should be on Customer User Password Reset page
 
@@ -99,6 +99,6 @@ Feature: Customer user reset password link expire
     And I click "Save"
     Then I should see "Customer User profile updated" flash message
 
-    Given I proceed as the Unauthorized
-    When I follow link from the email
+    When I proceed as the Unauthorized
+    And I follow "[^\n]+\/customer\/user\/reset[^\<]+" link from the email
     Then I should see "Not Found"

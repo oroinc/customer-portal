@@ -1173,6 +1173,13 @@ services:
         tags:
             - { name: oro_locale.preferred_localization_provider }
 
+    oro_customer.provider.customer_user_aware_entity_preferred_localization_provider:
+        class: Oro\Bundle\CustomerBundle\Provider\CustomerUserAwareEntityPreferredLocalizationProvider
+        arguments:
+            - '@oro_customer.provider.customer_user_preferred_localization_provider'
+        tags:
+            - { name: oro_locale.preferred_localization_provider }
+
     oro_customer.updater.customer_user_reassign_updater:
         class: 'Oro\Bundle\CustomerBundle\Handler\CustomerUserReassignUpdater'
         arguments:

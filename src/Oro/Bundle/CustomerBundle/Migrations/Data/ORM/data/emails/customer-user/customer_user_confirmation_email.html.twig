@@ -1,0 +1,23 @@
+{# @name = customer_user_confirmation_email #}
+{# @entityName = Oro\Bundle\CustomerBundle\Entity\CustomerUser #}
+{# @subject = Confirmation of account registration #}
+{# @type = html #}
+{# @isSystem = 1 #}
+{# @isEditable = 1 #}
+
+{% extends oro_get_email_template('base_storefront') %}
+
+{% block content %}
+    <h1 style="{{ styleH1 }}">Thank you for registration, {{ entity.username }}</h1>
+
+    <!--empty space-->
+    <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td height="12" style="{{ styleEmptyRowH12 }}">&nbsp;</td>
+        </tr>
+    </table>
+
+    <p style="{{ styleP }}">Please follow this link to confirm your email address: <a class="link" style="{{ styleLink }}"
+                                                                 href="{{ website_path('oro_customer_frontend_customer_user_confirmation', {'token': token}, entity.website) }}">Confirm</a>
+    </p>
+{% endblock %}

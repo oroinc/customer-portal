@@ -1,0 +1,68 @@
+dependencies:
+    - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser
+    - Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomer
+    - Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUser
+        
+Oro\Bundle\TranslationBundle\Entity\Language:
+    language_fr:
+        code: 'fr'
+        enabled: true
+        organization: '@organization'
+
+Oro\Bundle\LocaleBundle\Entity\Localization:
+    localization_fr:
+        name: 'French (FR)'
+        language: '@language_fr'
+        formattingCode: 'fr_FR'
+        __calls:
+            - setDefaultTitle: ['French (FR)']
+
+Oro\Bundle\OrderBundle\Entity\Order:
+    order1:
+        identifier: order1
+        currency: 'USD'
+        poNumber: 'PO1'
+        subtotal: '789.0000'
+        total: '1234.0000'
+        customer: '@customer'
+        customerUser: '@customer_user'
+        owner: '@user'
+        organization: '@organization'
+
+Oro\Bundle\OrderBundle\Entity\OrderLineItem:
+    order_line_item1:
+        order: '@order1'
+        productSku: SKU1
+        productName: 'Product 1'
+        freeFormProduct: product_1
+        quantity: 5
+        productUnitCode: set
+        value: 20
+        currency: USD
+
+Oro\Bundle\EmailBundle\Entity\EmailTemplate:
+    email_template_order_extended:
+        organization: '@organization'
+        name: 'email_template_order_extended'
+        entity_name: 'Oro\\Bundle\\OrderBundle\\Entity\\Order'
+        type: 'html'
+        is_system: 0
+        subject: 'Email Template Order in Db Extended'
+        content: |-
+            <identity('{% extends oro_get_email_template("email_template_order_base_default") %}')>
+            <identity('{% block content %}')>            
+            Email Template Order in Db Extended Content
+            <identity('{% endblock content %}')>
+
+Oro\Bundle\EmailBundle\Entity\EmailTemplateTranslation:
+    email_template_order_extended_fr:
+        template: '@email_template_order_extended'
+        localization: '@localization_fr'
+        subjectFallback: false
+        contentFallback: false
+        subject: 'Email Template Order in Db (FR) Extended'
+        content: |-
+            <identity('{% extends oro_get_email_template("email_template_order_base_default") %}')>
+            <identity('{% block content %}')>            
+            Email Template Order in Db (FR) Extended Content
+            <identity('{% endblock content %}')>

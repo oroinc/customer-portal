@@ -1,0 +1,51 @@
+{# @name = customer_user_welcome_email_registered_by_admin #}
+{# @entityName = Oro\Bundle\CustomerBundle\Entity\CustomerUser #}
+{# @subject = Welcome: {{ entity|oro_format_name }} #}
+{# @type = html #}
+{# @isSystem = 1 #}
+{# @isEditable = 1 #}
+
+{% extends oro_get_email_template('base_storefront') %}
+
+{% set organizationName = entity.organization|oro_format_name %}
+
+{% block content %}
+    <!--{% set frontendUrl = website_secure_path('oro_frontend_root', {}, entity.website) %}-->
+    <!--{% set resetPasswordUrl = website_secure_path('oro_customer_frontend_customer_user_password_reset', { token: entity.confirmationToken }, entity.website) %}-->
+
+    <h1 style="{{ styleH1 }}">Dear {{ entity|oro_format_name }},</h1>
+    <h1 style="{{ styleH1 }}">Welcome to {{ organizationName }}.</h1>
+
+    <!--empty space-->
+    <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td height="12" style="{{ styleEmptyRowH12 }}">&nbsp;</td>
+        </tr>
+    </table>
+
+    <p style="{{ styleP }}">Please follow the link below to create a password for your new account.</p>
+    <p style="{{ styleP }}"><a class="link" style="{{ styleLink }}" href="{{ resetPasswordUrl }}">{{ resetPasswordUrl }}</a></p>
+
+    <!--empty space-->
+    <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td height="12" style="{{ styleEmptyRowH12 }}">&nbsp;</td>
+        </tr>
+    </table>
+
+    <p style="{{ styleP }}">To log into your new account, just click 'Sign In' at the top of <br> <a class="link" style="{{ styleLink }}"
+                                                                                href="{{ frontendUrl }}">Sign In</a>
+        <br>Enter the below credentials:<br/>
+        <b>Email:</b> {{ entity.email }}<br/>
+        <b>Password:</b> This is the password you created. If you ever forget your password, recover it <a class="link"
+                style="{{ styleLink }}" href="{{ resetPasswordUrl }}">here</a>.</p>
+
+    <!--empty space-->
+    <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td height="12" style="{{ styleEmptyRowH12 }}">&nbsp;</td>
+        </tr>
+    </table>
+
+    <p style="{{ styleP }}">If you have any questions, please contact us.</p>
+{% endblock %}

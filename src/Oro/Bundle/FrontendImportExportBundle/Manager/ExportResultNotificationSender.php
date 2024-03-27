@@ -3,7 +3,7 @@
 namespace Oro\Bundle\FrontendImportExportBundle\Manager;
 
 use Oro\Bundle\EmailBundle\Entity\EmailUser;
-use Oro\Bundle\EmailBundle\Tools\AggregatedEmailTemplatesSender;
+use Oro\Bundle\EmailBundle\Sender\EmailTemplateSender;
 use Oro\Bundle\FrontendImportExportBundle\Async\Export\FrontendExportResultSummarizer;
 use Oro\Bundle\FrontendImportExportBundle\Entity\FrontendImportExportResult;
 use Oro\Bundle\NotificationBundle\Model\NotificationSettings;
@@ -14,7 +14,7 @@ use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
  */
 class ExportResultNotificationSender
 {
-    private AggregatedEmailTemplatesSender $aggregatedEmailTemplatesSender;
+    private EmailTemplateSender $emailTemplateSender;
 
     private FrontendExportResultSummarizer $exportResultSummarizer;
 
@@ -23,26 +23,22 @@ class ExportResultNotificationSender
     private WebsiteManager $websiteManager;
 
     public function __construct(
-        AggregatedEmailTemplatesSender $aggregatedEmailTemplatesSender,
+        EmailTemplateSender $emailTemplateSender,
         FrontendExportResultSummarizer $exportResultSummarizer,
         NotificationSettings $notificationSettings,
         WebsiteManager $websiteManager
     ) {
-        $this->aggregatedEmailTemplatesSender = $aggregatedEmailTemplatesSender;
+        $this->emailTemplateSender = $emailTemplateSender;
         $this->exportResultSummarizer = $exportResultSummarizer;
         $this->notificationSettings = $notificationSettings;
         $this->websiteManager = $websiteManager;
     }
 
-    /**
-     * @param FrontendImportExportResult $importExportResult
-     * @return EmailUser[]
-     */
-    public function sendEmailNotification(FrontendImportExportResult $importExportResult): array
+    public function sendEmailNotification(FrontendImportExportResult $importExportResult): ?EmailUser
     {
         $customerUser = $importExportResult->getCustomerUser();
         if (!$customerUser) {
-            return [];
+            return null;
         }
 
         $exportResultSummary = $this->exportResultSummarizer
@@ -51,17 +47,16 @@ class ExportResultNotificationSender
         $previousWebsite = $this->websiteManager->getCurrentWebsite();
         $this->websiteManager->setCurrentWebsite($customerUser->getWebsite());
 
-        $emailUsers = $this->aggregatedEmailTemplatesSender->send(
-            $importExportResult,
-            [$customerUser],
+        $emailUser = $this->emailTemplateSender->sendEmailTemplate(
             $this->notificationSettings->getSender(),
+            $customerUser,
             $this->getNotificationTemplate($exportResultSummary['exportResult'] ?? []),
-            $exportResultSummary
+            ['entity' => $importExportResult] + $exportResultSummary
         );
 
         $this->websiteManager->setCurrentWebsite($previousWebsite);
 
-        return $emailUsers;
+        return $emailUser;
     }
 
     private function getNotificationTemplate(array $exportResultSummary): string

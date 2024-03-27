@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendImportExportBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Oro\Bundle\CustomerBundle\Entity\CustomerOwnerAwareInterface;
 use Oro\Bundle\CustomerBundle\Entity\Ownership\AuditableFrontendCustomerUserAwareTrait;
 use Oro\Bundle\EntityBundle\EntityProperty\CreatedAtAwareInterface;
 use Oro\Bundle\EntityBundle\EntityProperty\CreatedAtAwareTrait;
@@ -14,8 +15,6 @@ use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * Entity stores information about import/export operations
- *
- *
  */
 #[ORM\Entity(repositoryClass: FrontendImportExportResultRepository::class)]
 #[ORM\Table(name: 'oro_frontend_import_export_result')]
@@ -37,7 +36,7 @@ use Oro\Bundle\UserBundle\Entity\User;
         'security' => ['type' => 'ACL', 'group_name' => 'commerce', 'category' => 'importexport']
     ]
 )]
-class FrontendImportExportResult implements CreatedAtAwareInterface
+class FrontendImportExportResult implements CreatedAtAwareInterface, CustomerOwnerAwareInterface
 {
     use AuditableFrontendCustomerUserAwareTrait;
     use CreatedAtAwareTrait;
