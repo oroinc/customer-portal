@@ -6,7 +6,7 @@ layout:
             blockType: container
             prepend: false
             options:
-                visible: '=data["system_config_provider"].getValue("oro_frontend.standalone_main_menu")'
+                visible: '=data["theme_configuration"].getThemeConfigurationOption("header-standalone_main_menu")'
 
         - '@move':
             id: main_menu_container

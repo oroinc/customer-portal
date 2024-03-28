@@ -6,6 +6,7 @@ use Oro\Bundle\CMSBundle\Entity\Page;
 use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Form\Extension\Stub\PageTypeStub;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Oro\Bundle\ThemeBundle\Tests\Functional\DataFixtures\LoadThemeConfigurationData;
 
 class WYSIWYGTypeExtensionTest extends WebTestCase
 {
@@ -14,6 +15,7 @@ class WYSIWYGTypeExtensionTest extends WebTestCase
     protected function setUp(): void
     {
         $this->initClient();
+        $this->loadFixtures([LoadThemeConfigurationData::class]);
         $this->updateUserSecurityToken(self::AUTH_USER);
         // Emulate request processing
         $this->emulateRequest();
@@ -34,8 +36,8 @@ class WYSIWYGTypeExtensionTest extends WebTestCase
 
         $layoutThemeName = self::getConfigManager(null)->get('oro_frontend.frontend_theme');
 
-        $this->assertArrayHasKey('themes', $actualOptions);
-        $this->assertIsArray($actualOptions['themes']);
+        self::assertArrayHasKey('themes', $actualOptions);
+        self::assertIsArray($actualOptions['themes']);
 
         $defaultTheme = [
             'name' => 'default',
@@ -57,12 +59,12 @@ class WYSIWYGTypeExtensionTest extends WebTestCase
                 break;
             }
         }
-        $this->assertTrue($hasThemeOptions, sprintf("Theme's '%s' options are missing", $themeOptions['name']));
-        $this->assertEquals($themeOptions['label'], $actualThemeOptions['label'] ?? null);
-        $this->assertMatchesRegularExpression(
+        self::assertTrue($hasThemeOptions, sprintf("Theme's '%s' options are missing", $themeOptions['name']));
+        self::assertEquals($themeOptions['label'], $actualThemeOptions['label'] ?? null);
+        self::assertMatchesRegularExpression(
             '/^' . preg_quote($themeOptions['stylesheet'], '/') . '(\?|$)/',
             $actualThemeOptions['stylesheet'] ?? ''
         );
-        $this->assertEquals($themeOptions['active'] ?? null, $actualThemeOptions['active'] ?? null);
+        self::assertEquals($themeOptions['active'] ?? null, $actualThemeOptions['active'] ?? null);
     }
 }

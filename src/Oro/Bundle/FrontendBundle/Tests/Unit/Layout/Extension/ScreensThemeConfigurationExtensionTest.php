@@ -6,10 +6,12 @@ use Oro\Bundle\FrontendBundle\Layout\Extension\ScreensThemeConfigurationExtensio
 use Oro\Bundle\FrontendBundle\Tests\Unit\Fixtures\Bundle\TestBundle1\TestBundle1;
 use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration;
 use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfigurationProvider;
+use Oro\Bundle\ThemeBundle\Form\Provider\ConfigurationBuildersProvider;
 use Oro\Component\Config\CumulativeResourceManager;
 use Oro\Component\Testing\TempDirExtension;
+use PHPUnit\Framework\TestCase;
 
-class ScreensThemeConfigurationExtensionTest extends \PHPUnit\Framework\TestCase
+class ScreensThemeConfigurationExtensionTest extends TestCase
 {
     use TempDirExtension;
 
@@ -19,7 +21,12 @@ class ScreensThemeConfigurationExtensionTest extends \PHPUnit\Framework\TestCase
     {
         $cacheFile = $this->getTempFile('ScreensThemeConfigurationExtension');
 
-        $themeConfiguration = new ThemeConfiguration();
+        $configurationProvider = $this->createMock(ConfigurationBuildersProvider::class);
+        $configurationProvider->expects(self::once())
+            ->method('getConfigurationTypes')
+            ->willReturn(['type']);
+
+        $themeConfiguration = new ThemeConfiguration($configurationProvider);
         $themeConfiguration->addExtension(new ScreensThemeConfigurationExtension());
 
         $this->themeConfigurationProvider = new ThemeConfigurationProvider(

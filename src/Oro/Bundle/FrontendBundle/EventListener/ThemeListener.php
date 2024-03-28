@@ -5,6 +5,7 @@ namespace Oro\Bundle\FrontendBundle\EventListener;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\NavigationBundle\Event\ResponseHashnavListener;
+use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 
@@ -13,14 +14,11 @@ use Symfony\Component\HttpKernel\Event\ViewEvent;
  */
 class ThemeListener
 {
-    private FrontendHelper $frontendHelper;
-
-    private ConfigManager $configManager;
-
-    public function __construct(FrontendHelper $frontendHelper, ConfigManager $configManager)
-    {
-        $this->frontendHelper = $frontendHelper;
-        $this->configManager = $configManager;
+    public function __construct(
+        private FrontendHelper $frontendHelper,
+        private ConfigManager $configManager,
+        private ThemeConfigurationProvider $themeConfigurationProvider
+    ) {
     }
 
     public function onKernelRequest(RequestEvent $event): void
@@ -28,8 +26,9 @@ class ThemeListener
         $request = $event->getRequest();
         if ($this->frontendHelper->isFrontendUrl($request->getPathInfo())) {
             // set layout theme
-            $layoutTheme = $this->configManager->get('oro_frontend.frontend_theme');
-            $request->attributes->set('_theme', $layoutTheme);
+            $theme = $this->themeConfigurationProvider->getThemeName()
+                ?? $this->configManager->get('oro_frontend.frontend_theme');
+            $request->attributes->set('_theme', $theme);
 
             // disable SPA
             $hashNavigationHeader =

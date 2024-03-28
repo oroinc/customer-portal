@@ -10,7 +10,7 @@ Feature: Frontend Page Header
       | Buyer       | second_session |
       | user_mobile | mobile_session |
 
-  Scenario: Promotional content block - yes, top navigation menu - yes, language/currency switching - no, quick access button - no, standalone main menu - yes, quick links - yes
+  Scenario: Promotional content block - yes, top navigation menu - no, language/currency switching - no, quick access button - no, standalone main menu - yes, quick links - yes
     Given I proceed as the Admin
     And I login as administrator
     When I go to System / Configuration
@@ -25,27 +25,23 @@ Feature: Frontend Page Header
       | Enabled Currencies | [US Dollar ($), Euro (€)] |
     And I submit form
     Then I should see "Configuration saved" flash message
-    When I follow "Commerce/Design/Theme" on configuration sidebar
-    And uncheck "Use default" for "Top Navigation Menu" field
-    And uncheck "Use default" for "Language and Currency Switchers" field
-    And uncheck "Use default" for "Quick Access Button" field
-    And uncheck "Use default" for "Standalone Main Menu" field
-    And uncheck "Use default" for "Quick Links" field
-    And I fill "Theme Settings Form" with:
-      | Top Navigation Menu               | commerce_top_nav_refreshing_teal |
-      | Language and Currency Switchers   | always_in_hamburger_menu         |
-      | Quick Access Button Label         | Product                          |
-      | Quick Access Button Type          | Frontend Menu                    |
-      | Quick Access Button Frontend Menu | frontend_menu                    |
-      | Standalone Main Menu              | true                             |
-    And I submit form
-    Then I should see "Configuration saved" flash message
+
+    And I go to System / Theme Configurations
+    When I click Edit "Refreshing Teal [Website: Default]" in grid
+    And I fill "Theme Configuration Form" with:
+      | Language and Currency Switchers   | always_in_hamburger_menu |
+      | Quick Access Button Label         | Product                  |
+      | Quick Access Button Type          | Frontend Menu            |
+      | Quick Access Button Frontend Menu | frontend_menu            |
+      | Standalone Main Menu              | true                     |
+    And I save and close form
+    Then I should see "Theme Configuration has been saved" flash message
 
     Given I proceed as the Buyer
     When I login as AmandaRCole@example.org buyer
-    Then I should see "TopRightBar" element with text "1-800-555-5555 Contact Us" inside "Header" element
     And I should see "CustomerMenu" element with text "Amanda Cole" inside "Header" element
     And I should see "MiddleLeftSide" element with text "Product" inside "Header" element
+    And I should not see "TopRightBar" element with text "1-800-555-5555 Contact Us" inside "Header" element
     And I should see "StandaloneMenu" element with text "Resource Library About Contact Us" inside "PageStandaloneMenuContainer" element
     And I should see "PageStandaloneMenuContainer" element with text "Quick Order" inside "Header" element
     And I should see "0 No Shopping Lists"
@@ -63,25 +59,26 @@ Feature: Frontend Page Header
     Then I should see "Quick Order"
     And I should see "Amanda Cole"
     And I should see "Product"
-    And I should see "1-800-555-5555 Contact Us"
+    And I should not see "1-800-555-5555 Contact Us"
 
-  Scenario: Promotional content block - no, top navigation menu - no, language/currency switching - no, quick access button - yes, standalone main menu - no, quick links - yes
+  Scenario: Promotional content block - no, top navigation menu - yes, language/currency switching - no, quick access button - yes, standalone main menu - no, quick links - yes
     Given I proceed as the Admin
-    And I fill "Theme Settings Form" with:
-      | Top Navigation Menu               |                                       |
+    When I click Edit "Refreshing Teal [Website: Default]" in grid
+    And I fill "Theme Configuration Form" with:
+      | Top Navigation Menu               | commerce_top_nav_refreshing_teal      |
       | Language and Currency Switchers   | always_in_hamburger_menu              |
       | Quick Access Button Frontend Menu | frontend_menu                         |
       | Standalone Main Menu              | false                                 |
-      | Quick Links                       | commerce_quick_access_refreshing_teal |
-    And I submit form
-    Then I should see "Configuration saved" flash message
+      | Quick Links Menu                  | commerce_quick_access_refreshing_teal |
+    And I save and close form
+    Then I should see "Theme Configuration has been saved" flash message
 
     Given I proceed as the Buyer
     When I reload the page
     Then I should see "MiddleBarMenus" element with text "Quick Order" inside "Header" element
     And I should see "MiddleBarMenus" element with text "Amanda Cole" inside "Header" element
     And I should see "MiddleLeftSide" element with text "Product" inside "Header" element
-    And I should not see "TopRightBar" element with text "1-800-555-5555 Contact Us" inside "Header" element
+    And I should see "TopRightBar" element with text "1-800-555-5555 Contact Us" inside "Header" element
     And I should not see "Header" element with text "Resource Library About Contact Us" inside "Header" element
 
     Given I proceed as the user_mobile
@@ -92,18 +89,20 @@ Feature: Frontend Page Header
     When I click on "Main Menu Button"
     Then I should see "Quick Order"
     And I should see "Product"
+    And I should see "1-800-555-5555 Contact Us"
 
   Scenario: Promotional content block - yes, top navigation menu - no, language/currency switcher - yes, quick access button - yes, standalone main menu - no, quick links - yes.
     Given I proceed as the Admin
-    And I fill "Theme Settings Form" with:
+    When I click Edit "Refreshing Teal [Website: Default]" in grid
+    And I fill "Theme Configuration Form" with:
       | Top Navigation Menu               |                                       |
       | Language and Currency Switchers   | Above the header                      |
       | Quick Access Button Frontend Menu | frontend_menu                         |
       | Standalone Main Menu              | false                                 |
-      | Quick Links                       | commerce_quick_access_refreshing_teal |
+      | Quick Links Menu                  | commerce_quick_access_refreshing_teal |
       | Quick Access Button Label         | Test Label                            |
-    And I submit form
-    Then I should see "Configuration saved" flash message
+    And I save and close form
+    Then I should see "Theme Configuration has been saved" flash message
 
     Given I proceed as the Buyer
     When I reload the page
@@ -118,15 +117,16 @@ Feature: Frontend Page Header
 
   Scenario: Promotional content block - yes, top navigation menu - yes, language/currency switcher - yes,  quick access button - no, standalone main menu - yes, quick links - yes.
     Given I proceed as the Admin
-    When I fill "Theme Settings Form" with:
+    When I click Edit "Refreshing Teal [Website: Default]" in grid
+    And I fill "Theme Configuration Form" with:
       | Top Navigation Menu             | commerce_top_nav_refreshing_teal      |
       | Language and Currency Switchers | Above the header                      |
       | Quick Access Button Type        | None                                  |
       | Standalone Main Menu            | true                                  |
-      | Quick Links                     | commerce_quick_access_refreshing_teal |
+      | Quick Links Menu                | commerce_quick_access_refreshing_teal |
       | Quick Access Button Label       | Product                               |
-    And I submit form
-    Then I should see "Configuration saved" flash message
+    And I save and close form
+    Then I should see "Theme Configuration has been saved" flash message
 
     Given I proceed as the Buyer
     When I reload the page
@@ -143,11 +143,11 @@ Feature: Frontend Page Header
 
   Scenario: Search on smaller screens - standalone.
     Given I proceed as the Admin
-    When uncheck "Use default" for "Search On Smaller Screens" field
-    And I fill "Theme Settings Form" with:
+    When I click Edit "Refreshing Teal [Website: Default]" in grid
+    And I fill "Theme Configuration Form" with:
       | Search On Smaller Screens | Standalone |
-    And I submit form
-    Then I should see "Configuration saved" flash message
+    And I save and close form
+    Then I should see "Theme Configuration has been saved" flash message
 
     Given I proceed as the user_mobile
     When I reload the page

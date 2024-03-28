@@ -3,6 +3,8 @@
 namespace Oro\Bundle\FrontendBundle\Layout\Extension;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration as LayoutThemeConfiguration;
+use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
 use Oro\Component\Layout\ContextConfiguratorInterface;
 use Oro\Component\Layout\ContextInterface;
 use Symfony\Component\OptionsResolver\Options;
@@ -12,11 +14,10 @@ use Symfony\Component\OptionsResolver\Options;
  */
 class PageTemplateContextConfigurator implements ContextConfiguratorInterface
 {
-    private ConfigManager $configManager;
-
-    public function __construct(ConfigManager $configManager)
-    {
-        $this->configManager = $configManager;
+    public function __construct(
+        private ConfigManager $configManager,
+        private ThemeConfigurationProvider $themeConfigurationProvider
+    ) {
     }
 
     /**
@@ -28,8 +29,13 @@ class PageTemplateContextConfigurator implements ContextConfiguratorInterface
             ->setDefaults([
                 'page_template' => function (Options $options, $value) {
                     if (!$value) {
-                        $pageTemplates = $this->configManager->get('oro_frontend.page_templates');
+                        $key = LayoutThemeConfiguration::buildOptionKey('product_details', 'template');
+                        if ($this->themeConfigurationProvider->hasThemeConfigurationOption($key)) {
+                            return $this->themeConfigurationProvider->getThemeConfigurationOption($key);
+                        }
+
                         $routeName = $options['route_name'];
+                        $pageTemplates = $this->configManager->get('oro_frontend.page_templates');
                         if (isset($pageTemplates[$routeName]) && $pageTemplates[$routeName]) {
                             $value = $pageTemplates[$routeName];
                         }

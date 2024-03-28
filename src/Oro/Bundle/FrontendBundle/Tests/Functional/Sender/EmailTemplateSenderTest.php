@@ -31,13 +31,6 @@ class EmailTemplateSenderTest extends WebTestCase
         ]);
     }
 
-    protected function tearDown(): void
-    {
-        $configManager = self::getConfigManager();
-        $configManager->set('oro_frontend.frontend_theme', 'default');
-        $configManager->flush();
-    }
-
     public function testWhenRegularEmailTemplate(): void
     {
         $logger = new TestLogger();

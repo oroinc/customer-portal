@@ -127,7 +127,7 @@ class QuickAccessButtonConfigTypeTest extends WebTestCase
         ]);
         self::assertFalse($form->has('web_catalog_node'));
         self::assertEquals([
-            'oro_frontend.system_configuration.fields.quick_access_button.fields.type.choices.menu' => 'menu',
+            'oro_frontend.form.quick_access_button.fields.type.choices.menu' => 'menu',
         ], $form->get('type')->getConfig()->getOption('choices'));
         $form->submit($submitData);
 

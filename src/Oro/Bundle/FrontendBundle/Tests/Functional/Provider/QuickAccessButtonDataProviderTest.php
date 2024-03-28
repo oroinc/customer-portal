@@ -9,7 +9,6 @@ use Oro\Bundle\CMSBundle\Tests\Functional\DataFixtures\LoadTextContentVariantsDa
 use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerVisitors;
-use Oro\Bundle\FrontendBundle\DependencyInjection\Configuration;
 use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
 use Oro\Bundle\FrontendBundle\Provider\QuickAccessButtonDataProvider;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
@@ -42,9 +41,6 @@ class QuickAccessButtonDataProviderTest extends WebTestCase
 
     protected function tearDown(): void
     {
-        $config = self::getConfigManager();
-        $config->reset(Configuration::getConfigKeyByName(Configuration::PROMOTIONAL_CONTENT));
-        $config->reset(Configuration::getConfigKeyByName(Configuration::QUICK_ACCESS_BUTTON));
         $this->getContainer()->get('security.token_storage')->setToken(null);
         $this->getClientContainer()->get(FrontendHelper::class)->resetRequestEmulation();
         parent::tearDown();

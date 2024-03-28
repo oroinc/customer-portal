@@ -56,6 +56,7 @@ services:
         arguments:
             - '@oro_frontend.request.frontend_helper'
             - '@oro_config.manager'
+            - '@oro_theme.provider.theme_configuration'
         tags:
             - {name: kernel.event_listener, event: kernel.request, method: onKernelRequest}
             - {name: kernel.event_listener, event: kernel.view, method: onKernelView, priority: 20 }
@@ -221,13 +222,14 @@ services:
         class: 'Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplateContextConfigurator'
         arguments:
             - '@oro_config.global'
+            - '@oro_theme.provider.theme_configuration'
         tags:
             - { name: layout.context_configurator }
 
     oro_frontend.layout_context_configurator.standalone_main_menu:
         class: 'Oro\Bundle\FrontendBundle\Layout\Extension\StandaloneMainMenuContextConfigurator'
         arguments:
-            - '@oro_config.manager'
+            - '@oro_theme.provider.theme_configuration'
         tags:
             - { name: layout.context_configurator }
 
@@ -376,7 +378,7 @@ services:
     Oro\Bundle\FrontendBundle\EntityConfig\FrontendFieldConfiguration:
         tags:
             - oro_entity_config.validation.entity_config
-    
+
     oro_frontend.cache.page_request_provider:
         class: Oro\Bundle\FrontendBundle\Provider\FrontendPageRequestProvider
         parent: oro_platform.cache.provider.page_request_provider.abstract
@@ -418,21 +420,13 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }
 
-    oro_frontend.system_config.event_listener.header_system_config:
-        class: Oro\Bundle\FrontendBundle\SystemConfig\EventListener\HeaderSystemConfigSubscriber
-        arguments:
-            - '@doctrine'
-        tags:
-            - { name: kernel.event_listener, event: oro_config.settings_form_preset, method: formPreSet }
-            - { name: kernel.event_listener, event: oro_config.settings_before_save, method: beforeSave }
-
     oro_frontend.layout.data_provider.theme_header_config:
         class: Oro\Bundle\FrontendBundle\Layout\DataProvider\ThemeHeaderConfigProvider
         arguments:
-            - '@oro_config.manager'
             - '@oro_security.acl_helper'
             - '@doctrine'
             - '@oro_frontend.provider.quick_access_button_data'
+            - '@oro_theme.provider.theme_configuration'
         tags:
             - { name: layout.data_provider, alias: theme_header_config }
 
@@ -450,8 +444,8 @@ services:
         class: Oro\Bundle\FrontendBundle\ContentNodeDeletionChecker\ContentNodeInConfigReferencesChecker
         arguments:
             - '@translator'
-            - '@oro_config.manager'
             - '@oro_website.website.provider'
+            - '@oro_theme.provider.theme_configuration'
         tags:
             - { name: 'content_node.deletion_checker' }
 
@@ -485,7 +479,7 @@ services:
     oro_frontend.email_template_candidates.layout_theme_aware:
         class: Oro\Bundle\FrontendBundle\EmailTemplateCandidates\LayoutThemeAwareEmailTemplateCandidatesProvider
         arguments:
-            - '@oro_config.manager'
+            - '@oro_theme.provider.theme_configuration'
         tags:
             - { name: oro_email.email_template_candidates_provider, priority: 10 }
 

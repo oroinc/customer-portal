@@ -33,8 +33,8 @@ class QuickAccessButtonConfigType extends AbstractType
         $isHasConfiguredWebCatalog = (bool) $this->configManager->get('oro_web_catalog.web_catalog');
 
         $builder->add('label', LocalizedPropertyType::class, [
-            'label' => 'oro_frontend.system_configuration.fields.quick_access_button.fields.label.label',
-            'tooltip' => 'oro_frontend.system_configuration.fields.quick_access_button.fields.label.tooltip',
+            'label' => 'oro_frontend.form.quick_access_button.fields.label.label',
+            'tooltip' => 'oro_frontend.form.quick_access_button.fields.label.tooltip',
             'required' => true,
             'entry_type' => TextType::class,
             'entry_options' => [
@@ -45,18 +45,18 @@ class QuickAccessButtonConfigType extends AbstractType
         ]);
 
         $builder->add('type', ChoiceType::class, [
-            'label' => 'oro_frontend.system_configuration.fields.quick_access_button.fields.type.label',
-            'tooltip' => 'oro_frontend.system_configuration.fields.quick_access_button.fields.type.tooltip',
+            'label' => 'oro_frontend.form.quick_access_button.fields.type.label',
+            'tooltip' => 'oro_frontend.form.quick_access_button.fields.type.tooltip',
             'attr' => [
                 'data-dependee-id' => 'quick_access_button_type',
             ],
-            'placeholder' => 'oro_frontend.system_configuration.fields.quick_access_button.fields.type.placeholder',
+            'placeholder' => 'oro_frontend.form.quick_access_button.fields.type.placeholder',
             'choices' => $this->getChoicesForType($isHasConfiguredWebCatalog),
         ]);
         $builder->add('menu', MenuChoiceType::class, [
             'scope_type' => 'menu_frontend_visibility',
-            'label' => 'oro_frontend.system_configuration.fields.quick_access_button.fields.menu.label',
-            'tooltip' => 'oro_frontend.system_configuration.fields.quick_access_button.fields.menu.tooltip',
+            'label' => 'oro_frontend.form.quick_access_button.fields.menu.label',
+            'tooltip' => 'oro_frontend.form.quick_access_button.fields.menu.tooltip',
             'configs' => [
                 'component' => 'dependent'
             ],
@@ -67,9 +67,9 @@ class QuickAccessButtonConfigType extends AbstractType
         ]);
         if ($isHasConfiguredWebCatalog) {
             $builder->add('webCatalogNode', ContentNodeSelectSystemConfigType::class, [
-                'label' => 'oro_frontend.system_configuration.fields.quick_access_button.fields.web_catalog_node.label',
+                'label' => 'oro_frontend.form.quick_access_button.fields.web_catalog_node.label',
                 'tooltip' =>
-                    'oro_frontend.system_configuration.fields.quick_access_button.fields.web_catalog_node.tooltip',
+                    'oro_frontend.form.quick_access_button.fields.web_catalog_node.tooltip',
                 'attr' => [
                     'data-page-component-module' => 'orosale/js/app/components/dependent-field-component',
                     'data-depend-on' => 'quick_access_button_type',
@@ -90,11 +90,11 @@ class QuickAccessButtonConfigType extends AbstractType
     private function getChoicesForType(bool $isHasConfiguredWebCatalog): array
     {
         $choices = [
-            'oro_frontend.system_configuration.fields.quick_access_button.fields.type.choices.menu' =>
+            'oro_frontend.form.quick_access_button.fields.type.choices.menu' =>
                 QuickAccessButtonConfig::TYPE_MENU,
         ];
         if ($isHasConfiguredWebCatalog) {
-            $choices['oro_frontend.system_configuration.fields.quick_access_button.fields.type.choices.content_node'] =
+            $choices['oro_frontend.form.quick_access_button.fields.type.choices.content_node'] =
                 QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE;
         }
 

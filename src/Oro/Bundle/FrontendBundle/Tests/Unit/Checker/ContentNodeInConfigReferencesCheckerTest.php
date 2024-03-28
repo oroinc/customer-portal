@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Checker;
 
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\ContentNodeDeletionChecker\ContentNodeInConfigReferencesChecker;
 use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
+use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
 use Oro\Bundle\WebCatalogBundle\Context\NotDeletableContentNodeResult;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -16,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ContentNodeInConfigReferencesCheckerTest extends TestCase
 {
     private TranslatorInterface $translator;
-    private ConfigManager $configManager;
+    private ThemeConfigurationProvider $themeConfigurationProvider;
     private WebsiteProviderInterface $websiteProvider;
     private ContentNode $contentNode;
 
@@ -25,14 +26,9 @@ class ContentNodeInConfigReferencesCheckerTest extends TestCase
     protected function setUp(): void
     {
         $this->translator = $this->createMock(TranslatorInterface::class);
-        $this->configManager = $this->createMock(ConfigManager::class);
+        $this->themeConfigurationProvider = $this->createMock(ThemeConfigurationProvider::class);
         $this->websiteProvider = $this->createMock(WebsiteProviderInterface::class);
         $this->contentNode = $this->createMock(ContentNode::class);
-
-        $this->websiteProvider
-            ->expects($this->once())
-            ->method('getWebsites')
-            ->willReturn([]);
 
         $this->contentNode
             ->expects($this->once())
@@ -41,8 +37,8 @@ class ContentNodeInConfigReferencesCheckerTest extends TestCase
 
         $this->checker = new ContentNodeInConfigReferencesChecker(
             $this->translator,
-            $this->configManager,
-            $this->websiteProvider
+            $this->websiteProvider,
+            $this->themeConfigurationProvider
         );
     }
 
@@ -51,21 +47,20 @@ class ContentNodeInConfigReferencesCheckerTest extends TestCase
         $configValue = $this->createMock(QuickAccessButtonConfig::class);
         $configValue->expects(self::once())->method('getType')->willReturn('web_catalog_node');
         $configValue->expects(self::once())->method('getWebCatalogNode')->willReturn(1);
+        $website = $this->createMock(Website::class);
 
-        $this->configManager
-            ->expects($this->once())
-            ->method('getValues')
+        $this->websiteProvider
+            ->expects(self::once())
+            ->method('getWebsites')
+            ->willReturn([$website]);
+
+        $this->themeConfigurationProvider
+            ->expects(self::any())
+            ->method('getThemeConfigurationOption')
             ->with(
-                $this->equalTo('oro_frontend.quick_access_button'),
-                $this->equalTo([]),
-                $this->equalTo(false),
-                $this->equalTo(true),
+                'header-quick_access_button',
             )
-            ->willReturn([
-                [
-                    'value' => $configValue,
-                ],
-            ]);
+            ->willReturn($configValue);
 
         $this->translator
             ->expects($this->once())
@@ -83,21 +78,20 @@ class ContentNodeInConfigReferencesCheckerTest extends TestCase
         $configValue = $this->createMock(QuickAccessButtonConfig::class);
         $configValue->expects(self::once())->method('getType')->willReturn('web_catalog_node');
         $configValue->expects(self::once())->method('getWebCatalogNode')->willReturn(2);
+        $website = $this->createMock(Website::class);
 
-        $this->configManager
-            ->expects($this->once())
-            ->method('getValues')
+        $this->websiteProvider
+            ->expects(self::once())
+            ->method('getWebsites')
+            ->willReturn([$website]);
+
+        $this->themeConfigurationProvider
+            ->expects(self::any())
+            ->method('getThemeConfigurationOption')
             ->with(
-                $this->equalTo('oro_frontend.quick_access_button'),
-                $this->equalTo([]),
-                $this->equalTo(false),
-                $this->equalTo(true),
+                'header-quick_access_button',
             )
-            ->willReturn([
-                [
-                    'value' => $configValue,
-                ],
-            ]);
+            ->willReturn($configValue);
 
         $this->translator
             ->expects($this->never())

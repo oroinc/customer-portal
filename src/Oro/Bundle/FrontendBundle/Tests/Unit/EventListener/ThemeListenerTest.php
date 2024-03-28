@@ -6,32 +6,34 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\EventListener\ThemeListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\NavigationBundle\Event\ResponseHashnavListener;
+use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class ThemeListenerTest extends \PHPUnit\Framework\TestCase
+class ThemeListenerTest extends TestCase
 {
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $helper;
+    private FrontendHelper|MockObject $helper;
 
-    /** @var HttpKernelInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $kernel;
+    private HttpKernelInterface|MockObject $kernel;
 
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
+    private ConfigManager|MockObject $configManager;
 
-    /** @var ThemeListener */
-    private $listener;
+    private ThemeConfigurationProvider|MockObject $themeConfigurationProvider;
+
+    private ThemeListener $listener;
 
     protected function setUp(): void
     {
         $this->helper = $this->createMock(FrontendHelper::class);
         $this->kernel = $this->createMock(HttpKernelInterface::class);
         $this->configManager = $this->createMock(ConfigManager::class);
+        $this->themeConfigurationProvider = $this->createMock(ThemeConfigurationProvider::class);
 
-        $this->listener = new ThemeListener($this->helper, $this->configManager);
+        $this->listener = new ThemeListener($this->helper, $this->configManager, $this->themeConfigurationProvider);
     }
 
     /**
@@ -42,7 +44,8 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
         bool $isFrontendRequest,
         ?string $expectedLayoutTheme,
         bool $hashNavigation,
-        bool $fullRedirect
+        bool $fullRedirect,
+        ?string $theme
     ): void {
         $request = new Request();
         if ($hashNavigation) {
@@ -58,7 +61,11 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
         $this->configManager->expects(self::any())
             ->method('get')
             ->with('oro_frontend.frontend_theme')
-            ->willReturn('test_layout_theme');
+            ->willReturn('default');
+
+        $this->themeConfigurationProvider->expects(self::any())
+            ->method('getThemeName')
+            ->willReturn($theme);
 
         $this->listener->onKernelRequest($event);
 
@@ -75,6 +82,15 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
                 'expectedLayoutTheme' => 'test_layout_theme',
                 'hashNavigation' => false,
                 'fullRedirect' => false,
+                'theme' => 'test_layout_theme',
+            ],
+            'frontend (no theme configuration value)' => [
+                'requestType' => HttpKernelInterface::MAIN_REQUEST,
+                'isFrontendRequest' => true,
+                'expectedLayoutTheme' => 'default',
+                'hashNavigation' => true,
+                'fullRedirect' => true,
+                'theme' => null,
             ],
             'frontend' => [
                 'requestType' => HttpKernelInterface::MAIN_REQUEST,
@@ -82,6 +98,7 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
                 'expectedLayoutTheme' => 'test_layout_theme',
                 'hashNavigation' => true,
                 'fullRedirect' => true,
+                'theme' => 'test_layout_theme',
             ],
             'backend' => [
                 'requestType' => HttpKernelInterface::MAIN_REQUEST,
@@ -89,6 +106,7 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
                 'expectedLayoutTheme' => null,
                 'hashNavigation' => false,
                 'fullRedirect' => false,
+                'theme' => null,
             ],
         ];
     }

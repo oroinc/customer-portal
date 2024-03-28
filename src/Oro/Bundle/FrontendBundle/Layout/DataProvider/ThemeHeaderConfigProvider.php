@@ -7,31 +7,23 @@ namespace Oro\Bundle\FrontendBundle\Layout\DataProvider;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CMSBundle\Entity\ContentBlock;
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\FrontendBundle\DependencyInjection\Configuration;
+use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
 use Oro\Bundle\FrontendBundle\Provider\QuickAccessButtonDataProvider;
+use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
+use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
 
 /**
  * Layout data provider for Header System Config options.
  */
 class ThemeHeaderConfigProvider
 {
-    private ConfigManager $configManager;
-    private AclHelper $aclHelper;
-    private ManagerRegistry $doctrine;
-    private QuickAccessButtonDataProvider $quickAccessButtonDataProvider;
-
     public function __construct(
-        ConfigManager $configManager,
-        AclHelper $aclHelper,
-        ManagerRegistry $doctrine,
-        QuickAccessButtonDataProvider $quickAccessButtonDataProvider,
+        private AclHelper $aclHelper,
+        private ManagerRegistry $doctrine,
+        private QuickAccessButtonDataProvider $quickAccessButtonDataProvider,
+        private ThemeConfigurationProvider $themeConfigurationProvider
     ) {
-        $this->configManager = $configManager;
-        $this->aclHelper = $aclHelper;
-        $this->doctrine = $doctrine;
-        $this->quickAccessButtonDataProvider = $quickAccessButtonDataProvider;
     }
 
     /**
@@ -41,14 +33,14 @@ class ThemeHeaderConfigProvider
      */
     public function getPromotionalBlockAlias(): string
     {
-        $configValue = $this->configManager->get(
-            Configuration::getConfigKeyByName(Configuration::PROMOTIONAL_CONTENT)
+        $configValue = $this->themeConfigurationProvider->getThemeConfigurationOption(
+            ThemeConfiguration::buildOptionKey('header', 'promotional_content')
         );
 
         if ($configValue) {
             return $this->doctrine
-                    ->getRepository(ContentBlock::class)
-                    ->getContentBlockAliasById($configValue, $this->aclHelper) ?? '';
+                ->getRepository(ContentBlock::class)
+                ->getContentBlockAliasById($configValue, $this->aclHelper) ?? '';
         }
 
         return '';
@@ -56,19 +48,22 @@ class ThemeHeaderConfigProvider
 
     public function getQuickAccessButton(): ?ItemInterface
     {
-        $configValue = $this->configManager->get(
-            Configuration::getConfigKeyByName(Configuration::QUICK_ACCESS_BUTTON)
-        );
+        $value = $this->getQuickAccessButtonValue();
 
-        return $configValue ? $this->quickAccessButtonDataProvider->getMenu($configValue) : null;
+        return $value ? $this->quickAccessButtonDataProvider->getMenu($value) : null;
     }
 
     public function getQuickAccessButtonLabel(): ?string
     {
-        $configValue = $this->configManager->get(
-            Configuration::getConfigKeyByName(Configuration::QUICK_ACCESS_BUTTON)
-        );
+        $value = $this->getQuickAccessButtonValue();
 
-        return $configValue ? $this->quickAccessButtonDataProvider->getLabel($configValue) : null;
+        return $value ? $this->quickAccessButtonDataProvider->getLabel($value) : null;
+    }
+
+    private function getQuickAccessButtonValue(): ?QuickAccessButtonConfig
+    {
+        return $this->themeConfigurationProvider->getThemeConfigurationOption(
+            ThemeConfiguration::buildOptionKey('header', 'quick_access_button')
+        );
     }
 }

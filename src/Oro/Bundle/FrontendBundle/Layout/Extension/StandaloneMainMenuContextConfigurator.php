@@ -2,7 +2,8 @@
 
 namespace Oro\Bundle\FrontendBundle\Layout\Extension;
 
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration;
+use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
 use Oro\Component\Layout\ContextConfiguratorInterface;
 use Oro\Component\Layout\ContextInterface;
 use Symfony\Component\OptionsResolver\Options;
@@ -13,11 +14,8 @@ use Symfony\Component\OptionsResolver\Options;
  */
 class StandaloneMainMenuContextConfigurator implements ContextConfiguratorInterface
 {
-    private ConfigManager $configManager;
-
-    public function __construct(ConfigManager $configManager)
+    public function __construct(private ThemeConfigurationProvider $themeConfigurationProvider)
     {
-        $this->configManager = $configManager;
     }
 
     /**
@@ -28,10 +26,18 @@ class StandaloneMainMenuContextConfigurator implements ContextConfiguratorInterf
         $context->getResolver()
             ->setDefaults([
                 'standalone_main_menu' => function (Options $options) {
-                    return $this->configManager->get('oro_frontend.standalone_main_menu');
+                    $optionKey = ThemeConfiguration::buildOptionKey('header', 'standalone_main_menu');
+
+                    return $this
+                        ->themeConfigurationProvider
+                        ->getThemeConfigurationOption($optionKey);
                 },
                 'language_and_currency_switchers_above_header' => function (Options $options) {
-                    return $this->configManager->get('oro_frontend.language_and_currency_switchers') === 'above_header';
+                    $optionKey = ThemeConfiguration::buildOptionKey('header', 'language_and_currency_switchers');
+
+                    return $this
+                            ->themeConfigurationProvider
+                            ->getThemeConfigurationOption($optionKey) === 'above_header';
                 }
             ])
             ->setAllowedTypes('standalone_main_menu', ['boolean']);

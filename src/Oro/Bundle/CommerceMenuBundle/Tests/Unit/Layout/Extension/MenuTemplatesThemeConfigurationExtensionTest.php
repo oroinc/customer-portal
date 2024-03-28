@@ -6,10 +6,12 @@ use Oro\Bundle\CommerceMenuBundle\Layout\Extension\MenuTemplatesThemeConfigurati
 use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Fixtures\Bundle\FooBundle\FooBundle;
 use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration;
 use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfigurationProvider;
+use Oro\Bundle\ThemeBundle\Form\Provider\ConfigurationBuildersProvider;
 use Oro\Component\Config\CumulativeResourceManager;
 use Oro\Component\Testing\TempDirExtension;
+use PHPUnit\Framework\TestCase;
 
-class MenuTemplatesThemeConfigurationExtensionTest extends \PHPUnit\Framework\TestCase
+class MenuTemplatesThemeConfigurationExtensionTest extends TestCase
 {
     use TempDirExtension;
 
@@ -19,7 +21,12 @@ class MenuTemplatesThemeConfigurationExtensionTest extends \PHPUnit\Framework\Te
     {
         $cacheFile = $this->getTempFile('MenuTemplatesThemeConfigurationExtension');
 
-        $themeConfiguration = new ThemeConfiguration();
+        $configurationProvider = $this->createMock(ConfigurationBuildersProvider::class);
+        $configurationProvider->expects(self::once())
+            ->method('getConfigurationTypes')
+            ->willReturn(['type']);
+
+        $themeConfiguration = new ThemeConfiguration($configurationProvider);
         $themeConfiguration->addExtension(new MenuTemplatesThemeConfigurationExtension());
 
         $this->themeConfigurationProvider = new ThemeConfigurationProvider(

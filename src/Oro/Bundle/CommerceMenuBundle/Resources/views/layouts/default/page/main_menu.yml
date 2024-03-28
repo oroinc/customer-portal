@@ -17,7 +17,7 @@ layout:
                     blockType: container
                     options:
                         vars:
-                            hoverPriority: '=data["system_config_provider"].getValue("oro_frontend.standalone_main_menu")'
+                            hoverPriority: '=data["theme_configuration"].getThemeConfigurationOption("header-standalone_main_menu")'
                 main_menu_back_trigger:
                     blockType: block
                 main_menu_extra_container:
@@ -49,12 +49,12 @@ layout:
             prepend: true
             options:
                 vars:
-                    standaloneMainMenu: '=data["system_config_provider"].getValue("oro_frontend.standalone_main_menu")'
+                    standaloneMainMenu: '=data["theme_configuration"].getThemeConfigurationOption("header-standalone_main_menu")'
                     currencies: '=data["oro_pricing_currency"].getAvailableCurrencies()'
                     selected_currency: '=data["oro_pricing_currency"].getUserCurrency()'
                     localizations: '=data["frontend_localization"].getEnabledLocalizations()'
                     selected_localization: '=data["frontend_localization"].getCurrentLocalization()'
                     currency_display: '=data["system_config_provider"].getValue("oro_currency.currency_display")'
-                    show_currency_localization_switchers: '=data["system_config_provider"].getValue("oro_frontend.language_and_currency_switchers") == "always_in_hamburger_menu"'
-                    top_navigation_menu_enabled: '=data["system_config_provider"].getValue("oro_frontend.top_navigation_menu") !== false'
-                    promotional_content_enabled: '=data["system_config_provider"].getValue("oro_frontend.promotional_content") !== ""'
+                    show_currency_localization_switchers: '=data["theme_configuration"].getThemeConfigurationOption("header-language_and_currency_switchers") == "always_in_hamburger_menu"'
+                    top_navigation_menu_enabled: '=data["theme_configuration"].getThemeConfigurationOption("header-top_navigation_menu") !== false'
+                    promotional_content_enabled: '=data["theme_configuration"].getThemeConfigurationOption("header-promotional_content") !== ""'

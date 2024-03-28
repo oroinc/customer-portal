@@ -9,10 +9,10 @@ layout:
                     prepend: true
                     siblingId: top_nav_controls_dropdown_container
                     options:
-                        visible: '=data["system_config_provider"].getValue("oro_frontend.quick_links")'
-                        item: '=data["menu"].getMenu(data["system_config_provider"].getValue("oro_frontend.quick_links"))'
+                        visible: '=data["theme_configuration"].getThemeConfigurationOption("header-quick_links")'
+                        item: '=data["menu"].getMenu(data["theme_configuration"].getThemeConfigurationOption("header-quick_links"))'
                         vars:
-                            searchType: '=data["system_config_provider"].getValue("oro_frontend.search_on_smaller_screens")'
+                            searchType: '=data["theme_configuration"].getThemeConfigurationOption("header-search_on_smaller_screens")'
                 quick_access_menu_item:
                     blockType: menu_item_simple
             tree:

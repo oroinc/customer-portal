@@ -17,8 +17,8 @@ layout:
                     blockType: menu
                     prepend: true
                     options:
-                        visible: '=data["system_config_provider"].getValue("oro_frontend.top_navigation_menu")'
-                        item: '=data["menu"].getMenu(data["system_config_provider"].getValue("oro_frontend.top_navigation_menu"))'
+                        visible: '=data["theme_configuration"].getThemeConfigurationOption("header-top_navigation_menu")'
+                        item: '=data["menu"].getMenu(data["theme_configuration"].getThemeConfigurationOption("header-top_navigation_menu"))'
                         allow_safe_labels: true
             tree:
                 page_header:

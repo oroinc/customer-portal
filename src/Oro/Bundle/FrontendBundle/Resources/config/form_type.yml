@@ -57,6 +57,7 @@ services:
             - '@oro_config.manager'
             - '@oro_website.manager'
             - '@assets.packages'
+            - '@oro_theme.provider.theme_configuration'
         tags:
             - { name: form.type_extension }
 
@@ -81,3 +82,8 @@ services:
             - '@oro_config.global'
         tags:
             - { name: form.type }
+
+    oro_frontend.form.quick_access_button_config_builder:
+        class: Oro\Bundle\FrontendBundle\Form\Configuration\QuickAccessButtonConfigBuilder
+        tags:
+            - { name: oro_theme.form.configuration_child_builder }

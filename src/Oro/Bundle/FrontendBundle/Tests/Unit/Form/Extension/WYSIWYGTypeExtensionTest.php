@@ -5,34 +5,33 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\Extension;
 use Oro\Bundle\CMSBundle\Form\Type\WYSIWYGType;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\Form\Extension\WYSIWYGTypeExtension;
+use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Layout\Extension\Theme\DataProvider\ThemeProvider;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class WYSIWYGTypeExtensionTest extends \PHPUnit\Framework\TestCase
+class WYSIWYGTypeExtensionTest extends TestCase
 {
     use EntityTrait;
 
-    /** @var ThemeManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $themeManager;
+    private ThemeManager|MockObject $themeManager;
 
-    /** @var ThemeProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $themeProvider;
+    private ThemeProvider|MockObject $themeProvider;
 
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
+    private ConfigManager|MockObject $configManager;
 
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
+    private WebsiteManager|MockObject $websiteManager;
 
-    /** @var Packages|\PHPUnit\Framework\MockObject\MockObject */
-    private $packages;
+    private Packages|MockObject $packages;
 
-    /** @var WYSIWYGTypeExtension */
-    private $extension;
+    private ThemeConfigurationProvider|MockObject $themeConfigurationProvider;
+
+    private WYSIWYGTypeExtension $extension;
 
     protected function setUp(): void
     {
@@ -41,25 +40,27 @@ class WYSIWYGTypeExtensionTest extends \PHPUnit\Framework\TestCase
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->packages = $this->createMock(Packages::class);
+        $this->themeConfigurationProvider = $this->createMock(ThemeConfigurationProvider::class);
 
         $this->extension = new WYSIWYGTypeExtension(
             $this->themeManager,
             $this->themeProvider,
             $this->configManager,
             $this->websiteManager,
-            $this->packages
+            $this->packages,
+            $this->themeConfigurationProvider
         );
     }
 
     public function testGetExtendedTypes(): void
     {
-        $this->assertEquals([WYSIWYGType::class], $this->extension::getExtendedTypes());
+        self::assertEquals([WYSIWYGType::class], $this->extension::getExtendedTypes());
     }
 
-    public function testConfigureOptions()
+    public function testConfigureOptions(): void
     {
         $resolver = $this->createMock(OptionsResolver::class);
-        $resolver->expects($this->once())
+        $resolver->expects(self::once())
             ->method('setDefault')
             ->with('page-component', function () {
             })

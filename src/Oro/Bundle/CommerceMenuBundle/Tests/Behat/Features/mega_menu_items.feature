@@ -138,13 +138,13 @@ Feature: Mega Menu Items
     And I expand "Node-1-1" in tree "Sidebar Menu Tree"
     Then I move "On Sale" before "Node-1-1-1" in tree "Sidebar Menu Tree"
 
-    And I go to System / Configuration
-    And I follow "Commerce/Design/Theme" on configuration sidebar
-    And uncheck "Use default" for "Standalone Main Menu" field
-    And I fill "Theme Settings Form" with:
-      | Standalone Main Menu | true |
-    And I submit form
-    Then I should see "Configuration saved" flash message
+    And I go to System / Theme Configurations
+    When I click Edit "Refreshing Teal [Website: Default]" in grid
+    And I fill "Theme Configuration Form" with:
+      | Standalone Main Menu      | true    |
+      | Quick Access Button Label | Product |
+    And I save and close form
+    Then I should see "Theme Configuration has been saved" flash message
 
   Scenario: Check accessibility via keyboard, dive deep and exit on close button press
     Given I proceed as the Buyer

@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendBundle\Form\Extension;
 
 use Oro\Bundle\CMSBundle\Form\Type\WYSIWYGType;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Layout\Extension\Theme\DataProvider\ThemeProvider;
 use Oro\Component\Layout\Extension\Theme\Model\Theme;
@@ -20,43 +21,14 @@ class WYSIWYGTypeExtension extends AbstractTypeExtension
 {
     private const COMMERCE_GROUP = 'commerce';
 
-    /**
-     * @var ThemeManager
-     */
-    private $themeManager;
-
-    /**
-     * @var ThemeProvider
-     */
-    private $themeProvider;
-
-    /**
-     * @var ConfigManager
-     */
-    private $configManager;
-
-    /**
-     * @var WebsiteManager
-     */
-    private $websiteManager;
-
-    /**
-     * @var Packages
-     */
-    private $packages;
-
     public function __construct(
-        ThemeManager $themeManager,
-        ThemeProvider $themeProvider,
-        ConfigManager $configManager,
-        WebsiteManager $websiteManager,
-        Packages $packages
+        private ThemeManager $themeManager,
+        private ThemeProvider $themeProvider,
+        private ConfigManager $configManager,
+        private WebsiteManager $websiteManager,
+        private Packages $packages,
+        private ThemeConfigurationProvider $themeConfigurationProvider
     ) {
-        $this->themeManager = $themeManager;
-        $this->themeProvider = $themeProvider;
-        $this->configManager = $configManager;
-        $this->websiteManager = $websiteManager;
-        $this->packages = $packages;
     }
 
     /**
@@ -85,8 +57,7 @@ class WYSIWYGTypeExtension extends AbstractTypeExtension
     private function getThemes(): array
     {
         $themes = $this->themeManager->getAllThemes();
-        $defaultWebsite = $this->websiteManager->getDefaultWebsite();
-        $layoutThemeName = $this->configManager->get('oro_frontend.frontend_theme', false, false, $defaultWebsite);
+        $layoutThemeName = $this->getThemeName();
 
         $themesData = [];
         foreach ($themes as $theme) {
@@ -109,5 +80,16 @@ class WYSIWYGTypeExtension extends AbstractTypeExtension
         }
 
         return $themesData;
+    }
+
+    private function getThemeName(): ?string
+    {
+        $defaultWebsite = $this->websiteManager->getDefaultWebsite();
+        $themeName = $this->themeConfigurationProvider->getThemeName($defaultWebsite);
+        if ($themeName) {
+            return $themeName;
+        }
+
+        return $this->configManager->get('oro_frontend.frontend_theme', false, false, $defaultWebsite);
     }
 }

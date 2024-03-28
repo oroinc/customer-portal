@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Oro\Bundle\FrontendBundle\Acl\Voter;
 
 use Doctrine\Persistence\ManagerRegistry;
-use Oro\Bundle\ConfigBundle\Entity\ConfigValue;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
-use Oro\Bundle\FrontendBundle\DependencyInjection\Configuration;
+use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration as LayoutThemeConfiguration;
 use Oro\Bundle\SecurityBundle\Acl\BasicPermission;
 use Oro\Bundle\SecurityBundle\Acl\Voter\AbstractEntityVoter;
+use Oro\Bundle\ThemeBundle\Entity\ThemeConfiguration;
 
 /**
- * Disables content block removal if it was used in System configuration.
+ * Disables content block removal if it was used in {@see ThemeConfiguration}.
  */
 class ContentBlockVoter extends AbstractEntityVoter
 {
@@ -34,15 +34,19 @@ class ContentBlockVoter extends AbstractEntityVoter
             return self::ACCESS_ABSTAIN;
         }
 
-        $value = $this->registry
-            ->getManagerForClass(ConfigValue::class)
-            ->getRepository(ConfigValue::class)
-            ->findOneBy([
-                'name' => Configuration::PROMOTIONAL_CONTENT,
-                'section' => Configuration::ROOT_NODE,
-                'textValue' => $identifier,
-            ]);
+        $optionKey = LayoutThemeConfiguration::buildOptionKey('header', 'promotional_content');
+        /** @var ThemeConfiguration $themeConfiguration */
+        foreach ($this->getAllThemeConfigurations() as $themeConfiguration) {
+            if ($themeConfiguration->getConfigurationOption($optionKey) === $identifier) {
+                return self::ACCESS_DENIED;
+            }
+        }
 
-        return $value ? self::ACCESS_DENIED : self::ACCESS_ABSTAIN;
+        return self::ACCESS_ABSTAIN;
+    }
+
+    private function getAllThemeConfigurations(): array
+    {
+        return $this->registry->getRepository(ThemeConfiguration::class)->findAll();
     }
 }

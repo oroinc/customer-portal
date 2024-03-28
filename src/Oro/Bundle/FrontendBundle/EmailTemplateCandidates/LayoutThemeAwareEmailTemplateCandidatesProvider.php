@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Oro\Bundle\FrontendBundle\EmailTemplateCandidates;
 
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EmailBundle\EmailTemplateCandidates\EmailTemplateCandidatesProviderInterface;
 use Oro\Bundle\EmailBundle\Model\EmailTemplateCriteria;
+use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
 
 /**
  * Provides an email template name that includes the current layout theme taken from a system config.
@@ -16,13 +16,13 @@ use Oro\Bundle\EmailBundle\Model\EmailTemplateCriteria;
  */
 class LayoutThemeAwareEmailTemplateCandidatesProvider implements EmailTemplateCandidatesProviderInterface
 {
-    protected ConfigManager $configManager;
+    protected ThemeConfigurationProvider $themeConfigurationProvider;
 
     private array $templateExtensions = ['.html.twig'];
 
-    public function __construct(ConfigManager $configManager)
+    public function __construct(ThemeConfigurationProvider $themeConfigurationProvider)
     {
-        $this->configManager = $configManager;
+        $this->themeConfigurationProvider = $themeConfigurationProvider;
     }
 
     /**
@@ -59,6 +59,6 @@ class LayoutThemeAwareEmailTemplateCandidatesProvider implements EmailTemplateCa
 
     protected function getCurrentThemeName(array $templateContext = []): ?string
     {
-        return $this->configManager->get('oro_frontend.frontend_theme');
+        return $this->themeConfigurationProvider->getThemeName();
     }
 }

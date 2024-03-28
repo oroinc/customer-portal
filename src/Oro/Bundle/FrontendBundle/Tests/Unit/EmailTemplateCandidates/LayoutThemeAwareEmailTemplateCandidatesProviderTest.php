@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\EmailTemplateCandidates;
 
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EmailBundle\Model\EmailTemplateCriteria;
 use Oro\Bundle\FrontendBundle\EmailTemplateCandidates\LayoutThemeAwareEmailTemplateCandidatesProvider;
+use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class LayoutThemeAwareEmailTemplateCandidatesProviderTest extends TestCase
 {
-    private ConfigManager|MockObject $configManager;
+    private ThemeConfigurationProvider|MockObject $themeConfigurationProvider;
 
     private LayoutThemeAwareEmailTemplateCandidatesProvider $provider;
 
     protected function setUp(): void
     {
-        $this->configManager = $this->createMock(ConfigManager::class);
+        $this->themeConfigurationProvider = $this->createMock(ThemeConfigurationProvider::class);
 
-        $this->provider = new LayoutThemeAwareEmailTemplateCandidatesProvider($this->configManager);
+        $this->provider = new LayoutThemeAwareEmailTemplateCandidatesProvider($this->themeConfigurationProvider);
     }
 
     public function testShouldReturnEmptyArrayWhenStartsWithAt(): void
@@ -32,10 +32,9 @@ class LayoutThemeAwareEmailTemplateCandidatesProviderTest extends TestCase
 
     public function testShouldReturnEmptyArrayWhenNoThemeName(): void
     {
-        $this->configManager
+        $this->themeConfigurationProvider
             ->expects(self::once())
-            ->method('get')
-            ->with('oro_frontend.frontend_theme')
+            ->method('getThemeName')
             ->willReturn(null);
 
         self::assertEmpty($this->provider->getCandidatesNames(new EmailTemplateCriteria('sample_name')));
@@ -44,10 +43,9 @@ class LayoutThemeAwareEmailTemplateCandidatesProviderTest extends TestCase
     public function testWhenHasThemeName(): void
     {
         $themeName = 'sample_theme';
-        $this->configManager
+        $this->themeConfigurationProvider
             ->expects(self::once())
-            ->method('get')
-            ->with('oro_frontend.frontend_theme')
+            ->method('getThemeName')
             ->willReturn($themeName);
 
         self::assertEquals(
