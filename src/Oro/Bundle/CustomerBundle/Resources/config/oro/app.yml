@@ -18,10 +18,9 @@ security:
 
     password_hashers:
         Oro\Bundle\CustomerBundle\Entity\CustomerUser:
-            # the new hasher, along with its options
             algorithm: sodium
             migrate_from:
-                - legacy # uses the "legacy" hasher
+                - sha512
     firewalls:
         frontend_api_options:
             pattern: '%oro_api.rest.pattern%'
