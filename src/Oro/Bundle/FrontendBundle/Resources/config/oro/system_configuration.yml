@@ -19,16 +19,6 @@ system_configuration:
         filter_settings:
             title: oro_frontend.system_configuration.groups.filter_settings.title
     fields:
-        oro_frontend.frontend_theme:
-            data_type: string
-            type: Oro\Bundle\FrontendBundle\Form\Type\ThemeSelectType
-            priority: 100
-            options:
-                label: oro_frontend.system_configuration.fields.frontend_theme.label
-                required: true
-                constraints:
-                    - NotBlank: ~
-
         oro_frontend.page_templates:
             data_type: array
             type: Oro\Bundle\FrontendBundle\Form\Type\PageTemplateCollectionType
@@ -88,7 +78,6 @@ system_configuration:
                                 children:
                                     theme_settings:
                                         children:
-                                            - oro_frontend.frontend_theme
                                             - oro_theme.theme_configuration
                                     page_templates:
                                         children:
