@@ -1,40 +1,10 @@
 The upgrade instructions are available at [Oro documentation website](https://doc.oroinc.com/master/backend/setup/upgrade-to-new-version/).
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
-## UNRELEASED
-
-### Added
-
-#### FrontendBundle
-
-* Added `orofrontend/default/js/app/views/sticky-element-view` and `orofrontend/default/js/app/modules/sticky-manager-module` to provide new sticky element functionality based on CSS `position: sticky` property.
-
-### Removed
-
-#### FrontendBundle
-
-* Removed `orofrontend/default/js/app/views/sticky-panel-view`.
-* Removed component shortcut `data-page-component-sticky`.
-* Removed `__sticky_panel__sticky_panel_widget`, `__sticky_panel__sticky_panel_content_widget` blocks in layout
-
-### Changed
-
-#### FrontendBundle
-
-* Changed format of options that prepares `RuleEditorOptionsConfigurator` <sup>[[?]](https://github.com/oroinc/customer-portal/tree/master/src/Oro/Bundle/FrontendBundle/Form/OptionsConfigurator/RuleEditorOptionsConfigurator.php)</sup>, removed `entities` field and added `supportedNames` and `entityDataProvider`
-* Widget `oro/frontend-dialog-widget` was renamed to `oro/dialog-widget`, so you have to use `oro/dialog-widget` in your customization.
-SCSS `$base-font-minor` and `$base-font-icon` variables were removed, use `$base-font` and SVG icon instead.
-SCSS `get-nested-map-value` function was removed, use native SCSS `map.get` function instead.
-
-This widget no longer uses `fullscreen-popup-view` under the hood to render dialog as fullscreen.
-All logic is done by CSS using an extra class `fullscreen`.
-As a result, `fullscreenViewOptions` property was deleted and property `popupIcon` and
-events `frontend-dialog:accept, frontend-dialog:cancel, frontend-dialog:close` were renamed to `dialogTitleIcon`, and `accept, cancel, close`.
-
 
 ## Changes in the Customer Portal package versions
 
-- [6.0.0-RC](#600-rc-2024-02-29)
+- [6.0.0](#600-2024-03-30)
 - [5.1.0](#510-2023-03-31)
 - [5.0.0](#500-2022-01-26)
 - [4.2.0](#420-2020-01-29)
@@ -52,8 +22,19 @@ events `frontend-dialog:accept, frontend-dialog:cancel, frontend-dialog:close` w
 - [2.2.0](#220-2017-05-31)
 
 
-## 6.0.0-RC (2024-02-29)
-[Show detailed list of changes](incompatibilities-6-0-rc.md)
+## 6.0.0 (2024-03-30)
+[Show detailed list of changes](incompatibilities-6-0.md)
+
+### Added
+
+#### FrontendBundle
+
+* Added `orofrontend/default/js/app/views/sticky-element-view` and `orofrontend/default/js/app/modules/sticky-manager-module` to provide new sticky element functionality based on CSS `position: sticky` property.
+* Added to the email template inheritance feature an ability to use email templates located in layout themes at paths:
+  * when in bundle: Resources/views/layouts/%theme%/email-templates/
+  * when on app level: templates/layouts/%theme%/email-templates/
+* Added `base_storefront` email template that could be used as parent email template (via email template inheritance feature) for storefront-related email notifications.
+
 
 ### Changed
 
@@ -65,6 +46,25 @@ events `frontend-dialog:accept, frontend-dialog:cancel, frontend-dialog:close` w
   This widget no longer uses `fullscreen-popup-view` under the hood to render dialog as fullscreen. 
   All logic is done by CSS using an extra class `fullscreen`.  As a result, `fullscreenViewOptions` property was deleted and properties `popupIcon, popupBadge` and events `frontend-dialog:accept, frontend-dialog:cancel, frontend-dialog:close` were renamed to `dialogTitleIcon, dialogTitleBadge`, and `accept, cancel, close`.
 * [Content Providers feature](https://doc.oroinc.com/bundles/platform/UIBundle/content-providers/) is separated now between backoffice and storefront. The tag `oro_ui.content_provider` is used for collecting backoffice content providers and the tag `oro_frontend.content_provider` - for storefront content providers.
+* Changed format of options that prepares `RuleEditorOptionsConfigurator` <sup>[[?]](https://github.com/oroinc/customer-portal/tree/master/src/Oro/Bundle/FrontendBundle/Form/OptionsConfigurator/RuleEditorOptionsConfigurator.php)</sup>, removed `entities` field and added `supportedNames` and `entityDataProvider`
+* Widget `oro/frontend-dialog-widget` was renamed to `oro/dialog-widget`, so you have to use `oro/dialog-widget` in your customization.
+  This widget no longer uses `fullscreen-popup-view` under the hood to render dialog as fullscreen. All logic is done by CSS using an extra class `fullscreen`. As a result, `fullscreenViewOptions` property was deleted and property `popupIcon` and events `frontend-dialog:accept, frontend-dialog:cancel, frontend-dialog:close` were renamed to `dialogTitleIcon`, and `accept, cancel, close`.
+* SCSS `$base-font-minor` and `$base-font-icon` variables were removed, use `$base-font` and SVG icon instead.
+* SCSS `get-nested-map-value` function was removed, use native SCSS `map.get` function instead.
+
+#### FrontendImportExportBundle
+* Updated `frontend_export_result_error`, `frontend_export_result_success` email templates to extend them from `base_storefront` email template.
+
+#### CustomerBundle
+* Updated `customer_user_confirmation_email`, `customer_user_force_reset_password`, `customer_user_reset_password`, `customer_user_welcome_email`, `customer_user_welcome_email_registered_by_admin` email templates to extend them from `base_storefront` email template.
+
+### Removed
+
+#### FrontendBundle
+
+* Removed `orofrontend/default/js/app/views/sticky-panel-view`.
+* Removed component shortcut `data-page-component-sticky`.
+* Removed `__sticky_panel__sticky_panel_widget`, `__sticky_panel__sticky_panel_content_widget` blocks in layout
 
 
 ## 5.1.0 (2023-03-31)
