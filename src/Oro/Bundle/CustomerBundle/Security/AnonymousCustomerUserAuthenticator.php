@@ -77,9 +77,9 @@ class AnonymousCustomerUserAuthenticator implements AuthenticatorInterface
         if (null === $organization) {
             throw new AuthenticationException('The current website is not assigned to an organization.');
         }
-        $credentionals = (string)$request->cookies->get(self::COOKIE_NAME, '');
+        $credentials = (string)$request->cookies->get(self::COOKIE_NAME, '');
         $passport = new AnonymousSelfValidatingPassport(
-            new AnonymousCustomerUserBadge($credentionals, [$this, 'getVisitor']),
+            new AnonymousCustomerUserBadge($credentials, [$this, 'getVisitor']),
         );
         $passport->setAttribute('organization', $organization);
         $this->saveCredentials($request, $passport);
@@ -138,18 +138,15 @@ class AnonymousCustomerUserAuthenticator implements AuthenticatorInterface
             && $token->getVisitor() === null;
     }
 
-    public function getVisitor(string $credentionals): CustomerVisitor
+    public function getVisitor(string $credentials): CustomerVisitor
     {
-        if (!empty($credentionals)) {
-            [$visitorId, $sessionId] = json_decode(
-                base64_decode($credentionals),
-                false,
-                512,
-                JSON_THROW_ON_ERROR
-            );
-        } else {
-            $visitorId = null;
-            $sessionId = null;
+        $visitorId = $sessionId = null;
+
+        if (!empty($credentials)) {
+            $decodedCredentials = json_decode(base64_decode($credentials), false);
+            if (JSON_ERROR_NONE === json_last_error() && null !== $decodedCredentials) {
+                [$visitorId, $sessionId] =  $decodedCredentials;
+            }
         }
 
         return $this->visitorManager->findOrCreate($visitorId, $sessionId);
