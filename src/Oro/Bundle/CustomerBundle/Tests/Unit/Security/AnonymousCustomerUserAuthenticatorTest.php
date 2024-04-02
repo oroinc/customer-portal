@@ -23,6 +23,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class AnonymousCustomerUserAuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
@@ -249,6 +252,45 @@ class AnonymousCustomerUserAuthenticatorTest extends \PHPUnit\Framework\TestCase
             ],
             $this->logger->cleanLogs()
         );
+    }
+
+    public function testGetVisitorWithInvalidCredentials(): void
+    {
+        $encodedBrokenCredentials = base64_encode(json_encode([])) . 'SomeBroken';
+        $visitor = $this->getCustomerVisitor(1, 'someSessionId');
+
+        $this->visitorManager->expects(self::once())
+            ->method('findOrCreate')
+            ->with(null, null)
+            ->willReturn($visitor);
+
+        self::assertEquals(
+            $visitor,
+            $this->authenticator->getVisitor($encodedBrokenCredentials)
+        );
+    }
+
+    public function testGetVisitorWithValidCredentials(): void
+    {
+        $sessionId = 'sessionId';
+        $visitorId = '123';
+
+        $credentials = [
+            $visitorId,
+            $sessionId
+        ];
+
+        $encodedCredentials = base64_encode(json_encode($credentials));
+        $visitor = $this->getCustomerVisitor(123, 'sessionId');
+        $this->visitorManager->expects(self::once())
+            ->method('findOrCreate')
+            ->with('123', 'sessionId')
+            ->willReturn($visitor);
+
+        $foundVisitor = $this->authenticator->getVisitor($encodedCredentials);
+
+        self::assertEquals($visitorId, $foundVisitor->getId());
+        self::assertEquals($sessionId, $foundVisitor->getSessionId());
     }
 
     private function getCustomerVisitorCookieValue(CustomerVisitor $visitor): string
