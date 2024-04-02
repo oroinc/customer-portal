@@ -124,6 +124,7 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
             ->willReturnCallback(function (AnonymousCustomerUserToken $token) use ($authenticatedToken) {
                 self::assertEquals('Anonymous Customer User', $token->getUser());
                 self::assertEquals(['TEST_ANONYMOUS_ROLE'], $token->getRoleNames());
+                self::assertEquals(['visitor_id' => 4 , 'session_id' => 'someSessionId'], $token->getCredentials());
 
                 return $authenticatedToken;
             });
@@ -161,7 +162,7 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
         $request = Request::create('http://test.com/test');
         $request->cookies->set(
             AnonymousCustomerUserAuthenticationListener::COOKIE_NAME,
-            $this->getCustomerVisitorCookieValue($visitor)
+            'brokenCookieValue'
         );
 
         $authenticatedToken = new AnonymousCustomerUserToken('Anonymous Customer User');
@@ -183,6 +184,7 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
             ->willReturnCallback(function (AnonymousCustomerUserToken $token) use ($authenticatedToken) {
                 self::assertEquals('Anonymous Customer User', $token->getUser());
                 self::assertEquals(['TEST_ANONYMOUS_ROLE'], $token->getRoleNames());
+                self::assertEquals(['visitor_id' => null , 'session_id' => null], $token->getCredentials());
 
                 return $authenticatedToken;
             });

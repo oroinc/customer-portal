@@ -101,12 +101,14 @@ class AnonymousCustomerUserAuthenticationListener
 
     private function getCredentials(Request $request): array
     {
+        $visitorId = $sessionId = null;
         $value = $request->cookies->get(self::COOKIE_NAME);
+
         if ($value) {
-            [$visitorId, $sessionId] = json_decode(base64_decode($value), false, 512, JSON_THROW_ON_ERROR);
-        } else {
-            $visitorId = null;
-            $sessionId = null;
+            $decodedCredentials = json_decode(base64_decode($value), false);
+            if (JSON_ERROR_NONE === json_last_error() && null !== $decodedCredentials) {
+                [$visitorId, $sessionId] =  $decodedCredentials;
+            }
         }
 
         return [
