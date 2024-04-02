@@ -30,7 +30,7 @@ class StandaloneMainMenuContextConfigurator implements ContextConfiguratorInterf
 
                     return $this
                         ->themeConfigurationProvider
-                        ->getThemeConfigurationOption($optionKey);
+                        ->getThemeConfigurationOption($optionKey) ?? false;
                 },
                 'language_and_currency_switchers_above_header' => function (Options $options) {
                     $optionKey = ThemeConfiguration::buildOptionKey('header', 'language_and_currency_switchers');
