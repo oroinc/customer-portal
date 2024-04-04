@@ -3,7 +3,12 @@
 $page-header-inner-inner-offset-y: spacing('md') !default;
 $page-header-inner-inner-offset-x: 28px !default;
 $page-header-inner-standalone-inner-offset: spacing('lg') !default;
-$page-header-background-color: get-color('neutral', 'dark') !default;
+$page-header-background-color: var(
+    #{get-var-key('page-header', 'background-color')},
+    #{get-color('neutral', 'dark')}
+) !default;
+$page-header-gap: spacing('md') !default;
+$page-header-gap-lg: spacing('lg') !default;
 
 $page-header-inner-offset-top-tablet: spacing('base') !default;
 $page-header-inner-offset-inner-tablet: spacing('base') !default;

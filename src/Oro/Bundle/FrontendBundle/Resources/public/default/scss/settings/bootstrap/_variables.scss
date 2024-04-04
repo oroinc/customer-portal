@@ -16,7 +16,10 @@ $enable-caret: false;
 
 // Body
 // Settings for the `<body>` element.
-$body-color: get-var-color('text', 'primary');
+$body-color: var(
+    #{get-var-key('body', 'color')},
+    #{get-var-color('text', 'primary')}
+);
 
 // Links
 // Style anchor elements.
