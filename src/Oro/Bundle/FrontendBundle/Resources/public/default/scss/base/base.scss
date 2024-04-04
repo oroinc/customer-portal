@@ -53,7 +53,18 @@ $css-breakpoints: null;
         min-width: $body-min-width;
         margin: 0;
 
-        font: list.slash($base-font-size, $base-line-height) $base-font;
+        font:
+            list.slash(
+                var(
+                    #{get-var-key('base', 'font-size')},
+                    #{$base-font-size}
+                ),
+                var(
+                    #{get-var-key('base', 'line-height')},
+                    #{$base-line-height}
+                )
+            )
+            $base-font;
 
         background-color: $body-bg-color;
         color: $body-color;
