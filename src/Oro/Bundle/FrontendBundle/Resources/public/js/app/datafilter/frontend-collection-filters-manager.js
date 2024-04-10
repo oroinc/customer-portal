@@ -27,6 +27,8 @@ define(function(require, exports, module) {
          */
         enableMultiselectWidget: true,
 
+        multiselectResetButtonLabel: __('oro_frontend.filter_manager.resetFilter'),
+
         /**
          * @inheritdoc
          */
@@ -94,11 +96,15 @@ define(function(require, exports, module) {
          */
         _createButtonReset: function() {
             // Use link to keep focus even on disabled state
+            const icon = _.macros('oroui::renderIcon')({
+                name: 'undo'
+            });
+
             return $(`
                 <div class="datagrid-manager__footer">
                     <a href="#" role="button" class="btn btn--no-padding"
                         data-role="reset-filters">
-                        <span class="fa-refresh" aria-hidden="true"></span>${this.multiselectResetButtonLabel}
+                        ${icon}${this.multiselectResetButtonLabel}
                     </a>
                 </div>
             `);

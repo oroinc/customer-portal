@@ -160,6 +160,12 @@
     .filters-manager-trigger {
         width: $filter-dropdown-mode-filters-manager-trigger-width;
 
+        &.ui-state-active {
+            background: $filter-dropdown-mode-filters-manager-trigger-active-background;
+            border-color: $filter-dropdown-mode-filters-manager-trigger-active-border-color;
+            color: $filter-dropdown-mode-filters-manager-trigger-active-color;
+        }
+
         > span {
             display: none;
         }

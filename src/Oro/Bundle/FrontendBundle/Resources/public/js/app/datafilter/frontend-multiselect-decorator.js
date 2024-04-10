@@ -56,6 +56,10 @@ define(function(require, exports, module) {
             searchAriaLabel: __('oro_frontend.filters.multiselect.aria_label')
         },
 
+        maxItemsForShowSearchBar: 0,
+
+        listItemClasses: 'datagrid-manager__list-item',
+
         /**
          * Update Dropdown design
          * @private
@@ -126,7 +130,7 @@ define(function(require, exports, module) {
                 .removeClass('ui-helper-reset')
                 .addClass('datagrid-manager__list ui-rewrite')
                 .find('li')
-                .addClass('datagrid-manager__list-item');
+                .addClass(this.listItemClasses);
 
             instance.labels.addClass('checkbox-label');
         },
@@ -207,12 +211,27 @@ define(function(require, exports, module) {
          * @param {object} instance
          */
         setDropdownHeaderSearchDesign: function(instance) {
-            instance.header
-                .find('input')
-                .addClass('input input--full')
-                .wrap(
-                    $('<div></div>', {'class': 'datagrid-manager-search empty'})
-                );
+            if (instance.element.children(':enabled').length > this.maxItemsForShowSearchBar) {
+                const searchIcon = _.macros('oroui::renderIcon')({
+                    name: 'search',
+                    extraClass: 'datagrid-manager-search__icon'
+                });
+
+                instance.header
+                    .find('input[type="search"]')
+                    .addClass('input input--full')
+                    .wrap(
+                        $('<div></div>', {'class': 'datagrid-manager-search empty'})
+                    );
+
+                instance.header
+                    .find('input[type="search"]')
+                    .after(searchIcon);
+            } else {
+                instance.header
+                    .find('input[type="search"]')
+                    .remove();
+            }
 
             instance.header
                 .find('.ui-multiselect-filter')

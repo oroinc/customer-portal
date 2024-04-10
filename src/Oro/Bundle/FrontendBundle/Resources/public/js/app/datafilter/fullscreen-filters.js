@@ -44,7 +44,7 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
      * @property;
      */
     managerPopupOptions: {
-        popupIcon: 'plus',
+        popupIcon: 'arrow-left',
         popupLabel: __('oro_frontend.filter_manager.title')
     },
 

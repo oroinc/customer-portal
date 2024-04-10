@@ -63,6 +63,7 @@ oro_frontend:
         button_label: 'Manage Filters'
         button_aria_label: 'Expand or Collapse Filter Management drop-down'
         listAriaLabel: 'Manage filters values'
+        resetFilter: 'Revert To Default Set'
         close:
             aria_label: 'Close the Filter Management drop-down'
 

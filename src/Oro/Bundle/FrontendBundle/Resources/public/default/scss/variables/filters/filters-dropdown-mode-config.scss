@@ -41,6 +41,9 @@ $filter-dropdown-mode-reset-filter-button-top-pos: 0 !default;
 $filter-dropdown-mode-reset-filter-button-right-pos: 5px !default;
 
 $filter-dropdown-mode-filters-manager-trigger-width: 44px !default;
+$filter-dropdown-mode-filters-manager-trigger-active-background: get-color('primary', 'light') !default;
+$filter-dropdown-mode-filters-manager-trigger-active-border-color: get-color('primary', 'light') !default;
+$filter-dropdown-mode-filters-manager-trigger-active-color: get-color('primary', 'active') !default;
 
 $filter-dropdown-mode-fields-row-min-width: 270px !default;
 

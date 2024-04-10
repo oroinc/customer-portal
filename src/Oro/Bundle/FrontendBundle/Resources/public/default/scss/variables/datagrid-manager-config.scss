@@ -2,7 +2,7 @@
 
 @use 'sass:color';
 
-$datagrid-manager-title-offset: spacing('sm') !default;
+$datagrid-manager-title-offset: spacing('base') !default;
 $datagrid-manager-separator-inner-offset: 0 2px !default;
 $datagrid-manager-separator-color: color.adjust(get-color('neutral', 'grey1'), $lightness: -12%) !default;
 $datagrid-manager-container-offset: 0 -#{spacing('xs')} !default;
@@ -24,6 +24,8 @@ $datagrid-manager-dropdown-menu-width: 270px !default;
 $datagrid-manager-dropdown-menu-inner-offset: 16px !default;
 $datagrid-manager-dropdown-menu-border-radius: 0 !default;
 $datagrid-manager-dropdown-menu-color: get-color('neutral', 'dark') !default;
+$datagrid-manager-dropdown-font-size: $base-font-size !default;
+$datagrid-manager-dropdown-font-color: get-color('text', 'primary') !default;
 
 $datagrid-manager-disabled-color: color.adjust(get-color('neutral', 'grey2'), $lightness: -7%) !default;
 

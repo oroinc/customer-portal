@@ -5,6 +5,7 @@ define(function(require, exports, module) {
     const __ = require('orotranslation/js/translator');
     const $ = require('jquery');
     const FrontendMultiSelectDecorator = require('orofrontend/js/app/datafilter/frontend-multiselect-decorator');
+    const itemActionCheckboxTemplate = require('tpl-loader!orofrontend/templates/multiselect-item-action-checkbox.html');
     let config = require('module-config').default(module.id);
 
     config = $.extend(true, {
@@ -46,26 +47,19 @@ define(function(require, exports, module) {
             searchAriaLabel: __('oro_frontend.filter_manager.searchAriaLabel')
         },
 
+        maxItemsForShowSearchBar: 5,
+
+        listItemClasses: 'datagrid-manager__list-item datagrid-manager__list-item--offset',
+
         /**
          * Update Dropdown design
          * @private
          */
         _setDropdownDesign: function() {
-            const widget = this.getWidget();
             const instance = this.multiselect('instance');
 
             if (this.applyMarkup) {
                 this.updateDropdownMarkup(instance);
-
-                const icon = _.macros('oroui::renderIcon')({name: 'close'});
-                const $button = $('<button></button>', {
-                    'type': 'button',
-                    'class': 'close-dialog absolute btn btn--plain btn--text',
-                    'title': __('Close'),
-                    'aria-label': __('oro_frontend.filter_manager.close.aria_label'),
-                    'data-role': 'close'
-                });
-                widget.find('.datagrid-manager__footer').append($button.append(icon));
             }
 
             FrontendMultiSelectDecorator.prototype._setDropdownDesign.call(this);
@@ -89,18 +83,17 @@ define(function(require, exports, module) {
             instance.headerLinkContainer
                 .find('li')
                 .addClass('datagrid-manager__actions-item')
-                .filter(':first')
-                .after(
-                    $('<li/>', {
-                        'class': 'datagrid-manager__actions-item',
-                        'aria-hidden': true
-                    }).append(
-                        $('<span/>', {
-                            'class': 'datagrid-manager__separator',
-                            'text': '|'
-                        })
-                    )
-                );
+                .each((index, element) => {
+                    const $element = $(element);
+                    const [name] = [...element.firstChild.classList].filter(cls => cls.startsWith('ui-multiselect-'));
+
+                    $element
+                        .find('[role="button"]')
+                        .html(itemActionCheckboxTemplate({
+                            name,
+                            title: element.innerText
+                        }));
+                });
         },
 
         /**
@@ -111,6 +104,10 @@ define(function(require, exports, module) {
             instance.header
                 .removeAttr('class')
                 .addClass('datagrid-manager__header');
+
+            instance.menu
+                .find('[data-role="reset-filters"]')
+                .addClass('btn btn--outlined btn--text btn--no-padding');
 
             this.setActionsState(instance);
 
@@ -123,14 +120,15 @@ define(function(require, exports, module) {
          */
         setActionsState: function(instance) {
             const value = instance.element.val();
-            const selectedNone = value.length === 0;
             const selectedAll = value.length === instance.element.children(':enabled').length;
+            const isIndeterminate =
+                value.length > 0 && value.length < instance.element.children(':enabled').length;
             const valueChanged = instance.initialValue.length !== value.length ||
                 !instance.initialValue.every(val => value.includes(val));
 
             const actions = [{
                 $el: instance.header.find('.ui-multiselect-none'),
-                toApply: selectedNone
+                toApply: !selectedAll
             }, {
                 $el: instance.header.find('.ui-multiselect-all'),
                 toApply: selectedAll
@@ -144,13 +142,20 @@ define(function(require, exports, module) {
 
                 if ($el.is(':button')) {
                     $el.attr('disabled', toApply);
+                } else if ($el.is('label')) {
+                    $el.toggleClass('hidden', toApply);
+
+                    $el.find('input[type="checkbox"]').prop({
+                        indeterminate: isIndeterminate,
+                        checked: selectedAll
+                    });
                 } else {
                     $el.attr({
                         'tabindex': toApply ? '-1' : null,
                         'role': 'button',
                         'href': toApply ? null : '#',
                         'aria-disabled': toApply ? true : null
-                    }).addClass('btn btn--outlined btn--size-small btn--text btn--no-padding');
+                    });
                 }
             }
         },
@@ -176,17 +181,6 @@ define(function(require, exports, module) {
             FrontendMultiSelectDecorator.prototype.addAdditionalClassesForContainer.call(this, widget);
 
             widget.addClass('ui-rewrite');
-        },
-
-        /**
-         * @param {object} instance
-         */
-        setDesignForCheckboxesDefaultTheme: function(instance) {
-            FrontendMultiSelectDecorator.prototype.setDesignForCheckboxesDefaultTheme.call(this, instance);
-
-            instance.menu
-                .find('.datagrid-manager__list-item')
-                .addClass('datagrid-manager__list-item--half');
         }
     });
 

@@ -3,30 +3,25 @@
 .datagrid-manager-search {
     position: relative;
 
-    margin-bottom: spacing('sm');
+    margin-bottom: spacing('base');
+
+    &__icon {
+        position: absolute;
+        top: 0;
+        left: spacing('md');
+        bottom: 0;
+        margin: auto;
+
+        color: $datagrid-manager-search-color;
+    }
 
     &.empty {
-        @include fa-icon($fa-var-search, after);
-
-        &::after {
-            position: absolute;
-            top: 12px;
-            right: 8px;
-
-            z-index: z('base') - 1;
-
-            font-size: 15px;
-
-            color: $datagrid-manager-search-pseudo-color;
-            pointer-events: none;
-        }
-
         > .clear {
             display: none;
         }
     }
 
     .input {
-        padding-right: 30px;
+        padding-inline: 40px;
     }
 }
