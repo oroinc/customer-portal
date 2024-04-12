@@ -24,6 +24,7 @@ $btn-general: (
 $btn-cursor: pointer !default;
 $btn-block-display: grid !default;
 $btn-no-padding-inline: 2px !default;
+$btn-flat-padding-inline: 0 !default;
 $btn-rounded-border-radius: 10px !default;
 
 // Color Palette for buttons
@@ -164,6 +165,34 @@ $btn-palette: (
             'color': get-var-color('text', 'disabled')
         )
     ),
+    'flat': (
+        'default': (
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('primary', 'main'),
+            'position': relative
+        ),
+        'hover': (
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('primary', 'hover')
+        ),
+        'focus': (
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('primary', 'hover')
+        ),
+        'active': (
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('primary', 'hover')
+        ),
+        'disabled': (
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('text', 'disabled')
+        )
+    ),
     'neutral': (
         'default': (
             'background': get-color('neutral', 'grey1'),
@@ -203,9 +232,9 @@ $btn-palette: (
             'color': get-var-color('text', 'primary'),
             /* Focused-state/on-light */
             'outline': 2px solid get-color('neutral', 'focus'),
-                'outline-offset': 1px,
-                'box-shadow': 0 0 0 3px get-color('neutral', 'white-15')
-            ),
+            'outline-offset': 1px,
+            'box-shadow': 0 0 0 3px get-color('neutral', 'white-15')
+        ),
         'active': (
             'background': get-color('neutral', 'grey2'),
             'border-color': get-color('neutral', 'grey2'),
@@ -219,24 +248,24 @@ $btn-palette: (
     ),
     'colored': (
         'default': (
-                'background': transparent,
-                'border-color': transparent,
-                'color': get-var-color('text', 'secondary')
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('text', 'secondary')
         ),
         'hover': (
-                'background': transparent,
-                'border-color': transparent,
-                'color': get-var-color('primary', 'main')
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('primary', 'main')
         ),
         'focus': (
-                'background': transparent,
-                'border-color': transparent,
-                'color': get-var-color('primary', 'main')
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('primary', 'main')
         ),
         'active': (
-                'background': transparent,
-                'border-color': transparent,
-                'color': get-var-color('primary', 'main')
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('primary', 'main')
         )
     ),
     // Dark theme
@@ -296,24 +325,24 @@ $btn-palette: (
     ),
     'colored-inverse': (
         'default': (
-                'background': transparent,
-                'border-color': transparent,
-                'color': get-var-color('text', 'inverse')
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('text', 'inverse')
         ),
         'hover': (
-                'background': transparent,
-                'border-color': transparent,
-                'color': get-var-color('text', 'link-hover-on-dark')
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('text', 'link-hover-on-dark')
         ),
         'focus': (
-                'background': transparent,
-                'border-color': transparent,
-                'color': get-var-color('text', 'link-hover-on-dark')
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('text', 'link-hover-on-dark')
         ),
         'active': (
-                'background': transparent,
-                'border-color': transparent,
-                'color': get-var-color('text', 'link-hover-on-dark')
+            'background': transparent,
+            'border-color': transparent,
+            'color': get-var-color('text', 'link-hover-on-dark')
         )
     ),
 ) !default;
@@ -369,3 +398,13 @@ $btn-circle-offsets: (
         'min-width': $btn-sizes-large-min-height
     )
 ) !default;
+
+// Flat settings
+$btn-flat-hover-after-content: '' !default;
+$btn-flat-hover-after-background-color: currentColor !default;
+$btn-flat-hover-after-height: 2px !default;
+$btn-flat-hover-after-position: absolute !default;
+$btn-flat-hover-after-inset: auto 0 2px !default;
+$btn-flat-hover-after-border-radius: 1px !default;
+
+$btn-flat-disabled-after-content: none !default;

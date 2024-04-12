@@ -8,7 +8,7 @@ define(function(require, exports, module) {
     const FullscreenFilters = require('orofrontend/js/app/datafilter/fullscreen-filters').default;
     const config = require('module-config').default(module.id);
     const launcherOptions = _.extend({
-        className: 'toggle-filters-action btn btn--outlined btn--no-padding btn--text',
+        className: 'toggle-filters-action btn btn--flat',
         launcherMode: 'icon-text',
         icon: 'sliders',
         label: __('oro_frontend.filters.label'),
