@@ -11,6 +11,7 @@
     <button type="button" class="btn btn--outlined">Primary Outlined Button</button>
     <button type="button" class="btn btn--destructive-outlined">Destructive Outlined Button</button>
     <button type="button" class="btn btn--neutral-dark">Neutral Dark Button</button>
+    <button type="button" class="btn btn--flat">Flat Button</button>
 {% endblock %}
 
 {% block _style_book_button_disabled_element_widget %}
@@ -19,6 +20,7 @@
     <button type="button" class="btn btn--outlined" disabled>Primary Outlined Button</button>
     <button type="button" class="btn btn--destructive-outlined" disabled>Destructive Outlined Button</button>
     <button type="button" class="btn btn--neutral-dark" disabled>Neutral Dark Button</button>
+    <button type="button" class="btn btn--flat" disabled>Flat Button</button>
 {% endblock %}
 
 {% block _style_book_button_inversed_element_widget %}
@@ -80,6 +82,10 @@
         {{- renderIcon.icon({name: 'user'}) -}}
         <span>Neutral Dark Button</span>
         {{- renderIcon.icon({name: 'chevron-down'}) -}}
+    </button>
+    <button type="button" class="btn btn--flat">
+        {{- renderIcon.icon({name: 'sliders'}) -}}
+        <span>Flat Button</span>
     </button>
 {% endblock %}
 
