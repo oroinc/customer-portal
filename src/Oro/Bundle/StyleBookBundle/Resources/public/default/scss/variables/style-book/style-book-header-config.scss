@@ -1,12 +1,12 @@
 /* @theme: default; */
 
-$style-book-header-border-bottom: 1px solid get-color('neutral', 'grey1') !default;
-$style-book-header-background: get-color('neutral', 'white-100') !default;
+$style-book-header-border-bottom: null !default;
+$style-book-header-background: get-color('neutral', 'dark') !default;
 $style-book-header-z-index: z('fixed') !default;
 
 $style-book-header-inner-display: flex !default;
 $style-book-header-inner-align-items: center !default;
-$style-book-header-inner-inner-offset: 20px 0 !default;
+$style-book-header-inner-inner-offset: 8px 28px !default;
 
 $style-book-header-side-flex-shrink: 0 !default;
 $style-book-header-side-flex-grow: 0 !default;
