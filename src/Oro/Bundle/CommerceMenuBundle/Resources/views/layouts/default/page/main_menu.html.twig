@@ -142,7 +142,8 @@
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' btn btn--plain btn--icon main-menu__back-trigger',
         'type': 'button',
-        'data-go-to': 'prev'
+        'data-go-to': 'prev',
+        'aria-label': 'oro_frontend.fullscreen_popup.back.label'|trans
     }) %}
 
     <button {{ block('block_attributes') }}>
