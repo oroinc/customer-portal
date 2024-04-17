@@ -34,9 +34,11 @@
         padding: $style-book-menu-link-inner-offset;
 
         color: $style-book-menu-link-color;
+        text-decoration: none;
 
         @include element-state('hover') {
             color: $style-book-menu-link-color-hover;
+            text-decoration: underline;
         }
 
         &--current {
@@ -76,6 +78,7 @@
 
         &--main {
             display: $style-book-menu-main-display;
+            gap: spacing('xs');
 
             #{$root}__item {
                 padding: $style-book-menu-main-item-inner-offset;
@@ -84,11 +87,13 @@
 
                 @include element-state('hover') {
                     background: $style-book-menu-main-item-background-hover;
+                    border-radius: $base-ui-element-border-radius;
                 }
 
                 &--current,
                 &.active {
                     background: $style-book-menu-main-item-current-background;
+                    border-radius: $base-ui-element-border-radius;
 
                     > #{$root}__link {
                         font-weight: $style-book-menu-main-link-font-weight-current;
@@ -101,6 +106,7 @@
             }
 
             #{$root}__link {
+                color: $style-book-menu-main-link-color;
                 display: $style-book-menu-main-link-display;
                 padding: $style-book-menu-main-link-inner-offset;
 
