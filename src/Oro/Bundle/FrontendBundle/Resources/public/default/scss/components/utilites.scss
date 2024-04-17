@@ -122,6 +122,10 @@
     @include list-unstyled;
 }
 
+.list-style-position-inside {
+    list-style-position: inside;
+}
+
 .start-scroll-from-end {
     scroll-snap-type: x mandatory;
 
