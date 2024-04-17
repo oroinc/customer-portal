@@ -124,7 +124,6 @@
     {% set attr = layout_attr_defaults(link_attr, {
         'href': oro_commercemenu_get_url(menu_item.uri),
         '~class': class_prefix ? " #{class_prefix}__link",
-        'aria-controls': controlsId,
         'role': 'menuitem'
     }) %}
 
@@ -145,8 +144,7 @@
         'type': 'button',
         'data-popper': 'false',
         'data-go-to': 'next',
-        'aria-label': 'oro.commercemenu.multi.open_pages'|trans({'{{ category }}': menu_item.label}),
-        'aria-controls': controlsId
+        'aria-label': 'oro.commercemenu.multi.open_pages'|trans({'{{ category }}': menu_item.label})
     }) %}
 
     {% if linkEnable %}
@@ -156,11 +154,14 @@
     {% endif %}
 
     {% if menu_item.children is not empty %}
-    <button {{ block('block_attributes') }}>
-        {% if linkEnable != true %}
-        {{ block('_menu_item_text_label') }}
-        {% endif %}
-    </button>
+        {% set attr = layout_attr_defaults(attr, {
+            'aria-controls': controlsId
+        }) %}
+        <button {{ block('block_attributes') }}>
+            {% if linkEnable != true %}
+            {{ block('_menu_item_text_label') }}
+            {% endif %}
+        </button>
     {% endif %}
 {% endblock %}
 

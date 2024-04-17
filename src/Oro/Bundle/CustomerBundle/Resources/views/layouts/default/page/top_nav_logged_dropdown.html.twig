@@ -128,7 +128,7 @@
                         {% endif %}
                     {% endif %}
                 {% endfor %}
-                <div class="dropdown-divider"></div>
+                <li class="dropdown-divider" aria-hidden="true"></li>
             {% endif %}
         {% endif %}
     {% endfor %}
@@ -136,7 +136,7 @@
 
 {% block _top_nav_customer_menu_item_link_widget %}
     {% if uri == '#' %}
-        <span class="dropdown-header">{{- child.label|trans -}}</span>
+        <li class="dropdown-header">{{- child.label|trans -}}</li>
     {% else %}
         <li class="customer-menu-list__item">
             <a href="{{ uri }}" class="{{ ' dropdown-item text-nowrap ' ~ linkCurrentClass ?? '' }}">
