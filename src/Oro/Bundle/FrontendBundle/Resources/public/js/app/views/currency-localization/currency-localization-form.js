@@ -115,7 +115,7 @@ const CurrencyLocalizationFormView = BaseView.extend({
             id: this.cid,
             title: _.__('oro_frontend.dropdown.currency_localization_form.currency_title'),
             name: 'currency',
-            switcherMaxCount: this.showCurrencySymbol ? 5 : 2,
+            switcherMaxCount: 4,
             isSwitcherVertical: this.allowOptionsControl && this.isMobileBigScreen() && this.localizations.length <= 1,
             items: this.currencies.map(item => ({
                 value: item.code,
