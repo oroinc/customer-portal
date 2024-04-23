@@ -5,9 +5,19 @@
     color: $datagrid-massaction-product-counter-color;
 }
 
+.datagrid-massaction-close-container {
+    text-align: right;
+}
+
 .datagrid-massaction {
-    &-close-container {
-        text-align: right;
+    &-actions {
+        .dropdown-menu {
+            min-width: 360px;
+        }
+
+        .add-to-shopping-list-button {
+            max-width: $datagrid-massaction-action-shopping-list-max-width;
+        }
     }
 
     &-select-all-label {
@@ -16,6 +26,11 @@
         gap: spacing('sm');
         cursor: pointer;
         user-select: none;
+
+        &__text,
+        &__input {
+            line-height: $datagrid-massaction-select-all-label-input-line-height;
+        }
     }
 
     &.sticky-mode {
@@ -29,12 +44,6 @@
         .datagrid-massaction-close-container,
         .product-selected-counter {
             flex: 0 0 30%;
-        }
-    }
-
-    &-actions {
-        .dropdown-menu {
-            min-width: 360px;
         }
     }
 }
