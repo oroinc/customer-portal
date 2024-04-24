@@ -182,6 +182,7 @@ define(function(require) {
             this.remove();
 
             this.trigger('close');
+            mediator.trigger('fullscreen:popup:close');
         },
 
         remove() {

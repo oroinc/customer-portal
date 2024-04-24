@@ -46,6 +46,8 @@ const StickyElementView = BaseView.extend({
         'scroll:direction:change mediator': 'onChangeDirection',
         'layout:reposition mediator': 'update',
         'layout:content-relocated mediator': 'update',
+        'widget_dialog:close mediator': 'update',
+        'fullscreen:popup:close mediator': 'update',
         'page:afterChange mediator': 'update'
     },
 
