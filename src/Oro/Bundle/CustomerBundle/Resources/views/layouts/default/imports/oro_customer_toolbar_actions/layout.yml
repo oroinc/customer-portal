@@ -22,7 +22,7 @@ layout:
                         action: button
                         icon: printer
                         attr:
-                            'data-page-component-print-page': ''
+                            'data-page-component-print-page': {'route': '=data["print_route"] ?? null'}
                             'class': 'btn btn--link'
 
             tree:
