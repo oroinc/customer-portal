@@ -5,6 +5,10 @@
         float: left;
     }
 
+    &--centered {
+        text-align: center;
+    }
+
     &__text {
         vertical-align: $page-title-offset-text-vertical-align;
         text-transform: $page-title-offset-text-transform;

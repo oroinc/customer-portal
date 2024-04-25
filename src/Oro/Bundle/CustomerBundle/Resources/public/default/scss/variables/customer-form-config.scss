@@ -3,5 +3,11 @@
 $customer-form-group-grid-background: null !default;
 $customer-form-grid-background: null !default;
 
-$customer-form-grid-gap: $base-ui-grid-row-gap spacing('base') !default;
-$customer-form-grid-offset-top: spacing('xl') !default;
+$customer-form-grid-gap: $base-ui-grid-row-gap spacing('xl') !default;
+$customer-form-grid-offset-top: spacing('sm') !default;
+$customer-form-grid-inline: auto !default;
+
+$contact-us-required-margin-block: spacing('lg') spacing('md') !default;
+$contact-us-required-margin-inline: auto !default;
+
+$customer-form-mobile-landscape-grid-gap: $base-ui-grid-row-gap spacing('base') !default;

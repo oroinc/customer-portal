@@ -5,7 +5,8 @@
 
 {% block __oro_customer_user_address_list__user_addresses_list_widget %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
-    {% if componentOptions.currentAddresses|length > 0 %}
+    {# currentAddresses is a stringified json. Empty value is "[]" #}
+    {% if componentOptions.currentAddresses|length > 2 %}
         {% set attr = layout_attr_defaults(attr, {
             'data-page-component-module': 'orocustomer/js/app/components/frontend-customer-address-book-component',
             'data-page-component-options': componentOptions|merge({
@@ -129,7 +130,7 @@
 {% endblock %}
 
 {% block __oro_customer_user_address_list__user_addresses_list_template__manage_addresses_link_widget %}
-    {% if currentAddresses|length > 0 %}
+    {% if currentAddresses|length > 2 %}
         {% set attr = layout_attr_defaults(attr, {
             '~class': ' address-list__manage-link btn btn--outlined btn--text btn--no-padding'
         }) %}

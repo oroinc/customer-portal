@@ -93,6 +93,28 @@
     }
 }
 
+.btn--flat {
+    padding-inline: $btn-flat-padding-inline;
+
+    &:hover {
+        &::after {
+            content: $btn-flat-hover-after-content;
+            background-color: $btn-flat-hover-after-background-color;
+            height: $btn-flat-hover-after-height;
+            position: $btn-flat-hover-after-position;
+            inset: $btn-flat-hover-after-inset;
+            border-radius: $btn-flat-hover-after-border-radius;
+        }
+    }
+
+    &:disabled,
+    &.disabled {
+        &::after {
+            content: $btn-flat-disabled-after-content;
+        }
+    }
+}
+
 .btn--icon {
     @include render-properties(map.get($btn-icon-offsets, 'default'));
 

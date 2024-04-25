@@ -49,9 +49,9 @@ layout:
                     blockType: button
                     options:
                         type: button
-                        icon: navicon
+                        icon: 'hamburger-menu'
                         attr:
-                            class: 'btn'
+                            class: 'btn btn--outlined-inverse'
                 __groups_menu:
                     blockType: container
                 __sticky_header:

@@ -125,7 +125,7 @@ class AddressProvider
             'addressListUrl' => $addressListUrl,
             'addressCreateUrl' => $addressCreateUrl,
             'addressUpdateRouteName' => $this->updateRouteName,
-            'currentAddresses' => json_decode($this->fragmentHandler->render($addressListUrl), true),
+            'currentAddresses' => $this->fragmentHandler->render($addressListUrl),
             'addressDeleteRouteName' => $this->deleteRouteName,
             'showMap' => $this->configManager->get('oro_customer.maps_enabled'),
         ];

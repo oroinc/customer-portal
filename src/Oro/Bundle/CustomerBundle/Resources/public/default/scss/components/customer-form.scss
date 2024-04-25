@@ -31,3 +31,13 @@
 .form-buttons {
     margin-top: 28px;
 }
+
+@include breakpoint('mobile-landscape') {
+    %customer-form {
+        --grid-gap: #{$customer-form-mobile-landscape-grid-gap};
+    }
+
+    %customer-form-grid {
+        --grid-gap: #{$customer-form-mobile-landscape-grid-gap};
+    }
+}
