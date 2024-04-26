@@ -12,6 +12,8 @@ oro_frontend:
         feature:
             label: Storefront API
             description: Enables the storefront API feature for the application.
+    open_api:
+        name_template: 'Storefront %name%'
     logo:
         alt:
             label: 'OroCommerce'
