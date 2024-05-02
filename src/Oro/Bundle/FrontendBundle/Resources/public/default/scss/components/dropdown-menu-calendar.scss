@@ -6,26 +6,62 @@
 
     background: $dropdown-menu-calendar-background;
 
-    .tab-content {
-        padding: spacing('sm') (spacing('sm') - 2px) 0;
-    }
-
     .ui-datevariables-div {
-        padding: spacing('sm');
+        padding-block: spacing('xs') spacing('sm');
 
         .ui_date_variable {
-            @include element-state('hover') {
-                color: $dropdown-menu-calendar-date-variable-color;
+            font-size: $base-font-size;
+            height: 44px;
+            padding-inline: spacing('base');
+            display: flex;
+            align-items: center;
+            color: $dropdown-menu-calendar-date-variable-color;
+            text-decoration: none;
+            position: relative;
 
-                text-decoration: underline;
+            &:hover {
+                background: $dropdown-menu-calendar-date-variable-hover-background;
+                color: $dropdown-menu-calendar-date-variable-hover-color;
+
+                &::before {
+                    content: $dropdown-menu-calendar-date-variable-before-content;
+                    background: $dropdown-menu-calendar-date-variable-before-background;
+                    width: $dropdown-menu-calendar-date-variable-before-width;
+                    position: $dropdown-menu-calendar-date-variable-before-position;
+                    inset-block: $dropdown-menu-calendar-date-variable-before-inset-block;
+                    inset-inline-start: $dropdown-menu-calendar-date-variable-before-inset-inline-start;
+                    border-start-end-radius: $dropdown-menu-calendar-date-variable-before-border-start-end-radius;
+                    border-end-end-radius: $dropdown-menu-calendar-date-variable-before-border-end-end-radius;
+                }
             }
         }
     }
 
-    .ui-datepicker {
-        padding: 0;
+    .ui-datevariables-header {
+        min-height: 44px;
+        font-size: $base-font-size;
+        display: flex;
+        align-items: center;
+        gap: 0 spacing('sm');
+        padding-block: spacing('xs') 0;
+        padding-inline: spacing('base');
+    }
 
-        border: 0;
+    .datevariables-title {
+        font-weight: $dropdown-menu-calendar-date-variable-title-font-weight;
+    }
+
+    .datevariables-title__icon {
+        display: $dropdown-menu-calendar-date-variable-title-icon-display;
+        color: $dropdown-menu-calendar-date-variable-title-icon-color;
+
+        .theme-icon {
+            display: block;
+        }
+    }
+
+    .ui-datepicker {
+        box-shadow: none;
     }
 
     .nav-tabs-oro {
