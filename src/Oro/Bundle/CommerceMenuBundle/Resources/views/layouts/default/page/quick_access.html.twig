@@ -1,7 +1,7 @@
 {% block _quick_access_menu_widget %}
     {% set domRelocationOptions = [] %}
 
-    {% if oro_theme_configuration_value('header-standalone_main_menu') %}
+    {% if oro_theme_configuration_value('header__standalone_main_menu') %}
         {% set domRelocationOptions = domRelocationOptions|merge([{
             viewport: 'all',
             endpointClass: 'navigation-menu--inverse',
@@ -63,7 +63,7 @@
     {%- set label = item.extras.custom is defined and item.extras.custom == true ? item.label : item.label|trans -%}
     {% if item.extras.icon is defined %}
         {{ renderIcon.icon({name: item.extras.icon}) }}
-        {% set searchType = oro_theme_configuration_value('header-search_on_smaller_screens') %}
+        {% set searchType = oro_theme_configuration_value('header__search_on_smaller_screens') %}
 
         {% set spanClass = searchType == 'integrated' ? 'hide-label-on-tablet' : 'hide-label-on-mobile-landscape' %}
     {% endif %}

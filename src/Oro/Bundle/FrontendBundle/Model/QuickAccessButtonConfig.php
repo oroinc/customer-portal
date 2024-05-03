@@ -66,4 +66,23 @@ class QuickAccessButtonConfig
 
         return $this;
     }
+
+    // Clear the configuration depending on the value of the type field
+    public function clearConfig(): void
+    {
+        switch ($this->type) {
+            case '':
+            case null:
+                $this->setLabel([])
+                    ->setMenu(null)
+                    ->setWebCatalogNode(null);
+                break;
+            case self::TYPE_MENU:
+                $this->setWebCatalogNode(null);
+                break;
+            case self::TYPE_WEB_CATALOG_NODE:
+                $this->setMenu(null);
+                break;
+        }
+    }
 }

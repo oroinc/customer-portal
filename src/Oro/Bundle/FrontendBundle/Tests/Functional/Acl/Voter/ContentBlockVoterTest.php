@@ -10,6 +10,7 @@ use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration as LayoutThemeConfiguration;
 use Oro\Bundle\SecurityBundle\Acl\BasicPermission;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Oro\Bundle\ThemeBundle\DependencyInjection\Configuration;
 use Oro\Bundle\ThemeBundle\Entity\ThemeConfiguration;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -35,7 +36,7 @@ class ContentBlockVoterTest extends WebTestCase
     {
         $contentBlock = $this->getReference('content_block_1');
 
-        $value = self::getConfigManager()->get('oro_theme.theme_configuration');
+        $value = self::getConfigManager()->get(Configuration::getConfigKeyByName(Configuration::THEME_CONFIGURATION));
         $themeConfiguration = self::getDoctrine()->getRepository(ThemeConfiguration::class)->find($value);
         $themeConfiguration->addConfigurationOption(
             LayoutThemeConfiguration::buildOptionKey('header', 'promotional_content'),

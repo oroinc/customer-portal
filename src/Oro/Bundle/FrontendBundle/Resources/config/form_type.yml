@@ -85,5 +85,7 @@ services:
 
     oro_frontend.form.quick_access_button_config_builder:
         class: Oro\Bundle\FrontendBundle\Form\Configuration\QuickAccessButtonConfigBuilder
+        arguments:
+            - '@assets.packages'
         tags:
             - { name: oro_theme.form.configuration_child_builder }

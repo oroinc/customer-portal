@@ -13,31 +13,40 @@ configuration:
                 promotional_content:
                     label: 'oro_frontend.theme.default.configuration.header.promotional_content.label'
                     type: content_block_selector
-                    default: null
-                    previews: []
                     options:
                         required: false
+                    previews:
+                        promotional-content: 'bundles/orofrontend/images/previews/promotional-content.png'
                 top_navigation_menu:
                     label: 'oro_frontend.theme.default.configuration.header.top_navigation_menu.label'
                     type: menu_selector
-                    default: null
-                    previews: []
+                    previews:
+                        _default: 'bundles/orofrontend/images/previews/top-navigation-menu.png'
                     options:
                         required: false
                         scope_type: 'menu_frontend_visibility'
+                        configs:
+                            allowClear: true
+                            placeholder: 'oro_frontend.theme.default.configuration.header.top_navigation_menu.placeholder'
                 quick_links:
                     label: 'oro_frontend.theme.default.configuration.header.quick_links.label'
                     type: menu_selector
-                    default: commerce_quick_access
-                    previews: []
+                    default: commerce_quick_access_refreshing_teal
+                    previews:
+                        _default: 'bundles/orofrontend/images/previews/quick-links.png'
                     options:
                         required: false
                         scope_type: 'menu_frontend_visibility'
+                        configs:
+                            allowClear: true
+                            placeholder: 'oro_frontend.theme.default.configuration.header.quick_links.placeholder'
                 quick_access_button:
                     label: 'oro_frontend.theme.default.configuration.header.quick_access_button.label'
                     type: quick_access_button_config
-                    default: null
-                    previews: []
+                    previews:
+                        _default: 'bundles/orofrontend/images/previews/quick-access-button.png'
+                    options:
+                        required: false
                 language_and_currency_switchers:
                     label: 'oro_frontend.theme.default.configuration.header.language_and_currency_switchers.label'
                     type: select
@@ -45,10 +54,16 @@ configuration:
                     values:
                         above_header: 'oro_frontend.theme.default.configuration.header.language_and_currency_switchers.choices.above_the_header'
                         always_in_hamburger_menu: 'oro_frontend.theme.default.configuration.header.language_and_currency_switchers.choices.hamburger'
+                    previews:
+                        above_header: 'bundles/orofrontend/images/previews/lang-crnc-switchers-header.png'
+                        always_in_hamburger_menu: 'bundles/orofrontend/images/previews/lang-crnc-switchers-hamburger.png'
                 standalone_main_menu:
                     label: 'oro_frontend.theme.default.configuration.header.standalone_main_menu.label'
                     type: checkbox
                     default: unchecked
+                    previews:
+                        unchecked: 'bundles/orofrontend/images/previews/menu-hamburger.png'
+                        checked: 'bundles/orofrontend/images/previews/menu-standalone.png'
                 search_on_smaller_screens:
                     label: 'oro_frontend.theme.default.configuration.header.search_on_smaller_screens.label'
                     type: select
@@ -56,28 +71,8 @@ configuration:
                     values:
                         integrated: 'oro_frontend.theme.default.configuration.header.search_on_smaller_screens.choices.integrated'
                         standalone: 'oro_frontend.theme.default.configuration.header.search_on_smaller_screens.choices.standalone'
-        product_details:
-            label: 'oro_frontend.theme.default.configuration.product_details.label'
-            options:
-                template:
-                    label: 'oro_frontend.theme.default.configuration.product_details.template.label'
-                    type: radio
-                    default: null
-                    values:
-                        tabs: 'oro_frontend.theme.default.configuration.product_details.template.values.tabs'
-                        wide: 'oro_frontend.theme.default.configuration.product_details.template.values.wide'
-                    previews: []
-        product_listing:
-            label: 'oro_frontend.theme.default.configuration.product_listing.label'
-            options:
-                filters_position:
-                    label: 'oro_frontend.theme.default.configuration.product_listing.filters_position.label'
-                    type: radio
-                    default: top
-                    values:
-                        top: 'oro_frontend.theme.default.configuration.product_listing.filters_position.values.top'
-                        sidebar: 'oro_frontend.theme.default.configuration.product_listing.filters_position.values.sidebar'
-                    previews: []
+                    previews:
+                        _default: 'bundles/orofrontend/images/previews/search-smaller-screens.png'
 #image_placeholders:
 #    product: '/bundles/oroproduct/images/no_image.png'
 #    category: '/bundles/orocatalog/images/no_image.png'

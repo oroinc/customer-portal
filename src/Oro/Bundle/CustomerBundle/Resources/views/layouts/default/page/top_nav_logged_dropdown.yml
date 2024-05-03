@@ -9,12 +9,12 @@ layout:
                     prepend: true
                     options:
                         vars:
-                            searchType: '=data["theme_configuration"].getThemeConfigurationOption("header-search_on_smaller_screens")'
+                            searchType: '=data["theme_configuration"].getThemeConfigurationOption("header__search_on_smaller_screens")'
                 top_nav_user_name:
                     blockType: text
                     options:
                         vars:
-                            searchType: '=data["theme_configuration"].getThemeConfigurationOption("header-search_on_smaller_screens")'
+                            searchType: '=data["theme_configuration"].getThemeConfigurationOption("header__search_on_smaller_screens")'
                         text: '=data["current_user"].getCurrentUser().getFullName()'
                 top_nav_customer_menu:
                       blockType: menu

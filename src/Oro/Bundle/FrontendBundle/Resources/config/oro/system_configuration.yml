@@ -85,8 +85,6 @@ system_configuration:
                                     filter_settings:
                                         children:
                                             - oro_frontend.filter_value_selectors
-
-
                     guests:
                         priority: 2000
                         children:
