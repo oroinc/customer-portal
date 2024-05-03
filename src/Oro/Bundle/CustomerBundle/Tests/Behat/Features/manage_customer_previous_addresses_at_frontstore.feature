@@ -1,3 +1,4 @@
+@regression
 @ticket-BB-12286
 @waf-skip
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml

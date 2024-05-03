@@ -1,3 +1,4 @@
+@regression
 @fixture-OroLocaleBundle:LocalizationFixture.yml
 @fixture-OroCommerceMenuBundle:menu_item_translations.yml
 Feature: Featured menu ignore a field that matches the default language

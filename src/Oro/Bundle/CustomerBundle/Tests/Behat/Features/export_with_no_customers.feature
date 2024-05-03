@@ -1,3 +1,4 @@
+@regression
 @ticket-BB-21189
 
 Feature: Export with no Customers

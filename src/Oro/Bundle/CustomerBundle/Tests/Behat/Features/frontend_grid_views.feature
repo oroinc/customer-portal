@@ -1,3 +1,4 @@
+@regression
 @fixture-OroCustomerBundle:FrontendGridViewsFixture.yml
 Feature: Frontend Grid Views
 

@@ -1,6 +1,5 @@
 @ticket-BB-20556
 @fixture-OroCustomerBundle:CustomerFixture.yml
-@regression
 
 Feature: Create customer user
   In order to manage customer users

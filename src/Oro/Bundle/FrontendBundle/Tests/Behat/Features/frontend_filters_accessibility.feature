@@ -1,3 +1,4 @@
+@regression
 @ticket-BB-18755
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 

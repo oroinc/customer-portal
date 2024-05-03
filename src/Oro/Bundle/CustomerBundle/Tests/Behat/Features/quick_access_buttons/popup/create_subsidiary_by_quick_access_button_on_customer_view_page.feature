@@ -1,3 +1,4 @@
+@regression
 @feature-BB-21879
 @fixture-OroCustomerBundle:CustomerFixture.yml
 

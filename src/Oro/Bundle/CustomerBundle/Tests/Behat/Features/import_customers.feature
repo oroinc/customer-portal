@@ -1,3 +1,4 @@
+@regression
 Feature: Import Customers
     In order to add multiple customers at once
     As an Administrator

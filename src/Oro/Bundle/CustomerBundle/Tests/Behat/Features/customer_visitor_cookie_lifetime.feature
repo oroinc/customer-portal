@@ -1,3 +1,4 @@
+@regression
 @ticket-BB-10691
 Feature: Customer visitor cookie lifetime
   As an administrator
