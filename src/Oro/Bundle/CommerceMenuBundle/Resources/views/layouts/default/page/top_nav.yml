@@ -17,8 +17,8 @@ layout:
                     blockType: menu
                     prepend: true
                     options:
-                        visible: '=data["theme_configuration"].getThemeConfigurationOption("header-top_navigation_menu")'
-                        item: '=data["menu"].getMenu(data["theme_configuration"].getThemeConfigurationOption("header-top_navigation_menu"))'
+                        visible: '=data["theme_configuration"].getThemeConfigurationOption("header__top_navigation_menu")'
+                        item: '=data["menu"].getMenu(data["theme_configuration"].getThemeConfigurationOption("header__top_navigation_menu"))'
                         allow_safe_labels: true
             tree:
                 page_header:

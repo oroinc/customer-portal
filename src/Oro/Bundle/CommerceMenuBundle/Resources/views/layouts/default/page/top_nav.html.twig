@@ -3,11 +3,11 @@
         '~class': " topbar page-area-container page-header__inner page-header__inner--hide-on-empty page-header__inner--no-vertical-offset"
     }) %}
 
-    {% if oro_theme_configuration_value('header-promotional_content') == false and oro_theme_configuration_value('header-language_and_currency_switchers') != 'above_header' %}
+    {% if oro_theme_configuration_value('header__promotional_content') == false and oro_theme_configuration_value('header__language_and_currency_switchers') != 'above_header' %}
         {% set attr = layout_attr_defaults(attr, {
             '~class': " hide-on-mobile"
         }) %}
-    {% elseif oro_theme_configuration_value('header-promotional_content') == false and oro_theme_configuration_value('header-language_and_currency_switchers') != 'above_header' and oro_theme_configuration_value('header-top_navigation_menu') == '' %}
+    {% elseif oro_theme_configuration_value('header__promotional_content') == false and oro_theme_configuration_value('header__language_and_currency_switchers') != 'above_header' and oro_theme_configuration_value('header__top_navigation_menu') == '' %}
         {% set attr = layout_attr_defaults(attr, {
             '~class': " hide-on-tablet"
         }) %}

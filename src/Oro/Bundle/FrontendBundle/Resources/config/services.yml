@@ -218,6 +218,11 @@ services:
         tags:
             - { name: layout.theme_config_extension }
 
+    oro_frontend.layout_theme_config_extension.page_templates:
+        class: 'Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplatesThemeConfigurationExtension'
+        tags:
+            - { name: layout.theme_config_extension }
+
     oro_frontend.layout_context_configurator.page_template:
         class: 'Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplateContextConfigurator'
         arguments:

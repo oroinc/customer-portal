@@ -9,6 +9,7 @@ use Oro\Bundle\CMSBundle\Entity\Repository\ContentBlockRepository;
 use Oro\Bundle\FrontendBundle\Layout\DataProvider\ThemeHeaderConfigProvider;
 use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
 use Oro\Bundle\FrontendBundle\Provider\QuickAccessButtonDataProvider;
+use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
 use PHPUnit\Framework\TestCase;
@@ -49,7 +50,7 @@ final class ThemeHeaderConfigProviderTest extends TestCase
         $this->themeConfigurationProvider
             ->expects(self::once())
             ->method('getThemeConfigurationOption')
-            ->with('header-promotional_content')
+            ->with(ThemeConfiguration::buildOptionKey('header', 'promotional_content'))
             ->willReturn(1);
 
         $this->doctrine
@@ -72,7 +73,7 @@ final class ThemeHeaderConfigProviderTest extends TestCase
         $this->themeConfigurationProvider
             ->expects(self::once())
             ->method('getThemeConfigurationOption')
-            ->with('header-promotional_content')
+            ->with(ThemeConfiguration::buildOptionKey('header', 'promotional_content'))
             ->willReturn(null);
 
         $this->doctrine
@@ -92,7 +93,7 @@ final class ThemeHeaderConfigProviderTest extends TestCase
         $this->themeConfigurationProvider
             ->expects(self::once())
             ->method('getThemeConfigurationOption')
-            ->with('header-quick_access_button')
+            ->with(ThemeConfiguration::buildOptionKey('header', 'quick_access_button'))
             ->willReturn($model);
 
         if ($model) {
@@ -114,7 +115,7 @@ final class ThemeHeaderConfigProviderTest extends TestCase
         $this->themeConfigurationProvider
             ->expects(self::once())
             ->method('getThemeConfigurationOption')
-            ->with('header-quick_access_button')
+            ->with(ThemeConfiguration::buildOptionKey('header', 'quick_access_button'))
             ->willReturn($model);
 
         if ($model) {

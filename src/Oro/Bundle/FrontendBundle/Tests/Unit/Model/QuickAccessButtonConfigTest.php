@@ -39,4 +39,48 @@ class QuickAccessButtonConfigTest extends TestCase
         $this->assertSame('menu', $config->getMenu());
         $this->assertSame(1, $config->getWebCatalogNode());
     }
+
+    /**
+     * @dataProvider clearConfigDataProvider
+     */
+    public function testClearConfig(?string $type, QuickAccessButtonConfig $expected): void
+    {
+        $config = new QuickAccessButtonConfig();
+        $config->setWebCatalogNode(1)
+            ->setMenu('frontend_menu')
+            ->setLabel(['default' => 'string'])
+            ->setType($type);
+
+        $config->clearConfig();
+
+        self::assertEquals($expected, $config);
+    }
+
+    public function clearConfigDataProvider(): array
+    {
+        return [
+            'none type is empty string' => [
+                'type' => '',
+                'expected' => (new QuickAccessButtonConfig())->setType(''),
+            ],
+            'none type is null' => [
+                'type' => null,
+                'expected' => new QuickAccessButtonConfig(),
+            ],
+            'menu type' => [
+                'type' => 'menu',
+                'expected' => (new QuickAccessButtonConfig())
+                    ->setType('menu')
+                    ->setMenu('frontend_menu')
+                    ->setLabel(['default' => 'string']),
+            ],
+            'web_catalog_node type' => [
+                'type' => 'web_catalog_node',
+                'expected' => (new QuickAccessButtonConfig())
+                    ->setType('web_catalog_node')
+                    ->setWebCatalogNode(1)
+                    ->setLabel(['default' => 'string']),
+            ],
+        ];
+    }
 }

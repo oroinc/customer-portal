@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendBundle\Tests\Functional\DataFixtures;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Oro\Bundle\CMSBundle\Tests\Functional\DataFixtures\LoadContentBlockData;
+use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration;
 use Oro\Bundle\ThemeBundle\Tests\Functional\DataFixtures\LoadThemeConfigurationData as BaseLoadThemeConfigurationData;
 
 class LoadThemeConfigurationData extends BaseLoadThemeConfigurationData implements DependentFixtureInterface
@@ -17,7 +18,8 @@ class LoadThemeConfigurationData extends BaseLoadThemeConfigurationData implemen
 
     protected function processConfiguration(array $configuration): array
     {
-        $configuration['header-promotional_content'] = $this->getReference('content_block_1')->getId();
+        $key = ThemeConfiguration::buildOptionKey('header', 'promotional_content');
+        $configuration[$key] = $this->getReference('content_block_1')->getId();
 
         return $configuration;
     }

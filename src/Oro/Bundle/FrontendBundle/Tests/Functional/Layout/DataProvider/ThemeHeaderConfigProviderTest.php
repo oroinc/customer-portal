@@ -20,6 +20,7 @@ use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration;
 use Oro\Bundle\SecurityBundle\Authentication\Token\UsernamePasswordOrganizationToken;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
+use Oro\Bundle\ThemeBundle\DependencyInjection\Configuration;
 use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Bundle\WebCatalogBundle\Tests\Functional\DataFixtures\LoadContentNodesData;
@@ -116,7 +117,7 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
 
         $config = self::getConfigManager();
         $config->set(
-            'oro_theme.theme_configuration',
+            Configuration::getConfigKeyByName(Configuration::THEME_CONFIGURATION),
             $this->getReference(LoadThemeConfigurationData::THEME_CONFIGURATION_1)->getId()
         );
         $config->flush();

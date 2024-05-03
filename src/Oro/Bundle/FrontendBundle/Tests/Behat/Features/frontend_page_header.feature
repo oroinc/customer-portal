@@ -27,7 +27,7 @@ Feature: Frontend Page Header
     Then I should see "Configuration saved" flash message
 
     And I go to System / Theme Configurations
-    When I click Edit "Refreshing Teal [Website: Default]" in grid
+    When I click Edit "Refreshing Teal" in grid
     And I fill "Theme Configuration Form" with:
       | Language and Currency Switchers   | always_in_hamburger_menu |
       | Quick Access Button Label         | Product                  |
@@ -63,7 +63,7 @@ Feature: Frontend Page Header
 
   Scenario: Promotional content block - no, top navigation menu - yes, language/currency switching - no, quick access button - yes, standalone main menu - no, quick links - yes
     Given I proceed as the Admin
-    When I click Edit "Refreshing Teal [Website: Default]" in grid
+    When I click Edit "Refreshing Teal" in grid
     And I fill "Theme Configuration Form" with:
       | Top Navigation Menu               | commerce_top_nav_refreshing_teal      |
       | Language and Currency Switchers   | always_in_hamburger_menu              |
@@ -93,7 +93,7 @@ Feature: Frontend Page Header
 
   Scenario: Promotional content block - yes, top navigation menu - no, language/currency switcher - yes, quick access button - yes, standalone main menu - no, quick links - yes.
     Given I proceed as the Admin
-    When I click Edit "Refreshing Teal [Website: Default]" in grid
+    When I click Edit "Refreshing Teal" in grid
     And I fill "Theme Configuration Form" with:
       | Top Navigation Menu               |                                       |
       | Language and Currency Switchers   | Above the header                      |
@@ -117,7 +117,7 @@ Feature: Frontend Page Header
 
   Scenario: Promotional content block - yes, top navigation menu - yes, language/currency switcher - yes,  quick access button - no, standalone main menu - yes, quick links - yes.
     Given I proceed as the Admin
-    When I click Edit "Refreshing Teal [Website: Default]" in grid
+    When I click Edit "Refreshing Teal" in grid
     And I fill "Theme Configuration Form" with:
       | Top Navigation Menu             | commerce_top_nav_refreshing_teal      |
       | Language and Currency Switchers | Above the header                      |
@@ -143,7 +143,7 @@ Feature: Frontend Page Header
 
   Scenario: Search on smaller screens - standalone.
     Given I proceed as the Admin
-    When I click Edit "Refreshing Teal [Website: Default]" in grid
+    When I click Edit "Refreshing Teal" in grid
     And I fill "Theme Configuration Form" with:
       | Search On Smaller Screens | Standalone |
     And I save and close form

@@ -139,10 +139,9 @@ Feature: Mega Menu Items
     Then I move "On Sale" before "Node-1-1-1" in tree "Sidebar Menu Tree"
 
     And I go to System / Theme Configurations
-    When I click Edit "Refreshing Teal [Website: Default]" in grid
+    When I click Edit "Refreshing Teal" in grid
     And I fill "Theme Configuration Form" with:
       | Standalone Main Menu      | true    |
-      | Quick Access Button Label | Product |
     And I save and close form
     Then I should see "Theme Configuration has been saved" flash message
 

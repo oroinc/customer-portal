@@ -170,13 +170,6 @@ oro_behat_extension:
         mapping:
           Use Default: 'theme[oro_frontend___filter_value_selectors][use_parent_scope_value]'
           Value Selectors: 'theme[oro_frontend___filter_value_selectors][value]'
-    Display Price Tiers:
-      selector: 'form[name="theme"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
-      options:
-        mapping:
-          Use Default: 'theme[oro_product___product_details_display_price_tiers_as][use_parent_scope_value]'
-          Display Price Tiers As: 'theme[oro_product___product_details_display_price_tiers_as][value]'
     Filter By Step:
       selector:
         locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"Filter By Step")]/..'
@@ -248,6 +241,14 @@ oro_behat_extension:
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
       options:
         mapping:
-          Quick Access Button Label: 'theme_configuration[configuration][header-quick_access_button][label][default]'
-          Quick Access Button Type: 'theme_configuration[configuration][header-quick_access_button][type]'
-          Quick Access Button Frontend Menu: 'theme_configuration[configuration][header-quick_access_button][menu]'
+          Quick Access Button Label: 'theme_configuration[configuration][header__quick_access_button][label][default]'
+          Quick Access Button Type: 'theme_configuration[configuration][header__quick_access_button][type]'
+          Quick Access Button Frontend Menu: 'theme_configuration[configuration][header__quick_access_button][menu]'
+          Filter Panel Position: 'theme_configuration[configuration][product_listing__filters_position]'
+          Page Template: 'theme_configuration[configuration][product_details__template]'
+    Theme Configuration Config:
+      selector: 'form[name="theme"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Image: 'theme[oro_theme___theme_configuration][value]'
