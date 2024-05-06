@@ -324,15 +324,15 @@ Retrieve the ID of a customer a specific address belongs to.
 
 #### get_subresource
 
-Retrieve a record that contains information about the user who is assigned as a customer address record owner in the management console.
+Retrieve a record that contains information about the user who is assigned as a customer address record owner in the back-office.
 
 #### get_relationship
 
-Retrieve the ID of the user who is assigned as a customer address record owner in the management console.
+Retrieve the ID of the user who is assigned as a customer address record owner in the back-office.
 
 #### update_relationship
 
-Replace the user who is assigned as a customer address record owner in the management console.
+Replace the user who is assigned as a customer address record owner in the back-office.
 
 {@request:json_api}
 Example:

@@ -441,7 +441,7 @@ oro.customer:
             description: The contact person.
         owner:
             label: Owner
-            description: A user who is assigned as a customer user address record owner in the management console.
+            description: A user who is assigned as a customer user address record owner in the back-office.
         postal_code:
             label: Zip/Postal Code
             description: Zip/Postal Code for the billing or shipping address.
