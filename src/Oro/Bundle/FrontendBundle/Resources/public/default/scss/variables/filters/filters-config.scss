@@ -41,11 +41,11 @@ $filter-dropdown-item-active-weight: font-weight('bold') !default;
 $align-filter-dropdown-to-right-side: true !default;
 
 $filter-container-header-display: flex !default;
+$filter-container-header-background: get-color('neutral', 'white-100') !default;
 $filter-container-title-flex-grow: 1 !default;
 $filter-container-title-flex-shrink: 1 !default;
 $filter-container-manager-flex-grow: 0 !default;
 $filter-container-manager-flex-shrink: 0 !default;
-$filter-container-manager-offset-top: spacing('sm') !default;
 
 $filter-actions-gap: spacing('sm') !default;
 $filter-actions-align-self: flex-start !default;

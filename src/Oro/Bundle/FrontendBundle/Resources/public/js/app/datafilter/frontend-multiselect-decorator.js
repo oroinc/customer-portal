@@ -239,8 +239,14 @@ define(function(require, exports, module) {
                 .eq(0)
                 .filter((i, el) => el.nodeType === Node.TEXT_NODE)
                 .wrap(
-                    $('<h5></h5>', {'class': 'datagrid-manager__title'})
+                    $(instance.element.closest('.toggle-mode').length
+                        ? '<h3/>'
+                        : '<h5/>', {'class': 'datagrid-manager__title'})
                 );
+
+            instance.header.find('.datagrid-manager__title').parent().addClass('datagrid-manager__title-container');
+            instance.header.find('.datagrid-manager__title').after(this.createIconButton('close'));
+            instance.header.find('.datagrid-manager__title').before(this.createIconButton('arrow-left'));
 
             instance.header
                 .find('.ui-multiselect-filter')
@@ -249,6 +255,14 @@ define(function(require, exports, module) {
             instance.header
                 .find('.ui-multiselect-close')
                 .addClass('hide');
+        },
+
+        createIconButton(icon) {
+            return `<button class="btn btn--icon btn--plain datagrid-manager__title--back-btn" data-role="close">
+    ${_.macros('oroui::renderIcon')({
+        name: icon
+    })}
+</button>`;
         },
 
         dispose() {

@@ -1,6 +1,8 @@
 /* @theme: default; */
 
 .toggle-mode {
+    height: 100%;
+
     .ui-multiselect-menu {
         /* stylelint-disable declaration-no-important */
         // Break inline styles
@@ -32,6 +34,72 @@
         }
     }
 
+    .datagrid-manager {
+        &__title {
+            text-align: center;
+            margin-bottom: 0;
+
+            &--back-btn {
+                margin-inline-start: -10px;
+            }
+
+            &--close-btn {
+                margin-inline-end: -10px;
+            }
+        }
+
+        &__list,
+        &__actions {
+            background-color: $filter-toggle-mode-datagrid-manager-background-color;
+        }
+
+        &__footer {
+            background-color: $filter-toggle-mode-datagrid-manager-background-color;
+            height: 100%;
+        }
+
+        .dropdown-menu {
+            // stylelint-disable-next-line declaration-no-important
+            max-width: 100% !important;
+            box-shadow: none;
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            background: transparent;
+        }
+    }
+
+    .filter-container {
+        display: grid;
+        height: 100%;
+
+        .datagrid-manager__header {
+            margin-top: -46px;
+
+            > div {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: $filter-toggle-mode-datagrid-manager-background-color;
+
+                padding-inline-end: 14px;
+            }
+        }
+
+        > .datagrid-manager {
+            position: absolute;
+            height: 100%;
+
+            // stylelint-disable-next-line selector-max-compound-selectors
+            .datagrid-manager__header > div {
+                // stylelint-disable-next-line selector-max-compound-selectors
+                .in-sticky & {
+                    margin-bottom: spacing('lg');
+                }
+            }
+        }
+    }
+
     .product-price-filter {
         margin-top: $filter-toggle-mode-product-price-filter-offset-top;
         padding-left: $filter-toggle-mode-product-price-filter-inner-offset-left;
@@ -39,6 +107,11 @@
 
     .product-price-unit-filter-separator {
         display: $filter-toggle-mode-unit-filter-separator-display;
+    }
+
+    .filter-action-row {
+        display: flex;
+        justify-content: end;
     }
 
     .filter-criteria-selector {

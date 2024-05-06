@@ -54,11 +54,25 @@
     .filter-container-header {
         display: $filter-container-header-display;
         flex-wrap: wrap;
+        align-items: start;
+        padding: spacing('sm') spacing('lg') spacing('sm') 0;
+
+        position: sticky;
+        top: var(--sticky-position-top-offset, 0);
+        background: $filter-container-header-background;
+
+        min-height: var(--sticky-toolbar-element-height, 0);
+
+        z-index: 1;
     }
 
     .filter-container-title {
         flex-grow: $filter-container-title-flex-grow;
         flex-shrink: $filter-container-title-flex-shrink;
+        min-height: 44px;
+
+        display: flex;
+        align-items: center;
     }
 
     .filter-container-manager {
@@ -67,9 +81,8 @@
         margin-left: auto;
     }
 
-    .filter-container-title,
-    .filter-container-manager {
-        margin-top: $filter-container-manager-offset-top;
+    .filter-container-close-btn {
+        margin-inline-end: -10px;
     }
 
     .filter-actions {
