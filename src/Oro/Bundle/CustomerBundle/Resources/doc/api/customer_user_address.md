@@ -336,15 +336,15 @@ Retrieve the ID of a contact person.
 
 #### get_subresource
 
-Retrieve a record that contains information about the user who is assigned as a customer user address record owner in the management console.
+Retrieve a record that contains information about the user who is assigned as a customer user address record owner in the back-office.
 
 #### get_relationship
 
-Retrieve the ID of the user who is assigned as a customer user address record owner in the management console.
+Retrieve the ID of the user who is assigned as a customer user address record owner in the back-office.
 
 #### update_relationship
 
-Replace the user who is assigned as a customer user address record owner in the management console.
+Replace the user who is assigned as a customer user address record owner in the back-office.
 
 {@request:json_api}
 Example:
