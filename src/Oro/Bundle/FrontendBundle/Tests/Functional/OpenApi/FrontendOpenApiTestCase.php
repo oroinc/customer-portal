@@ -50,7 +50,8 @@ class FrontendOpenApiTestCase extends WebTestCase
     private function getXParameters(array $data): array
     {
         $xParameters = [];
-        foreach ($data['components']['parameters'] as $name => $item) {
+        $parameters = $data['components']['parameters'] ?? [];
+        foreach ($parameters as $name => $item) {
             if (str_starts_with($name, 'x')) {
                 $xParameters[] = $name;
             }
@@ -66,7 +67,8 @@ class FrontendOpenApiTestCase extends WebTestCase
     private function prepareExpectedData(array $data, array $allowedXParameters): array
     {
         $toRemoveParamNames = [];
-        foreach ($data['components']['parameters'] as $name => $item) {
+        $parameters = $data['components']['parameters'] ?? [];
+        foreach ($parameters as $name => $item) {
             if (str_starts_with($name, 'x') && !\in_array($name, $allowedXParameters, true)) {
                 $toRemoveParamNames[] = $name;
             }
