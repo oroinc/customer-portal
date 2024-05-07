@@ -3,40 +3,65 @@
 $ui-datepicker-hide-button-panel: true !default;
 $ui-datepicker-trigger-corner: true !default;
 
-$ui-datepicker-inner-offset: spacing('xs') spacing('sm') !default;
-$ui-datepicker-border: 1px solid get-color('neutral', 'grey3') !default;
+$ui-datepicker-inner-offset: spacing('base') !default;
 $ui-datepicker-border-radius: $border-radius !default;
+$ui-datepicker-box-shadow: 0 0 4px 0 rgba(5, 59, 66, .08), 0 3px 12px 0 rgba(91, 126, 131, .14) !default;
 $ui-datepicker-b-color: get-color('neutral', 'white-100') !default;
 
-$ui-datepicker-header-inner-offset: 0 spacing('xs') !default;
-$ui-datepicker-header-font-weight: font-weight('bold') !default;
-$ui-datepicker-title-offset: 0 30px !default;
-$ui-datepicker-title-line-height: 2 !default;
-$ui-datepicker-title-text-align: center !default;
+$ui-datepicker-header-position: relative !default;
+$ui-datepicker-header-display: grid !default;
+$ui-datepicker-header-grid-template-areas: 'start base end' !default;
+$ui-datepicker-header-grid-template-columns: auto 1fr auto !default;
+$ui-datepicker-header-gap: spacing('xs') !default;
 
-$ui-datepicker-calendar-border-spacing: spacing('xs') !default;
-$ui-datepicker-calendar-offset-top: spacing('xs') !default;
+$ui-datepicker-calendar-offset-top: spacing('sm') !default;
 
-$ui-datepicker-item-inner-offset: spacing('xs') 6px !default;
+$ui-datepicker-item-width: 44px !default;
+$ui-datepicker-item-height: 44px !default;
+$ui-datepicker-item-display: flex !default;
+$ui-datepicker-item-align-items: center !default;
+$ui-datepicker-item-justify-content: center !default;
+$ui-datepicker-item-inner-offset: 0 !default;
 $ui-datepicker-item-text-decoration: none !default;
 $ui-datepicker-item-text-align: center !default;
 $ui-datepicker-item-color: get-color('text', 'primary') !default;
-$ui-datepicker-item-border-radius: 4px !default;
+$ui-datepicker-item-border-radius: 50% !default;
 $ui-datepicker-item-active-background: get-color('primary', 'main') !default;
+$ui-datepicker-item-active-font-weight: font-weight('semi-bold') !default;
 $ui-datepicker-item-active-color: get-color('neutral', 'white-100') !default;
 $ui-datepicker-item-hover-background: get-color('primary', 'light') !default;
-$ui-datepicker-item-hover-box-shadow: 0 0 0 1px get-color('neutral', 'dark') !default;
-$ui-datepicker-item-disabled-background: get-color('neutral', 'grey1') !default;
+$ui-datepicker-item-hover-color: get-color('primary', 'active') !default;
+$ui-datepicker-item-hover-border: none !default;
+$ui-datepicker-item-disabled-color: get-color('text', 'disabled') !default;
 
-$ui-datepicker-trigger-top: 50% !default;
-$ui-datepicker-trigger-size: 25px !default;
-$ui-datepicker-trigger-hover-background: get-color('neutral', 'grey1') !default;
-$ui-datepicker-trigger-disabled-opacity: .5 !default;
-$ui-datepicker-item-highlight-border: 1px solid get-color('alternative', 'main') !default;
-$ui-datepicker-td-inner-offset: 2px !default;
-$ui-datepicker-th-inner-offset: 2px !default;
+$ui-datepicker-trigger-size: 44px !default;
+$ui-datepicker-trigger-display: flex !default;
+$ui-datepicker-trigger-align-items: center !default;
+$ui-datepicker-trigger-justify-content: center !default;
+$ui-datepicker-trigger-border-radius: 50% !default;
+$ui-datepicker-trigger-hover-background: get-color('primary', 'light') !default;
+$ui-datepicker-trigger-disabled-background: none !default;
+$ui-datepicker-item-highlight-border: 1px solid get-color('neutral', 'grey3') !default;
+$ui-datepicker-td-inner-offset: 0 !default;
+$ui-datepicker-td-min-height: 44px !default;
+$ui-datepicker-th-inner-offset: 0 !default;
+$ui-datepicker-th-min-height: 44px !default;
+$ui-datepicker-th-font-weight: font-weight('normal') !default;
 
-$ui-datepicker-header-color: get-color('neutral', 'grey1') !default;
+$ui-datepicker-header-font-weight: font-weight('semi-bold') !default;
+$ui-datepicker-header-width: 44px !default;
+$ui-datepicker-header-height: 44px !default;
+$ui-datepicker-header-display: flex !default;
+$ui-datepicker-header-align-items: center !default;
+$ui-datepicker-header-justify-content: center !default;
+$ui-datepicker-header-color: get-color('text', 'disabled') !default;
 
 $ui-datepicker-trigger-corner-size: 7px !default;
-$ui-datepicker-trigger-icon: $ui-datepicker-trigger-corner-size solid get-color('neutral', 'grey1') !default;
+$ui-datepicker-trigger-icon: $ui-datepicker-trigger-corner-size solid get-color('text', 'secondary') !default;
+
+$ui-datepicker-trigger-icon-size: 20px !default;
+$ui-datepicker-trigger-icon-color: get-color('text', 'secondary') !default;
+$ui-datepicker-trigger-next-icon-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path fill="%23000" fill-rule="evenodd" d="M8.293 5.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414L13.586 12 8.293 6.707a1 1 0 0 1 0-1.414"></path></svg>') !default;
+$ui-datepicker-trigger-prev-icon-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path fill="%23000" fill-rule="evenodd" d="M15.707 5.293a1 1 0 0 1 0 1.414L10.414 12l5.293 5.293a1 1 0 0 1-1.414 1.414l-6-6a1 1 0 0 1 0-1.414l6-6a1 1 0 0 1 1.414 0"></path></svg>') !default;
+$ui-datepicker-trigger-icon-hover-color: get-color('primary', 'active') !default;
+$ui-datepicker-trigger-icon-disabled-color: get-color('text', 'disabled') !default;

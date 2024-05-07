@@ -1,3 +1,12 @@
+oro:
+    filter:
+        date:
+            variable:
+                title: Time Presets
+                tooltip_title: You can also use them to create expressions.
+                tooltip: > 
+                    For example:<br>
+                    "today - 2" will be evaluated as the day before yesterday.
 oro_frontend:
     form:
         inlineEditing:
