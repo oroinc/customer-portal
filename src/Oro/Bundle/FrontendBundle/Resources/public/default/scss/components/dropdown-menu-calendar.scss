@@ -1,23 +1,23 @@
 /* @theme: default; */
 
 .dropdown-menu-calendar {
-    min-width: 270px;
-    padding: 0;
+    min-width: $dropdown-menu-calendar-min-width;
+    padding: $dropdown-menu-calendar-padding;
 
     background: $dropdown-menu-calendar-background;
 
     .ui-datevariables-div {
-        padding-block: spacing('xs') spacing('sm');
+        padding-block: $dropdown-menu-calendar-datevariables-div-padding-block;
 
         .ui_date_variable {
-            font-size: $base-font-size;
-            height: 44px;
-            padding-inline: spacing('base');
-            display: flex;
-            align-items: center;
+            font-size: $dropdown-menu-calendar-date-variable-font-size;
+            height: $dropdown-menu-calendar-date-variable-height;
+            padding-inline: $dropdown-menu-calendar-date-variable-padding-inline;
+            display: $dropdown-menu-calendar-date-variable-display;
+            align-items: $dropdown-menu-calendar-date-variable-align-items;
             color: $dropdown-menu-calendar-date-variable-color;
-            text-decoration: none;
-            position: relative;
+            text-decoration: $dropdown-menu-calendar-date-variable-text-decoration;
+            position: $dropdown-menu-calendar-date-variable-position;
 
             &:hover {
                 background: $dropdown-menu-calendar-date-variable-hover-background;
@@ -38,13 +38,13 @@
     }
 
     .ui-datevariables-header {
-        min-height: 44px;
-        font-size: $base-font-size;
-        display: flex;
-        align-items: center;
-        gap: 0 spacing('sm');
-        padding-block: spacing('xs') 0;
-        padding-inline: spacing('base');
+        min-height: $dropdown-menu-calendar-date-variable-header-min-height;
+        font-size: $dropdown-menu-calendar-date-variable-header-font-size;
+        display: $dropdown-menu-calendar-date-variable-header-display;
+        align-items: $dropdown-menu-calendar-date-variable-header-align-items;
+        gap: $dropdown-menu-calendar-date-variable-header-gap;
+        padding-block: $dropdown-menu-calendar-date-variable-header-padding-block;
+        padding-inline: $dropdown-menu-calendar-date-variable-header-padding-inline;
     }
 
     .datevariables-title {
