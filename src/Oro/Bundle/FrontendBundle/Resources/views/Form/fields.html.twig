@@ -1,3 +1,14 @@
+{% block _theme_configuration_configuration_header__quick_access_button_label_widget %}
+    {% set dataShowIf = constant('Oro\\Bundle\\FrontendBundle\\Model\\QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE') ~ '|' ~ constant('Oro\\Bundle\\FrontendBundle\\Model\\QuickAccessButtonConfig::TYPE_MENU') %}
+    <div data-page-component-module="orosale/js/app/components/dependent-field-component"
+         data-depend-on="quick_access_button_type"
+         data-disable-element="data-name[field__default]"
+         data-show-if="{{ dataShowIf }}"
+    >
+        {{ form_widget(form) }}
+    </div>
+{% endblock %}
+
 {% block oro_frontend_theme_select_widget %}
     <div
         data-page-component-module="oroui/js/app/components/view-component"

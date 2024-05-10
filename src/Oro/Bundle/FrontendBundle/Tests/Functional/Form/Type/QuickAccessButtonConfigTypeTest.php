@@ -45,7 +45,7 @@ class QuickAccessButtonConfigTypeTest extends WebTestCase
         parent::tearDown();
     }
 
-    public function testSubmit(): void
+    public function testSubmitIfMenuSelected(): void
     {
         $webCatalog = $this->getReference(LoadWebCatalogWithContentNodes::WEB_CATALOG_NAME);
         $this->configManager->set('oro_web_catalog.web_catalog', $webCatalog->getId());
@@ -65,11 +65,10 @@ class QuickAccessButtonConfigTypeTest extends WebTestCase
         $nodeId = $this->getReference(LoadWebCatalogWithContentNodes::CONTENT_NODE_1)->getId();
         $submitData = [
             'label' => $labelData,
-            'type' => 'menu',
+            'type' => QuickAccessButtonConfig::TYPE_MENU,
             'menu' => 'commerce_main_menu',
             'webCatalogNode' => $nodeId,
         ];
-        $isValid = true;
         $expectedLabelData = ['' => 'test'];
         /** @var Localization $localization */
         foreach ($localizations as $localization) {
@@ -77,18 +76,93 @@ class QuickAccessButtonConfigTypeTest extends WebTestCase
         }
         $expectedData = (new QuickAccessButtonConfig())
             ->setLabel($expectedLabelData)
-            ->setType('menu')
-            ->setWebCatalogNode($nodeId)
+            ->setType(QuickAccessButtonConfig::TYPE_MENU)
             ->setMenu('commerce_main_menu');
+
+        $form = $this->formFactory->create(QuickAccessButtonConfigType::class, null, [
+            'csrf_protection' => false,
+        ]);
+
+        $form->submit($submitData);
+
+        self::assertTrue($form->isValid(), (string) $form->getErrors(true));
+        self::assertTrue($form->isSynchronized(), $form->getTransformationFailure()?->getMessage() ?? '');
+        self::assertTrue($form->get('label')->getConfig()->getOption('required'));
+        self::assertNotEmpty($form->get('label')->getConfig()->getOption('entry_options'));
+        self::assertEquals($expectedData, $form->getData());
+    }
+
+    public function testSubmitIfTypeWebCatalogSelected(): void
+    {
+        $webCatalog = $this->getReference(LoadWebCatalogWithContentNodes::WEB_CATALOG_NAME);
+        $this->configManager->set('oro_web_catalog.web_catalog', $webCatalog->getId());
+        $this->configManager->flush();
+
+        $localizations = $this->getClientContainer()
+            ->get('doctrine')
+            ->getRepository(Localization::class)
+            ->findAllIndexedById();
+
+        $labelData = ['default' => 'test'];
+        /** @var Localization $localization */
+        foreach ($localizations as $localization) {
+            $labelData['localizations'][$localization->getId()] = ['use_fallback' => 1, 'fallback' => 'system'];
+        }
+
+        $nodeId = $this->getReference(LoadWebCatalogWithContentNodes::CONTENT_NODE_1)->getId();
+        $submitData = [
+            'label' => $labelData,
+            'type' => QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE,
+            'menu' => 'commerce_main_menu',
+            'webCatalogNode' => $nodeId,
+        ];
+        $expectedLabelData = ['' => 'test'];
+        /** @var Localization $localization */
+        foreach ($localizations as $localization) {
+            $expectedLabelData[$localization->getId()] = new FallbackType('system');
+        }
+        $expectedData = (new QuickAccessButtonConfig())
+            ->setLabel($expectedLabelData)
+            ->setType(QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE)
+            ->setWebCatalogNode($nodeId);
+
+        $form = $this->formFactory->create(QuickAccessButtonConfigType::class, null, [
+            'csrf_protection' => false,
+        ]);
+
+        $form->submit($submitData);
+
+        self::assertTrue($form->isValid(), (string) $form->getErrors(true));
+        self::assertTrue($form->isSynchronized(), $form->getTransformationFailure()?->getMessage() ?? '');
+        self::assertTrue($form->get('label')->getConfig()->getOption('required'));
+        self::assertNotEmpty($form->get('label')->getConfig()->getOption('entry_options'));
+        self::assertEquals($expectedData, $form->getData());
+    }
+
+    public function testSubmitIfTypeNoneSelected(): void
+    {
+        $webCatalog = $this->getReference(LoadWebCatalogWithContentNodes::WEB_CATALOG_NAME);
+        $this->configManager->set('oro_web_catalog.web_catalog', $webCatalog->getId());
+        $this->configManager->flush();
+
+        $nodeId = $this->getReference(LoadWebCatalogWithContentNodes::CONTENT_NODE_1)->getId();
+        $submitData = [
+            'label' => ['default' => 'test'],
+            'type' => '',
+            'menu' => 'commerce_main_menu',
+            'webCatalogNode' => $nodeId,
+        ];
 
         $form = $this->formFactory->create(QuickAccessButtonConfigType::class, null, [
             'csrf_protection' => false,
         ]);
         $form->submit($submitData);
 
-        self::assertEquals($isValid, $form->isValid(), (string) $form->getErrors(true));
+        self::assertTrue($form->isValid(), (string) $form->getErrors(true));
         self::assertTrue($form->isSynchronized(), $form->getTransformationFailure()?->getMessage() ?? '');
-        self::assertEquals($expectedData, $form->getData());
+        self::assertTrue($form->get('label')->getConfig()->getOption('required'));
+        self::assertEmpty($form->get('label')->getConfig()->getOption('entry_options'));
+        self::assertEquals(new QuickAccessButtonConfig(), $form->getData());
     }
 
     public function testSubmitIfNoWebCatalogSelected(): void
@@ -106,10 +180,9 @@ class QuickAccessButtonConfigTypeTest extends WebTestCase
 
         $submitData = [
             'label' => $labelData,
-            'type' => 'menu',
+            'type' => QuickAccessButtonConfig::TYPE_MENU,
             'menu' => 'commerce_main_menu',
         ];
-        $isValid = true;
 
         $expectedLabelData = ['' => 'test'];
         /** @var Localization $localization */
@@ -118,7 +191,7 @@ class QuickAccessButtonConfigTypeTest extends WebTestCase
         }
         $expectedData = (new QuickAccessButtonConfig())
             ->setLabel($expectedLabelData)
-            ->setType('menu')
+            ->setType(QuickAccessButtonConfig::TYPE_MENU)
             ->setWebCatalogNode(null)
             ->setMenu('commerce_main_menu');
 
@@ -129,10 +202,40 @@ class QuickAccessButtonConfigTypeTest extends WebTestCase
         self::assertEquals([
             'oro_frontend.form.quick_access_button.fields.type.choices.menu' => 'menu',
         ], $form->get('type')->getConfig()->getOption('choices'));
+
         $form->submit($submitData);
 
-        self::assertEquals($isValid, $form->isValid(), (string) $form->getErrors(true));
+        self::assertTrue($form->isValid(), (string) $form->getErrors(true));
         self::assertTrue($form->isSynchronized(), $form->getTransformationFailure()?->getMessage() ?? '');
+        self::assertTrue($form->get('label')->getConfig()->getOption('required'));
+        self::assertNotEmpty($form->get('label')->getConfig()->getOption('entry_options'));
+        self::assertEquals($expectedData, $form->getData());
+    }
+
+    public function testSubmitValidationError(): void
+    {
+        $submitData = [
+            'label' => '',
+            'type' => QuickAccessButtonConfig::TYPE_MENU,
+            'menu' => 'commerce_main_menu',
+        ];
+
+        $expectedData = (new QuickAccessButtonConfig())
+            ->setType(QuickAccessButtonConfig::TYPE_MENU)
+            ->setMenu('commerce_main_menu');
+
+        $form = $this->formFactory->create(QuickAccessButtonConfigType::class, null, [
+            'csrf_protection' => false,
+        ]);
+
+        $form->submit($submitData);
+
+        self::assertFalse($form->isValid());
+        self::assertCount(1, $form->getErrors(true));
+        self::assertEquals('This value is not valid.', $form->getErrors(true)[0]->getMessage());
+        self::assertTrue($form->isSynchronized(), $form->getTransformationFailure()?->getMessage() ?? '');
+        self::assertTrue($form->get('label')->getConfig()->getOption('required'));
+        self::assertNotEmpty($form->get('label')->getConfig()->getOption('entry_options'));
         self::assertEquals($expectedData, $form->getData());
     }
 }

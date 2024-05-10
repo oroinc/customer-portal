@@ -108,7 +108,7 @@
 
 {% block _main_menu_container_widget %}
     {% set hoverPriority = hoverPriority|default(false) %}
-    {% set extraClass = oro_theme_configuration_value('header-standalone_main_menu') ? ' main-menu-standalone-mode' : '' %}
+    {% set extraClass = oro_theme_configuration_value('header__standalone_main_menu') ? ' main-menu-standalone-mode' : '' %}
     {% set attr =  layout_attr_defaults(attr, {
         '~class': " main-menu-outer#{hoverPriority ? ' is-hoverable'}" ~ extraClass,
         'data-page-component-view': {
@@ -117,7 +117,7 @@
         }
     }) %}
 
-    {% if oro_theme_configuration_value('header-standalone_main_menu') %}
+    {% if oro_theme_configuration_value('header__standalone_main_menu') %}
         {% set attr =  layout_attr_defaults(attr, {
             'data-dom-relocation-options': {
                 responsive: [

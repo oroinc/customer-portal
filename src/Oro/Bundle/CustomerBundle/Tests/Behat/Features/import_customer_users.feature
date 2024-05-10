@@ -1,6 +1,5 @@
 @fixture-OroCustomerBundle:ImportCustomerUsersFixture.yml
 @fixture-OroCustomerBundle:CustomerUserRoleSuffixFixture.yml
-@regression
 
 Feature: Import Customer Users
   In order to add multiple customer users at once

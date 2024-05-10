@@ -1,3 +1,4 @@
+@regression
 @ticket-BAP-17733
 @fixture-OroLocaleBundle:ZuluLocalization.yml
 @fixture-OroCustomerBundle:CustomerUserAddressFixture.yml

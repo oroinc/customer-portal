@@ -12,6 +12,8 @@ oro_frontend:
         feature:
             label: Storefront API
             description: Enables the storefront API feature for the application.
+    open_api:
+        name_template: 'Storefront %name%'
     logo:
         alt:
             label: 'OroCommerce'
@@ -53,8 +55,10 @@ oro_frontend:
                         label: Promotional Content
                     top_navigation_menu:
                         label: Top Navigation Menu
+                        placeholder: Choose a top navigation menu
                     quick_links:
                         label: Quick Links Menu
+                        placeholder: Choose a quick links menu
                     quick_access_button:
                         label: Quick Access Button
                     language_and_currency_switchers:
@@ -69,20 +73,6 @@ oro_frontend:
                         choices:
                             integrated: Integrated
                             standalone: Standalone
-                product_details:
-                    label: Product Details Page
-                    template:
-                        label: Page Template
-                        values:
-                            tabs: Tabs template of product page (additional attribute groups are displayed in tabs)
-                            wide: Wide Template of product page (additional attribute groups are displayed in collapse one below another for full page width)
-                product_listing:
-                    label: Product Listing Page
-                    filters_position:
-                        label: Filter Panel Position
-                        values:
-                            top: Top
-                            sidebar: Sidebar
     system_configuration:
         groups:
             design.title: 'Design'

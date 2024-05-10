@@ -6,6 +6,8 @@ use Oro\Bundle\FrontendBundle\Layout\Extension\ScreensThemeConfigurationExtensio
 use Oro\Bundle\FrontendBundle\Tests\Unit\Fixtures\Bundle\TestBundle1\TestBundle1;
 use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration;
 use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfigurationProvider;
+use Oro\Bundle\ProductBundle\Form\Configuration\ProductPageTemplateBuilder;
+use Oro\Bundle\ThemeBundle\Form\Configuration\CheckboxBuilder;
 use Oro\Bundle\ThemeBundle\Form\Provider\ConfigurationBuildersProvider;
 use Oro\Component\Config\CumulativeResourceManager;
 use Oro\Component\Testing\TempDirExtension;
@@ -24,7 +26,7 @@ class ScreensThemeConfigurationExtensionTest extends TestCase
         $configurationProvider = $this->createMock(ConfigurationBuildersProvider::class);
         $configurationProvider->expects(self::once())
             ->method('getConfigurationTypes')
-            ->willReturn(['type']);
+            ->willReturn([CheckboxBuilder::getType(), ProductPageTemplateBuilder::getType()]);
 
         $themeConfiguration = new ThemeConfiguration($configurationProvider);
         $themeConfiguration->addExtension(new ScreensThemeConfigurationExtension());
@@ -37,7 +39,7 @@ class ScreensThemeConfigurationExtensionTest extends TestCase
         );
     }
 
-    public function testPrependScreensConfigs()
+    public function testPrependScreensConfigs(): void
     {
         $bundle1 = new TestBundle1();
         CumulativeResourceManager::getInstance()

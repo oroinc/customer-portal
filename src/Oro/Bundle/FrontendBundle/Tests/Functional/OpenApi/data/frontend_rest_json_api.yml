@@ -1,0 +1,1541 @@
+openapi: 3.1.0
+info:
+  title: 'Storefront JSON:API'
+  version: 0.0.0
+paths:
+  /api/addresstypes:
+    get:
+      tags:
+        - addresstypes
+      summary: 'Get Address Types'
+      description: '<p>Retrieve a collection of address type records.</p><p>Represent address type (e.g., shipping address, billing address, default shipping address, default billing address).</p>'
+      operationId: addresstypes-get
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xInclude'
+        -
+          $ref: '#/components/parameters/xCurrency'
+        -
+          $ref: '#/components/parameters/filterId'
+        -
+          $ref: '#/components/parameters/filterIdEq'
+        -
+          $ref: '#/components/parameters/filterIdNeq'
+        -
+          $ref: '#/components/parameters/filterLabel'
+        -
+          $ref: '#/components/parameters/filterLabelEq'
+        -
+          $ref: '#/components/parameters/filterLabelNeq'
+        -
+          $ref: '#/components/parameters/filterLabelExists'
+        -
+          $ref: '#/components/parameters/filterLabelNeqOrNull'
+        -
+          $ref: '#/components/parameters/fieldsAddresstypes'
+        -
+          $ref: '#/components/parameters/meta'
+        -
+          $ref: '#/components/parameters/pageNumber'
+        -
+          $ref: '#/components/parameters/pageSize'
+        -
+          $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          $ref: '#/components/responses/addresstypesCollectionModel'
+        '403':
+          $ref: '#/components/responses/err403_1'
+        '500':
+          $ref: '#/components/responses/err500_1'
+    options:
+      tags:
+        - addresstypes
+      summary: 'Get options'
+      description: 'Get communication options for a resource'
+      operationId: addresstypes-options
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xCurrency'
+      responses:
+        '200':
+          $ref: '#/components/responses/empty'
+        '400':
+          $ref: '#/components/responses/err400_1'
+        '404':
+          $ref: '#/components/responses/err404_1'
+        '500':
+          $ref: '#/components/responses/err500_1'
+  '/api/addresstypes/{id}':
+    get:
+      tags:
+        - addresstypes
+      summary: 'Get Address Type'
+      description: '<p>Retrieve a specific address type record.</p><p>Represent address type (e.g., shipping address, billing address, default shipping address, default billing address).</p>'
+      operationId: addresstypes-id-get
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xInclude1'
+        -
+          $ref: '#/components/parameters/xCurrency'
+        -
+          $ref: '#/components/parameters/id'
+        -
+          $ref: '#/components/parameters/fieldsAddresstypes'
+        -
+          $ref: '#/components/parameters/meta'
+      responses:
+        '200':
+          $ref: '#/components/responses/addresstypesModel'
+        '403':
+          $ref: '#/components/responses/err403_2'
+        '404':
+          $ref: '#/components/responses/err404_1'
+        '500':
+          $ref: '#/components/responses/err500_1'
+    options:
+      tags:
+        - addresstypes
+      summary: 'Get options'
+      description: 'Get communication options for a resource'
+      operationId: addresstypes-id-options
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xCurrency'
+        -
+          $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/empty'
+        '400':
+          $ref: '#/components/responses/err400_1'
+        '404':
+          $ref: '#/components/responses/err404_1'
+        '500':
+          $ref: '#/components/responses/err500_1'
+  /api/countries:
+    get:
+      tags:
+        - countries
+      summary: 'Get Countries'
+      description: '<p>Retrieve a collection of country records.</p><p>A country represents an element of an address record.</p>'
+      operationId: countries-get
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xInclude'
+        -
+          $ref: '#/components/parameters/xCurrency'
+        -
+          $ref: '#/components/parameters/filterId'
+        -
+          $ref: '#/components/parameters/filterIdEq'
+        -
+          $ref: '#/components/parameters/filterIdNeq'
+        -
+          $ref: '#/components/parameters/filterName'
+        -
+          $ref: '#/components/parameters/filterNameEq'
+        -
+          $ref: '#/components/parameters/filterNameNeq'
+        -
+          $ref: '#/components/parameters/filterNameExists'
+        -
+          $ref: '#/components/parameters/filterNameNeqOrNull'
+        -
+          $ref: '#/components/parameters/filterRegions'
+        -
+          $ref: '#/components/parameters/filterRegionsEq'
+        -
+          $ref: '#/components/parameters/filterRegionsNeq'
+        -
+          $ref: '#/components/parameters/filterRegionsExists'
+        -
+          $ref: '#/components/parameters/filterRegionsNeqOrNull'
+        -
+          $ref: '#/components/parameters/filterRegionsContains'
+        -
+          $ref: '#/components/parameters/filterRegionsNotContains'
+        -
+          $ref: '#/components/parameters/fieldsCountries'
+        -
+          $ref: '#/components/parameters/fieldsRegions'
+        -
+          $ref: '#/components/parameters/include'
+        -
+          $ref: '#/components/parameters/meta'
+        -
+          $ref: '#/components/parameters/pageNumber'
+        -
+          $ref: '#/components/parameters/pageSize'
+        -
+          $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          $ref: '#/components/responses/countriesCollectionModel'
+        '403':
+          $ref: '#/components/responses/err403_1'
+        '500':
+          $ref: '#/components/responses/err500_1'
+    options:
+      tags:
+        - countries
+      summary: 'Get options'
+      description: 'Get communication options for a resource'
+      operationId: countries-options
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xCurrency'
+      responses:
+        '200':
+          $ref: '#/components/responses/empty'
+        '400':
+          $ref: '#/components/responses/err400_1'
+        '404':
+          $ref: '#/components/responses/err404_1'
+        '500':
+          $ref: '#/components/responses/err500_1'
+  '/api/countries/{id}':
+    get:
+      tags:
+        - countries
+      summary: 'Get Country'
+      description: '<p>Retrieve a specific country record.</p><p>A country represents an element of an address record.</p>'
+      operationId: countries-id-get
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xInclude1'
+        -
+          $ref: '#/components/parameters/xCurrency'
+        -
+          $ref: '#/components/parameters/id'
+        -
+          $ref: '#/components/parameters/fieldsCountries'
+        -
+          $ref: '#/components/parameters/fieldsRegions'
+        -
+          $ref: '#/components/parameters/include'
+        -
+          $ref: '#/components/parameters/meta'
+      responses:
+        '200':
+          $ref: '#/components/responses/countriesModel'
+        '403':
+          $ref: '#/components/responses/err403_2'
+        '404':
+          $ref: '#/components/responses/err404_1'
+        '500':
+          $ref: '#/components/responses/err500_1'
+    options:
+      tags:
+        - countries
+      summary: 'Get options'
+      description: 'Get communication options for a resource'
+      operationId: countries-id-options
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xCurrency'
+        -
+          $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/empty'
+        '400':
+          $ref: '#/components/responses/err400_1'
+        '404':
+          $ref: '#/components/responses/err404_1'
+        '500':
+          $ref: '#/components/responses/err500_1'
+  '/api/countries/{id}/regions':
+    get:
+      tags:
+        - countries
+      summary: 'Get regions'
+      description: '<p>Retrieve a collection of region records.</p>'
+      operationId: countries-id-regions-get
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xInclude'
+        -
+          $ref: '#/components/parameters/xCurrency'
+        -
+          $ref: '#/components/parameters/id'
+        -
+          $ref: '#/components/parameters/filterCountry'
+        -
+          $ref: '#/components/parameters/filterCountryEq'
+        -
+          $ref: '#/components/parameters/filterCountryNeq'
+        -
+          $ref: '#/components/parameters/filterCountryExists'
+        -
+          $ref: '#/components/parameters/filterCountryNeqOrNull'
+        -
+          $ref: '#/components/parameters/filterId'
+        -
+          $ref: '#/components/parameters/filterIdEq'
+        -
+          $ref: '#/components/parameters/filterIdNeq'
+        -
+          $ref: '#/components/parameters/filterName'
+        -
+          $ref: '#/components/parameters/filterNameEq'
+        -
+          $ref: '#/components/parameters/filterNameNeq'
+        -
+          $ref: '#/components/parameters/filterNameExists'
+        -
+          $ref: '#/components/parameters/filterNameNeqOrNull'
+        -
+          $ref: '#/components/parameters/fieldsCountries'
+        -
+          $ref: '#/components/parameters/fieldsRegions'
+        -
+          $ref: '#/components/parameters/include'
+        -
+          $ref: '#/components/parameters/meta'
+        -
+          $ref: '#/components/parameters/pageNumber'
+        -
+          $ref: '#/components/parameters/pageSize'
+        -
+          $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          $ref: '#/components/responses/regionsCollectionModel'
+        '403':
+          $ref: '#/components/responses/err403_1'
+        '404':
+          $ref: '#/components/responses/err404_2'
+        '500':
+          $ref: '#/components/responses/err500_1'
+    options:
+      tags:
+        - countries
+      summary: 'Get options'
+      description: 'Get communication options for a resource'
+      operationId: countries-id-regions-options
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xCurrency'
+        -
+          $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/empty'
+        '400':
+          $ref: '#/components/responses/err400_1'
+        '404':
+          $ref: '#/components/responses/err404_1'
+        '500':
+          $ref: '#/components/responses/err500_1'
+  '/api/countries/{id}/relationships/regions':
+    get:
+      tags:
+        - countries
+      summary: 'Get "regions" relationship'
+      description: '<p>Retrieve IDs of region records assigned to a specific country record.</p>'
+      operationId: countries-id-relationships-regions-get
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xInclude'
+        -
+          $ref: '#/components/parameters/xCurrency'
+        -
+          $ref: '#/components/parameters/id'
+        -
+          $ref: '#/components/parameters/pageNumber'
+        -
+          $ref: '#/components/parameters/pageSize'
+      responses:
+        '200':
+          $ref: '#/components/responses/countriesRelationshipForRegionsModel'
+        '403':
+          $ref: '#/components/responses/err403_1'
+        '404':
+          $ref: '#/components/responses/err404_3'
+        '500':
+          $ref: '#/components/responses/err500_1'
+    options:
+      tags:
+        - countries
+      summary: 'Get options'
+      description: 'Get communication options for a resource'
+      operationId: countries-id-relationships-regions-options
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xCurrency'
+        -
+          $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/empty'
+        '400':
+          $ref: '#/components/responses/err400_1'
+        '404':
+          $ref: '#/components/responses/err404_1'
+        '500':
+          $ref: '#/components/responses/err500_1'
+  /api/regions:
+    get:
+      tags:
+        - regions
+      summary: 'Get States'
+      description: '<p>Retrieve a collection of region records.</p><p>Administrative units withing a country.</p>'
+      operationId: regions-get
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xInclude'
+        -
+          $ref: '#/components/parameters/xCurrency'
+        -
+          $ref: '#/components/parameters/filterCountry'
+        -
+          $ref: '#/components/parameters/filterCountryEq'
+        -
+          $ref: '#/components/parameters/filterCountryNeq'
+        -
+          $ref: '#/components/parameters/filterCountryExists'
+        -
+          $ref: '#/components/parameters/filterCountryNeqOrNull'
+        -
+          $ref: '#/components/parameters/filterId'
+        -
+          $ref: '#/components/parameters/filterIdEq'
+        -
+          $ref: '#/components/parameters/filterIdNeq'
+        -
+          $ref: '#/components/parameters/filterName'
+        -
+          $ref: '#/components/parameters/filterNameEq'
+        -
+          $ref: '#/components/parameters/filterNameNeq'
+        -
+          $ref: '#/components/parameters/filterNameExists'
+        -
+          $ref: '#/components/parameters/filterNameNeqOrNull'
+        -
+          $ref: '#/components/parameters/fieldsCountries'
+        -
+          $ref: '#/components/parameters/fieldsRegions'
+        -
+          $ref: '#/components/parameters/include'
+        -
+          $ref: '#/components/parameters/meta'
+        -
+          $ref: '#/components/parameters/pageNumber'
+        -
+          $ref: '#/components/parameters/pageSize'
+        -
+          $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          $ref: '#/components/responses/regionsCollectionModel'
+        '403':
+          $ref: '#/components/responses/err403_1'
+        '500':
+          $ref: '#/components/responses/err500_1'
+    options:
+      tags:
+        - regions
+      summary: 'Get options'
+      description: 'Get communication options for a resource'
+      operationId: regions-options
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xCurrency'
+      responses:
+        '200':
+          $ref: '#/components/responses/empty'
+        '400':
+          $ref: '#/components/responses/err400_1'
+        '404':
+          $ref: '#/components/responses/err404_1'
+        '500':
+          $ref: '#/components/responses/err500_1'
+  '/api/regions/{id}':
+    get:
+      tags:
+        - regions
+      summary: 'Get State'
+      description: '<p>Retrieve a specific region record.</p><p>Administrative units withing a country.</p>'
+      operationId: regions-id-get
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xInclude1'
+        -
+          $ref: '#/components/parameters/xCurrency'
+        -
+          $ref: '#/components/parameters/id'
+        -
+          $ref: '#/components/parameters/fieldsCountries'
+        -
+          $ref: '#/components/parameters/fieldsRegions'
+        -
+          $ref: '#/components/parameters/include'
+        -
+          $ref: '#/components/parameters/meta'
+      responses:
+        '200':
+          $ref: '#/components/responses/regionsModel'
+        '403':
+          $ref: '#/components/responses/err403_2'
+        '404':
+          $ref: '#/components/responses/err404_1'
+        '500':
+          $ref: '#/components/responses/err500_1'
+    options:
+      tags:
+        - regions
+      summary: 'Get options'
+      description: 'Get communication options for a resource'
+      operationId: regions-id-options
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xCurrency'
+        -
+          $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/empty'
+        '400':
+          $ref: '#/components/responses/err400_1'
+        '404':
+          $ref: '#/components/responses/err404_1'
+        '500':
+          $ref: '#/components/responses/err500_1'
+  '/api/regions/{id}/country':
+    get:
+      tags:
+        - regions
+      summary: 'Get country'
+      description: '<p>Retrieve the record of the country that the region is a part of.</p>'
+      operationId: regions-id-country-get
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xInclude'
+        -
+          $ref: '#/components/parameters/xCurrency'
+        -
+          $ref: '#/components/parameters/id'
+        -
+          $ref: '#/components/parameters/fieldsCountries'
+        -
+          $ref: '#/components/parameters/fieldsRegions'
+        -
+          $ref: '#/components/parameters/include'
+        -
+          $ref: '#/components/parameters/meta'
+      responses:
+        '200':
+          $ref: '#/components/responses/countriesModel1'
+        '403':
+          $ref: '#/components/responses/err403_1'
+        '404':
+          $ref: '#/components/responses/err404_2'
+        '500':
+          $ref: '#/components/responses/err500_1'
+    options:
+      tags:
+        - regions
+      summary: 'Get options'
+      description: 'Get communication options for a resource'
+      operationId: regions-id-country-options
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xCurrency'
+        -
+          $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/empty'
+        '400':
+          $ref: '#/components/responses/err400_1'
+        '404':
+          $ref: '#/components/responses/err404_1'
+        '500':
+          $ref: '#/components/responses/err500_1'
+  '/api/regions/{id}/relationships/country':
+    get:
+      tags:
+        - regions
+      summary: 'Get "country" relationship'
+      description: '<p>Retrieve the ID of the country that the region is a part of.</p>'
+      operationId: regions-id-relationships-country-get
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xInclude'
+        -
+          $ref: '#/components/parameters/xCurrency'
+        -
+          $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/regionsRelationshipForCountryModel'
+        '403':
+          $ref: '#/components/responses/err403_1'
+        '404':
+          $ref: '#/components/responses/err404_3'
+        '500':
+          $ref: '#/components/responses/err500_1'
+    options:
+      tags:
+        - regions
+      summary: 'Get options'
+      description: 'Get communication options for a resource'
+      operationId: regions-id-relationships-country-options
+      parameters:
+        -
+          $ref: '#/components/parameters/xLocalizationID'
+        -
+          $ref: '#/components/parameters/accept'
+        -
+          $ref: '#/components/parameters/xCurrency'
+        -
+          $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/empty'
+        '400':
+          $ref: '#/components/responses/err400_1'
+        '404':
+          $ref: '#/components/responses/err404_1'
+        '500':
+          $ref: '#/components/responses/err500_1'
+components:
+  schemas:
+    meta:
+      type: object
+      additionalProperties: true
+    link:
+      type: object
+      oneOf:
+        -
+          description: 'A string containing the link’s URL'
+          type: string
+          format: uri-reference
+        -
+          required:
+            - href
+          properties:
+            href:
+              description: 'A string containing the link’s URL.'
+              type: string
+              format: uri-reference
+            meta:
+              $ref: '#/components/schemas/meta'
+          type: object
+    links:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/link'
+    error:
+      properties:
+        id:
+          description: 'A unique identifier for this particular occurrence of the problem.'
+          type: string
+        status:
+          description: 'The HTTP status code applicable to this problem.'
+          type: string
+        code:
+          description: 'An application-specific error code.'
+          type: string
+        title:
+          description: 'A short, human-readable summary of the problem that is not changed from occurrence to occurrence of the problem.'
+          type: string
+        detail:
+          description: 'A human-readable explanation specific to this occurrence of the problem.'
+          type: string
+        source:
+          description: 'An object containing references to the source of the error.'
+          properties:
+            pointer:
+              description: 'A [JSON Pointer](https://tools.ietf.org/html/rfc6901) to the associated entity in the request document (e.g. `/data` for a primary data object, or `/data/attributes/title` for a specific attribute).'
+              type: string
+            parameter:
+              description: 'A string indicating which URI query parameter caused the error.'
+              type: string
+          type: object
+        links:
+          $ref: '#/components/schemas/links'
+        meta:
+          $ref: '#/components/schemas/meta'
+      type: object
+    errors:
+      type: array
+      items:
+        $ref: '#/components/schemas/error'
+      uniqueItems: true
+    failure:
+      required:
+        - errors
+      properties:
+        errors:
+          $ref: '#/components/schemas/errors'
+        links:
+          $ref: '#/components/schemas/links'
+        meta:
+          $ref: '#/components/schemas/meta'
+      type: object
+    relationshipModel:
+      required:
+        - data
+      properties:
+        data:
+          $ref: '#/components/schemas/relationshipDataModel'
+        links:
+          $ref: '#/components/schemas/linksForRelationshipToOne'
+        meta:
+          $ref: '#/components/schemas/meta'
+      type: object
+    relationshipDataModel:
+      required:
+        - type
+        - id
+      properties:
+        type:
+          description: 'The type of an entity.'
+          type: string
+        id:
+          description: 'The unique identifier of a resource.'
+          type: string
+        links:
+          $ref: '#/components/schemas/linksForDataModel'
+        meta:
+          $ref: '#/components/schemas/meta'
+      type: object
+    linksForDataModel:
+      properties:
+        self:
+          $ref: '#/components/schemas/link'
+          description: 'A link for the resource itself.'
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/link'
+    linksForRelationshipToOne:
+      properties:
+        self:
+          $ref: '#/components/schemas/link'
+          description: 'A link for the relationship itself.'
+        related:
+          $ref: '#/components/schemas/link'
+          description: 'A link provides access to resource object linked in the relationship.'
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/link'
+    relationshipCollectionModel:
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/relationshipDataModel'
+        links:
+          $ref: '#/components/schemas/linksForRelationshipToMany'
+        meta:
+          $ref: '#/components/schemas/meta'
+      type: object
+    linksForRelationshipToMany:
+      properties:
+        self:
+          $ref: '#/components/schemas/link'
+          description: 'A link for the relationship itself.'
+        related:
+          $ref: '#/components/schemas/link'
+          description: 'A link provides access to resource objects linked in the relationship.'
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/link'
+    addresstypesCollectionModel:
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/addresstypesDataModel'
+        links:
+          $ref: '#/components/schemas/linksForTopLevelCollection'
+        meta:
+          $ref: '#/components/schemas/meta'
+        included:
+          $ref: '#/components/schemas/objectArray'
+      type: object
+    addresstypesDataModel:
+      required:
+        - type
+        - id
+      properties:
+        type:
+          description: 'The type of an entity.'
+          type: string
+          enum:
+            - addresstypes
+        id:
+          description: 'The unique identifier of a resource.'
+          type: string
+        attributes:
+          required:
+            - label
+          properties:
+            label:
+              description: "Label of the address type ('Shipping' or 'Billing')."
+              type: string
+          type: object
+        links:
+          $ref: '#/components/schemas/linksForDataModel'
+        meta:
+          $ref: '#/components/schemas/meta'
+      type: object
+    linksForTopLevelCollection:
+      properties:
+        self:
+          $ref: '#/components/schemas/link'
+          description: 'A link for the resource itself.'
+        first:
+          $ref: '#/components/schemas/link'
+          description: 'A link for the first page of data.'
+        last:
+          $ref: '#/components/schemas/link'
+          description: 'A link for the last page of data.'
+        prev:
+          $ref: '#/components/schemas/link'
+          description: 'A link for the previous page of data.'
+        next:
+          $ref: '#/components/schemas/link'
+          description: 'A link for the next page of data.'
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/link'
+    objectArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/object'
+    object:
+      type: object
+      additionalProperties: true
+    addresstypesModel:
+      required:
+        - data
+      properties:
+        data:
+          $ref: '#/components/schemas/addresstypesDataModel'
+        links:
+          $ref: '#/components/schemas/linksForTopLevelItem'
+        meta:
+          $ref: '#/components/schemas/meta'
+        included:
+          $ref: '#/components/schemas/objectArray'
+      type: object
+    linksForTopLevelItem:
+      properties:
+        self:
+          $ref: '#/components/schemas/link'
+          description: 'A link for the resource itself.'
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/link'
+    countriesCollectionModel:
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/countriesDataModel'
+        links:
+          $ref: '#/components/schemas/linksForTopLevelCollection'
+        meta:
+          $ref: '#/components/schemas/meta'
+        included:
+          $ref: '#/components/schemas/objectArray'
+      type: object
+    countriesDataModel:
+      required:
+        - type
+        - id
+      properties:
+        type:
+          description: 'The type of an entity.'
+          type: string
+          enum:
+            - countries
+        id:
+          description: 'A two letter ISO country code.'
+          type: string
+        attributes:
+          required:
+            - iso3Code
+            - name
+          properties:
+            iso3Code:
+              description: 'A three letter ISO country code.'
+              type: string
+            name:
+              description: 'The name that identifies the country record'
+              type: string
+          type: object
+        relationships:
+          properties:
+            regions:
+              $ref: '#/components/schemas/regionsRelationshipToMany'
+              description: 'Administrative units within a country.'
+          type: object
+        links:
+          $ref: '#/components/schemas/linksForDataModel'
+        meta:
+          $ref: '#/components/schemas/meta'
+      type: object
+    regionsRelationshipToMany:
+      description: 'A to-many relationship to "regions" resource.'
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/regionsLinkage'
+          uniqueItems: true
+        links:
+          $ref: '#/components/schemas/linksForRelationshipToMany'
+        meta:
+          $ref: '#/components/schemas/meta'
+      type: object
+    regionsLinkage:
+      description: 'A linkage to "regions" resource.'
+      required:
+        - type
+        - id
+      properties:
+        type:
+          description: 'The type of an entity.'
+          type: string
+          enum:
+            - regions
+        id:
+          type: string
+        meta:
+          $ref: '#/components/schemas/meta'
+      type: object
+    countriesModel:
+      required:
+        - data
+      properties:
+        data:
+          $ref: '#/components/schemas/countriesDataModel'
+        links:
+          $ref: '#/components/schemas/linksForTopLevelItem'
+        meta:
+          $ref: '#/components/schemas/meta'
+        included:
+          $ref: '#/components/schemas/objectArray'
+      type: object
+    regionsCollectionModel:
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/regionsDataModel'
+        links:
+          $ref: '#/components/schemas/linksForTopLevelCollection'
+        meta:
+          $ref: '#/components/schemas/meta'
+        included:
+          $ref: '#/components/schemas/objectArray'
+      type: object
+    regionsDataModel:
+      required:
+        - type
+        - id
+      properties:
+        type:
+          description: 'The type of an entity.'
+          type: string
+          enum:
+            - regions
+        id:
+          description: 'The region (country subdivision) code according to ISO 3166-2.'
+          type: string
+        attributes:
+          required:
+            - code
+            - name
+          properties:
+            code:
+              description: 'The part of after hyphen of an ISO 3166-2 region code.'
+              type: string
+            name:
+              description: 'The name used to refer to a region on the interface.'
+              type: string
+          type: object
+        relationships:
+          properties:
+            country:
+              $ref: '#/components/schemas/countriesRelationshipToOne'
+              description: 'The country that a region is a part of.'
+          type: object
+        links:
+          $ref: '#/components/schemas/linksForDataModel'
+        meta:
+          $ref: '#/components/schemas/meta'
+      type: object
+    countriesRelationshipToOne:
+      description: 'A to-one relationship to "countries" resource.'
+      required:
+        - data
+      properties:
+        data:
+          oneOf:
+            -
+              $ref: '#/components/schemas/countriesLinkage'
+            -
+              type: 'null'
+          type: object
+        links:
+          $ref: '#/components/schemas/linksForRelationshipToOne'
+        meta:
+          $ref: '#/components/schemas/meta'
+      type: object
+    countriesLinkage:
+      description: 'A linkage to "countries" resource.'
+      required:
+        - type
+        - id
+      properties:
+        type:
+          description: 'The type of an entity.'
+          type: string
+          enum:
+            - countries
+        id:
+          type: string
+        meta:
+          $ref: '#/components/schemas/meta'
+      type: object
+    regionsModel:
+      required:
+        - data
+      properties:
+        data:
+          $ref: '#/components/schemas/regionsDataModel'
+        links:
+          $ref: '#/components/schemas/linksForTopLevelItem'
+        meta:
+          $ref: '#/components/schemas/meta'
+        included:
+          $ref: '#/components/schemas/objectArray'
+      type: object
+    stringUnionArray:
+      oneOf:
+        -
+          type: string
+        -
+          $ref: '#/components/schemas/stringArray'
+    stringArray:
+      type: array
+      items:
+        type: string
+    unsignedInteger_1:
+      type: integer
+      default: 1
+      minimum: 0
+    orderBy_id:
+      type: string
+      format: orderBy
+      default: id
+      pattern: '-?[\w\.]+(,-?[\w\.]+)*'
+    countriesRelationshipForRegionsModel:
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/countriesRelationshipForRegionsDataModel'
+        links:
+          $ref: '#/components/schemas/linksForRelationshipToMany'
+        meta:
+          $ref: '#/components/schemas/meta'
+      type: object
+    countriesRelationshipForRegionsDataModel:
+      required:
+        - type
+        - id
+      properties:
+        type:
+          description: 'The type of an entity.'
+          type: string
+          enum:
+            - regions
+        id:
+          description: 'The region (country subdivision) code according to ISO 3166-2.'
+          type: string
+        links:
+          $ref: '#/components/schemas/linksForDataModel'
+        meta:
+          $ref: '#/components/schemas/meta'
+      type: object
+    regionsRelationshipForCountryModel:
+      required:
+        - data
+      properties:
+        data:
+          $ref: '#/components/schemas/regionsRelationshipForCountryDataModel'
+        links:
+          $ref: '#/components/schemas/linksForRelationshipToOne'
+        meta:
+          $ref: '#/components/schemas/meta'
+      type: object
+    regionsRelationshipForCountryDataModel:
+      required:
+        - type
+        - id
+      properties:
+        type:
+          description: 'The type of an entity.'
+          type: string
+          enum:
+            - countries
+        id:
+          description: 'A two letter ISO country code.'
+          type: string
+        links:
+          $ref: '#/components/schemas/linksForDataModel'
+        meta:
+          $ref: '#/components/schemas/meta'
+      type: object
+  responses:
+    empty:
+      description: 'Returned when successful'
+    err400_1:
+      description: 'Returned when the request data is not valid'
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/failure'
+    err404_1:
+      description: 'Returned when the entity is not found'
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/failure'
+    err500_1:
+      description: 'Returned when an unexpected error occurs'
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/failure'
+    addresstypesCollectionModel:
+      description: 'Returned when successful'
+      headers:
+        X-Include-Total-Count:
+          $ref: '#/components/headers/xIncludeTotalCount'
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/addresstypesCollectionModel'
+    err403_1:
+      description: 'Returned when no permissions to get the entities'
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/failure'
+    addresstypesModel:
+      description: 'Returned when successful'
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/addresstypesModel'
+    err403_2:
+      description: 'Returned when no permissions to get the entity'
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/failure'
+    countriesCollectionModel:
+      description: 'Returned when successful'
+      headers:
+        X-Include-Total-Count:
+          $ref: '#/components/headers/xIncludeTotalCount'
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/countriesCollectionModel'
+    countriesModel:
+      description: 'Returned when successful'
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/countriesModel'
+    regionsCollectionModel:
+      description: 'Returned when successful'
+      headers:
+        X-Include-Total-Count:
+          $ref: '#/components/headers/xIncludeTotalCount'
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/regionsCollectionModel'
+    err404_2:
+      description: 'Returned when the parent entity does not exist'
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/failure'
+    countriesRelationshipForRegionsModel:
+      description: 'Returned when successful'
+      headers:
+        X-Include-Total-Count:
+          $ref: '#/components/headers/xIncludeTotalCount'
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/countriesRelationshipForRegionsModel'
+    err404_3:
+      description: 'Returned when the parent entity of the relationship does not exist'
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/failure'
+    regionsModel:
+      description: 'Returned when successful'
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/regionsModel'
+    countriesModel1:
+      description: 'Returned when successful'
+      headers:
+        X-Include-Total-Count:
+          $ref: '#/components/headers/xIncludeTotalCount'
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/countriesModel'
+    regionsRelationshipForCountryModel:
+      description: 'Returned when successful'
+      headers:
+        X-Include-Total-Count:
+          $ref: '#/components/headers/xIncludeTotalCount'
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/regionsRelationshipForCountryModel'
+  parameters:
+    xLocalizationID:
+      name: X-Localization-ID
+      in: header
+      schema:
+        type: string
+    accept:
+      name: Accept
+      in: header
+      schema:
+        type: string
+      example: application/vnd.api+json
+    xCurrency:
+      name: X-Currency
+      in: header
+      schema:
+        type: string
+    xInclude:
+      name: X-Include
+      in: header
+      schema:
+        type: string
+      example: totalCount
+    filterId:
+      name: 'filter[id]'
+      in: query
+      description: 'Filter records by the identifier field'
+      schema:
+        $ref: '#/components/schemas/stringUnionArray'
+    filterIdEq:
+      name: 'filter[id][eq]'
+      in: query
+      description: 'Filter records by the identifier field'
+      schema:
+        $ref: '#/components/schemas/stringUnionArray'
+    filterIdNeq:
+      name: 'filter[id][neq]'
+      in: query
+      description: 'Filter records by the identifier field'
+      schema:
+        $ref: '#/components/schemas/stringUnionArray'
+    filterLabel:
+      name: 'filter[label]'
+      in: query
+      description: "Filter records by 'label' field."
+      schema:
+        type: string
+    filterLabelEq:
+      name: 'filter[label][eq]'
+      in: query
+      description: "Filter records by 'label' field."
+      schema:
+        type: string
+    filterLabelNeq:
+      name: 'filter[label][neq]'
+      in: query
+      description: "Filter records by 'label' field."
+      schema:
+        type: string
+    filterLabelExists:
+      name: 'filter[label][exists]'
+      in: query
+      description: "Filter records by 'label' field."
+      schema:
+        type: boolean
+    filterLabelNeqOrNull:
+      name: 'filter[label][neq_or_null]'
+      in: query
+      description: "Filter records by 'label' field."
+      schema:
+        type: string
+    fieldsAddresstypes:
+      name: 'fields[addresstypes]'
+      in: query
+      description: "A list of fields of 'addresstypes' entity that will be returned in the response."
+      schema:
+        type: string
+    meta:
+      name: meta
+      in: query
+      description: 'A list of meta properties to be returned. Comma-separated names.'
+      schema:
+        type: string
+    pageNumber:
+      name: 'page[number]'
+      in: query
+      description: 'The page number, starting from 1.'
+      schema:
+        $ref: '#/components/schemas/unsignedInteger_1'
+    pageSize:
+      name: 'page[size]'
+      in: query
+      description: 'The number of items per page.'
+      schema:
+        type: integer
+        default: 10
+    sort:
+      name: sort
+      in: query
+      description: "Result sorting. Comma-separated fields, e.g. 'field1,-field2'."
+      schema:
+        $ref: '#/components/schemas/orderBy_id'
+    id:
+      name: id
+      in: path
+      description: 'The unique identifier of a resource.'
+      required: true
+      schema:
+        type: string
+    xInclude1:
+      name: X-Include
+      in: header
+      schema:
+        type: string
+      example: noHateoas
+    filterName:
+      name: 'filter[name]'
+      in: query
+      description: "Filter records by 'name' field."
+      schema:
+        type: string
+    filterNameEq:
+      name: 'filter[name][eq]'
+      in: query
+      description: "Filter records by 'name' field."
+      schema:
+        type: string
+    filterNameNeq:
+      name: 'filter[name][neq]'
+      in: query
+      description: "Filter records by 'name' field."
+      schema:
+        type: string
+    filterNameExists:
+      name: 'filter[name][exists]'
+      in: query
+      description: "Filter records by 'name' field."
+      schema:
+        type: boolean
+    filterNameNeqOrNull:
+      name: 'filter[name][neq_or_null]'
+      in: query
+      description: "Filter records by 'name' field."
+      schema:
+        type: string
+    filterRegions:
+      name: 'filter[regions]'
+      in: query
+      description: "Filter records by 'regions' relationship."
+      schema:
+        type: string
+    filterRegionsEq:
+      name: 'filter[regions][eq]'
+      in: query
+      description: "Filter records by 'regions' relationship."
+      schema:
+        type: string
+    filterRegionsNeq:
+      name: 'filter[regions][neq]'
+      in: query
+      description: "Filter records by 'regions' relationship."
+      schema:
+        type: string
+    filterRegionsExists:
+      name: 'filter[regions][exists]'
+      in: query
+      description: "Filter records by 'regions' relationship."
+      schema:
+        type: boolean
+    filterRegionsNeqOrNull:
+      name: 'filter[regions][neq_or_null]'
+      in: query
+      description: "Filter records by 'regions' relationship."
+      schema:
+        type: string
+    filterRegionsContains:
+      name: 'filter[regions][contains]'
+      in: query
+      description: "Filter records by 'regions' relationship."
+      schema:
+        type: string
+    filterRegionsNotContains:
+      name: 'filter[regions][not_contains]'
+      in: query
+      description: "Filter records by 'regions' relationship."
+      schema:
+        type: string
+    fieldsCountries:
+      name: 'fields[countries]'
+      in: query
+      description: "A list of fields of 'countries' entity that will be returned in the response."
+      schema:
+        type: string
+    fieldsRegions:
+      name: 'fields[regions]'
+      in: query
+      description: "A list of fields of 'regions' entity that will be returned in the response."
+      schema:
+        type: string
+    include:
+      name: include
+      in: query
+      description: "A list of related entities to be included. Comma-separated paths, e.g. 'comments,comments.author'."
+      schema:
+        type: string
+    filterCountry:
+      name: 'filter[country]'
+      in: query
+      description: "Filter records by 'country' relationship."
+      schema:
+        $ref: '#/components/schemas/stringUnionArray'
+    filterCountryEq:
+      name: 'filter[country][eq]'
+      in: query
+      description: "Filter records by 'country' relationship."
+      schema:
+        $ref: '#/components/schemas/stringUnionArray'
+    filterCountryNeq:
+      name: 'filter[country][neq]'
+      in: query
+      description: "Filter records by 'country' relationship."
+      schema:
+        $ref: '#/components/schemas/stringUnionArray'
+    filterCountryExists:
+      name: 'filter[country][exists]'
+      in: query
+      description: "Filter records by 'country' relationship."
+      schema:
+        type: boolean
+    filterCountryNeqOrNull:
+      name: 'filter[country][neq_or_null]'
+      in: query
+      description: "Filter records by 'country' relationship."
+      schema:
+        $ref: '#/components/schemas/stringUnionArray'
+  headers:
+    xIncludeTotalCount:
+      description: 'The total number of entities. Returned when the total count was requested by "X-Include: totalCount" request header.'
+      schema:
+        type: integer

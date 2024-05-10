@@ -1,4 +1,3 @@
-@regression
 @ticket-BB-16157
 @fixture-OroCustomerBundle:CustomerUserFixture.yml
 Feature: Customer user reset password link expire

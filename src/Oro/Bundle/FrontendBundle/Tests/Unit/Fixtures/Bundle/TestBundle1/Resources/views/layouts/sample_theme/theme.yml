@@ -1,1 +1,26 @@
 label: Sample theme
+configuration:
+    sections:
+        general:
+            label: 'General'
+            options:
+                test_checkbox:
+                    label: 'Checkbox label'
+                    type: checkbox
+                    default: unchecked
+                product_page:
+                    label: 'Product Page'
+                    type: product_page_template
+                    values:
+                        tabs: 'tabs'
+                        wide: 'wide'
+                    previews: []
+        additional:
+            label: 'Additional'
+            options:
+                product_page_template:
+                    label: 'Product Page Template'
+                    type: product_page_template
+                    values:
+                        mobile: 'mobile'
+                    previews: []

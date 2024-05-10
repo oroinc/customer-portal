@@ -26,12 +26,12 @@
             }
         }) %}
 
-        {% if oro_theme_configuration_value('header-language_and_currency_switchers') == 'above_header' or oro_theme_configuration_value('header-standalone_main_menu') == true %}
+        {% if oro_theme_configuration_value('header__language_and_currency_switchers') == 'above_header' or oro_theme_configuration_value('header__standalone_main_menu') == true %}
             {% set threshold = ''%}
 
-            {% if oro_theme_configuration_value('header-promotional_content') != false and oro_theme_configuration_value('header-top_navigation_menu') != false %}
+            {% if oro_theme_configuration_value('header__promotional_content') != false and oro_theme_configuration_value('header__top_navigation_menu') != false %}
                 {% set threshold = 'mobile' %}
-            {% elseif oro_theme_configuration_value('header-promotional_content') == false and oro_theme_configuration_value('header-top_navigation_menu') == false %}
+            {% elseif oro_theme_configuration_value('header__promotional_content') == false and oro_theme_configuration_value('header__top_navigation_menu') == false %}
                 {% set threshold = 'mobile-big' %}
             {% endif %}
 
@@ -67,7 +67,7 @@
 {% block __currency_localization_switcher__currency_localization_container_inner_widget %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
 
-    {% if oro_theme_configuration_value('header-promotional_content') != '' %}
+    {% if oro_theme_configuration_value('header__promotional_content') != '' %}
         {% set attr = layout_attr_defaults(attr, {
             '~class': ' localization-currency-switcher'
         }) %}

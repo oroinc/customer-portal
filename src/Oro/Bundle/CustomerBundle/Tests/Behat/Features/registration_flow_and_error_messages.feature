@@ -1,3 +1,4 @@
+@regression
 @fix-BB-9401
 @automatically-ticket-tagged
 Feature: Registration flow and error messages

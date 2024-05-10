@@ -2,6 +2,18 @@ The upgrade instructions are available at [Oro documentation website](https://do
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
+## UNRELEASED
+
+### Added
+
+#### FrontendBundle
+* Added theme configuration options into `\Oro\Bundle\FrontendBundle\Resources\views\layouts\default\theme.yml`.
+* Added `oro_theme.theme_configuration` system configuration option.
+* Added `\Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplatesThemeConfigurationExtension` that gets `product_page_template` theme configuration option values and adds for page_templates.
+
+### Changed
+* Replaced all places in code that used old system configuration options on theme configuration options.
+
 ## Changes in the Customer Portal package versions
 
 - [6.0.0](#600-2024-03-30)

@@ -105,6 +105,12 @@ define(function(require) {
         disableBodyTouchScroll: true,
 
         /**
+         * Add when popup showed
+         * @property {string}
+         */
+        toggleBtnActiveClassName: 'fullscreen-popup__opened',
+
+        /**
          * @inheritdoc
          */
         constructor: function FullscreenPopupView(options) {
@@ -200,6 +206,8 @@ define(function(require) {
             this.$popup.trigger(`${this.popupName}:closed`);
             this.$popup.remove();
             delete this.$popup;
+
+            this.$el.removeClass(this.toggleBtnActiveClassName);
         },
 
         getLayoutElement() {
@@ -263,6 +271,8 @@ define(function(require) {
 
             this.trigger('show');
             this.$popup.trigger(`${this.popupName}:shown`);
+
+            this.$el.addClass(this.toggleBtnActiveClassName);
         },
 
         _renderSectionContent: function(deferred, section, sectionOptions, option, content) {

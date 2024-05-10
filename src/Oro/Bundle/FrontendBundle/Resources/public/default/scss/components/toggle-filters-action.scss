@@ -56,15 +56,25 @@
     }
 }
 
-@include breakpoint('mobile') {
+@include breakpoint('mobile-big') {
+    .toggle-filters-action.btn--flat,
     .toggle-filters-action {
         width: $toggle-filters-action-width;
         background-color: $toggle-filters-action-background-mobile;
         color: $toggle-filters-action-color-mobile;
 
-        // Hide action's labelS
+        // Hide action's labels
         font-size: 0;
         gap: 0;
+
+        &:hover {
+            color: $toggler-dropdown-btn-color-hover;
+            background-color: $toggler-dropdown-btn-background-color-hover;
+
+            &:after {
+                display: none;
+            }
+        }
 
         &.filters-selected {
             &::before {

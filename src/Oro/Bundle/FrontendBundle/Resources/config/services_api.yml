@@ -106,6 +106,14 @@ services:
             - '%oro_frontend.api_doc.views%'
             - '%oro_frontend.api_doc.default_view%'
 
+    oro_frontend.api_doc.open_api.name_provider:
+        class: Oro\Bundle\FrontendBundle\Api\ApiDoc\OpenApi\Provider\OpenApiSpecificationNameProvider
+        decorates: oro_api.api_doc.open_api.name_provider
+        arguments:
+            - '@.inner'
+            - '@oro_api.rest.doc_view_detector'
+            - '@translator'
+
     # default HTML formatter for frontend API views
     # it should be a separate instance because the lists of frontend and backend API views are different
     # see Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendApiDocPass

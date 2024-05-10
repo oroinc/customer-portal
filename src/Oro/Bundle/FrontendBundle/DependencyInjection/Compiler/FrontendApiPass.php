@@ -23,7 +23,6 @@ class FrontendApiPass implements CompilerPassInterface
         $processorsToBeDisabled = [
             'oro_api.collect_resources.load_dictionaries',
             'oro_api.collect_resources.load_custom_entities',
-            'oro_api.collect_resources.add_excluded_actions_for_dictionaries',
             'oro_api.options.rest.set_cache_control',
             'oro_api.rest.cors.set_allow_origin',
             'oro_api.rest.cors.set_allow_and_expose_headers',

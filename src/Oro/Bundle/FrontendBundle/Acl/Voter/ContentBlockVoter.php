@@ -16,17 +16,15 @@ use Oro\Bundle\ThemeBundle\Entity\ThemeConfiguration;
  */
 class ContentBlockVoter extends AbstractEntityVoter
 {
-    private ManagerRegistry $registry;
+    /** {@inheritDoc} */
+    protected $supportedAttributes = [BasicPermission::DELETE];
 
-    public function __construct(DoctrineHelper $doctrineHelper, ManagerRegistry $registry)
-    {
+    public function __construct(
+        DoctrineHelper $doctrineHelper,
+        private ManagerRegistry $registry
+    ) {
         parent::__construct($doctrineHelper);
-        $this->registry = $registry;
     }
-
-    protected $supportedAttributes = [
-        BasicPermission::DELETE,
-    ];
 
     protected function getPermissionForAttribute($class, $identifier, $attribute): int
     {

@@ -6,7 +6,7 @@ layout:
             blockType: container
             prepend: false
             options:
-                visible: '=data["theme_configuration"].getThemeConfigurationOption("header-standalone_main_menu")'
+                visible: '=data["theme_configuration"].getThemeConfigurationOption("header__standalone_main_menu")'
 
         - '@move':
             id: main_menu_container

@@ -5,6 +5,7 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Layout\Extension;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplateContextConfigurator;
 use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration;
+use Oro\Bundle\ProductBundle\Provider\PageTemplateProvider;
 use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
 use Oro\Component\Layout\LayoutContext;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -93,7 +94,10 @@ class PageTemplateContextConfiguratorTest extends TestCase
             ->withAnyParameters();
 
         $context = new LayoutContext();
-        $context->getResolver()->setDefault('route_name', 'some_route');
+        $context->getResolver()->setDefault(
+            'route_name',
+            PageTemplateProvider::PRODUCT_DETAILS_PAGE_TEMPLATE_ROUTE_NAME
+        );
         $this->pageTemplateContextConfigurator->configureContext($context);
         $context->resolve();
         self::assertSame('theme_configuration_page_template', $context->get('page_template'));

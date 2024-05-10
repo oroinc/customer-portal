@@ -1,3 +1,4 @@
+@regression
 @ticket-BB-15553
 @fixture-OroCustomerBundle:CustomerUserFixture.yml
 Feature: Frontend customer address default billing shipping

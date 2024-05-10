@@ -12,7 +12,7 @@ layout:
                         vars:
                           buttonLabel: '=data["theme_header_config"].getQuickAccessButtonLabel()'
                           menu: '=data["theme_header_config"].getQuickAccessButton()'
-                          searchType: '=data["theme_configuration"].getThemeConfigurationOption("header-search_on_smaller_screens")'
+                          searchType: '=data["theme_configuration"].getThemeConfigurationOption("header__search_on_smaller_screens")'
 
                 quick_access_button_menu:
                     blockType: menu

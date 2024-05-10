@@ -1,3 +1,4 @@
+@regression
 @ticket-BB-16117
 Feature: Support layout themes in exception controller
   In order to be able to use third-party themes on page error

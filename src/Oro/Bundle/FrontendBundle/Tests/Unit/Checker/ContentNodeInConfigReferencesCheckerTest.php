@@ -6,6 +6,7 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Checker;
 
 use Oro\Bundle\FrontendBundle\ContentNodeDeletionChecker\ContentNodeInConfigReferencesChecker;
 use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
+use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration;
 use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
 use Oro\Bundle\WebCatalogBundle\Context\NotDeletableContentNodeResult;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
@@ -57,9 +58,7 @@ class ContentNodeInConfigReferencesCheckerTest extends TestCase
         $this->themeConfigurationProvider
             ->expects(self::any())
             ->method('getThemeConfigurationOption')
-            ->with(
-                'header-quick_access_button',
-            )
+            ->with(ThemeConfiguration::buildOptionKey('header', 'quick_access_button'))
             ->willReturn($configValue);
 
         $this->translator
@@ -88,9 +87,7 @@ class ContentNodeInConfigReferencesCheckerTest extends TestCase
         $this->themeConfigurationProvider
             ->expects(self::any())
             ->method('getThemeConfigurationOption')
-            ->with(
-                'header-quick_access_button',
-            )
+            ->with(ThemeConfiguration::buildOptionKey('header', 'quick_access_button'))
             ->willReturn($configValue);
 
         $this->translator

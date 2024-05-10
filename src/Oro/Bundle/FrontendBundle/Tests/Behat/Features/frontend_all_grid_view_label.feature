@@ -1,3 +1,4 @@
+@regression
 @ticket-BAP-19446
 @fixture-OroFrontendBundle:frontend_all_grid_view_label.yml
 
