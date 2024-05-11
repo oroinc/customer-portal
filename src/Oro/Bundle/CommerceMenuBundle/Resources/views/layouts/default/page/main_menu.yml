@@ -58,3 +58,4 @@ layout:
                     show_currency_localization_switchers: '=data["theme_configuration"].getThemeConfigurationOption("header__language_and_currency_switchers") == "always_in_hamburger_menu"'
                     top_navigation_menu_enabled: '=data["theme_configuration"].getThemeConfigurationOption("header__top_navigation_menu") !== false'
                     promotional_content_enabled: '=data["theme_configuration"].getThemeConfigurationOption("header__promotional_content") !== ""'
+                    logoSrc: '=data["asset"].getUrl(data["theme"].getLogoSmall(context["theme"]))'
