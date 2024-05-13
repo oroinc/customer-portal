@@ -1,3 +1,4 @@
+@regression
 @ticket-BAP-21040
 
 Feature: Fallback Localization Logic

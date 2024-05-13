@@ -1,3 +1,4 @@
+@regression
 @ticket-BB-21885
 @fixture-OroCommerceMenuBundle:master_catalog_menu_items/customer_user.yml
 @fixture-OroCommerceMenuBundle:master_catalog_menu_items/categories.yml

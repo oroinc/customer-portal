@@ -1,3 +1,4 @@
+@regression
 @ticket-BAP-16988
 @skip
 # This test should be fixed and un-skipped after OPI-693 is implemented.

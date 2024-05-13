@@ -1,3 +1,4 @@
+@regression
 @ticket-BB-14229
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Forgot your password
