@@ -1,3 +1,4 @@
+@regression
 @ticket-BAP-17151
 @fixture-OroCustomerBundle:CustomerUserWithExistingPasswordResetToken.yml
 

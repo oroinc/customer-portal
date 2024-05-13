@@ -1,3 +1,4 @@
+@regression
 @fixture-OroCustomerBundle:ActionsInGridLineItemsFixture.yml
 Feature: Checked actions in grid line items
 

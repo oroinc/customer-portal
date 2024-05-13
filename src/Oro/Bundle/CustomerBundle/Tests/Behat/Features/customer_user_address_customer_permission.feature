@@ -1,4 +1,3 @@
-@regression
 @ticket-BAP-19986
 @fixture-OroCustomerBundle:CustomerUserAddressCustomerPermission.yml
 

@@ -1,4 +1,3 @@
-@regression
 @ticket-BB-14855
 @fixture-OroCustomerBundle:EmailForCustomerUserRegistration.yml
 

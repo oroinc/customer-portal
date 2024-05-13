@@ -1,3 +1,4 @@
+@regression
 @ticket-BB-16095
 
 Feature: Resending confirmation email from back office

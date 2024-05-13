@@ -1,3 +1,4 @@
+@regression
 @fixture-OroCustomerBundle:CustomerUserFixture.yml
 @fixture-OroLocaleBundle:ZuluLocalization.yml
 

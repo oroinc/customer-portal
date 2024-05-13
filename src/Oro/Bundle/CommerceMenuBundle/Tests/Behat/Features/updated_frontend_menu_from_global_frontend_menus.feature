@@ -1,3 +1,4 @@
+@regression
 @ticket-BAP-21510
 Feature: Updated frontend menu from global frontend menus
   In order to be able to manage menu items

@@ -1,3 +1,4 @@
+@regression
 @fixture-OroCustomerBundle:CustomerFixture.yml
 Feature: Delete customers
   In order to be able to delete customers only without assigned customer users

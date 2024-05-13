@@ -1,4 +1,3 @@
-@regression
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Customer User Update User Profile capability
   In order to control for customer users ability to update their own profile

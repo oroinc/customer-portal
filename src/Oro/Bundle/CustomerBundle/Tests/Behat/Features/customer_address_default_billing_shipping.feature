@@ -1,3 +1,4 @@
+@regression
 @ticket-BB-14525
 @ticket-BB-16012
 Feature: Customer address default billing shipping

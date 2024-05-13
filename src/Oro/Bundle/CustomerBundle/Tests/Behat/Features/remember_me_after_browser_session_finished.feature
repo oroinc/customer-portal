@@ -1,3 +1,4 @@
+@regression
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Remember me after browser session finished
 

@@ -1,3 +1,4 @@
+@regression
 @fixture-OroCustomerBundle:CustomerAddressFixture.yml
 Feature: Delete customer address
   In order to check address deletion functionality

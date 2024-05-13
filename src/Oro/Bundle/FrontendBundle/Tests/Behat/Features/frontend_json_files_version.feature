@@ -1,3 +1,4 @@
+@regression
 @ticket-BAP-20090
 
 Feature: Frontend JSON files version

@@ -1,3 +1,4 @@
+@regression
 @ticket-BB-9574
 @fixture-OroFrontendBundle:multi_select_filter.yml
 
