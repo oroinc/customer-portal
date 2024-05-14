@@ -9,6 +9,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserAddressACLData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserAddressesACLData;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 use Symfony\Component\DomCrawler\Form;
@@ -17,9 +18,15 @@ class CustomerUserAddressControllerTest extends WebTestCase
 {
     protected function setUp(): void
     {
-        $this->initClient();
+        $this->initClient(
+            [],
+            $this->generateBasicAuthHeader(
+                LoadCustomerUserData::EMAIL,
+                LoadCustomerUserData::PASSWORD
+            )
+        );
 
-        $this->loadFixtures([LoadCustomerUserAddressesACLData::class]);
+        $this->loadFixtures([LoadCustomerUserAddressesACLData::class, LoadCustomerUserData::class]);
     }
 
     public function testIndex()
@@ -41,7 +48,6 @@ class CustomerUserAddressControllerTest extends WebTestCase
 
     public function testCreatePageHasSameSiteCancelUrl(): void
     {
-        $this->loginUser(LoadCustomerUserAddressACLData::USER_ACCOUNT_2_ROLE_LOCAL);
         $user = $this->getReference(LoadCustomerUserAddressACLData::USER_ACCOUNT_2_ROLE_LOCAL);
         $referer = 'http://example.org';
         $crawler = $this->client->request(
@@ -63,7 +69,6 @@ class CustomerUserAddressControllerTest extends WebTestCase
 
     public function testCreate()
     {
-        $this->loginUser(LoadCustomerUserAddressACLData::USER_ACCOUNT_2_ROLE_LOCAL);
         $user = $this->getReference(LoadCustomerUserAddressACLData::USER_ACCOUNT_2_ROLE_LOCAL);
         $crawler = $this->client->request(
             'GET',
@@ -87,6 +92,21 @@ class CustomerUserAddressControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
         self::assertStringContainsString('Customer User Address has been saved', $crawler->html());
+    }
+
+    public function testCreateAccessForbidden()
+    {
+        $this->loginUser(LoadCustomerUserAddressACLData::USER_ACCOUNT_2_ROLE_LOCAL);
+        $user = $this->getReference(LoadCustomerUserAddressACLData::USER_ACCOUNT_1_2_ROLE_BASIC);
+        $this->client->request(
+            'GET',
+            $this->getUrl(
+                'oro_customer_frontend_customer_user_address_create',
+                ['entityId' => $user->getId()]
+            )
+        );
+
+        $this->assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 403);
     }
 
     private function fillFormForCreate(Form $form): Form
