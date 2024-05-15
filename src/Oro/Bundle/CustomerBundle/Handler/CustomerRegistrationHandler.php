@@ -14,7 +14,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Handles submit of frontend customer registration form
  */
-class CustomerRegistrationHandler
+class CustomerRegistrationHandler implements CustomerRegistrationHandlerInterface
 {
     /**
      * @var FrontendCustomerUserRegistrationFormProvider
@@ -60,12 +60,7 @@ class CustomerRegistrationHandler
         $this->translator = $translator;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return array|RedirectResponse
-     */
-    public function handleRegistration(Request $request)
+    public function handleRegistration(Request $request): array|RedirectResponse
     {
         $form = $this->getForm();
 
@@ -83,20 +78,12 @@ class CustomerRegistrationHandler
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return bool
-     */
-    public function isRegistrationRequest(Request $request)
+    public function isRegistrationRequest(Request $request): bool
     {
         return (bool) $request->query->get('isRegistration');
     }
 
-    /**
-     * @return FormInterface
-     */
-    public function getForm()
+    public function getForm(): FormInterface
     {
         if (null === $this->form) {
             $this->form = $this->formProvider->getRegisterForm();

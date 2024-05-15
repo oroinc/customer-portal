@@ -1136,6 +1136,14 @@ services:
             - '@oro_form.update_handler'
             - '@translator'
 
+    oro_customer.handler.customer_registration_checkout_handler:
+        class: Oro\Bundle\CustomerBundle\Handler\CustomerRegistrationCheckoutHandler
+        arguments:
+            - '@oro_customer.handler.customer_registration_handler'
+            - '@oro_checkout.handler.checkout_get_request_handler'
+        tags:
+            - { name: oro_checkout.request_handler, priority: 200 }
+
     oro_customer.handler.forgot_password:
         class: 'Oro\Bundle\CustomerBundle\Handler\ForgotPasswordHandler'
         lazy: true
@@ -1143,6 +1151,8 @@ services:
             - '@oro_customer.customer_user.password_request.handler'
             - '@oro_customer.provider.frontend_customer_user_form'
             - '@request_stack'
+        tags:
+            - { name: oro_checkout.request_handler, priority: 150 }
 
     oro_customer.website_access_rule_walker_context_factory:
         class: Oro\Bundle\WebsiteBundle\Acl\ORM\Walker\WebsiteAccessRuleWalkerContextFactory
