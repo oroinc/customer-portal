@@ -357,7 +357,7 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
                     ],
                 ]
             ],
-            'сustomers have an inconsistent hierarchy in tree' => [
+            'customers have an inconsistent hierarchy in tree' => [
                 'token' => [
                     'customerUserReference' => LoadTreeProviderCustomerUserData::LEVEL_1_2_EMAIL,
                     'customerUserPassword' => LoadTreeProviderCustomerUserData::LEVEL_1_2_PASSWORD,

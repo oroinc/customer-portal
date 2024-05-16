@@ -12,7 +12,7 @@ Feature: Customer User Update User Profile capability
     And I login as administrator
     And I open "Administrator" customer user role view page
     Then the role has following active permissions:
-      | Customer User | View:Сorporate (All Levels) | Edit:Сorporate (All Levels) |
+      | Customer User | View:Corporate (All Levels) | Edit:Corporate (All Levels) |
     And following capability permissions should be checked:
       | Update User Profile |
 
@@ -36,7 +36,7 @@ Feature: Customer User Update User Profile capability
     And I save and close form
     Then I should see "Customer User Role has been saved" flash message
     And the role has following active permissions:
-      | Customer User | View:Сorporate (All Levels) | Edit:Сorporate (All Levels) |
+      | Customer User | View:Corporate (All Levels) | Edit:Corporate (All Levels) |
     And following capability permissions should be unchecked:
       | Update User Profile |
 

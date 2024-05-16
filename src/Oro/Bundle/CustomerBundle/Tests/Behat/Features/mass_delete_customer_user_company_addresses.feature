@@ -32,7 +32,7 @@ Feature: Mass delete customer user company addresses
   Scenario: Enable delete of Customer Address
     Given I proceed as the Admin
     And select following permissions:
-      | Customer Address | Delete:Сorporate (All Levels) |
+      | Customer Address | Delete:Corporate (All Levels) |
     And I save and close form
     Then I should see "Customer User Role has been saved" flash message
 
