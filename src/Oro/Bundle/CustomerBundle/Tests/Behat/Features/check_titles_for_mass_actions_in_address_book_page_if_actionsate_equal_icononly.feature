@@ -10,11 +10,11 @@ Feature: Check titles for mass actions in Address Book page if action-sate equal
         And I click "Roles"
         Then I click edit Administrator in grid
         When select following permissions:
-            | Customer User Address | Edit:Сorporate |
+            | Customer User Address | Edit:Corporate |
         And I save form
         Then I should see "Customer User Role has been saved" flash message
         And the role has following active permissions:
-            | Customer User Address | Edit:Сorporate (All Levels) |
+            | Customer User Address | Edit:Corporate (All Levels) |
         And I click "Account Dropdown"
         And I click "Address Book"
         Then I should see only following actions for row #1 on "Customer Company Addresses Grid" grid:
