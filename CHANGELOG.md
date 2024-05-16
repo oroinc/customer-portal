@@ -344,7 +344,7 @@ instead of `'%oro_email.email.entity.class%'` (in service definitions, datagrid 
 #### CustomerBundle
 * The field `username` was removed from `/admin/api/customerusers` REST API resource.
 * The `frontend_owner_type` entity configuration attribute for Customer entity is set to `FRONTEND_CUSTOMER`.
-  The `Full` access level was changed to `Сorporate (All Levels)` for Customer entity for `ROLE_FRONTEND_ADMINISTRATOR` customer user role.
+  The `Full` access level was changed to `Corporate (All Levels)` for Customer entity for `ROLE_FRONTEND_ADMINISTRATOR` customer user role.
   For all other customer user roles the `Full` access level was changed to `Department (Same Level)`.
   
 * Changes in `/admin/api/customer_user_addresses` REST API resource:

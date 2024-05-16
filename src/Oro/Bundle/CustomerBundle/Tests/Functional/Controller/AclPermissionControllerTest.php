@@ -43,12 +43,12 @@ class AclPermissionControllerTest extends WebTestCase
             'AUTHORISED CHECKOUT' => [
                 'oid' => 'entity:Oro_Bundle_CheckoutBundle_Entity_Checkout',
                 'status' => 200,
-                'expected' => ['None', 'User (Own)', 'Department (Same Level)', 'Сorporate (All Levels)'],
+                'expected' => ['None', 'User (Own)', 'Department (Same Level)', 'Corporate (All Levels)'],
             ],
             'AUTHORISED CUSTOMER USER' => [
                 'oid' => 'entity:Oro_Bundle_CustomerBundle_Entity_CustomerUser',
                 'status' => 200,
-                'expected' => ['None', 2 => 'Department (Same Level)', 3 => 'Сorporate (All Levels)'],
+                'expected' => ['None', 2 => 'Department (Same Level)', 3 => 'Corporate (All Levels)'],
             ],
         ];
     }

@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormEvents;
 
 /**
  * Adds additional validation for scopes collection.
- * Сan not use scopes at the same time as custom and customer group.
+ * Can not use scopes at the same time as custom and customer group.
  */
 class ScopeWithCustomerGroupAndCustomerExtension extends AbstractTypeExtension
 {

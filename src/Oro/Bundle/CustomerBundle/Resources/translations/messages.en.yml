@@ -846,7 +846,7 @@ oro.customer:
         access-level:
             BASIC: 'User (Own)'
             LOCAL: 'Department (Same Level)'
-            DEEP: 'Сorporate (All Levels)'
+            DEEP: 'Corporate (All Levels)'
             GLOBAL: 'Not supported'
             SYSTEM: 'Full'
             NONE: 'None'
@@ -892,7 +892,7 @@ oro.customer:
             access-level:
                 BASIC: 'User (Own)'
                 LOCAL: 'Department (Same Level)'
-                DEEP: 'Сorporate (All Levels)'
+                DEEP: 'Corporate (All Levels)'
                 GLOBAL: 'Not supported'
                 SYSTEM: 'Full'
                 NONE: 'None'
