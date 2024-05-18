@@ -2,7 +2,7 @@
 @ticket-BB-15553
 @fixture-OroCustomerBundle:CustomerUserFixture.yml
 Feature: Frontend customer address default billing shipping
-  In order to to manage addresses for Customer User
+  In order to manage addresses for Customer User
   As a buyer
   I want to check billing/shipping address automatically when default billing/shipping address checked on Customer's edit page
 

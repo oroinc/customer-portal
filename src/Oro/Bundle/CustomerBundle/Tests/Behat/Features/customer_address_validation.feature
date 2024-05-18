@@ -3,7 +3,7 @@
 @ticket-BB-20875
 @fixture-OroCustomerBundle:CustomerUserFixture.yml
 Feature: Customer address validation
-  In order to to manage addresses for Customer
+  In order to manage addresses for Customer
   As an administrator
   I want to see validation related to First/Last names and Organization for Address on Customer's edit page
 
