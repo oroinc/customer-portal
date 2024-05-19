@@ -7,9 +7,10 @@ api:
                     fields:
                         owner:
                             exclude: true
-                        types:
-                            order_by:
-                                name: ASC
+                        customer:
+                            exclude: true
+                        systemOrganization:
+                            exclude: true
 
         Oro\Bundle\CustomerBundle\Entity\CustomerUser:
             fields:
@@ -18,6 +19,7 @@ api:
                     fields:
                         owner:
                             exclude: true
-                        types:
-                            order_by:
-                                name: ASC
+                        customerUser:
+                            exclude: true
+                        systemOrganization:
+                            exclude: true
