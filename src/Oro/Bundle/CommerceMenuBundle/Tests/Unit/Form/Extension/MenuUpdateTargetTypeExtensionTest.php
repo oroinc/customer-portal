@@ -5,6 +5,7 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Extension;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CatalogBundle\Entity\Category;
 use Oro\Bundle\CatalogBundle\Form\Type\CategoryTreeType;
@@ -15,6 +16,7 @@ use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Entity\Stub\MenuUpdateStub;
 use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Type\Stub\MenuUpdateTypeStub;
 use Oro\Bundle\EntityConfigBundle\Config\Config;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
+use Oro\Bundle\EntityConfigBundle\Config\Id\EntityConfigId;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\FormBundle\Autocomplete\SearchHandlerInterface;
@@ -38,7 +40,6 @@ use Oro\Bundle\WebCatalogBundle\Provider\WebCatalogProvider;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
-use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -51,9 +52,8 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
 {
     use MenuItemTestTrait;
 
-    private WebCatalogProvider|MockObject $webCatalogProvider;
-
-    private AuthorizationCheckerInterface|MockObject $authorizationChecker;
+    /** @var WebCatalogProvider|\PHPUnit\Framework\MockObject\MockObject */
+    private $webCatalogProvider;
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
@@ -61,8 +61,6 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
     protected function getExtensions(): array
     {
         $this->webCatalogProvider = $this->createMock(WebCatalogProvider::class);
-
-        $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
 
         $entityManager = $this->createMock(EntityManager::class);
         $categoryEntityManager = $this->createMock(EntityManager::class);
@@ -74,6 +72,14 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
                 [ContentNode::class, $entityManager],
                 [Category::class, $categoryEntityManager],
             ]);
+
+        $metadataFactory = $this->createMock(ClassMetadataFactory::class);
+        $entityManager->expects($this->any())
+            ->method('getMetadataFactory')
+            ->willReturn($metadataFactory);
+        $metadataFactory->expects($this->any())
+            ->method('hasMetadataFor')
+            ->willReturn(true);
 
         $classMetadata = new ClassMetadata(WebCatalog::class);
         $classMetadata->setIdentifier(['id']);
@@ -103,6 +109,17 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
             ->method('getRepository')
             ->willReturn($categoryRepository);
 
+        $configManager = $this->createMock(ConfigManager::class);
+        $configManager->expects($this->any())
+            ->method('hasConfig')
+            ->willReturn(true);
+        $configManager->expects($this->any())
+            ->method('getEntityConfig')
+            ->with('form')
+            ->willReturnCallback(function ($className) {
+                return new Config(new EntityConfigId('form', $className), ['grid_name' => 'test_grid']);
+            });
+
         $handler = $this->createMock(SearchHandlerInterface::class);
         $handler->expects(self::any())
             ->method('getProperties')
@@ -116,11 +133,6 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
             ->method('getSearchHandler')
             ->willReturn($handler);
 
-        $configManager = $this->createMock(ConfigManager::class);
-        $configManager->expects(self::any())
-            ->method('getProvider')
-            ->willReturn($configProvider = $this->getConfigProvider());
-
         return [
             new PreloadedExtension(
                 [
@@ -131,7 +143,11 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
                         $entityManager,
                         $searchRegistry
                     ),
-                    new OroJquerySelect2HiddenType($entityManager, $searchRegistry, $configProvider),
+                    new OroJquerySelect2HiddenType(
+                        $entityManager,
+                        $searchRegistry,
+                        $this->createMock(ConfigProvider::class)
+                    ),
                     new ContentNodeFromWebCatalogSelectType($this->createMock(ContentNodeTreeHandler::class)),
                     new EntityIdentifierType($managerRegistry),
                     RouteChoiceType::class => new RouteChoiceTypeStub(['sample_route' => 'sample_route']),
@@ -141,7 +157,7 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
                 [
                     MenuUpdateTypeStub::class => [new MenuUpdateTargetTypeExtension(
                         $this->webCatalogProvider,
-                        $this->authorizationChecker,
+                        $this->createMock(AuthorizationCheckerInterface::class),
                     )],
                     FormType::class => [new TooltipFormExtensionStub($this)],
                     ChoiceType::class => [new TranslatableChoiceTypeExtension()],
@@ -157,26 +173,6 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
             'oro_security.validator.constraints.not_dangerous_protocol' =>
                 new NotDangerousProtocolValidator(new UriSecurityHelper([])),
         ];
-    }
-
-    private function getConfigProvider(): ConfigProvider
-    {
-        $config = $this->createMock(Config::class);
-        $config->expects(self::any())
-            ->method('has')
-            ->with('grid_name')
-            ->willReturn(true);
-        $config->expects(self::any())
-            ->method('get')
-            ->with('grid_name')
-            ->willReturn('sample-grid');
-
-        $configProvider = $this->createMock(ConfigProvider::class);
-        $configProvider->expects(self::any())
-            ->method('getConfig')
-            ->willReturn($config);
-
-        return $configProvider;
     }
 
     public function testBuildFormHasDefaultUriTargetTypeWhenNewMenuUpdateAndNoMenuItem(): void
@@ -227,8 +223,7 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
      */
     public function testSubmitTargetTypeWhenIsCustom(array $submitData, MenuUpdate $expectedMenuUpdate): void
     {
-        $this->webCatalogProvider
-            ->expects(self::once())
+        $this->webCatalogProvider->expects(self::once())
             ->method('getWebCatalog')
             ->willReturn($this->createMock(WebCatalog::class));
 
@@ -307,8 +302,7 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
      */
     public function testSubmitTargetTypeWhenSystemButRoot(array $submitData, MenuUpdate $expectedMenuUpdate): void
     {
-        $this->webCatalogProvider
-            ->expects(self::once())
+        $this->webCatalogProvider->expects(self::once())
             ->method('getWebCatalog')
             ->willReturn($this->createMock(WebCatalog::class));
 
@@ -386,8 +380,7 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
      */
     public function testSubmitTargetTypeWhenIsSystem(array $submitData): void
     {
-        $this->webCatalogProvider
-            ->expects(self::once())
+        $this->webCatalogProvider->expects(self::once())
             ->method('getWebCatalog')
             ->willReturn($this->createMock(WebCatalog::class));
 
