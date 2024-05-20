@@ -40,6 +40,7 @@ define(function(require, exports, module) {
             startPointClass: '',
             prepend: false,
             responsive: [],
+            scroll: [],
             targetViewport: null,
             _moved: false,
             _addedClass: null
@@ -58,6 +59,7 @@ define(function(require, exports, module) {
         initialize: function(options) {
             this.$window = $(window);
             this.onContentChange = _.debounce(this.onContentChange.bind(this), this.layoutTimeout);
+            this.onScrollChange = _.debounce(this.onScrollChange.bind(this), 150);
 
             return DomRelocationView.__super__.initialize.call(this, options);
         },
@@ -68,7 +70,25 @@ define(function(require, exports, module) {
         render: function() {
             this.collectElements();
             this.moveElements();
+            this._moveElementsOnScroll();
             return this;
+        },
+
+        /**
+         * @inheritDoc
+         */
+        delegateEvents(events) {
+            DomRelocationView.__super__.delegateEvents.call(this, events);
+
+            $(document).on(`scroll${this.eventNamespace()}`, this.onScrollChange.bind(this));
+        },
+
+        /**
+         * @inheritDoc
+         */
+        undelegateEvents() {
+            $(document).off(this.eventNamespace());
+            return DomRelocationView.__super__.undelegateEvents.call(this);
         },
 
         onContentChange: function() {
@@ -77,6 +97,10 @@ define(function(require, exports, module) {
 
         onViewportChange: function() {
             this.moveElements();
+        },
+
+        onScrollChange() {
+            this._moveElementsOnScroll();
         },
 
         /**
@@ -99,7 +123,12 @@ define(function(require, exports, module) {
             if (!this.$elements.length) {
                 return;
             }
-            _.each(this.$elements, function(el) {
+
+            const $elementToMove = this.$elements.filter((i, el) => {
+                return this.isElementForMovedOnResize(el);
+            });
+
+            _.each($elementToMove, el => {
                 const $el = $(el);
                 const options = $el.data('dom-relocation-options');
                 const targetOptions = this.checkTargetOptions(viewportManager, options.responsive);
@@ -136,9 +165,12 @@ define(function(require, exports, module) {
          */
         returnByIndex: function($el) {
             const options = $el.data('dom-relocation-options');
+            let placeholder = document.getElementById(options.placeholderId);
 
-            const placeholder = [...options.$originalPosition.get(0).childNodes]
-                .find(node => node.nodeType === Element.COMMENT_NODE && node.nodeValue === options.placeholderId);
+            if (!placeholder) {
+                placeholder = [...options.$originalPosition.get(0).childNodes]
+                    .find(node => node.nodeType === Element.COMMENT_NODE && node.nodeValue === options.placeholderId);
+            }
 
             if (placeholder) {
                 $(placeholder).after($el);
@@ -159,15 +191,46 @@ define(function(require, exports, module) {
         },
 
         /**
+         * @param {HTMLElement|jQuery.Element} el
+         * @returns {HTMLElement}
+         */
+        createPlaceholderForElement(el) {
+            const options = $(el).data('dom-relocation-options');
+            const placeholder = document.createElement('div');
+
+            placeholder.style.height = `${$(el).outerHeight(true)}px`;
+            placeholder.id = options.placeholderId;
+
+            return placeholder;
+        },
+
+        /**
+         * @param {HTMLElement|jQuery.Element} el
+         * @returns {Comment}
+         */
+        createCommentPlaceholderForElement(el) {
+            const options = $(el).data('dom-relocation-options');
+
+            return document.createComment(`${options.placeholderId}`);
+        },
+
+        /**
          * Move element to target parent
          * @param $el
          * @param targetOptions
          */
         moveToTarget: function($el, targetOptions) {
-            const options = $el.data('dom-relocation-options');
-            let $target = $(targetOptions.moveTo).first();
+            const options = $el.data('dom-relocation-options') ?? {};
 
-            $el.before(document.createComment(`${options.placeholderId}`));
+            let placeholder = this.createCommentPlaceholderForElement($el);
+
+            if (this.isElementForMovedOnScroll($el)) {
+                placeholder = this.createPlaceholderForElement($el);
+            }
+
+            $el.before(placeholder);
+
+            let $target = $(targetOptions.moveTo).first();
 
             if (targetOptions.sibling) {
                 $target = $target.find(targetOptions.sibling).first();
@@ -209,6 +272,14 @@ define(function(require, exports, module) {
                 if (options._loaded) {
                     return;
                 }
+
+                if (options.responsive && options.scroll) {
+                    console.warn(`
+                        %cLooks like you area using "responsive" and "scroll" simultaneously.
+                        It may cause the conflicts during the relocating process.
+                    `, 'color:red');
+                }
+
                 _.extend(
                     _.defaults(options, this.defaultOptions),
                     {
@@ -219,6 +290,70 @@ define(function(require, exports, module) {
                     }
                 );
             }, this);
+        },
+
+        /**
+         * Check each element and move it based on scroll position
+         */
+        _moveElementsOnScroll() {
+            if (!this.$elements.length) {
+                return;
+            }
+
+            const $elementsToMove = this.$elements.filter((i, el) => {
+                return this.isElementForMovedOnScroll(el);
+            });
+
+            $elementsToMove.each((i, el) => {
+                const $el = $(el);
+                const options = $el.data('dom-relocation-options');
+                const targetOptions = this.checkTargetOptions(viewportManager, options.scroll);
+
+                if (targetOptions === void 0 && options._moved) {
+                    this.returnByIndex($el);
+                }
+
+                const scrollTop = window.scrollY;
+
+                if (options._moved) {
+                    const placeholder = document.getElementById(options.placeholderId);
+
+                    if (!placeholder) {
+                        return;
+                    }
+
+                    const bottomThreshold = placeholder.getBoundingClientRect().y;
+
+                    if (scrollTop < bottomThreshold) {
+                        options._moved = false;
+                        this.returnByIndex($el);
+                        mediator.trigger('layout:content-relocated', $el, options);
+                    }
+                } else if (_.isObject(targetOptions)) {
+                    const bottomThreshold = el.getBoundingClientRect().bottom;
+                    if (!options._moved && scrollTop > bottomThreshold) {
+                        options._moved = true;
+                        this.moveToTarget($el, targetOptions);
+                        mediator.trigger('layout:content-relocated', $el, options);
+                    }
+                }
+            });
+        },
+
+        /**
+         * @param {HTMLElement|jQuery.Element} el
+         * @returns {boolean}
+         */
+        isElementForMovedOnResize(el) {
+            return $(el).data('dom-relocation-options').responsive.length;
+        },
+
+        /**
+         * @param {HTMLElement|jQuery.Element} el
+         * @returns {boolean}
+         */
+        isElementForMovedOnScroll(el) {
+            return $(el).data('dom-relocation-options').scroll.length;
         }
     });
 
