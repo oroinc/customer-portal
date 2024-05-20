@@ -1,33 +1,11 @@
 /* @theme: default; */
 
 .badge {
-    margin-right: $badge-inner-offset-right;
-
     @include badge();
 
-    &--dark {
-        background-color: $badge-background-color-dark;
-    }
-
-    &--light {
-        background-color: $badge-background-color-light;
-    }
-
-    &--info {
-        background-color: $badge-background-color-info;
-    }
-
-    &--offset-none {
-        margin-right: 0;
-    }
-
-    &--xs {
-        width: $badge-size-xs;
-        min-width: $badge-size-xs;
-        height: $badge-size-xs;
-
-        font-size: $badge-font-size-xs;
-        line-height: $badge-size-xs;
+    &--inverse {
+        --badge-bg-color: #{$badge-background-color-inverse};
+        --badge-color: #{$badge-color-inverse};
     }
 }
 
