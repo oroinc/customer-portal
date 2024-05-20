@@ -63,6 +63,7 @@ The current file describes significant changes in the code that may affect the u
   This widget no longer uses `fullscreen-popup-view` under the hood to render dialog as fullscreen. All logic is done by CSS using an extra class `fullscreen`. As a result, `fullscreenViewOptions` property was deleted and property `popupIcon` and events `frontend-dialog:accept, frontend-dialog:cancel, frontend-dialog:close` were renamed to `dialogTitleIcon`, and `accept, cancel, close`.
 * SCSS `$base-font-minor` and `$base-font-icon` variables were removed, use `$base-font` and SVG icon instead.
 * SCSS `get-nested-map-value` function was removed, use native SCSS `map.get` function instead.
+* Add `scroll` property to `data-dom-relocation-options` to handle element relocation on scroll
 
 #### FrontendImportExportBundle
 * Updated `frontend_export_result_error`, `frontend_export_result_success` email templates to extend them from `base_storefront` email template.
@@ -345,7 +346,7 @@ instead of `'%oro_email.email.entity.class%'` (in service definitions, datagrid 
 #### CustomerBundle
 * The field `username` was removed from `/admin/api/customerusers` REST API resource.
 * The `frontend_owner_type` entity configuration attribute for Customer entity is set to `FRONTEND_CUSTOMER`.
-  The `Full` access level was changed to `Сorporate (All Levels)` for Customer entity for `ROLE_FRONTEND_ADMINISTRATOR` customer user role.
+  The `Full` access level was changed to `Corporate (All Levels)` for Customer entity for `ROLE_FRONTEND_ADMINISTRATOR` customer user role.
   For all other customer user roles the `Full` access level was changed to `Department (Same Level)`.
   
 * Changes in `/admin/api/customer_user_addresses` REST API resource:

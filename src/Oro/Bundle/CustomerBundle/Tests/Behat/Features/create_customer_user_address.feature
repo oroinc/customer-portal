@@ -4,7 +4,7 @@
 @fixture-OroAddressBundle:CountryNameTranslation.yml
 
 Feature: Create customer user address
-  In order to to manage addresses for Customer User
+  In order to manage addresses for Customer User
   As an administrator
   I want to create new Address
 

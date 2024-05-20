@@ -6,7 +6,6 @@
     right: 0;
     left: 0;
     z-index: $notification-flash-container-z-index;
-
     margin-top: calc(var(--notification-extra-offset-top, 116px) + #{$notification-flash-container-offset-top});
     margin-right: $notification-flash-container-offset-right;
     margin-left: $notification-flash-container-offset-left;
@@ -15,6 +14,11 @@
     opacity: 1;
 
     transition: opacity 300ms linear, top 300ms linear, margin-top 300ms;
+
+    // container is never shown in safari browser
+    &:has(*) {
+        opacity: 1;
+    }
 
     &:empty {
         opacity: 0;

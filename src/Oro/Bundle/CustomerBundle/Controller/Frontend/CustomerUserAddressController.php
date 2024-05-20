@@ -60,6 +60,10 @@ class CustomerUserAddressController extends AbstractController
     #[AclAncestor('oro_customer_frontend_customer_user_address_create')]
     public function createAction(CustomerUser $customerUser, Request $request): array|RedirectResponse
     {
+        if (!$this->isGranted('oro_customer_frontend_customer_user_view', $customerUser)) {
+            throw new AccessDeniedException();
+        }
+
         return $this->update($customerUser, new CustomerUserAddress(), $request);
     }
 
