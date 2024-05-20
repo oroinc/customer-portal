@@ -5,6 +5,8 @@ import SidePanelHeader from './side-panel-header';
 import SidePanelFooterView from './side-panel-footer-view';
 
 const SidePanelView = FullScreenPopupView.extend({
+    toggleBtnActiveClassName: 'side-panel-menu-opened',
+
     constructor: function SidePanelView(options) {
         options.headerView = SidePanelHeader;
 
