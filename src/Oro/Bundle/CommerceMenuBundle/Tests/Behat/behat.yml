@@ -114,6 +114,18 @@ oro_behat_extension:
         type: xpath
         locator: '//li[contains(@class, "jstree-node")]/a[contains(., "frontend_menu")]/parent::li/ul//li[contains(@class, "jstree-node")]/a[contains(., "Frontend Child Item Update")]'
 
+    Frontend Menu By Scope Grid 1:
+      selector:
+        type: 'xpath'
+        locator: '(//div[contains(@id,"grid-frontend-menu-by-scope-grid")])[1]'
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+
+    Frontend Menu By Scope Grid 2:
+      selector:
+        type: 'xpath'
+        locator: '(//div[contains(@id,"grid-frontend-menu-by-scope-grid")])[2]'
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+
     Menu Update Content Node Field:
       selector: 'div[data-role="content-node-field"]'
 

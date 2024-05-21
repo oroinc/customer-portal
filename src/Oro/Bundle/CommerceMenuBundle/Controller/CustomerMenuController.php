@@ -24,7 +24,11 @@ class CustomerMenuController extends AbstractFrontendMenuController
      * @param Customer $customer
      * @return array
      */
-    #[Route(path: '/{id}', name: 'oro_commerce_menu_customer_menu_index')]
+    #[Route(
+        path: '/{id}',
+        name: 'oro_commerce_menu_customer_menu_index',
+        requirements: ['id' => '\d+']
+    )]
     #[Template]
     public function indexAction(Customer $customer)
     {
