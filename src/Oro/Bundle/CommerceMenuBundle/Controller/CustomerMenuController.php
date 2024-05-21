@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CustomerMenuController extends AbstractFrontendMenuController
 {
     /**
-     * @Route("/{id}", name="oro_commerce_menu_customer_menu_index")
+     * @Route("/{id}", name="oro_commerce_menu_customer_menu_index", requirements={"id"="\d+"})
      * @Template
      *
      * @param Customer $customer
