@@ -88,6 +88,18 @@ oro_behat_extension:
         locator: '//a[contains (@href,"/admin/config/user/") and @title="Configuration"]'
         type: xpath
 
+    Frontend Menu By Scope Grid 1:
+      selector:
+        type: 'xpath'
+        locator: '(//div[contains(@id,"grid-frontend-menu-by-scope-grid")])[1]'
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+
+    Frontend Menu By Scope Grid 2:
+      selector:
+        type: 'xpath'
+        locator: '(//div[contains(@id,"grid-frontend-menu-by-scope-grid")])[2]'
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+
   pages:
     Frontend Menus:
       class: Oro\Bundle\CommerceMenuBundle\Tests\Behat\Page\FrontendMenus
@@ -112,5 +124,6 @@ oro_behat_extension:
         - Oro\Bundle\LocaleBundle\Tests\Behat\Context\LocalizationContext
         - Oro\Bundle\WebCatalogBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\SecurityBundle\Tests\Behat\Context\ACLContext
+        - Oro\Bundle\NavigationBundle\Tests\Behat\Context\TabContext
       paths:
         - '@OroCommerceMenuBundle/Tests/Behat/Features'
