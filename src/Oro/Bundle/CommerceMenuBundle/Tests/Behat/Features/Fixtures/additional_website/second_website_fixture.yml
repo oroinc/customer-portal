@@ -1,0 +1,7 @@
+Oro\Bundle\WebsiteBundle\Entity\Website:
+  second_website:
+    name: 'Website Pro'
+    organization: '@organization'
+    owner: '@business_unit'
+    guest_role: '@buyer'
+    default_role: '@buyer'
