@@ -132,6 +132,7 @@ class ProcessorTest extends \PHPUnit\Framework\TestCase
     private function assertEventDispatched(string $template, array $params): void
     {
         $event = new CustomerUserEmailSendEvent($this->user, $template, $params);
+        $event->setScope($this->user->getWebsite());
         $this->eventDispatcher->expects($this->once())
             ->method('dispatch')
             ->with($event, CustomerUserEmailSendEvent::NAME);
