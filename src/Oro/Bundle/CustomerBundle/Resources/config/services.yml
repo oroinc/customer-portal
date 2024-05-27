@@ -1460,3 +1460,12 @@ services:
         class: Oro\Bundle\CustomerBundle\Security\Listener\AnonymousSuccessLoginListener
         tags:
             - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LoginSuccessEvent, method: onSuccess, priority: 100 }
+
+    oro_customer.event_listener.anonymous_user_email_send:
+        class: Oro\Bundle\CustomerBundle\EventListener\AnonymousUserEmailSendListener
+        arguments:
+            - '@security.token_storage'
+            - '@oro_website.manager'
+        tags:
+            - { name: kernel.event_listener, event: 'oro_customer.customer_user_email_send_event', method: onCustomerUserEmailSend }
+
