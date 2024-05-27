@@ -29,6 +29,11 @@ class CustomerUserEmailSendEvent extends Event
     private $emailTemplateParams;
 
     /**
+     * @var null|object
+     */
+    private $scope;
+
+    /**
      * @param UserInterface $customerUser
      * @param string $emailTemplate
      * @param array $emailTemplateParams
@@ -82,6 +87,18 @@ class CustomerUserEmailSendEvent extends Event
     public function setEmailTemplateParams(array $emailTemplateParams)
     {
         $this->emailTemplateParams = $emailTemplateParams;
+
+        return $this;
+    }
+
+    public function getScope(): ?object
+    {
+        return $this->scope;
+    }
+
+    public function setScope(?object $scope): self
+    {
+        $this->scope = $scope;
 
         return $this;
     }
