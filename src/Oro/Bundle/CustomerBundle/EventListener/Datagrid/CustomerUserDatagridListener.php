@@ -19,7 +19,7 @@ class CustomerUserDatagridListener
 
     const USER_SELECT_PART = 'user.id IN (:data_in) AND user.id NOT IN (:data_not_in)';
     const ROLE_SELECT_PART = '(:role MEMBER OF user.userRoles OR user.id IN (:data_in)) '
-    . 'AND user.id NOT IN (:data_not_in)';
+        . 'AND user.id NOT IN (:data_not_in)';
     const HAS_ROLE_SELECT = '(CASE WHEN %s THEN true ELSE false END) as hasRole';
 
     const ACCOUNT_CONDITION = 'user.customer = :customer';
