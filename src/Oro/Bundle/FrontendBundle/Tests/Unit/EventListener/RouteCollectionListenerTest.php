@@ -90,9 +90,9 @@ class RouteCollectionListenerTest extends \PHPUnit\Framework\TestCase
                         'route2' => (new Route('path2'))
                             ->setOption('override_path', 'api/route1'),
                         'frontend_route1' => (new Route('/path1'))
-                            ->addOptions(['frontend' =>true, 'override_path' => '/api/route1']),
+                            ->addOptions(['frontend' => true, 'override_path' => '/api/route1']),
                         'frontend_route2' => (new Route('path2'))
-                            ->addOptions(['frontend' =>true, 'override_path' => 'api/route1']),
+                            ->addOptions(['frontend' => true, 'override_path' => 'api/route1']),
                     ]
                 ),
                 [
@@ -101,9 +101,9 @@ class RouteCollectionListenerTest extends \PHPUnit\Framework\TestCase
                     'route2' => (new Route('/prefix/path2'))
                         ->setOption('override_path', 'prefix/api/route1'),
                     'frontend_route1' => (new Route('/path1'))
-                        ->addOptions(['frontend' =>true, 'override_path' => '/api/route1']),
+                        ->addOptions(['frontend' => true, 'override_path' => '/api/route1']),
                     'frontend_route2' => (new Route('path2'))
-                        ->addOptions(['frontend' =>true, 'override_path' => 'api/route1']),
+                        ->addOptions(['frontend' => true, 'override_path' => 'api/route1']),
                 ]
             ],
         ];
