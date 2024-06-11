@@ -7,6 +7,8 @@ $notification-flash-container-offset-left: auto !default;
 $notification-flash-container-z-index: z('fixed') !default;
 
 // Tablet
+$notification-flash-container-tablet-offset-right: spacing('base') !default;
+
 $notification-flash-container-tablet-offset: 28px spacing('base') 0 auto !default;
 $notification-flash-container-tablet-width: 400px !default;
 
