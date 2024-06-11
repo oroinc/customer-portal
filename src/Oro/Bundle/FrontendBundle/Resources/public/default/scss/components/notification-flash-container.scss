@@ -2,9 +2,8 @@
 
 .notification-flash-container {
     position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
+    inset-block: 0 auto;
+    inset-inline: auto calc(50% - min(#{$site-width}, calc(100vw - var(--system-scroll-width))) / 2);
     z-index: $notification-flash-container-z-index;
     margin-top: calc(var(--notification-extra-offset-top, 116px) + #{$notification-flash-container-offset-top});
     margin-right: $notification-flash-container-offset-right;
@@ -22,6 +21,12 @@
 
     &:empty {
         opacity: 0;
+    }
+}
+
+@include breakpoint('tablet') {
+    .notification-flash-container {
+        margin-right: $notification-flash-container-tablet-offset-right;
     }
 }
 
