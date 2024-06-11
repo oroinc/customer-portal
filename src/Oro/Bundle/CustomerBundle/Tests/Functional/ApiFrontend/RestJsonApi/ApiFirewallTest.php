@@ -32,7 +32,7 @@ class ApiFirewallTest extends FrontendRestJsonApiTestCase
 
         $response = $this->post(
             ['entity' => 'login'],
-            ['meta'=> ['email' => 'test@test.com', 'password' => 'test_password']],
+            ['meta' => ['email' => 'test@test.com', 'password' => 'test_password']],
             self::generateWsseAuthHeader('test@test.com', $apiKey),
             false
         );

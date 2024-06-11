@@ -125,7 +125,7 @@ class FrontendErrorRenderer implements ErrorRendererInterface, ServiceSubscriber
         } catch (\Throwable $e) {
             $this->getLogger()->error(
                 'Cannot render layout template for an error page, because of errors in some layout templates.',
-                ['exception'=> $e, 'statusCode' => $statusCode]
+                ['exception' => $e, 'statusCode' => $statusCode]
             );
         } finally {
             // restore a sub-request request in the request stack

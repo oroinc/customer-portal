@@ -100,19 +100,19 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
             [
                 'data' => [
                     [
-                        'type'=> self::ENTITY_TYPE,
+                        'type' => self::ENTITY_TYPE,
                         'id'   => '<toString(@grzegorz.brzeczyszczykiewicz@example.com.address_1->id)>'
                     ],
                     [
-                        'type'=> self::ENTITY_TYPE,
+                        'type' => self::ENTITY_TYPE,
                         'id'   => '<toString(@grzegorz.brzeczyszczykiewicz@example.com.address_2->id)>'
                     ],
                     [
-                        'type'=> self::ENTITY_TYPE,
+                        'type' => self::ENTITY_TYPE,
                         'id'   => '<toString(@grzegorz.brzeczyszczykiewicz@example.com.address_3->id)>'
                     ],
                     [
-                        'type'=> self::ENTITY_TYPE,
+                        'type' => self::ENTITY_TYPE,
                         'id'   => '<toString(@other.user@test.com.address_1->id)>'
                     ]
                 ]
