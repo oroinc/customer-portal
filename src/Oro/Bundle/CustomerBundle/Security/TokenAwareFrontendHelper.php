@@ -37,6 +37,10 @@ class TokenAwareFrontendHelper extends FrontendHelper
 
     public function isFrontendRequest(): bool
     {
+        if ($this->emulateFrontendRequest !== null) {
+            return $this->emulateFrontendRequest;
+        }
+
         $token = $this->tokenStorage->getToken();
         if (null !== $token) {
             return
