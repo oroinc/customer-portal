@@ -26,6 +26,15 @@ $headline2-color: $headline-color !default;
 $headline2-bottom-offset: $headline-bottom-offset !default;
 $headline2-margin-block: 0 !default;
 
+$headline2-italic-font-size: 24px !default;
+$headline2-italic-font-family: $headline-font-family !default;
+$headline2-italic-font-weight: font-weight('semi-bold') !default;
+$headline2-italic-font-style: italic !default;
+$headline2-italic-line-height: 1.67 !default;
+$headline2-italic-color: $headline-color !default;
+$headline2-italic-text-transform: $headline-text-transform !default;
+$headline2-italic-margin-block: 0 !default;
+
 // H3
 $headline3-font-size: 18px !default;
 $headline3-font-family: $headline-font-family !default;
@@ -56,16 +65,6 @@ $headline5-color: $headline-color;
 $headline5-bottom-offset: spacing('xs') !default;
 $headline5-margin-block: 0 !default;
 
-// H6
-$headline6-font-size: 12px !default;
-$headline6-font-family: $headline-font-family !default;
-$headline6-font-weight: font-weight('semi-bold') !default;
-$headline6-line-height: 1.5 !default;
-$headline6-text-transform: $headline-text-transform !default;
-$headline6-color: $headline-color !default;
-$headline6-bottom-offset: spacing('xs') !default;
-$headline6-margin-block: 0 !default;
-
 // H5 CAPS
 $headline5-caps-font-size: 14px !default;
 $headline5-caps-font-family: $headline-font-family !default;
@@ -77,13 +76,13 @@ $headline5-caps-color: $headline-color !default;
 $headline5-caps-bottom-offset: spacing('xs') !default;
 $headline5-caps-margin-block: 0 !default;
 
-// H6 CAPS
-$headline6-caps-font-size: 12px !default;
-$headline6-caps-font-family: $headline-font-family !default;
-$headline6-caps-font-weight: font-weight('semi-bold') !default;
-$headline6-caps-line-height: 1.5 !default;
-$headline6-caps-letter-spacing: .5px !default;
-$headline6-caps-text-transform: uppercase !default;
-$headline6-caps-color: $headline-color !default;
-$headline6-caps-bottom-offset: spacing('xs') !default;
-$headline6-caps-margin-block: 0 !default;
+// H6
+$headline6-font-size: 12px !default;
+$headline6-font-family: $headline-font-family !default;
+$headline6-font-weight: font-weight('semi-bold') !default;
+$headline6-line-height: 1.5 !default;
+$headline6-color: $headline-color !default;
+$headline6-bottom-offset: spacing('xs') !default;
+$headline6-margin-block: 0 !default;
+$headline6-letter-spacing: .5px !default;
+$headline6-text-transform: uppercase !default;

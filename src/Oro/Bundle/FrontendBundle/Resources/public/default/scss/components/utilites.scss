@@ -160,6 +160,14 @@
     object-position: center;
 }
 
+.full-cover {
+    @extend %full-cover;
+}
+
+.line-through {
+    text-decoration: line-through;
+}
+
 .inline-flex {
     display: inline-flex;
 }
