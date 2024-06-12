@@ -7,15 +7,15 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * @group regression
  */
-class FrontendOpenApiTest extends FrontendOpenApiTestCase
+class FrontendOpenApiSpecificationTest extends FrontendOpenApiSpecificationTestCase
 {
-    public function testGenerationOpenApiForFrontendRestJsonApiSuccess(): void
+    public function testGenerationOpenApiSpecificationForFrontendRestJsonApiSuccess(): void
     {
         $result = self::runCommand('oro:api:doc:open-api:dump', ['--view' => 'frontend_rest_json_api'], true, true);
         self::assertStringContainsString('"openapi":"3.1.0"', $result);
     }
 
-    public function testValidateGeneratedOpenApiForFrontendRestJsonApi(): void
+    public function testValidateGeneratedOpenApiSpecificationForFrontendRestJsonApi(): void
     {
         $result = self::runCommand(
             'oro:api:doc:open-api:dump',
@@ -31,6 +31,6 @@ class FrontendOpenApiTest extends FrontendOpenApiTestCase
         );
         $expected = Yaml::parse(file_get_contents(__DIR__ . '/data/frontend_rest_json_api.yml'));
         $actual = Yaml::parse($result);
-        $this->assertOpenApiEquals($expected, $actual);
+        $this->assertOpenApiSpecificationEquals($expected, $actual);
     }
 }
