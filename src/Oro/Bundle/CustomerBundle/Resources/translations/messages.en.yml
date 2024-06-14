@@ -317,7 +317,6 @@ oro.customer:
             reset_password:
                 title: 'Change Password'
                 label: 'Save Changes'
-                subtitle: 'We’ve sent a reset code to your inbox. Please enter it below to proceed.'
                 resend.label: 'Didn’t receive the email? '
                 resend.action: 'Resend'
                 cancel.label: 'Changed your mind?'
@@ -330,7 +329,7 @@ oro.customer:
             cancel: 'Cancel'
             password_reset.message: 'Password successfully changed'
             request_password.label: 'Reset Password'
-            request_password.subtitle: 'Enter the email address you used to log in, and we’ll send you a reset code.'
+            request_password.subtitle: 'Enter the email address you used to log in, and we’ll send you a reset link.'
             check_email:
                 title: 'Change Password'
                 message: 'Please check  <strong>%email%</strong> for a reset link and follow it to set a new password.'
