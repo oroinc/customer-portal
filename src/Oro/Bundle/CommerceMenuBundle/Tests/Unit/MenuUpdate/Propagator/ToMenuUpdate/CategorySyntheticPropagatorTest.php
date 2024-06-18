@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\MenuUpdate\Propagator\ToMenuUpdate;
 
 use Knp\Menu\ItemInterface;
+use Oro\Bundle\CatalogBundle\Entity\Category;
 use Oro\Bundle\CatalogBundle\Tests\Unit\Stub\CategoryStub;
 use Oro\Bundle\CommerceMenuBundle\Builder\CategoryTreeBuilder;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
@@ -10,6 +11,7 @@ use Oro\Bundle\CommerceMenuBundle\MenuUpdate\Propagator\ToMenuUpdate\CategorySyn
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Oro\Bundle\NavigationBundle\MenuUpdate\Propagator\ToMenuUpdate\MenuItemToMenuUpdatePropagatorInterface;
 use Oro\Bundle\NavigationBundle\Tests\Unit\MenuItemTestTrait;
+use Oro\Component\Testing\ReflectionUtil;
 
 class CategorySyntheticPropagatorTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,6 +22,14 @@ class CategorySyntheticPropagatorTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         $this->propagator = new CategorySyntheticPropagator();
+    }
+
+    private function getCategory(int $id): Category
+    {
+        $category = new CategoryStub();
+        ReflectionUtil::setId($category, $id);
+
+        return $category;
     }
 
     /**
@@ -70,9 +80,7 @@ class CategorySyntheticPropagatorTest extends \PHPUnit\Framework\TestCase
     public function testPropagateFromMenuItemWhenNotMenuUpdate(): void
     {
         $menuUpdate = $this->createMock(MenuUpdateInterface::class);
-
-        $menuUpdate
-            ->expects(self::never())
+        $menuUpdate->expects(self::never())
             ->method(self::anything());
 
         $this->propagator->propagateFromMenuItem(
@@ -104,9 +112,9 @@ class CategorySyntheticPropagatorTest extends \PHPUnit\Framework\TestCase
      */
     public function propagateFromMenuItemDataProvider(): array
     {
-        $category = new CategoryStub(42);
-        $parentCategory = new CategoryStub(4242);
-        $anotherParentCategory = new CategoryStub(424242);
+        $category = $this->getCategory(42);
+        $parentCategory = $this->getCategory(4242);
+        $anotherParentCategory = $this->getCategory(424242);
 
         $parentMenuItemWithoutCategory = $this->createItem('parent_menu_item');
         $parentMenuItemWithCategory = $this->createItem('parent_menu_item_with_category')

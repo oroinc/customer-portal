@@ -3,17 +3,15 @@
 namespace Oro\Bundle\FrontendImportExportBundle\Tests\Unit\Async\Export;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Tests\Unit\Stub\CustomerUserStub;
 use Oro\Bundle\EntityBundle\Provider\EntityNameResolver;
 use Oro\Bundle\FrontendImportExportBundle\Async\Export\FrontendExportResultSummarizer;
 use Oro\Bundle\FrontendImportExportBundle\Entity\FrontendImportExportResult;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
-use Oro\Bundle\WebsiteBundle\Tests\Unit\Stub\WebsiteStub;
 use Oro\Component\MessageQueue\Job\Job;
 use Oro\Component\MessageQueue\Job\JobProcessor;
-use PHPUnit\Framework\TestCase;
 
-class FrontendExportResultSummarizerTest extends TestCase
+class FrontendExportResultSummarizerTest extends \PHPUnit\Framework\TestCase
 {
     private const JOB_ID = 142;
     private const ROOT_JOB_ID = 42;
@@ -113,12 +111,15 @@ class FrontendExportResultSummarizerTest extends TestCase
         $importExportResultWithFilename = new FrontendImportExportResult();
         $importExportResultWithFilename->setFilename('sample_filename.csv');
 
-        $customerUser = (new CustomerUserStub())->setFirstName('Test')->setLastName('Customer');
+        $customerUser = new CustomerUser();
+        $customerUser->setFirstName('Test');
+        $customerUser->setLastName('Customer');
 
         $importExportResultWithCustomerUser = new FrontendImportExportResult();
         $importExportResultWithCustomerUser->setCustomerUser(clone $customerUser);
 
-        $website = (new WebsiteStub())->setName('Test website');
+        $website = new Website();
+        $website->setName('Test website');
         $customerUserWithWebsite = clone $customerUser;
         $customerUserWithWebsite->setWebsite($website);
 

@@ -23,6 +23,7 @@ use Oro\Bundle\NavigationBundle\Tests\Unit\MenuItemTestTrait;
 use Oro\Bundle\PlatformBundle\Tests\Unit\Stub\ProxyStub;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\UserInterface;
+use Oro\Component\Testing\ReflectionUtil;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -35,13 +36,9 @@ class CategoryTreeBuilderTest extends TestCase
     use MenuItemTestTrait;
 
     private ManagerRegistry|MockObject $managerRegistry;
-
     private UrlGeneratorInterface|MockObject $urlGenerator;
-
     private MenuCategoriesProviderInterface|MockObject $menuCategoriesProvider;
-
     private TokenAccessorInterface|MockObject $tokenAccessor;
-
     private CategoryTreeBuilder $builder;
 
     protected function setUp(): void
@@ -61,21 +58,26 @@ class CategoryTreeBuilderTest extends TestCase
         );
 
         $entityManager = $this->createMock(EntityManager::class);
-        $managerRegistry
-            ->expects(self::any())
+        $managerRegistry->expects(self::any())
             ->method('getManagerForClass')
             ->with(Category::class)
             ->willReturn($entityManager);
 
-        $entityManager
-            ->expects(self::any())
+        $entityManager->expects(self::any())
             ->method('getReference')
             ->willReturnCallback(static fn ($class, $id) => new ProxyStub($class, $id));
 
-        $localizationHelper
-            ->expects(self::any())
+        $localizationHelper->expects(self::any())
             ->method('getLocalizedValue')
             ->willReturnCallback(static fn ($collection) => (string) ($collection[0] ?? null));
+    }
+
+    private function getCategory(int $id): Category
+    {
+        $category = new CategoryStub();
+        ReflectionUtil::setId($category, $id);
+
+        return $category;
     }
 
     public function testBuildWhenNoCategory(): void
@@ -83,8 +85,7 @@ class CategoryTreeBuilderTest extends TestCase
         $menuItem = $this->createItem('sample_menu');
         $menuItem->setDisplay(true);
 
-        $this->menuCategoriesProvider
-            ->expects(self::never())
+        $this->menuCategoriesProvider->expects(self::never())
             ->method(self::anything());
 
         $this->builder->build($menuItem);
@@ -95,8 +96,7 @@ class CategoryTreeBuilderTest extends TestCase
         $menu = $this->createItem('sample_menu');
         $menu->setDisplay(true);
 
-        $this->menuCategoriesProvider
-            ->expects(self::never())
+        $this->menuCategoriesProvider->expects(self::never())
             ->method(self::anything());
 
         $context = new MenuUpdateApplierContext($menu);
@@ -107,8 +107,7 @@ class CategoryTreeBuilderTest extends TestCase
 
     public function testBuildWhenNoCategoryData(): void
     {
-        $category = (new CategoryStub())
-            ->setId(1);
+        $category = $this->getCategory(1);
 
         $maxNestingLevel = 6;
         $menu = $this->createItem('sample_menu')
@@ -129,8 +128,7 @@ class CategoryTreeBuilderTest extends TestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $this->menuCategoriesProvider
-            ->expects(self::once())
+        $this->menuCategoriesProvider->expects(self::once())
             ->method('getCategories')
             ->with($category, $user, ['tree_depth' => $maxTraverseLevel])
             ->willReturn([]);
@@ -165,8 +163,7 @@ class CategoryTreeBuilderTest extends TestCase
 
     public function testBuildWhenNoCategoryDataOnRootLevel(): void
     {
-        $category = (new CategoryStub())
-            ->setId(1);
+        $category = $this->getCategory(1);
 
         $maxNestingLevel = 1;
         $menu = $this->createItem('sample_menu')
@@ -179,8 +176,7 @@ class CategoryTreeBuilderTest extends TestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $this->menuCategoriesProvider
-            ->expects(self::once())
+        $this->menuCategoriesProvider->expects(self::once())
             ->method('getCategories')
             ->with($category, $user, ['tree_depth' => 0])
             ->willReturn([]);
@@ -205,8 +201,7 @@ class CategoryTreeBuilderTest extends TestCase
 
     public function testBuildWhenNoChildren(): void
     {
-        $category = (new CategoryStub())
-            ->setId(1);
+        $category = $this->getCategory(1);
 
         $url = '/office-furniture';
         $this->urlGenerator->expects(self::once())
@@ -273,8 +268,7 @@ class CategoryTreeBuilderTest extends TestCase
      */
     public function testBuildWhenHasChildren(): void
     {
-        $category = (new CategoryStub())
-            ->setId(1);
+        $category = $this->getCategory(1);
 
         $this->urlGenerator->expects(self::exactly(5))
             ->method('generate')
@@ -336,8 +330,7 @@ class CategoryTreeBuilderTest extends TestCase
             $category14Data['id'] => $category14Data,
         ];
 
-        $this->menuCategoriesProvider
-            ->expects(self::once())
+        $this->menuCategoriesProvider->expects(self::once())
             ->method('getCategories')
             ->with($category, $user, ['tree_depth' => $maxTraverseLevel])
             ->willReturn($categoriesData);
@@ -469,8 +462,7 @@ class CategoryTreeBuilderTest extends TestCase
      */
     public function testBuildWhenRestrictedByMaxNestingLevel(): void
     {
-        $category = (new CategoryStub())
-            ->setId(1);
+        $category = $this->getCategory(1);
 
         $this->urlGenerator->expects(self::exactly(5))
             ->method('generate')
@@ -652,10 +644,8 @@ class CategoryTreeBuilderTest extends TestCase
      */
     public function testBuildWhenHasChildrenAndLost(): void
     {
-        $category = (new CategoryStub())
-            ->setId(1);
-        $category13 = (new CategoryStub())
-            ->setId(13);
+        $category = $this->getCategory(1);
+        $category13 = $this->getCategory(13);
 
         $this->urlGenerator->expects(self::exactly(4))
             ->method('generate')
@@ -833,10 +823,8 @@ class CategoryTreeBuilderTest extends TestCase
      */
     public function testBuildWhenHasChildrenAndSynthetic(): void
     {
-        $category = (new CategoryStub())
-            ->setId(1);
-        $category13 = (new CategoryStub())
-            ->setId(13);
+        $category = $this->getCategory(1);
+        $category13 = $this->getCategory(13);
 
         $this->urlGenerator->expects(self::exactly(5))
             ->method('generate')
