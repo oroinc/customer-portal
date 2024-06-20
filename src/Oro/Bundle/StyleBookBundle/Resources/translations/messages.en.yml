@@ -148,6 +148,8 @@ oro_stylebook:
                     triggerShowClass: 'An extra class will be added to the trigger element if the collapsible one is <span class="bold">visible</span>.<br>Requires adding the <span class="bold">"data-icon"</span> attribute by an icon element.'
                     triggerIconHideClass: 'An extra class will be added to the trigger icon element if the collapsible one is <span class="bold">hidden</span>.<br>Requires adding the <span class="bold">"data-icon"</span> attribute by an icon element.'
                     triggerIconShowClass: 'An extra class will be added to the trigger icon element if the collapsible one is <span class="bold">visible</span>.'
+                    triggerIconShow: 'Set SVG icon name what append to element with <span class="bold">"data-icon"</span> attribute, if the collapsible one is <span class="bold">visible</span>'
+                    triggerIconHide: 'Set SVG icon name what append to element with <span class="bold">"data-icon"</span> attribute, if the collapsible one is <span class="bold">hidden</span>.'
                     collapsedTitle: 'The provided value will be used as a <span class="bold">"title"</span> attribute of the trigger element if the collapsible one is <span class="bold">hidden</span>.'
                     expandedTitle: 'The provided value will be used as a <span class="bold">"title"</span> attribute of the trigger element if the collapsible one is <span class="bold">visible</span>.'
                     collapsedAriaLabel: 'The provided value will be used as a <span class="bold">"aria-label"</span> attribute of the trigger element if the collapsible one is <span class="bold">hidden</span>.'

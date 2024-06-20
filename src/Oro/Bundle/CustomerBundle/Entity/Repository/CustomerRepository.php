@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity\Repository;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
@@ -41,6 +42,18 @@ class CustomerRepository extends EntityRepository implements BatchIteratorInterf
             ->getScalarResult();
 
         return array_column($result, 'id');
+    }
+
+    public function getCustomerGroupFirstCustomer(CustomerGroup $customerGroup): ?Customer
+    {
+        $qb = $this->createQueryBuilder('customer');
+
+        return $qb
+            ->where($qb->expr()->eq('customer.group', ':customerGroup'))
+            ->setParameter('customerGroup', $customerGroup->getId(), Types::INTEGER)
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
     }
 
     /**

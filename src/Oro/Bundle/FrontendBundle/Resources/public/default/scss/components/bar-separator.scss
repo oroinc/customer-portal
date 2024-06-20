@@ -1,0 +1,7 @@
+/* @theme: default; */
+
+.bar-separator {
+    &:after {
+        @include bar-separator($bar-separator-width, $bar-separator-color);
+    }
+}

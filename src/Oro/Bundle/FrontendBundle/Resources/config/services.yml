@@ -39,6 +39,7 @@ services:
         arguments:
             -
                 - oro_translation_jstranslation
+                - oro_public_openapi_specification_download
         tags:
             - { name: kernel.event_listener, event: oro_distribution.route_collection.expose, method: onCollectionAutoload, priority: 130 }
             - { name: kernel.event_listener, event: oro_distribution.route_collection.autoload, method: onCollectionAutoload, priority: 130 }

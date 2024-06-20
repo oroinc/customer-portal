@@ -6,6 +6,12 @@ oro:
             logo: OroCommerce
             main: B2B eCommerce Platform
             text: OroCommerce reduces the complexity for custom eCommerce projects
+    api:
+        open_api:
+            views:
+                frontend_rest_json_api:
+                    label: Storefront API
+                    description: JSON:API for the storefront resources.
 
 oro_frontend:
     web_api:

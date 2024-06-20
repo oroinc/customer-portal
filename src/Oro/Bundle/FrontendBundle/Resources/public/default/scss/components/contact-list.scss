@@ -1,0 +1,33 @@
+/* @theme: default; */
+
+.contact-list {
+    display: $contact-list-display;
+    gap: $contact-list-gap;
+
+    &__item {
+        align-items: $contact-list-item-align-items;
+        display: $contact-list-item-display;
+        grid-template-columns: $contact-list-item-grid-template-columns;
+        gap: $contact-list-item-gap;
+    }
+
+    &__icon {
+        color: $contact-list-icon-color;
+        line-height: $contact-list-icon-line-height;
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .contact-list {
+        grid-template-columns: $contact-list-grid-template-columns-mobile-big;
+        grid-template-rows: $contact-list-grid-template-rows-mobile-big;
+        grid-auto-flow: $contact-list-grid-auto-flow-mobile-big;
+    }
+}
+
+@include breakpoint('mobile') {
+    .contact-list {
+        grid-template-columns: $contact-list-grid-template-columns-mobile;
+        grid-auto-flow: $contact-list-grid-auto-flow-mobile;
+    }
+}

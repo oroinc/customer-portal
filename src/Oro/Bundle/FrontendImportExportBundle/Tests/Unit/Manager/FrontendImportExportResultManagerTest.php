@@ -6,19 +6,16 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Tests\Unit\Stub\CustomerUserStub;
 use Oro\Bundle\FrontendImportExportBundle\Entity\FrontendImportExportResult;
 use Oro\Bundle\FrontendImportExportBundle\Entity\Repository\FrontendImportExportResultRepository;
 use Oro\Bundle\FrontendImportExportBundle\Manager\FrontendImportExportResultManager;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
-use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\ReflectionUtil;
 use PHPUnit\Framework\TestCase;
 
 class FrontendImportExportResultManagerTest extends TestCase
 {
-    use EntityTrait;
-
     private const TOKEN_USER_ID = 42;
 
     /** @var ObjectManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -47,6 +44,16 @@ class FrontendImportExportResultManagerTest extends TestCase
         $this->manager = new FrontendImportExportResultManager($doctrine, $tokenAccessor);
     }
 
+    private static function getTokenOrganization(): Organization
+    {
+        static $organization;
+        if (!$organization) {
+            $organization = new Organization();
+        }
+
+        return $organization;
+    }
+
     /**
      * @dataProvider saveResultDataProvider
      */
@@ -73,11 +80,13 @@ class FrontendImportExportResultManagerTest extends TestCase
     public function saveResultDataProvider(): array
     {
         $customer = new Customer();
-        $customerUser = new CustomerUserStub(142);
+        $customerUser = new CustomerUser();
+        ReflectionUtil::setId($customerUser, 142);
         $customerUser->setOrganization(new Organization());
         $customerUser->setCustomer($customer);
 
-        $customerUserFromToken = new CustomerUserStub(self::TOKEN_USER_ID);
+        $customerUserFromToken = new CustomerUser();
+        ReflectionUtil::setId($customerUserFromToken, self::TOKEN_USER_ID);
         $customerUserFromToken->setCustomer($customer);
 
         $importExportResult = (new FrontendImportExportResult())
@@ -131,15 +140,5 @@ class FrontendImportExportResultManagerTest extends TestCase
             ->method('flush');
 
         $this->manager->markResultsAsExpired($date, $date);
-    }
-
-    private static function getTokenOrganization(): Organization
-    {
-        static $organization;
-        if (!$organization) {
-            $organization = new Organization();
-        }
-
-        return $organization;
     }
 }

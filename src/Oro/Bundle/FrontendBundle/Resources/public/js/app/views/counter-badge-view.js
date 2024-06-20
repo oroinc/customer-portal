@@ -19,7 +19,7 @@ define(function(require) {
         /**
          * @property
          */
-        className: 'badge badge--info badge--xs badge--offset-none',
+        className: 'badge',
 
         /**
          * @property

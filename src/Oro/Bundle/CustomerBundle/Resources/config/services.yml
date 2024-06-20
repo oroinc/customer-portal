@@ -741,6 +741,7 @@ services:
             - { name: oro_scope.provider, scopeType: customer_product_visibility, priority: 30 }
             - { name: oro_scope.provider, scopeType: web_content, priority: 250 }
             - { name: oro_scope.provider, scopeType: cms_content_block, priority: 250 }
+            - { name: oro_scope.provider, scopeType: website_search_term, priority: 250 }
             - { name: oro_scope.provider, scopeType: workflow_definition, priority: 30 }
 
     oro_customer.anonymous_customer_scope_criteria_provider:
@@ -760,6 +761,7 @@ services:
             - { name: oro_scope.provider, scopeType: customer_group_product_visibility, priority: 30 }
             - { name: oro_scope.provider, scopeType: web_content, priority: 100 }
             - { name: oro_scope.provider, scopeType: cms_content_block, priority: 100 }
+            - { name: oro_scope.provider, scopeType: website_search_term, priority: 100 }
             - { name: oro_scope.provider, scopeType: workflow_definition, priority: 20 }
 
     oro_customer.customer_user_scope_cache_key_builder:
@@ -1470,3 +1472,12 @@ services:
         class: Oro\Bundle\CustomerBundle\Security\Listener\AnonymousSuccessLoginListener
         tags:
             - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LoginSuccessEvent, method: onSuccess, priority: 100 }
+
+    oro_customer.event_listener.anonymous_user_email_send:
+        class: Oro\Bundle\CustomerBundle\EventListener\AnonymousUserEmailSendListener
+        arguments:
+            - '@security.token_storage'
+            - '@oro_website.manager'
+        tags:
+            - { name: kernel.event_listener, event: 'oro_customer.customer_user_email_send_event', method: onCustomerUserEmailSend }
+

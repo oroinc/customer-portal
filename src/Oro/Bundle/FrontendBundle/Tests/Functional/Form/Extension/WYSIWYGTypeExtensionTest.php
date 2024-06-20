@@ -7,6 +7,7 @@ use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Form\Extension\Stub\PageTypeStub;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\ThemeBundle\Tests\Functional\DataFixtures\LoadThemeConfigurationData;
+use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
 
 class WYSIWYGTypeExtensionTest extends WebTestCase
 {
@@ -38,6 +39,14 @@ class WYSIWYGTypeExtensionTest extends WebTestCase
 
         self::assertArrayHasKey('themes', $actualOptions);
         self::assertIsArray($actualOptions['themes']);
+
+        /** @var ThemeManager $themeManager */
+        $themeManager = $container->get('oro_layout.theme_manager');
+        $enabledThemes = $themeManager->getEnabledThemes('commerce');
+        $enabledThemeNames = array_keys($enabledThemes);
+        foreach ($actualOptions['themes'] as $themeOptions) {
+            self::assertTrue(in_array($themeOptions['name'], $enabledThemeNames));
+        }
 
         $defaultTheme = [
             'name' => 'default',

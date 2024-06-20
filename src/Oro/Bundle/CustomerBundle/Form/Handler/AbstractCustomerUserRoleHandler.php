@@ -95,7 +95,7 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
      */
     public function getCustomerUserRolePrivileges(CustomerUserRole $role)
     {
-        $sortedPrivileges= [];
+        $sortedPrivileges = [];
         $privileges = $this->getRolePrivileges($role);
 
         $this->loadPrivilegeConfigPermissions(true);

@@ -1,0 +1,17 @@
+/* @theme: default; */
+
+$contact-list-display: grid !default;
+$contact-list-gap: 16px 40px !default;
+$contact-list-item-align-items: flex-start !default;
+$contact-list-item-display: grid !default;
+$contact-list-item-grid-template-columns: minmax(18px, auto) 1fr !default;
+$contact-list-item-gap: 8px !default;
+$contact-list-icon-color: get-color('text', 'disabled') !default;
+$contact-list-icon-line-height: 0 !default;
+
+$contact-list-grid-template-columns-mobile-big: 1fr 1fr !default;
+$contact-list-grid-template-rows-mobile-big: auto auto !default;
+$contact-list-grid-auto-flow-mobile-big: column !default;
+
+$contact-list-grid-template-columns-mobile: 1fr !default;
+$contact-list-grid-auto-flow-mobile: row !default;

@@ -1,4 +1,5 @@
 /* @theme: default; */
+@use 'sass:list';
 
 $grid-column-count: 12 !default;
 $grid-template-columns: var(
@@ -9,3 +10,12 @@ $grid-auto-rows: var(--grid-auto-rows, auto) !default;
 $grid-gap: var(--grid-gap, #{spacing('base')}) !default;
 
 $grid-aligns: start, center, end !default;
+
+$grid-row-gap-sizes: xs, sm, base, lg, xl !default;
+
+$grid-row-gaps: () !default;
+
+@each $key in $grid-row-gap-sizes {
+    $val: strip-units(spacing($key));
+    $grid-row-gaps: list.append($grid-row-gaps, $val);
+}

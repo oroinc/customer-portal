@@ -23,7 +23,7 @@ class FrontendHelper
      * without any additional checks
      * @var bool
      */
-    private $emulateFrontendRequest;
+    protected $emulateFrontendRequest;
 
     /**
      * @param string $backendPrefix

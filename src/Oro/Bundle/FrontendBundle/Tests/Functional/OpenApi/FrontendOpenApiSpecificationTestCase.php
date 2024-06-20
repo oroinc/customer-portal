@@ -7,14 +7,14 @@ use Oro\Bundle\ApiBundle\ApiDoc\RestDocViewDetector;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Component\Testing\Assert\ArrayContainsConstraint;
 
-class FrontendOpenApiTestCase extends WebTestCase
+class FrontendOpenApiSpecificationTestCase extends WebTestCase
 {
     protected function setUp(): void
     {
         $this->initClient();
     }
 
-    protected function assertOpenApiEquals(
+    protected function assertOpenApiSpecificationEquals(
         array $expected,
         array $actual,
         string $view = 'frontend_rest_json_api'

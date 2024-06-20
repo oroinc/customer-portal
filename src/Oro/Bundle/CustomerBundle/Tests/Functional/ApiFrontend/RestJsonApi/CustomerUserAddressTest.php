@@ -82,11 +82,11 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
             [
                 'data' => [
                     [
-                        'type'=> self::ENTITY_TYPE,
+                        'type' => self::ENTITY_TYPE,
                         'id'   => '<toString(@customer_user_address1->id)>'
                     ],
                     [
-                        'type'=> self::ENTITY_TYPE,
+                        'type' => self::ENTITY_TYPE,
                         'id'   => '<toString(@customer_user_address3->id)>'
                     ]
                 ]

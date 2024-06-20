@@ -2,7 +2,7 @@
 @ticket-BB-14525
 @ticket-BB-16012
 Feature: Customer address default billing shipping
-  In order to to manage addresses for Customer
+  In order to manage addresses for Customer
   As an administrator
   I want to check billing/shipping address automatically when default billing/shipping address checked on Customer's edit page
 
