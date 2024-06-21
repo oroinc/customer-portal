@@ -3,6 +3,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Event;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Event\CustomerUserEmailSendEvent;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 class CustomerUserEmailSendEventTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,12 +18,19 @@ class CustomerUserEmailSendEventTest extends \PHPUnit\Framework\TestCase
     private $customerUser;
 
     /**
+     * @var Website
+     */
+    private $website;
+
+    /**
      * {@inheritdoc}
      */
     protected function setUp(): void
     {
         $this->customerUser = new CustomerUser();
+        $this->website = new Website();
         $this->event = new CustomerUserEmailSendEvent($this->customerUser, 'template_name', []);
+        $this->event->setScope($this->website);
     }
 
     /**
@@ -35,5 +43,6 @@ class CustomerUserEmailSendEventTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('new_template', $this->event->getEmailTemplate());
         $this->assertSame(['foo' => 'bar'], $this->event->getEmailTemplateParams());
         $this->assertSame($this->customerUser, $this->event->getCustomerUser());
+        $this->assertSame($this->website, $this->event->getScope());
     }
 }

@@ -93,13 +93,14 @@ class Processor
         array $emailTemplateParams
     ): int {
         $event = new CustomerUserEmailSendEvent($user, $emailTemplateName, $emailTemplateParams);
+        $event->setScope($user->getWebsite());
         $this->eventDispatcher->dispatch($event, CustomerUserEmailSendEvent::NAME);
 
         return $this->userTemplateEmailSender->sendUserTemplateEmail(
             $user,
             $event->getEmailTemplate(),
             $event->getEmailTemplateParams(),
-            $user->getWebsite()
+            $event->getScope()
         );
     }
 }
