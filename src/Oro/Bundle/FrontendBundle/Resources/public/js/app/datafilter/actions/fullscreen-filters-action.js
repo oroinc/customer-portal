@@ -35,6 +35,10 @@ define(function(require, exports, module) {
                 throw new TypeError('The "fullscreenFilters" option is required.');
             }
 
+            if (opts.datagrid.themeOptions.fullScreenViewport) {
+                filterSettings.fullScreenViewport = opts.datagrid.themeOptions.fullScreenViewport;
+            }
+
             this.fullscreenFilters = opts.fullscreenFilters;
             FrontendFullScreenFiltersAction.__super__.initialize.call(this, opts);
 

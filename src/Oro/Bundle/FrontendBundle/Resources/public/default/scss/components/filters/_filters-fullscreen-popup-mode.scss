@@ -10,3 +10,10 @@
         }
     }
 }
+
+@include breakpoint('mobile-big-min') {
+    .filtes-overlay-popup {
+        width: 100%;
+        max-width: 400px;
+    }
+}

@@ -326,3 +326,12 @@
         }
     }
 }
+
+@include breakpoint('mobile-big-min') {
+    .datagrid-manager {
+        &--overlay {
+            width: 100%;
+            max-width: 400px;
+        }
+    }
+}
