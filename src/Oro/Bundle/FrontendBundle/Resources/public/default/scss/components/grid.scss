@@ -14,6 +14,14 @@
         }
     }
 
+    &-row-gap {
+        @each $row-gap in $grid-row-gaps {
+            &-#{$row-gap} {
+                grid-row-gap: #{$row-gap}px;
+            }
+        }
+    }
+
     &-col {
         --grid-column-span: auto;
 
@@ -53,6 +61,10 @@
             }
         }
     }
+
+    &-max-content {
+        --grid-template-columns: max-content;
+    }
 }
 
 @each $_breakpoint in get-breakpoints-list() {
@@ -62,6 +74,14 @@
                 @for $i from 1 through $grid-column-count {
                     &-#{$i} {
                         grid-column-end: span $i;
+                    }
+                }
+            }
+
+            &-row-gap-#{$_breakpoint} {
+                @each $row-gap in $grid-row-gaps {
+                    &-#{$row-gap} {
+                        grid-row-gap: #{$row-gap}px;
                     }
                 }
             }

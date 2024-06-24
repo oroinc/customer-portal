@@ -28,6 +28,21 @@
     }
 }
 
+%base-h2-italic {
+    font-size: $headline2-italic-font-size;
+    font-family: $headline2-italic-font-family;
+    font-weight: $headline2-italic-font-weight;
+    line-height: $headline2-italic-line-height;
+    text-transform: $headline2-italic-text-transform;
+    font-style: $headline2-italic-font-style;
+    color: $headline2-italic-color;
+    margin-block: $headline2-italic-margin-block;
+
+    &.heading-bottom-offset {
+        margin-bottom: $headline2-bottom-offset;
+    }
+}
+
 %base-h3 {
     font-size: $headline3-font-size;
     font-family: $headline3-font-family;
@@ -70,20 +85,6 @@
     }
 }
 
-%base-h6 {
-    font-size: $headline6-font-size;
-    font-family: $headline6-font-family;
-    font-weight: $headline6-font-weight;
-    line-height: $headline6-line-height;
-    text-transform: $headline6-text-transform;
-    color: $headline6-color;
-    margin-block: $headline6-margin-block;
-
-    &.heading-bottom-offset {
-        margin-bottom: $headline6-bottom-offset;
-    }
-}
-
 %base-h5-caps {
     font-size: $headline5-caps-font-size;
     font-family: $headline5-caps-font-family;
@@ -95,47 +96,66 @@
     margin-block: $headline5-caps-margin-block;
 }
 
-%base-h6-caps {
-    font-size: $headline6-caps-font-size;
-    font-family: $headline6-caps-font-family;
-    font-weight: $headline6-caps-font-weight;
-    line-height: $headline6-caps-line-height;
-    letter-spacing: $headline6-caps-letter-spacing;
-    text-transform: $headline6-caps-text-transform;
-    color: $headline6-caps-color;
-    margin-block: $headline6-caps-margin-block;
+%base-h6 {
+    font-size: $headline6-font-size;
+    font-family: $headline6-font-family;
+    font-weight: $headline6-font-weight;
+    line-height: $headline6-line-height;
+    letter-spacing: $headline6-letter-spacing;
+    text-transform: $headline6-text-transform;
+    color: $headline6-color;
+    margin-block: $headline6-margin-block;
+
+    &.heading-bottom-offset {
+        margin-bottom: $headline6-bottom-offset;
+    }
 }
 
+// H1
 h1,
 .h1 {
     @extend %base-h1;
 }
 
+// H2
 h2,
 .h2 {
     @extend %base-h2;
 }
 
+.h2-italic {
+    @extend %base-h2-italic;
+}
+
+// H3
 h3,
 .h3 {
     @extend %base-h3;
 }
 
+// H4
 h4,
 .h4 {
     @extend %base-h4;
 }
 
+// H5
 h5,
 .h5 {
     @extend %base-h5;
 }
 
+.h5-caps {
+    @extend %base-h5-caps;
+}
+
+// H6
 h6,
 .h6 {
     @extend %base-h6;
 }
 
+// Headers
 .h-normal {
     font-weight: font-weight('normal');
 }

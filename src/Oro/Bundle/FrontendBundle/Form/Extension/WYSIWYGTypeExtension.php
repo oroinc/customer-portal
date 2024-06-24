@@ -56,15 +56,11 @@ class WYSIWYGTypeExtension extends AbstractTypeExtension
      */
     private function getThemes(): array
     {
-        $themes = $this->themeManager->getAllThemes();
+        $themes = $this->themeManager->getEnabledThemes(self::COMMERCE_GROUP);
         $layoutThemeName = $this->getThemeName();
 
         $themesData = [];
         foreach ($themes as $theme) {
-            if (!$theme->hasGroup(self::COMMERCE_GROUP)) {
-                continue;
-            }
-
             $themeName = $theme->getName();
             $styleOutput = $this->themeProvider->getStylesOutput($themeName);
             $themeData = [

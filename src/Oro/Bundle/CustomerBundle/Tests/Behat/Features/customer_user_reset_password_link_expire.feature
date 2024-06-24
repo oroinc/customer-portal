@@ -1,4 +1,5 @@
 @ticket-BB-16157
+@ticket-BB-24202
 @fixture-OroCustomerBundle:CustomerUserFixture.yml
 Feature: Customer user reset password link expire
 
@@ -9,21 +10,23 @@ Feature: Customer user reset password link expire
 
   Scenario: Change password for another customer user on back office not affected reset password link
     Given I proceed as the Unauthorized
-    And I am on the homepage
+    When I am on the homepage
     And I click "Log In"
     And I click "Forgot Password?"
-    And I fill form with:
+    Then I should see "Enter the email address you used to log in, and we’ll send you a reset link."
+    When I fill form with:
       | Email | AmandaRCole@example.org |
-    When I click "Reset Password"
+    And I click "Reset Password"
     And I follow "[^\n]+\/customer\/user\/reset[^\<]+" link from the email
     Then I should not see "Not Found"
     And I should be on Customer User Password Reset page
+    And I should not see "We’ve sent a reset code to your inbox. Please enter it below to proceed."
 
-    Given I proceed as the User
+    When I proceed as the User
     And I login as administrator
     And I go to Customers/Customer Users
     And I click edit Amanda in grid
-    When I fill form with:
+    And I fill form with:
       | Password         | NeWpAsW0Rd |
       | Confirm Password | NeWpAsW0Rd |
     And I save and close form
@@ -35,35 +38,35 @@ Feature: Customer user reset password link expire
 
   Scenario: Reset password link must be expire after customer user login
     Given I proceed as the Unauthorized
-    And I am on the homepage
+    When I am on the homepage
     And I click "Log In"
     And I click "Forgot Password?"
     And I fill form with:
       | Email | AmandaRCole@example.org |
-    When I click "Reset Password"
+    And I click "Reset Password"
     And I follow "[^\n]+\/customer\/user\/reset[^\<]+" link from the email
     Then I should not see "Not Found"
     And I should be on Customer User Password Reset page
 
-    Given I proceed as the User
-    When I signed in as AmandaRCole@example.org with password NeWpAsW0Rd on the store frontend
+    When I proceed as the User
+    And I signed in as AmandaRCole@example.org with password NeWpAsW0Rd on the store frontend
     And I proceed as the Unauthorized
     And I follow "[^\n]+\/customer\/user\/reset[^\<]+" link from the email
     Then I should see "Not Found"
 
   Scenario: Reset password link must be expire after customer user change his password
     Given I proceed as the Unauthorized
-    And I am on the homepage
+    When I am on the homepage
     And I click "Log In"
     And I click "Forgot Password?"
     And I fill form with:
       | Email | AmandaRCole@example.org |
-    When I click "Reset Password"
+    And I click "Reset Password"
     And I follow "[^\n]+\/customer\/user\/reset[^\<]+" link from the email
     Then I should not see "Not Found"
     And I should be on Customer User Password Reset page
 
-    Given I proceed as the User
+    When I proceed as the User
     And I click "Account Dropdown"
     And I click "My Profile"
     And I click "Edit"
@@ -80,17 +83,17 @@ Feature: Customer user reset password link expire
 
   Scenario: Reset password link must be expire after customer user change his email
     Given I proceed as the Unauthorized
-    And I am on the homepage
+    When I am on the homepage
     And I click "Log In"
     And I click "Forgot Password?"
     And I fill form with:
       | Email | AmandaRCole@example.org |
-    When I click "Reset Password"
+    And I click "Reset Password"
     And I follow "[^\n]+\/customer\/user\/reset[^\<]+" link from the email
     Then I should not see "Not Found"
     And I should be on Customer User Password Reset page
 
-    Given I proceed as the User
+    When I proceed as the User
     And I click "Account Dropdown"
     And I click "Edit Profile Button"
     And I fill "Customer User Profile Form" with:

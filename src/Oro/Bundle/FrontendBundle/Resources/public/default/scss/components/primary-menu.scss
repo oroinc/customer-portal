@@ -65,3 +65,12 @@
         }
     }
 }
+
+@include breakpoint('desktop-small') {
+    .primary-menu {
+        &-container {
+            height: 100%;
+            border-right: $primary-menu-border-right;
+        }
+    }
+}

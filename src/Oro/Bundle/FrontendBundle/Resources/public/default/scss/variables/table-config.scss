@@ -1,7 +1,7 @@
 /* @theme: default; */
 
 $table-font-family: $base-font !default;
-$table-margin-bottom: spacing('base') !default;
+$table-margin-bottom: 0 !default;
 $table-text-align: left !default;
 $table-row-padding: spacing('xs') !default;
 $table-head-padding: spacing('sm') !default;
@@ -12,8 +12,10 @@ $base-table-border: 1px solid $base-table-border-color !default;
 $table-border-top: $base-table-border !default;
 $table-width: 100% !default;
 
+$table-caption-bottom-offset: 12px !default;
+
 $table-thead-background-color: get-color('neutral', 'grey1') !default;
-$table-thead-font-weight: font-weight('bold') !default;
+$table-thead-font-weight: font-weight('semi-bold') !default;
 $table-thead-th-border: $base-table-border !default;
 $table-thead-th-vertical-align: middle !default;
 
@@ -21,9 +23,21 @@ $table-td-inner-offset: 19px 12px 18px !default;
 $table-th-inner-y-offset: 12px !default;
 $table-th-inner-x-offset: 10px !default;
 $table-th-inner-offset: $table-th-inner-x-offset $table-th-inner-y-offset !default;
-$table-th-border-top: none !default;
-$table-th-border-bottom: $base-table-border !default;
-$table-th-text-align: left !default;
-$table-th-vertical-align: middle !default;
 
-$table-caption-bottom-offset: 12px !default;
+$table-td-border-top: none !default;
+$table-td-border-bottom: $base-table-border !default;
+$table-td-text-align: left !default;
+$table-td-vertical-align: middle !default;
+
+//Table Simple
+$table-styled-thead-th-vertical-align: initial !default;
+$table-styled-thead-th-white-space: nowrap !default;
+$table-styled-thead-th-font-size: $base-font-size--xs !default;
+$table-styled-thead-th-line-height: 1.5 !default;
+$table-styled-thead-th-color: rgba(get-color('text', 'secondary'), .8) !default;
+$table-styled-thead-th-text-transform: uppercase !default;
+$table-styled-thead-th-text-decoration: none !default;
+$table-styled-thead-th-letter-spacing: .5px !default;
+$table-styled-thead-th-inner-offset: 8px 24px 8px 16px !default;
+$table-styled-td-inner-offset: 16px 24px 16px 16px !default;
+$table-styled-td-white-space: nowrap !default;

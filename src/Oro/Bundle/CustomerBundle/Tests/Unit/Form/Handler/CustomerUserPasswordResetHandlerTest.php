@@ -2,18 +2,20 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler;
-use Oro\Bundle\CustomerBundle\Tests\Unit\Stub\CustomerUserStub;
+use Oro\Component\Testing\ReflectionUtil;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class CustomerUserPasswordResetHandlerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|CustomerUserManager */
+    /** @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject */
     private $userManager;
 
+    /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $logger;
 
     /** @var CustomerUserPasswordResetHandler */
@@ -29,7 +31,8 @@ class CustomerUserPasswordResetHandlerTest extends \PHPUnit\Framework\TestCase
 
     public function testProcess(): void
     {
-        $customerUser = new CustomerUserStub(12);
+        $customerUser = new CustomerUser();
+        ReflectionUtil::setId($customerUser, 12);
         $customerUser->setConfirmationToken('test');
         $customerUser->setPasswordRequestedAt(new \DateTime('2022-01-01'));
 
@@ -75,7 +78,8 @@ class CustomerUserPasswordResetHandlerTest extends \PHPUnit\Framework\TestCase
 
     public function testProcessWithNotValidForm(): void
     {
-        $customerUser = new CustomerUserStub(40);
+        $customerUser = new CustomerUser();
+        ReflectionUtil::setId($customerUser, 40);
         $customerUser->setConfirmationToken('test');
         $customerUser->setPasswordRequestedAt(new \DateTime('2022-01-01'));
         $customerUser->setConfirmed(false);

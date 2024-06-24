@@ -103,6 +103,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/scroll-shadow-config.scss'
         - 'bundles/orofrontend/default/scss/variables/side-panel-config.scss'
         - 'bundles/orofrontend/default/scss/variables/currency-localization-control-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/contact-list-config.scss'
 
         # Components
         # reset.scss must be first in list due to that  file must have the lowest priority
@@ -225,6 +226,7 @@ styles:
         - 'bundles/orofrontend/default/scss/components/toggler.scss'
         - 'bundles/orofrontend/default/scss/components/toggler-vertical.scss'
         - 'bundles/orofrontend/default/scss/components/currency-localization-control.scss'
+        - 'bundles/orofrontend/default/scss/components/contact-list.scss'
     output: 'css/styles.css'
     auto_rtl_inputs:
         - 'bundles/oro*/**'

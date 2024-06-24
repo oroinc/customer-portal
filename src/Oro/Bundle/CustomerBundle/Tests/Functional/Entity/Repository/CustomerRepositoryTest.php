@@ -191,4 +191,12 @@ class CustomerRepositoryTest extends WebTestCase
         self::assertContainsEquals($customer1311->getId(), $actual, var_export($actual, true));
         self::assertContainsEquals($customer14->getId(), $actual, var_export($actual, true));
     }
+
+    public function testGetCustomerGroupFirstCustomer(): void
+    {
+        $customerGroup = $this->getReference('customer_group.group1');
+        $customer = $this->getReference('customer.level_1');
+
+        self::assertEquals($customer, $this->getRepository()->getCustomerGroupFirstCustomer($customerGroup));
+    }
 }
