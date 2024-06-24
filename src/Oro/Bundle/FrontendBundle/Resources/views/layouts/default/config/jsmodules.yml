@@ -37,6 +37,7 @@ dynamic-imports:
         - orofrontend/default/js/app/views/dropdown-search
         - orofrontend/default/js/app/views/fake-masked-input-view
         - orofrontend/default/js/app/views/fullscreen-popup-view
+        - orofrontend/default/js/app/views/overlay-popup-view
         - orofrontend/default/js/app/views/proxy-focus-view
         - orofrontend/default/js/app/views/scroll-top-view
         - orofrontend/default/js/app/views/frontend-messages-view

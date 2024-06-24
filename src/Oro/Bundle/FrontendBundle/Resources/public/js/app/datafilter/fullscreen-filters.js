@@ -4,6 +4,7 @@ import __ from 'orotranslation/js/translator';
 import mediator from 'oroui/js/mediator';
 import filterSettings from 'oro/filter-settings';
 import FullScreenPopupView from 'orofrontend/default/js/app/views/fullscreen-popup-view';
+import OverlayPopupView from 'orofrontend/default/js/app/views/overlay-popup-view';
 import FilterOptionsStateExtensions from 'orofrontend/js/app/datafilter/filter-options-state-extensions';
 
 import moduleConfig from 'module-config';
@@ -86,6 +87,43 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
         }
     },
 
+    getPopupConstructor() {
+        return this.datagrid.themeOptions.overlayFilters ? OverlayPopupView : FullScreenPopupView;
+    },
+
+    getPopupOptions() {
+        const popupViewSettings = {
+            ...this.mainPopupOptions,
+            popupLabel: this.determineMainPopupTitle(
+                this.filterManager._calculateSelectedFilters()
+            ),
+            contentElement: document.createElement('div')
+        };
+
+        if (this.datagrid.themeOptions.overlayFilters) {
+            Object.assign(popupViewSettings, {
+                disableBodyTouchScroll: false,
+                dialogClass: 'filtes-overlay-popup fullscreen-popup--transition fullscreen-popup--align-left'
+            });
+        }
+
+        return popupViewSettings;
+    },
+
+    getSelectWidgetOptions() {
+        const selectWidgetOptions = this.managerPopupOptions;
+
+        if (this.datagrid.themeOptions.overlayFilters) {
+            Object.assign(selectWidgetOptions, {
+                disableBodyTouchScroll: false,
+                disableBackDrop: true,
+                dialogClass: 'datagrid-manager--overlay fullscreen-popup--transition fullscreen-popup--align-left'
+            });
+        }
+
+        return selectWidgetOptions;
+    },
+
     transformSelectWidget() {
         const selectWidget = this.filterManager.selectWidget;
 
@@ -101,10 +139,14 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
             .removeClass('dropdown-menu')
             .addClass('datagrid-manager ui-widget-fullscreen');
 
-        const fullscreenSelectWidget = new FullScreenPopupView({
-            ...this.managerPopupOptions,
+        const PopupView = this.getPopupConstructor();
+        const fullscreenSelectWidgetOptions = this.getSelectWidgetOptions();
+
+        Object.assign(fullscreenSelectWidgetOptions, {
             contentElement: $content
         });
+
+        const fullscreenSelectWidget = new PopupView(fullscreenSelectWidgetOptions);
 
         fullscreenSelectWidget.on('show', () => {
             fullscreenSelectWidget.$popup.on(
@@ -232,13 +274,10 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
             return;
         }
 
-        this.fullScreenPopup = new FullScreenPopupView({
-            ...this.mainPopupOptions,
-            popupLabel: this.determineMainPopupTitle(
-                this.filterManager._calculateSelectedFilters()
-            ),
-            contentElement: document.createElement('div')
-        });
+        const PopupView = this.getPopupConstructor();
+        const popupOptions = this.getPopupOptions();
+
+        this.fullScreenPopup = new PopupView(popupOptions);
 
         this.listenToOnce(this.fullScreenPopup, {
             show: this.onShowMainPopup,
