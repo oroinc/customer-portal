@@ -70,46 +70,39 @@
 
         text-align: center;
 
-        > li {
+        .nav-item {
             width: 50%;
+        }
 
-            > a {
-                display: block;
-                padding: 7px 0;
-                border: none;
+        .nav-link {
+            min-height: 44px;
+            font-size: $base-font-size;
+            line-height: $base-line-height;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: spacing('sm');
+            padding: spacing('sm') spacing('base');
+            border: none;
 
-                text-decoration: none;
+            text-decoration: none;
 
-                color: $dropdown-menu-calendar-tabs-link-color;
-                background-color: $dropdown-menu-calendar-tabs-link-background-color;
+            color: $dropdown-menu-calendar-tabs-link-color;
+            background-color: $dropdown-menu-calendar-tabs-link-background-color;
 
-                &::before {
-                    margin-right: spacing('xs');
-                    display: inline-block;
-                }
+            &::before {
+                margin-right: spacing('xs');
+                display: inline-block;
+            }
 
-                &.calendar {
-                    @include fa-icon($fa-var-calendar);
-                }
-
-                &.variables {
-                    @include fa-icon($fa-var-list-ul);
-                }
-
-                @include element-state('active') {
-                    color: $dropdown-menu-calendar-tabs-link-active-color;
-                }
-
-                @include element-state('hover') {
-                    color: $dropdown-menu-calendar-tabs-link-hover-color;
-                    background-color: $dropdown-menu-calendar-tabs-link-hover-background-color;
-                }
+            &:hover {
+                color: $dropdown-menu-calendar-tabs-link-hover-color;
+                background-color: $dropdown-menu-calendar-tabs-link-hover-background-color;
             }
 
             &.active {
-                > a {
-                    background-color: $dropdown-menu-calendar-tabs-active-link-hover-background-color;
-                }
+                background-color: $dropdown-menu-calendar-tabs-active-link-hover-background-color;
+                color: $dropdown-menu-calendar-tabs-link-active-color;
             }
         }
     }

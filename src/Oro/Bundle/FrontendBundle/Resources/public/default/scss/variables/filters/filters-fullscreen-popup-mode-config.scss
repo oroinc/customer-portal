@@ -3,6 +3,9 @@
 $filter-fullscreen-popup-mode-criteria-selector-icon-right-pos: spacing('base') !default;
 
 $filter-fullscreen-popup-mode-mode-trigger-side-offset: spacing('sm') !default;
-$filter-manager-fullscreen-popup-mode-trigger-width: 100% !default;
+// Override inline styles
+$filter-manager-fullscreen-popup-mode-trigger-width: auto !important !default;
 $filter-manager-fullscreen-popup-mode-trigger-offset: 0 !default;
 $filter-manager-fullscreen-popup-mode-trigger-font: $base-font-size $base-font !default;
+
+$filter-manager-fullscreen-popup-mode-trigger-span-display: none !default;

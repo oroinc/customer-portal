@@ -74,8 +74,6 @@
         height: 100%;
 
         .datagrid-manager__header {
-            margin-top: -46px;
-
             > div {
                 display: flex;
                 justify-content: space-between;
@@ -90,11 +88,15 @@
             position: absolute;
             height: 100%;
 
-            // stylelint-disable-next-line selector-max-compound-selectors
-            .datagrid-manager__header > div {
+            .datagrid-manager__header {
+                margin-top: -46px;
+
                 // stylelint-disable-next-line selector-max-compound-selectors
-                .in-sticky & {
-                    margin-bottom: spacing('lg');
+                > div {
+                    // stylelint-disable-next-line selector-max-compound-selectors
+                    .in-sticky & {
+                        margin-bottom: spacing('lg');
+                    }
                 }
             }
         }
@@ -139,8 +141,6 @@
     }
 
     .filters-manager-trigger {
-        width: $filter-toggle-mode-filters-manager-trigger-width;
-
         span {
             display: none;
         }

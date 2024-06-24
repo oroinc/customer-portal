@@ -1,3 +1,5 @@
+/* @theme: default; */
+
 .fullscreen-popup {
     display: $fullscreen-popup-display;
     flex-direction: $fullscreen-popup-flex-direction;
@@ -41,13 +43,18 @@
         justify-content: $fullscreen-popup-label-justify-content;
         flex-grow: 1;
 
-        padding: $fullscreen-popup-label-offset;
+        padding-block: $fullscreen-popup-label-padding-block;
+        padding-inline: $fullscreen-popup-label-padding-inline;
 
         font-size: $fullscreen-popup-label-font-size;
         font-weight: $fullscreen-popup-label-weight;
         line-height: $fullscreen-popup-label-line-height;
 
         cursor: $fullscreen-popup-label-cursor;
+    }
+
+    &__icon ~ &__label {
+        padding-inline-start: 0;
     }
 
     &__content {

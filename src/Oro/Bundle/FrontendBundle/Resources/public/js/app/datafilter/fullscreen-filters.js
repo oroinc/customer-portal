@@ -23,7 +23,6 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
      * @property;
      */
     mainPopupOptions: {
-        popupIcon: 'sliders',
         popupLabel: __('oro.filter.datagrid-toolbar.filters'),
         footerOptions: {
             templateData: {
@@ -164,6 +163,10 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
 
         this.filterManager.render();
         this.filterManager.$el.addClass('fullscreen');
+
+        const filterActions = this.filterManager.$el.find('[data-role="filter-actions"]');
+
+        this.fullScreenPopup.header.$el.find('.close-dialog').before(filterActions);
 
         const datetimeFilters = pick(this.filterManager.filters, filter => filter.type === 'datetime');
 
