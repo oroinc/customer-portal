@@ -5,6 +5,7 @@ icon: bundles/orofrontend/default/images/favicon.ico
 logo: bundles/orofrontend/default/images/logo/demob2b-logo.svg
 logo_small: bundles/orofrontend/default/images/logo/demob2b-logo-small.svg
 rtl_support: true
+svg_icons_support: true
 configuration:
     sections:
         header:
