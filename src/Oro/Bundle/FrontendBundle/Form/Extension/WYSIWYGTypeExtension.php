@@ -67,6 +67,7 @@ class WYSIWYGTypeExtension extends AbstractTypeExtension
                 'name' => $themeName,
                 'label' => $theme->getLabel(),
                 'stylesheet' => $this->packages->getUrl($styleOutput),
+                'svgIconsSupport' => $theme->isSvgIconsSupport(),
             ];
             if ($layoutThemeName === $themeName) {
                 $themeData['active'] = true;
