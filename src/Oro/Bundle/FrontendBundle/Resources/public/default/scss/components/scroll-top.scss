@@ -4,7 +4,7 @@
 
 .scroll-top {
     position: $scroll-top-position;
-    bottom: $scroll-top-bottom;
+    bottom: $base-spacing;
     z-index: $scroll-top-z-index;
 
     transition: color linear 100ms;
