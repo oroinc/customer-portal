@@ -34,7 +34,7 @@ const DropdownSearch = BaseView.extend({
 
     inputAriaLabel: __('oro_frontend.dropdown.quick_search.aria_label'),
 
-    buttonClassName: 'btn btn--plain btn--icon btn--size-small',
+    buttonClassName: 'btn btn--simple btn--size-small',
 
     buttonAriaLabel: __('oro_frontend.dropdown.quick_search.clear'),
 

@@ -51,7 +51,7 @@ layout:
                         type: button
                         icon: 'hamburger-menu'
                         attr:
-                            class: 'btn btn--outlined-inverse'
+                            class: 'btn btn--plain-inverse'
                 __groups_menu:
                     blockType: container
                 __sticky_header:

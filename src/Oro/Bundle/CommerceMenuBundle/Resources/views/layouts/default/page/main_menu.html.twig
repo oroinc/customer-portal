@@ -67,7 +67,7 @@
 
     {% set attr =  layout_attr_defaults(attr, {
         'type': 'button',
-        '~class': ' btn btn--outlined-inverse btn--text btn--icon main-menu-trigger',
+        '~class': ' btn btn--plain-inverse main-menu-trigger',
         'aria-label': 'oro.commercemenu.menuupdate.menu.label'|trans,
         'data-page-component-module': 'oroui/js/app/components/viewport-component',
         'data-page-component-options': {
@@ -140,7 +140,7 @@
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
 
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' btn btn--plain btn--icon main-menu__back-trigger',
+        '~class': ' btn btn--simple-colored main-menu__back-trigger',
         'type': 'button',
         'data-go-to': 'prev',
         'aria-label': 'oro_frontend.fullscreen_popup.back.label'|trans

@@ -50,30 +50,72 @@ oro_stylebook:
                     title: Via Drop-Down
             buttons:
                 title: Buttons
-                default:
-                    title: Default Buttons
+                description: '<b>When to use</b>: A button element is used to indicate an action.<br><b>When not to use</b>: If you are directing a user to a new location, consider using a link style instead.
+                            <br><br><b>CONTENT Do</b>: Use concise labels that convey what happens when the button is pressed. Use title case for labels. Consider using verbs for labels (Filter, Save, Add, etc.). Use the size of an icon in a button corresponding to the button size: 24x24 px for large buttons, 20x20 px for medium ones and 18x18 px for small ones.
+                            <br><b>CONTENT Don’t</b>: Don’t wrap label text. For maximum legibility, a text label should remain on a single line. Refrain from using text buttons without icons or some sort of underscore as they can be perceived as plain text. Don’t use long labels. If long labels appear due to user-provided content such as a shopping list name and there is no way to prevent it, truncate the text and show the full name in a hover tooltip:
+                            <br><br><b>PLACEMENT Do</b>: Keep buttons inline when space allows. Group logically connected buttons together.
+                            <br><b>PLACEMENT Don’t</b>: Avoid placing destructive actions right next to affirmative ones. Don’t place a button below another button if there is space to place them side by side. Don’t place two primary buttons in one button group.'
+                types:
+                    title: Types Buttons
+                    description: '<b>Primary:</b> the whole area of a button performs a single action. Can be of any size, color, with or without icons etc., usage areas widely.<br>
+                    <b>Split dropdown:</b> is used when additional related actions are available. The left half displays the default action and the additional related actions are contained within the attached dropdown on the right half, both parts are triggered independently form each other. The options available in the dropdown perform the action on click. Examples of use: Add to Shopping List button in the product listing, etc.<br>
+                     <b>Icon button:</b> can be used if the action is clear even without a label for creating a more minimalistic look.'
+                variants:
+                    title: Variants Buttons
+                    description: '<strong>Primary:</strong> provides the strongest visual emphasis to an action with a solid background, should be used one per context. Defining context depends on the hierarchy of information displayed on the screen, the motivated user flow, and the available tasks. For example, a page may have multiple equally important contexts, each requiring its own primary button to complete a task (for example, a product card on the product listing page). A page header is also a single context that requires one primary action - contained button.<br>
+                                <strong>Outlined:</strong> indicates a supplemental action with a border that matches the primary color and no fill — one or more can be used per context. For example, Product button in the page header.<br>
+                                <strong>Text:</strong> indicates a supplemental borderless action that only has a background during interaction for affordance. Is used for less-pronounced actions than contained or outlined buttons.<br>
+                                <strong>Text-no-paddings:</strong>  of the same nature as the text ones, but are used in cases where paddings can break visual alignment. For example, page elements are vertically left-aligned and the Filter button is located at the leftmost — it has no paddings to preserve the visual vertical alignment.'
+                sizes:
+                    title: Sizes Button
+                    description: '<strong>Large:</strong> is used when there is a need to emphasize the most important action on the page. The choice of this button also depends on the visual hierarchy of the page and user goals, it doesn’t have to be used in every flow.<br>
+                                <strong>Primary:</strong> provides optimal click target area and visibility and therefore is used the most (for example, in product cards on the product listing page).<br>
+                                <strong>Small:</strong> is used for less significant actions to prevent them from competing with primary ones (for example, In Shopping List button on the product preview image). Despite the visually smaller sizes of this button, its click area should be no less that 44x44 px, this can be achieved with placing this button inside a bigger transparent container.'
+                colors:
+                    title: Colors Buttons
+                    description: '<strong>Primary:</strong> is used for primary and practically any non-destructive actions on the main (in this case light) background.<br>
+                                <strong>Destructive:</strong> highlights an action that has potentially detrimental consequences. They should be used sparingly not to overwhelm the page. Any final confirmation that is destructive must use this variant (unless a browser dialog is used).<br>
+                                <strong>Inverse:</strong> is used for the actions on the inverse (in this case dark) background. For example, there are inverse color buttons on the dark-colored page header.'
                 disabled:
                     title: Disabled Buttons
                 inversed:
                     title: Inversed Buttons
-                text:
-                    title: Text Buttons
-                nopadding:
-                    title: No Padding Buttons
-                sizes:
-                    title: Sizes Button
-                icon_text:
-                    title: Icon Text Button
-                icon:
-                    title: Icon Button
+                icon_and_text:
+                    title: Icon With Text
             buttons_group:
                 title: Buttons Group
                 drop_down_group:
-                    title: Drop-Down Button Group
-                inline_group:
-                    title: Inline Icon Button Group
-                inline_btn_group:
-                    title: Horizontal Text Button Group
+                    title: Split Button
+            icon_buttons:
+                title: Icon Buttons
+                icon_button_with_bg:
+                    title: With a background
+                    description: '<strong>Light-grey:</strong> the most commonly used icon button, meant to be placed on a white background, exists to indicate a wide range of secondary non-destructive actions (Examples are not exhaustive, there are more).<br>
+                    <strong>Dark-grey:</strong> used as a full alternative to a light grey icon button in situations where the background is not white (light grey, coloured or similar) and there is a risk that the light grey button will get lost. So far the only example in the UI is the Scroll-to-top button.<br>
+                    <strong>Primary:</strong> used for non-destructive CTA that are primary in their context and have to draw attention. This type is mostly used for input confirmation (you can find it in the context of Shopping List). It has to be used sparingly, it cannot be used for pagination arrows or to open an overflow menu or similar actions.<br>
+                    <strong>Destructive:</strong> used for the standalone destructive actions like Remove and Delete. If some delete action is repeated many times in the same context (e.g., in every table row), it should NOT use this style because it would create a lot of unnecessary visual noise and draw too much attention.'
+                icon_button_without_bg_default:
+                    title: Without a background in the default state
+                    description: 'Used for secondary actions in cases when: <br> 
+                    1) the background would create a lot of unnecessary visual noise (e.g., when the icon is repeated many times in the same context); <br> 
+                    2) visually there isn’t enough space to include the background.<br><br> 
+                    <strong><i>Important: with or without a visible background, the icon button’s container should not be smaller than 44x44 px.</i></strong> <br><br>
+                    Different views:<br> 
+                    On light background <strong>(default)</strong><br> 
+                    On light background <strong>(destructive)</strong><br> 
+                    On dark background <strong>(inverse)</strong>'
+                icon_button_without_bg_all_states:
+                    title: Without a background in ALL states
+                    description: 'Used for secondary actions in cases when: <br> 
+                    1) the background would create a lot of unnecessary visual noise (e.g., when the icon is repeated many times in the same context); <br> 
+                    2) visually there isn’t enough space to include the background.<br>
+                    3) if in containers where these icon buttons are used, there are compensatory paddings, and so these buttons would break the visual alignment if they had a visible background even just on hover.<br><br>
+                    Different views:<br> 
+                    On light background <strong>(default)</strong><br> 
+                    On dark background <strong>(inverse)</strong>'
+                icon_button_circle:
+                    title: Icon Circle Button
+                    description: 'Used for pagination and carousel arrows, and Scroll-to-top button.'
             notifications:
                 title: Notifications
                 error:

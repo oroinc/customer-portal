@@ -60,7 +60,7 @@ define(function(require, exports, module) {
                 const icon = _.macros('oroui::renderIcon')({name: 'close'});
                 const $button = $('<button></button>', {
                     'type': 'button',
-                    'class': 'close-dialog absolute btn btn--plain btn--text',
+                    'class': 'btn btn--simple-colored close-dialog absolute',
                     'title': __('Close'),
                     'aria-label': __('oro_frontend.filter_manager.close.aria_label'),
                     'data-role': 'close'
@@ -150,7 +150,7 @@ define(function(require, exports, module) {
                         'role': 'button',
                         'href': toApply ? null : '#',
                         'aria-disabled': toApply ? true : null
-                    }).addClass('btn btn--outlined btn--size-small btn--text btn--no-padding');
+                    }).addClass('btn btn--flat btn--size-small');
                 }
             }
         },

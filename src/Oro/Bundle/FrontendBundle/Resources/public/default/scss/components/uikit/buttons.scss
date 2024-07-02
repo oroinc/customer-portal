@@ -38,6 +38,15 @@
         }
     }
 
+    &:focus-visible {
+        @if map.has-key($btn-palette, 'default', 'focus-visible') {
+            @include render-var-properties(
+                map.get($btn-palette, 'default', 'focus-visible'),
+                '#{$btn-var-prefix}-focus-visible'
+            );
+        }
+    }
+
     @if map.has-key($btn-palette, 'default', 'active') {
         &:active {
             @include render-var-properties(
@@ -82,17 +91,6 @@
     }
 }
 
-.btn--text {
-    &,
-    &:hover,
-    &:focus,
-    &:active,
-    &:disabled,
-    &.disabled {
-        border-color: transparent;
-    }
-}
-
 .btn--flat {
     padding-inline: $btn-flat-padding-inline;
 
@@ -111,18 +109,6 @@
     &.disabled {
         &::after {
             content: $btn-flat-disabled-after-content;
-        }
-    }
-}
-
-.btn--icon {
-    @include render-properties(map.get($btn-icon-offsets, 'default'));
-
-    @each $size-key, $size-value in $btn-icon-offsets {
-        @if $size-key != 'default' {
-            &.btn--size-#{$size-key} {
-                @include render-properties($size-value);
-            }
         }
     }
 }
