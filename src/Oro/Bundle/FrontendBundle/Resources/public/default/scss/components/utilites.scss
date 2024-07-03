@@ -175,3 +175,23 @@
 .none-pointer-events {
     pointer-events: none;
 }
+
+.rounded {
+    border-radius: $border-radius;
+
+    &-circle {
+        border-radius: 50%;
+    }
+}
+
+.bordered {
+    /* stylelint-disable-next-line */
+    border: 1px solid get-var-color('neutral', 'grey2');
+    border-radius: $border-radius;
+}
+
+.bordered-img-on-top {
+    /* stylelint-disable-next-line */
+    border-bottom: 1px solid get-var-color('neutral', 'grey2');
+    border-radius: $border-radius $border-radius 0 0;
+}
