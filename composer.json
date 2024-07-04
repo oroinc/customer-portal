@@ -13,7 +13,8 @@
         "oro/platform-serialised-fields": "6.0.*",
         "oro/calendar-bundle": "6.0.*",
         "oro/marketing": "6.0.*",
-        "oro/commerce": "6.0.*"
+        "oro/commerce": "6.0.*",
+        "oro/conversation": "6.0.x-dev"
     },
     "extra": {
         "npm": {
