@@ -57,6 +57,7 @@ class Configuration implements ConfigurationInterface
                 'non_authenticated_visitors_api' => ['type' => 'boolean', 'value' => false],
                 'api_key_generation_enabled' => ['type' => 'boolean', 'value' => true],
                 'case_insensitive_email_addresses_enabled' => ['type' => 'boolean', 'value' => false],
+                'email_enumeration_protection_enabled' => ['type' => 'boolean', 'value' => false],
             ]
         );
 

@@ -471,4 +471,77 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $this->userManager->setAuthStatus($customerUser, CustomerUserManager::STATUS_RESET);
         self::assertEquals(CustomerUserManager::STATUS_RESET, $customerUser->getAuthStatus()->getId());
     }
+
+    /**
+     * @dataProvider duplicationDatesProvider
+     */
+    public function testSendDuplicateEmailNotification(?\DateTimeInterface $lastDuplicateNotificationDate): void
+    {
+        $user = new CustomerUser();
+        $user->setEmail('test@test.com');
+        $user->setLastDuplicateNotificationDate($lastDuplicateNotificationDate);
+
+        $this->em->expects(self::once())
+            ->method('persist')
+            ->with($user);
+        $this->em->expects(self::once())
+            ->method('flush');
+
+        $this->emailProcessor->expects(self::once())
+            ->method('sendDuplicateEmailNotification')
+            ->with($user)
+            ->willReturn(1);
+
+        $this->userManager->sendDuplicateEmailNotification($user);
+    }
+
+    public static function duplicationDatesProvider(): array
+    {
+        return [
+            [null],
+            [new \DateTime('2 days ago', new \DateTimeZone('UTC'))],
+        ];
+    }
+
+    public function testSendDuplicateEmailNotificationWithin24H(): void
+    {
+        $user = new CustomerUser();
+        $user->setEmail('test@test.com');
+        $user->setLastDuplicateNotificationDate(new \DateTime('now', new \DateTimeZone('UTC')));
+
+        $this->em->expects(self::never())
+            ->method('persist')
+            ->with($user);
+        $this->em->expects(self::never())
+            ->method('flush');
+
+        $this->emailProcessor->expects(self::never())
+            ->method('sendDuplicateEmailNotification');
+
+        $this->userManager->sendDuplicateEmailNotification($user);
+    }
+
+    public function testSendDuplicateEmailNotificationError(): void
+    {
+        $user = new CustomerUser();
+        $user->setEmail('test@test.com');
+        $user->setLastDuplicateNotificationDate(new \DateTime('2 days ago', new \DateTimeZone('UTC')));
+
+        $this->em->expects(self::never())
+            ->method('persist')
+            ->with($user);
+        $this->em->expects(self::never())
+            ->method('flush');
+
+        $this->emailProcessor->expects(self::once())
+            ->method('sendDuplicateEmailNotification')
+            ->with($user)
+            ->willReturn(0);
+
+        $this->logger->expects(self::once())
+            ->method('error')
+            ->with('Unable to send duplicate notification email to user "test@test.com"');
+
+        $this->userManager->sendDuplicateEmailNotification($user);
+    }
 }

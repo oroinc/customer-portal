@@ -1105,6 +1105,14 @@ services:
             - '@oro_entity.doctrine_helper'
             - '@oro_website.request_website_provider'
             - '@oro_customer_user.manager'
+        calls:
+            - ['setConfigManager', ['@oro_config.manager']]
+
+    oro_customer.handler.frontend_customer_user_with_unique_email_handler:
+        class: 'Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler'
+        parent: oro_customer.handler.frontend_customer_user_handler
+        calls:
+            - [setIgnoreNotUniqueEmailValidationError, [ false ]]
 
     oro_customer.event_listener.auto_login:
         class: Oro\Bundle\CustomerBundle\EventListener\AuthenticationListener
@@ -1137,6 +1145,12 @@ services:
             - '@oro_customer.handler.frontend_customer_user_handler'
             - '@oro_form.update_handler'
             - '@translator'
+
+    oro_customer.handler.customer_checkout_registration_handler:
+        class: Oro\Bundle\CustomerBundle\Handler\CustomerRegistrationHandler
+        parent: oro_customer.handler.customer_registration_handler
+        arguments:
+            index_2: '@oro_customer.handler.frontend_customer_user_with_unique_email_handler'
 
     oro_customer.handler.forgot_password:
         class: 'Oro\Bundle\CustomerBundle\Handler\ForgotPasswordHandler'

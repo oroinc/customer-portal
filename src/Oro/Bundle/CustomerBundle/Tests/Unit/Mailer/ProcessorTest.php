@@ -62,6 +62,27 @@ class ProcessorTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($returnValue, $this->mailProcessor->sendWelcomeNotification($this->user));
     }
 
+    public function testSendDuplicateEmailNotification(): void
+    {
+        $returnValue = 1;
+        $this->userTemplateEmailSender->expects($this->once())
+            ->method('sendUserTemplateEmail')
+            ->with(
+                $this->user,
+                Processor::DUPLICATE_EMAIL_TEMPLATE_NAME,
+                ['entity' => $this->user],
+                $this->user->getWebsite()
+            )
+            ->willReturn($returnValue);
+
+        $this->assertEventDispatched(
+            Processor::DUPLICATE_EMAIL_TEMPLATE_NAME,
+            ['entity' => $this->user]
+        );
+
+        self::assertEquals($returnValue, $this->mailProcessor->sendDuplicateEmailNotification($this->user));
+    }
+
     public function testSendWelcomeForRegisteredByAdminNotification(): void
     {
         $returnValue = 1;

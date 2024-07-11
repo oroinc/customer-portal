@@ -45,7 +45,7 @@ class OroCustomerBundleInstaller implements
      */
     public function getMigrationVersion(): string
     {
-        return 'v1_32_1';
+        return 'v1_32_2';
     }
 
     /**
@@ -138,6 +138,7 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('password_requested', 'datetime', ['notnull' => false]);
         $table->addColumn('password_changed', 'datetime', ['notnull' => false]);
         $table->addColumn('last_login', 'datetime', ['notnull' => false]);
+        $table->addColumn('last_duplicate_notification_date', 'datetime', ['notnull' => false]);
         $table->addColumn('login_count', 'integer', ['default' => '0', 'unsigned' => true]);
         $table->addColumn('created_at', 'datetime');
         $table->addColumn('updated_at', 'datetime');

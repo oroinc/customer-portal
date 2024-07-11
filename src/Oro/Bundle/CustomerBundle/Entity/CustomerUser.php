@@ -240,6 +240,10 @@ class CustomerUser extends AbstractUser implements
     #[ConfigField(defaultValues: ['importexport' => ['order' => 50]])]
     protected ?bool $isGuest = false;
 
+    #[ORM\Column(name: 'last_duplicate_notification_date', type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
+    protected ?\DateTimeInterface $lastDuplicateNotificationDate = null;
+
     /**
      * {@inheritdoc}
      */
@@ -838,6 +842,25 @@ class CustomerUser extends AbstractUser implements
     public function setIsGuest($isGuest)
     {
         $this->isGuest = $isGuest;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getLastDuplicateNotificationDate()
+    {
+        return $this->lastDuplicateNotificationDate;
+    }
+
+    /**
+     * @param \DateTimeInterface|null $lastDuplicateNotificationDate
+     * @return $this
+     */
+    public function setLastDuplicateNotificationDate(?\DateTimeInterface $lastDuplicateNotificationDate)
+    {
+        $this->lastDuplicateNotificationDate = $lastDuplicateNotificationDate;
 
         return $this;
     }
