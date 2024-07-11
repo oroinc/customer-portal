@@ -8,18 +8,13 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 /**
- * Validates uniqness of CustomerUser email depending on guest flag
+ * Validates uniqueness of CustomerUser email depending on guest flag
  */
 class UniqueCustomerUserNameAndEmailValidator extends ConstraintValidator
 {
-    /**
-     * @var CustomerUserManager
-     */
-    private $customerUserManager;
-
-    public function __construct(CustomerUserManager $customerUserManager)
-    {
-        $this->customerUserManager = $customerUserManager;
+    public function __construct(
+        private CustomerUserManager $customerUserManager
+    ) {
     }
 
     /**
@@ -30,7 +25,7 @@ class UniqueCustomerUserNameAndEmailValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        $id = false;
+        $id = null;
         if ($value instanceof CustomerUser) {
             if ($value->isGuest()) {
                 return;
@@ -47,9 +42,11 @@ class UniqueCustomerUserNameAndEmailValidator extends ConstraintValidator
         /** @var CustomerUser $existingCustomerUser */
         $existingCustomerUser = $this->customerUserManager->findUserByEmail($value);
         if (null !== $existingCustomerUser && $existingCustomerUser->getId() !== $id) {
-            $this->context->buildViolation($constraint->message)
+            $contextViolation = $this->context->buildViolation($constraint->message);
+            $contextViolation
                 ->atPath('email')
                 ->setInvalidValue($value)
+                ->setCode(UniqueCustomerUserNameAndEmail::NOT_UNIQUE_EMAIL)
                 ->addViolation();
         }
     }

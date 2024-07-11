@@ -13,6 +13,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class Processor
 {
     const WELCOME_EMAIL_TEMPLATE_NAME = 'customer_user_welcome_email';
+    const DUPLICATE_EMAIL_TEMPLATE_NAME = 'not_unique_customer_user_email';
     const WELCOME_EMAIL_REGISTERED_BY_ADMIN_TEMPLATE_NAME = 'customer_user_welcome_email_registered_by_admin';
     const CONFIRMATION_EMAIL_TEMPLATE_NAME = 'customer_user_confirmation_email';
     const RESET_PASSWORD_EMAIL_TEMPLATE_NAME = 'customer_user_reset_password';
@@ -33,6 +34,15 @@ class Processor
     ) {
         $this->userTemplateEmailSender = $userTemplateEmailSender;
         $this->eventDispatcher = $eventDispatcher;
+    }
+
+    public function sendDuplicateEmailNotification(CustomerUser $customerUser): int
+    {
+        return $this->getEmailTemplateAndSendEmail(
+            $customerUser,
+            static::DUPLICATE_EMAIL_TEMPLATE_NAME,
+            ['entity' => $customerUser]
+        );
     }
 
     /**

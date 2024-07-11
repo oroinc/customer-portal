@@ -20,7 +20,7 @@ class LoadEmailTemplates extends AbstractHashEmailMigration implements Versioned
 
     public function getVersion(): string
     {
-        return '1.5';
+        return '1.6';
     }
 
     protected function getEmailHashesToUpdate(): array

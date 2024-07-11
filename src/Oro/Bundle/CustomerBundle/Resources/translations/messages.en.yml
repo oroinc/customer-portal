@@ -251,6 +251,8 @@ oro.customer:
         salt.label:                  'Salt'
         created_at.label:            'Created At'
         updated_at.label:            'Updated At'
+        lastDuplicateNotificationDate:
+            label:                   'Last Duplicate Notification Date'
         login_count:
             label:                   'Login Count'
             description:             Number of times the customer user has logged into the OroCommmerce store front.
@@ -292,6 +294,8 @@ oro.customer:
         preferred_localization:
             label: 'Preferred Localization'
             placeholder: 'Select enabled localization...'
+        last_duplicate_notification_date:
+            label: 'Last duplicate notification date'
         feature:
             manage:
                 label: Customer User Management
@@ -837,7 +841,9 @@ oro.customer:
             case_insensitive_email_addresses_enabled:
                 label: 'Case-Insensitive Email Addresses'
                 tooltip: 'Enable the option to ignore the letter case when comparing email addresses. In this case, john.doe@example.com and John.Doe@example.com are considered equal.'
-
+            email_enumeration_protection_enabled:
+                label: 'Customer User Email Enumeration Protection'
+                tooltip: 'Enabling this feature will hide the email address uniqueness validation error and trigger a registration attempt email to be sent to the existing user email address.'
     security:
         permissions: 'Action Permissions'
         permission:
