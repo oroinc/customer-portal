@@ -26,6 +26,7 @@ oro_behat_extension:
         - Oro\Bundle\SearchBundle\Tests\Behat\Context\SearchContext
         - Oro\Bundle\FrontendBundle\Tests\Behat\Context\ApiContext
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\BrowserTabContext
+        - Oro\Bundle\QueryDesignerBundle\Tests\Behat\Context\QueryDesignerContext
       paths:
         - '@OroCustomerBundle/Tests/Behat/Features'
 
