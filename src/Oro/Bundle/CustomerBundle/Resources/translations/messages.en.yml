@@ -843,7 +843,7 @@ oro.customer:
                 tooltip: 'Enable the option to ignore the letter case when comparing email addresses. In this case, john.doe@example.com and John.Doe@example.com are considered equal.'
             email_enumeration_protection_enabled:
                 label: 'Customer User Email Enumeration Protection'
-                tooltip: 'Enabling this feature will hide the email address uniqueness validation error and trigger a registration attempt email to be sent to the existing user email address.'
+                tooltip: 'Enable the option to hide the email address uniqueness validation error and trigger a registration attempt email to be sent to the existing user email address.'
     security:
         permissions: 'Action Permissions'
         permission:
