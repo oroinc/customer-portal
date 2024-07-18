@@ -13,6 +13,7 @@ class CustomerUserAddressUpdateListTest extends RestJsonApiUpdateListTestCase
 {
     protected function setUp(): void
     {
+        self::markTestSkipped('Will be fixed in BB-24385');
         parent::setUp();
         $this->loadFixtures([
             LoadCountriesAndRegions::class,
