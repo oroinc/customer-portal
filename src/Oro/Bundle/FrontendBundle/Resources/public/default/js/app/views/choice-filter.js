@@ -9,11 +9,13 @@ define(function(require) {
          * @inheritdoc
          */
         criteriaValueSelectors: _.defaults({
-            type: 'select[data-choice-value-select]'
+            type: '[data-choice-value-select]'
         }, BaseChoiceFilter.prototype.criteriaValueSelectors),
 
-        events: {
-            'change select[data-choice-value-select]': '_onChangeChoiceValue'
+        events() {
+            return {
+                [`change ${this.criteriaValueSelectors.type}`]: '_onChangeChoiceValue'
+            };
         },
 
         /**
@@ -42,20 +44,8 @@ define(function(require) {
             this._onValueChanged();
         },
 
-        /**
-         * @inheritdoc
-         */
-        _onValueUpdated: function(newValue, oldValue) {
-            this.$(this.criteriaValueSelectors.type).each(function(i, elem) {
-                const $select = this.$(elem);
-                const name = $select.data('name') || 'type';
-                if (oldValue[name] !== newValue[name]) {
-                    $select.inputWidget('val', newValue[name]);
-                    $select.trigger('change');
-                }
-            }.bind(this));
-
-            ChoiceFilter.__super__._onValueUpdated.call(this, newValue, oldValue);
+        getType() {
+            return this.$(`${this.criteriaValueSelectors.type}:checked`).val();
         }
     });
 

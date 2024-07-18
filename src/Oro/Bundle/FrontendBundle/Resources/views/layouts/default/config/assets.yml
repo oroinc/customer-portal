@@ -120,6 +120,7 @@ styles:
         - 'bundles/orofrontend/default/scss/components/uikit/status-label.scss'
         - 'bundles/orofrontend/default/scss/components/uikit/ul.scss'
         - 'bundles/orofrontend/default/scss/components/uikit/caption.scss'
+        - 'bundles/orofrontend/default/scss/components/uikit/selectable-group.scss'
         - 'bundles/orofrontend/default/scss/components/utilites.scss'
         - 'bundles/orofrontend/default/scss/components/sticky-panel.scss'
         - 'bundles/orofrontend/default/scss/components/headings.scss'

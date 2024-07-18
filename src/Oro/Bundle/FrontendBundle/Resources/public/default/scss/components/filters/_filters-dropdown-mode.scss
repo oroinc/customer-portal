@@ -54,6 +54,8 @@
         opacity: 0;
         visibility: hidden;
 
+        font-size: $base-font-size;
+
         // All hidden filters should align for right side
         &:not([style]),
         &[style*='hidden'] {
@@ -187,6 +189,9 @@
     }
 
     .filter-select-oro-wrapper {
-        margin-bottom: spacing('sm');
+        overflow: auto;
+        max-height: $filter-dropdown-select-wrapper-max-height;
+
+        margin-bottom: spacing('base');
     }
 }

@@ -41,10 +41,12 @@
 
             &--back-btn {
                 margin-inline-start: -10px;
+                display: grid;
             }
 
             &--close-btn {
                 margin-inline-end: -10px;
+                display: grid;
             }
         }
 
@@ -77,6 +79,7 @@
             > div {
                 display: flex;
                 justify-content: space-between;
+                flex-wrap: wrap;
                 align-items: center;
                 background-color: $filter-toggle-mode-datagrid-manager-background-color;
 
@@ -283,7 +286,7 @@
     }
 
     .filter-select-oro-wrapper {
-        margin-bottom: 12px;
+        margin-bottom: spacing('base');
     }
 
     .filter-start-date,

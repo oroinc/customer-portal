@@ -1,10 +1,14 @@
 aliases:
     orofrontend/js/app/filter-count-helper$: orofrontend/default/js/app/filter-count-helper
     orofrontend/js/app/views/frontend-abstract-filter$: orofrontend/default/js/app/views/frontend-abstract-filter
+    orofrontend/js/app/views/frontend-text-filter$: orofrontend/default/js/app/views/frontend-text-filter
     orofrontend/js/app/views/frontend-multiselect-filter$: orofrontend/default/js/app/views/frontend-multiselect-filter
     orofrontend/js/app/views/frontend-search-boolean-filter$: orofrontend/default/js/app/views/frontend-search-boolean-filter
     orofrontend/js/app/views/frontend-select-filter$: orofrontend/default/js/app/views/frontend-select-filter
-    orofrontend/js/app/views/frontend-text-filter$: orofrontend/default/js/app/views/frontend-text-filter
+    orofrontend/js/app/views/frontend-empty-filter$: orofrontend/default/js/app/views/frontend-empty-filter
+    orofrontend/js/app/views/frontend-date-filter$: orofrontend/default/js/app/views/frontend-date-filter
+    orofrontend/js/app/views/frontend-datetime-filter$: orofrontend/default/js/app/views/frontend-datetime-filter
+    orofrontend/js/app/views/frontend-dictionary-filter$: orofrontend/default/js/app/views/frontend-dictionary-filter
     slick$: '@oroinc/slick-carousel/slick/slick'
     sticky-element$: orofrontend/default/js/app/views/sticky-element-view
 app-modules:
@@ -80,11 +84,15 @@ map:
         oro/filter-settings: orofrontend/default/js/app/views/filter-settings
         oro/datagrid/cell/action-cell: orofrontend/js/datagrid/cell/frontend-action-cell
         oro/filter/abstract-filter: orofrontend/default/js/app/views/frontend-abstract-filter
+        oro/filter/empty-filter: orofrontend/js/app/views/frontend-empty-filter
         oro/filter/choice-filter: orofrontend/default/js/app/views/choice-filter
+        oro/filter/date-filter: orofrontend/js/app/views/frontend-date-filter
+        oro/filter/datetime-filter: orofrontend/js/app/views/frontend-datetime-filter
+        oro/filter/dictionary-filter: orofrontend/js/app/views/frontend-dictionary-filter
+        oro/filter/text-filter: orofrontend/js/app/views/frontend-text-filter
         oro/filter/multiselect-filter: orofrontend/js/app/views/frontend-multiselect-filter
         oro/filter/search-boolean-filter: orofrontend/js/app/views/frontend-search-boolean-filter
         oro/filter/select-filter: orofrontend/js/app/views/frontend-select-filter
-        oro/filter/text-filter: orofrontend/js/app/views/frontend-text-filter
         oro/dialog-widget: orofrontend/js/app/components/frontend-dialog-widget
         orodatagrid/js/app/components/datagrid-component: orofrontend/js/app/components/frontend-datagrid-component
         orodatagrid/js/app/plugins/grid/datagrid-settings-plugin: orofrontend/js/app/plugins/frontend-datagrid-settings-plugin
@@ -127,6 +135,14 @@ map:
         oro/filter/search-boolean-filter: oro/filter/search-boolean-filter
     orofrontend/js/app/views/frontend-select-filter:
         oro/filter/select-filter: oro/filter/select-filter
+    orofrontend/js/app/views/frontend-empty-filter:
+        oro/filter/empty-filter: oro/filter/empty-filter
+    orofrontend/js/app/views/frontend-date-filter:
+        oro/filter/date-filter: oro/filter/date-filter
+    orofrontend/js/app/views/frontend-datetime-filter:
+        oro/filter/datetime-filter: oro/filter/datetime-filter
+    orofrontend/js/app/views/frontend-dictionary-filter:
+        oro/filter/dictionary-filter: oro/filter/dictionary-filter
     orofrontend/js/app/views/frontend-text-filter:
         oro/filter/text-filter: oro/filter/text-filter
     orofrontend/js/app/views/page/content-view:
