@@ -4,6 +4,7 @@ aliases:
     orofrontend/js/app/views/frontend-multiselect-filter$: orofrontend/default/js/app/views/frontend-multiselect-filter
     orofrontend/js/app/views/frontend-search-boolean-filter$: orofrontend/default/js/app/views/frontend-search-boolean-filter
     orofrontend/js/app/views/frontend-select-filter$: orofrontend/default/js/app/views/frontend-select-filter
+    orofrontend/js/app/views/frontend-text-filter$: orofrontend/default/js/app/views/frontend-text-filter
     slick$: '@oroinc/slick-carousel/slick/slick'
     sticky-element$: orofrontend/default/js/app/views/sticky-element-view
 app-modules:
@@ -83,6 +84,7 @@ map:
         oro/filter/multiselect-filter: orofrontend/js/app/views/frontend-multiselect-filter
         oro/filter/search-boolean-filter: orofrontend/js/app/views/frontend-search-boolean-filter
         oro/filter/select-filter: orofrontend/js/app/views/frontend-select-filter
+        oro/filter/text-filter: orofrontend/js/app/views/frontend-text-filter
         oro/dialog-widget: orofrontend/js/app/components/frontend-dialog-widget
         orodatagrid/js/app/components/datagrid-component: orofrontend/js/app/components/frontend-datagrid-component
         orodatagrid/js/app/plugins/grid/datagrid-settings-plugin: orofrontend/js/app/plugins/frontend-datagrid-settings-plugin
@@ -125,6 +127,8 @@ map:
         oro/filter/search-boolean-filter: oro/filter/search-boolean-filter
     orofrontend/js/app/views/frontend-select-filter:
         oro/filter/select-filter: oro/filter/select-filter
+    orofrontend/js/app/views/frontend-text-filter:
+        oro/filter/text-filter: oro/filter/text-filter
     orofrontend/js/app/views/page/content-view:
         oroui/js/app/views/page/content-view: oroui/js/app/views/page/content-view
     orofrontend/js/datagrid/cell/frontend-action-cell:

@@ -2,9 +2,11 @@ define(function(require, exports, module) {
     'use strict';
 
     const _ = require('underscore');
+    const __ = require('orotranslation/js/translator');
     const SelectFilter = require('oro/filter/select-filter');
     const MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-multiselect-decorator');
     const FilterCountHelper = require('orofrontend/js/app/filter-count-helper');
+    const tools = require('oroui/js/tools');
     let config = require('module-config').default(module.id);
 
     config = _.extend({
@@ -52,13 +54,15 @@ define(function(require, exports, module) {
         listen: {
             'metadata-loaded': 'onMetadataLoaded',
             'total-records-count-updated': 'onTotalRecordsCountUpdate',
-            'filters-manager:after-applying-state mediator': 'rerenderFilter'
+            'filters-manager:after-applying-state mediator': 'rerenderFilter',
+            'change': 'onChangeFilter'
         },
 
         /**
          * @inheritdoc
          */
         constructor: function FrontendSelectFilter(options) {
+            this.onChangeFilter = _.debounce(this.onChangeFilter.bind(this));
             FrontendSelectFilter.__super__.constructor.call(this, options);
         },
 
@@ -84,7 +88,17 @@ define(function(require, exports, module) {
          */
         _initializeSelectWidget() {
             this.widgetOptions = Object.assign({}, this.widgetOptions, {
-                additionalClass: !this.isToggleMode()
+                additionalClass: !this.isToggleMode(),
+                resetButton: {
+                    label: __('oro.filter.clearFilterButton.text'),
+                    attr: {
+                        'class': 'btn btn--flat filter-clear hidden',
+                        'aria-label': __('oro.filter.clearFilterButton.aria_label', {
+                            label: `${__('oro.filter.by')} ${this.label}`}
+                        )
+                    },
+                    onClick: this.onClickSelectWidgetResetButton.bind(this)
+                }
             });
 
             return FrontendSelectFilter.__super__._initializeSelectWidget.call(this);
@@ -104,6 +118,8 @@ define(function(require, exports, module) {
             } else {
                 FrontendSelectFilter.__super__._onClickFilterArea.call(this, e);
             }
+
+            this.toggleVisibilityClearFilterButton();
         },
 
         toggleFilter: function() {
@@ -144,6 +160,22 @@ define(function(require, exports, module) {
 
         isToggleMode: function() {
             return this.renderMode === 'toggle-mode';
+        },
+
+        onClickSelectWidgetResetButton() {
+            this.reset();
+        },
+
+        onChangeFilter() {
+            this.toggleVisibilityClearFilterButton();
+        },
+
+        toggleVisibilityClearFilterButton(hidden) {
+            if (hidden === void 0) {
+                hidden = tools.isEqualsLoosely(this.getValue(), this.emptyValue);
+            }
+
+            this.selectWidget.toggleVisibilityResetButton(hidden);
         }
     }));
 

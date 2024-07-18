@@ -10,11 +10,14 @@ define(function(require, exports, module) {
     config = $.extend(true, {
         hideHeader: false,
         themeName: 'filter-default',
-        additionalClass: true
+        additionalClass: true,
+        resetButton: null
     }, config);
 
     const FrontendMultiSelectDecorator = function(options) {
-        const params = _.pick(options.parameters, ['additionalClass', 'hideHeader', 'themeName', 'listAriaLabel']);
+        const params = _.pick(options.parameters,
+            ['additionalClass', 'hideHeader', 'themeName', 'listAriaLabel', 'resetButton']
+        );
 
         if (!_.isEmpty(params)) {
             this.parameters = _.extend({}, this.parameters, params);
@@ -95,6 +98,7 @@ define(function(require, exports, module) {
         applyDefaultTheme: function(widget, instance) {
             this.applyBaseMarkup(widget, instance);
             this.setDesignForCheckboxesDefaultTheme(instance);
+            this.setDesignForFooter(widget, instance);
         },
 
         /**
@@ -104,6 +108,7 @@ define(function(require, exports, module) {
         applyAllToOnceTheme: function(widget, instance) {
             this.applyBaseMarkup(widget, instance);
             this.setDesignForCheckboxesAllToOnceTheme(instance);
+            this.setDesignForFooter(widget, instance);
         },
 
         /**
@@ -118,6 +123,7 @@ define(function(require, exports, module) {
                 this.setDropdownWidgetContainer(instance);
                 this.setDropdownHeaderDesign(instance);
                 this.setDropdownHeaderSearchDesign(instance);
+                this.setDropdownFooterDesign(widget, instance);
             }
         },
 
@@ -255,6 +261,46 @@ define(function(require, exports, module) {
             instance.header
                 .find('.ui-multiselect-close')
                 .addClass('hide');
+        },
+
+        setDropdownFooterDesign(widget, instance) {
+            instance.footer = $('<div />', {
+                'class': 'datagrid-manager__footer'
+            });
+
+            if (this.parameters.resetButton) {
+                this.setDesignForResetButton(widget, instance);
+            }
+
+            this.setDesignForFooter(widget, instance);
+        },
+
+        setDesignForFooter(widget, instance) {
+            instance.footer.appendTo(widget);
+        },
+
+        setDesignForResetButton(widget, instance) {
+            instance.resetButton = $('<button />', {
+                'class': 'btn btn--flat',
+                ...this.parameters.resetButton.attr || {}
+            }).text(this.parameters.resetButton.label || 'Reset');
+
+            instance.resetButton.on(`click`, event => {
+                console.log(instance);
+
+                if (typeof this.parameters.resetButton.onClick === 'function') {
+                    this.parameters.resetButton.onClick(event);
+                }
+            });
+
+            instance.footer.append(instance.resetButton);
+        },
+
+        toggleVisibilityResetButton(hidden) {
+            const instance = this.multiselect('instance');
+            if (instance.resetButton) {
+                instance.resetButton.toggleClass('hidden', hidden);
+            }
         },
 
         createIconButton(icon) {
