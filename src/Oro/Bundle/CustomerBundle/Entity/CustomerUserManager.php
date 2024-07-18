@@ -142,6 +142,28 @@ class CustomerUserManager extends BaseUserManager
         }
     }
 
+    public function sendDuplicateEmailNotification(CustomerUser $customerUser): void
+    {
+        $minimumDateOffset = new \DateTime('now', new \DateTimeZone('UTC'));
+        $minimumDateOffset->sub(new \DateInterval('PT24H'));
+        $lastNotificationDate = $customerUser->getLastDuplicateNotificationDate();
+
+        // Last notification was sent within last 24h
+        if ($lastNotificationDate && $lastNotificationDate > $minimumDateOffset) {
+            return;
+        }
+
+        $sent = $this->getEmailProcessor()->sendDuplicateEmailNotification($customerUser);
+        if ($sent) {
+            $customerUser->setLastDuplicateNotificationDate(new \DateTime('now', new \DateTimeZone('UTC')));
+            $this->updateUser($customerUser);
+        } else {
+            $this->logger->error(
+                sprintf('Unable to send duplicate notification email to user "%s"', $customerUser->getUserIdentifier())
+            );
+        }
+    }
+
     public function sendResetPasswordEmail(CustomerUser $user): void
     {
         $user->setConfirmationToken($user->generateToken());

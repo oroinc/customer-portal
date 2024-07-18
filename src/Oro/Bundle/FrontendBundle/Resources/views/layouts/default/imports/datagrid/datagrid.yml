@@ -24,12 +24,12 @@ layout:
                     actionOptions:
                         refreshAction:
                             launcherOptions:
-                                className: 'btn btn--size-small btn--neutral btn--icon refresh-action'
+                                className: 'btn btn--neutral btn--size-small refresh-action'
                                 icon: 'refresh'
                                 launcherMode: 'icon-only'
                         resetAction:
                             launcherOptions:
-                                className: 'btn btn--size-small btn--neutral btn--icon reset-action'
+                                className: 'btn btn--neutral btn--size-small reset-action'
                                 icon: 'reset'
                                 launcherMode: 'icon-only'
                     customModules:

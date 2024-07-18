@@ -303,8 +303,6 @@ operations:
                 ariaLabel: oro.customer.action.customer_user.edit_btn.aria_label
                 noLinkLabel: true
                 icon: pencil
-        button_options:
-            class: btn--icon
         applications: [commerce]
         routes:
             - oro_customer_frontend_customer_user_profile

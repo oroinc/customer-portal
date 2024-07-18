@@ -105,7 +105,7 @@ const PasswordInputWidgetView = AbstractInputWidgetView.extend({
      * @returns {jQuery.Element}
      */
     createButton() {
-        const $button = $(`<button type="button" class="btn btn--plain btn--icon" ${this.getUIDAttribute()}></button>`);
+        const $button = $(`<button type="button" class="btn btn--simple" ${this.getUIDAttribute()}></button>`);
 
         $button
             .attr('aria-label', __('oro_frontend.form.password.aria_label.to_show'))

@@ -88,6 +88,8 @@ api:
                     exclude: true
                 loginCount:
                     exclude: true
+                lastDuplicateNotificationDate:
+                    exclude: true
                 enabled:
                     form_options:
                         mapped: false

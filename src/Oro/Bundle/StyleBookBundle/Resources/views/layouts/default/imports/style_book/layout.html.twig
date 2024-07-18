@@ -177,7 +177,7 @@
 
     {% if description is defined %}
         <div {{ block('block_attributes') }}>
-            {{ description|trans|raw }}
+            {{ description|trans|oro_html_sanitize }}
         </div>
     {% endif %}
 {% endblock %}
@@ -197,9 +197,9 @@
     }) %}
 
     <div {{ block('block_attributes') }}>
-        <h2 id="{{ anchor }}" class="style-book-title">{{ label|trans|raw }}</h2>
+        <h2 id="{{ anchor }}" class="style-book-title">{{ label|trans|oro_html_sanitize }}</h2>
         {% if description is defined and description|length %}
-            <div class="style-book-group-element__description">{{ description|trans|raw }}</div>
+            <div class="style-book-group-element__description">{{ description|trans|oro_html_sanitize }}</div>
         {% endif %}
         {{ block_widget(block) }}
     </div>
@@ -217,11 +217,11 @@
                 subTreeLvl: subTreeLvl
             }
         }) %}
-        <h3 {{ block('block_attributes') }}>{{ label|trans|raw }}</h3>
+        <h3 {{ block('block_attributes') }}>{{ label|trans|oro_html_sanitize }}</h3>
     {% endif %}
     {% if description %}
         <div class="style-book-group-element__description">
-            {{ description|trans|raw }}
+            {{ description|trans|oro_html_sanitize }}
         </div>
     {% endif %}
 
@@ -257,7 +257,7 @@
     }) %}
     <li {{ block('block_attributes') }}>
         <a href="{{ path('oro_stylebook_group', {group: group}) }}" class="style-book-menu__link">
-            <span class="style-book-menu__text">{{ label|trans|raw }}</span>
+            <span class="style-book-menu__text">{{ label|trans|oro_html_sanitize }}</span>
        </a>
     </li>
 {% endblock %}
@@ -289,7 +289,7 @@
                            role="tab"
                            aria-selected="{{ item.active ? ' active' : 'false'}}"
                            aria-controls="{{ item.anchor ~ uniqueId }}"
-                        >{{ item.label|trans|raw }}</a>
+                        >{{ item.label|trans|oro_html_sanitize }}</a>
                     </li>
                 {% endfor %}
             </ul>
@@ -321,11 +321,11 @@
                     subTreeLvl: subTreeLvl
                 }
             }) %}
-            <h3 {{ block('block_attributes') }}>{{ label|trans|raw }}</h3>
+            <h3 {{ block('block_attributes') }}>{{ label|trans|oro_html_sanitize }}</h3>
         {% endif %}
         {% if description %}
             <div class="style-book-group-element__description">
-                {{ description|trans|raw }}
+                {{ description|trans|oro_html_sanitize }}
             </div>
         {% endif %}
 

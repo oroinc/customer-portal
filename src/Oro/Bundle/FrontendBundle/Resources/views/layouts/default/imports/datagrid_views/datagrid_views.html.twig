@@ -60,7 +60,7 @@
 
     {% set attr = layout_attr_defaults(attr, {
         'type': 'button',
-        '~class': 'close-dialog absolute btn btn--plain btn--text',
+        '~class': ' btn btn--simple-colored close-dialog absolute',
         'title': 'Close'|trans,
         'aria-label': 'oro_frontend.datagrid_views.close.aria_label'|trans,
         'data-close': ''
@@ -126,7 +126,7 @@
                     <% _.each(actions[iterate], function(action) { %>
                         <% if (action.enabled) { %>
                             <li class="actions-row__item">
-                                <button class="btn btn--icon btn--size-small btn--text btn--plain"
+                                <button class="btn btn--size-small btn--simple"
                                         type="button"
                                         aria-label="<%- action.label %> <%- choice.label %>"
                                         title="<%- action.label %>"
@@ -156,7 +156,7 @@
 
     <div {{ block('block_attributes') }}>
         <div class="grid-views__toggle-container">
-            <button class="btn btn--size-small btn--block"
+            <button class="btn btn--block btn--size-small"
                     type="button"
                     data-role="save-new"
                     data-switch-edit-button=""

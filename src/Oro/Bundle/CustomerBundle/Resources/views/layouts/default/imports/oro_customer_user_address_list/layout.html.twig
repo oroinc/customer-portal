@@ -89,7 +89,7 @@
     {% import '@OroFrontend/layouts/default/utils.html.twig' as utils %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' btn btn--plain btn--icon item-map-button',
+        '~class': ' btn btn--simple item-map-button',
         'data-page-component-module': "oroui/js/app/components/viewport-component",
         '~data-page-component-options': {
             viewport: 'tablet',
@@ -113,7 +113,7 @@
 
 {% block __oro_customer_user_address_list__user_addresses_list_template_item_actions_edit_widget %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
-    {% set attr = layout_attr_defaults(attr, {'~class': " btn btn--plain btn--icon item-edit-button"}) %}
+    {% set attr = layout_attr_defaults(attr, {'~class': " btn btn--simple item-edit-button"}) %}
     <button {{ block('block_attributes') }}
             aria-label="{{ "oro.customer.action.customer_user_frontend_address.edit"|trans }} <%- street %>, <%- city %>">
         {{ renderIcon.icon({name: 'pencil'}) }}
@@ -122,7 +122,7 @@
 
 {% block __oro_customer_user_address_list__user_addresses_list_template_item_actions_remove_widget %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
-    {% set attr = layout_attr_defaults(attr, {'~class': " btn btn--plain btn--icon item-remove-button"}) %}
+    {% set attr = layout_attr_defaults(attr, {'~class': " btn btn--simple item-remove-button"}) %}
     <button {{ block('block_attributes') }}
             aria-label="{{ "oro.customer.action.customer_user_frontend_address.delete"|trans }} <%- street %>, <%- city %>">
         {{ renderIcon.icon({name: 'trash'}) }}
@@ -132,7 +132,7 @@
 {% block __oro_customer_user_address_list__user_addresses_list_template__manage_addresses_link_widget %}
     {% if currentAddresses|length > 2 %}
         {% set attr = layout_attr_defaults(attr, {
-            '~class': ' address-list__manage-link btn btn--outlined btn--text btn--no-padding'
+            '~class': ' address-list__manage-link btn btn--flat'
         }) %}
         {{ block_widget(block, {attr: attr}) }}
     {% endif %}

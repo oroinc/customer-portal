@@ -16,7 +16,8 @@
         }
 
         .add-to-shopping-list-button {
-            max-width: $datagrid-massaction-action-shopping-list-max-width;
+            min-width: $datagrid-massaction-action-min-width;
+            max-width: $datagrid-massaction-action-max-width;
         }
     }
 
@@ -52,6 +53,11 @@
     .datagrid-massaction {
         &-actions {
             width: 100%;
+
+            .add-to-shopping-list-button {
+                width: 100%;
+                max-width: 100%;
+            }
         }
 
         &.sticky-mode {

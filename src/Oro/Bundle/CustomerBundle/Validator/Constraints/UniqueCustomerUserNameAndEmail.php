@@ -4,8 +4,13 @@ namespace Oro\Bundle\CustomerBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
+/**
+ * Validates uniqueness of CustomerUser email depending on guest flag
+ */
 class UniqueCustomerUserNameAndEmail extends Constraint
 {
+    public const NOT_UNIQUE_EMAIL = 'not_unique_email';
+
     public $message = 'oro.customer.message.user_customer_exists';
 
     /**
