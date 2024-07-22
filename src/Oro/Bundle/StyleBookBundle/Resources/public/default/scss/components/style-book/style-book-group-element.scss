@@ -44,9 +44,16 @@
 
     &__preview {
         margin-bottom: 10px;
-        padding: 15px;
+        padding: $style-book-group-element-preview-offset;
 
         border: $style-book-group-element-preview-border;
+
+        &--inside-as-last {
+            margin-left: -$style-book-group-element-preview-offset;
+            margin-right: -$style-book-group-element-preview-offset;
+            margin-bottom: -$style-book-group-element-preview-offset;
+            border: 0;
+        }
 
         &--space {
             margin: $style-book-group-element-preview-space-margin;

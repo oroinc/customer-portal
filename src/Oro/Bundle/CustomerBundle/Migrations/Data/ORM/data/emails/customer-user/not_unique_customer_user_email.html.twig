@@ -1,0 +1,30 @@
+{# @name = not_unique_customer_user_email #}
+{# @entityName = Oro\Bundle\CustomerBundle\Entity\CustomerUser #}
+{# @subject = Unauthorized Account Registration Attempt #}
+{# @isSystem = 1 #}
+{# @isEditable = 1 #}
+
+{% extends oro_get_email_template('base_storefront') %}
+
+{% block content %}
+    <h1 style="{{ styleH1 }}">Dear {{ entity|oro_format_name }},</h1>
+
+    <!--empty space-->
+    <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td height="12" style="{{ styleEmptyRowH12 }}">&nbsp;</td>
+        </tr>
+    </table>
+
+    <p style="{{ styleP }}">We regret to inform you that there has been an unauthorized attempt to register an account using your email address on our website. Your security is our top priority, and we take incidents like this very seriously.</p>
+    <p style="{{ styleP }}">If you did not initiate this registration attempt, please contact our website administrator immediately to investigate and resolve this issue. Your prompt action is crucial to ensure the safety of your account and personal information.</p>
+
+    <!--empty space-->
+    <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td height="12" style="{{ styleEmptyRowH12 }}">&nbsp;</td>
+        </tr>
+    </table>
+
+    <p style="{{ styleP }}">Thank you for your attention to this matter.</p>
+{% endblock %}

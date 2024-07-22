@@ -2,7 +2,7 @@
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
         'type': 'button',
-        '~class': " close-dialog btn btn--plain btn--text" ~ (class_prefix ? " #{class_prefix}__close"),
+        '~class': " btn btn--simple-colored close-dialog" ~ (class_prefix ? " #{class_prefix}__close"),
         'title': 'Close'|trans,
         'aria-label': 'oro.commercemenu.multi.close.aria_label'|trans,
         'data-role': 'close'

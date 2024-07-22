@@ -12,4 +12,9 @@ layout:
             options:
                 menu_name: "frontend_menu"
 
+        - '@appendOption':
+            id: page_main
+            optionName: attr.class
+            optionValue: 'customer-layout'
+
     conditions: 'context["is_logged_in"]'

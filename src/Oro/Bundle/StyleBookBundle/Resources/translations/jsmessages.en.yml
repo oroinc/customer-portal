@@ -116,30 +116,34 @@ oro_stylebook:
                     title: Via Drop-Down
             buttons:
                 title: Buttons
-                default:
-                    title: Default Buttons
+                types:
+                    title: Types Buttons
+                variants:
+                    title: Variants Buttons
+                sizes:
+                    title: Sizes Button
+                colors:
+                    title: Colors Buttons
                 disabled:
                     title: Disabled Buttons
                 inversed:
                     title: Inversed Buttons
-                text:
-                    title: Text Buttons
-                nopadding:
-                    title: No Padding Buttons
-                sizes:
-                    title: Sizes Button
-                icon_text:
-                    title: Icon Text Button
-                icon:
-                    title: Icon Button
+                icon_and_text:
+                    title: Icon With Text
             buttons_group:
                 title: Buttons Group
                 drop_down_group:
-                    title: Drop-Down Button Group
-                inline_group:
-                    title: Inline Icon Button Group
-                inline_btn_group:
-                    title: Horizontal Text Button Group
+                    title: Split Button
+            icon_buttons:
+                title: Icon Buttons
+                icon_button_with_bg:
+                    title: With a background
+                icon_button_without_bg_default:
+                    title: Without a background (in the Default state)
+                icon_button_without_bg_all_states:
+                    title: Without a background (in All states)
+                icon_button_circle:
+                    title: Icon Circle Button
             status_label:
                 title: Status Labels
             notifications:
@@ -270,12 +274,6 @@ oro_stylebook:
         primary-active: 'CTA in active state;'
         primary-disabled: 'Primary actions in disabled state; Checkboxes and radio buttons borders in the disabled state;'
         primary-light: 'Outlined and text buttons’ background in hover/active state; Menu items background in hover state;'
-        alternative: 'This is one of the main brand colors that can be used instead of (but not together with) the color above for primary actions.'
-        alternative-main: 'Primary actions in default state; Checkboxes and radio buttons borders in the checked state; Active tabs in default state'
-        alternative-hover: 'Primary actions in hover state; Checkboxes and radio buttons borders in the checked hover state; Active tabs in hover state;'
-        alternative-active: 'CTA in active state;'
-        alternative-disabled: 'Primary actions in disabled state; Checkboxes and radio buttons borders in the disabled state;'
-        alternative-light: 'Outlined and text buttons’ background in hover/active state; Menu items background in hover state;'
         secondary: 'Secondary colors usually highlight or complement the primary color, but don’t overshadow it. They can be used in secondary elements, as accents (in decorative elements, illustrations, icons) or in some cases as a container background. Oftentimes, but not necessarily, it’s one or more of the brand colors. Usually there may be 1-6 secondary colors, but it’s a good practice to limit the number of them to three within one UI to bring in more recognisability and consistency. '
         secondary-c1: 'Decorative elements'
         secondary-c2: 'Decorative elements'

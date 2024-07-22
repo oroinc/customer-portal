@@ -13,13 +13,47 @@ layout:
                     options:
                         anchor: buttons
                         label: oro_stylebook.groups.ui_elements.buttons.title
-                group_element_button_view:
+                        vars:
+                            description: oro_stylebook.groups.ui_elements.buttons.description
+
+                group_element_button_types_view:
                     blockType: group_element_item
                     options:
-                        anchor: button_default
-                        label: oro_stylebook.groups.ui_elements.buttons.default.title
+                        anchor: button_types
+                        label: oro_stylebook.groups.ui_elements.buttons.types.title
                         subTreeLvl: 1
-                style_book_button_element:
+                        description: oro_stylebook.groups.ui_elements.buttons.types.description
+                style_book_button_element_types:
+                    blockType: block
+
+                group_element_button_variants_view:
+                    blockType: group_element_item
+                    options:
+                        anchor: button_variants
+                        label: oro_stylebook.groups.ui_elements.buttons.variants.title
+                        subTreeLvl: 1
+                        description: oro_stylebook.groups.ui_elements.buttons.variants.description
+                style_book_button_element_variants:
+                    blockType: block
+
+                group_element_button_colors_view:
+                    blockType: group_element_item
+                    options:
+                        anchor: button_colors
+                        label: oro_stylebook.groups.ui_elements.buttons.colors.title
+                        subTreeLvl: 1
+                        description: oro_stylebook.groups.ui_elements.buttons.colors.description
+                style_book_button_element_colors:
+                    blockType: block
+
+                group_element_button_sizes_view:
+                    blockType: group_element_item
+                    options:
+                        anchor: button_sizes
+                        label: oro_stylebook.groups.ui_elements.buttons.sizes.title
+                        subTreeLvl: 1
+                        description: oro_stylebook.groups.ui_elements.buttons.sizes.description
+                style_book_button_element_sizes:
                     blockType: block
 
                 group_element_button_disabled_view:
@@ -41,55 +75,14 @@ layout:
                 style_book_button_inversed_element:
                     blockType: block
 
-                group_element_button_text_view:
+                group_element_button_icon_and_text_view:
                     blockType: group_element_item
                     options:
-                        anchor: button_text
-                        label: oro_stylebook.groups.ui_elements.buttons.text.title
+                        anchor: button_icon_and_text
+                        label: oro_stylebook.groups.ui_elements.buttons.icon_and_text.title
                         subTreeLvl: 1
-                style_book_button_element_text:
+                style_book_button_element_icon_and_text:
                     blockType: block
-
-                group_element_button_nopadding_view:
-                    blockType: group_element_item
-                    options:
-                        anchor: button_nopadding
-                        label: oro_stylebook.groups.ui_elements.buttons.nopadding.title
-                        subTreeLvl: 1
-                style_book_button_element_nopadding:
-                    blockType: block
-
-                group_element_button_sizes_view:
-                    blockType: group_element_item
-                    options:
-                        anchor: button_sizes
-                        label: oro_stylebook.groups.ui_elements.buttons.sizes.title
-                        subTreeLvl: 1
-                style_book_button_element_sizes:
-                    blockType: block
-
-                group_element_button_icon_text_view:
-                    blockType: group_element_item
-                    options:
-                        anchor: button_icon_text
-                        label: oro_stylebook.groups.ui_elements.buttons.icon_text.title
-                        subTreeLvl: 1
-                style_book_button_element_icon_text:
-                    blockType: block
-
-                group_element_button_icon_view:
-                    blockType: group_element_item
-                    options:
-                        anchor: button_icon
-                        label: oro_stylebook.groups.ui_elements.buttons.icon.title
-                        subTreeLvl: 1
-                style_book_button_element_btn_text:
-                    blockType: block
-                style_book_button_element_icon:
-                    blockType: block
-                style_book_button_element_icon_circle:
-                    blockType: block
-
 
                 group_element_buttons_group:
                     blockType: group_element
@@ -106,22 +99,50 @@ layout:
                 style_book_button_element_group:
                     blockType: block
 
-                group_element_button_element_inline_group_view:
+                group_element_icon_buttons:
+                    blockType: group_element
+                    options:
+                        anchor: icon_buttons
+                        label: oro_stylebook.groups.ui_elements.icon_buttons.title
+
+                group_element_icon_buttons_with_bg_view:
                     blockType: group_element_item
                     options:
-                        anchor: button_inline_group
-                        label: oro_stylebook.groups.ui_elements.buttons_group.inline_group.title
+                        anchor: icon_buttons_with_bg
+                        label: oro_stylebook.groups.ui_elements.icon_buttons.icon_button_with_bg.title
                         subTreeLvl: 1
-                style_book_button_element_inline_group:
+                        description: oro_stylebook.groups.ui_elements.icon_buttons.icon_button_with_bg.description
+                style_book_icon_buttons_with_bg:
                     blockType: block
 
-                group_element_button_element_btn_group_view:
+                group_element_icon_buttons_without_bg_default_view:
                     blockType: group_element_item
                     options:
-                        anchor: button_inline_btn_group
-                        label: oro_stylebook.groups.ui_elements.buttons_group.inline_btn_group.title
+                        anchor: icon_buttons_without_bg_default
+                        label: oro_stylebook.groups.ui_elements.icon_buttons.icon_button_without_bg_default.title
                         subTreeLvl: 1
-                style_book_button_element_btn_group:
+                        description: oro_stylebook.groups.ui_elements.icon_buttons.icon_button_without_bg_default.description
+                style_book_icon_buttons_without_bg_default:
+                    blockType: block
+
+                group_element_icon_buttons_without_bg_all_states_view:
+                    blockType: group_element_item
+                    options:
+                        anchor: icon_buttons_without_bg_all_states
+                        label: oro_stylebook.groups.ui_elements.icon_buttons.icon_button_without_bg_all_states.title
+                        subTreeLvl: 1
+                        description: oro_stylebook.groups.ui_elements.icon_buttons.icon_button_without_bg_all_states.description
+                style_book_icon_buttons_without_bg_all_states:
+                    blockType: block
+
+                group_element_icon_buttons_circle_view:
+                    blockType: group_element_item
+                    options:
+                        anchor: icon_buttons_circle
+                        label: oro_stylebook.groups.ui_elements.icon_buttons.icon_button_circle.title
+                        subTreeLvl: 1
+                        description: oro_stylebook.groups.ui_elements.icon_buttons.icon_button_circle.description
+                style_book_icon_buttons_circle:
                     blockType: block
 
             tree:
@@ -129,31 +150,30 @@ layout:
                     style_book_forms_description: ~
 
                     group_element_buttons:
-                        group_element_button_view:
-                            style_book_button_element: ~
+                        group_element_button_types_view:
+                            style_book_button_element_types: ~
+                        group_element_button_variants_view:
+                            style_book_button_element_variants: ~
+                        group_element_button_sizes_view:
+                            style_book_button_element_sizes: ~
+                        group_element_button_colors_view:
+                            style_book_button_element_colors: ~
                         group_element_button_disabled_view:
                             style_book_button_disabled_element: ~
                         group_element_button_inversed_view:
                             style_book_button_inversed_element: ~
-                        group_element_button_text_view:
-                            style_book_button_element_text: ~
-                        group_element_button_nopadding_view:
-                            style_book_button_element_nopadding: ~
-                        group_element_button_sizes_view:
-                            style_book_button_element_sizes: ~
-                        group_element_button_icon_text_view:
-                            style_book_button_element_icon_text: ~
-                        group_element_button_icon_view:
-                            style_book_button_element_btn_text: ~
-                            style_book_button_element_icon: ~
-                            style_book_button_element_icon_circle: ~
-
+                        group_element_button_icon_and_text_view:
+                            style_book_button_element_icon_and_text: ~
                     group_element_buttons_group:
                         group_element_button_element_group_view:
                             style_book_button_element_group: ~
-                        group_element_button_element_inline_group_view:
-                            style_book_button_element_inline_group: ~
-                        group_element_button_element_btn_group_view:
-                            style_book_button_element_btn_group: ~
-
+                    group_element_icon_buttons:
+                        group_element_icon_buttons_with_bg_view:
+                            style_book_icon_buttons_with_bg: ~
+                        group_element_icon_buttons_without_bg_default_view:
+                            style_book_icon_buttons_without_bg_default: ~
+                        group_element_icon_buttons_without_bg_all_states_view:
+                            style_book_icon_buttons_without_bg_all_states: ~
+                        group_element_icon_buttons_circle_view:
+                            style_book_icon_buttons_circle: ~
     conditions: 'context["group"]=="ui_elements"'

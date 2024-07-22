@@ -5,179 +5,93 @@
     </div>
 {% endblock %}
 
-{% block _style_book_button_element_widget %}
-    <button type="button" class="btn">Default Button</button>
-    <button type="button" class="btn btn--destructive">Destructive Button</button>
-    <button type="button" class="btn btn--outlined">Primary Outlined Button</button>
-    <button type="button" class="btn btn--destructive-outlined">Destructive Outlined Button</button>
-    <button type="button" class="btn btn--neutral-dark">Neutral Dark Button</button>
-    <button type="button" class="btn btn--flat">Flat Button</button>
+{% block _style_book_button_element_types_widget %}
+    <button type="button" class="btn">Primary</button>
+
+    {% apply spaceless %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+    {% set button = 'button-'|uniqid %}
+    {% endapply %}<div class="btn-group">
+        <button type="button" class="btn">Split dropdown</button>
+        <button type="button" id="{{ button }}" data-toggle="dropdown" class="btn dropdown-toggle"
+                aria-haspopup="true" aria-expanded="false" aria-label="More actions">{% apply spaceless %}
+            {{ renderIcon.icon({name: 'chevron-down'}) }}{% endapply %}</button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="{{ button }}">
+            <li><a class="dropdown-item" role="button" href="#">Action A</a></li>
+            <li><a class="dropdown-item" role="button" href="#">Action B</a></li>
+            <li><a class="dropdown-item" role="button" href="#">Action C</a></li>
+        </ul>
+    </div>
+
+    <button type="button" class="btn">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'settings'}) -}}{% endapply %}</button>
+{% endblock %}
+
+{% block _style_book_button_element_variants_widget %}
+    <button type="button" class="btn">Primary</button>
+    <button type="button" class="btn btn--outlined">Outlined</button>
+    <button type="button" class="btn btn--plain">Text</button>
+    <button type="button" class="btn btn--flat">No paddings</button>
+{% endblock %}
+
+{% block _style_book_button_element_sizes_widget %}
+    <button type="button" class="btn btn--size-large">Large</button>
+    <button type="button" class="btn">Primary</button>
+    <button type="button" class="btn btn--size-small">Small</button>
+{% endblock %}
+
+{% block _style_book_button_element_colors_widget %}
+    <button type="button" class="btn">Primary</button><br/><br/>
+    <button type="button" class="btn btn--destructive">Destructive</button>
+    <button type="button" class="btn btn--destructive-outlined">Destructive Outlined</button>
+    <button type="button" class="btn btn--destructive-plain">Destructive Text</button>
+    <button type="button" class="btn btn--flat btn--destructive-flat">Destructive No paddings</button><br/><br/>
+    <div class="style-book-group-element__item--dark"><div class="style-book-group-element__preview style-book-group-element__preview--inside-as-last">
+        <button type="button" class="btn btn--inverse">Inversed</button>
+    </div>
 {% endblock %}
 
 {% block _style_book_button_disabled_element_widget %}
-    <button type="button" class="btn" disabled>Default Button</button>
-    <button type="button" class="btn btn--destructive" disabled>Destructive Button</button>
-    <button type="button" class="btn btn--outlined" disabled>Primary Outlined Button</button>
-    <button type="button" class="btn btn--destructive-outlined" disabled>Destructive Outlined Button</button>
-    <button type="button" class="btn btn--neutral-dark" disabled>Neutral Dark Button</button>
-    <button type="button" class="btn btn--flat" disabled>Flat Button</button>
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+
+    <button type="button" class="btn" disabled>Primary</button>
+    <button type="button" class="btn btn--outlined" disabled>Primary Outlined</button>
+    <button type="button" class="btn btn--neutral" disabled>{% apply spaceless %}
+        {{- renderIcon.icon({name: 'sliders'}) -}}{% endapply %}</button>
 {% endblock %}
 
 {% block _style_book_button_inversed_element_widget %}
     {%- import '@OroUI/layouts/renderIcon.html.twig' as renderIcon -%}
-    <button type="button" class="btn btn--inverse">Inverse Button</button>
-    <button type="button" class="btn btn--outlined-inverse">Outlined Inversed Button</button>
-    <button type="button" class="btn btn--outlined-inverse btn--text">Inversed Text Button</button>
-    <button type="button" class="btn btn--outlined-inverse btn--text btn--no-padding">Inversed No Padding Button</button>
-    <button type="button" class="btn btn--colored-inverse btn--icon">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
+    <button type="button" class="btn btn--inverse">Inversed</button>
+    <button type="button" class="btn btn--outlined-inverse">Outlined Inversed</button>
+    <button type="button" class="btn btn--plain-inverse">Text Inversed</button>
+    <button type="button" class="btn btn--flat btn--flat-inverse">Inversed No Padding</button>
+    <button type="button" class="btn btn--simple-colored-inverse">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'close'}) -}}{% endapply %}</button>
+    <button type="button" class="btn btn--plain-inverse">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'hamburger-menu'}) -}}{% endapply %}</button>
 {% endblock %}
 
-{% block _style_book_button_element_text_widget %}
-    <button type="button" class="btn btn--text">Default Button</button>
-    <button type="button" class="btn btn--text btn--destructive">Destructive Button</button>
-    <button type="button" class="btn btn--text btn--outlined">Primary Outlined Button</button>
-    <button type="button" class="btn btn--text btn--destructive-outlined">Destructive Outlined Button</button>
-    <button type="button" class="btn btn--text btn--neutral-dark">Neutral Dark Button</button>
-{% endblock %}
-
-{% block _style_book_button_element_nopadding_widget %}
-    <button type="button" class="btn btn--no-padding btn--text">Default Button</button>
-    <button type="button" class="btn btn--no-padding btn--text btn--destructive">Destructive Button</button>
-    <button type="button" class="btn btn--no-padding btn--text btn--outlined">Primary Outlined Button</button>
-    <button type="button" class="btn btn--no-padding btn--text btn--destructive-outlined">Destructive Outlined Button</button>
-    <button type="button" class="btn btn--no-padding btn--text btn--neutral-dark" disabled>Neutral Dark Button</button>
-{% endblock %}
-
-{% block _style_book_button_element_sizes_widget %}
-    <button type="button" class="btn btn--size-large">Large Button</button>
-    <button type="button" class="btn">Default Button</button>
-    <button type="button" class="btn btn--size-small">Small Button</button>
-{% endblock %}
-
-{% block _style_book_button_element_icon_text_widget %}
+{% block _style_book_button_element_icon_and_text_widget %}
     {%- import '@OroUI/layouts/renderIcon.html.twig' as renderIcon -%}
-    <button type="button" class="btn">
-        {{- renderIcon.icon({name: 'user'}) -}}
-        <span>Default Button</span>
-        {{- renderIcon.icon({name: 'chevron-down'}) -}}
-    </button>
-    <button type="button" class="btn btn--outlined">
-        {{- renderIcon.icon({name: 'user'}) -}}
-        <span>Default Button</span>
-        {{- renderIcon.icon({name: 'chevron-down'}) -}}
-    </button>
-    <button type="button" class="btn btn--destructive">
-        {{- renderIcon.icon({name: 'user'}) -}}
-        <span>Default Button</span>
-        {{- renderIcon.icon({name: 'chevron-down'}) -}}
-    </button>
-    <button type="button" class="btn btn--destructive-outlined">
-        {{- renderIcon.icon({name: 'user'}) -}}
-        <span>Default Button</span>
-        {{- renderIcon.icon({name: 'chevron-down'}) -}}
-    </button>
-    <button type="button" class="btn btn--neutral-dark">
-        {{- renderIcon.icon({name: 'user'}) -}}
-        <span>Neutral Dark Button</span>
-        {{- renderIcon.icon({name: 'chevron-down'}) -}}
-    </button>
-    <button type="button" class="btn btn--flat">
-        {{- renderIcon.icon({name: 'sliders'}) -}}
-        <span>Flat Button</span>
-    </button>
-{% endblock %}
-
-{% block _style_book_button_element_btn_text_widget %}
-    {%- import '@OroUI/layouts/renderIcon.html.twig' as renderIcon -%}
-    <button type="button" class="btn btn--text">
-        {{- renderIcon.icon({name: 'settings'}) -}}
-    </button>
-    <button type="button" class="btn btn--text btn--outlined">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-    <button type="button" class="btn btn--text btn--destructive">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-    <button type="button" class="btn btn--text btn--destructive-outlined">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-    <button type="button" class="btn btn--text btn--neutral-dark">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-    <button type="button" class="btn btn--text btn--plain">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-{% endblock %}
-
-{% block _style_book_button_element_icon_widget %}
-    {%- import '@OroUI/layouts/renderIcon.html.twig' as renderIcon -%}
-    <button type="button" class="btn btn--icon">
-        {{- renderIcon.icon({name: 'settings'}) -}}
-    </button>
-    <button type="button" class="btn btn--icon btn--outlined">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-    <button type="button" class="btn btn--icon btn--destructive">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-    <button type="button" class="btn btn--icon btn--destructive-outlined">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-    <button type="button" class="btn btn--icon btn--neutral-dark">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-    <button type="button" class="btn btn--icon btn--plain">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-    <button type="button" class="btn btn--icon btn--neutral">
-        {{ renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) }}
-    </button>
-    <button type="button" class="btn btn--icon btn--colored">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-{% endblock %}
-
-{% block _style_book_button_element_icon_circle_widget %}
-    {%- import '@OroUI/layouts/renderIcon.html.twig' as renderIcon -%}
-    <button type="button" class="btn btn--icon btn--circle">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-    <button type="button" class="btn btn--icon btn--circle btn--outlined">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-    <button type="button" class="btn btn--icon btn--circle btn--destructive">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-    <button type="button" class="btn btn--icon btn--circle btn--destructive-outlined">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-    <button type="button" class="btn btn--icon btn--circle btn--neutral-dark">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-    <button type="button" class="btn btn--icon btn--circle btn--plain">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-    <button type="button" class="btn btn--icon btn--circle btn--colored">
-        {{- renderIcon.icon({name: 'settings', extraClass: 'theme-icon--medium'}) -}}
-    </button>
-{% endblock %}
-
-{% block _style_book_button_element_inline_group_widget %}
-    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
-
-    <div class="btn-group">
-        <button type="button" class="btn" aria-label="Expand or Collapse Grid Filters">
-            {{ renderIcon.icon({name: 'sliders'}) }}
-        </button>
-        <button type="button" class="btn" aria-label="Refresh grid action">
-            {{ renderIcon.icon({name: 'refresh'}) }}
-        </button>
-        <button type="button" class="btn" aria-label="Reset grid action">
-            {{ renderIcon.icon({name: 'reset'}) }}
-        </button>
-    </div>
+    <button type="button" class="btn">{% apply spaceless %}{{- renderIcon.icon({name: 'user'}) -}}
+        <span>Icon Right Left</span>{{- renderIcon.icon({name: 'chevron-down'}) -}}{% endapply %}</button>
+    <button type="button" class="btn btn--outlined">{% apply spaceless %}{{- renderIcon.icon({name: 'user'}) -}}
+        <span>Icon Right Left</span>{{- renderIcon.icon({name: 'chevron-down'}) -}}{% endapply %}</button>
+    <button type="button" class="btn btn--flat">{% apply spaceless %}{{- renderIcon.icon({name: 'user'}) -}}
+            <span>Icon Right Left</span>{{- renderIcon.icon({name: 'chevron-down'}) -}}{% endapply %}</button><br/><br/>
+    <button type="button" class="btn">{% apply spaceless %}{{- renderIcon.icon({name: 'user'}) -}}
+            <span>Icon Left</span>{% endapply %}</button>
+    <button type="button" class="btn btn--outlined">{% apply spaceless %}{{- renderIcon.icon({name: 'user'}) -}}
+            <span>Icon Left</span>{% endapply %}</button>
+    <button type="button" class="btn btn--flat">{% apply spaceless %}{{- renderIcon.icon({name: 'sliders'}) -}}
+            <span>Icon Left</span>{% endapply %}</button><br/><br/>
+    <button type="button" class="btn">{% apply spaceless %}
+            <span>Icon Right</span>{{- renderIcon.icon({name: 'chevron-down'}) -}}{% endapply %}</button>
+    <button type="button" class="btn btn--outlined">{% apply spaceless %}
+            <span>Icon Right</span>{{- renderIcon.icon({name: 'chevron-down'}) -}}{% endapply %}</button>
+    <button type="button" class="btn btn--flat">{% apply spaceless %}
+            <span>Icon Right</span>{{- renderIcon.icon({name: 'chevron-down'}) -}}{% endapply %}</button>
 {% endblock %}
 
 {% block _style_book_button_element_group_widget %}
@@ -187,10 +101,9 @@
     {% set buttonSmall = 'button-'|uniqid %}
     <div class="btn-group">
         <button type="button" class="btn btn--size-large">Button Large with a drop-down</button>
-        <button type="button" id="{{ buttonLarge }}" data-toggle="dropdown" class="btn btn--size-large btn--icon dropdown-toggle"
-           aria-haspopup="true" aria-expanded="false" aria-label="More actions">
-                {{ renderIcon.icon({name: 'chevron-down'}) }}
-        </button>
+        <button type="button" id="{{ buttonLarge }}" data-toggle="dropdown" class="btn btn--size-large dropdown-toggle"
+           aria-haspopup="true" aria-expanded="false" aria-label="More actions">{% apply spaceless %}
+                {{ renderIcon.icon({name: 'chevron-down', extraClass: 'theme-icon--lg'}) }}{% endapply %}</button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="{{ buttonLarge }}">
             <li><a class="dropdown-item" role="button" href="#">Action A</a></li>
             <li><a class="dropdown-item" role="button" href="#">Action B</a></li>
@@ -199,10 +112,9 @@
     </div>
     <div class="btn-group">
         <button type="button" class="btn">Button with a drop-down</button>
-        <button type="button" id="{{ button }}" data-toggle="dropdown" class="btn btn--icon dropdown-toggle"
-           aria-haspopup="true" aria-expanded="false" aria-label="More actions">
-                {{ renderIcon.icon({name: 'chevron-down'}) }}
-        </button>
+        <button type="button" id="{{ button }}" data-toggle="dropdown" class="btn dropdown-toggle"
+           aria-haspopup="true" aria-expanded="false" aria-label="More actions">{% apply spaceless %}
+                {{ renderIcon.icon({name: 'chevron-down'}) }}{% endapply %}</button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="{{ button }}">
             <li><a class="dropdown-item" role="button" href="#">Action A</a></li>
             <li><a class="dropdown-item" role="button" href="#">Action B</a></li>
@@ -211,10 +123,9 @@
     </div>
     <div class="btn-group">
         <button type="button" class="btn btn--size-small">Button Small with a drop-down</button>
-        <button type="button" id="buttonSmall" data-toggle="dropdown" class="btn btn--size-small btn--icon dropdown-toggle"
-           aria-haspopup="true" aria-expanded="false" aria-label="More actions">
-                {{ renderIcon.icon({name: 'chevron-down', extraClass: 'theme-icon--small'}) }}
-        </button>
+        <button type="button" id="buttonSmall" data-toggle="dropdown" class="btn btn--size-small dropdown-toggle"
+           aria-haspopup="true" aria-expanded="false" aria-label="More actions">{% apply spaceless %}
+            {{ renderIcon.icon({name: 'chevron-down', extraClass: 'theme-icon--small'}) }}{% endapply %}</button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="{{ buttonSmall }}">
             <li><a class="dropdown-item" role="button" href="#">Action A</a></li>
             <li><a class="dropdown-item" role="button" href="#">Action B</a></li>
@@ -223,10 +134,65 @@
     </div>
 {% endblock %}
 
-{% block _style_book_button_element_btn_group_widget %}
-    <div class="btn-group" role="group">
-        <button type="button" class="btn">Left</button>
-        <button type="button" class="btn">Middle</button>
-        <button type="button" class="btn">Right</button>
-    </div>
+{% block _style_book_icon_buttons_with_bg_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+    <button type="button" class="btn btn--neutral">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'sliders'}) -}}{% endapply %}</button>
+    <button type="button" class="btn btn--neutral">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'bookmark'}) -}}{% endapply %}</button>
+    <button type="button" class="btn btn--neutral">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'grid'}) -}}{% endapply %}</button>
+    <button type="button" class="btn btn--neutral">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'refresh'}) -}}{% endapply %}</button>
+    <button type="button" class="btn btn--neutral">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'more-horizontal', extraClass: 't'}) -}}{% endapply %}</button>
+    <button type="button" class="btn btn--neutral btn--circle">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'chevron-right'}) -}}{% endapply %}</button><br/><br/>
+    <button type="button" class="btn btn--neutral-dark">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'chevron-up'}) -}}{% endapply %}</button><br/><br/>
+    <button type="button" class="btn">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'check'}) -}}{% endapply %}</button>
+    <button type="button" class="btn">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'shopping-cart'}) -}}{% endapply %}</button><br/><br/>
+    <button type="button" class="btn btn--destructive-light">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'trash' }) -}}{% endapply %}</button>
+{% endblock %}
+
+{% block _style_book_icon_buttons_without_bg_default_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+    <button type="button" class="btn btn--simple">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'settings', extraClass: ''}) -}}{% endapply %}</button>
+    <button type="button" class="btn btn--simple">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'add-note', extraClass: ''}) -}}{% endapply %}</button>
+    <button type="button" class="btn btn--simple">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'more-horizontal', extraClass: ''}) -}}{% endapply %}</button><br/><br/>
+    <button type="button" class="btn btn--simple-destructive">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'trash', extraClass: ''}) -}}{% endapply %}</button><br/><br/>
+    <div class="style-book-group-element__item--dark">{% apply spaceless %}
+        <div class="style-book-group-element__preview style-book-group-element__preview--inside-as-last">
+            <button type="button" class="btn btn--plain-inverse">{% apply spaceless %}
+                {{- renderIcon.icon({name: 'hamburger-menu', extraClass: ''}) -}}{% endapply %}</button>
+        </div>{% endapply %}</div>
+{% endblock %}
+
+{% block _style_book_icon_buttons_without_bg_all_states_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+    <button type="button" class="btn btn--simple-colored">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'close'}) -}}{% endapply %}</button>
+    <button type="button" class="btn btn--simple-colored">{% apply spaceless %}
+            {{- renderIcon.icon({name: 'arrow-left'}) -}}{% endapply %}</button><br/><br/>
+    <div class="style-book-group-element__item--dark"><div class="style-book-group-element__preview style-book-group-element__preview--inside-as-last">
+        <button type="button" class="btn btn--simple-colored-inverse">{% apply spaceless %}
+            {{- renderIcon.icon({name: 'close'}) -}}{% endapply %}</button>
+        <button type="button" class="btn btn--simple-colored-inverse">{% apply spaceless %}
+            {{- renderIcon.icon({name: 'arrow-left'}) -}}{% endapply %}</button>
+    </div></div>
+{% endblock %}
+
+{% block _style_book_icon_buttons_circle_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+    <button type="button" class="btn btn--neutral btn--circle">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'chevron-right'}) -}}{% endapply %}</button>
+    <button type="button" class="btn btn--neutral-dark btn--circle">{% apply spaceless %}
+        {{- renderIcon.icon({name: 'chevron-up'}) -}}{% endapply %}</button>
 {% endblock %}

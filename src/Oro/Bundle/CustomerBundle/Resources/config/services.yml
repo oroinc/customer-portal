@@ -1105,6 +1105,13 @@ services:
             - '@oro_entity.doctrine_helper'
             - '@oro_website.request_website_provider'
             - '@oro_customer_user.manager'
+            - '@oro_config.manager'
+
+    oro_customer.handler.frontend_customer_user_with_unique_email_handler:
+        class: 'Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler'
+        parent: oro_customer.handler.frontend_customer_user_handler
+        calls:
+            - [setIgnoreNotUniqueEmailValidationError, [ false ]]
 
     oro_customer.event_listener.auto_login:
         class: Oro\Bundle\CustomerBundle\EventListener\AuthenticationListener
@@ -1138,10 +1145,16 @@ services:
             - '@oro_form.update_handler'
             - '@translator'
 
-    oro_customer.handler.customer_registration_checkout_handler:
+    oro_customer.handler.customer_checkout_registration_handler:
+        class: Oro\Bundle\CustomerBundle\Handler\CustomerRegistrationHandler
+        parent: oro_customer.handler.customer_registration_handler
+        arguments:
+            index_2: '@oro_customer.handler.frontend_customer_user_with_unique_email_handler'
+
+    oro_customer.handler.customer_registration_checkout_request_handler:
         class: Oro\Bundle\CustomerBundle\Handler\CustomerRegistrationCheckoutHandler
         arguments:
-            - '@oro_customer.handler.customer_registration_handler'
+            - '@oro_customer.handler.customer_checkout_registration_handler'
             - '@oro_checkout.handler.checkout_get_request_handler'
         tags:
             - { name: oro_checkout.request_handler, priority: 200 }

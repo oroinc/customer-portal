@@ -3,6 +3,7 @@
 $scroll-top-position: fixed !default;
 $scroll-top-z-index: z('fixed') + 1 !default;
 $scroll-top-size: 44px !default;
+$scroll-top-bottom: calc(var(--product-action-area-height, 0px) + #{$base-spacing});
 
 // Bottom left
 $scroll-top-bl-left: $base-spacing !default;

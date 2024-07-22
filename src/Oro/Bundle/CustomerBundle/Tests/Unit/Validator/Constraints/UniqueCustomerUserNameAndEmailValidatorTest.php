@@ -7,12 +7,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmail;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmailValidator;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class UniqueCustomerUserNameAndEmailValidatorTest extends ConstraintValidatorTestCase
 {
-    /** @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $customerUserManager;
+    /** @var  */
+    private CustomerUserManager|MockObject $customerUserManager;
 
     protected function setUp(): void
     {
@@ -22,7 +23,9 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends ConstraintValidatorTes
 
     protected function createValidator()
     {
-        return new UniqueCustomerUserNameAndEmailValidator($this->customerUserManager);
+        return new UniqueCustomerUserNameAndEmailValidator(
+            $this->customerUserManager
+        );
     }
 
     private function getCustomerUser(?string $email, int $id = null): CustomerUser
@@ -34,22 +37,6 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends ConstraintValidatorTes
         }
 
         return $customerUser;
-    }
-
-    public function testValidateNewCustomerUserEmailIsUnique()
-    {
-        $email = 'foo';
-        $newCustomerUser = $this->getCustomerUser($email);
-
-        $this->customerUserManager->expects(self::once())
-            ->method('findUserByEmail')
-            ->with($email)
-            ->willReturn(null);
-
-        $constraint = new UniqueCustomerUserNameAndEmail();
-        $this->validator->validate($newCustomerUser, $constraint);
-
-        $this->assertNoViolation();
     }
 
     public function testValidateCustomerUserEmailIsUnique()
@@ -103,6 +90,7 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends ConstraintValidatorTes
         $this->buildViolation($constraint->message)
             ->atPath('property.path.email')
             ->setInvalidValue($newUserEmail)
+            ->setCode(UniqueCustomerUserNameAndEmail::NOT_UNIQUE_EMAIL)
             ->assertRaised();
     }
 

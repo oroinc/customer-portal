@@ -70,7 +70,7 @@
     <ul{{ block('block_attributes') }}>
         {% for button in buttons %}
             <li>
-                {% include button.template with button.templateData|merge({onlyLink: true, noIconText: true, aClass:'btn btn--plain btn--icon btn--neutral-dark'}) %}
+                {% include button.template with button.templateData|merge({onlyLink: true, noIconText: true, aClass:'btn btn--neutral'}) %}
             </li>
         {% endfor %}
     </ul>
@@ -78,7 +78,7 @@
 
 {% block combined_buttons_widget %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
-    {% set dropdownActionClass = dropdownActionClass|default('btn btn--block btn--outlined btn--size-large direct-link') %}
+    {% set dropdownActionClass = dropdownActionClass|default('btn btn--outlined btn--block btn--size-large direct-link') %}
     {% set dropdownToggleClass = dropdownToggleClass|default('btn btn--outlined btn--size-large dropdown-toggle') %}
     {% set dropdownItemClass = dropdownItemClass|default('dropdown-item') %}
     {% set actionButtonClass = actionButtonClass|default('btn btn--outlined btn--size-small direct-link') %}

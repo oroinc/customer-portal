@@ -52,6 +52,7 @@ class WYSIWYGTypeExtensionTest extends WebTestCase
             'name' => 'default',
             'label' => 'Refreshing Teal',
             'stylesheet' => '/build/default/css/styles.css',
+            'svgIconsSupport' => true,
         ];
         if ($layoutThemeName === 'default') {
             $defaultTheme['active'] = true;
@@ -75,5 +76,6 @@ class WYSIWYGTypeExtensionTest extends WebTestCase
             $actualThemeOptions['stylesheet'] ?? ''
         );
         self::assertEquals($themeOptions['active'] ?? null, $actualThemeOptions['active'] ?? null);
+        self::assertEquals($themeOptions['svgIconsSupport'], $actualThemeOptions['svgIconsSupport'] ?? null);
     }
 }

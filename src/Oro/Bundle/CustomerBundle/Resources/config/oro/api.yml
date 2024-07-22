@@ -52,6 +52,8 @@ api:
                     exclude: true
                 emailLowercase:
                     exclude: true
+                lastDuplicateNotificationDate:
+                    exclude: true
                 passwordChangedAt:
                     form_options:
                         mapped: false

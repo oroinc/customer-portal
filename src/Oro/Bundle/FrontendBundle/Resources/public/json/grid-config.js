@@ -843,14 +843,14 @@ define(function() {
             actionOptions: {
                 refreshAction: {
                     launcherOptions: {
-                        className: 'btn btn--size-small btn--plain btn--icon refresh-action',
+                        className: 'btn btn--simple btn--size-small refresh-action',
                         icon: 'undo',
                         launcherMode: 'icon-only'
                     }
                 },
                 resetAction: {
                     launcherOptions: {
-                        className: 'btn btn--size-small btn--plain btn--icon reset-action',
+                        className: 'btn btn--simple btn--size-small reset-action',
                         icon: 'refresh',
                         launcherMode: 'icon-only'
                     }

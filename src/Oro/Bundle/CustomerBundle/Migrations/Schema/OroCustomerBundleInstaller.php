@@ -45,7 +45,7 @@ class OroCustomerBundleInstaller implements
      */
     public function getMigrationVersion(): string
     {
-        return 'v1_33';
+        return 'v1_34';
     }
 
     /**
@@ -141,6 +141,7 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('login_count', 'integer', ['default' => '0', 'unsigned' => true]);
         $table->addColumn('created_at', 'datetime');
         $table->addColumn('updated_at', 'datetime');
+        $table->addColumn('last_duplicate_notification_date', 'datetime', ['notnull' => false]);
         $table->addColumn('website_id', 'integer', ['notnull' => false]);
         $table->setPrimaryKey(['id']);
         $table->addIndex(['email'], 'idx_oro_customer_user_email');

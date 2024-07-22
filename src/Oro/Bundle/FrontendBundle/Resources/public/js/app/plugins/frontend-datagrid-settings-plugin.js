@@ -12,7 +12,7 @@ define(function(require, exports, module) {
     let config = require('module-config').default(module.id);
     config = $.extend(true, {
         icon: 'columns',
-        actionClassNames: 'btn--neutral btn--icon',
+        actionClassNames: 'btn--neutral',
         wrapperClassName: 'datagrid-settings',
         label: __('oro.datagrid.settings.title'),
         ariaLabel: __('oro.datagrid.settings.title_aria_label'),
