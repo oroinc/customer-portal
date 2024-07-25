@@ -141,6 +141,7 @@ services:
             - [setDataClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUser']]
         tags:
             - { name: form.type, alias: oro_customer_frontend_customer_user_register }
+            - { name: oro_form.captcha_protected, form_name: oro_customer_frontend_customer_user_register }
 
     oro_customer.form.type.frontend.customer_user.password_request:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\CustomerUserPasswordRequestType'

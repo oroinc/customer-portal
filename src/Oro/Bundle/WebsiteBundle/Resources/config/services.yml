@@ -47,6 +47,15 @@ services:
             - '@oro_website.cache.website'
             - '@security.token_storage'
 
+    oro_website.captcha.recaptcha_service:
+        class: Oro\Bundle\WebsiteBundle\Captcha\ReCaptchaService
+        parent: oro_form.captcha.recaptcha_service
+        decorates: oro_form.captcha.recaptcha_service
+        calls:
+            - ['setFrontendHelper', ['@oro_frontend.request.frontend_helper']]
+            - ['setUrlResolver', ['@oro_website.resolver.website_url_resolver']]
+            - ['setWebsiteManager', ['@oro_website.manager']]
+
     oro_website.event_listener.website:
         class: 'Oro\Bundle\WebsiteBundle\EventListener\WebsiteListener'
         arguments:
