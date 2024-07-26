@@ -131,6 +131,9 @@ $main-menu-item-hover-desktop-background: null !default;
 $main-menu-sublist-stack-top: 0 !default;
 $main-menu-sublist-stack-width: auto !default;
 
+$main-menu-icon-offset: 0 spacing('sm') 0 0 !default;
+$main-menu-icon-vertical-align: text-bottom !default;
+
 // Only Desktop
 $main-menu-outer-container-desktop-display: flex !default;
 $main-menu-outer-container-desktop-justify-content: start !default;

@@ -131,7 +131,11 @@
             urlRoot: path('oro_api_customer_get_windows')
         },
         'oroui/js/extend/underscore': {
-            themeSpriteUrl: renderIcon.getThemeSpriteUrl()|trim
+            themeSpriteUrl: renderIcon.getThemeSpriteUrl()|trim,
+            themeSpriteMetadata: renderIcon.getThemeSpriteMetadata()|trim
+        },
+        'oroui/js/app/modules/svg-sprite-module': {
+            debug: app.debug ? true : false,
         }
     }) }}
 {% endblock %}

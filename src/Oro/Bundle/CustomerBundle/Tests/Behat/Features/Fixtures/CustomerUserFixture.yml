@@ -32,11 +32,11 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         owner: '@admin'
         website: '@website1'
     customer_users{1..14}:
-        email: <email()>
-        username: <email()>
+        email: 'email<current()>\@example.com'
+        username: 'email<current()>\@example.com'
         password: <userPassword(@customer_users<current()>->username)>
-        firstName: <firstName()>
-        lastName: <lastName()>
+        firstName: 'First_<current()>'
+        lastName: 'Last_<current()>'
         enabled: '1'
         confirmed: '1'
         customer: '@customer1'

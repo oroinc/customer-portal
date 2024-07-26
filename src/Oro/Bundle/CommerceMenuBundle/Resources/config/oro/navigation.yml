@@ -37,7 +37,7 @@ navigation:
                 label: 'oro.commercemenu.frontend.navigation.items.quick_order_form.label'
                 route: oro_product_frontend_quick_add
                 extras:
-                    icon: 'zap'
+                    icon: 'fa-flash'
             about:
                 label: 'oro.commercemenu.frontend.navigation.items.about.label'
                 uri: '/about'

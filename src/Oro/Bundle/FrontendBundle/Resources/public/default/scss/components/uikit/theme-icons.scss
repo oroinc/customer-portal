@@ -22,4 +22,9 @@
     &--xs {
         --theme-icon-size: #{$theme-icon-xs-size};
     }
+
+    &.not-found {
+        border: $theme-icon-not-found-border;
+        background-color: $theme-icon-not-found-background-color;
+    }
 }

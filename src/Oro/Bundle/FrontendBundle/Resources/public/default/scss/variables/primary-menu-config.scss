@@ -20,6 +20,7 @@ $primary-menu-link-height: 100% !default;
 $primary-menu-link-width: 100% !default;
 $primary-menu-link-display: flex !default;
 $primary-menu-link-vertical-align: center !default;
+$primary-menu-link-gap: spacing('sm') !default;
 $primary-menu-link-inner-offset-start: calc(#{$primary-menu-item-active-border-width} + #{spacing('lg')}) !default;
 $primary-menu-link-inner-offset-end: spacing('base') !default;
 $primary-menu-link-inner-offset-block: spacing('xmd') !default;
