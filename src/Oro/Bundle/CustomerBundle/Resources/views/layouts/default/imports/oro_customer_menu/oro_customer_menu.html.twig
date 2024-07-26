@@ -37,7 +37,16 @@
                                 {% set linkAttributes = menuItem.linkAttributes|merge({
                                     'class': 'primary-menu__link no-decoration ' ~ linkCurrentClass,
                                 }) %}
-                                <a href="{{ menuItem.uri }}"{{ oro_menu.attributes(linkAttributes) }}>{{ menuItem.label|trans }}</a>
+                                {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+                                {% set icon = menuItem.extras.icon|default(null)%}
+                                {%- apply spaceless -%}
+                                <a href="{{ menuItem.uri }}"{{ oro_menu.attributes(linkAttributes) }}>
+                                    {%- if icon -%}
+                                        {{- renderIcon.icon({name: icon, extraClass: 'primary-menu__icon'}) -}}
+                                    {%- endif -%}
+                                    {{- menuItem.label|trans -}}
+                                </a>
+                                {%- endapply -%}
                             </li>
                             {% if oro_commercemenu_is_current(menuItem) or oro_commercemenu_is_ancestor(menuItem) and not found %}
                                 {% set found = true %}

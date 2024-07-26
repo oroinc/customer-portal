@@ -31,7 +31,17 @@
                     <section class="information-nav information-nav--responsive">
                         <div data-page-component-module="oroui/js/app/components/viewport-component"
                              data-page-component-options="{{ collapseOptions|json_encode() }}">
-                            <h6 class="information-nav__title">{{- label -}}</h6>
+                            {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+                            {% set icon = child.extras.icon|default(null)%}
+                            {%- apply spaceless -%}
+                            <h6 class="information-nav__title">
+                                {%- if icon -%}
+                                    {{ renderIcon.icon({name: icon}) }}
+                                {%- endif -%}
+                                {{- label -}}
+                            </h6>
+                            {%- endapply -%}
+
                             {% set item = child %}
                             {{ block('menu_widget') }}
                         </div>

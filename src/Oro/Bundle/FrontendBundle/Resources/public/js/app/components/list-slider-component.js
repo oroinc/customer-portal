@@ -32,12 +32,12 @@ define(function(require) {
             additionalClass: 'embedded-list__slider no-transform',
             prevArrow: arrowTpl({
                 ariaLabel: __('Previous'),
-                iconName: rtl ? 'chevron-right' : 'chevron-left',
+                iconName: 'chevron-left',
                 className: 'slick-prev'
             }),
             nextArrow: arrowTpl({
                 ariaLabel: __('Next'),
-                iconName: rtl ? 'chevron-left' : 'chevron-right',
+                iconName: 'chevron-right',
                 className: 'slick-next'
             }),
             embeddedArrowsClass: 'embedded-arrows',

@@ -1,0 +1,15 @@
+<span class="filename">
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+
+    {% if url %}
+        <a href="{{ url }}" data-filename="{{ fileName }}"
+           {% if additional['galleryId'] is defined %}data-gallery="{{ additional['galleryId'] }}"{% endif %}
+           data-sources="{{ pictureSources.sources|default([])|json_encode }}"
+           class="no-hash" title="{{ title }}">
+    {% endif %}
+        {{ renderIcon.icon({name: iconClass}) }}
+        {{ oro_format_filename(fileName) }}
+    {% if url %}
+        </a>
+    {% endif %}
+</span>
