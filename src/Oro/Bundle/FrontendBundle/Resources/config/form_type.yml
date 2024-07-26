@@ -89,3 +89,10 @@ services:
             - '@assets.packages'
         tags:
             - { name: oro_theme.form.configuration_child_builder }
+
+    oro_frontend.form.type.storefront_icon_type:
+        class: 'Oro\Bundle\FrontendBundle\Form\Type\StorefrontIconType'
+        arguments:
+            - '@oro_frontend.provider.icons_mapping'
+        tags:
+            - { name: form.type }

@@ -28,24 +28,24 @@ navigation:
             frontend_favorite:
                 label: 'oro.navigation.menu.favorite.label'
                 extras:
-                    icon: 'star'
+                    icon: 'fa-star-o'
                 uri: '#'
             frontend_pinbar:
                 label: 'oro.navigation.menu.pinbar.label'
                 extras:
-                    icon: 'folder'
+                    icon: 'fa-folder'
                     maxItems: 10
                 uri: '#'
             frontend_history:
                 label: 'oro.navigation.menu.history.label'
                 extras:
-                    icon: 'clock'
+                    icon: 'fa-clock-o'
                     active_if_first_is_empty: true
                 uri: '#'
             frontend_mostviewed:
                 label: 'oro.navigation.menu.mostviewed.label'
                 extras:
-                    icon: 'flag'
+                    icon: 'fa-flag'
                 uri: '#'
 
             customers_tab:
@@ -53,7 +53,7 @@ navigation:
                 uri: '#'
                 position: 200
                 extras:
-                    icon: user
+                    icon: fa-user-o
 
             customer_list:
                 label: 'oro.customer.customer.entity_plural_label'

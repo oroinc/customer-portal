@@ -181,15 +181,12 @@
     {{- label -}}
 {% endblock %}
 
-{% block _menu_item_icon %}
+{%- block _menu_item_icon -%}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {%- if iconEnable and menu_item.extras.icon is defined and menu_item.extras.icon -%}
-        {% set attr = layout_attr_defaults(icon_attr|default({}), {
-            '~class': " #{menu_item.extras.icon}" ~ (class_prefix ? " #{class_prefix}__icon"),
-            'aria-hidden': 'true'
-        }) %}
-        <span {{ block('block_attributes') }}></span>
+        {{- renderIcon.icon({name: menu_item.extras.icon, extraClass: 'main-menu__icon' ~ (class_prefix ? " #{class_prefix}__icon")}) -}}
     {%- endif -%}
-{% endblock %}
+{%- endblock -%}
 
 {# Menu Inner Type #}
 {% block menu_inner_widget %}

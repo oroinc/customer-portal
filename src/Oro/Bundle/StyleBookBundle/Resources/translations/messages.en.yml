@@ -4,7 +4,7 @@ oro_stylebook:
           sub_title_main: 'Oro StyleBook'
           sub_title_one: 'Color Coding'
           sub_title_two: 'UI Library Structure and Navigation'
-          text_content: '<p>Oro StyleBook is a UI elements and components library that helps developers and designers use the recommended templates to build or customize the Oro application pages. The information in the UI library may be used in two different ways.</p><p style="padding-left:20px;"><strong>When you modify your Oro application layout</strong>, you can copy the element`s source code to your custom form or page in the Oro application to preserve the overall look and feel consistency.<br><strong>After you have modified your Oro application styles or layout</strong>, you can use the StyleBook to check how updated styles affect the UI elements (see <a href="https://doc.oroinc.com/frontend/storefront/css/">Oro Styles Architecture</a>,  <a href="https://doc.oroinc.com/frontend/storefront/css/assets-css/">Styles Organization</a>, and <a href="https://doc.oroinc.com/frontend/storefront/how-to/">Customization</a> for more information on the UI customization).</p>'
+          text_content: '<p>Oro StyleBook is a UI elements and components library that helps developers and designers use the recommended templates to build or customize the Oro application pages. The information in the UI library may be used in two different ways.</p><p style="padding-left:20px;"><strong>When you modify your Oro application layout</strong>, you can copy the element`s source code to your custom form or page in the Oro application to preserve the overall look and feel consistency.<br><strong>After you have modified your Oro application styles or layout</strong>, you can use the StyleBook to check how updated styles affect the UI elements (see <a href="https://doc.oroinc.com/frontend/storefront/css/" target="_blank">Oro Styles Architecture</a>,  <a href="https://doc.oroinc.com/frontend/storefront/css/assets-css/" target="_blank">Styles Organization</a>, and <a href="https://doc.oroinc.com/frontend/storefront/how-to/" target="_blank">Customization</a> for more information on the UI customization).</p>'
           text_content_first: 'For every UI element, library provides a short description, a source code sample that may be copied to reproduce a similar component, and a preview of the sample in the current UI theme. The following color-coding is used to simplify orientation in the library:<div class="style-book-group-element__description">The optional description of the UI element or design component may be highlighted with a red ribbon on the left.</div><div class="playground-source"><pre class="language-markup"><code class="style-book-group-element__code language-scss"><span class="token comment">// The code samples are marked with a blue ribbon.</span></code></pre></div><div class="style-book-group-element__preview">The UI element preview is rendered in a light-gray box.<br></div>'
           text_content_second: 'Most of the OroCommerce management console and storefront UI elements are included and grouped into the following categories: <br><p style="padding-left:20px;"><a href="configs/">General Look and Feel</a><br><a href="ui_elements/">UI Elements</a><br><a href="grid/">Grid Elements</a><br><a href="jscomponents/">JS Components</a></p>Use the tabs at the top of the page to switch between the categories.<br>In the category, use the elements navigation tree on the left to jump to the element`s description, preview and code sample.'
     nav:
@@ -161,7 +161,7 @@ oro_stylebook:
                 description: 'The modal component helps you configure the modal dialog UI view and behavior. This component is recommended for the short messages and alerts that require a user to explicitly confirm the action. For a preview, configure the dialog in the Config tab and click the Open Modal button to see it in action.'
             datagrid:
                 title: 'Datagrid'
-                description: 'The datagrid helps you embed the datagrid with related controls (filters, view configuration, line and mass actions) in the custom location in Oro application. For more information, see the <a href="https://doc.oroinc.com/backend/entities/data-grids/#data-grids">Oro bundle documentation</a>.'
+                description: 'The datagrid helps you embed the datagrid with related controls (filters, view configuration, line and mass actions) in the custom location in Oro application. For more information, see the <a href="https://doc.oroinc.com/backend/entities/data-grids/#data-grids" target="_blank">Oro bundle documentation</a>.'
             loading_mask:
                 title: 'Loading Mask'
                 description: 'With this JS component, you can preview the Loading mask for the inline element and a full-page loading. Test the hideDelay option by changing the value and clicking Toggle Loading or Execute full-page loading. For more information, see the <a href="https://doc.oroinc.com/bundles/platform/UIBundle/client-side/loading-mask-view/#bundle-docs-platform-ui-bundle-load-mask-view">Oro bundle documentation</a>.'
@@ -171,7 +171,7 @@ oro_stylebook:
             collapse_widgets:
                 title: 'Collapse Widgets'
                 description: 'The collapse widget toggles the content visibility of the content.'
-                definition: 'The collapse is base on bootstrap collapse. Options can be passed via data attributes or JavaScript. More details are available at <a href="https://getbootstrap.com/docs/4.6/components/collapse/">Bootstrap Collapse</a>.'
+                definition: 'The collapse is base on bootstrap collapse. Options can be passed via data attributes or JavaScript. More details are available at <a href="https://getbootstrap.com/docs/4.6/components/collapse/" target="_blank">Bootstrap Collapse</a>.'
                 options:
                     name: 'Name'
                     type: 'Type'
@@ -220,16 +220,16 @@ oro_stylebook:
                 description: 'Adds a fade to the top and bottom of the scrollbox to hint at more content. It dynamically disappears when you reach the bottom of the list.<br>Requires to have <code class="language-html">data-scroll-target</code> attribute on itself or its children to which scroll hints will be applied.'
             googlemaps_view:
                 title: 'Google Map View'
-                description: 'Preview of the Google Map embedded into the Oro application content. Note: The valid API key is necessary for the preview to render. Ensure you have generated and provided the Google API key in the <a href="https://doc.oroinc.com/user/back-office/system/configuration/system/integrations/google-integration-settings/">Google integartion settings</a> in Oro application configuration.'
+                description: 'Preview of the Google Map embedded into the Oro application content. Note: The valid API key is necessary for the preview to render. Ensure you have generated and provided the Google API key in the <a href="https://doc.oroinc.com/user/back-office/system/configuration/system/integrations/google-integration-settings/" target="_blank">Google integartion settings</a> in Oro application configuration.'
             list_slider:
                 title: 'List Slider Component'
                 description: 'The promo image slider helps you embed and configure the responsive carousel in the Oro application. It the carousel you may display a set of blocks with html content (e.g. images, landing pages, banners).'
             dom_relocation:
                 title: 'DOM Relocation View'
-                description: 'DOM relocation view helps you move the DOM element between containers when the browser window is resized. For example, you can move the menu from the top into the hamburger menu. For more information, see the <a href="https://doc.oroinc.com/bundles/commerce/FrontendBundle/dom-relocation-view/#bundle-docs-commerce-customer-portal-frontend-bundle-dom">Oro bundle documentation</a>.'
+                description: 'DOM relocation view helps you move the DOM element between containers when the browser window is resized. For example, you can move the menu from the top into the hamburger menu. For more information, see the <a href="https://doc.oroinc.com/bundles/commerce/FrontendBundle/dom-relocation-view/#bundle-docs-commerce-customer-portal-frontend-bundle-dom" target="_blank">Oro bundle documentation</a>.'
             sticky_panel_view:
                 title: 'Sticky Element'
-                description: 'The sticky elements can utilize a CSS-based solution <code class="language-markup">position: sticky</code> with the addition of some JavaScript helpers. To enable a sticky element, simply apply the CSS class <code class="language-markup">sticky sticky—top</code> and include additional parameters through the <code class="language-markup">data-sticky</code> attribute. For more information, see the <a href="https://doc.oroinc.com/bundles/commerce/FrontendBundle/sticky-panel-view">Oro bundle documentation</a>'
+                description: 'The sticky elements can utilize a CSS-based solution <code class="language-markup">position: sticky</code> with the addition of some JavaScript helpers. To enable a sticky element, simply apply the CSS class <code class="language-markup">sticky sticky—top</code> and include additional parameters through the <code class="language-markup">data-sticky</code> attribute. For more information, see the <a href="https://doc.oroinc.com/bundles/commerce/FrontendBundle/sticky-panel-view" target="_blank">Oro bundle documentation</a>'
                 button:
                     sticky_on: 'Disable sticky mode'
                     sticky_off: 'Enable sticky mode'
@@ -238,13 +238,13 @@ oro_stylebook:
                     off: 'Set on bottom'
             mediator:
                 title: 'Mediator'
-                description: 'This section previews the existing mediators. The mediators are handlers for event triggers that help inform the related processes of the changes or the events. For more information, see the <a href="https://doc.oroinc.com/bundles/platform/UIBundle/client-side/mediator-handlers/#bundle-docs-platform-ui-bundle-mediator-handlers">Oro bundle documentation</a>'
+                description: 'This section previews the existing mediators. The mediators are handlers for event triggers that help inform the related processes of the changes or the events. For more information, see the <a href="https://doc.oroinc.com/bundles/platform/UIBundle/client-side/mediator-handlers/#bundle-docs-platform-ui-bundle-mediator-handlers" target="_blank">Oro bundle documentation</a>'
             popup_gallery:
                 title: 'Popup Gallery Widget'
-                description: 'The popup gallery widget helps you display the set of images as a gallery. See <a href="https://doc.oroinc.com/user/back-office/system/configuration/commerce/product/global-product-images/#image-gallery">image gallery configuration</a> as a sample use case.'
+                description: 'The popup gallery widget helps you display the set of images as a gallery. See <a href="https://doc.oroinc.com/user/back-office/system/configuration/commerce/product/global-product-images/#image-gallery" target="_blank">image gallery configuration</a> as a sample use case.'
             viewport_manager:
                 title: 'Viewport Manager'
-                description: 'The viewport manager previews available screen types that can be used in Oro application styles. For more information, see the <a href="https://doc.oroinc.com/bundles/platform/UIBundle/client-side/viewport-manager/#bundle-docs-platform-ui-bundle-viewport-manager">Oro bundle documentation</a>.'
+                description: 'The viewport manager previews available screen types that can be used in Oro application styles. For more information, see the <a href="https://doc.oroinc.com/bundles/platform/UIBundle/client-side/viewport-manager/#bundle-docs-platform-ui-bundle-viewport-manager" target="_blank">Oro bundle documentation</a>.'
             lazy_init:
                 title: 'Lazy Init View'
                 description: 'With lazy init view, you can postpone the content loading until it reaches the visible area.'
@@ -331,7 +331,7 @@ oro_stylebook:
             text_typography_base_large: '$base-font-size--large'
         icons:
             title: 'Icons'
-            content: 'Collection of svg icons used in the theme. Each icon is designed on a 24x24 grid with an emphasis on simplicity, consistency, and flexibility.'
+            content: 'Collection of svg icons used in the theme. Each icon is designed on a 24x24 grid with an emphasis on simplicity, consistency, and flexibility. For more information, see the <a href="https://doc.oroinc.com/frontend/storefront/svg-icons/" target="_blank">Icons(SVG) documentation</a>.'
             usage: 'Usage'
             usage_description: 'The "<b class="bold">add-note</b>" id in the below examples can be replaced with any valid icon name. See the complete list of icon names above.'
             twig: 'Using in TWIG'

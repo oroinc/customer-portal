@@ -14,12 +14,14 @@ $information-nav-title-color: get-color('text', 'secondary') !default;
 $information-nav-tablet-small-offset: 0 !default;
 
 $information-nav-title-font-size: 18px !default;
+$information-nav-title-gap: spacing('sm') !default;
 $information-nav-title-line-height: 1 !default;
 $information-nav-title-text-transform: uppercase !default;
 $information-nav-title-font-size-tablet-small: 16px !default;
 
 $information-nav-item-offset: 12px 0 0 !default;
 $information-nav-item-content-color: get-color('text', 'secondary') !default;
+$information-nav-item-gap: spacing('gap') !default;
 $information-nav-item-content-color-hover: get-color('text', 'primary') !default;
 $information-nav-item-content-text-color: $information-nav-item-content-color !default;
 $information-nav-item-color: get-color('text', 'secondary') !default;

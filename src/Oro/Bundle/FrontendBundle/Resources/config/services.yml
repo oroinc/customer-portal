@@ -224,6 +224,11 @@ services:
         tags:
             - { name: layout.theme_config_extension }
 
+    oro_frontend.layout_theme_config_extension.icons:
+        class: 'Oro\Bundle\FrontendBundle\Layout\Extension\IconsThemeConfigurationExtension'
+        tags:
+            - { name: layout.theme_config_extension }
+
     oro_frontend.layout_context_configurator.page_template:
         class: 'Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplateContextConfigurator'
         arguments:
@@ -497,3 +502,41 @@ services:
             - '@translator'
         tags:
             - { name: oro_email.emailtemplate.variable_provider, scope: system }
+
+    oro_frontend.provider.icons_mapping.cache:
+        parent: oro.data.cache
+        tags:
+            - { name: 'cache.pool', namespace: 'oro_frontend_icons_mapping' }
+
+    oro_frontend.provider.icons_mapping:
+        class: 'Oro\Bundle\FrontendBundle\Provider\StorefrontIconsMappingProvider'
+        arguments:
+            - '@oro_layout.theme_manager'
+            - '@oro_frontend.provider.icons_mapping.cache'
+
+    oro_frontend.datagrid.extension.frontend_mass_action:
+        class: Oro\Bundle\FrontendBundle\Datagrid\Extension\FrontendMassActionDatagridExtension
+        tags:
+            - { name: oro_datagrid.extension }
+
+    oro_frontend.provider.files_template_provider:
+        class: Oro\Bundle\FrontendBundle\Provider\FilesTemplateProvider
+        decorates: oro_attachment.provider.files_template_provider
+        arguments:
+            - '@.inner'
+            - '@oro_frontend.request.frontend_helper'
+
+    oro_frontend.provider.file_icons_mapping.cache:
+        parent: oro.data.cache
+        tags:
+            - { name: 'cache.pool', namespace: 'oro_frontend_file_icons_mapping' }
+
+    oro_frontend.provider.file_icon_provider:
+        class: Oro\Bundle\FrontendBundle\Provider\FileIconProvider
+        decorates: oro_attachment.provider.file_icon
+        arguments:
+            - '@.inner'
+            - '@oro_frontend.request.frontend_helper'
+            - '@oro_layout.current_theme_provider'
+            - '@oro_layout.theme_manager'
+            - '@oro_frontend.provider.file_icons_mapping.cache'

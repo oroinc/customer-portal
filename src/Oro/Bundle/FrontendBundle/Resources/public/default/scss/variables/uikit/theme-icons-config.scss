@@ -1,5 +1,7 @@
 /* @theme: default; */
 
+@use 'sass:color';
+
 $theme-icon-fill: currentColor !default;
 $theme-icon-size: 20px !default;
 
@@ -7,3 +9,6 @@ $theme-icon-lg-size: 24px !default;
 $theme-icon-medium-size: 18px !default;
 $theme-icon-small-size: 16px !default;
 $theme-icon-xs-size: 12px !default;
+
+$theme-icon-not-found-border: 1px solid get-color('destructive', 'dark');
+$theme-icon-not-found-background-color: color.scale(get-color('destructive', 'dark'), $alpha: -70%);

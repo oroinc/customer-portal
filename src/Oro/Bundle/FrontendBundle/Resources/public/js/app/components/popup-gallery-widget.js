@@ -46,13 +46,13 @@ define(function(require) {
                 dots: false,
                 prevArrow: arrowTpl({
                     ariaLabel: __('Previous'),
-                    iconName: rtl ? 'chevron-right' : 'chevron-left',
+                    iconName: 'chevron-left',
                     iconSize: 'theme-icon',
                     className: 'slick-prev'
                 }),
                 nextArrow: arrowTpl({
                     ariaLabel: __('Next'),
-                    iconName: rtl ? 'chevron-left' : 'chevron-right',
+                    iconName: 'chevron-right',
                     iconSize: 'theme-icon',
                     className: 'slick-next'
                 }),

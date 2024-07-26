@@ -31,6 +31,7 @@ configs:
     orofrontend/js/app/views/dom-relocation-view: {}
     orofrontend/default/js/app/views/frontend-messages-view: {}
     orofrontend/js/datagrid/cell/frontend-action-cell: {}
+    oroui/js/app/modules/svg-sprite-module: {}
 dynamic-imports:
     commons:
         - orofrontend/default/js/app/views/collapse-view
