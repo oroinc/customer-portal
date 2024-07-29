@@ -42,10 +42,6 @@
             &:before {
                 background-color: $toggle-filters-action-before-color-hover;
             }
-
-            &:after {
-                background-color: $toggle-filters-action-after-color-hover;
-            }
         }
 
         @include element-state('disabled') {
