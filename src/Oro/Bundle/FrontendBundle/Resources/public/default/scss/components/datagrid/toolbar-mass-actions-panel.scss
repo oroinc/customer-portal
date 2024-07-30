@@ -1,0 +1,20 @@
+/* @theme: default; */
+
+.toolbar-mass-actions-panel {
+    &:not(.optimized) {
+        .toolbar-mass-actions {
+            display: flex;
+            gap: $toolbar-mass-actions-panel-gap;
+        }
+    }
+}
+
+@include breakpoint('tablet-small') {
+    .toolbar-mass-actions-panel {
+        &:not(.optimized) {
+            .toolbar-mass-actions {
+                gap: $toolbar-mass-actions-panel-gap-tablet;
+            }
+        }
+    }
+}

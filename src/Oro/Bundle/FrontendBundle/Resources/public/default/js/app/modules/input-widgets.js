@@ -3,6 +3,8 @@ import InputWidgetManager from 'oroui/js/input-widget-manager';
 import Select2InputWidget from 'oroui/js/app/views/input-widget/select2';
 import FrontendNumberInputWidget from 'orofrontend/default/js/app/views/input-widget/number';
 import FrontendPasswordInputWidget from 'orofrontend/default/js/app/views/input-widget/password';
+import ResponsiveDropdownWidget from 'orofrontend/default/js/app/views/input-widget/responsive-dropdown';
+import ResponsiveStyler from 'orofrontend/default/js/app/views/input-widget/responsive-styler';
 
 Select2InputWidget.prototype.closeOnOverlap = true;
 
@@ -23,4 +25,14 @@ InputWidgetManager.addWidget('number', {
 InputWidgetManager.addWidget('password', {
     selector: 'input[type="password"], [data-input-widget="password"]',
     Widget: FrontendPasswordInputWidget
+});
+
+InputWidgetManager.addWidget('responsive-dropdown', {
+    selector: '[data-responsive-dropdown]',
+    Widget: ResponsiveDropdownWidget
+});
+
+InputWidgetManager.addWidget('responsive-styler', {
+    selector: '[data-responsive-styler]',
+    Widget: ResponsiveStyler
 });

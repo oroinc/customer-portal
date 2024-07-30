@@ -49,10 +49,9 @@ Feature: Checked actions in grid line items
       Given I signed in as AmandaRCole@example.org on the store frontend
       And I click "Account Dropdown"
       When I click "Address Book"
-      Then I should see "1 Total Company Address"
+      Then I should see "1 company address"
       And I should see following elements in "Customer Company Addresses Grid":
           | FrontendGridActionRefreshButton |
-          | FrontendGridActionResetButton   |
           | Frontend Grid Action Filter Button  |
       And I should see following actions for Company_Street_01 in grid:
           | Map    |
@@ -62,11 +61,10 @@ Feature: Checked actions in grid line items
     Scenario: Checked actions in grid line items on "All Users" grid
       And I click "Account Dropdown"
       And I click "Users"
-      And I should see "11 Total Users"
+      And I should see "11 users"
       And I should see "Create User" button
       And I should see following elements in "Frontend Grid":
           | FrontendGridActionRefreshButton |
-          | FrontendGridActionResetButton   |
           | Frontend Grid Action Filter Button  |
       And I should see following actions for AmandaRCole@example.org in grid:
           | View |
@@ -78,7 +76,6 @@ Feature: Checked actions in grid line items
           | Delete  |
       And I should not see following elements in "FrontendGridBottomToolbar" for "Frontend Grid":
           | FrontendGridActionRefreshButton |
-          | FrontendGridActionResetButton   |
           | Frontend Grid Action Filter Button  |
       And I select 10 from per page list dropdown in "Frontend Grid"
       And I should see following elements in "Frontend Grid":

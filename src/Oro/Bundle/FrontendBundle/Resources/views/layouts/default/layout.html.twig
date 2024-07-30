@@ -199,3 +199,13 @@
 {% block attribute_file_widget %}
     {{ oro_file_view(value) }}
 {% endblock %}
+
+{% block frontend_datagrid_external_toolbar_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' frontend-datagrid__panel',
+        'data-group': 'external-toolbar-' ~ gridName
+    }) %}
+
+    <div {{ block('block_attributes') }}></div>
+{% endblock %}

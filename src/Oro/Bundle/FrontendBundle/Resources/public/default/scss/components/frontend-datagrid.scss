@@ -6,11 +6,29 @@
             display: none;
         }
     }
+
+    &--responsive {
+        .action-cell {
+            .btn {
+                min-width: $frontend-datagrid-responsive-action-cell-min-width;
+                white-space: nowrap;
+
+                // Hiding styled bottom border for some actions
+                &:hover:after {
+                    content: none;
+                }
+            }
+        }
+    }
+
+    .loader-mask {
+        z-index: $frontend-datagrid-loading-mask-z-index;
+    }
 }
 
 @include breakpoint('tablet') {
     .frontend-datagrid {
-        &--responsive {
+        &--has-swipe {
             .grid-main-container {
                 display: $frontend-datagrid-responsive-grid-tablet-display;
             }
@@ -22,11 +40,17 @@
                             display: $frontend-datagrid-responsive-header-tablet-display;
                         }
 
+                        &.grid-header-cell-massAction {
+                            width: 100%;
+                        }
+
                         &.action-column {
                             width: $frontend-datagrid-has-swipe-action-cell-tablet-action-width;
 
                             &--disabled {
-                                display: $frontend-datagrid-responsive-body-tablet-disabled-display;
+                                .grid-header-cell__label-container {
+                                    display: $frontend-datagrid-responsive-body-tablet-disabled-display;
+                                }
                             }
                         }
                     }
@@ -38,12 +62,12 @@
                 }
 
                 &-row {
-                    min-height: $frontend-datagrid-responsive-row-tablet-min-height;
                     display: $frontend-datagrid-responsive-row-tablet-display;
-                    padding: $frontend-datagrid-responsive-row-tablet-inner-offset;
-                    position: $frontend-datagrid-responsive-row-tablet-position;
                     grid-template-columns: $frontend-datagrid-responsive-row-tablet-grid-template-columns;
                     gap: $frontend-datagrid-responsive-row-tablet-gap;
+                    min-height: $frontend-datagrid-responsive-row-tablet-min-height;
+                    padding: $frontend-datagrid-responsive-row-tablet-inner-offset;
+                    position: $frontend-datagrid-responsive-row-tablet-position;
 
                     &:not(:first-child) {
                         border-top: $frontend-datagrid-responsive-row-tablet-border-top;
@@ -69,17 +93,6 @@
                     margin: $frontend-datagrid-responsive-body-cell-tablet-offset;
                     padding: $frontend-datagrid-responsive-body-cell-tablet-inner-offset;
                     word-wrap: $frontend-datagrid-responsive-body-cell-tablet-word-wrap;
-
-                    &::before {
-                        content: $frontend-datagrid-responsive-body-cell-before-tablet-content;
-                        display: $frontend-datagrid-responsive-body-cell-before-tablet-display;
-                    }
-
-                    &.boolean-cell {
-                        &::before {
-                            display: $frontend-datagrid-responsive-boolean-cell-before-tablet-display;
-                        }
-                    }
 
                     &.select-row-cell {
                         position: $frontend-datagrid-responsive-select-row-cell-tablet-position;
@@ -120,9 +133,7 @@
                     }
                 }
             }
-        }
 
-        &--has-swipe {
             .action-cell {
                 width: auto;
                 max-width: $frontend-datagrid-has-swipe-action-cell-tablet-width;
@@ -130,23 +141,30 @@
                 top: $frontend-datagrid-has-swipe-action-cell-tablet-top;
                 right: $frontend-datagrid-has-swipe-action-cell-tablet-right;
                 bottom: $frontend-datagrid-has-swipe-action-cell-tablet-bottom;
+                z-index: $frontend-datagrid-has-swipe-action-cell-z-index;
                 background: $frontend-datagrid-has-swipe-action-cell-tablet-bg-color;
                 margin: $frontend-datagrid-has-swipe-action-cell-tablet-outer-offset;
                 padding: $frontend-datagrid-has-swipe-action-cell-tablet-inner-offset;
 
                 .action {
+                    display: inline-block;
                     color: $frontend-datagrid-has-swipe-action-cell-tablet-icon-color;
+                    line-height: $theme-icon-size;
+                    min-height: initial;
+                    padding: spacing('xs');
 
                     @include ellipsis();
+
+                    .theme-icon {
+                        display: inline-flex;
+                        vertical-align: bottom;
+                        margin-right: spacing('xs');
+                    }
 
                     &-row {
                         display: $frontend-datagrid-has-swipe-action-cell-tablet-row-display;
                         height: $frontend-datagrid-has-swipe-action-cell-tablet-row-height;
                         align-items: $frontend-datagrid-has-swipe-action-cell-tablet-row-align-items;
-                    }
-
-                    &.mode-icon-only:first-child [class^='fa-'] {
-                        padding-left: $frontend-datagrid-has-swipe-action-cell-tablet-left-inner-offset;
                     }
                 }
             }
@@ -154,6 +172,8 @@
             .launchers-list {
                 display: $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-display;
                 flex-wrap: $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-flex-wrap;
+                gap: 0;
+                justify-content: space-between;
 
                 .launcher-item {
                     &:not(.mode-icon-only) {
@@ -175,8 +195,57 @@
     .frontend-datagrid {
         &--responsive {
             .grid {
+                &-header {
+                    &-cell {
+                        &:not(:first-child):not(.action-column) {
+                            display: none;
+                        }
+                    }
+                }
+
+                &-body {
+                    display: $frontend-datagrid-responsive-body-mobile-big-display;
+                }
+
                 &-row {
-                    grid-template-columns: $frontend-datagrid-responsive-row-mobile-big-grid-template-columns;
+                    display: flex;
+                    flex-wrap: wrap;
+                    border-bottom: $frontend-datagrid-responsive-action-cell-border;
+                    padding-bottom: spacing('base');
+                    padding-top: spacing('sm');
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                }
+
+                &-body-cell {
+                    border: none;
+                    flex: 1 1 100%;
+                    padding: 2px 0;
+
+                    &-id,
+                    &-qid {
+                        order: 1;
+                        flex: 0 0 $frontend-datagrid-responsive-cell-qid-width;
+                    }
+
+                    &-poNumber {
+                        order: 2;
+                        flex: 1 1 auto;
+                        padding: 0 spacing('sm');
+                    }
+
+                    &.action-cell {
+                        flex: 0 0 $frontend-datagrid-responsive-action-cell-width;
+                        width: $frontend-datagrid-responsive-action-cell-width;
+                    }
+
+                    &.grid-body-cell-massAction {
+                        flex: 1 0 auto;
+                        order: 1;
+                        top: spacing('sm');
+                    }
                 }
             }
         }

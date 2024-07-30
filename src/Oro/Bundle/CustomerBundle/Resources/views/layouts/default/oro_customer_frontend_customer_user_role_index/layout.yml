@@ -8,6 +8,17 @@ layout:
             namespace: customer_user_roles
 
     actions:
+        - '@add':
+            id: customer_user_role_external_toolbar
+            parentId: page_title_container
+            blockType: frontend_datagrid_external_toolbar
+            options:
+                gridName: 'frontend-customer-customer-user-roles-grid'
+
+        - '@move':
+            id: customer_user_roles_button_container_create_customer_user_role
+            parentId: page_title_container
+
         - '@setOption':
             id: page_title
             optionName: defaultValue

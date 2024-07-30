@@ -17,6 +17,30 @@ layout:
             optionName: defaultValue
             optionValue: 'oro.customer.frontend.customer_user.address.label'
 
+        - '@move':
+            id: customer_address_book_user_addresses_view_additional_container
+            parentId: customer_address_book_page
+            siblingId: customer_address_book_addresses
+
+        - '@move':
+            id: customer_address_book_addresses_create_link_container
+            parentId: page_title_container
+
+        - '@add':
+            id: customer_address_external_toolbar
+            parentId: page_title_container
+            blockType: frontend_datagrid_external_toolbar
+            options:
+                gridName: 'frontend-customer-customer-address-grid'
+
+        - '@add':
+            id: customer_user_address_external_toolbar
+            parentId: customer_address_book_user_addresses_view_additional_container
+            blockType: frontend_datagrid_external_toolbar
+            prepend: true
+            options:
+                gridName: 'frontend-customer-customer-user-address-grid'
+
         - '@addTree':
             items:
                 customer_address_book_page:

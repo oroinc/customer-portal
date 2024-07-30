@@ -8,6 +8,17 @@ layout:
             namespace: customer_users
 
     actions:
+        - '@add':
+            id: customer_user_external_toolbar
+            parentId: page_title_container
+            blockType: frontend_datagrid_external_toolbar
+            options:
+                gridName: 'frontend-customer-customer-user-grid'
+
+        - '@move':
+            id: customer_users_button_container_create_customer_user
+            parentId: page_title_container
+
         - '@setOption':
             id: page_title
             optionName: defaultValue
