@@ -7,6 +7,14 @@ The current file describes significant changes in the code that may affect the u
 ### Added
 
 #### FrontendBundle
+* Added `orofrontend/js/datagrid/frontend-action-launcher`
+* Added `orofrontend/js/datagrid/frontend-actions-panel`
+* Added `orofrontend/js/datagrid/actions/frontend-reset-collection-action`
+* Added option for reset action storefront datagrids 
+  - `grid_render_parameters.themeOptions.actionOptions.resetAction.hiddenIfIsNotResettable` {boolean} - Hide reset action button when grid doesn't have changes
+  - `grid_render_parameters.themeOptions.actionOptions.{actionName}.launcherOptions.renderInExternalContainer` {boolean} - Render action launcher in provided external container with default selector `[data-group="external-toolbar-${gridName}"]`
+* Added block type `frontend_datagrid_external_toolbar`, required datagrid name
+
 * Added theme configuration options into `\Oro\Bundle\FrontendBundle\Resources\views\layouts\default\theme.yml`.
 * Added `oro_theme.theme_configuration` system configuration option.
 * Added `\Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplatesThemeConfigurationExtension` that gets `product_page_template` theme configuration option values and adds for page_templates.

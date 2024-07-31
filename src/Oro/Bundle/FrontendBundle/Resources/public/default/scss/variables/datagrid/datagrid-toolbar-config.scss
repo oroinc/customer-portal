@@ -1,15 +1,15 @@
 /* @theme: default; */
 
 $datagrid-toolbar-gap: 0 spacing('sm') !default;
-$datagrid-tool-gap-start: 48px !default;
+$datagrid-tool-gap-start: spacing('xl') !default;
 $datagrid-tool-gap-center: spacing('sm') !default;
-$datagrid-tool-gap-end: spacing('md') !default;
+$datagrid-tool-gap-end: spacing('xl') !default;
 $datagrid-tool-pagination-info-color: get-color('text', 'secondary') !default;
 $datagrid-tool-pagination-info-font-size: 13px !default;
 
 // Tablet Small
 $datagrid-toolbar-tablet-small-gap: 0 spacing('xs') !default;
-$datagrid-tool-tablet-small-gap: spacing('lg') !default;
+$datagrid-tool-tablet-small-gap: spacing('sm') !default;
 $datagrid-tool-mobile-big-gap: spacing('base') !default;
 $datagrid-tool-mobile-gap: spacing('md') !default;
 

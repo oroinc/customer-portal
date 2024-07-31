@@ -79,6 +79,10 @@ oro_frontend:
                         choices:
                             integrated: Integrated
                             standalone: Standalone
+                datagrid:
+                    label: Datagrid Settings
+                    pagination_threshold:
+                        label: 'Use pagination input if number of pages exceeds'
     system_configuration:
         groups:
             design.title: 'Design'

@@ -17,8 +17,6 @@ layout:
                     blockType: container
                 __datagrid_views_popup:
                     blockType: container
-                __datagrid_views_popup_close:
-                    blockType: block
                 __datagrid_views_popup_container:
                     blockType: container
                 __datagrid_views_popup_title:
@@ -41,5 +39,4 @@ layout:
                                         __datagrid_views_popup_list:
                                             __datagrid_views_popup_list_item: ~
                                         __datagrid_views_popup_footer: ~
-                                    __datagrid_views_popup_close: ~
                             __datagrid_views_container_edit_label: ~

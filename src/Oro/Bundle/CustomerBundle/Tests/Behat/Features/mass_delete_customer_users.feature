@@ -16,9 +16,6 @@ Feature: Mass delete customer users
     And I click "Account Dropdown"
     And I click "Users"
     And I don't select any record from "Customer Users Grid"
-    And I click "Delete" link from select all mass action dropdown in "Customer Users Grid"
-    Then I should see "Please select items to delete." flash message
-    And click on "Flash Message Close Button"
 
   Scenario: Disable few manually selected records except current user
     And I keep in mind number of records in list in "Customer Users Grid"

@@ -1,0 +1,32 @@
+Oro\Bundle\ProductBundle\Entity\ProductName:
+    localProductName{1..250}:
+        string: 'Product <current()>'
+
+Oro\Bundle\CatalogBundle\Entity\CategoryTitle:
+    localNewCategory:
+        string: 'NewCategory'
+
+Oro\Bundle\ProductBundle\Entity\ProductUnitPrecision:
+    productUnitPrecision{1..250}:
+        unit: '@item'
+        precision: '1'
+
+Oro\Bundle\CatalogBundle\Entity\Category:
+    category:
+        organization: '@organization'
+        __calls:
+            - addTitle: ['@localNewCategory']
+            - setParentCategory: ['@root_category']
+
+Oro\Bundle\ProductBundle\Entity\Product:
+    product{1..250}:
+        type: 'simple'
+        sku: 'PSKU<current()>'
+        primaryUnitPrecision: '@productUnitPrecision<current()>'
+        __calls:
+            - addName: ['@localProductName<current()>']
+            - setCategory: ['@category']
+        inventoryStatus: '@enumInventoryStatuses'
+        status: 'enabled'
+        organization: '@organization'
+        attributeFamily: '@defaultProductFamily'

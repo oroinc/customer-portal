@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Behat\Element;
 
+use Behat\Mink\Element\NodeElement;
 use Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid as BaseGrid;
 
 class Grid extends BaseGrid
@@ -84,5 +85,46 @@ class Grid extends BaseGrid
         self::assertTrue($gridViewListElement->isValid(), 'Grid view list not found on the page');
 
         $gridViewListElement->click();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasMassActionLink($title): bool
+    {
+        return (bool)$this->getMassActionLink($title)?->isVisible();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMassActionLink($title): ?NodeElement
+    {
+        return $this->elementFactory->createElement($this->getMappedChildElementName('Toolbar Mass Actions'), $this)
+            ->findLink($title);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function clickMassActionLink($title)
+    {
+        $massActionLink = $this->getMassActionLink($title);
+        self::assertNotNull($massActionLink, 'Mass action link not found on the page');
+        self::assertTrue($massActionLink->isVisible(), 'Mass action link is not visible');
+
+        $massActionLink->click();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function clickSelectAllMassActionLink($title)
+    {
+        $massActionLink = $this->getMassActionLink($title);
+        self::assertNotNull($massActionLink, 'Mass action link not found on the page');
+        self::assertTrue($massActionLink->isVisible(), 'Mass action link is not visible');
+
+        $massActionLink->click();
     }
 }

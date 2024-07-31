@@ -1,6 +1,11 @@
-{% block __oro_customer_address_grid__addresses_view_additional_container_widget %}
+{% block _page_title_widget %}
+    {% set hasActions = true %}
+    {{ parent_block_widget(block) }}
+{% endblock %}
+
+{% block __oro_customer_address_grid__addresses_create_link_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid-views__aditional'
+        '~class': ' page-title-actions'
     }) %}
 
     <div {{ block('block_attributes') }}>

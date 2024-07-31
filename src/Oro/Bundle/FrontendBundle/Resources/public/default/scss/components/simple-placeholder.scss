@@ -5,4 +5,27 @@
     background-color: $skeleton-color;
     color: transparent;
     animation: $skeleton-animation;
+
+    &-animation {
+        animation: .35s ease-in-out 2 alternate skeleton-pulse;
+        pointer-events: none;
+    }
+
+    * {
+        opacity: 0;
+    }
+}
+
+@each $_breakpoint in get-breakpoints-list() {
+    @include breakpoint(#{$_breakpoint}) {
+        .simple-placeholder[data-placeholder-show-one-child-on-#{$_breakpoint}] {
+            a,
+            button,
+            .action {
+                &:not(:first-child) {
+                    display: none;
+                }
+            }
+        }
+    }
 }

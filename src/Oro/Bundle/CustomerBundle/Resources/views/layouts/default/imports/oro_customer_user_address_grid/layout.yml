@@ -13,6 +13,7 @@ layout:
             items:
                 __user_addresses_view_additional_container:
                     blockType: container
+                    siblingId: customer_address_book_addresses
             tree:
                 __user_addresses_datagrid_views_toolbar:
                     __user_addresses_view_additional_container: ~
@@ -29,7 +30,7 @@ layout:
                 text: 'oro.customer.address.add'
                 icon: plus
                 attr:
-                    class: 'btn btn--size-small btn--outlined'
+                    class: 'btn'
 
         - '@setOption':
             id: __user_addresses_datagrid_views
@@ -39,7 +40,7 @@ layout:
         - '@setOption':
             id: __user_addresses_datagrid
             optionName: grid_render_parameters.gridViewsOptions.icon
-            optionValue: 'map-marker'
+            optionValue: 'map-pin'
 
         - '@setOption':
             id: __user_addresses_datagrid
@@ -96,7 +97,14 @@ layout:
         - '@setOption':
             id: __user_addresses_datagrid_toolbar
             optionName: attr.class
-            optionValue: 'datagrid-toolbar datagrid-toolbar--offset-bottom-lg extended'
+            optionValue: 'datagrid-toolbar datagrid-toolbar-bottom datagrid-toolbar--offset-bottom-lg extended'
+
+        - '@appendOption':
+            id: __user_addresses_datagrid
+            optionName: grid_render_parameters.toolbarOptions.paginationInfo
+            optionValue:
+                transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.userAddressesPageInfo'
+                show: true
 
 #    TODO: return condition in BB-4263
 #    conditions: 'context["customer_address_count"]>=8'

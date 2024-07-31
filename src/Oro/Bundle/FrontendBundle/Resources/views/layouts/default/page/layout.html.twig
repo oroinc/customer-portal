@@ -64,7 +64,7 @@
         hasActions: hasActions is defined ? ' page-title--has-actions'
     } %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' page-title' ~ additionalClasses.classPrefix ~ additionalClasses.hasActions
+        '~class': ' h2 page-title' ~ additionalClasses.classPrefix ~ additionalClasses.hasActions
     }) %}
     {% set content = block_widget(block)|trim %}
     {% if content|length %}

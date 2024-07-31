@@ -1,0 +1,22 @@
+<% const oroui = _.macros('oroui') %>
+<% dropdownUID =  _.uniqueId('uid-'); %>
+<div class="dropdown responsive-dropdown <%- obj.dropdownClass %>" data-dropdown="<%- obj.UID %>">
+    <button id="<%- dropdownUID %>"
+            class="btn <%- obj.toggleClass %>"
+            data-toggle="dropdown"
+            aria-label="<%- obj.mainAriaLabel %>"
+            aria-haspopup="true"
+            aria-expanded="false"
+            data-placement="<%- obj.placement %>"
+    >
+        <% if (obj.icon) { %>
+            <%= oroui.renderIcon({name: icon, extraClass: obj.iconClass}) %>
+        <% } %>
+        <% if (obj.text) { %>
+            <span class="responsive-dropdown-text"><%- text %></span>
+        <% } %>
+    </button>
+    <div class="dropdown-menu <%- obj.dropdownMenuClass %>" aria-labelledby="<%- dropdownUID %>">
+        <div class="responsive-dropdown-actions <%- obj.actionsContainerClass %>" data-role="actions"></div>
+    </div>
+</div>

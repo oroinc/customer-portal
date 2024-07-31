@@ -36,6 +36,7 @@ configs:
     orofrontend/js/app/views/dom-relocation-view: {}
     orofrontend/default/js/app/views/frontend-messages-view: {}
     orofrontend/js/datagrid/cell/frontend-action-cell: {}
+    orofrontend/js/datagrid/plugin/toolbar-mass-action-plugin: {}
     oroui/js/app/modules/svg-sprite-module: {}
 dynamic-imports:
     commons:
@@ -75,7 +76,9 @@ dynamic-imports:
         - orofrontend/js/datagrid/cell/frontend-action-cell
         - orofrontend/js/datagrid/cell/frontend-action-header-cell
         - orofrontend/js/datagrid/frontend-grid
+        - orofrontend/js/datagrid/plugin/toolbar-mass-action-plugin
         - orofrontend/js/datagrid/grid-views/frontend-grid-views-view
+        - tpl-loader!orofrontend/templates/datagrid/quote-status.html
 entry:
     app:
         - oroui/js/app
@@ -84,6 +87,7 @@ map:
     '*':
         oro/filter-settings: orofrontend/default/js/app/views/filter-settings
         oro/datagrid/cell/action-cell: orofrontend/js/datagrid/cell/frontend-action-cell
+        orodatagrid/js/app/plugins/grid/toolbar-mass-action-plugin: orofrontend/js/datagrid/plugin/toolbar-mass-action-plugin
         oro/filter/abstract-filter: orofrontend/default/js/app/views/frontend-abstract-filter
         oro/filter/empty-filter: orofrontend/js/app/views/frontend-empty-filter
         oro/filter/choice-filter: orofrontend/default/js/app/views/choice-filter
@@ -98,7 +102,10 @@ map:
         orodatagrid/js/app/components/datagrid-component: orofrontend/js/app/components/frontend-datagrid-component
         orodatagrid/js/app/plugins/grid/datagrid-settings-plugin: orofrontend/js/app/plugins/frontend-datagrid-settings-plugin
         orodatagrid/js/datagrid/grid: orofrontend/js/datagrid/frontend-grid
+        oro/datagrid/action/reset-collection-action: orofrontend/js/datagrid/actions/frontend-reset-collection-action
+        orodatagrid/js/datagrid/action-launcher: orofrontend/js/datagrid/frontend-action-launcher
         orodatagrid/js/datagrid/header-cell/action-header-cell: orofrontend/js/datagrid/cell/frontend-action-header-cell
+        orodatagrid/js/datagrid/actions-panel-mass: orofrontend/js/datagrid/frontend-actions-panel-mass
         orodatagrid/templates/datagrid-settings/datagrid-settings-collection.html: orofrontend/default/templates/datagrid/datagrid-settings-collection.html
         orodatagrid/templates/datagrid-settings/datagrid-settings-filter.html: orofrontend/default/templates/datagrid/datagrid-settings-filter.html
         orodatagrid/templates/datagrid-settings/datagrid-settings-item.html: orofrontend/default/templates/datagrid/datagrid-settings-item.html
@@ -109,7 +116,6 @@ map:
         orodatagrid/templates/datagrid/pagination-input.html: orofrontend/default/templates/datagrid/pagination-input.html
         orodatagrid/templates/datagrid/select-all-header-cell.html: orofrontend/default/templates/datagrid/select-all-header-cell.html
         orodatagrid/templates/datagrid/select-row-cell.html: orofrontend/default/templates/datagrid/select-row-cell.html
-        orodatagrid/templates/datagrid/visible-items-counter.html: orofrontend/default/templates/datagrid/visible-items-counter.html
         orofilter/js/plugins/filters-toggle-plugin: orofrontend/js/app/datafilter/plugins/frontend-filters-plugin
         orofilter/templates/filters-no-found.html: orofrontend/templates/multiselect-no-found.html
         orofilter/templates/multiselect-clear-search.html: orofrontend/templates/multiselect-clear-search.html
@@ -130,6 +136,8 @@ map:
         orofilter/js/plugins/filters-toggle-plugin: orofilter/js/plugins/filters-toggle-plugin
     orofrontend/js/app/plugins/frontend-datagrid-settings-plugin:
         orodatagrid/js/app/plugins/grid/datagrid-settings-plugin: orodatagrid/js/app/plugins/grid/datagrid-settings-plugin
+    orofrontend/js/datagrid/frontend-actions-panel-mass:
+        orodatagrid/js/datagrid/actions-panel-mass: orodatagrid/js/datagrid/actions-panel-mass
     orofrontend/js/app/views/frontend-multiselect-filter:
         oro/filter/multiselect-filter: oro/filter/multiselect-filter
     orofrontend/js/app/views/frontend-search-boolean-filter:
@@ -154,3 +162,7 @@ map:
         orodatagrid/js/datagrid/header-cell/action-header-cell: orodatagrid/js/datagrid/header-cell/action-header-cell
     orofrontend/js/datagrid/frontend-grid:
         orodatagrid/js/datagrid/grid: orodatagrid/js/datagrid/grid
+    orofrontend/js/datagrid/actions/frontend-reset-collection-action:
+        oro/datagrid/action/reset-collection-action: oro/datagrid/action/reset-collection-action
+    orofrontend/js/datagrid/frontend-action-launcher:
+        orodatagrid/js/datagrid/action-launcher: orodatagrid/js/datagrid/action-launcher

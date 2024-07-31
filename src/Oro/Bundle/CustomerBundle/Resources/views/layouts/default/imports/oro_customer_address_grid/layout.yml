@@ -13,14 +13,18 @@ layout:
             items:
                 __addresses_view_additional_container:
                     blockType: container
-
             tree:
                 __addresses_datagrid_views_toolbar:
                     __addresses_view_additional_container: ~
 
         - '@add':
-            id: __addresses_create_link
+            id: __addresses_create_link_container
             parentId: __addresses_view_additional_container
+            blockType: container
+
+        - '@add':
+            id: __addresses_create_link
+            parentId: __addresses_create_link_container
             blockType: link
             options:
                 visible: '=data["acl"].isGranted("oro_customer_frontend_customer_address_create") && data["acl"].isGranted("oro_customer_frontend_customer_address_view")'
@@ -30,7 +34,7 @@ layout:
                 text: 'oro.customer.frontend.customer_user_address_book.create.label'
                 icon: plus
                 attr:
-                    class: 'btn btn--size-small btn--outlined'
+                    class: 'btn'
 
         - '@setOption':
             id: __addresses_datagrid
@@ -49,7 +53,7 @@ layout:
         - '@setOption':
             id: __addresses_datagrid
             optionName: grid_render_parameters.gridViewsOptions.icon
-            optionValue: 'map-marker'
+            optionValue: 'map-pin'
 
         - '@appendOption':
             id: __addresses_datagrid
@@ -91,7 +95,14 @@ layout:
         - '@setOption':
             id: __addresses_datagrid_toolbar
             optionName: attr.class
-            optionValue: 'datagrid-toolbar extended datagrid-toolbar--offset-bottom-lg'
+            optionValue: 'datagrid-toolbar datagrid-toolbar-bottom extended datagrid-toolbar--offset-bottom-lg'
+
+        - '@appendOption':
+            id: __addresses_datagrid
+            optionName: grid_render_parameters.toolbarOptions.paginationInfo
+            optionValue:
+                transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.companyAddressesPageInfo'
+                show: true
 
 #    TODO: return condition in BB-4263
 #    conditions: 'context["customer_address_count"]>=8'
