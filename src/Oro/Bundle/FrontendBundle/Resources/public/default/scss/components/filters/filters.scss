@@ -171,6 +171,10 @@
         }
     }
 
+    .filter-badge-hint {
+        margin-left: auto;
+    }
+
     .filter-value-range {
         display: $filter-value-range-display;
         align-items: $filter-value-range-align-items;

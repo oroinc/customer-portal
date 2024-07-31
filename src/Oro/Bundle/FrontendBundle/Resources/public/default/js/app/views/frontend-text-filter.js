@@ -3,6 +3,7 @@ define(function(require) {
 
     const tools = require('oroui/js/tools');
     const TextFilter = require('oro/filter/text-filter');
+    const FilterBadgeHintView = require('orofrontend/default/js/app/views/filter-badge-hint-view').default;
 
     const FrontendTextFilter = TextFilter.extend({
         events() {
@@ -13,6 +14,19 @@ define(function(require) {
 
         constructor: function FrontendTextFilter(...args) {
             FrontendTextFilter.__super__.constructor.apply(this, args);
+        },
+
+        rendered() {
+            if (this.subview('filter:badge-hint')) {
+                this.subview('filter:badge-hint').dispose();
+            }
+
+            this.subview('filter:badge-hint', new FilterBadgeHintView({
+                filter: this,
+                container: this.$('.filter-criteria-selector')
+            }));
+
+            return FrontendTextFilter.__super__.rendered.call(this);
         },
 
         _showCriteria() {

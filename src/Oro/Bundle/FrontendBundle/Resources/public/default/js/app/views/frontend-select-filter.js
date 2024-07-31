@@ -5,6 +5,7 @@ define(function(require, exports, module) {
     const __ = require('orotranslation/js/translator');
     const SelectFilter = require('oro/filter/select-filter');
     const MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-multiselect-decorator');
+    const FilterBadgeHintView = require('orofrontend/default/js/app/views/filter-badge-hint-view').default;
     const FilterCountHelper = require('orofrontend/js/app/filter-count-helper');
     const tools = require('oroui/js/tools');
     let config = require('module-config').default(module.id);
@@ -64,6 +65,19 @@ define(function(require, exports, module) {
         constructor: function FrontendSelectFilter(options) {
             this.onChangeFilter = _.debounce(this.onChangeFilter.bind(this));
             FrontendSelectFilter.__super__.constructor.call(this, options);
+        },
+
+        rendered() {
+            if (this.subview('filter:badge-hint')) {
+                this.subview('filter:badge-hint').dispose();
+            }
+
+            this.subview('filter:badge-hint', new FilterBadgeHintView({
+                filter: this,
+                container: this.$('.filter-criteria-selector')
+            }));
+
+            return FrontendSelectFilter.__super__.rendered.call(this);
         },
 
         /**

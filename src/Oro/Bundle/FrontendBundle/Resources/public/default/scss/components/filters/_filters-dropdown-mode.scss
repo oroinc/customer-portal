@@ -35,12 +35,20 @@
     }
 
     .filter-criteria-selector {
+        display: flex;
+        align-items: center;
+        gap: spacing('sm');
+
         padding-right: $filter-dropdown-mode-criteria-selector-offset-inner;
 
         cursor: pointer;
 
         user-select: none;
 
+        @include ellipsis();
+    }
+
+    .filter-item-label {
         @include ellipsis();
     }
 
