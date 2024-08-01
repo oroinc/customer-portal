@@ -4,12 +4,15 @@ define(function(require) {
     const _ = require('underscore');
     const MultiSelectFilter = require('oro/filter/multiselect-filter');
     const FilterCountHelper = require('orofrontend/js/app/filter-count-helper');
+    const MultiValueFilterHintView = require('./multi-value-filter-hint-view').default;
 
     const FrontendMultiSelectFilter = MultiSelectFilter.extend(_.extend({}, FilterCountHelper, {
         /**
          * @inheritdoc
          */
         populateDefault: false,
+
+        HintView: MultiValueFilterHintView,
 
         /**
          * @property {Object}

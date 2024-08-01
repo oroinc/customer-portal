@@ -9,6 +9,11 @@ $filter-criteria-hint-max-width: 250px !default;
 $filter-criteria-hint-item-color: get-color('text', 'primary') !default;
 $filter-criteria-hint-item-bg: get-color('neutral', 'grey1') !default;
 $filter-criteria-hint-label-offset-end: 2px !default;
+$filter-criteria-hint-label-color: get-color('text', 'secondary') !default;
+
+$filter-criteria-hint-item-offset: 0 !default;
+$filter-criteria-hint-item-offset-inner: 0 0 0 spacing('md') !default;
+$filter-criteria-hint-item-border-radius: 24px !default;
 
 $filter-trigger-wrapper-display: inline-block !default;
 $filter-trigger-wrapper-dropdown-toggle-background-color: get-color('neutral', 'white-100') !default;

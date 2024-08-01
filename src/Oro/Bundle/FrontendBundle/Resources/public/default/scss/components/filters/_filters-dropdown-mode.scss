@@ -158,15 +158,6 @@
         gap: spacing('sm') spacing('base');
     }
 
-    .filter-criteria-hint-item {
-        display: inline-block;
-        vertical-align: middle;
-        margin: $filter-dropdown-mode-criteria-hint-item-offset;
-        padding: $filter-dropdown-mode-criteria-hint-item-offset-inner;
-
-        border-radius: $filter-dropdown-mode-criteria-hint-item-border-radius;
-    }
-
     .filters-manager-trigger {
         width: $filter-dropdown-mode-filters-manager-trigger-width;
 

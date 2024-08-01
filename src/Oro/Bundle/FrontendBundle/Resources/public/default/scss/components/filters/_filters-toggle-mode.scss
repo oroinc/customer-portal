@@ -184,21 +184,10 @@
     }
 
     .filter-criteria-hint-item {
-        display: inline-flex;
-        flex-direction: row;
-        align-items: center;
-        margin: $filter-toggle-mode-criteria-hint-item-offset;
-        padding: $filter-toggle-mode-criteria-hint-item-offset-inner;
-
-        border-radius: $filter-toggle-mode-criteria-hint-item-border-radius;
-
         max-width: 100%;
     }
 
     .reset-filter-button {
-        margin-bottom: $filter-toggle-mode-criteria-hint-item-offset-bottom;
-        padding: $filter-toggle-mode-reset-filter-button-inner-offset;
-
         border: 0;
     }
 

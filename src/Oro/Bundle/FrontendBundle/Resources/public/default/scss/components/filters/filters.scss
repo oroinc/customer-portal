@@ -101,6 +101,15 @@
     .filter-criteria-hint-item {
         position: relative;
 
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        gap: spacing('xs');
+        margin: $filter-criteria-hint-item-offset;
+        padding: $filter-criteria-hint-item-offset-inner;
+
+        border-radius: $filter-criteria-hint-item-border-radius;
+
         background: $filter-criteria-hint-item-bg;
         color: $filter-criteria-hint-item-color;
 
@@ -110,6 +119,7 @@
     .filter-criteria-hint-label {
         vertical-align: middle;
         padding-right: $filter-criteria-hint-label-offset-end;
+        color: $filter-criteria-hint-label-color;
     }
 
     .filter-criteria-hint {
