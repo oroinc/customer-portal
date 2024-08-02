@@ -346,7 +346,7 @@ define(function(require) {
                     if (e.keyCode === ESCAPE_KEYCODE) {
                         e.stopPropagation();
                         this.close();
-                        this.$el.focus();
+                        this.$el.trigger('focus');
                     } else {
                         manageFocus.preventTabOutOfContainer(e, this.$popup);
                     }
