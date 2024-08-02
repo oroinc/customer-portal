@@ -188,7 +188,7 @@ define(function(require) {
                         const image = {
                             alt: this.options.alt
                         };
-                        if (_.isArray(item[this.options.galleryFilter])) {
+                        if (Array.isArray(item[this.options.galleryFilter])) {
                             image.src = _.toArray(item[this.options.galleryFilter]).slice(-1)[0].srcset || '';
                             image.sources = _.toArray(item[this.options.galleryFilter]).slice(0, -1);
                         } else {
@@ -198,7 +198,7 @@ define(function(require) {
                             this.options.initialSlide = key;
                         }
                         if (this.useThumb()) {
-                            if (_.isArray(item[this.options.thumbnailsFilter])) {
+                            if (Array.isArray(item[this.options.thumbnailsFilter])) {
                                 image.thumb = _.toArray(item[this.options.thumbnailsFilter]).slice(-1)[0].srcset || '';
                                 image.thumbSources = _.toArray(item[this.options.thumbnailsFilter]).slice(0, -1);
                             } else {

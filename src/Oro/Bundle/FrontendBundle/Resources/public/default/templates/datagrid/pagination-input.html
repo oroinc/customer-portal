@@ -3,7 +3,7 @@
     <div class="oro-pagination__pager">
         <% _.each(handles, function (handle) { %>
             <% if (handle.type == "input") { %>
-                <input type="text"
+                <input type="number"
                        class="input oro-pagination__input"
                        value="<%- state.firstPage == 0 ? state.currentPage + 1 : state.currentPage  %>"
                        aria-label="<%- _.__('oro.datagrid.pagination.input.aria_label') %>"
