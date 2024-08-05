@@ -196,6 +196,10 @@ define(function(require) {
         },
 
         updatePosition: function() {
+            if (this.disposed) {
+                return;
+            }
+
             this.$el.slick('setPosition');
         },
 
