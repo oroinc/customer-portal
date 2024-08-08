@@ -6,6 +6,7 @@ define(function(require, exports, module) {
     const __ = require('orotranslation/js/translator');
     const CollectionFiltersManager = require('orofilter/js/collection-filters-manager');
     const MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-manage-filters-decorator');
+    const FrontendCollapsableHintsView = require('./frontend-collapsable-hints-view').default;
     let config = require('module-config').default(module.id);
     config = _.extend({
         templateData: {
@@ -134,10 +135,32 @@ define(function(require, exports, module) {
             }
         },
 
+        _onFilterUpdated() {
+            FrontendCollectionFiltersManager.__super__._onFilterUpdated.call(this);
+            this.subview('collapsableHints') && this.subview('collapsableHints').update();
+        },
+
+        _onFilterChanged() {
+            FrontendCollectionFiltersManager.__super__._onFilterChanged.call(this);
+            this.subview('collapsableHints') && this.subview('collapsableHints').update();
+        },
+
+        _onFilterDisabled(filter) {
+            FrontendCollectionFiltersManager.__super__._onFilterDisabled.call(this, filter);
+            this.subview('collapsableHints') && this.subview('collapsableHints').update();
+        },
+
         finallyOfRender: function() {
             if (this.$el.data('layout') === 'separate') {
                 this.initLayout();
             }
+
+            this.subview('collapsableHints', new FrontendCollapsableHintsView({
+                autoRender: true,
+                filterManager: this,
+                filters: this.filters,
+                container: this.getHintContainer()
+            }));
         }
     });
 

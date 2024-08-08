@@ -98,6 +98,7 @@ map:
         oro/filter/multiselect-filter: orofrontend/js/app/views/frontend-multiselect-filter
         oro/filter/search-boolean-filter: orofrontend/js/app/views/frontend-search-boolean-filter
         oro/filter/select-filter: orofrontend/js/app/views/frontend-select-filter
+        orofilter/js/filter-hint: orofrontend/js/app/datafilter/frontend-filter-hint
         oro/dialog-widget: orofrontend/js/app/components/frontend-dialog-widget
         orodatagrid/js/app/components/datagrid-component: orofrontend/js/app/components/frontend-datagrid-component
         orodatagrid/js/app/plugins/grid/datagrid-settings-plugin: orofrontend/js/app/plugins/frontend-datagrid-settings-plugin
@@ -154,6 +155,8 @@ map:
         oro/filter/dictionary-filter: oro/filter/dictionary-filter
     orofrontend/js/app/views/frontend-text-filter:
         oro/filter/text-filter: oro/filter/text-filter
+    orofrontend/js/app/datafilter/frontend-filter-hint:
+        orofilter/js/filter-hint: orofilter/js/filter-hint
     orofrontend/js/app/views/page/content-view:
         oroui/js/app/views/page/content-view: oroui/js/app/views/page/content-view
     orofrontend/js/datagrid/cell/frontend-action-cell:

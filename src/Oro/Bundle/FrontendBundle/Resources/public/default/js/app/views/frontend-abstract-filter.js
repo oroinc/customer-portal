@@ -69,6 +69,10 @@ define(function(require, exports, module) {
                     label: `${__('oro.filter.by')} ${this.label}`}
                 )
             };
+        },
+
+        getHintChips() {
+            return this.subview('hint').getChips();
         }
     });
 

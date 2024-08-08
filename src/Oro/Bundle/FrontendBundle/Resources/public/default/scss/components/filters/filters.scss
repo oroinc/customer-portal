@@ -92,10 +92,49 @@
         align-items: $filter-actions-align-items;
     }
 
+    .filter-criteria-hint-item-toggle {
+        // Hint collapse toggle button should be always pre-last in order
+        order: 998;
+        min-width: 44px;
+        height: 44px;
+    }
+
+    .filter-criteria-hint {
+        max-width: $filter-criteria-hint-max-width;
+
+        display: inline-block;
+        vertical-align: middle;
+
+        @include ellipsis();
+
+        &:empty {
+            display: none;
+        }
+    }
+
     .filter-items-hint {
         position: relative;
 
         clear: both;
+        flex-wrap: wrap;
+
+        .toggle-hidden-items-button {
+            width: 40px;
+        }
+
+        &--multiline {
+            .toggle-hidden-items-button {
+                transform: rotate(180deg);
+            }
+
+            .filter-criteria-hint-item-toggle {
+                padding-left: 0;
+
+                .filter-criteria-hint {
+                    display: none;
+                }
+            }
+        }
     }
 
     .filter-criteria-hint-item {
@@ -114,21 +153,24 @@
         color: $filter-criteria-hint-item-color;
 
         cursor: pointer;
+
+        flex: 0 0 auto;
+    }
+
+    .filter-items-hint:not(.filter-items-hint--multiline) {
+        .filter-criteria-hint-item--hidden {
+            display: none;
+        }
     }
 
     .filter-criteria-hint-label {
-        vertical-align: middle;
-        padding-right: $filter-criteria-hint-label-offset-end;
         color: $filter-criteria-hint-label-color;
     }
 
-    .filter-criteria-hint {
-        max-width: $filter-criteria-hint-max-width;
-
-        display: inline-block;
-        vertical-align: middle;
-
-        @include ellipsis();
+    .reset-filter-button {
+        flex: 0 0 auto;
+        // Hint reset all filters button should be always last in order
+        order: 999;
     }
 
     .filter-trigger-wrapper {
