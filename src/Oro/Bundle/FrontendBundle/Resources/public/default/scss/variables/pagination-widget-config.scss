@@ -10,6 +10,15 @@ $oro-pagination-input-width: 56px !default;
 $oro-pagination-input-text-align: center !default;
 $oro-pagination-input-color: get-color('neutral', 'dark') !default;
 
+$oro-pagination-page-to-size: 44px !default;
+$oro-pagination-page-to-border-radius: 4px !default;
+$oro-pagination-page-to-line-inset: auto 2px 2px !default;
+$oro-pagination-page-to-line-height: 3px !default;
+
+$oro-pagination-page-to-color: get-color('text', 'primary') !default;
+$oro-pagination-page-to-hover-color: get-color('primary', 'main') !default;
+$oro-pagination-page-to-active-color: get-color('primary', 'main') !default;
+
 $oro-pagination-arrow-color: get-color('text', 'primary') !default;
 $oro-pagination-arrow-background: get-color('neutral', 'grey1') !default;
 $oro-pagination-arrow-color-hover: get-color('primary', 'main') !default;

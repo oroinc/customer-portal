@@ -127,9 +127,6 @@ define(function(require) {
             }
         },
 
-        /** @property */
-        hideTitle: null,
-
         /**
          * @inheritdoc
          */
@@ -161,13 +158,7 @@ define(function(require) {
                 if (this.titleOptions.text.length) {
                     options.title = __(this.titleOptions.text);
                 }
-
-                if (options.gridViewsOptions.hideTitle) {
-                    this.hideTitle = $(options.gridViewsOptions.hideTitle);
-                }
             }
-
-            this.togglePageTitles(true);
 
             FrontendGridViewsView.__super__.initialize.call(this, options);
         },
@@ -228,7 +219,6 @@ define(function(require) {
             delete this.$gridViewPopupContainer;
             delete this.$gridViewSwitchEditButton;
             delete this.$editContainer;
-            this.togglePageTitles();
 
             this.updateDropdownState(null);
 
@@ -748,15 +738,6 @@ define(function(require) {
             });
 
             return showActions;
-        },
-
-        /**
-         * @param state
-         */
-        togglePageTitles: function(state) {
-            if (this.hideTitle) {
-                this.hideTitle.toggleClass('hidden', _.isUndefined(state) ? false : state);
-            }
         },
 
         /**

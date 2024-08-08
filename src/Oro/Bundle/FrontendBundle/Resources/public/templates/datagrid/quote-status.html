@@ -1,0 +1,7 @@
+<% const statusMapper = {
+    submitted: 'info',
+    cancelled: 'destructive'
+} %>
+<span class="status-label<%- statusMapper[obj.customerStatusId] ? ` status-label--${statusMapper[obj.customerStatusId]}` : '' %>">
+    <%- obj.customerStatusName %>
+</span>

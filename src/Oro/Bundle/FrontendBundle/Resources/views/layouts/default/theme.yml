@@ -74,6 +74,13 @@ configuration:
                         standalone: 'oro_frontend.theme.default.configuration.header.search_on_smaller_screens.choices.standalone'
                     previews:
                         _default: 'bundles/orofrontend/images/previews/search-smaller-screens.png'
+        datagrid:
+            label: oro_frontend.theme.default.configuration.datagrid.label
+            options:
+                pagination_threshold:
+                    label: oro_frontend.theme.default.configuration.datagrid.pagination_threshold.label
+                    type: integer
+                    default: 100
 #image_placeholders:
 #    product: '/bundles/oroproduct/images/no_image.png'
 #    category: '/bundles/orocatalog/images/no_image.png'

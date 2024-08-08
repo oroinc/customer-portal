@@ -66,6 +66,7 @@ $main-menu-link-color: get-color('text', 'inverse-70') !default;
 $main-menu-link-color-hover: get-color('text', 'inverse') !default;
 $main-menu-link-text-decoration-focus: none !default;
 $main-menu-link-text-transform: uppercase !default;
+$main-menu-link-font-family: $base-font !default;
 $main-menu-link-grid-column: #{'1 / 3'} !default;
 $main-menu-link-grid-row: 1 !default;
 $main-menu-sublist-container-border-radius: 0 0 4px 4px !default;
@@ -130,6 +131,9 @@ $main-menu-item-hover-desktop-background: null !default;
 
 $main-menu-sublist-stack-top: 0 !default;
 $main-menu-sublist-stack-width: auto !default;
+
+$main-menu-icon-offset: 0 spacing('sm') 0 0 !default;
+$main-menu-icon-vertical-align: text-bottom !default;
 
 // Only Desktop
 $main-menu-outer-container-desktop-display: flex !default;

@@ -43,6 +43,10 @@ layout:
             id: __datagrid_items_counter
             parentId: __datagrid_toolbar_leftside_container
             siblingId: __datagrid_toolbar_sorting
+        - '@move':
+           id: __datagrid_mass_actions_panel
+           parentId: __datagrid_toolbar_leftside_container
+           siblingId: __datagrid_items_counter
         - '@remove':
             id: __datagrid_toolbar_actions_container
         - '@remove':

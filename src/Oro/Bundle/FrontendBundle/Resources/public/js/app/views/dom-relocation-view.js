@@ -345,7 +345,7 @@ define(function(require, exports, module) {
          * @returns {boolean}
          */
         isElementForMovedOnResize(el) {
-            return $(el).data('dom-relocation-options').responsive.length;
+            return $(el).data('dom-relocation-options').responsive?.length;
         },
 
         /**
@@ -353,7 +353,7 @@ define(function(require, exports, module) {
          * @returns {boolean}
          */
         isElementForMovedOnScroll(el) {
-            return $(el).data('dom-relocation-options').scroll.length;
+            return $(el).data('dom-relocation-options').scroll?.length;
         }
     });
 

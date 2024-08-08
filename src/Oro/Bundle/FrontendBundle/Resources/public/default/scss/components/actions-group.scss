@@ -1,0 +1,31 @@
+/* @theme: default; */
+
+.actions-group {
+    display: flex;
+    align-items: center;
+    gap: spacing('sm');
+
+    .action {
+        font-size: 0;
+        gap: 0;
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .actions-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: initial;
+
+        .action {
+            justify-content: flex-start;
+            align-items: center;
+            gap: spacing('sm');
+            width: 100%;
+
+            font-size: $base-font-size;
+            font-weight: font-weight('normal');
+            white-space: nowrap;
+        }
+    }
+}

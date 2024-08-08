@@ -88,7 +88,7 @@ define(function(require) {
          * @private
          */
         _getProperty: function(props) {
-            if (!_.isArray(props)) {
+            if (!Array.isArray(props)) {
                 props = [props];
             }
 

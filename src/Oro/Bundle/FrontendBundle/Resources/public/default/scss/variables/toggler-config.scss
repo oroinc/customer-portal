@@ -14,6 +14,9 @@ $toggler-border-radius: 4px !default;
 $toggler-hover-color: get-color('primary', 'hover') !default;
 $toggler-hover-background-color: get-color('neutral', 'white-50') !default;
 
+$toggler-switcher-wrapper-gap: spacing('md') !default;
+$toggler-switcher-title-gap: spacing('sm') !default;
+
 $toggler-dropdown-btn-color: get-color('text', 'primary') !default;
 $toggler-dropdown-btn-color-hover: get-color('primary', 'main') !default;
 $toggler-dropdown-btn-background-color-hover: get-color('primary', 'light') !default;

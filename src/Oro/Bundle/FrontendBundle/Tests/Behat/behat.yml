@@ -109,6 +109,10 @@ oro_behat_extension:
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridToolbarPaginator
     FrontendMassActionHeadCheckbox:
       selector: 'th.select-all-header-cell button'
+    Frontend Pagination:
+      selector: '.oro-pagination__pager'
+    Frontend List Pagination:
+      selector: '.oro-pagination__pager--stepper'
     FrontendGridNextPageButton:
       selector: '.oro-pagination [data-grid-pagination-direction="next"]'
     FrontendGridPrevPageButton:

@@ -176,3 +176,15 @@ services:
             - [setName, ['file_printer']]
         tags:
              - { name: layout.block_type, alias: file_printer }
+
+    oro_layout.block_type.frontend_datagrid_external_toolbar:
+        parent: oro_layout.block_type.abstract_configurable
+        calls:
+            -
+                - setOptionsConfig
+                -
+                    -
+                        gridName: {required: true}
+            - [ setName, [ 'frontend_datagrid_external_toolbar' ] ]
+        tags:
+            - { name: layout.block_type, alias: frontend_datagrid_external_toolbar }

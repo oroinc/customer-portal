@@ -1,0 +1,8 @@
+<% if (state.totalRecords > 0) { %>
+    <strong><%- _.__('oro_frontend.datagrid.pagination.totalRecords.totalOfSelected', {
+        selectedRecords: selectedTotal,
+        totalRecords: state.totalRecords
+    }, selectedTotal) %></strong>
+
+    <%- _.__((transTemplate||'oro.datagrid.pagination.totalRecordsShortPlural'), {totalRecords: state.totalRecords}, state.totalRecords) %>
+<% } %>

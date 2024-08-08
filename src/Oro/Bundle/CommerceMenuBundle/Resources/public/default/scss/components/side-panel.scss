@@ -84,7 +84,8 @@
         }
 
         &__top {
-            --btn-outlined-inverse-hover-color: #{$side-panel-top-menu-container-color};
+            --btn-plain-inverse-color: #{$side-panel-top-menu-container-color};
+            --btn-plain-inverse-hover-color: #{$side-panel-top-menu-container-color};
 
             border-bottom: $side-panel-menu-container-border;
 

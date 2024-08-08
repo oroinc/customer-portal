@@ -44,7 +44,7 @@ const ProxyFocusView = BaseView.extend({
             $focusElement
                 .attr('tabindex', 0)
                 .trigger('focus')
-                .removeAttr('tabindex');
+                .attr('tabindex', null);
         }
     }
 });

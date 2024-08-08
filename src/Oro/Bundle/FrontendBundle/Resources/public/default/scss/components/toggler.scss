@@ -91,6 +91,21 @@
         }
     }
 
+    &-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: $toggler-switcher-wrapper-gap;
+    }
+
+    &-title {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $toggler-switcher-title-gap;
+        margin: unset;
+
+        font-size: $base-font-size;
+    }
+
     > input {
         position: absolute;
         clip: rect(0, 0, 0, 0);

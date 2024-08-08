@@ -158,6 +158,7 @@ $dropdown-item-font: list.slash($base-font-size, $base-line-height) $base-font;
 $dropdown-item-align-items: flex-start;
 $dropdown-item-gap: spacing('sm');
 
+$dropdown-link-background-destructive: get-color('destructive', 'light') !default;
 $dropdown-link-color-destructive: get-color('destructive', 'main') !default;
 $dropdown-link-font-weight-destructive: font-weight('normal') !default;
 

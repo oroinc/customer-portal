@@ -68,11 +68,11 @@ const CurrencyLocalizationFormView = BaseView.extend({
     resetForm() {
         this.$('select').each((_index, item) => {
             if (item.name === 'currency') {
-                this.$(item).val(this.getSelected(this.currencies).value).change();
+                this.$(item).val(this.getSelected(this.currencies).value).trigger('change');
             }
 
             if (item.name === 'localization') {
-                this.$(item).val(this.getSelected(this.localizations).value).change();
+                this.$(item).val(this.getSelected(this.localizations).value).trigger('change');
             }
         });
     },

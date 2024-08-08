@@ -1,7 +1,9 @@
 /* @theme: default; */
 
 .grid-views {
+    display: flex;
     position: relative;
+    align-items: center;
 
     margin: $grid-views-offset;
     padding: spacing('sm') 0;
@@ -11,19 +13,27 @@
     @include clearfix;
 
     &__header {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        gap: spacing('xs');
     }
 
     &__aditional {
         float: right;
 
-        margin-left: spacing('base');
+        display: flex;
+        gap: spacing('sm');
     }
 
     &__dropdown {
         width: $grid-views-dropdown-width;
         margin: $grid-views-dropdown-offset;
         left: 0;
+    }
+
+    &__suptitle {
+        color: $grid-views-suptitle-color;
+        padding-right: spacing('xs');
     }
 
     &__title {
@@ -55,7 +65,8 @@
 
     &__subtitle {
         padding: $grid-views-subtitle-offset-inner;
-        line-height: $grid-views-title-line-height;
+        line-height: $grid-views-subtitle-line-height;
+        font-size: $grid-views-subtitle-font-size;
     }
 
     &__edit-label {
@@ -64,13 +75,13 @@
     }
 
     &__list {
-        border-top: $grid-views-dropdown-list-item-border;
+        padding-bottom: spacing('sm');
     }
 
     &__item {
         display: flex;
         padding: $grid-views-dropdown-list-item-offset-inner;
-        border-bottom: $grid-views-dropdown-list-item-border;
+        min-height: $grid-views-dropdown-list-item-min-height;
     }
 
     &__actions {
@@ -80,6 +91,8 @@
     }
 
     &__label {
+        display: flex;
+        align-items: center;
         flex-basis: 55%;
         flex: 1;
         word-break: break-all;
@@ -123,18 +136,32 @@
     }
 
     &__form-content {
-        --grid-gap: #{spacing('sm')};
+        --grid-gap: #{$grid-views-dropdown-footer-content-gap};
     }
 
     &__button-group {
         display: flex;
-        gap: #{spacing('xs')};
+        gap: spacing('md');
     }
 
     &__form-footer {
         display: flex;
         gap: spacing('base');
         align-items: center;
+        justify-content: space-between;
+    }
+
+    &__set-default {
+        display: flex;
+        align-items: center;
+        gap: spacing('sm');
+        font-size: $grid-views-dropdown-footer-label-font-size;
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .grid-views {
+        width: 100%;
     }
 }
 

@@ -20,6 +20,28 @@ class CustomerUserAddressUpdateListTest extends RestJsonApiUpdateListTestCase
         ]);
     }
 
+    private function getCustomerUserAddressId(string $street): int
+    {
+        /** @var CustomerUserAddress|null $address */
+        $address = $this->getEntityManager()->getRepository(CustomerUserAddress::class)
+            ->findOneBy(['street' => $street]);
+        if (null === $address) {
+            throw new \RuntimeException(sprintf('The address "%s" not found.', $street));
+        }
+
+        return $address->getId();
+    }
+
+    private function getCustomerUserAddressIndex(array $data, string $street): int
+    {
+        foreach ($data as $i => $item) {
+            if ($item['attributes']['street'] === $street) {
+                return $i;
+            }
+        }
+        throw new \RuntimeException(sprintf('The address "%s" not found.', $street));
+    }
+
     public function testCreateEntities(): void
     {
         $data = [
@@ -78,6 +100,8 @@ class CustomerUserAddressUpdateListTest extends RestJsonApiUpdateListTestCase
             ['entity' => 'customerusers', 'id' => '<toString(@customer_user1->id)>'],
             ['include' => 'addresses']
         );
+        $address1Id = $this->getCustomerUserAddressId('15a Lewis Circle');
+        $address2Id = $this->getCustomerUserAddressId('16 Lewis Circle');
         $responseContent = [
             'data'     => [
                 'type'          => 'customerusers',
@@ -85,19 +109,20 @@ class CustomerUserAddressUpdateListTest extends RestJsonApiUpdateListTestCase
                 'relationships' => [
                     'addresses' => [
                         'data' => [
-                            ['type' => 'customeruseraddresses', 'id' => 'new'],
-                            ['type' => 'customeruseraddresses', 'id' => 'new']
+                            ['type' => 'customeruseraddresses', 'id' => (string)$address1Id],
+                            ['type' => 'customeruseraddresses', 'id' => (string)$address2Id]
                         ]
                     ]
                 ]
             ],
             'included' => $data['data']
         ];
-        $responseContent['included'][0]['id'] = 'new';
-        $responseContent['included'][0]['attributes']['primary'] = true;
-        $responseContent['included'][1]['id'] = 'new';
-        $responseContent['included'][1]['attributes']['primary'] = false;
-        $responseContent = $this->updateResponseContent($responseContent, $response);
+        $address1Index = $this->getCustomerUserAddressIndex($responseContent['included'], '15a Lewis Circle');
+        $address2Index = $this->getCustomerUserAddressIndex($responseContent['included'], '16 Lewis Circle');
+        $responseContent['included'][$address1Index]['id'] = (string)$address1Id;
+        $responseContent['included'][$address1Index]['attributes']['primary'] = true;
+        $responseContent['included'][$address2Index]['id'] = (string)$address2Id;
+        $responseContent['included'][$address2Index]['attributes']['primary'] = false;
         $this->assertResponseContains($responseContent, $response);
     }
 }

@@ -8,9 +8,11 @@
 .hidden,
 .hide,
 .hide-on-empty:empty {
-    // override inline styles
-    // stylelint-disable-next-line declaration-no-important
-    display: none !important;
+    &:not(.display) {
+        // override inline styles
+        // stylelint-disable-next-line declaration-no-important
+        display: none !important;
+    }
 }
 
 .invisible {

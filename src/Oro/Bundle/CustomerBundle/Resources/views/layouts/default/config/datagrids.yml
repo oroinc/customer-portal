@@ -424,6 +424,7 @@ datagrids:
                 label: oro.customer.mass_actions.delete_customers.label
                 type: delete
                 icon: trash
+                className: 'btn btn--flat btn--destructive-flat'
                 entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerUser
                 data_identifier: customerUser.id
                 name: delete
@@ -434,6 +435,12 @@ datagrids:
                 launcherOptions:
                     iconClassName: trash
                     className: datagrid-massaction__dropdown-item
+                attributes:
+                    data-responsive-styler: ''
+                    data-input-widget-options:
+                        responsive:
+                            mobile-big:
+                                classes: 'dropdown-item dropdown-item--destructive'
                 defaultMessages:
                     confirm_title: oro.customer.mass_actions.delete_customers.confirm_title
                     confirm_content: oro.customer.mass_actions.delete_customers.confirm_content
@@ -529,10 +536,17 @@ datagrids:
                 data_identifier: address.id
                 name: delete
                 frontend_type: delete-mass
+                className: 'btn btn--flat btn--destructive-flat'
                 route: oro_datagrid_front_mass_action
                 launcherOptions:
                     iconClassName: trash
                     className: datagrid-massaction__dropdown-item
+                attributes:
+                    data-responsive-styler: ''
+                    data-input-widget-options:
+                        responsive:
+                            mobile-big:
+                                classes: 'dropdown-item dropdown-item--destructive'
                 defaultMessages:
                     confirm_title: oro.customer.mass_actions.delete_customer_addresses.confirm_title
                     confirm_content: oro.customer.mass_actions.delete_customer_addresses.confirm_content

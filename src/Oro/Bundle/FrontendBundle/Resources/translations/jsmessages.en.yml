@@ -18,30 +18,50 @@ oro_frontend:
             aria_label: "Close the Manage Grid drop-down"
 
     datagrid:
+        settings:
+            label: 'Manage Table'
+        refreshAction:
+            label: 'Refresh Table'
+        resetAction:
+            label: 'Reset Table'
+        action_column:
+            label: 'Actions'
         pagination:
             totalRecords:
+                quotePageInfo: "{1}{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} quote|]1,Inf[{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} quotes"
+                rfqPageInfo: "{1}{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} order|]1,Inf[{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} orders"
+                usersPageInfo: "{1}{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} user|]1,Inf[{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} users"
+                rolesPageInfo: "{1}{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} role|]1,Inf[{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} roles"
+                shoppingListPageInfo: "{1}{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} shopping list|]1,Inf[{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} shopping lists"
+                companyAddressesPageInfo: "{1}{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} company address|]1,Inf[{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} company addresses"
+                userAddressesPageInfo: "{1}{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} address|]1,Inf[{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} addresses"
                 totalRecordsShort: "{{ totalRecords }} items"
                 products: "{{ totalRecords }} Total Products"
                 companyAddresses: "{{ totalRecords }} Total Company Addresses"
                 addresses: "{{ totalRecords }} Total Addresses"
                 users: "{{ totalRecords }} Total Users"
                 roles: "{{ totalRecords }} Total Roles"
-                rfq: "{{ totalRecords }} Total Requests For Quote"
+                rfq: "Total Requests For Quote"
                 orders: "{{ totalRecords }} Total Orders"
                 quotes: "{{ totalRecords }} Total Quotes"
                 shopping_lists: "{{ totalRecords }} Total Shopping Lists"
                 shopping_list_line_items: "{{ totalRecords }} Total Items"
-                totalRecordsShortPlural: "{1}{{ totalRecords }} item|]1,Inf[{{ totalRecords }} items"
-                productsPlural: "{1}{{ totalRecords }} Total Product|]1,Inf[{{ totalRecords }} Total Products"
-                companyAddressesPlural: "{1}{{ totalRecords }} Total Company Address|]1,Inf[{{ totalRecords }} Total Company Addresses"
-                addressesPlural: "{1}{{ totalRecords }} Total Address|]1,Inf[{{ totalRecords }} Total Addresses"
-                usersPlural: "{1}{{ totalRecords }} Total User|]1,Inf[{{ totalRecords }} Total Users"
-                rolesPlural: "{1}{{ totalRecords }} Total Role|]1,Inf[{{ totalRecords }} Total Roles"
-                rfqPlural: "{1}{{ totalRecords }} Total Request For Quote|]1,Inf[{{ totalRecords }} Total Requests For Quote"
-                ordersPlural: "{1}{{ totalRecords }} Total Order|]1,Inf[{{ totalRecords }} Total Orders"
-                quotesPlural: "{1}{{ totalRecords }} Total Quote|]1,Inf[{{ totalRecords }} Total Quotes"
-                shoppingListsPlural: "{1}{{ totalRecords }} Total Shopping List|]1,Inf[{{ totalRecords }} Total Shopping Lists"
-                shoppingListLineItemsPlural: "{1}{{ totalRecords }} Total Item|]1,Inf[{{ totalRecords }} Total Items"
+                totalRecordsShortPlural: "{1}item|]1,Inf[items"
+                productsPlural: "{1}product|]1,Inf[products"
+                companyAddressesPlural: "{1}company Address|]1,Inf[company addresses"
+                addressesPlural: "{1}address|]1,Inf[addresses"
+                usersPlural: "{1}user|]1,Inf[users"
+                rolesPlural: "{1}role|]1,Inf[roles"
+                rfqPlural: "{1}request for quote|]1,Inf[requests for quote"
+                ordersPlural: "{1}order|]1,Inf[orders"
+                quotesPlural: "{1}quote|]1,Inf[quotes"
+                shoppingListsPlural: "{1}shopping List|]1,Inf[shopping Lists"
+                shoppingListLineItemsPlural: "{1}{{ totalRecords }} item|]1,Inf[{{ totalRecords }} items"
+                totalOfSelected: '{0}{{ totalRecords }}|]0,Inf[{{ selectedRecords }} Of {{ totalRecords }}'
+            click_to_go_page: 'Click to enter page number'
+            page_to: 'Page {{ page }}'
+        pageSize:
+            groupTitle: 'Show per page:'
         manage_grid: 'Manage grid'
         requires:
             data: 'Data attribute "data-server-render" must be defined'
@@ -80,6 +100,8 @@ oro_frontend:
         all: "All "
         add: "Add"
         save: "Save"
+        view: "View:"
+        defaultLabel: "Default"
         cancel: "Cancel"
         save_as_new: "Save As New"
         add.aria_label: "Add New Grid View"
@@ -136,6 +158,8 @@ oro_frontend:
             more_actions: 'More actions'
             localization_title: 'Localization'
             currency_title: 'Currency'
+    responsive_dropdown:
+        aria_label: 'Reveal or hide additional actions'
     input_widget:
         step_input:
             aria_label: 'Enter the quantity you want to order.'

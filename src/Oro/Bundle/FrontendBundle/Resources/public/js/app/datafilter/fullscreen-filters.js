@@ -123,7 +123,7 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
         multiselect.options.minWidth = '100%';
         // Don't close filter before open Filter Manager
         multiselect.options.beforeopen = () => selectWidget.onBeforeOpenDropdown();
-        multiselect.element.on('multiselectopened', () => $content.removeAttr('style'));
+        multiselect.element.on('multiselectopened', () => $content.attr('style', null));
         selectWidget.multiselect('close');
 
         $selectWidgetBtn.add($selectWidgetBtn.find('span'))

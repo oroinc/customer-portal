@@ -26,7 +26,7 @@ Feature: Mass delete customer user addresses
     And I signed in as AmandaRCole@example.org on the store frontend
     And I click "Account Dropdown"
     And I click "Address Book"
-    Then I should see Delete action in "Customer Company Addresses Grid"
+    Then I shouldn't see Delete action in "Customer Company Addresses Grid"
     And I shouldn't see Delete action in "Customer Company User Addresses Grid"
 
   Scenario: Enable delete of Customer User Address
@@ -39,11 +39,9 @@ Feature: Mass delete customer user addresses
   Scenario: No records to delete selected
     Given I proceed as the User
     When I reload the page
-    Then I should see Delete action in "Customer Company Addresses Grid"
-    And I should see Delete action in "Customer Company User Addresses Grid"
+    Then I shouldn't see Delete action in "Customer Company Addresses Grid"
+    And I shouldn't see Delete action in "Customer Company User Addresses Grid"
     When I don't select any record from "Customer Company User Addresses Grid"
-    And I click "Delete" link from select all mass action dropdown in "Customer Company User Addresses Grid"
-    Then I should see "Please select items to delete." flash message
 
   Scenario: Delete few manually selected records
     Given I reload the page
