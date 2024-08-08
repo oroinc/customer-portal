@@ -102,7 +102,7 @@ define(function(require, exports, module) {
          */
         setDropdownHeaderDesign: function(instance) {
             instance.header
-                .removeAttr('class')
+                .attr('class', null)
                 .addClass('datagrid-manager__header');
 
             instance.menu

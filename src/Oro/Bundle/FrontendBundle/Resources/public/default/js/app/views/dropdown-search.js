@@ -120,7 +120,7 @@ const DropdownSearch = BaseView.extend({
         e.preventDefault();
         e.stopPropagation();
         this.clearField();
-        this.$('[data-role="quick-search"]').focus();
+        this.$('[data-role="quick-search"]').trigger('focus');
     },
 
     /**

@@ -59,7 +59,7 @@ define(function(require) {
                 menuHeight = windowHeight - headerRowHeight - middleBarHeight;
             }
             $.each($dropdowns, function(index, dropdown) {
-                $(dropdown).parent().removeAttr('style');
+                $(dropdown).parent().attr('style', null);
 
                 const dropdownHeight = $(dropdown).height();
 

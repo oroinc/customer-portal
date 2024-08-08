@@ -197,7 +197,7 @@ define(function(require, exports, module) {
         addAdditionalClassesForContainer: function(widget) {
             if (this.parameters.additionalClass) {
                 widget
-                    .removeAttr('class')
+                    .attr('class', null)
                     .addClass(`${this.parameters.themeName} dropdown-menu`);
             }
         },
@@ -208,7 +208,7 @@ define(function(require, exports, module) {
          */
         setDropdownHeaderDesign: function(instance) {
             instance.header
-                .removeAttr('class')
+                .attr('class', null)
                 .addClass('datagrid-manager__header');
         },
 
@@ -242,7 +242,7 @@ define(function(require, exports, module) {
             instance.header
                 .find('.ui-multiselect-filter')
                 .contents()
-                .eq(0)
+                .first()
                 .filter((i, el) => el.nodeType === Node.TEXT_NODE)
                 .wrap(
                     $(instance.element.closest('.toggle-mode').length
@@ -256,7 +256,7 @@ define(function(require, exports, module) {
 
             instance.header
                 .find('.ui-multiselect-filter')
-                .removeAttr('class');
+                .attr('class', null);
 
             instance.header
                 .find('.ui-multiselect-close')
