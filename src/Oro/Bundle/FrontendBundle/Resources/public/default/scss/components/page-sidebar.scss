@@ -6,6 +6,12 @@
     flex-direction: $page-sidebar-flex-direction;
     padding-top: $page-sidebar-offset-top;
     flex: $page-sidebar-flex;
+
+    &:has(.primary-menu) {
+        position: relative;
+        z-index: $page-sidebar-z-index;
+        background-color: $page-sidebar-background-color;
+    }
 }
 
 @include breakpoint('tablet') {

@@ -7,5 +7,8 @@ $page-sidebar-display: flex !default;
 $page-sidebar-flex-direction: column !default;
 $page-sidebar-flex: none !default;
 
+$page-sidebar-z-index: z('fixed') + 1 !default;
+$page-sidebar-background-color: get-color('neutral', 'white-100') !default;
+
 // tablet-small
 $page-sidebar-tablet-s-width: 100% !default;

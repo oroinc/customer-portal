@@ -6,6 +6,10 @@
     display: $primary-menu-display;
     flex-direction: $primary-menu-flex-direction;
 
+    &-container-inner {
+        --sticky-position-top-offset: var(--sticky-page-header-element-offset-top);
+    }
+
     &__link {
         color: $primary-menu-link-color;
         padding-inline-start: $primary-menu-link-inner-offset-start;

@@ -191,5 +191,9 @@
         max-height: $filter-dropdown-select-wrapper-max-height;
 
         margin-bottom: spacing('base');
+
+        .ui-dialog-content & {
+            max-height: $filter-dropdown-select-wrapper-in-dialog-max-height;
+        }
     }
 }
