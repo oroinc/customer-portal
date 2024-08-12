@@ -141,6 +141,7 @@
         position: relative;
 
         flex-basis: $filter-dropdown-mode-item-flex-basis;
+        max-width: $filter-dropdown-mode-item-flex-basis;
     }
 
     .filter-items-hint {

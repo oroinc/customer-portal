@@ -105,6 +105,12 @@
         }
     }
 
+    // Set a maximum width to crop filters with long names
+    .filter-items-container {
+        max-width: 100%;
+        overflow: hidden;
+    }
+
     .product-price-filter {
         margin-top: $filter-toggle-mode-product-price-filter-offset-top;
         padding-left: $filter-toggle-mode-product-price-filter-inner-offset-left;
