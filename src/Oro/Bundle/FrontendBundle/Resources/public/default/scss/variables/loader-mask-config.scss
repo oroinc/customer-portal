@@ -7,6 +7,7 @@ $loader-mask-overlay-width: 100% !default;
 $loader-mask-overlay-height: 100% !default;
 
 $loader-mask-view-loading-height: 200px !default;
+$loader-mask-z-index: z('dropdown') - 10 !default;
 $loader-mask-frame-width: 48px !default;
 $loader-mask-frame-height: 48px !default;
 $loader-mask-frame-max-width: 62% !default;
