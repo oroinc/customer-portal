@@ -131,3 +131,6 @@ oro:
                     sales.label: 'Sales Representative'
                     view.label: 'VIEW'
                 section_title: 'All %section_title%'
+                tree:
+                    commerce_top_nav.legacy_note: 'This menu applies to OroCommerce version 5.1 and below and is retained in the current version only for backward compatibility with legacy storefront themes. For v6.0 and above, please use the commerce_top_nav_refreshing_teal menu to modify the links in the storefront page header.'
+                    commerce_quick_access.legacy_note: 'This menu applies to OroCommerce version 5.1 and below and is retained in the current version only for backward compatibility with legacy storefront themes. For v6.0 and above, please use the commerce_quick_access_refreshing_teal menu to modify the quick access links.'

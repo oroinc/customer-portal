@@ -89,7 +89,9 @@ oro_frontend:
             theme.title: 'Theme'
             theme_settings.title: 'Theme Settings'
             commerce.title: 'Commerce'
-            page_templates.title: 'Page Templates'
+            page_templates:
+                title: 'Page Templates'
+                legacy_note: 'This configuration applies to OroCommerce version 5.1 and below and is retained in the current version only for backward compatibility with legacy storefront themes. For newer themes starting with v6.0 and above, please configure this option under System > Theme Configuration.'
             guests.title: 'Guests'
             website_access.title: 'Website Access'
             filter_settings.title: 'Filter Settings'
