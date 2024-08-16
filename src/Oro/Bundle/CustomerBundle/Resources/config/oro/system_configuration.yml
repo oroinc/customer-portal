@@ -100,6 +100,7 @@ system_configuration:
             priority: 50
             options:
                 label: oro.customer.system_configuration.fields.user_menu_show_items.label
+                warning: oro.customer.system_configuration.fields.user_menu_show_items.legacy_note
                 required: true
                 constraints:
                     - NotBlank: ~

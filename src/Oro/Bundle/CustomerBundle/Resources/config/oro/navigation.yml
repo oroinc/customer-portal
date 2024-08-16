@@ -291,6 +291,7 @@ navigation:
 
             customer_usermenu:
                 scope_type: menu_frontend_visibility
+                warning: 'oro.customer.frontend.navigation.tree.customer_usermenu.legacy_note'
                 children:
                     oro_customer_frontend_customer_user_profile: ~
 
@@ -322,6 +323,7 @@ navigation:
             # Start Requirement for "Default Theme 50/51"
             oro_customer_menu:
                 scope_type: menu_frontend_visibility
+                warning: 'oro.customer.frontend.navigation.tree.oro_customer_menu.legacy_note'
                 children:
                     oro_customer_frontend_customer_user_profile:
                         children:
