@@ -13,6 +13,18 @@
     {% endif %}
 {% endblock %}
 
+{% block _css_variables_widget %}
+    {% if items is not empty  %}
+        <style>
+            :root {
+            {% for key, value  in items %}
+                --{{ key }}: {{ value }};
+            {% endfor %}
+            }
+        </style>
+    {% endif %}
+{% endblock %}
+
 {% block _scripts_before_widget %}
     {{ block_widget(block) }}
     {% block scripts_before %}

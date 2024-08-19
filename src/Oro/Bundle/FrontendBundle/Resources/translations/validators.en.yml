@@ -1,3 +1,15 @@
 oro_frontend:
     regex:
         backend_prefix: Prefix must start with / and contain alphanumeric symbols
+    css_variables:
+        css_color: This value should be valid CSS color
+        css_background: This value should be valid CSS background
+        css_border_radius: This value should be valid CSS border radius
+        css_box_shadow: This value should be valid CSS box shadow
+        css_font_size: This value should be valid CSS font size
+        css_gap: This value should be valid CSS gap
+        css_length: This value should be valid CSS length
+        css_line_height: This value should be valid CSS line height
+        css_min_height: This value should be valid CSS min height
+        css_outline: This value should be valid CSS outline
+        css_padding: This value should be valid CSS padding

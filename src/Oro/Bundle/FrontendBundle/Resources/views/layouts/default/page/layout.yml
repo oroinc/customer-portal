@@ -35,6 +35,16 @@ layout:
                 defaultValue: ~
                 value: '=defaultValue'
 
+        - '@add':
+            id: css_variables
+            parentId: head
+            siblingId: styles
+            prepend: true
+            blockType: block
+            options:
+                vars:
+                    items: =data["theme_css_variables"].getStylesVariables()
+
         - '@setOption':
             id: top_sticky_panel
             optionName: sticky_name

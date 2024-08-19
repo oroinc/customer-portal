@@ -96,3 +96,91 @@ services:
             - '@oro_frontend.provider.icons_mapping'
         tags:
             - { name: form.type }
+
+    oro_frontend.form.css_background_config_builder:
+        class: Oro\Bundle\FrontendBundle\Form\Configuration\CssBackgroundConfigBuilder
+        arguments:
+            - '@assets.packages'
+            - '@translator'
+        tags:
+            - { name: oro_theme.form.configuration_child_builder }
+
+    oro_frontend.form.css_border_radius_config_builder:
+        class: Oro\Bundle\FrontendBundle\Form\Configuration\CssBorderRadiusConfigBuilder
+        arguments:
+            - '@assets.packages'
+            - '@translator'
+        tags:
+            - { name: oro_theme.form.configuration_child_builder }
+
+    oro_frontend.form.css_box_shadow_config_builder:
+        class: Oro\Bundle\FrontendBundle\Form\Configuration\CssBoxShadowConfigBuilder
+        arguments:
+            - '@assets.packages'
+            - '@translator'
+        tags:
+            - { name: oro_theme.form.configuration_child_builder }
+
+    oro_frontend.form.css_color_config_builder:
+        class: Oro\Bundle\FrontendBundle\Form\Configuration\CssColorConfigBuilder
+        arguments:
+            - '@assets.packages'
+            - '@translator'
+        tags:
+            - { name: oro_theme.form.configuration_child_builder }
+
+    oro_frontend.form.css_font_size_config_builder:
+        class: Oro\Bundle\FrontendBundle\Form\Configuration\CssFontSizeConfigBuilder
+        arguments:
+            - '@assets.packages'
+            - '@translator'
+        tags:
+            - { name: oro_theme.form.configuration_child_builder }
+
+    oro_frontend.form.css_gap_config_builder:
+        class: Oro\Bundle\FrontendBundle\Form\Configuration\CssGapConfigBuilder
+        arguments:
+            - '@assets.packages'
+            - '@translator'
+        tags:
+            - { name: oro_theme.form.configuration_child_builder }
+
+    oro_frontend.form.css_length_config_builder:
+        class: Oro\Bundle\FrontendBundle\Form\Configuration\CssLengthConfigBuilder
+        arguments:
+            - '@assets.packages'
+            - '@translator'
+        tags:
+            - { name: oro_theme.form.configuration_child_builder }
+
+    oro_frontend.form.css_line_height_config_builder:
+        class: Oro\Bundle\FrontendBundle\Form\Configuration\CssLineHeightConfigBuilder
+        arguments:
+            - '@assets.packages'
+            - '@translator'
+        tags:
+            - { name: oro_theme.form.configuration_child_builder }
+
+    oro_frontend.form.css_min_height_config_builder:
+        class: Oro\Bundle\FrontendBundle\Form\Configuration\CssMinHeightConfigBuilder
+        arguments:
+            - '@assets.packages'
+            - '@translator'
+        tags:
+            - { name: oro_theme.form.configuration_child_builder }
+
+    oro_frontend.form.css_outline_config_builder:
+        class: Oro\Bundle\FrontendBundle\Form\Configuration\CssOutlineConfigBuilder
+        arguments:
+            - '@assets.packages'
+            - '@translator'
+        tags:
+            - { name: oro_theme.form.configuration_child_builder }
+
+    oro_frontend.form.css_padding_config_builder:
+        class: Oro\Bundle\FrontendBundle\Form\Configuration\CssPaddingConfigBuilder
+        arguments:
+            - '@assets.packages'
+            - '@translator'
+        tags:
+            - { name: oro_theme.form.configuration_child_builder }
