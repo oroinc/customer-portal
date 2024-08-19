@@ -50,7 +50,6 @@ services:
 
     oro_frontend.form.extension.wysiwyg:
         class: Oro\Bundle\FrontendBundle\Form\Extension\WYSIWYGTypeExtension
-        public: false
         arguments:
             - '@oro_layout.theme_manager'
             - '@oro_layout.data_provider.theme'
@@ -58,6 +57,7 @@ services:
             - '@oro_website.manager'
             - '@assets.packages'
             - '@oro_theme.provider.theme_configuration'
+            - '@oro_layout.provider.svg_icons_support'
         tags:
             - { name: form.type_extension }
 
