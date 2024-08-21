@@ -21,10 +21,12 @@ define(function(require) {
                 this.subview('filter:badge-hint').dispose();
             }
 
-            this.subview('filter:badge-hint', new FilterBadgeHintView({
-                filter: this,
-                container: this.$('.filter-criteria-selector')
-            }));
+            if (this.filterEnableValueBadge) {
+                this.subview('filter:badge-hint', new FilterBadgeHintView({
+                    filter: this,
+                    container: this.$('.filter-criteria-selector')
+                }));
+            }
 
             return FrontendTextFilter.__super__.rendered.call(this);
         },

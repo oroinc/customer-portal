@@ -72,10 +72,12 @@ define(function(require, exports, module) {
                 this.subview('filter:badge-hint').dispose();
             }
 
-            this.subview('filter:badge-hint', new FilterBadgeHintView({
-                filter: this,
-                container: this.$('.filter-criteria-selector')
-            }));
+            if (this.filterEnableValueBadge) {
+                this.subview('filter:badge-hint', new FilterBadgeHintView({
+                    filter: this,
+                    container: this.$('.filter-criteria-selector')
+                }));
+            }
 
             return FrontendSelectFilter.__super__.rendered.call(this);
         },
@@ -103,7 +105,7 @@ define(function(require, exports, module) {
         _initializeSelectWidget() {
             this.widgetOptions = Object.assign({}, this.widgetOptions, {
                 additionalClass: !this.isToggleMode(),
-                resetButton: {
+                resetButton: this.allowClearButtonInFilter ? {
                     label: __('oro.filter.clearFilterButton.text'),
                     attr: {
                         'class': 'btn btn--flat filter-clear hidden',
@@ -112,7 +114,7 @@ define(function(require, exports, module) {
                         )
                     },
                     onClick: this.onClickSelectWidgetResetButton.bind(this)
-                }
+                } : null
             });
 
             return FrontendSelectFilter.__super__._initializeSelectWidget.call(this);

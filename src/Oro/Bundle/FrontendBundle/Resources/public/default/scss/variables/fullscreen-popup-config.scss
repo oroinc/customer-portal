@@ -15,6 +15,8 @@ $fullscreen-popup-margin-left: 0 !default;
 $fullscreen-popup-bg: get-var-color('neutral', 'white-100') !default;
 $fullscreen-popup-transition: opacity 300ms ease-in-out, transform 300ms ease-in-out !default;
 
+$fullscreen-popup-in-dialog-border-radius: $border-radius 0 0 $border-radius !default;
+
 $fullscreen-popup-header-display: flex !default;
 $fullscreen-popup-header-align-items: center !default;
 $fullscreen-popup-header-flex-shrink: 0 !default;
@@ -25,11 +27,13 @@ $fullscreen-popup-header-z-index: z('base') + 1 !default;
 
 $fullscreen-popup-header-bg: get-var-color('neutral', 'white-100') !default;
 $fullscreen-popup-header-offset: spacing('base') spacing('xs') !default;
+$fullscreen-popup-header-in-dialog-border-radius: $border-radius 0 0 0;
 
 $fullscreen-popup-icon-flex-shrink: 0 !default;
 $fullscreen-popup-icon-align-self: flex-start !default;
 
 $fullscreen-popup-footer-display: flex !default;
+$fullscreen-popup-footer-gap: spacing('base') !default;
 $fullscreen-popup-footer-align-items: center !default;
 $fullscreen-popup-footer-position: relative !default;
 $fullscreen-popup-footer-z-index: z('base') + 1 !default;
@@ -37,6 +41,7 @@ $fullscreen-popup-footer-right: 0 !default;
 $fullscreen-popup-footer-left: 0 !default;
 $fullscreen-popup-footer-bottom: 0 !default;
 $fullscreen-popup-footer-offset: spacing('sm') spacing('base') spacing('lg') !default;
+$fullscreen-popup-footer-in-dialog-border-radius: 0 0 0 $border-radius;
 $fullscreen-popup-footer-bg: get-var-color('neutral', 'white-100') !default;
 $fullscreen-popup-footer-border-top: null !default;
 

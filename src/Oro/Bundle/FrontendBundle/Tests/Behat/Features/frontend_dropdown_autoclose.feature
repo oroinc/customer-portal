@@ -11,7 +11,7 @@ Feature: Frontend dropdown autoclose
     And I click "Search Button"
     And I click "Frontend Grid Action Filter Button"
     And I should not see an "Opened Filter Dropdown" element
-    When I click "Filter By Name"
+    When I click "Name"
     And I should see an "Opened Filter Dropdown" element
     And I click "Frontend Product Grid Sorter Action"
     Then I should not see an "Opened Filter Dropdown" element

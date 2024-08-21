@@ -55,6 +55,10 @@ define(function(require) {
 
         getExternalContainerSelector() {
             return `[data-group="external-toolbar-${this.action.datagrid.name}"]`;
+        },
+
+        isInDialogWidget() {
+            return this.$el.closest('[role="dialog"]').length;
         }
     });
 

@@ -27,6 +27,7 @@ const MultiValueFilterHintView = BaseView.extend({
             subHint.render();
 
             this.listenTo(subHint, 'reset', () => {
+                subHint.$el.tooltip('dispose');
                 subHint.filter.setValue({
                     value: subHint.filter.getValue().value.filter(value => value !== choice)
                 });
@@ -47,6 +48,9 @@ const MultiValueFilterHintView = BaseView.extend({
             }
 
             this.subview(`filter:sub-hint:${choice}`).update(hints.includes(label) ? label : null);
+            this.subview(`filter:sub-hint:${choice}`).$el.tooltip({
+                title: this.filter.label
+            });
         });
     },
 

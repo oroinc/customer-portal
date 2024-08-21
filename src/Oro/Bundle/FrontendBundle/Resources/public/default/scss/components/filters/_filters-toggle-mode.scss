@@ -3,6 +3,10 @@
 .toggle-mode {
     height: 100%;
 
+    &.filter-box {
+        margin-block-start: 0;
+    }
+
     .ui-multiselect-menu {
         /* stylelint-disable declaration-no-important */
         // Break inline styles
@@ -24,7 +28,6 @@
             height: auto !important;
             max-height: none !important;
             /* stylelint-enable declaration-no-important */
-            padding: 0;
             margin-bottom: 0;
         }
 
@@ -42,6 +45,10 @@
             &--back-btn {
                 margin-inline-start: -10px;
                 display: grid;
+
+                &:last-child {
+                    margin-inline-end: 14px;
+                }
             }
 
             &--close-btn {
@@ -73,6 +80,7 @@
 
     .filter-container {
         display: grid;
+        grid-template-rows: auto 1fr;
         height: 100%;
 
         .datagrid-manager__header {
@@ -82,8 +90,6 @@
                 flex-wrap: wrap;
                 align-items: center;
                 background-color: $filter-toggle-mode-datagrid-manager-background-color;
-
-                padding-inline-end: 14px;
             }
         }
 
@@ -109,6 +115,17 @@
     .filter-items-container {
         max-width: 100%;
         overflow: hidden;
+        padding-inline: $filter-toggle-filter-items-container-inline-inner-offset;
+        margin-inline: $filter-toggle-filter-items-container-inline-offset;
+
+        &.shadow-start {
+            &::before {
+                margin-inline: $filter-toggle-filter-items-container-shadow-inline-margin;
+                width: auto;
+                background: none;
+                box-shadow: $filter-toggle-filter-items-container-scroll-shadow;
+            }
+        }
     }
 
     .product-price-filter {

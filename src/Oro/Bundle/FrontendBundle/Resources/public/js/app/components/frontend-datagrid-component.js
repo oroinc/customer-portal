@@ -30,6 +30,14 @@ define(function(require, exports, module) {
             FrontendDataGridComponent.__super__.constructor.call(this, options);
         },
 
+        initialize(options) {
+            if (options.enableFilters && 'filters' in options.metadata && options.metadata.filters.length) {
+                options.builders.push('orofrontend/js/datagrid/builder/frontend-filters-builder');
+            }
+
+            FrontendDataGridComponent.__super__.initialize.call(this, options);
+        },
+
         /**
          * @inheritdoc
          */

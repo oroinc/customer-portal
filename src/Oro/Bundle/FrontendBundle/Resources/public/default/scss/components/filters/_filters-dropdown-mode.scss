@@ -64,6 +64,8 @@
 
         font-size: $base-font-size;
 
+        z-index: z('dropdown') + 2;
+
         // All hidden filters should align for right side
         &:not([style]),
         &[style*='hidden'] {
@@ -191,10 +193,18 @@
         overflow: auto;
         max-height: $filter-dropdown-select-wrapper-max-height;
 
-        margin-bottom: spacing('base');
+        margin-bottom: spacing('sm');
 
         .ui-dialog-content & {
             max-height: $filter-dropdown-select-wrapper-in-dialog-max-height;
+        }
+    }
+}
+
+@include breakpoint('desktop-small') {
+    .filter-box.dropdown-mode {
+        .filter-container {
+            margin-block-start: spacing('base');
         }
     }
 }

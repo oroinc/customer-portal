@@ -14,8 +14,6 @@
     justify-content: space-between;
     align-items: center;
 
-    margin: $filter-date-range-offset;
-
     .fields-row {
         display: flex;
 
@@ -60,8 +58,6 @@
         position: sticky;
         top: var(--sticky-position-top-offset, 0);
         background: $filter-container-header-background;
-
-        min-height: var(--sticky-toolbar-element-height, 0);
 
         z-index: 1;
     }
@@ -114,27 +110,11 @@
 
     .filter-items-hint {
         position: relative;
-
-        clear: both;
+        display: flex;
         flex-wrap: wrap;
 
-        .toggle-hidden-items-button {
-            width: 40px;
-        }
-
-        &--multiline {
-            .toggle-hidden-items-button {
-                transform: rotate(180deg);
-            }
-
-            .filter-criteria-hint-item-toggle {
-                padding-left: 0;
-
-                .filter-criteria-hint {
-                    display: none;
-                }
-            }
-        }
+        gap: spacing('sm') spacing('base');
+        margin-block-start: spacing('base');
     }
 
     .filter-criteria-hint-item {
@@ -155,11 +135,35 @@
         cursor: pointer;
 
         flex: 0 0 auto;
+
+        &:has(.filter-criteria-hint-label) {
+            max-width: 100%;
+            display: inline-grid;
+            grid-template-columns: auto 1fr auto;
+        }
     }
 
     .filter-items-hint:not(.filter-items-hint--multiline) {
         .filter-criteria-hint-item--hidden {
             display: none;
+        }
+    }
+
+    .filter-items-hint--multiline {
+        .filter-criteria-hint-item-toggle {
+            padding-left: 0;
+
+            .filter-criteria-hint {
+                display: none;
+            }
+
+            .toggle-hidden-items-button {
+                width: 40px;
+            }
+
+            .theme-icon {
+                transform: rotate(180deg);
+            }
         }
     }
 
@@ -296,13 +300,6 @@
 
     .dropdown-menu-calendar {
         min-width: $filter-dropdown-menu-calendar-max-width;
-    }
-
-    &.dropdown-mode {
-        margin: $filter-box-dropdown-mode-margin;
-        padding: $filter-box-dropdown-mode-inner-offset;
-
-        background: $filter-box-dropdown-mode-background;
     }
 
     &.in-sticky {

@@ -66,3 +66,9 @@ $filter-toggle-mode-timepicker-input-width: 100% !default;
 $filter-toggle-mode-timepicker-input-offset-left: spacing('xs') !default;
 
 $filter-toggle-mode-open-filter-criteria-selector-icon-transform: rotate(90deg) !default;
+
+$filter-toggle-filter-items-container-inline-inner-offset: spacing('xs') !default;
+$filter-toggle-filter-items-container-inline-offset: -#{spacing('xs')} !default;
+$filter-toggle-filter-items-container-scroll-shadow: 0 3px 3px 0 rgba(5, 59, 66, .03) inset,
+    0 7px 12px 0 rgba(91, 126, 131, .12) inset !default;
+$filter-toggle-filter-items-container-shadow-inline-margin: -#{spacing('lg') + 4px} -#{spacing('lg')} !default;

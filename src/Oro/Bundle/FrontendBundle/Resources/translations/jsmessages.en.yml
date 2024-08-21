@@ -98,6 +98,8 @@ oro_frontend:
 
     filters:
         apply_all: 'Apply Filters'
+        show_all: '{0} Show|]0,Inf[Show ({{ count }})'
+        clear_all: 'Clear All'
         aria_label: 'Expand or Collapse Filters'
         no_found: 'No matches found'
         multiselect:

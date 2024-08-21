@@ -24,15 +24,25 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
      * @property;
      */
     mainPopupOptions: {
-        popupLabel: __('oro.filter.datagrid-toolbar.filters'),
+        popupLabel: __('oro.filter.datagrid-toolbar.filters_overlay'),
         footerOptions: {
             templateData: {
                 buttons: [
                     {
                         'type': 'button',
+                        'class': 'btn btn--outlined',
+                        'role': 'reset-filters',
+                        'label': __('oro_frontend.filters.clear_all'),
+                        'disabled': 'disabled',
+                        'icon': {
+                            name: 'close'
+                        }
+                    },
+                    {
+                        'type': 'button',
                         'class': 'btn',
                         'role': 'apply',
-                        'label': __('oro_frontend.filters.apply_all'),
+                        'label': __('oro_frontend.filters.show_all', {}, 0),
                         'disabled': 'disabled'
                     }
                 ]
@@ -94,16 +104,23 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
     getPopupOptions() {
         const popupViewSettings = {
             ...this.mainPopupOptions,
-            popupLabel: this.determineMainPopupTitle(
-                this.filterManager._calculateSelectedFilters()
-            ),
             contentElement: document.createElement('div')
         };
 
-        if (this.datagrid.themeOptions.overlayFilters) {
+        if (this.datagrid.$el.closest('[role="dialog"]').length) {
+            Object.assign(popupViewSettings, {
+                popupLabel: __('oro.filter.datagrid-toolbar.filters_overlay_entity_hint', {
+                    entityHint: this.datagrid.entityHint
+                }),
+                container: this.datagrid.$el.closest('.ui-dialog'),
+                dialogClass: 'fullscreen-popup--inside-dialog fullscreen-popup--transition',
+                popupIcon: 'arrow-left',
+                disableBodyTouchScroll: false
+            });
+        } else if (this.datagrid.themeOptions.overlayFilters) {
             Object.assign(popupViewSettings, {
                 disableBodyTouchScroll: false,
-                dialogClass: 'filtes-overlay-popup fullscreen-popup--transition fullscreen-popup--align-left'
+                dialogClass: 'filters-overlay-popup fullscreen-popup--transition fullscreen-popup--align-left'
             });
         }
 
@@ -113,7 +130,14 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
     getSelectWidgetOptions() {
         const selectWidgetOptions = this.managerPopupOptions;
 
-        if (this.datagrid.themeOptions.overlayFilters) {
+        if (this.datagrid.$el.closest('.ui-dialog').length) {
+            Object.assign(selectWidgetOptions, {
+                container: this.datagrid.$el.closest('.ui-dialog'),
+                dialogClass: 'fullscreen-popup--inside-dialog',
+                disableBackDrop: true,
+                disableBodyTouchScroll: false
+            });
+        } else if (this.datagrid.themeOptions.overlayFilters) {
             Object.assign(selectWidgetOptions, {
                 disableBodyTouchScroll: false,
                 disableBackDrop: true,
@@ -178,7 +202,6 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
         this.saveState(this.filterManager);
 
         for (const filter of Object.values(this.filterManager.filters)) {
-            filter.outerHintContainer = null;
             filter.initiallyOpened = config.initiallyOpened;
 
             if (config.autoClose === false) {
@@ -191,7 +214,6 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
 
         this.filterManager.$el.remove();
         this.filterManager.autoClose = config.autoClose;
-        this.filterManager.outerHintContainer = null;
         this.filterManager.renderMode = 'toggle-mode';
         this.filterManager.filterContainer = this.fullScreenPopup.content.Element;
         this.filterManager.template = this.filterManager.fullscreenTemplate
@@ -205,10 +227,9 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
 
         this.filterManager.render();
         this.filterManager.$el.addClass('fullscreen');
-
-        const filterActions = this.filterManager.$el.find('[data-role="filter-actions"]');
-
-        this.fullScreenPopup.header.$el.find('.close-dialog').before(filterActions);
+        this.fullScreenPopup.header.$el.find('.close-dialog').before(
+            this.filterManager.selectWidget.multiselect('getButton')
+        );
 
         const datetimeFilters = pick(this.filterManager.filters, filter => filter.type === 'datetime');
 
@@ -301,10 +322,15 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
             `click${this.fullScreenPopup.eventNamespace()}`,
             '[data-role="apply"]', this.applyState.bind(this)
         );
+        this.fullScreenPopup.$popup.on(
+            `click${this.fullScreenPopup.eventNamespace()}`,
+            '[data-role="reset-filters"]', e => this.filterManager._onReset(e)
+        );
 
         this.transformFilters();
         this.listenToFiltersEvents();
         this.transformSelectWidget();
+        this.updateApplyBtnLabel(this.filterManager._calculateSelectedFilters());
         this.trigger('main-popup:shown');
     },
 
@@ -436,6 +462,7 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
         }
 
         this.fullScreenPopup.$popup.find('[data-role="apply"]').attr('disabled', toDisable);
+        this.fullScreenPopup.$popup.find('[data-role="reset-filters"]').attr('disabled', toDisable);
     },
 
     onUpdateFiltersCount(count) {
@@ -443,20 +470,16 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
             return;
         }
 
-        this.fullScreenPopup.setPopupTitle(
-            this.determineMainPopupTitle(count)
-        );
         this.toggleMainPopupBtn(count === 0);
+        this.updateApplyBtnLabel(count);
     },
 
-    determineMainPopupTitle(count) {
-        let title = this.mainPopupOptions.popupLabel;
+    updateApplyBtnLabel(count) {
+        this.fullScreenPopup.$popup.find('[data-role="apply"]').text(this.determineShowButtonLabel(count));
+    },
 
-        if (typeof count === 'number' && count > 0) {
-            title = __('oro.filter.datagrid-toolbar.filters_count', {count: count});
-        }
-
-        return title;
+    determineShowButtonLabel(count) {
+        return __('oro_frontend.filters.show_all', {}, count);
     },
 
     isPopupOpen() {

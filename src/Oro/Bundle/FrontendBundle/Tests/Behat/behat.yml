@@ -153,6 +153,8 @@ oro_behat_extension:
       selector: ".fullscreen-popup"
     Fullscreen Popup Header:
       selector: '.fullscreen-popup [data-role="header"]'
+    Fullscreen Popup Footer:
+      selector: '.fullscreen-popup [data-role="footer"]'
     Popup Gallery Widget:
       selector: ".popup-gallery-widget"
     Popup Gallery Widget Image:
@@ -174,25 +176,25 @@ oro_behat_extension:
         mapping:
           Use Default: 'theme[oro_frontend___filter_value_selectors][use_parent_scope_value]'
           Value Selectors: 'theme[oro_frontend___filter_value_selectors][value]'
-    Filter By Step:
+    By Step:
       selector:
-        locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"Filter By Step")]/..'
+        locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"Step")]/..'
         type: 'xpath'
-    Filter By Name:
+    By Name:
       selector:
-        locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"Filter By Name")]/..'
+        locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"Name")]/..'
         type: 'xpath'
-    Filter By First Name:
+    First Name:
       selector:
-        locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"Filter By First Name")]/..'
+        locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"First Name")]/..'
         type: 'xpath'
-    Filter By Last Name:
+    Last Name:
       selector:
-        locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"Filter By Last Name")]/..'
+        locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(),"Last Name")]/..'
         type: 'xpath'
-    Filter By Enabled:
+    Enabled:
       selector:
-        locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(), "Filter By Enabled")]/..'
+        locator: '//button[contains(@class, "filter-criteria-selector")]/span[contains(text(), "Enabled")]/..'
         type: 'xpath'
     Opened Filter Dropdown:
       selector: '.filter-criteria.dropdown-menu.criteria-visible'
@@ -248,7 +250,7 @@ oro_behat_extension:
           Quick Access Button Label: 'theme_configuration[configuration][header__quick_access_button][label][default]'
           Quick Access Button Type: 'theme_configuration[configuration][header__quick_access_button][type]'
           Quick Access Button Frontend Menu: 'theme_configuration[configuration][header__quick_access_button][menu]'
-          Filter Panel Position: 'theme_configuration[configuration][product_listing__filters_position]'
+          Filter Panel Position on Product Listing Page: 'theme_configuration[configuration][product_listing__filters_position]'
           Page Template: 'theme_configuration[configuration][product_details__template]'
     Theme Configuration Config:
       selector: 'form[name="theme"]'

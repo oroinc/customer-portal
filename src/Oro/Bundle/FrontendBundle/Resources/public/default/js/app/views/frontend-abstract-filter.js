@@ -9,7 +9,9 @@ define(function(require, exports, module) {
 
     config = _.extend({
         animationDuration: 0,
-        clearFilterSelector: '[data-role="clear-filter"]'
+        clearFilterSelector: '[data-role="clear-filter"]',
+        filterEnableValueBadge: true,
+        allowClearButtonInFilter: true
     }, config);
 
     const FrontendAbstractFilter = AbstractFilter.extend({
@@ -26,6 +28,21 @@ define(function(require, exports, module) {
         * @property {string}
         */
         clearFilterSelector: config.clearFilterSelector,
+
+        /**
+         * Enable showing badge with count of selected values
+         *
+         * @property {boolean}
+         */
+        filterEnableValueBadge: config.filterEnableValueBadge,
+
+        /**
+         * Enable reset button for particular filter
+         * Allow reset filter separately
+         *
+         * @property {boolean}
+         */
+        allowClearButtonInFilter: config.allowClearButtonInFilter,
 
         /**
          * @inheritdoc
@@ -65,6 +82,7 @@ define(function(require, exports, module) {
         getTemplateDataProps() {
             return {
                 ...FrontendAbstractFilter.__super__.getTemplateDataProps.call(this),
+                allowClearButtonInFilter: this.allowClearButtonInFilter,
                 clearFilterButtonAriaLabel: __('oro.filter.clearFilterButton.aria_label', {
                     label: `${__('oro.filter.by')} ${this.label}`}
                 )

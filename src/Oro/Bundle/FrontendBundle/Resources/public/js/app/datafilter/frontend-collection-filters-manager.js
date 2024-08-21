@@ -7,6 +7,8 @@ define(function(require, exports, module) {
     const CollectionFiltersManager = require('orofilter/js/collection-filters-manager');
     const MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-manage-filters-decorator');
     const FrontendCollapsableHintsView = require('./frontend-collapsable-hints-view').default;
+    const ScrollShadowView = require('orofrontend/js/app/views/scroll-shadow-view').default;
+
     let config = require('module-config').default(module.id);
     config = _.extend({
         templateData: {
@@ -29,6 +31,8 @@ define(function(require, exports, module) {
         enableMultiselectWidget: true,
 
         multiselectResetButtonLabel: __('oro_frontend.filter_manager.resetFilter'),
+
+        enableScrollContainerShadow: false,
 
         /**
          * @inheritdoc
@@ -54,7 +58,10 @@ define(function(require, exports, module) {
          */
         templateData: config.templateData,
 
-        optionNames: CollectionFiltersManager.prototype.optionNames.concat(['fullscreenTemplate']),
+        optionNames: CollectionFiltersManager.prototype.optionNames.concat([
+            'fullscreenTemplate', 'filtersStateElement', 'filterEnableValueBadge', 'allowClearButtonInFilter',
+            'enableScrollContainerShadow'
+        ]),
 
         /**
          * @inheritdoc
@@ -68,6 +75,11 @@ define(function(require, exports, module) {
          */
         render: function() {
             FrontendCollectionFiltersManager.__super__.render.call(this);
+
+            if (this.filtersStateElement && this.filtersStateElement instanceof $) {
+                this.filtersStateElement.remove();
+            }
+
             this.finallyOfRender();
             return this;
         },
@@ -103,7 +115,7 @@ define(function(require, exports, module) {
 
             return $(`
                 <div class="datagrid-manager__footer">
-                    <a href="#" role="button" class="btn btn--no-padding"
+                    <a href="#" role="button" class="btn"
                         data-role="reset-filters">
                         ${icon}${this.multiselectResetButtonLabel}
                     </a>
@@ -161,6 +173,13 @@ define(function(require, exports, module) {
                 filters: this.filters,
                 container: this.getHintContainer()
             }));
+
+            if (this.renderMode === 'toggle-mode' && this.enableScrollContainerShadow) {
+                this.subview('scroll-shadow', new ScrollShadowView({
+                    el: this.el,
+                    scrollTarget: '[data-filters-items]'
+                }));
+            }
         }
     });
 

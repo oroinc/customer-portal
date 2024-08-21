@@ -107,7 +107,7 @@ define(function(require, exports, module) {
 
             instance.menu
                 .find('[data-role="reset-filters"]')
-                .addClass('btn btn--outlined btn--text btn--no-padding');
+                .addClass('btn btn--flat');
 
             this.setActionsState(instance);
 

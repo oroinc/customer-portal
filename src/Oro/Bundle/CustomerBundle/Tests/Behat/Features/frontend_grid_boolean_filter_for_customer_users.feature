@@ -11,7 +11,7 @@ Feature: Frontend grid boolean filter for customer users
     Given I signed in as AmandaRCole@example.org on the store frontend
     And I click "Account Dropdown"
     And I click "Users"
-    When I check "Yes" in "Filter By Enabled" filter
+    When I check "Yes" in "Enabled" filter
     Then I should see following grid:
       | First Name  | Last Name  | Email Address           | Enabled |
       | Amanda      | Cole       | AmandaRCole@example.org | Yes     |
@@ -19,12 +19,12 @@ Feature: Frontend grid boolean filter for customer users
       | FirstName_2 | LastName_2 | user_2@example.org      | Yes     |
       | FirstName_3 | LastName_3 | user_3@example.org      | Yes     |
 
-    When I check "No" in "Filter By Enabled" filter
+    When I check "No" in "Enabled" filter
     Then I should see following grid:
       | First Name            | Last Name            | Email Address                | Enabled |
       | FirstName_not_enabled | LastName_not_enabled | user_not_enabled@example.org | No      |
 
-    When I check "All" in "Filter By Enabled" filter
+    When I check "All" in "Enabled" filter
     Then I should see following grid:
       | First Name            | Last Name            | Email Address                | Enabled |
       | Amanda                | Cole                 | AmandaRCole@example.org      | Yes     |
@@ -34,7 +34,7 @@ Feature: Frontend grid boolean filter for customer users
       | FirstName_not_enabled | LastName_not_enabled | user_not_enabled@example.org | No      |
 
   Scenario: Check filter by confirmed
-    When I check "Yes" in "Filter By Confirmed" filter
+    When I check "Yes" in "Confirmed" filter
     Then I should see following grid:
       | First Name  | Last Name  | Email Address           | Confirmed |
       | Amanda      | Cole       | AmandaRCole@example.org | Yes       |
@@ -42,12 +42,12 @@ Feature: Frontend grid boolean filter for customer users
       | FirstName_2 | LastName_2 | user_2@example.org      | Yes       |
       | FirstName_3 | LastName_3 | user_3@example.org      | Yes       |
 
-    When I check "No" in "Filter By Confirmed" filter
+    When I check "No" in "Confirmed" filter
     Then I should see following grid:
       | First Name            | Last Name            | Email Address                | Confirmed |
       | FirstName_not_enabled | LastName_not_enabled | user_not_enabled@example.org | No        |
 
-    When I check "All" in "Filter By Confirmed" filter
+    When I check "All" in "Confirmed" filter
     Then I should see following grid:
       | First Name            | Last Name            | Email Address                | Confirmed |
       | Amanda                | Cole                 | AmandaRCole@example.org      | Yes       |

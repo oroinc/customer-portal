@@ -35,7 +35,7 @@ Feature: Multi-select filter
     And I click "Account Dropdown"
     And I click "Requests For Quote"
     And I click "Filters Dropdown"
-    When I click "Filter By Step"
+    When I click "Step"
     Then I should see an "Filter Checkboxes" element
 
   Scenario: Check value "All at once" for multiselect filters on front store
@@ -49,5 +49,5 @@ Feature: Multi-select filter
     And click "Save settings"
     When I proceed as the User
     And I reload the page
-    And I click "Filter By Step"
+    And I click "Step"
     Then I should see an "Filter Checkboxes All At Once" element

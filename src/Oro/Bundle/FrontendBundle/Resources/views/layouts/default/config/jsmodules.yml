@@ -78,6 +78,7 @@ dynamic-imports:
         - orofrontend/js/datagrid/frontend-grid
         - orofrontend/js/datagrid/plugin/toolbar-mass-action-plugin
         - orofrontend/js/datagrid/grid-views/frontend-grid-views-view
+        - orofrontend/js/datagrid/builder/frontend-filters-builder
         - tpl-loader!orofrontend/templates/datagrid/quote-status.html
 entry:
     app:

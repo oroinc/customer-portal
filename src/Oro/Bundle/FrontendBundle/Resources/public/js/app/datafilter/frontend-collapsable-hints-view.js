@@ -8,10 +8,6 @@ const FrontendCollapsableHintsView = BaseView.extend({
 
     tagName: 'div',
 
-    attributes: {
-        type: 'button'
-    },
-
     events: {
         click: 'onClick'
     },
@@ -54,7 +50,7 @@ const FrontendCollapsableHintsView = BaseView.extend({
 
         this.toHide = hintChips.reverse().map(chips => {
             chips.toggleVisibility(true);
-            if (!chips.isFitInContainer(this.el)) {
+            if (!chips.isFitInContainer([this.el, this.el.previousElementSibling])) {
                 chips.toggleVisibility(false);
                 return chips;
             }

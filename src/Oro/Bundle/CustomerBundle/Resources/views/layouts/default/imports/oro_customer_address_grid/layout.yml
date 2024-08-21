@@ -95,7 +95,7 @@ layout:
         - '@setOption':
             id: __addresses_datagrid_toolbar
             optionName: attr.class
-            optionValue: 'datagrid-toolbar datagrid-toolbar-bottom extended datagrid-toolbar--offset-bottom-lg'
+            optionValue: 'datagrid-toolbar datagrid-toolbar-bottom extended'
 
         - '@appendOption':
             id: __addresses_datagrid

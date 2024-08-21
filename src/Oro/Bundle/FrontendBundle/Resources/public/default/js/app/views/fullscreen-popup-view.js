@@ -110,6 +110,8 @@ define(function(require) {
          */
         toggleBtnActiveClassName: 'fullscreen-popup__opened',
 
+        container: document.body,
+
         /**
          * @inheritdoc
          */
@@ -137,11 +139,15 @@ define(function(require) {
             FullscreenPopupView.__super__.dispose.call(this);
         },
 
+        appendToContainer() {
+            return this.container;
+        },
+
         show: function() {
             this.close();
             this.$popup = $(this.getTemplateFunction()(this.getTemplateData()));
 
-            this.$popup.appendTo($('body'));
+            this.$popup.appendTo(this.appendToContainer());
 
             const promises = _.map(this.sections, this.showSection, this);
             $.when(...promises).then(this._onShow.bind(this));

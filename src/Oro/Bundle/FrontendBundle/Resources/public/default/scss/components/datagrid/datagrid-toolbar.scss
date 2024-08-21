@@ -5,7 +5,6 @@
     flex-wrap: wrap;
     justify-content: space-between;
     gap: $datagrid-toolbar-gap;
-    padding: spacing('sm') 0;
 
     &__start {
         display: flex;
@@ -31,14 +30,6 @@
 
     &__panel {
         width: 100%;
-    }
-
-    &--offset-top-lg {
-        margin-top: spacing('lg');
-    }
-
-    &--offset-bottom-lg {
-        margin-bottom: spacing('lg');
     }
 
     &-sticky-container {
