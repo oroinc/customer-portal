@@ -194,7 +194,7 @@ define(function(require) {
             this.remove();
 
             this.trigger('close');
-            mediator.trigger('fullscreen:popup:close');
+            mediator.trigger('fullscreen:popup:close', this);
         },
 
         remove() {
@@ -279,6 +279,8 @@ define(function(require) {
             this.$popup.trigger(`${this.popupName}:shown`);
 
             this.$el.addClass(this.toggleBtnActiveClassName);
+
+            mediator.trigger('fullscreen:popup:show', this);
         },
 
         _renderSectionContent: function(deferred, section, sectionOptions, option, content) {

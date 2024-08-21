@@ -35,7 +35,6 @@ const OverlayPopupView = FullScreenPopupView.extend({
     _onShow() {
         OverlayPopupView.__super__._onShow.call(this);
         this.$popup.addClass('show');
-        document.body.classList.add('no-scroll-safe');
     },
 
     remove() {
@@ -43,8 +42,6 @@ const OverlayPopupView = FullScreenPopupView.extend({
             this.$backdrop.remove();
             delete this.$backdrop;
         }
-
-        document.body.classList.remove('no-scroll-safe');
 
         OverlayPopupView.__super__.remove.call(this);
     },
@@ -58,7 +55,6 @@ const OverlayPopupView = FullScreenPopupView.extend({
         if (!this.disableBackDrop) {
             this.subview('backdrop').hide();
         }
-        document.body.classList.remove('no-scroll-safe');
 
         if (parseFloat(this.$popup.css('transition-duration')) === 0) {
             return OverlayPopupView.__super__.close.call(this);
