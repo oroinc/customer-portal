@@ -116,7 +116,7 @@ define(function(require) {
                             });
                         });
                     }
-                    this.$el.removeClass('disabled').removeAttr('disabled');
+                    this.$el.removeClass('disabled').prop('disabled', false);
                 }.bind(this),
                 'json'
             );

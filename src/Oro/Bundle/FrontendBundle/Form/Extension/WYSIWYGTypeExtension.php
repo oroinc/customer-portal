@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendBundle\Form\Extension;
 
 use Oro\Bundle\CMSBundle\Form\Type\WYSIWYGType;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\LayoutBundle\Provider\SvgIconsSupportProvider;
 use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Layout\Extension\Theme\DataProvider\ThemeProvider;
@@ -27,7 +28,8 @@ class WYSIWYGTypeExtension extends AbstractTypeExtension
         private ConfigManager $configManager,
         private WebsiteManager $websiteManager,
         private Packages $packages,
-        private ThemeConfigurationProvider $themeConfigurationProvider
+        private ThemeConfigurationProvider $themeConfigurationProvider,
+        private SvgIconsSupportProvider $svgIconsSupportProvider
     ) {
     }
 
@@ -66,7 +68,8 @@ class WYSIWYGTypeExtension extends AbstractTypeExtension
             $themeData = [
                 'name' => $themeName,
                 'label' => $theme->getLabel(),
-                'stylesheet' => $this->packages->getUrl($styleOutput),
+                'stylesheet' => $styleOutput ? $this->packages->getUrl($styleOutput) : '',
+                'svgIconsSupport' => $this->svgIconsSupportProvider->isSvgIconsSupported($themeName),
             ];
             if ($layoutThemeName === $themeName) {
                 $themeData['active'] = true;

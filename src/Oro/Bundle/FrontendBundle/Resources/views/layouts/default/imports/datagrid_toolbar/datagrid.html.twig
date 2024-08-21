@@ -1,6 +1,6 @@
 {% block __datagrid_toolbar__datagrid_toolbar_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' datagrid-toolbar datagrid-toolbar--offset-bottom-lg extended'
+        '~class': ' datagrid-toolbar datagrid-toolbar-bottom datagrid-toolbar--offset-bottom-lg extended'
     }) %}
     <script type="text/html" class="datagrid_templates" data-identifier="template-datagrid-toolbar">
         <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
@@ -39,6 +39,9 @@
     <div class="datagrid-toolbar__start" data-section="left-side">
         <% if (toolbarPosition === 'top') { %>
             <div class="actions-panel" data-grid-extra-actions-panel></div>
+        <% } %>
+        <% if (toolbarPosition === 'bottom') { %>
+            <div data-grid-pagination-info class="datagrid-toolbar-pagination-info"></div>
         <% } %>
         {{ block_widget(block) }}
     </div>
@@ -93,16 +96,19 @@
         class: attr.class|default(''),
         'data-grid-pagination': ''
     }) %}
-    <div class="datagrid-tool oro-pagination">
-        <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
-    </div>
+    <% if (toolbarPosition === 'bottom') { %>
+        <div class="datagrid-tool oro-pagination">
+            <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+        </div>
+    <% } %>
 {% endblock %}
 
 {% block __datagrid_toolbar__datagrid_toolbar_page_size_widget %}
-    {% set attr = attr|merge({
-        class: attr.class|default('') ~ " page-size form-horizontal",
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' page-size',
         'data-grid-pagesize': ''
     }) %}
+
     <div class="datagrid-tool">
         <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
     </div>
@@ -118,8 +124,8 @@
 {% endblock %}
 
 {% block __datagrid_toolbar__datagrid_toolbar_actions_panel_widget %}
-    {% set attr = attr|merge({
-        class: attr.class|default('') ~ " actions-panel form-horizontal",
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' actions-panel',
         'data-grid-actions-panel': ''
     }) %}
 

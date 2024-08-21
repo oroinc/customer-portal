@@ -100,6 +100,7 @@ system_configuration:
             priority: 50
             options:
                 label: oro.customer.system_configuration.fields.user_menu_show_items.label
+                warning: oro.customer.system_configuration.fields.user_menu_show_items.legacy_note
                 required: true
                 constraints:
                     - NotBlank: ~
@@ -176,6 +177,13 @@ system_configuration:
                 resettable: false
                 constraints:
                     - Oro\Bundle\CustomerBundle\Validator\Constraints\EmailCaseInsensitiveOption: ~
+        oro_customer.email_enumeration_protection_enabled:
+            data_type: boolean
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
+            options:
+                label: oro.customer.system_configuration.fields.email_enumeration_protection_enabled.label
+                tooltip: oro.customer.system_configuration.fields.email_enumeration_protection_enabled.tooltip
+                required: false
 
     tree:
         system_configuration:
@@ -199,6 +207,7 @@ system_configuration:
                                             - oro_customer.registration_instructions_enabled
                                             - oro_customer.registration_instructions_text
                                             - oro_customer.case_insensitive_email_addresses_enabled
+                                            - oro_customer.email_enumeration_protection_enabled
                                     customer_visitor_section:
                                         priority: 90
                                         children:

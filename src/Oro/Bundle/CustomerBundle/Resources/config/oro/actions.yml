@@ -92,6 +92,14 @@ operations:
                 route: oro_datagrid_front_mass_action
                 route_parameters: []
                 icon: close
+                className: 'btn btn--flat'
+                attributes:
+                    data-responsive-styler: ''
+                    data-input-widget-options:
+                        responsive:
+                            mobile-big:
+                                classes: 'dropdown-item'
+                order: 200
                 data_identifier: customerUser.id
                 object_identifier: customerUser
                 defaultMessages:
@@ -153,6 +161,14 @@ operations:
                 route: oro_datagrid_front_mass_action
                 route_parameters: []
                 icon: check
+                className: 'btn btn--flat'
+                attributes:
+                    data-responsive-styler: ''
+                    data-input-widget-options:
+                        responsive:
+                            mobile-big:
+                                classes: 'dropdown-item'
+                order: 100
                 data_identifier: customerUser.id
                 object_identifier: customerUser
                 defaultMessages:
@@ -215,8 +231,10 @@ operations:
            - oro_customer_frontend_customer_user_index
         acl_resource: [CREATE, entity:commerce@Oro\Bundle\CustomerBundle\Entity\CustomerUser]
         button_options:
-            class: btn--outlined
             icon: plus
+        frontend_options:
+            options:
+                icon: plus
         order: 10
         actions:
            - '@redirect':
@@ -230,7 +248,6 @@ operations:
             - oro_customer_frontend_customer_user_role_index
         acl_resource: [CREATE, entity:commerce@Oro\Bundle\CustomerBundle\Entity\CustomerUserRole]
         button_options:
-            class: btn--outlined
             icon: fa-plus
         frontend_options:
             options:
@@ -303,8 +320,6 @@ operations:
                 ariaLabel: oro.customer.action.customer_user.edit_btn.aria_label
                 noLinkLabel: true
                 icon: pencil
-        button_options:
-            class: btn--icon
         applications: [commerce]
         routes:
             - oro_customer_frontend_customer_user_profile

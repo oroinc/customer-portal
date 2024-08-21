@@ -140,7 +140,7 @@ define(function(require) {
 
                 if (this.modelEvents[modelKey + ' focus'] === undefined) {
                     this.modelEvents[modelKey + ' focus'] = ['focus', () => {
-                        this.getElement(elementKey).focus();
+                        this.getElement(elementKey).trigger('focus');
                     }];
                 }
             }, this);
@@ -258,7 +258,7 @@ define(function(require) {
             }
 
             let $context;
-            if (!_.isArray(selector)) {
+            if (!Array.isArray(selector)) {
                 // selector = '[data-name="element"]'
                 $context = this.getElement('$el');
             } else {
@@ -311,7 +311,7 @@ define(function(require) {
                 return;
             }
 
-            $element.val(viewValue).change();
+            $element.val(viewValue).trigger('change');
         },
         /**
          * This function is added to add possibility to transform model value representation into the

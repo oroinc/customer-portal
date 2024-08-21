@@ -14,6 +14,7 @@ oro_behat_extension:
         - Oro\Bundle\CustomerBundle\Tests\Behat\Context\FrontendGridContext
         - Oro\Bundle\CustomerBundle\Tests\Behat\Context\RegistrationInstructionFeatureContext
         - Oro\Bundle\CustomerBundle\Tests\Behat\Context\CustomerVisitorContext
+        - Oro\Bundle\FrontendBundle\Tests\Behat\Context\CssVariablesContext
       paths:
         - '@OroFrontendBundle/Tests/Behat/Features'
   elements:
@@ -109,6 +110,10 @@ oro_behat_extension:
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridToolbarPaginator
     FrontendMassActionHeadCheckbox:
       selector: 'th.select-all-header-cell button'
+    Frontend Pagination:
+      selector: '.oro-pagination__pager'
+    Frontend List Pagination:
+      selector: '.oro-pagination__pager--stepper'
     FrontendGridNextPageButton:
       selector: '.oro-pagination [data-grid-pagination-direction="next"]'
     FrontendGridPrevPageButton:
@@ -246,6 +251,20 @@ oro_behat_extension:
           Quick Access Button Frontend Menu: 'theme_configuration[configuration][header__quick_access_button][menu]'
           Filter Panel Position: 'theme_configuration[configuration][product_listing__filters_position]'
           Page Template: 'theme_configuration[configuration][product_details__template]'
+          Primary Main: 'theme_configuration[configuration][color_palette__primary_main][value]'
+          Primary Hover: 'theme_configuration[configuration][color_palette__primary_hover][value]'
+          Default Font Size: 'theme_configuration[configuration][page_styles__base_font_size][value]'
+          Default Line Height: 'theme_configuration[configuration][page_styles__base_line_height][value]'
+          Footer Background: 'theme_configuration[configuration][page_styles__footer_background][value]'
+          Btn Min Height: 'theme_configuration[configuration][button_styles__btn_min_height][value]'
+          Btn Border Width: 'theme_configuration[configuration][button_styles__btn_border_width][value]'
+          Btn Padding: 'theme_configuration[configuration][button_styles__btn_padding][value]'
+          Btn Gap: 'theme_configuration[configuration][button_styles__btn_gap][value]'
+          Btn Border Radius: 'theme_configuration[configuration][button_styles__btn_border_radius][value]'
+          Btn Neutral Dark Focus Box Shadow: 'theme_configuration[configuration][button_styles__btn_neutral_dark_focus_box_shadow][value]'
+          Btn Neutral Dark Focus Outline: 'theme_configuration[configuration][button_styles__btn_neutral_dark_focus_outline][value]'
+    Primary Main Color:
+      selector: 'form[name="theme_configuration"] input[name="theme_configuration[configuration][color_palette__primary_main][value]"]'
     Theme Configuration Config:
       selector: 'form[name="theme"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form

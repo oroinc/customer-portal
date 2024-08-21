@@ -7,6 +7,9 @@
     }
 
     &__title {
+        display: flex;
+        align-items: center;
+        gap: $information-nav-title-gap;
         font-size: $information-nav-title-font-size;
         font-weight: $information-nav-title-font-weight;
         line-height: $information-nav-title-line-height;
@@ -36,6 +39,9 @@
             @at-root {
                 a#{&} {
                     color: $information-nav-item-content-color;
+                    display: flex;
+                    align-items: center;
+                    gap: $information-nav-item-gap;
 
                     &:hover {
                         color: $information-nav-item-content-color-hover;
@@ -47,6 +53,10 @@
                 }
             }
         }
+    }
+
+    .theme-icon {
+        align-self: flex-start;
     }
 }
 

@@ -2,15 +2,20 @@ define(function(require) {
     'use strict';
 
     const Grid = require('orodatagrid/js/datagrid/grid');
+    const FrontendToolbar = require('orofrontend/js/datagrid/frontend-toolbar').default;
     const __ = require('orotranslation/js/translator');
 
     const FrontendGrid = Grid.extend({
+        toolbar: FrontendToolbar,
+
         /**
          * Frontend currently grid options
          *
          * @property {Object}
          */
         gridOptions: null,
+
+        resettableFields: Grid.prototype.resettableFields.concat(['sorters', 'columns']),
 
         /** @property {Object} */
         noDataTranslations: {

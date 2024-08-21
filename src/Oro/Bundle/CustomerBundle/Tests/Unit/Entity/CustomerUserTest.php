@@ -136,6 +136,7 @@ class CustomerUserTest extends AbstractUserTest
             ['website', new Website()],
             ['salt', md5('user')],
             ['isGuest', true],
+            ['lastDuplicateNotificationDate', new \DateTime()],
         ];
     }
 

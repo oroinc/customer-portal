@@ -21,4 +21,5 @@ $toggle-filters-action-after-color-hover: inherit !default;
 
 $toggle-filters-action-background-mobile: get-color('neutral', 'grey1') !default;
 $toggle-filters-action-color-mobile: get-color('text', 'primary') !default;
-$toggle-filters-action-width: 44px !default;
+
+$toggle-filters-action-color-active: get-color('primary', 'active') !default;

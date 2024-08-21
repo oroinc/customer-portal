@@ -107,7 +107,7 @@ services:
         tags:
             - { name: container.service_subscriber }
             - { name: container.service_subscriber, id: oro_customer.provider.frontend_customer_user_form, key: Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider }
-            - { name: container.service_subscriber, id: oro_customer.handler.frontend_customer_user_handler, key: Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler }
+            - { name: container.service_subscriber, id: oro_customer.handler.frontend_customer_user_with_unique_email_handler, key: Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler }
 
     Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerAddressController:
         calls:

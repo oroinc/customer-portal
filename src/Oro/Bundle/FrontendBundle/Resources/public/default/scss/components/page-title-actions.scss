@@ -1,15 +1,9 @@
 /* @theme: default; */
 
-.page-title-actions {
-    float: right;
-}
-
-.page-title-actions-wrapper {
-    @include clearfix();
-
+@include breakpoint('mobile-landscape') {
     .page-title-actions {
-        a {
-            margin-bottom: 10px;
-        }
+        width: 100%;
+        display: grid;
+        gap: spacing('sm');
     }
 }

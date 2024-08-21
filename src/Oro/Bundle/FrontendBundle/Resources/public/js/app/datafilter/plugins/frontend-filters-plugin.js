@@ -9,6 +9,16 @@ define(function(require, exports, module) {
     const config = require('module-config').default(module.id);
     const launcherOptions = _.extend({
         className: 'toggle-filters-action btn btn--flat',
+        attributes: {
+            'data-responsive-styler': '',
+            'data-input-widget-options': JSON.stringify({
+                responsive: {
+                    'mobile-big': {
+                        classes: 'btn btn--neutral btn--icon'
+                    }
+                }
+            })
+        },
         launcherMode: 'icon-text',
         icon: 'sliders',
         label: __('oro_frontend.filters.label'),

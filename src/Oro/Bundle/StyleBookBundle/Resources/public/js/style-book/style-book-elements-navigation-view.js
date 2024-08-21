@@ -133,7 +133,7 @@ define(function(require) {
                 items: this.getElementsList()
             }));
 
-            this.$el.find('.nav-link:first').addClass(this.options.activeClass);
+            this.$el.find('.nav-link').first().addClass(this.options.activeClass);
             $('body').scrollspy({target: '#' + this.$el.attr('id'), offset: (this.offset * 2 - 5)});
         }
     });

@@ -23,7 +23,7 @@ define(function(require) {
         },
 
         _destroy: function() {
-            this.$el.removeAttr('style');
+            this.$el.attr('style', null);
         },
 
         _disableScrollbar: function() {

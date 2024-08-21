@@ -18,14 +18,9 @@ layout:
             optionName: visible
             optionValue: true
 
-        - '@setOption':
-            id: __datagrid
-            optionName: grid_render_parameters.gridViewsOptions.hideTitle
-            optionValue: '.page-title-wrapper'
-
         - '@add':
-            id: __additional_views_container      
-            parentId: __datagrid_views_toolbar        
+            id: __additional_views_container
+            parentId: __datagrid_views_toolbar
             blockType: container
 
         - '@add':
@@ -34,3 +29,11 @@ layout:
             blockType: combined_buttons
             options:
                 buttons: '=data["buttons"].getAll()'
+
+        - '@appendOption':
+            id: __datagrid
+            optionName: grid_render_parameters.toolbarOptions.paginationInfo
+            optionValue:
+                transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.rolesPageInfo'
+                show: true
+

@@ -32,6 +32,7 @@ oro_api:
                             - get_list
                             - create
                             - update
+                            - update_list
                             - get_relationship
                             - get_subresource
                             - add_subresource
@@ -43,6 +44,10 @@ oro_api:
                     -
                         value: deletedCount
                         actions: [delete_list]
+                X-Mode:
+                    -
+                        value: ~
+                        actions: [update_list]
             request_type: ['rest', 'json_api', 'frontend']
     api_doc_cache:
         excluded_features: [ frontend_web_api ]
@@ -74,7 +79,7 @@ oro_security:
 security:
     firewalls:
         assets:
-            pattern:                        ^/(css|images|js)/
+            pattern:                        ^/(css|images|js)\//
             security:                       false
 
         install:

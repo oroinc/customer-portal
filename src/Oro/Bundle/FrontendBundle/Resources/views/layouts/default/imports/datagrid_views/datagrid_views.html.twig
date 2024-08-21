@@ -60,7 +60,7 @@
 
     {% set attr = layout_attr_defaults(attr, {
         'type': 'button',
-        '~class': 'close-dialog absolute btn btn--plain btn--text',
+        '~class': ' btn btn--simple-colored close-dialog absolute',
         'title': 'Close'|trans,
         'aria-label': 'oro_frontend.datagrid_views.close.aria_label'|trans,
         'data-close': ''
@@ -126,7 +126,7 @@
                     <% _.each(actions[iterate], function(action) { %>
                         <% if (action.enabled) { %>
                             <li class="actions-row__item">
-                                <button class="btn btn--icon btn--size-small btn--text btn--plain"
+                                <button class="btn btn--size-small btn--simple"
                                         type="button"
                                         aria-label="<%- action.label %> <%- choice.label %>"
                                         title="<%- action.label %>"
@@ -134,10 +134,7 @@
                                         data-choice-value="<%- choice.value %>"
                                 >
                                     <% if (action.icon) { %>
-                                        <%= oroui.renderIcon({
-                                            name: action.icon,
-                                            extraClass: 'theme-icon--small'
-                                        }) %>
+                                        <%= oroui.renderIcon({name: action.icon}) %>
                                     <% } %>
                                 </button>
                             </li>
@@ -150,19 +147,20 @@
 {% endblock %}
 
 {% block __datagrid_views__datagrid_views_popup_footer_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid-views__footer'
     }) %}
 
     <div {{ block('block_attributes') }}>
         <div class="grid-views__toggle-container">
-            <button class="btn btn--size-small btn--block"
+            <button class="btn btn--block btn--size-small"
                     type="button"
                     data-role="save-new"
                     data-switch-edit-button=""
                     aria-label="<%- _.__('oro_frontend.datagrid_views.save_as_new.aria_label') %>"
             >
-                <span class="fa-plus-circle hide-text" aria-hidden="true"></span>
+                {{ renderIcon.icon({name: 'plus', extraClass: 'theme-icon--small'}) }}
                 <%- _.__("oro_frontend.datagrid_views.save_as_new") %>
             </button>
         </div>
@@ -171,7 +169,7 @@
             <div class="grid grid-views__form-content">
                 <div class="grid-col-12">
                     <input name="name"
-                            class="input input--size-m input--full frontend-grid-view-name"
+                            class="input input--full frontend-grid-view-name"
                             type="text"
                             required
                             placeholder="<%- _.__('oro_frontend.datagrid_views.placeholder') %>"

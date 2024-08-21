@@ -35,14 +35,35 @@ layout:
                                 actionOptions:
                                     refreshAction:
                                         launcherOptions:
-                                            className: 'btn btn--size-small btn--neutral'
-                                            icon: 'undo'
-                                            launcherMode: 'icon-only'
+                                            className: 'btn btn--neutral refresh-action'
+                                            icon: 'refresh'
+                                            launcherMode: 'icon-text'
+                                            label: 'oro_frontend.datagrid.refreshAction.label'
+                                            attributes:
+                                                data-toggle: 'tooltip'
+                                                data-trigger: 'hover'
+                                                data-responsive-styler: ''
+                                                data-input-widget-options:
+                                                    responsive:
+                                                        mobile-big:
+                                                            classes: 'dropdown-item text-nowrap'
+                                                            disposeTooltip: true
                                     resetAction:
                                         launcherOptions:
-                                            className: 'btn btn--size-small btn--neutral'
-                                            icon: 'refresh'
+                                            className: 'btn btn--neutral reset-action'
+                                            icon: 'reset'
                                             launcherMode: 'icon-only'
+                                            label: 'oro_frontend.datagrid.resetAction.label'
+                                            attributes:
+                                                data-toggle: 'tooltip'
+                                                data-trigger: 'hover'
+                                                data-responsive-styler: ''
+                                                data-input-widget-options:
+                                                    responsive:
+                                                        mobile-big:
+                                                            disposeTooltip: true
+                                            renderInExternalContainer: true
+                                        hiddenIfIsNotResettable: true
                                 customModules:
                                     datagridSettingsComponent: 'orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-view'
                             toolbarOptions:
@@ -52,6 +73,12 @@ layout:
                                     className: 'datagrid-tool'
                                     transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.usersPlural'
                                 hideItemsCounter: false
+                                pagination:
+                                    pagination_threshold: '=data["theme_configuration"].getThemeConfigurationOption("datagrid__pagination_threshold")'
+                                pageSize:
+                                    position:
+                                        top:
+                                            responsivePageSize: true
                             filterContainerSelector: '[data-grid-toolbar="top"] [data-role="filter-container"]'
                         form: '=data["oro_customer_frontend_customer_user_role_form"].getRoleFormView(data["entity"])'
                 __customer_user_role_form_end:

@@ -139,7 +139,7 @@ define(function(require) {
             this.cache.$dropdownScrollable.css({
                 height: '',
                 overflowY: ''
-            }).removeAttr('style');
+            }).attr('style', null);
 
             this.cache.$body.removeClass('no-scroll');
         },

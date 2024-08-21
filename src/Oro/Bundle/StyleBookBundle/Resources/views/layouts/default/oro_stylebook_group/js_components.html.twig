@@ -625,7 +625,7 @@
         It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.
         The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
     </div>
-    <button class="btn btn--outlined btn--size-small btn--text btn--no-padding collapse-toggle"
+    <button class="btn btn--flat btn--size-small collapse-toggle"
             data-toggle="collapse"
             data-target="{{ '#' ~ collapseId }}"
             aria-controls="{{ collapseId }}"
@@ -700,7 +700,7 @@
             triggerIsFirst: false,
             triggerIconIsFirst: false,
             toggleAttrs: {
-                'class': 'btn btn--outlined btn--size-small btn--text btn--no-padding collapse-toggle',
+                'class': 'btn btn--flat btn--size-small collapse-toggle',
                 'aria-label': 'oro.ui.collapse.more'|trans,
                 'data-icon': 'chevron-down',
                 'data-text': 'oro.ui.collapse.more'|trans
@@ -2500,7 +2500,7 @@
     </div>
 
     <script type="text/html" id="template-customer-address-book-addresses-grid-toolbar">
-        <div class="datagrid-toolbar extended datagrid-toolbar--offset-bottom-lg">
+        <div class="datagrid-toolbar datagrid-toolbar-bottom extended datagrid-toolbar--offset-bottom-lg">
             <% if (toolbarPosition !== 'bottom') { %>
             <div class="datagrid-toolbar__start" data-section="left-side">
                 <div class="form-horizontal" data-grid-items-counter=""></div>

@@ -77,7 +77,7 @@ define(function(require, exports, module) {
         _setButtonDesign: function($button) {
             $button
                 .attr({
-                    'class': `${$button.attr('class')} filters-manager-trigger btn btn--icon btn--neutral-dark`,
+                    'class': `btn btn--neutral ${$button.attr('class')} filters-manager-trigger`,
                     'title': __('oro_frontend.filter_manager.label'),
                     'aria-label': __('oro_frontend.filter_manager.button_aria_label')
                 })

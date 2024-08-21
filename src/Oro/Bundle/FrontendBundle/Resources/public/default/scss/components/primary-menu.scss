@@ -16,6 +16,7 @@
         display: $primary-menu-link-display;
         align-items: $primary-menu-link-vertical-align;
         flex: 1;
+        gap: $primary-menu-link-gap;
 
         @include element-state('hover') {
             background: $primary-menu-item-active-background;
@@ -62,6 +63,15 @@
             &:not(:first-child) {
                 margin-left: spacing('sm');
             }
+        }
+    }
+}
+
+@include breakpoint('desktop-small') {
+    .primary-menu {
+        &-container {
+            height: 100%;
+            border-right: $primary-menu-border-right;
         }
     }
 }

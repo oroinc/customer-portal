@@ -64,11 +64,13 @@ class CustomerUserRegisterController extends AbstractController
         if ($response instanceof Response) {
             /** @var CustomerUser $customerUser */
             $customerUser = $registrationHandler->getForm()->getData();
-            $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
-            $this->container->get(EventDispatcherInterface::class)->dispatch(
-                $event,
-                CustomerUserEvents::REGISTRATION_COMPLETED
-            );
+            if ($customerUser->getId()) {
+                $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
+                $this->container->get(EventDispatcherInterface::class)->dispatch(
+                    $event,
+                    CustomerUserEvents::REGISTRATION_COMPLETED
+                );
+            }
 
             return $response;
         }

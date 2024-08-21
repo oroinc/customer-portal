@@ -38,7 +38,7 @@
 {% block _top_nav_customer_dropdown_trigger_widget %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " btn btn--outlined-inverse btn--text customer-menu__trigger",
+        '~class': " btn btn--plain-inverse customer-menu__trigger",
         'type': 'button',
         'data-toggle': 'dropdown',
         'data-placement': "bottom-end",
@@ -84,7 +84,7 @@
     }) %}
 
     <a {{ block('block_attributes') }}>
-        {{ renderIcon.icon({name: 'log-out'}) }} <span>{{ text|trans }}</span>
+        {{ renderIcon.icon({name: 'log-out', extraClass: 'customer-menu__icon'}) }} <span>{{ text|trans }}</span>
     </a>
 {% endblock %}
 
@@ -135,13 +135,24 @@
 {% endblock %}
 
 {% block _top_nav_customer_menu_item_link_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+    {% set icon = subChild.extras.icon|default(null)%}
     {% if uri == '#' %}
-        <li class="dropdown-header">{{- child.label|trans -}}</li>
+        <li class="dropdown-header">
+            {%- if icon -%}
+                {{ renderIcon.icon({name: icon, extraClass: 'theme-icon--text-bottom'}) }}
+            {%- endif -%}
+            {{- child.label|trans -}}</li>
     {% else %}
         <li class="customer-menu-list__item">
+            {%- apply spaceless -%}
             <a href="{{ uri }}" class="{{ ' dropdown-item text-nowrap ' ~ linkCurrentClass ?? '' }}">
+                {%- if icon -%}
+                    {{ renderIcon.icon({name: icon, extraClass: 'customer-menu__icon'}) }}
+                {%- endif -%}
                 {{- label|trans -}}
             </a>
+            {%- endapply -%}
         </li>
     {% endif %}
 {% endblock %}

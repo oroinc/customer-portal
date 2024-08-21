@@ -2,7 +2,9 @@
 
 @use 'sass:color';
 
-$style-book-group-element-description-border-start: 5px solid get-color('alternative', 'main') !default;
+$style-book-group-element-description-border-start: 5px solid get-color('destructive', 'main') !default;
+
+$style-book-group-element-preview-offset: 15px !default;
 
 $style-book-group-element-preview-border: 5px solid get-color('neutral', 'grey1') !default;
 

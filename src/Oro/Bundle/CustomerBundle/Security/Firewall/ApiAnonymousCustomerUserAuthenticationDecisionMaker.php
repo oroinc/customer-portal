@@ -6,6 +6,7 @@ use Oro\Bundle\ApiBundle\Model\Error;
 use Oro\Bundle\ApiBundle\Processor\ActionProcessorBagInterface;
 use Oro\Bundle\ApiBundle\Processor\Options\OptionsContext;
 use Oro\Bundle\ApiBundle\Request\ApiAction;
+use Oro\Bundle\ApiBundle\Request\ApiActionGroup;
 use Oro\Bundle\ApiBundle\Request\ErrorCompleterRegistry;
 use Oro\Bundle\ApiBundle\Request\RequestType;
 use Oro\Bundle\ApiBundle\Request\Rest\RestRoutes;
@@ -51,8 +52,8 @@ class ApiAnonymousCustomerUserAuthenticationDecisionMaker
         $context->setRequestHeaders(new RestRequestHeaders($request));
         $context->setActionType($this->getActionType($request->attributes->get('_route')));
         $context->setClassName($entityType);
-        $context->setFirstGroup('initialize');
-        $context->setLastGroup('resource_check');
+        $context->setFirstGroup(ApiActionGroup::INITIALIZE);
+        $context->setLastGroup(ApiActionGroup::RESOURCE_CHECK);
         $context->setSoftErrorsHandling(true);
         $processor->process($context);
 

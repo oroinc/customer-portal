@@ -259,6 +259,11 @@ services:
         tags:
             - { name: form.type_extension }
 
+    oro_commerce_menu.form.extension.menu_update_type.warning:
+        class: 'Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateWarningExtension'
+        tags:
+            - { name: form.type_extension }
+
     oro_commerce_menu.scope_criteria_provider.website:
         parent: oro_website.website_scope_criteria_provider
         tags:
@@ -331,6 +336,15 @@ services:
             - ['setLogger', ['@logger']]
         tags:
             - { name: oro_menu.builder, priority: 207 }
+
+    oro_commerce_menu.builder.menu_icons_builder:
+        class: 'Oro\Bundle\CommerceMenuBundle\Builder\MenuIconsBuilder'
+        arguments:
+            - '@oro_frontend.provider.icons_mapping'
+            - '@oro_layout.current_theme_provider'
+            - '@oro_frontend.request.frontend_helper'
+        tags:
+            - { name: oro_menu.builder, priority: 225 }
 
     oro_commerce_menu.listener.content_node_delete:
         class: Oro\Bundle\CommerceMenuBundle\EventListener\ContentNodeDeleteListener
@@ -434,3 +448,8 @@ services:
                 event: Oro\Bundle\NavigationBundle\Event\MenuUpdatesApplyAfterEvent
                 method: onMenuUpdatesApplyAfter
                 priority: 255
+
+    oro_commerce_menu.form.extension.menu_update_type.icons:
+        class: 'Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateIconsExtension'
+        tags:
+            - { name: form.type_extension }

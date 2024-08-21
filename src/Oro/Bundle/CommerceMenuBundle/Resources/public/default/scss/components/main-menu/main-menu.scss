@@ -12,6 +12,11 @@
         margin: $main-menu-back-trigger-margin;
     }
 
+    &__icon {
+        margin: $main-menu-icon-offset;
+        vertical-align: $main-menu-icon-vertical-align;
+    }
+
     @include breakpoint('mobile-big') {
         @include fullscreen-mode {
             .main-menu__back-trigger {
@@ -363,6 +368,7 @@
                 text-decoration: $main-menu-link-text-decoration;
                 text-transform: $main-menu-link-text-transform;
                 color: $main-menu-link-color;
+                font-family: $main-menu-link-font-family;
                 grid-column: $main-menu-button-arrow-only-child-grid-column;
                 grid-row: $main-menu-link-grid-row;
 

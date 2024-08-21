@@ -12,7 +12,7 @@ class GridToolbarPaginator extends Element implements GridPaginatorInterface
      */
     public function getTotalRecordsCount()
     {
-        preg_match('/(?P<count>\d+)\s+(Total)/i', $this->getText(), $matches);
+        preg_match('/(?:\d+\s\w+\s)?(?P<count>\d+)\s+([\w\s]+)/i', $this->getText(), $matches);
 
         return isset($matches['count']) ? (int) $matches['count'] : 0;
     }

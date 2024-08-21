@@ -221,9 +221,14 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $result = $this->client->getResponse();
 
         self::assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertStringContainsString('/customer/user/login', $crawler->getUri());
+        self::assertStringNotContainsString(
+            'This email is already used',
+            $crawler->html()
+        );
         self::assertStringContainsString(
-            'This email is already used.',
-            $crawler->filter('.validation-failed')->html()
+            'Please check your email to complete registration',
+            $crawler->html()
         );
     }
 

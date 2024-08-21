@@ -1,13 +1,13 @@
+<% let oroui = _.macros('oroui') %>
+<span class="grid-views__suptitle"><%- _.__("oro_frontend.datagrid_views.view") %></span>
 <h2 <% if (obj.uniqueId) { %> id="<%- uniqueId %>" <% } %> class="grid-views__title<% if (icon) { %> has-icon <% } %>" data-toggle="dropdown" data-popper="false" aria-haspopup="true" aria-expanded="false">
     <% if (icon) { %>
-        <span class="grid-views__piece">
-            <span class="badge <%- iconClass %>">
-                <span class="fa-<%- icon %>" aria-hidden="true"></span>
-            </span>
+        <span class="grid-views__piece <%- iconClass %>">
+            <%= oroui.renderIcon({name: icon}) %>
         </span>
     <% } %>
     <%- title %>
 </h2>
-<button type="button" class="btn btn--size-small btn--plain btn--icon" aria-label="<%- toggleAriaLabel %>" data-toggle="dropdown" data-popper="false" aria-haspopup="true" aria-expanded="false" >
-    <span class="fa-angle-down fa--no-offset" aria-hidden="true"></span>
+<button type="button" class="btn btn--size-small btn--simple grid-views__title-btn" aria-label="<%- toggleAriaLabel %>" data-toggle="dropdown" data-popper="false" aria-haspopup="true" aria-expanded="false" >
+    <%= oroui.renderIcon({name: 'chevron-down'}) %>
 </button>

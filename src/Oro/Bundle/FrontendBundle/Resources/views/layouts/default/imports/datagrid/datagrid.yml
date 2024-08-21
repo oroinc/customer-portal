@@ -20,22 +20,50 @@ layout:
                 swipeActionsGrid:
                     enable: '=data["system_config_provider"].getValue("oro_customer.enable_swipe_actions_grids")'
                 themeOptions:
+                    showMassActionOnToolbar: true
                     actionsDropdown: 'auto'
                     actionOptions:
                         refreshAction:
                             launcherOptions:
-                                className: 'btn btn--size-small btn--neutral btn--icon refresh-action'
+                                className: 'btn btn--neutral refresh-action'
                                 icon: 'refresh'
-                                launcherMode: 'icon-only'
+                                launcherMode: 'icon-text'
+                                label: 'oro_frontend.datagrid.refreshAction.label'
+                                attributes:
+                                    data-toggle: 'tooltip'
+                                    data-trigger: 'hover'
+                                    data-responsive-styler: ''
+                                    data-input-widget-options:
+                                        responsive:
+                                            mobile-big:
+                                                classes: 'dropdown-item text-nowrap'
+                                                disposeTooltip: true
                         resetAction:
                             launcherOptions:
-                                className: 'btn btn--size-small btn--neutral btn--icon reset-action'
+                                className: 'btn btn--neutral reset-action'
                                 icon: 'reset'
                                 launcherMode: 'icon-only'
+                                label: 'oro_frontend.datagrid.resetAction.label'
+                                attributes:
+                                    data-toggle: 'tooltip'
+                                    data-trigger: 'hover'
+                                    data-responsive-styler: ''
+                                    data-input-widget-options:
+                                        responsive:
+                                            mobile-big:
+                                                disposeTooltip: true
+                                renderInExternalContainer: true
+                            hiddenIfIsNotResettable: true
                     customModules:
                         datagridSettingsComponent: 'orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-view'
                 toolbarOptions:
                     actionsPanel:
-                        className: 'btn-group not-expand frontend-datagrid__panel'
+                        className: ' frontend-datagrid__panel'
                     hideItemsCounter: false
+                    pagination:
+                        pagination_threshold: '=data["theme_configuration"].getThemeConfigurationOption("datagrid__pagination_threshold")'
+                    pageSize:
+                        position:
+                            top:
+                                responsivePageSize: true
                 filterContainerSelector: '[data-grid-toolbar="top"] [data-role="filter-container"]'

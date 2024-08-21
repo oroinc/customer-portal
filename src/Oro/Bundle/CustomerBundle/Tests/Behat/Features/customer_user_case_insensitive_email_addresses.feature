@@ -1,4 +1,5 @@
 @ticket-BB-14685
+@ticket-BB-24174
 @fixture-OroCustomerBundle:CustomerUserFixture.yml
 
 Feature: Customer User Case Insensitive Email Addresses
@@ -62,6 +63,8 @@ Feature: Customer User Case Insensitive Email Addresses
   Scenario: Enable "Case Insensitive Email Addresses" configuration option
     Given I go to System/Configuration
     And I follow "Commerce/Customer/Customer Users" on configuration sidebar
+    And uncheck "Use default" for "Customer User Email Enumeration Protection" field
+    And I check "Customer User Email Enumeration Protection"
     And I check "Case-Insensitive Email Addresses"
     When I save form
     Then I should see "Configuration saved" flash message
@@ -89,7 +92,8 @@ Feature: Customer User Case Insensitive Email Addresses
       | Password         | amandarcolE@example.org1 |
       | Confirm Password | amandarcolE@example.org1 |
     When I click "Create Account"
-    Then I should see that "Customer User Registration Error Container" contains "This email is already used."
+    Then I should see "Please check your email to complete registration" flash message
+    And Email should contains the following "unauthorized attempt to register an account" text
 
   Scenario: Check that you cant enable "Case Insensitive Email Addresses" options while there are customer users with same lowercase emails exist
     Given I proceed as the Admin

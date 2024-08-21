@@ -125,8 +125,12 @@
 
     {% set content %}
         {% block content_column %}
+            {% if menuItem.extras.warning|default(false) %}
+                <div class="alert alert-danger" role="alert">
+                    {{ menuItem.extras.warning|trans }}
+                </div>
+            {% endif %}
             {% set id = 'menu-update-edit' %}
-
             {% macro renderTargetTypeFields(form, targetTypeChoices) %}
                 {% import '@OroUI/macros.html.twig' as UI %}
                 <div data-role="target-fields" class="control-group-container" {{ UI.renderPageComponentAttributes({
@@ -183,6 +187,7 @@
                         form_row(form.condition),
                     ] %}
                 {% else %}
+
                     {% set navigationRootChoices = form.targetType.vars.choices|filter((choice) => choice.value in ['content_node', 'category', 'none']) %}
                     {% set generalSectionSubblocks = [
                         _self.renderTargetTypeFields(form, navigationRootChoices),

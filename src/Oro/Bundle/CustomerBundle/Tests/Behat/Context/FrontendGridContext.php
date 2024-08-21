@@ -215,6 +215,48 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     }
 
     /**
+     * @When /^(?:|I )press on (?P<number>[\d]+) page in the page pagination$/
+     * @When /^(?:|I )press on (?P<number>[\d]+) page in the page pagination in "(?P<gridName>[\w\s]+)"$/
+     */
+    public function iPressOnPageInThePagePagination($number, $gridName = null)
+    {
+        $grid = $this->getFrontendGrid($gridName);
+
+        $pagerPaginator = $grid->getElement('Frontend List Pagination');
+        $page = $pagerPaginator->find('css', sprintf('[aria-label="Page %s"]', $number));
+
+        if ($page && $page->isVisible()) {
+            $page->click();
+        } else {
+            self::fail(sprintf('Page number %s not found', $number));
+        }
+    }
+
+    /**
+     * @Then /^(?:|I )should see that page (?P<number>[\d]+) is active$/
+     * @Then /^(?:|I )should see that page (?P<number>[\d]+) is active in "(?P<gridName>[\w\s]+)"$/
+     */
+    public function pageIsActive($number, $gridName = null)
+    {
+        $grid = $this->getFrontendGrid($gridName);
+        $pagerPaginator = $grid->getElement('Frontend List Pagination');
+        $activePage = $pagerPaginator->find('css', '.oro-pagination__page-to--active')->getText();
+        self::assertEquals($number, $activePage);
+    }
+
+    /**
+     * @When /^(?:|I )type (?P<number>[\d]+) into the page paginator$/
+     * @When /^(?:|I )type (?P<number>[\d]+) into the page paginator in "(?P<gridName>[\w\s]+)"$/
+     */
+    public function iTypeIntoPagePaginator($number, $gridName = null)
+    {
+        $grid = $this->getFrontendGrid($gridName);
+        $pagerPaginator = $grid->getElement('Frontend List Pagination');
+        $pagerPaginator->find('css', '[data-grid-pagination-trigger-page-ellipsis]')->click();
+        $pagerPaginator->find('css', '[data-grid-pagination-trigger-input]')->setValue($number);
+    }
+
+    /**
      * @When /^(?:|I )go to next page in grid$/
      * @When /^(?:|I )go to next page in "(?P<datagridName>[\w\s]+)"$/
      *

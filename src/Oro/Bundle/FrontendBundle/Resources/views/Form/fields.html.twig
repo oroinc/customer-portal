@@ -61,3 +61,12 @@
         <div class="description-container" style="display: none;"></div>
     </div>
 {% endblock %}
+
+
+{% block oro_frontend_css_variable_type_widget %}
+    {{ form_widget(form.value) }}
+{% endblock %}
+
+{% block oro_frontend_css_variable_type_errors %}
+    {{ form_errors(form.value) }}
+{% endblock %}

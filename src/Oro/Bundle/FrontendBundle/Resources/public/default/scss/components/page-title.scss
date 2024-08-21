@@ -2,7 +2,10 @@
 
 .page-title {
     &--has-actions {
-        float: left;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-inline-end: auto;
     }
 
     &--centered {

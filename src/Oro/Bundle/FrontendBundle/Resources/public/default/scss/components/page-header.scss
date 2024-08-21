@@ -12,6 +12,10 @@
 
     transition: $sticky-panel-transition;
 
+    .alert-impersonate + .sticky-placeholder + & {
+        z-index: $sticky-panel-z-index - 1;
+    }
+
     &.in-sticky {
         z-index: $sticky-panel-z-index + 2;
 
@@ -87,6 +91,10 @@
         &__dropdown {
             max-height: 80vh;
             overflow-y: auto;
+        }
+
+        &__icon {
+            align-self: center;
         }
     }
 }
