@@ -11,7 +11,8 @@ define(function(require, exports, module) {
     let config = require('module-config').default(module.id);
 
     config = _.extend({
-        closeAfterChose: true
+        closeAfterChose: true,
+        minimumResultsForSearch: 7
     }, config);
 
     const FrontendSelectFilter = SelectFilter.extend(_.extend({}, FilterCountHelper, {
@@ -19,6 +20,11 @@ define(function(require, exports, module) {
          * @property
          */
         closeAfterChose: config.closeAfterChose,
+
+        /**
+         * @property
+         */
+        minimumResultsForSearch: config.minimumResultsForSearch,
 
         /**
          * @property
@@ -116,6 +122,7 @@ define(function(require, exports, module) {
                     onClick: this.onClickSelectWidgetResetButton.bind(this)
                 } : null
             });
+            this.contextSearch = Array.isArray(this.choices) && this.choices.length > this.minimumResultsForSearch;
 
             return FrontendSelectFilter.__super__._initializeSelectWidget.call(this);
         },
