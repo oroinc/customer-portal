@@ -187,6 +187,7 @@ define(function(require, exports, module) {
 
         onClickSelectWidgetResetButton() {
             this.reset();
+            this.toggleVisibilityClearFilterButton();
         },
 
         onChangeFilter() {

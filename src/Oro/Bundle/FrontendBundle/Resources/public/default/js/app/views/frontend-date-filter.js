@@ -27,7 +27,7 @@ define(function(require) {
             FrontendDateFilter.__super__._writeDOMValue.call(this, value);
 
             if (this.getType() !== value.type) {
-                this.$(this.criteriaValueSelectors.type).val([value.type]).trigger('change');
+                this._setInputValue(this.criteriaValueSelectors.type, value.type);
             }
 
             return this;

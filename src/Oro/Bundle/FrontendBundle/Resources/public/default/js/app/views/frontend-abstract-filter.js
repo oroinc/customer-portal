@@ -91,6 +91,27 @@ define(function(require, exports, module) {
 
         getHintChips() {
             return this.subview('hint').getChips();
+        },
+
+        _setInputValue: function(input, value) {
+            const $input = this.$(input);
+
+            switch ($input.attr('type')) {
+                case 'radio':
+                    $input.each((index, input) => {
+                        const $input = this.$(input);
+                        if ($input.attr('value') === value) {
+                            $input.prop('checked', true).trigger('change');
+                        } else {
+                            $input.prop('checked', false);
+                        }
+                    });
+                    break;
+                default:
+                    $input.val(value).trigger('change');
+            }
+
+            return this;
         }
     });
 
