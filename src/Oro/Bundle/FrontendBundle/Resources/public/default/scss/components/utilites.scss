@@ -187,13 +187,11 @@
 }
 
 .bordered {
-    /* stylelint-disable-next-line */
-    border: 1px solid get-var-color('neutral', 'grey2');
+    border: $bordered-border;
     border-radius: $border-radius;
 }
 
 .bordered-img-on-top {
-    /* stylelint-disable-next-line */
-    border-bottom: 1px solid get-var-color('neutral', 'grey2');
+    border-bottom: $bordered-img-on-top-border-bottom;
     border-radius: $border-radius $border-radius 0 0;
 }

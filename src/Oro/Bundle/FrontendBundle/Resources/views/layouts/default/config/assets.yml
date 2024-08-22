@@ -105,6 +105,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/side-panel-config.scss'
         - 'bundles/orofrontend/default/scss/variables/currency-localization-control-config.scss'
         - 'bundles/orofrontend/default/scss/variables/contact-list-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/utilites-config.scss'
 
         # Components
         # reset.scss must be first in list due to that  file must have the lowest priority
