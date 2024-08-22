@@ -12,6 +12,8 @@ system_configuration:
             icon:  fa-shopping-cart
         page_templates:
             title: oro_frontend.system_configuration.groups.page_templates.title
+            description: oro_frontend.system_configuration.groups.page_templates.legacy_note
+            description_style: warning
         guests:
             title: oro_frontend.system_configuration.groups.guests.title
         website_access:

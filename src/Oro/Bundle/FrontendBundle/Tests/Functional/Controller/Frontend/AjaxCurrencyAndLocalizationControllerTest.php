@@ -36,7 +36,7 @@ class AjaxCurrencyAndLocalizationControllerTest extends WebTestCase
      */
     public function testSetCurrentCurrencyAndLocalizationAction(
         string $code,
-        string $redirectRoute,
+        ?string $redirectRoute,
         ?string $routeParameters,
         ?array $queryParameters,
         array $serverParameters,
@@ -91,6 +91,20 @@ class AjaxCurrencyAndLocalizationControllerTest extends WebTestCase
     public function setCurrentCurrencyAndLocalizationActionDataProvider(): array
     {
         return [
+            'set to en and redirect to root(without route)' => [
+                'code' => 'en',
+                'redirectRoute' => null,
+                'routeParameters' => null,
+                'queryParameters' => null,
+                'serverParameters' => [],
+                'current' => 'en_US',
+                'currency' => 'USD',
+                'expectedResult' => [
+                    'currencySuccessful' => true,
+                    'localizationSuccessful' => true,
+                    'redirectTo' => '/'
+                ],
+            ],
             'set to en and redirect to root' => [
                 'code' => 'en',
                 'redirectRoute' => 'oro_frontend_root',
