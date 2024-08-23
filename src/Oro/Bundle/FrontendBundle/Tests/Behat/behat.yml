@@ -258,3 +258,7 @@ oro_behat_extension:
       options:
         mapping:
           Image: 'theme[oro_theme___theme_configuration][value]'
+    Filter Hint Items Toggle:
+      selector: 'div.filter-criteria-hint-item-toggle'
+    Visible Filter Clean:
+      selector: '.open-filter button.filter-clear, .filter-default[tabindex="-1"] button.filter-clear'

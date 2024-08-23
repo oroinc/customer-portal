@@ -60,8 +60,10 @@ define(function(require, exports, module) {
 
         optionNames: CollectionFiltersManager.prototype.optionNames.concat([
             'fullscreenTemplate', 'filtersStateElement', 'filterEnableValueBadge', 'allowClearButtonInFilter',
-            'enableScrollContainerShadow'
+            'hintsToggledStatus', 'enableScrollContainerShadow'
         ]),
+
+        hintsExpanded: false,
 
         /**
          * @inheritdoc
@@ -171,8 +173,15 @@ define(function(require, exports, module) {
                 autoRender: true,
                 filterManager: this,
                 filters: this.filters,
-                container: this.getHintContainer()
+                container: this.getHintContainer(),
+                toggled: this.hintsExpanded
             }));
+
+            this.listenTo(
+                this.subview('collapsableHints'),
+                'hints:change-visibility',
+                toggledStatus => this.hintsExpanded = toggledStatus
+            );
 
             if (this.renderMode === 'toggle-mode' && this.enableScrollContainerShadow) {
                 this.subview('scroll-shadow', new ScrollShadowView({

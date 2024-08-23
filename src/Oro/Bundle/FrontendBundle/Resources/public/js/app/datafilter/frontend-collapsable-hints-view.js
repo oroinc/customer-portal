@@ -2,7 +2,9 @@ import BaseView from 'oroui/js/app/views/base/view';
 import template from 'tpl-loader!orofrontend/templates/frontend-collapseble-hints-view.html';
 
 const FrontendCollapsableHintsView = BaseView.extend({
-    optionNames: BaseView.prototype.optionNames.concat(['filters', 'filterManager']),
+    optionNames: BaseView.prototype.optionNames.concat(
+        ['filters', 'filterManager', 'onToggleCallback', 'toggled']
+    ),
 
     className: 'btn filter-criteria-hint-item filter-criteria-hint-item-toggle',
 
@@ -28,6 +30,7 @@ const FrontendCollapsableHintsView = BaseView.extend({
 
     initialize(options) {
         this.listenTo(this.filterManager, 'visibility-change', this.update);
+        this.listenTo(this.filterManager, 'filters-render-mode-changed', this.update);
         FrontendCollapsableHintsView.__super__.initialize.call(this, options);
     },
 
@@ -41,6 +44,7 @@ const FrontendCollapsableHintsView = BaseView.extend({
     render() {
         FrontendCollapsableHintsView.__super__.render.call(this);
         this.checkHintsVisibility();
+        this.onToggleHidden(this.toggled);
         return this;
     },
 
@@ -59,7 +63,7 @@ const FrontendCollapsableHintsView = BaseView.extend({
         this.container.toggleClass('filter-items-hint--has-hidden-items', !!this.toHide.length);
         this.$el.toggleClass('hidden', !this.toggled && !this.toHide.length);
 
-        if (this.toggled && !this.toHide.length) {
+        if (this.toggled && !this.toHide.length && hintChips.length) {
             this.onToggleHidden(false);
         }
 
@@ -79,6 +83,7 @@ const FrontendCollapsableHintsView = BaseView.extend({
     onToggleHidden(toggled) {
         this.toggled = toggled;
         this.container.toggleClass('filter-items-hint--multiline', this.toggled);
+        this.trigger('hints:change-visibility', this.toggled);
     }
 });
 
