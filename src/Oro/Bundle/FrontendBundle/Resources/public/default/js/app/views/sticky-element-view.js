@@ -98,6 +98,10 @@ const StickyElementView = BaseView.extend({
         StickyElementView.__super__.delegateEvents.call(this, events);
 
         $(this.getScrollableContainer()).on(`scroll${this.eventNamespace()}`, this.update.bind(this));
+
+        if (window.visualViewport) {
+            $(window.visualViewport).on(`resize${this.eventNamespace()}`, this.update.bind(this));
+        }
     },
 
     /**
@@ -106,6 +110,10 @@ const StickyElementView = BaseView.extend({
     undelegateEvents() {
         if (this.$el) {
             $(this.getScrollableContainer()).off(this.eventNamespace());
+        }
+
+        if (window.visualViewport) {
+            $(window.visualViewport).off(this.eventNamespace());
         }
 
         return StickyElementView.__super__.undelegateEvents.call(this);
