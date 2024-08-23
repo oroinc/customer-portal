@@ -81,6 +81,667 @@ configuration:
                     label: oro_frontend.theme.default.configuration.datagrid.pagination_threshold.label
                     type: integer
                     default: 100
+                    previews:
+                        _default: 'bundles/orofrontend/images/previews/default_pagination_with_input_field.png'
+        color_palette:
+            label: 'oro_frontend.theme.default.configuration.color_palette.label'
+            options:
+                primary_main:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.primary_main.label'
+                    type: css_color
+                primary_hover:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.primary_hover.label'
+                    type: css_color
+                primary_active:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.primary_active.label'
+                    type: css_color
+                primary_disabled:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.primary_disabled.label'
+                    type: css_color
+                primary_light:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.primary_light.label'
+                    type: css_color
+                alternative_main:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.alternative_main.label'
+                    type: css_color
+                alternative_hover:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.alternative_hover.label'
+                    type: css_color
+                alternative_active:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.alternative_active.label'
+                    type: css_color
+                alternative_disabled:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.alternative_disabled.label'
+                    type: css_color
+                alternative_light:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.alternative_light.label'
+                    type: css_color
+                secondary_c1:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.secondary_c1.label'
+                    type: css_color
+                secondary_c2:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.secondary_c2.label'
+                    type: css_color
+                secondary_c3:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.secondary_c3.label'
+                    type: css_color
+                secondary_c4:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.secondary_c4.label'
+                    type: css_color
+                secondary_c5:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.secondary_c5.label'
+                    type: css_color
+                secondary_sale:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.secondary_sale.label'
+                    type: css_color
+                neutral_white_100:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.neutral_white_100.label'
+                    type: css_color
+                neutral_white_50:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.neutral_white_50.label'
+                    type: css_color
+                neutral_white_30:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.neutral_white_30.label'
+                    type: css_color
+                neutral_white_15:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.neutral_white_15.label'
+                    type: css_color
+                neutral_grey1:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.neutral_grey1.label'
+                    type: css_color
+                neutral_grey2:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.neutral_grey2.label'
+                    type: css_color
+                neutral_grey3:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.neutral_grey3.label'
+                    type: css_color
+                neutral_dark:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.neutral_dark.label'
+                    type: css_color
+                neutral_focus:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.neutral_focus.label'
+                    type: css_color
+                text_primary:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.text_primary.label'
+                    type: css_color
+                text_secondary:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.text_secondary.label'
+                    type: css_color
+                text_disabled:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.text_disabled.label'
+                    type: css_color
+                text_inverse:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.text_inverse.label'
+                    type: css_color
+                text_inverse_70:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.text_inverse_70.label'
+                    type: css_color
+                text_link:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.text_link.label'
+                    type: css_color
+                text_link_hover:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.text_link_hover.label'
+                    type: css_color
+                text_link_hover_on_dark:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.text_link_hover_on_dark.label'
+                    type: css_color
+                destructive_light:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.destructive_light.label'
+                    type: css_color
+                destructive_light_on_dark:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.destructive_light_on_dark.label'
+                    type: css_color
+                destructive_base:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.destructive_base.label'
+                    type: css_color
+                destructive_main:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.destructive_main.label'
+                    type: css_color
+                destructive_main_on_dark:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.destructive_main_on_dark.label'
+                    type: css_color
+                destructive_dark:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.destructive_dark.label'
+                    type: css_color
+                destructive_disabled:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.destructive_disabled.label'
+                    type: css_color
+                success_light:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.success_light.label'
+                    type: css_color
+                success_dark:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.success_dark.label'
+                    type: css_color
+                warning_light:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.warning_light.label'
+                    type: css_color
+                warning_base:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.warning_base.label'
+                    type: css_color
+                warning_dark:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.warning_dark.label'
+                    type: css_color
+                info_light:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.info_light.label'
+                    type: css_color
+                info_dark:
+                    label: 'oro_frontend.theme.default.configuration.color_palette.info_dark.label'
+                    type: css_color
+
+        page_styles:
+            label: 'oro_frontend.theme.default.configuration.page_styles.label'
+            options:
+                base_font_size:
+                    label: 'oro_frontend.theme.default.configuration.page_styles.base_font_size.label'
+                    type: css_font_size
+                base_line_height:
+                    label: 'oro_frontend.theme.default.configuration.page_styles.base_line_height.label'
+                    type: css_line_height
+                body_background_color:
+                    label: 'oro_frontend.theme.default.configuration.page_styles.body_background_color.label'
+                    type: css_color
+                body_color:
+                    label: 'oro_frontend.theme.default.configuration.page_styles.body_color.label'
+                    type: css_color
+                footer_background:
+                    label: 'oro_frontend.theme.default.configuration.page_styles.footer_background.label'
+                    type: css_background
+                page_header_background_color:
+                    label: 'oro_frontend.theme.default.configuration.page_styles.page_header_background_color.label'
+                    type: css_color
+
+        button_styles:
+            label: 'oro_frontend.theme.default.configuration.button_styles.label'
+            options:
+                btn_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_background.label'
+                    type: css_background
+                btn_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_color.label'
+                    type: css_color
+                btn_font_size:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_font_size.label'
+                    type: css_font_size
+                btn_line_height:
+                    type: css_line_height
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_line_height.label'
+                btn_min_height:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_min_height.label'
+                    type: css_min_height
+                btn_padding:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_padding.label'
+                    type: css_padding
+                btn_gap:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_gap.label'
+                    type: css_gap
+                btn_border_width:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_border_width.label'
+                    type: css_length
+                btn_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_border_color.label'
+                    type: css_color
+                btn_border_radius:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_border_radius.label'
+                    type: css_border_radius
+                btn_hover_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_hover_background.label'
+                    type: css_background
+                btn_hover_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_hover_border_color.label'
+                    type: css_color
+                btn_hover_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_hover_color.label'
+                    type: css_color
+                btn_focus_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_focus_background.label'
+                    type: css_background
+                btn_focus_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_focus_border_color.label'
+                    type: css_color
+                btn_focus_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_focus_color.label'
+                    type: css_color
+                btn_active_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_active_background.label'
+                    type: css_background
+                btn_active_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_active_border_color.label'
+                    type: css_color
+                btn_active_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_active_color.label'
+                    type: css_color
+                btn_disabled_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_disabled_background.label'
+                    type: css_background
+                btn_disabled_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_disabled_border_color.label'
+                    type: css_color
+                btn_disabled_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_disabled_color.label'
+                    type: css_color
+                btn_outlined_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_background.label'
+                    type: css_background
+                btn_outlined_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_border_color.label'
+                    type: css_color
+                btn_outlined_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_color.label'
+                    type: css_color
+                btn_outlined_hover_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_hover_background.label'
+                    type: css_background
+                btn_outlined_hover_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_hover_border_color.label'
+                    type: css_color
+                btn_outlined_hover_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_hover_color.label'
+                    type: css_color
+                btn_outlined_focus_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_focus_background.label'
+                    type: css_background
+                btn_outlined_focus_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_focus_border_color.label'
+                    type: css_color
+                btn_outlined_focus_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_focus_color.label'
+                    type: css_color
+                btn_outlined_active_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_active_background.label'
+                    type: css_background
+                btn_outlined_active_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_active_border_color.label'
+                    type: css_color
+                btn_outlined_active_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_active_color.label'
+                    type: css_color
+                btn_outlined_disabled_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_disabled_background.label'
+                    type: css_background
+                btn_outlined_disabled_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_disabled_border_color.label'
+                    type: css_color
+                btn_outlined_disabled_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_disabled_color.label'
+                    type: css_color
+                btn_destructive_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_background.label'
+                    type: css_background
+                btn_destructive_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_border_color.label'
+                    type: css_color
+                btn_destructive_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_color.label'
+                    type: css_color
+                btn_destructive_hover_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_hover_background.label'
+                    type: css_background
+                btn_destructive_hover_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_hover_border_color.label'
+                    type: css_color
+                btn_destructive_hover_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_hover_color.label'
+                    type: css_color
+                btn_destructive_focus_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_focus_background.label'
+                    type: css_background
+                btn_destructive_focus_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_focus_border_color.label'
+                    type: css_color
+                btn_destructive_focus_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_focus_color.label'
+                    type: css_color
+                btn_destructive_active_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_active_background.label'
+                    type: css_background
+                btn_destructive_active_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_active_border_color.label'
+                    type: css_color
+                btn_destructive_active_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_active_color.label'
+                    type: css_color
+                btn_destructive_disabled_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_disabled_background.label'
+                    type: css_background
+                btn_destructive_disabled_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_disabled_border_color.label'
+                    type: css_color
+                btn_destructive_disabled_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_disabled_color.label'
+                    type: css_color
+                btn_destructive_outlined_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_outlined_background.label'
+                    type: css_background
+                btn_destructive_outlined_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_outlined_border_color.label'
+                    type: css_color
+                btn_destructive_outlined_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_outlined_color.label'
+                    type: css_color
+                btn_destructive_outlined_hover_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_outlined_hover_background.label'
+                    type: css_background
+                btn_destructive_outlined_hover_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_outlined_hover_border_color.label'
+                    type: css_color
+                btn_destructive_outlined_hover_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_outlined_hover_color.label'
+                    type: css_color
+                btn_destructive_outlined_focus_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_outlined_focus_background.label'
+                    type: css_background
+                btn_destructive_outlined_focus_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_outlined_focus_border_color.label'
+                    type: css_color
+                btn_destructive_outlined_focus_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_outlined_focus_color.label'
+                    type: css_color
+                btn_destructive_outlined_active_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_outlined_active_background.label'
+                    type: css_background
+                btn_destructive_outlined_active_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_outlined_active_border_color.label'
+                    type: css_color
+                btn_destructive_outlined_active_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_outlined_active_color.label'
+                    type: css_color
+                btn_destructive_outlined_disabled_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_outlined_disabled_background.label'
+                    type: css_background
+                btn_destructive_outlined_disabled_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_outlined_disabled_border_color.label'
+                    type: css_color
+                btn_destructive_outlined_disabled_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_destructive_outlined_disabled_color.label'
+                    type: css_color
+                btn_plain_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_plain_background.label'
+                    type: css_background
+                btn_plain_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_plain_border_color.label'
+                    type: css_color
+                btn_plain_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_plain_color.label'
+                    type: css_color
+                btn_plain_hover_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_plain_hover_background.label'
+                    type: css_background
+                btn_plain_hover_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_plain_hover_border_color.label'
+                    type: css_color
+                btn_plain_hover_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_plain_hover_color.label'
+                    type: css_color
+                btn_plain_focus_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_plain_focus_background.label'
+                    type: css_background
+                btn_plain_focus_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_plain_focus_border_color.label'
+                    type: css_color
+                btn_plain_focus_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_plain_focus_color.label'
+                    type: css_color
+                btn_plain_active_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_plain_active_background.label'
+                    type: css_background
+                btn_plain_active_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_plain_active_border_color.label'
+                    type: css_color
+                btn_plain_active_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_plain_active_color.label'
+                    type: css_color
+                btn_neutral_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_background.label'
+                    type: css_background
+                btn_neutral_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_border_color.label'
+                    type: css_color
+                btn_neutral_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_color.label'
+                    type: css_color
+                btn_neutral_hover_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_hover_background.label'
+                    type: css_background
+                btn_neutral_hover_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_hover_border_color.label'
+                    type: css_color
+                btn_neutral_hover_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_hover_color.label'
+                    type: css_color
+                btn_neutral_focus_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_focus_background.label'
+                    type: css_background
+                btn_neutral_focus_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_focus_border_color.label'
+                    type: css_color
+                btn_neutral_focus_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_focus_color.label'
+                    type: css_color
+                btn_neutral_active_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_active_background.label'
+                    type: css_background
+                btn_neutral_active_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_active_border_color.label'
+                    type: css_color
+                btn_neutral_active_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_active_color.label'
+                    type: css_color
+                btn_neutral_dark_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_background.label'
+                    type: css_background
+                btn_neutral_dark_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_border_color.label'
+                    type: css_color
+                btn_neutral_dark_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_color.label'
+                    type: css_color
+                btn_neutral_dark_hover_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_hover_background.label'
+                    type: css_background
+                btn_neutral_dark_hover_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_hover_border_color.label'
+                    type: css_color
+                btn_neutral_dark_hover_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_hover_color.label'
+                    type: css_color
+                btn_neutral_dark_focus_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_focus_background.label'
+                    type: css_background
+                btn_neutral_dark_focus_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_focus_border_color.label'
+                    type: css_color
+                btn_neutral_dark_focus_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_focus_color.label'
+                    type: css_color
+                btn_neutral_dark_focus_outline:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_focus_outline.label'
+                    type: css_outline
+                btn_neutral_dark_focus_outline_offset:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_focus_outline_offset.label'
+                    type: css_length
+                btn_neutral_dark_focus_box_shadow:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_focus_box_shadow.label'
+                    type: css_box_shadow
+                btn_neutral_dark_active_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_active_background.label'
+                    type: css_background
+                btn_neutral_dark_active_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_active_border_color.label'
+                    type: css_color
+                btn_neutral_dark_active_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_active_color.label'
+                    type: css_color
+                btn_neutral_dark_disabled_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_disabled_background.label'
+                    type: css_background
+                btn_neutral_dark_disabled_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_disabled_border_color.label'
+                    type: css_color
+                btn_neutral_dark_disabled_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_neutral_dark_disabled_color.label'
+                    type: css_color
+                btn_colored_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_background.label'
+                    type: css_background
+                btn_colored_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_border_color.label'
+                    type: css_color
+                btn_colored_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_color.label'
+                    type: css_color
+                btn_colored_hover_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_hover_background.label'
+                    type: css_background
+                btn_colored_hover_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_hover_border_color.label'
+                    type: css_color
+                btn_colored_hover_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_hover_color.label'
+                    type: css_color
+                btn_colored_focus_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_focus_background.label'
+                    type: css_background
+                btn_colored_focus_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_focus_border_color.label'
+                    type: css_color
+                btn_colored_focus_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_focus_color.label'
+                    type: css_color
+                btn_colored_active_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_active_background.label'
+                    type: css_background
+                btn_colored_active_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_active_border_color.label'
+                    type: css_color
+                btn_colored_active_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_active_color.label'
+                    type: css_color
+                btn_inverse_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_inverse_background.label'
+                    type: css_background
+                btn_inverse_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_inverse_border_color.label'
+                    type: css_color
+                btn_inverse_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_inverse_color.label'
+                    type: css_color
+                btn_inverse_hover_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_inverse_hover_background.label'
+                    type: css_background
+                btn_inverse_hover_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_inverse_hover_border_color.label'
+                    type: css_color
+                btn_inverse_hover_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_inverse_hover_color.label'
+                    type: css_color
+                btn_inverse_focus_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_inverse_focus_background.label'
+                    type: css_background
+                btn_inverse_focus_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_inverse_focus_border_color.label'
+                    type: css_color
+                btn_inverse_focus_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_inverse_focus_color.label'
+                    type: css_color
+                btn_inverse_active_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_inverse_active_background.label'
+                    type: css_background
+                btn_inverse_active_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_inverse_active_border_color.label'
+                    type: css_color
+                btn_inverse_active_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_inverse_active_color.label'
+                    type: css_color
+                btn_inverse_disabled_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_inverse_disabled_background.label'
+                    type: css_background
+                btn_inverse_disabled_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_inverse_disabled_border_color.label'
+                    type: css_color
+                btn_inverse_disabled_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_inverse_disabled_color.label'
+                    type: css_color
+                btn_outlined_inverse_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_inverse_background.label'
+                    type: css_background
+                btn_outlined_inverse_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_inverse_border_color.label'
+                    type: css_color
+                btn_outlined_inverse_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_inverse_color.label'
+                    type: css_color
+                btn_outlined_inverse_hover_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_inverse_hover_background.label'
+                    type: css_background
+                btn_outlined_inverse_hover_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_inverse_hover_border_color.label'
+                    type: css_color
+                btn_outlined_inverse_hover_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_inverse_hover_color.label'
+                    type: css_color
+                btn_outlined_inverse_focus_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_inverse_focus_background.label'
+                    type: css_background
+                btn_outlined_inverse_focus_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_inverse_focus_border_color.label'
+                    type: css_color
+                btn_outlined_inverse_focus_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_inverse_focus_color.label'
+                    type: css_color
+                btn_outlined_inverse_active_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_inverse_active_background.label'
+                    type: css_background
+                btn_outlined_inverse_active_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_inverse_active_border_color.label'
+                    type: css_color
+                btn_outlined_inverse_active_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_inverse_active_color.label'
+                    type: css_color
+                btn_outlined_inverse_disabled_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_inverse_disabled_background.label'
+                    type: css_background
+                btn_outlined_inverse_disabled_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_inverse_disabled_border_color.label'
+                    type: css_color
+                btn_outlined_inverse_disabled_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_outlined_inverse_disabled_color.label'
+                    type: css_color
+                btn_colored_inverse_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_inverse_background.label'
+                    type: css_background
+                btn_colored_inverse_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_inverse_border_color.label'
+                    type: css_color
+                btn_colored_inverse_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_inverse_color.label'
+                    type: css_color
+                btn_colored_inverse_hover_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_inverse_hover_background.label'
+                    type: css_background
+                btn_colored_inverse_hover_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_inverse_hover_border_color.label'
+                    type: css_color
+                btn_colored_inverse_hover_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_inverse_hover_color.label'
+                    type: css_color
+                btn_colored_inverse_focus_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_inverse_focus_background.label'
+                    type: css_background
+                btn_colored_inverse_focus_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_inverse_focus_border_color.label'
+                    type: css_color
+                btn_colored_inverse_focus_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_inverse_focus_color.label'
+                    type: css_color
+                btn_colored_inverse_active_background:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_inverse_active_background.label'
+                    type: css_background
+                btn_colored_inverse_active_border_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_inverse_active_border_color.label'
+                    type: css_color
+                btn_colored_inverse_active_color:
+                    label: 'oro_frontend.theme.default.configuration.button_styles.btn_colored_inverse_active_color.label'
+                    type: css_color
 #image_placeholders:
 #    product: '/bundles/oroproduct/images/no_image.png'
 #    category: '/bundles/orocatalog/images/no_image.png'

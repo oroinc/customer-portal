@@ -105,6 +105,7 @@ navigation:
             commerce_top_nav:
                 type: commerce_top_nav
                 scope_type: menu_frontend_visibility
+                warning: 'oro.commercemenu.frontend.navigation.tree.commerce_top_nav.legacy_note'
                 children:
                     telephone: ~
                     free_shipping: ~
@@ -120,6 +121,7 @@ navigation:
             commerce_quick_access:
                 type: commerce_quick_access
                 scope_type: menu_frontend_visibility
+                warning: 'oro.commercemenu.frontend.navigation.tree.commerce_quick_access.legacy_note'
                 children:
                     orders: ~
                     quotes: ~

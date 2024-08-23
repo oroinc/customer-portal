@@ -441,6 +441,14 @@ services:
         tags:
             - { name: layout.data_provider, alias: theme_header_config }
 
+    oro_frontend.layout.data_provider.theme_css_variables_config:
+        class: Oro\Bundle\FrontendBundle\Layout\DataProvider\ThemeCssVariablesConfigProvider
+        arguments:
+            - '@oro_theme.provider.theme_configuration'
+            - ['color_palette', 'button_styles', 'page_styles']
+        tags:
+            - { name: layout.data_provider, alias: theme_css_variables }
+
     oro_frontend.acl.voter.content_block:
         class: Oro\Bundle\FrontendBundle\Acl\Voter\ContentBlockVoter
         arguments:

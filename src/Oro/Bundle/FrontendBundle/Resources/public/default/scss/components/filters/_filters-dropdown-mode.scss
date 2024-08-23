@@ -52,6 +52,10 @@
         @include ellipsis();
     }
 
+    .filter-criteria-simple {
+        width: $filter-dropdown-mode-item-flex-basis;
+    }
+
     .filter-criteria {
         display: block;
 
@@ -143,7 +147,6 @@
         position: relative;
 
         flex-basis: $filter-dropdown-mode-item-flex-basis;
-        max-width: $filter-dropdown-mode-item-flex-basis;
     }
 
     .filter-items-hint {

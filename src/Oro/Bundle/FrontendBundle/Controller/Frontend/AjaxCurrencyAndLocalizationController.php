@@ -59,12 +59,15 @@ class AjaxCurrencyAndLocalizationController extends AbstractController
 
             $redirectHelper = $this->container->get('oro_locale.helper.localized_slug_redirect');
             $fromUrl = $this->generateUrlWithContext($request);
-
-            if ($request->server->has('WEBSITE_PATH')) {
-                $toUrl = $this->getUrlForWebsitePath($request, $fromUrl, $localization);
+            if ($fromUrl) {
+                if ($request->server->has('WEBSITE_PATH')) {
+                    $toUrl = $this->getUrlForWebsitePath($request, $fromUrl, $localization);
+                } else {
+                    $toUrl = $redirectHelper->getLocalizedUrl($fromUrl, $localization);
+                    $toUrl = $this->rebuildQueryString($toUrl, $request);
+                }
             } else {
-                $toUrl = $redirectHelper->getLocalizedUrl($fromUrl, $localization);
-                $toUrl = $this->rebuildQueryString($toUrl, $request);
+                return ['localizationSuccessful' => true, 'redirectTo' => $this->generateUrlByReferer($request)];
             }
 
             return ['localizationSuccessful' => true, 'redirectTo' => $toUrl];

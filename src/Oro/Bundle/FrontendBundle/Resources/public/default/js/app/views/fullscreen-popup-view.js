@@ -135,6 +135,7 @@ define(function(require) {
             if (this.disposed) {
                 return;
             }
+            document.querySelector('body').classList.remove('modal-is-opened');
             this.remove();
             FullscreenPopupView.__super__.dispose.call(this);
         },
@@ -150,6 +151,7 @@ define(function(require) {
             this.$popup.appendTo(this.appendToContainer());
 
             const promises = _.map(this.sections, this.showSection, this);
+            document.querySelector('body').classList.add('modal-is-opened');
             $.when(...promises).then(this._onShow.bind(this));
         },
 
@@ -192,6 +194,8 @@ define(function(require) {
             this.trigger('beforeclose');
 
             this.remove();
+
+            document.querySelector('body').classList.remove('modal-is-opened');
 
             this.trigger('close');
             mediator.trigger('fullscreen:popup:close', this);

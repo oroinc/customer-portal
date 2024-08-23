@@ -9,6 +9,19 @@
     text-align: left;
 }
 
+.filter-criteria-simple {
+    display: flex;
+    justify-content: space-between;
+    gap: $filter-criteria-simple-gap;
+    background: none;
+    padding-right: $filter-criteria-simple-padding-end;
+
+    &:active,
+    &:focus {
+        box-shadow: none;
+    }
+}
+
 .filter-date-range {
     display: flex;
     justify-content: space-between;
