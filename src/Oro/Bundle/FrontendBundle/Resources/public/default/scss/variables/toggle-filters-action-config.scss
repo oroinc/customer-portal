@@ -5,7 +5,7 @@
 $toggle-filters-action-before-size: 8px !default;
 $toggle-filters-action-before-top: 8px !default;
 $toggle-filters-action-before-left: calc(
-    #{$theme-icon-medium-size} - #{math.round($toggle-filters-action-before-size / 2)}
+        #{$theme-icon-medium-size} - #{math.round($toggle-filters-action-before-size / 2)}
 ) !default;
 $toggle-filters-action-before-color: get-var-color('primary', 'main') !default;
 $toggle-filters-action-before-color-hover: get-var-color('primary', 'hover') !default;
@@ -14,12 +14,14 @@ $toggle-filters-action-before-color-disabled: get-var-color('text', 'disabled') 
 $toggle-filters-action-after-size: 14px !default;
 $toggle-filters-action-after-top: 5px !default;
 $toggle-filters-action-after-left: calc(
-    #{$theme-icon-medium-size} - #{math.round($toggle-filters-action-after-size / 2)}
+        #{$theme-icon-medium-size} - #{math.round($toggle-filters-action-after-size / 2)}
 ) !default;
 $toggle-filters-action-after-color: get-var-color('neutral', 'white-100') !default;
 $toggle-filters-action-after-color-hover: inherit !default;
 
+// Mobile
 $toggle-filters-action-background-mobile: get-color('neutral', 'grey1') !default;
 $toggle-filters-action-color-mobile: get-color('text', 'primary') !default;
 
-$toggle-filters-action-color-active: get-color('primary', 'active') !default;
+$toggle-filters-action-before-left-mobile: 22px !default;
+$toggle-filters-action-after-left-mobile: 20px !default;

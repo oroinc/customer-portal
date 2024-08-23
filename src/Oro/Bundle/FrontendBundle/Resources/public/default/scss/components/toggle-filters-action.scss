@@ -7,10 +7,6 @@
     // stylelint-disable-next-line declaration-no-important
     border-inline-end-color: transparent !important;
 
-    &.pressed {
-        color: $toggle-filters-action-color-active;
-    }
-
     .filters-selected &,
     &.filters-selected {
         &::before,
@@ -46,10 +42,6 @@
             &:before {
                 background-color: $toggle-filters-action-before-color-hover;
             }
-
-            &:after {
-                background-color: $toggle-filters-action-after-color-hover;
-            }
         }
 
         @include element-state('disabled') {
@@ -73,12 +65,15 @@
             }
         }
 
+        .filters-selected &,
         &.filters-selected {
             &::before {
+                left: $toggle-filters-action-before-left-mobile;
                 background-color: $toggle-filters-action-color-mobile;
             }
 
             &::after {
+                left: $toggle-filters-action-after-left-mobile;
                 background: $toggle-filters-action-background-mobile;
             }
         }

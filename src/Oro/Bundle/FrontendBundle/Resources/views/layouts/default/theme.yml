@@ -81,6 +81,8 @@ configuration:
                     label: oro_frontend.theme.default.configuration.datagrid.pagination_threshold.label
                     type: integer
                     default: 100
+                    previews:
+                        _default: 'bundles/orofrontend/images/previews/default_pagination_with_input_field.png'
         color_palette:
             label: 'oro_frontend.theme.default.configuration.color_palette.label'
             options:
