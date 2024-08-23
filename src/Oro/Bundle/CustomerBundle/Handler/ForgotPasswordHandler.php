@@ -2,15 +2,17 @@
 
 namespace Oro\Bundle\CustomerBundle\Handler;
 
+use Oro\Bundle\CheckoutBundle\Handler\CheckoutHandlerInterface;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
+use Oro\Bundle\WorkflowBundle\Entity\WorkflowItem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Handling forgot password request during checkout
  */
-class ForgotPasswordHandler
+class ForgotPasswordHandler implements CheckoutHandlerInterface
 {
     public function __construct(
         private CustomerUserPasswordRequestHandler $passwordRequestHandler,
@@ -19,19 +21,16 @@ class ForgotPasswordHandler
     ) {
     }
 
-    /**
-     * @param Request $request
-     * @return bool
-     */
-    public function handle(Request $request)
+    public function handle(WorkflowItem $workflowItem, Request $request): void
     {
-        if (!$this->isForgotPasswordRequest($request)) {
-            return false;
+        if (!$this->isSupported($request)) {
+            return;
         }
+
         $form = $this->customerUserFormProvider->getForgotPasswordForm();
         $email = $this->passwordRequestHandler->process($form, $request);
         if (!$email) {
-            return false;
+            return;
         }
 
         $request->query->remove('isForgotPassword');
@@ -40,16 +39,9 @@ class ForgotPasswordHandler
             'oro_customer_user_reset_email',
             $email
         );
-
-        return true;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return bool
-     */
-    public function isForgotPasswordRequest(Request $request)
+    public function isSupported(Request $request): bool
     {
         return $request->isMethod(Request::METHOD_POST) && $request->get('isForgotPassword') !== null;
     }
