@@ -38,6 +38,20 @@ define(function(require) {
                 ...FrontendDateFilter.__super__._readDOMValue.call(this),
                 type: this._getInputValue(this.criteriaValueSelectors.type)
             };
+        },
+
+        _setInputValue(input, value) {
+            const $input = this.$(input);
+            const oldValue = $input.val();
+            const {start, end} = this.criteriaValueSelectors.value;
+
+            FrontendDateFilter.__super__._setInputValue.call(this, input, value);
+
+            if (oldValue !== value && ($input.is(start) || $input.is(end))) {
+                $input.trigger('change');
+            }
+
+            return this;
         }
     });
 

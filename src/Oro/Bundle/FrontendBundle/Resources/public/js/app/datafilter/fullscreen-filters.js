@@ -203,6 +203,7 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
 
         for (const filter of Object.values(this.filterManager.filters)) {
             filter.initiallyOpened = config.initiallyOpened;
+            filter.notAlignCriteria = true;
 
             if (config.autoClose === false) {
                 filter.autoClose = config.autoClose;

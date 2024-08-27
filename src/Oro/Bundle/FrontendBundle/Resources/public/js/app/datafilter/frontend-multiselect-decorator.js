@@ -59,8 +59,6 @@ define(function(require, exports, module) {
             searchAriaLabel: __('oro_frontend.filters.multiselect.aria_label')
         },
 
-        maxItemsForShowSearchBar: 0,
-
         listItemClasses: 'datagrid-manager__list-item',
 
         /**
@@ -217,7 +215,8 @@ define(function(require, exports, module) {
          * @param {object} instance
          */
         setDropdownHeaderSearchDesign: function(instance) {
-            if (instance.element.children(':enabled').length > this.maxItemsForShowSearchBar) {
+            if (this.maxItemsForShowSearchBar > 0 &&
+                instance.element.children(':enabled').length > this.maxItemsForShowSearchBar) {
                 const searchIcon = _.macros('oroui::renderIcon')({
                     name: 'search',
                     extraClass: 'datagrid-manager-search__icon'

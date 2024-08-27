@@ -93,7 +93,7 @@ define(function(require, exports, module) {
             return this.subview('hint').getChips();
         },
 
-        _setInputValue: function(input, value) {
+        _setInputValue(input, value) {
             const $input = this.$(input);
 
             switch ($input.attr('type')) {
@@ -108,7 +108,7 @@ define(function(require, exports, module) {
                     });
                     break;
                 default:
-                    $input.val(value).trigger('change');
+                    $input.val(value);
             }
 
             return this;

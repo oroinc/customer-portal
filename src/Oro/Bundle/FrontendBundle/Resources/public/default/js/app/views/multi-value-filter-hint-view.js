@@ -48,8 +48,10 @@ const MultiValueFilterHintView = BaseView.extend({
             }
 
             this.subview(`filter:sub-hint:${choice}`).update(hints.includes(label) ? label : null);
+            const parent = this.subview(`filter:sub-hint:${choice}`).$el.parent().get(0);
             this.subview(`filter:sub-hint:${choice}`).$el.tooltip({
-                title: this.filter.label
+                title: this.filter.label,
+                container: parent ? parent : 'body'
             });
         });
     },

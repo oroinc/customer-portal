@@ -29,6 +29,10 @@
             max-height: none !important;
             /* stylelint-enable declaration-no-important */
             margin-bottom: 0;
+
+            &.filters-dropdown {
+                margin-bottom: spacing('sm');
+            }
         }
 
         .datagrid-manager-search {
@@ -45,10 +49,6 @@
             &--back-btn {
                 margin-inline-start: -10px;
                 display: grid;
-
-                &:last-child {
-                    margin-inline-end: 14px;
-                }
             }
 
             &--close-btn {
@@ -64,7 +64,6 @@
 
         &__footer {
             background-color: $filter-toggle-mode-datagrid-manager-background-color;
-            height: 100%;
         }
 
         .dropdown-menu {
@@ -75,6 +74,10 @@
             margin: 0;
             height: 100%;
             background: transparent;
+
+            /* rtl:raw:
+            left: auto !important;
+            */
         }
     }
 
@@ -99,14 +102,12 @@
 
             .datagrid-manager__header {
                 margin-top: -46px;
+                padding-right: 14px;
+            }
 
-                // stylelint-disable-next-line selector-max-compound-selectors
-                > div {
-                    // stylelint-disable-next-line selector-max-compound-selectors
-                    .in-sticky & {
-                        margin-bottom: spacing('lg');
-                    }
-                }
+            .datagrid-manager-search {
+                margin-right: spacing('xmd');
+                margin-top: spacing('base');
             }
         }
     }

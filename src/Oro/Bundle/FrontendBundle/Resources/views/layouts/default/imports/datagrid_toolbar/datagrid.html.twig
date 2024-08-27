@@ -54,6 +54,7 @@
         'data-section': 'base-side'
     }) %}
 
+    {% apply spaceless %}
     <div{{ block('block_attributes') }}>
         {% for child in block -%}
             {% if child.vars.visible %}
@@ -61,6 +62,7 @@
             {% endif %}
         {%- endfor %}
     </div>
+    {% endapply %}
 {% endblock %}
 
 {% block __datagrid_toolbar__datagrid_toolbar_rightside_container_widget %}

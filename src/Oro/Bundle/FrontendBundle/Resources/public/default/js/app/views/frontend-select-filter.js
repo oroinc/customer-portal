@@ -201,7 +201,7 @@ define(function(require, exports, module) {
                 hidden = tools.isEqualsLoosely(this.getValue(), this.emptyValue);
             }
 
-            this.selectWidget.toggleVisibilityResetButton(hidden);
+            this.selectWidget && this.selectWidget.toggleVisibilityResetButton(hidden);
         }
     }));
 

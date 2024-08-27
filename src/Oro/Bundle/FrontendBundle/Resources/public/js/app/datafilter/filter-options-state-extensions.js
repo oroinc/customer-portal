@@ -27,7 +27,8 @@ const FilterOptionsStateExtensions = BaseClass.extend({
                     autoClose: filter.autoClose,
                     animationDuration: filter.animationDuration,
                     outerHintContainer: filter.outerHintContainer,
-                    initiallyOpened: filter.initiallyOpened
+                    initiallyOpened: filter.initiallyOpened,
+                    notAlignCriteria: filter.notAlignCriteria
                 };
 
                 if (filter.type === 'datetime') {
