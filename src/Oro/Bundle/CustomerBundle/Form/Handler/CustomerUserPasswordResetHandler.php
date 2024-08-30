@@ -36,6 +36,7 @@ class CustomerUserPasswordResetHandler
                         ->setPasswordRequestedAt(null);
 
                     $this->userManager->setAuthStatus($customerUser, CustomerUserManager::STATUS_ACTIVE);
+                    $this->userManager->updateWebsiteSettings($customerUser);
                     $this->userManager->updateUser($customerUser);
 
                     $this->logger->notice(
