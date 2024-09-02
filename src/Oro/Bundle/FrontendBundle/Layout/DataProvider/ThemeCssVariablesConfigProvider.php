@@ -6,7 +6,7 @@ use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration;
 use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
 
 /**
- * Provides css variables from the specified theme sections
+ * Provides CSS variables from the specified theme sections.
  */
 class ThemeCssVariablesConfigProvider
 {
@@ -19,24 +19,15 @@ class ThemeCssVariablesConfigProvider
     public function getStylesVariables(): array
     {
         $items = [];
-
-        $themeConfigurationItems = $this->themeConfigurationProvider->getThemeConfiguration()->getConfiguration();
-
-        foreach ($themeConfigurationItems as $fullKey => $value) {
+        $configurationOptions = $this->themeConfigurationProvider->getThemeConfigurationOptions();
+        foreach ($configurationOptions as $fullKey => $value) {
             [$group] = explode(ThemeConfiguration::OPTION_KEY_DELIMITER, $fullKey);
-
-            if (!$this->isAppliedGroup($group) || !$value?->getValue()) {
+            if (!\in_array($group, $this->sections, true) || !$value?->getValue()) {
                 continue;
             }
-
             $items[$value->getVariableName()] = $value->getValue();
         }
 
         return $items;
-    }
-
-    private function isAppliedGroup(string $group): bool
-    {
-        return in_array($group, $this->sections);
     }
 }

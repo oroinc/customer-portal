@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Oro\Bundle\FrontendBundle\Tests\Functional\Layout\DataProvider;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CMSBundle\Tests\Functional\DataFixtures\LoadTextContentVariantsData;
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
@@ -21,7 +23,7 @@ use Oro\Bundle\SecurityBundle\Authentication\Token\UsernamePasswordOrganizationT
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
 use Oro\Bundle\ThemeBundle\DependencyInjection\Configuration;
-use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
+use Oro\Bundle\ThemeBundle\Entity\ThemeConfiguration as ThemeConfigurationEntity;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Bundle\WebCatalogBundle\Tests\Functional\DataFixtures\LoadContentNodesData;
 use Oro\Bundle\WebCatalogBundle\Tests\Functional\DataFixtures\LoadWebCatalogData;
@@ -37,9 +39,8 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
 {
     use ConfigManagerAwareTestTrait;
 
+    private ConfigManager $configManager;
     private ThemeHeaderConfigProvider $provider;
-
-    private ThemeConfigurationProvider $themeConfigurationProvider;
 
     protected function setUp(): void
     {
@@ -52,14 +53,14 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
             LoadWebCatalogScopes::class,
             LoadThemeConfigurationData::class,
         ]);
-        $this->provider = $this->getClientContainer()->get('oro_frontend.layout.data_provider.theme_header_config');
-        $this->themeConfigurationProvider = $this->getContainer()->get('oro_theme.provider.theme_configuration');
+        $this->configManager = self::getContainer()->get('oro_config.manager');
+        $this->provider = self::getContainer()->get('oro_frontend.layout.data_provider.theme_header_config');
     }
 
     protected function tearDown(): void
     {
-        $this->getContainer()->get('security.token_storage')->setToken(null);
-        $this->getClientContainer()->get(FrontendHelper::class)->resetRequestEmulation();
+        self::getContainer()->get('security.token_storage')->setToken(null);
+        self::getContainer()->get(FrontendHelper::class)->resetRequestEmulation();
         parent::tearDown();
     }
 
@@ -67,7 +68,7 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
     {
         /** @var CustomerVisitor $visitor */
         $visitor = $this->getReference(LoadCustomerVisitors::CUSTOMER_VISITOR);
-        $this->getContainer()
+        self::getContainer()
             ->get('security.token_storage')
             ->setToken(new AnonymousCustomerUserToken(
                 $visitor,
@@ -84,7 +85,7 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
     {
         /** @var CustomerUser $user */
         $user = $this->getReference(LoadCustomerUser::CUSTOMER_USER);
-        $this->getContainer()
+        self::getContainer()
             ->get('security.token_storage')
             ->setToken(new UsernamePasswordOrganizationToken(
                 $user,
@@ -100,7 +101,7 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
 
     public function testGetPromotionalBlockAliasForAnonymous(): void
     {
-        $this->getContainer()
+        self::getContainer()
             ->get('security.token_storage')
             ->setToken(null);
 
@@ -111,7 +112,7 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
 
     public function testGetPromotionalBlockAliasFromThemeConfigurationForAnonymous(): void
     {
-        $this->getContainer()
+        self::getContainer()
             ->get('security.token_storage')
             ->setToken(null);
 
@@ -228,7 +229,7 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
 
     private function setupRequestStack(): void
     {
-        $this->getClientContainer()->get(FrontendHelper::class)->emulateFrontendRequest();
+        self::getContainer()->get(FrontendHelper::class)->emulateFrontendRequest();
         $request = Request::create('/');
 
         $request->attributes->set(
@@ -236,26 +237,37 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
             '_web_content_scopes',
             [$this->getReference(LoadWebCatalogScopes::SCOPE1)]
         );
-        $this->getClientContainer()->get(RequestStack::class)->push($request);
+        self::getContainer()->get(RequestStack::class)->push($request);
     }
 
     private function setContentBlockForThemeConfiguration(): void
     {
-        $themeConfiguration = $this->themeConfigurationProvider->getThemeConfiguration();
-
-        $themeConfiguration->addConfigurationOption(
+        $this->getThemeConfiguration()->addConfigurationOption(
             ThemeConfiguration::buildOptionKey('header', 'promotional_content'),
             $this->getReference('content_block_1')->getId()
         );
+        $this->getThemeConfigurationEntityManager()->flush();
     }
 
     private function setQuickAccessButtonForThemeConfiguration(QuickAccessButtonConfig $quickAccessButtonConfig): void
     {
-        $themeConfiguration = $this->themeConfigurationProvider->getThemeConfiguration();
-
-        $themeConfiguration->addConfigurationOption(
+        $this->getThemeConfiguration()->addConfigurationOption(
             ThemeConfiguration::buildOptionKey('header', 'quick_access_button'),
             $quickAccessButtonConfig
         );
+        $this->getThemeConfigurationEntityManager()->flush();
+    }
+
+    private function getThemeConfiguration(): ThemeConfigurationEntity
+    {
+        return $this->getThemeConfigurationEntityManager()->find(
+            ThemeConfigurationEntity::class,
+            $this->configManager->get(Configuration::getConfigKeyByName(Configuration::THEME_CONFIGURATION))
+        );
+    }
+
+    private function getThemeConfigurationEntityManager(): EntityManagerInterface
+    {
+        return self::getContainer()->get('doctrine')->getManagerForClass(ThemeConfigurationEntity::class);
     }
 }

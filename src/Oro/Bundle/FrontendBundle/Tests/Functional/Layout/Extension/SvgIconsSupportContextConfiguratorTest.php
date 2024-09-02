@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Oro\Bundle\FrontendBundle\Tests\Functional\Layout\Extension;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\LayoutBundle\Event\LayoutContextChangedEvent;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
@@ -29,6 +30,11 @@ class SvgIconsSupportContextConfiguratorTest extends WebTestCase
         self::getConfigManager()->flush();
     }
 
+    private function getThemeConfigurationEntityManager(): EntityManagerInterface
+    {
+        return self::getContainer()->get('doctrine')->getManagerForClass(ThemeConfiguration::class);
+    }
+
     public function testIsSvgIconsSupportedOnDefaultTheme(): void
     {
         /** @var EventDispatcher $eventDispatcher */
@@ -44,7 +50,7 @@ class SvgIconsSupportContextConfiguratorTest extends WebTestCase
             ->setName('Custom')
             ->setTheme('custom');
 
-        $entityManager = self::getContainer()->get('doctrine')->getManagerForClass(ThemeConfiguration::class);
+        $entityManager = $this->getThemeConfigurationEntityManager();
         $entityManager->persist($themeConfig);
         $entityManager->flush();
 
@@ -76,7 +82,7 @@ class SvgIconsSupportContextConfiguratorTest extends WebTestCase
             ->setName('Custom Standalone')
             ->setTheme('custom_standalone');
 
-        $entityManager = self::getContainer()->get('doctrine')->getManagerForClass(ThemeConfiguration::class);
+        $entityManager = $this->getThemeConfigurationEntityManager();
         $entityManager->persist($themeConfig);
         $entityManager->flush();
 
