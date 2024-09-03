@@ -177,3 +177,21 @@
 .none-pointer-events {
     pointer-events: none;
 }
+
+.rounded {
+    border-radius: $border-radius;
+
+    &-circle {
+        border-radius: 50%;
+    }
+}
+
+.bordered {
+    border: $bordered-border;
+    border-radius: $border-radius;
+}
+
+.bordered-img-on-top {
+    border-bottom: $bordered-img-on-top-border-bottom;
+    border-radius: $border-radius $border-radius 0 0;
+}
