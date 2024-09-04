@@ -50,6 +50,7 @@ class LoadCustomerUserRoles extends AbstractRolesData
         $chainMetadataProvider->startProviderEmulation(FrontendOwnershipMetadataProvider::ALIAS);
 
         foreach ($roleData as $roleName => $roleConfigData) {
+            /** @var CustomerUserRole $role */
             $role = $this->createEntity($roleName, $roleConfigData['label']);
             $role->setOrganization($organization);
             if (!empty($roleConfigData['website_default_role'])) {
@@ -103,7 +104,20 @@ class LoadCustomerUserRoles extends AbstractRolesData
 
     /**
      * {@inheritDoc}
-     * @return CustomerUserRole
+     */
+    protected function findEntity(ObjectManager $manager, string $name, ?string $label): ?AbstractRole
+    {
+        $entity = $manager->getRepository(CustomerUserRole::class)
+            ->findOneBy(['role' => CustomerUserRole::PREFIX_ROLE . $name]);
+        if (null !== $entity && $label) {
+            $entity->setLabel($label);
+        }
+
+        return $entity;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     protected function createEntity(string $name, string $label): AbstractRole
     {
