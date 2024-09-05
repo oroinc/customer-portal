@@ -44,6 +44,10 @@
         @include ellipsis();
     }
 
+    .filter-criteria-simple {
+        width: $filter-dropdown-mode-item-flex-basis;
+    }
+
     .filter-criteria {
         display: block;
 

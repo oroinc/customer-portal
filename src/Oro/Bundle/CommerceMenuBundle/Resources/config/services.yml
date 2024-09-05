@@ -449,7 +449,18 @@ services:
                 method: onMenuUpdatesApplyAfter
                 priority: 255
 
+    oro_commerce_menu.event_listener.load_menu_images:
+        class: Oro\Bundle\CommerceMenuBundle\EventListener\LoadMenuImagesListener
+        arguments:
+            - '@doctrine'
+        tags:
+            -
+                name: kernel.event_listener
+                event: Oro\Bundle\NavigationBundle\Event\MenuUpdatesApplyAfterEvent
+                method: onMenuUpdatesApplyAfter
+                priority: 256
+
     oro_commerce_menu.form.extension.menu_update_type.icons:
-        class: 'Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateIconsExtension'
+        class: Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateIconsExtension
         tags:
             - { name: form.type_extension }

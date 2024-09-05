@@ -4,7 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\ControllerFrontend;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleACLData;
-use Oro\Bundle\DataGridBundle\Datagrid\Manager;
+use Oro\Bundle\DataGridBundle\Datagrid\ManagerInterface;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
@@ -108,7 +108,7 @@ class CustomerUserRoleControllerACLTest extends WebTestCase
             'role' => $role
         ];
         $container = $this->client->getContainer();
-        /** @var Manager $gridManager */
+        /** @var ManagerInterface $gridManager */
         $gridManager = $container->get('oro_datagrid.datagrid.manager');
         $grid = $gridManager->getDatagridByRequestParams(
             'frontend-customer-user-role-permission-grid',

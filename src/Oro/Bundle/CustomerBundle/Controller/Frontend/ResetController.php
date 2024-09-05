@@ -7,6 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
+use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManager;
 use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Oro\Bundle\UIBundle\Route\Router;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
@@ -109,6 +110,10 @@ class ResetController extends AbstractController
             return $this->redirect($this->generateUrl('oro_customer_frontend_customer_user_reset_request'));
         }
 
+        /** @var UserLocalizationManager $loc */
+        $userLocalizationManager = $this->container->get(UserLocalizationManager::class);
+        $currentLocalization = $userLocalizationManager->getCurrentLocalization();
+
         /** @var CustomerUserPasswordResetHandler $handler */
         $handler = $this->container->get(CustomerUserPasswordResetHandler::class);
         $form = $this->container->get(FrontendCustomerUserFormProvider::class)
@@ -124,6 +129,8 @@ class ResetController extends AbstractController
                 'success',
                 'oro.customer.customeruser.profile.password_reset.message'
             );
+
+            $userLocalizationManager->setCurrentLocalization($currentLocalization);
 
             if ($actionParameter) {
                 $response = $this->container->get(Router::class)->redirect($user);
@@ -162,6 +169,7 @@ class ResetController extends AbstractController
                 CustomerUserPasswordResetHandler::class,
                 Router::class,
                 CustomerUserManager::class,
+                UserLocalizationManager::class
             ]
         );
     }

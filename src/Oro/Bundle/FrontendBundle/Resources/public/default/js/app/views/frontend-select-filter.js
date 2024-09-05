@@ -109,7 +109,9 @@ define(function(require, exports, module) {
         toggleFilter: function() {
             if (!this.selectDropdownOpened) {
                 this._setButtonPressed(this.$(this.criteriaSelector), true);
-                this.selectWidget.multiselect('open');
+                if (this.selectWidget) {
+                    this.selectWidget.multiselect('open');
+                }
                 this.trigger('showCriteria', this);
                 this.selectDropdownOpened = true;
             } else {

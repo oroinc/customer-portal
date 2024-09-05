@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Migrations\Data\ORM;
 
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\OrganizationBundle\Migrations\Data\ORM\LoadOrganizationAndBusinessUnitData;
 use Oro\Bundle\UserBundle\Entity\AbstractRole;
 use Oro\Bundle\UserBundle\Entity\Role;
@@ -19,6 +20,19 @@ class LoadUserRolesData extends AbstractRolesData
     public function getDependencies(): array
     {
         return [LoadOrganizationAndBusinessUnitData::class];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function findEntity(ObjectManager $manager, string $name, ?string $label): ?AbstractRole
+    {
+        $entity = $manager->getRepository(Role::class)->findOneBy(['role' => $name]);
+        if (null !== $entity && $label) {
+            $entity->setLabel($label);
+        }
+
+        return $entity;
     }
 
     /**

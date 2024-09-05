@@ -40,6 +40,9 @@ $filter-dropdown-item-active-weight: font-weight('bold') !default;
 
 $align-filter-dropdown-to-right-side: true !default;
 
+$filter-criteria-simple-gap: spacing('sm') !default;
+$filter-criteria-simple-padding-end: 11px !default;
+
 $filter-container-header-display: flex !default;
 $filter-container-title-flex-grow: 1 !default;
 $filter-container-title-flex-shrink: 1 !default;

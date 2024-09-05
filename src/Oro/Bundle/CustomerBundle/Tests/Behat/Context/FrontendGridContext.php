@@ -199,10 +199,10 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     /**
      * Hide all columns in frontend grid except mentioned
      *
-     * @When /^(?:|I) hide all columns in frontend grid except (?P<exceptions>(?:[^"]|\\")*)$/
-     * @When /^(?:|I) hide all columns in "(?P<gridName>[\w\s]+)" frontend grid except (?P<exceptions>(?:[^"]|\\")*)$/
-     * @When /^(?:|I) hide all columns in frontend grid$/
-     * @When /^(?:|I) hide all columns in "(?P<gridName>[\w\s]+)" frontend grid$/
+     * @When /^(?:|I )hide all columns in frontend grid except (?P<exceptions>(?:[^"]|\\")*)$/
+     * @When /^(?:|I )hide all columns in "(?P<gridName>[\w\s]+)" frontend grid except (?P<exceptions>(?:[^"]|\\")*)$/
+     * @When /^(?:|I )hide all columns in frontend grid$/
+     * @When /^(?:|I )hide all columns in "(?P<gridName>[\w\s]+)" frontend grid$/
      */
     public function iHideAllColumnsInFrontendGrid(string $exceptions = '', ?string $gridName = null): void
     {
@@ -351,8 +351,8 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     }
 
     /**
-     * @Given /^(?:|I) show filter "(?P<filter>(?:[^"]|\\")*)" in frontend grid$/
-     * @Given /^(?:|I) show filter "(?P<filter>(?:[^"]|\\")*)" in "(?P<datagridName>[\w\s]+)" frontend grid$/
+     * @Given /^(?:|I )show filter "(?P<filter>(?:[^"]|\\")*)" in frontend grid$/
+     * @Given /^(?:|I )show filter "(?P<filter>(?:[^"]|\\")*)" in "(?P<datagridName>[\w\s]+)" frontend grid$/
      *
      * @param string $filter
      * @param string $datagridName
@@ -366,8 +366,8 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     }
 
     /**
-     * @Given /^(?:|I) hide filter "(?P<filter>(?:[^"]|\\")*)" in frontend grid$/
-     * @Given /^(?:|I) hide filter "(?P<filter>(?:[^"]|\\")*)" in "(?P<datagridName>[\w\s]+)" frontend grid$/
+     * @Given /^(?:|I )hide filter "(?P<filter>(?:[^"]|\\")*)" in frontend grid$/
+     * @Given /^(?:|I )hide filter "(?P<filter>(?:[^"]|\\")*)" in "(?P<datagridName>[\w\s]+)" frontend grid$/
      */
     public function iHideFilterInFrontendGrid(string $filter, ?string $datagridName = null): void
     {
@@ -378,8 +378,8 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     }
 
     /**
-     * @Given /^(?:|I) sort frontend grid by "(?P<sorter>(?:[^"]|\\")*)"$/
-     * @Given /^(?:|I) sort frontend grid "(?P<datagridName>[\w\s]+)" by "(?P<sorter>(?:[^"]|\\")*)"$/
+     * @Given /^(?:|I )sort frontend grid by "(?P<sorter>(?:[^"]|\\")*)"$/
+     * @Given /^(?:|I )sort frontend grid "(?P<datagridName>[\w\s]+)" by "(?P<sorter>(?:[^"]|\\")*)"$/
      */
     public function iSortFrontendGrid(string $sorter, ?string $datagridName = null): void
     {
@@ -443,8 +443,11 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     private function getFrontendGridColumnManager($datagridName = null)
     {
         $grid = $this->getFrontendGrid($datagridName);
+        /** @var FrontendGridColumnManager $manager */
         $manager = $grid->getElement('FrontendGridColumnManager');
         self::assertNotNull($manager);
+        $manager->setGrid($grid);
+
         return $manager;
     }
 

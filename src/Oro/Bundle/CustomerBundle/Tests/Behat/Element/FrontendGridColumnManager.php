@@ -52,7 +52,11 @@ class FrontendGridColumnManager extends GridColumnManager
             return;
         }
 
-        $button = $this->elementFactory->createElement('FrontendGridColumnManagerButton');
+        if ($this->grid) {
+            $button = $this->grid->getElement('FrontendGridColumnManagerButton');
+        } else {
+            $button = $this->elementFactory->createElement('FrontendGridColumnManagerButton');
+        }
         $button->click();
 
         self::assertTrue($this->isVisible(), 'Can not open grid column manager dropdown');
