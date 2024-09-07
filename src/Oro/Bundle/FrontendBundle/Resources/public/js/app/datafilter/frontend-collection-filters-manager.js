@@ -60,7 +60,7 @@ define(function(require, exports, module) {
 
         optionNames: CollectionFiltersManager.prototype.optionNames.concat([
             'fullscreenTemplate', 'filtersStateElement', 'filterEnableValueBadge', 'allowClearButtonInFilter',
-            'hintsToggledStatus', 'enableScrollContainerShadow'
+            'hintsToggledStatus', 'enableScrollContainerShadow', 'closeFilterManagerOnOutClick'
         ]),
 
         hintsExpanded: false,
@@ -70,6 +70,14 @@ define(function(require, exports, module) {
          */
         constructor: function FrontendCollectionFiltersManager(options) {
             FrontendCollectionFiltersManager.__super__.constructor.call(this, options);
+        },
+
+        initialize(options) {
+            if (this.closeFilterManagerOnOutClick !== void 0) {
+                this.multiselectParameters.closeOnOutOfClick = this.closeFilterManagerOnOutClick;
+            }
+
+            FrontendCollectionFiltersManager.__super__.initialize.call(this, options);
         },
 
         /**
@@ -100,7 +108,8 @@ define(function(require, exports, module) {
                 })
                 .prepend(_.macros('oroui::renderIcon')({
                     name: 'settings'
-                }));
+                }))
+                .tooltip();
         },
 
         /**

@@ -352,11 +352,3 @@
         max-width: $product-price-filter-criteria-max-width;
     }
 }
-
-@include breakpoint('mobile-big') {
-    .filter-box {
-        .filter-items-hint {
-            margin-block-start: 0;
-        }
-    }
-}

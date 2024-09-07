@@ -285,8 +285,6 @@ define(function(require, exports, module) {
             }).text(this.parameters.resetButton.label || 'Reset');
 
             instance.resetButton.on(`click`, event => {
-                console.log(instance);
-
                 if (typeof this.parameters.resetButton.onClick === 'function') {
                     this.parameters.resetButton.onClick(event);
                 }

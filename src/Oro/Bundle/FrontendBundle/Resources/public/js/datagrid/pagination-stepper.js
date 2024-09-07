@@ -148,6 +148,11 @@ const PaginationStepper = PaginationInput.extend({
             startThreshold = totalPages - showAtStartEnd;
         }
 
+        if (showAtStartEnd >= pages.length) {
+            startThreshold = 0;
+            endThreshold = pages.length;
+        }
+
         const middle = pages.slice(startThreshold, endThreshold);
         const start = pages.slice(0, startThreshold);
         const end = pages.slice(endThreshold);

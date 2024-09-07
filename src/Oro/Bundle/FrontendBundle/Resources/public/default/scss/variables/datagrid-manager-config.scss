@@ -46,7 +46,7 @@ $datagrid-manager-fullscreen-table-inner-offset: 0 spacing('sm') 0 0 !default;
 $datagrid-manager-fullscreen-footer-inner-offset: spacing('xs') spacing('sm') !default;
 
 // Datagrid Manager Filters
-$datagrid-manager-filters-dropdown-max-height: 350px !default;
+$datagrid-manager-filters-dropdown-max-height: calc(44px * 8) !default;
 
 $datagrid-manager-filters-dropdown-content-bg-color: get-color('neutral', 'grey1') !default;
 $datagrid-manager-filters-dropdown-content-color: get-color('text', 'primary') !default;
