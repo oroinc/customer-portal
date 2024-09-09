@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Oro\Bundle\FrontendBundle\Tests\Functional\Acl\Voter;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CMSBundle\Tests\Functional\DataFixtures\LoadTextContentVariantsData;
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration as LayoutThemeConfiguration;
 use Oro\Bundle\SecurityBundle\Acl\BasicPermission;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\ThemeBundle\DependencyInjection\Configuration;
-use Oro\Bundle\ThemeBundle\Entity\ThemeConfiguration;
+use Oro\Bundle\ThemeBundle\Entity\ThemeConfiguration as ThemeConfigurationEntity;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
@@ -21,6 +23,7 @@ class ContentBlockVoterTest extends WebTestCase
 {
     use ConfigManagerAwareTestTrait;
 
+    private ConfigManager $configManager;
     private AuthorizationCheckerInterface $checker;
 
     protected function setUp(): void
@@ -29,19 +32,32 @@ class ContentBlockVoterTest extends WebTestCase
         $this->loadFixtures([
             LoadTextContentVariantsData::class,
         ]);
-        $this->checker = $this->getClientContainer()->get('security.authorization_checker');
+        $this->configManager = self::getContainer()->get('oro_config.manager');
+        $this->checker = self::getContainer()->get('security.authorization_checker');
+    }
+
+    private function getThemeConfiguration(): ThemeConfigurationEntity
+    {
+        return $this->getThemeConfigurationEntityManager()->find(
+            ThemeConfigurationEntity::class,
+            $this->configManager->get(Configuration::getConfigKeyByName(Configuration::THEME_CONFIGURATION))
+        );
+    }
+
+    private function getThemeConfigurationEntityManager(): EntityManagerInterface
+    {
+        return self::getContainer()->get('doctrine')->getManagerForClass(ThemeConfigurationEntity::class);
     }
 
     public function testDeniedIfUsedForGlobalThemeConfiguration(): void
     {
         $contentBlock = $this->getReference('content_block_1');
 
-        $value = self::getConfigManager()->get(Configuration::getConfigKeyByName(Configuration::THEME_CONFIGURATION));
-        $themeConfiguration = self::getDoctrine()->getRepository(ThemeConfiguration::class)->find($value);
-        $themeConfiguration->addConfigurationOption(
+        $this->getThemeConfiguration()->addConfigurationOption(
             LayoutThemeConfiguration::buildOptionKey('header', 'promotional_content'),
             $contentBlock->getId()
         );
+        $this->getThemeConfigurationEntityManager()->flush();
 
         $this->login(self::AUTH_USER, self::AUTH_PW);
 

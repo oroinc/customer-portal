@@ -31,8 +31,12 @@ abstract class AbstractRolesData extends AbstractFixture implements DependentFix
         $roleData = $this->loadRolesData();
 
         foreach ($roleData as $roleName => $roleConfigData) {
-            $role = $this->createEntity($roleName, $roleConfigData['label']);
-            $manager->persist($role);
+            $roleLabel = $roleConfigData['label'] ?? null;
+            $role = $this->findEntity($manager, $roleName, $roleLabel);
+            if (null === $role) {
+                $role = $this->createEntity($roleName, $roleLabel);
+                $manager->persist($role);
+            }
 
             if ($aclManager->isAclEnabled()) {
                 $sid = $aclManager->getSid($role);
@@ -48,6 +52,8 @@ abstract class AbstractRolesData extends AbstractFixture implements DependentFix
             $aclManager->flush();
         }
     }
+
+    abstract protected function findEntity(ObjectManager $manager, string $name, ?string $label): ?AbstractRole;
 
     abstract protected function createEntity(string $name, string $label): AbstractRole;
 

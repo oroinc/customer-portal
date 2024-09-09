@@ -65,6 +65,10 @@
     &-max-content {
         --grid-template-columns: max-content;
     }
+
+    &-responsive-content {
+        --grid-template-columns: minmax(auto, max-content);
+    }
 }
 
 @each $_breakpoint in get-breakpoints-list() {

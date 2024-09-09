@@ -67,6 +67,9 @@ class CustomerUserPasswordResetHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('updateUser')
             ->with($customerUser);
         $this->userManager->expects(self::once())
+            ->method('updateWebsiteSettings')
+            ->with($customerUser);
+        $this->userManager->expects(self::once())
             ->method('setAuthStatus')
             ->with($customerUser, CustomerUserManager::STATUS_ACTIVE);
 
@@ -113,6 +116,8 @@ class CustomerUserPasswordResetHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->userManager->expects(self::never())
             ->method('updateUser');
+        $this->userManager->expects(self::never())
+            ->method('updateWebsiteSettings');
         $this->userManager->expects(self::never())
             ->method('setAuthStatus');
 

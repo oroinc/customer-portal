@@ -9,7 +9,7 @@
     {%- for error in errors -%}
         {#validation markup should be the same as in frontend validator#}
         <div class="form-row grid-col-12">
-            <span class="validation-failed" role="alert">
+            <span class="validation-failed">
                 <span class="validation-failed__icon" aria-hidden="true"></span>
                 <span>{{ error.message|trans }}</span>
             </span>
