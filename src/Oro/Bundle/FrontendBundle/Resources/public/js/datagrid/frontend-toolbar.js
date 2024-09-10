@@ -61,7 +61,7 @@ const FrontendToolbar = Toolbar.extend({
             this.el.classList.add('sticky', 'sticky--top');
             this.el.setAttribute('data-sticky', '');
         } else {
-            this.el.classList.remove('sticky', 'sticky--top');
+            this.el.classList.remove('sticky', 'sticky--top', 'in-sticky', 'scroll-up', 'scroll-down');
             this.el.removeAttribute('data-sticky');
         }
     }

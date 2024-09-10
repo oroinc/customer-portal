@@ -48,6 +48,11 @@
         margin: 0 auto;
         max-width: $site-width;
         z-index: $loader-mask-z-index + 1;
+
+        &.toolbar.in-sticky {
+            padding-right: spacing('lg') + 4px;
+            margin-right: -#{ spacing('lg') + 4px};
+        }
     }
 
     &-pagination-info {
@@ -172,6 +177,13 @@
 
         &:not(:has(.filters-selected)) &__panel {
             display: none;
+        }
+
+        &-sticky-container {
+            &.toolbar.in-sticky {
+                padding-right: spacing('base');
+                margin-right: -#{spacing('base')};
+            }
         }
     }
 }

@@ -104,6 +104,9 @@ const PaginationStepper = PaginationInput.extend({
      * @param event
      */
     onChangePage(event) {
+        this.scrollToPosition = this.$el
+            .closest(`[data-page-component-name="${this.collection.inputName}"]`).position();
+
         if (this.scrollToPosition) {
             this.$el.closest('html').stop().animate({scrollTop: this.scrollToPosition.top}, '500', 'swing');
         }

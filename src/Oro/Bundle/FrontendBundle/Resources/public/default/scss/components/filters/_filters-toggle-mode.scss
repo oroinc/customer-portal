@@ -115,7 +115,6 @@
     // Set a maximum width to crop filters with long names
     .filter-items-container {
         max-width: 100%;
-        overflow: hidden;
         padding-inline: $filter-toggle-filter-items-container-inline-inner-offset;
         margin-inline: $filter-toggle-filter-items-container-inline-offset;
 
