@@ -1,0 +1,16 @@
+/* @theme: default; */
+
+.divider {
+    display: $divider-display;
+    grid-template-columns: $divider-grid-template-columns;
+    align-items: $divider-align-items;
+    gap: $divider-gap;
+
+    &::before,
+    &::after {
+        content: $divider-before-after-content;
+        background: $divider-before-after-background;
+        height: $divider-before-after-height;
+        display: $divider-before-after-display;
+    }
+}
