@@ -22,8 +22,6 @@
     }
 
     .dropdown-item {
-        --theme-icon-size: #{$theme-icon-medium-size};
-
         display: flex;
         align-items: $dropdown-item-align-items;
         font: $dropdown-item-font;

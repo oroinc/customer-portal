@@ -256,10 +256,14 @@ $modal-footer-border-color: $modal-header-border-color;
 $modal-footer-gap: spacing('base');
 $modal-header-border-width: $modal-content-border-width;
 $modal-footer-border-width: $modal-header-border-width;
+$modal-footer-grid-template-columns: repeat(2, minmax(auto, 250px)) !default;
 
 $modal-lg: 900px;
 $modal-md: 500px;
 $modal-sm: 300px;
+
+$modal-delete-confirmation-body-color: get-color('destructive', 'main') !default;
+$modal-delete-confirmation-body-gap: spacing('lg') !default;
 
 // Alerts
 // Define alert colors, border radius, and padding.

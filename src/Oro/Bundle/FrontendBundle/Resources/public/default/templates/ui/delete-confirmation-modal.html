@@ -1,0 +1,19 @@
+<% let oroui = _.macros('oroui') %>
+<div class="modal-dialog modal-dialog-centered" aria-hidden="false" role="document">
+    <div class="modal-content">
+        <div class="modal-body">
+            <%= oroui.renderIcon({name: 'trash', extraClass: 'modal-body-icon'}) %>
+            <div class="modal-body-content"><%= content %></div>
+        </div>
+        <% if (allowCancel || allowOk ) { %>
+        <div class="modal-footer">
+            <% if (allowCancel && cancelText) { %>
+            <button class="cancel <%- cancelButtonClass %>" data-dismiss="modal" data-emulate-btn-press><%- cancelText %></button>
+            <% } %>
+            <% if (allowOk && okText) { %>
+            <button class="ok <%- okButtonClass %>" data-emulate-btn-press><%- okText %></button>
+            <% } %>
+        </div>
+        <% } %>
+    </div>
+</div>
