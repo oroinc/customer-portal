@@ -5,13 +5,16 @@
     flex-wrap: wrap;
     justify-content: space-between;
     gap: $datagrid-toolbar-gap;
-    padding: spacing('sm') 0;
 
     &__start {
         display: flex;
         align-items: center;
         gap: $datagrid-tool-gap-start;
         flex-grow: 1;
+
+        &:empty {
+            display: none;
+        }
     }
 
     &__center {
@@ -19,6 +22,10 @@
         align-items: center;
         justify-content: center;
         gap: $datagrid-tool-gap-center;
+
+        &:empty {
+            display: none;
+        }
     }
 
     &__end {
@@ -27,23 +34,25 @@
         justify-content: flex-end;
         gap: $datagrid-tool-gap-end;
         flex-grow: 1;
+
+        &:empty {
+            display: none;
+        }
     }
 
     &__panel {
         width: 100%;
     }
 
-    &--offset-top-lg {
-        margin-top: spacing('lg');
-    }
-
-    &--offset-bottom-lg {
-        margin-bottom: spacing('lg');
-    }
-
     &-sticky-container {
         margin: 0 auto;
         max-width: $site-width;
+        z-index: $loader-mask-z-index + 1;
+
+        &.toolbar.in-sticky {
+            padding-right: spacing('lg') + 4px;
+            margin-right: -#{ spacing('lg') + 4px};
+        }
     }
 
     &-pagination-info {
@@ -163,6 +172,17 @@
         .page-size {
             .select2-chosen-extra {
                 display: none;
+            }
+        }
+
+        &:not(:has(.filters-selected)) &__panel {
+            display: none;
+        }
+
+        &-sticky-container {
+            &.toolbar.in-sticky {
+                padding-right: spacing('base');
+                margin-right: -#{spacing('base')};
             }
         }
     }

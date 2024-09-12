@@ -13,7 +13,13 @@ const FrontendToolbar = Toolbar.extend({
     /** @property */
     actionsPanel: FrontendActionsPanel,
 
-    constructor: function(...args) {
+    /**
+     * Define threshold of rows count when sticky toolbar will enabled
+     * @property {number}
+     */
+    stickyToolbarThreshold: 9,
+
+    constructor: function FrontendToolbar(...args) {
         FrontendToolbar.__super__.constructor.apply(this, args);
     },
 
@@ -27,6 +33,37 @@ const FrontendToolbar = Toolbar.extend({
                 this.pageSize = FrontendPageSize;
             }
         });
+    },
+
+    initialize(options) {
+        if (options.stickyToolbarThreshold !== void 0) {
+            this.stickyToolbarThreshold = options.stickyToolbarThreshold;
+        }
+
+        FrontendToolbar.__super__.initialize.call(this, options);
+
+        this.listenTo(this.collection, 'reset change', this.toggleStickyToolbar);
+    },
+
+    render() {
+        FrontendToolbar.__super__.render.call(this);
+
+        this.toggleStickyToolbar();
+
+        return this;
+    },
+
+    toggleStickyToolbar() {
+        if (this.stickyToolbarThreshold > 0 &&
+            this.collection.length > this.stickyToolbarThreshold &&
+            this.el.getAttribute('data-grid-toolbar')
+        ) {
+            this.el.classList.add('sticky', 'sticky--top');
+            this.el.setAttribute('data-sticky', '');
+        } else {
+            this.el.classList.remove('sticky', 'sticky--top', 'in-sticky', 'scroll-up', 'scroll-down');
+            this.el.removeAttribute('data-sticky');
+        }
     }
 });
 

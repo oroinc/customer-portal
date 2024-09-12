@@ -1,0 +1,7 @@
+<% let oroui = _.macros('oroui') %>
+<% if (count) { %>
+<span class="filter-criteria-hint" data-role="count">+<%- count %></span>
+<% } %>
+<button type="button" class="btn btn--simple-colored toggle-hidden-items-button">
+    <%= oroui.renderIcon({name: 'chevron-down'}) %>
+</button>

@@ -10,11 +10,14 @@ define(function(require, exports, module) {
     config = $.extend(true, {
         hideHeader: false,
         themeName: 'filter-default',
-        additionalClass: true
+        additionalClass: true,
+        resetButton: null
     }, config);
 
     const FrontendMultiSelectDecorator = function(options) {
-        const params = _.pick(options.parameters, ['additionalClass', 'hideHeader', 'themeName', 'listAriaLabel']);
+        const params = _.pick(options.parameters,
+            ['additionalClass', 'hideHeader', 'themeName', 'listAriaLabel', 'resetButton']
+        );
 
         if (!_.isEmpty(params)) {
             this.parameters = _.extend({}, this.parameters, params);
@@ -56,6 +59,8 @@ define(function(require, exports, module) {
             searchAriaLabel: __('oro_frontend.filters.multiselect.aria_label')
         },
 
+        listItemClasses: 'datagrid-manager__list-item',
+
         /**
          * Update Dropdown design
          * @private
@@ -91,6 +96,7 @@ define(function(require, exports, module) {
         applyDefaultTheme: function(widget, instance) {
             this.applyBaseMarkup(widget, instance);
             this.setDesignForCheckboxesDefaultTheme(instance);
+            this.setDesignForFooter(widget, instance);
         },
 
         /**
@@ -100,6 +106,7 @@ define(function(require, exports, module) {
         applyAllToOnceTheme: function(widget, instance) {
             this.applyBaseMarkup(widget, instance);
             this.setDesignForCheckboxesAllToOnceTheme(instance);
+            this.setDesignForFooter(widget, instance);
         },
 
         /**
@@ -114,6 +121,7 @@ define(function(require, exports, module) {
                 this.setDropdownWidgetContainer(instance);
                 this.setDropdownHeaderDesign(instance);
                 this.setDropdownHeaderSearchDesign(instance);
+                this.setDropdownFooterDesign(widget, instance);
             }
         },
 
@@ -126,7 +134,7 @@ define(function(require, exports, module) {
                 .removeClass('ui-helper-reset')
                 .addClass('datagrid-manager__list ui-rewrite')
                 .find('li')
-                .addClass('datagrid-manager__list-item');
+                .addClass(this.listItemClasses);
 
             instance.labels.addClass('checkbox-label');
         },
@@ -207,12 +215,28 @@ define(function(require, exports, module) {
          * @param {object} instance
          */
         setDropdownHeaderSearchDesign: function(instance) {
-            instance.header
-                .find('input')
-                .addClass('input input--full')
-                .wrap(
-                    $('<div></div>', {'class': 'datagrid-manager-search empty'})
-                );
+            if (this.maxItemsForShowSearchBar > 0 &&
+                instance.element.children(':enabled').length > this.maxItemsForShowSearchBar) {
+                const searchIcon = _.macros('oroui::renderIcon')({
+                    name: 'search',
+                    extraClass: 'datagrid-manager-search__icon'
+                });
+
+                instance.header
+                    .find('input[type="search"]')
+                    .addClass('input input--full')
+                    .wrap(
+                        $('<div></div>', {'class': 'datagrid-manager-search empty'})
+                    );
+
+                instance.header
+                    .find('input[type="search"]')
+                    .after(searchIcon);
+            } else {
+                instance.header
+                    .find('input[type="search"]')
+                    .remove();
+            }
 
             instance.header
                 .find('.ui-multiselect-filter')
@@ -220,8 +244,14 @@ define(function(require, exports, module) {
                 .first()
                 .filter((i, el) => el.nodeType === Node.TEXT_NODE)
                 .wrap(
-                    $('<h5></h5>', {'class': 'datagrid-manager__title'})
+                    $(instance.element.closest('.toggle-mode').length
+                        ? '<h3/>'
+                        : '<h5/>', {'class': 'datagrid-manager__title'})
                 );
+
+            instance.header.find('.datagrid-manager__title').parent().addClass('datagrid-manager__title-container');
+            instance.header.find('.datagrid-manager__title').after(this.createIconButton('close'));
+            instance.header.find('.datagrid-manager__title').before(this.createIconButton('arrow-left'));
 
             instance.header
                 .find('.ui-multiselect-filter')
@@ -230,6 +260,52 @@ define(function(require, exports, module) {
             instance.header
                 .find('.ui-multiselect-close')
                 .addClass('hide');
+        },
+
+        setDropdownFooterDesign(widget, instance) {
+            instance.footer = $('<div />', {
+                'class': 'datagrid-manager__footer'
+            });
+
+            if (this.parameters.resetButton) {
+                this.setDesignForResetButton(widget, instance);
+            }
+
+            this.setDesignForFooter(widget, instance);
+        },
+
+        setDesignForFooter(widget, instance) {
+            instance.footer.appendTo(widget);
+        },
+
+        setDesignForResetButton(widget, instance) {
+            instance.resetButton = $('<button />', {
+                'class': 'btn btn--flat',
+                ...this.parameters.resetButton.attr || {}
+            }).text(this.parameters.resetButton.label || 'Reset');
+
+            instance.resetButton.on(`click`, event => {
+                if (typeof this.parameters.resetButton.onClick === 'function') {
+                    this.parameters.resetButton.onClick(event);
+                }
+            });
+
+            instance.footer.append(instance.resetButton);
+        },
+
+        toggleVisibilityResetButton(hidden) {
+            const instance = this.multiselect('instance');
+            if (instance.resetButton) {
+                instance.resetButton.toggleClass('hidden', hidden);
+            }
+        },
+
+        createIconButton(icon) {
+            return `<button class="btn btn--icon btn--plain datagrid-manager__title--back-btn" data-role="close">
+    ${_.macros('oroui::renderIcon')({
+        name: icon
+    })}
+</button>`;
         },
 
         dispose() {

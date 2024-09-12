@@ -9,6 +9,11 @@ $filter-criteria-hint-max-width: 250px !default;
 $filter-criteria-hint-item-color: get-color('text', 'primary') !default;
 $filter-criteria-hint-item-bg: get-color('neutral', 'grey1') !default;
 $filter-criteria-hint-label-offset-end: 2px !default;
+$filter-criteria-hint-label-color: get-color('text', 'secondary') !default;
+
+$filter-criteria-hint-item-offset: 0 !default;
+$filter-criteria-hint-item-offset-inner: 0 0 0 spacing('md') !default;
+$filter-criteria-hint-item-border-radius: 24px !default;
 
 $filter-trigger-wrapper-display: inline-block !default;
 $filter-trigger-wrapper-dropdown-toggle-background-color: get-color('neutral', 'white-100') !default;
@@ -35,7 +40,7 @@ $filter-datepicker-box-icon-top: spacing('md') !default;
 
 $filter-action-row-offset-top: spacing('base') !default;
 
-$filter-dropdown-menu-calendar-max-width: 287px !default;
+$filter-dropdown-menu-calendar-max-width: 340px !default;
 $filter-dropdown-item-active-weight: font-weight('bold') !default;
 
 $align-filter-dropdown-to-right-side: true !default;
@@ -44,11 +49,11 @@ $filter-criteria-simple-gap: spacing('sm') !default;
 $filter-criteria-simple-padding-end: 11px !default;
 
 $filter-container-header-display: flex !default;
+$filter-container-header-background: get-color('neutral', 'white-100') !default;
 $filter-container-title-flex-grow: 1 !default;
 $filter-container-title-flex-shrink: 1 !default;
 $filter-container-manager-flex-grow: 0 !default;
 $filter-container-manager-flex-shrink: 0 !default;
-$filter-container-manager-offset-top: spacing('sm') !default;
 
 $filter-actions-gap: spacing('sm') !default;
 $filter-actions-align-self: flex-start !default;

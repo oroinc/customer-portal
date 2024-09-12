@@ -1,3 +1,12 @@
+oro:
+    filter:
+        date:
+            variable:
+                title: Time Presets
+                tooltip_title: You can also use them to create expressions.
+                tooltip: > 
+                    For example:<br>
+                    "today - 2" will be evaluated as the day before yesterday.
 oro_frontend:
     form:
         inlineEditing:
@@ -83,11 +92,14 @@ oro_frontend:
         button_label: 'Manage Filters'
         button_aria_label: 'Expand or Collapse Filter Management drop-down'
         listAriaLabel: 'Manage filters values'
+        resetFilter: 'Revert To Default Set'
         close:
             aria_label: 'Close the Filter Management drop-down'
 
     filters:
         apply_all: 'Apply Filters'
+        show_all: '{0} Show|]0,Inf[Show ({{ count }})'
+        clear_all: 'Clear All'
         aria_label: 'Expand or Collapse Filters'
         no_found: 'No matches found'
         multiselect:

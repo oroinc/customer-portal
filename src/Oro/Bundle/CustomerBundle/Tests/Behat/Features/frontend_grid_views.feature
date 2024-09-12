@@ -21,7 +21,7 @@ Feature: Frontend Grid Views
     And I click "Account Dropdown"
     And I click "Users"
     When I hide all columns in "Customer Users Grid" except First Name, Last Name, Email Address
-    When I filter Filter By First Name as contains "FirstName_3"
+    When I filter First Name as contains "FirstName_3"
     When I click grid view list on "Customer Users Grid" grid
     And I click "Save As New"
     And I set "Test_View_1" as grid view name for "Customer Users Grid" grid on frontend

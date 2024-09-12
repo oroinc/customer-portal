@@ -4,6 +4,11 @@
     position: sticky;
     z-index: z('base') + 1;
 
+    &:focus-within {
+        // Increase z-index when focus inside sticky element for provide correct working dropdowns and etc.
+        z-index: z('base') + 2;
+    }
+
     &--top {
         top: var(--sticky-position-top-offset, 0);
     }

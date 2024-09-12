@@ -110,6 +110,8 @@ define(function(require) {
          */
         toggleBtnActiveClassName: 'fullscreen-popup__opened',
 
+        container: document.body,
+
         /**
          * @inheritdoc
          */
@@ -133,19 +135,21 @@ define(function(require) {
             if (this.disposed) {
                 return;
             }
-            document.querySelector('body').classList.remove('modal-is-opened');
             this.remove();
             FullscreenPopupView.__super__.dispose.call(this);
+        },
+
+        appendToContainer() {
+            return this.container;
         },
 
         show: function() {
             this.close();
             this.$popup = $(this.getTemplateFunction()(this.getTemplateData()));
 
-            this.$popup.appendTo($('body'));
+            this.$popup.appendTo(this.appendToContainer());
 
             const promises = _.map(this.sections, this.showSection, this);
-            document.querySelector('body').classList.add('modal-is-opened');
             $.when(...promises).then(this._onShow.bind(this));
         },
 
@@ -189,10 +193,8 @@ define(function(require) {
 
             this.remove();
 
-            document.querySelector('body').classList.remove('modal-is-opened');
-
             this.trigger('close');
-            mediator.trigger('fullscreen:popup:close');
+            mediator.trigger('fullscreen:popup:close', this);
         },
 
         remove() {
@@ -277,6 +279,8 @@ define(function(require) {
             this.$popup.trigger(`${this.popupName}:shown`);
 
             this.$el.addClass(this.toggleBtnActiveClassName);
+
+            mediator.trigger('fullscreen:popup:show', this);
         },
 
         _renderSectionContent: function(deferred, section, sectionOptions, option, content) {

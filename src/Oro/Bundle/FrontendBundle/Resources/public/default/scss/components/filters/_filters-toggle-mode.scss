@@ -1,6 +1,12 @@
 /* @theme: default; */
 
 .toggle-mode {
+    height: 100%;
+
+    &.filter-box {
+        margin-block-start: 0;
+    }
+
     .ui-multiselect-menu {
         /* stylelint-disable declaration-no-important */
         // Break inline styles
@@ -22,13 +28,103 @@
             height: auto !important;
             max-height: none !important;
             /* stylelint-enable declaration-no-important */
-            padding: 0;
             margin-bottom: 0;
+
+            &.filters-dropdown {
+                margin-bottom: spacing('sm');
+            }
         }
 
         .datagrid-manager-search {
             margin-top: $filter-toggle-mode-datagrid-manager-search-offset-top;
             margin-bottom: $filter-toggle-mode-datagrid-manager-search-offset-bottom;
+        }
+    }
+
+    .datagrid-manager {
+        &__title {
+            text-align: center;
+            margin-bottom: 0;
+
+            &--back-btn {
+                margin-inline-start: -10px;
+                display: grid;
+            }
+
+            &--close-btn {
+                margin-inline-end: -10px;
+                display: grid;
+            }
+        }
+
+        &__list,
+        &__actions {
+            background-color: $filter-toggle-mode-datagrid-manager-background-color;
+        }
+
+        &__footer {
+            background-color: $filter-toggle-mode-datagrid-manager-background-color;
+        }
+
+        .dropdown-menu {
+            // stylelint-disable-next-line declaration-no-important
+            max-width: 100% !important;
+            box-shadow: none;
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            background: transparent;
+
+            /* rtl:raw:
+            left: auto !important;
+            */
+        }
+    }
+
+    .filter-container {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        height: 100%;
+
+        .datagrid-manager__header {
+            > div {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                align-items: center;
+                background-color: $filter-toggle-mode-datagrid-manager-background-color;
+            }
+        }
+
+        > .datagrid-manager {
+            position: absolute;
+            height: 100%;
+
+            .datagrid-manager__header {
+                margin-top: -46px;
+                padding-right: 14px;
+            }
+
+            .datagrid-manager-search {
+                margin-right: spacing('xmd');
+                margin-top: spacing('base');
+            }
+        }
+    }
+
+    // Set a maximum width to crop filters with long names
+    .filter-items-container {
+        max-width: 100%;
+        padding-inline: $filter-toggle-filter-items-container-inline-inner-offset;
+        margin-inline: $filter-toggle-filter-items-container-inline-offset;
+
+        &.shadow-start {
+            &::before {
+                margin-inline: $filter-toggle-filter-items-container-shadow-inline-margin;
+                width: auto;
+                background: none;
+                box-shadow: $filter-toggle-filter-items-container-scroll-shadow;
+            }
         }
     }
 
@@ -39,6 +135,11 @@
 
     .product-price-unit-filter-separator {
         display: $filter-toggle-mode-unit-filter-separator-display;
+    }
+
+    .filter-action-row {
+        display: flex;
+        justify-content: end;
     }
 
     .filter-criteria-selector {
@@ -66,8 +167,6 @@
     }
 
     .filters-manager-trigger {
-        width: $filter-toggle-mode-filters-manager-trigger-width;
-
         span {
             display: none;
         }
@@ -102,27 +201,15 @@
         clear: both;
 
         display: flex;
-        flex-wrap: wrap;
 
         gap: spacing('sm') spacing('base');
     }
 
     .filter-criteria-hint-item {
-        display: inline-flex;
-        flex-direction: row;
-        align-items: center;
-        margin: $filter-toggle-mode-criteria-hint-item-offset;
-        padding: $filter-toggle-mode-criteria-hint-item-offset-inner;
-
-        border-radius: $filter-toggle-mode-criteria-hint-item-border-radius;
-
         max-width: 100%;
     }
 
     .reset-filter-button {
-        margin-bottom: $filter-toggle-mode-criteria-hint-item-offset-bottom;
-        padding: $filter-toggle-mode-reset-filter-button-inner-offset;
-
         border: 0;
     }
 
@@ -210,7 +297,7 @@
     }
 
     .filter-select-oro-wrapper {
-        margin-bottom: 12px;
+        margin-bottom: spacing('base');
     }
 
     .filter-start-date,
@@ -223,5 +310,9 @@
             padding-top: $filter-toggle-mode-in-sticky-criteria-hint-item-offset;
             padding-bottom: $filter-toggle-mode-in-sticky-criteria-hint-item-offset-inner;
         }
+    }
+
+    .filter-update {
+        margin-inline-start: auto;
     }
 }

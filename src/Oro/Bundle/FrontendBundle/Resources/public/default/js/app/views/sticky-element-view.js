@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import 'jquery-ui/scroll-parent';
 import {debounce, isFunction} from 'underscore';
 import error from 'oroui/js/error';
 import BaseView from 'oroui/js/app/views/base/view';
@@ -86,20 +87,35 @@ const StickyElementView = BaseView.extend({
         this.stickyPlaceholder = placeholder;
     },
 
+    getScrollableContainer() {
+        return this.$el.scrollParent().get(0);
+    },
+
     /**
      * @inheritDoc
      */
     delegateEvents(events) {
         StickyElementView.__super__.delegateEvents.call(this, events);
 
-        $(document).on(`scroll${this.eventNamespace()}`, this.update.bind(this));
+        $(this.getScrollableContainer()).on(`scroll${this.eventNamespace()}`, this.update.bind(this));
+
+        if (window.visualViewport) {
+            $(window.visualViewport).on(`resize${this.eventNamespace()}`, this.update.bind(this));
+        }
     },
 
     /**
      * @inheritDoc
      */
     undelegateEvents() {
-        $(document).off(this.eventNamespace());
+        if (this.$el) {
+            $(this.getScrollableContainer()).off(this.eventNamespace());
+        }
+
+        if (window.visualViewport) {
+            $(window.visualViewport).off(this.eventNamespace());
+        }
+
         return StickyElementView.__super__.undelegateEvents.call(this);
     },
 

@@ -10,16 +10,13 @@ $filter-dropdown-mode-criteria-min-width: 270px !default;
 $filter-dropdown-mode-criteria-offset-inner: 16px !default;
 $filter-dropdown-mode-criteria-offset-top: spacing('xs') !default;
 $filter-dropdown-mode-criteria-value-field-frame-width: 100% !default;
-$filter-dropdown-mode-criteria-selector-offset-inner: 22px !default;
+$filter-dropdown-mode-criteria-selector-offset-inner: 40px !default;
 $filter-dropdown-mode-criteria-selector-border: 1px solid get-color('neutral', 'grey1') !default;
 $filter-dropdown-mode-criteria-selector-border-radius: null !default;
 $filter-dropdown-mode-criteria-selector-bg: get-color('neutral', 'white-100') !default;
 $filter-dropdown-mode-criteria-selector-color: null !default;
 $filter-dropdown-mode-criteria-selector-icon-top: 10px !default;
 $filter-dropdown-mode-criteria-selector-icon-right: 8px !default;
-$filter-dropdown-mode-criteria-hint-item-offset: 0 !default;
-$filter-dropdown-mode-criteria-hint-item-offset-inner: 0 0 0 spacing('md') !default;
-$filter-dropdown-mode-criteria-hint-item-border-radius: 24px !default;
 
 $filter-dropdown-mode-datagrid-manager-search-offset-top: 0 !default;
 $filter-dropdown-mode-datagrid-manager-search-offset-bottom: 8px !default;
@@ -41,6 +38,9 @@ $filter-dropdown-mode-reset-filter-button-top-pos: 0 !default;
 $filter-dropdown-mode-reset-filter-button-right-pos: 5px !default;
 
 $filter-dropdown-mode-filters-manager-trigger-width: 44px !default;
+$filter-dropdown-mode-filters-manager-trigger-active-background: get-color('primary', 'light') !default;
+$filter-dropdown-mode-filters-manager-trigger-active-border-color: get-color('primary', 'light') !default;
+$filter-dropdown-mode-filters-manager-trigger-active-color: get-color('primary', 'active') !default;
 
 $filter-dropdown-mode-fields-row-min-width: 270px !default;
 
@@ -49,6 +49,9 @@ $filter-dropdown-mode-items-hint-offset-inner: spacing('lg') 0 0 0 !default;
 $filter-dropdown-mode-items-hint-line-height: 20px !default;
 $filter-dropdown-mode-items-hint-font-size: 14px !default;
 
-$filter-dropdown-mode-timepicker-input-max-width: 80px !default;
+$filter-dropdown-mode-timepicker-input-max-width: 84px !default;
 
 $filter-dropdown-mode-open-filter-criteria-selector-icon-transform: rotate(180deg) !default;
+
+$filter-dropdown-select-wrapper-max-height: calc(44px * 10) !default;
+$filter-dropdown-select-wrapper-in-dialog-max-height: calc(44px * 6) !default;

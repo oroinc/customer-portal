@@ -41,7 +41,7 @@ Feature: Sticky panel for main menu, product filters etc
     Then I should not see an "Active Sticky Panel" element
     And I click "GridFiltersButton"
     Then I should see an "Fullscreen Popup" element
-    And I should see "Fullscreen Popup Header" element with text "Filter Toggle" inside "Fullscreen Popup" element
+    And I should see "Fullscreen Popup Header" element with text "Filter By" inside "Fullscreen Popup" element
     And click "Close Fullscreen Popup"
     When I click "Copyright"
     Then I should see an "Active Sticky Panel" element

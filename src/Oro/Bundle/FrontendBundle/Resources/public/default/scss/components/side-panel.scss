@@ -120,6 +120,12 @@
         }
     }
 
+    .fullscreen-popup__footer {
+        border-top: $side-panel-footer-border-top;
+
+        @include safe-area-offset(padding, $side-panel-footer-padding);
+    }
+
     .fullscreen-popup__footer:not(:has(.side-panel-currency-localization)) {
         display: none;
     }

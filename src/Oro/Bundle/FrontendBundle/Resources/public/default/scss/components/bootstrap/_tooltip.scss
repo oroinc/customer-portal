@@ -11,14 +11,22 @@ $tooltip-padding: spacing('sm') spacing('md');
 $tooltip-border-radius: 4px;
 
 .tooltip {
+    z-index: z('fixed') + 2;
+
     // Tooltip can be over of any fixed element
     &--high {
         z-index: z('fixed') + 10;
     }
 
     &--menu-label {
-        z-index: z('popup') + 2;
         pointer-events: none;
+    }
+
+    .modal-is-opened & {
+        // Fix tooltip position when dialog opened
+        // stylelint-disable-next-line declaration-no-important
+        position: fixed !important;
+        z-index: z('popup') + 2;
     }
 
     .arrow {

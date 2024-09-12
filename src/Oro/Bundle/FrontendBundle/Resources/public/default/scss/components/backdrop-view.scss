@@ -11,4 +11,9 @@
         opacity: 0;
         visibility: hidden;
     }
+
+    [role='dialog'] & {
+        position: absolute;
+        background-color: $backdrop-in-dialog-background-color;
+    }
 }

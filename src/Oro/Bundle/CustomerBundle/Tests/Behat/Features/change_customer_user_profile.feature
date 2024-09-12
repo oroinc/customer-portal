@@ -61,6 +61,7 @@ Feature: Change customer user profile
     Then I should see "This value is not a valid date."
     When I fill "Customer User Profile Form" with:
       | Birthday | 1/2/1954 |
+    And I click on empty space
     And I click "Save"
     Then I should see "Customer User profile updated"
     And I should not see "Prefix Suffix"

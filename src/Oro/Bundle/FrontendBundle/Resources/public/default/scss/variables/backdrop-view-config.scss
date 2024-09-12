@@ -5,3 +5,5 @@
 $backdrop-background-color: rgba(get-color('neutral', 'dark'), .6) !default;
 $backdrop-z-index: $zindex-modal - 1 !default;
 $backdrop-transition: opacity 300ms !default;
+
+$backdrop-in-dialog-background-color: rgba(get-color('neutral', 'dark'), .3) !default;

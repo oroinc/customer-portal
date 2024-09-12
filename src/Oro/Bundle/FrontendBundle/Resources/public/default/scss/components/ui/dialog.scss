@@ -31,7 +31,7 @@
         background-color: $dialog-widget-content-bg-color;
     }
 
-    .ui-widget-content {
+    > .ui-widget-content {
         padding: $dialog-widget-content-offset-inner;
         overflow-y: auto;
     }

@@ -15,33 +15,35 @@ $fullscreen-popup-margin-left: 0 !default;
 $fullscreen-popup-bg: get-var-color('neutral', 'white-100') !default;
 $fullscreen-popup-transition: opacity 300ms ease-in-out, transform 300ms ease-in-out !default;
 
+$fullscreen-popup-in-dialog-border-radius: $border-radius 0 0 $border-radius !default;
+
 $fullscreen-popup-header-display: flex !default;
 $fullscreen-popup-header-align-items: center !default;
 $fullscreen-popup-header-flex-shrink: 0 !default;
-$fullscreen-popup-header-gap: spacing('md') !default;
+$fullscreen-popup-header-gap: spacing('sm') !default;
 $fullscreen-popup-header-justify-content: space-between !default;
 
 $fullscreen-popup-header-z-index: z('base') + 1 !default;
 
 $fullscreen-popup-header-bg: get-var-color('neutral', 'white-100') !default;
-$fullscreen-popup-header-offset: spacing('base') spacing('base') spacing('sm') spacing('base') !default;
+$fullscreen-popup-header-offset: spacing('base') spacing('xs') !default;
+$fullscreen-popup-header-in-dialog-border-radius: $border-radius 0 0 0;
 
 $fullscreen-popup-icon-flex-shrink: 0 !default;
 $fullscreen-popup-icon-align-self: flex-start !default;
 
 $fullscreen-popup-footer-display: flex !default;
+$fullscreen-popup-footer-gap: spacing('base') !default;
 $fullscreen-popup-footer-align-items: center !default;
 $fullscreen-popup-footer-position: relative !default;
 $fullscreen-popup-footer-z-index: z('base') + 1 !default;
 $fullscreen-popup-footer-right: 0 !default;
 $fullscreen-popup-footer-left: 0 !default;
 $fullscreen-popup-footer-bottom: 0 !default;
-$fullscreen-popup-footer-offset: (
-    spacing('sm')
-    spacing('base')
-) !default;
+$fullscreen-popup-footer-offset: spacing('sm') spacing('base') spacing('lg') !default;
+$fullscreen-popup-footer-in-dialog-border-radius: 0 0 0 $border-radius;
 $fullscreen-popup-footer-bg: get-var-color('neutral', 'white-100') !default;
-$fullscreen-popup-footer-border-top: 1px solid get-var-color('neutral', 'grey2') !default;
+$fullscreen-popup-footer-border-top: null !default;
 
 $fullscreen-popup-footer-btn-width: 100% !default;
 
@@ -49,11 +51,12 @@ $fullscreen-popup-content-height: 100% !default;
 $fullscreen-popup-content-overflow: auto !default;
 $fullscreen-popup-content-alert-offset-height: 0 spacing('sm') spacing('sm') !default;
 $fullscreen-popup-content-loader-position: fixed !default;
-$fullscreen-popup-content-offset: 0 spacing('base') !default;
+$fullscreen-popup-content-offset: 0 spacing('base') spacing('base') !default;
 
 $fullscreen-popup-label-display: inline-flex !default;
 $fullscreen-popup-label-justify-content: null !default;
-$fullscreen-popup-label-offset: null !default;
+$fullscreen-popup-label-padding-block: null !default;
+$fullscreen-popup-label-padding-inline: spacing('md') 0 !default;
 $fullscreen-popup-label-weight: $headline3-font-weight !default;
 $fullscreen-popup-label-font-size: $headline3-font-size !default;
 $fullscreen-popup-label-line-height: $headline3-line-height !default;

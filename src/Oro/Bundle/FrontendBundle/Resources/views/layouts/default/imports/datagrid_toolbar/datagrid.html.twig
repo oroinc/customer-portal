@@ -1,6 +1,6 @@
 {% block __datagrid_toolbar__datagrid_toolbar_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' datagrid-toolbar datagrid-toolbar-bottom datagrid-toolbar--offset-bottom-lg extended'
+        '~class': ' datagrid-toolbar datagrid-toolbar-bottom extended'
     }) %}
     <script type="text/html" class="datagrid_templates" data-identifier="template-datagrid-toolbar">
         <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
@@ -54,6 +54,7 @@
         'data-section': 'base-side'
     }) %}
 
+    {% apply spaceless %}
     <div{{ block('block_attributes') }}>
         {% for child in block -%}
             {% if child.vars.visible %}
@@ -61,6 +62,7 @@
             {% endif %}
         {%- endfor %}
     </div>
+    {% endapply %}
 {% endblock %}
 
 {% block __datagrid_toolbar__datagrid_toolbar_rightside_container_widget %}

@@ -104,6 +104,9 @@ const PaginationStepper = PaginationInput.extend({
      * @param event
      */
     onChangePage(event) {
+        this.scrollToPosition = this.$el
+            .closest(`[data-page-component-name="${this.collection.inputName}"]`).position();
+
         if (this.scrollToPosition) {
             this.$el.closest('html').stop().animate({scrollTop: this.scrollToPosition.top}, '500', 'swing');
         }
@@ -146,6 +149,11 @@ const PaginationStepper = PaginationInput.extend({
 
         if (startThreshold > totalPages - showAtStartEnd) {
             startThreshold = totalPages - showAtStartEnd;
+        }
+
+        if (showAtStartEnd >= pages.length) {
+            startThreshold = 0;
+            endThreshold = pages.length;
         }
 
         const middle = pages.slice(startThreshold, endThreshold);

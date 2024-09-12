@@ -15,6 +15,7 @@
 {% endblock %}
 
 {% block __oro_customer_user_form__customer_user_form_fields_information_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     <div class="form-group">
         <div class="grid">
             {% if form.customer is defined %}
@@ -52,7 +53,9 @@
             {% endif %}
             <div class="grid-col-6 grid-col-mobile-landscape-12">
                 <div class="datepicker-box datepicker-box--form-mode">
-                    <span class="datepicker-box__icon" aria-hidden="true"><i class="fa-calendar"></i></span>
+                    <span class="datepicker-box__icon" aria-hidden="true">
+                        {{ renderIcon.icon({name: 'calendar'}) }}
+                    </span>
                     {{ form_row(form.birthday, {
                         'attr': {
                             'class': 'datepicker-input input input--full',

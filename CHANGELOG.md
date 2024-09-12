@@ -7,6 +7,7 @@ The current file describes significant changes in the code that may affect the u
 ### Added
 
 #### FrontendBundle
+* Added filter badge hint for show how much values have been applied in filter `orofrontend/default/js/app/views/filter-badge-hint-view`
 * Added `orofrontend/js/datagrid/frontend-action-launcher`
 * Added `orofrontend/js/datagrid/frontend-actions-panel`
 * Added `orofrontend/js/datagrid/actions/frontend-reset-collection-action`

@@ -1,8 +1,9 @@
+<% let oroui = _.macros('oroui') %>
 <% if (!_.isUndefined(buttons)) { %>
     <% _.each(buttons, function(button) { %>
 <%
     var attrs = '';
-    var omitList = ['label'];
+    var omitList = ['label', 'icon'];
     for (const [key, value] of Object.entries(_.omit(button, omitList))) {
         var attrName = _.escape(key);
         if (key === 'role') {
@@ -11,6 +12,12 @@
         attrs += ` ${attrName}="${_.escape(value)}"`
     }
 %>
-    <button <%= attrs %>><%- button.label %></button>
+
+    <button <%= attrs %>>
+        <% if (button.icon) { %>
+            <%= oroui.renderIcon(button.icon) %>
+        <% } %>
+        <%- button.label %>
+    </button>
     <% }) %>
 <% } %>

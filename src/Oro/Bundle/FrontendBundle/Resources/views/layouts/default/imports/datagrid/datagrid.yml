@@ -21,6 +21,7 @@ layout:
                     enable: '=data["system_config_provider"].getValue("oro_customer.enable_swipe_actions_grids")'
                 themeOptions:
                     showMassActionOnToolbar: true
+                    overlayFilters: true
                     actionsDropdown: 'auto'
                     actionOptions:
                         refreshAction:

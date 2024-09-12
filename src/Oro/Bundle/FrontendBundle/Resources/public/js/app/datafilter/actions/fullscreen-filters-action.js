@@ -35,6 +35,10 @@ define(function(require, exports, module) {
                 throw new TypeError('The "fullscreenFilters" option is required.');
             }
 
+            if (opts.datagrid.themeOptions.fullScreenViewport) {
+                filterSettings.fullScreenViewport = opts.datagrid.themeOptions.fullScreenViewport;
+            }
+
             this.fullscreenFilters = opts.fullscreenFilters;
             FrontendFullScreenFiltersAction.__super__.initialize.call(this, opts);
 
@@ -64,10 +68,14 @@ define(function(require, exports, module) {
 
             const mode = this.filterManager.getViewMode();
 
-            if (mode === FiltersManager.MANAGE_VIEW_MODE && filterSettings.isFullScreen()) {
+            if (mode === FiltersManager.MANAGE_VIEW_MODE &&
+                (filterSettings.isFullScreen() || this.launcherInstance.isInDialogWidget())
+            ) {
                 this._initialViewMode = this.filterManager.getViewMode();
                 this.filterManager.setViewMode(FiltersManager.STATE_VIEW_MODE);
-            } else if (this._initialViewMode && !filterSettings.isFullScreen()) {
+            } else if (this._initialViewMode &&
+                !filterSettings.isFullScreen() && !this.launcherInstance.isInDialogWidget()
+            ) {
                 this.filterManager.setViewMode(this._initialViewMode);
                 delete this._initialViewMode;
             }
@@ -77,7 +85,7 @@ define(function(require, exports, module) {
          * @inheritdoc
          */
         execute: function() {
-            if (filterSettings.isFullScreen()) {
+            if (filterSettings.isFullScreen() || this.launcherInstance.isInDialogWidget()) {
                 this.showAsFullScreen();
             } else {
                 FrontendFullScreenFiltersAction.__super__.execute.call(this);

@@ -27,8 +27,6 @@
     justify-content: space-between;
     align-items: center;
 
-    margin: $filter-date-range-offset;
-
     .fields-row {
         display: flex;
 
@@ -67,11 +65,23 @@
     .filter-container-header {
         display: $filter-container-header-display;
         flex-wrap: wrap;
+        align-items: start;
+        padding: spacing('sm') spacing('lg') spacing('sm') 0;
+
+        position: sticky;
+        top: var(--sticky-position-top-offset, 0);
+        background: $filter-container-header-background;
+
+        z-index: 1;
     }
 
     .filter-container-title {
         flex-grow: $filter-container-title-flex-grow;
         flex-shrink: $filter-container-title-flex-shrink;
+        min-height: 44px;
+
+        display: flex;
+        align-items: center;
     }
 
     .filter-container-manager {
@@ -80,9 +90,8 @@
         margin-left: auto;
     }
 
-    .filter-container-title,
-    .filter-container-manager {
-        margin-top: $filter-container-manager-offset-top;
+    .filter-container-close-btn {
+        margin-inline-end: -10px;
     }
 
     .filter-actions {
@@ -92,24 +101,11 @@
         align-items: $filter-actions-align-items;
     }
 
-    .filter-items-hint {
-        position: relative;
-
-        clear: both;
-    }
-
-    .filter-criteria-hint-item {
-        position: relative;
-
-        background: $filter-criteria-hint-item-bg;
-        color: $filter-criteria-hint-item-color;
-
-        cursor: pointer;
-    }
-
-    .filter-criteria-hint-label {
-        vertical-align: middle;
-        padding-right: $filter-criteria-hint-label-offset-end;
+    .filter-criteria-hint-item-toggle {
+        // Hint collapse toggle button should be always pre-last in order
+        order: 998;
+        min-width: 44px;
+        height: 44px;
     }
 
     .filter-criteria-hint {
@@ -119,6 +115,79 @@
         vertical-align: middle;
 
         @include ellipsis();
+
+        &:empty {
+            display: none;
+        }
+    }
+
+    .filter-items-hint {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+
+        gap: spacing('sm') spacing('base');
+        margin-block-start: spacing('base');
+    }
+
+    .filter-criteria-hint-item {
+        position: relative;
+
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        gap: spacing('xs');
+        margin: $filter-criteria-hint-item-offset;
+        padding: $filter-criteria-hint-item-offset-inner;
+
+        border-radius: $filter-criteria-hint-item-border-radius;
+
+        background: $filter-criteria-hint-item-bg;
+        color: $filter-criteria-hint-item-color;
+
+        cursor: pointer;
+
+        flex: 0 0 auto;
+
+        &:has(.filter-criteria-hint-label) {
+            max-width: 100%;
+            display: inline-grid;
+            grid-template-columns: auto 1fr auto;
+        }
+    }
+
+    .filter-items-hint:not(.filter-items-hint--multiline) {
+        .filter-criteria-hint-item--hidden {
+            display: none;
+        }
+    }
+
+    .filter-items-hint--multiline {
+        .filter-criteria-hint-item-toggle {
+            padding-left: 0;
+
+            .filter-criteria-hint {
+                display: none;
+            }
+
+            .toggle-hidden-items-button {
+                width: 40px;
+            }
+
+            .theme-icon {
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    .filter-criteria-hint-label {
+        color: $filter-criteria-hint-label-color;
+    }
+
+    .reset-filter-button {
+        flex: 0 0 auto;
+        // Hint reset all filters button should be always last in order
+        order: 999;
     }
 
     .filter-trigger-wrapper {
@@ -169,6 +238,10 @@
         @include element-state('hover') {
             color: $filter-reset-hover-color;
         }
+    }
+
+    .filter-badge-hint {
+        margin-left: auto;
     }
 
     .filter-value-range {
@@ -240,13 +313,6 @@
 
     .dropdown-menu-calendar {
         min-width: $filter-dropdown-menu-calendar-max-width;
-    }
-
-    &.dropdown-mode {
-        margin: $filter-box-dropdown-mode-margin;
-        padding: $filter-box-dropdown-mode-inner-offset;
-
-        background: $filter-box-dropdown-mode-background;
     }
 
     &.in-sticky {
