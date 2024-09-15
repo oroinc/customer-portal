@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Ajax controller for changing current localization and currency
+ * AJAX controller for changing current localization and currency.
  */
 class AjaxCurrencyAndLocalizationController extends AbstractController
 {
@@ -26,7 +26,7 @@ class AjaxCurrencyAndLocalizationController extends AbstractController
         name: 'oro_frontend_set_current_currency_and_localization',
         methods: ['POST']
     )]
-    #[CsrfProtection()]
+    #[CsrfProtection]
     public function setCurrentCurrencyAndLocalizationAction(Request $request): JsonResponse
     {
         $currencyResponse = $this->doSetCurrentCurrency($request);
@@ -40,7 +40,7 @@ class AjaxCurrencyAndLocalizationController extends AbstractController
         $currency = $request->get('currency');
         $response['currencySuccessful'] = false;
         $userCurrencyManager = $this->container->get(UserCurrencyManager::class);
-        if (in_array($currency, $userCurrencyManager->getAvailableCurrencies(), true)) {
+        if (\in_array($currency, $userCurrencyManager->getAvailableCurrencies(), true)) {
             $userCurrencyManager->saveSelectedCurrency($currency);
             $response['currencySuccessful'] = true;
         }
@@ -53,15 +53,15 @@ class AjaxCurrencyAndLocalizationController extends AbstractController
         $localization = $this->getLocalization($request);
         $localizationManager = $this->container->get(UserLocalizationManager::class);
         if ($localization instanceof Localization
-            && array_key_exists($localization->getId(), $localizationManager->getEnabledLocalizations())
+            && \array_key_exists($localization->getId(), $localizationManager->getEnabledLocalizations())
         ) {
             $localizationManager->setCurrentLocalization($localization);
 
-            $redirectHelper = $this->container->get('oro_locale.helper.localized_slug_redirect');
             $fromUrl = $this->generateUrlWithContext($request);
             if ($fromUrl) {
+                $redirectHelper = $this->container->get(LocalizedSlugRedirectHelper::class);
                 if ($request->server->has('WEBSITE_PATH')) {
-                    $toUrl = $this->getUrlForWebsitePath($request, $fromUrl, $localization);
+                    $toUrl = $this->getUrlForWebsitePath($request, $fromUrl, $localization, $redirectHelper);
                 } else {
                     $toUrl = $redirectHelper->getLocalizedUrl($fromUrl, $localization);
                     $toUrl = $this->rebuildQueryString($toUrl, $request);
@@ -84,7 +84,7 @@ class AjaxCurrencyAndLocalizationController extends AbstractController
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function getSubscribedServices(): array
     {
@@ -94,7 +94,7 @@ class AjaxCurrencyAndLocalizationController extends AbstractController
                 UserCurrencyManager::class,
                 LocalizationManager::class,
                 UserLocalizationManager::class,
-                'oro_locale.helper.localized_slug_redirect' => LocalizedSlugRedirectHelper::class,
+                LocalizedSlugRedirectHelper::class,
             ]
         );
     }

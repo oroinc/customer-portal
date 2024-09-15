@@ -169,6 +169,9 @@ services:
             # Must be executed before all listeners to change route for enum filters
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before, method: onBuildBefore, priority: 255 }
 
+    oro_frontend.home_page_provider:
+        class: Oro\Bundle\FrontendBundle\Provider\HomePageProvider
+
     oro_frontend.provider.action_route:
         class: 'Oro\Bundle\FrontendBundle\Provider\RouteProvider'
         decorates: oro_action.provider.route
@@ -434,8 +437,6 @@ services:
     oro_frontend.layout.data_provider.theme_header_config:
         class: Oro\Bundle\FrontendBundle\Layout\DataProvider\ThemeHeaderConfigProvider
         arguments:
-            - '@oro_security.acl_helper'
-            - '@doctrine'
             - '@oro_frontend.provider.quick_access_button_data'
             - '@oro_theme.provider.theme_configuration'
         tags:
@@ -448,16 +449,6 @@ services:
             - ['color_palette', 'button_styles', 'page_styles']
         tags:
             - { name: layout.data_provider, alias: theme_css_variables }
-
-    oro_frontend.acl.voter.content_block:
-        class: Oro\Bundle\FrontendBundle\Acl\Voter\ContentBlockVoter
-        arguments:
-            - '@oro_entity.doctrine_helper'
-            - '@doctrine'
-        calls:
-            - [setClassName, ['Oro\Bundle\CMSBundle\Entity\ContentBlock']]
-        tags:
-            - { name: security.voter }
 
     oro_frontend.content_node_deletion_checker.content_node_in_config_references:
         class: Oro\Bundle\FrontendBundle\ContentNodeDeletionChecker\ContentNodeInConfigReferencesChecker

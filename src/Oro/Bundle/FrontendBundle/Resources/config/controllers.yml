@@ -31,6 +31,7 @@ services:
             - ['setContainer', ['@Psr\Container\ContainerInterface']]
         tags:
             - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_frontend.home_page_provider, key: Oro\Bundle\FrontendBundle\Provider\HomePageProviderInterface }
 
     Oro\Bundle\FrontendBundle\Controller\GridController:
         calls:
@@ -43,4 +44,4 @@ services:
             - ['setContainer', ['@Psr\Container\ContainerInterface']]
         tags:
             - { name: container.service_subscriber }
-            - { name: container.service_subscriber, id: oro_locale.helper.localized_slug_redirect }
+            - { name: container.service_subscriber, id: oro_locale.helper.localized_slug_redirect, key: Oro\Bundle\FrontendLocalizationBundle\Helper\LocalizedSlugRedirectHelper }

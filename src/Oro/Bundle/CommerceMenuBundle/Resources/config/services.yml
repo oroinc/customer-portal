@@ -358,11 +358,16 @@ services:
         tags:
             - { name: layout.theme_config_extension }
 
+    oro_commerce_menu.menu_templates_cache:
+        parent: oro.data.cache
+        tags:
+            - { name: 'cache.pool', namespace: 'oro_commerce_menu_templates_cache' }
+
     oro_commerce_menu.provider.menu_templates_provider:
         class: Oro\Bundle\CommerceMenuBundle\Provider\MenuTemplatesProvider
         arguments:
             - '@oro_layout.theme_manager'
-            - '@oro_cms.content_widget_layout_cache'
+            - '@oro_commerce_menu.menu_templates_cache'
 
     oro_commerce_menu.layout.menu_item_renderer:
         class: Oro\Bundle\CommerceMenuBundle\Layout\MenuItemRenderer
