@@ -61,6 +61,8 @@ define(function(require, exports, module) {
 
         listItemClasses: 'datagrid-manager__list-item',
 
+        maxItemsForShowSearchBar: 7,
+
         /**
          * Update Dropdown design
          * @private

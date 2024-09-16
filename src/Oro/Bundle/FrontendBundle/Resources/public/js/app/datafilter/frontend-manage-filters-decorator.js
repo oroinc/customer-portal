@@ -47,8 +47,6 @@ define(function(require, exports, module) {
             searchAriaLabel: __('oro_frontend.filter_manager.searchAriaLabel')
         },
 
-        maxItemsForShowSearchBar: 5,
-
         listItemClasses: 'datagrid-manager__list-item datagrid-manager__list-item--offset',
 
         /**
