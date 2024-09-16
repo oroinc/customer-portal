@@ -5,6 +5,10 @@
     transition: none !important;
 }
 
+[data-mark] {
+    @include sr-only();
+}
+
 .hidden,
 .hide,
 .hide-on-empty:empty {
