@@ -2,7 +2,7 @@
 let oroui = _.macros('oroui');
 let oroshoppinglist = _.macros('oroshoppinglist');
 let oroproduct = _.macros('oroproduct');
-const name = obj.name ?? _.uniqueId('name-');
+const radioGroupName = obj.radioGroupName ?? _.uniqueId('name-');
 const prepareAttrs = (attrsList) => {
     let attrs = '';
     for (const [key, value] of Object.entries(attrsList)) {
@@ -37,7 +37,7 @@ const markEnd = '<span aria-hidden="true" data-mark>)</span>';
             }
         %>
         <input id="<%- id %>"
-               name="<%- name %>"
+               name="<%- radioGroupName %>"
                type="radio"
                value="<%- unitValue %>"
                class="toggle-input"
