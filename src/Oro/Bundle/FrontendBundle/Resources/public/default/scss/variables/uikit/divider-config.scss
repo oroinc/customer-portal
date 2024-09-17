@@ -1,0 +1,11 @@
+/* @theme: default; */
+
+$divider-display: grid !default;
+$divider-grid-template-columns: 1fr auto 1fr !default;
+$divider-align-items: center !default;
+$divider-gap: spacing('base') !default;
+
+$divider-before-after-content: '' !default;
+$divider-before-after-background: get-color('neutral', 'grey2') !default;
+$divider-before-after-height: 1px !default;
+$divider-before-after-display: block !default;
