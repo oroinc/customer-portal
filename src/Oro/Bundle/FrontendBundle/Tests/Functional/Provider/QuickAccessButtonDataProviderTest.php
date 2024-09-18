@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Oro\Bundle\FrontendBundle\Tests\Functional\Provider;
 
 use Knp\Menu\ItemInterface;
-use Oro\Bundle\CMSBundle\Tests\Functional\DataFixtures\LoadTextContentVariantsData;
 use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerVisitors;
@@ -30,7 +29,6 @@ class QuickAccessButtonDataProviderTest extends WebTestCase
     {
         $this->initClient();
         $this->loadFixtures([
-            LoadTextContentVariantsData::class,
             LoadCustomerUser::class,
             LoadCustomerVisitors::class,
             LoadContentNodesData::class,
@@ -41,7 +39,7 @@ class QuickAccessButtonDataProviderTest extends WebTestCase
 
     protected function tearDown(): void
     {
-        $this->getContainer()->get('security.token_storage')->setToken(null);
+        self::getContainer()->get('security.token_storage')->setToken(null);
         $this->getClientContainer()->get(FrontendHelper::class)->resetRequestEmulation();
         parent::tearDown();
     }
@@ -117,8 +115,8 @@ class QuickAccessButtonDataProviderTest extends WebTestCase
         $this->getClientContainer()->get(FrontendHelper::class)->emulateFrontendRequest();
         $request = Request::create('/');
 
+        /** @see \Oro\Bundle\WebCatalogBundle\Provider\RequestWebContentScopeProvider::REQUEST_SCOPES_ATTRIBUTE */
         $request->attributes->set(
-            /** @see \Oro\Bundle\WebCatalogBundle\Provider\RequestWebContentScopeProvider::REQUEST_SCOPES_ATTRIBUTE */
             '_web_content_scopes',
             [$this->getReference(LoadWebCatalogScopes::SCOPE1)]
         );

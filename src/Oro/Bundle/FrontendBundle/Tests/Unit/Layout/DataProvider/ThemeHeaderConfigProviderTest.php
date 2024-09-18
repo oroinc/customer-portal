@@ -2,160 +2,87 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Layout\DataProvider;
 
-use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
-use Oro\Bundle\CMSBundle\Entity\ContentBlock;
-use Oro\Bundle\CMSBundle\Entity\Repository\ContentBlockRepository;
 use Oro\Bundle\FrontendBundle\Layout\DataProvider\ThemeHeaderConfigProvider;
 use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
 use Oro\Bundle\FrontendBundle\Provider\QuickAccessButtonDataProvider;
 use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration;
-use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\ThemeBundle\Provider\ThemeConfigurationProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class ThemeHeaderConfigProviderTest extends TestCase
 {
+    private QuickAccessButtonDataProvider|MockObject $quickAccessButtonDataProvider;
+    private ThemeConfigurationProvider|MockObject $themeConfigurationProvider;
     private ThemeHeaderConfigProvider $provider;
-
-    private ThemeConfigurationProvider $themeConfigurationProvider;
-
-    private ManagerRegistry $doctrine;
-
-    private AclHelper $aclHelper;
-
-    private ContentBlockRepository $contentBlockRepository;
-
-    private QuickAccessButtonDataProvider $quickAccessButtonDataProvider;
 
     protected function setUp(): void
     {
+        $this->quickAccessButtonDataProvider = $this->createMock(QuickAccessButtonDataProvider::class);
+        $this->themeConfigurationProvider = $this->createMock(ThemeConfigurationProvider::class);
+
         $this->provider = new ThemeHeaderConfigProvider(
-            $this->aclHelper = $this->createMock(AclHelper::class),
-            $this->doctrine = $this->createMock(ManagerRegistry::class),
-            $this->quickAccessButtonDataProvider = $this->createMock(
-                QuickAccessButtonDataProvider::class
-            ),
-            $this->themeConfigurationProvider = $this->createMock(ThemeConfigurationProvider::class),
+            $this->quickAccessButtonDataProvider,
+            $this->themeConfigurationProvider
         );
-
-        $this->contentBlockRepository = $this->createMock(ContentBlockRepository::class);
     }
 
-    /**
-     * @dataProvider contentBlockData
-     */
-    public function testThatPromotionalBlockAliasReturned(?string $returnedAlias, string $expected): void
+    public function testGetQuickAccessButton(): void
     {
-        $this->themeConfigurationProvider
-            ->expects(self::once())
-            ->method('getThemeConfigurationOption')
-            ->with(ThemeConfiguration::buildOptionKey('header', 'promotional_content'))
-            ->willReturn(1);
-
-        $this->doctrine
-            ->expects(self::any())
-            ->method('getRepository')
-            ->with(ContentBlock::class)
-            ->willReturn($this->contentBlockRepository);
-
-        $this->contentBlockRepository
-            ->expects(self::once())
-            ->method('getContentBlockAliasById')
-            ->with(1, $this->aclHelper)
-            ->willReturn($returnedAlias);
-
-        self::assertEquals($expected, $this->provider->getPromotionalBlockAlias());
-    }
-
-    public function testThatEmptyStringReturnedWhenPromotionalBlockNotSelected(): void
-    {
-        $this->themeConfigurationProvider
-            ->expects(self::once())
-            ->method('getThemeConfigurationOption')
-            ->with(ThemeConfiguration::buildOptionKey('header', 'promotional_content'))
-            ->willReturn(null);
-
-        $this->doctrine
-            ->expects(self::never())
-            ->method('getRepository');
-
-        self::assertEquals('', $this->provider->getPromotionalBlockAlias());
-    }
-
-    /**
-     * @dataProvider quickAccessButtonMenuDataProvider
-     */
-    public function testThatQuickAccessButtonMenuReturned(
-        ?QuickAccessButtonConfig $model,
-        ?ItemInterface $expected
-    ): void {
-        $this->themeConfigurationProvider
-            ->expects(self::once())
-            ->method('getThemeConfigurationOption')
-            ->with(ThemeConfiguration::buildOptionKey('header', 'quick_access_button'))
-            ->willReturn($model);
-
-        if ($model) {
-            $this->quickAccessButtonDataProvider
-                ->expects(self::once())
-                ->method('getMenu')
-                ->with($model)
-                ->willReturn($expected);
-        }
-
-        self::assertEquals($expected, $this->provider->getQuickAccessButton());
-    }
-
-    /**
-     * @dataProvider quickAccessButtonLabelDataProvider
-     */
-    public function testThatQuickAccessButtonLabelReturned(?QuickAccessButtonConfig $model, ?string $expected): void
-    {
-        $this->themeConfigurationProvider
-            ->expects(self::once())
-            ->method('getThemeConfigurationOption')
-            ->with(ThemeConfiguration::buildOptionKey('header', 'quick_access_button'))
-            ->willReturn($model);
-
-        if ($model) {
-            $this->quickAccessButtonDataProvider
-                ->expects(self::once())
-                ->method('getLabel')
-                ->with($model)
-                ->willReturn($expected);
-        }
-
-        self::assertEquals($expected, $this->provider->getQuickAccessButtonLabel());
-    }
-
-    private function quickAccessButtonLabelDataProvider(): array
-    {
-        $model = new QuickAccessButtonConfig();
-
-        return [
-            [$model, 'expected'],
-            [null, null],
-        ];
-    }
-
-    private function quickAccessButtonMenuDataProvider(): array
-    {
-        $model = new QuickAccessButtonConfig();
-
+        $config = new QuickAccessButtonConfig();
         $menuItem = $this->createMock(ItemInterface::class);
 
-        return [
-            [$model, $menuItem],
-            [null, null],
-        ];
+        $this->themeConfigurationProvider->expects(self::once())
+            ->method('getThemeConfigurationOption')
+            ->with(ThemeConfiguration::buildOptionKey('header', 'quick_access_button'))
+            ->willReturn($config);
+        $this->quickAccessButtonDataProvider->expects(self::once())
+            ->method('getMenu')
+            ->with(self::identicalTo($config))
+            ->willReturn($menuItem);
+
+        self::assertSame($menuItem, $this->provider->getQuickAccessButton());
     }
 
-    private function contentBlockData(): array
+    public function testGetQuickAccessButtonWhenConfigOptionIsEmpty(): void
     {
-        return [
-            ['alias', 'alias'],
-            [null, '']
-        ];
+        $this->themeConfigurationProvider->expects(self::once())
+            ->method('getThemeConfigurationOption')
+            ->with(ThemeConfiguration::buildOptionKey('header', 'quick_access_button'))
+            ->willReturn(null);
+        $this->quickAccessButtonDataProvider->expects(self::never())
+            ->method('getMenu');
+
+        self::assertNull($this->provider->getQuickAccessButton());
+    }
+
+    public function testGetQuickAccessButtonLabel(): void
+    {
+        $config = new QuickAccessButtonConfig();
+        $label = 'label';
+
+        $this->themeConfigurationProvider->expects(self::once())
+            ->method('getThemeConfigurationOption')
+            ->with(ThemeConfiguration::buildOptionKey('header', 'quick_access_button'))
+            ->willReturn($config);
+        $this->quickAccessButtonDataProvider->expects(self::once())
+            ->method('getLabel')
+            ->with(self::identicalTo($config))
+            ->willReturn($label);
+
+        self::assertEquals($label, $this->provider->getQuickAccessButtonLabel());
+    }
+
+    public function testGetQuickAccessButtonLabelWhenConfigOptionIsEmpty(): void
+    {
+        $this->themeConfigurationProvider->expects(self::once())
+            ->method('getThemeConfigurationOption')
+            ->with(ThemeConfiguration::buildOptionKey('header', 'quick_access_button'))
+            ->willReturn(null);
+        $this->quickAccessButtonDataProvider->expects(self::never())
+            ->method('getLabel');
+
+        self::assertNull($this->provider->getQuickAccessButtonLabel());
     }
 }

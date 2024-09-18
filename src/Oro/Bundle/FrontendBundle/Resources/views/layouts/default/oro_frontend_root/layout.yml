@@ -3,15 +3,6 @@ layout:
         - '@setBlockTheme':
             themes: '@OroFrontend/layouts/default/oro_frontend_root/layout.html.twig'
         - '@setOption':
-            id: title
-            optionName: params
-            optionValue:
-                '%title%': '=data["locale"].getLocalizedValue(data["page"].getTitles())'
-        - '@setOption':
-            id: page_title
-            optionName: defaultValue
-            optionValue: '=data["locale"].getLocalizedValue(data["page"].getTitles())'
-        - '@setOption':
             id: page_title
             optionName: visible
             optionValue: false
@@ -25,8 +16,7 @@ layout:
                 home_page_content:
                     blockType: wysiwyg_content
                     options:
-                        content: '=data["page"].getContent()'
-                        contentStyle: '=data["page"].getContentStyle()'
+                        content: ''
             tree:
                 page_content:
                     home_page_content: ~

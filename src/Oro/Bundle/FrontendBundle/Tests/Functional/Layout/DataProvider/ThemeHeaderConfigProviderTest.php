@@ -6,22 +6,14 @@ namespace Oro\Bundle\FrontendBundle\Tests\Functional\Layout\DataProvider;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Menu\ItemInterface;
-use Oro\Bundle\CMSBundle\Tests\Functional\DataFixtures\LoadTextContentVariantsData;
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerVisitors;
 use Oro\Bundle\FrontendBundle\Layout\DataProvider\ThemeHeaderConfigProvider;
 use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\FrontendBundle\Tests\Functional\DataFixtures\LoadThemeConfigurationData;
 use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration;
-use Oro\Bundle\SecurityBundle\Authentication\Token\UsernamePasswordOrganizationToken;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
 use Oro\Bundle\ThemeBundle\DependencyInjection\Configuration;
 use Oro\Bundle\ThemeBundle\Entity\ThemeConfiguration as ThemeConfigurationEntity;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
@@ -39,21 +31,17 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
 {
     use ConfigManagerAwareTestTrait;
 
-    private ConfigManager $configManager;
     private ThemeHeaderConfigProvider $provider;
 
     protected function setUp(): void
     {
         $this->initClient();
         $this->loadFixtures([
-            LoadTextContentVariantsData::class,
             LoadCustomerUser::class,
             LoadCustomerVisitors::class,
             LoadContentNodesData::class,
             LoadWebCatalogScopes::class,
-            LoadThemeConfigurationData::class,
         ]);
-        $this->configManager = self::getContainer()->get('oro_config.manager');
         $this->provider = self::getContainer()->get('oro_frontend.layout.data_provider.theme_header_config');
     }
 
@@ -64,72 +52,45 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
         parent::tearDown();
     }
 
-    public function testGetPromotionalBlockAliasForVisitors(): void
+    private function getThemeConfiguration(): ThemeConfigurationEntity
     {
-        /** @var CustomerVisitor $visitor */
-        $visitor = $this->getReference(LoadCustomerVisitors::CUSTOMER_VISITOR);
-        self::getContainer()
-            ->get('security.token_storage')
-            ->setToken(new AnonymousCustomerUserToken(
-                $visitor,
-                [],
-                $this->getReference(LoadOrganization::ORGANIZATION)
-            ));
-
-        $this->setContentBlockForThemeConfiguration();
-
-        self::assertEquals('content_block_1', $this->provider->getPromotionalBlockAlias());
-    }
-
-    public function testGetPromotionalBlockAliasForCustomerUser(): void
-    {
-        /** @var CustomerUser $user */
-        $user = $this->getReference(LoadCustomerUser::CUSTOMER_USER);
-        self::getContainer()
-            ->get('security.token_storage')
-            ->setToken(new UsernamePasswordOrganizationToken(
-                $user,
-                'k',
-                $user->getOrganization(),
-                $user->getUserRoles()
-            ));
-
-        $this->setContentBlockForThemeConfiguration();
-
-        self::assertEquals('content_block_1', $this->provider->getPromotionalBlockAlias());
-    }
-
-    public function testGetPromotionalBlockAliasForAnonymous(): void
-    {
-        self::getContainer()
-            ->get('security.token_storage')
-            ->setToken(null);
-
-        $this->setContentBlockForThemeConfiguration();
-
-        self::assertEquals('content_block_1', $this->provider->getPromotionalBlockAlias());
-    }
-
-    public function testGetPromotionalBlockAliasFromThemeConfigurationForAnonymous(): void
-    {
-        self::getContainer()
-            ->get('security.token_storage')
-            ->setToken(null);
-
-        $config = self::getConfigManager();
-        $config->set(
-            Configuration::getConfigKeyByName(Configuration::THEME_CONFIGURATION),
-            $this->getReference(LoadThemeConfigurationData::THEME_CONFIGURATION_1)->getId()
+        return $this->getThemeConfigurationEntityManager()->find(
+            ThemeConfigurationEntity::class,
+            self::getConfigManager()->get(Configuration::getConfigKeyByName(Configuration::THEME_CONFIGURATION))
         );
-        $config->flush();
+    }
 
-        self::assertEquals('content_block_1', $this->provider->getPromotionalBlockAlias());
+    private function getThemeConfigurationEntityManager(): EntityManagerInterface
+    {
+        return self::getContainer()->get('doctrine')->getManagerForClass(ThemeConfigurationEntity::class);
+    }
+
+    private function setupRequestStack(): void
+    {
+        self::getContainer()->get(FrontendHelper::class)->emulateFrontendRequest();
+        $request = Request::create('/');
+
+        /** @see \Oro\Bundle\WebCatalogBundle\Provider\RequestWebContentScopeProvider::REQUEST_SCOPES_ATTRIBUTE */
+        $request->attributes->set(
+            '_web_content_scopes',
+            [$this->getReference(LoadWebCatalogScopes::SCOPE1)]
+        );
+        self::getContainer()->get(RequestStack::class)->push($request);
+    }
+
+    private function setQuickAccessButtonForThemeConfiguration(QuickAccessButtonConfig $quickAccessButtonConfig): void
+    {
+        $this->getThemeConfiguration()->addConfigurationOption(
+            ThemeConfiguration::buildOptionKey('header', 'quick_access_button'),
+            $quickAccessButtonConfig
+        );
+        $this->getThemeConfigurationEntityManager()->flush();
     }
 
     public function testGetQuickAccessButtonDefaultValue(): void
     {
-        self::assertTrue(null === $this->provider->getQuickAccessButton());
-        self::assertTrue(null === $this->provider->getQuickAccessButtonLabel());
+        self::assertNull($this->provider->getQuickAccessButton());
+        self::assertNull($this->provider->getQuickAccessButtonLabel());
     }
 
     public function testGetQuickAccessButtonForExistingMenu(): void
@@ -153,15 +114,13 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
 
         $this->setQuickAccessButtonForThemeConfiguration($quickAccessButtonConfig);
 
-        self::assertTrue(null === $this->provider->getQuickAccessButton());
+        self::assertNull($this->provider->getQuickAccessButton());
         self::assertEquals('label', $this->provider->getQuickAccessButtonLabel());
     }
 
     public function testGetQuickAccessButtonForWebCatalogNode(): void
     {
         $this->setupRequestStack();
-
-        $config = self::getConfigManager();
 
         $webCatalog = $this->getReference(LoadWebCatalogData::CATALOG_1);
         /** @var ContentNode $node */
@@ -173,9 +132,10 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
             ->setWebCatalogNode($node->getId());
 
         $this->setQuickAccessButtonForThemeConfiguration($quickAccessButtonConfig);
-        $config->set('oro_web_catalog.web_catalog', $webCatalog->getId());
 
-        $config->flush();
+        $configManager = self::getConfigManager();
+        $configManager->set('oro_web_catalog.web_catalog', $webCatalog->getId());
+        $configManager->flush();
 
         self::assertInstanceOf(ItemInterface::class, $this->provider->getQuickAccessButton());
         self::assertEquals('wcn label', $this->provider->getQuickAccessButtonLabel());
@@ -186,8 +146,6 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
     {
         $this->setupRequestStack();
 
-        $config = self::getConfigManager();
-
         $webCatalog = $this->getReference(LoadWebCatalogData::CATALOG_1);
 
         $quickAccessButtonConfig = (new QuickAccessButtonConfig())
@@ -196,19 +154,18 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
             ->setWebCatalogNode(-1);
 
         $this->setQuickAccessButtonForThemeConfiguration($quickAccessButtonConfig);
-        $config->set('oro_web_catalog.web_catalog', $webCatalog->getId());
 
-        $config->flush();
+        $configManager = self::getConfigManager();
+        $configManager->set('oro_web_catalog.web_catalog', $webCatalog->getId());
+        $configManager->flush();
 
-        self::assertTrue(null === $this->provider->getQuickAccessButton());
+        self::assertNull($this->provider->getQuickAccessButton());
         self::assertEquals('label', $this->provider->getQuickAccessButtonLabel());
     }
 
     public function testGetQuickAccessButtonForNonDefaultWebCatalogNode(): void
     {
         $this->setupRequestStack();
-
-        $config = self::getConfigManager();
 
         $webCatalog = $this->getReference(LoadWebCatalogData::CATALOG_1);
         /** @var ContentNode $node */
@@ -219,55 +176,12 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
             ->setWebCatalogNode($node->getId());
 
         $this->setQuickAccessButtonForThemeConfiguration($quickAccessButtonConfig);
-        $config->set('oro_web_catalog.web_catalog', $webCatalog->getId());
 
-        $config->flush();
+        $configManager = self::getConfigManager();
+        $configManager->set('oro_web_catalog.web_catalog', $webCatalog->getId());
+        $configManager->flush();
 
-        self::assertTrue(null === $this->provider->getQuickAccessButton());
-        self::assertTrue(null === $this->provider->getQuickAccessButtonLabel());
-    }
-
-    private function setupRequestStack(): void
-    {
-        self::getContainer()->get(FrontendHelper::class)->emulateFrontendRequest();
-        $request = Request::create('/');
-
-        $request->attributes->set(
-            /** @see \Oro\Bundle\WebCatalogBundle\Provider\RequestWebContentScopeProvider::REQUEST_SCOPES_ATTRIBUTE */
-            '_web_content_scopes',
-            [$this->getReference(LoadWebCatalogScopes::SCOPE1)]
-        );
-        self::getContainer()->get(RequestStack::class)->push($request);
-    }
-
-    private function setContentBlockForThemeConfiguration(): void
-    {
-        $this->getThemeConfiguration()->addConfigurationOption(
-            ThemeConfiguration::buildOptionKey('header', 'promotional_content'),
-            $this->getReference('content_block_1')->getId()
-        );
-        $this->getThemeConfigurationEntityManager()->flush();
-    }
-
-    private function setQuickAccessButtonForThemeConfiguration(QuickAccessButtonConfig $quickAccessButtonConfig): void
-    {
-        $this->getThemeConfiguration()->addConfigurationOption(
-            ThemeConfiguration::buildOptionKey('header', 'quick_access_button'),
-            $quickAccessButtonConfig
-        );
-        $this->getThemeConfigurationEntityManager()->flush();
-    }
-
-    private function getThemeConfiguration(): ThemeConfigurationEntity
-    {
-        return $this->getThemeConfigurationEntityManager()->find(
-            ThemeConfigurationEntity::class,
-            $this->configManager->get(Configuration::getConfigKeyByName(Configuration::THEME_CONFIGURATION))
-        );
-    }
-
-    private function getThemeConfigurationEntityManager(): EntityManagerInterface
-    {
-        return self::getContainer()->get('doctrine')->getManagerForClass(ThemeConfigurationEntity::class);
+        self::assertNull($this->provider->getQuickAccessButton());
+        self::assertNull($this->provider->getQuickAccessButtonLabel());
     }
 }

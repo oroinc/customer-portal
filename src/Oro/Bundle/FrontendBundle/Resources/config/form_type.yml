@@ -48,19 +48,6 @@ services:
         tags:
             - { name: form.type, alias: oro_frontend_rule_editor_text }
 
-    oro_frontend.form.extension.wysiwyg:
-        class: Oro\Bundle\FrontendBundle\Form\Extension\WYSIWYGTypeExtension
-        arguments:
-            - '@oro_layout.theme_manager'
-            - '@oro_layout.data_provider.theme'
-            - '@oro_config.manager'
-            - '@oro_website.manager'
-            - '@assets.packages'
-            - '@oro_theme.provider.theme_configuration'
-            - '@oro_layout.provider.svg_icons_support'
-        tags:
-            - { name: form.type_extension }
-
     oro_frontend.form.extension.dynamic_fields:
         class: Oro\Bundle\FrontendBundle\Form\Extension\DynamicFieldsExtension
         arguments:

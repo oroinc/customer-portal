@@ -10,10 +10,7 @@ use Symfony\Contracts\Cache\CacheInterface;
  */
 class MenuTemplatesProvider
 {
-    private const MENU_TEMPLATES_CACHE_KEY = 'oro_commerce_menu.provider.menu_templates_provider';
-
     private ThemeManager $themeManager;
-
     private CacheInterface $cache;
 
     public function __construct(ThemeManager $themeManager, CacheInterface $cache)
@@ -24,7 +21,7 @@ class MenuTemplatesProvider
 
     public function getMenuTemplates(): array
     {
-        return $this->cache->get(self::MENU_TEMPLATES_CACHE_KEY, function () {
+        return $this->cache->get('commerce_menu_templates', function () {
             return $this->collectMenuTemplates();
         });
     }

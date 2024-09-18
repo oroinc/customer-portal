@@ -11,9 +11,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 class MenuTemplatesProviderTest extends \PHPUnit\Framework\TestCase
 {
     private ThemeManager|\PHPUnit\Framework\MockObject\MockObject $themeManager;
-
     private CacheInterface|\PHPUnit\Framework\MockObject\MockObject $cache;
-
     private MenuTemplatesProvider $provider;
 
     protected function setUp(): void
@@ -64,6 +62,7 @@ class MenuTemplatesProviderTest extends \PHPUnit\Framework\TestCase
 
         $this->cache->expects(self::once())
             ->method('get')
+            ->with('commerce_menu_templates')
             ->willReturnCallback(function ($cacheKey, $callback) {
                 $item = $this->createMock(ItemInterface::class);
 
@@ -108,6 +107,7 @@ class MenuTemplatesProviderTest extends \PHPUnit\Framework\TestCase
 
         $this->cache->expects(self::once())
             ->method('get')
+            ->with('commerce_menu_templates')
             ->willReturn($cachedMenuTemplates);
 
         $this->themeManager->expects(self::never())

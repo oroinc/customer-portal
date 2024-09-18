@@ -2,13 +2,13 @@
 
 namespace Oro\Bundle\FrontendBundle\Controller;
 
-use Oro\Bundle\CMSBundle\Provider\HomeLandingPageProvider;
+use Oro\Bundle\FrontendBundle\Provider\HomePageProviderInterface;
 use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Default frontend controller.
+ * Default storefront controller.
  */
 class FrontendController extends AbstractController
 {
@@ -16,9 +16,11 @@ class FrontendController extends AbstractController
     #[Layout]
     public function indexAction(): array
     {
-        $homePage = $this->container->get(HomeLandingPageProvider::class)->getHomeLandingPage();
-
-        return ['data' => ['page' => $homePage]];
+        return [
+            'data' => [
+                'page' => $this->container->get(HomePageProviderInterface::class)->getHomePage()
+            ]
+        ];
     }
 
     /**
@@ -27,7 +29,7 @@ class FrontendController extends AbstractController
     public static function getSubscribedServices(): array
     {
         return array_merge(parent::getSubscribedServices(), [
-            HomeLandingPageProvider::class,
+            HomePageProviderInterface::class
         ]);
     }
 }
