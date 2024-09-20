@@ -8,7 +8,7 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadInternalRating;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadUserData;
-use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
+use Oro\Bundle\EntityExtendBundle\Entity\EnumOptionInterface;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -45,7 +45,7 @@ class CustomerControllerTest extends WebTestCase
         $parent = $this->getReference('customer.level_1');
         /** @var CustomerGroup $group */
         $group = $this->getReference('customer_group.group1');
-        /** @var AbstractEnumValue $internalRating */
+        /** @var EnumOptionInterface $internalRating */
         $internalRating = $this->getReference('internal_rating.1 of 5');
         $this->assertCustomerSave($crawler, self::ACCOUNT_NAME, $group, $internalRating, $parent);
 
@@ -74,7 +74,7 @@ class CustomerControllerTest extends WebTestCase
 
         $customerName = 'Customer For Customer Group';
 
-        /** @var AbstractEnumValue $internalRating */
+        /** @var EnumOptionInterface $internalRating */
         $internalRating = $this->getReference('internal_rating.1 of 5');
 
         $this->assertCustomerSave($crawler, $customerName, $group, $internalRating, null, true);
@@ -106,7 +106,7 @@ class CustomerControllerTest extends WebTestCase
         $newParent = $this->getReference('customer.level_1.1');
         /** @var CustomerGroup $newGroup */
         $newGroup = $this->getReference('customer_group.group2');
-        /** @var AbstractEnumValue $internalRating */
+        /** @var EnumOptionInterface $internalRating */
         $internalRating = $this->getReference('internal_rating.2 of 5');
         $this->assertCustomerSave($crawler, self::UPDATED_NAME, $newGroup, $internalRating, $newParent);
 
@@ -134,7 +134,7 @@ class CustomerControllerTest extends WebTestCase
         $newParent = $this->getReference('customer.level_1.1');
         /** @var CustomerGroup $newGroup */
         $newGroup = $this->getReference('customer_group.group2');
-        /** @var AbstractEnumValue $internalRating */
+        /** @var EnumOptionInterface $internalRating */
         $internalRating = $this->getReference('internal_rating.2 of 5');
         $this->assertViewPage($html, self::UPDATED_NAME, $newGroup, $internalRating, $newParent);
     }
@@ -154,7 +154,7 @@ class CustomerControllerTest extends WebTestCase
         $customerName = 'Customer Subsidiary';
         /** @var CustomerGroup $group */
         $group = $this->getReference('customer_group.group1');
-        /** @var AbstractEnumValue $internalRating */
+        /** @var EnumOptionInterface $internalRating */
         $internalRating = $this->getReference('internal_rating.1 of 5');
         $this->assertCustomerSave($crawler, $customerName, $group, $internalRating);
 
@@ -173,7 +173,7 @@ class CustomerControllerTest extends WebTestCase
         Crawler $crawler,
         string $name,
         CustomerGroup $group,
-        AbstractEnumValue $internalRating,
+        EnumOptionInterface $internalRating,
         ?Customer $parent = null,
         bool $isGroupPrepared = false
     ): void {
@@ -206,7 +206,7 @@ class CustomerControllerTest extends WebTestCase
         string $html,
         string $name,
         CustomerGroup $group,
-        AbstractEnumValue $internalRating,
+        EnumOptionInterface $internalRating,
         ?Customer $parent = null
     ): void {
         self::assertStringContainsString($name, $html);
@@ -220,7 +220,7 @@ class CustomerControllerTest extends WebTestCase
     protected function prepareFormValues(
         string $name,
         ?CustomerGroup $group,
-        AbstractEnumValue $internalRating,
+        EnumOptionInterface $internalRating,
         ?Customer $parent = null
     ): array {
         $formValues = [

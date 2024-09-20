@@ -10,8 +10,8 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups;
-use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
-use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
+use Oro\Bundle\EntityExtendBundle\Entity\EnumOption;
+use Oro\Bundle\EntityExtendBundle\Entity\EnumOptionInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 
 /**
@@ -66,9 +66,8 @@ class CustomerTest extends RestJsonApiTestCase
             ->addSalesRepresentative($owner);
 
         if ($ratingId) {
-            /** @var AbstractEnumValue $rating */
-            $rating = $this->getEntityManager()
-                ->find(ExtendHelper::buildEnumValueClassName(Customer::INTERNAL_RATING_CODE), $ratingId);
+            /** @var EnumOptionInterface $rating */
+            $rating = $this->getEntityManager()->find(EnumOption::class, $ratingId);
             $customer->setInternalRating($rating);
         }
 
@@ -271,7 +270,7 @@ class CustomerTest extends RestJsonApiTestCase
         $parentCustomerId = $this->getReference('default_customer')->getId();
         $ownerId = $this->getReference('user')->getId();
         $organizationId = $this->getReference('organization')->getId();
-        $internalRatingId = $this->getReference('internal_rating.1 of 5')->getId();
+        $internalRatingId = $this->getReference('internal_rating.1 of 5')->getInternalId();
         $groupId = $this->getGroup(LoadGroups::GROUP1)->getId();
 
         $response = $this->post(
@@ -289,7 +288,7 @@ class CustomerTest extends RestJsonApiTestCase
         self::assertEquals($organizationId, $customer->getOrganization()->getId());
         self::assertEquals($parentCustomerId, $customer->getParent()->getId());
         self::assertEquals($ownerId, $customer->getOwner()->getId());
-        self::assertEquals($internalRatingId, $customer->getInternalRating()->getId());
+        self::assertEquals($internalRatingId, $customer->getInternalRating()->getInternalId());
         self::assertEquals($groupId, $customer->getGroup()->getId());
         self::assertNotEmpty($customer->getCreatedAt());
         self::assertNotEmpty($customer->getUpdatedAt());
@@ -342,7 +341,7 @@ class CustomerTest extends RestJsonApiTestCase
     {
         $customerId = $this->getReference('customer.1')->getId();
         $parentCustomerId = $this->getReference('default_customer')->getId();
-        $internalRatingId = $this->getReference('internal_rating.2 of 5')->getId();
+        $internalRatingId = $this->getReference('internal_rating.2 of 5')->getInternalId();
         $groupId = $this->getGroup(LoadGroups::GROUP2)->getId();
 
         $data = [
@@ -378,7 +377,7 @@ class CustomerTest extends RestJsonApiTestCase
             ->find(Customer::class, $customerId);
         self::assertEquals('Updated Customer', $customer->getName());
         self::assertEquals($parentCustomerId, $customer->getParent()->getId());
-        self::assertEquals($internalRatingId, $customer->getInternalRating()->getId());
+        self::assertEquals($internalRatingId, $customer->getInternalRating()->getInternalId());
         self::assertEquals($groupId, $customer->getGroup()->getId());
     }
 
@@ -637,7 +636,7 @@ class CustomerTest extends RestJsonApiTestCase
             [
                 'data' => [
                     'type'       => 'customerratings',
-                    'id'         => 'internal_rating.1_of_5',
+                    'id'         => '1_of_5',
                     'attributes' => [
                         'name'     => 'internal_rating.1 of 5',
                         'priority' => 1,
@@ -659,7 +658,7 @@ class CustomerTest extends RestJsonApiTestCase
 
         $this->assertResponseContains(
             [
-                'data' => ['type' => 'customerratings', 'id' => 'internal_rating.1_of_5']
+                'data' => ['type' => 'customerratings', 'id' => '1_of_5']
             ],
             $response
         );
@@ -672,7 +671,7 @@ class CustomerTest extends RestJsonApiTestCase
         $this->patchRelationship(
             ['entity' => 'customers', 'id' => $customerId, 'association' => 'internal_rating'],
             [
-                'data' => ['type' => 'customerratings', 'id' => 'internal_rating.2_of_5']
+                'data' => ['type' => 'customerratings', 'id' => '2_of_5']
             ]
         );
 

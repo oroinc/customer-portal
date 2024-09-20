@@ -14,11 +14,8 @@ use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
 use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareTrait;
-use Oro\Bundle\EntityExtendBundle\Migration\OroOptions;
-use Oro\Bundle\EntityExtendBundle\Migration\Query\EnumDataValue;
-use Oro\Bundle\EntityExtendBundle\Migration\Query\InsertEnumValuesQuery;
+use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
-use Oro\Bundle\MigrationBundle\Migration\ParametrizedSqlMigrationQuery;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Oro\Bundle\ScopeBundle\Migration\Extension\ScopeExtensionAwareInterface;
 use Oro\Bundle\ScopeBundle\Migration\Extension\ScopeExtensionAwareTrait;
@@ -79,7 +76,7 @@ class OroCustomerBundleInstaller implements
         $this->updateOroGridViewTable($schema);
         $this->updateOroGridViewUserTable($schema);
         $this->createOroCustomerUserLoginAttemptsTable($schema);
-        $this->addAuthStatusColumnToCustomerUser($schema, $queries);
+        $this->addAuthStatusColumnToCustomerUser($schema);
 
         /** Foreign keys generation **/
         $this->addOroCustomerUserForeignKeys($schema);
@@ -1152,9 +1149,9 @@ class OroCustomerBundleInstaller implements
         );
     }
 
-    private function addAuthStatusColumnToCustomerUser(Schema $schema, QueryBag $queries): void
+    private function addAuthStatusColumnToCustomerUser(Schema $schema): void
     {
-        $enumTable = $this->extendExtension->addEnumField(
+        $this->extendExtension->addEnumField(
             $schema,
             'oro_customer_user',
             'auth_status',
@@ -1166,24 +1163,16 @@ class OroCustomerBundleInstaller implements
                 'importexport' => ['excluded' => true]
             ]
         );
-
-        $options = new OroOptions();
-        $options->set('enum', 'immutable_codes', [
-            CustomerUserManager::STATUS_ACTIVE,
-            CustomerUserManager::STATUS_RESET
-        ]);
-        $enumTable->addOption(OroOptions::KEY, $options);
-
-        $queries->addPostQuery(new InsertEnumValuesQuery($this->extendExtension, 'cu_auth_status', [
-            new EnumDataValue(CustomerUserManager::STATUS_ACTIVE, 'Active', 1, true),
-            new EnumDataValue(CustomerUserManager::STATUS_RESET, 'Reset', 2)
-        ]));
-
-
-        $queries->addPostQuery(new ParametrizedSqlMigrationQuery(
-            'UPDATE oro_customer_user SET auth_status_id = :default_status',
-            ['default_status' => CustomerUserManager::STATUS_ACTIVE],
-            ['default_status' => Types::STRING]
-        ));
+        $enumOptionIds = [
+            ExtendHelper::buildEnumOptionId('cu_auth_status', CustomerUserManager::STATUS_ACTIVE),
+            ExtendHelper::buildEnumOptionId('cu_auth_status', CustomerUserManager::STATUS_RESET),
+        ];
+        $schema->getTable('oro_customer_user')
+            ->addExtendColumnOption(
+                'auth_status',
+                'enum',
+                'immutable_codes',
+                $enumOptionIds
+            );
     }
 }

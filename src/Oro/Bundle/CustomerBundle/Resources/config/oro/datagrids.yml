@@ -32,15 +32,12 @@ datagrids:
                     - customer.name
                     - customer_group.name as group_name
                     - parent.name as parent_name
-                    - internalRating.name as internal_rating_name
-                    - internalRating.id as internal_rating_id
                 from:
                     - { table: 'Oro\Bundle\CustomerBundle\Entity\Customer', alias: customer }
                 join:
                     left:
                         - { join: customer.group, alias: customer_group }
                         - { join: customer.parent, alias: parent }
-                        - { join: customer.internal_rating, alias: internalRating }
             hints:
                 - HINT_TRANSLATABLE
         columns:
@@ -53,8 +50,12 @@ datagrids:
                 label: oro.customer.customer.group.label
             parent_name:
                 label: oro.customer.customer.parent.label
-            internal_rating_name:
+            internal_rating:
                 label: oro.customer.customer.internal_rating.label
+                frontend_type: select
+                data_name: internal_rating
+                choices: "@oro_entity_extend.enum_options_provider->getEnumChoicesByCode('acc_internal_rating')"
+                translatable_options: false
         properties:
             id: ~
         sorters:
@@ -65,8 +66,8 @@ datagrids:
                     data_name: group_name
                 parent_name:
                     data_name: parent_name
-                internal_rating_name:
-                    data_name: internal_rating_name
+                internal_rating:
+                    data_name: internal_rating
             default:
                 name: ASC
         filters:
@@ -85,10 +86,10 @@ datagrids:
                 parent_name:
                     type:      string
                     data_name: parent.name
-                internal_rating_name:
+                internal_rating:
                     type:      enum
-                    data_name: internal_rating_id
-                    enum_code: acc_internal_rating
+                    data_name: internal_rating
+                    enum_code: internal_rating
 
     customer-customers-context-select-grid:
         extends: customer-customers-select-grid
@@ -398,12 +399,9 @@ datagrids:
             query:
                 select:
                     - customer.name as customerName
-                    - au.name as authStatus
                 join:
                     inner:
                         - { join: customerUser.customer, alias: customer }
-                    left:
-                        - { join: customerUser.auth_status, alias: au }
         columns:
             id:
                 label: oro.customer.customeruser.id.label
@@ -412,17 +410,22 @@ datagrids:
             customerName:
                 label: oro.customer.customeruser.customer.label
                 order: -1
-            authStatus:
+            auth_status:
                 label: oro.customer.customeruser.datagrid.auth_status.label
                 editable: false
                 inline_editing:
                     enable: false
+                frontend_type: select
+                data_name: auth_status
+                choices: "@oro_entity_extend.enum_options_provider->getEnumChoicesByCode('cu_auth_status')"
+                translatable_options: false
+
         sorters:
             columns:
                 customerName:
                     data_name: customerName
-                authStatus:
-                    data_name: au.priority
+                auth_status:
+                    data_name: auth_status
         filters:
             columns:
                 customerName:
@@ -446,9 +449,9 @@ datagrids:
                 isGuest:
                     type:      boolean
                     data_name: customerUser.isGuest
-                authStatus:
+                auth_status:
                     type: enum
-                    data_name: au.id
+                    data_name: auth_status
                     enum_code: cu_auth_status
         actions:
             view:

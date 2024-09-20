@@ -24,9 +24,11 @@
             {% if entity.salesRepresentatives | length %}
                 {{ UI.renderHtmlProperty('oro.customer.customer.sales_representatives.label'|trans, UI.entityViewLinks(entity.salesRepresentatives, 'fullName', 'oro_user_view')) }}
             {% endif %}
-
-            {% if entity.getInternalRating and is_granted('VIEW', entity.getInternalRating)%}
-                {{ UI.renderProperty('oro.customer.customer.internal_rating.label'|trans, entity.getInternalRating.name) }}
+            {% if entity.internal_rating and is_granted('VIEW', entity.internal_rating) %}
+                {{ UI.renderProperty(
+                    'oro.customer.customer.internal_rating.label'|trans,
+                    entity.internal_rating.id|trans_enum
+                ) }}
             {% endif %}
 
             {{ entityConfig.renderDynamicFields(entity) }}

@@ -144,7 +144,7 @@ services:
         public: false
         class: Oro\Bundle\CustomerBundle\ImportExport\TemplateFixture\CustomerFixture
         arguments:
-            - '@oro_entity_extend.enum_value_provider'
+            - '@oro_entity_extend.enum_options_provider'
         tags:
             - { name: oro_importexport.template_fixture }
 

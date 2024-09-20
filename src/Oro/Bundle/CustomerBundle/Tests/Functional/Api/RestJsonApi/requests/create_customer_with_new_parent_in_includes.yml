@@ -23,7 +23,7 @@ data:
         internal_rating:
             data:
                 type: customerratings
-                id: '<toString(@internal_rating.1 of 5->id)>'
+                id: '<toString(@internal_rating.1 of 5->internalId)>'
         group:
             data:
                 type: customergroups
@@ -49,7 +49,7 @@ included:
             internal_rating:
                 data:
                     type: customerratings
-                    id: '<toString(@internal_rating.1 of 5->id)>'
+                    id: '<toString(@internal_rating.1 of 5->internalId)>'
             group:
                 data:
                     type: customergroups

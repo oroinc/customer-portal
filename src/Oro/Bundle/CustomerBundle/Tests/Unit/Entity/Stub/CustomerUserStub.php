@@ -3,11 +3,11 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Stub;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
+use Oro\Bundle\EntityExtendBundle\Entity\EnumOptionInterface;
 
 class CustomerUserStub extends CustomerUser
 {
-    private ?AbstractEnumValue $authStatus = null;
+    private ?EnumOptionInterface $authStatus = null;
 
     public function __construct(?int $id = null)
     {
@@ -18,12 +18,12 @@ class CustomerUserStub extends CustomerUser
         }
     }
 
-    public function getAuthStatus(): ?AbstractEnumValue
+    public function getAuthStatus(): ?EnumOptionInterface
     {
         return $this->authStatus;
     }
 
-    public function setAuthStatus(AbstractEnumValue $enum = null)
+    public function setAuthStatus(EnumOptionInterface $enum = null)
     {
         $this->authStatus = $enum;
 

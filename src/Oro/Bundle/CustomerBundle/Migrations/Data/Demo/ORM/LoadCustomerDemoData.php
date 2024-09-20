@@ -6,6 +6,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
+use Oro\Bundle\EntityExtendBundle\Entity\EnumOption;
 use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
 use Oro\Bundle\MigrationBundle\Fixture\AbstractEntityReferenceFixture;
 use Oro\Bundle\UserBundle\Entity\User;
@@ -66,8 +67,8 @@ class LoadCustomerDemoData extends AbstractEntityReferenceFixture implements Dep
     {
         $internalRatings = $this->getObjectReferencesByIds(
             $manager,
-            ExtendHelper::buildEnumValueClassName(Customer::INTERNAL_RATING_CODE),
-            LoadCustomerInternalRatingDemoData::getDataKeys()
+            EnumOption::class,
+            $this->getEnumOptionIds()
         );
 
         /** @var User $customerOwner */
@@ -114,5 +115,13 @@ class LoadCustomerDemoData extends AbstractEntityReferenceFixture implements Dep
         }
 
         $manager->flush();
+    }
+
+    private function getEnumOptionIds(): array
+    {
+        return ExtendHelper::mapToEnumOptionIds(
+            Customer::INTERNAL_RATING_CODE,
+            LoadCustomerInternalRatingDemoData::getDataKeys()
+        );
     }
 }

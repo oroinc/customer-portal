@@ -45,14 +45,14 @@
             'oro.customer.customeruser.is_guest_no.label'|trans
             ) }}
 
-            {% set authStatus %}
-            {% if entity.authStatus.id == 'active' %}
-                {{ UI.badge(entity.authStatus.name, 'enabled', 'fa-unlock') }}
+            {% set auth_status %}
+            {% if entity.auth_status.internalId == 'active' %}
+                {{ UI.badge(entity.auth_status.id|trans_enum, 'enabled', 'fa-unlock') }}
             {% else %}
-                {{ UI.badge(entity.authStatus.name, 'disabled', 'fa-unlock-alt') }}
+                {{ UI.badge(entity.auth_status.id|trans_enum, 'disabled', 'fa-unlock-alt') }}
             {% endif %}
             {% endset %}
-            {{ UI.renderHtmlProperty('oro.customer.customeruser.auth_status.label'|trans, authStatus) }}
+            {{ UI.renderHtmlProperty('oro.customer.customeruser.auth_status.label'|trans, auth_status) }}
 
             {{ entityConfig.renderDynamicFields(entity) }}
         </div>

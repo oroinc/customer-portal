@@ -1,12 +1,12 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
+namespace Oro\Bundle\CustomerBundle\Tests\Functional\ImportExport\Import\DataFixtures;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\EntityExtendBundle\Migration\Fixture\AbstractEnumFixture;
 
 /**
- * Loads customer internal rating enum options.
+ * Loads Customers demo data for default organization
  */
 class LoadCustomerInternalRatingDemoData extends AbstractEnumFixture
 {
@@ -45,5 +45,10 @@ class LoadCustomerInternalRatingDemoData extends AbstractEnumFixture
     protected function getEnumCode(): string
     {
         return Customer::INTERNAL_RATING_CODE;
+    }
+
+    public function getDependencies(): array
+    {
+        return [];
     }
 }

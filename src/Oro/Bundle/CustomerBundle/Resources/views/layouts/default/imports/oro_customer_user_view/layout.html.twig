@@ -134,15 +134,15 @@
                     {{- 'oro.customer.customeruser.auth_status.label'|trans -}}
                 </div>
                 <div class="info-list__desc">
-                    {% if customerUser.authStatus.id == 'active' %}
+                    {% if customerUser.auth_status.internalId == 'active' %}
                         <div class="info-list-status">
                             {{ renderIcon.icon({name: 'check'}) }}
-                            {{- customerUser.authStatus.name -}}
+                            {{- customerUser.auth_status.id|trans_enum -}}
                         </div>
                     {% else %}
                         <div class="info-list-status info-list-status--disabled">
                             <span class="fa fa-ban" aria-hidden="true"></span>
-                            {{- customerUser.authStatus.name -}}
+                            {{- customerUser.auth_status.id|trans_enum -}}
                         </div>
                     {% endif %}
                 </div>

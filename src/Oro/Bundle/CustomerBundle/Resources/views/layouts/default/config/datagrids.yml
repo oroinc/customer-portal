@@ -353,10 +353,7 @@ datagrids:
         source:
             query:
                 select:
-                    - au.name as authStatus
-                join:
-                    left:
-                        - { join: customerUser.auth_status, alias: au }
+                    - JSON_EXTRACT(customerUser.serialized_data, 'auth_status') as auth_status
                 where:
                     and:
                         - customerUser.isGuest = false
@@ -364,8 +361,10 @@ datagrids:
             isGuest:
                 renderable: false
                 manageable: false
-            authStatus:
+            auth_status:
                 label: oro.customer.customeruser.datagrid.auth_status.label
+                frontend_type: select
+                choices: "@oro_entity_extend.enum_options_provider->getEnumChoicesByCode('cu_auth_status')"
         properties:
             id: ~
             view_link:
@@ -398,9 +397,9 @@ datagrids:
                 params: [firstName, lastName]
         filters:
             columns:
-                authStatus:
+                auth_status:
                     type: enum
-                    data_name: au.id
+                    data_name: auth_status
                     enum_code: cu_auth_status
         actions:
             view:

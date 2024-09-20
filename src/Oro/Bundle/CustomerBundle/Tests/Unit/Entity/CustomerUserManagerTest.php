@@ -10,7 +10,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserSettings;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Stub\CustomerUserStub as CustomerUser;
-use Oro\Bundle\EntityExtendBundle\Provider\EnumValueProvider;
+use Oro\Bundle\EntityExtendBundle\Provider\EnumOptionsProvider;
 use Oro\Bundle\EntityExtendBundle\Tests\Unit\Fixtures\TestEnumValue;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
@@ -52,8 +52,8 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     /** @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $em;
 
-    /** @var EnumValueProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $enumValueProvider;
+    /** @var EnumOptionsProvider|\PHPUnit\Framework\MockObject\MockObject */
+    private $enumOptionsProvider;
 
     /** @var CustomerUserManager */
     private $userManager;
@@ -68,7 +68,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->em = $this->createMock(EntityManagerInterface::class);
-        $this->enumValueProvider = $this->createMock(EnumValueProvider::class);
+        $this->enumOptionsProvider = $this->createMock(EnumOptionsProvider::class);
 
         $userLoader = $this->createMock(UserLoaderInterface::class);
         $userLoader->expects(self::any())
@@ -86,11 +86,11 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
             ->method('getService')
             ->willReturn($this->emailProcessor);
 
-        $enumValueProvider = $this->createMock(EnumValueProvider::class);
-        $enumValueProvider->expects(self::any())
-            ->method('getEnumValueByCode')
+        $enumOptionsProvider = $this->createMock(EnumOptionsProvider::class);
+        $enumOptionsProvider->expects(self::any())
+            ->method('getEnumOptionByCode')
             ->willReturnCallback(function ($code, $id) {
-                return new TestEnumValue($id, $id);
+                return new TestEnumValue($id, 'test', 'Test', $id);
             });
 
         $this->userManager = new CustomerUserManager(
@@ -102,7 +102,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
             $this->frontendHelper,
             $this->localizationHelper,
             $this->websiteManager,
-            $this->enumValueProvider,
+            $this->enumOptionsProvider,
             $this->logger
         );
     }
@@ -367,8 +367,8 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $user->setPlainPassword($password);
         $user->setSalt($salt);
 
-        $this->enumValueProvider->expects(self::once())
-            ->method('getDefaultEnumValueByCode')
+        $this->enumOptionsProvider->expects(self::once())
+            ->method('getDefaultEnumOptionByCode')
             ->with('cu_auth_status')
             ->willReturn(null);
 
@@ -417,10 +417,10 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     {
         $user = new CustomerUser();
         $user->setUserIdentifier('test');
-        $defaultAuthStatus = new TestEnumValue('auth_status_1', 'Auth Status 1');
+        $defaultAuthStatus = new TestEnumValue('auth_status_1', 'Auth Status 1', 'test', 1);
 
-        $this->enumValueProvider->expects(self::once())
-            ->method('getDefaultEnumValueByCode')
+        $this->enumOptionsProvider->expects(self::once())
+            ->method('getDefaultEnumOptionByCode')
             ->with('cu_auth_status')
             ->willReturn($defaultAuthStatus);
 
@@ -439,11 +439,11 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     {
         $user = new CustomerUser();
         $user->setUserIdentifier('test');
-        $authStatus = new TestEnumValue('auth_status_1', 'Auth Status 1');
+        $authStatus = new TestEnumValue('auth_status_1', 'Auth Status 1', 'test', 1);
         $user->setAuthStatus($authStatus);
 
-        $this->enumValueProvider->expects(self::never())
-            ->method('getDefaultEnumValueByCode');
+        $this->enumOptionsProvider->expects(self::never())
+            ->method('getDefaultEnumOptionByCode');
 
         $this->em->expects(self::once())
             ->method('persist')
@@ -462,14 +462,14 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $customerUser->setUserIdentifier('test');
         self::assertNull($customerUser->getAuthStatus());
 
-        $this->enumValueProvider->expects(self::once())
-            ->method('getEnumValueByCode')
+        $this->enumOptionsProvider->expects(self::once())
+            ->method('getEnumOptionByCode')
             ->willReturnCallback(function ($code, $id) {
-                return new TestEnumValue($id, $id);
+                return new TestEnumValue($id, 'Test', CustomerUserManager::STATUS_RESET, 1);
             });
 
         $this->userManager->setAuthStatus($customerUser, CustomerUserManager::STATUS_RESET);
-        self::assertEquals(CustomerUserManager::STATUS_RESET, $customerUser->getAuthStatus()->getId());
+        self::assertEquals(CustomerUserManager::STATUS_RESET, $customerUser->getAuthStatus()->getInternalId());
     }
 
     /**
