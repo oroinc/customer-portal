@@ -69,8 +69,8 @@ class CustomerTypeTest extends FormIntegrationTestCase
                     AddressCollectionType::class => new AddressCollectionTypeStub(),
                     EntityTypeStub::class => new EntityTypeStub($this->getAddresses()),
                     EnumSelectType::class => new EnumSelectTypeStub([
-                        new TestEnumValue('1_of_5', '1 of 5'),
-                        new TestEnumValue('2_of_5', '2 of 5')
+                        new TestEnumValue('test_enum_code', '1 of 5', '1_of_5', 1),
+                        new TestEnumValue('test_enum_code', '2 of 5', '2_of_5', 1)
                     ]),
                     UserMultiSelectType::class => new EntityTypeStub(
                         $this->getUsers(),
@@ -126,7 +126,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
                     'group' => 1,
                     'parent' => 2,
                     'addresses' => [1],
-                    'internal_rating' => '2_of_5',
+                    'internal_rating' => 'test_enum_code.2_of_5',
                     'salesRepresentatives' => [1],
                 ],
                 'expectedData' => [
@@ -134,7 +134,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
                     'group' => $this->getCustomerGroup(1),
                     'parent' => $this->getCustomer(2),
                     'addresses' => [$this->getAddresses()[1]],
-                    'internal_rating' => new TestEnumValue('2_of_5', '2 of 5'),
+                    'internal_rating' => new TestEnumValue('test_enum_code', '2 of 5', '2_of_5', 1),
                     'salesRepresentatives' => [$this->getUsers()[1]],
                 ]
             ],
@@ -147,14 +147,14 @@ class CustomerTypeTest extends FormIntegrationTestCase
                     'group' => 1,
                     'parent' => null,
                     'addresses' => [1],
-                    'internal_rating' => '2_of_5',
+                    'internal_rating' => 'test_enum_code.2_of_5',
                 ],
                 'expectedData' => [
                     'name' => 'customer_name',
                     'group' => $this->getCustomerGroup(1),
                     'parent' => null,
                     'addresses' => [$this->getAddresses()[1]],
-                    'internal_rating' => new TestEnumValue('2_of_5', '2 of 5'),
+                    'internal_rating' => new TestEnumValue('test_enum_code', '2 of 5', '2_of_5', 1),
                     'salesRepresentatives' => [],
                 ]
             ],
@@ -167,7 +167,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
                     'group' => null,
                     'parent' => 2,
                     'addresses' => [1],
-                    'internal_rating' => '2_of_5',
+                    'internal_rating' => 'test_enum_code.2_of_5',
                     'salesRepresentatives' => [1, 2],
                 ],
                 'expectedData' => [
@@ -175,7 +175,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
                     'group' => null,
                     'parent' => $this->getCustomer(2),
                     'addresses' => [$this->getAddresses()[1]],
-                    'internal_rating' => new TestEnumValue('2_of_5', '2 of 5'),
+                    'internal_rating' => new TestEnumValue('test_enum_code', '2 of 5', '2_of_5', 1),
                     'salesRepresentatives' => [$this->getUsers()[1], $this->getUsers()[2]],
                 ]
             ],
@@ -188,14 +188,14 @@ class CustomerTypeTest extends FormIntegrationTestCase
                     'group' => 1,
                     'parent' => 2,
                     'addresses' => null,
-                    'internal_rating' => '2_of_5'
+                    'internal_rating' => 'test_enum_code.2_of_5'
                 ],
                 'expectedData' => [
                     'name' => 'customer_name',
                     'group' => $this->getCustomerGroup(1),
                     'parent' => $this->getCustomer(2),
                     'addresses' => [],
-                    'internal_rating' => new TestEnumValue('2_of_5', '2 of 5'),
+                    'internal_rating' => new TestEnumValue('test_enum_code', '2 of 5', '2_of_5', 1),
                     'salesRepresentatives' => [],
                 ]
             ],

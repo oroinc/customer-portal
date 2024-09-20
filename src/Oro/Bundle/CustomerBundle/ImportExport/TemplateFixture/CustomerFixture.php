@@ -4,21 +4,25 @@ namespace Oro\Bundle\CustomerBundle\ImportExport\TemplateFixture;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
-use Oro\Bundle\EntityExtendBundle\Provider\EnumValueProvider;
+use Oro\Bundle\EntityExtendBundle\Entity\EnumOption;
+use Oro\Bundle\EntityExtendBundle\Provider\EnumOptionsProvider;
 use Oro\Bundle\ImportExportBundle\TemplateFixture\AbstractTemplateRepository;
 use Oro\Bundle\ImportExportBundle\TemplateFixture\TemplateFixtureInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 
+/**
+ * Loads simple customer fixture.
+ */
 class CustomerFixture extends AbstractTemplateRepository implements TemplateFixtureInterface
 {
     /**
-     * @var EnumValueProvider
+     * @var EnumOptionsProvider
      */
-    private $enumValueProvider;
+    private $enumOptionsProvider;
 
-    public function __construct(EnumValueProvider $enumValueProvider)
+    public function __construct(EnumOptionsProvider $enumOptionsProvider)
     {
-        $this->enumValueProvider = $enumValueProvider;
+        $this->enumOptionsProvider = $enumOptionsProvider;
     }
 
     /**
@@ -40,7 +44,12 @@ class CustomerFixture extends AbstractTemplateRepository implements TemplateFixt
         $entity->setParent((new Customer())->setName('Company A'));
         $entity->setOwner($this->createOwner());
 
-        $internalRating = $this->enumValueProvider->getEnumValueByCode(Customer::INTERNAL_RATING_CODE, '1_of_5');
+        $internalRating = new EnumOption(
+            Customer::INTERNAL_RATING_CODE,
+            '1 of 5',
+            '1_of_5'
+        );
+
         $entity->setInternalRating($internalRating);
     }
 

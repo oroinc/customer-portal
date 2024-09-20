@@ -5,7 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
-use Oro\Bundle\EntityExtendBundle\Provider\EnumValueProvider;
+use Oro\Bundle\EntityExtendBundle\Provider\EnumOptionsProvider;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\UserBundle\Entity\BaseUserManager;
@@ -33,7 +33,7 @@ class CustomerUserManager extends BaseUserManager
     private FrontendHelper $frontendHelper;
     private LocalizationHelper $localizationHelper;
     private WebsiteManager $websiteManager;
-    private EnumValueProvider $enumValueProvider;
+    private EnumOptionsProvider $enumOptionsProvider;
     private LoggerInterface $logger;
 
     /**
@@ -48,7 +48,7 @@ class CustomerUserManager extends BaseUserManager
         FrontendHelper $frontendHelper,
         LocalizationHelper $localizationHelper,
         WebsiteManager $websiteManager,
-        EnumValueProvider $enumValueProvider,
+        EnumOptionsProvider $enumOptionsProvider,
         LoggerInterface $logger
     ) {
         parent::__construct($userLoader, $doctrine, $passwordHasherFactory);
@@ -57,7 +57,7 @@ class CustomerUserManager extends BaseUserManager
         $this->frontendHelper = $frontendHelper;
         $this->localizationHelper = $localizationHelper;
         $this->websiteManager = $websiteManager;
-        $this->enumValueProvider = $enumValueProvider;
+        $this->enumOptionsProvider = $enumOptionsProvider;
         $this->logger = $logger;
     }
 
@@ -185,7 +185,7 @@ class CustomerUserManager extends BaseUserManager
     public function setAuthStatus(CustomerUser $customerUser, string $authStatus): void
     {
         $customerUser->setAuthStatus(
-            $this->enumValueProvider->getEnumValueByCode(
+            $this->enumOptionsProvider->getEnumOptionByCode(
                 self::AUTH_STATUS_ENUM_CODE,
                 $authStatus
             )
@@ -199,7 +199,7 @@ class CustomerUserManager extends BaseUserManager
     {
         // make sure user has a default status
         if ($user instanceof CustomerUser && null === $user->getAuthStatus()) {
-            $defaultStatus = $this->enumValueProvider->getDefaultEnumValueByCode(self::AUTH_STATUS_ENUM_CODE);
+            $defaultStatus = $this->enumOptionsProvider->getDefaultEnumOptionByCode(self::AUTH_STATUS_ENUM_CODE);
             if (null !== $defaultStatus) {
                 $user->setAuthStatus($defaultStatus);
             }

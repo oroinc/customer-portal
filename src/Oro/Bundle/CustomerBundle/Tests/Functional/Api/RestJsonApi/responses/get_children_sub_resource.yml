@@ -33,4 +33,4 @@ data:
             internal_rating:
                 data:
                     type: customerratings
-                    id: internal_rating.1_of_5
+                    id: 1_of_5

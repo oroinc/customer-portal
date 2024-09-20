@@ -1,7 +1,9 @@
 <% const statusMapper = {
-    submitted: 'info',
-    cancelled: 'destructive'
+    'rfp_customer_status.submitted': 'info',
+    'rfp_customer_status.cancelled': 'destructive'
 } %>
-<span class="status-label<%- statusMapper[obj.customerStatusId] ? ` status-label--${statusMapper[obj.customerStatusId]}` : '' %>">
-    <%- obj.customerStatusName %>
+<% let customerStatusLabel = _metadata.customer_statuses[obj.customer_status] ? _metadata.customer_statuses[obj.customer_status] : obj.customer_status %>
+
+<span class="status-label<%- statusMapper[obj.customer_status] ? ` status-label--${statusMapper[obj.customer_status]}` : '' %>">
+     <%- customerStatusLabel %>
 </span>

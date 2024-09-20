@@ -196,7 +196,7 @@ services:
             - "@oro_frontend.request.frontend_helper"
             - "@oro_locale.helper.localization"
             - "@oro_website.manager"
-            - '@oro_entity_extend.enum_value_provider'
+            - '@oro_entity_extend.enum_options_provider'
             - "@logger"
 
     oro_customer_user.handler.reset_password_handler:

@@ -14,7 +14,7 @@ use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareInterface;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareTrait;
 use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
-use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
+use Oro\Bundle\EntityExtendBundle\Entity\EnumOptionInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
@@ -30,8 +30,8 @@ use Oro\Bundle\UserBundle\Entity\User;
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  *
- * @method AbstractEnumValue getInternalRating()
- * @method Customer setInternalRating(AbstractEnumValue $enumId)
+ * @method EnumOptionInterface getInternalRating()
+ * @method Customer setInternalRating(EnumOptionInterface $enumId)
  * @mixin OroCustomerBundle_Entity_Customer
  */
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]

@@ -4,7 +4,7 @@ namespace Oro\Bundle\CustomerBundle\ImportExport\Strategy;
 
 use Doctrine\ORM\PersistentCollection;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
+use Oro\Bundle\EntityExtendBundle\Entity\EnumOption;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ConfigurableAddOrReplaceStrategy;
 use Oro\Bundle\UserBundle\Entity\User;
 
@@ -105,7 +105,7 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     protected function isPermissionGrantedForEntity($permission, $entity, $entityName)
     {
         // do not check permissions for ENUM entities
-        if ($entityName === ExtendHelper::buildEnumValueClassName(Customer::INTERNAL_RATING_CODE)) {
+        if ($entityName === EnumOption::class) {
             return true;
         }
 

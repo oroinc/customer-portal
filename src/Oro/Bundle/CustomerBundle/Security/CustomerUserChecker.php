@@ -27,7 +27,7 @@ class CustomerUserChecker implements UserCheckerInterface
     {
         if ($user instanceof CustomerUser
             && $user->getAuthStatus()
-            && $user->getAuthStatus()->getId() !== CustomerUserManager::STATUS_ACTIVE
+            && $user->getAuthStatus()->getInternalId() !== CustomerUserManager::STATUS_ACTIVE
         ) {
             $exception = new CredentialsResetException('Password reset.');
             $exception->setUser($user);
