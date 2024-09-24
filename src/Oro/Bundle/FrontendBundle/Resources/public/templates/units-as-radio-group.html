@@ -31,7 +31,7 @@ const markEnd = '<span aria-hidden="true" data-mark>)</span>';
             if (_.isObject(unitLabel)) {
                 unitLabel = oroshoppinglist.renderUnit({unit: unitValue, quantity: 1});
             }
-            unitLabel = _.escape(_.__(unitLabel).trim());
+            unitLabel = _.escape(_.__(unitLabel));
             if (isChecked && markSelectedLabel) {
                 unitLabel = `${markStart}${unitLabel}${markEnd}`;
             }
