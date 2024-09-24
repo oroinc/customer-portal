@@ -23,9 +23,7 @@ class FrontendCurrentApplicationProvider extends CurrentApplicationProvider
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getCurrentApplication(): ?string
     {
         if ($this->frontendHelper->isFrontendRequest()) {

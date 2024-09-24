@@ -26,9 +26,7 @@ class SetCustomerUserProfileAclResource implements ProcessorInterface
         $this->customerUserProfileResolver = $customerUserProfileResolver;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function process(ContextInterface $context): void
     {
         /** @var SingleItemContext $context */

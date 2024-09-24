@@ -10,6 +10,7 @@ class GuestAccessTest extends WebTestCase
 {
     use ConfigManagerAwareTestTrait;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();
@@ -17,6 +18,7 @@ class GuestAccessTest extends WebTestCase
         $this->setGuestAccess(false);
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         $this->setGuestAccess(true);

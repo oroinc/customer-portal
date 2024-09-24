@@ -28,17 +28,13 @@ class ScopeCustomerGroupCriteriaProvider implements ScopeCriteriaProviderInterfa
         $this->customerUserProvider = $customerUserRelationsProvider;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getCriteriaField()
     {
         return self::CUSTOMER_GROUP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getCriteriaValue()
     {
         $loggedUser = null;
@@ -53,9 +49,7 @@ class ScopeCustomerGroupCriteriaProvider implements ScopeCriteriaProviderInterfa
         return $this->customerUserProvider->getCustomerGroup($loggedUser);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getCriteriaValueType()
     {
         return CustomerGroup::class;

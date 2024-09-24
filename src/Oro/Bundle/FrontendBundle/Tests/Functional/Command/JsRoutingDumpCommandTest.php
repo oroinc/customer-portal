@@ -15,6 +15,7 @@ class JsRoutingDumpCommandTest extends WebTestCase
     private string $tempDir;
     private string $filenamePrefix;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

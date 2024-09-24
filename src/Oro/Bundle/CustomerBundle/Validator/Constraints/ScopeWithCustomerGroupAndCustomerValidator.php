@@ -11,6 +11,7 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class ScopeWithCustomerGroupAndCustomerValidator extends ConstraintValidator
 {
+    #[\Override]
     public function validate($value, Constraint $constraint): void
     {
         if (!$value instanceof Scope) {

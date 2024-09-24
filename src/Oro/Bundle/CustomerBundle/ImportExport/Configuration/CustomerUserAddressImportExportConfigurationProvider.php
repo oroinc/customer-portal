@@ -20,6 +20,7 @@ class CustomerUserAddressImportExportConfigurationProvider implements ImportExpo
         $this->translator = $translator;
     }
 
+    #[\Override]
     public function get(): ImportExportConfigurationInterface
     {
         return new ImportExportConfiguration(

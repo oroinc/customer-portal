@@ -26,6 +26,7 @@ class WebsiteUpdateGuestRoleListenerTest extends \PHPUnit\Framework\TestCase
     /** @var WebsiteUpdateGuestRoleListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->em = $this->createMock(EntityManager::class);

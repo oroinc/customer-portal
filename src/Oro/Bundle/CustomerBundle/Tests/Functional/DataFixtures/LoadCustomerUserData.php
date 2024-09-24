@@ -116,14 +116,13 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
         ]
     ];
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
     }
 
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         /** @var BaseUserManager $userManager */
@@ -166,9 +165,7 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
         $manager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [LoadUser::class, LoadCustomers::class];

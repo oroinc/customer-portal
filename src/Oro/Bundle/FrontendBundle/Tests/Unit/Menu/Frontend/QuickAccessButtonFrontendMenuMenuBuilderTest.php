@@ -18,6 +18,7 @@ class QuickAccessButtonFrontendMenuMenuBuilderTest extends TestCase
     private BuilderInterface|MockObject $menuBuilder;
     private QuickAccessButtonFrontendMenuMenuBuilder $builder;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->menuBuilder = $this->createMock(BuilderInterface::class);

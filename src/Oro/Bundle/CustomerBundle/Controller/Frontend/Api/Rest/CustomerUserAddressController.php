@@ -10,9 +10,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
  */
 class CustomerUserAddressController extends BaseCustomerUserAddressController
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getCustomerUserAddresses(CustomerUser $customerUser)
     {
         if ($customerUser !== $this->getUser()) {
@@ -22,9 +20,7 @@ class CustomerUserAddressController extends BaseCustomerUserAddressController
         return $this->container->get('oro_customer.provider.frontend.address')->getCurrentCustomerUserAddresses();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function checkAccess($entity)
     {
         if ($entity !== $this->getUser() && !$this->isGranted('VIEW', $entity)) {

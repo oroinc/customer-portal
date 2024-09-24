@@ -33,6 +33,7 @@ class QuickAccessButtonConfigType extends AbstractType
         $this->configManager = $configManager;
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $isHasConfiguredWebCatalog = (bool) $this->configManager->get('oro_web_catalog.web_catalog');
@@ -103,6 +104,7 @@ class QuickAccessButtonConfigType extends AbstractType
         $event->getData()?->clearConfig();
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -110,6 +112,7 @@ class QuickAccessButtonConfigType extends AbstractType
         ]);
     }
 
+    #[\Override]
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         $view->children['label']->vars['required'] = true;

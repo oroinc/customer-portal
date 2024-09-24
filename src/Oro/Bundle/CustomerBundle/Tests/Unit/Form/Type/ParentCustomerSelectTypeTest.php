@@ -15,6 +15,7 @@ class ParentCustomerSelectTypeTest extends \PHPUnit\Framework\TestCase
     /** @var ParentCustomerSelectType */
     private $type;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->type = new ParentCustomerSelectType();

@@ -24,17 +24,13 @@ class CustomerAclAccessLevelTextType extends AbstractType
         $this->roleTranslationPrefixResolver = $roleTranslationPrefixResolver;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getParent(): ?string
     {
         return TextType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $parent = $form->getParent()->getParent()->getParent();
@@ -48,17 +44,12 @@ class CustomerAclAccessLevelTextType extends AbstractType
         $view->vars['translation_prefix'] = $this->roleTranslationPrefixResolver->getPrefix();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return $this->getBlockPrefix();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return static::NAME;

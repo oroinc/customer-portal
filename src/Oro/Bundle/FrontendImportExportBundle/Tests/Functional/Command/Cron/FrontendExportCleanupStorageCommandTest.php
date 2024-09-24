@@ -14,6 +14,7 @@ class FrontendExportCleanupStorageCommandTest extends WebTestCase
 {
     private FileManager|\PHPUnit\Framework\MockObject\MockObject $fileManager;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

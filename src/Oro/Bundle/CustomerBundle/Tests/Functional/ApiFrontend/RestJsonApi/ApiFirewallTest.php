@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ApiFirewallTest extends FrontendRestJsonApiTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

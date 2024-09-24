@@ -34,9 +34,7 @@ class GridViewsExtensionComposite extends BaseGridViewsExtension
         $this->tokenAccessor = $tokenAccessor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isApplicable(DatagridConfiguration $config)
     {
         return $this->isFrontend()
@@ -44,9 +42,7 @@ class GridViewsExtensionComposite extends BaseGridViewsExtension
             : $this->defaultGridViewsExtension->isApplicable($config);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getPriority()
     {
         return $this->isFrontend()
@@ -54,9 +50,7 @@ class GridViewsExtensionComposite extends BaseGridViewsExtension
             : $this->defaultGridViewsExtension->getPriority();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function visitMetadata(DatagridConfiguration $config, MetadataObject $data)
     {
         $this->isFrontend()
@@ -64,9 +58,7 @@ class GridViewsExtensionComposite extends BaseGridViewsExtension
             : $this->defaultGridViewsExtension->visitMetadata($config, $data);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function setParameters(ParameterBag $parameters)
     {
         $this->isFrontend()

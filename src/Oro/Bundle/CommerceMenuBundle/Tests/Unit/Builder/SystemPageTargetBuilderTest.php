@@ -21,9 +21,7 @@ class SystemPageTargetBuilderTest extends \PHPUnit\Framework\TestCase
     /** @var SystemPageTargetBuilder */
     private $builder;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->router = $this->createMock(RouterInterface::class);

@@ -15,6 +15,7 @@ class RuleEditorTextTypeTest extends \PHPUnit\Framework\TestCase
     /** @var RuleEditorTextType */
     private $type;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->optionsConfigurator = $this->createMock(RuleEditorOptionsConfigurator::class);

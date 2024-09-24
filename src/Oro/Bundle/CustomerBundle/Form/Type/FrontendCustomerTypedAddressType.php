@@ -15,9 +15,7 @@ class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
 {
     const NAME = 'oro_customer_frontend_typed_address';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
@@ -29,9 +27,7 @@ class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
         parent::configureOptions($resolver);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);

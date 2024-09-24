@@ -32,9 +32,7 @@ class UpdateNoteAssociationQuery extends ParametrizedMigrationQuery
         $this->schema = $schema;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDescription()
     {
         $logger = new ArrayLogger();
@@ -44,9 +42,7 @@ class UpdateNoteAssociationQuery extends ParametrizedMigrationQuery
         return $logger->getMessages();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function execute(LoggerInterface $logger)
     {
         $this->doExecute($logger);

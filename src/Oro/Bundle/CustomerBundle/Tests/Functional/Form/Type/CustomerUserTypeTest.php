@@ -19,6 +19,7 @@ class CustomerUserTypeTest extends WebTestCase
 {
     use RolePermissionExtension;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], self::generateBasicAuthHeader());

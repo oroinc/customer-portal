@@ -18,9 +18,7 @@ class OroCustomerBundle implements
     use ContainerAwareTrait;
     use DataStorageExtensionAwareTrait;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         /** Tables generation **/

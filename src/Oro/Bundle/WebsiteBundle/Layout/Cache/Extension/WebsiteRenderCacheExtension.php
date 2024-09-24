@@ -20,9 +20,7 @@ class WebsiteRenderCacheExtension implements RenderCacheExtensionInterface
         $this->websiteManager = $websiteManager;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function alwaysVaryBy(): array
     {
         $website = $this->websiteManager->getCurrentWebsite();

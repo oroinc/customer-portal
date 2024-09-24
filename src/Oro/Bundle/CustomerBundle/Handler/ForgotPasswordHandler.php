@@ -21,6 +21,7 @@ class ForgotPasswordHandler implements CheckoutHandlerInterface
     ) {
     }
 
+    #[\Override]
     public function handle(WorkflowItem $workflowItem, Request $request): void
     {
         if (!$this->isSupported($request)) {
@@ -41,6 +42,7 @@ class ForgotPasswordHandler implements CheckoutHandlerInterface
         );
     }
 
+    #[\Override]
     public function isSupported(Request $request): bool
     {
         return $request->isMethod(Request::METHOD_POST) && $request->get('isForgotPassword') !== null;

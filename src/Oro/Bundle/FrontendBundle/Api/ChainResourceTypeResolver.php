@@ -28,9 +28,7 @@ class ChainResourceTypeResolver implements ResourceTypeResolverInterface
         $this->matcher = $matcher;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function resolveType(string $routeName, array $routeParameters, RequestType $requestType): ?string
     {
         foreach ($this->resolvers as [$resolverServiceId, $resolverRouteName, $resolverRequestTypeExpr]) {

@@ -26,6 +26,7 @@ class SignInProviderTest extends WebTestCase
     /** @var TranslatorInterface */
     private $translator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

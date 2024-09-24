@@ -15,17 +15,13 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  */
 class CustomerUserFixture extends AbstractTemplateRepository implements TemplateFixtureInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getEntityClass()
     {
         return CustomerUser::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function fillEntityData($key, $entity)
     {
         switch ($key) {
@@ -55,17 +51,13 @@ class CustomerUserFixture extends AbstractTemplateRepository implements Template
         parent::fillEntityData($key, $entity);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getData()
     {
         return $this->getEntityData('Jerry Coleman');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function createEntity($key)
     {
         return new CustomerUser();

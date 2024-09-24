@@ -20,18 +20,14 @@ class UpdateNamespacesWarmer implements CacheWarmerInterface
         $this->classMigration = $classMigration;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function warmUp(string $cacheDir): array
     {
         $this->classMigration->migrate();
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isOptional(): bool
     {
         return false;

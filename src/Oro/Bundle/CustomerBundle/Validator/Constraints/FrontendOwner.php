@@ -14,9 +14,7 @@ use Oro\Bundle\OrganizationBundle\Validator\Constraints\Owner;
 #[Attribute]
 class FrontendOwner extends Owner
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'frontend_owner_validator';

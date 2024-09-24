@@ -22,11 +22,13 @@ class PreExportMessageProcessor extends BasePreExportMessageProcessor
         $this->exportHandler = $exportHandler;
     }
 
+    #[\Override]
     public static function getSubscribedTopics(): array
     {
         return [PreExportTopic::getName()];
     }
 
+    #[\Override]
     protected function addDependentJob(Job $rootJob, array $body)
     {
         $context = $this->dependentJob->createDependentJobContext($rootJob);
@@ -45,9 +47,7 @@ class PreExportMessageProcessor extends BasePreExportMessageProcessor
         $this->dependentJob->saveDependentJob($context);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getDelayedJobCallback(array $body, array $ids = [])
     {
         if (!empty($ids)) {

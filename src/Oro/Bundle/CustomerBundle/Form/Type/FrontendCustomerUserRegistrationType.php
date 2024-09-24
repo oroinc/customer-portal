@@ -39,9 +39,7 @@ class FrontendCustomerUserRegistrationType extends AbstractType
         $this->doctrine = $doctrine;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($this->isCompanyNameFieldEnabled()) {
@@ -161,9 +159,7 @@ class FrontendCustomerUserRegistrationType extends AbstractType
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
@@ -182,9 +178,7 @@ class FrontendCustomerUserRegistrationType extends AbstractType
         return $this->getBlockPrefix();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;

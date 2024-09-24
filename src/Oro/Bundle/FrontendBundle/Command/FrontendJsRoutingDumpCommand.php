@@ -16,9 +16,7 @@ class FrontendJsRoutingDumpCommand extends JsRoutingDumpCommand
 
     private const FRONTEND_FILENAME_PREFIX = 'frontend_';
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function configure()
     {
         parent::configure();
@@ -30,9 +28,7 @@ class FrontendJsRoutingDumpCommand extends JsRoutingDumpCommand
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function normalizeTargetPath(string $targetPath): string
     {
         $targetPath = parent::normalizeTargetPath($targetPath);

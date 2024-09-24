@@ -10,9 +10,7 @@ use Oro\Bundle\NavigationBundle\Entity\Repository\PinbarTabRepository as BasePin
  */
 class PinbarTabRepository extends BasePinbarTabRepository
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getNavigationItemClassName()
     {
         return NavigationItem::class;

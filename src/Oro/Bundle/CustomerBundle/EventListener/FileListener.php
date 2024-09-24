@@ -25,6 +25,7 @@ class FileListener extends PlatformFileListener
         $this->tokenAccessor = $tokenAccessor;
     }
 
+    #[\Override]
     public function prePersist(File $entity, LifecycleEventArgs $args)
     {
         parent::prePersist($entity, $args);

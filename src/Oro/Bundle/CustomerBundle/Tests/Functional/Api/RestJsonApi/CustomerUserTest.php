@@ -21,6 +21,7 @@ use Symfony\Component\PasswordHasher\PasswordHasherInterface;
  */
 class CustomerUserTest extends RestJsonApiTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

@@ -34,9 +34,7 @@ abstract class AbstractDefaultTypedAddress extends AbstractTypedAddress
     #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
     protected ?Organization $systemOrganization = null;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getTypes()
     {
         return $this->types->map(
@@ -46,9 +44,7 @@ abstract class AbstractDefaultTypedAddress extends AbstractTypedAddress
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function setTypes(Collection $types)
     {
         $this->types->clear();
@@ -61,9 +57,7 @@ abstract class AbstractDefaultTypedAddress extends AbstractTypedAddress
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function removeType(AddressType $type)
     {
         /** @var AbstractAddressToAddressType $addressesToType */
@@ -76,9 +70,7 @@ abstract class AbstractDefaultTypedAddress extends AbstractTypedAddress
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function addType(AddressType $type)
     {
         if (!$this->hasTypeWithName($type->getName())) {

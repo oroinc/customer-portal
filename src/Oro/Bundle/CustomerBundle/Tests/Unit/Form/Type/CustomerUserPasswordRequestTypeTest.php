@@ -9,9 +9,7 @@ use Symfony\Component\Validator\Validation;
 
 class CustomerUserPasswordRequestTypeTest extends FormIntegrationTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

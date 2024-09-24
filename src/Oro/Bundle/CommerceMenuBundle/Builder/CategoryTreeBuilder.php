@@ -63,6 +63,7 @@ class CategoryTreeBuilder implements BuilderInterface
         $this->localizationHelper = $localizationHelper;
     }
 
+    #[\Override]
     public function build(ItemInterface $menu, array $options = [], $alias = null): void
     {
         $menuItemsByName = MenuUpdateUtils::flattenMenuItem($menu);

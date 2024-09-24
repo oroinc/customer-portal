@@ -13,17 +13,13 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
  */
 class IconsThemeConfigurationExtension implements ThemeConfigurationExtensionInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getConfigFileNames(): array
     {
         return ['icons.yml'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function appendConfig(NodeBuilder $configNode): void
     {
         $configNode

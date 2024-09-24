@@ -9,6 +9,7 @@ use Oro\Component\Testing\Assert\ArrayContainsConstraint;
 
 class FrontendOpenApiSpecificationTestCase extends WebTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

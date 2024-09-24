@@ -14,6 +14,7 @@ class FilesTemplateProviderTest extends TestCase
 
     private FilesTemplateProvider $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->frontendHelper = $this->createMock(FrontendHelper::class);

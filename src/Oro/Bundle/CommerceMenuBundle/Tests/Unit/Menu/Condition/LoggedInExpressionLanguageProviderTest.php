@@ -14,9 +14,7 @@ class LoggedInExpressionLanguageProviderTest extends \PHPUnit\Framework\TestCase
     /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenAccessor;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);

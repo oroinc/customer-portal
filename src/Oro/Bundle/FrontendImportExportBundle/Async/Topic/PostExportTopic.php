@@ -10,16 +10,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class PostExportTopic extends AbstractTopic
 {
+    #[\Override]
     public static function getName(): string
     {
         return 'oro_frontend_importexport.post_export';
     }
 
+    #[\Override]
     public static function getDescription(): string
     {
         return 'Finalizes storefront export process';
     }
 
+    #[\Override]
     public function configureMessageBody(OptionsResolver $resolver): void
     {
         $resolver

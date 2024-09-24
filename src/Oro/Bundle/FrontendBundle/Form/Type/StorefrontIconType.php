@@ -18,15 +18,14 @@ class StorefrontIconType extends AbstractType
     {
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $icons = $this->storefrontIconsMappingProvider->getIconsMappingForAllThemes();
         $resolver->setDefaults(['choices' => array_flip($icons)]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getParent(): string
     {
         return OroIconType::class;

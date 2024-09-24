@@ -10,6 +10,7 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData
 
 class CustomerUserDeleteOperationTest extends ActionTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());

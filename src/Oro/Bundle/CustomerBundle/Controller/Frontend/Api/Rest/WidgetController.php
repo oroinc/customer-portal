@@ -13,6 +13,7 @@ class WidgetController extends BaseController
     /**
      * @return string
      */
+    #[\Override]
     protected function getWidgetClass()
     {
         return CustomerUserSidebarWidget::class;

@@ -20,6 +20,7 @@ class EnabledLocalizationsSearchHandlerTest extends WebTestCase
     /** @var EnabledLocalizationsSearchHandler */
     private $searchHandler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], self::generateBasicAuthHeader());

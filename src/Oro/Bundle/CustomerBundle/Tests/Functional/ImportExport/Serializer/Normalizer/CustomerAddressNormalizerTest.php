@@ -8,6 +8,7 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadFullCustomerAddr
 
 class CustomerAddressNormalizerTest extends AbstractCustomerAddressNormalizerTest
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();
@@ -17,6 +18,7 @@ class CustomerAddressNormalizerTest extends AbstractCustomerAddressNormalizerTes
         $this->normalizer->setSerializer($this->getContainer()->get('oro_importexport.serializer'));
     }
 
+    #[\Override]
     public function supportsDataProvider(): array
     {
         return [

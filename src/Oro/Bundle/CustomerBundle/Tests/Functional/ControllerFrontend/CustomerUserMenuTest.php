@@ -15,6 +15,7 @@ class CustomerUserMenuTest extends WebTestCase
     /** @var ConfigManager */
     private $configManager;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());

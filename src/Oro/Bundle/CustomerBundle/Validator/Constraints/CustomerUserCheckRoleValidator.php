@@ -13,8 +13,8 @@ class CustomerUserCheckRoleValidator extends ConstraintValidator
      * @param CustomerUserCheckRole $constraint
      * @throws UnexpectedTypeException
      *
-     * {@inheritdoc}
      */
+    #[\Override]
     public function validate($customer, Constraint $constraint)
     {
         if (!$customer instanceof CustomerUser) {

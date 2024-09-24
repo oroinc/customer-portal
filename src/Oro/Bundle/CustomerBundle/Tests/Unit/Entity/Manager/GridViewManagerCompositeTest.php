@@ -25,6 +25,7 @@ class GridViewManagerCompositeTest extends \PHPUnit\Framework\TestCase
     /** @var GridViewManagerComposite */
     private $manager;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->defaultGridViewManager = $this->createMock(GridViewManager::class);

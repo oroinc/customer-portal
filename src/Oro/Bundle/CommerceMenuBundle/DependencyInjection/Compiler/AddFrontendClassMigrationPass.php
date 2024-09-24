@@ -9,9 +9,7 @@ class AddFrontendClassMigrationPass implements CompilerPassInterface
 {
     const FRONTEND_CLASS_MIGRATION_SERVICE_ID = 'oro_frontend.class_migration';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(ContainerBuilder $container)
     {
         if ($container->hasDefinition(self::FRONTEND_CLASS_MIGRATION_SERVICE_ID)) {

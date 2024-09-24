@@ -13,9 +13,7 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
  */
 class UseDamForMenuUpdateImageAssociation implements Migration
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries): void
     {
         $queries->addPostQuery(

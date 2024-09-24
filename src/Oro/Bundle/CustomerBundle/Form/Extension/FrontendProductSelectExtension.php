@@ -21,9 +21,7 @@ class FrontendProductSelectExtension extends AbstractTypeExtension
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         if ($this->frontendHelper->isFrontendRequest()) {
@@ -31,9 +29,7 @@ class FrontendProductSelectExtension extends AbstractTypeExtension
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getExtendedTypes(): iterable
     {
         return [ProductSelectType::class];

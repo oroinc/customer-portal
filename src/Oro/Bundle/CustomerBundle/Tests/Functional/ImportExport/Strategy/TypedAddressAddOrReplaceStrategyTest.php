@@ -20,6 +20,7 @@ class TypedAddressAddOrReplaceStrategyTest extends WebTestCase
     private TypedAddressAddOrReplaceStrategy $strategy;
     private Context $context;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

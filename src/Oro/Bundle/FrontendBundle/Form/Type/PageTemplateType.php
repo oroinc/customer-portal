@@ -26,9 +26,7 @@ class PageTemplateType extends AbstractType
         $this->pageTemplatesManager = $pageTemplatesManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
@@ -41,17 +39,13 @@ class PageTemplateType extends AbstractType
             ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getParent(): ?string
     {
         return ChoiceType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['page-template-metadata'] = $this->getPageTemplatesData($options['route_name'], 'descriptions');

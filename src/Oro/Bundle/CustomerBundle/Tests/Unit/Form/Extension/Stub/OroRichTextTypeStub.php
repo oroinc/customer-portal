@@ -8,23 +8,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class OroRichTextTypeStub extends OroRichTextType
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __construct()
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $defaultWysiwygOptions = [

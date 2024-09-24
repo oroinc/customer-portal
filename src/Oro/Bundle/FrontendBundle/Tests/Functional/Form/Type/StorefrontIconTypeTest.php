@@ -87,6 +87,7 @@ class StorefrontIconTypeTest extends WebTestCase
         'zoom-out' => 'fa-search-minus',
     ];
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

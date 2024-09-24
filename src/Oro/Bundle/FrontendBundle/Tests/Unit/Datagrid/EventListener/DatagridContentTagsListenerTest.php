@@ -18,6 +18,7 @@ class DatagridContentTagsListenerTest extends \PHPUnit\Framework\TestCase
     /** @var DatagridContentTagsListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->dataGridTagListener = $this->createMock(DataGridTagListener::class);

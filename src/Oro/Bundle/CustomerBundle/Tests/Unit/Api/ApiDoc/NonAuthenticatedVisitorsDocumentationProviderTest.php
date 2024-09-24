@@ -18,6 +18,7 @@ class NonAuthenticatedVisitorsDocumentationProviderTest extends \PHPUnit\Framewo
     /** @var NonAuthenticatedVisitorsDocumentationProvider */
     private $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->resourcesProvider = $this->createMock(ResourcesProvider::class);

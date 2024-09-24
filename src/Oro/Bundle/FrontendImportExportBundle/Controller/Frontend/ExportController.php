@@ -38,6 +38,7 @@ class ExportController extends AbstractController
         return $this->container->get(FrontendExportHandler::class)->handleDownloadExportResult($result->getFilename());
     }
 
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return array_merge(

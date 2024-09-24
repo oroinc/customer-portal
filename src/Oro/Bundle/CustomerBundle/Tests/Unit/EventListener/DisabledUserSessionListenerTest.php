@@ -19,6 +19,7 @@ class DisabledUserSessionListenerTest extends \PHPUnit\Framework\TestCase
 
     private DisabledUserSessionListener $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->logoutUrlGenerator = $this->createMock(LogoutUrlGenerator::class);

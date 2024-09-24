@@ -52,6 +52,7 @@ class SendChangedCustomerAddressTypeToMessageQueueListenerTest extends OrmTestCa
     /** @var SendChangedAddressTypeToMessageQueueListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->em = $this->getTestEntityManager();

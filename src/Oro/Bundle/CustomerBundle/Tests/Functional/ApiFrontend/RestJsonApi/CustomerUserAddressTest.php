@@ -43,6 +43,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
     private const ANOTHER_OWNER_REF                = 'another_customer_user';
     private const ANOTHER_OWNER_ADDRESS_2_REF      = 'another_customer_user_address2';
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

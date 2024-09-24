@@ -6,17 +6,13 @@ use Oro\Bundle\CustomerBundle\Entity\GridView;
 
 class LoadCustomerUserGridViewACLData extends AbstractLoadACLData
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAclResourceClassName()
     {
         return GridView::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getSupportedRoles()
     {
         return [

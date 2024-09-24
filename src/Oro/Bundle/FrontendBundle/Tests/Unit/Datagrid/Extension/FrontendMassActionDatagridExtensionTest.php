@@ -12,6 +12,7 @@ class FrontendMassActionDatagridExtensionTest extends TestCase
 {
     private FrontendMassActionDatagridExtension $extension;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->extension = new FrontendMassActionDatagridExtension();

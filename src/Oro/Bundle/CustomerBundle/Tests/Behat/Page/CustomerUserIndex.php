@@ -6,9 +6,7 @@ use Oro\Bundle\TestFrameworkBundle\Behat\Element\Page;
 
 class CustomerUserIndex extends Page
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function open(array $parameters = [])
     {
         $this->getMainMenu()->openAndClick('Customers/Customer Users');

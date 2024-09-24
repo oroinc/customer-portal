@@ -7,6 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 
 class CustomerDeleteOperationTest extends ActionTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());

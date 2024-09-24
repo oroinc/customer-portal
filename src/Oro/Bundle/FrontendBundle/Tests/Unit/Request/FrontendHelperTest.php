@@ -15,6 +15,7 @@ class FrontendHelperTest extends \PHPUnit\Framework\TestCase
     /** @var \PHPUnit\Framework\MockObject\MockObject|ApplicationState */
     private $applicationState;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->applicationState = $this->createApplicationState(true);

@@ -17,6 +17,7 @@ class GetTest extends FrontendRestJsonApiTestCase
 {
     use CheckSkippedEntityTrait;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

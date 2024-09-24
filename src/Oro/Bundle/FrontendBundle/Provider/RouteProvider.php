@@ -39,6 +39,7 @@ class RouteProvider implements RouteProviderInterface
         $this->widgetRoute = $widgetRoute;
     }
 
+    #[\Override]
     public function getWidgetRoute(): string
     {
         return $this->frontendHelper->isFrontendRequest()
@@ -46,6 +47,7 @@ class RouteProvider implements RouteProviderInterface
             : $this->routeProvider->getWidgetRoute();
     }
 
+    #[\Override]
     public function getFormDialogRoute(): string
     {
         return $this->frontendHelper->isFrontendRequest()
@@ -53,6 +55,7 @@ class RouteProvider implements RouteProviderInterface
             : $this->routeProvider->getFormDialogRoute();
     }
 
+    #[\Override]
     public function getFormPageRoute(): string
     {
         return $this->frontendHelper->isFrontendRequest()
@@ -60,6 +63,7 @@ class RouteProvider implements RouteProviderInterface
             : $this->routeProvider->getFormPageRoute();
     }
 
+    #[\Override]
     public function getExecutionRoute(): string
     {
         return $this->frontendHelper->isFrontendRequest()

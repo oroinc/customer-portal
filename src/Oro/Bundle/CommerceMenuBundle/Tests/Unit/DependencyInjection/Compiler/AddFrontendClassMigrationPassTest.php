@@ -10,6 +10,7 @@ class AddFrontendClassMigrationPassTest extends \PHPUnit\Framework\TestCase
     /** @var AddFrontendClassMigrationPass */
     private $compiler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->compiler = new AddFrontendClassMigrationPass();

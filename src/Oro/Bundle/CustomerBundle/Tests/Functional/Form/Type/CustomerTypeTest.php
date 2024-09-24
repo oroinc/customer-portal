@@ -22,6 +22,7 @@ class CustomerTypeTest extends WebTestCase
 
     private const PRIMARY_ADDRESS = 0;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], self::generateBasicAuthHeader());

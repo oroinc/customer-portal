@@ -30,6 +30,7 @@ class ChainResourceTypeResolverTest extends \PHPUnit\Framework\TestCase
     /** @var ChainResourceTypeResolver */
     private $chainResolver;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->resolver1 = $this->createMock(ResourceTypeResolverInterface::class);

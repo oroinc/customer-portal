@@ -23,6 +23,7 @@ class MenuExtensionTest extends \PHPUnit\Framework\TestCase
 
     private MenuExtension $extension;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->matcher = $this->createMock(MatcherInterface::class);

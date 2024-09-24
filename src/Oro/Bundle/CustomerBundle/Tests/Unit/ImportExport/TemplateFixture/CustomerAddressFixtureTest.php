@@ -23,6 +23,7 @@ class CustomerAddressFixtureTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerAddressFixture */
     private $fixture;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->templateEntityRegistry = $this->createMock(TemplateEntityRegistry::class);

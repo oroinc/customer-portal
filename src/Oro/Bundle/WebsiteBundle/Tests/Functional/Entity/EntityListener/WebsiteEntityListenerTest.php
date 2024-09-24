@@ -9,6 +9,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 class WebsiteEntityListenerTest extends WebTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());

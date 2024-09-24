@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class AnonymousCustomerUserFactory implements AuthenticatorFactoryInterface
 {
+    #[\Override]
     public function createAuthenticator(
         ContainerBuilder $container,
         string $firewallName,
@@ -28,14 +29,13 @@ class AnonymousCustomerUserFactory implements AuthenticatorFactoryInterface
         return $authenticatorId;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getKey(): string
     {
         return 'anonymous_customer_user';
     }
 
+    #[\Override]
     public function addConfiguration(NodeDefinition $builder): void
     {
         $builder
@@ -48,6 +48,7 @@ class AnonymousCustomerUserFactory implements AuthenticatorFactoryInterface
             ->end();
     }
 
+    #[\Override]
     public function getPriority(): int
     {
         return -60;

@@ -26,9 +26,7 @@ class CustomerTypedAddressType extends AbstractType
     /** @var string */
     protected $addressTypeDataClass;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['single_form'] && $options['all_addresses_property_path']) {
@@ -82,9 +80,7 @@ class CustomerTypedAddressType extends AbstractType
         $builder->get('region')->setRequired(true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
@@ -97,25 +93,18 @@ class CustomerTypedAddressType extends AbstractType
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getParent(): ?string
     {
         return AddressType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return $this->getBlockPrefix();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return static::NAME;

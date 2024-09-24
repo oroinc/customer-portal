@@ -10,16 +10,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class PreExportTopic extends BasePreExportTopic
 {
+    #[\Override]
     public static function getName(): string
     {
         return 'oro_frontend_importexport.pre_export';
     }
 
+    #[\Override]
     public static function getDescription(): string
     {
         return 'Generates a list of records for storefront export which are later used in child job';
     }
 
+    #[\Override]
     public function configureMessageBody(OptionsResolver $resolver): void
     {
         parent::configureMessageBody($resolver);
@@ -34,6 +37,7 @@ class PreExportTopic extends BasePreExportTopic
             ->addAllowedTypes('refererUrl', ['string', 'null']);
     }
 
+    #[\Override]
     public function createJobName($messageBody): string
     {
         return sprintf(

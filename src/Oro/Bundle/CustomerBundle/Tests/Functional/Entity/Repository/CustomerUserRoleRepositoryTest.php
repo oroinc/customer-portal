@@ -13,6 +13,7 @@ class CustomerUserRoleRepositoryTest extends WebTestCase
 {
     private static ?int $defaultRolesCount = null;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());

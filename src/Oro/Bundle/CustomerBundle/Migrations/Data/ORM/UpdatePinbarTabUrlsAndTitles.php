@@ -11,17 +11,13 @@ use Oro\Bundle\NavigationBundle\Migrations\Data\ORM\UpdatePinbarTabUrlsAndTitles
  */
 class UpdatePinbarTabUrlsAndTitles extends ParentUpdatePinbarTabUrlsAndTitles
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getPinbarTabClass()
     {
         return PinbarTab::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getNavigationItemClass()
     {
         return NavigationItem::class;

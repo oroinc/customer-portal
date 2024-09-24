@@ -8,17 +8,13 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class OroFrontendImportExportBundleInstaller implements Installation
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getMigrationVersion(): string
     {
         return 'v1_0';
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries): void
     {
         $this->createImportExportTable($schema);

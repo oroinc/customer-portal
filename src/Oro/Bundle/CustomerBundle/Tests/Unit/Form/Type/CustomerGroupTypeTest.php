@@ -15,6 +15,7 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
 {
     private CustomerGroupType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formType = new CustomerGroupType();
@@ -24,9 +25,7 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

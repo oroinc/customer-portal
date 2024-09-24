@@ -15,9 +15,7 @@ use Symfony\Component\DependencyInjection\Exception\LogicException;
  */
 class FrontendApiDocPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(ContainerBuilder $container)
     {
         $this->configureValidateApiDocViewListener($container);

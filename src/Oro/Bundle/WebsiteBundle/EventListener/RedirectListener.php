@@ -36,6 +36,7 @@ class RedirectListener implements RedirectListenerInterface
         $this->frontendHelper = $frontendHelper;
     }
 
+    #[\Override]
     public function onRequest(RequestEvent $event): void
     {
         if (!$this->isSupported($event)) {

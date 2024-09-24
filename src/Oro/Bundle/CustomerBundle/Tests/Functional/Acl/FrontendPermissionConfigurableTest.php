@@ -10,6 +10,7 @@ use Oro\Bundle\UserBundle\Tests\Functional\Acl\AbstractPermissionConfigurableTes
 
 class FrontendPermissionConfigurableTest extends AbstractPermissionConfigurableTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient(
@@ -22,9 +23,7 @@ class FrontendPermissionConfigurableTest extends AbstractPermissionConfigurableT
         parent::setUp();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configurablePermissionCapabilitiesProvider(): array
     {
         return [
@@ -52,9 +51,7 @@ class FrontendPermissionConfigurableTest extends AbstractPermissionConfigurableT
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configurablePermissionEntitiesProvider(): array
     {
         return [
@@ -98,25 +95,19 @@ class FrontendPermissionConfigurableTest extends AbstractPermissionConfigurableT
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getRole(): AbstractRole
     {
         return $this->getReference(LoadCustomerUserRoleACLData::ROLE_WITHOUT_ACCOUNT_1_USER_LOCAL);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getGridName(): string
     {
         return 'frontend-customer-user-role-permission-grid';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getRouteName(): string
     {
         return 'oro_customer_frontend_customer_user_role_view';

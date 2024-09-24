@@ -13,9 +13,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class ConfigureFrontendHelperPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(ContainerBuilder $container)
     {
         $frontendHelperDef = $container->getDefinition('oro_frontend.request.frontend_helper');

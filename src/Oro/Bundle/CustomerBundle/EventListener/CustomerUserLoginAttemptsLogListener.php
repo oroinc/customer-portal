@@ -23,9 +23,7 @@ class CustomerUserLoginAttemptsLogListener implements ServiceSubscriberInterface
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return [
@@ -34,17 +32,11 @@ class CustomerUserLoginAttemptsLogListener implements ServiceSubscriberInterface
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function onInteractiveLogin(InteractiveLoginEvent $event): void
     {
         $this->getHandler()->onInteractiveLogin($event);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function onAuthenticationFailure(LoginFailureEvent $event): void
     {
         $this->getHandler()->onAuthenticationFailure($event);

@@ -17,6 +17,7 @@ class PageTemplateTypeTest extends FormIntegrationTestCase
     /** @var PageTemplateCollectionType */
     private $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->pageTemplatesManagerMock = $this->createMock(PageTemplatesManager::class);
@@ -26,9 +27,7 @@ class PageTemplateTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

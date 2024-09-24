@@ -18,9 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[CsrfProtection()]
 class CustomerGroupAjaxMenuController extends AbstractAjaxMenuController
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function checkAcl(array $context)
     {
         if (!$this->isGranted(
@@ -33,17 +31,13 @@ class CustomerGroupAjaxMenuController extends AbstractAjaxMenuController
         parent::checkAcl($context);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getAllowedContextKeys()
     {
         return [ScopeCustomerGroupCriteriaProvider::CUSTOMER_GROUP, ScopeCriteriaProvider::WEBSITE];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getMenu($menuName, array $context)
     {
         if (array_key_exists(ScopeCustomerGroupCriteriaProvider::CUSTOMER_GROUP, $context)) {
@@ -55,63 +49,51 @@ class CustomerGroupAjaxMenuController extends AbstractAjaxMenuController
         return parent::getMenu($menuName, $context);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     #[Route(path: '/reset/{menuName}', name: 'oro_commerce_menu_customer_group_menu_ajax_reset', methods: ['DELETE'])]
+    #[\Override]
     public function resetAction($menuName, Request $request)
     {
         return parent::resetAction($menuName, $request);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     #[Route(
         path: '/create/{menuName}/{parentKey}',
         name: 'oro_commerce_menu_customer_group_menu_ajax_create',
         methods: ['POST']
     )]
+    #[\Override]
     public function createAction(Request $request, $menuName, $parentKey)
     {
         return parent::createAction($request, $menuName, $parentKey);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     #[Route(
         path: '/delete/{menuName}/{key}',
         name: 'oro_commerce_menu_customer_group_menu_ajax_delete',
         methods: ['DELETE']
     )]
+    #[\Override]
     public function deleteAction($menuName, $key, Request $request)
     {
         return parent::deleteAction($menuName, $key, $request);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     #[Route(path: '/show/{menuName}/{key}', name: 'oro_commerce_menu_customer_group_menu_ajax_show', methods: ['PUT'])]
+    #[\Override]
     public function showAction($menuName, $key, Request $request)
     {
         return parent::showAction($menuName, $key, $request);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     #[Route(path: '/hide/{menuName}/{key}', name: 'oro_commerce_menu_customer_group_menu_ajax_hide', methods: ['PUT'])]
+    #[\Override]
     public function hideAction($menuName, $key, Request $request)
     {
         return parent::hideAction($menuName, $key, $request);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     #[Route(path: '/move/{menuName}', name: 'oro_commerce_menu_customer_group_menu_ajax_move', methods: ['PUT'])]
+    #[\Override]
     public function moveAction(Request $request, $menuName)
     {
         return parent::moveAction($request, $menuName);

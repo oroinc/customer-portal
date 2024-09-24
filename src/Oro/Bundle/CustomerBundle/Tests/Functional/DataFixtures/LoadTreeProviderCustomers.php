@@ -14,21 +14,13 @@ class LoadTreeProviderCustomers extends AbstractFixture implements DependentFixt
     const CUSTOMER_LEVEL_1_2_DOT_1 = 'customer.level_1_2.1';
     const CUSTOMER_LEVEL_1_2_DOT_1_DOT_1 = 'customer.level_1_2.1.1';
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [LoadCustomers::class];
     }
 
-    /**
-     * @inheritDoc
-     *
-     * customer.level_1_2
-     *     customer.level_1_2.1
-     *         customer.level_1_2.1.1
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         // This structure is necessary in order to disrupt ID order, thereby causing abnormal behavior of tree

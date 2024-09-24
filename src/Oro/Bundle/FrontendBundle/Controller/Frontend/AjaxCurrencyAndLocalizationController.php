@@ -83,9 +83,7 @@ class AjaxCurrencyAndLocalizationController extends AbstractController
         return isset($id) ? $this->container->get(LocalizationManager::class)->getLocalization($id, false) : null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return array_merge(

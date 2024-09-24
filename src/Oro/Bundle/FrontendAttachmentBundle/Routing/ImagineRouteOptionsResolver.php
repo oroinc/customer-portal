@@ -11,9 +11,7 @@ use Symfony\Component\Routing\Route;
  */
 class ImagineRouteOptionsResolver implements RouteOptionsResolverInterface
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function resolve(Route $route, RouteCollectionAccessor $routes): void
     {
         if (str_starts_with($route->getPath(), '/media/cache/resolve/')) {

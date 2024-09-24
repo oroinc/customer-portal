@@ -11,6 +11,7 @@ use Oro\Bundle\ImportExportBundle\Converter\ConfigurableTableDataConverter;
  */
 class AddressDataConverter extends ConfigurableTableDataConverter
 {
+    #[\Override]
     protected function getBackendHeader()
     {
         return array_merge(

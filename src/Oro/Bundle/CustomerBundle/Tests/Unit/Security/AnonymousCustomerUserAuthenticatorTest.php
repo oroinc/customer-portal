@@ -58,6 +58,7 @@ class AnonymousCustomerUserAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /** @var AnonymousCustomerUserAuthenticator */
     private $authenticator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);

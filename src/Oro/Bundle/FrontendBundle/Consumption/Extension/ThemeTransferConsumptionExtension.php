@@ -22,6 +22,7 @@ class ThemeTransferConsumptionExtension extends AbstractExtension
     {
     }
 
+    #[\Override]
     public function onPreReceived(Context $context): void
     {
         $themeId = $context->getMessage()->getProperty(ThemeTransferJobMiddleware::QUEUE_MESSAGE_THEME_ID);
@@ -44,9 +45,7 @@ class ThemeTransferConsumptionExtension extends AbstractExtension
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function onPostReceived(Context $context): void
     {
         // theme id wasn't manipulated, so do nothing

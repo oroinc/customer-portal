@@ -15,9 +15,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class FrontendApiPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         $processorsToBeDisabled = [

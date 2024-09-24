@@ -9,17 +9,13 @@ use Oro\Component\Tree\Test\AbstractTreeHandlerTestCase;
 
 class CustomerTreeHandlerTest extends AbstractTreeHandlerTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getFixtures(): array
     {
         return [LoadCustomers::class];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getHandlerId(): string
     {
         return 'oro_customer.customer_tree_handler';

@@ -70,17 +70,13 @@ class LoadCustomerUserAddresses extends AbstractAddressesFixture implements Depe
         ]
     ];
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [LoadCustomerUserData::class, LoadOrganization::class];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         foreach ($this->addresses as $addressData) {

@@ -11,9 +11,7 @@ class LoadCustomerVisitors extends AbstractFixture
     const CUSTOMER_VISITOR = 'customer_visitor';
     const CUSTOMER_VISITOR_EXPIRED = 'customer_visitor_expired';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         $this->createCustomerVisitor($manager, self::CUSTOMER_VISITOR);

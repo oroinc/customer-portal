@@ -32,9 +32,7 @@ class OroAccountBundle implements
     use ContainerAwareTrait;
     use RenameExtensionAwareTrait;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         $this->renameCustomer($schema, $queries);
@@ -1046,9 +1044,7 @@ class OroAccountBundle implements
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getOrder()
     {
         return 1;

@@ -29,9 +29,7 @@ class NonAuthenticatedVisitorsDocumentationProvider implements DocumentationProv
         $this->resourcesProvider = $resourcesProvider;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDocumentation(RequestType $requestType): ?string
     {
         $apiResources = $this->getNonAuthenticatedVisitorsApiResources($requestType);

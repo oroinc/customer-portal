@@ -17,6 +17,7 @@ class CustomerVisitorAclCacheTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerVisitorAclCache */
     private $customerVisitorAclCache;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->cache = $this->createMock(CacheItemPoolInterface::class);

@@ -13,6 +13,7 @@ class ContentNodeDeleteListenerTest extends \PHPUnit\Framework\TestCase
     /** @var ContentNodeDeleteListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->cacheProvider = $this->createMock(AbstractAdapter::class);

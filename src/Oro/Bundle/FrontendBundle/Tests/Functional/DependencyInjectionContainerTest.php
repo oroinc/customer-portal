@@ -7,9 +7,7 @@ use Symfony\Component\DependencyInjection\Container;
 
 class DependencyInjectionContainerTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

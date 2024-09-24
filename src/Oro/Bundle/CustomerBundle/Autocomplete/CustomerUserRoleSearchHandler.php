@@ -10,9 +10,7 @@ use Oro\Component\DoctrineUtils\ORM\QueryBuilderUtil;
  */
 class CustomerUserRoleSearchHandler extends SearchHandler
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getEntitiesByIds(array $entityIds)
     {
         $entityIds = array_filter(

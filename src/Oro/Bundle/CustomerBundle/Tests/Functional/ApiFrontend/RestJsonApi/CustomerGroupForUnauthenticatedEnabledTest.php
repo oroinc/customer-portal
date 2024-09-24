@@ -8,6 +8,7 @@ class CustomerGroupForUnauthenticatedEnabledTest extends CustomerGroupForUnauthe
 {
     use UnauthenticatedEnabledTestTrait;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

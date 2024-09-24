@@ -27,9 +27,7 @@ class WorkflowPermissionDatasource extends BaseDatasource
         $this->roleTranslationPrefixResolver = $roleTranslationPrefixResolver;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getRoleTranslationPrefix()
     {
         return $this->roleTranslationPrefixResolver->getPrefix();

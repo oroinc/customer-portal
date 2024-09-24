@@ -12,9 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class FileAttachmentConfigExtension extends AbstractTypeExtension
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $configModel = $options['config_model'];
@@ -27,9 +25,7 @@ class FileAttachmentConfigExtension extends AbstractTypeExtension
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getExtendedTypes(): iterable
     {
         return [ConfigType::class];

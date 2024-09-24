@@ -12,14 +12,13 @@ class ImageTypeStub extends AbstractType
     /**
      * @return string
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return ImageType::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
@@ -30,9 +29,7 @@ class ImageTypeStub extends AbstractType
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getParent(): ?string
     {
         return TextType::class;

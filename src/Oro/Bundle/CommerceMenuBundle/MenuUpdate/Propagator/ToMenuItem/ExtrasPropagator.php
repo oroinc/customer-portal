@@ -13,6 +13,7 @@ use Oro\Bundle\NavigationBundle\MenuUpdate\Propagator\ToMenuUpdate\MenuItemToMen
  */
 class ExtrasPropagator implements MenuUpdateToMenuItemPropagatorInterface
 {
+    #[\Override]
     public function isApplicable(ItemInterface $menuItem, MenuUpdateInterface $menuUpdate, string $strategy): bool
     {
         return $menuUpdate instanceof MenuUpdate
@@ -26,6 +27,7 @@ class ExtrasPropagator implements MenuUpdateToMenuItemPropagatorInterface
             );
     }
 
+    #[\Override]
     public function propagateFromMenuUpdate(
         ItemInterface $menuItem,
         MenuUpdateInterface $menuUpdate,

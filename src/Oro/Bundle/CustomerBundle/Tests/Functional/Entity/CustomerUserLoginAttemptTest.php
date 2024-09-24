@@ -11,6 +11,7 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class CustomerUserLoginAttemptTest extends WebTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

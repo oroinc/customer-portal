@@ -23,6 +23,7 @@ class TypedAddressAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     /**
      * @param AbstractDefaultTypedAddress $entity
      */
+    #[\Override]
     protected function beforeProcessEntity($entity)
     {
         $this->ownershipError = false;
@@ -43,6 +44,7 @@ class TypedAddressAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     /**
      * @param AbstractDefaultTypedAddress $entity
      */
+    #[\Override]
     protected function afterProcessEntity($entity)
     {
         $itemData = $this->context->getValue('itemData');
@@ -64,6 +66,7 @@ class TypedAddressAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         return parent::afterProcessEntity($entity);
     }
 
+    #[\Override]
     protected function updateContextCounters($entity)
     {
         if ($this->isMarkedForRemoval) {
@@ -73,6 +76,7 @@ class TypedAddressAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         }
     }
 
+    #[\Override]
     protected function validateAndUpdateContext($entity)
     {
         if ($this->ownershipError) {
@@ -84,6 +88,7 @@ class TypedAddressAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         return parent::validateAndUpdateContext($entity);
     }
 
+    #[\Override]
     protected function checkEntityAcl($entity, $existingEntity = null, $itemData = null)
     {
         // Set systemOrganization same to owner if none set.
@@ -96,6 +101,7 @@ class TypedAddressAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         parent::checkEntityAcl($entity, $existingEntity, $itemData);
     }
 
+    #[\Override]
     protected function importExistingEntity($entity, $existingEntity, $itemData = null, array $excludedFields = [])
     {
         if ($entity instanceof AbstractDefaultTypedAddress) {

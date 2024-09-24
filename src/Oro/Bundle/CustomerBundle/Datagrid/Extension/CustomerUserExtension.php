@@ -19,9 +19,7 @@ class CustomerUserExtension extends AbstractExtension
         $this->tokenAccessor = $tokenAccessor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isApplicable(DatagridConfiguration $config)
     {
         if (!parent::isApplicable($config)) {
@@ -33,9 +31,7 @@ class CustomerUserExtension extends AbstractExtension
         return null === $user || $user instanceof CustomerUser;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function processConfigs(DatagridConfiguration $config)
     {
         $config->offsetSetByPath('[options][route]', self::ROUTE);

@@ -15,17 +15,13 @@ class LoadScopeCustomerDemoData extends AbstractFixture implements DependentFixt
 {
     public const SCOPE_ACCOUNT_REFERENCE_PREFIX = 'scope_customer_demo_data';
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [LoadCustomerDemoData::class];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         /** @var Customer $customer */

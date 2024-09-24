@@ -23,6 +23,7 @@ class MenuItemRendererTest extends \PHPUnit\Framework\TestCase
 
     private MenuItemRenderer $menuItemRenderer;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->layoutManager = $this->createMock(LayoutManager::class);

@@ -27,17 +27,13 @@ class FrontendDatagridExtension extends AbstractExtension
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isApplicable(DatagridConfiguration $config)
     {
         return parent::isApplicable($config) && !$this->isFrontendGrid($config);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function processConfigs(DatagridConfiguration $config)
     {
         if (!$this->isFrontendGrid($config) && $this->frontendHelper->isFrontendRequest()) {

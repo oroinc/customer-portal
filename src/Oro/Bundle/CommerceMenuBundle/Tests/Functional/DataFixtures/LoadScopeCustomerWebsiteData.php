@@ -13,9 +13,7 @@ class LoadScopeCustomerWebsiteData extends AbstractFixture implements DependentF
 {
     const WEBSITE_1_CUSTOMER_1_SCOPE = 'website_1_customer_1_scope';
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [
@@ -24,9 +22,7 @@ class LoadScopeCustomerWebsiteData extends AbstractFixture implements DependentF
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         $scope = new Scope();

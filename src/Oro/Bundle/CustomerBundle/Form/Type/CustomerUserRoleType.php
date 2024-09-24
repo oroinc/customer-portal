@@ -8,9 +8,7 @@ class CustomerUserRoleType extends AbstractCustomerUserRoleType
 {
     const NAME = 'oro_customer_customer_user_role';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
@@ -24,17 +22,12 @@ class CustomerUserRoleType extends AbstractCustomerUserRoleType
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return $this->getBlockPrefix();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;

@@ -15,6 +15,7 @@ class FrontendProductSelectExtensionTest extends \PHPUnit\Framework\TestCase
     /** @var FrontendProductSelectExtension */
     private $extension;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->frontendHelper = $this->createMock(FrontendHelper::class);

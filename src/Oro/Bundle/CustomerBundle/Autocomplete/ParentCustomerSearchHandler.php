@@ -15,9 +15,7 @@ class ParentCustomerSearchHandler extends SearchHandler
 {
     const DELIMITER = ';';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function searchEntities($search, $firstResult, $maxResults)
     {
         if (!str_contains($search, self::DELIMITER)) {

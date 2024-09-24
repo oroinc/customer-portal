@@ -18,9 +18,7 @@ class StandaloneMainMenuContextConfigurator implements ContextConfiguratorInterf
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureContext(ContextInterface $context): void
     {
         $context->getResolver()

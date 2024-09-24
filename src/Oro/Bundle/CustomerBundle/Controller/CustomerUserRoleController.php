@@ -144,9 +144,7 @@ class CustomerUserRoleController extends AbstractController
         return $this->container->get(RolePrivilegeCapabilityProvider::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return array_merge(

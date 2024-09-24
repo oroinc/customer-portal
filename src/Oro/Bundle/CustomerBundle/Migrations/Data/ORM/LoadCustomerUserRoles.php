@@ -27,17 +27,13 @@ class LoadCustomerUserRoles extends AbstractRolesData
 
     private ?array $websites = null;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [LoadAnonymousCustomerGroup::class];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $aclManager = $this->getAclManager();
@@ -82,9 +78,7 @@ class LoadCustomerUserRoles extends AbstractRolesData
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setPermissionGroup(AclManager $aclManager, SecurityIdentityInterface $sid): void
     {
         foreach ($aclManager->getAllExtensions() as $extension) {
@@ -102,9 +96,7 @@ class LoadCustomerUserRoles extends AbstractRolesData
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function findEntity(ObjectManager $manager, string $name, ?string $label): ?AbstractRole
     {
         $entity = $manager->getRepository(CustomerUserRole::class)
@@ -116,9 +108,7 @@ class LoadCustomerUserRoles extends AbstractRolesData
         return $entity;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function createEntity(string $name, string $label): AbstractRole
     {
         $role = new CustomerUserRole(CustomerUserRole::PREFIX_ROLE . $name);

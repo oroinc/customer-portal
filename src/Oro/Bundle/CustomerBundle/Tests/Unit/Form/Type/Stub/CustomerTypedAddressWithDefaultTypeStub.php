@@ -23,9 +23,7 @@ class CustomerTypedAddressWithDefaultTypeStub extends AbstractType
         $this->em = $em;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $choices = [];
@@ -44,9 +42,7 @@ class CustomerTypedAddressWithDefaultTypeStub extends AbstractType
         ->addViewTransformer(new AddressTypeDefaultTransformer($this->em));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -59,9 +55,7 @@ class CustomerTypedAddressWithDefaultTypeStub extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;

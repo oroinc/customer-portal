@@ -7,9 +7,7 @@ namespace Oro\Bundle\FrontendBundle\Provider;
  */
 class HomePageProvider implements HomePageProviderInterface
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getHomePage(): object
     {
         throw new \BadMethodCallException('An appropriate home page provider should be implemented.');

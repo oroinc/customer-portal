@@ -74,17 +74,13 @@ class LoadCustomerUserAddressesACLData extends AbstractAddressesFixture implemen
         ]
     ];
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [LoadCustomerUserAddressACLData::class, LoadOrganization::class];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         foreach ($this->addresses as $addressData) {

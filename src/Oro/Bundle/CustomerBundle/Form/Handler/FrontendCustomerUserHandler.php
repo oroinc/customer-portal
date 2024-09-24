@@ -47,9 +47,7 @@ class FrontendCustomerUserHandler extends FormHandler
         $this->ignoreNotUniqueEmailValidationError = $ignoreNotUniqueEmailValidationError;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process($data, FormInterface $form, Request $request)
     {
         $customerUser = $data;
@@ -129,9 +127,7 @@ class FrontendCustomerUserHandler extends FormHandler
             && $this->configManager->get('oro_customer.email_enumeration_protection_enabled');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function saveData($data, FormInterface $form)
     {
         /** @var CustomerUser $customerUser */

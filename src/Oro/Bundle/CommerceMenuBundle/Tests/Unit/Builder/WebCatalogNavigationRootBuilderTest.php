@@ -25,6 +25,7 @@ class WebCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
 
     private WebCatalogNavigationRootBuilder $builder;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->webCatalogProvider = $this->createMock(WebCatalogProvider::class);

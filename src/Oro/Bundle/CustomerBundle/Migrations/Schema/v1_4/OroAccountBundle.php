@@ -16,9 +16,7 @@ class OroAccountBundle implements Migration
     const ORO_B2B_ACCOUNT_GROUP_CATEGORY_VISIBILITY_RESOLVED = 'orob2b_acc_grp_ctgr_vsb_resolv';
     const ORO_B2B_ACCOUNT_CATEGORY_VISIBILITY_RESOLVED = 'orob2b_acc_ctgr_vsb_resolv';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         /** Tables generation **/

@@ -14,6 +14,7 @@ class AnonymousCustomerUserFactoryTest extends \PHPUnit\Framework\TestCase
 {
     private AnonymousCustomerUserFactory $factory;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->factory = new AnonymousCustomerUserFactory();

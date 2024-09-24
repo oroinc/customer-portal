@@ -30,6 +30,7 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
     /** @var WebsiteUrlResolver */
     private $websiteUrlResolver;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);

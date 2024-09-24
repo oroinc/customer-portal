@@ -19,6 +19,7 @@ class CustomerExtensionTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerExtension */
     private $extension;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->securityProvider = $this->createMock(CustomerUserProvider::class);

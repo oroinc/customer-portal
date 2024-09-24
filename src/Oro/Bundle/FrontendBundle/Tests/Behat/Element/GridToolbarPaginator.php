@@ -7,9 +7,7 @@ use Oro\Bundle\TestFrameworkBundle\Behat\Element\Element;
 
 class GridToolbarPaginator extends Element implements GridPaginatorInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getTotalRecordsCount()
     {
         preg_match('/(?:\d+\s\w+\s)?(?P<count>\d+)\s+([\w\s]+)/i', $this->getText(), $matches);
@@ -17,9 +15,7 @@ class GridToolbarPaginator extends Element implements GridPaginatorInterface
         return isset($matches['count']) ? (int) $matches['count'] : 0;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getTotalPageCount()
     {
         return 1;

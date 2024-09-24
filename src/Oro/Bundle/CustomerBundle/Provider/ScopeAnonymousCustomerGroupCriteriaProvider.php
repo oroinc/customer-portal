@@ -17,25 +17,19 @@ class ScopeAnonymousCustomerGroupCriteriaProvider implements ScopeCriteriaProvid
         $this->customerUserRelationsProvider = $customerUserRelationsProvider;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getCriteriaField()
     {
         return ScopeCustomerGroupCriteriaProvider::CUSTOMER_GROUP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getCriteriaValue(): ?CustomerGroup
     {
         return $this->customerUserRelationsProvider->getCustomerGroup();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getCriteriaValueType()
     {
         return CustomerGroup::class;

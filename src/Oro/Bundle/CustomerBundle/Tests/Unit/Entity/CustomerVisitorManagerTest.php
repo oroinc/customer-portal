@@ -36,6 +36,7 @@ class CustomerVisitorManagerTest extends \PHPUnit\Framework\TestCase
     /** @var Connection|\PHPUnit\Framework\MockObject\MockObject */
     private $sessionConnection;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->entityManager = $this->createMock(EntityManagerInterface::class);

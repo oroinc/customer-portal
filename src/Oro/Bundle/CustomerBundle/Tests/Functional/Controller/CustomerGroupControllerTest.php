@@ -16,6 +16,7 @@ class CustomerGroupControllerTest extends WebTestCase
     private const UPDATED_NAME = 'Group_name_UP';
     private const ADD_NOTE_BUTTON = 'Add note';
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());

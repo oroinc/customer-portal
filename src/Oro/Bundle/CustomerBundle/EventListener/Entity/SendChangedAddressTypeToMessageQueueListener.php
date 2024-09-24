@@ -79,9 +79,7 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
         $this->addressTypeClass = $addressTypeClass;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function setEnabled($enabled = true)
     {
         $this->enabled = $enabled;

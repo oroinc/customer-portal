@@ -10,11 +10,13 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
  */
 class FrontendFieldConfiguration implements FieldConfigInterface
 {
+    #[\Override]
     public function getSectionName(): string
     {
         return 'frontend';
     }
 
+    #[\Override]
     public function configure(NodeBuilder $nodeBuilder): void
     {
         $nodeBuilder

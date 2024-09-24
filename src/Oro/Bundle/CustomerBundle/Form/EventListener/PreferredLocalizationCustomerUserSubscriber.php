@@ -47,6 +47,7 @@ class PreferredLocalizationCustomerUserSubscriber implements EventSubscriberInte
     /**
      * @return array
      */
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

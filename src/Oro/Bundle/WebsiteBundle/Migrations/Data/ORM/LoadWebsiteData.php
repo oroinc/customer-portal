@@ -23,9 +23,7 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
 
     public const DEFAULT_WEBSITE_NAME = 'Default';
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [
@@ -34,9 +32,7 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         /** @var OrganizationInterface $organization */

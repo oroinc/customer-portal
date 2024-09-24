@@ -20,9 +20,7 @@ class WebsiteProvider implements WebsiteProviderInterface
         $this->registry = $registry;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getWebsites()
     {
         $website = $this->getDefaultWebsite();
@@ -30,9 +28,7 @@ class WebsiteProvider implements WebsiteProviderInterface
         return $website ? [$website->getId() => $website] : [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getWebsiteIds()
     {
         $website = $this->getDefaultWebsite();
@@ -40,9 +36,7 @@ class WebsiteProvider implements WebsiteProviderInterface
         return $website ? [$website->getId()] : [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getWebsiteChoices()
     {
         $website = $this->getDefaultWebsite();

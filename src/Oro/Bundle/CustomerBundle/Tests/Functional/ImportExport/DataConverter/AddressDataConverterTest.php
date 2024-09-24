@@ -10,6 +10,7 @@ class AddressDataConverterTest extends WebTestCase
 {
     private AddressDataConverter $dataConverter;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

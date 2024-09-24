@@ -16,14 +16,13 @@ class ScreensThemeConfigurationExtension implements ThemeConfigurationExtensionI
     /**
      * @return string[]
      */
+    #[\Override]
     public function getConfigFileNames(): array
     {
         return ['screens.yml'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function appendConfig(NodeBuilder $configNode)
     {
         $configNode

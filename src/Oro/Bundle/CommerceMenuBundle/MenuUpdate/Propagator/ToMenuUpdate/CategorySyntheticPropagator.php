@@ -14,6 +14,7 @@ use Oro\Bundle\NavigationBundle\MenuUpdate\Propagator\ToMenuUpdate\MenuItemToMen
  */
 class CategorySyntheticPropagator implements MenuItemToMenuUpdatePropagatorInterface
 {
+    #[\Override]
     public function isApplicable(MenuUpdateInterface $menuUpdate, ItemInterface $menuItem, string $strategy): bool
     {
         return $menuUpdate instanceof MenuUpdate
@@ -27,6 +28,7 @@ class CategorySyntheticPropagator implements MenuItemToMenuUpdatePropagatorInter
             );
     }
 
+    #[\Override]
     public function propagateFromMenuItem(
         MenuUpdateInterface $menuUpdate,
         ItemInterface $menuItem,

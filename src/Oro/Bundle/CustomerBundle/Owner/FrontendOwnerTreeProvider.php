@@ -55,9 +55,7 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         $this->messageProducer = $messageProducer;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function supports(): bool
     {
         return null !== $this->getCustomerUser();
@@ -65,8 +63,8 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
 
     /**
      * Warms up cache for recent customer users visitors.
-     * {@inheritDoc}
      */
+    #[\Override]
     public function warmUpCache(): void
     {
         $this->messageProducer->send(
@@ -75,9 +73,7 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getTree(): OwnerTreeInterface
     {
         $cacheKey = $this->getOwnerTreeCacheKey();
@@ -91,9 +87,7 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         });
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getTreeByBusinessUnit($businessUnit): OwnerTreeInterface
     {
         $this->currentCustomer = $businessUnit;
@@ -108,9 +102,7 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         $this->cacheTtl = $cacheTtl;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function fillTree(OwnerTreeBuilderInterface $tree): void
     {
         $customerIds = $this->addAncestorCustomers($tree);

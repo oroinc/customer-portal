@@ -18,6 +18,7 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
     use EmailMessageAssertionTrait;
     use OperationAwareTestTrait;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

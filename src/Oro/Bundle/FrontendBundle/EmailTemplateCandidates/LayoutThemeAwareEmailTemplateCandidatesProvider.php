@@ -33,6 +33,7 @@ class LayoutThemeAwareEmailTemplateCandidatesProvider implements EmailTemplateCa
         $this->templateExtensions = $templateExtensions;
     }
 
+    #[\Override]
     public function getCandidatesNames(EmailTemplateCriteria $emailTemplateCriteria, array $templateContext = []): array
     {
         if (str_starts_with($emailTemplateCriteria->getName(), '@')) {

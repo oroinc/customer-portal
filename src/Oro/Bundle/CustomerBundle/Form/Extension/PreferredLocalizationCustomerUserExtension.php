@@ -25,17 +25,13 @@ class PreferredLocalizationCustomerUserExtension extends AbstractTypeExtension
         $this->eventSubscriber = $eventSubscriber;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getExtendedTypes(): iterable
     {
         return [CustomerUserType::class];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(

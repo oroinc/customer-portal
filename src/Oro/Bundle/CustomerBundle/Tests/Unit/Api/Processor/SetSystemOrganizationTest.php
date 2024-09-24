@@ -26,6 +26,7 @@ class SetSystemOrganizationTest extends CustomizeFormDataProcessorTestCase
     /** @var SetSystemOrganization */
     private $processor;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

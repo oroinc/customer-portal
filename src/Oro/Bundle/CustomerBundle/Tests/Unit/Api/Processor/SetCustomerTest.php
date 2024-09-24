@@ -25,6 +25,7 @@ class SetCustomerTest extends CustomizeFormDataProcessorTestCase
     /** @var SetCustomer */
     private $processor;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

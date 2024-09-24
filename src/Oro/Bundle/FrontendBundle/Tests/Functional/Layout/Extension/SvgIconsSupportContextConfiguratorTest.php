@@ -17,6 +17,7 @@ class SvgIconsSupportContextConfiguratorTest extends WebTestCase
 
     private int $originalThemeConfig;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();
@@ -24,6 +25,7 @@ class SvgIconsSupportContextConfiguratorTest extends WebTestCase
         $this->originalThemeConfig = self::getConfigManager()->get('oro_theme.theme_configuration');
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         self::getConfigManager()->set('oro_theme.theme_configuration', $this->originalThemeConfig);

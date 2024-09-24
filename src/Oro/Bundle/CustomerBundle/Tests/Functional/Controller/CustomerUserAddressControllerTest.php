@@ -14,6 +14,7 @@ class CustomerUserAddressControllerTest extends WebTestCase
     /** @var CustomerUser */
     private $customerUser;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], array_merge($this->generateBasicAuthHeader()));

@@ -18,9 +18,7 @@ class MenuScreensConditionBuilder implements BuilderInterface
         $this->screensProvider = $screensProvider;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function build(ItemInterface $menu, array $options = [], $alias = null)
     {
         $this->applyScreensRecursively($menu, $options);

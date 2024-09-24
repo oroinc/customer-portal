@@ -17,11 +17,13 @@ class CustomerRegistrationCheckoutHandler implements CheckoutHandlerInterface
     ) {
     }
 
+    #[\Override]
     public function isSupported(Request $request): bool
     {
         return $request->isMethod(Request::METHOD_POST) && $this->registrationHandler->isRegistrationRequest($request);
     }
 
+    #[\Override]
     public function handle(WorkflowItem $workflowItem, Request $request): void
     {
         $this->registrationHandler->handleRegistration($request);

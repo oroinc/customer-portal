@@ -21,6 +21,7 @@ class DatagridBottomToolbarListenerTest extends \PHPUnit\Framework\TestCase
     /** @var DatagridBottomToolbarListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->frontendHelper = $this->createMock(FrontendHelper::class);

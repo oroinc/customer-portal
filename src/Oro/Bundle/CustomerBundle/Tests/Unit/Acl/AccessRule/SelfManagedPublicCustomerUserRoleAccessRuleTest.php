@@ -20,6 +20,7 @@ class SelfManagedPublicCustomerUserRoleAccessRuleTest extends \PHPUnit\Framework
     /** @var SelfManagedPublicCustomerUserRoleAccessRule */
     private $rule;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);

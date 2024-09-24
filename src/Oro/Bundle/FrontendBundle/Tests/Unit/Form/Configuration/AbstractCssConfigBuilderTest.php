@@ -16,6 +16,7 @@ abstract class AbstractCssConfigBuilderTest extends FormIntegrationTestCase
 
     protected TranslatorInterface&MockObject $translator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->translator = $this->createMock(TranslatorInterface::class);
@@ -266,6 +267,7 @@ abstract class AbstractCssConfigBuilderTest extends FormIntegrationTestCase
         self::assertEquals(TextareaType::class, $innerType::class);
     }
 
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

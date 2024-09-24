@@ -13,9 +13,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class OroCustomerExtension extends Extension implements PrependExtensionInterface
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
@@ -46,9 +44,7 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
         $this->configureNonAuthenticatedVisitorsApi($container, $config);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function prepend(ContainerBuilder $container): void
     {
         /** @var ExtendedContainerBuilder $container */

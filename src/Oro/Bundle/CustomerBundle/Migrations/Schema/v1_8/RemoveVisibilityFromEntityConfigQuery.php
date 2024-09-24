@@ -7,17 +7,13 @@ use Psr\Log\LoggerInterface;
 
 class RemoveVisibilityFromEntityConfigQuery extends ParametrizedMigrationQuery
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDescription()
     {
         return 'Remove invalid configs from oro_entity_config, after tables drop';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function execute(LoggerInterface $logger)
     {
         $query  = "DELETE FROM oro_entity_config WHERE class_name LIKE '%ProductVisibility%'";

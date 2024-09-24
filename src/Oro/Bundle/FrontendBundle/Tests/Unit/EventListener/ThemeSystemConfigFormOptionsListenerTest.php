@@ -11,6 +11,7 @@ class ThemeSystemConfigFormOptionsListenerTest extends \PHPUnit\Framework\TestCa
     /** @var ThemeSystemConfigFormOptionsListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->listener = new ThemeSystemConfigFormOptionsListener();

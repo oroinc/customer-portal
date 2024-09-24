@@ -41,9 +41,7 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
         $this->cache = $cache;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function supports(): bool
     {
         return
@@ -51,9 +49,7 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
             || $this->tokenAccessor->getToken() instanceof AnonymousCustomerUserToken;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getUserClass(): string
     {
         $this->ensureOwningEntityClassesInitialized();
@@ -61,9 +57,7 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
         return $this->userClass;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getBusinessUnitClass(): string
     {
         $this->ensureOwningEntityClassesInitialized();
@@ -71,17 +65,13 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
         return $this->businessUnitClass;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getOrganizationClass(): ?string
     {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getMaxAccessLevel(int $accessLevel, string $className = null): int
     {
         $maxLevel = $accessLevel;
@@ -99,25 +89,19 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
         return $maxLevel;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getCache(): CacheInterface
     {
         return $this->cache;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function createNoOwnershipMetadata(): FrontendOwnershipMetadata
     {
         return new FrontendOwnershipMetadata();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getOwnershipMetadata(ConfigInterface $config): FrontendOwnershipMetadata
     {
         return new FrontendOwnershipMetadata(
@@ -131,9 +115,7 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getOwnershipConfigs(): array
     {
         // only commerce entities can have frontend ownership

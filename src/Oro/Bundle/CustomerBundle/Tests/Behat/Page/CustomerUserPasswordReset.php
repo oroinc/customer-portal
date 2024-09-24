@@ -7,9 +7,7 @@ use Oro\Bundle\TestFrameworkBundle\Behat\Element\Page;
 
 class CustomerUserPasswordReset extends Page
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function open(array $parameters = [])
     {
         throw new PendingException('Not implemented');

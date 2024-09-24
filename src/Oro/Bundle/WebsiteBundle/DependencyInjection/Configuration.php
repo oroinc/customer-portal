@@ -11,9 +11,7 @@ class Configuration implements ConfigurationInterface
     const URL = 'url';
     const SECURE_URL = 'secure_url';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('oro_website');

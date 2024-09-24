@@ -11,6 +11,7 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
  */
 class SetCascadeDeleteForContentNode implements Migration
 {
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries): void
     {
         $table = $schema->getTable('oro_commerce_menu_upd');

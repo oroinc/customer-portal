@@ -9,6 +9,7 @@ class GridRow extends BaseGridRow
     /**
      * @param int $cellNumber
      */
+    #[\Override]
     public function checkMassActionCheckbox($cellNumber = 0)
     {
         $rowCheckbox = $this->getCellByNumber($cellNumber)->find('css', '[type="checkbox"]');
@@ -24,6 +25,7 @@ class GridRow extends BaseGridRow
     /**
      * @param int $cellNumber
      */
+    #[\Override]
     public function uncheckMassActionCheckbox($cellNumber = 0)
     {
         $rowCheckbox = $this->getCellByNumber($cellNumber)->find('css', '[type="checkbox"]');

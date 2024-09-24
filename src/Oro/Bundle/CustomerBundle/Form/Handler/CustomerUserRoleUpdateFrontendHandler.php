@@ -38,9 +38,9 @@ class CustomerUserRoleUpdateFrontendHandler extends AbstractCustomerUserRoleHand
     }
 
     /**
-     * {@inheritdoc}
      * @param CustomerUserRole $role
      */
+    #[\Override]
     public function createForm(AbstractRole $role)
     {
         if ($role->isPredefined()) {
@@ -51,9 +51,7 @@ class CustomerUserRoleUpdateFrontendHandler extends AbstractCustomerUserRoleHand
         return parent::createForm($role);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function createRoleFormInstance(AbstractRole $role, array $privilegeConfig)
     {
         $form = $this->formFactory->create(
@@ -65,9 +63,7 @@ class CustomerUserRoleUpdateFrontendHandler extends AbstractCustomerUserRoleHand
         return $form;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getRolePrivileges(AbstractRole $role)
     {
         $sid = $this->aclManager->getSid($this->predefinedRole ?: $role);
@@ -113,9 +109,7 @@ class CustomerUserRoleUpdateFrontendHandler extends AbstractCustomerUserRoleHand
         return $this->loggedCustomerUser;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function filterPrivileges(ArrayCollection $privileges, array $rootIds)
     {
         $privileges = parent::filterPrivileges($privileges, $rootIds);
@@ -147,6 +141,7 @@ class CustomerUserRoleUpdateFrontendHandler extends AbstractCustomerUserRoleHand
      * @param User[] $appendUsers
      * @param User[] $removeUsers
      */
+    #[\Override]
     protected function onSuccess(AbstractRole $entity, array $appendUsers, array $removeUsers)
     {
         if ($entity instanceof CustomerUserRole) {

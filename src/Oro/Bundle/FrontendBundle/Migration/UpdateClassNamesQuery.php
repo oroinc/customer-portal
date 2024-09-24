@@ -31,9 +31,7 @@ class UpdateClassNamesQuery extends ParametrizedMigrationQuery
         $this->field = $field;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDescription()
     {
         $logger = new ArrayLogger();
@@ -42,9 +40,7 @@ class UpdateClassNamesQuery extends ParametrizedMigrationQuery
         return $logger->getMessages();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function execute(LoggerInterface $logger)
     {
         $this->processQueries($logger);

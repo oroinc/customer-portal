@@ -10,9 +10,7 @@ use Oro\Bundle\WorkflowBundle\Extension\StartTransitionButtonProviderExtension;
  */
 class FrontendStartTransitionButtonProviderExtension extends StartTransitionButtonProviderExtension
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getApplication()
     {
         return FrontendCurrentApplicationProvider::COMMERCE_APPLICATION;

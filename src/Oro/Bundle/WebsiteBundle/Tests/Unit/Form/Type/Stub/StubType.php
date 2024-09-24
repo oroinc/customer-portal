@@ -7,6 +7,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StubType extends TextType
 {
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

@@ -9,9 +9,7 @@ use Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM\LoadCustomerUserDemoData 
  */
 class LoadCustomerUserDemoData extends BaseLoadCustomerUserDemoData
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [LoadCustomerDemoData::class];

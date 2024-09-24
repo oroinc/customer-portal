@@ -33,9 +33,7 @@ class FixCustomerAddressesDefaultSubscriber implements EventSubscriberInterface
         $this->propertyAccessor = $propertyAccessor ?? PropertyAccess::createPropertyAccessor();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

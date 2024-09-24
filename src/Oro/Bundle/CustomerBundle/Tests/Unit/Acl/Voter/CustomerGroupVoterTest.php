@@ -19,6 +19,7 @@ class CustomerGroupVoterTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerGroupVoter */
     private $voter;
 
+    #[\Override]
     protected function setUp(): void
     {
         $doctrineHelper = $this->createMock(DoctrineHelper::class);

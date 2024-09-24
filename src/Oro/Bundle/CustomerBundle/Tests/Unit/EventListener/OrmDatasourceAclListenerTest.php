@@ -31,6 +31,7 @@ class OrmDatasourceAclListenerTest extends \PHPUnit\Framework\TestCase
     /** @var OrmDatasourceAclListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);

@@ -11,6 +11,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
  */
 class AnonymousSelfValidatingPassport extends SelfValidatingPassport
 {
+    #[\Override]
     public function getUser(): UserInterface
     {
         if (null === $this->user) {

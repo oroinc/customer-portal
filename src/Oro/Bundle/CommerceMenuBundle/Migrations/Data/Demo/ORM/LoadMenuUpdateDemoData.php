@@ -11,11 +11,13 @@ use Oro\Bundle\WebCatalogBundle\Migrations\Data\Demo\ORM\LoadWebCatalogDemoData;
  */
 class LoadMenuUpdateDemoData extends AbstractMenuUpdateFixture implements DependentFixtureInterface
 {
+    #[\Override]
     protected function getDataPath(): string
     {
         return '@OroCommerceMenuBundle/Migrations/Data/Demo/ORM/data/menuUpdates.yml';
     }
 
+    #[\Override]
     public function getDependencies(): array
     {
         return [

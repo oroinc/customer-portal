@@ -13,6 +13,7 @@ class DataAuditEntityMappingPassTest extends \PHPUnit\Framework\TestCase
     /** @var DataAuditEntityMappingPass */
     private $compiler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->compiler = new DataAuditEntityMappingPass();

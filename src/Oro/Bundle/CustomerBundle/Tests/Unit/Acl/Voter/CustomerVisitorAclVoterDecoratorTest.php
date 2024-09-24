@@ -34,6 +34,7 @@ class CustomerVisitorAclVoterDecoratorTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerVisitorAclVoterDecorator */
     private $aclVoterDecorator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->innerVoter = $this->createMock(AclVoterInterface::class);

@@ -40,6 +40,7 @@ class ForgotPasswordHandlerTest extends TestCase
      */
     private $forgotPasswordHandler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->passwordRequestHandler = $this->createMock(CustomerUserPasswordRequestHandler::class);

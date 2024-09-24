@@ -47,6 +47,7 @@ class FrontendCustomerUserTypeTest extends FormIntegrationTestCase
     private CustomerUserAddress $customerUserAddress2;
     private FrontendCustomerUserType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
@@ -68,9 +69,7 @@ class FrontendCustomerUserTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         $user = new CustomerUser();

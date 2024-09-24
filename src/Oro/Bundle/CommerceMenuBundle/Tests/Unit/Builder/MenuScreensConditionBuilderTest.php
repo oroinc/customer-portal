@@ -22,6 +22,7 @@ class MenuScreensConditionBuilderTest extends \PHPUnit\Framework\TestCase
     /** @var MenuScreensConditionBuilder */
     private $builder;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->screensProvider = $this->createMock(ScreensProviderInterface::class);

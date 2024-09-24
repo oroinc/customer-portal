@@ -11,15 +11,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AjaxCustomerUserController extends AbstractAjaxCustomerUserController
 {
-    /**
-     * {@inheritdoc}
-     */
     #[Route(
         path: '/get-customer/{id}',
         name: 'oro_customer_customer_user_get_customer',
         requirements: ['id' => '\d+']
     )]
     #[AclAncestor('oro_customer_customer_user_view')]
+    #[\Override]
     public function getCustomerIdAction(CustomerUser $customerUser)
     {
         return parent::getCustomerIdAction($customerUser);

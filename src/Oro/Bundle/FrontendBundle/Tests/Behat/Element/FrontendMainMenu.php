@@ -8,9 +8,7 @@ use Oro\Bundle\TestFrameworkBundle\Behat\Element\Element;
 
 class FrontendMainMenu extends MainMenu
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getDropDown(NodeElement $link): Element
     {
         return $this->elementFactory->wrapElement(

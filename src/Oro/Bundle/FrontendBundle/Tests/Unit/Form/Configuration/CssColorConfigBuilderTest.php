@@ -16,6 +16,7 @@ final class CssColorConfigBuilderTest extends AbstractCssConfigBuilderTest
 
     private ConfigManager&MockObject $configManager;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);
@@ -102,6 +103,7 @@ final class CssColorConfigBuilderTest extends AbstractCssConfigBuilderTest
         );
     }
 
+    #[\Override]
     protected function getValidValueDataProvider(): array
     {
         return [
@@ -114,6 +116,7 @@ final class CssColorConfigBuilderTest extends AbstractCssConfigBuilderTest
         ];
     }
 
+    #[\Override]
     protected function getNotValidValueDataProvider(): array
     {
         return [
@@ -124,6 +127,7 @@ final class CssColorConfigBuilderTest extends AbstractCssConfigBuilderTest
         ];
     }
 
+    #[\Override]
     protected function getSupportsDataProvider(): array
     {
         return [
@@ -132,6 +136,7 @@ final class CssColorConfigBuilderTest extends AbstractCssConfigBuilderTest
         ];
     }
 
+    #[\Override]
     protected function getExtensions(): array
     {
         $extensions = parent::getExtensions();

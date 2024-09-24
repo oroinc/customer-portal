@@ -41,6 +41,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserSearchHandler */
     private $searchHandler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->indexer = $this->createMock(Indexer::class);

@@ -10,6 +10,7 @@ use Oro\Bundle\NavigationBundle\Controller\Api\PagestateController as BasePagest
  */
 class PagestateController extends BasePagestateController
 {
+    #[\Override]
     protected function getPageStateClass(): string
     {
         return PageState::class;

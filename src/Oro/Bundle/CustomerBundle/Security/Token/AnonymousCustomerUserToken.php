@@ -39,6 +39,7 @@ class AnonymousCustomerUserToken extends AnonymousToken implements
         return $this->getUser();
     }
 
+    #[\Override]
     public function getCredentials(): array
     {
         return $this->credentials;

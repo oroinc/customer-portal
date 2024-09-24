@@ -30,9 +30,7 @@ class InitializeCustomerUser implements ProcessorInterface
         $this->websiteManager = $websiteManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(ContextInterface $context): void
     {
         /** @var CustomizeFormDataContext $context */

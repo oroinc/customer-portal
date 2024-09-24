@@ -45,17 +45,13 @@ class EntityOwnershipDecisionMaker extends AbstractEntityOwnershipDecisionMaker
         $this->propertyAccessor = $propertyAccessor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function supports()
     {
         return $this->tokenAccessor->getUser() instanceof CustomerUser;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isAssociatedWithBusinessUnit($user, $domainObject, $deep = false, $organization = null)
     {
         $isAssociated = parent::isAssociatedWithBusinessUnit($user, $domainObject, $deep, $organization);

@@ -18,9 +18,7 @@ class MenuDisplayBuilder implements BuilderInterface
         $this->conditionEvaluator = $conditionEvaluator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function build(ItemInterface $menu, array $options = [], $alias = null)
     {
         $this->applyEvaluatorRecursively($menu, $options);

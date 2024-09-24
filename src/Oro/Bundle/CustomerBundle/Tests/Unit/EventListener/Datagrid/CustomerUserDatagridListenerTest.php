@@ -12,6 +12,7 @@ class CustomerUserDatagridListenerTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserDatagridListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->listener = new CustomerUserDatagridListener();

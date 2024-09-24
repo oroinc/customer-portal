@@ -11,9 +11,7 @@ use Oro\Component\Action\Exception\ActionException;
  */
 class GetActiveVisitor extends AssignActiveUser
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function executeAction($context)
     {
         $visitor = null;

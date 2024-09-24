@@ -16,9 +16,7 @@ class ConfigValueExpressionLanguageProvider implements ExpressionFunctionProvide
         $this->configManager = $configManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getFunctions(): array
     {
         return [

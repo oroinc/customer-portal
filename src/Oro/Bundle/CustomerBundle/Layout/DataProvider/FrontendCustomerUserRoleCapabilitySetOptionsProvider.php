@@ -28,6 +28,7 @@ class FrontendCustomerUserRoleCapabilitySetOptionsProvider implements FrontendCu
         $this->categoryProvider = $categoryProvider;
     }
 
+    #[\Override]
     public function getOptions(CustomerUserRole $role): array
     {
         if (null === $this->options) {

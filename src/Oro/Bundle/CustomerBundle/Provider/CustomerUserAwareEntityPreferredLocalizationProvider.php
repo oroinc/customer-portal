@@ -19,6 +19,7 @@ class CustomerUserAwareEntityPreferredLocalizationProvider extends AbstractPrefe
         $this->customerUserPreferredLocalizationProvider = $customerUserPreferredLocalizationProvider;
     }
 
+    #[\Override]
     public function supports($entity): bool
     {
         return $entity instanceof CustomerOwnerAwareInterface
@@ -31,6 +32,7 @@ class CustomerUserAwareEntityPreferredLocalizationProvider extends AbstractPrefe
      *
      * @return Localization|null
      */
+    #[\Override]
     protected function getPreferredLocalizationForEntity($entity): ?Localization
     {
         return $this->customerUserPreferredLocalizationProvider->getPreferredLocalization($entity->getCustomerUser());

@@ -13,9 +13,7 @@ class MenuUserAgentConditionType extends AbstractType
 {
     const NAME = 'oro_commerce_menu_user_agent_condition';
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -30,25 +28,18 @@ class MenuUserAgentConditionType extends AbstractType
             ]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['data_class' => MenuUserAgentCondition::class]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName()
     {
         return $this->getBlockPrefix();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return static::NAME;

@@ -12,15 +12,14 @@ class MenuUserAgentConditionTypeTest extends FormIntegrationTestCase
 {
     private MenuUserAgentConditionType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formType = new MenuUserAgentConditionType();
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

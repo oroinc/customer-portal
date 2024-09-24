@@ -23,6 +23,7 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
     private ObjectRepository|MockObject $repository;
     private QuickAccessButtonWebCatalogNodeMenuBuilder $builder;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->menuContentNodesProvider = $this->createMock(MenuContentNodesProviderInterface::class);

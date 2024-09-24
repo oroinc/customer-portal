@@ -321,6 +321,7 @@ class MenuUpdateIconsExtensionTest extends WebTestCase
         'oro.form.icon_select.zoom-out' => 'fa-search-minus',
     ];
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

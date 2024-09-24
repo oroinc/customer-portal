@@ -15,6 +15,7 @@ class ThemeManagerRequestSetterListenerTest extends TestCase
     private CurrentThemeProvider $currentThemeProvider;
     private ThemeManagerRequestSetterListener $themeManagerRequestSetterListener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->currentThemeProvider = $this->createMock(CurrentThemeProvider::class);

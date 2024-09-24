@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class UniqueAddressDefaultTypesValidatorTest extends ConstraintValidatorTestCase
 {
+    #[\Override]
     protected function createValidator()
     {
         return new UniqueAddressDefaultTypesValidator();

@@ -27,9 +27,7 @@ class DynamicFieldsExtension extends AbstractTypeExtension
         $this->configManager = $configManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if ($this->frontendHelper->isFrontendRequest()) {
@@ -66,6 +64,7 @@ class DynamicFieldsExtension extends AbstractTypeExtension
         }
     }
 
+    #[\Override]
     public static function getExtendedTypes(): array
     {
         return [FormType::class];

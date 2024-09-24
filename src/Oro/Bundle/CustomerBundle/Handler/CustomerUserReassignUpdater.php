@@ -20,9 +20,7 @@ class CustomerUserReassignUpdater implements CustomerUserReassignUpdaterInterfac
         $this->updaters = $updaters;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function update(CustomerUser $customerUser)
     {
         foreach ($this->updaters as $updater) {
@@ -30,9 +28,7 @@ class CustomerUserReassignUpdater implements CustomerUserReassignUpdaterInterfac
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getClassNamesToUpdate(CustomerUser $customerUser): array
     {
         $classNames = [];

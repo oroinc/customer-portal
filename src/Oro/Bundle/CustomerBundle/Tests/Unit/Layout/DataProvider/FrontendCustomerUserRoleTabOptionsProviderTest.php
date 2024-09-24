@@ -34,6 +34,7 @@ class FrontendCustomerUserRoleTabOptionsProviderTest extends \PHPUnit\Framework\
     /** @var FrontendCustomerUserRoleTabOptionsProvider */
     private $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->categoryProvider = $this->createMock(RolePrivilegeCategoryProvider::class);

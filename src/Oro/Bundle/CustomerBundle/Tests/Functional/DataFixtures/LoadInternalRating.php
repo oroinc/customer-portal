@@ -15,9 +15,7 @@ class LoadInternalRating extends AbstractFixture
         '2_of_5' => 'internal_rating.2 of 5'
     ];
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         /** @var EnumOptionRepository $enumRepo */

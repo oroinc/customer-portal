@@ -11,9 +11,7 @@ class CustomerUserRoleSelectOrCreateTypeTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserRoleSelectOrCreateType */
     protected $type;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->type = new CustomerUserRoleSelectOrCreateType();

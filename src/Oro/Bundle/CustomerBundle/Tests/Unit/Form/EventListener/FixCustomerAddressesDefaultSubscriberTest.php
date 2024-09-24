@@ -14,6 +14,7 @@ class FixCustomerAddressesDefaultSubscriberTest extends \PHPUnit\Framework\TestC
     /** @var FixCustomerAddressesDefaultSubscriber */
     private $subscriber;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->subscriber = new FixCustomerAddressesDefaultSubscriber('frontendOwner.addresses');

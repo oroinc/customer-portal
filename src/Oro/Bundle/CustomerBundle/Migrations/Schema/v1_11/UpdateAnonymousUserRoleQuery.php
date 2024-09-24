@@ -12,9 +12,7 @@ class UpdateAnonymousUserRoleQuery extends ParametrizedMigrationQuery
     const PUBLIC_ACCESS  = 'PUBLIC_ACCESS';
     const ROLE_FRONTEND_ANONYMOUS  = 'ROLE_FRONTEND_ANONYMOUS';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDescription()
     {
         $logger = new ArrayLogger();
@@ -23,9 +21,7 @@ class UpdateAnonymousUserRoleQuery extends ParametrizedMigrationQuery
         return $logger->getMessages();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function execute(LoggerInterface $logger)
     {
         $this->doExecute($logger);

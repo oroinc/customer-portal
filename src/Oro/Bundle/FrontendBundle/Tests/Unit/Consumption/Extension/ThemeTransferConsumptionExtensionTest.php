@@ -16,6 +16,7 @@ class ThemeTransferConsumptionExtensionTest extends TestCase
     private CurrentThemeProvider|MockObject $currentThemeProvider;
     private ThemeTransferConsumptionExtension $themeTransferConsumptionExtension;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->currentThemeProvider = $this->createMock(CurrentThemeProvider::class);

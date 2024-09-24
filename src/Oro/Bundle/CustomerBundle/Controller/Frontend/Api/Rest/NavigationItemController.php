@@ -11,11 +11,13 @@ use Oro\Bundle\NavigationBundle\Controller\Api\NavigationItemController as BaseN
  */
 class NavigationItemController extends BaseNavigationItemController
 {
+    #[\Override]
     protected function getPinbarTabClass(): string
     {
         return PinbarTab::class;
     }
 
+    #[\Override]
     protected function getUserClass(): string
     {
         return CustomerUser::class;

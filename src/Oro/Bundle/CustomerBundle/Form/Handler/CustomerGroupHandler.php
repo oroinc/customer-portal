@@ -30,9 +30,7 @@ class CustomerGroupHandler implements FormHandlerInterface
         $this->dispatcher = $dispatcher;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function process($entity, FormInterface $form, Request $request)
     {
         $form->setData($entity);

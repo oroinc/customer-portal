@@ -33,17 +33,13 @@ abstract class AbstractLoadCustomerUserFixture extends AbstractFixture implement
 
     abstract protected function getCustomerUsers(): array;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [LoadUser::class];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $this->loadRoles($manager);

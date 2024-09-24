@@ -43,6 +43,7 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserReassignEntityUpdater */
     private $updater;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->entityToArrayConverter = $this->createMock(EntityToEntityChangeArrayConverter::class);

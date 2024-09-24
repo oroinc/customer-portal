@@ -31,9 +31,7 @@ class CustomerUserVoter implements VoterInterface
         $this->featureName = $featureName;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function vote($feature, $scopeIdentifier = null)
     {
         if ($feature === $this->featureName) {

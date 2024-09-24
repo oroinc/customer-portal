@@ -38,6 +38,7 @@ class ApiAnonymousCustomerUserAuthenticatorTest extends \PHPUnit\Framework\TestC
     /** @var ApiAnonymousCustomerUserAuthenticator */
     private $authenticator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->websiteManager = $this->createMock(WebsiteManager::class);

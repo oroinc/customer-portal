@@ -45,9 +45,7 @@ class PostExportMessageProcessor implements MessageProcessorInterface, TopicSubs
         $this->logger = new NullLogger();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(MessageInterface $message, SessionInterface $session)
     {
         $messageBody = $message->getBody();
@@ -102,9 +100,7 @@ class PostExportMessageProcessor implements MessageProcessorInterface, TopicSubs
         return self::ACK;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getSubscribedTopics(): array
     {
         return [PostExportTopic::getName()];

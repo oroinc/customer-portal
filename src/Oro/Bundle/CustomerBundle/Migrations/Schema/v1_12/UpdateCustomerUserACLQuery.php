@@ -14,25 +14,18 @@ use Psr\Log\LoggerInterface;
  */
 class UpdateCustomerUserACLQuery extends ParametrizedMigrationQuery
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDescription()
     {
         return 'Update permission of predefined roles';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function execute(LoggerInterface $logger)
     {
         $this->doExecute($logger);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function doExecute(LoggerInterface $logger, $dryRun = false)
     {
         $sql = 'SELECT id FROM acl_classes WHERE class_type = :class';

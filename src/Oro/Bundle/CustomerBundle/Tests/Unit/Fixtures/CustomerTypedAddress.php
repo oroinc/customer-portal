@@ -14,6 +14,7 @@ class CustomerTypedAddress extends CustomerAddress
     /**
      * @return TypedAddressOwner
      */
+    #[\Override]
     public function getFrontendOwner()
     {
         return $this->frontendOwner;
@@ -23,6 +24,7 @@ class CustomerTypedAddress extends CustomerAddress
      * @param Customer $frontendOwner
      * @return CustomerTypedAddress
      */
+    #[\Override]
     public function setFrontendOwner($frontendOwner = null)
     {
         $this->frontendOwner = $frontendOwner;

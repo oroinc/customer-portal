@@ -13,6 +13,7 @@ class CustomerUserPasswordResetTypeTest extends FormIntegrationTestCase
 {
     private CustomerUserPasswordResetType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formType = new CustomerUserPasswordResetType();
@@ -20,9 +21,7 @@ class CustomerUserPasswordResetTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

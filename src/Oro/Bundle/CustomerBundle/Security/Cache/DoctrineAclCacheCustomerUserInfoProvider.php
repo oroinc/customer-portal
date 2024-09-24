@@ -23,9 +23,7 @@ class DoctrineAclCacheCustomerUserInfoProvider implements DoctrineAclCacheUserIn
         $this->innerProvider = $innerProvider;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getCurrentUserCacheKeyInfo(): array
     {
         if ($this->tokenAccessor->hasUser() && $this->tokenAccessor->getUser() instanceof CustomerUser) {

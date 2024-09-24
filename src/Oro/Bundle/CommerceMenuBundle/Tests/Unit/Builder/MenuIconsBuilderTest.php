@@ -22,6 +22,7 @@ class MenuIconsBuilderTest extends TestCase
 
     private MenuIconsBuilder $builder;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->storefrontIconsMappingProvider = $this->createMock(StorefrontIconsMappingProvider::class);

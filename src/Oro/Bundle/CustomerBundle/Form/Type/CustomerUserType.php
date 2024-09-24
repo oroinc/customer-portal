@@ -64,6 +64,7 @@ class CustomerUserType extends AbstractType
         $this->addressClass = $addressClass;
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->addEntityFields($builder);
@@ -290,9 +291,7 @@ class CustomerUserType extends AbstractType
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired(['data']);
@@ -312,9 +311,7 @@ class CustomerUserType extends AbstractType
         return $this->getBlockPrefix();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;

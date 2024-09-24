@@ -27,17 +27,13 @@ class AssignCurrentWebsite extends AbstractAction
         $this->websiteManager = $websiteManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function executeAction($context)
     {
         $this->contextAccessor->setValue($context, $this->attribute, $this->websiteManager->getCurrentWebsite());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function initialize(array $options)
     {
         if (count($options) !== 1) {

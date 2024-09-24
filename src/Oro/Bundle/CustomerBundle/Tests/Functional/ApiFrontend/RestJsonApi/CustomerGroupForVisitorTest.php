@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CustomerGroupForVisitorTest extends FrontendRestJsonApiTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

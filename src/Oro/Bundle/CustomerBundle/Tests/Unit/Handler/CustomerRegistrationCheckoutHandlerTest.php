@@ -18,6 +18,7 @@ class CustomerRegistrationCheckoutHandlerTest extends TestCase
 
     private CustomerRegistrationCheckoutHandler $handler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->registrationHandler = $this->createMock(CustomerRegistrationHandlerInterface::class);

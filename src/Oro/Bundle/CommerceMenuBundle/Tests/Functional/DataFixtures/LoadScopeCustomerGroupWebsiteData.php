@@ -13,9 +13,7 @@ class LoadScopeCustomerGroupWebsiteData extends AbstractFixture implements Depen
 {
     const GROUP_1_WEBSITE_1_SCOPE = 'group_1_website_2_scope';
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [
@@ -24,9 +22,7 @@ class LoadScopeCustomerGroupWebsiteData extends AbstractFixture implements Depen
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         $scope = new Scope();

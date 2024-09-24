@@ -37,65 +37,49 @@ class LocaleSettings extends BaseLocaleSettings
         $this->themeManager = $themeManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function addNameFormats(array $formats)
     {
         $this->inner->addNameFormats($formats);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getNameFormats()
     {
         return $this->inner->getNameFormats();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function addAddressFormats(array $formats)
     {
         $this->inner->addAddressFormats($formats);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getAddressFormats()
     {
         return $this->inner->getAddressFormats();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function addLocaleData(array $data)
     {
         $this->inner->addLocaleData($data);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLocaleData()
     {
         return $this->inner->getLocaleData();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isFormatAddressByAddressCountry()
     {
         return $this->inner->isFormatAddressByAddressCountry();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLocaleByCountry($country)
     {
         if (!$this->frontendHelper->isFrontendRequest()) {
@@ -110,9 +94,7 @@ class LocaleSettings extends BaseLocaleSettings
         return $this->getLocale();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLocale()
     {
         if ($this->locale === null) {
@@ -128,9 +110,7 @@ class LocaleSettings extends BaseLocaleSettings
         return $this->locale;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLanguage()
     {
         if (!$this->frontendHelper->isFrontendRequest()) {
@@ -142,9 +122,7 @@ class LocaleSettings extends BaseLocaleSettings
         return $localization ? $localization->getLanguageCode() : $this->inner->getLanguage();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isRtlMode(): bool
     {
         if ($this->rtlMode === null) {
@@ -178,17 +156,13 @@ class LocaleSettings extends BaseLocaleSettings
         return $localization && $localization->isRtlMode();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getActualLanguage()
     {
         return $this->inner->getActualLanguage();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getCountry()
     {
         if (!$this->frontendHelper->isFrontendRequest()) {
@@ -204,41 +178,31 @@ class LocaleSettings extends BaseLocaleSettings
         return $this->country;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getCurrency()
     {
         return $this->inner->getCurrency();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getCurrencySymbolByCurrency(string $currencyCode = null, string $locale = null)
     {
         return $this->inner->getCurrencySymbolByCurrency($currencyCode ?: $this->getCurrency(), $locale);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getTimeZone()
     {
         return $this->inner->getTimeZone();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getCalendar($locale = null, $language = null)
     {
         return $this->inner->getCalendar($locale ?: $this->getLocale(), $language ?: $this->getLanguage());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLocaleWithRegion()
     {
         if (!$this->frontendHelper->isFrontendRequest()) {
@@ -253,33 +217,25 @@ class LocaleSettings extends BaseLocaleSettings
         return $this->getLocaleByCountry($this->getCountry());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function get($settingName)
     {
         return $this->inner->get($settingName);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLocalesByCodes(array $codes, $locale = 'en')
     {
         return $this->inner->getLocalesByCodes($codes, $locale);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getFirstQuarterMonth()
     {
         return $this->inner->getFirstQuarterMonth();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getFirstQuarterDay()
     {
         return $this->inner->getFirstQuarterDay();

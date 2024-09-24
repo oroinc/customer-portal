@@ -18,6 +18,7 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
     /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenStorage;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
@@ -147,6 +148,7 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
         ];
     }
 
+    #[\Override]
     protected function getExtensions(): array
     {
         $type = new CustomerVisitorEmailAddressType($this->tokenStorage);

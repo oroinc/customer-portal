@@ -19,9 +19,7 @@ class ChainGuestAccessAllowedUrlsProvider implements GuestAccessAllowedUrlsProvi
         $this->providers = $providers;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getAllowedUrlsPatterns(): array
     {
         $allowedUrls = [];

@@ -31,6 +31,7 @@ class CustomerUserPasswordRequestHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserPasswordRequestHandler */
     private $handler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->userManager = $this->createMock(CustomerUserManager::class);

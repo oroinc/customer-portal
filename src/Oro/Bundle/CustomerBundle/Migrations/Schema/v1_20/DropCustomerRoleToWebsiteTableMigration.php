@@ -9,17 +9,13 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class DropCustomerRoleToWebsiteTableMigration implements Migration, OrderedMigrationInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getOrder()
     {
         return 30;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         if (!$schema->hasTable('oro_customer_role_to_website')) {

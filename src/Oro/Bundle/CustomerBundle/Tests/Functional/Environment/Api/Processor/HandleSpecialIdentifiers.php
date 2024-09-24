@@ -25,9 +25,7 @@ class HandleSpecialIdentifiers implements ProcessorInterface
         $this->tokenStorage = $tokenStorage;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(ContextInterface $context): void
     {
         /** @var SingleItemContext $context */

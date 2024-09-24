@@ -35,6 +35,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
     /** @var CustomerUserRoleUpdateHandler */
     private $handler;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -43,6 +44,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
         $this->setRequirementsForHandler($this->handler);
     }
 
+    #[\Override]
     protected function getHandler(): AbstractCustomerUserRoleHandler
     {
         if (!$this->handler) {
@@ -374,6 +376,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
         $handler->process($role);
     }
 
+    #[\Override]
     public function processWithCustomerProvider(): array
     {
         /** @var CustomerUser[] $users */

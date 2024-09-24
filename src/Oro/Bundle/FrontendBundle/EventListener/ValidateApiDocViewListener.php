@@ -34,6 +34,7 @@ class ValidateApiDocViewListener extends BaseValidateApiDocViewListener
         $this->frontendDefaultView = $frontendDefaultView;
     }
 
+    #[\Override]
     protected function isValidView(Request $request): bool
     {
         if (!parent::isValidView($request)) {
@@ -52,6 +53,7 @@ class ValidateApiDocViewListener extends BaseValidateApiDocViewListener
         return true;
     }
 
+    #[\Override]
     protected function getDefaultView(Request $request): ?string
     {
         if ($this->isFrontendRequest($request)) {

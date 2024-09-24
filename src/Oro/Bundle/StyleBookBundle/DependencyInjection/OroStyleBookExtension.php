@@ -9,9 +9,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class OroStyleBookExtension extends Extension
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
@@ -19,9 +17,7 @@ class OroStyleBookExtension extends Extension
         $loader->load('controllers.yml');
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getAlias(): string
     {
         return 'oro_stylebook';

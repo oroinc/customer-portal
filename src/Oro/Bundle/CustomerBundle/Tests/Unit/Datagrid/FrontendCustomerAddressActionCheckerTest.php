@@ -13,6 +13,7 @@ class FrontendCustomerAddressActionCheckerTest extends \PHPUnit\Framework\TestCa
     /** @var FrontendCustomerAddressActionChecker */
     private $actionChecker;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);

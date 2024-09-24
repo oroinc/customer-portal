@@ -25,6 +25,7 @@ class EnumFilterFrontendListenerTest extends \PHPUnit\Framework\TestCase
     /** @var EnumFilterFrontendListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

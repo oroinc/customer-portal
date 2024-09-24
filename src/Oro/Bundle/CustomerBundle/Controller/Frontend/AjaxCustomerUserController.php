@@ -16,15 +16,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class AjaxCustomerUserController extends AbstractAjaxCustomerUserController
 {
-    /**
-     * {@inheritdoc}
-     */
     #[Route(
         path: '/get-customer/{id}',
         name: 'oro_customer_frontend_customer_user_get_customer',
         requirements: ['id' => '\d+']
     )]
     #[AclAncestor('oro_customer_frontend_customer_user_view')]
+    #[\Override]
     public function getCustomerIdAction(CustomerUser $customerUser)
     {
         return parent::getCustomerIdAction($customerUser);
@@ -44,9 +42,7 @@ class AjaxCustomerUserController extends AbstractAjaxCustomerUserController
         return new JsonResponse(['valid' => count($violations) === 0]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return array_merge(

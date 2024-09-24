@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class WrongApiUriRequestsTest extends FrontendRestJsonApiTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

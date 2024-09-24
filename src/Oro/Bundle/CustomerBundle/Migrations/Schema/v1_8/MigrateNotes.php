@@ -24,9 +24,7 @@ class MigrateNotes extends UpdateNoteAssociationKindForRenamedEntitiesMigration
         'CustomerGroupCategoryVisibility',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getRenamedEntitiesNames(Schema $schema)
     {
         $b2bNameSpace = 'OroB2B\Bundle\AccountBundle\Entity';

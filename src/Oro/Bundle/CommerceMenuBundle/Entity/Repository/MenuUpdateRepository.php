@@ -13,6 +13,7 @@ class MenuUpdateRepository extends BaseMenuUpdateRepository
     /**
      * Set uri, contentNode and systemPageRoute of dependent menu updates based on global version
      */
+    #[\Override]
     public function updateDependentMenuUpdates(MenuUpdateInterface $menuUpdate): void
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
@@ -35,6 +36,7 @@ class MenuUpdateRepository extends BaseMenuUpdateRepository
         $qb->getQuery()->execute();
     }
 
+    #[\Override]
     protected function loadMenuUpdateDependencies(array $menuUpdates): void
     {
         parent::loadMenuUpdateDependencies($menuUpdates);

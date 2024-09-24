@@ -29,9 +29,7 @@ class SetWebsite implements ProcessorInterface
         $this->websiteFieldName = $websiteFieldName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(ContextInterface $context): void
     {
         /** @var CustomizeFormDataContext $context */

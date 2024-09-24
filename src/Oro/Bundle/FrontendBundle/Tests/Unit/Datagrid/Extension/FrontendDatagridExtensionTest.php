@@ -16,6 +16,7 @@ class FrontendDatagridExtensionTest extends \PHPUnit\Framework\TestCase
     /** @var FrontendDatagridExtension */
     private $extension;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->frontendHelper = $this->createMock(FrontendHelper::class);

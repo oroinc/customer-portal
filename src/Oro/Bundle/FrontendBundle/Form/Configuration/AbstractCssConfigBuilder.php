@@ -28,6 +28,7 @@ abstract class AbstractCssConfigBuilder extends AbstractConfigurationChildBuilde
         parent::__construct($packages);
     }
 
+    #[\Override]
     public function buildOption(FormBuilderInterface $builder, array $option): void
     {
         $builder->add(
@@ -78,6 +79,7 @@ abstract class AbstractCssConfigBuilder extends AbstractConfigurationChildBuilde
         $this->parentFormType = $parentFormType;
     }
 
+    #[\Override]
     protected function getDefaultOptions(): array
     {
         return [
@@ -85,11 +87,13 @@ abstract class AbstractCssConfigBuilder extends AbstractConfigurationChildBuilde
         ];
     }
 
+    #[\Override]
     protected function getTypeClass(): string
     {
         return CssVariableType::class;
     }
 
+    #[\Override]
     protected function getConfiguredOptions(array $option): array
     {
         $configuredOptions = parent::getConfiguredOptions($option);

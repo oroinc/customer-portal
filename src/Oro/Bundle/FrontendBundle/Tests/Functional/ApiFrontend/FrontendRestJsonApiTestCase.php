@@ -51,6 +51,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         $this->isVisitorEnabled = false;
     }
 
+    #[\Override]
     protected function assertPreConditions(): void
     {
         parent::assertPreConditions();
@@ -63,9 +64,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function postFixtureLoad()
     {
         parent::postFixtureLoad();
@@ -105,9 +104,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         self::getWebsiteManagerStub()->disableStub();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getListenersThatShouldBeDisabledDuringDataFixturesLoading()
     {
         $listeners = parent::getListenersThatShouldBeDisabledDuringDataFixturesLoading();
@@ -118,9 +115,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         return $listeners;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getRequestType(): RequestType
     {
         $requestType = parent::getRequestType();
@@ -170,9 +165,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         $this->client->getCookieJar()->set($markerCookie);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getWsseAuthHeader(): array
     {
         /**
@@ -192,41 +185,31 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         return parent::getWsseAuthHeader();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getItemRouteName(): string
     {
         return 'oro_frontend_rest_api_item';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getListRouteName(): string
     {
         return 'oro_frontend_rest_api_list';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getSubresourceRouteName(): string
     {
         return 'oro_frontend_rest_api_subresource';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getRelationshipRouteName(): string
     {
         return 'oro_frontend_rest_api_relationship';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getUrl($name, $parameters = [], $absolute = false)
     {
         // substitute the path info to avoid unnecessary usage of slugs

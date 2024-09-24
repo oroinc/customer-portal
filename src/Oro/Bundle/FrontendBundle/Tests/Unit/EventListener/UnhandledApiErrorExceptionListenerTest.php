@@ -28,6 +28,7 @@ class UnhandledApiErrorExceptionListenerTest extends \PHPUnit\Framework\TestCase
     /** @var UnhandledApiErrorExceptionListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $backendPrefix = '/admin';

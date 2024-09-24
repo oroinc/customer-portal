@@ -40,6 +40,7 @@ class LoadCustomerUserRoleACLData extends AbstractLoadACLData
         ]
     ];
 
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         parent::load($manager);
@@ -95,9 +96,7 @@ class LoadCustomerUserRoleACLData extends AbstractLoadACLData
         $this->getAclManager()->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAclResourceClassName()
     {
         return CustomerUserRole::class;
@@ -106,6 +105,7 @@ class LoadCustomerUserRoleACLData extends AbstractLoadACLData
     /**
      * @return array
      */
+    #[\Override]
     protected function getSupportedRoles()
     {
         return [

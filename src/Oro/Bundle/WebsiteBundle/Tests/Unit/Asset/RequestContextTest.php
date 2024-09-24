@@ -10,6 +10,7 @@ class RequestContextTest extends \PHPUnit\Framework\TestCase
     /** @var BasePathResolver|\PHPUnit\Framework\MockObject\MockObject */
     private $resolver;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->resolver = $this->createMock(BasePathResolver::class);

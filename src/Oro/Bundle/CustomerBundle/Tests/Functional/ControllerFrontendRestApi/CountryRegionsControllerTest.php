@@ -6,6 +6,7 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class CountryRegionsControllerTest extends WebTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

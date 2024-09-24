@@ -38,6 +38,7 @@ class QuickAccessButtonWebCatalogNodeMenuBuilder implements BuilderInterface
         $this->doctrine = $doctrine;
     }
 
+    #[\Override]
     public function build(ItemInterface $menu, array $options = [], $alias = null): void
     {
         if ('quick_access_button_menu' !== $alias) {

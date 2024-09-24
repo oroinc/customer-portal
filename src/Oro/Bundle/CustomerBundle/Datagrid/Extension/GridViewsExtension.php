@@ -6,9 +6,7 @@ use Oro\Bundle\DataGridBundle\Extension\GridViews\GridViewsExtension as BaseGrid
 
 class GridViewsExtension extends BaseGridViewsExtension
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getPermissions()
     {
         return [

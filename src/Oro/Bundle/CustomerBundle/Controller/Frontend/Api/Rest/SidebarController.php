@@ -13,6 +13,7 @@ class SidebarController extends BaseController
     /**
      * @return string
      */
+    #[\Override]
     protected function getSidebarStateClass()
     {
         return CustomerUserSidebarState::class;

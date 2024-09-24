@@ -19,6 +19,7 @@ class EmailTemplateSystemVariablesProviderTest extends TestCase
 
     private EmailTemplateSystemVariablesProvider $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->websiteManager = $this->createMock(WebsiteManager::class);

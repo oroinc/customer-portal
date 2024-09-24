@@ -27,9 +27,7 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
 
     private const CORS_SETTINGS_SERVICE_ID = 'oro_frontend.api.rest.cors_settings';
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
@@ -58,9 +56,7 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         $this->configureApiCors($container, $config);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function prepend(ContainerBuilder $container): void
     {
         if ($container instanceof ExtendedContainerBuilder) {

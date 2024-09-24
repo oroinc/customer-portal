@@ -14,9 +14,7 @@ class LoadNavigationItemData extends AbstractFixture implements DependentFixture
     const ITEM_2 = 'oro_customer_bundle.item_2';
     const ITEM_3 = 'oro_customer_bundle.item_3';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         /** @var CustomerUser $user */
@@ -55,9 +53,7 @@ class LoadNavigationItemData extends AbstractFixture implements DependentFixture
         $manager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [LoadCustomerUserData::class];

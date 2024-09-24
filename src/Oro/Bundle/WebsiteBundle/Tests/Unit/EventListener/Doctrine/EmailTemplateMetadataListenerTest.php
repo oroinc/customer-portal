@@ -13,6 +13,7 @@ class EmailTemplateMetadataListenerTest extends TestCase
 {
     private EmailTemplateMetadataListener $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->listener = new EmailTemplateMetadataListener();

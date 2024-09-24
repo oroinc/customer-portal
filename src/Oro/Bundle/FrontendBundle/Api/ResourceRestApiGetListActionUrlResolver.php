@@ -31,9 +31,7 @@ class ResourceRestApiGetListActionUrlResolver implements ResourceApiUrlResolverI
         $this->entityClass = $entityClass;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function resolveApiUrl(
         string $routeName,
         array $routeParameters,

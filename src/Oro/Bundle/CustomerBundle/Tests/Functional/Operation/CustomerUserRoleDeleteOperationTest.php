@@ -10,9 +10,7 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRole
 
 class CustomerUserRoleDeleteOperationTest extends ActionTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());

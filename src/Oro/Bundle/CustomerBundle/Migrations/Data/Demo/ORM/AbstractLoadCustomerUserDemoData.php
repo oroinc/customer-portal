@@ -27,9 +27,7 @@ abstract class AbstractLoadCustomerUserDemoData extends AbstractFixture implemen
     /** @var array */
     public static $customerUsersReferencesNames = [];
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
@@ -63,9 +61,7 @@ abstract class AbstractLoadCustomerUserDemoData extends AbstractFixture implemen
      */
     abstract protected function getWebsite(ObjectManager $manager);
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         $organization = $this->getOrganization($manager);

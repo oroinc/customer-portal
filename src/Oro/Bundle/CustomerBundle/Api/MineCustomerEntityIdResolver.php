@@ -19,9 +19,7 @@ class MineCustomerEntityIdResolver implements EntityIdResolverInterface
         $this->tokenAccessor = $tokenAccessor;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDescription(): string
     {
         return <<<MARKDOWN
@@ -29,9 +27,7 @@ class MineCustomerEntityIdResolver implements EntityIdResolverInterface
 MARKDOWN;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function resolve(): mixed
     {
         $user = $this->tokenAccessor->getUser();

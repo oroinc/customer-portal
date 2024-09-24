@@ -14,17 +14,13 @@ class LoadUserRolesData extends AbstractRolesData
 {
     protected const ROLES_FILE_NAME = 'backend_roles.yml';
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [LoadOrganizationAndBusinessUnitData::class];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function findEntity(ObjectManager $manager, string $name, ?string $label): ?AbstractRole
     {
         $entity = $manager->getRepository(Role::class)->findOneBy(['role' => $name]);
@@ -35,9 +31,7 @@ class LoadUserRolesData extends AbstractRolesData
         return $entity;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function createEntity(string $name, string $label): AbstractRole
     {
         $entity = new Role($name);

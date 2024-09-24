@@ -24,6 +24,7 @@ class CustomerDatagridListenerTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerDatagridListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->securityProvider = $this->createMock(CustomerUserProvider::class);

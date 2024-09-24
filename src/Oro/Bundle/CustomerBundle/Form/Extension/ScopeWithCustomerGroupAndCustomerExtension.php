@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormEvents;
  */
 class ScopeWithCustomerGroupAndCustomerExtension extends AbstractTypeExtension
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (PreSubmitEvent $event) {
@@ -27,6 +28,7 @@ class ScopeWithCustomerGroupAndCustomerExtension extends AbstractTypeExtension
         });
     }
 
+    #[\Override]
     public static function getExtendedTypes(): iterable
     {
         return [ScopeCollectionType::class];

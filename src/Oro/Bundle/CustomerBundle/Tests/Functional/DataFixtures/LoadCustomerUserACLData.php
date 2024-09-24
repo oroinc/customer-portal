@@ -7,9 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 
 class LoadCustomerUserACLData extends AbstractLoadACLData
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAclResourceClassName()
     {
         return [CustomerUser::class, CustomerUserRole::class];
@@ -18,6 +16,7 @@ class LoadCustomerUserACLData extends AbstractLoadACLData
     /**
      * @return array
      */
+    #[\Override]
     protected function getSupportedRoles()
     {
         return [

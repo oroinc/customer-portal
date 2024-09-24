@@ -23,6 +23,7 @@ class SetDefaultWebsiteTest extends CustomizeFormDataProcessorTestCase
     /** @var SetDefaultWebsite */
     private $processor;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

@@ -40,6 +40,7 @@ class FrontendCustomerUserRoleTabOptionsProvider implements FrontendCustomerUser
         $this->aclRoleHandler = $aclRoleHandler;
     }
 
+    #[\Override]
     public function getOptions(CustomerUserRole $role): array
     {
         if (null === $this->options) {

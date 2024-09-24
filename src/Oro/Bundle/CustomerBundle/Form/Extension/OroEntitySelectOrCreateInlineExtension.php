@@ -23,9 +23,7 @@ class OroEntitySelectOrCreateInlineExtension extends AbstractTypeExtension
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         if ($this->frontendHelper->isFrontendRequest()) {
@@ -33,9 +31,7 @@ class OroEntitySelectOrCreateInlineExtension extends AbstractTypeExtension
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         // Search queries must be routed to frontend instead of backend when called from frontend
@@ -47,9 +43,7 @@ class OroEntitySelectOrCreateInlineExtension extends AbstractTypeExtension
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getExtendedTypes(): iterable
     {
         return [OroEntitySelectOrCreateInlineType::class];

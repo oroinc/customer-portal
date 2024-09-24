@@ -28,6 +28,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserRoleVoter */
     private $voter;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);

@@ -16,9 +16,7 @@ class EntitySelectTypeStub extends EntityTypeStub
         $this->formType = $formType;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);

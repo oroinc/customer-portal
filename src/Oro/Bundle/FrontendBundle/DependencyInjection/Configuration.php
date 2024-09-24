@@ -16,9 +16,7 @@ class Configuration implements ConfigurationInterface
     public const FILTER_VALUE_SELECTORS_ALL_AT_ONCE = 'all_at_once';
     public const FILTER_VALUE_SELECTORS_DROPDOWN = 'dropdown';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder(self::ROOT_NODE);

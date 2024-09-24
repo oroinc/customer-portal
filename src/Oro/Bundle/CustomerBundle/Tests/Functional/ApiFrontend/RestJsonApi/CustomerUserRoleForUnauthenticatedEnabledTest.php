@@ -8,6 +8,7 @@ class CustomerUserRoleForUnauthenticatedEnabledTest extends CustomerUserRoleForU
 {
     use UnauthenticatedEnabledTestTrait;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

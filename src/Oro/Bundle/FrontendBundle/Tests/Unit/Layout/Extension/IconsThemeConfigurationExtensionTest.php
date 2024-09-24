@@ -19,6 +19,7 @@ class IconsThemeConfigurationExtensionTest extends TestCase
 
     private ThemeConfigurationProvider $themeConfigurationProvider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $cacheFile = $this->getTempFile('IconsThemeConfigurationExtension');

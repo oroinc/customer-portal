@@ -15,6 +15,7 @@ class CheckboxBuilderTest extends WebTestCase
 {
     private FormFactoryInterface $formFactory;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

@@ -11,9 +11,7 @@ class FrontendCustomerUserTypedAddressType extends FrontendCustomerTypedAddressT
 {
     const NAME = 'oro_customer_frontend_customer_user_typed_address';
 
-    /**
-     * {@inheritdoce}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);

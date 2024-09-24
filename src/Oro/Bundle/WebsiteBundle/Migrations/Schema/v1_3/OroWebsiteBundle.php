@@ -24,9 +24,7 @@ class OroWebsiteBundle implements
     use NameGeneratorAwareTrait;
     use RenameExtensionAwareTrait;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         $this->updateLocaleTable($schema, $queries);

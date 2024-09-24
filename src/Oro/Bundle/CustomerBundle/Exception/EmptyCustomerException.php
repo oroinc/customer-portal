@@ -9,9 +9,7 @@ use Symfony\Component\Security\Core\Exception\AccountStatusException;
  */
 class EmptyCustomerException extends AccountStatusException
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getMessageKey(): string
     {
         return 'oro_customer.login.errors.empty_customer';

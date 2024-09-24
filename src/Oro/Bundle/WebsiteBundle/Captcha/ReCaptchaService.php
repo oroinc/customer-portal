@@ -31,6 +31,7 @@ class ReCaptchaService extends BaseService
         $this->frontendHelper = $frontendHelper;
     }
 
+    #[\Override]
     protected function getCurrentUrl(): string
     {
         if ($this->frontendHelper->isFrontendRequest()) {

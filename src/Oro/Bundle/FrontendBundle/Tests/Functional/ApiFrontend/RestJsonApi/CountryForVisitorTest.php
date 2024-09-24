@@ -9,6 +9,7 @@ use Oro\Bundle\FrontendBundle\Tests\Functional\ApiFrontend\FrontendRestJsonApiTe
  */
 class CountryForVisitorTest extends FrontendRestJsonApiTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

@@ -18,6 +18,7 @@ class UpdateBrokenInheritedUris extends BaseUpdateBrokenInheritedUris
      * @param ObjectManager $manager
      * @return \Doctrine\Persistence\ObjectRepository|MenuUpdateRepository
      */
+    #[\Override]
     protected function getRepository(ObjectManager $manager)
     {
         return $manager->getRepository(MenuUpdate::class);
@@ -27,6 +28,7 @@ class UpdateBrokenInheritedUris extends BaseUpdateBrokenInheritedUris
      * @param MenuUpdateRepository $repo
      * @return \Iterator|MenuUpdate[]
      */
+    #[\Override]
     protected function getBrokenMenuUpdates(MenuUpdateRepository $repo)
     {
         $scopeManager = $this->container->get(ScopeManager::class);

@@ -99,9 +99,7 @@ class LoadFeaturedMenuData extends AbstractFixture implements ContainerAwareInte
         ],
     ];
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         $scope = $this->getScope();

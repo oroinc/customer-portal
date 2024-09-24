@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  */
 class PageTargetValidator extends ConstraintValidator
 {
+    #[\Override]
     public function validate($value, Constraint $constraint): void
     {
         if (!$value instanceof MenuUpdate) {

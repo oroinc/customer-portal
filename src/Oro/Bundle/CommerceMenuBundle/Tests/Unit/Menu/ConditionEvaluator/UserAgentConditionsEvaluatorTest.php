@@ -30,6 +30,7 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
     /** @var UserAgentConditionsEvaluator */
     private $userAgentConditionsEvaluator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->menuItem = $this->createMock(ItemInterface::class);

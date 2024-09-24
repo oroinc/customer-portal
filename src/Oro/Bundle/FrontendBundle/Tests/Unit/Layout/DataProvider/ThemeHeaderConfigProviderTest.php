@@ -17,6 +17,7 @@ final class ThemeHeaderConfigProviderTest extends TestCase
     private ThemeConfigurationProvider|MockObject $themeConfigurationProvider;
     private ThemeHeaderConfigProvider $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->quickAccessButtonDataProvider = $this->createMock(QuickAccessButtonDataProvider::class);

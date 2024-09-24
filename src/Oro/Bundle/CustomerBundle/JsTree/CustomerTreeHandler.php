@@ -12,6 +12,7 @@ class CustomerTreeHandler extends AbstractTreeHandler
      * @param bool $includeRoot
      * @return array
      */
+    #[\Override]
     protected function getNodes($root, $includeRoot)
     {
         $entities = [];
@@ -25,6 +26,7 @@ class CustomerTreeHandler extends AbstractTreeHandler
      * @param Customer $entity
      * @return array
      */
+    #[\Override]
     protected function formatEntity($entity)
     {
         return [
@@ -56,9 +58,7 @@ class CustomerTreeHandler extends AbstractTreeHandler
         return $entities;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function moveProcessing($entityId, $parentId, $position)
     {
         throw new \LogicException('Customer moving is not supported');

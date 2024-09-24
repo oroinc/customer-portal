@@ -25,9 +25,7 @@ class GuestAccessDecisionMaker implements GuestAccessDecisionMakerInterface
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function decide(string $url): int
     {
         if (!$this->frontendHelper->isFrontendUrl($url)) {

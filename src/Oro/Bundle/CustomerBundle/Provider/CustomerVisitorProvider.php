@@ -24,6 +24,7 @@ class CustomerVisitorProvider implements UserProviderInterface
     ) {
     }
 
+    #[\Override]
     public function refreshUser(UserInterface $customerVisitor): UserInterface
     {
         if (!$customerVisitor instanceof CustomerVisitor) {
@@ -55,11 +56,13 @@ class CustomerVisitorProvider implements UserProviderInterface
         return $customerVisitor;
     }
 
+    #[\Override]
     public function supportsClass(string $class): bool
     {
         return $class === CustomerVisitor::class;
     }
 
+    #[\Override]
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
         if (!VisitorIdentifierUtil::isVisitorIdentifier($identifier)) {

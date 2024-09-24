@@ -35,17 +35,13 @@ class LoadBayerCustomerUserProfileData extends AbstractAddressesFixture implemen
         ]
     ];
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [LoadBuyerCustomerUserData::class, LoadOrganization::class];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         foreach ($this->addresses as $addressData) {

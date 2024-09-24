@@ -11,9 +11,7 @@ use Oro\Bundle\SecurityBundle\EventListener\SearchListener;
  */
 class FrontendSearchListener extends SearchListener
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function collectEntityMapEvent(SearchMappingCollectEvent $event): void
     {
         $mapConfig = $event->getMappingConfig();
@@ -35,9 +33,7 @@ class FrontendSearchListener extends SearchListener
         $event->setMappingConfig($mapConfig);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function prepareEntityMapEvent(PrepareEntityMapEvent $event): void
     {
         $metadata = $this->metadataProvider->getMetadata($event->getClassName());

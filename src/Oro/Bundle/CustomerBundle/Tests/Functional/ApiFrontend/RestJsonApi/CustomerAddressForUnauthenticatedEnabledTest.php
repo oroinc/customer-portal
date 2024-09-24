@@ -8,6 +8,7 @@ class CustomerAddressForUnauthenticatedEnabledTest extends CustomerAddressForUna
 {
     use UnauthenticatedEnabledTestTrait;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

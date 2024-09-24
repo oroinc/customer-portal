@@ -40,6 +40,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
     /** @var FrontendOwnerTreeProvider */
     private $treeProvider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $conn = new ConnectionMock([], new DriverMock());

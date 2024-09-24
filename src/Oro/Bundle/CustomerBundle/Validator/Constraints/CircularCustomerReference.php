@@ -18,17 +18,13 @@ class CircularCustomerReference extends Constraint
     /** @var string */
     public $messageItself = 'oro.customer.message.customer_reference_to_itself';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'parent_customer_validator';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;

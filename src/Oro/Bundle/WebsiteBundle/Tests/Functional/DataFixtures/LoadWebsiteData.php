@@ -33,9 +33,7 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
         self::WEBSITE3,
     ];
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [LoadLocalizationData::class];
@@ -44,6 +42,7 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
     /**
      * Load websites
      */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         /** @var EntityManager $manager */

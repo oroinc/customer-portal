@@ -26,6 +26,7 @@ class ThemeListenerTest extends TestCase
 
     private ThemeListener $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->helper = $this->createMock(FrontendHelper::class);

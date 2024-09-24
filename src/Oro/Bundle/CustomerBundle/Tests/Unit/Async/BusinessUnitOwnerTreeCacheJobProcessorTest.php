@@ -26,6 +26,7 @@ class BusinessUnitOwnerTreeCacheJobProcessorTest extends \PHPUnit\Framework\Test
 
     private JobRunner $jobRunner;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->messageFactory = $this->createMock(BusinessUnitMessageFactory::class);

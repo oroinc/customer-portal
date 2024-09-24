@@ -16,9 +16,7 @@ class LoggedInExpressionLanguageProvider implements ExpressionFunctionProviderIn
         $this->tokenAccessor = $tokenAccessor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getFunctions(): array
     {
         return [

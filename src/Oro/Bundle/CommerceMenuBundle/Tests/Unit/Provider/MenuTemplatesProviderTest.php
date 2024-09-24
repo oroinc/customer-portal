@@ -14,6 +14,7 @@ class MenuTemplatesProviderTest extends \PHPUnit\Framework\TestCase
     private CacheInterface|\PHPUnit\Framework\MockObject\MockObject $cache;
     private MenuTemplatesProvider $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->themeManager = $this->createMock(ThemeManager::class);

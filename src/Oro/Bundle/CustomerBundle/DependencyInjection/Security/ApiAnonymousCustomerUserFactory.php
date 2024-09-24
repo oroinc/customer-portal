@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class ApiAnonymousCustomerUserFactory implements AuthenticatorFactoryInterface, FirewallListenerFactoryInterface
 {
+    #[\Override]
     public function createAuthenticator(
         ContainerBuilder $container,
         string $firewallName,
@@ -31,23 +32,24 @@ class ApiAnonymousCustomerUserFactory implements AuthenticatorFactoryInterface, 
         return $authenticatorId;
     }
 
+    #[\Override]
     public function getPriority(): int
     {
         return -60;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getKey(): string
     {
         return 'api_anonymous_customer_user';
     }
 
+    #[\Override]
     public function addConfiguration(NodeDefinition $builder): void
     {
     }
 
+    #[\Override]
     public function createListeners(ContainerBuilder $container, string $firewallName, array $config): array
     {
         $onNoTokenListenerId = 'oro_customer.authentication.listener.notoken.' . $firewallName;

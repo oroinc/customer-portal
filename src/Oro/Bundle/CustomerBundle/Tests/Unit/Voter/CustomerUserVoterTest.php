@@ -15,6 +15,7 @@ class CustomerUserVoterTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserVoter */
     private $voter;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);

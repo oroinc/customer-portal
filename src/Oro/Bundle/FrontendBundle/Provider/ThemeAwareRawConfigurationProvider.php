@@ -44,6 +44,7 @@ class ThemeAwareRawConfigurationProvider implements RawConfigurationProviderInte
     ) {
     }
 
+    #[\Override]
     public function getRawConfiguration(string $gridName): ?array
     {
         if (!$this->frontendHelper->isFrontendRequest()) {
@@ -55,9 +56,7 @@ class ThemeAwareRawConfigurationProvider implements RawConfigurationProviderInte
         return $this->rawConfiguration[$gridName] ?? null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function warmUpCache(): void
     {
         // warm up original decorated raw config provider

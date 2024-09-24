@@ -12,17 +12,13 @@ use Psr\Log\LoggerInterface;
  */
 class EnableCaseInsensitiveEmailConfigQuery extends ParametrizedMigrationQuery
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDescription()
     {
         return 'Enable case insensitive email option for Customer Users';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function execute(LoggerInterface $logger)
     {
         if (!$this->connection->getDatabasePlatform() instanceof MySqlPlatform) {

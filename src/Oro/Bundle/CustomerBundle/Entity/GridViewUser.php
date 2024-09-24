@@ -23,9 +23,7 @@ class GridViewUser extends AbstractGridViewUser
     #[ORM\JoinColumn(name: 'customer_user_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     protected ?CustomerUser $customerUser = null;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function setUser(AbstractUser $user = null)
     {
         $this->customerUser = $user;
@@ -33,9 +31,7 @@ class GridViewUser extends AbstractGridViewUser
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getUser()
     {
         return $this->customerUser;

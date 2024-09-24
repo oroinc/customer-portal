@@ -18,9 +18,7 @@ class CustomerDeleteHandlerExtension extends AbstractEntityDeleteHandlerExtensio
         $this->customerAssignHelper = $customerAssignHelper;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function assertDeleteGranted($entity): void
     {
         /** @var Customer $entity */

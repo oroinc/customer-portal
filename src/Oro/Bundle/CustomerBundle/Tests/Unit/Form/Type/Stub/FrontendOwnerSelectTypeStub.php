@@ -7,17 +7,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FrontendOwnerSelectTypeStub extends EntityTypeStub
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'oro_customer_frontend_owner_select';
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);

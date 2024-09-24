@@ -47,9 +47,7 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
         $this->visitorAclCache = $visitorAclCache;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function createRoleFormInstance(AbstractRole $role, array $privilegeConfig)
     {
         return $this->formFactory->create(
@@ -59,9 +57,7 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function filterPrivileges(ArrayCollection $privileges, array $rootIds)
     {
         $privileges = parent::filterPrivileges($privileges, $rootIds);
@@ -81,9 +77,7 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
         return $privileges;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getAclGroup()
     {
         return CustomerUser::SECURITY_GROUP;
@@ -160,6 +154,7 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
         }
     }
 
+    #[\Override]
     protected function clearAclCache(AbstractRole $role): void
     {
         if ($role instanceof CustomerUserRole) {

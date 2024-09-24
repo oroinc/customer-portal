@@ -18,6 +18,7 @@ class TagsExtension extends BaseTagsExtension
         $this->frontendHelper = $frontendHelper;
     }
 
+    #[\Override]
     public function isApplicable(DatagridConfiguration $config)
     {
         if ($this->frontendHelper->isFrontendRequest()) {

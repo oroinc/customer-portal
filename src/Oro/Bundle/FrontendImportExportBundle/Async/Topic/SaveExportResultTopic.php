@@ -11,16 +11,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class SaveExportResultTopic extends AbstractTopic
 {
+    #[\Override]
     public static function getName(): string
     {
         return 'oro_frontend_importexport.save_import_export_result';
     }
 
+    #[\Override]
     public static function getDescription(): string
     {
         return 'Processes storefront export results before they are stored';
     }
 
+    #[\Override]
     public function configureMessageBody(OptionsResolver $resolver): void
     {
         $resolver

@@ -21,9 +21,7 @@ class AddressExtension extends AbstractTypeExtension
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         if ($this->frontendHelper->isFrontendRequest()) {
@@ -31,9 +29,7 @@ class AddressExtension extends AbstractTypeExtension
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getExtendedTypes(): iterable
     {
         return [AddressType::class];

@@ -10,6 +10,7 @@ class PageTemplateEntityFieldFallbackValueTransformerTest extends \PHPUnit\Frame
     /** @var PageTemplateEntityFieldFallbackValueTransformer */
     private $transformer;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->transformer = new PageTemplateEntityFieldFallbackValueTransformer('route_name');

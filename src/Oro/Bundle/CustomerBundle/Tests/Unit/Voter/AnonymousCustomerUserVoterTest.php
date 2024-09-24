@@ -25,9 +25,7 @@ class AnonymousCustomerUserVoterTest extends \PHPUnit\Framework\TestCase
      */
     private $voter;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->configVoter = $this->createMock(VoterInterface::class);

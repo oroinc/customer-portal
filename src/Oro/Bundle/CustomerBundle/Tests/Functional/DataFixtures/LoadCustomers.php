@@ -28,33 +28,13 @@ class LoadCustomers extends AbstractFixture implements DependentFixtureInterface
     const CUSTOMER_LEVEL_1_DOT_4_DOT_1_DOT_1 = 'customer.level_1.4.1.1';
     const CUSTOMER_LEVEL_1 = 'customer.level_1';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [LoadUser::class, LoadGroups::class];
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * customer.orphan
-     * customer.level_1
-     *     customer.level_1.1
-     *         customer.level_1.1.1
-     *         customer.level_1.1.2
-     *     customer.level_1.2
-     *         customer.level_1.2.1
-     *             customer.level_1.2.1.1
-     *     customer.level_1.3
-     *         customer.level_1.3.1
-     *             customer.level_1.3.1.1
-     *     customer.level_1.4
-     *         customer.level_1.4.1
-     *             customer.level_1.4.1.1
-     * customer.level_1_1
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         /** @var User $owner */

@@ -15,6 +15,7 @@ class BasePathResolverTest extends \PHPUnit\Framework\TestCase
     /** @var BasePathResolver */
     private $resolver;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->requestStack = $this->createMock(RequestStack::class);

@@ -14,6 +14,7 @@ use Oro\Bundle\IntegrationBundle\ImportExport\Writer\PersistentBatchWriter;
  */
 class DeleteAwareWriter extends PersistentBatchWriter
 {
+    #[\Override]
     protected function saveItems(array $items, EntityManager $em)
     {
         $context = $this->contextRegistry->getByStepExecution($this->stepExecution);

@@ -15,6 +15,7 @@ class AddressExtensionTest extends \PHPUnit\Framework\TestCase
     /** @var AddressExtension */
     private $extension;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->frontendHelper = $this->createMock(FrontendHelper::class);

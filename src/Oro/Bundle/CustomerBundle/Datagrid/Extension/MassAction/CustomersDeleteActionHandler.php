@@ -18,9 +18,7 @@ class CustomersDeleteActionHandler extends DeleteMassActionHandler
         $this->tokenAccessor = $tokenAccessor;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function isDeleteAllowed(object $entity): bool
     {
         /** @var CustomerUser $entity */

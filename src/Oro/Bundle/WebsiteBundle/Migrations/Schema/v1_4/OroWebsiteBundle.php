@@ -26,9 +26,7 @@ class OroWebsiteBundle implements
     use DatabasePlatformAwareTrait;
     use RenameExtensionAwareTrait;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         $this->changeLocalizationRelations($queries);
@@ -197,9 +195,7 @@ class OroWebsiteBundle implements
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getOrder()
     {
         return 0;

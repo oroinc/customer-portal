@@ -28,6 +28,7 @@ class EnabledLocalizationsSearchHandler extends SearchHandler
     /**
      * @return array [Localization]
      */
+    #[\Override]
     protected function searchEntities($search, $firstResult, $maxResults): array
     {
         if (!str_contains($search, static::DELIMITER)) {
@@ -54,8 +55,8 @@ class EnabledLocalizationsSearchHandler extends SearchHandler
     /**
      * Overwrites parent method mo make grid search work correct considering new delimiter ";" which divides
      * localization id and website
-     * {@inheritdoc}
      */
+    #[\Override]
     protected function findById($query): array
     {
         // By ";" - delimiter. Calling this method assumes we search only for ONE entity

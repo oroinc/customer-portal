@@ -10,9 +10,7 @@ use Oro\Bundle\UserBundle\Security\UserProvider;
 
 class UserProviderTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient(

@@ -13,6 +13,7 @@ final class ThemeCssVariablesConfigProviderTest extends TestCase
     private ThemeConfigurationProvider&MockObject $themeConfigurationProvider;
     private ThemeCssVariablesConfigProvider $themeCssVariablesConfigProvider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->themeConfigurationProvider = $this->createMock(ThemeConfigurationProvider::class);

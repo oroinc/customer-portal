@@ -13,23 +13,20 @@ class FrontendMassActionDatagridExtension extends AbstractExtension
 {
     private const ACTION_KEY = 'mass_actions';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isApplicable(DatagridConfiguration $config): bool
     {
         return parent::isApplicable($config) && $this->isFrontendGrid($config);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getPriority(): int
     {
         //  Must be called before Oro\Bundle\DataGridBundle\Extension\MassAction\MassActionExtension.
         return 210;
     }
 
+    #[\Override]
     public function visitMetadata(DatagridConfiguration $config, MetadataObject $data): void
     {
         $massActionsConfig = $config->offsetGetOr(self::ACTION_KEY, []);

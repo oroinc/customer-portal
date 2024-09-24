@@ -8,9 +8,9 @@ use Oro\Bundle\ImportExportBundle\Serializer\Normalizer\ConfigurableEntityNormal
 class CustomerNormalizer extends ConfigurableEntityNormalizer
 {
     /**
-     * {@inheritdoc}
      * @param Customer $object
      */
+    #[\Override]
     public function normalize($object, string $format = null, array $context = [])
     {
         $result = parent::normalize($object, $format, $context);
@@ -28,17 +28,13 @@ class CustomerNormalizer extends ConfigurableEntityNormalizer
         return $result;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function supportsNormalization($data, string $format = null, array $context = []): bool
     {
         return $data instanceof Customer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function supportsDenormalization($data, string $type, string $format = null, array $context = []): bool
     {
         return is_a($type, Customer::class, true);

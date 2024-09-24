@@ -26,9 +26,7 @@ class AddressProviderTest extends \PHPUnit\Framework\TestCase
     /** @var AddressProvider */
     protected $provider;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->router = $this->createMock(UrlGeneratorInterface::class);

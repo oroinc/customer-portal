@@ -26,11 +26,13 @@ class AnonymousCustomerUserBadge extends UserBadge
         $this->userLoader = $userLoader;
     }
 
+    #[\Override]
     public function getUserIdentifier(): string
     {
         return $this->userIdentifier;
     }
 
+    #[\Override]
     public function getUser(): UserInterface
     {
         if (null !== $this->user) {
@@ -68,16 +70,19 @@ class AnonymousCustomerUserBadge extends UserBadge
         return $this->user = $user;
     }
 
+    #[\Override]
     public function getUserLoader(): ?callable
     {
         return $this->userLoader;
     }
 
+    #[\Override]
     public function setUserLoader(callable $userLoader): void
     {
         $this->userLoader = $userLoader;
     }
 
+    #[\Override]
     public function isResolved(): bool
     {
         return true;

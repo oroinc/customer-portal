@@ -12,6 +12,7 @@ class ApiAnonymousCustomerUserFactoryTest extends \PHPUnit\Framework\TestCase
 {
     private ApiAnonymousCustomerUserFactory $factory;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->factory = new ApiAnonymousCustomerUserFactory();

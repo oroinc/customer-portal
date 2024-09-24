@@ -29,9 +29,7 @@ class CustomerUserRepository extends AbstractUserRepository implements EmailAwar
             ->getOneOrNullResult();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getQbForFindUserByEmail(string $email, bool $useLowercase): QueryBuilder
     {
         $qb = parent::getQbForFindUserByEmail($email, $useLowercase);
@@ -41,9 +39,7 @@ class CustomerUserRepository extends AbstractUserRepository implements EmailAwar
         return $qb;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getQbForFindLowercaseDuplicatedEmails(int $limit): QueryBuilder
     {
         $qb = parent::getQbForFindLowercaseDuplicatedEmails($limit);
@@ -53,9 +49,7 @@ class CustomerUserRepository extends AbstractUserRepository implements EmailAwar
         return $qb;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getPrimaryEmailsQb($fullNameQueryPart, array $excludedEmailNames = [], $query = null)
     {
         $qb = $this->createQueryBuilder('cu');
@@ -90,9 +84,7 @@ class CustomerUserRepository extends AbstractUserRepository implements EmailAwar
         return $qb;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getSecondaryEmailsQb($fullNameQueryPart, array $excludedEmailNames = [], $query = null)
     {
         $qb = $this->createQueryBuilder('cu');

@@ -8,6 +8,7 @@ class HomePageProviderTest extends \PHPUnit\Framework\TestCase
 {
     private HomePageProvider $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->provider = new HomePageProvider();

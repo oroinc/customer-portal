@@ -27,9 +27,7 @@ class LoadAnonymousCustomerGroup extends AbstractFixture implements ContainerAwa
      */
     protected $container;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [
@@ -37,17 +35,13 @@ class LoadAnonymousCustomerGroup extends AbstractFixture implements ContainerAwa
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         $customerGroup = new CustomerGroup();

@@ -44,9 +44,7 @@ class WebsiteManagerStub extends WebsiteManager
         $this->cacheProvider->clear();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getCurrentWebsite(): ?Website
     {
         if ($this->enabled) {
@@ -56,9 +54,7 @@ class WebsiteManagerStub extends WebsiteManager
         return $this->websiteManager->getCurrentWebsite();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDefaultWebsite(): ?Website
     {
         if ($this->enabled) {
@@ -84,6 +80,7 @@ class WebsiteManagerStub extends WebsiteManager
         $this->stubDefaultWebsite = $defaultWebsite;
     }
 
+    #[\Override]
     public function setCurrentWebsite(?Website $currentWebsite): void
     {
         if ($this->stubbingSetCurrentWebsiteEnabled) {

@@ -13,17 +13,13 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
  */
 class PageTemplatesThemeConfigurationExtension implements ThemeConfigurationExtensionInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getConfigFileNames(): array
     {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function appendConfig(NodeBuilder $configNode): void
     {
         $configNode

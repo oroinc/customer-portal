@@ -31,6 +31,7 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
     /** @var MenuScreensConditionType */
     private $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->screensProvider = $this->createMock(ScreensProviderInterface::class);
@@ -40,9 +41,7 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

@@ -31,6 +31,7 @@ class GridViewController extends BaseGridViewController
         permission: 'CREATE',
         groupName: 'commerce'
     )]
+    #[\Override]
     public function postAction(Request $request)
     {
         return parent::postAction($request);
@@ -57,6 +58,7 @@ class GridViewController extends BaseGridViewController
         permission: 'EDIT',
         groupName: 'commerce'
     )]
+    #[\Override]
     public function putAction(Request $request, $id)
     {
         return parent::putAction($request, $id);
@@ -82,6 +84,7 @@ class GridViewController extends BaseGridViewController
         permission: 'DELETE',
         groupName: 'commerce'
     )]
+    #[\Override]
     public function deleteAction($id)
     {
         return parent::deleteAction($id);
@@ -114,22 +117,19 @@ class GridViewController extends BaseGridViewController
         permission: 'VIEW',
         groupName: 'commerce'
     )]
+    #[\Override]
     public function defaultAction($id, $default = false, $gridName = null)
     {
         return parent::defaultAction($id, $default, $gridName);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getManager()
     {
         return $this->container->get('oro_customer.grid_view.manager.api');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function isGridViewPublishGranted()
     {
         return $this->isGranted('oro_customer_frontend_gridview_publish');

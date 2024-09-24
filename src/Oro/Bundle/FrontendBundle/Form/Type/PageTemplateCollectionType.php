@@ -20,9 +20,7 @@ class PageTemplateCollectionType extends AbstractType
         $this->pageTemplatesManager = $pageTemplatesManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         foreach ($this->pageTemplatesManager->getRoutePageTemplates() as $routeName => $routeOptions) {
@@ -33,17 +31,12 @@ class PageTemplateCollectionType extends AbstractType
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return $this->getBlockPrefix();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;

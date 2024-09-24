@@ -13,9 +13,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  */
 class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function beforeProcessEntity($entity)
     {
         $entity = parent::beforeProcessEntity($entity);
@@ -25,9 +23,7 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         return $entity;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function afterProcessEntity($entity)
     {
         $entity = parent::afterProcessEntity($entity);
@@ -39,8 +35,8 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     /**
      * Add frontendOwner to addresses search context to prevent same addresses "stealing" by another customer.
      *
-     * {@inheritdoc}
      */
+    #[\Override]
     protected function generateSearchContextForRelationsUpdate($entity, $entityName, $fieldName, $isPersistRelation)
     {
         $context = parent::generateSearchContextForRelationsUpdate(
@@ -57,9 +53,7 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         return $context;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function findExistingEntity($entity, array $searchContext = [])
     {
         $existingEntity = parent::findExistingEntity($entity, $searchContext);
@@ -76,9 +70,7 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         return $existingEntity;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function importExistingEntity(
         $entity,
         $existingEntity,
@@ -99,9 +91,7 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         parent::importExistingEntity($entity, $existingEntity, $itemData, $excludedFields);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function isPermissionGrantedForEntity($permission, $entity, $entityName)
     {
         // do not check permissions for ENUM entities

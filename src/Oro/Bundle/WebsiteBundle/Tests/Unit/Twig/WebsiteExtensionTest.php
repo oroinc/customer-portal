@@ -21,6 +21,7 @@ class WebsiteExtensionTest extends \PHPUnit\Framework\TestCase
     /** @var WebsiteExtension */
     private $extension;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->websiteManager = $this->createMock(WebsiteManager::class);

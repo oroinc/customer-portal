@@ -16,6 +16,7 @@ class LayoutThemeAwareEmailTemplateCandidatesProviderTest extends TestCase
 
     private LayoutThemeAwareEmailTemplateCandidatesProvider $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->themeConfigurationProvider = $this->createMock(ThemeConfigurationProvider::class);

@@ -25,15 +25,14 @@ class DefaultFrontendPreferredLocalizationProvider extends AbstractPreferredLoca
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function supports($entity): bool
     {
         return $this->localizationProvider && $this->frontendHelper
             && $this->frontendHelper->isFrontendRequest();
     }
 
+    #[\Override]
     protected function getPreferredLocalizationForEntity($entity): ?Localization
     {
         return $this->localizationProvider->getCurrentLocalization();

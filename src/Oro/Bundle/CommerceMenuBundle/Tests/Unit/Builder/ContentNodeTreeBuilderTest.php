@@ -34,6 +34,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
 
     private ContentNodeTreeBuilder $builder;
 
+    #[\Override]
     protected function setUp(): void
     {
         $managerRegistry = $this->createMock(ManagerRegistry::class);

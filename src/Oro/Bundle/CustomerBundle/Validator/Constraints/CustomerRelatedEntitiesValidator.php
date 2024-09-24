@@ -39,6 +39,7 @@ class CustomerRelatedEntitiesValidator extends ConstraintValidator
      * @param CustomerUser $customerUser
      * @param CustomerRelatedEntities $constraint
      */
+    #[\Override]
     public function validate($customerUser, Constraint $constraint)
     {
         if (!$customerUser instanceof CustomerUser) {

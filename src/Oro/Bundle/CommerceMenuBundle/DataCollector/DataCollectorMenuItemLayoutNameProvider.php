@@ -13,6 +13,7 @@ use Oro\Component\Layout\ContextInterface;
  */
 class DataCollectorMenuItemLayoutNameProvider implements DataCollectorLayoutNameProviderInterface
 {
+    #[\Override]
     public function getNameByContext(ContextInterface $context): string
     {
         $menuItemName = $context->getOr('menu_item_name') ;

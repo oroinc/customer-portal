@@ -19,6 +19,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
 {
     private CustomerTypedAddressWithDefaultType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $addressTypeRepository = $this->getAddressTypeRepository([
@@ -59,9 +60,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

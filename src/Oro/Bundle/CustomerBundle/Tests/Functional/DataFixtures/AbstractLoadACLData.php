@@ -142,9 +142,7 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
             ],
         ];
     }
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [
@@ -162,9 +160,7 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
      */
     abstract protected function getSupportedRoles();
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         $this->loadRoles($manager);

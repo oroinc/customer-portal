@@ -19,17 +19,13 @@ class Audit extends AbstractAudit
     #[ORM\JoinColumn(name: 'customer_user_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
     protected ?CustomerUser $customerUser = null;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function setUser(AbstractUser $user = null)
     {
         $this->customerUser = $user;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getUser()
     {
         return $this->customerUser;

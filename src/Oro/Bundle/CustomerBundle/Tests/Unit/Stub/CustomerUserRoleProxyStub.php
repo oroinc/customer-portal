@@ -10,11 +10,13 @@ class CustomerUserRoleProxyStub extends CustomerUserRole implements Proxy
 {
     private $initialized = true;
 
+    #[\Override]
     public function __load()
     {
         $this->initialized = true;
     }
 
+    #[\Override]
     public function __isInitialized()
     {
         return $this->initialized;

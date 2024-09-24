@@ -69,9 +69,7 @@ class FrontendCustomerUserRoleFormProvider extends AbstractFormProvider
         return $options;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function createForm($formName, $data = null, array $options = [])
     {
         $form = $this->handler->createForm($data);

@@ -25,6 +25,7 @@ class QuickAccessButtonDataProviderTest extends WebTestCase
 
     private QuickAccessButtonDataProvider $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();
@@ -37,6 +38,7 @@ class QuickAccessButtonDataProviderTest extends WebTestCase
         $this->provider = $this->getClientContainer()->get('oro_frontend.provider.quick_access_button_data');
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         self::getContainer()->get('security.token_storage')->setToken(null);

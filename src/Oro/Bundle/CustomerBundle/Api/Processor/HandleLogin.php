@@ -44,9 +44,7 @@ class HandleLogin implements ProcessorInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(ContextInterface $context): void
     {
         /** @var CreateContext $context */

@@ -9,25 +9,18 @@ use Psr\Log\LoggerInterface;
 
 class UpdateAnonymousCustomerGroupOwnership extends ParametrizedMigrationQuery
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDescription()
     {
         return 'Update anonymous customer group ownership';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function execute(LoggerInterface $logger)
     {
         $this->doExecute($logger);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function doExecute(LoggerInterface $logger, $dryRun = false)
     {
         $selectOrganizationQuery = <<<'SQL'

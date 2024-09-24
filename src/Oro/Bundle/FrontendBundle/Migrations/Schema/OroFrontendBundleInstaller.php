@@ -14,9 +14,7 @@ class OroFrontendBundleInstaller implements Installation, ContainerAwareInterfac
 {
     use ContainerAwareTrait;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getMigrationVersion(): string
     {
         // Migration version was increased without creating correct migration
@@ -24,9 +22,7 @@ class OroFrontendBundleInstaller implements Installation, ContainerAwareInterfac
         return 'v1_1';
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries): void
     {
         // update system configuration for installed instances

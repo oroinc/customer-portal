@@ -21,9 +21,7 @@ class MenuScreensConditionType extends AbstractType
         $this->screensProvider = $screensProvider;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -33,17 +31,12 @@ class MenuScreensConditionType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName()
     {
         return $this->getBlockPrefix();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return static::NAME;
@@ -52,6 +45,7 @@ class MenuScreensConditionType extends AbstractType
     /**
      * @return string
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return ChoiceType::class;

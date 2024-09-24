@@ -23,6 +23,7 @@ class ContentNodeDeleteListenerTest extends WebTestCase
     private EntityManagerInterface $em;
     private MenuUpdateRepository $repository;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

@@ -32,6 +32,7 @@ class SaveFrontendImportExportResultProcessorTest extends \PHPUnit\Framework\Tes
 
     private SaveFrontendExportResultProcessor $saveExportResultProcessor;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->entityManager = $this->createMock(ObjectManager::class);

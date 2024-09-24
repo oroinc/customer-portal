@@ -30,9 +30,7 @@ class SystemPageTargetBuilder implements BuilderInterface, LoggerAwareInterface
         $this->logger = new NullLogger();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function build(ItemInterface $menu, array $options = [], $alias = null): void
     {
         $this->applyRecursively($menu, $options);

@@ -72,9 +72,7 @@ class CustomerGroupMenuUpdateData extends AbstractFixture implements DependentFi
         ],
     ];
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [
@@ -83,9 +81,7 @@ class CustomerGroupMenuUpdateData extends AbstractFixture implements DependentFi
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         foreach (self::$menuUpdates as $menuUpdateReference => $data) {

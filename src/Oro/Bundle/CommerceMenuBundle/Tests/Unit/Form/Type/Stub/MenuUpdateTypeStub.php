@@ -9,11 +9,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuUpdateTypeStub extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('uri', TextType::class);
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('menu_item', null);

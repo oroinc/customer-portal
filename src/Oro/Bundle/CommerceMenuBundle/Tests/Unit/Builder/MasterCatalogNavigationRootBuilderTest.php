@@ -21,6 +21,7 @@ class MasterCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
 
     private MasterCatalogNavigationRootBuilder $builder;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->masterCatalogRootProvider = $this->createMock(MasterCatalogRootProviderInterface::class);

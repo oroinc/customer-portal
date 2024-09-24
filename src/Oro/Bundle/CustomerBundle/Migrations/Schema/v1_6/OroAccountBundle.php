@@ -13,9 +13,7 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface
 {
     use RenameExtensionAwareTrait;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         $this->addAccountUserSettingsTable($schema, $queries);

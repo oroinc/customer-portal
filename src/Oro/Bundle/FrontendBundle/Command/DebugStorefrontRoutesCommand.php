@@ -28,6 +28,7 @@ class DebugStorefrontRoutesCommand extends Command
     }
 
     /** @noinspection PhpMissingParentCallCommonInspection */
+    #[\Override]
     public function configure()
     {
         $this
@@ -41,6 +42,7 @@ HELP
             );
     }
 
+    #[\Override]
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $routes = $this->router->getRouteCollection();

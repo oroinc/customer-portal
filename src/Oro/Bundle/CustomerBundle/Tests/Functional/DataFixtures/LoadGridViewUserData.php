@@ -27,17 +27,13 @@ class LoadGridViewUserData extends BaseLoadGridViewUserData
         ]
     ];
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [LoadCustomerUserGridViewACLData::class, LoadGridViewData::class];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function createInstance(): AbstractGridViewUser
     {
         return new GridViewUser();

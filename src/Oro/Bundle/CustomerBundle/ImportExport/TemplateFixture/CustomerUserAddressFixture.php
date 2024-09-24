@@ -17,17 +17,13 @@ use Oro\Bundle\UserBundle\Entity\User;
  */
 class CustomerUserAddressFixture extends AbstractTemplateRepository implements TemplateFixtureInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getEntityClass()
     {
         return CustomerUserAddress::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function fillEntityData($key, $entity)
     {
         /** @var CustomerUserAddress $entity */
@@ -51,17 +47,13 @@ class CustomerUserAddressFixture extends AbstractTemplateRepository implements T
         $entity->setOwner($this->createOwner());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getData()
     {
         return $this->getEntityData('Example of Customer User Address');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function createEntity($key)
     {
         return $this->setProperty(new CustomerUserAddress(), 'id', 1);

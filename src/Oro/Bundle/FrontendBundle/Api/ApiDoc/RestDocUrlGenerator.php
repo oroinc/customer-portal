@@ -37,9 +37,7 @@ class RestDocUrlGenerator implements RestDocUrlGeneratorInterface
         $this->defaultFrontendView = $defaultFrontendView;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function generate(string $view): string
     {
         if (!\in_array($view, $this->frontendViews, true)) {

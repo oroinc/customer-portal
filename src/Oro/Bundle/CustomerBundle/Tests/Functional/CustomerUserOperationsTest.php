@@ -17,6 +17,7 @@ class CustomerUserOperationsTest extends WebTestCase
 
     private const EMAIL = LoadCustomerUserData::EMAIL;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], self::generateBasicAuthHeader());

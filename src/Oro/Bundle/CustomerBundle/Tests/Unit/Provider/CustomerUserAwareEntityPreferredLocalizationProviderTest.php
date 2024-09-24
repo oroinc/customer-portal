@@ -16,6 +16,7 @@ class CustomerUserAwareEntityPreferredLocalizationProviderTest extends TestCase
 
     private CustomerUserAwareEntityPreferredLocalizationProvider $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->customerUserPreferredLocalizationProvider = $this->createMock(

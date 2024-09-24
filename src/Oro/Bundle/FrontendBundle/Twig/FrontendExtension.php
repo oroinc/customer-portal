@@ -24,9 +24,7 @@ class FrontendExtension extends AbstractExtension implements ServiceSubscriberIn
         $this->container = $container;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getFunctions()
     {
         return [
@@ -63,9 +61,7 @@ class FrontendExtension extends AbstractExtension implements ServiceSubscriberIn
         return $content;
     }
 
-    /**
-     * {@inheritdoc]
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return [

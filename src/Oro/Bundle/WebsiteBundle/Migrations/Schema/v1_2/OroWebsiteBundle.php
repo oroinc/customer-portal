@@ -14,9 +14,7 @@ class OroWebsiteBundle implements Migration, ActivityExtensionAwareInterface
 
     private const WEBSITE_TABLE_NAME = 'orob2b_website';
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries): void
     {
         $this->addIndexForCreateAndUpdateFields($schema);

@@ -15,6 +15,7 @@ class ContactRequestBCExtensionTest extends TestCase
     private $themeManager;
     private $extension;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->currentThemeProvider = $this->createMock(CurrentThemeProvider::class);

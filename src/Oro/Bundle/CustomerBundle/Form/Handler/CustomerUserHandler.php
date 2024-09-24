@@ -37,9 +37,9 @@ class CustomerUserHandler implements FormHandlerInterface
     }
 
     /**
-     * {@inheritDoc}
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
+    #[\Override]
     public function process($customerUser, FormInterface $form, Request $request)
     {
         $isUpdated = false;

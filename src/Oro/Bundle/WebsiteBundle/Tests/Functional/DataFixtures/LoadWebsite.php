@@ -16,17 +16,13 @@ class LoadWebsite extends AbstractFixture implements InitialFixtureInterface, De
 {
     public const WEBSITE = 'website';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [LoadOrganization::class];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         $website = $manager->getRepository(Website::class)

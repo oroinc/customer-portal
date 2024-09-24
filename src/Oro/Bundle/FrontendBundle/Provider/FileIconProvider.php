@@ -30,6 +30,7 @@ class FileIconProvider extends BaseFileIconProvider
         parent::__construct([]);
     }
 
+    #[\Override]
     public function getExtensionIconClass(FileExtensionInterface $entity): string
     {
         if (!$this->frontendHelper->isFrontendRequest()) {
@@ -41,6 +42,7 @@ class FileIconProvider extends BaseFileIconProvider
         return $icons[$entity->getExtension()] ?? $icons['default'] ?? self::FALLBACK_ICON;
     }
 
+    #[\Override]
     public function getFileIcons(): array
     {
         if (!$this->frontendHelper->isFrontendRequest()) {

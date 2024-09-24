@@ -9,9 +9,7 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class OroFrontendBundle implements Migration
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         $queries->addPostQuery(new RenameConfigSectionQuery('oro_b2b_frontend', 'oro_frontend'));

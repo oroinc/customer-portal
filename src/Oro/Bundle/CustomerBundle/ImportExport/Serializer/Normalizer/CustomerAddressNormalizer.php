@@ -9,11 +9,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
  */
 class CustomerAddressNormalizer extends AbstractAddressNormalizer
 {
+    #[\Override]
     public function supportsNormalization($data, string $format = null, array $context = []): bool
     {
         return $data instanceof CustomerAddress;
     }
 
+    #[\Override]
     public function supportsDenormalization($data, string $type, string $format = null, array $context = []): bool
     {
         return is_a($type, CustomerAddress::class, true);

@@ -44,6 +44,7 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
     /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private TranslatorInterface $translator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->parameterBag = $this->createMock(ParameterBag::class);

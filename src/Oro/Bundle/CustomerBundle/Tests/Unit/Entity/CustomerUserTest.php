@@ -25,6 +25,7 @@ class CustomerUserTest extends AbstractUserTest
 {
     use AddressEntityTestTrait;
 
+    #[\Override]
     public function getUser(): CustomerUser
     {
         return new CustomerUser();
@@ -92,6 +93,7 @@ class CustomerUserTest extends AbstractUserTest
         self::assertEquals('test company', $user->getCustomer()->getName());
     }
 
+    #[\Override]
     public function testSerializing(): void
     {
         $user = $this->getUser();
@@ -112,6 +114,7 @@ class CustomerUserTest extends AbstractUserTest
         self::assertEquals('new-name', $user->getEmail());
     }
 
+    #[\Override]
     public function provider(): array
     {
         return [
@@ -229,6 +232,7 @@ class CustomerUserTest extends AbstractUserTest
         ];
     }
 
+    #[\Override]
     public function testUnserialize(): void
     {
         $user = $this->getUser();
@@ -252,6 +256,7 @@ class CustomerUserTest extends AbstractUserTest
         self::assertEquals($serialized[6], $user->getId());
     }
 
+    #[\Override]
     public function testIsEnabled(): void
     {
         $user = $this->getUser();

@@ -9,17 +9,13 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class AddNullableTitleColumn implements Migration, OrderedMigrationInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getOrder()
     {
         return 10;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         $table = $schema->getTable('orob2b_locale');

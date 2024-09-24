@@ -35,9 +35,7 @@ class OrganizationGuesser implements OrganizationGuesserInterface
         $this->websiteManager = $websiteManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function guess(AbstractUser $user): ?Organization
     {
         if ($user instanceof User || !$this->frontendHelper->isFrontendRequest()) {

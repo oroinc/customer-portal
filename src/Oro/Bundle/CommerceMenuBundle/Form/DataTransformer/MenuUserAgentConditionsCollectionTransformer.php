@@ -9,9 +9,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 
 class MenuUserAgentConditionsCollectionTransformer implements DataTransformerInterface
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function transform($menuUserAgentConditionsCollection)
     {
         // If value is already transformed in PRE_SET_DATA, return it as is.
@@ -38,9 +36,7 @@ class MenuUserAgentConditionsCollectionTransformer implements DataTransformerInt
         return $groupedConditionsArray;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function reverseTransform($groupedConditionsArray)
     {
         if (!is_array($groupedConditionsArray)) {

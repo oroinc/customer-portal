@@ -30,9 +30,7 @@ class SetCustomer implements ProcessorInterface
         $this->customerFieldName = $customerFieldName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(ContextInterface $context): void
     {
         /** @var CustomizeFormDataContext $context */

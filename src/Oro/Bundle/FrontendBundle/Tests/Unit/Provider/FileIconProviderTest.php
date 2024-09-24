@@ -43,6 +43,7 @@ class FileIconProviderTest extends TestCase
 
     private FileIconProvider $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->frontendHelper = $this->createMock(FrontendHelper::class);

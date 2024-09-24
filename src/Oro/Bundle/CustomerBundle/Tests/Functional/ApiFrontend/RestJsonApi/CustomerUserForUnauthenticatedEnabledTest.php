@@ -8,6 +8,7 @@ class CustomerUserForUnauthenticatedEnabledTest extends CustomerUserForUnauthent
 {
     use UnauthenticatedEnabledTestTrait;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

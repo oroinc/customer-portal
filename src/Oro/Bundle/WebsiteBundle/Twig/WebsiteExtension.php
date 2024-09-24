@@ -27,9 +27,7 @@ class WebsiteExtension extends AbstractExtension implements ServiceSubscriberInt
         $this->container = $container;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getFunctions()
     {
         return [
@@ -68,9 +66,7 @@ class WebsiteExtension extends AbstractExtension implements ServiceSubscriberInt
         return $this->getWebsiteUrlResolver()->getWebsiteSecurePath($route, $routeParams, $website);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return [

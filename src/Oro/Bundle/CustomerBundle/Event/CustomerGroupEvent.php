@@ -20,6 +20,7 @@ class CustomerGroupEvent extends AfterFormProcessEvent
     /**
      * @return CustomerGroup
      */
+    #[\Override]
     public function getData()
     {
         return $this->data;
