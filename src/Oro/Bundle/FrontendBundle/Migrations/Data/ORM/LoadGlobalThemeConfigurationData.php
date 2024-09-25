@@ -12,17 +12,20 @@ use Oro\Bundle\ThemeBundle\Migrations\Data\AbstractLoadThemeConfiguration;
  */
 class LoadGlobalThemeConfigurationData extends AbstractLoadThemeConfiguration
 {
-    #[\Override] protected function getConfigManager(): ConfigManager
+    #[\Override]
+    protected function getConfigManager(): ConfigManager
     {
         return $this->container->get('oro_config.global');
     }
 
-    #[\Override] protected function getScopes(): iterable
+    #[\Override]
+    protected function getScopes(): iterable
     {
         return [null];
     }
 
-    #[\Override] protected function getThemeConfigurationKeys(): array
+    #[\Override]
+    protected function getThemeConfigurationKeys(): array
     {
         return [
             ThemeConfiguration::buildOptionKey('product_listing', 'filters_position') => 'oro_product.filters_position',
@@ -30,7 +33,8 @@ class LoadGlobalThemeConfigurationData extends AbstractLoadThemeConfiguration
         ];
     }
 
-    #[\Override] protected function isApplicable(): bool
+    #[\Override]
+    protected function isApplicable(): bool
     {
         $dataFixture = $this->manager->getRepository(DataFixture::class)->findOneBy([
             'className' => 'Oro\Bundle\FrontendBundle\Migrations\Data\ORM\LoadGlobalThemeConfiguration'

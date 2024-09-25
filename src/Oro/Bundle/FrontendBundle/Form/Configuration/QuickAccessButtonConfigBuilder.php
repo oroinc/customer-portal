@@ -15,17 +15,20 @@ class QuickAccessButtonConfigBuilder extends AbstractConfigurationChildBuilder
 {
     public const VIEW_MODULE_NAME = 'orofrontend/theme-configuration-preview-quick-access-button-view';
 
-    #[\Override] public static function getType(): string
+    #[\Override]
+    public static function getType(): string
     {
         return 'quick_access_button_config';
     }
 
-    #[\Override] protected function getTypeClass(): string
+    #[\Override]
+    protected function getTypeClass(): string
     {
         return QuickAccessButtonConfigType::class;
     }
 
-    #[\Override] protected function getConfiguredOptions(array $option): array
+    #[\Override]
+    protected function getConfiguredOptions(array $option): array
     {
         $configuredOptions = parent::getConfiguredOptions($option);
 
@@ -35,12 +38,14 @@ class QuickAccessButtonConfigBuilder extends AbstractConfigurationChildBuilder
         return $configuredOptions;
     }
 
-    #[\Override] protected function getDefaultOptions(): array
+    #[\Override]
+    protected function getDefaultOptions(): array
     {
         return [];
     }
 
-    #[\Override] public function finishView(
+    #[\Override]
+    public function finishView(
         FormView $view,
         FormInterface $form,
         array $formOptions,
@@ -57,7 +62,8 @@ class QuickAccessButtonConfigBuilder extends AbstractConfigurationChildBuilder
         }
     }
 
-    #[\Override] protected function getOptionPreview(array $option, mixed $value = null, bool $default = false): ?string
+    #[\Override]
+    protected function getOptionPreview(array $option, mixed $value = null, bool $default = false): ?string
     {
         $value = $value instanceof QuickAccessButtonConfig ? $value->getType() : $value;
 
