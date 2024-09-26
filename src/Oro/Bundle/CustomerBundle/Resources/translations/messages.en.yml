@@ -786,6 +786,7 @@ oro.customer:
             map_settings.title: 'Map Settings'
             responsive_grid_settings.title: 'Grid Settings'
             rest_api.title: 'REST API'
+            customer_user_interactions.title: 'Interactions'
         fields:
             default_customer_owner:
                 label: 'Default Customer Owner'
