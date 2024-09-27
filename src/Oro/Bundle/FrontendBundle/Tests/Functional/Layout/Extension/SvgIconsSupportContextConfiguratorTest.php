@@ -9,7 +9,7 @@ use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\LayoutBundle\Event\LayoutContextChangedEvent;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\ThemeBundle\Entity\ThemeConfiguration;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SvgIconsSupportContextConfiguratorTest extends WebTestCase
 {
@@ -39,7 +39,7 @@ class SvgIconsSupportContextConfiguratorTest extends WebTestCase
 
     public function testIsSvgIconsSupportedOnDefaultTheme(): void
     {
-        /** @var EventDispatcher $eventDispatcher */
+        /** @var EventDispatcherInterface $eventDispatcher */
         $eventDispatcher = self::getContainer()->get('event_dispatcher');
         $eventDispatcher->addListener(LayoutContextChangedEvent::class, [$this, 'assertSvgIconsSupportIsTrue']);
 
@@ -59,7 +59,7 @@ class SvgIconsSupportContextConfiguratorTest extends WebTestCase
         self::getConfigManager()->set('oro_theme.theme_configuration', $themeConfig->getId());
         self::getConfigManager()->flush();
 
-        /** @var EventDispatcher $eventDispatcher */
+        /** @var EventDispatcherInterface $eventDispatcher */
         $eventDispatcher = self::getContainer()->get('event_dispatcher');
         $eventDispatcher->addListener(LayoutContextChangedEvent::class, [$this, 'assertSvgIconsSupportIsTrue']);
 
@@ -91,7 +91,7 @@ class SvgIconsSupportContextConfiguratorTest extends WebTestCase
         self::getConfigManager()->set('oro_theme.theme_configuration', $themeConfig->getId());
         self::getConfigManager()->flush();
 
-        /** @var EventDispatcher $eventDispatcher */
+        /** @var EventDispatcherInterface $eventDispatcher */
         $eventDispatcher = self::getContainer()->get('event_dispatcher');
         $eventDispatcher->addListener(LayoutContextChangedEvent::class, [$this, 'assertSvgIconsSupportIsFalse']);
 
