@@ -183,34 +183,28 @@ class CustomerUserAddressController extends RestController
         return $this->container->get('oro_customer.customer_user.manager.api');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getManager()
     {
         return $this->container->get('oro_customer.customer_user_address.manager.api');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getForm()
     {
         throw new \BadMethodCallException('Form is not available.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getFormHandler()
     {
         throw new \BadMethodCallException('FormHandler is not available.');
     }
 
     /**
-     * {@inheritDoc}
      * @param CustomerUserAddress $entity
      */
+    #[\Override]
     protected function getPreparedItem($entity, $resultFields = [])
     {
         // convert addresses to plain array
@@ -265,6 +259,7 @@ class CustomerUserAddressController extends RestController
         }
     }
 
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return array_merge(

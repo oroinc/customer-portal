@@ -9,17 +9,13 @@ use Oro\Bundle\ConfigBundle\Provider\AbstractProvider;
  */
 class CustomerConfigurationFormProvider extends AbstractProvider
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getTreeName(): string
     {
         return 'customer_configuration';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getParentCheckboxLabel(): string
     {
         return 'oro.customer.customer_configuration.use_default';

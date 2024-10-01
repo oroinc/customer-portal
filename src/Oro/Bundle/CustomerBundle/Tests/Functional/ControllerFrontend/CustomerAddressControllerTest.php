@@ -16,6 +16,7 @@ use Symfony\Component\DomCrawler\Form;
 
 class CustomerAddressControllerTest extends WebTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

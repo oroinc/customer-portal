@@ -18,9 +18,7 @@ class CustomerUserReassignEventListenerTest extends \PHPUnit\Framework\TestCase
     /** @var PreUpdateEventArgs|\PHPUnit\Framework\MockObject\MockObject */
     private $event;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->customerUserReassignUpdater = $this->createMock(CustomerUserReassignUpdaterInterface::class);

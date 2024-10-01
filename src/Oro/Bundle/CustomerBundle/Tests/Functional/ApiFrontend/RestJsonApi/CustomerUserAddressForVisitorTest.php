@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CustomerUserAddressForVisitorTest extends FrontendRestJsonApiTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

@@ -18,6 +18,7 @@ class AssetsContextTest extends \PHPUnit\Framework\TestCase
     /** @var AssetsContext */
     private $context;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->requestStack = $this->createMock(RequestStack::class);

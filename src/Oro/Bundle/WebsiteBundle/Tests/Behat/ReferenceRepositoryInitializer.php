@@ -10,9 +10,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 class ReferenceRepositoryInitializer implements ReferenceRepositoryInitializerInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function init(ManagerRegistry $doctrine, Collection $referenceRepository): void
     {
         $repository = $doctrine->getManager()->getRepository(Website::class);

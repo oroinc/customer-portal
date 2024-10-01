@@ -27,9 +27,7 @@ class OroAccountBundle implements Migration
     const ORO_B2B_PRODUCT_TABLE_NAME = 'orob2b_product';
     const ORO_B2B_WEBSITE_TABLE_NAME = 'orob2b_website';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         /** Tables generation **/

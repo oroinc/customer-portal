@@ -23,9 +23,7 @@ class UserAgentConditionsEvaluator implements ConditionEvaluatorInterface
         $this->userAgentProvider = $userAgentProvider;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function evaluate(ItemInterface $menuItem, array $options)
     {
         $menuUserAgentConditionsCollection = $menuItem->getExtra(self::MENU_CONDITION_KEY_EXTRA);

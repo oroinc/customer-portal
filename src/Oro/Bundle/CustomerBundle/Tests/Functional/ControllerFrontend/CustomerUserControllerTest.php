@@ -31,9 +31,7 @@ class CustomerUserControllerTest extends WebTestCase
     private const UPDATED_NAME_SUFFIX = 'UNameSuffix';
     private const UPDATED_EMAIL = 'updated@example.com';
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

@@ -13,6 +13,7 @@ class CustomerUserAddressActionTest extends WebTestCase
 {
     use OperationAwareTestTrait;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient(

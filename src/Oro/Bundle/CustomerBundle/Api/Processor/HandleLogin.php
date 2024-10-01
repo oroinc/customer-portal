@@ -12,7 +12,7 @@ use Oro\Bundle\SecurityBundle\Authentication\Guesser\OrganizationGuesserInterfac
 use Oro\Bundle\UserBundle\Exception\BadCredentialsException;
 use Oro\Component\ChainProcessor\ContextInterface;
 use Oro\Component\ChainProcessor\ProcessorInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -37,16 +37,14 @@ class HandleLogin implements ProcessorInterface
         private UserProviderInterface $userProvider,
         private OrganizationGuesserInterface $organizationGuesser,
         private UserCheckerInterface $userChecker,
-        private EventDispatcher $eventDispatcher,
+        private EventDispatcherInterface $eventDispatcher,
         private ConfigManager $configManager,
         private DoctrineHelper $doctrineHelper,
         private TranslatorInterface $translator
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(ContextInterface $context): void
     {
         /** @var CreateContext $context */

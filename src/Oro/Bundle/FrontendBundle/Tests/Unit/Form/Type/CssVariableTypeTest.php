@@ -14,6 +14,7 @@ final class CssVariableTypeTest extends FormIntegrationTestCase
 {
     private CssVariableType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->innerFormType = $this->createMock(FormTypeInterface::class);
@@ -61,6 +62,7 @@ final class CssVariableTypeTest extends FormIntegrationTestCase
         self::assertTrue($optionsResolver->hasDefault('data_class'));
     }
 
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

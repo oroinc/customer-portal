@@ -11,9 +11,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AssetsRouterPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(ContainerBuilder $container)
     {
         $routerDefinition = $container->getDefinition('oro_website.asset.router');

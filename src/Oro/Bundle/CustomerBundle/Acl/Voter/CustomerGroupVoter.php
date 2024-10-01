@@ -14,7 +14,6 @@ use Symfony\Contracts\Service\ServiceSubscriberInterface;
  */
 class CustomerGroupVoter extends AbstractEntityVoter implements ServiceSubscriberInterface
 {
-    /** {@inheritDoc} */
     protected $supportedAttributes = [BasicPermission::DELETE];
 
     private ContainerInterface $container;
@@ -25,9 +24,7 @@ class CustomerGroupVoter extends AbstractEntityVoter implements ServiceSubscribe
         $this->container = $container;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return [
@@ -35,9 +32,7 @@ class CustomerGroupVoter extends AbstractEntityVoter implements ServiceSubscribe
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getPermissionForAttribute($class, $identifier, $attribute)
     {
         return $identifier && $this->isAnonymousCustomerGroup($identifier)

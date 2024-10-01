@@ -10,14 +10,13 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerUser
  */
 class LoadAdminCustomerUserData extends LoadCustomerUserData
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return array_merge(parent::getDependencies(), [LoadCustomerUserRoles::class]);
     }
 
+    #[\Override]
     protected function initializeCustomerUser(CustomerUser $customerUser)
     {
         $customerUser

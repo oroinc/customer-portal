@@ -7,25 +7,19 @@ use Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType;
 
 class CountryType extends BaseCountryType
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getName()
     {
         return $this->getBlockPrefix();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'oro_frontend_country';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getParent(): ?string
     {
         return TranslatableEntityType::class;

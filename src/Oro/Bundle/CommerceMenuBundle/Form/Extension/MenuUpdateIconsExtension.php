@@ -16,11 +16,13 @@ use Symfony\Component\Form\FormEvents;
  */
 class MenuUpdateIconsExtension extends AbstractTypeExtension
 {
+    #[\Override]
     public static function getExtendedTypes(): iterable
     {
         return [MenuUpdateType::class];
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(

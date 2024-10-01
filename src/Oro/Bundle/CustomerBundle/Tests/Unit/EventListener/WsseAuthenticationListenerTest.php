@@ -19,6 +19,7 @@ class WsseAuthenticationListenerTest extends \PHPUnit\Framework\TestCase
     /** @var WsseAuthenticationListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->logger = $this->createMock(UserLoginAttemptLogger::class);

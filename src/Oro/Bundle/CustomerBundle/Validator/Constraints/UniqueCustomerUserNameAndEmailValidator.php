@@ -21,8 +21,8 @@ class UniqueCustomerUserNameAndEmailValidator extends ConstraintValidator
      * @param CustomerUser|string $value
      * @param UniqueCustomerUserNameAndEmail $constraint
      *
-     * {@inheritdoc}
      */
+    #[\Override]
     public function validate($value, Constraint $constraint)
     {
         $id = null;

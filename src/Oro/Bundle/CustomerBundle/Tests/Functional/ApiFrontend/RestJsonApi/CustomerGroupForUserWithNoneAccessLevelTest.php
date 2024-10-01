@@ -13,6 +13,7 @@ class CustomerGroupForUserWithNoneAccessLevelTest extends FrontendRestJsonApiTes
 {
     use RolePermissionExtension;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

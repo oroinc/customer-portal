@@ -20,9 +20,6 @@ class DatagridBottomToolbarListener
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function onBuildBefore(BuildBefore $event)
     {
         if (!$this->frontendHelper->isFrontendRequest()) {

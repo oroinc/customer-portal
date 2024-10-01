@@ -17,6 +17,7 @@ class CustomerUserLoggingInfoProviderTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserLoggingInfoProvider */
     private $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->requestStack = $this->createMock(RequestStack::class);

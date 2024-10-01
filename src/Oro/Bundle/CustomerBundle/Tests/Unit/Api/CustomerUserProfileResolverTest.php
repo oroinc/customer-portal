@@ -22,6 +22,7 @@ class CustomerUserProfileResolverTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserProfileResolver */
     private $resolver;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);

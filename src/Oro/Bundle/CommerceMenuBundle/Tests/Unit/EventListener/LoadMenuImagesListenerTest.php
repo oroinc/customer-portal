@@ -21,6 +21,7 @@ class LoadMenuImagesListenerTest extends \PHPUnit\Framework\TestCase
     /** @var LoadMenuImagesListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->doctrine = $this->createMock(ManagerRegistry::class);

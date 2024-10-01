@@ -41,9 +41,7 @@ class CustomerUserScopeCacheKeyBuilder implements ScopeCacheKeyBuilderInterface
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getCacheKey(ScopeCriteria $criteria): ?string
     {
         if (!$this->frontendHelper->isFrontendRequest()) {

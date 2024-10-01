@@ -25,9 +25,7 @@ class OpenApiSpecificationNameProvider implements OpenApiSpecificationNameProvid
         $this->translator = $translator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getOpenApiSpecificationName(string $view): string
     {
         $name = $this->innerProvider->getOpenApiSpecificationName($view);

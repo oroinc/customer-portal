@@ -23,6 +23,7 @@ class SaveFrontendExportResultProcessorTest extends WebTestCase
 
     private SaveFrontendExportResultProcessor $processor;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

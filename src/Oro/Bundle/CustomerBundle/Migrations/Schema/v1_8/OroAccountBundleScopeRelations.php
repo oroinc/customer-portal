@@ -12,9 +12,7 @@ class OroAccountBundleScopeRelations implements Migration, ScopeExtensionAwareIn
 {
     use ScopeExtensionAwareTrait;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         $this->addRelationsToScope($schema);

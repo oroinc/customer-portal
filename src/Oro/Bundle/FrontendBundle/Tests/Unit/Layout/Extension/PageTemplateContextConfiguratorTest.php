@@ -19,6 +19,7 @@ class PageTemplateContextConfiguratorTest extends TestCase
 
     private PageTemplateContextConfigurator $pageTemplateContextConfigurator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);

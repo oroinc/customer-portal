@@ -43,6 +43,7 @@ class ContentNodeTreeBuilder implements BuilderInterface
     ) {
     }
 
+    #[\Override]
     public function build(ItemInterface $menu, array $options = [], $alias = null): void
     {
         $menuItemsByName = MenuUpdateUtils::flattenMenuItem($menu);

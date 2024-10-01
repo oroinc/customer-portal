@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class DataChangesetTypeStub extends DataChangesetType
 {
-    /** {@inheritdoc} */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
     }

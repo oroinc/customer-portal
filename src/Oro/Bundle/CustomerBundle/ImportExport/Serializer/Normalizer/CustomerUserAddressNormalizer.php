@@ -13,6 +13,7 @@ class CustomerUserAddressNormalizer extends AbstractAddressNormalizer
     /**
      * @param CustomerUserAddress $object
      */
+    #[\Override]
     public function normalize($object, string $format = null, array $context = []): array
     {
         $result = parent::normalize($object, $format, $context);
@@ -26,11 +27,13 @@ class CustomerUserAddressNormalizer extends AbstractAddressNormalizer
         return $result;
     }
 
+    #[\Override]
     public function supportsNormalization($data, string $format = null, array $context = []): bool
     {
         return $data instanceof CustomerUserAddress;
     }
 
+    #[\Override]
     public function supportsDenormalization($data, string $type, string $format = null, array $context = []): bool
     {
         return is_a($type, CustomerUserAddress::class, true);

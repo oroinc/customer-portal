@@ -9,6 +9,7 @@ namespace Oro\Bundle\CustomerBundle\ImportExport\DataConverter;
  */
 class CustomerUserAddressDataConverter extends AddressDataConverter
 {
+    #[\Override]
     protected function getHeaderConversionRules()
     {
         $rules = parent::getHeaderConversionRules();
@@ -22,6 +23,7 @@ class CustomerUserAddressDataConverter extends AddressDataConverter
         return $rules;
     }
 
+    #[\Override]
     protected function getBackendHeader()
     {
         return array_merge(

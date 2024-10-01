@@ -7,6 +7,7 @@ namespace Oro\Bundle\FrontendBundle\Form\Configuration;
  */
 class CssBorderRadiusConfigBuilder extends AbstractCssConfigBuilder
 {
+    #[\Override]
     public static function getType(): string
     {
         return 'css_border_radius';

@@ -10,9 +10,7 @@ class CustomerUserMultiSelectType extends BaseCustomerUserMultiSelectType
 {
     const NAME = 'oro_customer_frontend_customer_user_multiselect';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(

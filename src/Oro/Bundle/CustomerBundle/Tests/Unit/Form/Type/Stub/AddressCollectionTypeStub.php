@@ -10,9 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AddressCollectionTypeStub extends AddressCollectionType
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -23,9 +21,7 @@ class AddressCollectionTypeStub extends AddressCollectionType
         parent::configureOptions($resolver);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getParent(): ?string
     {
         return EntityTypeStub::class;

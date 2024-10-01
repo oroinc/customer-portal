@@ -8,6 +8,7 @@ class AddressTypeForUnauthenticatedEnabledTest extends AddressTypeForUnauthentic
 {
     use UnauthenticatedEnabledTestTrait;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

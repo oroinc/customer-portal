@@ -10,6 +10,7 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit\Framewor
 {
     private MenuUserAgentConditionsCollectionTransformer $transformer;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->transformer = new MenuUserAgentConditionsCollectionTransformer();

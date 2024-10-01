@@ -28,6 +28,7 @@ class RouteProviderTest extends \PHPUnit\Framework\TestCase
     /** @var RouteProvider */
     private $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->frontendHelper = $this->createMock(FrontendHelper::class);

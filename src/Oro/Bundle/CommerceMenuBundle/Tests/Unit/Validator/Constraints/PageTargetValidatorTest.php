@@ -20,6 +20,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
  */
 class PageTargetValidatorTest extends ConstraintValidatorTestCase
 {
+    #[\Override]
     protected function createValidator(): PageTargetValidator
     {
         return new PageTargetValidator();

@@ -147,25 +147,19 @@ class LoadAddressBookUserData extends AbstractLoadCustomerUserFixture
         ],
     ];
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getCustomers(): array
     {
         return $this->customers;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getRoles(): array
     {
         return $this->roles;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getCustomerUsers(): array
     {
         return $this->customerUsers;

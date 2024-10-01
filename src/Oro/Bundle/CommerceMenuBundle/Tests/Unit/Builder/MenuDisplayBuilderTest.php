@@ -18,9 +18,7 @@ class MenuDisplayBuilderTest extends \PHPUnit\Framework\TestCase
      */
     private $conditionEvaluator;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->conditionEvaluator = $this->createMock(ConditionEvaluatorInterface::class);

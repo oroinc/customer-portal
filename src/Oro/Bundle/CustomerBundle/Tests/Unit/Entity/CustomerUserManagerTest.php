@@ -58,6 +58,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserManager */
     private $userManager;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->passwordHasherFactory = $this->createMock(PasswordHasherFactoryInterface::class);

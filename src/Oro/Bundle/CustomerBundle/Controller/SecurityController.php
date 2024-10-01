@@ -74,9 +74,7 @@ class SecurityController extends AbstractController
         throw new \RuntimeException('You must activate the logout in your security firewall configuration.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return array_merge(

@@ -37,33 +37,25 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function isUserOwned(): bool
     {
         return self::OWNER_TYPE_FRONTEND_USER === $this->ownerType;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function isBusinessUnitOwned(): bool
     {
         return self::OWNER_TYPE_FRONTEND_CUSTOMER === $this->ownerType;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function isOrganizationOwned(): bool
     {
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getAccessLevelNames(): array
     {
         if (!$this->hasOwner()) {
@@ -89,6 +81,7 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
         return $this->customerColumnName;
     }
 
+    #[\Override]
     public function __serialize(): array
     {
         return [
@@ -102,6 +95,7 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
         ];
     }
 
+    #[\Override]
     public function __unserialize(array $serialized): void
     {
         [
@@ -115,9 +109,7 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
         ] = $serialized;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function resolveOwnerType(string $ownerType): int
     {
         $resolvedOwnerType = parent::resolveOwnerType($ownerType);
@@ -131,9 +123,7 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
         return $resolvedOwnerType;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function initialize(): void
     {
     }

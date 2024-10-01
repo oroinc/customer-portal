@@ -14,17 +14,13 @@ use Oro\Bundle\MigrationBundle\Migration\SqlMigrationQuery;
  */
 class AddEmailLowercaseField implements Migration, OrderedMigrationInterface
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getOrder(): int
     {
         return 10;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries): void
     {
         $table = $schema->getTable('oro_customer_user');

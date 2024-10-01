@@ -17,6 +17,7 @@ class CustomerControllerTest extends WebTestCase
     private const ACCOUNT_NAME = 'Customer_name';
     private const UPDATED_NAME = 'Customer_name_UP';
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], self::generateBasicAuthHeader());

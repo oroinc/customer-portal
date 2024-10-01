@@ -30,9 +30,7 @@ class MenuExtension extends AbstractExtension implements ServiceSubscriberInterf
         $this->container = $container;
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function getFunctions()
     {
         return [
@@ -90,9 +88,7 @@ class MenuExtension extends AbstractExtension implements ServiceSubscriberInterf
         return $this->container->get('oro_commerce_menu.layout.menu_item_renderer')->render($menuItem);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return [

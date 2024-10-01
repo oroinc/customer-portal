@@ -29,6 +29,7 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
     /** @var WebsiteManager */
     private $websiteManager;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->doctrine = $this->createMock(ManagerRegistry::class);

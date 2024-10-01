@@ -39,9 +39,7 @@ class MenuUserAgentConditionData extends AbstractFixture implements DependentFix
         ]
     ];
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [
@@ -49,9 +47,7 @@ class MenuUserAgentConditionData extends AbstractFixture implements DependentFix
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         /** @var MenuUpdate $menuUpdate */

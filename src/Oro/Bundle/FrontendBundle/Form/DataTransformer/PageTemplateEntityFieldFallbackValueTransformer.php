@@ -21,9 +21,7 @@ class PageTemplateEntityFieldFallbackValueTransformer implements DataTransformer
         $this->routeName = $routeName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function transform($value)
     {
         if (empty($value)) {
@@ -38,9 +36,7 @@ class PageTemplateEntityFieldFallbackValueTransformer implements DataTransformer
         return $value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function reverseTransform($value)
     {
         if (empty($value)) {

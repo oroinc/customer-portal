@@ -148,9 +148,6 @@ class MenuUpdate implements
     #[ORM\Column(name: 'max_traverse_level', type: Types::SMALLINT, nullable: true)]
     protected ?int $maxTraverseLevel = null;
 
-    /**
-     * {@inheritdoc}
-     */
     public function __construct()
     {
         $this->traitConstructor();
@@ -158,9 +155,7 @@ class MenuUpdate implements
         $this->menuUserAgentConditions = new ArrayCollection();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLinkAttributes(): array
     {
         $linkAttributes = [];

@@ -21,17 +21,13 @@ class WebsiteAwareAccessRule implements AccessRuleInterface
         $this->websiteFieldName = $websiteFieldName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isApplicable(Criteria $criteria): bool
     {
         return $criteria->hasOption(WebsiteAccessRuleWalkerContextFactory::WEBSITE_ID);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(Criteria $criteria): void
     {
         $criteria->andExpression(

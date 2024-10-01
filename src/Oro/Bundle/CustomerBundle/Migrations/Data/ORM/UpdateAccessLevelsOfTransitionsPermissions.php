@@ -12,17 +12,13 @@ use Oro\Bundle\WorkflowBundle\Migrations\Data\ORM\UpdateAccessLevelsOfTransition
  */
 class UpdateAccessLevelsOfTransitionsPermissions extends BaseMigration
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [LoadCustomerUserRoles::class];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getRoles(ObjectManager $manager): array
     {
         return $manager->getRepository(CustomerUserRole::class)->findAll();

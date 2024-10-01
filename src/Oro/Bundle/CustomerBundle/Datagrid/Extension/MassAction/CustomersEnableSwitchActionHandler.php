@@ -69,8 +69,8 @@ class CustomersEnableSwitchActionHandler implements MassActionHandlerInterface
     /**
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \InvalidArgumentException
-     * {@inheritdoc}
      */
+    #[\Override]
     public function handle(MassActionHandlerArgs $args): MassActionResponseInterface
     {
         $token = $this->tokenStorage->getToken();

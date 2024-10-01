@@ -12,9 +12,7 @@ use Psr\Log\LoggerInterface;
 
 class OroCommerceMenuBundle extends ParametrizedMigrationQuery implements Migration
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDescription()
     {
         $logger = new ArrayLogger();
@@ -23,17 +21,13 @@ class OroCommerceMenuBundle extends ParametrizedMigrationQuery implements Migrat
         return $logger->getMessages();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         $this->updateOroCommerceMenuUpdateTable($schema);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function execute(LoggerInterface $logger)
     {
         $this->setNullForEmptyScreens($logger);

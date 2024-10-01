@@ -33,6 +33,7 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
 
     private ThemeHeaderConfigProvider $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();
@@ -45,6 +46,7 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
         $this->provider = self::getContainer()->get('oro_frontend.layout.data_provider.theme_header_config');
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         self::getContainer()->get('security.token_storage')->setToken(null);

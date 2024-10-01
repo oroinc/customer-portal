@@ -17,10 +17,10 @@ class MenuUpdateExpressionValidator extends ConstraintValidator
     }
 
     /**
-     * {@inheritdoc}
      *
      * @param MenuUpdateExpression $constraint
      */
+    #[\Override]
     public function validate($value, Constraint $constraint)
     {
         if ($value) {

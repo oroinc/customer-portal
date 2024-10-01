@@ -244,9 +244,6 @@ class CustomerUser extends AbstractUser implements
     #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
     protected ?\DateTimeInterface $lastDuplicateNotificationDate = null;
 
-    /**
-     * {@inheritdoc}
-     */
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
@@ -256,16 +253,19 @@ class CustomerUser extends AbstractUser implements
         parent::__construct();
     }
 
+    #[\Override]
     public function serialize()
     {
         return $this->__serialize();
     }
 
+    #[\Override]
     public function unserialize(string $data)
     {
         $this->__unserialize(unserialize($data));
     }
 
+    #[\Override]
     public function __serialize(): array
     {
         return [
@@ -279,6 +279,7 @@ class CustomerUser extends AbstractUser implements
         ];
     }
 
+    #[\Override]
     public function __unserialize(array $serialized): void
     {
         [
@@ -377,6 +378,7 @@ class CustomerUser extends AbstractUser implements
      * @param string $username
      * @return CustomerUser
      */
+    #[\Override]
     public function setUsername($username): self
     {
         parent::setUsername($username);
@@ -392,6 +394,7 @@ class CustomerUser extends AbstractUser implements
     /**
      * @return string
      */
+    #[\Override]
     public function getEmail()
     {
         return $this->email;
@@ -423,6 +426,7 @@ class CustomerUser extends AbstractUser implements
     /**
      * @return string
      */
+    #[\Override]
     public function getNamePrefix()
     {
         return $this->namePrefix;
@@ -442,6 +446,7 @@ class CustomerUser extends AbstractUser implements
     /**
      * @return string
      */
+    #[\Override]
     public function getFirstName()
     {
         return $this->firstName;
@@ -461,6 +466,7 @@ class CustomerUser extends AbstractUser implements
     /**
      * @return string
      */
+    #[\Override]
     public function getMiddleName()
     {
         return $this->middleName;
@@ -480,6 +486,7 @@ class CustomerUser extends AbstractUser implements
     /**
      * @return string
      */
+    #[\Override]
     public function getLastName()
     {
         return $this->lastName;
@@ -499,6 +506,7 @@ class CustomerUser extends AbstractUser implements
     /**
      * @return string
      */
+    #[\Override]
     public function getNameSuffix()
     {
         return $this->nameSuffix;
@@ -623,9 +631,7 @@ class CustomerUser extends AbstractUser implements
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getOwner(): ?User
     {
         return $this->owner;
@@ -636,6 +642,7 @@ class CustomerUser extends AbstractUser implements
      *
      * @return CustomerUser
      */
+    #[\Override]
     public function setOwner(User $owner)
     {
         $this->owner = $owner;
@@ -647,9 +654,7 @@ class CustomerUser extends AbstractUser implements
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getApiKeys()
     {
         return $this->apiKeys;
@@ -803,6 +808,7 @@ class CustomerUser extends AbstractUser implements
     /**
      * @return Website
      */
+    #[\Override]
     public function getWebsite()
     {
         return $this->website;
@@ -820,6 +826,7 @@ class CustomerUser extends AbstractUser implements
      * @param Website|null $website
      * @return $this
      */
+    #[\Override]
     public function setWebsite(Website $website = null)
     {
         $this->website = $website;
@@ -896,31 +903,25 @@ class CustomerUser extends AbstractUser implements
         }
     }
 
-    /** {@inheritdoc} */
+    #[\Override]
     public function getEmailFields()
     {
         return ['email'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getEmailField()
     {
         return 'email';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getEmailOwner()
     {
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getOrganizations(bool $onlyEnabled = false)
     {
         $organizations = new ArrayCollection();
@@ -933,9 +934,7 @@ class CustomerUser extends AbstractUser implements
         return $organizations;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isEqualTo(SymfonyUserInterface $user): bool
     {
         if (!parent::isEqualTo($user)) {

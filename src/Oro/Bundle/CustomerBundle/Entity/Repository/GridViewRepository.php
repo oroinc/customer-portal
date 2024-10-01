@@ -6,17 +6,13 @@ use Oro\Bundle\DataGridBundle\Entity\Repository\GridViewRepository as BaseGridVi
 
 class GridViewRepository extends BaseGridViewRepository
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getOwnerFieldName()
     {
         return 'customerUserOwner';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getUserFieldName()
     {
         return 'customerUser';

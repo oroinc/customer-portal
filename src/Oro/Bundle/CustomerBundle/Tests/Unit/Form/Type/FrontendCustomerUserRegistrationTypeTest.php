@@ -24,6 +24,7 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
     /** @var FrontendCustomerUserRegistrationType */
     private $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);
@@ -35,9 +36,7 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

@@ -26,30 +26,24 @@ class AuthenticationTrustResolver extends BaseAuthenticationTrustResolver
         $this->decoratedResolver = $decoratedResolver;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isAnonymous(TokenInterface $token = null)
     {
         return $this->isAnonymousCustomerUser($token) || ($token && !$token->getUser());
     }
 
+    #[\Override]
     public function isAuthenticated(TokenInterface $token = null): bool
     {
         return $token && !$token instanceof AnonymousToken && $token->getUser();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isRememberMe(TokenInterface $token = null): bool
     {
         return $this->decoratedResolver->isRememberMe($token);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isFullFledged(TokenInterface $token = null): bool
     {
         return !$this->isAnonymousCustomerUser($token) && $this->decoratedResolver->isFullFledged($token);

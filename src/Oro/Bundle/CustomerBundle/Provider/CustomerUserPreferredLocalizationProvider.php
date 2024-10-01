@@ -20,9 +20,7 @@ class CustomerUserPreferredLocalizationProvider extends AbstractPreferredLocaliz
         $this->userLocalizationManager = $userLocalizationManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function supports($entity): bool
     {
         return $entity instanceof CustomerUser && !$entity->isGuest();
@@ -32,6 +30,7 @@ class CustomerUserPreferredLocalizationProvider extends AbstractPreferredLocaliz
      * @param CustomerUser $entity
      * @return Localization|null
      */
+    #[\Override]
     protected function getPreferredLocalizationForEntity($entity): ?Localization
     {
         /**

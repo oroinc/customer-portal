@@ -25,6 +25,7 @@ class FrontendCustomerUserRoleFormProviderTest extends \PHPUnit\Framework\TestCa
     /** @var FrontendCustomerUserRoleFormProvider */
     private $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->handler = $this->createMock(CustomerUserRoleUpdateFrontendHandler::class);

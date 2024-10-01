@@ -42,9 +42,7 @@ class CustomerExtension extends AbstractExtension implements ServiceSubscriberIn
         return $this->container->get(LoggerInterface::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getFunctions()
     {
         return [
@@ -84,9 +82,7 @@ class CustomerExtension extends AbstractExtension implements ServiceSubscriberIn
         return $this->getCustomerUserProvider()->isGrantedViewCustomerUser($object);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return [

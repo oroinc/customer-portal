@@ -15,6 +15,7 @@ class GenerateCustomerUserWsseHeaderCommand extends GenerateWsseHeaderCommand
     /** @var string */
     protected static $defaultName = 'oro:customer-user:wsse:generate-header';
 
+    #[\Override]
     public function configure()
     {
         parent::configure();
@@ -22,11 +23,13 @@ class GenerateCustomerUserWsseHeaderCommand extends GenerateWsseHeaderCommand
         $this->setDescription('Generates X-WSSE HTTP header for a given customer user API key.');
     }
 
+    #[\Override]
     protected function getApiKeyEntityClass(): string
     {
         return CustomerUserApi::class;
     }
 
+    #[\Override]
     protected function getDefaultSecurityFirewall(): string
     {
         return 'frontend_api_wsse_secured';

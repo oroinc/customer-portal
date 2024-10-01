@@ -23,9 +23,7 @@ class OroAccountBundleStage2 implements
     use ActivityExtensionAwareTrait;
     use MigrationConstraintTrait;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         $this->renameCustomer($schema);
@@ -396,9 +394,7 @@ class OroAccountBundleStage2 implements
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getOrder()
     {
         return 2;

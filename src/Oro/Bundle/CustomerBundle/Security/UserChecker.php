@@ -23,9 +23,7 @@ class UserChecker implements UserCheckerInterface
         $this->userCheckerInner = $userCheckerInner;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function checkPostAuth(UserInterface $user)
     {
         $this->userCheckerInner->checkPostAuth($user);
@@ -58,9 +56,7 @@ class UserChecker implements UserCheckerInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function checkPreAuth(UserInterface $user)
     {
         if ($user instanceof CustomerUser && $user->isGuest()) {

@@ -25,18 +25,16 @@ class CustomerFixture extends AbstractTemplateRepository implements TemplateFixt
         $this->enumOptionsProvider = $enumOptionsProvider;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getEntityClass()
     {
         return Customer::class;
     }
 
     /**
-     * {@inheritdoc}
      * @param Customer $entity
      */
+    #[\Override]
     public function fillEntityData($key, $entity)
     {
         $entity->setName('Company A - East Division');
@@ -53,17 +51,13 @@ class CustomerFixture extends AbstractTemplateRepository implements TemplateFixt
         $entity->setInternalRating($internalRating);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getData()
     {
         return $this->getEntityData('Company A - East Division');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function createEntity($key)
     {
         $customer = new Customer();

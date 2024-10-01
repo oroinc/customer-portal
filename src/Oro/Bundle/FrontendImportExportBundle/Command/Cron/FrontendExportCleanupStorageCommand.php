@@ -29,15 +29,14 @@ class FrontendExportCleanupStorageCommand extends CleanupStorageCommandAbstract
         parent::__construct();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDefaultDefinition(): string
     {
         return '0 0 */1 * *';
     }
 
     /** @noinspection PhpMissingParentCallCommonInspection */
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -63,18 +62,14 @@ HELP
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getFilesForDeletion($from, $to): array
     {
         $this->importExportResultManager->markResultsAsExpired($from, $to);
         return $this->fileManager->getFilesByPeriod($from, $to);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function deleteFile(File $file): void
     {
         $this->fileManager->deleteFile($file);

@@ -8,9 +8,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class OroStyleBookBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getContainerExtension(): ?ExtensionInterface
     {
         if (null === $this->extension) {

@@ -64,6 +64,7 @@ class StorefrontIconsMappingProvider implements ResetInterface
         return array_merge(...$iconsMapping);
     }
 
+    #[\Override]
     public function reset(): void
     {
         $this->cache->clear(self::CACHE_KEY);

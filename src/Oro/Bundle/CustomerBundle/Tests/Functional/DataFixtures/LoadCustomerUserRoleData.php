@@ -22,9 +22,7 @@ class LoadCustomerUserRoleData extends AbstractFixture implements DependentFixtu
     const ROLE_SELF_MANAGED = 'Role that is self managed';
     const ROLE_NOT_PUBLIC = 'Role that is not public';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [
@@ -34,6 +32,7 @@ class LoadCustomerUserRoleData extends AbstractFixture implements DependentFixtu
         ];
     }
 
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         $this->loadRoleWithCustomerUser(

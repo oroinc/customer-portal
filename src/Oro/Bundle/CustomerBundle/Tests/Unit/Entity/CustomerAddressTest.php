@@ -8,9 +8,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 
 class CustomerAddressTest extends AbstractAddressTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function createAddressEntity(): AbstractDefaultTypedAddress
     {
         return new CustomerAddress();

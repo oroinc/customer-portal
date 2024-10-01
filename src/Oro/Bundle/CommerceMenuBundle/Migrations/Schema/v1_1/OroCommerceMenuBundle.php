@@ -13,9 +13,7 @@ class OroCommerceMenuBundle implements Migration, RenameExtensionAwareInterface
 {
     use RenameExtensionAwareTrait;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         /** Table updates **/

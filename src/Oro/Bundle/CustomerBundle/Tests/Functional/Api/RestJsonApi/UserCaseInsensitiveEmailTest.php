@@ -16,6 +16,7 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
 {
     use ConfigManagerAwareTestTrait;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

@@ -13,6 +13,7 @@ class MenuTemplatePathProviderTest extends \PHPUnit\Framework\TestCase
 
     private MenuTemplatePathProvider $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->themeManager = $this->createMock(ThemeManager::class);

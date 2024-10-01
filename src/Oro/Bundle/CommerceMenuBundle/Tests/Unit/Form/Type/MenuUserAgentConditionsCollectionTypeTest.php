@@ -22,6 +22,7 @@ class MenuUserAgentConditionsCollectionTypeTest extends FormIntegrationTestCase
     /** @var MenuUserAgentConditionsCollectionTransformer */
     private $transformer;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->transformer = new MenuUserAgentConditionsCollectionTransformer();
@@ -30,9 +31,7 @@ class MenuUserAgentConditionsCollectionTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

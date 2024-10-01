@@ -14,6 +14,7 @@ use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
  */
 class ContentNodeSyntheticPropagator implements MenuItemToMenuUpdatePropagatorInterface
 {
+    #[\Override]
     public function isApplicable(MenuUpdateInterface $menuUpdate, ItemInterface $menuItem, string $strategy): bool
     {
         return $menuUpdate instanceof MenuUpdate
@@ -27,6 +28,7 @@ class ContentNodeSyntheticPropagator implements MenuItemToMenuUpdatePropagatorIn
             );
     }
 
+    #[\Override]
     public function propagateFromMenuItem(
         MenuUpdateInterface $menuUpdate,
         ItemInterface $menuItem,

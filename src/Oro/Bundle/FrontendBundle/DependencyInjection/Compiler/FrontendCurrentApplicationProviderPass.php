@@ -13,9 +13,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class FrontendCurrentApplicationProviderPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(ContainerBuilder $container)
     {
         $currentApplicationProviderDef = $container->getDefinition('oro_action.provider.current_application');

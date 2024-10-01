@@ -7,9 +7,7 @@ use Oro\Bundle\DataGridBundle\Tests\Behat\Element\GridColumnManager;
 
 class FrontendGridColumnManager extends GridColumnManager
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function checkColumnVisibility($title)
     {
         $this->ensureManagerVisible();
@@ -28,6 +26,7 @@ class FrontendGridColumnManager extends GridColumnManager
     /**
      * @param string $title
      */
+    #[\Override]
     public function uncheckColumnVisibility($title)
     {
         $this->ensureManagerVisible();
@@ -46,6 +45,7 @@ class FrontendGridColumnManager extends GridColumnManager
         );
     }
 
+    #[\Override]
     protected function ensureManagerVisible()
     {
         if ($this->isVisible()) {
@@ -62,9 +62,7 @@ class FrontendGridColumnManager extends GridColumnManager
         self::assertTrue($this->isVisible(), 'Can not open grid column manager dropdown');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function hideAllColumns(array $exceptions = [])
     {
         $this->ensureManagerVisible();
@@ -94,9 +92,7 @@ class FrontendGridColumnManager extends GridColumnManager
         return $rows;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getVisibilityCheckbox($title)
     {
         $field = $this->find('xpath', '//label[@class="checkbox-label"][contains(.,"' . $title . '")]');

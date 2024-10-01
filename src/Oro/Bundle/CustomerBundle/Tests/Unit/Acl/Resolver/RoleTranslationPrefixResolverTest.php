@@ -16,6 +16,7 @@ class RoleTranslationPrefixResolverTest extends \PHPUnit\Framework\TestCase
     /** @var RoleTranslationPrefixResolver */
     private $resolver;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);

@@ -25,6 +25,7 @@ class DraftableFilterListenerTest extends \PHPUnit\Framework\TestCase
     /** @var DraftableFilterListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);

@@ -29,6 +29,7 @@ class NavigationRootBuilderTest extends TestCase
 
     private NavigationRootBuilder $builder;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->webCatalogProvider = $this->createMock(WebCatalogProvider::class);

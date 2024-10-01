@@ -46,9 +46,6 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
     )]
     private ?CustomerUser $customerUser = null;
 
-    /**
-     * {@inheritdoc}
-     */
     public function __construct()
     {
         $this->lastVisit = new \DateTime('now', new \DateTimeZone('UTC'));
@@ -127,15 +124,18 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
         return $this->customerUser;
     }
 
+    #[\Override]
     public function getRoles(): array
     {
         return ['ROLE_FRONTEND_ANONYMOUS'];
     }
 
+    #[\Override]
     public function eraseCredentials()
     {
     }
 
+    #[\Override]
     public function getUserIdentifier(): string
     {
         if (null === $this->getId()) {

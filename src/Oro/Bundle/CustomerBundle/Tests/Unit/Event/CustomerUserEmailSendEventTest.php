@@ -23,9 +23,7 @@ class CustomerUserEmailSendEventTest extends \PHPUnit\Framework\TestCase
      */
     private $website;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->customerUser = new CustomerUser();

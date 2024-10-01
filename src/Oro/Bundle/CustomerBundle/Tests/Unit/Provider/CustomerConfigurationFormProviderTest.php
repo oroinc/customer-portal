@@ -18,17 +18,13 @@ class CustomerConfigurationFormProviderTest extends AbstractProviderTest
     protected const CONFIG_SCOPE = 'customer';
     protected const TREE_NAME = 'customer_configuration';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getParentCheckboxLabel(): string
     {
         return 'oro.customer.customer_configuration.use_default';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getProvider(
         ConfigBag $configBag,
         TranslatorInterface $translator,
@@ -51,9 +47,7 @@ class CustomerConfigurationFormProviderTest extends AbstractProviderTest
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getFilePath($fileName): string
     {
         return __DIR__ . '/data/customer_configuration/' . $fileName;

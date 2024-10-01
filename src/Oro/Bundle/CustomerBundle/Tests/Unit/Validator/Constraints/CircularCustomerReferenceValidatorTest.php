@@ -15,12 +15,14 @@ class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
     /** @var OwnerTreeInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $ownerTree;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->ownerTree = $this->createMock(OwnerTreeInterface::class);
         parent::setUp();
     }
 
+    #[\Override]
     protected function createValidator()
     {
         $ownerTreeProvider = $this->createMock(OwnerTreeProviderInterface::class);

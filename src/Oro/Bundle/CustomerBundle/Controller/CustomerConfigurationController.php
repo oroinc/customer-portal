@@ -82,9 +82,7 @@ class CustomerConfigurationController implements ServiceSubscriberInterface
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return [

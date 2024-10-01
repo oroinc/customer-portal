@@ -7,6 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerVisitorOwnerAwareInterface;
 
 class CustomerVisitorOwnedEntity implements CustomerVisitorOwnerAwareInterface
 {
+    #[\Override]
     public function getVisitor()
     {
         return new CustomerVisitor();

@@ -12,9 +12,7 @@ class OroWebsiteBundle implements Migration, ScopeExtensionAwareInterface
 {
     use ScopeExtensionAwareTrait;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries): void
     {
         $this->scopeExtension->addScopeAssociation($schema, 'website', 'oro_website', 'name');

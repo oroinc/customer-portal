@@ -20,6 +20,9 @@ system_configuration:
             title: oro.customer.system_configuration.groups.responsive_grid_settings.title
         frontend_rest_api:
             title: oro.customer.system_configuration.groups.rest_api.title
+        customer_user_interactions:
+            title: oro.customer.system_configuration.groups.customer_user_interactions.title
+            icon: 'fa-commenting-o'
     fields:
         oro_customer.default_customer_owner:
             ui_only: true

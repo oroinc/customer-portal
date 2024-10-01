@@ -7,6 +7,7 @@ use Symfony\Component\Asset\Packages;
 
 final class CssFontSizeConfigBuilderTest extends AbstractCssConfigBuilderTest
 {
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -40,6 +41,7 @@ final class CssFontSizeConfigBuilderTest extends AbstractCssConfigBuilderTest
         self::assertTrue($form->isValid());
     }
 
+    #[\Override]
     protected function getSupportsDataProvider(): array
     {
         return [
@@ -48,6 +50,7 @@ final class CssFontSizeConfigBuilderTest extends AbstractCssConfigBuilderTest
         ];
     }
 
+    #[\Override]
     protected function getValidValueDataProvider(): array
     {
         return [

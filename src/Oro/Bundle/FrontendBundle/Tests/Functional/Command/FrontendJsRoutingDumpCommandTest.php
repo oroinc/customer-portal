@@ -14,6 +14,7 @@ class FrontendJsRoutingDumpCommandTest extends WebTestCase
 
     private string $tempDir;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

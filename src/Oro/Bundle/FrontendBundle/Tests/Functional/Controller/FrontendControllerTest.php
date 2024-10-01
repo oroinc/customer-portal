@@ -12,6 +12,7 @@ class FrontendControllerTest extends WebTestCase
 
     private const FRONTEND_THEME_CONFIG_KEY = 'oro_frontend.frontend_theme';
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();
@@ -20,6 +21,7 @@ class FrontendControllerTest extends WebTestCase
         $this->loadFixtures([LoadProductData::class]);
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         $this->setDefaultTheme();

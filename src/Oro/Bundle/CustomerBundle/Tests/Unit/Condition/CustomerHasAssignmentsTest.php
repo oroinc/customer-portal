@@ -19,6 +19,7 @@ class CustomerHasAssignmentsTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerHasAssignments */
     private $condition;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->helper = $this->createMock(CustomerAssignHelper::class);

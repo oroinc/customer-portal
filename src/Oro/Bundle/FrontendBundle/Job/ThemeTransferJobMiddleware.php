@@ -19,6 +19,7 @@ class ThemeTransferJobMiddleware implements MessageProducerMiddlewareInterface
     ) {
     }
 
+    #[\Override]
     public function handle(Message $message): void
     {
         if ($message->getProperty(self::QUEUE_MESSAGE_THEME_ID)) {

@@ -15,6 +15,7 @@ class RoutingSystemConfigFormOptionsListenerTest extends \PHPUnit\Framework\Test
     /** @var RoutingSystemConfigFormOptionsListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);

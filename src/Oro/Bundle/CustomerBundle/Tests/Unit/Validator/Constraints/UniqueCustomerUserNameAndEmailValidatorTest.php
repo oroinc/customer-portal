@@ -15,12 +15,14 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends ConstraintValidatorTes
     /** @var  */
     private CustomerUserManager|MockObject $customerUserManager;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->customerUserManager = $this->createMock(CustomerUserManager::class);
         parent::setUp();
     }
 
+    #[\Override]
     protected function createValidator()
     {
         return new UniqueCustomerUserNameAndEmailValidator(

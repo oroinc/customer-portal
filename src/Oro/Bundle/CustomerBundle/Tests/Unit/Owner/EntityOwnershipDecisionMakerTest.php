@@ -61,6 +61,7 @@ class EntityOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
     private CustomerUser $custUsr4;
     private CustomerUser $custUsr411;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->tree = new OwnerTree();

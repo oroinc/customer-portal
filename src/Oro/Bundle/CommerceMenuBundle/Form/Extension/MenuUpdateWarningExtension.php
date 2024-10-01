@@ -16,11 +16,13 @@ use Symfony\Component\Form\FormView;
  */
 class MenuUpdateWarningExtension extends AbstractTypeExtension
 {
+    #[\Override]
     public static function getExtendedTypes(): iterable
     {
         return [MenuUpdateType::class];
     }
 
+    #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         /** @var ItemInterface $menu */

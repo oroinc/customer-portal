@@ -19,9 +19,7 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface, Orde
     use RenameExtensionAwareTrait;
     use MigrationConstraintTrait;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         $this->dropVisibilityTables($schema, $queries);
@@ -252,9 +250,7 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface, Orde
         $queries->addQuery(new RemoveVisibilityFromEntityConfigQuery());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getOrder()
     {
         return 0;

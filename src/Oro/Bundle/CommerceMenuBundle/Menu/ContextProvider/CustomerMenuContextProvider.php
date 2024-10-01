@@ -20,9 +20,7 @@ class CustomerMenuContextProvider implements CustomerMenuContextProviderInterfac
         $this->websiteManager = $websiteManager;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getContexts(Customer $customer)
     {
         return [

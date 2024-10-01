@@ -29,6 +29,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
     /** @var CustomerUserRoleUpdateFrontendHandler */
     protected $handler;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -39,9 +40,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getHandler(): AbstractCustomerUserRoleHandler
     {
         if (!$this->handler) {
@@ -269,6 +268,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         $this->handler->createForm(new CustomerUserRole(''));
     }
 
+    #[\Override]
     public function processWithCustomerProvider(): array
     {
         /** @var CustomerUser[] $users */

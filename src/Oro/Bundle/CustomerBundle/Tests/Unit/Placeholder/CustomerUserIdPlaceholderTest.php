@@ -16,6 +16,7 @@ class CustomerUserIdPlaceholderTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserIdPlaceholder */
     private $placeholder;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);

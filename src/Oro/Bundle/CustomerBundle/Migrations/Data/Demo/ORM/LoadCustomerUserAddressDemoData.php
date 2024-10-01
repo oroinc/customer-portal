@@ -13,17 +13,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
  */
 class LoadCustomerUserAddressDemoData extends AbstractLoadAddressDemoData implements DependentFixtureInterface
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [LoadCustomerUserDemoData::class];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $userManager = $this->container->get('oro_customer_user.manager');
@@ -58,9 +54,7 @@ class LoadCustomerUserAddressDemoData extends AbstractLoadAddressDemoData implem
         fclose($handler);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getNewAddressEntity(): AbstractDefaultTypedAddress
     {
         return new CustomerUserAddress();

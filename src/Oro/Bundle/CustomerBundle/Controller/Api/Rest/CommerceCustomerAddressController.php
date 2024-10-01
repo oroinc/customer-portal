@@ -170,33 +170,25 @@ class CommerceCustomerAddressController extends RestController
         return $this->container->get('oro_customer.manager.customer.api.attribute');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getManager()
     {
         return $this->container->get('oro_customer.customer_address.manager.api');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getForm()
     {
         throw new \BadMethodCallException('Form is not available.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getFormHandler()
     {
         throw new \BadMethodCallException('FormHandler is not available.');
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getPreparedItem($entity, $resultFields = [])
     {
         // convert addresses to plain array
@@ -250,6 +242,7 @@ class CommerceCustomerAddressController extends RestController
         }
     }
 
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return array_merge(

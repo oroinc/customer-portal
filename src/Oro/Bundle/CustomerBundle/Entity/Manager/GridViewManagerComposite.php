@@ -30,9 +30,7 @@ class GridViewManagerComposite extends BaseGridViewManager
         $this->tokenAccessor = $tokenAccessor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function setDefaultGridView(AbstractUser $user, ViewInterface $gridView, $default = true)
     {
         $this->isFrontend()
@@ -40,9 +38,7 @@ class GridViewManagerComposite extends BaseGridViewManager
             : $this->defaultGridViewManager->setDefaultGridView($user, $gridView, $default);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getSystemViews($gridName)
     {
         return $this->isFrontend()
@@ -50,9 +46,7 @@ class GridViewManagerComposite extends BaseGridViewManager
             : $this->defaultGridViewManager->getSystemViews($gridName);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getAllGridViews(AbstractUser $user = null, $gridName = null)
     {
         return $this->isFrontend()
@@ -60,9 +54,7 @@ class GridViewManagerComposite extends BaseGridViewManager
             : $this->defaultGridViewManager->getAllGridViews($user, $gridName);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDefaultView(AbstractUser $user, $gridName)
     {
         return $this->isFrontend()
@@ -70,9 +62,7 @@ class GridViewManagerComposite extends BaseGridViewManager
             : $this->defaultGridViewManager->getDefaultView($user, $gridName);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getView($id, $default, $gridName)
     {
         return $this->isFrontend()

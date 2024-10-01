@@ -25,6 +25,7 @@ class ExportResultNotificationSenderTest extends \PHPUnit\Framework\TestCase
 
     private ExportResultNotificationSender $sender;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->emailTemplateSender = $this->createMock(EmailTemplateSender::class);

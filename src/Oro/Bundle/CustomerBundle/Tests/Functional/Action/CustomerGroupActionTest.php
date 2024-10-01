@@ -13,6 +13,7 @@ class CustomerGroupActionTest extends WebTestCase
     use ConfigManagerAwareTestTrait;
     use OperationAwareTestTrait;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());

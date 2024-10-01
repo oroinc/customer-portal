@@ -22,17 +22,13 @@ class CustomerGroupScopeManager extends AbstractScopeManager
         $this->tokenStorage = $tokenStorage;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getScopedEntityName(): string
     {
         return 'customer_group';
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getScopeId(): int
     {
         $this->ensureScopeIdInitialized();
@@ -40,9 +36,7 @@ class CustomerGroupScopeManager extends AbstractScopeManager
         return $this->scopeId;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function setScopeId(?int $scopeId): void
     {
         $this->dispatchScopeIdChangeEvent();
@@ -50,9 +44,7 @@ class CustomerGroupScopeManager extends AbstractScopeManager
         $this->scopeId = $scopeId ?? 0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function isSupportedScopeEntity(object $entity): bool
     {
         return
@@ -60,9 +52,7 @@ class CustomerGroupScopeManager extends AbstractScopeManager
             || ($entity instanceof Customer && null !== $entity->getGroup());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getScopeEntityIdValue(object $entity): int
     {
         if ($entity instanceof CustomerGroup) {

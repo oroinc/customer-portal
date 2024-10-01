@@ -36,6 +36,7 @@ class MasterCatalogNavigationRootBuilder implements BuilderInterface
         $this->treeItemOptions = $treeItemOptions;
     }
 
+    #[\Override]
     public function build(ItemInterface $menu, array $options = [], $alias = null): void
     {
         if (!$menu->isDisplayed()) {

@@ -33,6 +33,7 @@ class GuestCustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     /** @var GuestCustomerUserManager */
     private $guestCustomerUserManager;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->websiteManager = $this->createMock(WebsiteManager::class);

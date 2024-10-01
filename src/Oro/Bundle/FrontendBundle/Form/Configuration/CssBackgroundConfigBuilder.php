@@ -7,6 +7,7 @@ namespace Oro\Bundle\FrontendBundle\Form\Configuration;
  */
 class CssBackgroundConfigBuilder extends AbstractCssConfigBuilder
 {
+    #[\Override]
     public static function getType(): string
     {
         return 'css_background';

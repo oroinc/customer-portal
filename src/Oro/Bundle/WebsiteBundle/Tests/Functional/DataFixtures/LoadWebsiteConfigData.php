@@ -43,17 +43,13 @@ class LoadWebsiteConfigData extends AbstractFixture implements DependentFixtureI
         ],
     ];
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [LoadWebsiteData::class];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         // Config uses non-default manager

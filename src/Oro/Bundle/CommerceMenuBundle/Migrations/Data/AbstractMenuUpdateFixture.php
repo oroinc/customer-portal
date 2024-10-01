@@ -52,6 +52,7 @@ abstract class AbstractMenuUpdateFixture extends AbstractFixture implements Cont
 
     protected ?ItemInterface $menu = null;
 
+    #[\Override]
     public function setContainer(ContainerInterface $container = null): void
     {
         $this->container = $container;
@@ -67,6 +68,7 @@ abstract class AbstractMenuUpdateFixture extends AbstractFixture implements Cont
         }
     }
 
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $user = $this->getFirstUser($manager);

@@ -32,6 +32,7 @@ class ClearLostCustomerUsers implements MessageProcessorInterface, TopicSubscrib
         $this->queryHelper = $queryHelper;
     }
 
+    #[\Override]
     public function process(MessageInterface $message, SessionInterface $session): string
     {
         if ($message->getBody() !== '') {
@@ -104,6 +105,7 @@ class ClearLostCustomerUsers implements MessageProcessorInterface, TopicSubscrib
         $em->flush();
     }
 
+    #[\Override]
     public static function getSubscribedTopics(): array
     {
         return [ClearLostCustomerUsersTopic::getName()];

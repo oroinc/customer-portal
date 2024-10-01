@@ -10,9 +10,7 @@ use Oro\Component\Action\Action\AssignActiveUser;
  */
 class GetActiveUserOrNull extends AssignActiveUser
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function executeAction($context)
     {
         $token = $this->tokenStorage->getToken();

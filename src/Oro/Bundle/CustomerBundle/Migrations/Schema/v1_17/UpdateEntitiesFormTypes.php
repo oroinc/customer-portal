@@ -15,9 +15,7 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class UpdateEntitiesFormTypes implements Migration
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         $queries->addPostQuery($this->createUpdateEntityQuery(

@@ -22,6 +22,7 @@ class EmailTemplateSenderTest extends WebTestCase
     use MailerAssertionsTrait;
     use ConfigManagerAwareTestTrait;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

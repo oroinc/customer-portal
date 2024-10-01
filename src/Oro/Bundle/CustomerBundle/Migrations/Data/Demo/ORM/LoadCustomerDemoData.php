@@ -49,9 +49,7 @@ class LoadCustomerDemoData extends AbstractEntityReferenceFixture implements Dep
         ],
     ];
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [
@@ -60,9 +58,7 @@ class LoadCustomerDemoData extends AbstractEntityReferenceFixture implements Dep
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $internalRatings = $this->getObjectReferencesByIds(

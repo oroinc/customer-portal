@@ -28,17 +28,13 @@ class CustomerVisitorEmailAddressType extends EmailAddressType
         $this->tokenStorage = $tokenStorage;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getParent(): ?string
     {
         return EmailAddressType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
@@ -59,8 +55,8 @@ class CustomerVisitorEmailAddressType extends EmailAddressType
 
     /**
      * Forces setting required (asterisk) for Guest
-     * {@inheritdoc}
      */
+    #[\Override]
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         if ($this->isGuest()) {
@@ -75,17 +71,13 @@ class CustomerVisitorEmailAddressType extends EmailAddressType
         return $token instanceof AnonymousCustomerUserToken;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getName()
     {
         return $this->getBlockPrefix();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;

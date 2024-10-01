@@ -14,6 +14,7 @@ class ThemeTransferJobMiddlewareTest extends TestCase
     private CurrentThemeProvider|MockObject $currentThemeProvider;
     private ThemeTransferJobMiddleware $themeTransferJobMiddleware;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->currentThemeProvider = $this->createMock(CurrentThemeProvider::class);

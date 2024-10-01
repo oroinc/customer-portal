@@ -36,6 +36,7 @@ class PermissionGrantingStrategyTest extends TestCase
     /** @var MockObject */
     private $context;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->innerStrategy = $this->createMock(InnerStrategy::class);

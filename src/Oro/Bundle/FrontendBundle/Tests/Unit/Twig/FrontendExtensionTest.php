@@ -27,6 +27,7 @@ class FrontendExtensionTest extends TestCase
 
     private FrontendExtension $extension;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->environment = $this->createMock(Environment::class);

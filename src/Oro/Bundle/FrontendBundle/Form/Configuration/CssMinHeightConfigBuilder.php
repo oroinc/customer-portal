@@ -7,6 +7,7 @@ namespace Oro\Bundle\FrontendBundle\Form\Configuration;
  */
 class CssMinHeightConfigBuilder extends AbstractCssConfigBuilder
 {
+    #[\Override]
     public static function getType(): string
     {
         return 'css_min_height';

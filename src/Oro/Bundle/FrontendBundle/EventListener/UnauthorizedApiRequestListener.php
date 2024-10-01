@@ -35,9 +35,7 @@ class UnauthorizedApiRequestListener implements ServiceSubscriberInterface
         $this->backendPrefix = $backendPrefix;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return [

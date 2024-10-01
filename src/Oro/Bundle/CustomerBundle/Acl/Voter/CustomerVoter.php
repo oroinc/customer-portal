@@ -25,7 +25,6 @@ class CustomerVoter extends AbstractEntityVoter implements ServiceSubscriberInte
     const ATTRIBUTE_VIEW = 'ACCOUNT_VIEW';
     const ATTRIBUTE_EDIT = 'ACCOUNT_EDIT';
 
-    /** {@inheritDoc} */
     protected $supportedAttributes = [self::ATTRIBUTE_VIEW, self::ATTRIBUTE_EDIT];
 
     private AuthorizationCheckerInterface $authorizationChecker;
@@ -48,9 +47,7 @@ class CustomerVoter extends AbstractEntityVoter implements ServiceSubscriberInte
         $this->container = $container;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return [
@@ -59,17 +56,13 @@ class CustomerVoter extends AbstractEntityVoter implements ServiceSubscriberInte
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function supportsClass($class)
     {
         return is_a($class, CustomerOwnerAwareInterface::class, true);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function vote(TokenInterface $token, $object, array $attributes): int
     {
         $user = $this->getUser($token);
@@ -115,9 +108,7 @@ class CustomerVoter extends AbstractEntityVoter implements ServiceSubscriberInte
         return $token->getUser();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getPermissionForAttribute($class, $identifier, $attribute)
     {
         if (null === $identifier) {

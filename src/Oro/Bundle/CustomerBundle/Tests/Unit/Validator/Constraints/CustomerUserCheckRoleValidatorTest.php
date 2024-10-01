@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class CustomerUserCheckRoleValidatorTest extends ConstraintValidatorTestCase
 {
+    #[\Override]
     protected function createValidator()
     {
         return new CustomerUserCheckRoleValidator();

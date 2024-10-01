@@ -41,6 +41,7 @@ class CategoryTreeBuilderTest extends TestCase
     private TokenAccessorInterface|MockObject $tokenAccessor;
     private CategoryTreeBuilder $builder;
 
+    #[\Override]
     protected function setUp(): void
     {
         $managerRegistry = $this->createMock(ManagerRegistry::class);

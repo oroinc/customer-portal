@@ -9,6 +9,7 @@ use Oro\Bundle\DigitalAssetBundle\Migrations\Data\AbstractDigitalAssetFixture;
  */
 class LoadPromoDigitalAssetDemoData extends AbstractDigitalAssetFixture
 {
+    #[\Override]
     protected function getDataPath(): string
     {
         return '@OroCommerceMenuBundle/Migrations/Data/Demo/ORM/data/promoDigitalAssets.yml';

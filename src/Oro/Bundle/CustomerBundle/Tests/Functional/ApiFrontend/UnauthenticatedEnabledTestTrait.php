@@ -8,9 +8,6 @@ trait UnauthenticatedEnabledTestTrait
 {
     private int $numberOfVisitors;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function tearDown(): void
     {
         $this->setApiUnauthenticatedAccessEnabled(false);
@@ -24,9 +21,6 @@ trait UnauthenticatedEnabledTestTrait
         parent::tearDown();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function initializeVisitor(): void
     {
         $this->numberOfVisitors = $this->getEntityManager()->getRepository(CustomerVisitor::class)->count([]);

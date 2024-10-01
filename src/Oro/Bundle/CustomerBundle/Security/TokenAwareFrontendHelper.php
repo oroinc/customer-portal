@@ -35,6 +35,7 @@ class TokenAwareFrontendHelper extends FrontendHelper
         $this->tokenStorage = $tokenStorage;
     }
 
+    #[\Override]
     public function isFrontendRequest(): bool
     {
         if ($this->emulateFrontendRequest !== null) {

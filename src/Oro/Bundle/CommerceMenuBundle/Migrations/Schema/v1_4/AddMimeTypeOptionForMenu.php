@@ -13,9 +13,7 @@ class AddMimeTypeOptionForMenu implements Migration
         'image/svg+xml',
     ];
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         $queries->addQuery(

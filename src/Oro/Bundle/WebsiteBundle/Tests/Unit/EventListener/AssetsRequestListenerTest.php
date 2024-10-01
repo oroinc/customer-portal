@@ -16,6 +16,7 @@ class AssetsRequestListenerTest extends \PHPUnit\Framework\TestCase
     /** @var AssetsRequestListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->requestContext = $this->createMock(RequestContext::class);

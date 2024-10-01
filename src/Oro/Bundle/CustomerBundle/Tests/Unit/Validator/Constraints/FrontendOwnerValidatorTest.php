@@ -68,6 +68,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
     /** @var Organization */
     private $currentOrg;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->doctrine = $this->createMock(ManagerRegistry::class);
@@ -102,6 +103,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         parent::setUp();
     }
 
+    #[\Override]
     protected function createValidator(): FrontendOwnerValidator
     {
         return new FrontendOwnerValidator(

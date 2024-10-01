@@ -9,6 +9,7 @@ class GridViewUserRepository extends BaseGridViewUserRepository
     /**
      * @return string
      */
+    #[\Override]
     protected function getUserFieldName()
     {
         return 'customerUser';

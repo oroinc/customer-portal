@@ -30,6 +30,7 @@ class FileUrlProviderTest extends WebTestCase
 
     private FileUrlProvider $fileUrlProvider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient(

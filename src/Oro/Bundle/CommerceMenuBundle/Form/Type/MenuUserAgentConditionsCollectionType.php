@@ -24,9 +24,7 @@ class MenuUserAgentConditionsCollectionType extends AbstractType
         $this->menuUserAgentConditionsTransformer = $menuUserAgentConditionsTransformer;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addModelTransformer($this->menuUserAgentConditionsTransformer);
@@ -37,9 +35,7 @@ class MenuUserAgentConditionsCollectionType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'preSetData'], 10);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
@@ -71,25 +67,18 @@ class MenuUserAgentConditionsCollectionType extends AbstractType
         $event->setData($groupedConditionsArray);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getParent(): ?string
     {
         return OroCollectionType::class;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName()
     {
         return $this->getBlockPrefix();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return static::NAME;

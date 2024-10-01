@@ -20,6 +20,7 @@ class LoginListenerTest extends \PHPUnit\Framework\TestCase
 
     private LoginListener $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->request = Request::create(self::TEST_URL);

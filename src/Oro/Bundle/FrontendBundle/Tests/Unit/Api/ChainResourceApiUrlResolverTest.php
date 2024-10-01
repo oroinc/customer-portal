@@ -30,6 +30,7 @@ class ChainResourceApiUrlResolverTest extends \PHPUnit\Framework\TestCase
     /** @var ChainResourceApiUrlResolver */
     private $chainResolver;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->resolver1 = $this->createMock(ResourceApiUrlResolverInterface::class);

@@ -60,6 +60,7 @@ class CustomerRegistrationHandler implements CustomerRegistrationHandlerInterfac
         $this->translator = $translator;
     }
 
+    #[\Override]
     public function handleRegistration(Request $request): array|RedirectResponse
     {
         $form = $this->getForm();
@@ -78,11 +79,13 @@ class CustomerRegistrationHandler implements CustomerRegistrationHandlerInterfac
         );
     }
 
+    #[\Override]
     public function isRegistrationRequest(Request $request): bool
     {
         return (bool) $request->query->get('isRegistration');
     }
 
+    #[\Override]
     public function getForm(): FormInterface
     {
         if (null === $this->form) {

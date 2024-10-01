@@ -44,6 +44,7 @@ class CustomerUserApi implements UserApiKeyInterface
      *
      * @return bool
      */
+    #[\Override]
     public function isEnabled()
     {
         return true;
@@ -54,6 +55,7 @@ class CustomerUserApi implements UserApiKeyInterface
      *
      * @return string
      */
+    #[\Override]
     public function getApiKey()
     {
         return $this->apiKey;
@@ -78,6 +80,7 @@ class CustomerUserApi implements UserApiKeyInterface
      *
      * @return CustomerUser
      */
+    #[\Override]
     public function getUser()
     {
         return $this->user;
@@ -102,6 +105,7 @@ class CustomerUserApi implements UserApiKeyInterface
      *
      * @return Organization
      */
+    #[\Override]
     public function getOrganization()
     {
         return $this->getUser()->getOrganization();

@@ -20,6 +20,7 @@ class PageTemplatesThemeConfigurationExtensionTest extends TestCase
 
     private ThemeConfigurationProvider $themeConfigurationProvider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $cacheFile = $this->getTempFile('PageTemplatesThemeConfigurationExtension');

@@ -7,12 +7,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class EntityChangesetTypeStub extends EntityChangesetType
 {
-    /** {@inheritdoc} */
     public function __construct()
     {
     }
 
-    /** {@inheritdoc} */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
     }

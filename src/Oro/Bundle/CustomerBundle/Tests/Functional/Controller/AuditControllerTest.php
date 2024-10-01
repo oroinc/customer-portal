@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 class AuditControllerTest extends WebTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient(

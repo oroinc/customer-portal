@@ -21,6 +21,7 @@ class OwnerTreeCacheJobProcessorTest extends WebTestCase
     use MessageQueueExtension;
     use JobsAwareTestTrait;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->markTestSkipped('BAP-22209');

@@ -7,7 +7,9 @@ layout:
                 __wrapper:
                     blockType: container
                 __actions_container:
-                    blockType: container
+                    blockType: layout_subtree_update
+                    options:
+                        reloadEvents: ['actions-container:refresh']
                 __actions-list:
                     blockType: list
                     options:

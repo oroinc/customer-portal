@@ -19,6 +19,7 @@ class RequestWebsiteProviderTest extends \PHPUnit\Framework\TestCase
     /** @var RequestWebsiteProvider */
     private $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->requestStack = $this->createMock(RequestStack::class);

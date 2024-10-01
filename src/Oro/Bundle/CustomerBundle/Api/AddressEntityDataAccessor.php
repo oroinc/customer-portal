@@ -21,9 +21,7 @@ class AddressEntityDataAccessor implements DataAccessorInterface
         $this->innerDataAccessor = $innerDataAccessor;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function hasGetter(string $className, string $property): bool
     {
         if ('types' === $property && is_a($className, AbstractDefaultTypedAddress::class, true)) {
@@ -33,9 +31,7 @@ class AddressEntityDataAccessor implements DataAccessorInterface
         return $this->innerDataAccessor->hasGetter($className, $property);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function tryGetValue(object|array $object, string $property, mixed &$value): bool
     {
         if ('types' === $property && $object instanceof AbstractDefaultTypedAddress) {
@@ -45,9 +41,7 @@ class AddressEntityDataAccessor implements DataAccessorInterface
         return $this->innerDataAccessor->tryGetValue($object, $property, $value);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getValue(object|array $object, string $property): mixed
     {
         if ('types' === $property && $object instanceof AbstractDefaultTypedAddress) {

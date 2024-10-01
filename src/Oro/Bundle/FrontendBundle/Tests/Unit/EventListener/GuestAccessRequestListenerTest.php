@@ -43,6 +43,7 @@ class GuestAccessRequestListenerTest extends \PHPUnit\Framework\TestCase
     /** @var GuestAccessRequestListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);

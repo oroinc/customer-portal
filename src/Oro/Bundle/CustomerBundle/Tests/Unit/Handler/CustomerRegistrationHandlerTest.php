@@ -31,6 +31,7 @@ class CustomerRegistrationHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $translator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->registrationFormProvider = $this->createMock(FrontendCustomerUserRegistrationFormProvider::class);

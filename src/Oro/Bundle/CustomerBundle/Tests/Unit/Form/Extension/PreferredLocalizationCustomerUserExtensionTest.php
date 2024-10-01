@@ -20,6 +20,7 @@ class PreferredLocalizationCustomerUserExtensionTest extends \PHPUnit\Framework\
      */
     private $extension;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->eventSubscriber = $this->createMock(EventSubscriberInterface::class);

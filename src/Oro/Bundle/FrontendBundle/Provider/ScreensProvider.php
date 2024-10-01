@@ -21,6 +21,7 @@ class ScreensProvider implements ScreensProviderInterface
         $this->cache = $cache;
     }
 
+    #[\Override]
     public function getScreens(): array
     {
         return $this->cache->get(self::SCREENS_CACHE_KEY, function () {
@@ -28,6 +29,7 @@ class ScreensProvider implements ScreensProviderInterface
         });
     }
 
+    #[\Override]
     public function getScreen($screenName): ?array
     {
         $screens = $this->getScreens();
@@ -38,6 +40,7 @@ class ScreensProvider implements ScreensProviderInterface
         return null;
     }
 
+    #[\Override]
     public function hasScreen($screenName): bool
     {
         $screens = $this->getScreens();

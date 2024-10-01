@@ -30,9 +30,7 @@ class LoadFrontendImportExportResultData extends AbstractFixture implements Depe
         ]
     ];
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         $user = $this->getFirstUser($manager);
@@ -56,9 +54,7 @@ class LoadFrontendImportExportResultData extends AbstractFixture implements Depe
         $manager->flush();
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [LoadCustomerUserData::class];

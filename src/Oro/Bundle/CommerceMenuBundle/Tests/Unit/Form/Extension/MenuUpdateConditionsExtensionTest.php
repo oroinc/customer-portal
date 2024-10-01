@@ -39,6 +39,7 @@ class MenuUpdateConditionsExtensionTest extends FormIntegrationTestCase
         ],
     ];
 
+    #[\Override]
     protected function getExtensions(): array
     {
         $screensProvider = $this->createMock(ScreensProviderInterface::class);
@@ -67,6 +68,7 @@ class MenuUpdateConditionsExtensionTest extends FormIntegrationTestCase
         ];
     }
 
+    #[\Override]
     protected function getValidators(): array
     {
         return [

@@ -27,9 +27,7 @@ class MenuConditionEvaluator implements ConditionEvaluatorInterface
         $this->logger = $logger;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function evaluate(ItemInterface $menuItem, array $options)
     {
         $result = static::DEFAULT_IS_ALLOWED_POLICY;

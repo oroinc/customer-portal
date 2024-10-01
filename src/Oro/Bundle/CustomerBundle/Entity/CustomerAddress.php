@@ -82,17 +82,13 @@ class CustomerAddress extends AbstractDefaultTypedAddress implements AddressPhon
         $this->types = new ArrayCollection();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function createAddressToAddressTypeEntity()
     {
         return new CustomerAddressToAddressType();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function setFrontendOwner($frontendOwner = null)
     {
         if (null === $frontendOwner && null !== $this->frontendOwner) {
@@ -113,6 +109,7 @@ class CustomerAddress extends AbstractDefaultTypedAddress implements AddressPhon
      *
      * @return CustomerAddress
      */
+    #[\Override]
     public function setPhone($phone)
     {
         $this->phone = $phone;
@@ -125,6 +122,7 @@ class CustomerAddress extends AbstractDefaultTypedAddress implements AddressPhon
      *
      * @return string
      */
+    #[\Override]
     public function getPhone()
     {
         return $this->phone;

@@ -20,6 +20,7 @@ class DeleteAwareWriterTest extends WebTestCase
     private DeleteAwareWriter $writer;
     private StepExecution $stepExecution;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

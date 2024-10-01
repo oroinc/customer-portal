@@ -24,9 +24,7 @@ class Configuration implements ConfigurationInterface
     /** End Requirement for "Default Theme 50/51" */
     const SECONDS_IN_DAY = 86400;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder(self::ROOT_NODE);

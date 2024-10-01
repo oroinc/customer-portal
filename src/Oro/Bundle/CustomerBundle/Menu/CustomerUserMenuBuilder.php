@@ -7,9 +7,7 @@ use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
 
 class CustomerUserMenuBuilder implements BuilderInterface
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function build(ItemInterface $menu, array $options = array(), $alias = null)
     {
         $menu->setExtra('type', 'dropdown');

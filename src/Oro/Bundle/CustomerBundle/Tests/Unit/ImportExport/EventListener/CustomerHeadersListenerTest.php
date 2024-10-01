@@ -17,6 +17,7 @@ class CustomerHeadersListenerTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerHeadersListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->fieldHelper = $this->createMock(FieldHelper::class);

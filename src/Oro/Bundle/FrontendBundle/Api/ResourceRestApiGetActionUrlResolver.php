@@ -45,9 +45,7 @@ class ResourceRestApiGetActionUrlResolver implements ResourceApiUrlResolverInter
         $this->defaultEntityId = $entityId;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function resolveApiUrl(
         string $routeName,
         array $routeParameters,

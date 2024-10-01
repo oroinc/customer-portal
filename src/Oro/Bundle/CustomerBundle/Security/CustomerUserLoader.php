@@ -40,34 +40,26 @@ class CustomerUserLoader implements UserLoaderInterface
         $this->websiteManager = $websiteManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getUserClass(): string
     {
         return CustomerUser::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function loadUser(string $login): ?UserInterface
     {
         return $this->loadUserByEmail($login);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function loadUserByIdentifier(string $username): ?UserInterface
     {
         // username and email for customer users are equal
         return $this->loadUserByEmail($username);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function loadUserByEmail(string $email): ?UserInterface
     {
         $useLowercase = (bool)$this->configManager->get('oro_customer.case_insensitive_email_addresses_enabled');

@@ -42,6 +42,7 @@ class WebCatalogNavigationRootBuilder implements BuilderInterface, LoggerAwareIn
         $this->treeItemOptions = $treeItemOptions;
     }
 
+    #[\Override]
     public function build(ItemInterface $menu, array $options = [], $alias = null): void
     {
         if (!$menu->isDisplayed()) {

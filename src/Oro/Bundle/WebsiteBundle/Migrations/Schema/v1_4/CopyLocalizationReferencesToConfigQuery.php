@@ -15,17 +15,13 @@ class CopyLocalizationReferencesToConfigQuery extends ParametrizedMigrationQuery
     /** @var Statement */
     private $defaultLocalizationStatement;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDescription()
     {
         return 'Copy websites localization relation to system configuration';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function execute(LoggerInterface $logger)
     {
         $result = $this->connection->fetchAllAssociative(

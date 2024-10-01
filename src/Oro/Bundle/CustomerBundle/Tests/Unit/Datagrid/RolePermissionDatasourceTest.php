@@ -41,6 +41,7 @@ class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
     /** @var RoleTranslationPrefixResolver|\PHPUnit\Framework\MockObject\MockObject */
     protected $roleTranslationPrefixResolver;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->translator = $this->createMock(TranslatorInterface::class);

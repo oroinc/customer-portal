@@ -12,25 +12,19 @@ use Oro\Bundle\SegmentBundle\Migration\AbstractRenameField;
  */
 class RenameRolesFieldInSegments extends AbstractRenameField
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getOldFieldName(): string
     {
         return 'roles';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getNewFieldName(): string
     {
         return 'userRoles';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getQueryAwareEntities(ObjectManager $manager): array
     {
         return $manager->getRepository(Segment::class)->findBy(['entity' => CustomerUser::class]);

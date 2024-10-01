@@ -27,6 +27,7 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
         $this->tokenStorage = $tokenStorage;
     }
 
+    #[\Override]
     public function getWebsites(): array
     {
         return $this->cacheProvider->get($this->getCacheKey('entities'), function () {
@@ -34,6 +35,7 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
         });
     }
 
+    #[\Override]
     public function getWebsiteIds(): array
     {
         return $this->cacheProvider->get($this->getCacheKey('ids'), function () {
@@ -41,6 +43,7 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
         });
     }
 
+    #[\Override]
     public function getWebsiteChoices(): array
     {
         $websiteChoices = [];

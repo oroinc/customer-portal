@@ -14,9 +14,7 @@ class MigrateFrontendAnonymousUserRolePermissionsQuery extends ParametrizedMigra
     const PRODUCT_CLASS_NAME = 'Oro\Bundle\ProductBundle\Entity\Product';
     const ROOT_CLASS_NAME = '(root)';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDescription()
     {
         $logger = new ArrayLogger();
@@ -25,9 +23,7 @@ class MigrateFrontendAnonymousUserRolePermissionsQuery extends ParametrizedMigra
         return $logger->getMessages();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function execute(LoggerInterface $logger)
     {
         $this->doExecute($logger);

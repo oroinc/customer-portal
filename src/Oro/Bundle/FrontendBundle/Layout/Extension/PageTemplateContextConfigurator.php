@@ -20,9 +20,7 @@ class PageTemplateContextConfigurator implements ContextConfiguratorInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureContext(ContextInterface $context): void
     {
         $context->getResolver()

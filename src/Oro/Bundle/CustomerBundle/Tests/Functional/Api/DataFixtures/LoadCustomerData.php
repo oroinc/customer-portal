@@ -20,14 +20,13 @@ class LoadCustomerData extends AbstractFixture implements ContainerAwareInterfac
      */
     private $container;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
     }
 
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         $owner = $this->getReference('user');
@@ -54,6 +53,7 @@ class LoadCustomerData extends AbstractFixture implements ContainerAwareInterfac
      *
      * @return array
      */
+    #[\Override]
     public function getDependencies()
     {
         return [

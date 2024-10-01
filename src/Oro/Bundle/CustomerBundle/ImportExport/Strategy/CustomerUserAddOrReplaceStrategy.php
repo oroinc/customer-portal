@@ -29,9 +29,7 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         $this->configManager = $configManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function afterProcessEntity($entity)
     {
         $entity = parent::afterProcessEntity($entity);
@@ -43,8 +41,8 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     /**
      * Add frontendOwner to addresses search context to prevent same addresses "stealing" by another customer user.
      *
-     * {@inheritdoc}
      */
+    #[\Override]
     protected function generateSearchContextForRelationsUpdate($entity, $entityName, $fieldName, $isPersistRelation)
     {
         $context = parent::generateSearchContextForRelationsUpdate(
@@ -61,9 +59,7 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         return $context;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function findExistingEntity($entity, array $searchContext = [])
     {
         if ($entity instanceof CustomerUser && $entity->isGuest()) {
@@ -73,9 +69,7 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         return parent::findExistingEntity($entity, $searchContext);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function findEntityByIdentityValues($entityName, array $identityValues)
     {
         if (is_a($entityName, CustomerUserRole::class, true)) {
@@ -114,9 +108,7 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         return parent::findEntityByIdentityValues($entityName, $identityValues);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function combineIdentityValues($entity, $entityClass, array $searchContext)
     {
         return $this->handleCaseInsensitiveEmail(
@@ -125,9 +117,7 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function importExistingEntity(
         $entity,
         $existingEntity,
@@ -149,8 +139,8 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 
     /**
      * @param CustomerUser $entity
-     * {@inheritdoc}
      */
+    #[\Override]
     protected function validateAndUpdateContext($entity)
     {
         $validationErrors = $this->strategyHelper->validateEntity($entity) ?? [];

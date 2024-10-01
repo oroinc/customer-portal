@@ -13,9 +13,7 @@ class CustomerSelectTypeTest extends \PHPUnit\Framework\TestCase
      */
     protected $type;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->type = new CustomerSelectType();

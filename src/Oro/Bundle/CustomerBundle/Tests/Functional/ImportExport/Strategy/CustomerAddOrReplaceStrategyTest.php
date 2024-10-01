@@ -22,6 +22,7 @@ class CustomerAddOrReplaceStrategyTest extends WebTestCase
     /** @var Context */
     private $context;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

@@ -11,11 +11,13 @@ use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class CustomerCalculateOwnerTreeCacheByBusinessUnitTopicTest extends AbstractTopicTestCase
 {
+    #[\Override]
     protected function getTopic(): Topic
     {
         return new Topic();
     }
 
+    #[\Override]
     public function validBodyDataProvider(): array
     {
         return [
@@ -46,6 +48,7 @@ class CustomerCalculateOwnerTreeCacheByBusinessUnitTopicTest extends AbstractTop
         ];
     }
 
+    #[\Override]
     public function invalidBodyDataProvider(): array
     {
         return [

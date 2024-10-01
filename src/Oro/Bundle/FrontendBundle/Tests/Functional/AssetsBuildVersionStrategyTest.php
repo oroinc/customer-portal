@@ -8,6 +8,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class AssetsBuildVersionStrategyTest extends WebTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

@@ -28,9 +28,7 @@ class MenuIconsBuilder implements BuilderInterface
         $this->fallbackIcon = $fallbackIcon;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function build(ItemInterface $menu, array $options = [], $alias = null): void
     {
         if (!$this->frontendHelper->isFrontendRequest()) {

@@ -22,6 +22,7 @@ class GetActiveUserOrNullTest extends \PHPUnit\Framework\TestCase
     /** @var GetActiveUserOrNull */
     private $action;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);

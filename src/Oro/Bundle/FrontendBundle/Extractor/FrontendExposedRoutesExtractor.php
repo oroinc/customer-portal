@@ -26,6 +26,7 @@ class FrontendExposedRoutesExtractor extends ExposedRoutesExtractor
         parent::__construct($router, $routesToExpose, $cacheDir, $bundles);
     }
 
+    #[\Override]
     public function getRoutes(): RouteCollection
     {
         $this->removeNegativeExposeParameterInRoutes(...$this->router->getRouteCollection());
@@ -40,6 +41,7 @@ class FrontendExposedRoutesExtractor extends ExposedRoutesExtractor
         return $storefrontRoutes;
     }
 
+    #[\Override]
     public function isRouteExposed(Route $route, $name): bool
     {
         $this->removeNegativeExposeParameterInRoutes($route);
@@ -49,6 +51,7 @@ class FrontendExposedRoutesExtractor extends ExposedRoutesExtractor
             $route->getOption('frontend');
     }
 
+    #[\Override]
     public function getCachePath(?string $locale = null): string
     {
         $path = parent::getCachePath($locale);

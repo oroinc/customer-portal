@@ -27,33 +27,25 @@ class AnonymousOwnershipDecisionMaker extends AbstractEntityOwnershipDecisionMak
         $this->tokenAccessor = $tokenAccessor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function supports()
     {
         return $this->tokenAccessor->getToken() instanceof AnonymousCustomerUserToken;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isAssociatedWithOrganization($user, $domainObject, $organization = null)
     {
         return $this->isAssociatedWithUser($user, $domainObject, $organization);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isAssociatedWithBusinessUnit($user, $domainObject, $deep = false, $organization = null)
     {
         return $this->isAssociatedWithUser($user, $domainObject, $organization);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isAssociatedWithUser($user, $domainObject, $organization = null)
     {
         /** @var AnonymousCustomerUserToken $token */

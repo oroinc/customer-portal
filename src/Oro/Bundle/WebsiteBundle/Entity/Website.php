@@ -90,6 +90,7 @@ class Website implements OrganizationAwareInterface, WebsiteInterface, ExtendEnt
     /**
      * @return int
      */
+    #[\Override]
     public function getId()
     {
         return $this->id;
@@ -98,6 +99,7 @@ class Website implements OrganizationAwareInterface, WebsiteInterface, ExtendEnt
     /**
      * @return string
      */
+    #[\Override]
     public function getName()
     {
         return $this->name;
@@ -181,6 +183,7 @@ class Website implements OrganizationAwareInterface, WebsiteInterface, ExtendEnt
     /**
      * @return string
      */
+    #[\Override]
     public function __toString()
     {
         return (string)$this->name;
@@ -189,6 +192,7 @@ class Website implements OrganizationAwareInterface, WebsiteInterface, ExtendEnt
     /**
      * @return boolean
      */
+    #[\Override]
     public function isDefault()
     {
         return $this->default;

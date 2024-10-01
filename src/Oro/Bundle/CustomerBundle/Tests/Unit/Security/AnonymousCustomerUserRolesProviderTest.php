@@ -23,6 +23,7 @@ class AnonymousCustomerUserRolesProviderTest extends OrmTestCase
     /** @var AnonymousCustomerUserRolesProvider */
     private $rolesProvider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->em = $this->getTestEntityManager();

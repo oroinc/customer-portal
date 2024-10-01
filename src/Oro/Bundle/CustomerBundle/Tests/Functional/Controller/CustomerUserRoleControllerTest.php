@@ -37,6 +37,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
         ],
     ];
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());

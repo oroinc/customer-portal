@@ -12,12 +12,14 @@ class MenuUpdateExpressionValidatorTest extends ConstraintValidatorTestCase
     /** @var ExpressionLanguage|\PHPUnit\Framework\MockObject\MockObject */
     private $expressionLanguage;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->expressionLanguage = new ExpressionLanguage();
         parent::setUp();
     }
 
+    #[\Override]
     protected function createValidator()
     {
         return new MenuUpdateExpressionValidator($this->expressionLanguage);

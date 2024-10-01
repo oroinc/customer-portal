@@ -9,9 +9,7 @@ class LoadDuplicatedCustomer extends LoadCustomers
 {
     const DUPLICATED_CUSTOMER_NAME = 'CustomerUser CustomerUser';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         parent::load($manager);

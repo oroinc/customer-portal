@@ -8,9 +8,7 @@ use Oro\Bundle\UserBundle\Entity\AbstractRole;
 
 class CustomerUserRoleUpdateHandler extends AbstractCustomerUserRoleHandler
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function onSuccess(AbstractRole $role, array $appendUsers, array $removeUsers)
     {
         $this->applyCustomerLimits($role, $appendUsers, $removeUsers);
@@ -18,9 +16,7 @@ class CustomerUserRoleUpdateHandler extends AbstractCustomerUserRoleHandler
         parent::onSuccess($role, $appendUsers, $removeUsers);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getRolePrivileges(AbstractRole $role)
     {
         $this->startFrontendProviderEmulation();
@@ -30,9 +26,7 @@ class CustomerUserRoleUpdateHandler extends AbstractCustomerUserRoleHandler
         return $privileges;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function processPrivileges(AbstractRole $role, $className = null)
     {
         $this->startFrontendProviderEmulation();
@@ -54,9 +48,7 @@ class CustomerUserRoleUpdateHandler extends AbstractCustomerUserRoleHandler
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function process(AbstractRole $role)
     {
         if ($role instanceof CustomerUserRole) {

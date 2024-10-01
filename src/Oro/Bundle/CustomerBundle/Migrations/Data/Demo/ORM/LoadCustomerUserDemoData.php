@@ -14,17 +14,13 @@ class LoadCustomerUserDemoData extends AbstractLoadCustomerUserDemoData
 {
     private ?Organization $organization = null;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [LoadCustomerDemoData::class];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getOrganization(ObjectManager $manager): Organization
     {
         //Can not use reference here because this fixture is used in tests
@@ -38,25 +34,19 @@ class LoadCustomerUserDemoData extends AbstractLoadCustomerUserDemoData
         return $this->organization;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getWebsite(ObjectManager $manager): Website
     {
         return $manager->getRepository(Website::class)->findOneBy(['default' => true]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getCustomerUsersCSV(): string
     {
         return '@OroCustomerBundle/Migrations/Data/Demo/ORM/data/customer-users.csv';
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getCustomerUserRole($roleLabel, ObjectManager $manager): CustomerUserRole
     {
         return $manager->getRepository(CustomerUserRole::class)

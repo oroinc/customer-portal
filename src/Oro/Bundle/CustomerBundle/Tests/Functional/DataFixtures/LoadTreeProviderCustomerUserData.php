@@ -23,14 +23,13 @@ class LoadTreeProviderCustomerUserData extends AbstractFixture implements
     public const LEVEL_1_2_EMAIL = 'third_customer.user@test.com';
     public const LEVEL_1_2_PASSWORD = 'pass';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [LoadCustomerUserData::class, LoadTreeProviderCustomers::class];
     }
 
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         /** @var BaseUserManager $userManager */

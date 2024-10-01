@@ -14,9 +14,7 @@ use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataInterface;
  */
 class FrontendOwnerValidator extends AbstractOwnerValidator
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function isValidExistingOwner(OwnershipMetadataInterface $ownershipMetadata, $owner, $accessLevel)
     {
         if (AccessLevel::SYSTEM_LEVEL === $accessLevel || AccessLevel::GLOBAL_LEVEL === $accessLevel) {

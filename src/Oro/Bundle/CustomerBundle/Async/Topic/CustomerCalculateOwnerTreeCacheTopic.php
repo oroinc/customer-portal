@@ -15,16 +15,19 @@ class CustomerCalculateOwnerTreeCacheTopic extends AbstractTopic implements JobA
 {
     public const CACHE_TTL = 'cache_ttl';
 
+    #[\Override]
     public static function getName(): string
     {
         return 'oro.customer.calculate_owner_tree_cache';
     }
 
+    #[\Override]
     public static function getDescription(): string
     {
         return 'Warm up cache for all customer users who logged in during cache TTL time period.';
     }
 
+    #[\Override]
     public function configureMessageBody(OptionsResolver $resolver): void
     {
         $resolver
@@ -35,6 +38,7 @@ class CustomerCalculateOwnerTreeCacheTopic extends AbstractTopic implements JobA
             ->info('Number of seconds that should pass since the last login of a customer user');
     }
 
+    #[\Override]
     public function createJobName($messageBody): string
     {
         return self::getName();

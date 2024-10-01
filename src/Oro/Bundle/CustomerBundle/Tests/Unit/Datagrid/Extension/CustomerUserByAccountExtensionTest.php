@@ -19,6 +19,7 @@ class CustomerUserByAccountExtensionTest extends \PHPUnit\Framework\TestCase
     /** @var Request|\PHPUnit\Framework\MockObject\MockObject */
     private $request;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->request = $this->createMock(Request::class);

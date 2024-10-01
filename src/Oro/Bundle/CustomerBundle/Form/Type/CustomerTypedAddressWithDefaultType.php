@@ -22,17 +22,12 @@ class CustomerTypedAddressWithDefaultType extends AbstractType
     /** @var TranslatorInterface */
     protected $translator;
 
-    /**
-     * {@inheritdoc}
-     */
     public function __construct(TranslatorInterface $translator)
     {
         $this->translator = $translator;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['em'] === null) {
@@ -78,9 +73,7 @@ class CustomerTypedAddressWithDefaultType extends AbstractType
         ->addViewTransformer(new AddressTypeDefaultTransformer($em));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -98,17 +91,12 @@ class CustomerTypedAddressWithDefaultType extends AbstractType
         $this->registry = $registry;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return $this->getBlockPrefix();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;

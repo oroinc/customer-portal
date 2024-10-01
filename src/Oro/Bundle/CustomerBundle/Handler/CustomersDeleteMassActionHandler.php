@@ -17,9 +17,7 @@ class CustomersDeleteMassActionHandler extends DeleteMassActionHandler
         $this->customerAssignHelper = $customerAssignHelper;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function isDeleteAllowed(object $entity): bool
     {
         /** @var Customer $entity */

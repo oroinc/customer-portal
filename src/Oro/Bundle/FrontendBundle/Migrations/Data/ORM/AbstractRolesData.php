@@ -22,9 +22,7 @@ abstract class AbstractRolesData extends AbstractFixture implements DependentFix
 
     protected const ROLES_FILE_NAME = '';
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $aclManager = $this->getAclManager();

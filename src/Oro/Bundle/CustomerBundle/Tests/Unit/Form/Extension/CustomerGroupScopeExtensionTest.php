@@ -21,6 +21,7 @@ class CustomerGroupScopeExtensionTest extends FormIntegrationTestCase
     /** @var ScopeManager|\PHPUnit\Framework\MockObject\MockObject */
     protected $scopeManager;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->customerGroupScopeExtension = new CustomerGroupScopeExtension();
@@ -49,9 +50,7 @@ class CustomerGroupScopeExtensionTest extends FormIntegrationTestCase
         $this->assertEquals([ScopeType::class], CustomerGroupScopeExtension::getExtendedTypes());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getExtensions()
     {
         $this->scopeManager = $this->createMock(ScopeManager::class);

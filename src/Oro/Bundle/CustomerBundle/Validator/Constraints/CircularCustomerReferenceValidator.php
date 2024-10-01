@@ -23,12 +23,12 @@ class CircularCustomerReferenceValidator extends ConstraintValidator
     }
 
     /**
-     * {@inheritdoc}
      * @param CircularCustomerReference $constraint
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
+    #[\Override]
     public function validate($value, Constraint $constraint)
     {
         /** @var Customer $value */

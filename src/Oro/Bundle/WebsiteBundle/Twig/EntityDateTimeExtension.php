@@ -30,9 +30,7 @@ class EntityDateTimeExtension extends AbstractExtension implements ServiceSubscr
         $this->container = $container;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getFilters()
     {
         return [
@@ -142,9 +140,7 @@ class EntityDateTimeExtension extends AbstractExtension implements ServiceSubscr
         return $this->getSystemConfigManager()->get(Configuration::getConfigKeyByName('timezone'));
     }
 
-    /**
-     * {@inheritdoc]
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return [

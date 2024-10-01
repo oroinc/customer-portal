@@ -15,9 +15,7 @@ class CustomerVisitorOwnerAwareStub implements CustomerVisitorOwnerAwareInterfac
         $this->visitor = $visitor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getVisitor()
     {
         return $this->visitor;

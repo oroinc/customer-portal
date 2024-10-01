@@ -19,6 +19,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
     private const EMAIL = 'john.doe@example.com';
     private const PASSWORD = '123456';
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

@@ -24,6 +24,7 @@ class FrontendImportExportResultManagerTest extends TestCase
     /** @var FrontendImportExportResultManager */
     private $manager;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->entityManager = $this->createMock(ObjectManager::class);

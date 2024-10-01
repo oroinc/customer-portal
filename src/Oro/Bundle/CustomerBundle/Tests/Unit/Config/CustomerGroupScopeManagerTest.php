@@ -17,15 +17,14 @@ class CustomerGroupScopeManagerTest extends AbstractScopeManagerTestCase
     /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenStorage;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function createManager(): CustomerGroupScopeManager
     {
         $manager = new CustomerGroupScopeManager($this->doctrine, $this->cache, $this->dispatcher, $this->configBag);
@@ -34,17 +33,13 @@ class CustomerGroupScopeManagerTest extends AbstractScopeManagerTestCase
         return $manager;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getScopedEntityName(): string
     {
         return 'customer_group';
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getScopedEntity(): CustomerGroup
     {
         $entity = new CustomerGroup();

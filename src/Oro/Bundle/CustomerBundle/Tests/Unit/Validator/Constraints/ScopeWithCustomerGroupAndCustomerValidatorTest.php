@@ -31,6 +31,7 @@ class ScopeWithCustomerGroupAndCustomerValidatorTest extends ConstraintValidator
         $this->buildViolation($constraint->message)->assertRaised();
     }
 
+    #[\Override]
     protected function createValidator()
     {
         return new ScopeWithCustomerGroupAndCustomerValidator();

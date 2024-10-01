@@ -13,17 +13,13 @@ class UniqueCustomerUserNameAndEmail extends Constraint
 
     public $message = 'oro.customer.message.user_customer_exists';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'oro_customer.customer_user.validator.unique_name_and_email';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;

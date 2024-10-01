@@ -24,6 +24,7 @@ class FrontendExportResultSummarizerTest extends \PHPUnit\Framework\TestCase
     /** @var FrontendExportResultSummarizer */
     private $resultSummarizer;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->websiteUrlResolver = $this->createMock(WebsiteUrlResolver::class);

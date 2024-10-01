@@ -23,6 +23,7 @@ class SubFolderMenuUpdatesApplyAfterListenerTest extends TestCase
     private SubFolderMenuUpdatesApplyAfterListener $listener;
     private RequestContext $requestContext;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->requestStack = $this->createMock(RequestStack::class);

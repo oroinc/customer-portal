@@ -17,6 +17,7 @@ class OroEntitySelectOrCreateInlineExtensionTest extends \PHPUnit\Framework\Test
     /** @var OroEntitySelectOrCreateInlineExtension */
     private $extension;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->frontendHelper = $this->createMock(FrontendHelper::class);

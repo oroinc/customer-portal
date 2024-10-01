@@ -10,6 +10,7 @@ class CustomerUserAddressDataConverterTest extends WebTestCase
 {
     private CustomerUserAddressDataConverter $dataConverter;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

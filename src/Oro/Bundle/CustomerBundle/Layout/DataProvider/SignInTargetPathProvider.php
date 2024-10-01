@@ -7,9 +7,7 @@ namespace Oro\Bundle\CustomerBundle\Layout\DataProvider;
  */
 class SignInTargetPathProvider implements SignInTargetPathProviderInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getTargetPath(): ?string
     {
         return null;

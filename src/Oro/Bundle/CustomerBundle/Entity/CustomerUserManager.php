@@ -171,9 +171,7 @@ class CustomerUserManager extends BaseUserManager
         $user->setPasswordRequestedAt(new \DateTime('now', new \DateTimeZone('UTC')));
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function findUserBy(array $criteria): ?UserInterface
     {
         return parent::findUserBy(array_merge($criteria, ['isGuest' => false]));
@@ -192,9 +190,7 @@ class CustomerUserManager extends BaseUserManager
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function updateUser(UserInterface $user, bool $flush = true): void
     {
         // make sure user has a default status

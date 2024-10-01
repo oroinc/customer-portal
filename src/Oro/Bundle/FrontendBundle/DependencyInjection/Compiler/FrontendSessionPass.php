@@ -14,9 +14,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class FrontendSessionPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(ContainerBuilder $container)
     {
         $options = $container->getParameter(OroFrontendExtension::FRONTEND_SESSION_STORAGE_OPTIONS_PARAMETER_NAME);

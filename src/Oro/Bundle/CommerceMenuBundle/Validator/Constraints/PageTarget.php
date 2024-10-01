@@ -17,17 +17,13 @@ class PageTarget extends Constraint
 
     public string $categoryEmpty = 'oro.commercemenu.validator.menu_update.category_empty.message';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function validatedBy(): string
     {
         return PageTargetValidator::class;

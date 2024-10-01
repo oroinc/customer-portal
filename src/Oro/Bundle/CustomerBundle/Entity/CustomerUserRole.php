@@ -119,17 +119,13 @@ class CustomerUserRole extends AbstractRole implements OrganizationAwareInterfac
         return $this->id;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getRole()
     {
         return $this->role;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLabel()
     {
         return $this->label;
@@ -146,9 +142,7 @@ class CustomerUserRole extends AbstractRole implements OrganizationAwareInterfac
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getPrefix()
     {
         return static::PREFIX_ROLE;
@@ -173,17 +167,13 @@ class CustomerUserRole extends AbstractRole implements OrganizationAwareInterfac
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getOrganization()
     {
         return $this->organization;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function setOrganization(OrganizationInterface $organization = null)
     {
         $this->organization = $organization;

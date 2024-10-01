@@ -10,17 +10,13 @@ use Oro\Bundle\MigrationBundle\Migration\SqlMigrationQuery;
 
 class UpdateLocaleCodeAndTitle implements Migration, OrderedMigrationInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getOrder()
     {
         return 20;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         $queries->addPreQuery(new SqlMigrationQuery('UPDATE orob2b_locale SET title = code'));

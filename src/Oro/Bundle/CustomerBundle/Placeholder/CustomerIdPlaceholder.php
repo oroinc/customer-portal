@@ -20,17 +20,13 @@ class CustomerIdPlaceholder extends AbstractPlaceholder
         $this->tokenStorage = $tokenStorage;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getPlaceholder()
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDefaultValue()
     {
         $token = $this->tokenStorage->getToken();

@@ -24,9 +24,7 @@ class ContactRequestBCExtension extends AbstractTypeExtension
         $this->themeManager = $themeManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (!$builder->has('customerName')) {
@@ -51,6 +49,7 @@ class ContactRequestBCExtension extends AbstractTypeExtension
         );
     }
 
+    #[\Override]
     public static function getExtendedTypes(): array
     {
         return [ContactRequestType::class];

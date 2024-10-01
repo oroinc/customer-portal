@@ -15,6 +15,7 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 {
     private CustomerUserRoleSelectType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $translator = $this->createMock(TranslatorInterface::class);
@@ -29,9 +30,7 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

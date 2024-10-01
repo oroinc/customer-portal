@@ -23,6 +23,7 @@ class SoftDeletableFilterTest extends WebTestCase
     /** @var EntityManager */
     private $em;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -35,6 +36,7 @@ class SoftDeletableFilterTest extends WebTestCase
         $this->queryTracker->start();
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         $this->queryTracker->stop();

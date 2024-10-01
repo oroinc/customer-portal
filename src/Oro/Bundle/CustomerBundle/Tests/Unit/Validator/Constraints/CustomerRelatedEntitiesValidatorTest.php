@@ -39,6 +39,7 @@ class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
     /** @var UnitOfWork|\PHPUnit\Framework\MockObject\MockObject */
     private $uow;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
@@ -50,6 +51,7 @@ class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
         parent::setUp();
     }
 
+    #[\Override]
     protected function createValidator(): CustomerRelatedEntitiesValidator
     {
         return new CustomerRelatedEntitiesValidator(

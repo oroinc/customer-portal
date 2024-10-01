@@ -32,6 +32,7 @@ class ReCaptchaServiceTest extends TestCase
 
     private ReCaptchaService $captchaService;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->reCaptchaClientFactory = $this->createMock(ReCaptchaClientFactory::class);

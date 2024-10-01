@@ -25,6 +25,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\Tes
     /** @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $router;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formFactory = $this->createMock(FormFactoryInterface::class);

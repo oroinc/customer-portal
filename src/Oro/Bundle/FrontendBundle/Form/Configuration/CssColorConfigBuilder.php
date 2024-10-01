@@ -12,11 +12,13 @@ class CssColorConfigBuilder extends AbstractCssConfigBuilder
 {
     protected string $parentFormType = OroSimpleColorPickerType::class;
 
+    #[\Override]
     public static function getType(): string
     {
         return 'css_color';
     }
 
+    #[\Override]
     protected function getConfiguredOptions(array $option): array
     {
         $configuredOptions = parent::getConfiguredOptions($option);
@@ -38,6 +40,7 @@ class CssColorConfigBuilder extends AbstractCssConfigBuilder
         return $configuredOptions;
     }
 
+    #[\Override]
     protected function getConstraints(): array
     {
         return [

@@ -25,9 +25,7 @@ class SignInTargetPathProvider implements SignInTargetPathProviderInterface
         $this->restDocUrlGenerator = $restDocUrlGenerator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getTargetPath(): ?string
     {
         $request = $this->requestStack->getCurrentRequest();

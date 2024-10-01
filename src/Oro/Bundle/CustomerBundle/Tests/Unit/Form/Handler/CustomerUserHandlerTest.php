@@ -39,6 +39,7 @@ class CustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserHandler */
     private $handler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->userManager = $this->createMock(CustomerUserManager::class);

@@ -37,6 +37,7 @@ class NavigationRootBuilder implements BuilderInterface
         $this->systemConfigManager = $systemConfigManager;
     }
 
+    #[\Override]
     public function build(ItemInterface $menu, array $options = [], $alias = null): void
     {
         if (!$menu->isDisplayed()) {

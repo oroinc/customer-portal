@@ -28,9 +28,7 @@ class RolePermissionDatasource extends BaseRolePermissionDatasource
         $this->roleTranslationPrefixResolver = $roleTranslationPrefixResolver;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getRoleTranslationPrefix()
     {
         return $this->roleTranslationPrefixResolver->getPrefix();

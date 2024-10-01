@@ -25,6 +25,7 @@ class QuickAccessButtonConfigTypeTest extends WebTestCase
     private FormFactoryInterface $formFactory;
     private ConfigManager $configManager;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();
@@ -38,6 +39,7 @@ class QuickAccessButtonConfigTypeTest extends WebTestCase
         $this->configManager = self::getConfigManager('global');
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         $config = self::getConfigManager();

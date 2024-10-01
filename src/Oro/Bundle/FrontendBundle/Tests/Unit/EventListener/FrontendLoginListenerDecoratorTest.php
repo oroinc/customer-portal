@@ -30,6 +30,7 @@ class FrontendLoginListenerDecoratorTest extends \PHPUnit\Framework\TestCase
     /** @var FrontendLoginListenerDecorator */
     private $loginListener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->kernel = $this->createMock(KernelInterface::class);

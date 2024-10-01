@@ -7,9 +7,6 @@ use Symfony\Component\Form\AbstractType;
 
 class FrontendCustomerUserRegistrationTypeStub extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return FrontendCustomerUserRegistrationType::NAME;

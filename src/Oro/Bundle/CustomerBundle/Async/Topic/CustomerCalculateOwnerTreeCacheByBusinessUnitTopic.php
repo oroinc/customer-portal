@@ -16,16 +16,19 @@ class CustomerCalculateOwnerTreeCacheByBusinessUnitTopic extends AbstractTopic
     public const BUSINESS_UNIT_ENTITY_ID = 'entityId';
     public const BUSINESS_UNIT_ENTITY_CLASS = 'entityClass';
 
+    #[\Override]
     public static function getName(): string
     {
         return 'oro.customer.calculate_business_unit_owner_tree_cache';
     }
 
+    #[\Override]
     public static function getDescription(): string
     {
         return 'Warm up cache for all customer users by the specified business unit.';
     }
 
+    #[\Override]
     public function configureMessageBody(OptionsResolver $resolver): void
     {
         $resolver

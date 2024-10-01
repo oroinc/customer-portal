@@ -15,11 +15,13 @@ class OwnerCacheWarmer extends CacheWarmer
     ) {
     }
 
+    #[\Override]
     public function isOptional(): bool
     {
         return false;
     }
 
+    #[\Override]
     public function warmUp(string $cacheDir): array
     {
         $this->ownerTreeProvider->clearCache();

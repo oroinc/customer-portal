@@ -20,9 +20,7 @@ class CustomerUserChecker implements UserCheckerInterface
         $this->userCheckerInner = $userCheckerInner;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function checkPreAuth(UserInterface $user)
     {
         if ($user instanceof CustomerUser
@@ -38,9 +36,7 @@ class CustomerUserChecker implements UserCheckerInterface
         $this->userCheckerInner->checkPreAuth($user);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function checkPostAuth(UserInterface $user)
     {
         $this->userCheckerInner->checkPostAuth($user);

@@ -21,6 +21,7 @@ class TokenAwareFrontendHelperTest extends TestCase
 
     private MockObject|ApplicationState $applicationState;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->applicationState = $this->createMock(ApplicationState::class);

@@ -17,9 +17,7 @@ class WebsiteAwareStub implements WebsiteAwareInterface
         $this->website = $website;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function setWebsite(Website $website)
     {
         $this->website = $website;
@@ -27,9 +25,7 @@ class WebsiteAwareStub implements WebsiteAwareInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getWebsite()
     {
         return $this->website;

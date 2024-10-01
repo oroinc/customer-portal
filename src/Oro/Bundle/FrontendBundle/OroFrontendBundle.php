@@ -22,9 +22,7 @@ class OroFrontendBundle extends Bundle
 {
     use ApiTaggedServiceTrait;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);

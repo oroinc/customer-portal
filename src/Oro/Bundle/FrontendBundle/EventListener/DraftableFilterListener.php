@@ -21,6 +21,7 @@ class DraftableFilterListener extends BaseDraftableFilterListener
         parent::__construct($doctrineHelper);
     }
 
+    #[\Override]
     public function onKernelController(ControllerEvent $event): void
     {
         if ($this->frontendHelper->isFrontendRequest()) {
@@ -30,6 +31,7 @@ class DraftableFilterListener extends BaseDraftableFilterListener
         parent::onKernelController($event);
     }
 
+    #[\Override]
     public function onKernelRequest(RequestEvent $event): void
     {
         if ($this->frontendHelper->isFrontendRequest()) {

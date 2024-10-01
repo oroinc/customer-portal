@@ -43,6 +43,7 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var AclHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $aclHelper;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->entityRepository = $this->createMock(CustomerRepository::class);

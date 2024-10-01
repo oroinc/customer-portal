@@ -25,6 +25,7 @@ class DynamicFieldsExtensionTest extends FormIntegrationTestCase
 
     private DynamicFieldsExtension $extension;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
@@ -123,6 +124,7 @@ class DynamicFieldsExtensionTest extends FormIntegrationTestCase
         self::assertTrue($form->has('test'));
     }
 
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

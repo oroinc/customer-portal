@@ -16,9 +16,7 @@ class Grid extends BaseGrid
         'GridFilterManager' => 'FrontendGridFilterManager',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getMappedChildElementName($name)
     {
         if (isset($this->options['mapping'][$name])) {
@@ -33,9 +31,7 @@ class Grid extends BaseGrid
         return parent::getMappedChildElementName($name);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function selectPageSize($number)
     {
         $pageSizeElement = $this->elementFactory->createElement('PageSize');
@@ -44,9 +40,7 @@ class Grid extends BaseGrid
         $detachedSelect2Result->find('css', 'div.select2-result-label:contains("' . $number . '")')->click();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function massCheck($title)
     {
         $massActionHeadCheckboxElementName = $this->getMappedChildElementName('MassActionHeadCheckbox');
@@ -87,26 +81,20 @@ class Grid extends BaseGrid
         $gridViewListElement->click();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function hasMassActionLink($title): bool
     {
         return (bool)$this->getMassActionLink($title)?->isVisible();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getMassActionLink($title): ?NodeElement
     {
         return $this->elementFactory->createElement($this->getMappedChildElementName('Toolbar Mass Actions'), $this)
             ->findLink($title);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function clickMassActionLink($title)
     {
         $massActionLink = $this->getMassActionLink($title);
@@ -116,9 +104,7 @@ class Grid extends BaseGrid
         $massActionLink->click();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function clickSelectAllMassActionLink($title)
     {
         $massActionLink = $this->getMassActionLink($title);

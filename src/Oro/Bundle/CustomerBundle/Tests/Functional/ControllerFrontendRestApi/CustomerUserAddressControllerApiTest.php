@@ -17,6 +17,7 @@ class CustomerUserAddressControllerApiTest extends WebTestCase
 {
     use RolePermissionExtension;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

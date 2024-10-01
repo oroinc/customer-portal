@@ -31,6 +31,7 @@ class FrontendCustomerTypedAddressTypeTest extends FormIntegrationTestCase
     private Customer $customer;
     private FrontendCustomerTypedAddressType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formType = new FrontendCustomerTypedAddressType();
@@ -45,9 +46,7 @@ class FrontendCustomerTypedAddressTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         $addressRepository = $this->createMock(EntityRepository::class);

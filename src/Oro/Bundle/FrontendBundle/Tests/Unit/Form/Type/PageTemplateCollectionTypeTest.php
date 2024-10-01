@@ -18,6 +18,7 @@ class PageTemplateCollectionTypeTest extends FormIntegrationTestCase
     /** @var PageTemplateCollectionType */
     private $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->pageTemplatesManagerMock = $this->createMock(PageTemplatesManager::class);
@@ -51,9 +52,7 @@ class PageTemplateCollectionTypeTest extends FormIntegrationTestCase
         $this->assertEquals(['route_name_1' => 'some_key2'], $formData);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

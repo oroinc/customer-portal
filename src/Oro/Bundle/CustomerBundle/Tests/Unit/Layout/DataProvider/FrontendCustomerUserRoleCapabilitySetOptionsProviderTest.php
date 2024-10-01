@@ -18,6 +18,7 @@ class FrontendCustomerUserRoleCapabilitySetOptionsProviderTest extends \PHPUnit\
     /** @var FrontendCustomerUserRoleCapabilitySetOptionsProvider */
     private $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->capabilityProvider = $this->createMock(RolePrivilegeCapabilityProvider::class);

@@ -22,6 +22,7 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
     /** @var AclAccessLevelSelectorExtension */
     private $extension;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->roleTranslationPrefixResolver = $this->createMock(RoleTranslationPrefixResolver::class);

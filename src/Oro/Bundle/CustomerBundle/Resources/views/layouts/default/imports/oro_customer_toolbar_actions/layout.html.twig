@@ -11,8 +11,6 @@
     {% set attr = layout_attr_defaults(attr, {
         '~class': " box-toolbar__actions"
     }) %}
-    <div {{ block('block_attributes') }}>
-        {{ block_widget(block) }}
-    </div>
+    {{ parent_block_widget(block) }}
 {% endblock %}
 

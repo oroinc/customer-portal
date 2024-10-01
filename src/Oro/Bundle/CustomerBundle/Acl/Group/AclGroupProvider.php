@@ -19,17 +19,13 @@ class AclGroupProvider implements AclGroupProviderInterface
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function supports()
     {
         return $this->frontendHelper->isFrontendRequest();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getGroup()
     {
         return CustomerUser::SECURITY_GROUP;

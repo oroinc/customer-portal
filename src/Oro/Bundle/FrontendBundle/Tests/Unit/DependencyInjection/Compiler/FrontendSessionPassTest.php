@@ -15,6 +15,7 @@ class FrontendSessionPassTest extends \PHPUnit\Framework\TestCase
 
     private ContainerBuilder $container;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->container = new ContainerBuilder();

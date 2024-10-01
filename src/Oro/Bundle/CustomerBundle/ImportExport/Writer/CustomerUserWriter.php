@@ -11,6 +11,7 @@ use Oro\Bundle\IntegrationBundle\ImportExport\Writer\PersistentBatchWriter;
  */
 class CustomerUserWriter extends PersistentBatchWriter
 {
+    #[\Override]
     public function write(array $items)
     {
         $this->contextRegistry

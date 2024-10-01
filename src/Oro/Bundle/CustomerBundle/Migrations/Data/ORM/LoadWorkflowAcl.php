@@ -15,25 +15,19 @@ use Oro\Bundle\WorkflowBundle\Acl\Extension\WorkflowMaskBuilder;
  */
 class LoadWorkflowAcl extends AbstractUpdatePermissions implements DependentFixtureInterface, VersionedFixtureInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [LoadCustomerUserRoles::class];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getVersion()
     {
         return '1.1';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         $aclManager = $this->getAclManager();

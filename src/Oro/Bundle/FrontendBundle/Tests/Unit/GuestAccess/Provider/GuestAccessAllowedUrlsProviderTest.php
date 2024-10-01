@@ -11,6 +11,7 @@ class GuestAccessAllowedUrlsProviderTest extends \PHPUnit\Framework\TestCase
      */
     private $guestAccessAllowedUrlsProvider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->guestAccessAllowedUrlsProvider = new GuestAccessAllowedUrlsProvider();

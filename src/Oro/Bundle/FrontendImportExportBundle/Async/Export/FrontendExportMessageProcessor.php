@@ -17,9 +17,7 @@ class FrontendExportMessageProcessor extends ExportMessageProcessor
         $this->fileManager = $fileManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getSubscribedTopics(): array
     {
         return [ExportTopic::getName()];

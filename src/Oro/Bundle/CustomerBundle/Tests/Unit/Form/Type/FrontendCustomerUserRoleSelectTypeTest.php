@@ -25,6 +25,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
     /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
     private $registry;
 
+    #[\Override]
     protected function setUp(): void
     {
         $customer = $this->getCustomer(1, 'customer');

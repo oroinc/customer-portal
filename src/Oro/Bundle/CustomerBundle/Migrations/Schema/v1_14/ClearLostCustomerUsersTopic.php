@@ -14,16 +14,19 @@ class ClearLostCustomerUsersTopic extends AbstractTopic
 {
     public const BATCH_NUMBER = 'batch_number';
 
+    #[\Override]
     public static function getName(): string
     {
         return 'oro_customer.clear_lost_customer_users';
     }
 
+    #[\Override]
     public static function getDescription(): string
     {
         return 'Delete customer users without assigned customer. Should be used only during the schema upgrade v1_14.';
     }
 
+    #[\Override]
     public function configureMessageBody(OptionsResolver $resolver): void
     {
         $resolver

@@ -13,9 +13,7 @@ class AddProductFiltersSidebarStateToCustomerUserSettings implements Migration
 {
     private const PRODUCT_FILTERS_SIDEBAR_EXPANDED_FIELD_NAME = 'product_filters_sidebar_expanded';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         $this->addProductFiltersSidebarStateField($schema);

@@ -41,9 +41,7 @@ class FrontendErrorRenderer implements ErrorRendererInterface, ServiceSubscriber
         $this->debug = $debug;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return [
@@ -57,9 +55,7 @@ class FrontendErrorRenderer implements ErrorRendererInterface, ServiceSubscriber
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function render(\Throwable $exception): FlattenException
     {
         $request = $this->getRequestStack()->getCurrentRequest();

@@ -27,7 +27,6 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
     const VIEW = 'view';
     const UPDATE = 'update';
 
-    /** {@inheritDoc} */
     protected $supportedAttributes = [
         self::ATTRIBUTE_VIEW,
         self::ATTRIBUTE_EDIT,
@@ -49,9 +48,7 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
         $this->authorizationChecker = $authorizationChecker;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function vote(TokenInterface $token, $object, array $attributes): int
     {
         if (!$object instanceof CustomerUserRole) {
@@ -68,9 +65,7 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getPermissionForAttribute($class, $identifier, $attribute)
     {
         switch ($attribute) {

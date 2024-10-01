@@ -26,6 +26,7 @@ class AddressTypeDefaultTransformerTest extends \PHPUnit\Framework\TestCase
         $this->shippingAddressType = new AddressType(AddressType::TYPE_SHIPPING);
     }
 
+    #[\Override]
     protected function setUp(): void
     {
         $addressRepository = $this->createMock(EntityRepository::class);

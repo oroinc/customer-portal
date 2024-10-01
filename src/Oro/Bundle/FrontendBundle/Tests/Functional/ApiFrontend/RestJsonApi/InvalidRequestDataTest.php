@@ -7,6 +7,7 @@ use Oro\Bundle\TestFrameworkBundle\Entity\TestProduct;
 
 class InvalidRequestDataTest extends FrontendRestJsonApiTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

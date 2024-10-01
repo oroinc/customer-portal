@@ -6,9 +6,7 @@ use Oro\Bundle\SecurityBundle\Tests\Behat\Context\ACLContext as BaseACLContext;
 
 class ACLContext extends BaseACLContext
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getRoleEditFormElement()
     {
         $elementName = $this->isUserRoleEditPage() || $this->isUserRoleCreatePage() ?

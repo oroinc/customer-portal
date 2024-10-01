@@ -36,9 +36,7 @@ abstract class AbstractCustomerUserRoleType extends AbstractType
         $this->dataClass = $dataClass;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -104,9 +102,7 @@ abstract class AbstractCustomerUserRoleType extends AbstractType
         }, 10);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired(['privilege_config']);
@@ -117,9 +113,7 @@ abstract class AbstractCustomerUserRoleType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['privilegeConfig'] = $options['privilege_config'];

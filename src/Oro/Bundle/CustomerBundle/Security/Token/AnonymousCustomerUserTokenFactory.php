@@ -10,6 +10,7 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
  */
 class AnonymousCustomerUserTokenFactory implements AnonymousCustomerUserTokenFactoryInterface
 {
+    #[\Override]
     public function create(
         CustomerVisitor $customerVisitor,
         Organization $organization,
@@ -22,6 +23,7 @@ class AnonymousCustomerUserTokenFactory implements AnonymousCustomerUserTokenFac
         );
     }
 
+    #[\Override]
     public function createApi(
         CustomerVisitor $customerVisitor,
         Organization $organization,

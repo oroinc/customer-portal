@@ -25,6 +25,7 @@ class ContentNodeInConfigReferencesChecker implements ContentNodeDeletionChecker
     ) {
     }
 
+    #[\Override]
     public function check(ContentNode $contentNode): ?NotDeletableContentNodeResult
     {
         $result = new NotDeletableContentNodeResult();

@@ -16,17 +16,13 @@ class CustomerGroupConfigurationFormProvider extends AbstractProvider
         $this->parentCheckboxLabel = $label;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getTreeName(): string
     {
         return 'customer_group_configuration';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getParentCheckboxLabel(): string
     {
         return $this->parentCheckboxLabel ?? 'oro.customer.customergroup.customer_group_configuration.use_default';

@@ -23,17 +23,13 @@ class SelfManagedPublicCustomerUserRoleAccessRule implements AccessRuleInterface
         $this->tokenAccessor = $tokenAccessor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isApplicable(Criteria $criteria): bool
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(Criteria $criteria): void
     {
         if ($criteria->getPermission() === 'VIEW' && $criteria->getExpression()) {

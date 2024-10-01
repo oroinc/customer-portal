@@ -19,6 +19,7 @@ class MenuConditionEvaluatorTest extends \PHPUnit\Framework\TestCase
     /** @var MenuConditionEvaluator */
     private $menuConditionEvaluator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->logger = $this->createMock(LoggerInterface::class);

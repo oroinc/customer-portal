@@ -19,6 +19,7 @@ class AnonymousUserEmailSendListenerTest extends TestCase
     private WebsiteManager|MockObject $websiteManager;
     private AnonymousUserEmailSendListener $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->websiteManager = self::createMock(WebsiteManager::class);

@@ -13,6 +13,7 @@ use Oro\Bundle\VisibilityBundle\Entity\Visibility\VisibilityInterface;
 
 class CustomerRepositoryTest extends WebTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

@@ -18,6 +18,7 @@ class ThemeSelectTypeTest extends \PHPUnit\Framework\TestCase
     /** @var ThemeSelectType */
     private $type;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->themeManager = $this->createMock(ThemeManager::class);

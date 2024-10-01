@@ -11,6 +11,7 @@ class LoginManagerPassTest extends \PHPUnit\Framework\TestCase
     /** @var LoginManagerPass */
     private $compiler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->compiler = new LoginManagerPass();

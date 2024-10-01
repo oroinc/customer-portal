@@ -12,6 +12,7 @@ use Oro\Bundle\FrontendBundle\Datagrid\Extension\FrontendDatagridExtension;
  */
 class DefaultGridViewLoadListener extends BaseDefaultGridViewLoadListener
 {
+    #[\Override]
     public function onViewsLoad(GridViewsLoadEvent $event): void
     {
         if ($this->isFrontendDatagrid($event->getGridConfiguration())) {
@@ -24,9 +25,7 @@ class DefaultGridViewLoadListener extends BaseDefaultGridViewLoadListener
         return (bool)$datagridConfiguration->offsetGetByPath(FrontendDatagridExtension::FRONTEND_OPTION_PATH, false);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllGridViewTranslationKey(string $className): string
     {
         $provider = $this->configManager->getProvider('entity');

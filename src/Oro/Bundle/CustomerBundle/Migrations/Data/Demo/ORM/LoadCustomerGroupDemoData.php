@@ -23,9 +23,7 @@ class LoadCustomerGroupDemoData extends AbstractFixture
         'Non-Authenticated Visitors'
     ];
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $customerOwner = $this->getFirstUser($manager);

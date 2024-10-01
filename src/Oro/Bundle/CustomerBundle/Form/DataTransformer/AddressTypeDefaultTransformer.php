@@ -19,9 +19,7 @@ class AddressTypeDefaultTransformer implements DataTransformerInterface
         $this->om = $om;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function transform($elements)
     {
         if (null === $elements) {
@@ -37,9 +35,7 @@ class AddressTypeDefaultTransformer implements DataTransformerInterface
         return $transformed;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function reverseTransform($value)
     {
         if (!isset($value['default']) || $value['default'] === null) {

@@ -31,17 +31,13 @@ class CustomerHasAssignments extends AbstractCondition implements ContextAccesso
         $this->helper = $helper;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getName()
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function initialize(array $options)
     {
         if (count($options) !== 1) {
@@ -63,9 +59,7 @@ class CustomerHasAssignments extends AbstractCondition implements ContextAccesso
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function isConditionAllowed($context)
     {
         $customer = $this->resolveValue($context, $this->customer);

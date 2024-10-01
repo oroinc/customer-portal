@@ -15,9 +15,7 @@ class CustomerUserPasswordRequestType extends AbstractType
 {
     const NAME = 'oro_customer_customer_user_password_request';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
@@ -37,17 +35,12 @@ class CustomerUserPasswordRequestType extends AbstractType
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return $this->getBlockPrefix();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;

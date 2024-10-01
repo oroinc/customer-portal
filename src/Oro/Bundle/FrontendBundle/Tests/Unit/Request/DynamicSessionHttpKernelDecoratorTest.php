@@ -37,6 +37,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
     /** @var DynamicSessionHttpKernelDecorator */
     private $kernelDecorator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->kernel = $this->createMock(HttpKernel::class);

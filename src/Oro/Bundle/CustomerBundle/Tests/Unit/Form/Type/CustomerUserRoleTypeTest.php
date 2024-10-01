@@ -28,6 +28,7 @@ class CustomerUserRoleTypeTest extends FormIntegrationTestCase
 
     private CustomerUserRoleType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formType = new CustomerUserRoleType();
@@ -36,9 +37,7 @@ class CustomerUserRoleTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

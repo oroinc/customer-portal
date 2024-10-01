@@ -23,9 +23,7 @@ class CustomerUserByCustomerExtension extends AbstractExtension
      */
     protected $requestStack;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function visitDatasource(DatagridConfiguration $config, DatasourceInterface $datasource)
     {
         if (!$this->isApplicable($config) || !$datasource instanceof OrmDatasource) {
@@ -44,9 +42,7 @@ class CustomerUserByCustomerExtension extends AbstractExtension
         $this->applied = true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isApplicable(DatagridConfiguration $config)
     {
         $request = $this->requestStack->getCurrentRequest();

@@ -58,6 +58,7 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
+    #[\Override]
     protected function getExtensions(): array
     {
         $this->webCatalogProvider = $this->createMock(WebCatalogProvider::class);
@@ -167,6 +168,7 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
         ];
     }
 
+    #[\Override]
     protected function getValidators(): array
     {
         return [

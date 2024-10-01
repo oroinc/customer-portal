@@ -24,6 +24,7 @@ class ContentNodeInConfigReferencesCheckerTest extends TestCase
 
     private ContentNodeInConfigReferencesChecker $checker;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->translator = $this->createMock(TranslatorInterface::class);

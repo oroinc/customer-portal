@@ -26,6 +26,7 @@ class MenuUpdateGeneralExtensionTest extends FormIntegrationTestCase
 {
     use MenuItemTestTrait;
 
+    #[\Override]
     protected function getExtensions(): array
     {
         $menuTemplatesProvider = $this->createMock(MenuTemplatesProvider::class);
@@ -60,6 +61,7 @@ class MenuUpdateGeneralExtensionTest extends FormIntegrationTestCase
         ];
     }
 
+    #[\Override]
     protected function getValidators(): array
     {
         return [

@@ -19,6 +19,7 @@ class CategorySyntheticPropagatorTest extends \PHPUnit\Framework\TestCase
 
     private CategorySyntheticPropagator $propagator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->propagator = new CategorySyntheticPropagator();

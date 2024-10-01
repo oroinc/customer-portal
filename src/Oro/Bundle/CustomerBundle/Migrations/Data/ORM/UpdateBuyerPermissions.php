@@ -13,17 +13,12 @@ use Oro\Bundle\SecurityBundle\Migrations\Data\ORM\AbstractUpdatePermissions;
  */
 class UpdateBuyerPermissions extends AbstractUpdatePermissions
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getDependencies()
     {
         return [LoadUserRolesData::class];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         $aclManager = $this->getAclManager();

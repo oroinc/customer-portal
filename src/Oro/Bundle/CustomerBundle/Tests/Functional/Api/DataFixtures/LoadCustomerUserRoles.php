@@ -12,9 +12,7 @@ use Oro\Bundle\TestFrameworkBundle\Test\DataFixtures\InitialFixtureInterface;
  */
 class LoadCustomerUserRoles extends AbstractFixture implements InitialFixtureInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         $roleRepository = $manager->getRepository(CustomerUserRole::class);

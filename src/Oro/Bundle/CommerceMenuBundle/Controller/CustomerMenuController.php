@@ -114,9 +114,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
         return parent::move($request, $menuName, $context);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function checkAcl(array $context)
     {
         if (!$this->isGranted(
@@ -129,9 +127,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
         parent::checkAcl($context);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getMenu(string $menuName, array $context): ItemInterface
     {
         if (array_key_exists(ScopeCustomerCriteriaProvider::CUSTOMER, $context)) {
@@ -152,9 +148,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
         return [ScopeCustomerCriteriaProvider::CUSTOMER, ScopeCriteriaProvider::WEBSITE];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return array_merge(

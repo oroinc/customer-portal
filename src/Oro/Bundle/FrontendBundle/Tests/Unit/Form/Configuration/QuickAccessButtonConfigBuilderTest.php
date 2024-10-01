@@ -19,6 +19,7 @@ final class QuickAccessButtonConfigBuilderTest extends TestCase
     private Packages|MockObject $packages;
     private QuickAccessButtonConfigBuilder $quickAccessButtonConfigBuilder;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formBuilder = $this->createMock(FormBuilderInterface::class);

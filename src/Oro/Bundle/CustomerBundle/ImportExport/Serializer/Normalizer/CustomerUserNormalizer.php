@@ -14,9 +14,9 @@ use Oro\Bundle\ImportExportBundle\Serializer\Normalizer\ConfigurableEntityNormal
 class CustomerUserNormalizer extends ConfigurableEntityNormalizer
 {
     /**
-     * {@inheritdoc}
      * @param CustomerUser $object
      */
+    #[\Override]
     public function normalize($object, string $format = null, array $context = [])
     {
         $result = parent::normalize($object, $format, $context);
@@ -33,25 +33,19 @@ class CustomerUserNormalizer extends ConfigurableEntityNormalizer
         return $result;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function supportsNormalization($data, string $format = null, array $context = []): bool
     {
         return $data instanceof CustomerUser;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function supportsDenormalization($data, string $type, string $format = null, array $context = []): bool
     {
         return is_a($type, CustomerUser::class, true) || is_a($type, CustomerUserRole::class, true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function setObjectValue($object, $fieldName, $value)
     {
         if ($object instanceof CustomerUserRole && $fieldName === 'role') {
@@ -61,9 +55,7 @@ class CustomerUserNormalizer extends ConfigurableEntityNormalizer
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getObjectValue($object, $fieldName)
     {
         $value = $this->fieldHelper->getObjectValue($object, $fieldName);

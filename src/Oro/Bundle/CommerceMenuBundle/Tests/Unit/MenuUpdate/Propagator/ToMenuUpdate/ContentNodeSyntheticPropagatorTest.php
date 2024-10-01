@@ -17,6 +17,7 @@ class ContentNodeSyntheticPropagatorTest extends \PHPUnit\Framework\TestCase
 
     private ContentNodeSyntheticPropagator $propagator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->propagator = new ContentNodeSyntheticPropagator();

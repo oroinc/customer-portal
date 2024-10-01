@@ -10,6 +10,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 abstract class AbstractFrontendMenuController extends AbstractMenuController
 {
+    #[\Override]
     protected function getSavedSuccessMessage(): string
     {
         return $this->container->get(TranslatorInterface::class)->trans('oro.commercemenu.menuupdate.saved_message');

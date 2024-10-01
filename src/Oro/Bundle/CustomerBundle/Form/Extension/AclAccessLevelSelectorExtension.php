@@ -22,17 +22,13 @@ class AclAccessLevelSelectorExtension extends AbstractTypeExtension
         $this->roleTranslationPrefixResolver = $roleTranslationPrefixResolver;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getExtendedTypes(): iterable
     {
         return [AclAccessLevelSelectorType::class];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         $permissionForm = $form->getParent();

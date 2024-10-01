@@ -14,6 +14,7 @@ class CssVariableType extends AbstractType
 {
     public const string NAME = 'oro_frontend_css_variable_type';
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $parentConfig = $options['parentConfig'];
@@ -28,6 +29,7 @@ class CssVariableType extends AbstractType
         );
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
@@ -38,6 +40,7 @@ class CssVariableType extends AbstractType
             ->setDefined(['cssVariableName']);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;

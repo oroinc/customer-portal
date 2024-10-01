@@ -10,6 +10,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
  */
 class CustomerGroupTest extends RestJsonApiTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

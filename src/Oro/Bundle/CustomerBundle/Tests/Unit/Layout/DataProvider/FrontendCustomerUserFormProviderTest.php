@@ -30,6 +30,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
     /** @var FrontendCustomerUserFormProvider */
     private $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formFactory = $this->createMock(FormFactory::class);

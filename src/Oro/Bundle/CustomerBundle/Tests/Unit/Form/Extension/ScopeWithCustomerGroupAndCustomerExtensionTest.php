@@ -10,6 +10,7 @@ class ScopeWithCustomerGroupAndCustomerExtensionTest extends \PHPUnit\Framework\
 {
     private ScopeWithCustomerGroupAndCustomerExtension $extension;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->extension = new ScopeWithCustomerGroupAndCustomerExtension();

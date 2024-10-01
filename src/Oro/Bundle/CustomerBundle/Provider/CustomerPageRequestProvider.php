@@ -9,6 +9,7 @@ use Oro\Bundle\PlatformBundle\Provider\AbstractPageRequestProvider;
  */
 class CustomerPageRequestProvider extends AbstractPageRequestProvider
 {
+    #[\Override]
     public function getRequests(): array
     {
         return [

@@ -39,9 +39,7 @@ class ApiAnonymousCustomerUserAuthenticator implements AuthenticatorInterface
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function supports(Request $request): bool
     {
         $isAvailable = $this->shouldBeAuthenticatedAsCustomerVisitor($request, $this->tokenStorage->getToken())
@@ -61,9 +59,7 @@ class ApiAnonymousCustomerUserAuthenticator implements AuthenticatorInterface
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function authenticate(Request $request): Passport
     {
         $website = $this->websiteManager->getCurrentWebsite();
@@ -82,6 +78,7 @@ class ApiAnonymousCustomerUserAuthenticator implements AuthenticatorInterface
         return $passport;
     }
 
+    #[\Override]
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
         $token = $this->anonymousTokenFactory->createApi(
@@ -100,11 +97,13 @@ class ApiAnonymousCustomerUserAuthenticator implements AuthenticatorInterface
         return $token;
     }
 
+    #[\Override]
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         return null;
     }
 
+    #[\Override]
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         $this->logger->info('API Customer User anonymous authentication failed.', ['exception' => $exception]);

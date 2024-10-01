@@ -13,9 +13,7 @@ use Oro\Bundle\WorkflowBundle\Model\Workflow;
  */
 class FrontendTransitionButtonProviderExtension extends TransitionButtonProviderExtension
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getTransitions(Workflow $workflow, ButtonSearchContext $searchContext)
     {
         $transitions = array_merge(
@@ -47,9 +45,7 @@ class FrontendTransitionButtonProviderExtension extends TransitionButtonProvider
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getApplication()
     {
         return FrontendCurrentApplicationProvider::COMMERCE_APPLICATION;

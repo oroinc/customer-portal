@@ -59,6 +59,7 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
      */
     protected $context;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->registry = $this->createMock(ManagerRegistry::class);

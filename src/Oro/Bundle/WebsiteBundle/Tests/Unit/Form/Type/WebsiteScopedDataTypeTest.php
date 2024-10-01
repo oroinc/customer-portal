@@ -23,6 +23,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
 
     private WebsiteScopedDataType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $em = $this->createMock(EntityManager::class);
@@ -66,9 +67,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [new PreloadedExtension([$this->formType, new StubType()], [])];

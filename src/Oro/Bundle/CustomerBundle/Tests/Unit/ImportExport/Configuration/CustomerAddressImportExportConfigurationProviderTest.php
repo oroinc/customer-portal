@@ -15,6 +15,7 @@ class CustomerAddressImportExportConfigurationProviderTest extends \PHPUnit\Fram
     /** @var CustomerAddressImportExportConfigurationProvider */
     private $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->translator = $this->createMock(TranslatorInterface::class);

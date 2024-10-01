@@ -20,6 +20,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
     /** @var RequestStack */
     private $requestStack;
 
+    #[\Override]
     protected function setUp(): void
     {
         $translator = $this->createMock(TranslatorInterface::class);

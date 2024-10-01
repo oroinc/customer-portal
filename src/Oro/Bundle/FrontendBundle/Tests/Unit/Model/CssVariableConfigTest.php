@@ -9,6 +9,7 @@ final class CssVariableConfigTest extends TestCase
 {
     private CssVariableConfig $cssVariableConfig;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->cssVariableConfig = new CssVariableConfig();

@@ -19,14 +19,13 @@ class LoadTestUser extends AbstractFixture implements ContainerAwareInterface, D
     use ContainerAwareTrait;
     use UserUtilityTrait;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [LoadOrganization::class];
     }
 
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         /** @var User $userWithMainOrganizationAccess */

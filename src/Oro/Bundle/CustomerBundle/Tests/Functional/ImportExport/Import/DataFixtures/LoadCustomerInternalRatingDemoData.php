@@ -23,6 +23,7 @@ class LoadCustomerInternalRatingDemoData extends AbstractEnumFixture
      *
      * @return array
      */
+    #[\Override]
     protected function getData(): array
     {
         return self::$data;
@@ -42,11 +43,13 @@ class LoadCustomerInternalRatingDemoData extends AbstractEnumFixture
      *
      * @return string
      */
+    #[\Override]
     protected function getEnumCode(): string
     {
         return Customer::INTERNAL_RATING_CODE;
     }
 
+    #[\Override]
     public function getDependencies(): array
     {
         return [];

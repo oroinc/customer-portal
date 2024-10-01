@@ -11,6 +11,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
  */
 class CustomerAddressUpdateListTest extends RestJsonApiUpdateListTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

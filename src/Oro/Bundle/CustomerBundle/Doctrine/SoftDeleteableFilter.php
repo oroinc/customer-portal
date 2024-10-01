@@ -23,6 +23,7 @@ class SoftDeleteableFilter extends SQLFilter
      *
      * @return string The constraint SQL if there is available, empty string otherwise.
      */
+    #[\Override]
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
     {
         if (!$targetEntity->reflClass->implementsInterface(SoftDeleteableInterface::NAME)) {

@@ -24,9 +24,7 @@ class ResourceTypeResolver implements ResourceTypeResolverInterface
         $this->routeParameterNames = $routeParameterNames;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function resolveType(string $routeName, array $routeParameters, RequestType $requestType): ?string
     {
         foreach ($this->routeParameterNames as $name) {

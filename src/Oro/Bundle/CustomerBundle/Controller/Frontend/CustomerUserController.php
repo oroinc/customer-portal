@@ -117,9 +117,7 @@ class CustomerUserController extends AbstractController
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return array_merge(

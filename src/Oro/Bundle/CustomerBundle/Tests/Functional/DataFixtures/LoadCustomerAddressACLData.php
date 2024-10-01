@@ -9,6 +9,7 @@ class LoadCustomerAddressACLData extends AbstractLoadACLData
     /**
      * @return string
      */
+    #[\Override]
     protected function getAclResourceClassName()
     {
         return CustomerAddress::class;
@@ -17,6 +18,7 @@ class LoadCustomerAddressACLData extends AbstractLoadACLData
     /**
      * @return array
      */
+    #[\Override]
     protected function getSupportedRoles()
     {
         return [

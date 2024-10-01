@@ -12,9 +12,7 @@ class EnabledLocalizationSelectTypeTest extends FormIntegrationTestCase
     /** @var EnabledLocalizationSelectType */
     private $formType;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

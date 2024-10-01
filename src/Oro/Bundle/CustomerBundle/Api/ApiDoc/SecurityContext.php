@@ -21,17 +21,13 @@ class SecurityContext implements SecurityContextInterface
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function hasSecurityToken(): bool
     {
         return $this->innerSecurityContext->hasSecurityToken();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getOrganizations(): array
     {
         if ($this->frontendHelper->isFrontendRequest()) {
@@ -41,9 +37,7 @@ class SecurityContext implements SecurityContextInterface
         return $this->innerSecurityContext->getOrganizations();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getOrganization(): ?string
     {
         if ($this->frontendHelper->isFrontendRequest()) {
@@ -53,25 +47,19 @@ class SecurityContext implements SecurityContextInterface
         return $this->innerSecurityContext->getOrganization();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getUserName(): ?string
     {
         return $this->innerSecurityContext->getUserName();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getApiKey(): ?string
     {
         return $this->innerSecurityContext->getApiKey();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getApiKeyGenerationHint(): ?string
     {
         if ($this->frontendHelper->isFrontendRequest()) {
@@ -87,17 +75,13 @@ class SecurityContext implements SecurityContextInterface
         return $this->innerSecurityContext->getApiKeyGenerationHint();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getCsrfCookieName(): ?string
     {
         return $this->innerSecurityContext->getCsrfCookieName();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getSwitchOrganizationRoute(): ?string
     {
         if ($this->frontendHelper->isFrontendRequest()) {
@@ -107,9 +91,7 @@ class SecurityContext implements SecurityContextInterface
         return $this->innerSecurityContext->getSwitchOrganizationRoute();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getLoginRoute(): ?string
     {
         if ($this->frontendHelper->isFrontendRequest()) {
@@ -119,9 +101,7 @@ class SecurityContext implements SecurityContextInterface
         return $this->innerSecurityContext->getLoginRoute();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getLogoutRoute(): ?string
     {
         if ($this->frontendHelper->isFrontendRequest()) {

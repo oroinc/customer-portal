@@ -20,9 +20,7 @@ class CustomerGroupMenuContextProvider implements CustomerGroupMenuContextProvid
         $this->websiteManager = $websiteManager;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getContexts(CustomerGroup $customerGroup)
     {
         return [

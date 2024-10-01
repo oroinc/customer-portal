@@ -10,6 +10,7 @@ class CustomerUserMenuBuilderTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserMenuBuilder */
     private $builder;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->builder = new CustomerUserMenuBuilder();

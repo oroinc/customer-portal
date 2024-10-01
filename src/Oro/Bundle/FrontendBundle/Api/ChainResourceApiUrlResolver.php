@@ -28,9 +28,7 @@ class ChainResourceApiUrlResolver implements ResourceApiUrlResolverInterface
         $this->matcher = $matcher;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function resolveApiUrl(
         string $routeName,
         array $routeParameters,

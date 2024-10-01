@@ -36,9 +36,7 @@ class PermissionGrantingStrategy implements PermissionGrantingStrategyInterface
         return $this->innerStrategy->getContext();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isGranted(AclInterface $acl, array $masks, array $sids, $administrativeMode = false)
     {
         if ($this->isCustomerRoleGranted($masks)) {
@@ -48,9 +46,7 @@ class PermissionGrantingStrategy implements PermissionGrantingStrategyInterface
         return $this->innerStrategy->isGranted($acl, $masks, $sids, $administrativeMode);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isFieldGranted(AclInterface $acl, $field, array $masks, array $sids, $administrativeMode = false)
     {
         return $this->innerStrategy->isFieldGranted($acl, $field, $masks, $sids, $administrativeMode);

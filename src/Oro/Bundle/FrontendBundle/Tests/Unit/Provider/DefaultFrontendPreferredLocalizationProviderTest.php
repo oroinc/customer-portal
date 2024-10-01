@@ -18,6 +18,7 @@ class DefaultFrontendPreferredLocalizationProviderTest extends TestCase
 
     private DefaultFrontendPreferredLocalizationProvider $provider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->localizationProvider = $this->createMock(LocalizationProviderInterface::class);

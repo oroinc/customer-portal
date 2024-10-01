@@ -14,9 +14,7 @@ class CustomerUserSearchHandler extends BaseSearchHandler
 {
     const DELIMITER = ';';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function searchEntities($search, $firstResult, $maxResults)
     {
         if (!str_contains($search, static::DELIMITER)) {
@@ -73,9 +71,7 @@ class CustomerUserSearchHandler extends BaseSearchHandler
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function findById($query)
     {
         $parts = explode(self::DELIMITER, $query);

@@ -18,6 +18,7 @@ class FrontendExportMessageProcessorTest extends WebTestCase
 {
     private ExportHandler|\PHPUnit\Framework\MockObject\MockObject $exportHandler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

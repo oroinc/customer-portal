@@ -30,6 +30,7 @@ class EmailTemplateSystemVariablesProvider implements SystemVariablesProviderInt
         $this->translator = $translator;
     }
 
+    #[\Override]
     public function getVariableDefinitions(): array
     {
         return [
@@ -48,6 +49,7 @@ class EmailTemplateSystemVariablesProvider implements SystemVariablesProviderInt
         ];
     }
 
+    #[\Override]
     public function getVariableValues(): array
     {
         $currentWebsite = $this->websiteManager->getCurrentWebsite();

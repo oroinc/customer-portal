@@ -27,6 +27,7 @@ class ApiAnonymousCustomerUserAuthenticationDecisionMakerTest extends \PHPUnit\F
     /** @var ApiAnonymousCustomerUserAuthenticationDecisionMaker */
     private $decisionMaker;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

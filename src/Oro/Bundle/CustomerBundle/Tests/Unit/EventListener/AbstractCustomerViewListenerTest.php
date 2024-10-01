@@ -39,6 +39,7 @@ abstract class AbstractCustomerViewListenerTest extends \PHPUnit\Framework\TestC
     /** @var AbstractCustomerViewListener */
     protected $customerViewListener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->translator = $this->createMock(TranslatorInterface::class);

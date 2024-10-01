@@ -33,9 +33,7 @@ class CustomerVisitorAclVoterDecorator extends AclVoterDecorator
         $this->requestWebsiteProvider = $requestWebsiteProvider;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function vote(TokenInterface $token, $subject, array $attributes): int
     {
         if ($token instanceof AnonymousCustomerUserToken) {

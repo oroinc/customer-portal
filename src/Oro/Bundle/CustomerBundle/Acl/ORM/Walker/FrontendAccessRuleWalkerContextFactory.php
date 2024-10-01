@@ -30,9 +30,7 @@ class FrontendAccessRuleWalkerContextFactory implements AccessRuleWalkerContextF
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function createContext(string $permission): AccessRuleWalkerContext
     {
         $context = $this->innerFactory->createContext($permission);

@@ -21,6 +21,7 @@ class AuthenticationTrustResolverTest extends \PHPUnit\Framework\TestCase
      */
     private $resolver;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->baseTrustResolver = $this->createMock(BaseAuthenticationTrustResolver::class);

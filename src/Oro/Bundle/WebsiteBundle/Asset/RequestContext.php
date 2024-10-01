@@ -16,9 +16,7 @@ class RequestContext extends BaseRequestContext
         $this->resolver = $resolver;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBaseUrl(): string
     {
         return $this->resolver ? $this->resolver->resolveBasePath(parent::getBaseUrl()) : parent::getBaseUrl();
@@ -27,6 +25,7 @@ class RequestContext extends BaseRequestContext
     /**
      * Mimics the logic of parent's ::fromUri().
      */
+    #[\Override]
     public static function fromUri(
         string $uri,
         string $host = 'localhost',

@@ -14,17 +14,13 @@ class CustomerRelatedEntities extends Constraint
     /** @var string */
     public $message = 'oro.customer.message.no_permission_for_customer_related_entities';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function validatedBy(): string
     {
         return CustomerRelatedEntitiesValidator::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;

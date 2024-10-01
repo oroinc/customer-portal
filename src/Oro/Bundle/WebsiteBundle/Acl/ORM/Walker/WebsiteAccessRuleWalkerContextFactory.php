@@ -30,9 +30,7 @@ class WebsiteAccessRuleWalkerContextFactory implements AccessRuleWalkerContextFa
         $this->websiteManager = $websiteManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function createContext(string $permission): AccessRuleWalkerContext
     {
         $context = $this->innerFactory->createContext($permission);

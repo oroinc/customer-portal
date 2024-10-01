@@ -10,6 +10,7 @@ use Oro\Bundle\EntityExtendBundle\Migration\Fixture\AbstractEnumFixture;
  */
 class LoadCustomerAuthStatusOptionsData extends AbstractEnumFixture
 {
+    #[\Override]
     protected function getData(): array
     {
         return [
@@ -18,11 +19,13 @@ class LoadCustomerAuthStatusOptionsData extends AbstractEnumFixture
         ];
     }
 
+    #[\Override]
     protected function getDefaultValue(): string
     {
         return CustomerUserManager::STATUS_ACTIVE;
     }
 
+    #[\Override]
     protected function getEnumCode(): string
     {
         return 'cu_auth_status';

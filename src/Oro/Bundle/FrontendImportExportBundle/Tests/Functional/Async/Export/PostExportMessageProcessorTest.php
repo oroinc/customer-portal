@@ -25,6 +25,7 @@ class PostExportMessageProcessorTest extends WebTestCase
 
     private FrontendExportHandler|\PHPUnit\Framework\MockObject\MockObject $exportHandler;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

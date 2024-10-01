@@ -20,6 +20,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
 {
     use RolePermissionExtension;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

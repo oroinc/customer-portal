@@ -58,6 +58,7 @@ class ScreensProviderTest extends \PHPUnit\Framework\TestCase
     /** @var ScreensProvider */
     private $screensProvider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->cache = $this->createMock(CacheInterface::class);

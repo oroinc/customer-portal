@@ -28,6 +28,7 @@ class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
     /** @var RecordOwnerDataListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->customerUserProvider = $this->createMock(CustomerUserProvider::class);

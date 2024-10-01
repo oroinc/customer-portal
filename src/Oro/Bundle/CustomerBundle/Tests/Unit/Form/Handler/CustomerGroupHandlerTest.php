@@ -33,6 +33,7 @@ class CustomerGroupHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerGroup */
     private $entity;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->manager = $this->createMock(ObjectManager::class);

@@ -51,6 +51,7 @@ class CustomerAddressTest extends RestJsonApiTestCase
     private const ANOTHER_OWNER_ADDRESS_2_REF      = 'customer.level_1.1.address_2';
     private const CREATE_WITH_SYSTEM_ORGANIZATION_DATA = 'create_customer_address_with_system_organization.yml';
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

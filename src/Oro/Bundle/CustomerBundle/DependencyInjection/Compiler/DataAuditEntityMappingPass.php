@@ -15,9 +15,7 @@ class DataAuditEntityMappingPass implements CompilerPassInterface
 {
     const MAPPER_SERVICE = 'oro_dataaudit.loggable.audit_entity_mapper';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition(self::MAPPER_SERVICE)) {

@@ -16,17 +16,13 @@ class LoadCustomerUser extends AbstractFixture implements DependentFixtureInterf
 {
     public const CUSTOMER_USER = 'customer_user';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [LoadOrganization::class, LoadCustomer::class];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         $user = $manager->getRepository(CustomerUser::class)
