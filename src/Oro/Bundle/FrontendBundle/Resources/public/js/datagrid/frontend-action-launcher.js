@@ -15,6 +15,10 @@ define(function(require) {
 
         renderInExternalContainer: false,
 
+        dropdownActionWithDivider: false,
+
+        dropdownDividerClassName: 'dropdown-item--divider',
+
         constructor: function FrontendActionLauncher(...args) {
             FrontendActionLauncher.__super__.constructor.apply(this, args);
         },
@@ -24,6 +28,14 @@ define(function(require) {
 
             if (options.renderInExternalContainer !== void 0) {
                 this.renderInExternalContainer = options.renderInExternalContainer;
+            }
+
+            if (options.dropdownActionWithDivider !== void 0) {
+                this.dropdownActionWithDivider = options.dropdownActionWithDivider;
+            }
+
+            if (options.dropdownDividerClassName !== void 0) {
+                this.dropdownDividerClassName = options.dropdownDividerClassName;
             }
 
             return this;
