@@ -45,7 +45,7 @@ define(function(require) {
         delegateListeners: function() {
             EmbeddedListComponent.__super__.delegateListeners.call(this);
 
-            mediator.once('page:afterChange', this._afterChange.bind(this));
+            this.listenToOnce(mediator, 'page:afterChange', this._afterChange.bind(this));
         },
 
         _afterChange: function() {
