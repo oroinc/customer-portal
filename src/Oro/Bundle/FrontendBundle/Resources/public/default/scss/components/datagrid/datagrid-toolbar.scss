@@ -80,8 +80,12 @@
     }
 
     &.datagrid-toolbar-bottom {
-        .datagrid-toolbar__center {
-            flex-grow: 1;
+        .datagrid-toolbar {
+            &__start,
+            &__center,
+            &__end {
+                flex: 1 1 0;
+            }
         }
     }
 }

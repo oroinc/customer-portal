@@ -7,16 +7,14 @@
         }
     }
 
-    &--responsive {
-        .action-cell {
-            .btn {
-                min-width: $frontend-datagrid-responsive-action-cell-min-width;
-                white-space: nowrap;
+    .action-cell {
+        .btn {
+            min-width: $frontend-datagrid-responsive-action-cell-min-width;
+            white-space: nowrap;
 
-                // Hiding styled bottom border for some actions
-                &:hover:after {
-                    content: none;
-                }
+            // Hiding styled bottom border for some actions
+            &:hover:after {
+                content: none;
             }
         }
     }

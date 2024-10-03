@@ -15,9 +15,3 @@
         display: none;
     }
 }
-
-@include breakpoint('mobile') {
-    .datagrid-toggle-pagination {
-        margin-left: auto;
-    }
-}
