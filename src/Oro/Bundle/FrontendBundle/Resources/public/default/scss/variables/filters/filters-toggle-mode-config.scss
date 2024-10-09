@@ -69,6 +69,8 @@ $filter-toggle-mode-open-filter-criteria-selector-icon-transform: rotate(90deg) 
 
 $filter-toggle-filter-items-container-inline-inner-offset: spacing('xs') !default;
 $filter-toggle-filter-items-container-inline-offset: -#{spacing('xs')} !default;
-$filter-toggle-filter-items-container-scroll-shadow: 0 3px 3px 0 rgba(5, 59, 66, .03) inset,
-    0 7px 12px 0 rgba(91, 126, 131, .12) inset !default;
+$scroll-shadow-size: spacing('md') !default;
+$filter-toggle-filter-items-container-scroll-shadow:
+    linear-gradient(180deg, rgba(5, 59, 66, .03) 0, rgba(5, 59, 66, 0) $scroll-shadow-size / 4),
+    linear-gradient(180deg, rgba(91, 126, 131, .12) 0, rgba(91, 126, 131, 0) $scroll-shadow-size) !default;
 $filter-toggle-filter-items-container-shadow-inline-margin: -#{spacing('lg') + 4px} -#{spacing('lg')} !default;
