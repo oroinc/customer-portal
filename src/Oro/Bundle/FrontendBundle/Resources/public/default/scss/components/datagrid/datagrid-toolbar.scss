@@ -230,6 +230,12 @@
             }
         }
 
+        &.datagrid-toolbar-bottom {
+            .datagrid-toolbar__start {
+                flex-basis: auto;
+            }
+        }
+
         .page-size {
             .select2-container {
                 min-width: 54px;
