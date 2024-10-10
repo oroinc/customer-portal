@@ -173,6 +173,12 @@
             gap: $datagrid-tool-mobile-big-gap;
         }
 
+        &.datagrid-toolbar-bottom {
+            .datagrid-toolbar__start {
+                flex-basis: auto;
+            }
+        }
+
         .page-size {
             .select2-chosen-extra {
                 display: none;
@@ -227,12 +233,6 @@
 
             .oro-pagination {
                 width: 100%;
-            }
-        }
-
-        &.datagrid-toolbar-bottom {
-            .datagrid-toolbar__start {
-                flex-basis: auto;
             }
         }
 
