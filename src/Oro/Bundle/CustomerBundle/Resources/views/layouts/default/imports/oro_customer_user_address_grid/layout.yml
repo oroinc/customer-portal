@@ -22,7 +22,7 @@ layout:
             parentId: __user_addresses_view_additional_container
             blockType: link
             options:
-                visible: '=data["acl"].isGranted("oro_customer_frontend_customer_user_address_create")'
+                visible: '=data["acl"].isGranted("oro_customer_frontend_customer_user_address_create") && data["acl"].isGranted("oro_customer_frontend_customer_user_address_view")'
                 route_name: oro_customer_frontend_customer_user_address_create
                 route_parameters:
                     entityId: '=data["entity"].getId()'
