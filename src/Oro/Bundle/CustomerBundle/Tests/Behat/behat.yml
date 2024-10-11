@@ -273,7 +273,7 @@ oro_behat_extension:
     Default Addresses:
       selector:
         type: xpath
-        locator: '//h2[contains(., "Default addresses")]/..'
+        locator: '//h2[contains(., "Default addresses")]/../..'
 
     Map Button:
       selector:
@@ -329,6 +329,10 @@ oro_behat_extension:
 
     Frontend Address Default Shipping Checkbox:
       selector: '[name$="[defaults][default][]"][value="shipping"]'
+
+    Frontend Customer User Owner:
+      selector: 'select[name="oro_customer_frontend_customer_user_typed_address[frontendOwner]"]'
+      class: Oro\Bundle\FormBundle\Tests\Behat\Element\Select
 
     Frontend Address Billing Checkbox Label:
       selector:

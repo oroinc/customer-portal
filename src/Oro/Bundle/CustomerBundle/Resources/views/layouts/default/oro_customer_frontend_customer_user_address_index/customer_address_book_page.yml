@@ -23,8 +23,20 @@ layout:
                     blockType: container
                 customer_address_book_user_addresses:
                     blockType: container
+                customer_address_book_user_addresses_create_button:
+                    blockType: link
+                    options:
+                        visible: '=data["acl"].isGranted("oro_customer_frontend_customer_user_address_create") && !data["acl"].isGranted("oro_customer_frontend_customer_user_address_view")'
+                        route_name: oro_customer_frontend_customer_user_address_create
+                        route_parameters:
+                            entityId: '=data["entity"].getId()'
+                        text: 'oro.customer.address.add'
+                        icon: plus
+                        attr:
+                            class: 'btn btn--link'
             tree:
                 page_content:
                     customer_address_book_page:
                         customer_address_book_addresses: ~
+                        customer_address_book_user_addresses_create_button: ~
                         customer_address_book_user_addresses: ~
