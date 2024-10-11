@@ -82,6 +82,7 @@ services:
             - ['setContainer', ['@Psr\Container\ContainerInterface']]
         tags:
             - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer.owner.customer_user_address_entity_access_provider, key: Oro\Bundle\CustomerBundle\Owner\CustomerUserAddressEntityAccessProvider }
 
     Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerUserRegisterController:
         calls:

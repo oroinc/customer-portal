@@ -126,3 +126,12 @@
     }) %}
     {{ block_widget(block, {attr: attr}) }}
 {% endblock %}
+
+{% block __oro_customer_user_address_list__user_addresses_head_title_wrapper_widget %}
+    {% if block.children is not empty %}
+        {% set attr = attr|merge({ class: attr.class|default('') ~ " customer-profile__title-wrapper" }) %}
+        <div{{ block('block_attributes') }}>
+            {{ block_widget(block) }}
+        </div>
+    {% endif %}
+{% endblock %}
