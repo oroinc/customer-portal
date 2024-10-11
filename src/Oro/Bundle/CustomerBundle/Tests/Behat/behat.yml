@@ -374,6 +374,10 @@ oro_behat_extension:
     Frontend Address Shipping Checkbox:
       selector: '[name$="[types][]"][value="shipping"]'
 
+    Frontend Customer User Owner:
+      selector: 'select[name="oro_customer_frontend_customer_user_typed_address[frontendOwner]"]'
+      class: Oro\Bundle\FormBundle\Tests\Behat\Element\Select
+
     First Address Default Billing Checkbox:
         selector: '[name="oro_customer_type[addresses][0][defaults][default][]"][value="billing"]'
 
