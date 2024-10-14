@@ -226,6 +226,10 @@ oro_stylebook:
                     title: 'Dynamic Collapse'
                 accordion:
                     title: 'Accordion'
+            responsive_dropdown:
+                title: 'Responsive Dropdown'
+            responsive_classes:
+                title: 'Responsive Classes'
             fullscreen_popup_view:
                 title: 'Fullscreen Popup View'
             scroll_view:

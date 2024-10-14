@@ -845,6 +845,140 @@
     </div>
 {% endblock %}
 
+{# Responsive Dropdown #}
+{% block _style_book_responsive_dropdown_view_widget %}
+      {% set attr = layout_attr_defaults(attr, {
+          '~class': ' js-component-container'
+      }) %}
+
+    {% set viewOptions = {
+        dropdownClass: '',
+        dropdownMenuClass: 'toggle-container--dropdown',
+        toggleClass: 'toggle-container--dropdown-btn',
+        mainAriaLabel: 'oro.product.frontend.catalog_switch.aria_label'|trans,
+        placement: 'bottom-end',
+        icon: 'more-horizontal',
+        iconClass: 'theme-icon--medium',
+        actionsContainerClass: 'actions-group'
+    }%}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            <div class="simple-placeholder"
+                 data-placeholder-show-one-child-on-tablet-big=""
+                 data-responsive-dropdown=""
+                 data-input-widget-options="{{ "{{ viewOptions|json_encode }}"|raw }}">
+
+                <button class="btn btn--neutral">Button</button>
+                <a class="link">Link</a>
+            </div>
+        </div>
+
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_responsive_dropdown_view_html_widget %}
+    {% set options = "
+        {% set viewOptions = {
+             dropdownClass: '',
+             dropdownMenuClass: 'toggle-container--dropdown',
+             toggleClass: 'toggle-container--dropdown-btn',
+             mainAriaLabel: 'oro.product.frontend.catalog_switch.aria_label'|trans,
+             placement: 'bottom-end',
+             icon: 'more-horizontal',
+             iconClass: 'theme-icon--medium',
+             actionsContainerClass: 'actions-group'
+        }%}
+    "%}
+
+    {% set source_code %}
+        {{ options|raw }}
+
+        <div class="simple-placeholder"
+             data-placeholder-show-one-child-on-mobile-big=""
+             data-responsive-dropdown=""
+             data-input-widget-options="{{ "{{  viewOptions|json_encode }}"|raw }}">
+
+            <button class="btn btn--neutral">Button 1</button>
+            <button class="btn">Button 2</button>
+        </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Responsive Classess #}
+{% block _style_book_responsive_classes_view_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container'
+    }) %}
+
+    {% set viewOptions = {
+        responsive: {
+            mobile: {
+                classes: 'btn btn--outlined'
+            }
+        }
+    }%}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            <button class="btn"
+                    data-responsive-styler
+                    data-input-widget-options="{{ viewOptions|json_encode }}">Button</button>
+
+            <a class="link" href="#"
+               data-responsive-styler
+               data-input-widget-options="{{ viewOptions|json_encode }}">Link</a>
+        </div>
+
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_responsive_classes_view_html_widget %}
+    {% set options = "
+        {% set viewOptions = {
+            responsive: {
+               mobile: {
+                   classes: 'btn btn--outlined'
+               }
+           }
+        }%}
+    "%}
+
+    {% set source_code %}
+        {{ options|raw }}
+
+        <button class="btn"
+                data-responsive-styler
+                data-input-widget-options="{{ "{{  viewOptions|json_encode }}"|raw }}">Button</button>
+
+        <a href="#" class="link"
+           data-responsive-styler
+           data-input-widget-options="{{ "{{  viewOptions|json_encode }}"|raw }}">Link</a>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
 {# Fullscreen Popup #}
 {% block _style_book_fullscreen_popup_view_widget %}
     {% set attr = layout_attr_defaults(attr, {

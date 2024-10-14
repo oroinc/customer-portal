@@ -209,6 +209,12 @@ oro_stylebook:
                     description: 'The collapse may be initialized programmatically depending on use case. For example determined by the viewport.'
                 accordion:
                     title: 'Accordion'
+            responsive_dropdown:
+                title: 'Responsive Dropdown'
+                description: 'Responsive Dropdown is a component to transform list of actions to dropdown on some resolutions. To see a transformation, please, change dimension of browser at least to tablet-big breakpoint.'
+            responsive_classes:
+                title: 'Responsive Classes'
+                description: 'Responsive Classes component allows to set new classes to element on some breakpoint. If class "btn" was present by default it will be removed.'
             fullscreen_popup_view:
                 title: 'Fullscreen Popup View'
                 description: 'The fullscreen popup view helps you show the rendered html content, view, and selector in a fullscreen pop-up. The page header renders with an icon specified as a `popupIcon`, the `popupLabel` as a title, and the Close button. The `contentTemplate` may contain raw html that you would expect inside the body tag.'

@@ -197,6 +197,44 @@ layout:
                         tabs:
                             - { anchor: 'collapse_widget-html', label: oro_stylebook.groups.jscomponent.tabs.howtouse.html, active: true, widget: 'style_book_grid_element_accordion_widget_html'}
 
+                # Responsive Dropdown view
+                group_element_responsive_dropdown_view:
+                    blockType: group_element
+                    options:
+                        anchor: responsive_dropdown_view
+                        label: oro_stylebook.groups.jscomponent.responsive_dropdown.title
+                group_element_item_responsive_dropdown_view:
+                    blockType: group_js_element_item
+                    options:
+                        source: false
+                        description: oro_stylebook.groups.jscomponent.responsive_dropdown.description
+                style_book_responsive_dropdown_view:
+                    blockType: container
+                group_tabs_responsive_dropdown_view:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                             - { anchor: 'responsive_dropdown_view-html', label: oro_stylebook.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_responsive_dropdown_view_html'}
+
+                # Responsive Classes
+                group_element_responsive_classes_view:
+                    blockType: group_element
+                    options:
+                        anchor: responsive_classes_view
+                        label: oro_stylebook.groups.jscomponent.responsive_classes.title
+                group_element_item_responsive_classes_view:
+                    blockType: group_js_element_item
+                    options:
+                        source: false
+                        description: oro_stylebook.groups.jscomponent.responsive_classes.description
+                style_book_responsive_classes_view:
+                    blockType: container
+                group_tabs_responsive_classes_view:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                            - { anchor: 'responsive_classes_view-html', label: oro_stylebook.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_responsive_classes_view_html'}
+
                 # Fullscreen popup view
                 group_element_fullscreen_popup_view:
                     blockType: group_element
@@ -514,6 +552,16 @@ layout:
                             group_element_item_accordion_widget:
                                 style_book_grid_element_accordion_widget:
                                     group_tabs_accordion_widget: ~
+
+                    group_element_responsive_dropdown_view:
+                        group_element_item_responsive_dropdown_view:
+                            style_book_responsive_dropdown_view:
+                                group_tabs_responsive_dropdown_view: ~
+
+                    group_element_responsive_classes_view:
+                        group_element_item_responsive_classes_view:
+                            style_book_responsive_classes_view:
+                                group_tabs_responsive_classes_view: ~
 
                     group_element_fullscreen_popup_view:
                         group_element_item_fullscreen_popup_view:
