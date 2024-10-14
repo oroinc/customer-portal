@@ -211,7 +211,7 @@ oro_stylebook:
                     title: 'Accordion'
             responsive_dropdown:
                 title: 'Responsive Dropdown'
-                description: 'Responsive Dropdown is a component to transform list of actions to dropdown on some resolutions. To see a transformation, please, change dimension of browser at least to tablet-big breakpoint.'
+                description: 'Responsive Dropdown is a component to transform list of elements to dropdown view on some resolutions. To see a transformation, please, change dimension of browser at least to tablet-big breakpoint.'
             responsive_classes:
                 title: 'Responsive Classes'
                 description: 'Responsive Classes component allows to set new classes to element on some breakpoint. If class "btn" was present by default it will be removed.'
