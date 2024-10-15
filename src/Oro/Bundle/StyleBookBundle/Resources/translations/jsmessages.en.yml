@@ -228,6 +228,10 @@ oro_stylebook:
                     title: 'Accordion'
             responsive_dropdown:
                 title: 'Responsive Dropdown'
+            simple_responsive_dropdown:
+                title: 'Simple Responsive Dropdown'
+            responsive_dropdown_with_responsive_classes:
+                title: 'Responsive Dropdown with Responsive Classes'
             responsive_classes:
                 title: 'Responsive Classes'
             fullscreen_popup_view:
