@@ -2,6 +2,16 @@ parameters:
     oro_platform.collector.template: '@@OroFrontend/Collector/commerce.html.twig'
 
 services:
+    oro_frontend.security.http_kernel.session_path:
+        class: Oro\Bundle\FrontendBundle\Request\StorefrontSessionHttpKernelDecorator
+        decorates: http_kernel
+        decoration_priority: 260
+        arguments:
+            - '@.inner'
+            - '@oro_security.request.session_storage_options_manipulator'
+            - '@oro_frontend.request.frontend_helper'
+            - '%oro_frontend.session.storage.options%'
+
     oro_frontend.content_provider.manager:
         class: Oro\Bundle\UIBundle\ContentProvider\ContentProviderManager
         arguments:

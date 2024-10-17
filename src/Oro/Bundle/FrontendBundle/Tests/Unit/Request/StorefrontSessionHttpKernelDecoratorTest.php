@@ -1,65 +1,68 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Request;
 
-use Oro\Bundle\FrontendBundle\Request\DynamicSessionHttpKernelDecorator;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\FrontendBundle\Request\StorefrontSessionHttpKernelDecorator;
+use Oro\Bundle\SecurityBundle\Request\SessionHttpKernelDecorator;
+use Oro\Bundle\SecurityBundle\Request\SessionStorageOptionsManipulator;
 use Oro\Bundle\SecurityBundle\Tests\Unit\Request\ContainerStub;
-use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
+final class StorefrontSessionHttpKernelDecoratorTest extends TestCase
 {
-    private const BACKEND_SESSION_OPTIONS = [
-        'name'            => 'BACK',
-        'cookie_path'     => '/admin',
-        'cookie_lifetime' => 10
+    private const array BACKEND_SESSION_OPTIONS = [
+        'name' => 'BACK',
+        'cookie_path' => '/admin',
+        'cookie_lifetime' => 10,
     ];
 
-    private const FRONTEND_SESSION_OPTIONS = [
-        'name'        => 'FRONT',
-        'cookie_path' => '/'
+    private const array FRONTEND_SESSION_OPTIONS = [
+        'name' => 'FRONT',
+        'cookie_path' => '/',
     ];
 
-    /** @var HttpKernel|\PHPUnit\Framework\MockObject\MockObject */
-    private $kernel;
+    private HttpKernel|MockObject $kernel;
 
-    /** @var ContainerInterface */
-    private $container;
+    private ContainerStub|ContainerInterface $container;
 
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
+    private FrontendHelper|MockObject $frontendHelper;
 
-    /** @var DynamicSessionHttpKernelDecorator */
-    private $kernelDecorator;
+    private SessionHttpKernelDecorator $sessionHttpKernelDecorator;
 
     #[\Override]
     protected function setUp(): void
     {
         $this->kernel = $this->createMock(HttpKernel::class);
         $this->container = new ContainerStub([
-            'session.storage.options' => self::BACKEND_SESSION_OPTIONS
+            'oro_security.session.storage.options' => self::BACKEND_SESSION_OPTIONS,
+            'session.storage.options' => self::BACKEND_SESSION_OPTIONS,
         ]);
+        $sessionStorageOptionsManipulator = new SessionStorageOptionsManipulator($this->container);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
 
-        $this->kernelDecorator = new DynamicSessionHttpKernelDecorator(
+        $storefrontSessionHttpKernelDecorator = new StorefrontSessionHttpKernelDecorator(
             $this->kernel,
-            $this->container,
+            $sessionStorageOptionsManipulator,
             $this->frontendHelper,
             self::FRONTEND_SESSION_OPTIONS
         );
+
+        $this->sessionHttpKernelDecorator = new SessionHttpKernelDecorator(
+            $storefrontSessionHttpKernelDecorator,
+            $sessionStorageOptionsManipulator
+        );
     }
 
-    private function getBackendSessionOptions(): ?array
-    {
-        return ReflectionUtil::getPropertyValue($this->kernelDecorator, 'backendSessionOptions');
-    }
-
-    public function testHandleForBackendRequest()
+    public function testHandleForBackendRequest(): void
     {
         $request = Request::create('http://localhost/admin/test.php');
         $type = HttpKernelInterface::MAIN_REQUEST;
@@ -77,25 +80,16 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
 
         self::assertSame(
             $response,
-            $this->kernelDecorator->handle($request, $type, $catch)
+            $this->sessionHttpKernelDecorator->handle($request, $type, $catch)
         );
 
         self::assertEquals(
             self::BACKEND_SESSION_OPTIONS,
             $this->container->getParameter('session.storage.options')
         );
-
-        self::assertSame(
-            [
-                'name' => 'BACK',
-                'cookie_path' => '/admin',
-                'cookie_lifetime' => 10
-            ],
-            $this->getBackendSessionOptions()
-        );
     }
 
-    public function testHandleForFrontendRequest()
+    public function testHandleForFrontendRequest(): void
     {
         $request = Request::create('http://localhost/test.php');
         $type = HttpKernelInterface::MAIN_REQUEST;
@@ -113,20 +107,16 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
 
         self::assertSame(
             $response,
-            $this->kernelDecorator->handle($request, $type, $catch)
+            $this->sessionHttpKernelDecorator->handle($request, $type, $catch)
         );
 
         self::assertEquals(
             array_replace(self::BACKEND_SESSION_OPTIONS, self::FRONTEND_SESSION_OPTIONS),
             $this->container->getParameter('session.storage.options')
         );
-        self::assertEquals(
-            self::BACKEND_SESSION_OPTIONS,
-            $this->getBackendSessionOptions()
-        );
     }
 
-    public function testHandleForBackendRequestAfterFrontendRequest()
+    public function testHandleForBackendRequestAfterFrontendRequest(): void
     {
         $this->frontendHelper->expects(self::exactly(2))
             ->method('isFrontendUrl')
@@ -135,20 +125,16 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
             ->method('handle')
             ->willReturnOnConsecutiveCalls($this->createMock(Response::class), $this->createMock(Response::class));
 
-        $this->kernelDecorator->handle(Request::create('http://localhost/test.php'));
-        $this->kernelDecorator->handle(Request::create('http://localhost/admin/test.php'));
+        $this->sessionHttpKernelDecorator->handle(Request::create('http://localhost/test.php'));
+        $this->sessionHttpKernelDecorator->handle(Request::create('http://localhost/admin/test.php'));
 
         self::assertEquals(
             self::BACKEND_SESSION_OPTIONS,
             $this->container->getParameter('session.storage.options')
         );
-        self::assertEquals(
-            self::BACKEND_SESSION_OPTIONS,
-            $this->getBackendSessionOptions()
-        );
     }
 
-    public function testHandleForFrontendRequestAfterBackendRequest()
+    public function testHandleForFrontendRequestAfterBackendRequest(): void
     {
         $this->frontendHelper->expects(self::exactly(2))
             ->method('isFrontendUrl')
@@ -157,20 +143,16 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
             ->method('handle')
             ->willReturnOnConsecutiveCalls($this->createMock(Response::class), $this->createMock(Response::class));
 
-        $this->kernelDecorator->handle(Request::create('http://localhost/admin/test.php'));
-        $this->kernelDecorator->handle(Request::create('http://localhost/test.php'));
+        $this->sessionHttpKernelDecorator->handle(Request::create('http://localhost/admin/test.php'));
+        $this->sessionHttpKernelDecorator->handle(Request::create('http://localhost/test.php'));
 
         self::assertEquals(
             array_replace(self::BACKEND_SESSION_OPTIONS, self::FRONTEND_SESSION_OPTIONS),
             $this->container->getParameter('session.storage.options')
         );
-        self::assertEquals(
-            self::BACKEND_SESSION_OPTIONS,
-            $this->getBackendSessionOptions()
-        );
     }
 
-    public function testHandleForBackendRequestForApplicationInSubDir()
+    public function testHandleForBackendRequestForApplicationInSubDir(): void
     {
         $request = $this->createMock(Request::class);
         $request->expects(self::any())
@@ -194,31 +176,26 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
 
         self::assertSame(
             $response,
-            $this->kernelDecorator->handle($request, $type, $catch)
+            $this->sessionHttpKernelDecorator->handle($request, $type, $catch)
         );
 
-        $this->assertEquals(
-            '/subDir/admin',
-            $this->container->getParameter('session.storage.options')['cookie_path']
-        );
-
-        self::assertSame(
+        self::assertEquals(
             [
                 'name' => 'BACK',
-                'cookie_path' => '/admin',
-                'cookie_lifetime' => 10
+                'cookie_path' => '/subDir/admin',
+                'cookie_lifetime' => 10,
             ],
-            $this->getBackendSessionOptions()
+            $this->container->getParameter('session.storage.options')
         );
     }
 
-    public function testHandleForFrontendRequestForApplicationInSubDir()
+    public function testHandleForFrontendRequestForApplicationInSubDir(): void
     {
         $request = $this->createMock(Request::class);
-        $request->expects(self::any())
+        $request
             ->method('getPathInfo')
             ->willReturn('/subDir');
-        $request->expects(self::once())
+        $request
             ->method('getBasePath')
             ->willReturn('/subDir');
         $type = HttpKernelInterface::MAIN_REQUEST;
@@ -236,24 +213,20 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
 
         self::assertSame(
             $response,
-            $this->kernelDecorator->handle($request, $type, $catch)
+            $this->sessionHttpKernelDecorator->handle($request, $type, $catch)
         );
 
         self::assertEquals(
             [
                 'name' => 'FRONT',
                 'cookie_path' => '/subDir/',
-                'cookie_lifetime' => 10
+                'cookie_lifetime' => 10,
             ],
             $this->container->getParameter('session.storage.options')
         );
-        self::assertEquals(
-            self::BACKEND_SESSION_OPTIONS,
-            $this->getBackendSessionOptions()
-        );
     }
 
-    public function testHandleForBackendRequestAfterFrontendRequestForApplicationInSubDir()
+    public function testHandleForBackendRequestAfterFrontendRequestForApplicationInSubDir(): void
     {
         $request = $this->createMock(Request::class);
         $request->expects(self::any())
@@ -271,25 +244,21 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
             ->willReturnOnConsecutiveCalls($this->createMock(Response::class), $this->createMock(Response::class));
 
         // frontend request
-        $this->kernelDecorator->handle($request);
+        $this->sessionHttpKernelDecorator->handle($request);
         // backend request
-        $this->kernelDecorator->handle($request);
+        $this->sessionHttpKernelDecorator->handle($request);
 
         self::assertEquals(
             [
                 'name' => 'BACK',
                 'cookie_path' => '/subDir/admin',
-                'cookie_lifetime' => 10
+                'cookie_lifetime' => 10,
             ],
             $this->container->getParameter('session.storage.options')
         );
-        self::assertEquals(
-            self::BACKEND_SESSION_OPTIONS,
-            $this->getBackendSessionOptions()
-        );
     }
 
-    public function testHandleForFrontendRequestAfterBackendRequestForApplicationInSubDir()
+    public function testHandleForFrontendRequestAfterBackendRequestForApplicationInSubDir(): void
     {
         $request = $this->createMock(Request::class);
         $request->expects(self::any())
@@ -307,21 +276,17 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
             ->willReturnOnConsecutiveCalls($this->createMock(Response::class), $this->createMock(Response::class));
 
         // backend request
-        $this->kernelDecorator->handle($request);
+        $this->sessionHttpKernelDecorator->handle($request);
         // frontend request
-        $this->kernelDecorator->handle($request);
+        $this->sessionHttpKernelDecorator->handle($request);
 
         self::assertEquals(
             [
                 'name' => 'FRONT',
                 'cookie_path' => '/subDir/',
-                'cookie_lifetime' => 10
+                'cookie_lifetime' => 10,
             ],
             $this->container->getParameter('session.storage.options')
-        );
-        self::assertEquals(
-            self::BACKEND_SESSION_OPTIONS,
-            $this->getBackendSessionOptions()
         );
     }
 }
