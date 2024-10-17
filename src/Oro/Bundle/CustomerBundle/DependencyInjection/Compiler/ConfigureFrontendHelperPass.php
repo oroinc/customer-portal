@@ -22,7 +22,7 @@ class ConfigureFrontendHelperPass implements CompilerPassInterface
         if ($frontendHelperDef->getClass() === FrontendHelper::class) {
             $frontendHelperDef
                 ->setClass(TokenAwareFrontendHelper::class)
-                ->addArgument(new Reference('security.token_storage'));
+                ->addArgument(new Reference('security.untracked_token_storage'));
         }
     }
 }
