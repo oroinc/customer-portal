@@ -212,7 +212,10 @@ const ResponsiveDropdownWidgetView = AbstractInputWidgetView.extend({
 
         const $dropdown = this.$dropdown = $(this.dropdownTemplate(this.getDropdownData()));
 
-        $dropdown.insertBefore(this.$el);
+        $dropdown
+            .data('inputWidget', this)
+            .attr('data-bound-input-widget', this.widgetFunctionName || 'no-name')
+            .insertBefore(this.$el);
         this.$el.detach();
 
         const actions = this.makeDropdownItems();
