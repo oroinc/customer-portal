@@ -50,7 +50,7 @@ oro_frontend:
                 addresses: "{{ totalRecords }} Total Addresses"
                 users: "{{ totalRecords }} Total Users"
                 roles: "{{ totalRecords }} Total Roles"
-                rfq: "Total Requests For Quote"
+                rfq: "{{ totalRecords }} Total Requests For Quote"
                 orders: "{{ totalRecords }} Total Orders"
                 quotes: "{{ totalRecords }} Total Quotes"
                 shopping_lists: "{{ totalRecords }} Total Shopping Lists"
