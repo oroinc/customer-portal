@@ -53,6 +53,10 @@ oro_frontend:
                     tooltip: ''
     theme:
         demo.title: 'OroPlatform theme'
+        themeconfiguration:
+            types:
+                storefront:
+                    label: Storefront
         default:
             configuration:
                 header:

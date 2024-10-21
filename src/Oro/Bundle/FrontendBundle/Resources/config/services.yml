@@ -549,3 +549,8 @@ services:
             - '@oro_layout.current_theme_provider'
             - '@oro_layout.theme_manager'
             - '@oro_frontend.provider.file_icons_mapping.cache'
+
+    oro_frontend.provider.storefront_theme_configuration_type:
+        class: Oro\Bundle\FrontendBundle\Provider\StorefrontThemeConfigurationTypeProvider
+        tags:
+            - { name: oro_theme.theme_configuration_type_provider }
