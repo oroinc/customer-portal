@@ -87,5 +87,12 @@ services:
         arguments:
             - '@oro_entity.doctrine_helper'
 
+    oro_customer.owner.customer_user_address_entity_access_provider:
+        class: Oro\Bundle\CustomerBundle\Owner\CustomerUserAddressEntityAccessProvider
+        arguments:
+            - '@oro_security.owner.checker'
+        tags:
+            - { name: layout.data_provider, alias: oro_customer_owner_customer_user_address_entity_access }
+
     oro_customer.model.owner_tree_message_factory:
         class: Oro\Bundle\CustomerBundle\Model\OwnerTreeMessageFactory

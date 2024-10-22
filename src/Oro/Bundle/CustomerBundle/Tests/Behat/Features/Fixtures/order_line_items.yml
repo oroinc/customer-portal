@@ -1,0 +1,158 @@
+Oro\Bundle\OrganizationBundle\Entity\BusinessUnit:
+  businessUnit:
+    name: Common Business Unit
+    organization: '@organization'
+
+Oro\Bundle\CustomerBundle\Entity\Customer:
+  customer1:
+    name: 'first customer'
+    organization: '@organization'
+    owner: '@admin'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+  amanda:
+    email: 'AmandaRCole@example.org'
+    username: 'AmandaRCole@example.org'
+    password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+    salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
+    firstName: 'Amanda'
+    lastName: 'Cole'
+    enabled: '1'
+    confirmed: '1'
+    customer: '@customer1'
+    organization: '@organization'
+    userRoles: ['@front_admin']
+    owner: '@admin'
+    website: '@website1'
+
+Oro\Bundle\ProductBundle\Entity\ProductName:
+  locvalue1:
+    string: 'Product1'
+
+Oro\Bundle\ProductBundle\Entity\ProductUnitPrecision:
+  precision1:
+    unit: '@item'
+    precision: '1'
+
+Oro\Bundle\ProductBundle\Entity\Product:
+  product1:
+    sku: 'PSKU1'
+    type: 'simple'
+    organization: '@organization'
+    owner: '@businessUnit'
+    primaryUnitPrecision: '@precision1'
+    unitPrecisions: [ '@precision1' ]
+    attributeFamily: '@defaultProductFamily'
+    __calls:
+      - setNames: [['@locvalue1']]
+    inventoryStatus: '@enumInventoryStatuses'
+    status: 'enabled'
+
+Oro\Bundle\OrderBundle\Entity\OrderAddress:
+  orderBillingAddress1:
+    label: 'Billing Address 1'
+    street: 'BillingStreet 1'
+    street2: 'BillingStreet 12'
+    city: 'Los Angeles'
+    postalCode: '90001'
+    country: '@united_states'
+    region: '@california'
+    organization: 'Acme'
+    namePrefix: 'Mr.'
+    nameSuffix: 'M.D.'
+    firstName: 'John'
+    middleName: 'Edgar'
+    lastName: 'Doo'
+    phone: '123-456'
+  orderShippingAddress1:
+    label: 'Shipping Address 1'
+    street: 'ShippingStreet 2'
+    street2: 'ShippingStreet 12'
+    city: 'San Francisco'
+    postalCode: '90002'
+    country: '@united_states'
+    region: '@california'
+    organization: 'Acme'
+    namePrefix: 'Mr.'
+    nameSuffix: 'M.D.'
+    firstName: 'John'
+    middleName: 'Edgar'
+    lastName: 'Doo'
+    phone: '123-456'
+  orderBillingAddress2:
+    label: 'Billing Address 2'
+    street: 'BillingStreet 2'
+    street2: 'BillingStreet 22'
+    city: 'Miami'
+    postalCode: '90001'
+    country: '@united_states'
+    region: '@florida'
+    organization: 'Acme'
+    namePrefix: 'Mr.'
+    nameSuffix: 'M.D.'
+    firstName: 'John'
+    middleName: 'Edgar'
+    lastName: 'Doo'
+    phone: '123-456'
+  orderShippingAddress2:
+    label: 'Shipping Address 2'
+    street: 'ShippingStreet 2'
+    street2: 'ShippingStreet 22'
+    city: 'Orlando'
+    postalCode: '90002'
+    country: '@united_states'
+    region: '@florida'
+    organization: 'Acme'
+    namePrefix: 'Mr.'
+    nameSuffix: 'M.D.'
+    firstName: 'John'
+    middleName: 'Edgar'
+    lastName: 'Doo'
+    phone: '123-456'
+
+Oro\Bundle\OrderBundle\Entity\Order:
+  firstOrder:
+    organization: '@organization'
+    owner: '@admin'
+    customer: '@customer1'
+    customerUser: '@amanda'
+    identifier: 'FirstOrder'
+    website: '@website1'
+    currency: USD
+    poNumber: 'ORD1'
+    billingAddress: '@orderBillingAddress1'
+    shippingAddress: '@orderShippingAddress1'
+    lineItems: [ '@firstOrderLineItem' ]
+  secondOrder:
+    organization: '@organization'
+    owner: '@admin'
+    customer: '@customer1'
+    customerUser: '@amanda'
+    identifier: 'SecondOrder'
+    website: '@website1'
+    currency: USD
+    poNumber: 'ORD2'
+    billingAddress: '@orderBillingAddress2'
+    shippingAddress: '@orderShippingAddress2'
+    lineItems: [ '@secondOrderLineItem' ]
+
+Oro\Bundle\CurrencyBundle\Entity\Price:
+  price1:
+    value: 5
+    currency: USD
+
+Oro\Bundle\OrderBundle\Entity\OrderLineItem:
+  firstOrderLineItem:
+    product: '@product1'
+    order: '@firstOrder'
+    price: '@price1'
+    quantity: 10
+    productUnit: '@item'
+    productUnitCode: item
+  secondOrderLineItem:
+    product: '@product1'
+    order: '@secondOrder'
+    price: '@price1'
+    quantity: 10
+    productUnit: '@item'
+    productUnitCode: item
