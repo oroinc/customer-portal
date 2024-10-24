@@ -1,0 +1,31 @@
+{% block __oro_customer_top_bar__title_wrapper_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': "page-title--has-actions"
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __oro_customer_top_bar__actions_wrapper_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " page-title-actions"
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="simple-placeholder" data-placeholder-show-one-child-on-mobile-big=""
+             data-responsive-dropdown=""
+             data-input-widget-options="{{ {
+                 dropdownClass: '',
+                 dropdownMenuClass: 'toggle-container--dropdown',
+                 toggleClass: 'toggle-container--dropdown-btn',
+                 mainAriaLabel: 'oro.product.frontend.catalog_switch.aria_label'|trans,
+                 placement: 'bottom-end',
+                 icon: 'more-horizontal',
+                 iconClass: 'theme-icon--medium',
+                 actionsContainerClass: 'actions-group',
+             }|json_encode }}">
+            {{ block_widget(block) }}
+        </div>
+    </div>
+{% endblock %}

@@ -244,6 +244,8 @@ oro_behat_extension:
       selector: '.page-header__inner--standalone-menu'
     StandaloneMenu:
       selector: '.main-menu-standalone-mode'
+    BackToListBtn:
+      selector: '.page-title-wrapper > a.btn'
     Theme Configuration Form:
       selector: 'form[name="theme_configuration"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form

@@ -57,7 +57,8 @@ oro:
         menu:
             customer_configuration:
                 label: Customer Configuration
-
+        frontend:
+            print: Print
     website:
         default_role:
             label: 'Default Self-Registration Role'
@@ -939,7 +940,6 @@ oro.customer:
             customer_user_role:
                 label: Role Title
                 users.label: Users
-
             customer_user.user_profile: 'User profile'
             customer_user.account_info: 'Account Info'
             customer_user.address_book: 'Address Book'

@@ -407,6 +407,9 @@ oro_frontend:
 
     ui:
         tab_view_more: 'View more...'
+        collapse:
+            more: 'Show More'
+            less: 'Show Less'
 
     scroll_to_the_top: 'Scroll to the top'
     avaliable_credit_cards.aria_label: Avaliable Credit Cards

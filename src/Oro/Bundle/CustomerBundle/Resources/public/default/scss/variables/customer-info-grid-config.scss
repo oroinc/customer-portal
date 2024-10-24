@@ -1,25 +1,48 @@
 /* @theme: default; */
 
-$customer-info-grid-title-offset: 23px 0 spacing('sm') !default;
-$customer-info-grid-title-font-size: $base-font-size--large !default;
-$customer-info-grid-title-text-transform: uppercase !default;
+$customer-info-grid-width: 604px !default;
+$customer-info-grid-grid-gap: 16px 104px !default;
 
-$customer-info-grid-element-label-offest-inner: spacing('xs') spacing('sm') 2px 0 !default;
-$customer-info-grid-element-label-font-weight: font-weight('bold') !default;
+$customer-info-grid-order-display: grid !default;
+$customer-info-grid-order-grid-template-areas:
+    'container total'
+    'data data' !default;
+$customer-info-grid-order-grid-template-columns: minmax(0, 1fr) 280px !default;
+$customer-info-grid-order-gap: spacing('lg') !default;
+
+$customer-info-grid-data-grid-area: data !default;
+$customer-info-grid-total-grid-area: total !default;
+
+$customer-info-grid-container-display: flex !default;
+$customer-info-grid-container-justify-content: space-between !default;
+$customer-info-grid-container-gap: spacing('lg') !default;
+
+$customer-info-grid-list-display: grid !default;
+$customer-info-grid-list-grid-gap: spacing('base') !default;
 
 $customer-info-grid-element-label-white-space: nowrap !default;
+$customer-info-grid-element-label-color: get-color('text', 'secondary') !default;
 
-$customer-info-grid-element-content-offest-inner: spacing('xs') spacing('sm') 2px !default;
-$customer-info-grid-element-content-font-style: italic !default;
 $customer-info-grid-element-content-word-wrap: break-word !default;
+$customer-info-grid-element-content-font-weight: font-weight('bold') !default;
+$customer-info-grid-element-content-notes-font-weight: font-weight('normal') !default;
+
+$customer-info-grid-view-more-margin: 6px 0 !default;
 
 // Specific line height to make same line-height in Firefox and Chrome
 $customer-info-grid-table-line-height: 1.1429 !default;
 
-// tablet-small
-$customer-info-grid-element-label-white-space-tablet-small: normal !default;
-$customer-info-grid-column-offset-inner-left: 0 !default;
-$customer-info-grid-element-label-width-tablet-small: 150px !default;
+// Mmobile Big
+$customer-info-grid-order-mobile-big-grid-template-areas:
+    'container'
+    'data'
+    'total' !default;
+$customer-info-grid-order-mobile-big-grid-template-columns: minmax(0, 1fr) !default;
 
-$customer-info-grid-element-inner-offset-tablet-small: 0 0 15px !default;
-$customer-info-grid-element-label-inner-offset-tablet-small: 0 0 7px !default;
+$customer-info-grid-total-mobile-big-margin-inline: -#{spacing('base')} !default;
+$customer-info-grid-total-mobile-big-position: sticky !default;
+$customer-info-grid-total-mobile-big-bottom: 0 !default;
+
+// Mobile Landscape
+$customer-info-grid-width-mobile: 100% !default;
+$customer-info-grid-grid-gap-mobile: 16px 0 !default;

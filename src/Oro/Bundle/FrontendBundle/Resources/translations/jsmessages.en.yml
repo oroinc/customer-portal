@@ -65,7 +65,7 @@ oro_frontend:
                 ordersPlural: "{1}order|]1,Inf[orders"
                 quotesPlural: "{1}quote|]1,Inf[quotes"
                 shoppingListsPlural: "{1}shopping List|]1,Inf[shopping Lists"
-                shoppingListLineItemsPlural: "{1}{{ totalRecords }} item|]1,Inf[{{ totalRecords }} items"
+                shoppingListLineItemsPlural: "{1}item|]1,Inf[items"
                 totalOfSelected: '{0}{{ totalRecords }}|]0,Inf[{{ selectedRecords }} Of {{ totalRecords }}'
             click_to_go_page: 'Click to enter page number'
             page_to: 'Page {{ page }}'

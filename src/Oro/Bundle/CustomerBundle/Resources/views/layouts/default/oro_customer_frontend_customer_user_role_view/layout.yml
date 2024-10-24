@@ -2,48 +2,43 @@ layout:
     imports:
         -
             id: oro_customer_page
+
         -
             id: oro_customer_user_role_permission_grid
             root: customer_user_role_items
             namespace: customer_user_role_items_view_privileges
+
         -
             id: datagrid
             root: customer_user_role_items
             namespace: customer_user_grid
 
+        -
+            id: oro_customer_top_bar
+            root: customer_user_role_view_page
+            namespace: user_role_top_bar
+
     actions:
         - '@setBlockTheme':
             themes: '@OroCustomer/layouts/default/oro_customer_frontend_customer_user_role_view/layout.html.twig'
-        - '@setOption':
-            id: page_title
-            optionName: defaultValue
-            optionValue:
-                label: '=data["entity"].getLabel()'
+
         - '@addTree':
             items:
-                customer_user_role_view_container:
+                customer_user_role_view_page:
                     blockType: container
-                customer_user_role_view_container_wrap:
-                    blockType: container
-                customer_user_role_back_link:
-                    blockType: link
-                    options:
-                        route_name: oro_customer_frontend_customer_user_role_index
-                        text: oro.customer.frontend.action.back.label
-                customer_user_role_top_actions:
-                    blockType: line_buttons
-                    options:
-                        visible: '=data["entity"]!=null'
-                        buttons: '=data["buttons"].getAll(data["entity"])'
                 customer_user_role_items:
                     blockType: container
+
             tree:
                 page_content:
-                    customer_user_role_view_container:
-                        customer_user_role_view_container_wrap:
-                            customer_user_role_back_link: ~
-                            customer_user_role_top_actions: ~
+                    customer_user_role_view_page:
                         customer_user_role_items: ~
+
+        - '@setOption':
+              id: page_title
+              optionName: defaultValue
+              optionValue:
+                  label: '=data["entity"].getLabel()'
 
         - '@setOption':
             id: customer_user_role_items_view_privileges_datagrid
@@ -89,3 +84,26 @@ layout:
         - '@move':
             id: customer_user_grid_datagrid
             siblingId: customer_user_role_items_view_privileges_datagrid
+
+        - '@setOption':
+              id: user_role_top_bar_status
+              optionName: visible
+              optionValue: false
+
+        - '@setOption':
+              id: user_role_top_bar_action_list
+              optionName: buttons
+              optionValue: '=data["buttons"].getAll(data["entity"])'
+
+        - '@setOption':
+              id: user_role_top_bar_action_list
+              optionName: visible
+              optionValue: '=data["entity"]!=null'
+
+        - '@setOption':
+              id: user_role_top_bar_back_button
+              optionName: route_name
+              optionValue: oro_customer_frontend_customer_user_role_index
+
+        - '@remove':
+              id: user_role_top_bar_print_button

@@ -1,5 +1,11 @@
 /* @theme: default; */
 
+$page-title-has-actions-display: flex !default;
+$page-title-has-actions-align-items: center !default;
+$page-title-has-actions-justify-content: space-between !default;
+$page-title-has-actions-margin-inline-end: auto !default;
+$page-title-has-actions-flex: 1 !default;
+
 $page-title-offset-end-s: 8px !default;
 $page-title-offset-text-transform: null !default;
 $page-title-offset-text-vertical-align: middle !default;

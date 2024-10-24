@@ -275,6 +275,7 @@ const ResponsiveDropdownWidgetView = AbstractInputWidgetView.extend({
         const prepareActions = $actions => {
             return $actions.tooltip('dispose').clone(true)
                 .removeAttr('data-bound-input-widget')
+                .removeAttr('data-bound-component')
                 .removeData('inputWidget');
         };
 
@@ -296,7 +297,7 @@ const ResponsiveDropdownWidgetView = AbstractInputWidgetView.extend({
      * @returns {jQuery.Element}
      */
     getActionsForElement($el) {
-        return $el.find(this.actionsSelector).not(`${this.ignoreActionsIn} ${this.actionsSelector}`);
+        return $el.find(this.actionsSelector).filter(() => !$(this).closest(this.ignoreActionsIn).length);
     },
 
     /**

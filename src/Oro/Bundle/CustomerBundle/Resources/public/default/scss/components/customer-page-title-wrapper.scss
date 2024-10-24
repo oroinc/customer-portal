@@ -1,0 +1,29 @@
+/* @theme: default; */
+
+.customer-page-title-wrapper {
+    align-items: $customer-page-title-wrapper-align-items;
+    margin-bottom: $customer-page-title-wrapper-margin-bottom;
+    gap: $customer-page-title-wrapper-gap;
+
+    .page-title--has-actions {
+        display: $customer-page-title--has-actions-display;
+        align-self: $customer-page-title--has-actions-align-self;
+    }
+
+    .page-title {
+        display: $customer-page-title-display;
+        vertical-align: $customer-page-title-vertical-align;
+    }
+
+    .page-title__text {
+        vertical-align: $customer-page-title-text-vertical-align;
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .customer-page-title-wrapper {
+        .page-title-actions {
+            width: $customer-page-title-actions-width-mobile;
+        }
+    }
+}
