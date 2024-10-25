@@ -243,7 +243,7 @@ oro_behat_extension:
         mapping:
           Quick Access Button Label: 'theme_configuration[configuration][header__quick_access_button][label][default]'
           Quick Access Button Type: 'theme_configuration[configuration][header__quick_access_button][type]'
-          Quick Access Button Frontend Menu: 'theme_configuration[configuration][header__quick_access_button][menu]'
+          Quick Access Button Storefront Menu: 'theme_configuration[configuration][header__quick_access_button][menu]'
           Filter Panel Position: 'theme_configuration[configuration][product_listing__filters_position]'
           Page Template: 'theme_configuration[configuration][product_details__template]'
     Theme Configuration Config:

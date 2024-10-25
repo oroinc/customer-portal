@@ -9,7 +9,7 @@ use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
 use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
 
 /**
- * Builds Quick Access Button menu items based on frontend menu configuration.
+ * Builds Quick Access Button menu items based on storefront menu configuration.
  */
 class QuickAccessButtonFrontendMenuMenuBuilder implements BuilderInterface
 {

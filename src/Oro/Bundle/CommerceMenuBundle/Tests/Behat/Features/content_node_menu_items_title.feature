@@ -24,7 +24,7 @@ Feature: Content Node Menu Items Title
     Then I should see "Content Node has been saved" flash message
 
   Scenario: Check that the title of menu item follows content node title
-    Given I go to System/Frontend Menus
+    Given I go to System/Storefront Menus
     And click view "commerce_main_menu" in grid
     When I expand "Node-1" in tree "Sidebar Menu Tree"
     Then I should see "Node-1-1-changed" belongs to "Node-1" in tree
@@ -51,7 +51,7 @@ Feature: Content Node Menu Items Title
     Then I should see "Content Node has been saved" flash message
 
   Scenario: Check that the title of menu item does not follow the content node title anymore
-    Given I go to System/Frontend Menus
+    Given I go to System/Storefront Menus
     And click view "commerce_main_menu" in grid
     When I expand "Node-1" in tree "Sidebar Menu Tree"
     Then I should see "Node-1-1-changed-frozen" belongs to "Node-1" in tree

@@ -11,6 +11,6 @@ class FrontendMenus extends Page
      */
     public function open(array $parameters = [])
     {
-        $this->getMainMenu()->openAndClick('System/Frontend Menus');
+        $this->getMainMenu()->openAndClick('System/Storefront Menus');
     }
 }

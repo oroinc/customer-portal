@@ -3,7 +3,7 @@ oro:
         entity_label:           'Customer'
         entity_plural_label:    'Customers'
         entity_grid_all_view_label: 'All %entity_plural_label%'
-        entity_description:     Customers are companies who buy products using OroCommerce store frontend. Customer record contains information about the company, their place in the corporate structure, assigned sales representative, and sales metrics. Customers may be linked to:<ul><li>Customer Users who act on behalf of the company</li><li>Customer Roles that define permissions and capabilities the Customer Users may have</li><li>Sales Representatives that are assigned to support company purchases</li><li>Parent customer or subsidiaries that define customer position in the global company organization structure</li></ul>
+        entity_description:     Customers are companies who buy products using OroCommerce storefront. Customer record contains information about the company, their place in the corporate structure, assigned sales representative, and sales metrics. Customers may be linked to:<ul><li>Customer Users who act on behalf of the company</li><li>Customer Roles that define permissions and capabilities the Customer Users may have</li><li>Sales Representatives that are assigned to support company purchases</li><li>Parent customer or subsidiaries that define customer position in the global company organization structure</li></ul>
         name:
             label:              'Name'
             description:        A human-readable name that identifies a customer.
@@ -24,7 +24,7 @@ oro:
         has_group.label:        'Has group'
         users:
             label:              'Users'
-            description:        Customer Users represent people who act on behalf of the company to buy products using OroCommerce store frontend.
+            description:        Customer Users represent people who act on behalf of the company to buy products using OroCommerce storefront.
         addresses:
             label:              'Addresses'
             description:        A collection of customer addresses.
@@ -148,7 +148,7 @@ oro.customer:
         entity_label:           'Customer Group'
         entity_plural_label:    'Customer Groups'
         entity_grid_all_view_label: 'All %entity_plural_label%'
-        entity_description:     Customers (companies who buy products using OroCommerce store frontend) may be organized into customer groups to simplify sharing configuration, payment and tax-related settings, and price lists among multiple customers, for example those with the same service level. See <a href="https://doc.oroinc.com/user/back-office/customers/customer-groups/">Managing Customer Groups</a> in OroCommerce documentation for more information.
+        entity_description:     Customers (companies who buy products using OroCommerce storefront) may be organized into customer groups to simplify sharing configuration, payment and tax-related settings, and price lists among multiple customers, for example those with the same service level. See <a href="https://doc.oroinc.com/user/back-office/customers/customer-groups/">Managing Customer Groups</a> in OroCommerce documentation for more information.
         name:
             label:              'Name'
             description:        A human-readable name that identifies a customer group.
@@ -187,7 +187,7 @@ oro.customer:
         entity_grid_all_view_label: 'All %entity_plural_label%'
         entity_frontend_grid_all_view_label: 'All Users'
         frontstore_entity_plural_label: 'Users'
-        entity_description:          Customer User represents a person who acts on behalf of the company to buy products using OroCommerce store frontend.
+        entity_description:          Customer User represents a person who acts on behalf of the company to buy products using OroCommerce storefront.
         id.label:                    'ID'
         api_keys.label:              API keys
         first_name:
@@ -201,7 +201,7 @@ oro.customer:
             description:             Last Name of the customer user.
         username:
             label:                   'Email'
-            description:             Email that serves as a username for the customer user account on the OroCommerce store frontend.  **This field is not represented in UI**
+            description:             Email that serves as a username for the customer user account on the OroCommerce storefront.  **This field is not represented in UI**
         email:
             label:                   'Email Address'
             label_short:             'Email'
@@ -270,7 +270,7 @@ oro.customer:
             description:             The latest date and time when the customer user requested a password reset via the '**Forgot Your Password?**' link.
         customer:
             label:                   'Customer'
-            description:             Customer represents a company on whose behalf the customer user buys products via OroCommerce store frontend.
+            description:             Customer represents a company on whose behalf the customer user buys products via OroCommerce storefront.
         organization.label:          'Organization'
         has_role.label:              'Has Role'
         form.choose:                 'Choose a customer user...'
@@ -382,7 +382,7 @@ oro.customer:
         entity_plural_label:             'Customer User Roles'
         entity_grid_all_view_label:      'All %entity_plural_label%'
         entity_frontend_grid_all_view_label: 'All Roles'
-        entity_description:               Customer User Roles define the level of permissions and access to the actions and data in OroCommerce store frontend for the users of this role.
+        entity_description:               Customer User Roles define the level of permissions and access to the actions and data in OroCommerce storefront for the users of this role.
         id.label:                        'ID'
         label:
             label:                       'Label'
@@ -595,7 +595,7 @@ oro.customer:
         customeruserrole:
             users: 'Users'
             entity: 'Entity'
-        roles: 'Frontend Capabilities'
+        roles: 'Storefront Capabilities'
         password: 'Password'
 
     customeraddress:

@@ -16,7 +16,7 @@ Feature: Web Catalog Menu Items
     And I set "Default Web Catalog" as default web catalog
 
   Scenario: Check that 1st level content nodes from Web Catalog appear in menu as 1st level menu items by default
-    Given I go to System/Frontend Menus
+    Given I go to System/Storefront Menus
     When click view "commerce_main_menu" in grid
     Then "Commerce Menu Form" must contain values:
       | Target Type        | Content Node |
@@ -91,7 +91,7 @@ Feature: Web Catalog Menu Items
     Then I should see "Content Node has been saved" flash message
 
   Scenario: Check that the new 1st level content node appears as menu item automatically
-    Given I go to System/Frontend Menus
+    Given I go to System/Storefront Menus
     When click view "commerce_main_menu" in grid
     Then I should see "Node-1" belongs to "commerce_main_menu" in tree "Sidebar Menu Tree"
     And I should see "Node-2" after "Node-1" in tree "Sidebar Menu Tree"
@@ -135,7 +135,7 @@ Feature: Web Catalog Menu Items
     Then I should see "Content node deleted" flash message
 
   Scenario: Check that the new 1st level content node disappeared from menu
-    Given I go to System/Frontend Menus
+    Given I go to System/Storefront Menus
     When click view "commerce_main_menu" in grid
     Then I should not see "Node-new" belongs to "commerce_main_menu" in tree "Sidebar Menu Tree"
 

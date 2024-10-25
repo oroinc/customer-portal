@@ -14,7 +14,7 @@ Feature: Root Menu Item Target Type - Content Node
     And I set "Default Web Catalog" as default web catalog
 
   Scenario: Check that root menu item target type can be changed to None
-    Given I go to System/Frontend Menus
+    Given I go to System/Storefront Menus
     And I click view "commerce_main_menu" in grid
     When I fill "Commerce Menu Form" with:
       | Target Type | None |
