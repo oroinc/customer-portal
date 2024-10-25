@@ -16,7 +16,7 @@ Feature: Target Type Content Node
     Given I proceed as the Admin
     And I login as administrator
     And I set "Default Web Catalog" as default web catalog
-    When I go to System/Frontend Menus
+    When I go to System/Storefront Menus
     And click view "commerce_main_menu" in grid
     And I click "Create Menu Item"
     Then the "Target Type" field should be enabled

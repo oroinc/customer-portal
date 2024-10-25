@@ -12,7 +12,7 @@ Feature: Manage Menu Item visibility using expression language
   Scenario: Add new menu item to Commerce Main Menu
     Given I proceed as the Admin
     And login as administrator
-    And go to System/ Frontend Menus
+    And go to System/ Storefront Menus
     And click view "commerce_main_menu" in grid
     When I click "Create Menu Item"
     And I fill "Commerce Menu Form" with:
@@ -23,7 +23,7 @@ Feature: Manage Menu Item visibility using expression language
     And save form
     Then I should see "Menu item saved successfully" flash message
 
-  Scenario: Check that Frontend Menu Items on storefront
+  Scenario: Check that Storefront Menu Items on storefront
     Given I proceed as the Buyer
     And go to the homepage
     When I click on "Main Menu Button"
@@ -33,7 +33,7 @@ Feature: Manage Menu Item visibility using expression language
     Given I proceed as the Admin
     And go to System/ Websites
     And click View Default in grid
-    And click "Edit Frontend Menu"
+    And click "Edit Storefront Menu"
     And click view "commerce_main_menu" in grid
     When I click on "System level menu item" in tree "Sidebar Menu Tree"
     And fill "Commerce Menu Form" with:
@@ -43,13 +43,13 @@ Feature: Manage Menu Item visibility using expression language
     And save form
     Then I should see "Menu item saved successfully" flash message
 
-  Scenario: Check that Frontend Menu Items on storefront
+  Scenario: Check that Storefront Menu Items on storefront
     Given I proceed as the Buyer
     And I reload the page
     When I click on "Main Menu Button"
     Then I should see "Website level menu item" in main menu
 
-  Scenario: Check that Frontend Menu Items on storefront from Amanda
+  Scenario: Check that Storefront Menu Items on storefront from Amanda
     Given I go to the homepage
     And I signed in as AmandaRCole@example.org on the store frontend
     When I click on "Main Menu Button"

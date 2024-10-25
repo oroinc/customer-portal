@@ -253,7 +253,7 @@ oro_behat_extension:
         mapping:
           Quick Access Button Label: 'theme_configuration[configuration][header__quick_access_button][label][default]'
           Quick Access Button Type: 'theme_configuration[configuration][header__quick_access_button][type]'
-          Quick Access Button Frontend Menu: 'theme_configuration[configuration][header__quick_access_button][menu]'
+          Quick Access Button Storefront Menu: 'theme_configuration[configuration][header__quick_access_button][menu]'
           Filter Panel Position on Product Listing Page: 'theme_configuration[configuration][product_listing__filters_position]'
           Page Template: 'theme_configuration[configuration][product_details__template]'
           Primary Main: 'theme_configuration[configuration][color_palette__primary_main][value]'
@@ -292,5 +292,5 @@ oro_behat_extension:
       selector: 'div[data-name="field__header--quick-access-button"]'
     Quick Access Button Label Input:
       selector: '[name="theme_configuration[configuration][header__quick_access_button][label][default]"]'
-    Quick Access Button Frontend Menu Input:
+    Quick Access Button Storefront Menu Input:
       selector: '[name="theme_configuration[configuration][header__quick_access_button][menu]"]'

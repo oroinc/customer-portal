@@ -13,7 +13,7 @@ Feature: Category Menu Items
     And I login as administrator
 
   Scenario: Hide system category menu item
-    Given I go to System/Frontend Menus
+    Given I go to System/Storefront Menus
     And click view "commerce_main_menu" in grid
     And I click on "Category-1" in tree "Sidebar Menu Tree"
     And I click "Hide"
@@ -86,7 +86,7 @@ Feature: Category Menu Items
 
   Scenario: Decrease "Max Traverse Level" of child category to 0
     Given I proceed as the Admin
-    When I go to System/Frontend Menus
+    When I go to System/Storefront Menus
     And click view "commerce_main_menu" in grid
     And I click on "Category-1-1-1" in tree "Sidebar Menu Tree"
     Then should see the following options for "Max Traverse Level" select:
@@ -169,7 +169,7 @@ Feature: Category Menu Items
     Then I should see "Category has been saved" flash message
 
   Scenario: Check that the title of menu item follows category title
-    Given I go to System/Frontend Menus
+    Given I go to System/Storefront Menus
     And click view "commerce_main_menu" in grid
     When I expand "Category-1-1-1-upd" in tree "Sidebar Menu Tree"
     Then I should see "Category-1-1-1-1-changed" belongs to "Category-1-1-1-upd" in tree
@@ -194,7 +194,7 @@ Feature: Category Menu Items
     Then I should see "Category has been saved" flash message
 
   Scenario: Check that the title of menu item does not follow the category title anymore
-    Given I go to System/Frontend Menus
+    Given I go to System/Storefront Menus
     And click view "commerce_main_menu" in grid
     When I expand "Category-1-1-1-upd" in tree "Sidebar Menu Tree"
     Then I should see "Category-1-1-1-1-changed-frozen" belongs to "Category-1-1-1-upd" in tree

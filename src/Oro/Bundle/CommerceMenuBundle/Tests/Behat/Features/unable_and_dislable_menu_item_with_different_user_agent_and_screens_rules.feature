@@ -4,7 +4,7 @@
 Feature: Unable and dislable menu item with different User Agent and screens rules
   In order to selectively hide some menu items on smaller screens
   As an Adminstrator
-  I want when managing frontend menus to specify on which screens size a specific menu item should or should not be shown
+  I want when managing storefront menus to specify on which screens size a specific menu item should or should not be shown
 
   Scenario: Create different window session
     Given sessions active:
@@ -15,7 +15,7 @@ Feature: Unable and dislable menu item with different User Agent and screens rul
   Scenario: Change menu item with User Agent Rules
     Given I proceed as the Admin
     And login as administrator
-    And I go to System/Frontend Menus
+    And I go to System/Storefront Menus
     And click view "commerce_footer_links" in grid
     And I click Information in menu tree
     And I click "Create Menu Item"
@@ -87,7 +87,7 @@ Feature: Unable and dislable menu item with different User Agent and screens rul
 
   Scenario: Hide footer menu items title
     Given I proceed as the Admin
-    And I go to System/Frontend Menus
+    And I go to System/Storefront Menus
     And click view "commerce_footer_links" in grid
     And I click Information in menu tree
     And I click "Hide"
@@ -99,7 +99,7 @@ Feature: Unable and dislable menu item with different User Agent and screens rul
 
   Scenario: Show footer menu items title
     Given I proceed as the Admin
-    And I go to System/Frontend Menus
+    And I go to System/Storefront Menus
     And click view "commerce_footer_links" in grid
     And I click Information in menu tree
     And I click "Show"
@@ -111,7 +111,7 @@ Feature: Unable and dislable menu item with different User Agent and screens rul
 
   Scenario: Create menu item with passing User Agent Rules
     Given I proceed as the Admin
-    When I go to System/Frontend Menus
+    When I go to System/Storefront Menus
     And click view "commerce_footer_links" in grid
     And I click Information in menu tree
     And I click "Create Menu Item"

@@ -13,4 +13,4 @@ Feature: Manage entity Menu Update
     Then I should not see "There was an error performing the requested operation" flash message
     And I should see "Create Field"
     When I click "Number of records"
-    Then I should be on Frontend Menus page
+    Then I should be on Storefront Menus page

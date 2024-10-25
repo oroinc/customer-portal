@@ -9,6 +9,6 @@ class FrontendMenus extends Page
     #[\Override]
     public function open(array $parameters = [])
     {
-        $this->getMainMenu()->openAndClick('System/Frontend Menus');
+        $this->getMainMenu()->openAndClick('System/Storefront Menus');
     }
 }

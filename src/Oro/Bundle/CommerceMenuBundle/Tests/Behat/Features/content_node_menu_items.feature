@@ -16,7 +16,7 @@ Feature: Content Node Menu Items
     And I set "Default Web Catalog" as default web catalog
 
   Scenario: Hide system content node menu item
-    Given I go to System/Frontend Menus
+    Given I go to System/Storefront Menus
     And click view "commerce_main_menu" in grid
     And I click on "Node-1" in tree "Sidebar Menu Tree"
     And I click "Hide"
@@ -89,7 +89,7 @@ Feature: Content Node Menu Items
 
   Scenario: Decrease "Max Traverse Level" of child content node to 0
     Given I proceed as the Admin
-    When I go to System/Frontend Menus
+    When I go to System/Storefront Menus
     And click view "commerce_main_menu" in grid
     And I click on "Node-1-1-1" in tree "Sidebar Menu Tree"
     Then should see the following options for "Max Traverse Level" select:
@@ -177,7 +177,7 @@ Feature: Content Node Menu Items
     Then I should see "Node-1-1" belongs to "Root-Node" in tree
 
   Scenario: Change max traverse level of parent to 1
-    Given I go to System/Frontend Menus
+    Given I go to System/Storefront Menus
     And click view "commerce_main_menu" in grid
     When I click on "Node-1" in tree "Sidebar Menu Tree"
     And I fill "Commerce Menu Form" with:

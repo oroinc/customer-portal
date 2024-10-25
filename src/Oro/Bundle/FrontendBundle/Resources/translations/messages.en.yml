@@ -43,10 +43,10 @@ oro_frontend:
                     tooltip: 'Type of the quick access button'
                     placeholder: 'None'
                     choices:
-                        menu: 'Frontend Menu'
+                        menu: 'Storefront Menu'
                         content_node: 'Content Node'
                 menu:
-                    label: 'Frontend Menu'
+                    label: 'Storefront Menu'
                     tooltip: ''
                 web_catalog_node:
                     label: 'Content Node'
@@ -417,7 +417,7 @@ oro_frontend:
     entity_config:
         block_titles:
             frontend:
-                label: Frontend options
+                label: Storefront options
         fields:
             frontend:
                 is_displayable:
