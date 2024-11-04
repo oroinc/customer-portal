@@ -34,12 +34,12 @@
                             {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
                             {% set icon = child.extras.icon|default(null)%}
                             {%- apply spaceless -%}
-                            <h6 class="information-nav__title">
+                            <p class="h6 information-nav__title">
                                 {%- if icon -%}
                                     {{ renderIcon.icon({name: icon}) }}
                                 {%- endif -%}
                                 {{- label -}}
-                            </h6>
+                            </p>
                             {%- endapply -%}
                             {% set item = child %}
                             {{ block('menu_widget') }}

@@ -73,6 +73,8 @@ fa_to_svg:
     fa-flash: zap
     fa-search-plus: zoom-in
     fa-search-minus: zoom-out
+    fa-comment-o: message-circle
+    fa-external-link: external-link
 
 file_icons:
     default: add-note
