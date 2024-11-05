@@ -199,7 +199,6 @@ styles:
         - 'bundles/orofrontend/default/scss/components/frontend-datagrid.scss'
         - 'bundles/orofrontend/default/scss/components/filters/filters.scss'
         - 'bundles/orofrontend/default/scss/components/box-toolbar.scss'
-        - 'bundles/orofrontend/default/scss/components/icons.scss'
         - 'bundles/orofrontend/default/scss/components/dropdown-menu-calendar.scss'
         - 'bundles/orofrontend/default/scss/components/pinned-dropdown.scss'
         - 'bundles/orofrontend/default/scss/components/pagination-widget.scss'
