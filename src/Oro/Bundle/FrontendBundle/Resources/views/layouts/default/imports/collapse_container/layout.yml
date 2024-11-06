@@ -1,0 +1,20 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroFrontend/layouts/default/imports/collapse_container/layout.html.twig'
+        - '@addTree':
+            items:
+                __collapse_container:
+                    blockType: container
+                __collapse_header:
+                    blockType: container
+                __collapse_toggle:
+                    blockType: block
+                __collapse_body:
+                    blockType: container
+            tree:
+                __root:
+                    __collapse_container:
+                        __collapse_header:
+                            __collapse_toggle: ~
+                        __collapse_body: ~

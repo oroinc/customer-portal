@@ -1,4 +1,6 @@
+import $ from 'jquery';
 import _ from 'underscore';
+import InputWidgetManager from 'oroui/js/input-widget-manager';
 import AbstractInputWidgetView from 'oroui/js/app/views/input-widget/abstract';
 import viewportManager from 'oroui/js/viewport-manager';
 
@@ -256,6 +258,21 @@ const ResponsiveStyler = AbstractInputWidgetView.extend({
         this.restoreOriginalDesign();
 
         return ResponsiveStyler.__super__.dispose.call(this);
+    }
+});
+
+$(document).on('operation-button:init', e => {
+    const $el = $(e.target);
+    if ($el.is('[data-responsive-styler]')) {
+        $el.inputWidget(InputWidgetManager.hasWidget($el) ? 'refresh' : 'create');
+    }
+}).on('operation-button:dispose', e => {
+    const $el = $(e.target);
+    if (
+        $el.is('[data-responsive-styler]') &&
+        InputWidgetManager.hasWidget($el)
+    ) {
+        $el.inputWidget('seekAndDestroy');
     }
 });
 
