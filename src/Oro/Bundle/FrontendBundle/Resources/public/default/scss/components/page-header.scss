@@ -12,6 +12,10 @@
 
     transition: $sticky-panel-transition;
 
+    &:focus-within {
+        z-index: $sticky-panel-z-index + 1;
+    }
+
     .alert-impersonate + .sticky-placeholder + & {
         z-index: $sticky-panel-z-index - 1;
     }
