@@ -18,6 +18,11 @@
 
     background: $fullscreen-popup-bg;
 
+    &--align-down.fullscreen {
+        max-height: 80dvh;
+        top: auto;
+    }
+
     &__header {
         display: $fullscreen-popup-header-display;
         align-items: $fullscreen-popup-header-align-items;

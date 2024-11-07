@@ -6,10 +6,8 @@
     margin-top: $customer-form-grid-offset-top;
 
     .form-group {
-        legend {
-            text-transform: uppercase;
-            padding: 2rem 0;
-            font-size: 1.6rem;
+        &:not(:first-child) {
+            margin-top: spacing('xl');
         }
 
         .grid {
@@ -29,7 +27,9 @@
 }
 
 .form-buttons {
-    margin-top: 28px;
+    display: flex;
+    gap: spacing('base');
+    margin-top: spacing('lg');
 }
 
 @include breakpoint('mobile-landscape') {

@@ -122,7 +122,7 @@ map:
         orofilter/templates/filters-no-found.html: orofrontend/templates/multiselect-no-found.html
         orofilter/templates/multiselect-clear-search.html: orofrontend/templates/multiselect-clear-search.html
         oroui/js/app/views/page/content-view: orofrontend/js/app/views/page/content-view
-        oroui/templates/delete-confirmation.html: orofrontend/default/templates/ui/modal-dialog.html
+        oroui/templates/delete-confirmation.html: orofrontend/default/templates/ui/delete-confirmation-modal.html
         oroui/templates/loading-mask-view.html: orofrontend/templates/ui/loading-mask-view.html
         oroui/templates/message-item.html: orofrontend/default/templates/ui/message-item.html
         oroui/templates/modal-dialog.html: orofrontend/default/templates/ui/modal-dialog.html
