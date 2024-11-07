@@ -5,6 +5,7 @@ styles:
 
         # Bootstrap Configs
         - 'bundles/orofrontend/default/scss/variables/bootstrap/dropdown-toggle-split.scss'
+        - 'bundles/orofrontend/default/scss/variables/bootstrap/collapse-config.scss'
 
         # Variables
         - 'bundles/orofrontend/default/scss/variables/base-config.scss'
@@ -180,7 +181,6 @@ styles:
         - 'bundles/orofrontend/default/scss/components/inline-view-editor.scss'
         - 'bundles/orofrontend/default/scss/components/flexible-container.scss'
         - 'bundles/orofrontend/default/scss/components/popover.scss'
-        - 'bundles/orofrontend/default/scss/components/popover-trigger.scss'
         - 'bundles/orofrontend/default/scss/components/middlebar.scss'
         - 'bundles/orofrontend/default/scss/components/tab-collection.scss'
         - 'bundles/orofrontend/default/scss/components/uploader.scss'
