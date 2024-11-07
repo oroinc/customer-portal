@@ -1,0 +1,11 @@
+datagrids:
+    oro-theme-configuration-grid:
+        filters:
+            columns:
+                type:
+                    type: choice
+                    options:
+                        field_options:
+                            translatable_options: true
+                            multiple: true
+                            choices: "@oro_theme.provider.theme_configuration_type->getLabelsAndTypes"

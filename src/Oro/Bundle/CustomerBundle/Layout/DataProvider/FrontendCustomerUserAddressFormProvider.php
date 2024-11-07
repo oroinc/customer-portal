@@ -9,6 +9,9 @@ use Oro\Bundle\LayoutBundle\Layout\DataProvider\AbstractFormProvider;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
+/**
+ * Provides customer user address related forms.
+ */
 class FrontendCustomerUserAddressFormProvider extends AbstractFormProvider
 {
     const ACCOUNT_USER_ADDRESS_CREATE_ROUTE_NAME = 'oro_customer_frontend_customer_user_address_create';

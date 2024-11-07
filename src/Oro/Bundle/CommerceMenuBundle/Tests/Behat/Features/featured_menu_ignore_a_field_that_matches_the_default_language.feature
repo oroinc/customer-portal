@@ -11,7 +11,7 @@ Feature: Featured menu ignore a field that matches the default language
 
   Scenario: Verify localization field
     Given I login as administrator
-    When I go to System/Frontend Menus
+    When I go to System/Storefront Menus
     And I click view commerce_footer_links in grid
     And I click Information in menu tree
     And I click "Commerce Menu Form Title Fallbacks"

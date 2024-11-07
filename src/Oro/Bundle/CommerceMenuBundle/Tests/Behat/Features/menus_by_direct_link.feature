@@ -17,8 +17,8 @@ Feature: Menus by direct link
     Given I login as administrator
     When I go to Customers/ Customers
     And I click View first customer in grid
-    And I click "Edit Frontend Menu"
-    Then I should see "Frontend Menus"
+    And I click "Edit Storefront Menu"
+    Then I should see "Storefront Menus"
 
   Scenario: Disable manage menu capability
     Given I proceed as the Admin1
@@ -50,8 +50,8 @@ Feature: Menus by direct link
     Given I login as administrator
     When I go to Customers/ Customer Groups
     And I click View Non-Authenticated Visitors in grid
-    And I click "Edit Frontend Menu"
-    Then I should see "Frontend Menus"
+    And I click "Edit Storefront Menu"
+    Then I should see "Storefront Menus"
 
   Scenario: Disable manage menu capability
     Given I proceed as the Admin1
@@ -83,8 +83,8 @@ Feature: Menus by direct link
     Given I login as administrator
     When I go to System/ Websites
     And I click View Default in grid
-    And I click "Edit Frontend Menu"
-    Then I should see "Frontend Menus"
+    And I click "Edit Storefront Menu"
+    Then I should see "Storefront Menus"
 
   Scenario: Disable manage menu capability
     Given I proceed as the Admin1

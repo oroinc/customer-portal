@@ -31,7 +31,7 @@ class FeatureContext extends OroFeatureContext implements OroPageObjectAware
      */
     public function iSetWebCatalogRootNodeAsMenuNavigationRoot(string $webCatalogName): void
     {
-        $this->oroMainContext->iOpenTheMenuAndClick('System/Frontend Menus');
+        $this->oroMainContext->iOpenTheMenuAndClick('System/Storefront Menus');
         $this->waitForAjax();
 
         $this->gridContext->clickActionInRow('commerce_main_menu', 'View');
@@ -58,7 +58,7 @@ class FeatureContext extends OroFeatureContext implements OroPageObjectAware
      */
     public function iSetMasterCatalogRootCategoryAsMenuNavigationRoot(): void
     {
-        $this->oroMainContext->iOpenTheMenuAndClick('System/Frontend Menus');
+        $this->oroMainContext->iOpenTheMenuAndClick('System/Storefront Menus');
         $this->waitForAjax();
 
         $this->gridContext->clickActionInRow('commerce_main_menu', 'View');

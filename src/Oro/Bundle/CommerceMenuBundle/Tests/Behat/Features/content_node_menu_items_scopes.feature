@@ -11,7 +11,7 @@ Feature: Content Node Menu Items Scopes
     And I set "Default Web Catalog" as default web catalog
 
   Scenario: Move the content node tree menu item outside of its parent in global scope
-    Given I go to System/Frontend Menus
+    Given I go to System/Storefront Menus
     And click view "commerce_main_menu" in grid
     And I expand "Node-1" in tree "Sidebar Menu Tree"
     When I move "Node-1-1" before "About" in tree "Sidebar Menu Tree"
@@ -23,7 +23,7 @@ Feature: Content Node Menu Items Scopes
   Scenario: Change max traverse level of parent menu item
     Given I go to System/Websites
     And I click on Default in grid
-    And I click "Edit Frontend Menu"
+    And I click "Edit Storefront Menu"
     And I click view commerce_main_menu in grid
     When I click on "Node-1" in tree "Sidebar Menu Tree"
     And I fill "Commerce Menu Form" with:

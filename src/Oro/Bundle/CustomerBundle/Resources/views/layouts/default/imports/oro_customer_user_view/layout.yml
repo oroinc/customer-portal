@@ -11,7 +11,7 @@ layout:
         - '@setOption':
             id: customer_user_address_book
             optionName: visible
-            optionValue: '=data["acl"].isGranted("oro_customer_frontend_customer_user_address_view")'
+            optionValue: '=data["acl"].isGranted("oro_customer_frontend_customer_user_address_view") or data["oro_customer_owner_customer_user_address_entity_access"].getCustomerUserAddressIfAllowed(data["entity"]) '
 
         - '@setOption':
             id: user_addresses_list_template_item_actions_edit
@@ -42,7 +42,6 @@ layout:
                 customerUser: '=data["entity"]'
                 vars:
                     companyNameEnabled: '=data["system_config_provider"].getValue("oro_customer.company_name_field_enabled")'
-
         - '@addTree':
             items:
                 __customer_user_view_page:

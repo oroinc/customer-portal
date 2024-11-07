@@ -12,8 +12,8 @@ Feature: Frontend menu websites tab
     Given I login as administrator
     When I go to Customers/Customers
     And click View first customer in grid
-    And I click "Edit Frontend Menu"
-    And I click view frontend_menu in "Frontend Menu By Scope Grid 1"
+    And I click "Edit Storefront Menu"
+    And I click view frontend_menu in "Storefront Menu By Scope Grid 1"
     And "Commerce Menu Form" must contain values:
       | Target Type | None |
     When I fill "Commerce Menu Form" with:
@@ -25,9 +25,9 @@ Feature: Frontend menu websites tab
   Scenario: Save menu item for Customer additional website
     When I go to Customers/Customers
     And click View first customer in grid
-    And I click "Edit Frontend Menu"
+    And I click "Edit Storefront Menu"
     When I click "Website Pro" tab
-    And I click view frontend_menu in "Frontend Menu By Scope Grid 2"
+    And I click view frontend_menu in "Storefront Menu By Scope Grid 2"
     And "Commerce Menu Form" must contain values:
       | Target Type | None |
     When I fill "Commerce Menu Form" with:
@@ -39,8 +39,8 @@ Feature: Frontend menu websites tab
   Scenario: Save menu item for Customer Group default website
     When I go to Customers/Customer Groups
     And click View "Non-Authenticated Visitors" in grid
-    And I click "Edit Frontend Menu"
-    And I click view frontend_menu in "Frontend Menu By Scope Grid 1"
+    And I click "Edit Storefront Menu"
+    And I click view frontend_menu in "Storefront Menu By Scope Grid 1"
     And "Commerce Menu Form" must contain values:
       | Target Type | None |
     When I fill "Commerce Menu Form" with:
@@ -52,9 +52,9 @@ Feature: Frontend menu websites tab
   Scenario: Save menu item for Customer Group additional website
     When I go to Customers/Customer Groups
     And click View "Non-Authenticated Visitors" in grid
-    And I click "Edit Frontend Menu"
+    And I click "Edit Storefront Menu"
     When I click "Website Pro" tab
-    And I click view frontend_menu in "Frontend Menu By Scope Grid 2"
+    And I click view frontend_menu in "Storefront Menu By Scope Grid 2"
     And "Commerce Menu Form" must contain values:
       | Target Type | None |
     When I fill "Commerce Menu Form" with:

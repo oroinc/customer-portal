@@ -7,6 +7,7 @@ use Oro\Bundle\AddressBundle\Form\Handler\AddressHandler;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserAddressFormProvider;
+use Oro\Bundle\CustomerBundle\Owner\CustomerUserAddressEntityAccessProvider;
 use Oro\Bundle\CustomerBundle\Provider\FrontendAddressProvider;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\LayoutBundle\Attribute\Layout;
@@ -60,11 +61,14 @@ class CustomerUserAddressController extends AbstractController
     #[AclAncestor('oro_customer_frontend_customer_user_address_create')]
     public function createAction(CustomerUser $customerUser, Request $request): array|RedirectResponse
     {
-        if (!$this->isGranted('oro_customer_frontend_customer_user_view', $customerUser)) {
+        $customerUserAddressAccessProvider = $this->container->get(CustomerUserAddressEntityAccessProvider::class);
+        $customerUserAddress = $customerUserAddressAccessProvider->getCustomerUserAddressIfAllowed($customerUser);
+
+        if (!$customerUserAddress) {
             throw new AccessDeniedException();
         }
 
-        return $this->update($customerUser, new CustomerUserAddress(), $request);
+        return $this->update($customerUser, $customerUserAddress, $request);
     }
 
     #[Route(
@@ -167,6 +171,7 @@ class CustomerUserAddressController extends AbstractController
                 FrontendCustomerUserAddressFormProvider::class,
                 SameSiteUrlHelper::class,
                 UpdateHandlerFacade::class,
+                CustomerUserAddressEntityAccessProvider::class,
                 'doctrine' => ManagerRegistry::class
             ]
         );

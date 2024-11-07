@@ -15,6 +15,7 @@ oro_behat_extension:
         - Oro\Bundle\CustomerBundle\Tests\Behat\Context\RegistrationInstructionFeatureContext
         - Oro\Bundle\CustomerBundle\Tests\Behat\Context\CustomerVisitorContext
         - Oro\Bundle\FrontendBundle\Tests\Behat\Context\CssVariablesContext
+        - Oro\Bundle\UIBundle\Tests\Behat\Context\BreadcrumbContext
       paths:
         - '@OroFrontendBundle/Tests/Behat/Features'
   elements:
@@ -243,6 +244,8 @@ oro_behat_extension:
       selector: '.page-header__inner--standalone-menu'
     StandaloneMenu:
       selector: '.main-menu-standalone-mode'
+    BackToListBtn:
+      selector: '.page-title-wrapper > a.btn'
     Theme Configuration Form:
       selector: 'form[name="theme_configuration"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -250,7 +253,7 @@ oro_behat_extension:
         mapping:
           Quick Access Button Label: 'theme_configuration[configuration][header__quick_access_button][label][default]'
           Quick Access Button Type: 'theme_configuration[configuration][header__quick_access_button][type]'
-          Quick Access Button Frontend Menu: 'theme_configuration[configuration][header__quick_access_button][menu]'
+          Quick Access Button Storefront Menu: 'theme_configuration[configuration][header__quick_access_button][menu]'
           Filter Panel Position on Product Listing Page: 'theme_configuration[configuration][product_listing__filters_position]'
           Page Template: 'theme_configuration[configuration][product_details__template]'
           Primary Main: 'theme_configuration[configuration][color_palette__primary_main][value]'
@@ -278,3 +281,17 @@ oro_behat_extension:
       selector: 'div.filter-criteria-hint-item-toggle'
     Visible Filter Clean:
       selector: '.open-filter button.filter-clear, .filter-default[tabindex="-1"] button.filter-clear'
+    Standalone Main Menu:
+      selector: 'div.page-header--standalone-main-menu'
+    Quick Access Button Menu:
+      selector: 'div.quick-access-button-menu'
+    Search Widget Standalone:
+      selector: 'div.search-widget--standalone'
+    Search Widget Integrated:
+      selector: 'div.search-widget--integrated'
+    Quick Access Button Field:
+      selector: 'div[data-name="field__header--quick-access-button"]'
+    Quick Access Button Label Input:
+      selector: '[name="theme_configuration[configuration][header__quick_access_button][label][default]"]'
+    Quick Access Button Storefront Menu Input:
+      selector: '[name="theme_configuration[configuration][header__quick_access_button][menu]"]'

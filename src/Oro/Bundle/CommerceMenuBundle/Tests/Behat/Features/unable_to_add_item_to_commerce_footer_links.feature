@@ -10,7 +10,7 @@ Scenario: Add new menu item
     | Buyer | second_session |
   And I proceed as the Admin
   And I login as administrator
-  And I go to System/Frontend Menus
+  And I go to System/Storefront Menus
   And click view commerce_footer_links in grid
   And I click Information in menu tree
   And I click "Create Menu Item"
@@ -28,7 +28,7 @@ Scenario: Check added menu item
 
 Scenario: Conditions should not affect Show/Hide button
   Given I proceed as the Admin
-  And I go to System/ Frontend Menus
+  And I go to System/ Storefront Menus
   And click view oro_customer_menu_refreshing_teal in grid
   And I click Orders in menu tree
   And I click Order History in menu tree

@@ -10,7 +10,7 @@ Feature: Dependent menu item updated with global menu update
 
   Scenario: Create Global menu item
     Given I login as administrator
-    When I go to System/Frontend Menus
+    When I go to System/Storefront Menus
     And I click view commerce_main_menu in grid
     And I click "Create Menu Item"
     When I fill "Commerce Menu Form" with:
@@ -24,14 +24,14 @@ Feature: Dependent menu item updated with global menu update
   Scenario: Save menu item for Customer
     When I go to Customers/Customers
     And click View first customer in grid
-    And I click "Edit Frontend Menu"
+    And I click "Edit Storefront Menu"
     And I click view commerce_main_menu in grid
     And I click "Test Item"
     And I save form
     Then I should see "Menu item saved successfully." flash message
 
   Scenario: Update menu item on global level
-    When I go to System/Frontend Menus
+    When I go to System/Storefront Menus
     And I click view commerce_main_menu in grid
     And I click "Test Item"
     When I fill "Commerce Menu Form" with:
@@ -42,7 +42,7 @@ Feature: Dependent menu item updated with global menu update
   Scenario: Check menu item for Customer
     When I go to Customers/Customers
     And click View first customer in grid
-    And I click "Edit Frontend Menu"
+    And I click "Edit Storefront Menu"
     And I click view commerce_main_menu in grid
     And I click "Test Item"
     Then URI field should has "/about_updated" value
@@ -50,7 +50,7 @@ Feature: Dependent menu item updated with global menu update
   Scenario: View menu item frontend_menu for Customer
     When I go to Customers/Customers
     And click View first customer in grid
-    And I click "Edit Frontend Menu"
+    And I click "Edit Storefront Menu"
     And I click view frontend_menu in grid
     Then I should see a "Commerce Menu Form" element
 
@@ -101,7 +101,7 @@ Feature: Dependent menu item updated with global menu update
   Scenario: View menu item frontend_menu for Customer Groups
     When go to Customers/ Customer Groups
     And I click View Non-Authenticated Visitors in grid
-    And I click "Edit Frontend Menu"
+    And I click "Edit Storefront Menu"
     And I click view frontend_menu in grid
     Then I should see a "Commerce Menu Form" element
 

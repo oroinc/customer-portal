@@ -1,7 +1,7 @@
 @regression
 @ticket-BB-21165
 Feature: Featured menu, displayed on the main front page
-  In order to check functionalities of frontend menu like creating, editing and nested level constraints
+  In order to check functionalities of storefront menu like creating, editing and nested level constraints
   As an Administrator
   I should be able to create, edit a menu item without any error and have proper visibility in frontstore
 
@@ -13,7 +13,7 @@ Feature: Featured menu, displayed on the main front page
   Scenario: Create new menu item
     Given I proceed as the Admin
     When I login as administrator
-    And I go to System/Frontend Menus
+    And I go to System/Storefront Menus
     And click view "featured_menu" in grid
     And I click "Create Menu Item"
     When I fill "Commerce Menu Form" with:
@@ -34,7 +34,7 @@ Feature: Featured menu, displayed on the main front page
 
   Scenario: Edit already existing menu item
     Given I proceed as the Admin
-    When I go to System/Frontend Menus
+    When I go to System/Storefront Menus
     And I click view "featured_menu" in grid
     And I click "Test Item"
     When I fill "Commerce Menu Form" with:
@@ -52,7 +52,7 @@ Feature: Featured menu, displayed on the main front page
 
   Scenario: Change sequence of menu items
     Given I proceed as the Admin
-    When I go to System/Frontend Menus
+    When I go to System/Storefront Menus
     And I click view "featured_menu" in grid
     And I click "Create Menu Item"
     When I fill "Commerce Menu Form" with:
@@ -86,7 +86,7 @@ Feature: Featured menu, displayed on the main front page
     Given I proceed as the Admin
     When I go to System/Websites
     And click View Default in grid
-    And I click "Edit Frontend Menu"
+    And I click "Edit Storefront Menu"
     And I click view "featured_menu" in grid
     And I click "Create Menu Item"
     When I fill "Commerce Menu Form" with:

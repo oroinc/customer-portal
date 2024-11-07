@@ -18,9 +18,7 @@ layout:
                     options:
                         entity: '=data["entity"]'
                         componentOptions: '=data["customer_user_default_address_provider"].getComponentOptions(data["entity"])'
-                        vars:
-                            route_name: 'oro_customer_frontend_customer_user_address_index'
-                            visible_button: '=data["acl"].isGranted("oro_customer_frontend_customer_address_view") or data["acl"].isGranted("oro_customer_frontend_customer_user_address_view")'
+                        visible: '=data["acl"].isGranted("oro_customer_frontend_customer_user_address_view")'
                 __user_addresses_list_template:
                     blockType: container
                 __user_addresses_list_template_item:
@@ -52,12 +50,24 @@ layout:
                         icon: 'book-open'
                         vars:
                             currentAddresses: '=data["customer_user_default_address_provider"].getComponentOptions(data["entity"])["currentAddresses"]'
+                __user_addresses_list_template__create_addresses_link:
+                    blockType: link
+                    options:
+                        visible: '=data["oro_customer_owner_customer_user_address_entity_access"].getCustomerUserAddressIfAllowed(data["entity"])'
+                        route_name: oro_customer_frontend_customer_user_address_create
+                        route_parameters:
+                            entityId: '=data["entity"].getId()'
+                        text: 'oro.customer.address.add'
+                        icon: plus
+                        attr:
+                            class: 'btn btn--outlined'
             tree:
                 __root:
                     __user_addresses_head:
                         page_subtitle_container:
                             __user_addresses_head_title: ~
                             __user_addresses_list_template__manage_addresses_link: ~
+                            __user_addresses_list_template__create_addresses_link: ~
                     __user_addresses_list: ~
                     __user_addresses_list_template:
                         __user_addresses_list_template_item:

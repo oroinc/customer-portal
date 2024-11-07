@@ -3,6 +3,10 @@
 .customer-line-items {
     margin-bottom: $customer-line-items-offset-bottom;
 
+    &--rfq {
+        margin-top: spacing('lg');
+    }
+
     &__title {
         margin-bottom: $customer-line-items-title-offset-bottom;
 

@@ -32,6 +32,7 @@ operations:
         order: 30
         button_options:
             icon: fa-check
+            class: btn--neutral
         acl_resource: [EDIT, $.data]
         preconditions:
             '@and':
@@ -55,6 +56,10 @@ operations:
         order: 10
         button_options:
             icon: fa-close
+            class: btn--neutral
+        frontend_options:
+            options:
+                icon: close
         acl_resource: [EDIT, $.data]
         preactions:
             - '@get_active_user': $.currentUser
@@ -268,6 +273,7 @@ operations:
         order: 20
         button_options:
             icon: fa-trash
+            class: btn--neutral
         preactions:
             - '@get_active_user': $.currentUser
         preconditions:
@@ -302,6 +308,7 @@ operations:
         order: 5
         button_options:
             icon: fa-pencil
+            class: btn--neutral
         frontend_options:
             options:
                 icon: pencil
@@ -335,6 +342,8 @@ operations:
         frontend_options:
             options:
                 icon: pencil
+        button_options:
+            class: btn--flat text-nowrap
         applications: [commerce]
         routes:
             - oro_customer_frontend_customer_user_role_view
@@ -358,6 +367,7 @@ operations:
         order: 30
         button_options:
             icon: fa-trash
+            class: btn--neutral
         datagrid_options:
             aria_label: delete_aria_label
         frontend_options:
@@ -636,6 +646,7 @@ operations:
         order: 10
         button_options:
             icon: fa-unlock
+            class: btn--neutral text-nowrap
         acl_resource: [EDIT, $.data]
         preactions:
             - '@get_active_user': $.currentUser
@@ -646,6 +657,8 @@ operations:
                 - '@equal': [$enabled, true]
                 - '@not_equal': [$id, $.currentUser.id]
         frontend_options:
+            options:
+                icon: pencil
             confirmation:
                 title: oro.customer.customer_user.reset_password.popup.title
                 okText: oro.customer.customer_user.reset_password.popup.label

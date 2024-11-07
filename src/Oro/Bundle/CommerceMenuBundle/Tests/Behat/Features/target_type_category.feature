@@ -21,7 +21,7 @@ Feature: Target Type Category
     Then I should see "Category has been saved" flash message
 
   Scenario: Create menu item with category target type
-    Given I go to System/Frontend Menus
+    Given I go to System/Storefront Menus
     When click view "commerce_main_menu" in grid
     And I click "Create Menu Item"
     Then the "Target Type" field should be enabled

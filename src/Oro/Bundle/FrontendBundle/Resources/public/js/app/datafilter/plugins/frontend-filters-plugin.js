@@ -14,7 +14,7 @@ define(function(require, exports, module) {
             'data-input-widget-options': JSON.stringify({
                 responsive: {
                     'mobile-big': {
-                        classes: 'btn btn--neutral btn--icon'
+                        classes: 'btn btn--neutral'
                     }
                 }
             })

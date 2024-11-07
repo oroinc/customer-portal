@@ -20,6 +20,7 @@
     @include breakpoint(#{$_breakpoint}) {
         .simple-placeholder[data-placeholder-show-one-child-on-#{$_breakpoint}] {
             a,
+            li,
             button,
             .action {
                 &:not(:first-child) {

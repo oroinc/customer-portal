@@ -13,7 +13,7 @@ Feature: Master Catalog Menu Items
     And I login as administrator
 
   Scenario: Check that 1st level categories from Master Catalog appear in menu as 1st level menu items by default
-    Given I go to System/Frontend Menus
+    Given I go to System/Storefront Menus
     When I click view "commerce_main_menu" in grid
     Then "Commerce Menu Form" must contain values:
       | Target Type        | Category |
@@ -80,7 +80,7 @@ Feature: Master Catalog Menu Items
     Then I should see "Category has been saved" flash message
 
   Scenario: Check that the new 1st level category appears as menu item automatically
-    Given I go to System/Frontend Menus
+    Given I go to System/Storefront Menus
     When click view "commerce_main_menu" in grid
     Then I should see "Category-1" belongs to "commerce_main_menu" in tree "Sidebar Menu Tree"
     And I should see "Category-2" after "Category-1" in tree "Sidebar Menu Tree"
@@ -122,7 +122,7 @@ Feature: Master Catalog Menu Items
     Then I should see "Category deleted" flash message
 
   Scenario: Check that the new 1st level category disappeared from menu
-    Given I go to System/Frontend Menus
+    Given I go to System/Storefront Menus
     When click view "commerce_main_menu" in grid
     Then I should not see "Category-new" belongs to "commerce_main_menu" in tree "Sidebar Menu Tree"
 

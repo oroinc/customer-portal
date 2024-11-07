@@ -1,8 +1,6 @@
 /* @theme: default; */
 
 .customer-profile {
-    margin-top: $customer-profile-container-offset-top;
-
     &--no-offset {
         margin-top: 0;
     }
@@ -86,8 +84,6 @@
 
 @include breakpoint('mobile') {
     .customer-profile {
-        margin-top: $customer-profile-mobile-offset-top;
-
         &--no-offset {
             margin-top: 0;
         }

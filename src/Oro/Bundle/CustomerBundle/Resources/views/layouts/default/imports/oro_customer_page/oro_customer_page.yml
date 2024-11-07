@@ -17,4 +17,9 @@ layout:
             optionName: attr.class
             optionValue: 'customer-layout'
 
+        - '@appendOption':
+            id: page_title_container
+            optionName: class_prefix
+            optionValue: 'customer'
+
     conditions: 'context["is_logged_in"]'

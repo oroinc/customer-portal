@@ -95,6 +95,10 @@
 
 // Need to refactor after removal less from frontend
 .hide-text {
+    font: 0/0 a, sans-serif;
+    text-shadow: none;
+    gap: 0;
+
     &[class^='fa-'],
     &[class*=' fa-'] {
         font-family: $icon-font;

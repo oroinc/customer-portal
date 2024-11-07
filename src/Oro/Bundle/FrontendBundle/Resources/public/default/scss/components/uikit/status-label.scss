@@ -14,6 +14,11 @@
         color: $status-label-success-color;
     }
 
+    &--progress {
+        background-color: $status-label-progress-background-color;
+        color: $status-label-progress-color;
+    }
+
     &--warning {
         background-color: $status-label-warning-background-color;
         color: $status-label-warning-color;

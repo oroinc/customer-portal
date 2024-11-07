@@ -45,6 +45,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/responsive-video-config.scss'
         - 'bundles/orofrontend/default/scss/variables/highlight-text-config.scss'
         - 'bundles/orofrontend/default/scss/variables/page-title-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/page-title-actions-config.scss'
         - 'bundles/orofrontend/default/scss/variables/page-main-config.scss'
         - 'bundles/orofrontend/default/scss/variables/page-container-config.scss'
         - 'bundles/orofrontend/default/scss/variables/page-content-config.scss'

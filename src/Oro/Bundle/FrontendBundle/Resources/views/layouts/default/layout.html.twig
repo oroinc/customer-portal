@@ -70,7 +70,7 @@
     <ul{{ block('block_attributes') }}>
         {% for button in buttons %}
             <li>
-                {% include button.template with button.templateData|merge({onlyLink: true, noIconText: true, aClass:'btn btn--neutral'}) %}
+                {% include button.template with button.templateData|merge({onlyLink: true, noIconText: true, aClass:'btn'}) %}
             </li>
         {% endfor %}
     </ul>

@@ -122,8 +122,8 @@
             &::before {
                 margin-inline: $filter-toggle-filter-items-container-shadow-inline-margin;
                 width: auto;
-                background: none;
-                box-shadow: $filter-toggle-filter-items-container-scroll-shadow;
+                height: $scroll-shadow-size;
+                background: $filter-toggle-filter-items-container-scroll-shadow;
             }
         }
     }

@@ -1,0 +1,13 @@
+layout:
+    actions:
+        - '@addTree':
+            items:
+                __back_button:
+                    blockType: link
+                    options:
+                        icon: arrow-left
+                        attr:
+                            class: 'btn btn--neutral hide-on-print'
+            tree:
+                __root:
+                    __back_button: ~

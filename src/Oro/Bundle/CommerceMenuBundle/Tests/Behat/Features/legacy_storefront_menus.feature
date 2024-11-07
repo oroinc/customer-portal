@@ -11,10 +11,10 @@ Feature: Legacy storefront menus
   Scenario: Check legacy storefront menus
     Given I login as administrator
 
-    When I go to System / Frontend Menus
+    When I go to System / Storefront Menus
     And I click "view" on row "commerce_top_nav" in grid
     Then I should see "This menu applies to OroCommerce version 5.1 and below and is retained in the current version only for backward compatibility with legacy storefront themes. For v6.0 and above, please use the commerce_top_nav_refreshing_teal menu to modify the links in the storefront page header."
 
-    When I go to System / Frontend Menus
+    When I go to System / Storefront Menus
     And I click "view" on row "commerce_quick_access" in grid
     Then I should see "This menu applies to OroCommerce version 5.1 and below and is retained in the current version only for backward compatibility with legacy storefront themes. For v6.0 and above, please use the commerce_quick_access_refreshing_teal menu to modify the quick access links."

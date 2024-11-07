@@ -1,0 +1,53 @@
+layout:
+    imports:
+        -
+            id: oro_customer_back_button
+            root: page_title_container
+
+        -
+            id: oro_customer_toolbar_actions
+            root: __actions_wrapper
+
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_top_bar/layout.html.twig'
+
+        - '@addTree':
+            items:
+                __title_wrapper:
+                    blockType: container
+                __status:
+                    blockType: text
+                __actions_wrapper:
+                    blockType: container
+
+            tree:
+                __root:
+                    __title_wrapper:
+                      __status: ~
+                    __actions_wrapper: ~
+
+        - '@move':
+            id: page_title
+            parentId: __title_wrapper
+            prepend: true
+
+        - '@move':
+            id: __back_button
+            parentId: page_title_container
+            prepend: true
+
+        - '@move':
+            id: __title_wrapper
+            parentId: page_title_container
+            prepend: false
+
+        - '@move':
+            id: __actions_wrapper
+            parentId: page_title_container
+            prepend: false
+
+        - '@setOption':
+              id: __status
+              optionName: text
+              optionValue: ''
