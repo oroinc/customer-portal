@@ -125,10 +125,7 @@
 
 {% block __oro_customer_user_address_list__user_addresses_list_template__manage_addresses_link_widget %}
     {% if currentAddresses|length > 2 %}
-        {% set attr = layout_attr_defaults(attr, {
-            '~class': ' address-list__manage-link btn btn--flat'
-        }) %}
-        {{ block_widget(block, {attr: attr}) }}
+        {{ block_widget(block) }}
     {% endif %}
 {% endblock %}
 

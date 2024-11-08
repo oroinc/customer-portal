@@ -43,9 +43,3 @@ $address-list-empty-content-text-color: get-color('text', 'secondary') !default;
 
 // Tablet Small
 $address-list-item-v-space-tablet-small: 16px !default;
-
-// Mobile
-
-$address-list-link-width-mobile-landscape: 44px !default;
-$address-list-link-width-background-mobile-landscape: get-color('neutral', 'grey1') !default;
-$address-list-link-width-color-mobile-landscape: get-color('text', 'primary') !default;

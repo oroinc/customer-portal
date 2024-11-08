@@ -1,4 +1,6 @@
+import $ from 'jquery';
 import _ from 'underscore';
+import InputWidgetManager from 'oroui/js/input-widget-manager';
 import AbstractInputWidgetView from 'oroui/js/app/views/input-widget/abstract';
 import viewportManager from 'oroui/js/viewport-manager';
 
@@ -134,9 +136,16 @@ const ResponsiveStyler = AbstractInputWidgetView.extend({
      * @param {Object} data
      */
     applyDesign(data) {
-        const {classes, icon, iconClass, disposeTooltip = false, initTooltip = false} = data;
+        const {classes, icon, iconClass,
+            disposeTooltip = false,
+            initTooltip = false,
+            constraint = null
+        } = data;
 
-        this.setClass(classes);
+        if (this.checkConstrains(constraint)) {
+            this.setClass(classes);
+        }
+
         this.setIcon(icon, iconClass);
 
         if (disposeTooltip) {
@@ -245,6 +254,37 @@ const ResponsiveStyler = AbstractInputWidgetView.extend({
     },
 
     /**
+     * @param {Array} constrains
+     * @returns {boolean}
+     */
+    checkConstrains(constrains) {
+        if (!_.isArray(constrains)) {
+            constrains = [constrains];
+        }
+
+        return constrains.every(constraint => this.checkConstrain(constraint) === true);
+    },
+
+    /**
+     * @param {string|null} constraint
+     * @returns {boolean}
+     */
+    checkConstrain(constraint) {
+        const key = `${constraint ?? ''}Constraint`;
+        if (typeof this[key] === 'function') {
+            return this[key]();
+        }
+        return true;
+    },
+
+    /**
+     * @returns {boolean}
+     */
+    inDropdownConstraint() {
+        return this.$el.parents('.dropdown').length > 0;
+    },
+
+    /**
      * Destroy widget
      * @inheritdoc
      */
@@ -259,4 +299,18 @@ const ResponsiveStyler = AbstractInputWidgetView.extend({
     }
 });
 
+$(document).on('operation-button:init', e => {
+    const $el = $(e.target);
+    if ($el.is('[data-responsive-styler]')) {
+        $el.inputWidget(InputWidgetManager.hasWidget($el) ? 'refresh' : 'create');
+    }
+}).on('operation-button:dispose', e => {
+    const $el = $(e.target);
+    if (
+        $el.is('[data-responsive-styler]') &&
+        InputWidgetManager.hasWidget($el)
+    ) {
+        $el.inputWidget('seekAndDestroy');
+    }
+});
 export default ResponsiveStyler;
