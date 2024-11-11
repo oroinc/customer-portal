@@ -315,6 +315,7 @@ oro.customer:
             register.description: 'Create an account to keep track of your orders, quotes, shopping lists, and more.'
             create_an_customer: 'Create Account'
             exist_account: 'Don’t have an account?'
+            create_an_account.title: 'Create an Account'
             create_an_customer_and_continue: 'Create an Account and Continue'
             forgot_password: 'Forgot Password?'
             reset_password_title: 'Reset Password'
@@ -985,6 +986,7 @@ oro.customer:
             tree:
                 customer_usermenu.legacy_note: 'This menu applies to OroCommerce version 5.1 and below and is retained in the current version only for backward compatibility with legacy storefront themes.'
                 oro_customer_menu.legacy_note: 'This menu applies to OroCommerce version 5.1 and below and is retained in the current version only for backward compatibility with legacy storefront themes. For v6.0 and above, please use the oro_customer_menu_refreshing_teal menu to modify the values in the Account section of the user menu.'
+        action_dropdown.aria_label: 'Expand or Collapse list of Actions'
 
     customer_typed_address_with_default_type:
         choice.default_text: 'Default %type_name%'

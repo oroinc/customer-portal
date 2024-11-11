@@ -25,6 +25,7 @@ layout:
                               data-input-widget-options:
                                   responsive:
                                       mobile-big:
+                                          constraint: 'inDropdown'
                                           classes: 'dropdown-item'
                   __action_list:
                       blockType: line_buttons

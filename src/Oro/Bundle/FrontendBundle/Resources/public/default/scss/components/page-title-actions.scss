@@ -11,14 +11,6 @@
                 list-style: $page-title-actions-actions-list-li-list-style;
             }
         }
-
-        @each $_breakpoint in get-breakpoints-list() {
-            @include breakpoint(#{$_breakpoint}) {
-                .hidden-before-relocation-on-#{$_breakpoint} {
-                    display: none;
-                }
-            }
-        }
     }
 }
 

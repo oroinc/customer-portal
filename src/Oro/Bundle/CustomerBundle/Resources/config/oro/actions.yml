@@ -57,6 +57,13 @@ operations:
         button_options:
             icon: fa-close
             class: btn--neutral
+            data:
+                responsive-styler: ''
+                input-widget-options:
+                    responsive:
+                        mobile-landscape:
+                            constraint: 'inDropdown'
+                            classes: 'dropdown-item'
         frontend_options:
             options:
                 icon: close
@@ -274,6 +281,13 @@ operations:
         button_options:
             icon: fa-trash
             class: btn--neutral
+            data:
+                responsive-styler: ''
+                input-widget-options:
+                    responsive:
+                        mobile-landscape:
+                            constraint: 'inDropdown'
+                            classes: 'dropdown-item'
         preactions:
             - '@get_active_user': $.currentUser
         preconditions:
@@ -309,6 +323,13 @@ operations:
         button_options:
             icon: fa-pencil
             class: btn--neutral
+            data:
+                responsive-styler: ''
+                input-widget-options:
+                    responsive:
+                        mobile-landscape:
+                            constraint: 'inDropdown'
+                            classes: 'dropdown-item'
         frontend_options:
             options:
                 icon: pencil
@@ -321,6 +342,8 @@ operations:
 
     oro_customer_frontend_profile_user:
         label: oro.customer.action.customer_user.edit_btn.label
+        button_options:
+            class: btn--neutral
         frontend_options:
             title: oro.customer.action.customer_user.edit_btn.title
             options:
@@ -647,6 +670,13 @@ operations:
         button_options:
             icon: fa-unlock
             class: btn--neutral text-nowrap
+            data:
+                responsive-styler: ''
+                input-widget-options:
+                    responsive:
+                        mobile-landscape:
+                            constraint: 'inDropdown'
+                            classes: 'dropdown-item'
         acl_resource: [EDIT, $.data]
         preactions:
             - '@get_active_user': $.currentUser

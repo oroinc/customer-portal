@@ -49,7 +49,16 @@ layout:
                         visible: '=data["acl"].isGranted("oro_customer_frontend_customer_address_view") or data["acl"].isGranted("oro_customer_frontend_customer_user_address_view")'
                         icon: 'book-open'
                         vars:
+                            labelClass: 'hide-on-mobile-big'
                             currentAddresses: '=data["customer_user_default_address_provider"].getComponentOptions(data["entity"])["currentAddresses"]'
+                        attr:
+                            class: 'btn btn--flat btn--size-small'
+                            data-responsive-styler: ''
+                            data-input-widget-options:
+                                responsive:
+                                    mobile-big:
+                                        classes: 'btn btn--neutral'
+
                 __user_addresses_list_template__create_addresses_link:
                     blockType: link
                     options:
@@ -59,8 +68,15 @@ layout:
                             entityId: '=data["entity"].getId()'
                         text: 'oro.customer.address.add'
                         icon: plus
+                        vars:
+                            labelClass: 'hide-on-mobile-big'
                         attr:
-                            class: 'btn btn--outlined'
+                            class: 'btn'
+                            data-responsive-styler: ''
+                            data-input-widget-options:
+                                responsive:
+                                    mobile-big:
+                                        classes: 'btn btn--neutral'
             tree:
                 __root:
                     __user_addresses_head:
