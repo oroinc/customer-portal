@@ -136,9 +136,16 @@ const ResponsiveStyler = AbstractInputWidgetView.extend({
      * @param {Object} data
      */
     applyDesign(data) {
-        const {classes, icon, iconClass, disposeTooltip = false, initTooltip = false} = data;
+        const {classes, icon, iconClass,
+            disposeTooltip = false,
+            initTooltip = false,
+            constraint = null
+        } = data;
 
-        this.setClass(classes);
+        if (this.checkConstrains(constraint)) {
+            this.setClass(classes);
+        }
+
         this.setIcon(icon, iconClass);
 
         if (disposeTooltip) {
@@ -244,6 +251,37 @@ const ResponsiveStyler = AbstractInputWidgetView.extend({
      */
     hasTooltip() {
         return Boolean(this.$el.is('[data-toggle="tooltip"]') || this.$el.data('bs.tooltip'));
+    },
+
+    /**
+     * @param {Array} constrains
+     * @returns {boolean}
+     */
+    checkConstrains(constrains) {
+        if (!_.isArray(constrains)) {
+            constrains = [constrains];
+        }
+
+        return constrains.every(constraint => this.checkConstrain(constraint) === true);
+    },
+
+    /**
+     * @param {string|null} constraint
+     * @returns {boolean}
+     */
+    checkConstrain(constraint) {
+        const key = `${constraint ?? ''}Constraint`;
+        if (typeof this[key] === 'function') {
+            return this[key]();
+        }
+        return true;
+    },
+
+    /**
+     * @returns {boolean}
+     */
+    inDropdownConstraint() {
+        return this.$el.parents('.dropdown').length > 0;
     },
 
     /**
