@@ -27,7 +27,7 @@
     }) %}
 
     <div {{ block('block_attributes') }}>
-        <div>{{ block_widget(block)|oro_html_sanitize }}</div>
+        {{ block_widget(block)|oro_html_sanitize }}
     </div>
 {% endblock %}
 

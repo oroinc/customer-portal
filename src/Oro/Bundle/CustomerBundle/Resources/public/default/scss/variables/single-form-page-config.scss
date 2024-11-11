@@ -35,8 +35,8 @@ $single-form-link-wrapper-text-align: center !default;
 $single-form-link-wrapper-margin-top: spacing('sm') !default;
 $single-form-link-wrapper-a-padding: spacing('xs') !default;
 
+$single-form-subtitle-color: get-color('text', 'secondary') !default;
 $single-form-subtitle-text-align: center !default;
-$single-form-subtitle-margin-bottom: spacing('base') !default;
 
 $single-form-action-wrapper-display: grid !default;
 $single-form-action-wrapper-grid-auto-columns: minmax(0, 1fr) !default;
