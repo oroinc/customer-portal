@@ -54,6 +54,11 @@ const FrontendPageSize = PageSize.extend({
     render() {
         FrontendPageSize.__super__.render.call(this);
         this.renderAsGroup();
+        if (this.hidden || this.$el.is(':empty')) {
+            this.$el.addClass('hide');
+        } else {
+            this.$el.removeClass('hide');
+        }
         return this;
     },
 

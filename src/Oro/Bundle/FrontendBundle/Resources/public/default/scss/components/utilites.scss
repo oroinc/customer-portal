@@ -7,7 +7,8 @@
 
 .hidden,
 .hide,
-.hide-on-empty:empty {
+.hide-on-empty:empty,
+.no-visible-children {
     &:not(.display) {
         // override inline styles
         // stylelint-disable-next-line declaration-no-important

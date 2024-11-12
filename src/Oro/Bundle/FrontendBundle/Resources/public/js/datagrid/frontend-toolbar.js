@@ -49,7 +49,6 @@ const FrontendToolbar = Toolbar.extend({
         FrontendToolbar.__super__.render.call(this);
 
         this.toggleStickyToolbar();
-        this.noChildrenVisibility();
 
         return this;
     },
@@ -65,12 +64,6 @@ const FrontendToolbar = Toolbar.extend({
             this.el.classList.remove('sticky', 'sticky--top', 'in-sticky', 'scroll-up', 'scroll-down');
             this.el.removeAttribute('data-sticky');
         }
-    },
-
-    noChildrenVisibility() {
-        this.$el.removeClass('no-children');
-        this.$el.toggleClass('no-children', !Object.values(this.subviews)
-            .some(view => document.contains(view.el) && view.$el.is(':visible')));
     }
 });
 
