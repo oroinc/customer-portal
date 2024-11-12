@@ -1032,8 +1032,8 @@
     </div>
 {% endblock %}
 
-{# Responsive Classess #}
-{% block _style_book_responsive_classes_view_widget %}
+{# Responsive Styler #}
+{% block _style_book_responsive_styler_view_widget %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
 
     {% set attr = layout_attr_defaults(attr, {
@@ -1095,7 +1095,7 @@
     </div>
 {% endblock %}
 
-{% block _style_book_grid_element_responsive_classes_view_html_widget %}
+{% block _style_book_grid_element_responsive_styler_view_html_widget %}
     {% set options = "
         {% set viewOptions = {
             responsive: {

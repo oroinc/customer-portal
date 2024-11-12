@@ -232,8 +232,8 @@ oro_stylebook:
                 title: 'Simple Responsive Dropdown'
             responsive_dropdown_with_responsive_classes:
                 title: 'Responsive Dropdown with Responsive Classes'
-            responsive_classes:
-                title: 'Responsive Classes'
+            responsive_styler:
+                title: 'Responsive Styler'
             fullscreen_popup_view:
                 title: 'Fullscreen Popup View'
             scroll_view:

@@ -243,24 +243,24 @@ layout:
                         tabs:
                             - { anchor: 'responsive_dropdown_with_responsive_classes_view-html', label: oro_stylebook.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_responsive_dropdown_with_responsive_classes_view_html'}
 
-                # Responsive Classes
-                group_element_responsive_classes_view:
+#                 Responsive Classes
+                group_element_responsive_styler_view:
                     blockType: group_element
                     options:
-                        anchor: responsive_classes_view
-                        label: oro_stylebook.groups.jscomponent.responsive_classes.title
-                group_element_item_responsive_classes_view:
+                        anchor: responsive_styler_view
+                        label: oro_stylebook.groups.jscomponent.responsive_styler.title
+                group_element_item_responsive_styler_view:
                     blockType: group_js_element_item
                     options:
                         source: false
-                        description: oro_stylebook.groups.jscomponent.responsive_classes.description
-                style_book_responsive_classes_view:
+                        description: oro_stylebook.groups.jscomponent.responsive_styler.description
+                style_book_responsive_styler_view:
                     blockType: container
-                group_tabs_responsive_classes_view:
+                group_tabs_responsive_styler_view:
                     blockType: group_tabs
                     options:
                         tabs:
-                            - { anchor: 'responsive_classes_view-html', label: oro_stylebook.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_responsive_classes_view_html'}
+                            - { anchor: 'responsive_styler_view-html', label: oro_stylebook.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_responsive_styler_view_html'}
 
                 # Fullscreen popup view
                 group_element_fullscreen_popup_view:
@@ -582,7 +582,7 @@ layout:
 
                     group_element_responsive_dropdown_widgets:
                         group_element_item_responsive_dropdown_widgets_description:
-#                            group_element_responsive_dropdown_widgets_options: ~
+#                            group_element_responsive_dropdown_widgets_options:
                              group_element_item_simple_responsive_dropdown_view:
                                  style_book_simple_responsive_dropdown_view:
                                      group_tabs_simple_responsive_dropdown_view: ~
@@ -592,10 +592,10 @@ layout:
                                  style_book_responsive_dropdown_with_responsive_classes_view:
                                      group_tabs_responsive_dropdown_with_responsive_classes_view: ~
 
-                    group_element_responsive_classes_view:
-                        group_element_item_responsive_classes_view:
-                            style_book_responsive_classes_view:
-                                group_tabs_responsive_classes_view: ~
+                    group_element_responsive_styler_view:
+                        group_element_item_responsive_styler_view:
+                            style_book_responsive_styler_view:
+                                group_tabs_responsive_styler_view: ~
 
                     group_element_fullscreen_popup_view:
                         group_element_item_fullscreen_popup_view:
