@@ -243,7 +243,7 @@ layout:
                         tabs:
                             - { anchor: 'responsive_dropdown_with_responsive_classes_view-html', label: oro_stylebook.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_responsive_dropdown_with_responsive_classes_view_html'}
 
-#                 Responsive Classes
+                # Responsive Classes
                 group_element_responsive_styler_view:
                     blockType: group_element
                     options:
@@ -582,7 +582,6 @@ layout:
 
                     group_element_responsive_dropdown_widgets:
                         group_element_item_responsive_dropdown_widgets_description:
-#                            group_element_responsive_dropdown_widgets_options:
                              group_element_item_simple_responsive_dropdown_view:
                                  style_book_simple_responsive_dropdown_view:
                                      group_tabs_simple_responsive_dropdown_view: ~

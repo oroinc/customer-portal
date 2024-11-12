@@ -876,23 +876,17 @@
                 <a href="#"
                     class="toggle-link"
                     title="Title">
-                    <span class="sr-only">Title</span>
-                    {{ renderIcon.icon({name: 'grid'}) }}
-                </a>
+                    <span class="sr-only">Title</span>{{ renderIcon.icon({name: 'grid'}) }}</a>
 
                 <a href="#"
                    class="toggle-link"
                    title="Title">
-                    <span class="sr-only">Title</span>
-                    {{ renderIcon.icon({name: 'list'}) }}
-                </a>
+                    <span class="sr-only">Title</span>{{ renderIcon.icon({name: 'list'}) }}</a>
 
                 <a href="#"
                    class="toggle-link"
                    title="Title">
-                    <span class="sr-only">Title</span>
-                    {{ renderIcon.icon({name: 'compact-list'}) }}
-                </a>
+                    <span class="sr-only">Title</span>{{ renderIcon.icon({name: 'compact-list'}) }}</a>
             </div>
         </div>
 
@@ -925,27 +919,15 @@
              data-responsive-dropdown=""
              data-input-widget-options="{{ "{{  viewOptions|json_encode }}"|raw }}"
              style="width: 150px;">
-
             <a href="#"
                class="toggle-link"
-               title="Title">
-                <span class="sr-only">Title</span>
-                {{ renderIcon.icon({name: 'grid'}) }}
-            </a>
-
+               title="Title"><span class="sr-only">Title</span>{{ renderIcon.icon({name: 'grid'}) }}</a>
             <a href="#"
                class="toggle-link"
-               title="Title">
-                <span class="sr-only">Title</span>
-                {{ renderIcon.icon({name: 'list'}) }}
-            </a>
-
+               title="Title"><span class="sr-only">Title</span>{{ renderIcon.icon({name: 'list'}) }}</a>
             <a href="#"
                class="toggle-link"
-               title="Title">
-                <span class="sr-only">Title</span>
-                {{ renderIcon.icon({name: 'compact-list'}) }}
-            </a>
+               title="Title"><span class="sr-only">Title</span>{{ renderIcon.icon({name: 'compact-list'}) }}</a>
         </div>
     {% endset %}
 
@@ -994,20 +976,14 @@
                  data-placeholder-show-one-child-on-tablet=""
                  data-responsive-dropdown=""
                  data-input-widget-options="{{ viewOptions|json_encode }}">
-
                 <a href="#"
                    class="btn btn--flat"
                    data-responsive-styler
-                   data-input-widget-options="{{ viewBtnOptions|json_encode }}">
-                    {{ renderIcon.icon({name: 'printer'}) }}
-                    Print
-                </a>
+                   data-input-widget-options="{{ viewBtnOptions|json_encode }}">{{ renderIcon.icon({name: 'printer'}) }}Print</a>
 
                 <a class="btn" href="#"
                    data-responsive-styler
-                   data-input-widget-options="{{ viewBtnOptions|json_encode }}">
-                    {{ renderIcon.icon({name: 'close'}) }}
-                    Cancel
+                   data-input-widget-options="{{ viewBtnOptions|json_encode }}">{{ renderIcon.icon({name: 'close'}) }}Cancel
                 </a>
             </div>
         </div>
@@ -1045,33 +1021,17 @@
         {{ options|raw }}
 
         <div class="simple-placeholder"
-             data-placeholder-show-one-child-on-tablet-big=""
-             data-responsive-dropdown=""
-             data-input-widget-options="{{ "{{  viewOptions|json_encode }}"|raw }}">
-
-            <button class="btn btn--neutral dropdown-item">Button</button>
-            <a class="link dropdown-item">Link</a>
-        </div>
-
-        <div class="simple-placeholder"
              data-placeholder-show-one-child-on-tablet=""
              data-responsive-dropdown=""
              data-input-widget-options="{{ "{{  viewOptions|json_encode }}"|raw }}">
-
             <a href="#"
                class="btn btn--flat"
                data-responsive-styler
-               data-input-widget-options="{{ "{{  viewBtnOptions|json_encode }}"|raw }}">
-                {{ renderIcon.icon({name: 'printer'}) }}
-                Print
-            </a>
+               data-input-widget-options="{{ "{{  viewBtnOptions|json_encode }}"|raw }}">{{ renderIcon.icon({name: 'printer'}) }}Print</a>
 
             <a class="btn" href="#"
                data-responsive-styler
-               data-input-widget-options="{{ "{{  viewBtnOptions|json_encode }}"|raw }}">
-                {{ renderIcon.icon({name: 'close'}) }}
-                Cancel
-            </a>
+               data-input-widget-options="{{ "{{  viewBtnOptions|json_encode }}"|raw }}">{{ renderIcon.icon({name: 'close'}) }}Cancel</a>
         </div>
     {% endset %}
 
@@ -1178,21 +1138,13 @@
     "%}
 
     {% set source_code %}
-        {{ options|raw }}
-
-        <button class="btn"
-                data-responsive-styler
-                data-input-widget-options="{{ "{{  viewOptions|json_encode }}"|raw }}">Button</button>
-
-
         {% set tooltipTemplate = '<div class="tooltip tooltip--high" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' %}
+
+        {{ options|raw }}
 
         <button class="btn btn--neutral"
                 data-responsive-styler
-                data-input-widget-options="{{ "{{  viewOptions|json_encode }}"|raw }}">
-            Button
-        </button>&nbsp;&nbsp;
-
+                data-input-widget-options="{{ "{{  viewOptions|json_encode }}"|raw }}">Button</button>&nbsp;&nbsp;
         <a class="link" href="#"
             {% if isDesktopVersion() %}
                 data-toggle="tooltip"
@@ -1202,13 +1154,9 @@
            title="Tooltip link"
            data-responsive-styler
            data-input-widget-options="{{ "{{  viewTooltipOptions|json_encode }}"|raw }}">Link</a>&nbsp;&nbsp;
-
         <a class="btn" href="#"
            data-responsive-styler
-           data-input-widget-options="{{ "{{  viewIconOptions|json_encode }}"|raw }}">
-            {{ renderIcon.icon({name: 'close'}) }}
-            Cancel
-        </a>
+           data-input-widget-options="{{ "{{  viewIconOptions|json_encode }}"|raw }}">{{ renderIcon.icon({name: 'close'}) }}Cancel</a>
     {% endset %}
 
     <div {{ block('block_attributes') }}>

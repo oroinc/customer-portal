@@ -214,13 +214,13 @@ oro_stylebook:
                 description: 'Responsive Dropdown is a component to transform list of elements to dropdown view on some resolutions. To see a transformation, please, change dimension of browser at least to tablet-big breakpoint.'
             simple_responsive_dropdown:
                 title: 'Simple Responsive Dropdown'
-                description: 'Simple Responsive Dropdown is a component .....'
+                description: 'Simple Responsive Dropdown helps you move some elements to the dropdown-list when the browser window is resized. At defined breakpoint will be rendered the toggle-button. Dropdown-list will be shown on click toggle-button.'
             responsive_dropdown_with_responsive_classes:
                 title: 'Responsive Dropdown with Responsive Classes'
-                description: 'Responsive Dropdown with Responsive Classes is a .....'
+                description: 'Responsive Dropdown with Responsive Classes it is example how to help you to move some elements to the dropdown-list with changing classes for elements when the browser window is resized. At defined breakpoint will be rendered the toggle-button. Dropdown-list will be shown on click toggle-button and classes of elements will be new.'
             responsive_styler:
                 title: 'Responsive Styler'
-                description: 'Responsive Styler component allows to set new classes to element on some breakpoint. If class "btn" was present by default it will be removed.'
+                description: 'Responsive Styler component allows to set new options to element on some breakpoint. For example, you can change icon, disposeTooltip, class. Note: if class "btn" was present by default it will be removed.'
             fullscreen_popup_view:
                 title: 'Fullscreen Popup View'
                 description: 'The fullscreen popup view helps you show the rendered html content, view, and selector in a fullscreen pop-up. The page header renders with an icon specified as a `popupIcon`, the `popupLabel` as a title, and the Close button. The `contentTemplate` may contain raw html that you would expect inside the body tag.'
