@@ -91,6 +91,11 @@ layout:
               optionValue: false
 
         - '@setOption':
+              id: user_role_top_bar_actions_wrapper
+              optionName: vars.showActionsInDropdown
+              optionValue: false
+
+        - '@setOption':
               id: user_role_top_bar_action_list
               optionName: buttons
               optionValue: '=data["buttons"].getAll(data["entity"])'

@@ -51,3 +51,8 @@ layout:
               id: __status
               optionName: text
               optionValue: ''
+
+        - '@appendOption':
+              id: __actions_wrapper
+              optionName: vars.showActionsInDropdown
+              optionValue: true

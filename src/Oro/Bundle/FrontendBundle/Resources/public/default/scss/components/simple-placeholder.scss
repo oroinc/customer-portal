@@ -23,6 +23,12 @@
             li,
             button,
             .action {
+                &:first-child {
+                    min-width: $input-btn-size;
+                    gap: 0;
+                    font-size: 0;
+                }
+
                 &:not(:first-child) {
                     display: none;
                 }

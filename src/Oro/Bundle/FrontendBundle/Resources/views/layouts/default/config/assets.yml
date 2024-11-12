@@ -88,7 +88,6 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/datagrid/datagrid-toolbar-config.scss'
         - 'bundles/orofrontend/default/scss/variables/datagrid/datagrid-filters-config.scss'
         - 'bundles/orofrontend/default/scss/variables/datagrid/toolbar-mass-actions-panel-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/controls-list-config.scss'
         - 'bundles/orofrontend/default/scss/variables/uploader-config.scss'
         - 'bundles/orofrontend/default/scss/variables/toggler-config.scss'
         - 'bundles/orofrontend/default/scss/variables/toggle-filters-action-config.scss'
