@@ -901,29 +901,51 @@
 {% endblock %}
 
 {% block _style_book_grid_element_simple_responsive_dropdown_view_html_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+
     {% set options = "
-        {% set viewOptions = {
-             dropdownClass: '',
-             dropdownMenuClass: 'toggle-container--dropdown',
-             toggleClass: 'toggle-container--dropdown-btn',
-             mainAriaLabel: 'oro.product.frontend.catalog_switch.aria_label'|trans,
-             placement: 'bottom-end',
-             icon: 'more-horizontal',
-             iconClass: 'theme-icon--medium',
-             actionsContainerClass: 'actions-group'
+         {% set viewOptions = {
+            dropdownClass: '',
+            dropdownMenuClass: 'toggle-container--dropdown',
+            toggleClass: 'toggle-container--dropdown-btn',
+            mainAriaLabel: 'oro.product.frontend.catalog_switch.aria_label'|trans,
+            placement: 'bottom-end',
+            icon: 'more-horizontal',
+            iconClass: 'theme-icon--medium',
+            actionsContainerClass: 'toggle-container',
+            screenThreshold: 'tablet'
         }%}
     "%}
 
     {% set source_code %}
         {{ options|raw }}
 
-        <div class="simple-placeholder"
-             data-placeholder-show-one-child-on-tablet-big=""
+        <div class="simple-placeholder toggle-container"
+             data-placeholder-show-one-child-on-tablet=""
              data-responsive-dropdown=""
-             data-input-widget-options="{{ "{{  viewOptions|json_encode }}"|raw }}">
+             data-input-widget-options="{{ "{{  viewOptions|json_encode }}"|raw }}"
+             style="width: 150px;">
 
-            <button class="btn btn--neutral dropdown-item">Button</button>
-            <a class="link dropdown-item">Link</a>
+            <a href="#"
+               class="toggle-link"
+               title="Title">
+                <span class="sr-only">Title</span>
+                {{ renderIcon.icon({name: 'grid'}) }}
+            </a>
+
+            <a href="#"
+               class="toggle-link"
+               title="Title">
+                <span class="sr-only">Title</span>
+                {{ renderIcon.icon({name: 'list'}) }}
+            </a>
+
+            <a href="#"
+               class="toggle-link"
+               title="Title">
+                <span class="sr-only">Title</span>
+                {{ renderIcon.icon({name: 'compact-list'}) }}
+            </a>
         </div>
     {% endset %}
 
