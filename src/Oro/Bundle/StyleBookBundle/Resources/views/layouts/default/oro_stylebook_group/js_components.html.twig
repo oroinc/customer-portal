@@ -1096,13 +1096,30 @@
 {% endblock %}
 
 {% block _style_book_grid_element_responsive_styler_view_html_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set options = "
-        {% set viewOptions = {
+         {% set viewOptions = {
             responsive: {
-               mobile: {
-                   classes: 'btn btn--outlined'
-               }
-           }
+                tablet: {
+                    classes: 'btn btn--outlined'
+                }
+            }
+        }%}
+
+        {% set viewToolTipOptions = {
+            responsive: {
+                tablet: {
+                    disposeTooltip: true
+                }
+            }
+        }%}
+
+        {% set viewIconOptions = {
+            responsive: {
+                tablet: {
+                    icon: 'arrow-left'
+                }
+            }
         }%}
     "%}
 
@@ -1113,9 +1130,31 @@
                 data-responsive-styler
                 data-input-widget-options="{{ "{{  viewOptions|json_encode }}"|raw }}">Button</button>
 
-        <a href="#" class="link"
+
+        {% set tooltipTemplate = '<div class="tooltip tooltip--high" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' %}
+
+        <button class="btn btn--neutral"
+                data-responsive-styler
+                data-input-widget-options="{{ "{{  viewOptions|json_encode }}"|raw }}">
+            Button
+        </button>&nbsp;&nbsp;
+
+        <a class="link" href="#"
+            {% if isDesktopVersion() %}
+                data-toggle="tooltip"
+                data-trigger="hover"
+                data-template="{{ tooltipTemplate }}"
+            {% endif %}
+           title="Tooltip link"
            data-responsive-styler
-           data-input-widget-options="{{ "{{  viewOptions|json_encode }}"|raw }}">Link</a>
+           data-input-widget-options="{{ "{{  viewTooltipOptions|json_encode }}"|raw }}">Link</a>&nbsp;&nbsp;
+
+        <a class="btn" href="#"
+           data-responsive-styler
+           data-input-widget-options="{{ "{{  viewIconOptions|json_encode }}"|raw }}">
+            {{ renderIcon.icon({name: 'close'}) }}
+            Cancel
+        </a>
     {% endset %}
 
     <div {{ block('block_attributes') }}>
