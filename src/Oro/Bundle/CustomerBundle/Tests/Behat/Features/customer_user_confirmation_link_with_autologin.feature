@@ -36,10 +36,10 @@ Feature: Customer user confirmation link with autologin
     And email with Subject "Confirmation of account registration" containing the following was sent:
       | Body | Please follow this link to confirm your email address: Confirm |
     When I follow "Confirm" link from the email
-    Then I should not see "404 Not Found"
-    And I should see "Confirmation successful" flash message
-    And I should not see "Log In"
+    Then I should see "Confirmation successful" flash message
+    And I should not see "404 Not Found"
     And I should see "My Account"
+    And I should not see "Log In"
     And I click "Account Dropdown"
     Then I click "Sign Out"
 
@@ -69,8 +69,8 @@ Feature: Customer user confirmation link with autologin
     And email with Subject "Confirmation of account registration" containing the following was sent:
       | Body | Please follow this link to confirm your email address: Confirm |
     When I follow "Confirm" link from the email
-    Then I should not see "404 Not Found"
-    And I should see "Confirmation successful" flash message
+    Then I should see "Confirmation successful" flash message
+    And I should not see "404 Not Found"
     And I should see "Log In"
     And I should not see "My Account"
 
