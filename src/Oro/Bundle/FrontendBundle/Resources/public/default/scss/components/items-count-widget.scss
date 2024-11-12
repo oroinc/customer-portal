@@ -5,9 +5,3 @@
     vertical-align: middle;
     font-size: $base-font-size;
 }
-
-@include breakpoint('mobile-landscape') {
-    .oro-items-counter {
-        display: none;
-    }
-}

@@ -9,6 +9,9 @@ $status-label-padding: 0 spacing('xs') !default;
 $status-label-success-background-color: get-var-color('success', 'light') !default;
 $status-label-success-color: get-var-color('success', 'dark') !default;
 
+$status-label-progress-background-color: get-var-color('primary', 'light') !default;
+$status-label-progress-color: get-var-color('primary', 'active') !default;
+
 $status-label-warning-background-color: get-var-color('warning', 'light') !default;
 $status-label-warning-color: get-var-color('warning', 'dark') !default;
 

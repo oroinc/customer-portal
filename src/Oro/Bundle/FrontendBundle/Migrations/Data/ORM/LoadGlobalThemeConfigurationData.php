@@ -3,8 +3,10 @@
 namespace Oro\Bundle\FrontendBundle\Migrations\Data\ORM;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\FrontendBundle\Provider\StorefrontThemeConfigurationTypeProvider;
 use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration;
 use Oro\Bundle\MigrationBundle\Entity\DataFixture;
+use Oro\Bundle\ThemeBundle\Entity\ThemeConfiguration as ThemeConfigurationEntity;
 use Oro\Bundle\ThemeBundle\Migrations\Data\AbstractLoadThemeConfiguration;
 
 /**
@@ -41,5 +43,13 @@ class LoadGlobalThemeConfigurationData extends AbstractLoadThemeConfiguration
         ]);
 
         return !$dataFixture;
+    }
+
+    protected function createThemeConfiguration(string $frontendTheme, object|null $scope): ThemeConfigurationEntity
+    {
+        $themeConfiguration = parent::createThemeConfiguration($frontendTheme, $scope);
+        $themeConfiguration->setType(StorefrontThemeConfigurationTypeProvider::STOREFRONT);
+
+        return $themeConfiguration;
     }
 }

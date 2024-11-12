@@ -24,12 +24,31 @@
 {% endblock %}
 
 {% block _customer_user_profile_controls_widget %}
-    {% set attr = attr|merge({ class: attr.class|default('') ~ " controls-list" }) %}
-    <div{{ block('block_attributes') }}>
-        {% apply spaceless %}
-        {{ block_widget(block) }}
-        {% endapply %}
-    </div>
+    {% if buttons|length > 1 %}
+        {% set attr = attr|merge({ class: attr.class|default('') ~ " controls-list simple-placeholder" }) %}
+        <div {{ block('block_attributes') }}
+                data-placeholder-show-one-child-on-mobile-big=""
+                data-responsive-dropdown=""
+                data-input-widget-options="{{ {
+                    dropdownClass: '',
+                    dropdownMenuClass: '',
+                    toggleClass: 'toggle-container--dropdown-btn',
+                    toggleAriaLabel: 'oro.customer.frontend.action_dropdown.aria_label'|trans,
+                    placement: 'bottom-end',
+                    icon: 'more-horizontal',
+                    iconClass: 'theme-icon--medium',
+                    actionsContainerClass: 'actions-group',
+                }|json_encode }}">
+            {% apply spaceless %}
+                {{ block_widget(block) }}
+            {% endapply %}
+        </div>
+    {% else %}
+        {% set attr = attr|merge({ class: attr.class|default('') ~ " controls-list " }) %}
+        <div {{ block('block_attributes') }}>
+            {{ block_widget(block) }}
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block _customer_user_view_information_widget %}
@@ -197,7 +216,7 @@
 {% endblock %}
 
 {% block _customer_user_list_link_widget %}
-    <div class="">
+    <div>
         {{ block_widget(block) }}
     </div>
 {% endblock %}

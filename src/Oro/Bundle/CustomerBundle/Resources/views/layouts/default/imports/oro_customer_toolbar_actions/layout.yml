@@ -1,36 +1,38 @@
 layout:
     actions:
-        - '@setBlockTheme':
-            themes: '@OroCustomer/layouts/default/imports/oro_customer_toolbar_actions/layout.html.twig'
         - '@addTree':
-            items:
-                __wrapper:
-                    blockType: container
-                __actions_container:
-                    blockType: layout_subtree_update
-                    options:
-                        reloadEvents: ['actions-container:refresh']
-                __actions-list:
-                    blockType: list
-                    options:
-                        attr:
-                            'class': 'controls-list'
-                __print_item:
-                    blockType: list_item
-                __print_button:
-                    blockType: button
-                    options:
-                        type: button
-                        action: button
-                        icon: printer
-                        attr:
-                            'data-page-component-print-page': {'route': '=data["print_route"] ?? null'}
-                            'class': 'btn btn--link'
+              items:
+                  __actions_container:
+                      blockType: layout_subtree_update
+                      options:
+                          reloadEvents: ['actions-container:refresh']
+                  __actions_list:
+                      blockType: list
+                      options:
+                          attr:
+                              'class': 'page-title-actions__actions_list'
+                  __print_button:
+                      blockType: button
+                      options:
+                          type: button
+                          action: button
+                          icon: printer
+                          text: 'oro.customer.frontend.print'
+                          attr:
+                              'data-page-component-print-page': {'route': '=data["print_route"] ?? null'}
+                              'class': 'btn btn--flat hide-on-print'
+                              data-responsive-styler: ''
+                              data-input-widget-options:
+                                  responsive:
+                                      mobile-big:
+                                          constraint: 'inDropdown'
+                                          classes: 'dropdown-item'
+                  __action_list:
+                      blockType: line_buttons
 
-            tree:
-                __root:
-                    __wrapper:
-                        __actions_container:
-                            __actions-list:
-                                __print_item:
-                                    __print_button: ~
+              tree:
+                  __root:
+                      __actions_container:
+                          __actions_list:
+                              __print_button: ~
+                              __action_list: ~

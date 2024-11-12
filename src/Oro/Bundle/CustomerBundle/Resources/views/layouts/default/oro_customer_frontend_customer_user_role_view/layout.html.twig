@@ -1,28 +1,3 @@
-{% block _customer_user_role_view_container_wrap_widget %}
-    {% set attr = attr|merge({ class: attr.class|default('') ~ " box-toolbar" }) %}
-    <div {{ block('block_attributes') }}>
-        {{ block_widget(block) }}
-    </div>
-{% endblock %}
-
-{% block _customer_user_role_back_link_widget %}
-    {% set attr = attr|merge({ class: attr.class|default('') ~ " box-toolbar__content" }) %}
-    <div {{ block('block_attributes') }}>
-        {{ block_widget(block) }}
-    </div>
-{% endblock %}
-
-{% block _customer_user_role_top_actions_widget %}
-    {% set attr = attr|merge({ class: attr.class|default('') ~ " box-toolbar__actions" }) %}
-    <div {{ block('block_attributes') }}>
-        <div class="controls-list">
-            {% apply spaceless %}
-            {{ block_widget(block) }}
-            {% endapply %}
-        </div>
-    </div>
-{% endblock %}
-
 {% block _customer_user_role_items_view_users_widget %}
     <h3 class="customer-navigation-title">
         {{ 'oro.customer.frontend.sections.customer_user_role.users.label'|trans }}

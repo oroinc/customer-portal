@@ -1,9 +1,23 @@
 /* @theme: default; */
 
+.page-title-actions {
+    &__actions_list {
+        &,
+        ul {
+            display: $page-title-actions-actions-list-display;
+            gap: $page-title-actions-actions-list-gap;
+
+            li {
+                list-style: $page-title-actions-actions-list-li-list-style;
+            }
+        }
+    }
+}
+
 @include breakpoint('mobile-landscape') {
     .page-title-actions {
-        width: 100%;
-        display: grid;
-        gap: spacing('sm');
+        width: $page-title-actions-width-mobile;
+        display: $page-title-actions-display-mobile;
+        gap: $page-title-actions-gap-mobile;
     }
 }

@@ -2,10 +2,11 @@
 
 .page-title {
     &--has-actions {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-inline-end: auto;
+        display: $page-title-has-actions-display;
+        align-items: $page-title-has-actions-align-items;
+        justify-content: $page-title-has-actions-justify-content;
+        margin-inline-end: $page-title-has-actions-margin-inline-end;
+        flex: $page-title-has-actions-flex;
     }
 
     &--centered {

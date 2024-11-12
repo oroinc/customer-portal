@@ -10,9 +10,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
- * The helper class that use the current security token if it exists
- * to check whether the current request is a storefront or management console request.
- * @see \Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\ConfigureFrontendHelperPass
+ * Decorates {@see FrontendHelper} to prepend an additional check of the current security token (if it exists)
+ * to check whether the current request is a storefront or back-office request.
  */
 class TokenAwareFrontendHelper extends FrontendHelper
 {

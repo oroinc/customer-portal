@@ -1,10 +1,10 @@
 /* @theme: default; */
 
 .notes {
-    margin-bottom: 35px;
+    margin-bottom: 15px;
 
     &__item {
-        padding: spacing('base') 0;
+        padding: spacing('sm') 0;
 
         border-bottom: $notes-item-border-bottom;
 

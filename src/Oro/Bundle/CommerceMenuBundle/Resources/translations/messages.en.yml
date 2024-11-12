@@ -32,7 +32,7 @@ oro:
             menu_user_agent_conditions.label: User Agent Conditions
             link_target.label: Target Window
             link_target.description: 'Set how to open the linked document or URI. Select "Same Window" to open it in the current browser window. Select "New Window" to open it in a new browser tab.'
-            roots_plural_label: 'Frontend Menus'
+            roots_plural_label: 'Storefront Menus'
             website_with_label: 'Website: %website%'
             reset_message: "Menu \"%menuKey%\" was successfully reset."
             saved_message: "Menu item saved successfully."
@@ -87,16 +87,16 @@ oro:
                 does_not_contain.label: "does not contain"
                 matches.label: "matches"
                 does_not_match.label: "does not match"
-        customer_menu.label: Edit Frontend Menu
-        customer_group_menu.label: Edit Frontend Menu
+        customer_menu.label: Edit Storefront Menu
+        customer_group_menu.label: Edit Storefront Menu
         default:
             navigation:
                 items:
                     menu_list_frontend:
-                        label: Frontend Menus
-                        description: Manage frontend menus in default scope type
+                        label: Storefront Menus
+                        description: Manage storefront menus in default scope type
         feature:
-            label: Frontend Menu
+            label: Storefront Menu
             description: Enables managing the storefront navigation of the website, adding new items to the main storefront, quick access and featured menus, populating the customer account menu, building the proper breadcrumbs, and setting the required visibility conditions.
         frontend:
             navigation:

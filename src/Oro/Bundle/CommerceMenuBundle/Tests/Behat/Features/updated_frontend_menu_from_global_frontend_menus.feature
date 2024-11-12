@@ -7,7 +7,7 @@ Feature: Updated frontend menu from global frontend menus
 
   Scenario: View menu item frontend_menu
     When I login as administrator
-    And I go to System/Frontend Menus
+    And I go to System/Storefront Menus
     And click view "frontend_menu" in grid
     Then I should see a "Commerce Menu Form" element
 

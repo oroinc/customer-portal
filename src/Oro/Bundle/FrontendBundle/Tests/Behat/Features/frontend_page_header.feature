@@ -29,11 +29,11 @@ Feature: Frontend Page Header
     And I go to System / Theme Configurations
     When I click Edit "Refreshing Teal" in grid
     And I fill "Theme Configuration Form" with:
-      | Language and Currency Switchers   | always_in_hamburger_menu |
-      | Quick Access Button Label         | Product                  |
-      | Quick Access Button Type          | Frontend Menu            |
-      | Quick Access Button Frontend Menu | frontend_menu            |
-      | Standalone Main Menu              | true                     |
+      | Language and Currency Switchers     | always_in_hamburger_menu |
+      | Quick Access Button Label           | Product                  |
+      | Quick Access Button Type            | Storefront Menu          |
+      | Quick Access Button Storefront Menu | frontend_menu            |
+      | Standalone Main Menu                | true                     |
     And I save and close form
     Then I should see "Theme Configuration has been saved" flash message
 
@@ -65,11 +65,11 @@ Feature: Frontend Page Header
     Given I proceed as the Admin
     When I click Edit "Refreshing Teal" in grid
     And I fill "Theme Configuration Form" with:
-      | Top Navigation Menu               | commerce_top_nav_refreshing_teal      |
-      | Language and Currency Switchers   | always_in_hamburger_menu              |
-      | Quick Access Button Frontend Menu | frontend_menu                         |
-      | Standalone Main Menu              | false                                 |
-      | Quick Links Menu                  | commerce_quick_access_refreshing_teal |
+      | Top Navigation Menu                 | commerce_top_nav_refreshing_teal      |
+      | Language and Currency Switchers     | always_in_hamburger_menu              |
+      | Quick Access Button Storefront Menu | frontend_menu                         |
+      | Standalone Main Menu                | false                                 |
+      | Quick Links Menu                    | commerce_quick_access_refreshing_teal |
     And I save and close form
     Then I should see "Theme Configuration has been saved" flash message
 
@@ -95,12 +95,12 @@ Feature: Frontend Page Header
     Given I proceed as the Admin
     When I click Edit "Refreshing Teal" in grid
     And I fill "Theme Configuration Form" with:
-      | Top Navigation Menu               |                                       |
-      | Language and Currency Switchers   | Above the header                      |
-      | Quick Access Button Frontend Menu | frontend_menu                         |
-      | Standalone Main Menu              | false                                 |
-      | Quick Links Menu                  | commerce_quick_access_refreshing_teal |
-      | Quick Access Button Label         | Test Label                            |
+      | Top Navigation Menu                 |                                       |
+      | Language and Currency Switchers     | Above the header                      |
+      | Quick Access Button Storefront Menu | frontend_menu                         |
+      | Standalone Main Menu                | false                                 |
+      | Quick Links Menu                    | commerce_quick_access_refreshing_teal |
+      | Quick Access Button Label           | Test Label                            |
     And I save and close form
     Then I should see "Theme Configuration has been saved" flash message
 

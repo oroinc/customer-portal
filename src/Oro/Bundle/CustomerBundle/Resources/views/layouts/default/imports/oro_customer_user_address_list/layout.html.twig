@@ -61,7 +61,7 @@
         <% _.each(types, function(type, index) { %>
             <span><%= (_.findWhere(defaults, _.pick(type, 'name'))) ? _.__('oro.customer.address.default_type', {type_name: _.escape(type.label)}) : _.escape(type.label) %></span>
             <% if (index !== types.length - 1) { %>
-            <span class="divider">/</span>
+            <span>/</span>
             <% } %>
         <% }) %>
     </div>
@@ -125,10 +125,7 @@
 
 {% block __oro_customer_user_address_list__user_addresses_list_template__manage_addresses_link_widget %}
     {% if currentAddresses|length > 2 %}
-        {% set attr = layout_attr_defaults(attr, {
-            '~class': ' address-list__manage-link btn btn--flat'
-        }) %}
-        {{ block_widget(block, {attr: attr}) }}
+        {{ block_widget(block) }}
     {% endif %}
 {% endblock %}
 

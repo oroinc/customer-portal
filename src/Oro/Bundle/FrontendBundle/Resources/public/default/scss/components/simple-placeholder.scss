@@ -20,8 +20,15 @@
     @include breakpoint(#{$_breakpoint}) {
         .simple-placeholder[data-placeholder-show-one-child-on-#{$_breakpoint}] {
             a,
+            li,
             button,
             .action {
+                &:first-child {
+                    min-width: $input-btn-size;
+                    gap: 0;
+                    font-size: 0;
+                }
+
                 &:not(:first-child) {
                     display: none;
                 }

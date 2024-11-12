@@ -26,6 +26,12 @@ The current file describes significant changes in the code that may affect the u
 ### Changed
 * Replaced all places in code that used old system configuration options on theme configuration options.
 
+### Removed
+* Removed `\Oro\Bundle\FrontendBundle\Request\DynamicSessionHttpKernelDecorator` and `\Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendSessionPass`, added explicit decorator `\Oro\Bundle\FrontendBundle\Request\StorefrontSessionHttpKernelDecorator` instead.
+
+#### CustomerBundle
+- Removed `\Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\ConfigureFrontendHelperPass`, made use of decoration instead for `\Oro\Bundle\CustomerBundle\Security\TokenAwareFrontendHelper`.
+
 ## Changes in the Customer Portal package versions
 
 - [6.0.0](#600-2024-03-30)

@@ -19,10 +19,6 @@
     justify-content: space-between;
     gap: 0 104px;
 
-    &__manage-link {
-        font-size: $base-font-size--xs;
-    }
-
     &__item-header {
         display: flex;
         align-items: center;
@@ -183,22 +179,6 @@
         // Override inline styles
         // stylelint-disable-next-line declaration-no-important
         display: none !important;
-    }
-}
-
-@include breakpoint('mobile-landscape') {
-    .address-list {
-        &__manage-link {
-            width: $address-list-link-width-mobile-landscape;
-            background-color: $address-list-link-width-background-mobile-landscape;
-            color: $address-list-link-width-color-mobile-landscape;
-
-            // Hide action's labels
-            font-size: 0;
-            gap: 0;
-
-            margin-left: auto;
-        }
     }
 }
 

@@ -5,7 +5,14 @@ layout:
         -
             id: oro_customer_user_view
             root: page_content
+        -
+            id: oro_customer_back_button
+            root: page_title_container
+
     actions:
+        - '@setBlockTheme':
+            themes: '@OroCustomer/layouts/default/oro_customer_frontend_customer_user_view/layout.html.twig'
+
         - '@setOption':
             id: title
             optionName: params
@@ -20,12 +27,17 @@ layout:
                 parameters:
                     '%identifier%': '=data["entity"].getFullName()'
 
-        - '@add':
-            id: customer_user_list_link
-            blockType: link
-            parentId: customer_user_profile_controls_wrapper
-            prepend: true
-            options:
-                visible: '=data["acl"].isGranted("oro_customer_frontend_customer_user_view")'
-                route_name: oro_customer_frontend_customer_user_index
-                text: 'oro.customer.frontend.customer_user_link.text'
+        - '@setOption':
+              id: back_button
+              optionName: route_name
+              optionValue: oro_customer_frontend_customer_user_index
+
+        - '@setOption':
+              id: back_button
+              optionName: visible
+              optionValue: '=data["acl"].isGranted("oro_customer_frontend_customer_user_view")'
+
+        - '@move':
+              id: back_button
+              parentId: page_title_container
+              prepend: true

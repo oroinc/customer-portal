@@ -12,13 +12,18 @@ use Symfony\Component\Routing\Route;
  */
 class RouteCollectionListener
 {
-    private const OPTION_FRONTEND = 'frontend';
-
     private string $prefix;
+
+    private array $excludingOptions = ['frontend'];
 
     public function __construct(string  $prefix)
     {
         $this->prefix = trim(trim($prefix), '/');
+    }
+
+    public function addExcludingOption(string $excludingOption): void
+    {
+        $this->excludingOptions[] = $excludingOption;
     }
 
     public function onCollectionAutoload(RouteCollectionEvent $event): void
@@ -29,8 +34,10 @@ class RouteCollectionListener
 
         /** @var Route $route */
         foreach ($event->getCollection()->getIterator() as $route) {
-            if ($route->hasOption(self::OPTION_FRONTEND) && $route->getOption(self::OPTION_FRONTEND)) {
-                continue;
+            foreach ($this->excludingOptions as $excludingOption) {
+                if ($route->hasOption($excludingOption) && $route->getOption($excludingOption)) {
+                    continue 2;
+                }
             }
 
             if (!$this->hasPrefix($route->getPath())) {

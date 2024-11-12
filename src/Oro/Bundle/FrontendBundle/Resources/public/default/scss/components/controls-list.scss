@@ -2,7 +2,6 @@
 
 .controls-list {
     + .controls-list {
-        border-left: $controls-list-separator-width solid $controls-list-separator-color;
         margin-left: spacing('sm');
         padding-left: spacing('sm');
     }
@@ -15,8 +14,6 @@
 
         font-size: $base-font-size;
         line-height: normal;
-
-        border-left: $controls-list-separator-width solid $controls-list-separator-color;
 
         &:first-child {
             margin-left: 0;
