@@ -9,5 +9,7 @@ $collapse-toggle-min-height: 55px !default;
 $collapse-toggle-padding: 0 0 0 spacing('base') !default;
 $collapse-toggle-font-size: 16px !default;
 
+$collapse-toggle-hover-color: get-color('text', 'link-hover') !default;
+
 // Mobile Big
 $collapse-toggle-mobile-big-min-height: 44px !default;

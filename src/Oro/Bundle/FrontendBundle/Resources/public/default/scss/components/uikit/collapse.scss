@@ -43,6 +43,10 @@
         &:not(.collapsed) .collapse__toggle-icon {
             transform: rotate(180deg);
         }
+
+        &:hover .collapse__toggle {
+            color: $collapse-toggle-hover-color;
+        }
     }
 
     &__toggle-container {
