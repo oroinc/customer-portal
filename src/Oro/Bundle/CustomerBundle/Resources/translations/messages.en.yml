@@ -315,6 +315,7 @@ oro.customer:
             register.description: 'Create an account to keep track of your orders, quotes, shopping lists, and more.'
             create_an_customer: 'Create Account'
             exist_account: 'Don’t have an account?'
+            create_an_account.title: 'Create an Account'
             create_an_customer_and_continue: 'Create an Account and Continue'
             forgot_password: 'Forgot Password?'
             reset_password_title: 'Reset Password'

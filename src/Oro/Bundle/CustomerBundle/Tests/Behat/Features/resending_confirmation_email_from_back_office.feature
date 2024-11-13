@@ -36,8 +36,8 @@ Feature: Resending confirmation email from back office
     And email with Subject "Confirmation of account registration" containing the following was sent:
       | Body | Please follow this link to confirm your email address: Confirm |
     And I follow "Confirm" link from the email
-    Then I should not see "404 Not Found"
-    And I should see "Confirmation successful" flash message
+    Then I should see "Confirmation successful" flash message
+    And I should not see "404 Not Found"
     When I follow "Confirm" link from the email
-    Then I should see "404 Not Found"
-    And I should see "This confirmation link may have already been used or is expired. Please contact us if you have issues with registration." flash message
+    Then I should see "This confirmation link may have already been used or is expired. Please contact us if you have issues with registration." flash message
+    And I should see "404 Not Found"
