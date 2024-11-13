@@ -54,6 +54,13 @@ const FrontendPageSize = PageSize.extend({
     render() {
         FrontendPageSize.__super__.render.call(this);
         this.renderAsGroup();
+        this.toggleView();
+        return this;
+    },
+
+    toggleView() {
+        this.$el.removeClass('hide');
+
         if (this.hidden || this.$el.is(':empty')) {
             this.$el.addClass('hide');
         } else {

@@ -1,3 +1,5 @@
+import {invoke} from 'underscore';
+import mediator from 'oroui/js/mediator';
 import Toolbar from 'orodatagrid/js/datagrid/toolbar';
 import FrontendPageSize from 'orofrontend/js/datagrid/frontend-page-size';
 import FrontendPaginationView from 'orofrontend/js/datagrid/frontend-pagination-view';
@@ -14,7 +16,7 @@ const FrontendToolbar = Toolbar.extend({
     actionsPanel: FrontendActionsPanel,
 
     /**
-     * Define threshold of rows count when sticky toolbar will enabled
+     * Define threshold of rows count when sticky toolbar will be enabled
      * @property {number}
      */
     stickyToolbarThreshold: 9,
@@ -43,6 +45,7 @@ const FrontendToolbar = Toolbar.extend({
         FrontendToolbar.__super__.initialize.call(this, options);
 
         this.listenTo(this.collection, 'reset change', this.toggleStickyToolbar);
+        this.listenTo(mediator, 'content:shown', this.onChangeVisibility);
     },
 
     render() {
@@ -64,6 +67,14 @@ const FrontendToolbar = Toolbar.extend({
             this.el.classList.remove('sticky', 'sticky--top', 'in-sticky', 'scroll-up', 'scroll-down');
             this.el.removeAttribute('data-sticky');
         }
+    },
+
+    onChangeVisibility($target) {
+        if (!$target.find(this.$el).length) {
+            return;
+        }
+        invoke(this.subviews, 'toggleView');
+        this.toggleView();
     }
 });
 

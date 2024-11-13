@@ -38,11 +38,19 @@ const FrontendPaginationView = BaseView.extend({
             el: this.el
         })).render();
 
+        this.toggleView();
+        return this;
+    },
+
+    toggleView() {
+        this.$el.removeClass('hide');
+
         if (this.hidden || this.$el.is(':empty') || this.subview('paginator').$el.is(':hidden')) {
             this.$el.addClass('hide');
         } else {
             this.$el.removeClass('hide');
         }
+
         return this;
     },
 
