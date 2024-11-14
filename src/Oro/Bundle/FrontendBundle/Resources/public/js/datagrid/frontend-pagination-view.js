@@ -45,7 +45,7 @@ const FrontendPaginationView = BaseView.extend({
     toggleView() {
         this.$el.removeClass('hide');
 
-        if (this.hidden || this.$el.is(':empty') || this.subview('paginator').$el.is(':hidden')) {
+        if (this.hidden || this.subview('paginator').$el.is(':empty')) {
             this.$el.addClass('hide');
         } else {
             this.$el.removeClass('hide');

@@ -67,12 +67,15 @@ const FrontendToolbar = Toolbar.extend({
             this.el.classList.remove('sticky', 'sticky--top', 'in-sticky', 'scroll-up', 'scroll-down');
             this.el.removeAttribute('data-sticky');
         }
+
+        this.onChangeVisibility(null);
     },
 
     onChangeVisibility($target) {
-        if (!$target.find(this.$el).length) {
+        if ($target && !$target.find(this.$el).length) {
             return;
         }
+
         invoke(this.subviews, 'toggleView');
         this.toggleView();
     }
