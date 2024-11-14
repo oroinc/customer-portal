@@ -126,6 +126,7 @@ map:
         oroui/templates/loading-mask-view.html: orofrontend/templates/ui/loading-mask-view.html
         oroui/templates/message-item.html: orofrontend/default/templates/ui/message-item.html
         oroui/templates/modal-dialog.html: orofrontend/default/templates/ui/modal-dialog.html
+        orouser/templates/datagrid/role-permissions-action-view.html: orofrontend/default/templates/datagrid/role-permissions-action-view.html
     orofrontend/js/app/components/frontend-dialog-widget:
         oro/dialog-widget: oro/dialog-widget
     orofrontend/default/js/app/views/choice-filter:

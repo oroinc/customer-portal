@@ -28,6 +28,8 @@ The current file describes significant changes in the code that may affect the u
 
 ### Removed
 * Removed `\Oro\Bundle\FrontendBundle\Request\DynamicSessionHttpKernelDecorator` and `\Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendSessionPass`, added explicit decorator `\Oro\Bundle\FrontendBundle\Request\StorefrontSessionHttpKernelDecorator` instead.
+* Removed `FontAwesome` font, use svg icons instead. More details are available at [Oro Frontend Stylebook](https://doc.oroinc.com/frontend/storefront/css/frontend-stylebook/).
+* Removed `fa-icon` SCSS mixin.
 
 #### CustomerBundle
 - Removed `\Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\ConfigureFrontendHelperPass`, made use of decoration instead for `\Oro\Bundle\CustomerBundle\Security\TokenAwareFrontendHelper`.

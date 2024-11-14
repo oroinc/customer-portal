@@ -5,6 +5,7 @@ styles:
 
         # Bootstrap Configs
         - 'bundles/orofrontend/default/scss/variables/bootstrap/dropdown-toggle-split.scss'
+        - 'bundles/orofrontend/default/scss/variables/bootstrap/collapse-config.scss'
 
         # Variables
         - 'bundles/orofrontend/default/scss/variables/base-config.scss'
@@ -88,7 +89,6 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/datagrid/datagrid-toolbar-config.scss'
         - 'bundles/orofrontend/default/scss/variables/datagrid/datagrid-filters-config.scss'
         - 'bundles/orofrontend/default/scss/variables/datagrid/toolbar-mass-actions-panel-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/controls-list-config.scss'
         - 'bundles/orofrontend/default/scss/variables/uploader-config.scss'
         - 'bundles/orofrontend/default/scss/variables/toggler-config.scss'
         - 'bundles/orofrontend/default/scss/variables/toggle-filters-action-config.scss'
@@ -180,7 +180,6 @@ styles:
         - 'bundles/orofrontend/default/scss/components/inline-view-editor.scss'
         - 'bundles/orofrontend/default/scss/components/flexible-container.scss'
         - 'bundles/orofrontend/default/scss/components/popover.scss'
-        - 'bundles/orofrontend/default/scss/components/popover-trigger.scss'
         - 'bundles/orofrontend/default/scss/components/middlebar.scss'
         - 'bundles/orofrontend/default/scss/components/tab-collection.scss'
         - 'bundles/orofrontend/default/scss/components/uploader.scss'
@@ -199,7 +198,6 @@ styles:
         - 'bundles/orofrontend/default/scss/components/frontend-datagrid.scss'
         - 'bundles/orofrontend/default/scss/components/filters/filters.scss'
         - 'bundles/orofrontend/default/scss/components/box-toolbar.scss'
-        - 'bundles/orofrontend/default/scss/components/icons.scss'
         - 'bundles/orofrontend/default/scss/components/dropdown-menu-calendar.scss'
         - 'bundles/orofrontend/default/scss/components/pinned-dropdown.scss'
         - 'bundles/orofrontend/default/scss/components/pagination-widget.scss'

@@ -56,7 +56,7 @@
     }
 
     &__icon {
-        font-size: $featured-menu-item-icon-font-size;
+        --theme-icon-size: #{$featured-menu-item-icon-font-size};
 
         color: $featured-menu-item-icon-color;
     }

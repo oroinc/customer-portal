@@ -24,22 +24,31 @@
 {% endblock %}
 
 {% block _customer_user_profile_controls_widget %}
-    {% set attr = attr|merge({ class: attr.class|default('') ~ " controls-list simple-placeholder" }) %}
-    <div {{ block('block_attributes') }}
-         data-placeholder-show-one-child-on-mobile-big=""
-         data-responsive-dropdown=""
-         data-input-widget-options="{{ {
-             dropdownClass: '',
-             dropdownMenuClass: 'toggle-container--dropdown',
-             toggleClass: 'toggle-container--dropdown-btn',
-             mainAriaLabel: 'oro.product.frontend.catalog_switch.aria_label'|trans,
-             placement: 'bottom-end',
-             icon: 'more-horizontal',
-             iconClass: 'theme-icon--medium',
-             actionsContainerClass: 'actions-group',
-         }|json_encode }}">
-        {{ block_widget(block) }}
-    </div>
+    {% if buttons|length > 1 %}
+        {% set attr = attr|merge({ class: attr.class|default('') ~ " controls-list simple-placeholder" }) %}
+        <div {{ block('block_attributes') }}
+                data-placeholder-show-one-child-on-mobile-big=""
+                data-responsive-dropdown=""
+                data-input-widget-options="{{ {
+                    dropdownClass: '',
+                    dropdownMenuClass: '',
+                    toggleClass: 'toggle-container--dropdown-btn',
+                    toggleAriaLabel: 'oro.customer.frontend.action_dropdown.aria_label'|trans,
+                    placement: 'bottom-end',
+                    icon: 'more-horizontal',
+                    iconClass: 'theme-icon--medium',
+                    actionsContainerClass: 'actions-group',
+                }|json_encode }}">
+            {% apply spaceless %}
+                {{ block_widget(block) }}
+            {% endapply %}
+        </div>
+    {% else %}
+        {% set attr = attr|merge({ class: attr.class|default('') ~ " controls-list " }) %}
+        <div {{ block('block_attributes') }}>
+            {{ block_widget(block) }}
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block _customer_user_view_information_widget %}
@@ -150,8 +159,9 @@
                             {{- customerUser.auth_status.id|trans_enum -}}
                         </div>
                     {% else %}
+                        {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
                         <div class="info-list-status info-list-status--disabled">
-                            <span class="fa fa-ban" aria-hidden="true"></span>
+                            {{ renderIcon.icon({name: 'ban'})}}
                             {{- customerUser.auth_status.id|trans_enum -}}
                         </div>
                     {% endif %}
@@ -181,20 +191,19 @@
         </div>
     {% else %}
         <div class="info-list-status info-list-status--disabled">
-            <span class="fa fa-ban" aria-hidden="true"></span>
+            {{ renderIcon.icon({name: 'ban'}) }}
             {{- 'oro.customer.customeruser.profile.statuses.disabled'|trans -}}
         </div>
     {% endif %}
 
     {% if customerUser.confirmed == true %}
-        {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
         <div class="info-list-status">
             {{ renderIcon.icon({name: 'check'}) }}
             {{- 'oro.customer.customeruser.profile.statuses.confirmed'|trans -}}
         </div>
     {% else %}
         <div class="info-list-status info-list-status--disabled">
-            <span class="fa fa-ban" aria-hidden="true"></span>
+            {{ renderIcon.icon({name: 'ban'}) }}
             {{- 'oro.customer.customeruser.profile.statuses.unconfirmed'|trans -}}
         </div>
     {% endif %}

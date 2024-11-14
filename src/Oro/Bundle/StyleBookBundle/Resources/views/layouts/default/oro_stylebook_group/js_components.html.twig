@@ -444,18 +444,6 @@
                 <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerShowClass'|trans|oro_html_sanitize }}</td>
             </tr>
             <tr>
-                <td>triggerIconHideClass</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
-                <td>-</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerIconHideClass'|trans|oro_html_sanitize }}</td>
-            </tr>
-            <tr>
-                <td>triggerIconShowClass</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
-                <td>-</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerIconShowClass'|trans|oro_html_sanitize }}</td>
-            </tr>
-            <tr>
                 <td>triggerIconShow</td>
                 <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
                 <td>-</td>
@@ -511,17 +499,19 @@
 {% block _style_book_grid_element_collapse_widget_simple_template_widget %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set collapseId = 'collapse-'|uniqid %}
-    <button class="accordion-group__trigger collapsed"
+    <button class="btn btn--flat collapse-toggle"
+    <button class="btn btn--flat collapse-toggle"
             data-toggle="collapse"
             data-target="{{ '#' ~ collapseId }}"
             aria-controls="{{ collapseId }}"
     >
-        {{ renderIcon.icon({name: 'chevron-down'}) }}
+        <span class="trigger-icon" data-icon>{{ renderIcon.icon({name: 'chevron-down'}) }}</span>
         <span class="accordion-group__trigger-text" data-text>Open collapse</span>
     </button>
-    <div id="{{ collapseId }}" class="collapse"
-         data-trigger-icon-show-class="chevron-down"
-         data-trigger-icon-hide-class="chevron-up"
+    <div id="{{ collapseId }}"
+         class="collapse"
+         data-trigger-icon-show="chevron-up"
+         data-trigger-icon-hide="chevron-down"
          data-collapsed-text="Open Collapse"
          data-expanded-text="Close Collapse"
     >
@@ -612,8 +602,8 @@
     {% set collapseId = 'collapse-'|uniqid %}
     <div id="{{ collapseId }}"
          class="collapse collapse-overflow no-transition"
-         data-trigger-icon-show-class="fa-angle-up"
-         data-trigger-icon-hide-class="fa-angle-down"
+         data-trigger-icon-show="chevron-up"
+         data-trigger-icon-hide="chevron-down"
          data-collapsed-text="{{ 'oro.ui.collapse.more'|trans }}"
          data-expanded-text="{{ 'oro.ui.collapse.less'|trans }}"
          data-check-overflow="true"
@@ -631,7 +621,7 @@
             aria-controls="{{ collapseId }}"
     >
         <span data-text>{{ 'oro.ui.collapse.more'|trans }}</span>
-        {{ renderIcon.icon({name: 'chevron-down'}) }}
+        <span data-icon class="trigger-icon">{{ renderIcon.icon({name: 'chevron-down'}) }}</span>
     </button>
 {% endblock %}
 
@@ -681,8 +671,6 @@
             },
             collapseAttrs: {
                 'class': 'collapse',
-                'data-trigger-icon-show-class': 'chevron-up',
-                'data-trigger-icon-hide-class': 'chevron-down',
                 'data-toggle': true
             }
         } %}
@@ -708,8 +696,6 @@
             collapseAttrs: {
                 'class': 'collapse collapse-overflow',
                 'data-check-overflow': true,
-                'data-trigger-icon-show-class': 'chevron-up',
-                'data-trigger-icon-hide-class': 'chevron-down',
                 'data-collapsed-text': 'oro.ui.collapse.more'|trans,
                 'data-expanded-text': 'oro.ui.collapse.less'|trans
             }
@@ -762,52 +748,68 @@
         <div class="accordion-group__item">
             {% set itemId1 = 'item-'|uniqid %}
             <h4>
-                <button class="accordion-group__trigger"
-                        type="button" data-toggle="collapse"
+                <button class="btn btn--simple-colored collapse-toggle"
+                        type="button"
+                        data-toggle="collapse"
                         data-target="{{ '#' ~ itemId1 }}"
                         aria-controls="{{ itemId1 }}"
                         aria-expanded="false"
                 >
-                    {{ renderIcon.icon({name: 'chevron-down'}) }}
+                    <span data-icon class="trigger-icon">{{ renderIcon.icon({name: 'chevron-up'}) }}</span>
                     <span class="accordion-group__trigger-text">What is Lorem Ipsum?</span>
                 </button>
             </h4>
-            <div class="collapse show" id="{{ itemId1 }}" data-parent="{{ '#' ~ parentId }}">
+            <div class="collapse show"
+                    id="{{ itemId1 }}"
+                    data-parent="{{ '#' ~ parentId }}"
+                    data-trigger-icon-hide="chevron-down"
+                    data-trigger-icon-show="chevron-up"
+            >
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
             </div>
         </div>
         <div class="accordion-group__item">
             {% set itemId2 = 'item-'|uniqid %}
             <h4>
-                <button class="accordion-group__trigger collapsed"
+                <button class="btn btn--simple-colored collapse-toggle collapsed"
                         type="button" data-toggle="collapse"
                         data-target="{{ '#' ~ itemId2 }}"
                         aria-expanded="false"
                         aria-controls="{{ itemId2 }}"
                 >
-                    {{ renderIcon.icon({name: 'chevron-down'}) }}
+                    <span data-icon class="trigger-icon">{{ renderIcon.icon({name: 'chevron-down'}) }}</span>
                     <span class="accordion-group__trigger-text">Why do we use it?</span>
                 </button>
             </h4>
-            <div class="collapse" id="{{ itemId2 }}" data-parent="{{ '#' ~ parentId }}">
+            <div class="collapse"
+                 id="{{ itemId2 }}"
+                 data-parent="{{ '#' ~ parentId }}"
+                 data-trigger-icon-hide="chevron-down"
+                 data-trigger-icon-show="chevron-up"
+            >
                 It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
             </div>
         </div>
         <div class="accordion-group__item">
             {% set itemId3 = 'item-'|uniqid %}
             <h4>
-                <button class="accordion-group__trigger collapsed"
+                <button class="btn btn--simple-colored collapse-toggle collapsed"
                         type="button"
                         data-toggle="collapse"
                         data-target="{{ '#' ~ itemId3 }}"
                         aria-expanded="false"
                         aria-controls="{{ itemId3 }}"
                 >
-                    {{ renderIcon.icon({name: 'chevron-down'}) }}
+                    <span data-icon class="trigger-icon">{{ renderIcon.icon({name: 'chevron-down'}) }}</span>
                     <span class="accordion-group__trigger-text">Where can I get some?</span>
                 </button>
             </h4>
-            <div class="collapse" id="{{ itemId3 }}" data-parent="{{ '#' ~ parentId }}">
+            <div class="collapse"
+                 id="{{ itemId3 }}"
+                 data-parent="{{ '#' ~ parentId }}"
+                 data-trigger-icon-hide="chevron-down"
+                 data-trigger-icon-show="chevron-up"
+            >
                 There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
                 If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
             </div>
