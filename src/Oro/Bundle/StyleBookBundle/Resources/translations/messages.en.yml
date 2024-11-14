@@ -211,7 +211,7 @@ oro_stylebook:
                     title: 'Accordion'
             responsive_dropdown:
                 title: 'Responsive Dropdown'
-                description: 'Responsive Dropdown transforms a list of elements into a dropdown view at certain screen resolutions. To see the transformation, resize the browser window to at least the tablet-big breakpoint.'
+                description: 'Responsive Dropdown transforms a list of elements into a dropdown view at certain screen resolutions. To see the transformation, resize the browser window to at least the tablet breakpoint.'
             simple_responsive_dropdown:
                 title: 'Simple Responsive Dropdown'
                 description: 'Simple Responsive Dropdown moves selected elements into a dropdown list when the browser window is resized. At a defined breakpoint, a toggle button will appear, and clicking it will display the dropdown list.'
