@@ -43,7 +43,7 @@ layout:
                             launcherOptions:
                                 className: 'btn btn--neutral reset-action'
                                 icon: 'reset'
-                                launcherMode: 'icon-only'
+                                launcherMode: 'icon-text'
                                 label: 'oro_frontend.datagrid.resetAction.label'
                                 attributes:
                                     data-toggle: 'tooltip'
@@ -52,6 +52,7 @@ layout:
                                     data-input-widget-options:
                                         responsive:
                                             mobile-big:
+                                                classes: 'dropdown-item text-nowrap'
                                                 disposeTooltip: true
                                 renderInExternalContainer: true
                             hiddenIfIsNotResettable: true
