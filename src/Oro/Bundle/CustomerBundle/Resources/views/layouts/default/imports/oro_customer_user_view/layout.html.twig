@@ -159,8 +159,9 @@
                             {{- customerUser.auth_status.id|trans_enum -}}
                         </div>
                     {% else %}
+                        {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
                         <div class="info-list-status info-list-status--disabled">
-                            <span class="fa fa-ban" aria-hidden="true"></span>
+                            {{ renderIcon.icon({name: 'ban'})}}
                             {{- customerUser.auth_status.id|trans_enum -}}
                         </div>
                     {% endif %}
@@ -190,20 +191,19 @@
         </div>
     {% else %}
         <div class="info-list-status info-list-status--disabled">
-            <span class="fa fa-ban" aria-hidden="true"></span>
+            {{ renderIcon.icon({name: 'ban'}) }}
             {{- 'oro.customer.customeruser.profile.statuses.disabled'|trans -}}
         </div>
     {% endif %}
 
     {% if customerUser.confirmed == true %}
-        {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
         <div class="info-list-status">
             {{ renderIcon.icon({name: 'check'}) }}
             {{- 'oro.customer.customeruser.profile.statuses.confirmed'|trans -}}
         </div>
     {% else %}
         <div class="info-list-status info-list-status--disabled">
-            <span class="fa fa-ban" aria-hidden="true"></span>
+            {{ renderIcon.icon({name: 'ban'}) }}
             {{- 'oro.customer.customeruser.profile.statuses.unconfirmed'|trans -}}
         </div>
     {% endif %}

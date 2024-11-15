@@ -95,26 +95,6 @@
     font: 0/0 a, sans-serif;
     text-shadow: none;
     gap: 0;
-
-    &[class^='fa-'],
-    &[class*=' fa-'] {
-        font-family: $icon-font;
-        color: inherit;
-
-        &::after,
-        &::before {
-            font-size: $base-font-size;
-            vertical-align: middle;
-        }
-    }
-
-    &.fa--small,
-    &.fa--medium,
-    &.fa--large {
-        &::before {
-            font-size: inherit;
-        }
-    }
 }
 
 .list-unstyled {

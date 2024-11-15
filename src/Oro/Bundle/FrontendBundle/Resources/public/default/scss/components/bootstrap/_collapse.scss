@@ -1,0 +1,11 @@
+/* @theme: default; */
+
+.collapse {
+    &-toggle {
+        display: $collapse-toggle-display;
+
+        .trigger-icon {
+            display: $collapse-trigger-icon-display;
+        }
+    }
+}

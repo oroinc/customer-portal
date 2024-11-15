@@ -5,10 +5,10 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Functional\DataFixtures;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\DBAL\Event\ConnectionEventArgs;
-use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\LocaleBundle\Tests\Functional\DataFixtures\LoadLocalizationData;
-use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
+use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser;
+use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider;
 use Oro\Component\Testing\Doctrine\Events;
@@ -17,7 +17,6 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
 {
-    use UserUtilityTrait;
     use ContainerAwareTrait;
 
     const WEBSITE1 = 'US';
@@ -36,7 +35,10 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
     #[\Override]
     public function getDependencies()
     {
-        return [LoadLocalizationData::class];
+        return [
+            LoadUser::class,
+            LoadLocalizationData::class
+        ];
     }
 
     /**
@@ -45,8 +47,8 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
     #[\Override]
     public function load(ObjectManager $manager)
     {
-        /** @var EntityManager $manager */
-        $user = $this->getFirstUser($manager);
+        /** @var User $user */
+        $user = $this->getReference(LoadUser::USER);
         $businessUnit = $user->getOwner();
         $organization = $user->getOrganization();
 
