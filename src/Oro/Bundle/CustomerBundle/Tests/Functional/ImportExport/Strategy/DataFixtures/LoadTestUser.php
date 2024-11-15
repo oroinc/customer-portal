@@ -7,7 +7,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
-use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
+use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser;
 use Oro\Bundle\UserBundle\Entity\Role;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Entity\UserManager;
@@ -17,19 +17,21 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 class LoadTestUser extends AbstractFixture implements ContainerAwareInterface, DependentFixtureInterface
 {
     use ContainerAwareTrait;
-    use UserUtilityTrait;
 
     #[\Override]
     public function getDependencies()
     {
-        return [LoadOrganization::class];
+        return [
+            LoadOrganization::class,
+            LoadUser::class
+        ];
     }
 
     #[\Override]
     public function load(ObjectManager $manager)
     {
         /** @var User $userWithMainOrganizationAccess */
-        $userWithMainOrganizationAccess = $this->getFirstUser($manager);
+        $userWithMainOrganizationAccess = $this->getReference(LoadUser::USER);
 
         /** @var UserManager $userManager */
         $userManager = $this->container->get('oro_user.manager');
