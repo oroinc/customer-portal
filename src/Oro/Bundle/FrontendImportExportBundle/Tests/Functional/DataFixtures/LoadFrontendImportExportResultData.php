@@ -7,13 +7,11 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\FrontendImportExportBundle\Entity\FrontendImportExportResult;
-use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
+use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser;
 use Oro\Bundle\UserBundle\Entity\User;
 
 class LoadFrontendImportExportResultData extends AbstractFixture implements DependentFixtureInterface
 {
-    use UserUtilityTrait;
-
     public const EXPIRED_IMPORT_EXPORT_RESULT = 'expiredFrontendImportExportResult';
     public const NOT_EXPIRED_IMPORT_EXPORT_RESULT = 'notExpiredFrontendImportExportResult';
 
@@ -33,7 +31,8 @@ class LoadFrontendImportExportResultData extends AbstractFixture implements Depe
     #[\Override]
     public function load(ObjectManager $manager)
     {
-        $user = $this->getFirstUser($manager);
+        /** @var User $user */
+        $user = $this->getReference(LoadUser::USER);
         $customerUser = $this->getReference(LoadCustomerUserData::EMAIL);
         $customer = $customerUser->getCustomer();
 
@@ -57,6 +56,9 @@ class LoadFrontendImportExportResultData extends AbstractFixture implements Depe
     #[\Override]
     public function getDependencies()
     {
-        return [LoadCustomerUserData::class];
+        return [
+            LoadUser::class,
+            LoadCustomerUserData::class
+        ];
     }
 }
