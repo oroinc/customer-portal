@@ -1,6 +1,16 @@
 <% let oroui = _.macros('oroui') %>
 <div class="modal-dialog modal-dialog-centered" aria-hidden="false" role="document">
     <div class="modal-content">
+        <div class="modal-header">
+            <% if (title) { %>
+                <div class="modal-dialog__title-wrapper">
+                    <h3 id="<%- modalId %>" class="h3"><%= title %></h3>
+                </div>
+            <% } %>
+            <button class="btn btn--simple-colored close-dialog <%- closeButtonClass %>" data-dismiss="modal" data-emulate-btn-press aria-label="<%- _.__('oro.orowindows.dialog.close.aria_label') %>">
+                <%= oroui.renderIcon({name: 'close'}) %>
+            </button>
+        </div>
         <div class="modal-body">
             <%= oroui.renderIcon({name: 'trash', extraClass: 'modal-body-icon'}) %>
             <div class="modal-body-content"><%= content %></div>
@@ -8,10 +18,10 @@
         <% if (allowCancel || allowOk ) { %>
         <div class="modal-footer">
             <% if (allowCancel && cancelText) { %>
-            <button class="cancel <%- cancelButtonClass %>" data-dismiss="modal" data-emulate-btn-press><%- cancelText %></button>
+                <button class="cancel <%- cancelButtonClass %>" data-dismiss="modal" data-emulate-btn-press><%- cancelText %></button>
             <% } %>
             <% if (allowOk && okText) { %>
-            <button class="ok <%- okButtonClass %>" data-emulate-btn-press><%- okText %></button>
+                <button class="ok <%- okButtonClass %>" data-emulate-btn-press><%- okText %></button>
             <% } %>
         </div>
         <% } %>

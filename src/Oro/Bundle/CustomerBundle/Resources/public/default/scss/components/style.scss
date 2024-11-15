@@ -3,10 +3,16 @@
 .customer_user_form {
     @extend %customer-form;
 
+    &__required-label {
+        margin-bottom: spacing('md');
+    }
+
     .form-field-userRoles,
     .form-field-choose-list {
         .checkbox-label {
+            min-height: 44px;
             display: flex;
+            align-items: center;
         }
     }
 }

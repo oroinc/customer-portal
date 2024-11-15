@@ -45,6 +45,7 @@
         }
 
         .modal-body-icon {
+            display: none;
             margin: auto;
         }
     }
@@ -53,8 +54,16 @@
 @include breakpoint('mobile-big') {
     .modal {
         &--delete-confirmation {
+            .modal-header {
+                display: none;
+            }
+
             .modal-body {
                 gap: spacing('base');
+            }
+
+            .modal-body-icon {
+                display: block;
             }
         }
 

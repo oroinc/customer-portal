@@ -230,7 +230,7 @@ $popover-arrow-outer-color: $popover-border-color;
 // Padding applied to the modal body
 $modal-inner-padding: spacing('md');
 $modal-header-padding: 0 0 spacing('md') spacing('md');
-$modal-body-padding: spacing('md');
+$modal-body-padding: spacing('md') spacing('md') 20px;
 
 $modal-content-padding: spacing('base') + spacing('sm');
 $modal-content-padding-mobile-landscape: spacing('base') spacing('xs') spacing('xs');

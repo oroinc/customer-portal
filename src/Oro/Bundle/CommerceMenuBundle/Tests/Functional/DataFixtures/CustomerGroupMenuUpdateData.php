@@ -8,11 +8,9 @@ use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\LocaleBundle\Tests\Functional\DataFixtures\LoadLocalizationData;
 use Oro\Bundle\NavigationBundle\Tests\Functional\DataFixtures\MenuUpdateTrait;
-use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
 
 class CustomerGroupMenuUpdateData extends AbstractFixture implements DependentFixtureInterface
 {
-    use UserUtilityTrait;
     use MenuUpdateTrait;
 
     const MENU_UPDATE_1 = 'customer_group_menu_update.1';

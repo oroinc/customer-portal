@@ -9,11 +9,9 @@ use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\LocaleBundle\Tests\Functional\DataFixtures\LoadLocalizationData;
 use Oro\Bundle\NavigationBundle\Tests\Functional\DataFixtures\MenuUpdateTrait;
 use Oro\Bundle\ScopeBundle\Tests\Functional\DataFixtures\LoadScopeData;
-use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
 
 class GlobalMenuUpdateData extends AbstractFixture implements DependentFixtureInterface
 {
-    use UserUtilityTrait;
     use MenuUpdateTrait;
 
     const MENU_UPDATE_1 = 'global_menu_update.1';
