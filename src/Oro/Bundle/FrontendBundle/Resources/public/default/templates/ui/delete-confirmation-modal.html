@@ -12,6 +12,7 @@
             </button>
         </div>
         <div class="modal-body">
+            <%= oroui.renderIcon({name: 'trash', extraClass: 'modal-body-icon'}) %>
             <div class="modal-body-content"><%= content %></div>
         </div>
         <% if (allowCancel || allowOk ) { %>

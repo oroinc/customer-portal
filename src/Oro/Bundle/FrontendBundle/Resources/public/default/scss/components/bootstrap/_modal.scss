@@ -18,6 +18,8 @@
 
     .modal-footer {
         gap: $modal-footer-gap;
+        display: grid;
+        grid-template-columns: $modal-footer-grid-template-columns;
 
         // Reset bootstrap modal-footer styles
         > :not(:first-child) {
@@ -27,6 +29,60 @@
         // Reset bootstrap modal-footer styles
         > :not(:last-child) {
             margin-right: initial;
+        }
+    }
+}
+
+.modal {
+    &--delete-confirmation {
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            gap: $modal-delete-confirmation-body-gap;
+
+            color: $modal-delete-confirmation-body-color;
+        }
+
+        .modal-body-icon {
+            display: none;
+            margin: auto;
+        }
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .modal {
+        &--delete-confirmation {
+            .modal-header {
+                display: none;
+            }
+
+            .modal-body {
+                gap: spacing('base');
+            }
+
+            .modal-body-icon {
+                display: block;
+            }
+        }
+
+        .modal-dialog {
+            max-width: 100%;
+            margin: 0;
+
+            .modal-content {
+                position: fixed;
+                bottom: 0;
+            }
+        }
+
+        .modal-body-content {
+            height: 100%;
+        }
+
+        .modal-footer {
+            justify-content: center;
         }
     }
 }
