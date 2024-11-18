@@ -207,6 +207,18 @@ oro_stylebook:
                     description: 'The collapse may be initialized programmatically depending on use case. For example determined by the viewport.'
                 accordion:
                     title: 'Accordion'
+            responsive_dropdown:
+                title: 'Responsive Dropdown'
+                description: 'Responsive Dropdown transforms a list of elements into a dropdown view at certain screen resolutions. To see the transformation, resize the browser window to at least the tablet breakpoint.'
+            simple_responsive_dropdown:
+                title: 'Simple Responsive Dropdown'
+                description: 'Simple Responsive Dropdown moves selected elements into a dropdown list when the browser window is resized. At a defined breakpoint, a toggle button will appear, and clicking it will display the dropdown list.'
+            responsive_dropdown_with_responsive_classes:
+                title: 'Responsive Dropdown with Responsive Classes'
+                description: 'Responsive Dropdown with Responsive Classes demonstrates how elements can be moved to a dropdown list and assigned new classes when the browser window is resized. At a specified breakpoint, a toggle button will appear, displaying the dropdown list with updated classes for the elements when clicked.'
+            responsive_styler:
+                title: 'Responsive Styler'
+                description: 'The Responsive Styler component enables setting new options for an element at a specified breakpoint, such as changing its class, tooltip position, or icon. Note: if the `btn` class is present by default, it will be removed.'
             fullscreen_popup_view:
                 title: 'Fullscreen Popup View'
                 description: 'The fullscreen popup view helps you show the rendered html content, view, and selector in a fullscreen pop-up. The page header renders with an icon specified as a `popupIcon`, the `popupLabel` as a title, and the Close button. The `contentTemplate` may contain raw html that you would expect inside the body tag.'
