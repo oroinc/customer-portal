@@ -3,6 +3,7 @@
 $notification-inner-offset: spacing('xs') spacing('sm') !default;
 
 $notification-inner-gap: spacing('sm') !default;
+$notification-inner-direction: column !default;
 $notification-font-size: $base-font-size--s !default;
 $notification-border-radius: $base-ui-element-border-radius !default;
 $notification-list-offset: spacing('xs') !default;
