@@ -5,23 +5,18 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Functional\EventListener;
 use Doctrine\ORM\EntityManagerInterface;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdate;
-use Oro\Bundle\NavigationBundle\Entity\Repository\MenuUpdateRepository;
 use Oro\Bundle\NavigationBundle\Tests\Functional\DataFixtures\MenuUpdateData;
 use Oro\Bundle\NavigationBundle\Utils\MenuUpdateUtils;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Bundle\WebCatalogBundle\Tests\Functional\DataFixtures\LoadContentNodesData;
-use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
 class ContentNodeDeleteListenerTest extends WebTestCase
 {
-    use EntityTrait;
-
     private CacheInterface $cache;
     private EntityManagerInterface $em;
-    private MenuUpdateRepository $repository;
 
     #[\Override]
     protected function setUp(): void
@@ -33,8 +28,8 @@ class ContentNodeDeleteListenerTest extends WebTestCase
             LoadContentNodesData::class
         ]);
 
-        $this->cache = $this->getContainer()->get('oro_navigation.menu_update.cache');
-        $this->em = $this->getContainer()->get('doctrine')->getManagerForClass(ContentNode::class);
+        $this->cache = self::getContainer()->get('oro_navigation.menu_update.cache');
+        $this->em = self::getContainer()->get('doctrine')->getManagerForClass(ContentNode::class);
     }
 
     public function testPostRemove()
@@ -57,7 +52,7 @@ class ContentNodeDeleteListenerTest extends WebTestCase
         $this->em->remove($notInvolvedCustomer);
         $this->em->flush();
 
-        $this->assertNotEmpty(
+        self::assertNotEmpty(
             $this->cache->get(
                 $cacheKey,
                 function (ItemInterface $item) {
@@ -73,7 +68,7 @@ class ContentNodeDeleteListenerTest extends WebTestCase
         $this->em->remove($contentNode);
         $this->em->flush();
 
-        $this->assertEmpty(
+        self::assertEmpty(
             $this->cache->get(
                 $cacheKey,
                 function (ItemInterface $item) {
