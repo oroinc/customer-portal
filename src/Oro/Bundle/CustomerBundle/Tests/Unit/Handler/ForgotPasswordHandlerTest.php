@@ -2,114 +2,52 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Handler;
 
+use Oro\Bundle\CheckoutBundle\Handler\CheckoutHandlerInterface;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
 use Oro\Bundle\CustomerBundle\Handler\ForgotPasswordHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
-use Symfony\Component\Form\FormInterface;
+use Oro\Bundle\WorkflowBundle\Entity\WorkflowItem;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Session;
 
-class ForgotPasswordHandlerTest extends \PHPUnit\Framework\TestCase
+class ForgotPasswordHandlerTest extends TestCase
 {
-    /**
-     * @var CustomerUserPasswordRequestHandler|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $passwordRequestHandler;
-
-    /**
-     * @var FrontendCustomerUserFormProvider|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $customerUserFormProvider;
-
-    /**
-     * @var Session|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $session;
-
-    /**
-     * @var RequestStack|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $requestStack;
-
-    /**
-     * @var ForgotPasswordHandler
-     */
-    private $forgotPasswordHandler;
+    private CheckoutHandlerInterface $innerHandler;
+    private ForgotPasswordHandler $forgotPasswordHandler;
 
     protected function setUp(): void
     {
-        $this->passwordRequestHandler = $this->createMock(CustomerUserPasswordRequestHandler::class);
-        $this->customerUserFormProvider = $this->createMock(FrontendCustomerUserFormProvider::class);
-        $this->session = $this->createMock(Session::class);
-        $this->requestStack = $this->createMock(RequestStack::class);
-        $this->requestStack->expects($this->any())
-            ->method('getSession')
-            ->willReturn($this->session);
+        $this->innerHandler = $this->createMock(CheckoutHandlerInterface::class);
+
         $this->forgotPasswordHandler = new ForgotPasswordHandler(
-            $this->passwordRequestHandler,
-            $this->customerUserFormProvider,
-            $this->requestStack
+            $this->createMock(CustomerUserPasswordRequestHandler::class),
+            $this->createMock(FrontendCustomerUserFormProvider::class),
+            $this->createMock(RequestStack::class)
         );
+        $this->forgotPasswordHandler->setCheckoutHandler($this->innerHandler);
     }
 
-    public function testHandleWithGetMethod()
+    public function testHandle()
     {
         $request = new Request();
-        $request->setMethod(Request::METHOD_GET);
-        $this->assertFalse($this->forgotPasswordHandler->handle($request));
-    }
+        $request->query->set('isCheckEmail', true);
 
-    public function testHandleWithoutParameter()
-    {
-        $request = new Request();
-        $request->setMethod(Request::METHOD_POST);
-        $this->assertFalse($this->forgotPasswordHandler->handle($request));
-    }
-
-    public function testHandleWithoutUser()
-    {
-        $request = new Request();
-        $request->setMethod(Request::METHOD_POST);
-        $request->query->add(['isForgotPassword' => true]);
-
-        $form = $this->createMock(FormInterface::class);
-        $this->customerUserFormProvider->expects($this->once())
-            ->method('getForgotPasswordForm')
-            ->willReturn($form);
-
-        $this->passwordRequestHandler->expects($this->once())
-            ->method('process')
-            ->with($form, $request)
-            ->willReturn(null);
-        $this->assertFalse($this->forgotPasswordHandler->handle($request));
-    }
-
-    public function testHandleProcess()
-    {
-        $request = new Request();
-        $request->setMethod(Request::METHOD_POST);
-        $request->query->add(['isForgotPassword' => true]);
-
-        $form = $this->createMock(FormInterface::class);
-        $this->customerUserFormProvider->expects($this->once())
-            ->method('getForgotPasswordForm')
-            ->willReturn($form);
-
-        $this->passwordRequestHandler->expects($this->once())
-            ->method('process')
-            ->with($form, $request)
-            ->willReturn('test@example.org');
-
-        $this->session->expects($this->once())
-            ->method('set')
-            ->with(
-                'oro_customer_user_reset_email',
-                'test@example.org'
-            );
+        $this->innerHandler->expects($this->once())
+            ->method('handle')
+            ->with($this->isInstanceOf(WorkflowItem::class), $request);
 
         $this->assertTrue($this->forgotPasswordHandler->handle($request));
-        $this->assertNull($request->query->get('isForgotPassword'));
-        $this->assertTrue($request->query->get('isCheckEmail'));
+    }
+
+    public function testIsSupported()
+    {
+        $request = $this->createMock(Request::class);
+        $this->innerHandler->expects($this->once())
+            ->method('isSupported')
+            ->with($request)
+            ->willReturn(true);
+
+        $this->assertTrue($this->forgotPasswordHandler->isForgotPasswordRequest($request));
     }
 }

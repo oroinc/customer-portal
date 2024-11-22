@@ -2,21 +2,31 @@
 
 namespace Oro\Bundle\CustomerBundle\Handler;
 
+use Oro\Bundle\CheckoutBundle\Handler\CheckoutHandlerInterface;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
+use Oro\Bundle\WorkflowBundle\Entity\WorkflowItem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Handling forgot password request during checkout
+ * @deprecated replaced with ForgotPasswordCheckoutHandler
  */
 class ForgotPasswordHandler
 {
+    private CheckoutHandlerInterface $innerHandler;
+
     public function __construct(
         private CustomerUserPasswordRequestHandler $passwordRequestHandler,
         private FrontendCustomerUserFormProvider $customerUserFormProvider,
-        private RequestStack $requestStack,
+        private RequestStack $requestStack
     ) {
+    }
+
+    public function setCheckoutHandler(CheckoutHandlerInterface $handler): void
+    {
+        $this->innerHandler = $handler;
     }
 
     /**
@@ -25,23 +35,10 @@ class ForgotPasswordHandler
      */
     public function handle(Request $request)
     {
-        if (!$this->isForgotPasswordRequest($request)) {
-            return false;
-        }
-        $form = $this->customerUserFormProvider->getForgotPasswordForm();
-        $email = $this->passwordRequestHandler->process($form, $request);
-        if (!$email) {
-            return false;
-        }
+        $workflowItemStub = new WorkflowItem();
+        $this->innerHandler->handle($workflowItemStub, $request);
 
-        $request->query->remove('isForgotPassword');
-        $request->query->add(['isCheckEmail' => true]);
-        $this->requestStack->getSession()->set(
-            'oro_customer_user_reset_email',
-            $email
-        );
-
-        return true;
+        return (bool)$request->query->get('isCheckEmail');
     }
 
     /**
@@ -51,6 +48,6 @@ class ForgotPasswordHandler
      */
     public function isForgotPasswordRequest(Request $request)
     {
-        return $request->isMethod(Request::METHOD_POST) && $request->get('isForgotPassword') !== null;
+        return $this->innerHandler->isSupported($request);
     }
 }
