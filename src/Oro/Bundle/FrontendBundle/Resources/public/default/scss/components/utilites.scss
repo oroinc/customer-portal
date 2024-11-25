@@ -16,6 +16,12 @@
     }
 }
 
+.hidden-offscreen {
+    position: fixed;
+    top: -99990px;
+    left: -99999px;
+}
+
 .invisible {
     opacity: 0;
 }

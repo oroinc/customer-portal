@@ -44,8 +44,8 @@
             transform: rotate(180deg);
         }
 
-        &:hover .collapse__toggle {
-            color: $collapse-toggle-hover-color;
+        &:hover {
+            background: $collapse-header-background-color-hover;
         }
     }
 
