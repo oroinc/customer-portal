@@ -36,6 +36,10 @@
     overflow: hidden;
 }
 
+.vertical-scrolling {
+    overflow-y: scroll;
+}
+
 .disable-touch-scrolling {
     overflow: hidden;
     visibility: hidden;
