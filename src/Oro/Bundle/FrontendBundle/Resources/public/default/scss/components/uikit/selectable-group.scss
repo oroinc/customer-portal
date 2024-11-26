@@ -3,6 +3,7 @@
 .selectable-group {
     display: flex;
     flex-direction: column;
+    gap: spacing('xs');
 
     &__item {
         display: flex;
