@@ -223,6 +223,9 @@ const ResponsiveDropdownWidgetView = AbstractInputWidgetView.extend({
 
         $actionsContainer.trigger('content:remove');
         $actionsContainer.html(actions);
+
+        $dropdown.toggleClass('hidden', parseInt($dropdown.find('.dropdown-menu').css('height')) === 0);
+
         $actionsContainer.trigger('content:changed');
     },
 
@@ -268,7 +271,7 @@ const ResponsiveDropdownWidgetView = AbstractInputWidgetView.extend({
     },
 
     /**
-     * @returns {jQuery.Element}
+     * @returns {Array}
      */
     makeDropdownItems() {
         const $groups = this.$el.find('[data-group]');
@@ -280,7 +283,7 @@ const ResponsiveDropdownWidgetView = AbstractInputWidgetView.extend({
         };
 
         if ($groups.length === 0) {
-            return prepareActions(this.getActionsForElement(this.$el));
+            return prepareActions(this.getActionsForElement(this.$el)).get();
         }
 
         return $groups.map((i, el) => {

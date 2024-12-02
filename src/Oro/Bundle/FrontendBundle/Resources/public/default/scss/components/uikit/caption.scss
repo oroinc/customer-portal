@@ -6,8 +6,11 @@
 }
 
 .caption-italic {
-    font-size: $caption-italic-font-size;
     font-style: $caption-italic-font-style;
     font-weight: $caption-italic-font-weight;
     color: $caption-italic-color;
+
+    &:not(&--text-normal) {
+        font-size: $caption-italic-font-size;
+    }
 }

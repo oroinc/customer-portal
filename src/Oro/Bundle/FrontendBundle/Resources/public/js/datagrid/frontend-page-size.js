@@ -74,7 +74,7 @@ const FrontendPageSize = PageSize.extend({
         const $select = this.$('select');
 
         if (!toDisplayAsGroup || !$select.length) {
-            this.$el.removeClass('hide');
+            this.$el.removeClass('hidden');
             return this;
         }
 
@@ -87,7 +87,7 @@ const FrontendPageSize = PageSize.extend({
         }));
 
         $select.after(this.subview('radioGroup').$el);
-        this.$el.addClass('hide');
+        this.$el.addClass('hidden');
 
 
         return this;
