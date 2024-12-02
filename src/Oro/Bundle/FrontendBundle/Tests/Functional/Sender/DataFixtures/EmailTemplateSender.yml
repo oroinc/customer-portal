@@ -2,7 +2,7 @@ dependencies:
     - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser
     - Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomer
     - Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUser
-        
+
 Oro\Bundle\TranslationBundle\Entity\Language:
     language_fr:
         code: 'fr'
@@ -31,7 +31,6 @@ Oro\Bundle\OrderBundle\Entity\Order:
 
 Oro\Bundle\OrderBundle\Entity\OrderLineItem:
     order_line_item1:
-        order: '@order1'
         productSku: SKU1
         productName: 'Product 1'
         freeFormProduct: product_1
@@ -39,6 +38,8 @@ Oro\Bundle\OrderBundle\Entity\OrderLineItem:
         productUnitCode: set
         value: 20
         currency: USD
+        __calls:
+            -   addOrder: [ '@order1' ]
 
 Oro\Bundle\EmailBundle\Entity\EmailTemplate:
     email_template_order_extended:
