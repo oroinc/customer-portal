@@ -847,6 +847,307 @@
     </div>
 {% endblock %}
 
+{# Simple Responsive Dropdown #}
+{% block _style_book_simple_responsive_dropdown_view_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+
+    {% set attr = layout_attr_defaults(attr, {
+       '~class': ' js-component-container'
+    }) %}
+
+    {% set viewOptions = {
+        dropdownClass: '',
+        dropdownMenuClass: 'toggle-container--dropdown',
+        toggleClass: 'toggle-container--dropdown-btn',
+        mainAriaLabel: 'oro.product.frontend.catalog_switch.aria_label'|trans,
+        placement: 'bottom-start',
+        icon: 'more-horizontal',
+        iconClass: 'theme-icon--medium',
+        actionsContainerClass: 'toggle-container',
+        screenThreshold: 'tablet'
+    }%}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            <div class="simple-placeholder toggle-container"
+                 data-placeholder-show-one-child-on-tablet=""
+                 data-responsive-dropdown=""
+                 data-input-widget-options="{{ viewOptions|json_encode }}"
+                 style="width: 150px;">
+                <a href="#"
+                   class="toggle-link"
+                   title="Title for Grid Button"><span class="sr-only">Title for Grid Button</span>{{ renderIcon.icon({name: 'grid'}) }}</a>
+                <a href="#"
+                   class="toggle-link"
+                   title="Title for List Button"><span class="sr-only">Title for List Button</span>{{ renderIcon.icon({name: 'list'}) }}</a>
+                <a href="#"
+                   class="toggle-link"
+                   title="Title for Compact List Button"><span class="sr-only">Title for Compact List Button</span>{{ renderIcon.icon({name: 'compact-list'}) }}</a>
+            </div>
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_simple_responsive_dropdown_view_html_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+
+    {% set options = "
+        {% set viewOptions = {
+            dropdownClass: '',
+            dropdownMenuClass: 'toggle-container--dropdown',
+            toggleClass: 'toggle-container--dropdown-btn',
+            mainAriaLabel: 'oro.product.frontend.catalog_switch.aria_label'|trans,
+            placement: 'bottom-start',
+            icon: 'more-horizontal',
+            iconClass: 'theme-icon--medium',
+            actionsContainerClass: 'toggle-container',
+            screenThreshold: 'tablet'
+        }%}
+    "%}
+
+    {% set source_code %}
+        {{ options|raw }}
+        <div class="simple-placeholder toggle-container"
+             data-placeholder-show-one-child-on-tablet=""
+             data-responsive-dropdown=""
+             data-input-widget-options="{{ "{{ viewOptions|json_encode }}"|raw }}">
+            <a href="#"
+               class="toggle-link"
+               title="Title for Grid Button"><span class="sr-only">Title for Grid Button</span>{{ renderIcon.icon({name: 'grid'}) }}</a>
+            <a href="#"
+               class="toggle-link"
+               title="Title for List Button"><span class="sr-only">Title for List Button</span>{{ renderIcon.icon({name: 'list'}) }}</a>
+            <a href="#"
+               class="toggle-link"
+               title="Title for Compact List Button"><span class="sr-only">Title for Compact List Button</span>{{ renderIcon.icon({name: 'compact-list'}) }}</a>
+        </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Responsive Dropdown with Responsive Classes#}
+{% block _style_book_responsive_dropdown_with_responsive_classes_view_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container'
+    }) %}
+
+    {% set viewOptions = {
+        dropdownClass: '',
+        dropdownMenuClass: 'toggle-container--dropdown',
+        toggleClass: 'toggle-container--dropdown-btn',
+        mainAriaLabel: 'oro.product.frontend.catalog_switch.aria_label'|trans,
+        placement: 'bottom-start',
+        icon: 'more-horizontal',
+        iconClass: 'theme-icon--medium',
+        actionsContainerClass: '',
+        screenThreshold: 'tablet'
+    }%}
+
+    {% set viewBtnOptions = {
+        responsive: {
+            tablet: {
+                classes: 'dropdown-item'
+            }
+        }
+    }%}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            <div class="simple-placeholder"
+                 data-placeholder-show-one-child-on-tablet=""
+                 data-responsive-dropdown=""
+                 data-input-widget-options="{{ viewOptions|json_encode }}">
+                <a href="#"
+                   class="btn btn--flat"
+                   data-responsive-styler
+                   data-input-widget-options="{{ viewBtnOptions|json_encode }}">{{ renderIcon.icon({name: 'printer'}) }}Print</a>
+                <a href="#"
+                   class="btn"
+                   data-responsive-styler
+                   data-input-widget-options="{{ viewBtnOptions|json_encode }}">{{ renderIcon.icon({name: 'close'}) }}Cancel</a>
+            </div>
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_responsive_dropdown_with_responsive_classes_view_html_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+
+    {% set options = "
+          {% set viewOptions = {
+            dropdownClass: '',
+            dropdownMenuClass: 'toggle-container--dropdown',
+            toggleClass: 'toggle-container--dropdown-btn',
+            mainAriaLabel: 'oro.product.frontend.catalog_switch.aria_label'|trans,
+            placement: 'bottom-start',
+            icon: 'more-horizontal',
+            iconClass: 'theme-icon--medium',
+            actionsContainerClass: '',
+            screenThreshold: 'tablet'
+        }%}
+
+        {% set viewBtnOptions = {
+            responsive: {
+                tablet: {
+                    classes: 'dropdown-item'
+                }
+            }
+        }%}
+    "%}
+
+    {% set source_code %}
+        {{ options|raw }}
+        <div class="simple-placeholder"
+             data-placeholder-show-one-child-on-tablet=""
+             data-responsive-dropdown=""
+             data-input-widget-options="{{ "{{ viewOptions|json_encode }}"|raw }}">
+            <a href="#"
+               class="btn btn--flat"
+               data-responsive-styler
+               data-input-widget-options="{{ "{{ viewBtnOptions|json_encode }}"|raw }}">{{ renderIcon.icon({name: 'printer'}) }}Print</a>
+            <a href="#"
+               class="btn"
+               data-responsive-styler
+               data-input-widget-options="{{ "{{ viewBtnOptions|json_encode }}"|raw }}">{{ renderIcon.icon({name: 'close'}) }}Cancel</a>
+        </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Responsive Styler #}
+{% block _style_book_responsive_styler_view_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container'
+    }) %}
+
+    {% set viewOptions = {
+        responsive: {
+            tablet: {
+                classes: 'btn btn--outlined'
+            }
+        }
+    }%}
+
+    {% set viewToolTipOptions = {
+        responsive: {
+            tablet: {
+                disposeTooltip: true
+            }
+        }
+    }%}
+
+    {% set viewIconOptions = {
+        responsive: {
+            tablet: {
+                icon: 'arrow-left'
+            }
+        }
+    }%}
+
+    {% set tooltipTemplate = '<div class="tooltip tooltip--high" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' %}
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            <button class="btn btn--neutral"
+                data-responsive-styler
+                data-input-widget-options="{{ viewOptions|json_encode }}">Button</button>&nbsp;&nbsp;
+            <a href="#" class="link"
+                {% if isDesktopVersion() %}
+                    data-toggle="tooltip"
+                    data-trigger="hover"
+                    data-template="{{ tooltipTemplate }}"
+                {% endif %}
+               title="Tooltip link"
+               data-responsive-styler
+               data-input-widget-options="{{ viewToolTipOptions|json_encode }}">Link</a>&nbsp;&nbsp;
+            <a href="#" class="btn"
+               data-responsive-styler
+               data-input-widget-options="{{ viewIconOptions|json_encode }}">{{ renderIcon.icon({name: 'close'}) }}Cancel</a>
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_responsive_styler_view_html_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+    {% set options = "
+         {% set viewOptions = {
+            responsive: {
+                tablet: {
+                    classes: 'btn btn--outlined'
+                }
+            }
+        }%}
+        {% set viewToolTipOptions = {
+            responsive: {
+                tablet: {
+                    disposeTooltip: true
+                }
+            }
+        }%}
+        {% set viewIconOptions = {
+            responsive: {
+                tablet: {
+                    icon: 'arrow-left'
+                }
+            }
+        }%}
+    "%}
+
+    {% set source_code %}
+        {% set tooltipTemplate = '<div class="tooltip tooltip--high" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' %}
+        {{ options|raw }}
+        <button class="btn btn--neutral"
+            data-responsive-styler
+            data-input-widget-options="{{ "{{ viewOptions|json_encode }}"|raw }}">Button</button>
+        <a class="link" href="#"
+            {% if isDesktopVersion() %}
+                data-toggle="tooltip"
+                data-trigger="hover"
+                data-template="{{ tooltipTemplate }}"
+            {% endif %}
+           title="Tooltip link"
+           data-responsive-styler
+           data-input-widget-options="{{ "{{ viewTooltipOptions|json_encode }}"|raw }}">Link</a>
+        <a class="btn" href="#"
+           data-responsive-styler
+           data-input-widget-options="{{ "{{ viewIconOptions|json_encode }}"|raw }}">{{ renderIcon.icon({name: 'close'}) }}Cancel</a>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
 {# Fullscreen Popup #}
 {% block _style_book_fullscreen_popup_view_widget %}
     {% set attr = layout_attr_defaults(attr, {
@@ -2037,7 +2338,7 @@
     {{ options|raw }}
 
     <div class="popup-gallery" >
-        <div data-trigger-gallery-open data-page-component-widget="{{ "{{  viewOptions|json_encode }}"|raw }}">
+        <div data-trigger-gallery-open data-page-component-widget="{{ "{{ viewOptions|json_encode }}"|raw }}">
             <img src="url_path" alt="Alt">
         </div>
     </div>
