@@ -54,8 +54,8 @@ Feature: Create customer report and check grid translations
       | Entity      | Order Line Item                                        |
       | Report Type | Table                                                  |
     And I add the following columns:
-      | Order->Shipping Address->State Name   |
-      | Order->Shipping Address->Country Name |
+      | Orders->Shipping Address->State Name   |
+      | Orders->Shipping Address->Country Name |
     When I save and close form
     Then I should see "Report saved" flash message
     And I should see following grid:

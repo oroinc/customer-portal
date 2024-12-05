@@ -5,6 +5,7 @@ import FrontendNumberInputWidget from 'orofrontend/default/js/app/views/input-wi
 import FrontendPasswordInputWidget from 'orofrontend/default/js/app/views/input-widget/password';
 import ResponsiveDropdownWidget from 'orofrontend/default/js/app/views/input-widget/responsive-dropdown';
 import ResponsiveStyler from 'orofrontend/default/js/app/views/input-widget/responsive-styler';
+import IncrementInputView from 'orofrontend/default/js/app/views/input-widget/increment-input';
 
 Select2InputWidget.prototype.closeOnOverlap = true;
 
@@ -35,4 +36,9 @@ InputWidgetManager.addWidget('responsive-dropdown', {
 InputWidgetManager.addWidget('responsive-styler', {
     selector: '[data-responsive-styler]',
     Widget: ResponsiveStyler
+});
+
+InputWidgetManager.addWidget('increment-input', {
+    selector: '[data-increment-input]',
+    Widget: IncrementInputView
 });
