@@ -71,6 +71,7 @@ const IncrementInputView = BaseView.extend({
         }));
 
         const $input = this.$el.find('input');
+
         const step = Number.parseInt($input.attr('step'));
 
         this.min = $input.attr('min') ?? 0;
@@ -148,12 +149,12 @@ const IncrementInputView = BaseView.extend({
      * @inheritdoc
      */
     render() {
-        if ($.contains(this.el, this.subview('minus').el)) {
-            this.subview('minus').$el.remove();
+        if ($.contains(this.el, this.$('[data-type="decrement"]')[0])) {
+            this.$('[data-type="decrement"]').remove();
         }
 
-        if ($.contains(this.el, this.subview('plus').el)) {
-            this.subview('plus').$el.remove();
+        if ($.contains(this.el, this.$('[data-type="increment"]')[0])) {
+            this.$('[data-type="increment"]').remove();
         }
 
         if (this.$el.children().length > 1) {

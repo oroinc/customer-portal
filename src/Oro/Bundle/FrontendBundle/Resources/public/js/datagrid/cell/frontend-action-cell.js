@@ -38,6 +38,10 @@ define(function(require, exports, module) {
                 launcher.$el.addClass(extraClass);
             }
 
+            if (launcher.divider && this.isDropdownActions) {
+                launcher.$el.parent().addClass(launcher.dropdownDividerClassName);
+            }
+
             return this;
         }
     });

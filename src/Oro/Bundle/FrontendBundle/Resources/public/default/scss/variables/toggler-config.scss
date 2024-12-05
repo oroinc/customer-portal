@@ -9,7 +9,9 @@ $toggler-switcher-box-shadow: 0px 1px 11px 0px #5b7e8321, 0px 0px 4px 0px #053b4
 $toggler-padding: 12px !default;
 $toggler-font-size: 14px !default;
 $toggler-line-height: 1.4286 !default;
-$toggler-border-radius: 4px !default;
+$toggler-line-offset: spacing('xmd') spacing('md') !default;
+$toggler-border-radius: $base-ui-element-border-radius !default;
+$toggler-min-width: 124px !default;
 
 $toggler-hover-color: get-color('primary', 'hover') !default;
 $toggler-hover-background-color: get-color('neutral', 'white-50') !default;

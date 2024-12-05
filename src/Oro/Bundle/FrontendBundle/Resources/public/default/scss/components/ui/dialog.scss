@@ -95,6 +95,12 @@
             gap: $ui-dialog-footer-gap;
             width: $ui-dialog-buttonpane-form-actions-width;
         }
+
+        .action-wrapper {
+            &:has(.delete-action) {
+                margin-inline-end: auto;
+            }
+        }
     }
 
     .ui-dialog-messages {
@@ -163,7 +169,15 @@
 
             background: $ui-dialog-buttonpane-background;
 
-            .action-wrapper,
+            .action-wrapper {
+                width: auto;
+                flex-grow: 1;
+
+                .btn {
+                    width: 100%;
+                }
+            }
+
             .pull-right:only-child,
             .pull-left:only-child {
                 width: 100%;
@@ -182,6 +196,24 @@
             height: 100% !important;
             max-height: 100% !important;
             /* stylelint-enable declaration-no-important */
+        }
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .ui-dialog {
+        .ui-dialog-buttonpane {
+            .widget-actions-section {
+                flex-wrap: wrap;
+            }
+
+            .action-wrapper {
+                &:has(.delete-action) {
+                    width: 100%;
+                    margin-inline-end: initial;
+                    order: 1;
+                }
+            }
         }
     }
 }

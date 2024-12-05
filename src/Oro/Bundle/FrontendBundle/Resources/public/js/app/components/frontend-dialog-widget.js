@@ -292,6 +292,18 @@ define(function(require) {
          */
         hide: function() {
             FrontendDialogWidget.__super__.hide.call(this);
+        },
+
+        /**
+         * Override parent method
+         */
+        getActionsElement: function() {
+            if (!this.actionsEl) {
+                this.actionsEl = $('<div class="form-actions widget-actions"/>').appendTo(
+                    this.widget.dialog('actionsContainer')
+                );
+            }
+            return this.actionsEl;
         }
     });
 

@@ -304,7 +304,7 @@ const ResponsiveDropdownWidgetView = AbstractInputWidgetView.extend({
      * Destroy widget
      * @inheritdoc
      */
-    dispose: function() {
+    dispose() {
         if (this.disposed) {
             return;
         }
