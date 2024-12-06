@@ -3,6 +3,7 @@
 .toggle-container {
     display: flex;
     width: 100%;
+    min-width: $toggler-min-width;
     border-radius: $toggler-border-radius;
     border: 2px solid $toggler-background-color;
     background-color: $toggler-background-color;
@@ -49,7 +50,7 @@
         font-size: $toggler-font-size;
         line-height: $toggler-line-height;
         text-align: center;
-        padding: 10px;
+        padding: $toggler-line-offset;
         transition: all .2s ease-in-out;
         white-space: nowrap;
         user-select: none;

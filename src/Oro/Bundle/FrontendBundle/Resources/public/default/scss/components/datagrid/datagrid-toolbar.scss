@@ -75,8 +75,12 @@
     }
 
     &.datagrid-toolbar-bottom {
-        .datagrid-toolbar__center {
-            flex-grow: 1;
+        .datagrid-toolbar {
+            &__start,
+            &__center,
+            &__end {
+                flex: 1 1 0;
+            }
         }
     }
 }
@@ -162,6 +166,12 @@
 
         &__end {
             gap: $datagrid-tool-mobile-big-gap;
+        }
+
+        &.datagrid-toolbar-bottom {
+            .datagrid-toolbar__start {
+                flex-basis: auto;
+            }
         }
 
         .page-size {
