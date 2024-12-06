@@ -21,11 +21,15 @@ layout:
                     blockType: container
                 __datagrid_views_popup_container:
                     blockType: container
-                __datagrid_views_popup_title:
-                    blockType: block
                 __datagrid_views_popup_list:
                     blockType: container
                 __datagrid_views_popup_list_item:
+                    blockType: container
+                __datagrid_views_popup_list_dropdown_item:
+                    blockType: container
+                __datagrid_views_popup_list_item_label:
+                    blockType: container
+                __datagrid_views_popup_list_item_actions:
                     blockType: container
                 __datagrid_views_popup_footer:
                     blockType: container
@@ -37,8 +41,10 @@ layout:
                                 __datagrid_views_container_label: ~
                                 __datagrid_views_popup:
                                     __datagrid_views_popup_container:
-                                        __datagrid_views_popup_title: ~
                                         __datagrid_views_popup_list:
-                                            __datagrid_views_popup_list_item: ~
+                                            __datagrid_views_popup_list_item:
+                                                __datagrid_views_popup_list_dropdown_item:
+                                                    __datagrid_views_popup_list_item_label: ~
+                                                    __datagrid_views_popup_list_item_actions: ~
                                         __datagrid_views_popup_footer: ~
                             __datagrid_views_container_edit_label: ~

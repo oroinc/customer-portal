@@ -59,10 +59,10 @@ Feature: grid views management on datagrids
     And I go to System / Configuration
     And go to System/Localization/Translations
     And filter Translated Value as is empty
-    And filter English translation as contains "Saved Views"
-    When I edit "oro_frontend.datagrid_views.saved_views" Translated Value as "Saved Views - Zulu"
+    And filter English translation as contains "Configurable Views"
+    When I edit "oro_frontend.datagrid_views.choices.configurable" Translated Value as "Configurable Views - Zulu"
     Then I should see following records in grid:
-      | Saved Views - Zulu |
+      | Configurable Views - Zulu |
 
   Scenario: Check translations for grid view list
     Given I signed in as AmandaRCole@example.org on the store frontend
@@ -70,4 +70,4 @@ Feature: grid views management on datagrids
     And I click "Address Book"
     And I select "Zulu" localization
     When I click grid view list on "Customer Company Addresses Grid" grid
-    Then I should see "Saved Views - Zulu"
+    Then I should see "Configurable Views - Zulu"

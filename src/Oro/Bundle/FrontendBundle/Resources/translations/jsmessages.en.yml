@@ -128,6 +128,11 @@ oro_frontend:
             rename.label: View Name
         choice:
             aria_text: "Set as active {{ choiceName }} view"
+        status:
+            default: "Default"
+        choices:
+            non_configurable: "Non-configurable Views"
+            configurable: "Configurable Views"
         shared:
             public: 'Shared with others'
             private: 'Only you can see'

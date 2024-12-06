@@ -186,23 +186,31 @@
     </div>
 {% endblock %}
 
-{% block __datagrid_views__datagrid_views_popup_title_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid-views__subtitle',
-        'data-role': 'subtitle'
-    }) %}
-    <h3 {{ block('block_attributes') }}>{{ 'oro_frontend.datagrid_views.saved_views'|trans }}</h3>
-{% endblock %}
-
 {% block __datagrid_views__datagrid_views_popup_list_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid-views__list',
         'data-role': 'grid-views-list'
     }) %}
+    {% set content = block_widget(block) %}
     <ul {{ block('block_attributes') }}>
-        <% _.each(choices, function (choice, iterate) { %>
-            {{ block_widget(block) }}
-        <% }); %>
+        <% let choiceIndex = 0 %>
+        <% if (nonConfigurableChoices) { %>
+            <li class="dropdown-header"><%- _.__('oro_frontend.datagrid_views.choices.non_configurable') %></li>
+            <% _.each(nonConfigurableChoices, function (choice, iterate) { %>
+                {{ content|raw }}
+                <% choiceIndex++ %>
+            <% }); %>
+        <% } %>
+        <% if (configurableChoices) { %>
+            <% if (nonConfigurableChoices) { %>
+            <li class="dropdown-divider" aria-hidden="true"></li>
+            <% } %>
+            <li class="dropdown-header"><%- _.__('oro_frontend.datagrid_views.choices.configurable') %></li>
+            <% _.each(configurableChoices, function (choice, iterate) { %>
+                {{ content|raw }}
+                <% choiceIndex++ %>
+            <% }); %>
+        <% } %>
     </ul>
 {% endblock %}
 
@@ -212,45 +220,61 @@
     }) %}
 
     <li {{ block('block_attributes') }}>
-        <div class="grid-views__label">
-            <label class="checkbox-label">
-                <span class="sr-only"><%- _.__('oro_frontend.datagrid_views.choice.aria_text', {choiceName: choice.label}) %></span>
-                <input type="radio"
-                       name="grid-view-<%- gridViewId %>"
-                       value="<%- choice.value %>"
-                       data-change-grid-view=""
-                    <% if (current === choice.value) { %>
-                        checked
-                    <% } %>
-                >
-                <span class="grid-views__text-line line-clamp" aria-hidden="true"><%- choice.label %></span>
-            </label>
-        </div>
-        <% let oroui = _.macros('oroui') %>
-        <% if (showActions[iterate]) { %>
-            <div class="grid-views__actions">
-                <ol class="actions-row">
-                    <% _.each(actions[iterate], function(action) { %>
-                        <% if (action.enabled) { %>
-                            <li class="actions-row__item">
-                                <button class="btn btn--size-small btn--simple"
-                                        type="button"
-                                        aria-label="<%- action.label %> <%- choice.label %>"
-                                        title="<%- action.label %>"
-                                        data-role="<%- action.name %>"
-                                        data-choice-value="<%- choice.value %>"
-                                >
-                                    <% if (action.icon) { %>
-                                        <%= oroui.renderIcon({name: action.icon}) %>
-                                    <% } %>
-                                </button>
-                            </li>
-                        <% } %>
-                    <% }); %>
-                </ol>
+        {{ block_widget(block) }}
+    </li>
+{% endblock %}
+
+{% block __datagrid_views__datagrid_views_popup_list_dropdown_item_widget %}
+    <div class="grid-views__dropdown-item dropdown-item<% if (current === choice.value) { %> dropdown-item--active<% } %>">
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __datagrid_views__datagrid_views_popup_list_item_label_widget %}
+    <label class="grid-views__label checkbox-label">
+        <span class="sr-only"><%- _.__('oro_frontend.datagrid_views.choice.aria_text', {choiceName: choice.label}) %></span>
+        <input type="radio"
+                name="grid-view-<%- gridViewId %>"
+                value="<%- choice.value %>"
+                data-change-grid-view=""
+            <% if (current === choice.value) { %>
+                checked
+            <% } %>
+        >
+        <span class="grid-views__text-line text-clip" aria-hidden="true"><%- choice.label %></span>
+        <% if (choice.isDefault) { %>
+            <div class="status-label status-label--info">
+                <%- _.__('oro_frontend.datagrid_views.status.default') %>
             </div>
         <% } %>
-    </li>
+    </label>
+{% endblock %}
+
+{% block __datagrid_views__datagrid_views_popup_list_item_actions_widget %}
+    <% let oroui = _.macros('oroui') %>
+    <% if (showActions[choiceIndex]) { %>
+        <div class="grid-views__actions">
+            <div class="actions-row">
+                <% _.each(actions[choiceIndex], function(action) { %>
+                    <% if (action.enabled) { %>
+                        <div class="actions-row__item">
+                            <button class="btn<% if (action.style !== void 0) { %> btn--<%- action.style %>-plain<% } else { %> btn--simple<% } %>"
+                                    type="button"
+                                    aria-label="<%- action.label %> <%- choice.label %>"
+                                    title="<%- action.label %>"
+                                    data-role="<%- action.name %>"
+                                    data-choice-value="<%- choice.value %>"
+                            >
+                                <% if (action.icon) { %>
+                                    <%= oroui.renderIcon({name: action.icon}) %>
+                                <% } %>
+                            </button>
+                        </div>
+                    <% } %>
+                <% }); %>
+            </div>
+        </div>
+    <% } %>
 {% endblock %}
 
 {% block __datagrid_views__datagrid_views_popup_footer_widget %}
@@ -261,7 +285,7 @@
 
     <div {{ block('block_attributes') }}>
         <div class="grid-views__toggle-container">
-            <button class="btn btn--block btn--size-small"
+            <button class="btn btn--block btn--plain"
                     type="button"
                     data-role="save-new"
                     data-switch-edit-button=""

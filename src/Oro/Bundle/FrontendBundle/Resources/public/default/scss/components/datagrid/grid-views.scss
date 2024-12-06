@@ -102,28 +102,59 @@
         margin-left: spacing('xs');
     }
 
-    &__list {
-        padding-bottom: spacing('sm');
+    &__dropdown-item {
+        padding: 0;
+        grid-template-columns: minmax(0, 1fr);
+
+        &:focus-within {
+            position: relative;
+            z-index: z();
+        }
+
+        &:has(.grid-views__actions) {
+            grid-template-columns: minmax(0, 1fr) auto;
+        }
     }
 
-    &__item {
-        display: flex;
-        padding: $grid-views-dropdown-list-item-offset-inner;
-        min-height: $grid-views-dropdown-list-item-min-height;
+    & &__dropdown-item {
+        display: grid;
+        gap: 0 spacing('sm');
     }
 
-    &__actions {
-        padding-left: spacing('xs');
-        color: $grid-views-actions-color;
-        white-space: nowrap;
+    &__dropdown-item:has([type=radio]:focus) {
+        outline: $base-ui-element-focus-visible-outline;
+        outline-offset: $base-ui-element-focus-visible-outline-offset;
+        box-shadow: $focus-visible-style;
     }
 
     &__label {
-        display: flex;
+        padding-block: spacing('md');
+        padding-inline: spacing('base') 0;
         align-items: center;
-        flex-basis: 55%;
-        flex: 1;
-        word-break: break-all;
+
+        &:only-child {
+            padding-inline-end: spacing('md');
+        }
+
+        [type=radio] {
+            /* stylelint-disable declaration-no-important */
+            position: absolute !important;
+            left: 0;
+
+            width: 1px !important;
+            height: 1px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            /* stylelint-enable declaration-no-important */
+
+            border: none;
+
+            overflow: hidden;
+
+            outline: 0;
+
+            clip: rect(0 0 0 0);
+        }
     }
 
     &__text-line {
@@ -131,6 +162,12 @@
         max-height: ($base-font-size * $base-line-height) * 2;
         font-size: $base-font-size;
         line-height: $base-line-height;
+    }
+
+    &__actions {
+        --theme-icon-size: #{$theme-icon-size};
+
+        padding-inline-end: spacing('md');
     }
 
     &__footer {
@@ -285,6 +322,24 @@
 
         &__inline-rename-input {
             min-width: 100%;
+        }
+    }
+}
+
+@include breakpoint('mobile') {
+    .grid-views {
+        &__item {
+            margin-block: spacing('sm');
+        }
+
+        &__dropdown-item {
+            &:has(.grid-views__actions) {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        &__label {
+            padding-inline-end: spacing('md');
         }
     }
 }
