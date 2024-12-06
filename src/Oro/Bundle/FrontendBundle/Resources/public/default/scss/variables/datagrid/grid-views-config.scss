@@ -16,7 +16,8 @@ $grid-views-title-btn-min-height: 20px !default;
 $grid-views-subtitle-offset-inner: spacing('md') spacing('base') !default;
 $grid-views-subtitle-line-height: 18px !default;
 $grid-views-subtitle-font-size: 12px !default;
-$grid-views-edit-label-color: get-color('neutral', 'grey2') !default;
+$grid-views-edit-label-color: get-color('text', 'secondary') !default;
+$grid-views-edit-label-border-left: 1px solid get-color('neutral', 'grey3') !default;
 $grid-views-dropdown-width: 370px !default;
 $grid-views-dropdown-offset: 0 !default;
 $grid-views-dropdown-list-item-offset-inner: 0 spacing('base') !default;
@@ -30,8 +31,11 @@ $grid-views-dropdown-footer-label-font-size: 14px !default;
 $grid-views-dropdown-form-content-offset-inner: spacing('xs') 0;
 
 $grid-views-title-icon-inner-offset: 30px !default;
+$grid-views-title-btn-color: get-color('text', 'primary') !default;
 
 $grid-views-suptitle-color: get-color('text', 'secondary') !default;
+
+$grid-views-public-color: get-color('text', 'disabled') !default;
 
 // Mobile
 

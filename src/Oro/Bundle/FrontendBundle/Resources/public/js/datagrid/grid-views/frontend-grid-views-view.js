@@ -9,6 +9,7 @@ define(function(require) {
     const manageFocus = require('oroui/js/tools/manage-focus').default;
     const GridViewsView = require('orodatagrid/js/datagrid/grid-views/view');
     const DeleteConfirmation = require('oroui/js/delete-confirmation');
+    const FrontendGridViewsInlineRenameView = require('./frontend-grid-views-inline-rename-view').default;
     const errorTemplate = require('tpl-loader!orofrontend/templates/datagrid/view-name-error-modal.html');
     require('jquery-ui/tabbable');
 
@@ -71,12 +72,15 @@ define(function(require) {
             actionsOptions: [
                 {
                     name: 'save',
-                    icon: 'floppy-o',
-                    priority: 40
+                    icon: 'double-check',
+                    priority: 20,
+                    inline: {
+                        icon: 'check'
+                    }
                 },
                 {
                     name: 'save_as',
-                    icon: 'floppy-o',
+                    icon: 'double-check',
                     priority: 40,
                     enabled: false
                 },
@@ -87,27 +91,33 @@ define(function(require) {
                 },
                 {
                     name: 'share',
-                    icon: 'bookmark',
+                    icon: 'users',
                     priority: 10
                 },
                 {
                     name: 'unshare',
-                    icon: 'bookmark-filled',
+                    icon: 'user',
                     priority: 10
                 },
                 {
                     name: 'discard_changes',
                     icon: 'undo',
-                    priority: 30
+                    priority: 30,
+                    inline: {
+                        icon: 'close',
+                        style: 'neutral'
+                    }
                 },
                 {
                     name: 'delete',
                     icon: 'trash',
+                    style: 'destructive',
+                    divider: true,
                     priority: 60
                 },
                 {
                     name: 'use_as_default',
-                    icon: 'grid',
+                    icon: 'check',
                     priority: 20
 
                 }
@@ -182,7 +192,22 @@ define(function(require) {
             this.restoreDropdownState();
             this.updateButtonLabel();
 
+            this.$('[data-toggle="tooltip"]').tooltip();
+
             return this;
+        },
+
+        renderRenameInlineAction() {
+            const currentModel = this._getCurrentViewModel();
+
+            this.subview('rename-inline-action', new FrontendGridViewsInlineRenameView({
+                el: this.el,
+                model: currentModel,
+                autoRender: true
+            }));
+
+            this.listenTo(this.subview('rename-inline-action'), 'save', () => this._onRenameSaveModel(currentModel));
+            this.listenTo(this.subview('rename-inline-action'), 'cancel', this.render);
         },
 
         /**
@@ -190,14 +215,47 @@ define(function(require) {
          */
         renderTitle: function() {
             const label = this._getCurrentViewLabel();
+            const currentModel = this._getCurrentViewModel();
 
-            return this.titleTemplate({
+            const templateOptions = {
                 uniqueId: this.uniqueId,
                 title: label,
                 toggleAriaLabel: __(this.toggleAriaLabel, {choiceName: label}),
                 iconClass: this.titleOptions.iconClass,
-                icon: this.titleOptions.icon
-            });
+                icon: this.titleOptions.icon,
+                actions: this._getCurrentActions(),
+                is_default: false
+            };
+
+            if (currentModel) {
+                Object.assign(templateOptions, {
+                    is_default: currentModel.get('is_default'),
+                    editable: currentModel.get('editable'),
+                    name: currentModel.get('name')
+                });
+            }
+
+            return this.titleTemplate(templateOptions);
+        },
+
+        getTemplateData() {
+            const currentModel = this._getCurrentViewModel();
+            const data = {
+                ...FrontendGridViewsView.__super__.getTemplateData.call(this),
+                type: 'private',
+                editable: false,
+                label: this._getCurrentViewLabel(),
+                currentActions: this._getCurrentActions()
+            };
+
+            if (currentModel) {
+                Object.assign(data, {
+                    type: currentModel.get('type'),
+                    editable: currentModel.get('editable')
+                });
+            }
+
+            return data;
         },
 
         /**
@@ -299,6 +357,12 @@ define(function(require) {
          */
         onRename: function(e) {
             this._editableViewModel = this._getEditableViewModel(e.currentTarget);
+
+            if ($(e.currentTarget).data('action-type') === 'inline') {
+                this.renderRenameInlineAction();
+                return;
+            }
+
             this.updateDropdownState({
                 elToFocus: tools.getElementCSSPath(e.currentTarget)
             });
@@ -643,12 +707,16 @@ define(function(require) {
          * @returns {Array}
          * @private
          */
-        _getViewActions: function() {
+        _getViewActions: function(viewModel) {
             const actions = [];
             const actionsOptions = this.defaults.actionsOptions;
             const onlySystemView = this.viewsCollection.length === 1;
 
             this.viewsCollection.each(function(GridView) {
+                if (viewModel !== void 0 && viewModel !== GridView) {
+                    return;
+                }
+
                 let actionsForView = this._getActions(GridView);
                 const useAsDefaultAction = _.find(actionsOptions, {name: 'use_as_default'});
 
@@ -673,6 +741,12 @@ define(function(require) {
             }, this);
 
             return actions;
+        },
+
+        _getCurrentActions() {
+            const currentGridView = this._getCurrentViewModel();
+
+            return this._getViewActions(currentGridView).flat();
         },
 
         /**

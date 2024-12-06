@@ -1,5 +1,7 @@
 <% let oroui = _.macros('oroui') %>
+
 <span class="grid-views__suptitle"><%- _.__("oro_frontend.datagrid_views.view") %></span>
+
 <h2 <% if (obj.uniqueId) { %> id="<%- uniqueId %>" <% } %> class="grid-views__title<% if (icon) { %> has-icon <% } %>" data-toggle="dropdown" data-popper="false" aria-haspopup="true" aria-expanded="false">
     <% if (icon) { %>
         <span class="grid-views__piece <%- iconClass %>">
@@ -7,7 +9,11 @@
         </span>
     <% } %>
     <%- title %>
+
+    <% if (is_default) { %>
+        <span class="status-label status-label--info"><%- _.__('oro_frontend.datagrid_views.defaultLabel') %></span>
+    <% } %>
 </h2>
 <button type="button" class="btn btn--size-small btn--simple grid-views__title-btn" aria-label="<%- toggleAriaLabel %>" data-toggle="dropdown" data-popper="false" aria-haspopup="true" aria-expanded="false" >
-    <%= oroui.renderIcon({name: 'chevron-down'}) %>
+    <%= oroui.renderIcon({name: 'chevron-down', extraClass: 'dropdown-menu-chevron'}) %>
 </button>

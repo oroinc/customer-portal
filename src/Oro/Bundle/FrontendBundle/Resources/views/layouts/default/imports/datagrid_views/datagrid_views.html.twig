@@ -22,12 +22,90 @@
 
 {% block __datagrid_views__datagrid_views_toolbar_header_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid-views__header'
+        '~class': ' grid-views__header dropdown'
     }) %}
     <% if (choices.length) { %>
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
+    <% } %>
+
+    {{ block('__datagrid_views__datagrid_views_toolbar_header_options_widget') }}
+{% endblock %}
+
+{% block __datagrid_views__datagrid_views_toolbar_header_options_widget %}
+    <% let oroui = _.macros('oroui') %>
+
+    {% set stylerOptions = {
+        responsive: {
+            'mobile-landscape': {
+                classes: 'btn btn--neutral hide-text',
+                icon: 'more-horizontal'
+            }
+        }
+    } %}
+
+    <% if (currentActions.length && editable) { %>
+    <div class="grid-views__options-dropdown dropdown">
+        <button type="button" data-toggle="dropdown" class="btn btn--flat" data-placement="bottom-end" data-responsive-styler="" data-input-widget-options="{{ stylerOptions|json_encode }}">
+            <span><%- _.__('oro.datagrid.gridView.actions') %></span>
+            <%= oroui.renderIcon({name: 'chevron-down', extraClass: 'dropdown-menu-chevron hidden-mobile-big'}) %>
+        </button>
+
+        <div class="dropdown-menu">
+            <ul class="grid-views__options">
+                <% _.each(currentActions, function(action) { %>
+                <% if (action.enabled && !action.inline) { %>
+
+                <% if (action.divider) { %>
+                <li class="dropdown-divider" aria-hidden="true"></li>
+                <% } %>
+
+                <li class="dropdown-item grid-views__options-item <% if (action.style !== void 0) { %>dropdown-item--<%- action.style %><% } %>">
+                    <button class="btn grid-views__options-action <% if (action.style !== void 0) { %>btn--<%- action.style %>-plain<% } %>"
+                        type="button"
+                        aria-label="<%- action.label %> <%- label %>"
+                        title="<%- action.label %>"
+                        data-role="<%- action.name %>"
+                        data-action-type="inline"
+                        data-choice-value="<%- current %>"
+                    >
+                        <% if (action.icon) { %>
+                            <%= oroui.renderIcon({name: action.icon}) %>
+                        <% } %>
+                        <%- action.label %>
+                    </button>
+                </li>
+                <% } %>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+    <% } else if (!editable) { %>
+        <% _.each(currentActions, function(action) { %>
+            <% if (action.enabled) { %>
+                <button
+                    type="button"
+                    class="btn btn--outlined btn--size-small"
+                    aria-label="<%- action.label %> <%- label %>"
+                    title="<%- action.label %>"
+                    data-role="<%- action.name %>"
+                    data-action-type="inline"
+                    data-choice-value="<%- current %>"
+                >
+                    <% if (action.icon) { %>
+                        <%= oroui.renderIcon({name: action.icon}) %>
+                    <% } %>
+                    <%- action.label %>
+                </button>
+            <% } %>
+        <% }) %>
+    <% } %>
+
+    <% if (type) { %>
+        <div class="grid-views__shared-status" data-toggle="tooltip" title="<%- _.__('oro_frontend.datagrid_views.shared.' + type) %>">
+            <%= oroui.renderIcon({name: type === 'public' ? 'users' : 'user', extraClass: 'theme-icon--small'}) %>
+        </div>
     <% } %>
 {% endblock %}
 
@@ -36,28 +114,56 @@
 {% endblock %}
 
 {% block __datagrid_views__datagrid_views_container_edit_label_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid-views__edit-label',
     }) %}
 
     <% if (dirty) { %>
-        <span {{ block('block_attributes') }}>&nbsp;-&nbsp;<%- editedLabel %></span>
+        <span {{ block('block_attributes') }}>
+            <%- editedLabel %>
+
+            <% if (editable) { %>
+                <div class="grid-views__edit-label-buttons">
+                    <% _.each(currentActions, function(action) { %>
+                        <% if (action.enabled && action.inline) { %>
+                        <button class="btn <% if (action.inline.style !== void 0) { %>btn--<%- action.inline.style %><% } %>"
+                            type="button"
+                            aria-label="<%- action.label %> <%- label %>"
+                            title="<%- action.label %>"
+                            data-role="<%- action.name %>"
+                            data-action-type="inline"
+                            data-choice-value="<%- current %>"
+                        >
+                            <% if (action.inline.icon ) { %>
+                                <%= oroui.renderIcon({name: action.inline.icon}) %>
+                            <% } %>
+                            <span class="sr-only"><%- action.label %></span>
+                        </button>
+                        <% } %>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                {{ renderIcon.icon({name: 'alert-circle'}) }}
+            <% } %>
+        </span>
     <% } %>
 {% endblock %}
 
 {% block __datagrid_views__datagrid_views_popup_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid-views__dropdown dropdown-menu',
-        'data-skip-focus-decoration': '',
+        'data-skip-focus-decoration': ''
     }) %}
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
 {% endblock %}
 
-{% block __datagrid_views__datagrid_views_popup_close_widget %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
 
+{% block __datagrid_views__datagrid_views_popup_close_widget %}
     {% set attr = layout_attr_defaults(attr, {
         'type': 'button',
         '~class': ' btn btn--simple-colored close-dialog absolute',
@@ -104,6 +210,7 @@
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid-views__item'
     }) %}
+
     <li {{ block('block_attributes') }}>
         <div class="grid-views__label">
             <label class="checkbox-label">

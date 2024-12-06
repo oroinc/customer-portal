@@ -11,6 +11,8 @@ layout:
                     blockType: container
                 __datagrid_views_toolbar_header:
                     blockType: container
+                __datagrid_views_toolbar_header_options:
+                    blockType: container
                 __datagrid_views_container_label:
                     blockType: block
                 __datagrid_views_container_edit_label:
