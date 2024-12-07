@@ -224,7 +224,23 @@ const ResponsiveDropdownWidgetView = AbstractInputWidgetView.extend({
         $actionsContainer.trigger('content:remove');
         $actionsContainer.html(actions);
 
-        $dropdown.toggleClass('hidden', parseInt($dropdown.find('.dropdown-menu').css('height')) === 0);
+        // Hide a dropdown if all it's items are hidden
+        if (Array.isArray(actions)) {
+            const $dropdownToggle = $dropdown.find('[data-toggle="dropdown"]');
+
+            $dropdown.addClass('hidden-offscreen');
+            $dropdownToggle.dropdown('show');
+
+            const actionsHidden = actions.every(action => $(action).is(':hidden'));
+
+            if (actionsHidden) {
+                $dropdown.addClass('hidden');
+            }
+
+            $dropdown.removeClass('hidden-offscreen');
+            $dropdownToggle.dropdown('update');
+            $dropdownToggle.dropdown('hide');
+        }
 
         $actionsContainer.trigger('content:changed');
     },
