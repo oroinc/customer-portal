@@ -1046,3 +1046,5 @@ oro.scope:
     customer_group.label: Customer Group
 
 oro_form.captcha.protected_form_name.oro_customer_frontend_customer_user_register: Customer User Registration Form
+oro_form.captcha.protected_form_name.oro_customer_customer_user_password_request: Customer User Reset Password Form
+oro_form.captcha.protected_form_name.oro_customer_form_login: Customer User Login Form
