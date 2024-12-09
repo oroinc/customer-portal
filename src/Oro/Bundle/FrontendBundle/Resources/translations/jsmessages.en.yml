@@ -137,6 +137,7 @@ oro_frontend:
         shared:
             public: 'Shared with others'
             private: 'Only you can see'
+            system: 'Only you can see'
         form_title:
             new: "Add New View"
             edit: "Edit View"

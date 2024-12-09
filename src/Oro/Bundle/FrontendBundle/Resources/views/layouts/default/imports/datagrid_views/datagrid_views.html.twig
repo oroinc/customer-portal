@@ -83,7 +83,7 @@
     </div>
     <% } else if (!editable) { %>
         <% _.each(currentActions, function(action) { %>
-            <% if (action.enabled) { %>
+            <% if (action.enabled && !action.inline) { %>
                 <button
                     type="button"
                     class="btn btn--outlined btn--size-small"
@@ -124,29 +124,25 @@
         <span {{ block('block_attributes') }}>
             <%- editedLabel %>
 
-            <% if (editable) { %>
-                <div class="grid-views__edit-label-buttons">
-                    <% _.each(currentActions, function(action) { %>
-                        <% if (action.enabled && action.inline) { %>
-                        <button class="btn <% if (action.inline.style !== void 0) { %>btn--<%- action.inline.style %><% } %>"
-                            type="button"
-                            aria-label="<%- action.label %> <%- label %>"
-                            title="<%- action.label %>"
-                            data-role="<%- action.name %>"
-                            data-action-type="inline"
-                            data-choice-value="<%- current %>"
-                        >
-                            <% if (action.inline.icon ) { %>
-                                <%= oroui.renderIcon({name: action.inline.icon}) %>
-                            <% } %>
-                            <span class="sr-only"><%- action.label %></span>
-                        </button>
+            <div class="grid-views__edit-label-buttons">
+                <% _.each(currentActions, function(action) { %>
+                    <% if (action.enabled && action.inline) { %>
+                    <button class="btn <% if (action.inline.style !== void 0) { %>btn--<%- action.inline.style %><% } %>"
+                        type="button"
+                        aria-label="<%- action.label %> <%- label %>"
+                        title="<%- action.label %>"
+                        data-role="<%- action.name %>"
+                        data-action-type="inline"
+                        data-choice-value="<%- current %>"
+                    >
+                        <% if (action.inline.icon ) { %>
+                            <%= oroui.renderIcon({name: action.inline.icon}) %>
                         <% } %>
-                    <% }) %>
-                </div>
-            <% } else { %>
-                {{ renderIcon.icon({name: 'alert-circle'}) }}
-            <% } %>
+                        <span class="sr-only"><%- action.label %></span>
+                    </button>
+                    <% } %>
+                <% }) %>
+            </div>
         </span>
     <% } %>
 {% endblock %}

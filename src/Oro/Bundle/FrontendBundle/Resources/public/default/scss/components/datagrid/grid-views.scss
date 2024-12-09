@@ -56,6 +56,10 @@
             display: inline-flex;
             align-items: center;
         }
+
+        .status-label {
+            white-space: nowrap;
+        }
     }
 
     &__title-btn {
@@ -100,6 +104,8 @@
 
     &__edit-label-buttons {
         margin-left: spacing('xs');
+        display: flex;
+        gap: spacing('xs');
     }
 
     &__dropdown-item {
