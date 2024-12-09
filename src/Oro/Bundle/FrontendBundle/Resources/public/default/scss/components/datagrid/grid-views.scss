@@ -200,6 +200,17 @@
         }
     }
 
+    &__form-header {
+        min-height: 32px;
+        display: flex;
+        align-items: center;
+    }
+
+    &__form-title {
+        font-size: $base-font-size--xs;
+        font-weight: font-weight('semi-bold');
+    }
+
     &__form-content {
         --grid-gap: #{$grid-views-dropdown-footer-content-gap};
     }
@@ -214,6 +225,8 @@
         gap: spacing('base');
         align-items: center;
         justify-content: space-between;
+
+        min-height: 44px;
     }
 
     &__set-default {

@@ -34,6 +34,12 @@ define(function(require) {
         defaultPrefix: __('oro_frontend.datagrid_views.all'),
 
         /** @property */
+        fromTitleNew: __('oro_frontend.datagrid_views.form_title.new'),
+
+        /** @property */
+        formTitleEdit: __('oro_frontend.datagrid_views.form_title.edit'),
+
+        /** @property */
         toggleAriaLabel: 'oro_frontend.datagrid_views.toggleAriaLabel',
 
         /**
@@ -128,7 +134,9 @@ define(function(require) {
             elements: {
                 gridViewName: 'input[name=name]',
                 gridViewDefault: 'input[name=is_default]',
-                gridViewUpdate: '[data-grid-view-update]'
+                gridViewUpdate: '[data-grid-view-update]',
+                gridViewFormHeader: '[data-edit-form-header]',
+                gridViewFormTitle: '[data-edit-form-title]'
             },
             titleOptions: {
                 icon: null,
@@ -183,6 +191,8 @@ define(function(require) {
             this.$gridViewName = this.$(this.defaults.elements.gridViewName);
             this.$gridViewDefault = this.$(this.defaults.elements.gridViewDefault);
             this.$gridViewUpdate = this.$(this.defaults.elements.gridViewUpdate);
+            this.$gridViewFormHeader = this.$(this.defaults.elements.gridViewFormHeader);
+            this.$gridViewFormTitle = this.$(this.defaults.elements.gridViewFormTitle);
             this.$gridViewPopupContainer = this.$('[data-grid-view-popup-container]');
             this.$gridViewSwitchEditButton = this.$('[data-switch-edit-button]');
             this.$editContainer = this.$('[data-edit-container]');
@@ -348,7 +358,7 @@ define(function(require) {
             this.updateDropdownState({
                 elToFocus: tools.getElementCSSPath(this.$gridViewSwitchEditButton[0])
             });
-            this.switchEditMode(e, 'show');
+            this.switchEditMode(e, 'new');
             this.$gridViewName.trigger('focus');
         },
 
@@ -366,7 +376,7 @@ define(function(require) {
             this.updateDropdownState({
                 elToFocus: tools.getElementCSSPath(e.currentTarget)
             });
-            this.switchEditMode(e, 'show', this._editableViewModel.get('is_default'));
+            this.switchEditMode(e, 'edit', this._editableViewModel.get('is_default'));
             this.fillForm({
                 name: this._editableViewModel.get('label'),
                 is_default: this._editableViewModel.get('is_default')
@@ -482,13 +492,36 @@ define(function(require) {
          * @param {string} mode
          */
         toggleEditForm: function(mode) {
-            if (mode === 'show') {
-                this.$gridViewSwitchEditButton.addClass('hide');
-                this.$editContainer.addClass('show');
-            } else if (mode === 'hide') {
-                this.$gridViewSwitchEditButton.removeClass('hide');
-                this.$editContainer.removeClass('show');
+            if (mode === 'hide') {
+                this.hideEditForm();
+            } else {
+                switch (mode) {
+                    case 'new':
+                        this.setEditFormTitle(this.fromTitleNew);
+                        break;
+                    case 'edit':
+                        this.setEditFormTitle(this.formTitleEdit);
+                        break;
+                    default:
+                        break;
+                }
+
+                this.showEditForm();
             }
+        },
+
+        setEditFormTitle: function(title) {
+            this.$gridViewFormTitle.text(title);
+        },
+
+        showEditForm: function() {
+            this.$gridViewSwitchEditButton.addClass('hide');
+            this.$editContainer.addClass('show');
+        },
+
+        hideEditForm: function() {
+            this.$gridViewSwitchEditButton.removeClass('hide');
+            this.$editContainer.removeClass('show');
         },
 
         /**

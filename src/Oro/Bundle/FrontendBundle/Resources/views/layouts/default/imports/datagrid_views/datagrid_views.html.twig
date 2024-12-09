@@ -298,18 +298,33 @@
 
         <div class="grid-views__edit-container" data-edit-container>
             <div class="grid grid-views__form-content">
+                <div class="grid-col-12 grid-views__form-header" data-edit-form-header>
+                    <div class="grid-views__form-title" data-edit-form-title></div>
+                </div>
                 <div class="grid-col-12">
                     <input name="name"
                             class="input input--full frontend-grid-view-name"
                             type="text"
                             required
-                            placeholder="<%- _.__('oro_frontend.datagrid_views.placeholder') %>"
+                            placeholder="<%- _.__('oro_frontend.datagrid_views.placeholder_view_name') %>"
                             aria-label="<%- _.__('oro_frontend.datagrid_views.input.aria_label') %>"
                             data-view-value
                     >
                 </div>
                 <div class="grid-col-12 grid-views__form-footer">
+                    <div data-checkbox-container>
+                        <label class="checkbox-label grid-views__set-default" aria-label="<%- _.__('oro_frontend.datagrid_views.set_as_default.aria_label') %>">
+                            <input type="checkbox" name="is_default">
+                            <%- _.__("oro_frontend.datagrid_views.set_as_default") %>
+                        </label>
+                    </div>
+
                     <div class="grid-views__button-group">
+                        <button type="button"
+                                class="btn btn--outlined btn--size-small"
+                                data-cancel-edit
+                                aria-label="<%- _.__('oro_frontend.datagrid_views.cancel.aria_label') %>"
+                        ><%- _.__("oro_frontend.datagrid_views.cancel") %></button>
                         <button type="button"
                                 class="btn btn--size-small"
                                 data-grid-view-update
@@ -317,18 +332,6 @@
                                 data-text-add="<%- _.__('oro_frontend.datagrid_views.add') %>"
                                 data-text-save="<%- _.__('oro_frontend.datagrid_views.save') %>"
                         ><%- _.__('oro_frontend.datagrid_views.add') %></button>
-                        <button type="button"
-                                class="btn btn--outlined btn--size-small"
-                                data-cancel-edit
-                                aria-label="<%- _.__('oro_frontend.datagrid_views.cancel.aria_label') %>"
-                        ><%- _.__("oro_frontend.datagrid_views.cancel") %></button>
-                    </div>
-
-                    <div data-checkbox-container>
-                        <label class="checkbox-label grid-views__set-default" aria-label="<%- _.__('oro_frontend.datagrid_views.set_as_default.aria_label') %>">
-                            <input type="checkbox" name="is_default">
-                            <%- _.__("oro_frontend.datagrid_views.set_as_default") %>
-                        </label>
                     </div>
                 </div>
             </div>
