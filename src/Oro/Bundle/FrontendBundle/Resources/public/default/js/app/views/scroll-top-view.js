@@ -7,8 +7,10 @@ define(function(require, exports, module) {
     const $ = require('jquery');
     let config = require('module-config').default(module.id);
 
+    const INTERSECTION_OFFSET_CSS_VAR = '--scroll-top-intersection-offset';
+
     config = _.extend({
-        toggleFactor: 4, // number of viewport heights to set treshold for scroll-to-top button to appear
+        toggleFactor: 4, // number of viewport heights to set threshold for scroll-to-top button to appear
         duration: 500,
         easing: 'swing',
         allowLanding: true,
@@ -36,8 +38,13 @@ define(function(require, exports, module) {
             click: 'scrollTop'
         },
 
+        intersectWith: '.sticky--bottom, [data-bottom-bar]',
+
         listen() {
             return {
+                'layout:reposition mediator': 'adjustPosition',
+                'content:shown mediator': 'adjustPosition',
+                'content:hidden mediator': 'adjustPosition',
                 [`viewport:${this.options.viewport} mediator`]: 'render'
             };
         },
@@ -110,9 +117,48 @@ define(function(require, exports, module) {
                 this.$el.addClass('scroll-top-visible');
                 this.$el.attr('aria-hidden', false);
                 this.land();
+                this.adjustPosition();
             } else {
                 this.$el.removeClass('scroll-top-visible');
                 this.$el.attr('aria-hidden', true);
+            }
+        },
+
+        adjustPosition() {
+            document.body.style.removeProperty(INTERSECTION_OFFSET_CSS_VAR);
+
+            if (!this.$el.is(':visible') || this.$el.is('.scroll-top--landed')) {
+                return;
+            }
+
+            const $list = $(this.intersectWith).filter((i, el) => $(el).is(':visible') && el.offsetHeight);
+
+            if (!$list.length) {
+                return;
+            }
+
+            const highestEl = $list.toArray().reduce((highestEl, el) => {
+                return el.getBoundingClientRect().top < highestEl.getBoundingClientRect().top ? el : highestEl;
+            });
+            const intersectionOffset = parseInt(
+                getComputedStyle(document.body).getPropertyValue(INTERSECTION_OFFSET_CSS_VAR)
+            ) || 0;
+            const referenceRect = highestEl.getBoundingClientRect();
+            const newOffset =
+                visualViewport.height - referenceRect.top + parseInt($(highestEl).data('bottom-bar') || 0);
+            if (intersectionOffset === newOffset) {
+                return;
+            }
+
+            const scrollTopRect = this.el.getBoundingClientRect();
+            const isOverlapping =
+                scrollTopRect.right >= referenceRect.left &&
+                scrollTopRect.left <= referenceRect.right &&
+                scrollTopRect.bottom >= referenceRect.top &&
+                scrollTopRect.top <= visualViewport.height;
+
+            if (isOverlapping) {
+                document.body.style.setProperty(INTERSECTION_OFFSET_CSS_VAR, `${newOffset}px`);
             }
         },
 
@@ -126,7 +172,7 @@ define(function(require, exports, module) {
             if (!this.options.allowLanding) {
                 return;
             }
-            const footerHeight = this.$document.find('[data-page-footer]').height();
+            const footerHeight = this.$document.find('[data-page-footer]').outerHeight(true);
             const windowHeight = this.$window.height();
             const elementHeight = this.$el.height() + this.options.bottomOffset;
             const scrollY = this.$document.height() - this.$window.scrollTop();
