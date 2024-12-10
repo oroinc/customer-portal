@@ -186,3 +186,12 @@
     border-bottom: $bordered-img-on-top-border-bottom;
     border-radius: $border-radius $border-radius 0 0;
 }
+
+.base-min-height {
+    min-height: 44px;
+}
+
+.items-center {
+    display: flex;
+    align-items: center;
+}
