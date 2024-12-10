@@ -226,10 +226,8 @@ const ResponsiveDropdownWidgetView = AbstractInputWidgetView.extend({
 
         // Hide a dropdown if all it's items are hidden
         if (Array.isArray(actions)) {
-            const $dropdownToggle = $dropdown.find('[data-toggle="dropdown"]');
-
             $dropdown.addClass('hidden-offscreen');
-            $dropdownToggle.dropdown('show');
+            $dropdown.find('.dropdown-menu').addClass('show');
 
             const actionsHidden = actions.every(action => $(action).is(':hidden'));
 
@@ -237,9 +235,8 @@ const ResponsiveDropdownWidgetView = AbstractInputWidgetView.extend({
                 $dropdown.addClass('hidden');
             }
 
+            $dropdown.find('.dropdown-menu').removeClass('show');
             $dropdown.removeClass('hidden-offscreen');
-            $dropdownToggle.dropdown('update');
-            $dropdownToggle.dropdown('hide');
         }
 
         $actionsContainer.trigger('content:changed');
