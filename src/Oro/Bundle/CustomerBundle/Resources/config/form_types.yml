@@ -147,6 +147,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\CustomerUserPasswordRequestType'
         tags:
             - { name: form.type, alias: oro_customer_customer_user_password_request }
+            - { name: oro_form.captcha_protected, form_name: oro_customer_customer_user_password_request }
 
     oro_customer.form.type.frontend.customer_user.password_reset:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\CustomerUserPasswordResetType'
