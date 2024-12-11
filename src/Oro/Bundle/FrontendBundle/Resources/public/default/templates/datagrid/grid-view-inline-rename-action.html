@@ -1,9 +1,10 @@
 <% let oroui = _.macros('oroui') %>
+<% const labelId = _.uniqueId('label') %>
 
 <form class="grid-views__inline-rename">
     <div class="form-row grid-views__inline-rename-container">
-        <label class="label"><%- _.__('oro_frontend.datagrid_views.inline.rename.label') %></label>
-        <input type="text" class="input grid-views__inline-rename-input" name="label" value="<%- label %>">
+        <label for="<%- labelId %>" class="label"><%- _.__('oro_frontend.datagrid_views.inline.rename.label') %></label>
+        <input type="text" id="<%- labelId %>" class="input grid-views__inline-rename-input" name="label" value="<%- label %>">
     </div>
 
     <div class="grid-views__inline-rename-button">
