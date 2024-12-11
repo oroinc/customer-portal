@@ -215,6 +215,31 @@ oro_behat_extension:
     FrontendGridAddViewButton:
       selector: 'button[data-grid-view-update]'
 
+    FrontendGridViewsSaveButton:
+      selector: '.grid-views__edit-label-buttons button[data-role="save"]'
+
+    FrontendGridViewsDiscardButton:
+      selector: '.grid-views__edit-label-buttons button[data-role="discard_changes"]'
+
+    FrontendGridViewsOptionsButton:
+      selector: '.grid-views__options-dropdown button[data-toggle="dropdown"]'
+
+    FrontendGridViewsOptionRename:
+      selector: '.grid-views__options-dropdown button[data-role="rename"]'
+
+    FrontendGridViewsOptionShare:
+      selector: '.grid-views__options-dropdown button[data-role="share"]'
+
+    FrontendGridViewsInlineRenameForm:
+      selector: '.grid-views__inline-rename'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Grid View Name: 'label'
+
+    FrontendGridViewsInlineRenameSubmit:
+      selector: '.grid-views__inline-rename button[type="submit"]'
+
     FrontendGridViewName:
       selector: '.frontend-grid-view-name'
 

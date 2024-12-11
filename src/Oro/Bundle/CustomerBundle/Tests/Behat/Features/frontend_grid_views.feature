@@ -1,4 +1,5 @@
 @regression
+@ticket-BB-24869
 @fixture-OroCustomerBundle:FrontendGridViewsFixture.yml
 Feature: Frontend Grid Views
 
@@ -35,6 +36,35 @@ Feature: Frontend Grid Views
       |FirstName_3     |LastName_3      |user_3@example.org |
     And I shouldn't see "Enabled" column in grid
     And I shouldn't see "Confirmed" column in grid
+    And I should see "FrontendGridViewsSaveButton" element inside "Customer Users Grid" element
+    And I should see "FrontendGridViewsDiscardButton" element inside "Customer Users Grid" element
+    And I should see "FrontendGridViewsOptionsButton" element inside "Customer Users Grid" element
+
+    When I click "FrontendGridViewsOptionsButton"
+    Then I should see "Share With Others"
+    And I should see "Rename"
+    And I should see "Delete"
+
+    When I click "FrontendGridViewsOptionRename"
+    Then I should see "FrontendGridViewsInlineRenameForm" element inside "Customer Users Grid" element
+
+    When I fill "FrontendGridViewsInlineRenameForm" with:
+      | Grid View Name | Test_View_2 |
+    And I click "FrontendGridViewsInlineRenameSubmit"
+    Then I should see "View has been successfully updated" flash message
+
+    When I click grid view list on "Customer Users Grid" grid
+    And I click "Rename"
+    And I set "Test_View_1" as grid view name for "Customer Users Grid" grid on frontend
+    And I click "FrontendGridAddViewButton"
+    Then I should see "View has been successfully updated" flash message
+
+    When I click "FrontendGridViewsOptionsButton"
+    And I click "FrontendGridViewsOptionShare"
+    Then I should see "View has been successfully updated" flash message
+    And I should see "Unshare"
+    And I should see "Rename"
+    And I should see "Delete"
 
     And I click grid view list on "Customer Users Grid" grid
     And I click "Delete"
