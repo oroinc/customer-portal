@@ -123,6 +123,12 @@ layout:
                           type: hidden
                           name: _csrf_token
                           value: '=data["oro_customer_sign_in"].getCSRFToken()'
+
+                __login_form_captcha:
+                    blockType: captcha
+                    options:
+                        name: captcha
+                        visible: '=data["captcha"].isProtectionAvailable() && data["captcha"].isFormProtected("oro_customer_form_login")'
             tree:
                 __root:
                     __login_form_start: ~
@@ -134,4 +140,5 @@ layout:
                         __login_form_failure: ~
                         __login_form_csrf: ~
                     __login_form_extra: ~
+                    __login_form_captcha: ~
                     __login_form_end: ~

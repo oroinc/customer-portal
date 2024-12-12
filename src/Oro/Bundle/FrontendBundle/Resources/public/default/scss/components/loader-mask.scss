@@ -1,4 +1,5 @@
 /* @theme: default; */
+@use 'sass:map';
 
 .view-loading {
     height: $loader-mask-view-loading-height;
@@ -62,5 +63,11 @@ body.loading {
     > .loader-mask {
         position: fixed;
         z-index: z('popup') + 100;
+    }
+}
+
+.btn {
+    .loader-frame {
+        height: #{$btn-sizes-default-min-height - (2 * map.get($btn-general, 'border-width'))};
     }
 }

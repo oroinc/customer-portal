@@ -51,3 +51,15 @@
         position: relative;
     }
 }
+
+@include breakpoint('mobile') {
+    .scroll-top {
+        &--bottom-left {
+            left: $scroll-top-bl-left-mobile;
+        }
+
+        &--bottom-right {
+            right: $scroll-top-bl-right-mobile;
+        }
+    }
+}

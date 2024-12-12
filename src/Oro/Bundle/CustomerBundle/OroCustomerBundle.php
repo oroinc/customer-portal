@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle;
 
 use Oro\Bundle\ApiBundle\DependencyInjection\Compiler\ProcessorBagCompilerPass;
+use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\AddLoginFormToCaptchaProtected;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\DataAuditEntityMappingPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\FrontendApiPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\LoginManagerPass;
@@ -23,6 +24,7 @@ class OroCustomerBundle extends Bundle
         $container->addCompilerPass(new OwnerTreeListenerPass());
         $container->addCompilerPass(new DataAuditEntityMappingPass());
         $container->addCompilerPass(new LoginManagerPass());
+        $container->addCompilerPass(new AddLoginFormToCaptchaProtected());
 
         if ($container instanceof ExtendedContainerBuilder) {
             $container->addCompilerPass(new FrontendApiPass());
