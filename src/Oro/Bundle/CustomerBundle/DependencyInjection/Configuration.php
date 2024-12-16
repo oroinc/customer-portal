@@ -3,6 +3,8 @@
 namespace Oro\Bundle\CustomerBundle\DependencyInjection;
 
 use Oro\Bundle\ConfigBundle\DependencyInjection\SettingsBuilder;
+use Oro\Bundle\ConfigBundle\Utils\TreeUtils;
+use Oro\Bundle\CustomerBundle\Form\Type\RedirectAfterLoginConfigType;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -10,19 +12,19 @@ use Symfony\Component\HttpFoundation\Cookie;
 
 class Configuration implements ConfigurationInterface
 {
-    public const ROOT_NODE = 'oro_customer';
+    public const string ROOT_NODE = 'oro_customer';
 
-    /**
-     * @internal
-     */
-    const DEFAULT_REGISTRATION_INSTRUCTIONS_TEXT
+    public const string DEFAULT_REGISTRATION_INSTRUCTIONS_TEXT
         = 'To register for a new account, contact a sales representative at 1 (800) 555-0123';
 
     /** Start Requirement for "Default Theme 50/51" */
-    const USER_MENU_SHOW_ITEMS_ALL_AT_ONCE = 'all_at_once';
-    const USER_MENU_SHOW_ITEMS_SUBITEMS_IN_POPUP = 'subitems_in_popup';
+    public const string USER_MENU_SHOW_ITEMS_ALL_AT_ONCE = 'all_at_once';
+    public const string USER_MENU_SHOW_ITEMS_SUBITEMS_IN_POPUP = 'subitems_in_popup';
     /** End Requirement for "Default Theme 50/51" */
-    const SECONDS_IN_DAY = 86400;
+    public const int SECONDS_IN_DAY = 86400;
+
+    public const string REDIRECT_AFTER_LOGIN = 'redirect_after_login';
+    public const string DO_NOT_LEAVE_CHECKOUT = 'do_not_leave_checkout';
 
     #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
@@ -56,6 +58,11 @@ class Configuration implements ConfigurationInterface
                 'api_key_generation_enabled' => ['type' => 'boolean', 'value' => true],
                 'case_insensitive_email_addresses_enabled' => ['type' => 'boolean', 'value' => false],
                 'email_enumeration_protection_enabled' => ['type' => 'boolean', 'value' => true],
+                self::REDIRECT_AFTER_LOGIN => [
+                    'type' => 'array',
+                    'value' => ['targetType' => RedirectAfterLoginConfigType::TARGET_NONE]
+                ],
+                self::DO_NOT_LEAVE_CHECKOUT => ['type' => 'boolean', 'value' => true],
             ]
         );
 
@@ -150,5 +157,10 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end();
+    }
+
+    public static function getConfigKey(string $name): string
+    {
+        return TreeUtils::getConfigKey(static::ROOT_NODE, $name);
     }
 }

@@ -136,6 +136,16 @@ oro.customer:
                 first: 'At least 8 characters'
                 second: 'An upper case letter'
                 third: 'A number'
+        target_type:
+            content_node: 'Content Node'
+            category: 'Category'
+            system_page: 'System Page'
+            uri: 'URI'
+            none: 'None'
+        uri:
+            placeholder: 'Enter an URI'
+        system_page_route:
+            placeholder: 'Choose a System Page'
 
     address:
         add: 'New Address'
@@ -789,6 +799,7 @@ oro.customer:
             responsive_grid_settings.title: 'Grid Settings'
             rest_api.title: 'REST API'
             customer_user_interactions.title: 'Interactions'
+            login_redirect.label: 'Login Redirect'
         fields:
             default_customer_owner:
                 label: 'Default Customer Owner'
@@ -848,6 +859,12 @@ oro.customer:
             email_enumeration_protection_enabled:
                 label: 'Customer User Email Enumeration Protection'
                 tooltip: 'Enable the option to hide the email address uniqueness validation error and trigger a registration attempt email to be sent to the existing user email address.'
+            redirect_after_login:
+                label: 'Redirect After Login'
+                tooltip: 'This option allows specifying a different target page for a successful login, instead of redirecting the user back to the original page where the login process began. However, if the login is initiated while accessing a protected resource, the user will always be redirected to the originally requested resource upon successful authentication.'
+            do_not_leave_checkout:
+                label: 'Do Not Leave Checkout'
+                tooltip: 'Enabling this option ensures that the user is redirected back to the checkout page after a successful login, overriding the "Redirect After Login" setting that may specify a different target page.'
     security:
         permissions: 'Action Permissions'
         permission:

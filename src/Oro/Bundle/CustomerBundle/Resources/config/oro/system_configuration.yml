@@ -23,6 +23,8 @@ system_configuration:
         customer_user_interactions:
             title: oro.customer.system_configuration.groups.customer_user_interactions.title
             icon: 'fa-commenting-o'
+        login_redirect:
+            title: oro.customer.system_configuration.groups.login_redirect.label
     fields:
         oro_customer.default_customer_owner:
             ui_only: true
@@ -187,6 +189,23 @@ system_configuration:
                 label: oro.customer.system_configuration.fields.email_enumeration_protection_enabled.label
                 tooltip: oro.customer.system_configuration.fields.email_enumeration_protection_enabled.tooltip
                 required: false
+        oro_customer.redirect_after_login:
+            data_type: array
+            type: Oro\Bundle\CustomerBundle\Form\Type\RedirectAfterLoginConfigType
+            options:
+                required: true
+                resettable: false
+                constraints:
+                    - NotBlank: ~
+                label: oro.customer.system_configuration.fields.redirect_after_login.label
+                tooltip: oro.customer.system_configuration.fields.redirect_after_login.tooltip
+        oro_customer.do_not_leave_checkout:
+            data_type: boolean
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
+            options:
+                label: oro.customer.system_configuration.fields.do_not_leave_checkout.label
+                tooltip: oro.customer.system_configuration.fields.do_not_leave_checkout.tooltip
+                required: false
 
     tree:
         system_configuration:
@@ -219,6 +238,10 @@ system_configuration:
                                         priority: 50
                                         children:
                                             - oro_customer.api_key_generation_enabled
+                                    login_redirect:
+                                        priority: 40
+                                        children:
+                                            - oro_customer.do_not_leave_checkout
 
                     design:
                         children:

@@ -23,6 +23,10 @@ The current file describes significant changes in the code that may affect the u
 * Added `\Oro\Bundle\FrontendBundle\Form\Configuration\AbstractCssConfigBuilder` that should be used for CSS Theme Variables
 * Added option `show_input_control` to `\Oro\Bundle\FormBundle\Form\Type\OroSimpleColorPickerType` that allows to show text input form for manual color value. By default, value for this option is false
 
+#### CustomerBundle
+* Added `oro_customer.redirect_after_login` and `oro_customer.do_not_leave_checkout` system config options that manage the redirection of customer user after login.
+* Added `Oro\Bundle\CustomerBundle\Provider\RedirectAfterLoginProvider` that provides a redirect target url.
+
 ### Changed
 * Replaced all places in code that used old system configuration options on theme configuration options.
 

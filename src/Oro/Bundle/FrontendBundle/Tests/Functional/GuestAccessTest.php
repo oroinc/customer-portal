@@ -31,19 +31,6 @@ class GuestAccessTest extends WebTestCase
         $configManager->flush();
     }
 
-    private function getBackOfficeLoginUrl(): string
-    {
-        return $this->getUrl('oro_user_security_login');
-    }
-
-    public function testBackOfficeIsAccessible(): void
-    {
-        $this->client->request('GET', $this->getBackOfficeLoginUrl());
-        $response = $this->client->getResponse();
-
-        self::assertResponseStatusCodeEquals($response, 200);
-    }
-
     /**
      * @dataProvider allowedUrlsDataProvider
      */
@@ -104,5 +91,18 @@ class GuestAccessTest extends WebTestCase
             ['/'],
             ['/customer/profile/']
         ];
+    }
+
+    private function getBackOfficeLoginUrl(): string
+    {
+        return $this->getUrl('oro_user_security_login');
+    }
+
+    public function testBackOfficeIsAccessible(): void
+    {
+        $this->client->request('GET', $this->getBackOfficeLoginUrl());
+        $response = $this->client->getResponse();
+
+        self::assertResponseStatusCodeEquals($response, 200);
     }
 }
