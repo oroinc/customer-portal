@@ -313,4 +313,5 @@ $(document).on('operation-button:init', e => {
         $el.inputWidget('seekAndDestroy');
     }
 });
+
 export default ResponsiveStyler;

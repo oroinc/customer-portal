@@ -6,6 +6,7 @@
 %base-notification,
 .notification {
     display: flex;
+    flex-direction: $notification-inner-direction;
     gap: $notification-inner-gap;
     padding: $notification-inner-offset;
 

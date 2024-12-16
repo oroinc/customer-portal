@@ -1,0 +1,68 @@
+{% block __collapse_container__collapse_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " collapse__container"
+    }) %}
+
+    {% set collapseId = 'collapse-'|uniqid %}
+
+    {% do block|merge_context({
+        collapseId: collapseId,
+        open: open|default(false)
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __collapse_container__collapse_header_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " collapse__header",
+        'id': collapseId ~ '-header',
+        'data-toggle': 'collapse',
+        'data-target': '#' ~ collapseId,
+        'aria-expanded': true,
+        'aria-controls': collapseId
+    }) %}
+
+    {% if open == false %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': ' collapsed',
+            'aria-expanded': false
+        }) %}
+    {% endif %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+        {{ renderIcon.icon({name: 'chevron-down', extraClass: 'collapse__toggle-icon'}) }}
+    </div>
+{% endblock %}
+
+{% block __collapse_container__collapse_toggle_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' collapse__toggle',
+        'type': 'button'
+    }) %}
+
+    <button {{ block('block_attributes') }}>{{ title|default('')|trans }}</button>
+{% endblock %}
+
+{% block __collapse_container__collapse_body_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'id': collapseId,
+        '~class': ' collapse collapse__body',
+        'aria-labelledby': collapseId ~ '-header',
+        'data-role': 'collapse-body'
+    }) %}
+
+    {% if open == true %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': ' show',
+        }) %}
+    {% endif %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
