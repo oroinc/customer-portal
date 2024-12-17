@@ -11,12 +11,19 @@
 
 .hidden,
 .hide,
-.hide-on-empty:empty {
+.hide-on-empty:empty,
+.no-visible-children {
     &:not(.display) {
         // override inline styles
         // stylelint-disable-next-line declaration-no-important
         display: none !important;
     }
+}
+
+.hidden-offscreen {
+    position: fixed;
+    top: -99990px;
+    left: -99999px;
 }
 
 .invisible {
@@ -37,6 +44,10 @@
 
 .no-scroll {
     overflow: hidden;
+}
+
+.vertical-scrolling {
+    overflow-y: scroll;
 }
 
 .disable-touch-scrolling {
@@ -174,4 +185,13 @@
 .bordered-img-on-top {
     border-bottom: $bordered-img-on-top-border-bottom;
     border-radius: $border-radius $border-radius 0 0;
+}
+
+.base-min-height {
+    min-height: 44px;
+}
+
+.items-center {
+    display: flex;
+    align-items: center;
 }

@@ -2,11 +2,14 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\DependencyInjection;
 
+use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
 use Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension;
+use Oro\Bundle\CustomerBundle\Form\Type\RedirectAfterLoginConfigType;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class OroCustomerExtensionTest extends \PHPUnit\Framework\TestCase
+final class OroCustomerExtensionTest extends TestCase
 {
     public function testLoad(): void
     {
@@ -46,6 +49,11 @@ class OroCustomerExtensionTest extends \PHPUnit\Framework\TestCase
                         'api_key_generation_enabled'  => ['value' => true, 'scope' => 'app'],
                         'case_insensitive_email_addresses_enabled'  => ['value' => false, 'scope' => 'app'],
                         'email_enumeration_protection_enabled' => ['value' => true, 'scope' => 'app'],
+                        Configuration::REDIRECT_AFTER_LOGIN => [
+                            'value' => ['targetType' => RedirectAfterLoginConfigType::TARGET_NONE],
+                            'scope' => 'app'
+                        ],
+                        Configuration::DO_NOT_LEAVE_CHECKOUT => ['value' => true, 'scope' => 'app'],
                     ]
                 ]
             ],

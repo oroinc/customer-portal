@@ -20,3 +20,8 @@ oro:
             birthday:
                 type:
                     message: 'This value is not a valid date.'
+
+        system_configuration:
+            login_redirect:
+                uri:
+                    relative_only: 'This value should be relative path.'

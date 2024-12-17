@@ -54,6 +54,18 @@ const FrontendPageSize = PageSize.extend({
     render() {
         FrontendPageSize.__super__.render.call(this);
         this.renderAsGroup();
+        this.toggleView();
+        return this;
+    },
+
+    toggleView() {
+        this.$el.removeClass('hide');
+
+        if (this.hidden || this.$el.is(':empty')) {
+            this.$el.addClass('hide');
+        } else {
+            this.$el.removeClass('hide');
+        }
         return this;
     },
 
@@ -62,7 +74,7 @@ const FrontendPageSize = PageSize.extend({
         const $select = this.$('select');
 
         if (!toDisplayAsGroup || !$select.length) {
-            this.$el.removeClass('hide');
+            this.$el.removeClass('hidden');
             return this;
         }
 
@@ -75,7 +87,7 @@ const FrontendPageSize = PageSize.extend({
         }));
 
         $select.after(this.subview('radioGroup').$el);
-        this.$el.addClass('hide');
+        this.$el.addClass('hidden');
 
 
         return this;

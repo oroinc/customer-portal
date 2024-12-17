@@ -78,3 +78,55 @@
         {% endif %}
     {% endapply %}
 {% endblock %}
+
+{% block _customer_users_oro_customer___redirect_after_login_value_targetType_widget %}
+    {{ form_widget(form, {attr: {'data-dependee-id': 'oro_redirect_target_type'}}) }}
+{% endblock %}
+
+{% block _customer_users_oro_customer___redirect_after_login_value_uri_widget %}
+    {{ form_widget(form, {attr: {
+        'placeholder': 'oro.customer.form.uri.placeholder',
+        'data-page-component-module': 'orosale/js/app/components/dependent-field-component',
+        'data-depend-on': 'oro_redirect_target_type',
+        'data-disable-element': ':input',
+        'data-show-if': constant('Oro\\Bundle\\CustomerBundle\\Form\\Type\\RedirectAfterLoginConfigType::TARGET_URI')
+    }}) }}
+{% endblock %}
+
+{% block _customer_users_oro_customer___redirect_after_login_value_systemPageRoute_widget %}
+    <div data-page-component-module="orosale/js/app/components/dependent-field-component"
+         data-depend-on="oro_redirect_target_type"
+         data-disable-element="select"
+         data-show-if="{{ constant('Oro\\Bundle\\CustomerBundle\\Form\\Type\\RedirectAfterLoginConfigType::TARGET_SYSTEM_PAGE') }}"
+    >
+        {{ form_widget(form) }}
+    </div>
+{% endblock %}
+
+{% block _customer_users_oro_customer___redirect_after_login_value_category_widget %}
+    {{ form_widget(form, {attr: {
+        'data-page-component-module': 'orosale/js/app/components/dependent-field-component',
+        'data-depend-on': 'oro_redirect_target_type',
+        'data-disable-element': ':input',
+        'data-show-if': constant('Oro\\Bundle\\CustomerBundle\\Form\\Type\\RedirectAfterLoginConfigType::TARGET_CATEGORY')
+    }}) }}
+{% endblock %}
+
+{% block _customer_users_oro_customer___redirect_after_login_value_webCatalog_widget %}
+    <div data-page-component-module="orosale/js/app/components/dependent-field-component"
+         data-depend-on="oro_redirect_target_type"
+         data-disable-element=":input"
+         data-show-if="{{ constant('Oro\\Bundle\\CustomerBundle\\Form\\Type\\RedirectAfterLoginConfigType::TARGET_CONTENT_NODE') }}"
+    >
+        {{ form_widget(form, {attr: {readonly: true}}) }}
+    </div>
+{% endblock %}
+
+{% block _customer_users_oro_customer___redirect_after_login_value_contentNode_widget %}
+    {{ form_widget(form, {attr: {
+        'data-page-component-module': 'orosale/js/app/components/dependent-field-component',
+        'data-depend-on': 'oro_redirect_target_type',
+        'data-disable-element': ':input',
+        'data-show-if': constant('Oro\\Bundle\\CustomerBundle\\Form\\Type\\RedirectAfterLoginConfigType::TARGET_CONTENT_NODE')
+    }}) }}
+{% endblock %}

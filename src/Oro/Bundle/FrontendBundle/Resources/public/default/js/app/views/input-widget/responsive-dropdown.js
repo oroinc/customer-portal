@@ -223,6 +223,22 @@ const ResponsiveDropdownWidgetView = AbstractInputWidgetView.extend({
 
         $actionsContainer.trigger('content:remove');
         $actionsContainer.html(actions);
+
+        // Hide a dropdown if all it's items are hidden
+        if (Array.isArray(actions)) {
+            $dropdown.addClass('hidden-offscreen');
+            $dropdown.find('.dropdown-menu').addClass('show');
+
+            const actionsHidden = actions.every(action => $(action).is(':hidden'));
+
+            if (actionsHidden) {
+                $dropdown.addClass('hidden');
+            }
+
+            $dropdown.find('.dropdown-menu').removeClass('show');
+            $dropdown.removeClass('hidden-offscreen');
+        }
+
         $actionsContainer.trigger('content:changed');
     },
 
@@ -268,7 +284,7 @@ const ResponsiveDropdownWidgetView = AbstractInputWidgetView.extend({
     },
 
     /**
-     * @returns {jQuery.Element}
+     * @returns {Array}
      */
     makeDropdownItems() {
         const $groups = this.$el.find('[data-group]');
@@ -280,7 +296,7 @@ const ResponsiveDropdownWidgetView = AbstractInputWidgetView.extend({
         };
 
         if ($groups.length === 0) {
-            return prepareActions(this.getActionsForElement(this.$el));
+            return prepareActions(this.getActionsForElement(this.$el)).get();
         }
 
         return $groups.map((i, el) => {

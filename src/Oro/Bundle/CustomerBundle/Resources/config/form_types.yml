@@ -306,3 +306,10 @@ services:
         class: Oro\Bundle\CustomerBundle\Form\Type\EnabledLocalizationSelectType
         tags:
             - { name: form.type, alias: oro_website_enabled_localization }
+
+    oro_customer.form.type.redirect_after_login_config:
+        class: Oro\Bundle\CustomerBundle\Form\Type\RedirectAfterLoginConfigType
+        arguments:
+            - '@oro_web_catalog.web_catalog_provider'
+        tags:
+            - { name: form.type }
