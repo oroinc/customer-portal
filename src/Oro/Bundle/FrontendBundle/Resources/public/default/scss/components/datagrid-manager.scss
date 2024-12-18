@@ -324,6 +324,11 @@
             display: none;
         }
     }
+
+    .datagrid-manager-always-show & {
+        // stylelint-disable-next-line declaration-no-important
+        display: block !important;
+    }
 }
 
 @include breakpoint('mobile-big-min') {
