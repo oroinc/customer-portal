@@ -477,7 +477,13 @@ define(function(require) {
                 return;
             }
 
-            $(state.dropdownToggle).dropdown(state.event);
+            if (state.event === 'show') {
+                // Fix popper recalculation when we use show method
+                // Need to update bootstrap-dropdown module
+                $(state.dropdownToggle).dropdown('hide').dropdown('toggle');
+            } else {
+                $(state.dropdownToggle).dropdown(state.event);
+            }
 
             const $focusEl = $(state.elToFocus);
 

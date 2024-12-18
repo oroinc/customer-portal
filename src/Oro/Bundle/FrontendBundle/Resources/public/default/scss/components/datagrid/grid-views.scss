@@ -29,6 +29,7 @@
         width: $grid-views-dropdown-width;
         margin: $grid-views-dropdown-offset;
         left: 0;
+        z-index: z('dropdown') + 2;
     }
 
     &__suptitle {
@@ -229,6 +230,12 @@
         color: $grid-views-public-color;
     }
 
+    &__options-dropdown {
+        .dropdown-menu {
+            z-index: z('dropdown') + 2;
+        }
+    }
+
     &__options {
         min-width: max-content;
 
@@ -237,10 +244,14 @@
         }
 
         &-action {
-            --btn-hover-background: none;
             --btn-background: none;
-            --btn-hover-color: #{get-color('text', 'primary')};
+            --btn-hover-background: none;
+            --btn-focus-background: none;
+            --btn-focus-visible-background: none;
             --btn-color: #{get-color('text', 'primary')};
+            --btn-hover-color: #{get-color('text', 'primary')};
+            --btn-focus-color: #{get-color('text', 'primary')};
+            --btn-focus-visible-color: #{get-color('text', 'primary')};
             --btn-font-weight: font-weight('normal');
             --btn-justify-content: start;
 
