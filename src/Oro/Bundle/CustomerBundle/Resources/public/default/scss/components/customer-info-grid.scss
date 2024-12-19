@@ -25,6 +25,10 @@
 
     &__total {
         grid-area: $customer-info-grid-total-grid-area;
+
+        .summary-collapse-content:not(.show) .summary-widget__summary {
+            grid-template-columns: initial;
+        }
     }
 
     &__element--order_po_number & {
