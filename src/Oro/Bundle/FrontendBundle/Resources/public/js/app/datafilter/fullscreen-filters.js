@@ -141,7 +141,12 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
             Object.assign(selectWidgetOptions, {
                 disableBodyTouchScroll: false,
                 disableBackDrop: true,
-                dialogClass: 'datagrid-manager--overlay fullscreen-popup--transition fullscreen-popup--align-left'
+                dialogClass: [
+                    'datagrid-manager--overlay',
+                    'fullscreen-popup--transition',
+                    'fullscreen-popup--align-left',
+                    'datagrid-manager-always-show'
+                ].join(' ')
             });
         }
 
