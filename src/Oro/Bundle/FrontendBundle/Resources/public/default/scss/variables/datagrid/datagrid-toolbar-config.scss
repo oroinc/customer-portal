@@ -10,8 +10,8 @@ $datagrid-tool-pagination-info-font-size: 13px !default;
 // Tablet Small
 $datagrid-toolbar-tablet-small-gap: 0 spacing('xs') !default;
 $datagrid-tool-tablet-small-gap: spacing('sm') !default;
-$datagrid-tool-mobile-big-gap: spacing('base') !default;
-$datagrid-tool-mobile-gap: spacing('md') !default;
 
 // Mobile
 $datagrid-toolbar-mobile-gap: 0 2px !default;
+$datagrid-tool-mobile-big-gap: spacing('base') !default;
+$datagrid-tool-mobile-gap: spacing('md') 6px !default;

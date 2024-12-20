@@ -70,6 +70,10 @@
         }
     }
 
+    .datagrid-toolbar-counter {
+        flex-shrink: 0;
+    }
+
     .action-selectbox-custom-in-pager {
         display: inline-block;
     }
@@ -100,6 +104,10 @@
 .frontend-datagrid__panel {
     display: flex;
     align-items: center;
+}
+
+.actions-panel:empty {
+    display: none;
 }
 
 @include breakpoint('tablet') {
