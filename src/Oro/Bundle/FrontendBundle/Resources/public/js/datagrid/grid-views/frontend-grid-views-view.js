@@ -9,6 +9,7 @@ define(function(require) {
     const manageFocus = require('oroui/js/tools/manage-focus').default;
     const GridViewsView = require('orodatagrid/js/datagrid/grid-views/view');
     const DeleteConfirmation = require('oroui/js/delete-confirmation');
+    const FrontendGridViewsInlineRenameView = require('./frontend-grid-views-inline-rename-view').default;
     const errorTemplate = require('tpl-loader!orofrontend/templates/datagrid/view-name-error-modal.html');
     require('jquery-ui/tabbable');
 
@@ -31,6 +32,12 @@ define(function(require) {
 
         /** @property */
         defaultPrefix: __('oro_frontend.datagrid_views.all'),
+
+        /** @property */
+        fromTitleNew: __('oro_frontend.datagrid_views.form_title.new'),
+
+        /** @property */
+        formTitleEdit: __('oro_frontend.datagrid_views.form_title.edit'),
 
         /** @property */
         toggleAriaLabel: 'oro_frontend.datagrid_views.toggleAriaLabel',
@@ -71,12 +78,15 @@ define(function(require) {
             actionsOptions: [
                 {
                     name: 'save',
-                    icon: 'floppy-o',
-                    priority: 40
+                    icon: 'double-check',
+                    priority: 20,
+                    inline: {
+                        icon: 'check'
+                    }
                 },
                 {
                     name: 'save_as',
-                    icon: 'floppy-o',
+                    icon: 'double-check',
                     priority: 40,
                     enabled: false
                 },
@@ -87,27 +97,33 @@ define(function(require) {
                 },
                 {
                     name: 'share',
-                    icon: 'bookmark',
+                    icon: 'users',
                     priority: 10
                 },
                 {
                     name: 'unshare',
-                    icon: 'bookmark-filled',
+                    icon: 'user',
                     priority: 10
                 },
                 {
                     name: 'discard_changes',
                     icon: 'undo',
-                    priority: 30
+                    priority: 30,
+                    inline: {
+                        icon: 'close',
+                        style: 'neutral'
+                    }
                 },
                 {
                     name: 'delete',
                     icon: 'trash',
+                    style: 'destructive',
+                    divider: true,
                     priority: 60
                 },
                 {
                     name: 'use_as_default',
-                    icon: 'grid',
+                    icon: 'check',
                     priority: 20
 
                 }
@@ -118,7 +134,9 @@ define(function(require) {
             elements: {
                 gridViewName: 'input[name=name]',
                 gridViewDefault: 'input[name=is_default]',
-                gridViewUpdate: '[data-grid-view-update]'
+                gridViewUpdate: '[data-grid-view-update]',
+                gridViewFormHeader: '[data-edit-form-header]',
+                gridViewFormTitle: '[data-edit-form-title]'
             },
             titleOptions: {
                 icon: null,
@@ -173,6 +191,8 @@ define(function(require) {
             this.$gridViewName = this.$(this.defaults.elements.gridViewName);
             this.$gridViewDefault = this.$(this.defaults.elements.gridViewDefault);
             this.$gridViewUpdate = this.$(this.defaults.elements.gridViewUpdate);
+            this.$gridViewFormHeader = this.$(this.defaults.elements.gridViewFormHeader);
+            this.$gridViewFormTitle = this.$(this.defaults.elements.gridViewFormTitle);
             this.$gridViewPopupContainer = this.$('[data-grid-view-popup-container]');
             this.$gridViewSwitchEditButton = this.$('[data-switch-edit-button]');
             this.$editContainer = this.$('[data-edit-container]');
@@ -182,7 +202,22 @@ define(function(require) {
             this.restoreDropdownState();
             this.updateButtonLabel();
 
+            this.$('[data-toggle="tooltip"]').tooltip();
+
             return this;
+        },
+
+        renderRenameInlineAction() {
+            const currentModel = this._getCurrentViewModel();
+
+            this.subview('rename-inline-action', new FrontendGridViewsInlineRenameView({
+                el: this.el,
+                model: currentModel,
+                autoRender: true
+            }));
+
+            this.listenTo(this.subview('rename-inline-action'), 'save', () => this._onRenameSaveModel(currentModel));
+            this.listenTo(this.subview('rename-inline-action'), 'cancel', this.render);
         },
 
         /**
@@ -190,14 +225,47 @@ define(function(require) {
          */
         renderTitle: function() {
             const label = this._getCurrentViewLabel();
+            const currentModel = this._getCurrentViewModel();
 
-            return this.titleTemplate({
+            const templateOptions = {
                 uniqueId: this.uniqueId,
                 title: label,
                 toggleAriaLabel: __(this.toggleAriaLabel, {choiceName: label}),
                 iconClass: this.titleOptions.iconClass,
-                icon: this.titleOptions.icon
-            });
+                icon: this.titleOptions.icon,
+                actions: this._getCurrentActions(),
+                is_default: false
+            };
+
+            if (currentModel) {
+                Object.assign(templateOptions, {
+                    is_default: currentModel.get('is_default'),
+                    editable: currentModel.get('editable'),
+                    name: currentModel.get('name')
+                });
+            }
+
+            return this.titleTemplate(templateOptions);
+        },
+
+        getTemplateData() {
+            const currentModel = this._getCurrentViewModel();
+            const data = {
+                ...FrontendGridViewsView.__super__.getTemplateData.call(this),
+                type: 'private',
+                editable: false,
+                label: this._getCurrentViewLabel(),
+                currentActions: this._getCurrentActions()
+            };
+
+            if (currentModel) {
+                Object.assign(data, {
+                    type: currentModel.get('type'),
+                    editable: currentModel.get('editable')
+                });
+            }
+
+            return data;
         },
 
         /**
@@ -290,7 +358,7 @@ define(function(require) {
             this.updateDropdownState({
                 elToFocus: tools.getElementCSSPath(this.$gridViewSwitchEditButton[0])
             });
-            this.switchEditMode(e, 'show');
+            this.switchEditMode(e, 'new');
             this.$gridViewName.trigger('focus');
         },
 
@@ -299,10 +367,16 @@ define(function(require) {
          */
         onRename: function(e) {
             this._editableViewModel = this._getEditableViewModel(e.currentTarget);
+
+            if ($(e.currentTarget).data('action-type') === 'inline') {
+                this.renderRenameInlineAction();
+                return;
+            }
+
             this.updateDropdownState({
                 elToFocus: tools.getElementCSSPath(e.currentTarget)
             });
-            this.switchEditMode(e, 'show', this._editableViewModel.get('is_default'));
+            this.switchEditMode(e, 'edit', this._editableViewModel.get('is_default'));
             this.fillForm({
                 name: this._editableViewModel.get('label'),
                 is_default: this._editableViewModel.get('is_default')
@@ -403,7 +477,13 @@ define(function(require) {
                 return;
             }
 
-            $(state.dropdownToggle).dropdown(state.event);
+            if (state.event === 'show') {
+                // Fix popper recalculation when we use show method
+                // Need to update bootstrap-dropdown module
+                $(state.dropdownToggle).dropdown('hide').dropdown('toggle');
+            } else {
+                $(state.dropdownToggle).dropdown(state.event);
+            }
 
             const $focusEl = $(state.elToFocus);
 
@@ -418,13 +498,36 @@ define(function(require) {
          * @param {string} mode
          */
         toggleEditForm: function(mode) {
-            if (mode === 'show') {
-                this.$gridViewSwitchEditButton.addClass('hide');
-                this.$editContainer.addClass('show');
-            } else if (mode === 'hide') {
-                this.$gridViewSwitchEditButton.removeClass('hide');
-                this.$editContainer.removeClass('show');
+            if (mode === 'hide') {
+                this.hideEditForm();
+            } else {
+                switch (mode) {
+                    case 'new':
+                        this.setEditFormTitle(this.fromTitleNew);
+                        break;
+                    case 'edit':
+                        this.setEditFormTitle(this.formTitleEdit);
+                        break;
+                    default:
+                        break;
+                }
+
+                this.showEditForm();
             }
+        },
+
+        setEditFormTitle: function(title) {
+            this.$gridViewFormTitle.text(title);
+        },
+
+        showEditForm: function() {
+            this.$gridViewSwitchEditButton.addClass('hide');
+            this.$editContainer.addClass('show');
+        },
+
+        hideEditForm: function() {
+            this.$gridViewSwitchEditButton.removeClass('hide');
+            this.$editContainer.removeClass('show');
         },
 
         /**
@@ -643,12 +746,16 @@ define(function(require) {
          * @returns {Array}
          * @private
          */
-        _getViewActions: function() {
+        _getViewActions: function(viewModel) {
             const actions = [];
             const actionsOptions = this.defaults.actionsOptions;
             const onlySystemView = this.viewsCollection.length === 1;
 
             this.viewsCollection.each(function(GridView) {
+                if (viewModel !== void 0 && viewModel !== GridView) {
+                    return;
+                }
+
                 let actionsForView = this._getActions(GridView);
                 const useAsDefaultAction = _.find(actionsOptions, {name: 'use_as_default'});
 
@@ -673,6 +780,12 @@ define(function(require) {
             }, this);
 
             return actions;
+        },
+
+        _getCurrentActions() {
+            const currentGridView = this._getCurrentViewModel();
+
+            return this._getViewActions(currentGridView).flat();
         },
 
         /**

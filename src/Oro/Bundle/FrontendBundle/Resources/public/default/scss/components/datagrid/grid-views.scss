@@ -5,17 +5,17 @@
     position: relative;
     align-items: center;
 
+    gap: spacing('xs') spacing('lg');
+
     margin: $grid-views-offset;
     padding: 6px 0;
 
     border-bottom: $grid-views-border-bottom;
 
-    @include clearfix;
-
     &__header {
         display: inline-flex;
         align-items: center;
-        gap: spacing('xs');
+        gap: spacing('sm');
     }
 
     &__aditional {
@@ -29,16 +29,17 @@
         width: $grid-views-dropdown-width;
         margin: $grid-views-dropdown-offset;
         left: 0;
+        z-index: z('dropdown') + 2;
     }
 
     &__suptitle {
         color: $grid-views-suptitle-color;
-        padding-right: spacing('xs');
     }
 
     &__title {
-        display: inline-block;
-        vertical-align: middle;
+        display: inline-flex;
+        align-items: center;
+        gap: spacing('xs');
 
         font-size: $grid-views-title-font-size;
         font-family: $grid-views-title-font-family;
@@ -56,6 +57,15 @@
             display: inline-flex;
             align-items: center;
         }
+
+        .status-label {
+            white-space: nowrap;
+        }
+    }
+
+    &__title-btn {
+        color: $grid-views-title-btn-color;
+        margin-left: -6px;
     }
 
     &__piece {
@@ -71,31 +81,67 @@
 
     &__edit-label {
         color: $grid-views-edit-label-color;
-        vertical-align: middle;
+        display: inline-flex;
+        align-items: center;
+        gap: spacing('sm');
+
+        padding-inline-start: spacing('lg');
+        position: relative;
+
+        &:before {
+            content: '';
+            display: block;
+
+            height: 20px;
+
+            border-left: $grid-views-edit-label-border-left;
+
+            position: absolute;
+            inset: 0 auto 0 0;
+
+            margin: auto;
+        }
     }
 
-    &__list {
-        padding-bottom: spacing('sm');
-    }
-
-    &__item {
+    &__edit-label-buttons {
+        margin-left: spacing('xs');
         display: flex;
-        padding: $grid-views-dropdown-list-item-offset-inner;
-        min-height: $grid-views-dropdown-list-item-min-height;
+        gap: spacing('xs');
     }
 
-    &__actions {
-        padding-left: spacing('xs');
-        color: $grid-views-actions-color;
-        white-space: nowrap;
+    &__dropdown-item {
+        padding: 0;
+        grid-template-columns: minmax(0, 1fr);
+
+        &:focus-within {
+            position: relative;
+            z-index: z();
+        }
+
+        &:has(.grid-views__actions) {
+            grid-template-columns: minmax(0, 1fr) auto;
+        }
+    }
+
+    & &__dropdown-item {
+        display: grid;
+        gap: 0 spacing('sm');
+    }
+
+    &__dropdown-item:has([type=radio]:focus) {
+        outline: $base-ui-element-focus-visible-outline;
+        outline-offset: $base-ui-element-focus-visible-outline-offset;
+        box-shadow: $focus-visible-style;
     }
 
     &__label {
-        display: flex;
+        padding-block: spacing('md');
+        padding-inline: spacing('base') 0;
         align-items: center;
-        flex-basis: 55%;
-        flex: 1;
-        word-break: break-all;
+
+        &:only-child {
+            padding-inline-end: spacing('md');
+        }
     }
 
     &__text-line {
@@ -103,6 +149,12 @@
         max-height: ($base-font-size * $base-line-height) * 2;
         font-size: $base-font-size;
         line-height: $base-line-height;
+    }
+
+    &__actions {
+        --theme-icon-size: #{$theme-icon-size};
+
+        padding-inline-end: spacing('md');
     }
 
     &__footer {
@@ -135,6 +187,17 @@
         }
     }
 
+    &__form-header {
+        min-height: 32px;
+        display: flex;
+        align-items: center;
+    }
+
+    &__form-title {
+        font-size: $base-font-size--xs;
+        font-weight: font-weight('semi-bold');
+    }
+
     &__form-content {
         --grid-gap: #{$grid-views-dropdown-footer-content-gap};
     }
@@ -149,6 +212,8 @@
         gap: spacing('base');
         align-items: center;
         justify-content: space-between;
+
+        min-height: 44px;
     }
 
     &__set-default {
@@ -157,20 +222,134 @@
         gap: spacing('sm');
         font-size: $grid-views-dropdown-footer-label-font-size;
     }
+
+    &__shared-status {
+        display: flex;
+        align-items: center;
+
+        color: $grid-views-public-color;
+    }
+
+    &__options-dropdown {
+        .dropdown-menu {
+            z-index: z('dropdown') + 2;
+        }
+    }
+
+    &__options {
+        min-width: max-content;
+
+        &-item {
+            padding: 0;
+        }
+
+        &-action {
+            --btn-background: none;
+            --btn-hover-background: none;
+            --btn-focus-background: none;
+            --btn-focus-visible-background: none;
+            --btn-color: #{get-color('text', 'primary')};
+            --btn-hover-color: #{get-color('text', 'primary')};
+            --btn-focus-color: #{get-color('text', 'primary')};
+            --btn-focus-visible-color: #{get-color('text', 'primary')};
+            --btn-font-weight: font-weight('normal');
+            --btn-justify-content: start;
+
+            width: 100%;
+        }
+    }
+
+    &__inline-rename {
+        display: flex;
+        gap: spacing('base');
+        align-items: end;
+    }
+
+    &__inline-rename-container {
+        display: flex;
+        gap: spacing('md');
+        align-items: center;
+
+        label {
+            margin: 0;
+            flex: 1 0 auto;
+            font-weight: font-weight('normal');
+        }
+    }
+
+    &__inline-rename-input {
+        width: 100%;
+        min-width: 296px;
+    }
+
+    &__inline-rename-button {
+        display: flex;
+        gap: spacing('sm');
+    }
 }
 
 @include breakpoint('mobile-landscape') {
     .grid-views {
         width: 100%;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: spacing('xs') spacing('md');
+
+        &__options-dropdown {
+            display: flex;
+            justify-content: end;
+        }
+
+        &:has(&__shared-status) {
+            grid-template-columns: auto auto 1fr;
+        }
+
+        &__shared-status {
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+        }
+
+        &__edit-label {
+            padding-left: 0;
+            flex-grow: 1;
+
+            &:before {
+                display: none;
+            }
+        }
+
+        &__inline-rename-container {
+            flex-direction: column;
+            align-items: start;
+            gap: spacing('xs');
+
+            flex-grow: 1;
+        }
+
+        &__inline-rename {
+            grid-column: 1 / 3;
+        }
+
+        &__inline-rename-input {
+            min-width: 100%;
+        }
     }
 }
 
 @include breakpoint('mobile') {
     .grid-views {
-        &__dropdown {
-            top: -6px;
-            left: -1px;
-            width: $grid-views-dropdown-mobile-width;
+        &__item {
+            margin-block: spacing('sm');
+        }
+
+        &__dropdown-item {
+            &:has(.grid-views__actions) {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        &__label {
+            padding-inline-end: spacing('md');
         }
     }
 }

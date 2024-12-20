@@ -123,9 +123,24 @@ oro_frontend:
         set_as_default: "Set as Default"
         set_as_default.aria_label: "Set New Grid View as Default"
         placeholder: "Enter new list name"
+        placeholder_view_name: "Enter view name"
         toggleAriaLabel: "Manage grid views. Current view is {{ choiceName }}"
+        inline:
+            rename.label: View Name
         choice:
             aria_text: "Set as active {{ choiceName }} view"
+        status:
+            default: "Default"
+        choices:
+            non_configurable: "Non-configurable Views"
+            configurable: "Configurable Views"
+        shared:
+            public: 'Shared with others'
+            private: 'Only you can see'
+            system: 'Only you can see'
+        form_title:
+            new: "Add New View"
+            edit: "Edit View"
 
     fullscreen_popup:
         actions:
