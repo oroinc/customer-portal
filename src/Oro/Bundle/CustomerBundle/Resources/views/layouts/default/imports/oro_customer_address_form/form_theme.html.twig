@@ -1,68 +1,78 @@
 {% block oro_customer_frontend_typed_address_widget %}
     {% apply spaceless %}
-        <div class="grid">
+        <div class="grid grid-column-1 grid-row-gap-8">
             {% if form.primary is defined %}
-                <div class="grid-col-12">
+                <div class="grid-col-12 form-row-height-normalize">
                     {{ form_row(form.primary, {'label' : 'oro.customer.frontend.address.form.label.primary'|trans }) }}
                 </div>
             {% endif %}
-            <div class="grid-col-12">
-                {{ form_row(form.frontendOwner) }}
-            </div>
-            <div class="grid-col-6 grid-col-mobile-landscape-12">
-                {{ form_row(form.label, {'label' : 'oro.customer.frontend.address.form.label.address_label'|trans}) }}
-            </div>
-            <div class="grid-col-6 grid-col-mobile-landscape-12">
-                {{ form_row(form.namePrefix, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.name.prefix'|trans}}) }}
-            </div>
-            <div class="grid-col-6 grid-col-mobile-landscape-12">
-                {{ form_row(form.firstName, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.first_name'|trans}}) }}
-            </div>
-            <div class="grid-col-6 grid-col-mobile-landscape-12">
-                {{ form_row(form.middleName, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.middle_name'|trans}}) }}
-            </div>
-            <div class="grid-col-6 grid-col-mobile-landscape-12">
-                {{ form_row(form.lastName, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.last_name'|trans}}) }}
-            </div>
-            <div class="grid-col-6 grid-col-mobile-landscape-12">
-                {{ form_row(form.nameSuffix, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.name_suffix'|trans}}) }}
-            </div>
-            <div class="grid-col-6 grid-col-mobile-landscape-12">
-                {{ form_row(form.organization, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.organization'|trans}}) }}
-            </div>
-            <div class="grid-col-6 grid-col-mobile-landscape-12">
-                {{ form_row(form.phone, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.phone'|trans}}) }}
-            </div>
-            <div class="grid-col-6 grid-col-mobile-landscape-12">
-                {{ form_row(form.street, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.street'|trans}}) }}
-            </div>
-            <div class="grid-col-6 grid-col-mobile-landscape-12">
-                {{ form_row(form.street2, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.street2'|trans}}) }}
-            </div>
-            <div class="grid-col-3 grid-col-tablet-6 grid-col-mobile-landscape-12">
-                {{ form_row(form.city, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.city'|trans}}) }}
-            </div>
-            <div class="grid-col-3 grid-col-tablet-6 grid-col-mobile-landscape-12">
-                {{ form_row(form.country, {'placeholder': 'oro.customer.frontend.address.form.placeholder.country'|trans}) }}
-            </div>
-            <div class="grid-col-3 grid-col-tablet-6 grid-col-mobile-landscape-12">
-                {{ form_row(form.region, {'placeholder': 'oro.customer.frontend.address.form.placeholder.region'|trans}) }}
-            </div>
-            <div class="grid-col-3 grid-col-tablet-6 grid-col-mobile-landscape-12">
-                {{ form_row(form.postalCode, {'attr' : {'placeholder': 'oro.customer.frontend.address.form.placeholder.zip'|trans}}) }}
-            </div>
-            <div class="grid-col-6 grid-col-mobile-landscape-12"
-                data-page-component-module="orocustomer/js/app/components/customer-address-component"
-                data-page-component-options="{{ {'disableDefaultWithoutType' : true}|json_encode }}">
-                <div class="label label--full">{{ "oro.customer.frontend.address.form.label.address_types"|trans }}:</div>
-                <div class="grid address-form__types">
-                    {{ form_widget(form.types) }}
-                    {{ form_widget(form.defaults) }}
+            <div class="grid-col-12 grid">
+                <div class="grid-col-6 grid-col-mobile-landscape-12">
+                    {{ form_row(form.frontendOwner) }}
                 </div>
-            </div>
-            <div class="hidden">
-                {{ form_widget(form.id) }}
-                {{ form_widget(form.region_text) }}
+                <div class="grid-col-6 grid-col-mobile-landscape-12">
+                    {{ form_row(form.label, {'label' : 'oro.customer.frontend.address.form.label.address_label'|trans}) }}
+                </div>
+                <div class="grid-col-6 grid-col-mobile-landscape-12">
+                    {{ form_row(form.namePrefix, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.name.prefix'|trans}}) }}
+                </div>
+                <div class="grid-col-6 grid-col-mobile-landscape-12">
+                    {{ form_row(form.firstName, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.first_name'|trans}}) }}
+                </div>
+                <div class="grid-col-6 grid-col-mobile-landscape-12">
+                    {{ form_row(form.middleName, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.middle_name'|trans}}) }}
+                </div>
+                <div class="grid-col-6 grid-col-mobile-landscape-12">
+                    {{ form_row(form.lastName, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.last_name'|trans}}) }}
+                </div>
+                <div class="grid-col-6 grid-col-mobile-landscape-12">
+                    {{ form_row(form.nameSuffix, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.name_suffix'|trans}}) }}
+                </div>
+                <div class="grid-col-6 grid-col-mobile-landscape-12">
+                    {{ form_row(form.organization, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.organization'|trans}}) }}
+                </div>
+                <div class="grid-col-6 grid-col-mobile-landscape-12">
+                    {{ form_row(form.phone, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.phone'|trans}}) }}
+                </div>
+                <div class="grid-col-6 grid-col-mobile-landscape-12">
+                    {{ form_row(form.street, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.street'|trans}}) }}
+                </div>
+                <div class="grid-col-6 grid-col-mobile-landscape-12">
+                    {{ form_row(form.street2, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.street2'|trans}}) }}
+                </div>
+                <div class="grid-col-6 grid-col-mobile-landscape-12">
+                    {{ form_row(form.city, {'attr': {'placeholder': 'oro.customer.frontend.address.form.placeholder.city'|trans}}) }}
+                </div>
+                <div class="grid-col-6 grid-col-mobile-landscape-12">
+                    {{ form_row(form.country, {'placeholder': 'oro.customer.frontend.address.form.placeholder.country'|trans}) }}
+                </div>
+                <div class="grid-col-6 grid-col-mobile-landscape-12 grid customer-user-form__row">
+                    <div class="grid-col-8 grid-col-tablet-6 grid-col-mobile-landscape-12">
+                        {{ form_row(form.region, {'placeholder': 'oro.customer.frontend.address.form.placeholder.region'|trans}) }}
+                    </div>
+                    <div class="grid-col-4 grid-col-tablet-6 grid-col-mobile-landscape-12">
+                        {{ form_row(form.postalCode, {'attr' : {'placeholder': 'oro.customer.frontend.address.form.placeholder.zip'|trans}}) }}
+                    </div>
+                </div>
+                <div class="grid-col-6 grid-col-mobile-landscape-12 grid customer-user-form__row"
+                    data-page-component-module="orocustomer/js/app/components/customer-address-component"
+                    data-page-component-options="{{ {'disableDefaultWithoutType' : true}|json_encode }}">
+                    <div class="grid-col-12">
+                        <div class="label label--full">{{ "oro.customer.frontend.address.form.label.address_types"|trans }}:</div>
+                        <div class="grid address-form__types form-row-height-normalize">
+                            <div class="grid-col-5">
+                                {{ form_widget(form.types) }}
+                            </div>
+                            <div class="grid-col-7">
+                                {{ form_widget(form.defaults) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden">
+                    {{ form_widget(form.id) }}
+                    {{ form_widget(form.region_text) }}
+                </div>
             </div>
         </div>
     {% endapply %}
@@ -70,14 +80,4 @@
 
 {% block oro_customer_typed_address_with_default_widget %}
     {{ form_widget(form.default) }}
-{% endblock %}
-
-{% block choice_widget_expanded %}
-    <div class="grid-col-6 grid-col-mobile-landscape-12">
-        {% for child in form %}
-            <div>
-                {{ form_widget(child) }}
-            </div>
-        {% endfor %}
-    </div>
 {% endblock %}

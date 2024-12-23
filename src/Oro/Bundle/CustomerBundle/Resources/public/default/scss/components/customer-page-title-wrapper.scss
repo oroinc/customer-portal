@@ -19,3 +19,19 @@
         vertical-align: $customer-page-title-text-vertical-align;
     }
 }
+
+@include breakpoint('mobile-landscape') {
+    .customer-page-title-wrapper {
+        .page-title-actions {
+            width: $customer-page-title-actions-width-mobile;
+
+            &--full-width-on-mobile {
+                width: 100%;
+
+                .btn {
+                    flex: 1;
+                }
+            }
+        }
+    }
+}

@@ -13,19 +13,23 @@ layout:
     actions:
         - '@setBlockTheme':
             themes: '@OroCustomer/layouts/default/oro_customer_frontend_customer_user_role_create/layout.html.twig'
+
         - '@setOption':
             id: page_title
             optionName: defaultValue
             optionValue:
                 label: 'oro.customer.frontend.title.page.customer_user_role.create'
+
         - '@setOption':
             id: customer_user_role_form_actions_update_top
-            optionName: text
+            optionName: vars.text
             optionValue: oro.customer.action.customer_user_role.create_label
+
         - '@setOption':
             id: customer_user_role_form_actions_update_bottom
             optionName: text
             optionValue: oro.customer.action.customer_user_role.create_label
+
         - '@add':
             id: customer_user_role_form_privileges_container
             blockType: container

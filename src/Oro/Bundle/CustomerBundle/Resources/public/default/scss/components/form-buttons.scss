@@ -1,0 +1,15 @@
+/* @theme: default; */
+
+.form-buttons {
+    display: $form-buttons-display;
+    gap: $form-buttons-gap;
+    margin-top: $form-buttons-margin-top;
+}
+
+@include breakpoint('mobile') {
+    .form-buttons {
+        .btn {
+            flex: 1;
+        }
+    }
+}

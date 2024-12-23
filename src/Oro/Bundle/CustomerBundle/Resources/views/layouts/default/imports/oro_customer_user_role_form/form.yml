@@ -1,4 +1,9 @@
 layout:
+    imports:
+        -
+            id: oro_customer_form_top_bar
+            root: page_content
+
     actions:
         - '@setBlockTheme':
             themes: '@OroCustomer/layouts/default/imports/oro_customer_user_role_form/layout.html.twig'
@@ -90,12 +95,14 @@ layout:
                 __customer_user_role_form_actions_top:
                     blockType: container
                 __customer_user_role_form_actions_update_top:
-                    blockType: button
+                    blockType: block
                     options:
-                        action: submit
-                        text: oro.customer.action.customer_user_role.save_label
                         attr:
-                            'class': 'role-submit '
+                            'class': 'btn'
+                        vars:
+                            text: ''
+                            form: '=data["oro_customer_frontend_customer_user_role_form"].getRoleFormView(data["entity"])'
+
                 __customer_user_role_form_actions_cancel_top:
                     blockType: link
                     options:
@@ -103,6 +110,7 @@ layout:
                         text: oro.customer.action.customer_user_role.cancel_label
                         attr:
                             'class': 'btn btn--outlined '
+                        icon: 'close'
                 __customer_user_role_form_actions_bottom:
                     blockType: container
                 __customer_user_role_form_actions_update_bottom:
@@ -112,6 +120,7 @@ layout:
                         text: oro.customer.action.customer_user_role.save_label
                         attr:
                             'class': 'role-submit '
+                        icon: 'check'
                 __customer_user_role_form_actions_cancel_bottom:
                     blockType: link
                     options:
@@ -119,6 +128,7 @@ layout:
                         text: oro.customer.action.customer_user_role.cancel_label
                         attr:
                             'class': 'btn btn--outlined '
+                        icon: 'close'
                 __customer_user_role_form_actions_input_action:
                     blockType: input
                     options:
@@ -141,3 +151,18 @@ layout:
                                 __customer_user_role_form_actions_cancel_bottom: ~
                                 __customer_user_role_form_actions_update_bottom: ~
                         __customer_user_role_form_end: ~
+
+        - '@setOption':
+            id: back_button
+            optionName: route_name
+            optionValue: oro_customer_frontend_customer_user_role_index
+
+        - '@move':
+            id: __customer_user_role_form_actions_cancel_top
+            parentId: __actions_wrapper
+            prepend: false
+
+        - '@move':
+            id: __customer_user_role_form_actions_update_top
+            parentId: __actions_wrapper
+            prepend: false

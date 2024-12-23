@@ -3,28 +3,23 @@ layout:
         -
             id: oro_customer_back_button
             root: page_title_container
-
         -
-            id: oro_customer_toolbar_actions
-            root: __actions_wrapper
+            id: oro_required_label
+            root: page_content
 
     actions:
         - '@setBlockTheme':
-            themes: '@OroCustomer/layouts/default/imports/oro_customer_top_bar/layout.html.twig'
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_form_top_bar/layout.html.twig'
 
         - '@addTree':
             items:
                 __title_wrapper:
                     blockType: container
-                __status:
-                    blockType: text
                 __actions_wrapper:
                     blockType: container
-
             tree:
                 __root:
-                    __title_wrapper:
-                      __status: ~
+                    __title_wrapper: ~
                     __actions_wrapper: ~
 
         - '@move':
@@ -42,17 +37,22 @@ layout:
             parentId: page_title_container
             prepend: false
 
+        - '@setOption':
+            id: __required_label
+            optionName: attr.class
+            optionValue: 'customer-user-form-required-label'
+
         - '@move':
             id: __actions_wrapper
             parentId: page_title_container
             prepend: false
 
-        - '@setOption':
-            id: __status
-            optionName: text
-            optionValue: ''
-
         - '@appendOption':
             id: __actions_wrapper
             optionName: vars.showActionsInDropdown
-            optionValue: true
+            optionValue: false
+
+        - '@setOption':
+            id: __actions_wrapper
+            optionName: attr.class
+            optionValue: 'page-title-actions--full-width-on-mobile'

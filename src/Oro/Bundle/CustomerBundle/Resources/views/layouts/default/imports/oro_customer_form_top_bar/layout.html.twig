@@ -1,0 +1,36 @@
+{% block __oro_customer_form_top_bar__title_wrapper_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': "page-title--has-actions"
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __oro_customer_form_top_bar__actions_wrapper_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " page-title-actions"
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {% if showActionsInDropdown %}
+            <div class="simple-placeholder" data-placeholder-show-one-child-on-mobile-big=""
+                 data-responsive-dropdown=""
+                 data-input-widget-options="{{ {
+                     dropdownClass: '',
+                     dropdownMenuClass: '',
+                     toggleClass: 'toggle-container--dropdown-btn',
+                     toggleAriaLabel: 'oro.customer.frontend.action_dropdown.aria_label'|trans,
+                     placement: 'bottom-end',
+                     icon: 'more-horizontal',
+                     iconClass: 'theme-icon--medium',
+                     actionsContainerClass: 'actions-group',
+                 }|json_encode }}">
+                {{ block_widget(block) }}
+            </div>
+        {% else %}
+            <div class="page-title-actions__actions_list">
+                {{ block_widget(block) }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

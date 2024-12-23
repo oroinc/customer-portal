@@ -1,4 +1,9 @@
 layout:
+    imports:
+        -
+            id: oro_customer_form_top_bar
+            root: page_content
+
     actions:
         - '@setBlockTheme':
             themes: '@OroCustomer/layouts/default/imports/oro_customer_user_form/layout.html.twig'
@@ -38,15 +43,15 @@ layout:
                         text: oro.customer.form.action.cancel.label
                         attr:
                             'class': 'btn btn--outlined '
+                        icon: 'close'
                 __customer_user_form_actions_create:
                     blockType: button
                     options:
                         action: submit
                         text: oro.customer.form.action.save.label
                         attr:
-                            'class': 'role-submit '
-                __customer_user_form_required_label:
-                    blockType: block
+                            'class': 'role-submit'
+                        icon: 'check'
             tree:
                 __root:
                     __customer_user_page:
@@ -59,16 +64,21 @@ layout:
                             __customer_user_form_actions:
                                 __customer_user_form_actions_cancel: ~
                                 __customer_user_form_actions_create: ~
-                            __customer_user_form_required_label: ~
         - '@move':
             id: __customer_user_form_fields_container
             parentId: __customer_user_form_fields
+
         - '@move':
             id: __customer_user_form_actions
             parentId: __customer_user_form
             siblingId: __customer_user_form_fields
-        - '@move':
-            id: __customer_user_form_required_label
-            parentId: __customer_user_form
-            siblingId: __customer_user_form_end
-            prepend: true
+
+        - '@setOption':
+            id: back_button
+            optionName: route_name
+            optionValue: oro_customer_frontend_customer_user_index
+
+        - '@setOption':
+            id: __customer_user_form_errors
+            optionName: attr.class
+            optionValue: 'customer-user-form-validation'

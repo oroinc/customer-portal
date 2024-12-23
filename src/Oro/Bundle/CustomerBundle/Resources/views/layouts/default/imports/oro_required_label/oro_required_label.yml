@@ -1,0 +1,12 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroCustomer/layouts/default/imports/oro_required_label/oro_required_label.html.twig'
+
+        - '@addTree':
+            items:
+                __required_label:
+                    blockType: block
+            tree:
+                __root:
+                    __required_label: ~

@@ -1,4 +1,9 @@
 layout:
+    imports:
+        -
+           id: oro_required_label
+           root: page_content
+
     actions:
         - '@setBlockTheme':
             themes: '@OroCustomer/layouts/default/imports/oro_customer_form/oro_customer_form.html.twig'
@@ -38,8 +43,6 @@ layout:
                         text: ''
                 __links:
                     blockType: container
-                __required_label:
-                    blockType: block
                 __all_required_label:
                     blockType: block
                     options:
@@ -52,10 +55,15 @@ layout:
                             __label_wrapper:
                                 __label: ~
                             __description: ~
-                            __required_label: ~
                             __all_required_label: ~
                             __form:
                                 __form_submit_wrapper:
                                     __form_submit: ~
                             __form_additional:
                                 __links: ~
+
+        - '@move':
+            id: __required_label
+            parentId: __page
+            siblingId: __description
+            prepend: false

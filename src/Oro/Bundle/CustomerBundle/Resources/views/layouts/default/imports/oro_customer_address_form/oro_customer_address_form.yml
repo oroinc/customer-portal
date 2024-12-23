@@ -1,4 +1,9 @@
 layout:
+    imports:
+        -
+            id: oro_customer_form_top_bar
+            root: page_content
+
     actions:
         - '@setBlockTheme':
             themes: '@OroCustomer/layouts/default/imports/oro_customer_address_form/oro_customer_address_form.html.twig'
@@ -25,6 +30,7 @@ layout:
                         text: oro.customer.frontend.address.buttons.save
                         attr:
                             'class': 'role-submit '
+                        icon: 'check'
                 __form_actions_cancel:
                     blockType: link
                     options:
@@ -32,8 +38,7 @@ layout:
                         text: oro.customer.frontend.address.buttons.cancel
                         attr:
                             'class': 'btn btn--outlined '
-                __form_required_label:
-                    blockType: block
+                        icon: 'close'
                 __form_actions_input_action:
                     blockType: input
                     options:
@@ -49,8 +54,16 @@ layout:
                             __form_actions_input_action: ~
                             __form_actions_cancel: ~
                             __form_actions_update: ~
-                        __form_required_label: ~
         - '@move':
             id: __form_actions
             parentId: __form
             siblingId: __form_fields
+
+        - '@removeOption':
+            id: __back_button
+            optionName: route_name
+
+        - '@appendOption':
+            id: __back_button
+            optionName: path
+            optionValue: '=data["backToUrl"]'

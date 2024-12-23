@@ -8,8 +8,14 @@
 {% endblock %}
 
 {% block __oro_customer_user_role_form__customer_user_role_form_actions_top_widget %}
+    <div{{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __oro_customer_user_role_form__customer_user_role_form_fields_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid-col-7 grid-place-self-end grid-col-mobile-landscape-12'
+        '~class': ' grid grid-col-12 customer-user-form customer-user-form--full-width'
     }) %}
     <div{{ block('block_attributes') }}>
         {{ block_widget(block) }}
@@ -41,10 +47,23 @@
 
 {% block __oro_customer_user_role_form__customer_user_role_form_actions_bottom_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid-col-12 grid-place-self-end',
+        '~class': ' grid-col-12 grid-place-self-end form-buttons',
         'data-bottom-actions': ''
     }) %}
     <div{{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
+{% endblock %}
+
+{% block __oro_customer_user_role_form__customer_user_role_form_actions_update_top_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+    {% if form.vars.id is defined %}
+        {% set attr = layout_attr_defaults(attr, {
+            'form': form.vars.id
+        }) %}
+    {% endif %}
+        <button {{ block('block_attributes') }} type="submit">
+            {{ renderIcon.icon({name: 'check'}) }}
+            {{ text|trans }}
+        </button>
 {% endblock %}

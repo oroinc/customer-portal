@@ -5,6 +5,7 @@ layout:
         -
             id: oro_customer_user_form
             root: page_content
+
     actions:
         - '@setOption':
             id: title

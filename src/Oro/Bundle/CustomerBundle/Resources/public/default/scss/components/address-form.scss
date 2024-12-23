@@ -1,10 +1,6 @@
 /* @theme: default; */
 
 .address-form {
-    padding: 28px 32px;
-
-    background: $address-form-background;
-
     &__types {
         --grid-gap: 0 #{spacing('base')};
     }

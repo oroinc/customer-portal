@@ -344,7 +344,7 @@ oro_behat_extension:
       selector: '[name="oro_customer_frontend_customer_user"]'
 
     Address Form:
-      selector: '.address-form'
+      selector: '#address-form'
 
     Is Primary Address Checkbox:
       selector: 'label[for*="oro_customer_frontend_typed_address_primary"]'

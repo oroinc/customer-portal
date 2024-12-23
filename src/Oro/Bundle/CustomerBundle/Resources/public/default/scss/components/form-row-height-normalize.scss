@@ -1,0 +1,10 @@
+/* @theme: default; */
+
+.form-row-height-normalize {
+    .checkbox-label {
+        min-height: $form-row-height-normalize-min-height;
+        display: $form-row-height-normalize-display;
+        align-items: $form-row-height-normalize-align-items;
+        line-height: $form-row-height-normalize-line-height;
+    }
+}

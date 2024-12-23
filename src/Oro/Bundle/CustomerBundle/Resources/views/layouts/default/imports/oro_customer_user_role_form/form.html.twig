@@ -31,7 +31,7 @@
         dialogOptions: { className: 'modal modal-primary' }
     } %}
 
-    <div class="grid-col-12" {{ UI.renderPageComponentAttributes({
+    <div class="grid-col-6 grid-col-mobile-landscape-12" {{ UI.renderPageComponentAttributes({
         module: 'orocustomer/js/app/components/customer-user-role-component',
         options: customerUserRoleOptions
     }) }}>
@@ -48,7 +48,7 @@
 {% block _oro_customer_frontend_customer_user_role_action_row %}{% endblock %}
 
 {% block _oro_customer_frontend_customer_user_role_label_row %}
-    <div class="grid-col-5 grid-col-mobile-landscape-12">
+    <div class="grid-col-6 grid-col-mobile-landscape-12">
         {{ form_label(form, 'oro.customer.frontend.sections.customer_user_role.label') }}
         {{ form_widget(form) }}
         {{ form_errors(form) }}

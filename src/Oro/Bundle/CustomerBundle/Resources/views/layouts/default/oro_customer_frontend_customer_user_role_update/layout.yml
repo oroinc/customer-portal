@@ -13,18 +13,22 @@ layout:
     actions:
         - '@setBlockTheme':
             themes: '@OroCustomer/layouts/default/oro_customer_frontend_customer_user_role_update/layout.html.twig'
+
         - '@setFormTheme':
             themes: '@OroCustomer/layouts/default/oro_customer_frontend_customer_user_role_update/form.html.twig'
+
         - '@setOption':
             id: page_title
             optionName: defaultValue
             optionValue:
                 label: 'oro.customer.frontend.title.page.customer_user_role.edit'
+
         - '@setOption':
             id: customer_user_role_form_fields
             optionName: vars
             optionValue:
                 entity: '=data["entity"]'
+
         - '@add':
             id: customer_user_role_form_privileges_container
             blockType: container
@@ -34,3 +38,8 @@ layout:
         - '@move':
             id: customer_user_role_form_privileges_datagrid
             parentId: customer_user_role_form_privileges_container
+
+        - '@setOption':
+            id: customer_user_role_form_actions_update_top
+            optionName: vars.text
+            optionValue: oro.customer.action.customer_user_role.save_label

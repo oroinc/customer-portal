@@ -1,0 +1,11 @@
+/* @theme: default; */
+
+$customer-user-form-max-width: 940px !default;
+$customer-user-form-grid-gap: $base-ui-grid-row-gap spacing('titanic') !default;
+$customer-user-form-row-grid-gap: $base-ui-grid-row-gap spacing('base') !default;
+$customer-user-form-label-required-margin-bottom: spacing('md') !default;
+$customer-user-form-validation-margin-bottom: spacing('base') !default;
+
+$customer-user-form-grid-gap-tablet: $base-ui-grid-row-gap spacing('huge') !default;
+$customer-user-form-grid-gap-tablet-small: $base-ui-grid-row-gap spacing('xxxl') !default;
+$customer-user-form-grid-gap-mobile: $base-ui-grid-row-gap 0 !default;
