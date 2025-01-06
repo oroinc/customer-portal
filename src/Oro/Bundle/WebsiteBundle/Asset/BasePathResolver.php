@@ -9,23 +9,23 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class BasePathResolver
 {
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
-
-    public function __construct(RequestStack $requestStack)
-    {
-        $this->requestStack = $requestStack;
+    public function __construct(
+        private readonly RequestStack $requestStack
+    ) {
     }
 
     public function resolveBasePath(string $defaultBasePath): string
     {
-        $masterRequest = $this->requestStack->getMainRequest();
-        if ($masterRequest && $configuredPath = $masterRequest->server->get('WEBSITE_PATH')) {
-            return str_replace($configuredPath, '', $defaultBasePath);
+        $mainRequest = $this->requestStack->getMainRequest();
+        if (null === $mainRequest) {
+            return $defaultBasePath;
         }
 
-        return $defaultBasePath;
+        $configuredPath = $mainRequest->server->get('WEBSITE_PATH');
+        if (!$configuredPath) {
+            return $defaultBasePath;
+        }
+
+        return str_replace($configuredPath, '', $defaultBasePath);
     }
 }

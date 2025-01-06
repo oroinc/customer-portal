@@ -77,7 +77,7 @@ class ThemeListenerTest extends TestCase
     public function onKernelRequestProvider(): array
     {
         return [
-            'not master request' => [
+            'not main request' => [
                 'requestType' => HttpKernelInterface::SUB_REQUEST,
                 'isFrontendRequest' => true,
                 'expectedLayoutTheme' => 'test_layout_theme',
@@ -150,7 +150,7 @@ class ThemeListenerTest extends TestCase
                 'hasTheme' => false,
                 'deletedAnnotation' => false,
             ],
-            'backend master request' => [
+            'backend main request' => [
                 'requestType' => HttpKernelInterface::MAIN_REQUEST,
                 'isFrontendRequest' => false,
                 'hasTheme' => false,
@@ -162,7 +162,7 @@ class ThemeListenerTest extends TestCase
                 'hasTheme' => false,
                 'deletedAnnotations' => '_layout',
             ],
-            'frontend master request with layout theme' => [
+            'frontend main request with layout theme' => [
                 'requestType' => HttpKernelInterface::MAIN_REQUEST,
                 'isFrontendRequest' => true,
                 'hasTheme' => true,

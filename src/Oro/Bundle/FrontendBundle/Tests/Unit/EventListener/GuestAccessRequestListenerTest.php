@@ -88,7 +88,7 @@ class GuestAccessRequestListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener->onKernelRequest($this->event);
     }
 
-    public function testOnKernelRequestIfNotMasterRequest(): void
+    public function testOnKernelRequestIfNotMainRequest(): void
     {
         $this->event->expects(self::once())
             ->method('isMainRequest')

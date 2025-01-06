@@ -22,7 +22,7 @@ class BasePathResolverTest extends \PHPUnit\Framework\TestCase
         $this->resolver = new BasePathResolver($this->requestStack);
     }
 
-    public function testResolveBasePathNoMasterRequest(): void
+    public function testResolveBasePathNoMainRequest(): void
     {
         $this->requestStack->expects(self::once())
             ->method('getMainRequest')
@@ -36,7 +36,7 @@ class BasePathResolverTest extends \PHPUnit\Framework\TestCase
         $request = $this->createMock(Request::class);
         $request->server = new ParameterBag(['WEBSITE_PATH' => '/path']);
 
-        $this->requestStack->expects(self::atLeastOnce())
+        $this->requestStack->expects(self::once())
             ->method('getMainRequest')
             ->willReturn($request);
 
@@ -48,7 +48,7 @@ class BasePathResolverTest extends \PHPUnit\Framework\TestCase
         $request = $this->createMock(Request::class);
         $request->server = new ParameterBag([]);
 
-        $this->requestStack->expects(self::atLeastOnce())
+        $this->requestStack->expects(self::once())
             ->method('getMainRequest')
             ->willReturn($request);
 

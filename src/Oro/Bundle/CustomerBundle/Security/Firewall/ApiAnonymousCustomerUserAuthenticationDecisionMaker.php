@@ -48,7 +48,7 @@ class ApiAnonymousCustomerUserAuthenticationDecisionMaker
         $context = $processor->createContext();
         $context->getRequestType()->add(RequestType::REST);
         $context->getRequestType()->add('frontend');
-        $context->setMasterRequest(true);
+        $context->setMainRequest(true);
         $context->setRequestHeaders(new RestRequestHeaders($request));
         $context->setActionType($this->getActionType($request->attributes->get('_route')));
         $context->setClassName($entityType);

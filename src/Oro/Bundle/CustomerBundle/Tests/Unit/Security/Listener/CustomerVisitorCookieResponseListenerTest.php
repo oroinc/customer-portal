@@ -52,7 +52,7 @@ class CustomerVisitorCookieResponseListenerTest extends \PHPUnit\Framework\TestC
         self::assertEmpty($response->headers->getCookies());
     }
 
-    public function testOnKernelResponseNotMasterRequest(): void
+    public function testOnKernelResponseNotMainRequest(): void
     {
         $response = new Response();
 
