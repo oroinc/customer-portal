@@ -96,6 +96,23 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         $this->setVisitorCookie($visitor);
     }
 
+    protected function getVisitor(): CustomerVisitor
+    {
+        $this->assertVisitorEnabled();
+        $visitorCookie = $this->client->getCookieJar()->get(AnonymousCustomerUserAuthenticator::COOKIE_NAME);
+        if (null === $visitorCookie) {
+            throw new \LogicException('A visitor cookie does not exist');
+        }
+
+        $visitorCookieValue = json_decode(base64_decode($visitorCookie->getValue()), false, 2, JSON_THROW_ON_ERROR);
+        $visitor = $this->getEntityManager()->find(CustomerVisitor::class, $visitorCookieValue[0]);
+        if (null === $visitor) {
+            throw new \LogicException('A visitor does not exist');
+        }
+
+        return $visitor;
+    }
+
     /**
      * @beforeResetClient
      */
