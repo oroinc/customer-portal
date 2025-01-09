@@ -101,6 +101,10 @@ define(function(require) {
          */
         staticPage: false,
 
+        listen: {
+            adoptedFormSubmitClick: 'resetDialogPosition'
+        },
+
         /**
          * @inheritdoc
          */
