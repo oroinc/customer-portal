@@ -34,7 +34,8 @@
     {% set attr = layout_attr_defaults(menu_item.attributes, attr) %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': class_prefix ? " #{class_prefix}__item",
-        'data-main-menu-item': menu_item.level
+        'data-main-menu-item': menu_item.level,
+        'role': 'presentation'
     }) %}
     <{{tagName}} {{ block('block_attributes') }}>
         {% if simpleMode %}
@@ -144,7 +145,8 @@
         'type': 'button',
         'data-popper': 'false',
         'data-go-to': 'next',
-        'aria-label': 'oro.commercemenu.multi.open_pages'|trans({'{{ category }}': menu_item.label})
+        'aria-label': 'oro.commercemenu.multi.open_pages'|trans({'{{ category }}': menu_item.label}),
+        'role': 'menuitem'
     }) %}
 
     {% if linkEnable %}
