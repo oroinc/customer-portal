@@ -207,10 +207,6 @@ define(function(require) {
 
             this.maxLimit = size;
             this.breakPointPosition = size * this.breakFactor;
-            container.css({
-                paddingRight: size,
-                marginRight: -size
-            });
         },
 
         /**
@@ -222,6 +218,12 @@ define(function(require) {
          */
         _onStart: function({target}) {
             const container = $(target).closest(this.containerSelector);
+
+            if (!container.length || this.preventSwipe(target)) {
+                return;
+            }
+
+            this.main.trigger('grid-row-swipe:start');
 
             if (this.sizerSelector) {
                 this._applyDynamicOffset(container);
@@ -252,7 +254,11 @@ define(function(require) {
          * @param {Object} data
          * @private
          */
-        _onMove: function({detail}) {
+        _onMove: function({detail, target}) {
+            if (this.preventSwipe(target)) {
+                return;
+            }
+
             const xAxe = detail.x - this.storedPos;
 
             if (!this.elastic &&
@@ -264,7 +270,6 @@ define(function(require) {
                 return;
             }
 
-            // this.currentSwipedContainer.data('offset', detail.x);
             this.currentSwipedContainer.css({
                 transform: 'translateX(' + xAxe + 'px)'
             });
@@ -276,7 +281,11 @@ define(function(require) {
          * @param {Object} data
          * @private
          */
-        _onEnd: function({detail}) {
+        _onEnd: function({detail, target}) {
+            if (this.preventSwipe(target)) {
+                return;
+            }
+
             let xAxe = detail.x - this.storedPos;
             if (detail.direction === 'right' && xAxe > 0) {
                 xAxe = 0;
@@ -302,7 +311,13 @@ define(function(require) {
                 this.currentSwipedContainer.addClass(this.swipeDoneClassName);
             }
 
-            this.currentSwipedContainer.removeClass('swipe-active');
+            this.currentSwipedContainer.removeClass(this.swipeActionClassName);
+
+            this.main.trigger('grid-row-swipe:end');
+        },
+
+        preventSwipe(target) {
+            return this.sizerSelector && $(target).closest(this.sizerSelector).length;
         },
 
         /**

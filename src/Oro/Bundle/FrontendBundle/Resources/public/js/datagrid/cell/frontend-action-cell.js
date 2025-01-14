@@ -43,6 +43,17 @@ define(function(require, exports, module) {
             }
 
             return this;
+        },
+
+        /**
+         * @inheritdoc
+         */
+        delegateEvents(events) {
+            FrontendActionCell.__super__.delegateEvents.call(this, events);
+
+            this.listenTo(this.main, 'grid-row-swipe:start', this.hideDropdown);
+
+            return this;
         }
     });
 

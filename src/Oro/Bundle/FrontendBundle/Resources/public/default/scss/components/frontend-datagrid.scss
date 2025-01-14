@@ -75,13 +75,12 @@
                         padding-left: $frontend-datagrid-responsive-row-has-select-action-tablet-inner-offset-left;
                     }
 
-                    &.has-actions {
-                        padding-right: $frontend-datagrid-responsive-row-has-actions-tablet-inner-offset-right;
-                        margin-right: -$frontend-datagrid-responsive-row-has-actions-tablet-inner-offset-right;
-                    }
-
                     &.swipe-active {
                         background-color: $frontend-datagrid-responsive-row-swipe-active-tablet-background-color;
+                    }
+
+                    &.swipe-done {
+                        z-index: 1;
                     }
                 }
 
@@ -143,20 +142,15 @@
                 background: $frontend-datagrid-has-swipe-action-cell-tablet-bg-color;
                 margin: $frontend-datagrid-has-swipe-action-cell-tablet-outer-offset;
                 padding: $frontend-datagrid-has-swipe-action-cell-tablet-inner-offset;
+                transform: translateX(100%);
+                visibility: hidden;
 
                 .action {
-                    display: inline-block;
-                    color: $frontend-datagrid-has-swipe-action-cell-tablet-icon-color;
-                    line-height: $theme-icon-size;
-                    min-height: initial;
-                    padding: spacing('xs');
-
                     @include ellipsis();
 
                     .theme-icon {
                         display: inline-flex;
                         vertical-align: bottom;
-                        margin-right: spacing('xs');
                     }
 
                     &-row {
@@ -164,6 +158,13 @@
                         height: $frontend-datagrid-has-swipe-action-cell-tablet-row-height;
                         align-items: $frontend-datagrid-has-swipe-action-cell-tablet-row-align-items;
                     }
+                }
+            }
+
+            .swipe-active,
+            .swipe-done {
+                .action-cell {
+                    visibility: visible;
                 }
             }
 
@@ -176,14 +177,13 @@
                 .launcher-item {
                     &:not(.mode-icon-only) {
                         margin: $frontend-datagrid-has-swipe-action-cell-tablet-column-outer-offset;
-                        width: $frontend-datagrid-has-swipe-action-cell-tablet-column-width;
                         padding: $frontend-datagrid-has-swipe-action-cell-tablet-column-inner-offset;
                     }
-
-                    &.mode-icon-only:last-child {
-                        padding-right: $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-last-offset;
-                    }
                 }
+            }
+
+            .action-row:has(.mode-icon-text) > .launchers-list {
+                gap: spacing('sm');
             }
         }
     }
@@ -245,6 +245,12 @@
                         top: spacing('sm');
                     }
                 }
+            }
+        }
+
+        &--has-swipe {
+            .action-cell {
+                padding: $frontend-datagrid-has-swipe-action-cell-mobile-big-inner-offset;
             }
         }
     }
