@@ -8,6 +8,10 @@ oro_api:
             feature_name: frontend_web_api
         frontend_api_login:
             feature_name: frontend_web_api
+    filters:
+        customerHierarchyAware:
+            factory: ['@oro_customer.api.filter.customer_hierarchy_aware_factory', 'createFilter']
+            supported_operators: ['=', '!=']
 
 security:
     providers:

@@ -239,3 +239,8 @@ services:
         tags:
             - { name: oro.api.processor, action: get, group: normalize_input, class: Oro\Bundle\CustomerBundle\Entity\CustomerUser, priority: -120 }
             - { name: oro.api.processor, action: get_list, group: normalize_input, class: Oro\Bundle\CustomerBundle\Entity\CustomerUser, priority: -120 }
+
+    oro_customer.api.filter.customer_hierarchy_aware_factory:
+        class: Oro\Bundle\CustomerBundle\Api\Filter\CustomerHierarchyAwareFilterFactory
+        arguments:
+            - '@oro_customer.owner.tree_provider'
