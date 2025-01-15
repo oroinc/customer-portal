@@ -40,11 +40,18 @@
         align-items: center;
         width: 100%;
         padding: $datagrid-massaction-sticky-mode-offset;
-        background-color: $datagrid-massaction-sticky-mode-background-color;
 
         .datagrid-massaction-close-container,
         .product-selected-counter {
             flex: 0 0 30%;
+        }
+    }
+}
+
+@include breakpoint('tablet') {
+    .datagrid-massaction {
+        &.sticky-mode {
+            padding: $datagrid-massaction-sticky-mode-offset-tablet;
         }
     }
 }
@@ -62,7 +69,7 @@
 
         &.sticky-mode {
             flex-wrap: wrap;
-            gap: spacing('sm') 0;
+            gap: $datagrid-massaction-sticky-mode-gap-mobile-big;
 
             .datagrid-massaction-close-container,
             .product-selected-counter {
