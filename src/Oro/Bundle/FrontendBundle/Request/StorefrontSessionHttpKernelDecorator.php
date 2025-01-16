@@ -28,9 +28,7 @@ class StorefrontSessionHttpKernelDecorator implements HttpKernelInterface, Termi
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function handle(Request $request, int $type = self::MAIN_REQUEST, bool $catch = true): Response
     {
         if ($this->frontendHelper->isFrontendUrl($request->getPathInfo())) {
@@ -55,9 +53,7 @@ class StorefrontSessionHttpKernelDecorator implements HttpKernelInterface, Termi
         return $this->innerKernel->handle($request, $type, $catch);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function terminate(Request $request, Response $response): void
     {
         if ($this->innerKernel instanceof TerminableInterface) {

@@ -11,13 +11,12 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class AddRoutePrefixExcludingOptionCompilerPass implements CompilerPassInterface
 {
-    public function __construct(private string $excludingOption)
-    {
+    public function __construct(
+        private readonly string $excludingOption
+    ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         if ($container->hasDefinition('oro_frontend.listener.route_collection')) {
