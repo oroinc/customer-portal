@@ -4,8 +4,14 @@ define(function(require) {
     const __ = require('orotranslation/js/translator');
     const ActionHeaderCell = require('orodatagrid/js/datagrid/header-cell/action-header-cell');
     const actionHeaderCellLabel = require('!tpl-loader!orofrontend/templates/datagrid/action-header-cell-label.html');
+    const textUtil = require('oroui/js/tools/text-util');
+    const util = require('orodatagrid/js/datagrid/util');
 
     const FrontendActionHeaderCell = ActionHeaderCell.extend({
+        constructor: function FrontendActionHeaderCell(...args) {
+            FrontendActionHeaderCell.__super__.constructor.apply(this, args);
+        },
+
         initialize: function(options) {
             FrontendActionHeaderCell.__super__.initialize.call(this, options);
 
@@ -17,7 +23,8 @@ define(function(require) {
         getTemplateData: function() {
             const data = FrontendActionHeaderCell.__super__.getTemplateData.call(this);
 
-            data.label = this.column.get('label');
+            data.label = textUtil.abbreviate(this.column.get('label'), this.minWordsToAbbreviate);
+            this.isLabelAbbreviated = data.label !== this.column.get('label');
 
             return data;
         },
@@ -27,6 +34,8 @@ define(function(require) {
                 scope: 'col'
             });
 
+            const tplData = this.getTemplateData();
+
             FrontendActionHeaderCell.__super__.render.call(this);
 
             const panel = this.subview('actionsPanel');
@@ -34,8 +43,10 @@ define(function(require) {
             if (!panel.haveActions()) {
                 this.$el.addClass('action-column--disabled');
                 this.$el.empty().addClass('text-center');
-                this.$el.append(actionHeaderCellLabel(this.getTemplateData()));
+                this.$el.append(actionHeaderCellLabel(tplData));
             }
+
+            util.headerCellAbbreviateHint(this);
 
             return this;
         }
