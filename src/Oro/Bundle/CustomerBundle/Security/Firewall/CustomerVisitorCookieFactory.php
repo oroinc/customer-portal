@@ -12,41 +12,22 @@ use Symfony\Component\HttpFoundation\Cookie;
  */
 class CustomerVisitorCookieFactory
 {
-    /** @var mixed true, false, 'auto' */
-    private $secure;
-
-    /** @var bool */
-    private $httpOnly;
-
-    /** @var string|null */
-    private $sameSite;
-
-    /** @var ConfigManager */
-    private $configManager;
-
     /**
-     * @param mixed         $secure
-     * @param bool          $httpOnly
-     * @param ConfigManager $configManager
-     * @param string|null   $sameSite
+     * @param string|bool $secure [true, false, 'auto']
      */
-    public function __construct($secure, bool $httpOnly, ConfigManager $configManager, ?string $sameSite)
-    {
-        $this->secure = $secure;
-        $this->httpOnly = $httpOnly;
-        $this->sameSite = $sameSite;
-        $this->configManager = $configManager;
+    public function __construct(
+        private string|bool $secure,
+        private bool $httpOnly,
+        private ConfigManager $configManager,
+        private ?string $sameSite
+    ) {
     }
 
-    /**
-     * @param int $visitorId
-     * @param int $visitorSessionId
-     * @param int $lifeTime
-     *
-     * @return Cookie
-     */
-    public function getCookie($visitorId, $visitorSessionId, $lifeTime = Configuration::SECONDS_IN_DAY): Cookie
-    {
+    public function getCookie(
+        string $visitorSessionId,
+        ?int $visitorId,
+        int $lifeTime = Configuration::SECONDS_IN_DAY
+    ): Cookie {
         $cookieLifetime = $this->configManager->get('oro_customer.customer_visitor_cookie_lifetime_days');
         $cookieLifetime *= $lifeTime;
 

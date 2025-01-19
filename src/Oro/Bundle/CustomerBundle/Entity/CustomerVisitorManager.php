@@ -13,34 +13,22 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CustomerVisitorManager
 {
-    private ManagerRegistry $doctrine;
-    private ?string $writeConnectionName;
-
-    public function __construct(ManagerRegistry $doctrine, ?string $writeConnectionName = null)
-    {
-        $this->doctrine = $doctrine;
-        $this->writeConnectionName = $writeConnectionName;
+    public function __construct(
+        readonly private ManagerRegistry $doctrine,
+        readonly private ?string $writeConnectionName = null
+    ) {
     }
 
-    /**
-     * @param int|null    $id
-     * @param string|null $sessionId
-     *
-     * @return CustomerVisitor
-     */
-    public function findOrCreate($id = null, $sessionId = null)
+    public function findOrCreate(int $id = null, string $sessionId = null): CustomerVisitor
     {
-        return $this->find($id, $sessionId) ?: $this->createUser();
+        return $this->find($id, $sessionId) ?: CustomerVisitor::createAnonymous();
     }
 
-    /**
-     * @param int|null    $id
-     * @param string|null $sessionId
-     *
-     * @return CustomerVisitor|null
-     */
-    public function find($id = null, $sessionId = null)
+    public function find(int $id = null, string $sessionId = null): ?CustomerVisitor
     {
+        if (null !== $sessionId && CustomerVisitor::isAnonymousSession($sessionId)) {
+            return CustomerVisitor::createAnonymous();
+        }
         if (null === $id) {
             return null;
         }
@@ -48,7 +36,7 @@ class CustomerVisitorManager
         return $this->getRepository()->findOneBy(['id' => $id, 'sessionId' => $sessionId]);
     }
 
-    private function createUser(): CustomerVisitor
+    public function createUser(): CustomerVisitor
     {
         $connection = $this->getWriteConnection();
         $connection->insert('oro_customer_visitor', [
@@ -58,8 +46,8 @@ class CustomerVisitorManager
             'last_visit' => Types::DATETIME_MUTABLE,
             'session_id' => Types::STRING,
         ]);
-
         $id = $connection->lastInsertId('oro_customer_visitor_id_seq');
+
         return $this->getRepository()->find($id);
     }
 

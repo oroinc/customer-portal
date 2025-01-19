@@ -24,17 +24,17 @@ class CustomerVisitorCookieFactoryTest extends \PHPUnit\Framework\TestCase
     public function testGetCookie()
     {
         $factory = new CustomerVisitorCookieFactory('auto', true, $this->configManager, Cookie::SAMESITE_NONE);
-        $cookie = $factory->getCookie('test_visitor', 'test_session_id');
+        $cookie = $factory->getCookie('test_session_id', 123);
 
         self::assertFalse($cookie->isSecure());
         self::assertTrue($cookie->isHttpOnly());
-        self::assertEquals(base64_encode(json_encode(['test_visitor', 'test_session_id'])), $cookie->getValue());
+        self::assertEquals(base64_encode(json_encode([123, 'test_session_id'])), $cookie->getValue());
     }
 
     public function testGetCookieOnSecuredConfig()
     {
         $factory = new CustomerVisitorCookieFactory(true, true, $this->configManager, Cookie::SAMESITE_NONE);
-        $cookie = $factory->getCookie('test_visitor', 'test_session_id');
+        $cookie = $factory->getCookie('test_session_id', 123);
 
         self::assertTrue($cookie->isSecure());
     }
@@ -42,7 +42,7 @@ class CustomerVisitorCookieFactoryTest extends \PHPUnit\Framework\TestCase
     public function testGetCookieOnNonSecuredConfig()
     {
         $factory = new CustomerVisitorCookieFactory(false, true, $this->configManager, Cookie::SAMESITE_NONE);
-        $cookie = $factory->getCookie('test_visitor', 'test_session_id');
+        $cookie = $factory->getCookie('test_session_id', 123);
 
         self::assertFalse($cookie->isSecure());
     }
@@ -50,7 +50,7 @@ class CustomerVisitorCookieFactoryTest extends \PHPUnit\Framework\TestCase
     public function testGetCookieOnNonHttpOnlyConfig()
     {
         $factory = new CustomerVisitorCookieFactory('auto', false, $this->configManager, Cookie::SAMESITE_NONE);
-        $cookie = $factory->getCookie('test_visitor', 'test_session_id');
+        $cookie = $factory->getCookie('test_session_id', 123);
 
         self::assertFalse($cookie->isHttpOnly());
     }
@@ -58,7 +58,7 @@ class CustomerVisitorCookieFactoryTest extends \PHPUnit\Framework\TestCase
     public function testCookieWithSamesiteValue()
     {
         $factory = new CustomerVisitorCookieFactory('auto', false, $this->configManager, Cookie::SAMESITE_STRICT);
-        $cookie = $factory->getCookie('test_visitor', 'test_session_id');
+        $cookie = $factory->getCookie('test_session_id', 123);
 
         self::assertEquals(Cookie::SAMESITE_STRICT, $cookie->getSameSite());
     }

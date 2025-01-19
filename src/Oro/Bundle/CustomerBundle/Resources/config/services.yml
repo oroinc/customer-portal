@@ -266,6 +266,9 @@ services:
 
     oro_customer.customer_visitor.credentials_cookie_response_listener:
         class:  'Oro\Bundle\CustomerBundle\Security\Listener\CustomerVisitorCookieResponseListener'
+        arguments:
+            - '@security.token_storage'
+            - '@oro_customer.authentication.customer_visitor_cookie_factory'
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 

@@ -87,17 +87,17 @@ class CustomerVisitorManagerTest extends \PHPUnit\Framework\TestCase
             ->with(['id' => self::ENTITY_ID, 'sessionId' => self::SESSION_ID])
             ->willReturn(null);
 
-        $this->repository->expects($this->once())
+        $this->repository->expects($this->never())
             ->method('find')
             ->with(self::ENTITY_ID)
             ->willReturn($this->getEntity(CustomerVisitor::class, ['id' => self::ENTITY_ID]));
 
-        $this->defaultConnection->expects($this->once())
+        $this->defaultConnection->expects($this->never())
             ->method('lastInsertId')
             ->with('oro_customer_visitor_id_seq')
             ->willReturn(self::ENTITY_ID);
 
-        $this->defaultConnection->expects($this->once())
+        $this->defaultConnection->expects($this->never())
             ->method('insert');
 
         $this->assertInstanceOf(
@@ -111,17 +111,17 @@ class CustomerVisitorManagerTest extends \PHPUnit\Framework\TestCase
         $this->repository->expects($this->never())
             ->method('findOneBy');
 
-        $this->repository->expects($this->once())
+        $this->repository->expects($this->never())
             ->method('find')
             ->with(self::ENTITY_ID)
             ->willReturn($this->getEntity(CustomerVisitor::class, ['id' => self::ENTITY_ID]));
 
-        $this->defaultConnection->expects($this->once())
+        $this->defaultConnection->expects($this->never())
             ->method('lastInsertId')
             ->with('oro_customer_visitor_id_seq')
             ->willReturn(self::ENTITY_ID);
 
-        $this->defaultConnection->expects($this->once())
+        $this->defaultConnection->expects($this->never())
             ->method('insert');
 
         $this->assertInstanceOf(CustomerVisitor::class, $this->manager->findOrCreate());
@@ -132,17 +132,17 @@ class CustomerVisitorManagerTest extends \PHPUnit\Framework\TestCase
         $this->repository->expects($this->never())
             ->method('findOneBy');
 
-        $this->repository->expects($this->once())
+        $this->repository->expects($this->never())
             ->method('find')
             ->with(self::ENTITY_ID)
             ->willReturn($this->getEntity(CustomerVisitor::class, ['id' => self::ENTITY_ID]));
 
-        $this->sessionConnection->expects($this->once())
+        $this->sessionConnection->expects($this->never())
             ->method('lastInsertId')
             ->with('oro_customer_visitor_id_seq')
             ->willReturn(self::ENTITY_ID);
 
-        $this->sessionConnection->expects($this->once())
+        $this->sessionConnection->expects($this->never())
             ->method('insert');
 
         $this->sessionConnection->expects($this->never())

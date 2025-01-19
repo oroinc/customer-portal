@@ -25,6 +25,8 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
 {
     use ExtendEntityTrait;
 
+    protected const string ANONYMOUS_SESSION_ID = 'anonymous';
+
     #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
@@ -51,48 +53,29 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
         $this->lastVisit = new \DateTime('now', new \DateTimeZone('UTC'));
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getLastVisit()
+    public function getLastVisit(): \DateTimeInterface
     {
         return $this->lastVisit;
     }
 
-    /**
-     * @param \DateTime $lastVisit
-     *
-     * @return CustomerVisitor
-     */
-    public function setLastVisit($lastVisit)
+    public function setLastVisit(\DateTimeInterface $lastVisit): static
     {
         $this->lastVisit = $lastVisit;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSessionId()
+    public function getSessionId(): ?string
     {
         return $this->sessionId;
     }
 
-    /**
-     * @param string $sessionId
-     *
-     * @return CustomerVisitor
-     */
-    public function setSessionId($sessionId)
+    public function setSessionId(string $sessionId): static
     {
         $this->sessionId = $sessionId;
 
@@ -105,21 +88,14 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
         $this->sessionId = CustomerVisitorManager::generateSessionId();
     }
 
-    /**
-     * @param CustomerUser|null $customerUser
-     * @return $this
-     */
-    public function setCustomerUser(CustomerUser $customerUser = null)
+    public function setCustomerUser(CustomerUser $customerUser = null): static
     {
         $this->customerUser = $customerUser;
 
         return $this;
     }
 
-    /**
-     * @return CustomerUser
-     */
-    public function getCustomerUser()
+    public function getCustomerUser(): ?CustomerUser
     {
         return $this->customerUser;
     }
@@ -131,7 +107,7 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
     }
 
     #[\Override]
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
     }
 
@@ -143,5 +119,23 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
         }
 
         return VisitorIdentifierUtil::encodeIdentifier($this->getId(), $this->getSessionId());
+    }
+
+    public static function isAnonymousSession(string $sessionId): bool
+    {
+        return $sessionId === self::ANONYMOUS_SESSION_ID;
+    }
+
+    public static function createAnonymous(): static
+    {
+        $visitor = new self();
+        $visitor->setSessionId(self::ANONYMOUS_SESSION_ID);
+
+        return $visitor;
+    }
+
+    public function isAnonymous(): bool
+    {
+        return $this->getSessionId() === self::ANONYMOUS_SESSION_ID;
     }
 }

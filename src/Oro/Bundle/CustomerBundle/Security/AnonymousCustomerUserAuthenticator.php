@@ -26,8 +26,8 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
  */
 class AnonymousCustomerUserAuthenticator implements AuthenticatorInterface
 {
-    public const COOKIE_ATTR_NAME = '_security_customer_visitor_cookie';
-    public const COOKIE_NAME = 'customer_visitor';
+    public const string COOKIE_ATTR_NAME = '_security_customer_visitor_cookie';
+    public const string COOKIE_NAME = 'customer_visitor';
 
     private ?TokenInterface $rememberedToken = null;
 
@@ -121,7 +121,7 @@ class AnonymousCustomerUserAuthenticator implements AuthenticatorInterface
         $visitor = $passport->getUser();
         $request->attributes->set(
             self::COOKIE_ATTR_NAME,
-            $this->cookieFactory->getCookie($visitor->getId(), $visitor->getSessionId())
+            $this->cookieFactory->getCookie($visitor->getSessionId(), $visitor->getId())
         );
     }
 

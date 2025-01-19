@@ -12,18 +12,13 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class CustomerVisitorUpdateLastVisitListener
 {
-    private const SESSION_LAST_VISIT_TIME_FIELD = '_customer_visitor_%s_last_visit_time';
+    private const string SESSION_LAST_VISIT_TIME_FIELD = '_customer_visitor_%s_last_visit_time';
 
-    private TokenStorageInterface $tokenStorage;
-    private int $updateLatency;
-
-    public function __construct(TokenStorageInterface $tokenStorage, int $updateLatency)
+    public function __construct(private TokenStorageInterface $tokenStorage, private int $updateLatency)
     {
-        $this->tokenStorage = $tokenStorage;
-        $this->updateLatency = $updateLatency;
     }
 
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         if ($this->supports($event)) {
             $this->updateLastVisitTime($event);
@@ -38,7 +33,7 @@ class CustomerVisitorUpdateLastVisitListener
             && $this->tokenStorage->getToken() instanceof AnonymousCustomerUserToken;
     }
 
-    private function updateLastVisitTime(RequestEvent $event)
+    private function updateLastVisitTime(RequestEvent $event): void
     {
         $session = $event->getRequest()->getSession();
         /** @var CustomerVisitor $user */
