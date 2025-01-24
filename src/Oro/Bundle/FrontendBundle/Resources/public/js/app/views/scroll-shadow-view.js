@@ -128,14 +128,16 @@ const ScrollShadowView = BaseView.extend({
         const hasVerticalScrollbar = target.scrollHeight > target.clientHeight;
         const hasHorizontalScrollbar = target.scrollWidth > target.clientWidth;
 
+        target.classList.toggle('horizontal-scrolling', hasHorizontalScrollbar);
+
         if (hasHorizontalScrollbar) {
-            target.classList.add('horizontal-scrolling');
             target?.classList.toggle(blockStartClass, scrollLeft > 0);
             target?.classList.toggle(blockEndClass, clientWidth + scrollLeft < scrollWidth);
         }
 
+        target.classList.toggle('vertical-scrolling', hasVerticalScrollbar);
+
         if (hasVerticalScrollbar) {
-            target.classList.add('vertical-scrolling');
             target?.classList.toggle(blockStartClass, scrollTop > 0);
             target?.classList.toggle(blockEndClass, clientHeight + scrollTop < scrollHeight);
         }

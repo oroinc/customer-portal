@@ -35,6 +35,10 @@ The current file describes significant changes in the code that may affect the u
 * Removed `FontAwesome` font, use svg icons instead. More details are available at [Oro Frontend Stylebook](https://doc.oroinc.com/frontend/storefront/css/frontend-stylebook/).
 * Removed `fa-icon` SCSS mixin.
 
+#### FrontendBundle
+
+* Removed `orofrontend/js/app/views/fit-matrix-view`.
+
 #### CustomerBundle
 - Removed `\Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\ConfigureFrontendHelperPass`, made use of decoration instead for `\Oro\Bundle\CustomerBundle\Security\TokenAwareFrontendHelper`.
 

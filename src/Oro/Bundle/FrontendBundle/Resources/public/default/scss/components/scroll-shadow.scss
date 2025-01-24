@@ -1,5 +1,18 @@
 /* @theme: default; */
 
+.scroll-shadow {
+    display: grid;
+    overflow: auto;
+
+    &:not(.vertical-scrolling) {
+        grid-auto-flow: column;
+    }
+}
+
+.ui-dialog-content .scroll-shadow {
+    max-height: 50vh;
+}
+
 .shadow-start::before {
     content: $scroll-shadow-before-content;
     position: $scroll-shadow-before-position;

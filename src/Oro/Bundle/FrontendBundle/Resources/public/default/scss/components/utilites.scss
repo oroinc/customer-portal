@@ -129,7 +129,10 @@
 
 .scrollable-container {
     display: grid;
-    grid-auto-flow: column;
+
+    &:not(.vertical-scrolling) {
+        grid-auto-flow: column;
+    }
 }
 
 .invisible-scrollbar {
