@@ -272,6 +272,7 @@ print_styles:
         - 'bundles/orofrontend/default/scss/variables/print/base-config.scss'
         - 'bundles/orofrontend/default/scss/variables/print/page-content-config.scss'
         - 'bundles/orofrontend/default/scss/variables/print/logo-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/print/frontend-datagrid-config.scss'
         - 'bundles/orofrontend/default/scss/base/base-print.scss'
         - 'bundles/orofrontend/default/scss/components/print/page-container.scss'
         - 'bundles/orofrontend/default/scss/components/print/datagrid-toolbar.scss'
@@ -286,6 +287,7 @@ print_styles:
         - 'bundles/orofrontend/default/scss/components/print/scroll-top.scss'
         - 'bundles/orofrontend/default/scss/components/print/page-main.scss'
         - 'bundles/orofrontend/default/scss/components/print/box-toolbar.scss'
+        - 'bundles/orofrontend/default/scss/components/print/frontend-datagrid.scss'
     output: 'css/styles-print.css'
     auto_rtl_inputs:
         - 'bundles/oro*/**'

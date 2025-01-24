@@ -1,0 +1,63 @@
+/* @theme: default; */
+
+/* stylelint-disable declaration-no-important */
+.frontend-datagrid--responsive {
+    .toolbar-top {
+        display: $frontend-datagrid-responsive-toolbar-print-display;
+    }
+
+    .grid-header-cell {
+        display: $frontend-datagrid-responsive-cell-print-display !important;
+        padding-left: spacing('sm');
+        padding-right: spacing('sm');
+
+        background: none !important;
+
+        &:first-child {
+            padding-left: 0;
+        }
+
+        &:last-child {
+            padding-right: 0;
+        }
+
+        &.action-column {
+            display: $frontend-datagrid-responsive-actions-print-display !important;
+        }
+    }
+
+    .grid-body {
+        display: $frontend-datagrid-responsive-body-print-display !important;
+    }
+
+    .grid-row,
+    .grid-header-row {
+        display: $frontend-datagrid-responsive-row-print-display !important;
+    }
+
+    .grid-body-cell {
+        display: $frontend-datagrid-responsive-cell-print-display !important;
+        padding: spacing('sm');
+
+        background: none !important;
+
+        &:first-child {
+            padding-left: 0;
+        }
+
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+
+    .grid-row:first-child {
+        .grid-body-cell {
+            padding-top: spacing('sm');
+        }
+    }
+}
+
+.grid-views {
+    display: none;
+}
+/* stylelint-enable declaration-no-important */

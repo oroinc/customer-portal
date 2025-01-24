@@ -11,6 +11,13 @@
     }
 }
 
+.always-icon-mode-group {
+    .action {
+        font-size: 0;
+        gap: 0;
+    }
+}
+
 @include breakpoint('mobile-big') {
     .actions-group {
         flex-direction: column;

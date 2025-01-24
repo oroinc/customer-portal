@@ -1,0 +1,30 @@
+/* @theme: default; */
+
+.customer-line-items--rfq {
+    .grid-header-cell {
+        &-notes {
+            // stylelint-disable-next-line declaration-no-important
+            display: none !important;
+        }
+    }
+
+    .grid-body-cell {
+        &-qty,
+        &-price {
+            &::before {
+                display: none;
+            }
+        }
+
+        &-product {
+            .customer-line-items__note {
+                display: block;
+            }
+        }
+
+        &-notes {
+            // stylelint-disable-next-line declaration-no-important
+            display: none !important;
+        }
+    }
+}

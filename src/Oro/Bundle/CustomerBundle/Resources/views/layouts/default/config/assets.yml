@@ -47,3 +47,4 @@ print_styles:
         - 'bundles/orocustomer/default/scss/variables/customer-info-grid-print-config.scss'
 
         - 'bundles/orocustomer/default/scss/components/customer-info-grid-print.scss'
+        - 'bundles/orocustomer/default/scss/components/customer-line-items-print.scss'

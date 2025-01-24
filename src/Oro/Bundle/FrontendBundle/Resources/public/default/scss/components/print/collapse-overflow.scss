@@ -1,0 +1,9 @@
+/* @theme: default; */
+
+.collapse-overflow {
+    max-height: 100%;
+
+    &:after {
+        display: none;
+    }
+}

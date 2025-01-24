@@ -353,3 +353,9 @@
         }
     }
 }
+
+@include breakpoint('print') {
+    .grid-views {
+        display: none;
+    }
+}

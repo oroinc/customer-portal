@@ -203,7 +203,7 @@
 {% block frontend_datagrid_external_toolbar_widget %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' frontend-datagrid__panel',
+        '~class': ' always-icon-mode-group frontend-datagrid__panel',
         'data-group': 'external-toolbar-' ~ gridName
     }) %}
 
