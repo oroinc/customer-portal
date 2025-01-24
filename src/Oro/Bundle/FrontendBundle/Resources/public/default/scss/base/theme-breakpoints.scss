@@ -1,0 +1,33 @@
+/* @theme: default; */
+
+@use 'sass:list';
+@use 'sass:string';
+
+$css-breakpoints: null;
+
+@each $key, $value in $breakpoints {
+    $css-breakpoints: list.append($css-breakpoints, '"#{$key}":"#{$value}"', $separator: comma);
+
+    // Generate classes for media queries
+    @include breakpoint($key) {
+        // Create classes:
+        // .hide-on-desktop
+        // .hide-on-tablet,
+        // .hide-on-tablet-small,
+        // .hide-on-mobile-landscape,
+        // .hide-on-mobile,
+        // .hide-on-strict-desktop
+        // .hide-on-strict-tablet,
+        // .hide-on-strict-tablet-small
+        // .hide-on-strict-mobile-landscape,
+        // .hide-on-strict-mobile-big
+        .hide-on-#{$key} {
+            // stylelint-disable-next-line declaration-no-important
+            display: none !important;
+        }
+    }
+}
+
+:root {
+    --breakpoints: #{string.unquote('{#{$css-breakpoints}}')};
+}

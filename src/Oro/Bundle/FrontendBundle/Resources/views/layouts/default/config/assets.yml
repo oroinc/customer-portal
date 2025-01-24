@@ -1,3 +1,28 @@
+critical_css:
+    inputs:
+        # Settings
+        # Bootstrap Required
+        - 'bundles/orofrontend/default/scss/settings/global-settings.scss'
+
+        # Variables
+        - 'bundles/orofrontend/default/scss/variables/base-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/headings-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/utilites-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/uikit/buttons-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/uikit/theme-icons-config.scss'
+
+        # Components
+        # reset.scss must be first in list due to that file must have the lowest priority
+        - 'bundles/orofrontend/default/scss/reset.scss'
+        - 'bundles/orofrontend/default/scss/base/base.scss'
+        - 'bundles/orofrontend/default/scss/components/headings.scss'
+        - 'bundles/orofrontend/default/scss/components/utilites.scss'
+        - 'bundles/orofrontend/default/scss/components/uikit/button-base.scss'
+        - 'bundles/orofrontend/default/scss/components/uikit/theme-icons.scss'
+    output: 'css/critical.css'
+    auto_rtl_inputs:
+        - 'bundles/oro*/**'
+
 styles:
     inputs:
         # Bootstrap Required
@@ -111,17 +136,15 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/utilites-config.scss'
 
         # Components
-        # reset.scss must be first in list due to that  file must have the lowest priority
-        - 'bundles/orofrontend/default/scss/reset.scss'
         # Bootstrap Optional Components
         - 'bundles/orofrontend/default/scss/components/bootstrap/bootstrap.scss'
 
         - '~overlayscrollbars/css/OverlayScrollbars.css'
         - '~@oroinc/slick-carousel/slick/slick.scss'
-        - 'bundles/orofrontend/default/scss/base/base.scss'
+        - 'bundles/orofrontend/default/scss/base/theme-breakpoints.scss'
+        - 'bundles/orofrontend/default/scss/base/theme-fonts.scss'
         - 'bundles/orofrontend/default/scss/components/uikit/buttons.scss'
         - 'bundles/orofrontend/default/scss/components/uikit/button-group.scss'
-        - 'bundles/orofrontend/default/scss/components/uikit/theme-icons.scss'
         - 'bundles/orofrontend/default/scss/components/uikit/status-label.scss'
         - 'bundles/orofrontend/default/scss/components/uikit/ul.scss'
         - 'bundles/orofrontend/default/scss/components/uikit/caption.scss'
@@ -129,9 +152,7 @@ styles:
         - 'bundles/orofrontend/default/scss/components/uikit/selectable-group.scss'
         - 'bundles/orofrontend/default/scss/components/uikit/divider.scss'
         - 'bundles/orofrontend/default/scss/components/uikit/collapse.scss'
-        - 'bundles/orofrontend/default/scss/components/utilites.scss'
         - 'bundles/orofrontend/default/scss/components/sticky-panel.scss'
-        - 'bundles/orofrontend/default/scss/components/headings.scss'
         - 'bundles/orofrontend/default/scss/components/captions.scss'
         - 'bundles/orofrontend/default/scss/components/animation.scss'
         - 'bundles/orofrontend/default/scss/components/ui/dialog.scss'

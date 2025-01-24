@@ -86,3 +86,114 @@ $headline6-bottom-offset: spacing('xs') !default;
 $headline6-margin-block: 0 !default;
 $headline6-letter-spacing: .5px !default;
 $headline6-text-transform: uppercase !default;
+
+%base-h1 {
+    font-size: $headline1-font-size;
+    font-family: $headline1-font-family;
+    font-weight: $headline1-font-weight;
+    line-height: $headline1-line-height;
+    text-transform: $headline1-text-transform;
+    color: $headline1-color;
+    margin-block: $headline1-margin-block;
+
+    &.heading-bottom-offset {
+        margin-bottom: $headline1-bottom-offset;
+    }
+}
+
+%base-h2 {
+    font-size: $headline2-font-size;
+    font-family: $headline2-font-family;
+    font-weight: $headline2-font-weight;
+    line-height: $headline2-line-height;
+    text-transform: $headline2-text-transform;
+    color: $headline2-color;
+    margin-block: $headline2-margin-block;
+
+    &.heading-bottom-offset {
+        margin-bottom: $headline2-bottom-offset;
+    }
+}
+
+%base-h2-italic {
+    font-size: $headline2-italic-font-size;
+    font-family: $headline2-italic-font-family;
+    font-weight: $headline2-italic-font-weight;
+    line-height: $headline2-italic-line-height;
+    text-transform: $headline2-italic-text-transform;
+    font-style: $headline2-italic-font-style;
+    color: $headline2-italic-color;
+    margin-block: $headline2-italic-margin-block;
+
+    &.heading-bottom-offset {
+        margin-bottom: $headline2-bottom-offset;
+    }
+}
+
+%base-h3 {
+    font-size: $headline3-font-size;
+    font-family: $headline3-font-family;
+    font-weight: $headline3-font-weight;
+    line-height: $headline3-line-height;
+    text-transform: $headline3-text-transform;
+    color: $headline3-color;
+    margin-block: $headline3-margin-block;
+
+    &.heading-bottom-offset {
+        margin-bottom: $headline3-bottom-offset;
+    }
+}
+
+%base-h4 {
+    font-size: $headline4-font-size;
+    font-family: $headline4-font-family;
+    font-weight: $headline4-font-weight;
+    line-height: $headline4-line-height;
+    text-transform: $headline4-text-transform;
+    color: $headline4-color;
+    margin-block: $headline4-margin-block;
+
+    &.heading-bottom-offset {
+        margin-bottom: $headline4-bottom-offset;
+    }
+}
+
+%base-h5 {
+    font-size: $headline5-font-size;
+    font-family: $headline5-font-family;
+    font-weight: $headline5-font-weight;
+    line-height: $headline5-line-height;
+    text-transform: $headline5-text-transform;
+    color: $headline5-color;
+    margin-block: $headline5-margin-block;
+
+    &.heading-bottom-offset {
+        margin-bottom: $headline5-bottom-offset;
+    }
+}
+
+%base-h5-caps {
+    font-size: $headline5-caps-font-size;
+    font-family: $headline5-caps-font-family;
+    font-weight: $headline5-caps-font-weight;
+    line-height: $headline5-caps-line-height;
+    letter-spacing: $headline5-caps-letter-spacing;
+    text-transform: $headline5-caps-text-transform;
+    color: $headline5-caps-color;
+    margin-block: $headline5-caps-margin-block;
+}
+
+%base-h6 {
+    font-size: $headline6-font-size;
+    font-family: $headline6-font-family;
+    font-weight: $headline6-font-weight;
+    line-height: $headline6-line-height;
+    letter-spacing: $headline6-letter-spacing;
+    text-transform: $headline6-text-transform;
+    color: $headline6-color;
+    margin-block: $headline6-margin-block;
+
+    &.heading-bottom-offset {
+        margin-bottom: $headline6-bottom-offset;
+    }
+}
