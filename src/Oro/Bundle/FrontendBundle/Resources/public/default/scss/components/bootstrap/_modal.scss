@@ -65,15 +65,15 @@
             .modal-body-icon {
                 display: block;
             }
-        }
 
-        .modal-dialog {
-            max-width: 100%;
-            margin: 0;
+            .modal-dialog {
+                max-width: 100%;
+                margin: 0;
 
-            .modal-content {
-                position: fixed;
-                bottom: 0;
+                .modal-content {
+                    position: fixed;
+                    bottom: 0;
+                }
             }
         }
 
