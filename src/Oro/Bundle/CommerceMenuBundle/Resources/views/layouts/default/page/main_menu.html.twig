@@ -104,6 +104,11 @@
     <button {{ block('block_attributes') }}>
         {{- renderIcon.icon({name: 'hamburger-menu', extraClass: 'theme-icon--lg'}) -}}
     </button>
+    {%- if block.vars.extra.iconDot is defined and block.vars.extra.iconDot -%}
+        <span class="hamburger-menu-dot-container">
+            <span class="hamburger-menu-dot"></span>
+        </span>
+    {%- endif -%}
 {% endblock %}
 
 {% block _main_menu_container_widget %}

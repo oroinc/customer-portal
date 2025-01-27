@@ -110,8 +110,6 @@
 
 @include breakpoint('mobile') {
     .navigation-menu {
-        gap: $navigation-menu-gap-mobile;
-
         &--sm-gap {
             gap: $navigation-menu-sm-gap-mobile;
         }

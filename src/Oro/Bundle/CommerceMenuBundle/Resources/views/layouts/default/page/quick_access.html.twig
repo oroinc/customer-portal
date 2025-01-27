@@ -63,6 +63,12 @@
     {%- set label = item.extras.custom is defined and item.extras.custom == true ? item.label : item.label|trans -%}
     {% if item.extras.icon is defined %}
         {{ renderIcon.icon({name: item.extras.icon}) }}
+        {% if item.extras.iconDot is defined %}
+            <span class="quick-access-dot-container">
+                <span class="quick-access-dot"></span>
+            </span>
+        {% endif %}
+
         {% set searchType = oro_theme_configuration_value('header__search_on_smaller_screens') %}
 
         {% set spanClass = searchType == 'integrated' ? 'hide-label-on-tablet' : 'hide-label-on-mobile-landscape' %}
@@ -75,4 +81,8 @@
             {{- label -}}
         {%- endif -%}
     </span>
+    {% if item.extras.iconDotData is defined %}
+        <span class="quick-access-dot-data">{{ item.extras.iconDotData }}</span>
+    {% endif %}
+
 {% endblock %}
