@@ -447,3 +447,28 @@
         }
     }
 }
+
+@include breakpoint('desktop') {
+    .hamburger-menu-dot-container {
+        display: none;
+    }
+}
+
+@include breakpoint('mobile') {
+    .hamburger-menu-dot-container {
+        position: relative;
+        width: 0;
+        height: 0;
+
+        .hamburger-menu-dot {
+            display: block;
+            background-color: $hamburger-menu-dot-background-color;
+            width: 6px;
+            height: 6px;
+            position: relative;
+            top: -11px;
+            left: -14px;
+            border-radius: 3px;
+        }
+    }
+}
