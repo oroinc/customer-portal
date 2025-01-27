@@ -43,6 +43,7 @@ Example:
       "primary": true,
       "street": "23400 Caldwell Road",
       "street2": null,
+      "validatedAt": "2024-02-16T13:36:37Z",
       "types": [
         {
           "default": true,
@@ -109,6 +110,7 @@ Example:
       "middleName": null,
       "lastName": "Sanborn",
       "nameSuffix": null,
+      "validatedAt": "2024-02-16T13:36:37Z",
       "types": [
         {
           "default": true,

@@ -1,0 +1,2 @@
+bundles:
+    - '@OroAddressValidation/Form/addressValidationDialogFields.html.twig'

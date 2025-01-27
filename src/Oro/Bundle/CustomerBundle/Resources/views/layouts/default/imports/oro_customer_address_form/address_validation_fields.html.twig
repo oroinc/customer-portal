@@ -1,0 +1,41 @@
+{% block _oro_customer_frontend_typed_address_validatedAt_widget %}
+    {% apply spaceless %}
+        {% set customerAddress = form.parent.vars.data %}
+        {% if not disabled and customerAddress.frontendOwner.id and feature_enabled('oro_address_validation') %}
+            {% set row_attr = {
+                'class': 'hide',
+                'data-page-component-view': {
+                    view: 'orocustomer/js/app/views/frontend-customer-address-validated-at-view',
+                    dialogUrl: path('oro_customer_frontend_address_validation_customer_address', { customer_id: customerAddress.frontendOwner.id, id: customerAddress.id|default(0) }),
+                    isShippingTypeValidationEnabled: oro_config_value('oro_customer.validate_shipping_addresses__my_account'),
+                    isBillingTypeValidationEnabled: oro_config_value('oro_customer.validate_billing_addresses__my_account')
+                }|json_encode
+            }|merge(row_attr|default({})) %}
+        {% endif %}
+
+        <div {% with { attr: row_attr } %}{{ block('attributes') }}{% endwith %}>
+            {{ form_widget(form) }}
+        </div>
+    {% endapply %}
+{% endblock %}
+
+{% block _oro_customer_frontend_customer_user_typed_address_validatedAt_widget %}
+    {% apply spaceless %}
+        {% set customerUserAddress = form.parent.vars.data %}
+        {% if not disabled and customerUserAddress.frontendOwner.id and feature_enabled('oro_address_validation') %}
+            {% set row_attr = {
+                'class': 'hide',
+                'data-page-component-view': {
+                    view: 'orocustomer/js/app/views/frontend-customer-address-validated-at-view',
+                    dialogUrl: path('oro_customer_frontend_address_validation_customer_user_address', { customer_user_id: customerUserAddress.frontendOwner.id, id: customerUserAddress.id|default(0) }),
+                    isShippingTypeValidationEnabled: oro_config_value('oro_customer.validate_shipping_addresses__my_account'),
+                    isBillingTypeValidationEnabled: oro_config_value('oro_customer.validate_billing_addresses__my_account')
+                }|json_encode
+            }|merge(row_attr|default({})) %}
+        {% endif %}
+
+        <div {% with { attr: row_attr } %}{{ block('attributes') }}{% endwith %}>
+            {{ form_widget(form) }}
+        </div>
+    {% endapply %}
+{% endblock %}

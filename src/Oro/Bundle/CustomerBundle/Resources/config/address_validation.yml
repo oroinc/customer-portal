@@ -1,0 +1,48 @@
+services:
+    oro_customer.form.factory.address_validation.address_form.customer_page:
+        class: Oro\Bundle\CustomerBundle\Form\Factory\AddressValidation\CustomerPageAddressFormFactory
+        arguments:
+            - '@form.factory'
+
+    oro_customer.form.factory.address_validation.address_form.customer_address_dialog:
+        class: Oro\Bundle\CustomerBundle\Form\Factory\AddressValidation\CustomerAddressDialogAddressFormFactory
+        arguments:
+            - '@form.factory'
+
+    oro_customer.form.factory.address_validation.address_form.customer_user_page:
+        class: Oro\Bundle\CustomerBundle\Form\Factory\AddressValidation\CustomerUserPageAddressFormFactory
+        arguments:
+            - '@form.factory'
+
+    oro_customer.form.factory.address_validation.address_form.customer_user_address_dialog:
+        class: Oro\Bundle\CustomerBundle\Form\Factory\AddressValidation\CustomerUserAddressDialogAddressFormFactory
+        arguments:
+            - '@form.factory'
+
+    oro_customer.form.factory.address_validation.frontend.address_form.customer_address_page:
+        class: Oro\Bundle\CustomerBundle\Form\Factory\AddressValidation\Frontend\CustomerAddressPageAddressFormFactory
+        arguments:
+            - '@form.factory'
+
+    oro_customer.form.factory.address_validation.frontend.address_form.customer_user_address_page:
+        class: Oro\Bundle\CustomerBundle\Form\Factory\AddressValidation\Frontend\CustomerUserAddressPageAddressFormFactory
+        arguments:
+            - '@form.factory'
+
+    oro_customer.address_validation.result_handler.customer:
+        class: Oro\Bundle\AddressValidationBundle\AddressValidationResultHandler\AddressValidationResultHandler
+
+    oro_customer.address_validation.result_handler.customer_user:
+        class: Oro\Bundle\AddressValidationBundle\AddressValidationResultHandler\AddressValidationResultHandler
+
+    oro_customer.address_validation.result_handler.customer_address:
+        class: Oro\Bundle\AddressValidationBundle\AddressValidationResultHandler\AddressValidationResultHandler
+
+    oro_customer.address_validation.result_handler.customer_user_address:
+        class: Oro\Bundle\AddressValidationBundle\AddressValidationResultHandler\AddressValidationResultHandler
+
+    oro_customer.address_validation.frontend.result_handler.customer_address:
+        class: Oro\Bundle\AddressValidationBundle\AddressValidationResultHandler\AddressValidationResultHandler
+
+    oro_customer.address_validation.frontend.result_handler.customer_user_address:
+        class: Oro\Bundle\AddressValidationBundle\AddressValidationResultHandler\AddressValidationResultHandler

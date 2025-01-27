@@ -4,6 +4,8 @@ layout:
             id: oro_customer_address_form
             root: __root
     actions:
+        - '@setFormTheme':
+              themes: '@OroCustomer/layouts/default/imports/oro_customer_user_address_form/form_theme.html.twig'
         - '@setOption':
             id: __form_errors
             optionName: form

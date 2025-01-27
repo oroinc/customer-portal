@@ -77,6 +77,8 @@ abstract class AbstractAddressNormalizer extends ConfigurableEntityNormalizer
             ];
         }
 
+        $this->updateValidatedAt($data);
+
         return parent::denormalize($data, $type, $format, $context);
     }
 
@@ -87,5 +89,14 @@ abstract class AbstractAddressNormalizer extends ConfigurableEntityNormalizer
             AbstractTypedAddress::class,
             true
         );
+    }
+
+    protected function updateValidatedAt(array &$data): void
+    {
+        $validateAtFlag = \filter_var($data['validatedAt'] ?? null, FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE);
+        if (\is_bool($validateAtFlag)) {
+            $datetime = (new \DateTime('now', new \DateTimeZone('UTC')))->format(\DateTimeInterface::ATOM);
+            $data['validatedAt'] = $validateAtFlag ? $datetime : null;
+        }
     }
 }

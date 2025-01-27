@@ -81,10 +81,10 @@ class CustomerUserAddressController extends AbstractController
     #[AclAncestor('oro_customer_frontend_customer_user_address_update')]
     public function updateAction(
         CustomerUser $customerUser,
-        CustomerUserAddress $customerAddress,
+        CustomerUserAddress $customerUserAddress,
         Request $request
     ): array|RedirectResponse {
-        return $this->update($customerUser, $customerAddress, $request);
+        return $this->update($customerUser, $customerUserAddress, $request);
     }
 
     private function resolveInputAction(CustomerUser $customerUser): string

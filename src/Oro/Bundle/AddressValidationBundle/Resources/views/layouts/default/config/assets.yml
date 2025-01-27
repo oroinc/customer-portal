@@ -1,0 +1,4 @@
+styles:
+    inputs:
+        - 'bundles/oroaddressvalidation/default/scss/variables/address-validation-result-config.scss'
+        - 'bundles/oroaddressvalidation/default/scss/address-validation-result.scss'

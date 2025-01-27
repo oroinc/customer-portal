@@ -18,6 +18,7 @@ data:
             nameSuffix: null
             createdAt: '@customer_address3->created->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer_address3->updated->format("Y-m-d\TH:i:s\Z")'
+            validatedAt: '@customer_address3->validatedAt->format("Y-m-d\TH:i:s\Z")'
             types:
                 -
                     default: true
@@ -54,6 +55,7 @@ data:
             nameSuffix: M.D.
             createdAt: '@customer_address1->created->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer_address1->updated->format("Y-m-d\TH:i:s\Z")'
+            validatedAt: '@customer_address1->validatedAt->format("Y-m-d\TH:i:s\Z")'
             types:
                 -
                     default: false
@@ -93,7 +95,7 @@ data:
             nameSuffix: null
             createdAt: '@customer_address2->created->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer_address2->updated->format("Y-m-d\TH:i:s\Z")'
-            types: {  }
+            types: {}
         relationships:
             customer:
                 data:

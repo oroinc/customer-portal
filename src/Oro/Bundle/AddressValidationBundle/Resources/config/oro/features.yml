@@ -1,0 +1,5 @@
+features:
+    oro_address_validation:
+        label: oro.address_validation.feature.label
+        toggle: oro_address_validation.address_validation_service
+        allow_if_all_abstain: true

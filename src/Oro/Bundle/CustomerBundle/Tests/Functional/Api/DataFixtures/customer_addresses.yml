@@ -21,3 +21,4 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         country: '@country_usa'
         region: '@region_usa_california'
         organization: 'Test Org'
+        validatedAt: '<date_create_from_format("Y-m-d H:i:s", "2024-10-11 00:00:00")>'

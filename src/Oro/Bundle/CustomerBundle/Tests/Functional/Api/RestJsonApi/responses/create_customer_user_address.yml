@@ -16,6 +16,7 @@ data:
         lastName: Doo
         nameSuffix: M.D.
         customRegion: null
+        validatedAt: '2024-10-11T00:00:00Z'
         types:
             -
                 default: true

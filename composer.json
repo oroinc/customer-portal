@@ -40,7 +40,8 @@
             "Oro\\Bundle\\FrontendBundle\\": "src/Oro/Bundle/FrontendBundle",
             "Oro\\Bundle\\FrontendImportExportBundle\\": "src/Oro/Bundle/FrontendImportExportBundle",
             "Oro\\Bundle\\StyleBookBundle\\": "src/Oro/Bundle/StyleBookBundle",
-            "Oro\\Bundle\\WebsiteBundle\\": "src/Oro/Bundle/WebsiteBundle"
+            "Oro\\Bundle\\WebsiteBundle\\": "src/Oro/Bundle/WebsiteBundle",
+            "Oro\\Bundle\\AddressValidationBundle\\": "src/Oro/Bundle/AddressValidationBundle"
         },
         "exclude-from-classmap": ["/Tests/"]
     }

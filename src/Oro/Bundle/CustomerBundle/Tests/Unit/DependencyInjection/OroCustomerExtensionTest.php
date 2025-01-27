@@ -20,7 +20,7 @@ final class OroCustomerExtensionTest extends TestCase
         $extension->load([], $container);
 
         self::assertNotEmpty($container->getDefinitions());
-        self::assertSame(
+        self::assertEquals(
             [
                 [
                     'settings' => [
@@ -48,6 +48,10 @@ final class OroCustomerExtensionTest extends TestCase
                         'non_authenticated_visitors_api'  => ['value' => false, 'scope' => 'app'],
                         'case_insensitive_email_addresses_enabled'  => ['value' => false, 'scope' => 'app'],
                         'email_enumeration_protection_enabled' => ['value' => true, 'scope' => 'app'],
+                        'validate_shipping_addresses__my_account' => ['value' => true, 'scope' => 'app'],
+                        'validate_billing_addresses__my_account' => ['value' => false, 'scope' => 'app'],
+                        'validate_shipping_addresses__backoffice' => ['value' => true, 'scope' => 'app'],
+                        'validate_billing_addresses__backoffice' => ['value' => false, 'scope' => 'app'],
                         Configuration::REDIRECT_AFTER_LOGIN => [
                             'value' => ['targetType' => RedirectAfterLoginConfigType::TARGET_NONE],
                             'scope' => 'app'

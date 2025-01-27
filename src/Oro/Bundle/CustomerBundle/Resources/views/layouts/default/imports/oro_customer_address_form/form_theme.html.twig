@@ -81,3 +81,14 @@
 {% block oro_customer_typed_address_with_default_widget %}
     {{ form_widget(form.default) }}
 {% endblock %}
+
+{% block choice_widget_expanded %}
+    {% set attr = attr|merge({ 'class': 'grid-col-6 grid-col-mobile-landscape-12' }) %}
+    <div {{ block('attributes') }}>
+        {% for child in form %}
+            <div>
+                {{ form_widget(child) }}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

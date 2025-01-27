@@ -1,0 +1,3 @@
+css:
+    inputs:
+        - 'bundles/oroaddressvalidation/css/scss/address-validation-result.scss'

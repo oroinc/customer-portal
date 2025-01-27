@@ -1,0 +1,112 @@
+parameters:
+    oro_address_validation.address_validation_fields: ['country', 'region', 'city', 'street', 'street2', 'postalCode']
+
+services:
+    oro_address_validation.feature_toggle.config_voter:
+        class: Oro\Bundle\AddressValidationBundle\FeatureToggle\ConfigVoter
+        arguments:
+            - '@oro_config.manager'
+            - '@oro_featuretoggle.configuration.manager'
+            - '@doctrine'
+        tags:
+            - { name: oro_featuretogle.voter }
+
+    oro_address_validation.provider.supported_channel_types:
+        class: Oro\Bundle\AddressValidationBundle\Provider\AddressValidationSupportedChannelTypesProvider
+        arguments:
+            - $channelTypes: !abstract defined in Oro\Bundle\AddressValidationBundle\DependencyInjection\AddressValidationSupportingChannelTypesCompilerPass
+
+    oro_address_validation.form.type.address_validation_aware_config_integration_select:
+        class: Oro\Bundle\AddressValidationBundle\Form\Type\AddressValidationAwareConfigIntegrationSelectType
+        arguments:
+            - '@oro_address_validation.provider.supported_channel_types'
+        tags:
+            - { name: form.type }
+
+    oro_address_validation.provider.address_validation_transport:
+        class: Oro\Bundle\AddressValidationBundle\Provider\AddressValidationTransportProvider
+        arguments:
+            - '@doctrine'
+            - '@oro_config.manager'
+
+    oro_address_validation.resolver.factory.chain:
+        class: Oro\Bundle\AddressValidationBundle\Resolver\Factory\AddressValidationResolverChainFactory
+        arguments:
+            - !tagged_iterator oro_address_validation.resolver_factory
+
+    oro_address_validation.resolver:
+        class: Oro\Bundle\AddressValidationBundle\Resolver\AddressValidationResolver
+        arguments:
+            - '@oro_address_validation.provider.address_validation_transport'
+            - '@oro_address_validation.resolver.factory.chain'
+        tags:
+            - { name: oro_featuretogle.feature, feature: oro_address_validation }
+
+    Oro\Bundle\AddressValidationBundle\Resolver\AddressValidationResolverInterface:
+        alias: oro_address_validation.resolver
+
+    oro_address_validation.twig.resolved_address_twig_extension:
+        class: Oro\Bundle\AddressValidationBundle\Twig\AddressValidationFormatTwigExtension
+        arguments:
+            - '@oro_platform.twig.service_locator'
+            - '%oro_address_validation.address_validation_fields%'
+        tags:
+            - { name: twig.extension }
+
+    oro_address_validation.formatter.resolved_address:
+        class: Oro\Bundle\AddressValidationBundle\Formatter\ResolvedAddressFormatter
+        arguments:
+            - '@oro_locale.formatter.address'
+            - '@oro_ui.tools.text_highlighter'
+            - '@twig'
+
+    oro_address_validation.form.type.address_validated_at:
+        class: Oro\Bundle\AddressValidationBundle\Form\Type\AddressValidatedAtType
+        arguments:
+            - '@oro_importexport.form.data_transformer.datetime_to_import_export_string'
+        tags:
+            - { name: form.type }
+
+    oro_address_validation.resolved_address.acceptor:
+        class: Oro\Bundle\AddressValidationBundle\ResolvedAddress\ResolvedAddressAcceptor
+        arguments:
+            - '@property_accessor'
+            - '%oro_address_validation.address_validation_fields%'
+
+    oro_address_validation.form.data_transformer.resolved_address_accepting:
+        class: Oro\Bundle\AddressValidationBundle\Form\DataTransformer\ResolvedAddressAcceptingTransformer
+        arguments:
+            - '@oro_address_validation.resolved_address.acceptor'
+
+    oro_address_validation.form.type.address_validation_result:
+        class: Oro\Bundle\AddressValidationBundle\Form\Type\AddressValidationResultType
+        arguments:
+            - '@oro_address_validation.form.data_transformer.resolved_address_accepting'
+        tags:
+            - { name: form.type }
+
+    oro_address_validation.form.type.address_book_aware_address_validation_result:
+        class: Oro\Bundle\AddressValidationBundle\Form\Type\AddressBookAwareAddressValidationResultType
+        arguments:
+            - '@security.authorization_checker'
+        tags:
+            - { name: form.type }
+
+    oro_address_validation.form.type.frontend.address_validated_at:
+        class: Oro\Bundle\AddressValidationBundle\Form\Type\Frontend\FrontendAddressValidatedAtType
+        tags:
+            - { name: form.type }
+
+    oro_address_validation.form.type.frontend.address_validation_result:
+        class: Oro\Bundle\AddressValidationBundle\Form\Type\Frontend\FrontendAddressValidationResultType
+        arguments:
+            - '@oro_address_validation.form.data_transformer.resolved_address_accepting'
+        tags:
+            - { name: form.type }
+
+    oro_address_validation.form.type.frontend.address_book_aware_address_validation_result:
+        class: Oro\Bundle\AddressValidationBundle\Form\Type\Frontend\FrontendAddressBookAwareAddressValidationResultType
+        arguments:
+            - '@security.authorization_checker'
+        tags:
+            - { name: form.type }

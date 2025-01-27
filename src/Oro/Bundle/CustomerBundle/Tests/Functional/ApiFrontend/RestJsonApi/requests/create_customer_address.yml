@@ -14,6 +14,7 @@ data:
         middleName: 'Edgar'
         lastName: 'Doo'
         nameSuffix: 'M.D.'
+        validatedAt: '2024-10-11T00:00:00Z'
         types:
             -
                 default: true

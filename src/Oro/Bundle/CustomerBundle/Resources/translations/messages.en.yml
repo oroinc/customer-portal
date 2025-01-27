@@ -524,7 +524,9 @@ oro.customer:
         updated:
             label: Updated
             description: The date and time of the last update of the customer user address.
-
+        validated_at:
+            label: Validated At
+            description: The date and time when address was validated.
         export:
             button.label: 'Export Customer User Addresses'
         import:
@@ -677,6 +679,9 @@ oro.customer:
             description:     Phone of the contact person.
         defaults:
             label:           Use this address as
+        validated_at:
+            label: Validated At
+            description: The date and time when address was validated.
 
         country_name.label:      Country name
         country_iso2_code.label: Country ISO2 code
@@ -1062,3 +1067,12 @@ oro.scope:
 oro_form.captcha.protected_form_name.oro_customer_frontend_customer_user_register: Customer User Registration Form
 oro_form.captcha.protected_form_name.oro_customer_customer_user_password_request: Customer User Reset Password Form
 oro_form.captcha.protected_form_name.oro_customer_form_login: Customer User Login Form
+
+oro.address_validation.system_configuration:
+    fields:
+        validate_shipping_addresses:
+            my_account:
+                label: Validate Shipping Addresses In My Account
+        validate_billing_addresses:
+            my_account:
+                label: Validate Billing Addresses In My Account

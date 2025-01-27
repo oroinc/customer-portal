@@ -19,6 +19,7 @@ data:
             nameSuffix: M.D.
             createdAt: '@customer_user_address1->created->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer_user_address1->updated->format("Y-m-d\TH:i:s\Z")'
+            validatedAt: '@customer_user_address->validatedAt->format("Y-m-d\TH:i:s\Z")'
             types:
                 -
                     default: false
@@ -130,7 +131,8 @@ data:
             nameSuffix: null
             createdAt: '@another_customer_user_address1->created->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@another_customer_user_address1->updated->format("Y-m-d\TH:i:s\Z")'
-            types: {  }
+            types: {}
+            validatedAt: '@another_customer_user_address1->validatedAt->format("Y-m-d\TH:i:s\Z")'
         relationships:
             customerUser:
                 data:
@@ -199,6 +201,7 @@ data:
             createdAt: '@customer_user_address->created->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer_user_address->updated->format("Y-m-d\TH:i:s\Z")'
             types: {}
+            validatedAt: '@customer_user_address->validatedAt->format("Y-m-d\TH:i:s\Z")'
         relationships:
             customerUser:
                 data:

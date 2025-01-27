@@ -1,62 +1,9 @@
 include:
     - ../../../../../../../../../commerce/src/Oro/Bundle/PricingBundle/Tests/Behat/Features/Fixtures/Pricelists.yml
+    - ./Customer1TypedAddressesFixture.yml
 
 Oro\Bundle\CustomerBundle\Entity\Customer:
     customer1:
         name: 'first customer'
         organization: '@organization'
         owner: '@admin'
-
-Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
-    customerAddress1:
-        region: '@florida'
-        frontendOwner: '@customer1'
-        country: '@united_states'
-        owner: '@admin'
-        firstName: 'Amanda'
-        lastName: 'Cole'
-        systemOrganization: '@organization'
-        primary: false
-        label: 'Address 1'
-        street: '801 Scenic Hwy'
-        city: 'Haines City'
-        postalCode: '33844'
-        organization: 'ORO'
-    customerAddress2:
-        region: '@new_york'
-        frontendOwner: '@customer1'
-        country: '@united_states'
-        owner: '@admin'
-        firstName: 'Amanda'
-        lastName: 'Cole'
-        systemOrganization: '@organization'
-        primary: false
-        label: 'Address 2'
-        street: '23400 Caldwell Road'
-        city: 'Rochester'
-        postalCode: '14608'
-        organization: 'ORO'
-    customerAddress3:
-        region: '@indiana'
-        frontendOwner: '@customer1'
-        country: '@united_states'
-        owner: '@admin'
-        firstName: 'Amanda'
-        lastName: 'Cole'
-        systemOrganization: '@organization'
-        primary: false
-        label: 'Address 3'
-        street: '34500 Capitol Avenue'
-        city: 'Romney'
-        postalCode: '47981'
-        organization: 'ORO'
-
-Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
-    customerAddress1ShippingDefault:
-        address: '@customerAddress1'
-        type: '@shippingType'
-        default: true
-    customerAddress1BillingDefault:
-        address: '@customerAddress1'
-        type: '@billingType'
-        default: true

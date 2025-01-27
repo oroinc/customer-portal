@@ -71,17 +71,12 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         );
     }
 
-    /**
-     * @param CustomerUserAddress $address
-     *
-     * @return CustomerUser
-     */
-    private function getOwner(CustomerUserAddress $address)
+    private function getOwner(CustomerUserAddress $address): ?CustomerUser
     {
         return $address->getFrontendOwner();
     }
 
-    public function testGetList()
+    public function testGetList(): void
     {
         $response = $this->cget(
             ['entity' => self::ENTITY_TYPE]
@@ -90,7 +85,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         $this->assertResponseContains('cget_customer_user_address.yml', $response);
     }
 
-    public function testGetListFilterByAddressType()
+    public function testGetListFilterByAddressType(): void
     {
         $response = $this->cget(
             ['entity' => self::ENTITY_TYPE],
@@ -122,7 +117,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         );
     }
 
-    public function testTryToGetListFilterByTypes()
+    public function testTryToGetListFilterByTypes(): void
     {
         $response = $this->cget(
             ['entity' => self::ENTITY_TYPE],
@@ -141,7 +136,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         );
     }
 
-    public function testGet()
+    public function testGet(): void
     {
         $response = $this->get(
             ['entity' => self::ENTITY_TYPE, 'id' => '<toString(@other.user@test.com.address_1->id)>']
@@ -150,7 +145,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         $this->assertResponseContains('get_customer_user_address.yml', $response);
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $customer = $this->getReference('customer.1');
         $ownerId = $customer->getOwner()->getId();
@@ -199,9 +194,10 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         self::assertEquals($customerUserId, $address->getFrontendOwner()->getId());
         self::assertEquals($countryId, $address->getCountry()->getIso2Code());
         self::assertEquals($regionId, $address->getRegion()->getCombinedCode());
+        self::assertEquals('2024-10-11 00:00:00', $address->getValidatedAt()->format('Y-m-d H:i:s'));
     }
 
-    public function testTryToCreateWithRequiredDataOnlyAndWithoutOrganizationAndFirstNameAndLastName()
+    public function testTryToCreateWithRequiredDataOnlyAndWithoutOrganizationAndFirstNameAndLastName(): void
     {
         $data = $this->getRequestData(self::CREATE_MIN_REQUEST_DATA);
         unset($data['data']['attributes']['organization']);
@@ -234,7 +230,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         );
     }
 
-    public function testTryToCreateWhenCustomerOrganizationAndSystemOrganizationNotTheSame()
+    public function testTryToCreateWhenCustomerOrganizationAndSystemOrganizationNotTheSame(): void
     {
         $data = $this->getRequestData(self::CREATE_REQUEST_DATA);
 
@@ -284,7 +280,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         }
     }
 
-    public function testCreateWithRequiredDataOnlyAndOrganization()
+    public function testCreateWithRequiredDataOnlyAndOrganization(): void
     {
         $customer = $this->getReference('customer.1');
         $ownerId = $customer->getOwner()->getId();
@@ -311,6 +307,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         $responseContent['data']['attributes']['middleName'] = null;
         $responseContent['data']['attributes']['lastName'] = null;
         $responseContent['data']['attributes']['types'] = [];
+        $responseContent['data']['attributes']['validatedAt'] = null;
         $responseContent['data']['relationships']['owner']['data'] = [
             'type' => 'users',
             'id'   => (string)$ownerId
@@ -338,6 +335,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         self::assertNull($address->getFirstName());
         self::assertNull($address->getMiddleName());
         self::assertNull($address->getLastName());
+        self::assertNull($address->getValidatedAt());
         self::assertCount(0, $address->getAddressTypes());
         self::assertEquals($organizationId, $address->getSystemOrganization()->getId());
         self::assertEquals($ownerId, $address->getOwner()->getId());
@@ -346,7 +344,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         self::assertEquals($regionId, $address->getRegion()->getCombinedCode());
     }
 
-    public function testCreateWithRequiredDataOnlyAndFirstNameAndLastName()
+    public function testCreateWithRequiredDataOnlyAndFirstNameAndLastName(): void
     {
         $customer = $this->getReference('customer.1');
         $ownerId = $customer->getOwner()->getId();
@@ -374,6 +372,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         $responseContent['data']['attributes']['namePrefix'] = null;
         $responseContent['data']['attributes']['nameSuffix'] = null;
         $responseContent['data']['attributes']['middleName'] = null;
+        $responseContent['data']['attributes']['validatedAt'] = null;
         $responseContent['data']['attributes']['types'] = [];
         $responseContent['data']['relationships']['owner']['data'] = [
             'type' => 'users',
@@ -399,6 +398,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         self::assertEquals('90001', $address->getPostalCode());
         self::assertNull($address->getNamePrefix());
         self::assertNull($address->getNameSuffix());
+        self::assertNull($address->getValidatedAt());
         self::assertEquals('John', $address->getFirstName());
         self::assertNull($address->getMiddleName());
         self::assertEquals('Doo', $address->getLastName());
@@ -410,7 +410,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         self::assertEquals($regionId, $address->getRegion()->getCombinedCode());
     }
 
-    public function testTryToCreateWithoutCustomerUser()
+    public function testTryToCreateWithoutCustomerUser(): void
     {
         $data = $this->getRequestData(self::CREATE_MIN_REQUEST_DATA);
         unset($data['data']['relationships']['customerUser']);
@@ -431,7 +431,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         );
     }
 
-    public function testTryToCreateWithNullCustomerUser()
+    public function testTryToCreateWithNullCustomerUser(): void
     {
         $data = $this->getRequestData(self::CREATE_MIN_REQUEST_DATA);
         $data['data']['relationships']['customerUser']['data'] = null;
@@ -452,7 +452,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         );
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $response = $this->patch(
             ['entity' => self::ENTITY_TYPE, 'id' => '<toString(@other.user@test.com.address_1->id)>'],
@@ -468,6 +468,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         self::assertEquals('City updated', $address->getCity());
         self::assertEquals('First name updated', $address->getFirstName());
         self::assertEquals('Address label updated', $address->getLabel());
+        self::assertEquals('2024-12-12 00:00:00', $address->getValidatedAt()->format('Y-m-d H:i:s'));
         self::assertEquals(
             $this->getReference('other.user@test.com')->getId(),
             $address->getFrontendOwner()->getId()
@@ -478,7 +479,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         );
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $addressId = $this->getReference('other.user@test.com.address_1')->getId();
 
@@ -491,7 +492,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         self::assertTrue(null === $address);
     }
 
-    public function testDeleteList()
+    public function testDeleteList(): void
     {
         $addressId = $this->getReference('other.user@test.com.address_1')->getId();
 
@@ -505,7 +506,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         self::assertTrue(null === $address);
     }
 
-    public function testTryToSetNullCountry()
+    public function testTryToSetNullCountry(): void
     {
         $addressId = $this->getReference('other.user@test.com.address_1')->getId();
         $data = [
@@ -536,7 +537,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         );
     }
 
-    public function testTryToUpdateCustomerUser()
+    public function testTryToUpdateCustomerUser(): void
     {
         /** @var CustomerUserAddress $address */
         $address = $this->getReference('other.user@test.com.address_1');
@@ -569,7 +570,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         );
     }
 
-    public function testTryToUpdateCustomerUserViaRelationship()
+    public function testTryToUpdateCustomerUserViaRelationship(): void
     {
         $addressId = $this->getReference('other.user@test.com.address_1')->getId();
         $data = [
@@ -589,7 +590,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         self::assertMethodNotAllowedResponse($response, 'OPTIONS, GET');
     }
 
-    public function testTryToUpdateSystemOrganization()
+    public function testTryToUpdateSystemOrganization(): void
     {
         /** @var CustomerUserAddress $address */
         $address = $this->getReference('other.user@test.com.address_1');
@@ -654,7 +655,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         );
     }
 
-    public function testTryToUpdateSystemOrganizationViaRelationship()
+    public function testTryToUpdateSystemOrganizationViaRelationship(): void
     {
         $addressId = $this->getReference('other.user@test.com.address_1')->getId();
         $data = [

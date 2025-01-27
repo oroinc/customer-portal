@@ -1519,6 +1519,15 @@ services:
             - '@oro_distribution.handler.application_status'
             - '@security.untracked_token_storage'
 
+    oro_customer.utils.address_copier:
+        class: Oro\Bundle\CustomerBundle\Utils\AddressCopier
+        arguments:
+            - '@doctrine'
+            - '@property_accessor'
+
+    Oro\Bundle\CustomerBundle\Utils\AddressCopier:
+        alias: oro_customer.utils.address_copier
+
     oro_customer.event_listener.redirect_after_login_config_listener:
         class: Oro\Bundle\CustomerBundle\EventListener\RedirectAfterLoginConfigListener
         arguments:

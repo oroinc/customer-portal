@@ -135,3 +135,51 @@ services:
         tags:
             - { name: container.service_subscriber }
             - { name: container.service_subscriber, id: oro_config.customer_group, key: Oro\Bundle\ConfigBundle\Config\ConfigManager }
+
+    Oro\Bundle\CustomerBundle\Controller\Frontend\AddressValidation\CustomerAddressPageAddressValidationController:
+        calls:
+            - [ 'setContainer', [ '@Psr\Container\ContainerInterface' ] ]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer.form.factory.address_validation.frontend.address_form.customer_address_page, key: Oro\Bundle\AddressValidationBundle\Form\Factory\AddressValidationAddressFormFactoryInterface }
+            - { name: container.service_subscriber, id: oro_customer.address_validation.frontend.result_handler.customer_address, key: Oro\Bundle\AddressValidationBundle\AddressValidationResultHandler\AddressValidationResultHandlerInterface }
+
+    Oro\Bundle\CustomerBundle\Controller\Frontend\AddressValidation\CustomerUserAddressPageAddressValidationController:
+        calls:
+            - [ 'setContainer', [ '@Psr\Container\ContainerInterface' ] ]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer.form.factory.address_validation.frontend.address_form.customer_user_address_page, key: Oro\Bundle\AddressValidationBundle\Form\Factory\AddressValidationAddressFormFactoryInterface }
+            - { name: container.service_subscriber, id: oro_customer.address_validation.frontend.result_handler.customer_user_address, key: Oro\Bundle\AddressValidationBundle\AddressValidationResultHandler\AddressValidationResultHandlerInterface }
+
+    Oro\Bundle\CustomerBundle\Controller\AddressValidation\CustomerPageAddressValidationController:
+        calls:
+            - [ 'setContainer', [ '@Psr\Container\ContainerInterface' ] ]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer.form.factory.address_validation.address_form.customer_page, key: Oro\Bundle\AddressValidationBundle\Form\Factory\AddressValidationAddressFormFactoryInterface }
+            - { name: container.service_subscriber, id: oro_customer.address_validation.result_handler.customer, key: Oro\Bundle\AddressValidationBundle\AddressValidationResultHandler\AddressValidationResultHandlerInterface }
+
+    Oro\Bundle\CustomerBundle\Controller\AddressValidation\CustomerUserPageAddressValidationController:
+        calls:
+            - [ 'setContainer', [ '@Psr\Container\ContainerInterface' ] ]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer.form.factory.address_validation.address_form.customer_user_page, key: Oro\Bundle\AddressValidationBundle\Form\Factory\AddressValidationAddressFormFactoryInterface }
+            - { name: container.service_subscriber, id: oro_customer.address_validation.result_handler.customer_user, key: Oro\Bundle\AddressValidationBundle\AddressValidationResultHandler\AddressValidationResultHandlerInterface }
+
+    Oro\Bundle\CustomerBundle\Controller\AddressValidation\CustomerAddressDialogAddressValidationController:
+        calls:
+            - [ 'setContainer', [ '@Psr\Container\ContainerInterface' ] ]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer.form.factory.address_validation.address_form.customer_address_dialog, key: Oro\Bundle\AddressValidationBundle\Form\Factory\AddressValidationAddressFormFactoryInterface }
+            - { name: container.service_subscriber, id: oro_customer.address_validation.result_handler.customer_address, key: Oro\Bundle\AddressValidationBundle\AddressValidationResultHandler\AddressValidationResultHandlerInterface }
+
+    Oro\Bundle\CustomerBundle\Controller\AddressValidation\CustomerUserAddressDialogAddressValidationController:
+        calls:
+            - [ 'setContainer', [ '@Psr\Container\ContainerInterface' ] ]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer.form.factory.address_validation.address_form.customer_user_address_dialog, key: Oro\Bundle\AddressValidationBundle\Form\Factory\AddressValidationAddressFormFactoryInterface }
+            - { name: container.service_subscriber, id: oro_customer.address_validation.result_handler.customer_user_address, key: Oro\Bundle\AddressValidationBundle\AddressValidationResultHandler\AddressValidationResultHandlerInterface }

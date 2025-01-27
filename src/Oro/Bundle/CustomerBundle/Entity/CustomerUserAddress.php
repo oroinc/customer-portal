@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Extend\Entity\Autocomplete\OroCustomerBundle_Entity_CustomerUserAddress;
+use Oro\Bundle\AddressValidationBundle\Model\AddressValidatedAtAwareInterface;
+use Oro\Bundle\AddressValidationBundle\Model\AddressValidatedAtAwareTrait;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserAddressRepository;
 use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
@@ -34,16 +36,18 @@ use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
             'frontend_owner_field_name' => 'frontendOwner',
             'frontend_owner_column_name' => 'frontend_owner_id',
             'organization_field_name' => 'systemOrganization',
-            'organization_column_name' => 'system_org_id'
+            'organization_column_name' => 'system_org_id',
         ],
-        'security' => ['type' => 'ACL', 'group_name' => 'commerce']
+        'security' => ['type' => 'ACL', 'group_name' => 'commerce'],
     ]
 )]
 class CustomerUserAddress extends AbstractDefaultTypedAddress implements
     AddressPhoneAwareInterface,
+    AddressValidatedAtAwareInterface,
     ExtendEntityInterface
 {
     use ExtendEntityTrait;
+    use AddressValidatedAtAwareTrait;
 
     #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]

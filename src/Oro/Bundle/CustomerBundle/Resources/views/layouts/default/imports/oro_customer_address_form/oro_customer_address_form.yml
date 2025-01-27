@@ -8,7 +8,9 @@ layout:
         - '@setBlockTheme':
             themes: '@OroCustomer/layouts/default/imports/oro_customer_address_form/oro_customer_address_form.html.twig'
         - '@setFormTheme':
-            themes: '@OroCustomer/layouts/default/imports/oro_customer_address_form/form_theme.html.twig'
+            themes:
+              - '@OroCustomer/layouts/default/imports/oro_customer_address_form/form_theme.html.twig'
+              - '@OroCustomer/layouts/default/imports/oro_customer_address_form/address_validation_fields.html.twig'
         - '@addTree':
             items:
                 __container:

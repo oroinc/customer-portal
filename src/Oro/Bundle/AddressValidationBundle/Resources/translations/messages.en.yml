@@ -1,0 +1,41 @@
+oro:
+    address_validation:
+        system_configuration:
+            groups:
+                address_validation:
+                    title: Address Validation
+                    general:
+                        title: General
+                    storefront:
+                        title: Storefront
+                    backoffice:
+                        title: Back-Office
+            fields:
+                address_validation_service:
+                    label: Address Validation Service
+                    disabled: Disabled
+        feature.label: Address Validation
+        form:
+            intro_text.label: "We couldn't verify the entered address, but found a close match. 
+            A correct address ensures timely and accurate delivery"
+            address_as_entered.label: 'Address as Entered'
+            suggested_address.label: 'Suggested Address'
+
+        dialog:
+            message: We couldn't verify the entered address, but found a close match. A correct address ensures timely and accurate delivery.
+            form:
+                address_as_entered.label: Address as Entered
+                suggested_address.label: Suggested Address
+                create_address.label: Save Address
+                update_address.label: Update Address
+                cancel.label: Edit Address
+                submit.label: Use Selected Address
+        frontend:
+            dialog:
+                message: We couldn't verify the entered address, but found a close match. A correct address ensures timely and accurate delivery.
+                form:
+                    address_as_entered.label: Address as Entered
+                    suggested_address.label: Suggested Address
+                    update_address.label: Update Address
+                    cancel.label: Edit Address
+                    submit.label: Use Selected Address

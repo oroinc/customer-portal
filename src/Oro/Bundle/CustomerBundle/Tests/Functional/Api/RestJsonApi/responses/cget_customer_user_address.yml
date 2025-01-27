@@ -19,6 +19,7 @@ data:
             createdAt: '@grzegorz.brzeczyszczykiewicz@example.com.address_1->created->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@grzegorz.brzeczyszczykiewicz@example.com.address_1->updated->format("Y-m-d\TH:i:s\Z")'
             customRegion: null
+            validatedAt: null
             types:
                 -
                     default: false
@@ -67,6 +68,7 @@ data:
             createdAt: '@grzegorz.brzeczyszczykiewicz@example.com.address_2->created->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@grzegorz.brzeczyszczykiewicz@example.com.address_2->updated->format("Y-m-d\TH:i:s\Z")'
             customRegion: null
+            validatedAt: null
             types:
                 -
                     default: true
@@ -112,6 +114,7 @@ data:
             createdAt: '@grzegorz.brzeczyszczykiewicz@example.com.address_3->created->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@grzegorz.brzeczyszczykiewicz@example.com.address_3->updated->format("Y-m-d\TH:i:s\Z")'
             customRegion: null
+            validatedAt: null
             types:
                 -
                     default: false
@@ -161,6 +164,7 @@ data:
             updatedAt: '@grzegorz.brzeczyszczykiewicz@example.com.address_4->updated->format("Y-m-d\TH:i:s\Z")'
             customRegion: null
             types: {}
+            validatedAt: null
         relationships:
             customerUser:
                 data:
@@ -202,6 +206,7 @@ data:
             createdAt: '@other.user@test.com.address_1->created->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@other.user@test.com.address_1->updated->format("Y-m-d\TH:i:s\Z")'
             customRegion: null
+            validatedAt: null
             types:
                 -
                     default: false
@@ -251,6 +256,7 @@ data:
             updatedAt: '@other.user@test.com.address_2->updated->format("Y-m-d\TH:i:s\Z")'
             customRegion: null
             types: {}
+            validatedAt: '@other.user@test.com.address_2->validatedAt->format("Y-m-d\TH:i:s\Z")'
         relationships:
             customerUser:
                 data:

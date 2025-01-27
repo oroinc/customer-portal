@@ -18,13 +18,13 @@ use Oro\Bundle\UserBundle\Entity\User;
 class CustomerAddressFixture extends AbstractTemplateRepository implements TemplateFixtureInterface
 {
     #[\Override]
-    public function getEntityClass()
+    public function getEntityClass(): string
     {
         return CustomerAddress::class;
     }
 
     #[\Override]
-    public function fillEntityData($key, $entity)
+    public function fillEntityData($key, $entity): void
     {
         /** @var CustomerAddress $entity */
         $entity->setPrimary(true)
@@ -38,7 +38,8 @@ class CustomerAddressFixture extends AbstractTemplateRepository implements Templ
             ->setStreet('23400 Caldwell Road')
             ->setCity('Rochester')
             ->setRegion(new Region('US-NY'))
-            ->setPostalCode('14608');
+            ->setPostalCode('14608')
+            ->setValidatedAt(new \DateTime('now', new \DateTimeZone('UTC')));
 
         $entity->setPhone('(+1) 212 123 4567');
         $entity->setTypes(new ArrayCollection([new AddressType('billing'), new AddressType('shipping')]));
@@ -48,13 +49,13 @@ class CustomerAddressFixture extends AbstractTemplateRepository implements Templ
     }
 
     #[\Override]
-    public function getData()
+    public function getData(): iterable
     {
         return $this->getEntityData('Example of Customer Address');
     }
 
     #[\Override]
-    protected function createEntity($key)
+    protected function createEntity($key): object
     {
         return $this->setProperty(new CustomerAddress(), 'id', 1);
     }
@@ -77,13 +78,7 @@ class CustomerAddressFixture extends AbstractTemplateRepository implements Templ
         return $owner;
     }
 
-    /**
-     * @param object $entity
-     * @param string $name
-     * @param mixed $value
-     * @return object
-     */
-    protected function setProperty($entity, string $name, $value)
+    protected function setProperty(object $entity, string $name, mixed $value): object
     {
         $reflectionUser = new \ReflectionClass($entity);
 

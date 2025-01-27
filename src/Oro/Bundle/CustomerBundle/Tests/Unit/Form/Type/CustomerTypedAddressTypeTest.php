@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\AddressBundle\Form\Type\AddressType as AddressFormType;
+use Oro\Bundle\AddressValidationBundle\Form\Type\AddressValidatedAtType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressType;
@@ -17,6 +18,7 @@ use Oro\Bundle\FormBundle\Tests\Unit\Stub\StripTagsExtensionStub;
 use Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
+use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToStringTransformer;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 
@@ -82,6 +84,7 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
                         $this->shippingType
                     ], $em),
                     AddressFormType::class => new AddressTypeStub(),
+                    AddressValidatedAtType::class => new AddressValidatedAtType(new DateTimeToStringTransformer()),
                 ],
                 [FormType::class => [new StripTagsExtensionStub($this)]]
             )
@@ -154,5 +157,23 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
         foreach ($address2->getDefaults() as $type) {
             $this->assertNotContains($type->getName(), $submittedData['defaults']['default']);
         }
+    }
+
+    public function testSubmitWithValidatedAt(): void
+    {
+        $today = new \DateTime('today');
+        $submittedData = [
+            'validatedAt' => $today->format('Y-m-d H:i:s'),
+        ];
+
+        $form = $this->factory->create(CustomerTypedAddressType::class, null, ['single_form' => false]);
+        self::assertNull($form->getData());
+        self::assertNull($form->getViewData());
+
+        $form->submit($submittedData);
+        self::assertTrue($form->isValid());
+        self::assertTrue($form->isSynchronized());
+
+        self::assertEquals($today->format('Y-m-d H:i:s'), $form->getData()->getValidatedAt()->format('Y-m-d H:i:s'));
     }
 }

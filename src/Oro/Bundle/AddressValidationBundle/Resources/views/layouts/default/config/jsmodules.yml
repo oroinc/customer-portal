@@ -1,0 +1,3 @@
+dynamic-imports:
+    orouser:
+        - oroaddressvalidation/js/app/views/frontend-address-validation-dialog-widget

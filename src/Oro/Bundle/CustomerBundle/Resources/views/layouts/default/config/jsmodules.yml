@@ -13,3 +13,5 @@ dynamic-imports:
         - orocustomer/js/app/components/customer-address-component
         - orocustomer/js/app/components/customer-user-role-component
         - orocustomer/js/app/components/frontend-customer-address-book-component
+        - orocustomer/js/app/views/frontend-customer-address-validation-dialog-widget
+        - orocustomer/js/app/views/frontend-customer-address-validated-at-view

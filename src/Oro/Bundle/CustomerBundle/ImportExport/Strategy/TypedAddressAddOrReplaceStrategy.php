@@ -94,7 +94,7 @@ class TypedAddressAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         // Set systemOrganization same to owner if none set.
         if ($entity instanceof AbstractDefaultTypedAddress && !$entity->getSystemOrganization()) {
             $entity->setSystemOrganization(
-                $entity->getFrontendOwner()->getOrganization()
+                $entity->getFrontendOwner()?->getOrganization()
             );
         }
 

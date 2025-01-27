@@ -56,7 +56,8 @@ class CustomerUserAddressUpdateListTest extends RestJsonApiUpdateListTestCase
                         'types'        => [
                             ['default' => true, 'addressType' => 'billing']
                         ],
-                        'organization' => 'SOI-73 STR5 Account 2'
+                        'organization' => 'SOI-73 STR5 Account 2',
+                        'validatedAt'  => null,
                     ],
                     'relationships' => [
                         'country'      => [
@@ -79,7 +80,8 @@ class CustomerUserAddressUpdateListTest extends RestJsonApiUpdateListTestCase
                         'types'        => [
                             ['default' => true, 'addressType' => 'shipping']
                         ],
-                        'organization' => 'SOI-73 STR5 Account 2'
+                        'organization' => 'SOI-73 STR5 Account 2',
+                        'validatedAt'  => '2024-10-11T00:00:00Z',
                     ],
                     'relationships' => [
                         'country'      => [
@@ -122,8 +124,10 @@ class CustomerUserAddressUpdateListTest extends RestJsonApiUpdateListTestCase
         $address2Index = $this->getCustomerUserAddressIndex($responseContent['included'], '16 Lewis Circle');
         $responseContent['included'][$address1Index]['id'] = (string)$address1Id;
         $responseContent['included'][$address1Index]['attributes']['primary'] = true;
+        $responseContent['included'][$address1Index]['attributes']['validatedAt'] = null;
         $responseContent['included'][$address2Index]['id'] = (string)$address2Id;
         $responseContent['included'][$address2Index]['attributes']['primary'] = false;
+        $responseContent['included'][$address2Index]['attributes']['validatedAt'] = '2024-10-11T00:00:00Z';
         $this->assertResponseContains($responseContent, $response);
     }
 }

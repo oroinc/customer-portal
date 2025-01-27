@@ -1,0 +1,12 @@
+oro.address_validation:
+    validation_widget.title: Confirm your address
+
+oro:
+    address_validation:
+        dialog:
+            title_short: 'Confirm Your Address'
+            title_long: 'Confirm Your Address - {{ label }}'
+        frontend:
+            dialog:
+                title_short: 'Confirm Your Address'
+                title_long: 'Confirm Your Address - {{ label }}'

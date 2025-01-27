@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Form\Type;
 
 use Oro\Bundle\AddressBundle\Form\EventListener\FixAddressesPrimarySubscriber;
 use Oro\Bundle\AddressBundle\Form\Type\AddressType;
+use Oro\Bundle\AddressValidationBundle\Form\Type\AddressValidatedAtType;
 use Oro\Bundle\CustomerBundle\Form\EventListener\FixCustomerAddressesDefaultSubscriber;
 use Oro\Bundle\FormBundle\Form\Extension\StripTagsExtension;
 use Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType;
@@ -72,7 +73,8 @@ class CustomerTypedAddressType extends AbstractType
                 [
                     'required' => false
                 ]
-            );
+            )
+            ->add('validatedAt', AddressValidatedAtType::class);
 
         $builder->get('city')->setRequired(true);
         $builder->get('postalCode')->setRequired(true);

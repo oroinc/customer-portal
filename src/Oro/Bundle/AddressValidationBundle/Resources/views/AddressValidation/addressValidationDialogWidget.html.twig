@@ -1,0 +1,34 @@
+{% form_theme form with ['@OroForm/Form/fields.html.twig', _self] %}
+
+<div class="widget-content">
+    <div class="message">{{ 'oro.address_validation.dialog.message'|trans }}</div>
+
+    {{- form_start(form, { action: app.request.uri, attr: { id: form.vars.id, class: 'form-dialog' } }) }}
+    <div class="flash-messages">
+        <div class="flash-messages-frame">
+            <div class="flash-messages-holder"></div>
+        </div>
+    </div>
+
+    {%- if not form.vars.valid and form_errors(form) %}
+        <div class="alert alert-error" role="alert">
+            <div class="message">
+                {{- form_errors(form) }}
+            </div>
+        </div>
+    {%- endif %}
+
+    {{- form_row(form.address, { 'label': false }) }}
+
+    <div class="widget-actions">
+        <button type="reset" class="btn">{{ 'oro.address_validation.dialog.form.cancel.label'|trans }}</button>
+        <button type="submit" class="btn btn-success">{{ 'oro.address_validation.dialog.form.submit.label'|trans }}</button>
+    </div>
+
+    <div class="hidden">
+        {{- form_rest(form) }}
+    </div>
+
+    {{- form_end(form) }}
+    {{- oro_form_js_validation(form) }}
+</div>

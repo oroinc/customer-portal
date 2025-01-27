@@ -1,0 +1,80 @@
+oro_behat_extension:
+    elements:
+        Address Validation Configuration Form:
+            selector: 'form[name="address_validation"]'
+            class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+            options:
+                mapping:
+                    Address Validation Service: 'address_validation[oro_address_validation___address_validation_service][value]'
+                    Address Validation Service Use Default: 'address_validation[oro_address_validation___address_validation_service][use_parent_scope_value]'
+
+        Address Validation Result Form:
+            selector: 'form[name="oro_address_validation_result"]'
+            class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+            options:
+                mapping:
+                    Suggested Address Select:
+                        locator: '//div[contains(@id,"s2id_oro_address_validation_result_address_select-uid")]/input'
+                        type: xpath
+
+        Address Validation Result Form Storefront:
+            selector: 'form[name="oro_address_validation_frontend_validation_result"]'
+            class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+            options:
+                mapping:
+                    Suggested Address Select:
+                        locator: '//div[contains(@id,"oro_address_validation_frontend_validation_result_address")]/input'
+                        type: xpath
+
+        Address Book Aware Address Validation Result Form:
+            selector: 'form[name="oro_address_validation_address_book_aware_validation_result"]'
+            class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+            options:
+                mapping:
+                    Suggested Address Select:
+                        locator: '//div[contains(@id,"s2id_oro_address_validation_address_book_aware_validation_result_address_select-uid")]/input'
+                        type: xpath
+
+        Address Book Aware Address Validation Result Form Storefront:
+            selector: 'form[name="oro_address_validation_frontend_address_book_aware_validation_result"]'
+            class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+            options:
+                mapping:
+                    Suggested Address Select:
+                        locator: '//div[contains(@id,"s2id_oro_address_validation_frontend_address_book_aware_validation_result_address_select-uid")]/input'
+                        type: xpath
+
+        Address Validation Result Form Suggested Address Select:
+            selector:
+                locator: '//div[contains(@id,"s2id_oro_address_validation_result_address_select-uid")]/input'
+                type: xpath
+
+
+        Use Selected Address Button:
+            selector:
+                locator: '//*[contains(@class,"btn") and contains(text(), "Use Selected Address")]'
+                type: xpath
+
+        Address Validation Result Form First Suggested Address Radio:
+            selector:
+                locator: '(//div[contains(@class, "choice-widget-expanded__item")]//span[text()="Suggested Address"]/ancestor::label/preceding-sibling::input[@type="radio"])[1]'
+                type: xpath
+
+        Address Validation Result Form First Suggested Address Radio Storefront:
+            selector:
+                locator: '(//div[contains(@class, "choice-widget-expanded__item")]//span[text()="Suggested Address"]/ancestor::span/preceding-sibling::input[@type="radio"])[1]'
+                type: xpath
+
+        Address Book Aware Address Validation Result Update Address Checkbox:
+            selector: '[name="oro_address_validation_address_book_aware_validation_result[update_address]"]'
+
+        Address Book Aware Address Validation Result Update Address Checkbox Storefront:
+            selector: '[name="oro_address_validation_frontend_address_book_aware_validation_result[update_address]"]'
+
+        Address Book Aware Address Validation Result Save Address Checkbox:
+            selector: '[name="oro_address_validation_address_book_aware_validation_result[create_address]"]'
+
+        Address Validation Edit Address Button:
+            selector:
+                locator: '//*[contains(@class,"btn") and contains(text(), "Edit Address")]'
+                type: xpath

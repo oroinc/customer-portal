@@ -50,10 +50,6 @@
     </div>
 {% endblock %}
 
-{% block oro_customer_frontend_customer_user_typed_address_widget %}
-    {{ block('oro_customer_frontend_typed_address_widget') }}
-{% endblock %}
-
 {% block oro_address_collection_widget %}
     {% set attr = attr|merge({'class': (attr.class is defined ? attr.class ~ ' ' : '') ~ 'collection-fields-list-bg oro-address-collection' }) %}
         {% set options = {
@@ -74,7 +70,7 @@
             {% for error in errors %}
                 {% set combinedError = (combinedError != '') ? combinedError ~ '; ' ~ error.message : error.message %}
             {% endfor %}
-            <div><span class="validation-failed"><span><span>{{ combinedError|raw }}</span></span></span><div>
+            <div><span class="validation-failed"><span><span>{{ combinedError|raw }}</span></span></span></div>
         {% endif %}
     {% endapply %}
 {% endblock %}

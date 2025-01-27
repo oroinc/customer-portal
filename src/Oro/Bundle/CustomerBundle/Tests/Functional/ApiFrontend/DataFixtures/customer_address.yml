@@ -65,6 +65,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         frontendOwner: '@customer'
         owner: '@user'
         systemOrganization: '@organization'
+        validatedAt: '<date_create_from_format("Y-m-d H:i:s", "2024-10-11 00:00:00")>'
     customer_address2:
         label: 'Address 2'
         street: 'Street 2'
@@ -78,6 +79,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         frontendOwner: '@customer'
         owner: '@user'
         systemOrganization: '@organization'
+        validatedAt: '<date_create_from_format("Y-m-d H:i:s", "2024-10-11 00:00:00")>'
     customer_address3:
         label: 'Address 3'
         street: 'Street 3'
@@ -91,6 +93,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         frontendOwner: '@customer1'
         owner: '@user'
         systemOrganization: '@organization'
+        validatedAt: '<date_create_from_format("Y-m-d H:i:s", "2024-10-11 00:00:00")>'
     another_customer_address1:
         label: 'Another Customer Address 1'
         street: 'Street 1'

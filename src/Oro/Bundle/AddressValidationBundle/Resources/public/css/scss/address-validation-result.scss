@@ -1,0 +1,53 @@
+/* @theme: admin; */
+
+.address-validation-result {
+    margin-top: 16px;
+    margin-bottom: 8px;
+
+    .required em {
+        display: none;
+    }
+
+    input[type=radio] {
+        vertical-align: top;
+        margin-top: 2px;
+
+        + label {
+            margin-bottom: 0;
+        }
+    }
+
+    .address-type,
+    .address-label {
+        display: inline-flex;
+        font-weight: bold;
+        margin-bottom: 6px;
+    }
+
+    .address-description {
+        // reset platform styles
+        margin: 0;
+    }
+
+    .address-format {
+        font-size: $font-size-base;
+        // reset platform styles
+        margin: 0;
+    }
+
+    .choice-widget-expanded {
+        &__item {
+            &:not(:last-child) {
+                margin-bottom: 16px;
+            }
+        }
+    }
+}
+
+.address-update-result {
+    input[type=checkbox] {
+        + label {
+            margin-bottom: 0;
+        }
+    }
+}

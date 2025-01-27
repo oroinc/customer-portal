@@ -12,3 +12,4 @@ dynamic-imports:
         - orocustomer/js/app/components/customer-user-component
         - orocustomer/js/app/components/customer-user-role-component
         - orocustomer/js/app/views/customer-role-view
+        - orocustomer/js/app/views/customer-address-validated-at-view

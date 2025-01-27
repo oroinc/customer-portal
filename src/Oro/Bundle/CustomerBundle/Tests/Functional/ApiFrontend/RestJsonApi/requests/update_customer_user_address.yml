@@ -15,6 +15,7 @@ data:
         primary: true
         street: '23405 Caldwell Road'
         street2: null
+        validatedAt: '2024-10-11T00:00:00Z'
     relationships:
         country:
             data:

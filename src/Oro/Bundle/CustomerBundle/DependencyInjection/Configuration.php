@@ -26,6 +26,11 @@ class Configuration implements ConfigurationInterface
     public const string REDIRECT_AFTER_LOGIN = 'redirect_after_login';
     public const string DO_NOT_LEAVE_CHECKOUT = 'do_not_leave_checkout';
 
+    public const string VALIDATE_SHIPPING_ADDRESSES_IN_MY_ACCOUNT = 'validate_shipping_addresses__my_account';
+    public const string VALIDATE_BILLING_ADDRESSES_IN_MY_ACCOUNT = 'validate_billing_addresses__my_account';
+    public const string VALIDATE_SHIPPING_ADDRESSES_IN_BACKOFFICE = 'validate_shipping_addresses__backoffice';
+    public const string VALIDATE_BILLING_ADDRESSES_IN_BACKOFFICE = 'validate_billing_addresses__backoffice';
+
     #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
@@ -57,6 +62,22 @@ class Configuration implements ConfigurationInterface
                 'non_authenticated_visitors_api' => ['type' => 'boolean', 'value' => false],
                 'case_insensitive_email_addresses_enabled' => ['type' => 'boolean', 'value' => false],
                 'email_enumeration_protection_enabled' => ['type' => 'boolean', 'value' => true],
+                static::VALIDATE_SHIPPING_ADDRESSES_IN_MY_ACCOUNT => [
+                    'type' => 'boolean',
+                    'value' => true,
+                ],
+                static::VALIDATE_BILLING_ADDRESSES_IN_MY_ACCOUNT => [
+                    'type' => 'boolean',
+                    'value' => false,
+                ],
+                static::VALIDATE_SHIPPING_ADDRESSES_IN_BACKOFFICE => [
+                    'type' => 'boolean',
+                    'value' => true,
+                ],
+                static::VALIDATE_BILLING_ADDRESSES_IN_BACKOFFICE => [
+                    'type' => 'boolean',
+                    'value' => false,
+                ],
                 self::REDIRECT_AFTER_LOGIN => [
                     'type' => 'array',
                     'value' => ['targetType' => RedirectAfterLoginConfigType::TARGET_NONE]
@@ -72,6 +93,11 @@ class Configuration implements ConfigurationInterface
         $this->appendFrontendApiNode($rootNodeChildren);
 
         return $treeBuilder;
+    }
+
+    public static function getConfigKeyByName(string $name): string
+    {
+        return TreeUtils::getConfigKey(static::ROOT_NODE, $name);
     }
 
     private function appendResetNode(NodeBuilder $node): void

@@ -1,0 +1,42 @@
+
+{% block oro_customer_typed_address__oro_address_validation_validated_at_row %}
+    {% apply spaceless %}
+        {% set customerAddress = form.parent.vars.data %}
+        {% if not disabled and customerAddress.frontendOwner.id and feature_enabled('oro_address_validation') %}
+            {% set row_attr = {
+                'class': 'hide',
+                'data-page-component-view': {
+                    view: 'orocustomer/js/app/views/customer-address-validated-at-view',
+                    dialogUrl: path('oro_customer_address_validation_customer_address', { customer_id: customerAddress.frontendOwner.id, id: customerAddress.id|default(0) }),
+                    isShippingTypeValidationEnabled: oro_config_value('oro_customer.validate_shipping_addresses__backoffice'),
+                    isBillingTypeValidationEnabled: oro_config_value('oro_customer.validate_billing_addresses__backoffice')
+                }|json_encode
+            }|merge(row_attr|default({})) %}
+        {% endif %}
+
+        <div {% with { attr: row_attr } %}{{ block('attributes') }}{% endwith %}>
+            {{ form_widget(form) }}
+        </div>
+    {% endapply %}
+{% endblock %}
+
+{% block oro_customer_type__oro_address_validation_validated_at_row %}
+    {% apply spaceless %}
+        {% if not disabled and feature_enabled('oro_address_validation') %}
+            {% set customerAddress = form.parent.vars.data %}
+            {% set row_attr = {
+                'class': 'hide',
+                'data-page-component-view': {
+                    view: 'orocustomer/js/app/views/customer-address-validated-at-view',
+                    dialogUrl: path('oro_customer_address_validation_customer', { customer_id: customerAddress.frontendOwner.id|default(0) }),
+                    isShippingTypeValidationEnabled: oro_config_value('oro_customer.validate_shipping_addresses__backoffice'),
+                    isBillingTypeValidationEnabled: oro_config_value('oro_customer.validate_billing_addresses__backoffice')
+                }|json_encode
+            }|merge(row_attr|default({})) %}
+        {% endif %}
+
+        <div {% with { attr: row_attr } %}{{ block('attributes') }}{% endwith %}>
+            {{ form_widget(form) }}
+        </div>
+    {% endapply %}
+{% endblock %}

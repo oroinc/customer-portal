@@ -1,0 +1,11 @@
+/* @theme: default; */
+
+$address-validation-result-offset: spacing('lg') 0 spacing('sm') !default;
+$address-validation-result-gap: spacing('base') !default;
+
+$address-validation-result-label-offset: spacing('sm') !default;
+
+$address-validation-result-select-offset: spacing('sm') !default;
+$address-validation-result-select-offset-start: 28px !default;
+
+$address-validation-result-selected-address-color: get-var-color('primary', 'main') !default;

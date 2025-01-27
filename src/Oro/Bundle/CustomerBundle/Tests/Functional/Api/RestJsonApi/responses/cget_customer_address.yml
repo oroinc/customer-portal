@@ -19,6 +19,7 @@ data:
             createdAt: '@customer.level_1.address_1->created->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer.level_1.address_1->updated->format("Y-m-d\TH:i:s\Z")'
             customRegion: null
+            validatedAt: null
             types:
                 -
                     default: false
@@ -67,6 +68,7 @@ data:
             createdAt: '@customer.level_1.address_2->created->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer.level_1.address_2->updated->format("Y-m-d\TH:i:s\Z")'
             customRegion: null
+            validatedAt: null
             types:
                 -
                     default: true
@@ -112,6 +114,7 @@ data:
             createdAt: '@customer.level_1.address_3->created->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer.level_1.address_3->updated->format("Y-m-d\TH:i:s\Z")'
             customRegion: null
+            validatedAt: null
             types:
                 -
                     default: false
@@ -160,6 +163,7 @@ data:
             createdAt: '@customer.level_1.address_4->created->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer.level_1.address_4->updated->format("Y-m-d\TH:i:s\Z")'
             customRegion: null
+            validatedAt: null
             types: {}
         relationships:
             customer:
@@ -202,6 +206,7 @@ data:
             createdAt: '@customer.level_1.1.address_1->created->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer.level_1.1.address_1->updated->format("Y-m-d\TH:i:s\Z")'
             customRegion: null
+            validatedAt: null
             types:
                 -
                     default: false
@@ -250,6 +255,7 @@ data:
             createdAt: '@customer.level_1.1.address_2->created->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer.level_1.1.address_2->updated->format("Y-m-d\TH:i:s\Z")'
             customRegion: null
+            validatedAt: '@customer.level_1.1.address_2->validatedAt->format("Y-m-d\TH:i:s\Z")'
             types: {}
         relationships:
             customer:

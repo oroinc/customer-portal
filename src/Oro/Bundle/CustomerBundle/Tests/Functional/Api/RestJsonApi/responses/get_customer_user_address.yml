@@ -16,6 +16,7 @@ data:
         street: '2849 Junkins Avenue'
         street2: null
         customRegion: null
+        validatedAt: null
         types:
             -
                 default: false

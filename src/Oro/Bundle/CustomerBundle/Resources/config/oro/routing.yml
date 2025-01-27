@@ -8,6 +8,26 @@ oro_customer_address:
     type:         annotation
     prefix:       /customer/address
 
+oro_customer_address_validation_customer:
+    resource: "@OroCustomerBundle/Controller/AddressValidation/CustomerPageAddressValidationController.php"
+    type: annotation
+    prefix: /customer/address-validation
+
+oro_customer_address_validation_customer_user:
+    resource: "@OroCustomerBundle/Controller/AddressValidation/CustomerUserPageAddressValidationController.php"
+    type: annotation
+    prefix: /customer/user/address-validation
+
+oro_customer_address_validation_customer_address:
+    resource: "@OroCustomerBundle/Controller/AddressValidation/CustomerAddressDialogAddressValidationController.php"
+    type: annotation
+    prefix: /customer/address/address-validation
+
+oro_customer_address_validation_customer_user_address:
+    resource: "@OroCustomerBundle/Controller/AddressValidation/CustomerUserAddressDialogAddressValidationController.php"
+    type: annotation
+    prefix: /customer/user/address/address-validation
+
 oro_customer_customer_user_address:
     resource:     "@OroCustomerBundle/Controller/CustomerUserAddressController.php"
     type:         annotation
@@ -77,6 +97,20 @@ oro_customer_frontend_customer_address:
     resource: "@OroCustomerBundle/Controller/Frontend/CustomerAddressController.php"
     type: annotation
     prefix: /customer/user/address/customer/
+    options:
+        frontend: true
+
+oro_customer_frontend_address_validation_customer_address:
+    resource: "@OroCustomerBundle/Controller/Frontend/AddressValidation/CustomerAddressPageAddressValidationController.php"
+    type: annotation
+    prefix: /customer/address-validation
+    options:
+        frontend: true
+
+oro_customer_frontend_address_validation_customer_user_address:
+    resource: "@OroCustomerBundle/Controller/Frontend/AddressValidation/CustomerUserAddressPageAddressValidationController.php"
+    type: annotation
+    prefix: /customer/user/address-validation
     options:
         frontend: true
 

@@ -183,4 +183,20 @@ class FrontendCustomerTypedAddressTypeTest extends FormIntegrationTestCase
             $this->assertNotContains($type->getName(), $submittedData['defaults']['default']);
         }
     }
+
+    public function testSubmitWithValidatedAt(): void
+    {
+        $today = new \DateTime('today');
+        $submittedData = ['validatedAt' => $today->format('Y-m-d H:i:s')];
+
+        $form = $this->factory->create(FrontendCustomerTypedAddressType::class, null, ['single_form' => false]);
+        self::assertNull($form->getData());
+        self::assertNull($form->getViewData());
+
+        $form->submit($submittedData);
+        self::assertTrue($form->isValid());
+        self::assertTrue($form->isSynchronized());
+
+        self::assertEquals($today->format('Y-m-d H:i:s'), $form->getData()->getValidatedAt()->format('Y-m-d H:i:s'));
+    }
 }

@@ -1,0 +1,195 @@
+{% block _oro_address_validation_frontend_validation_result_address_row %}
+    <div class="control-group{%- if attr.class is defined -%} {{- attr.class -}}{%- endif -%}{%- if block_prefixes is defined -%} control-group-{{- block_prefixes[1] -}}{%- endif -%}{%- if group_attr.class is defined -%} {{- group_attr.class -}}{%- endif -%}"{%- if group_attr is defined -%}{{- block('group_attributes') -}}{%- endif -%}>
+        <div class="controls{%- if errors|length > 0 -%} validation-error{%- endif -%}">
+            {{- form_widget(form) -}}
+            {{- form_errors(form) -}}
+        </div>
+    </div>
+{% endblock %}
+
+{% block _oro_address_validation_frontend_address_book_aware_validation_result_address_row %}
+    {{- block('_oro_address_validation_frontend_validation_result_address_row') -}}
+{% endblock %}
+
+{% block _oro_address_validation_frontend_validation_result_address_widget %}
+    {%- set attr = attr|merge({'class': attr.class is defined ? attr.class ~ ' horizontal choice-widget-expanded' : 'horizontal choice-widget-expanded address-validation-result'}) -%}
+    {%- set attr = attr|merge({'class': attr.class ~ ' validate-group'}) -%}
+    {%- set attr = attr|merge({'class': attr.class|split(' ')|array_unique|join(' ')}) -%}
+
+    <div {{ block('widget_container_attributes') }}>
+        {%- if choices|length <= compact_threshold|default(3) -%}
+            {%- with { 'form': form, 'choices': choices } -%}
+                {{- block('_oro_address_validation_frontend_validation_result_address_choices') -}}
+            {%- endwith -%}
+        {%- else -%}
+            {%- with { 'form': form, 'choices': choices } -%}
+                {{- block('_oro_address_validation_frontend_validation_result_address_choices_compact') -}}
+            {%- endwith -%}
+        {%- endif -%}
+    </div>
+{% endblock %}
+
+{% block _oro_address_validation_frontend_address_book_aware_validation_result_address_widget %}
+    {{- block('_oro_address_validation_frontend_validation_result_address_widget') -}}
+{% endblock %}
+
+{% block _oro_address_validation_frontend_validation_result_address_entered_choice %}
+    <div class="choice-widget-expanded__item">
+        {{- form_widget(form, { 'address': choice.data, 'index': 0, 'attr': { 'data-name': 'field__address' } }) -}}
+    </div>
+{% endblock %}
+
+{% block _oro_address_validation_frontend_validation_result_address_choices %}
+    {%- with { 'form': form[0], 'choice': choices[0] } -%}
+        {{- block('_oro_address_validation_frontend_validation_result_address_entered_choice') -}}
+    {%- endwith -%}
+
+    {%- for index, choice in choices|slice(1, null, true) -%}
+        <div class="choice-widget-expanded__item">
+            {{- form_widget(form[index], { 'address': choice.data, 'index': index, 'attr': { 'data-name': 'field__address' } }) -}}
+        </div>
+    {%- endfor -%}
+{% endblock %}
+
+{% block _oro_address_validation_frontend_validation_result_address_choices_compact %}
+    {%- with { 'form': form[0], 'choice': choices[0] } -%}
+        {{- block('_oro_address_validation_frontend_validation_result_address_entered_choice') -}}
+    {%- endwith -%}
+
+    {%- set radio_id = (attr['data-ftid']~'_suggested-uid-')|uniqid -%}
+    <div class="choice-widget-expanded__item">
+        <label class="checkbox-label" for="{{- radio_id -}}">
+            <input type="radio" id="{{- radio_id -}}" name="{{- full_name -}}" value="1" data-name="field__address"/>
+            <span class="address-label">
+                <span class="address-type bold">{{- 'oro.address_validation.frontend.dialog.form.suggested_address.label'|trans -}}</span>
+            </span>
+        </label>
+        <div class="address-select">
+            {%- set id = (attr['data-ftid']~'_select-uid-')|uniqid -%}
+            {%- set full_name = '' -%}
+            {%- set choices = choices|slice(1, null, true) -%}
+            {%- set attr = {
+                'class': 'select2 select2-offscreen',
+                'data-page-component-module': 'oro/select2-component',
+                'data-page-component-options': { 'configs': {
+                    containerCssClass: 'oro-select2',
+                    dropdownCssClass: 'oro-select2__dropdown',
+                    result_template: block('oro_address_validation_frontend_validation_result_address_select2_result'),
+                    selection_template: block('oro_address_validation_frontend_validation_result_address_select2_selection')
+                }}|json_encode,
+            } -%}
+            {%- if required and placeholder is none and not placeholder_in_choices and not multiple and (attr.size is not defined or attr.size <= 1) -%}
+                {%- set required = false -%}
+            {%- endif -%}
+            <select {{- block('widget_attributes') -}}{%- if multiple -%} multiple="multiple"{%- endif -%}>
+                {%- if placeholder is not none -%}
+                    <option value=""{%- if placeholder_attr|default({}) -%}{%- with { 'attr': placeholder_attr } -%}{{- block('attributes') -}}{%- endwith -%}{%- endif -%}{%- if required and value is empty -%} selected="selected"{%- endif -%}>{{- placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) -}}</option>
+                {%- endif -%}
+                {%- if preferred_choices|length > 0 -%}
+                    {%- set options = preferred_choices -%}
+                    {%- set render_preferred_choices = true -%}
+                    {{- block('oro_address_validation_frontend_validation_result_address_choices_compact_options') -}}
+                    {%- if choices|length > 0 and separator is not none -%}
+                        <option disabled="disabled">{{- separator -}}</option>
+                    {%- endif -%}
+                {%- endif -%}
+                {%- set options = choices -%}
+                {%- set render_preferred_choices = false -%}
+                {{- block('oro_address_validation_frontend_validation_result_address_choices_compact_options') -}}
+            </select>
+        </div>
+    </div>
+{% endblock %}
+
+{% block oro_address_validation_frontend_validation_result_address_choices_compact_options %}
+    {%- for group_label, choice in options -%}
+        {%- if choice is iterable -%}
+            <optgroup label="{{- choice_translation_domain is same as(false) ? group_label : group_label|trans({}, choice_translation_domain) -}}">
+                {%- set options = choice -%}
+                {{- block('oro_address_validation_frontend_validation_result_address_choices_compact_options') -}}
+            </optgroup>
+        {%- else -%}
+            {%- set option_attr = { 'data-formatted-label': choice.data|oro_address_validation_format_resolved_address } -%}
+            <option value="{{- choice.value -}}"{%- with { 'attr': option_attr|merge(choice.attr|default({})) } -%}{{- block('attributes') -}}{%- endwith -%}{%- if not render_preferred_choices|default(false) and choice is selectedchoice(value) -%} selected="selected"{%- endif -%}>{{- choice.data|oro_format_address -}}</option>
+        {%- endif -%}
+    {%- endfor -%}
+{% endblock %}
+
+{% block oro_address_validation_frontend_validation_result_address_select2_result %}
+    {%- apply spaceless -%}
+        <%= element[0].getAttribute('data-formatted-label') || text %>
+    {%- endapply -%}
+{% endblock %}
+
+{% block oro_address_validation_frontend_validation_result_address_select2_selection %}
+    {%- apply spaceless -%}
+        <%= element[0].getAttribute('data-formatted-label') || text %>
+    {%- endapply -%}
+{% endblock %}
+
+{% block _oro_address_validation_frontend_validation_result_address_entry_widget %}
+    {%- set label -%}
+        <span class="address-label">
+            <span class="address-type bold">
+                {%- if index == 0 -%}
+                    {{- 'oro.address_validation.frontend.dialog.form.address_as_entered.label'|trans -}}
+                {%- else -%}
+                    {{- 'oro.address_validation.frontend.dialog.form.suggested_address.label'|trans -}}
+                {%- endif -%}
+            </span>
+            <span class="address-description">
+                {%- if index == 0 -%}
+                    {{- address|oro_address_validation_format_original_address_html -}}
+                {%- else -%}
+                    {{- address|oro_address_validation_format_resolved_address_html -}}
+                {%- endif -%}
+            </span>
+        </span>
+    {%- endset -%}
+
+    {{- form_widget(form, { 'label': label }) -}}
+{% endblock %}
+
+{% block _oro_address_validation_frontend_validation_result_address_entry_label %}
+    {%- if index == 0 -%}
+        {%- set label = 'oro.address_validation.frontend.dialog.form.address_as_entered.label' -%}
+    {%- else -%}
+        {%- set label = 'oro.address_validation.frontend.dialog.form.suggested_address.label' -%}
+    {%- endif -%}
+
+    <label for="{{- id -}}">
+        <span class="address-label">
+            <span class="address-type bold">{{- label|trans -}}</span>
+            <span class="address-description">
+                {%- if index == 0 -%}
+                    {{- address|oro_address_validation_format_original_address_html -}}
+                {%- else -%}
+                    {{- address|oro_address_validation_format_resolved_address_html -}}
+                {%- endif -%}
+            </span>
+        </span>
+    </label>
+{% endblock %}
+
+{% block _oro_address_validation_frontend_address_book_aware_validation_result_address_entry_widget %}
+    {{- block('_oro_address_validation_frontend_validation_result_address_entry_widget') -}}
+{% endblock %}
+
+{% block _oro_address_validation_frontend_address_book_aware_validation_result_address_entry_label %}
+    {{- block('_oro_address_validation_frontend_validation_result_address_entry_label') -}}
+{% endblock %}
+
+{% block _oro_address_validation_frontend_address_book_aware_validation_result_update_address_row %}
+    {%- apply spaceless -%}
+        {% set widget_attr = {} %}
+        {% if help is not empty %}
+            {% set widget_attr = { 'attr': { 'aria-describedby': id ~ '_help'} } %}
+        {% endif %}
+        {% set row_attr = { class: 'address-update-result control-group control-group-checkbox hide' }|merge(row_attr) %}
+        <div{% with { 'attr': row_attr } %}{{ block('attributes') }}{% endwith %}>
+            {{ form_widget(form, widget_attr) }}
+            {{ form_help(form) }}
+            {{ form_errors(form) }}
+        </div>
+    {%- endapply -%}
+{% endblock %}

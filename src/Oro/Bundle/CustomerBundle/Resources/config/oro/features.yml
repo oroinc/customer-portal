@@ -99,3 +99,23 @@ features:
             - oro_customer_login_attempts
         navigation_items:
             - application_menu.customers_tab.customer_users_login_attempts
+
+    oro_address_validation:
+        routes:
+            - oro_customer_address_validation_customer_address
+            - oro_customer_address_validation_customer
+            - oro_customer_address_validation_customer_user_address
+            - oro_customer_address_validation_customer_user
+            - oro_customer_frontend_address_validation_customer_address
+            - oro_customer_frontend_address_validation_customer_user_address
+            - oro_customer_frontend_customer_address_validation
+            - oro_customer_user_frontend_customer_address_validation
+            - oro_customer_customer_frontend_address_validation_show_dialog
+            - oro_customer_customer_frontend_address_validation_render_validated_form
+            - oro_customer_customer_user_frontend_address_validation_show_dialog
+            - oro_customer_customer_user_frontend_address_validation_render_validated_form
+        configuration:
+            - oro_customer.validate_shipping_addresses__my_account
+            - oro_customer.validate_billing_addresses__my_account
+            - oro_customer.validate_shipping_addresses__backoffice
+            - oro_customer.validate_billing_addresses__backoffice

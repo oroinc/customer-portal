@@ -40,7 +40,7 @@ class OroCustomerBundleInstaller implements
     #[\Override]
     public function getMigrationVersion(): string
     {
-        return 'v1_34';
+        return 'v1_35';
     }
 
     #[\Override]
@@ -359,6 +359,7 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('phone', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('created', 'datetime');
         $table->addColumn('updated', 'datetime');
+        $table->addColumn('validated_at', 'datetime', ['notnull' => false]);
         $table->setPrimaryKey(['id']);
     }
 
@@ -719,6 +720,7 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('phone', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('created', 'datetime');
         $table->addColumn('updated', 'datetime');
+        $table->addColumn('validated_at', 'datetime', ['notnull' => false]);
         $table->setPrimaryKey(['id']);
     }
 

@@ -1,0 +1,30 @@
+system_configuration:
+    groups:
+        address_validation:
+            title: oro.address_validation.system_configuration.groups.address_validation.title
+            icon: fa-map-marker
+        address_validation_general:
+            title: oro.address_validation.system_configuration.groups.address_validation.general.title
+        address_validation_storefront:
+            title: oro.address_validation.system_configuration.groups.address_validation.storefront.title
+        address_validation_backoffice:
+            title: oro.address_validation.system_configuration.groups.address_validation.backoffice.title
+    fields:
+        oro_address_validation.address_validation_service:
+            data_type: integer
+            type: Oro\Bundle\AddressValidationBundle\Form\Type\AddressValidationAwareConfigIntegrationSelectType
+            page_reload: true
+            options:
+                label: oro.address_validation.system_configuration.fields.address_validation_service.label
+
+    tree:
+        system_configuration:
+            commerce:
+                children:
+                    shipping:
+                        children:
+                            address_validation:
+                                children:
+                                    address_validation_general:
+                                        children:
+                                            - oro_address_validation.address_validation_service

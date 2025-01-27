@@ -1,0 +1,27 @@
+/* @theme: default; */
+
+.address-validation-result {
+    display: flex;
+    flex-direction: column;
+    gap: $address-validation-result-gap;
+    margin: $address-validation-result-offset;
+
+    .address-label {
+        display: flex;
+        flex-direction: column;
+        gap: $address-validation-result-label-offset;
+    }
+
+    .address-description {
+        font-style: normal;
+    }
+
+    .address-select {
+        margin-top: $address-validation-result-select-offset;
+        margin-left: $address-validation-result-select-offset-start;
+    }
+}
+
+[type=radio]:checked ~ .address-label .address-type {
+    color: $address-validation-result-selected-address-color;
+}

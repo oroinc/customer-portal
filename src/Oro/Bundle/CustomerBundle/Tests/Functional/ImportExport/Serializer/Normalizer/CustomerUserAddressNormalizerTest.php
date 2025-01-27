@@ -27,7 +27,7 @@ class CustomerUserAddressNormalizerTest extends AbstractCustomerAddressNormalize
         ];
     }
 
-    public function testNormalizeForTheCustomerUserEntity()
+    public function testNormalizeForTheCustomerUserEntity(): void
     {
         /** @var CustomerUserAddress $address */
         $address = $this->getReference('customer_user.address_1_full');
@@ -45,7 +45,7 @@ class CustomerUserAddressNormalizerTest extends AbstractCustomerAddressNormalize
         );
     }
 
-    public function testNormalizeForTheCustomerUserAddressEntity()
+    public function testNormalizeForTheCustomerUserAddressEntity(): void
     {
         /** @var CustomerUserAddress $address */
         $address = $this->getReference('customer_user.address_1_full');
@@ -68,8 +68,10 @@ class CustomerUserAddressNormalizerTest extends AbstractCustomerAddressNormalize
         );
     }
 
-    public function testDenormalize()
+    public function testDenormalize(): void
     {
+        $now = (new \DateTime('now', new \DateTimeZone('UTC')))->format(\DateTimeInterface::ATOM);
+
         /** @var CustomerUserAddress $address */
         $address = $this->normalizer->denormalize(
             array_merge(
@@ -85,6 +87,7 @@ class CustomerUserAddressNormalizerTest extends AbstractCustomerAddressNormalize
                     'Default Billing' => false,
                     'Shipping' => true,
                     'Default Shipping' => true,
+                    'validatedAt' => $now,
                 ]
             ),
             CustomerUserAddress::class
@@ -112,10 +115,57 @@ class CustomerUserAddressNormalizerTest extends AbstractCustomerAddressNormalize
         $this->assertEquals(42, $address->getFrontendOwner()->getId());
         $this->assertEquals('customer_user@example.com', $address->getFrontendOwner()->getEmail());
         $this->assertEquals('admin', $address->getOwner()->getUserIdentifier());
+        $this->assertEquals($now, $address->getValidatedAt()->format(\DateTimeInterface::ATOM));
 
         $this->assertTrue($address->hasTypeWithName('billing'));
         $this->assertTrue($address->hasTypeWithName('shipping'));
         $this->assertFalse($address->hasDefault('billing'));
         $this->assertTrue($address->hasDefault('shipping'));
+    }
+
+    public function testDenormalizeValidatedAt(): void
+    {
+        $now = (new \DateTime('now', new \DateTimeZone('UTC')))->format(\DateTimeInterface::ATOM);
+        $address = $this->normalizer->denormalize(['validatedAt' => true], CustomerUserAddress::class);
+        $this->assertEquals($now, $address->getValidatedAt()->format(\DateTimeInterface::ATOM));
+
+        $address = $this->normalizer->denormalize(['validatedAt' => 'true'], CustomerUserAddress::class);
+        $this->assertEquals($now, $address->getValidatedAt()->format(\DateTimeInterface::ATOM));
+
+        $address = $this->normalizer->denormalize(['validatedAt' => 'TruE'], CustomerUserAddress::class);
+        $this->assertEquals($now, $address->getValidatedAt()->format(\DateTimeInterface::ATOM));
+
+        $address = $this->normalizer->denormalize(['validatedAt' => 1], CustomerUserAddress::class);
+        $this->assertEquals($now, $address->getValidatedAt()->format(\DateTimeInterface::ATOM));
+
+        $address = $this->normalizer->denormalize(['validatedAt' => '1'], CustomerUserAddress::class);
+        $this->assertEquals($now, $address->getValidatedAt()->format(\DateTimeInterface::ATOM));
+
+        $address = $this->normalizer->denormalize(['validatedAt' => 'yes'], CustomerUserAddress::class);
+        $this->assertEquals($now, $address->getValidatedAt()->format(\DateTimeInterface::ATOM));
+
+        $address = $this->normalizer->denormalize(['validatedAt' => 'YeS'], CustomerUserAddress::class);
+        $this->assertEquals($now, $address->getValidatedAt()->format(\DateTimeInterface::ATOM));
+
+        $address = $this->normalizer->denormalize(['validatedAt' => false], CustomerUserAddress::class);
+        $this->assertEquals(null, $address->getValidatedAt());
+
+        $address = $this->normalizer->denormalize(['validatedAt' => 'false'], CustomerUserAddress::class);
+        $this->assertEquals(null, $address->getValidatedAt());
+
+        $address = $this->normalizer->denormalize(['validatedAt' => 'FaLse'], CustomerUserAddress::class);
+        $this->assertEquals(null, $address->getValidatedAt());
+
+        $address = $this->normalizer->denormalize(['validatedAt' => 0], CustomerUserAddress::class);
+        $this->assertEquals(null, $address->getValidatedAt());
+
+        $address = $this->normalizer->denormalize(['validatedAt' => '0'], CustomerUserAddress::class);
+        $this->assertEquals(null, $address->getValidatedAt());
+
+        $address = $this->normalizer->denormalize(['validatedAt' => 'no'], CustomerUserAddress::class);
+        $this->assertEquals(null, $address->getValidatedAt());
+
+        $address = $this->normalizer->denormalize(['validatedAt' => 'No'], CustomerUserAddress::class);
+        $this->assertEquals(null, $address->getValidatedAt());
     }
 }

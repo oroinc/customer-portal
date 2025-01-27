@@ -1,0 +1,16 @@
+layout:
+    actions:
+        -   '@setBlockTheme':
+                themes: 'address_validation_dialog.html.twig'
+        -   '@setFormTheme':
+                themes: 'address_validation_dialog_fields.html.twig'
+        -   '@addTree':
+                items:
+                    address_validation_widget_form:
+                        blockType: container
+                        options:
+                            vars:
+                                form: '=data["form"]'
+                tree:
+                    widget_content:
+                        address_validation_widget_form: ~

@@ -1,0 +1,4 @@
+dynamic-imports:
+    orouser:
+        - oroaddressvalidation/js/app/views/base-address-validated-at-view
+        - oroaddressvalidation/js/app/views/address-validation-dialog-widget

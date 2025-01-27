@@ -18,6 +18,7 @@ data:
             nameSuffix: M.D.
             createdAt: '@customer_address1->created->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer_address1->updated->format("Y-m-d\TH:i:s\Z")'
+            validatedAt: '@customer_address1->validatedAt->format("Y-m-d\TH:i:s\Z")'
             types:
                 -
                     default: false

@@ -18,6 +18,7 @@ data:
         createdAt: '@customer.level_1.address_1->created->format("Y-m-d\TH:i:s\Z")'
         updatedAt: '@customer.level_1.address_1->updated->format("Y-m-d\TH:i:s\Z")'
         customRegion: null
+        validatedAt: null
         types:
             -
                 default: false

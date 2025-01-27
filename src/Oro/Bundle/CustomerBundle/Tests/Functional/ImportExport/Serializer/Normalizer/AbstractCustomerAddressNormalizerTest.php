@@ -58,6 +58,7 @@ abstract class AbstractCustomerAddressNormalizerTest extends WebTestCase
             'region' => [
                 'combinedCode' => 'US-NY'
             ],
+            'validatedAt' => null
         ];
     }
 }

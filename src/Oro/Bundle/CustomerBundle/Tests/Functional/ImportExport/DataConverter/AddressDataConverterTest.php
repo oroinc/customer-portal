@@ -18,7 +18,7 @@ class AddressDataConverterTest extends WebTestCase
         $this->dataConverter->setEntityName(CustomerAddress::class);
     }
 
-    public function testGetBackendHeader()
+    public function testGetBackendHeader(): void
     {
         $data = $this->dataConverter->convertToExportFormat([]);
         $this->assertEquals(
@@ -40,6 +40,7 @@ class AddressDataConverterTest extends WebTestCase
                 'Address ID',
                 'Phone',
                 'Primary',
+                'Validated At',
                 'Customer Id',
                 'Customer Name',
                 'Owner Username',
