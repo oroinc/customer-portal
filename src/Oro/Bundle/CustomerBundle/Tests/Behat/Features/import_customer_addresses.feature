@@ -52,9 +52,11 @@ Feature: Import Customer Addresses
     And I should see "Address A added"
     And I should not see "Address1 company_A"
     And I should not see "Address2 company_A"
+    And customer has 2 addresses
 
     When I go to Customers/ Customers
     And I click view Company B in grid
     Then I should see "Address B added"
     And I should see "Address1 company_B"
     And I should see "Address2 company_B"
+    And customer has 3 addresses

@@ -52,9 +52,11 @@ Feature: Import Customer User Addresses
     And I should see "Address A added"
     And I should not see "Address1 amanda"
     And I should not see "Address2 amanda"
+    And customer user has 2 addresses
 
     When I go to Customers/ Customer Users
     And I click view NancyJSallee@example.org in grid
     Then I should see "Address B added"
     And I should see "Address1 nancy"
     And I should see "Address2 nancy"
+    And customer user has 3 addresses
