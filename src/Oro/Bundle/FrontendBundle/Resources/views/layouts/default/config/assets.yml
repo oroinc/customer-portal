@@ -63,6 +63,10 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/loading-bar-config.scss'
         - 'bundles/orofrontend/default/scss/variables/middlebar-config.scss'
         - 'bundles/orofrontend/default/scss/variables/toggler-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/summary-widget-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/summary-collapse-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/summary-table-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/errors-container-list-config.scss'
 
         - 'bundles/orofrontend/default/scss/variables/filters/filters-config.scss'
         - 'bundles/orofrontend/default/scss/variables/filters/filters-dropdown-mode-config.scss'
@@ -257,6 +261,10 @@ styles:
         - 'bundles/orofrontend/default/scss/components/toggler-vertical.scss'
         - 'bundles/orofrontend/default/scss/components/currency-localization-control.scss'
         - 'bundles/orofrontend/default/scss/components/contact-list.scss'
+        - 'bundles/orofrontend/default/scss/components/summary-widget.scss'
+        - 'bundles/orofrontend/default/scss/components/summary-collapse.scss'
+        - 'bundles/orofrontend/default/scss/components/summary-table.scss'
+        - 'bundles/orofrontend/default/scss/components/errors-container-list.scss'
     output: 'css/styles.css'
     auto_rtl_inputs:
         - 'bundles/oro*/**'

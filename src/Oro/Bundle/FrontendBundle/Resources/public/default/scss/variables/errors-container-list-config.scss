@@ -1,0 +1,8 @@
+/* @theme: default; */
+
+$errors-container-list-gap: spacing('sm') !default;
+$errors-container-list-margin-top: spacing('base') !default;
+$errors-container-list-color: get-color('text', 'secondary') !default;
+$errors-container-list-alert-color: get-color('warning', 'dark') !default;
+
+$errors-container-list-item-gap: spacing('sm') !default;
