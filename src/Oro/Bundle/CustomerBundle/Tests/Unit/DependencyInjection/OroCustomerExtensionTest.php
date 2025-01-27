@@ -46,7 +46,6 @@ final class OroCustomerExtensionTest extends TestCase
                         'customer_visitor_cookie_lifetime_days'  => ['value' => 30, 'scope' => 'app'],
                         'maps_enabled'  => ['value' => true, 'scope' => 'app'],
                         'non_authenticated_visitors_api'  => ['value' => false, 'scope' => 'app'],
-                        'api_key_generation_enabled'  => ['value' => true, 'scope' => 'app'],
                         'case_insensitive_email_addresses_enabled'  => ['value' => false, 'scope' => 'app'],
                         'email_enumeration_protection_enabled' => ['value' => true, 'scope' => 'app'],
                         Configuration::REDIRECT_AFTER_LOGIN => [

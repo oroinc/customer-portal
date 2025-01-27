@@ -55,7 +55,6 @@ class Configuration implements ConfigurationInterface
                 'customer_visitor_cookie_lifetime_days' => ['type' => 'integer', 'value' => 30],
                 'maps_enabled' => ['type' => 'boolean', 'value' => true],
                 'non_authenticated_visitors_api' => ['type' => 'boolean', 'value' => false],
-                'api_key_generation_enabled' => ['type' => 'boolean', 'value' => true],
                 'case_insensitive_email_addresses_enabled' => ['type' => 'boolean', 'value' => false],
                 'email_enumeration_protection_enabled' => ['type' => 'boolean', 'value' => true],
                 self::REDIRECT_AFTER_LOGIN => [

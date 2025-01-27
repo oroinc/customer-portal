@@ -165,13 +165,6 @@ system_configuration:
                     'data-page-component-module': 'orosale/js/app/components/dependent-field-component'
                     'data-depend-on': 'frontend_web_api'
                     'data-show-if': 'checked'
-        oro_customer.api_key_generation_enabled:
-            data_type: boolean
-            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
-            options:
-                label: oro.customer.system_configuration.fields.api_key_generation_enabled.label
-                tooltip: oro.customer.system_configuration.fields.api_key_generation_enabled.tooltip
-                required: false
         oro_customer.case_insensitive_email_addresses_enabled:
             data_type: boolean
             type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
@@ -234,10 +227,6 @@ system_configuration:
                                         priority: 90
                                         children:
                                             - oro_customer.customer_visitor_cookie_lifetime_days
-                                    frontend_rest_api:
-                                        priority: 50
-                                        children:
-                                            - oro_customer.api_key_generation_enabled
                                     login_redirect:
                                         priority: 40
                                         children:

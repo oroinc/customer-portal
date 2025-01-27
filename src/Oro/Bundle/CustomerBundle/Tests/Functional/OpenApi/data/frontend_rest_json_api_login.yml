@@ -2,58 +2,7 @@ openapi: 3.1.0
 info:
   title: 'Storefront JSON:API'
   version: 0.0.0
-paths:
-  /api/login:
-    post:
-      tags:
-        - login
-      summary: 'Get API Access Key'
-      description: "<p>Validates the customer user email and password, and if the credentials are valid, returns the API access key\nthat can be used for subsequent API requests.</p><p>\nExample of the request:</p><pre><code class=\"JSON\">{\n  \"meta\": {\n    \"email\": \"user@example.com\",\n    \"password\": \"123\"\n  }\n}\n</code></pre><p>Example of the response:</p><pre><code class=\"JSON\">{\n  \"meta\": {\n    \"apiKey\": \"22b7172bbf9cdcfaa7bac067dabcb07d358ce511\"\n  }\n}\n</code></pre><p></p>"
-      operationId: login-post
-      parameters:
-        -
-          $ref: '#/components/parameters/xLocalizationID'
-        -
-          $ref: '#/components/parameters/accept'
-        -
-          $ref: '#/components/parameters/contentType'
-        -
-          $ref: '#/components/parameters/xInclude'
-        -
-          $ref: '#/components/parameters/xCurrency'
-      requestBody:
-        $ref: '#/components/requestBodies/login1Model'
-      responses:
-        '200':
-          $ref: '#/components/responses/loginModel'
-        '400':
-          $ref: '#/components/responses/err400_1'
-        '403':
-          $ref: '#/components/responses/err403_1'
-        '500':
-          $ref: '#/components/responses/err500_1'
-    options:
-      tags:
-        - login
-      summary: 'Get options'
-      description: 'Get communication options for a resource'
-      operationId: login-options
-      parameters:
-        -
-          $ref: '#/components/parameters/xLocalizationID'
-        -
-          $ref: '#/components/parameters/accept'
-        -
-          $ref: '#/components/parameters/xCurrency'
-      responses:
-        '200':
-          $ref: '#/components/responses/empty'
-        '400':
-          $ref: '#/components/responses/err400_1'
-        '404':
-          $ref: '#/components/responses/err404_1'
-        '500':
-          $ref: '#/components/responses/err500_1'
+paths: []
 components:
   schemas:
     meta:
@@ -199,107 +148,13 @@ components:
       type: object
       additionalProperties:
         $ref: '#/components/schemas/link'
-    loginModel:
-      required:
-        - meta
-      properties:
-        meta:
-          $ref: '#/components/schemas/loginMetaModel'
-        links:
-          $ref: '#/components/schemas/links'
-      type: object
-    loginMetaModel:
-      properties:
-        apiKey:
-          description: 'The API access key.'
-          type: string
-      type: object
-    login1Model:
-      required:
-        - meta
-      properties:
-        meta:
-          $ref: '#/components/schemas/login1MetaModel'
-        links:
-          $ref: '#/components/schemas/links'
-      type: object
-    login1MetaModel:
-      required:
-        - email
-        - password
-      properties:
-        email:
-          description: 'The customer user email.'
-          type: string
-        password:
-          description: 'The customer user password.'
-          type: string
-      type: object
   responses:
     empty:
       description: 'Returned when successful'
     err400_1:
       description: 'Returned when the request data is not valid'
-      content:
-        application/vnd.api+json:
-          schema:
-            $ref: '#/components/schemas/failure'
-    err404_1:
-      description: 'Returned when the entity is not found'
-      content:
-        application/vnd.api+json:
-          schema:
-            $ref: '#/components/schemas/failure'
+      content: []
     err500_1:
       description: 'Returned when an unexpected error occurs'
-      content:
-        application/vnd.api+json:
-          schema:
-            $ref: '#/components/schemas/failure'
-    loginModel:
-      description: 'Returned when the credentials are valid and API access key exists'
-      content:
-        application/vnd.api+json:
-          schema:
-            $ref: '#/components/schemas/loginModel'
-    err403_1:
-      description: 'Returned when the credentials are not valid or API access key does not exist'
-      content:
-        application/vnd.api+json:
-          schema:
-            $ref: '#/components/schemas/failure'
-  parameters:
-    xLocalizationID:
-      name: X-Localization-ID
-      in: header
-      schema:
-        type: string
-    accept:
-      name: Accept
-      in: header
-      schema:
-        type: string
-      example: application/vnd.api+json
-    xCurrency:
-      name: X-Currency
-      in: header
-      schema:
-        type: string
-    contentType:
-      name: Content-Type
-      in: header
-      schema:
-        type: string
-      example: application/vnd.api+json
-    xInclude:
-      name: X-Include
-      in: header
-      schema:
-        type: string
-      example: noHateoas
-  requestBodies:
-    login1Model:
-      content:
-        application/vnd.api+json:
-          schema:
-            $ref: '#/components/schemas/login1Model'
+      content: []
+  requestBodies: []

@@ -54,28 +54,6 @@ class SecurityContext implements SecurityContextInterface
     }
 
     #[\Override]
-    public function getApiKey(): ?string
-    {
-        return $this->innerSecurityContext->getApiKey();
-    }
-
-    #[\Override]
-    public function getApiKeyGenerationHint(): ?string
-    {
-        if ($this->frontendHelper->isFrontendRequest()) {
-            return
-                'To use WSSE authentication the API key should be already generated'
-                . ' for the current logged-in customer user.'
-                . ' To generate it, execute POST request to "/api/login" API resource.'
-                . ' If the "Enable API key generation" feature is enabled in the system configuration,'
-                . ' the API key will be generated.'
-                . ' After that reload this page.';
-        }
-
-        return $this->innerSecurityContext->getApiKeyGenerationHint();
-    }
-
-    #[\Override]
     public function getCsrfCookieName(): ?string
     {
         return $this->innerSecurityContext->getCsrfCookieName();

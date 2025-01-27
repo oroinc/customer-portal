@@ -121,34 +121,6 @@ services:
             - { name: oro.api.processor, action: customize_form_data, event: pre_validate, class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress }
             - { name: oro.api.processor, action: customize_form_data, event: pre_validate, class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress }
 
-    oro_customer.api.frontend.login.handle:
-        class: Oro\Bundle\CustomerBundle\Api\Processor\HandleLogin
-        arguments:
-            - 'frontend'
-            - '@oro_customer.api.frontend.authenticator'
-            - '@oro_customer.security.provider'
-            - '@oro_security.authentication.organization_guesser'
-            - '@security.user_checker.frontend'
-            - '@event_dispatcher'
-            - '@oro_config.manager'
-            - '@oro_api.doctrine_helper'
-            - '@translator'
-        tags:
-            - { name: oro.api.processor, action: create, group: save_data, requestType: frontend, class: Oro\Bundle\CustomerBundle\Api\Model\Login }
-
-    oro_customer.api.frontend.login.normalize:
-        class: Oro\Bundle\ApiBundle\Processor\Shared\NormalizeEntity
-        arguments:
-            - '@oro_api.object_normalizer'
-        tags:
-            - { name: oro.api.processor, action: create, group: normalize_data, requestType: frontend, class: Oro\Bundle\CustomerBundle\Api\Model\Login }
-
-    # return HTTP_OK status code instead of HTTP_CREATED for "login" POST request
-    oro_customer.api.frontend.login.set_http_ok_response_status_code:
-        class: Oro\Bundle\ApiBundle\Processor\Shared\SetHttpResponseStatusCode
-        tags:
-            - { name: oro.api.processor, action: create, group: normalize_result, requestType: frontend&rest, class: Oro\Bundle\CustomerBundle\Api\Model\Login, priority: -28 }
-
     oro_customer.api.frontend.config.add_owner_validator:
         class: Oro\Bundle\OrganizationBundle\Api\Processor\GetConfig\AddOwnerValidator
         arguments:

@@ -1,47 +1,5 @@
 api:
-    entity_aliases:
-        Oro\Bundle\CustomerBundle\Api\Model\Login:
-            alias: login
-            plural_alias: login
-
     entities:
-        Oro\Bundle\CustomerBundle\Api\Model\Login:
-            documentation_resource: '@OroCustomerBundle/Resources/doc/api_frontend/login.md'
-            fields:
-                email:
-                    data_type: string
-                password:
-                    data_type: string
-                apiKey:
-                    data_type: string
-            actions:
-                get: false
-                get_list: false
-                update: false
-                delete: false
-                delete_list: false
-                create:
-                    description: Get API Access Key
-                    fields:
-                        email:
-                            direction: input-only
-                            form_options:
-                                constraints:
-                                    - NotBlank: ~
-                        password:
-                            direction: input-only
-                            form_type: Symfony\Component\Form\Extension\Core\Type\PasswordType
-                            form_options:
-                                constraints:
-                                    - NotBlank: ~
-                        apiKey:
-                            direction: output-only
-                    status_codes:
-                        200: Returned when the credentials are valid and API access key exists
-                        201: false
-                        403: Returned when the credentials are not valid or API access key does not exist
-                        409: false
-
         Oro\Bundle\CustomerBundle\Entity\Customer:
             documentation_resource: '@OroCustomerBundle/Resources/doc/api_frontend/customer.md'
             actions:

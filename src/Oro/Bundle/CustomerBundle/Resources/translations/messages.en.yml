@@ -848,9 +848,6 @@ oro.customer:
             non_authenticated_visitors_api:
                 label: 'Enable Guest Storefront API'
                 tooltip: 'Select this option to grant access to storefront API resources to non-authenticated visitors (3rd party applications).'
-            api_key_generation_enabled:
-                label: 'Enable API key generation'
-                tooltip: 'Select the option to enable the automatic generation of API access keys for new customer users.'
             oro_customer_confirmation_required.label: 'Enables customer user email confirmation'
             oro_customer_confirmation_required.description: 'Enables customer user email confirmation'
             case_insensitive_email_addresses_enabled:
