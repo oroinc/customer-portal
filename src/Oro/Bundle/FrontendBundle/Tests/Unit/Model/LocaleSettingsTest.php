@@ -827,7 +827,7 @@ class LocaleSettingsTest extends TestCase
             ['en_CA', $this->getCurrencyByLocale('en_CA')],
             ['it', 'USD'],
             ['it_IT', $this->getCurrencyByLocale('it_IT')],
-            ['ua', 'USD'],
+            ['ca', 'USD'],
             ['ru_UA', $this->getCurrencyByLocale('ru_UA')],
         ];
     }

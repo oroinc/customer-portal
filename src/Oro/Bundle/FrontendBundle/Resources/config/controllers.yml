@@ -5,6 +5,7 @@ services:
     oro_frontend.js_routing_controller:
         class: '%fos_js_routing.controller.class%'
         arguments:
+            - '@fos_js_routing.routes_response'
             - '@fos_js_routing.serializer'
             - '@oro_frontend.extractor.frontend_exposed_routes_extractor'
             - '%fos_js_routing.cache_control%'
