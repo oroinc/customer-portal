@@ -95,8 +95,9 @@ class CustomerAddress extends AbstractDefaultTypedAddress implements AddressPhon
             $this->frontendOwner->removeAddress($this);
         }
         parent::setFrontendOwner($frontendOwner);
-        if (null !== $this->frontendOwner) {
-            $this->frontendOwner->addAddress($this);
+
+        if (null === $this->getId()) {
+            $this->frontendOwner?->addAddress($this);
         }
 
         return $this;
