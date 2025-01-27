@@ -5,35 +5,31 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Api\Filter;
 use Oro\Bundle\CustomerBundle\Api\Filter\CustomerHierarchyAwareFilter;
 use Oro\Bundle\CustomerBundle\Api\Filter\CustomerHierarchyAwareFilterFactory;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProviderInterface;
+use Oro\Component\Testing\ReflectionUtil;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class CustomerHierarchyAwareFilterFactoryTest extends TestCase
 {
-    private CustomerHierarchyAwareFilterFactory $factory;
     private OwnerTreeProviderInterface&MockObject $ownerTreeProvider;
+    private CustomerHierarchyAwareFilterFactory $factory;
 
     protected function setUp(): void
     {
         $this->ownerTreeProvider = $this->createMock(OwnerTreeProviderInterface::class);
+
         $this->factory = new CustomerHierarchyAwareFilterFactory($this->ownerTreeProvider);
     }
 
     public function testCreateFilter(): void
     {
-        $dataType = 'integer';
-        $filter = $this->factory->createFilter($dataType);
+        $filter = $this->factory->createFilter('integer');
 
-        static::assertInstanceOf(CustomerHierarchyAwareFilter::class, $filter);
-        static::assertEquals('Filter customers aware of hierarchy.', $filter->getDescription());
-        static::assertSame($this->ownerTreeProvider, $this->getCustomerTreeProvider($filter));
-    }
-
-    private function getCustomerTreeProvider(CustomerHierarchyAwareFilter $filter): OwnerTreeProviderInterface
-    {
-        $reflection = new \ReflectionClass($filter);
-        $property = $reflection->getProperty('customerTreeProvider');
-
-        return $property->getValue($filter);
+        self::assertInstanceOf(CustomerHierarchyAwareFilter::class, $filter);
+        self::assertEquals('Filter customers aware of hierarchy.', $filter->getDescription());
+        self::assertSame(
+            $this->ownerTreeProvider,
+            ReflectionUtil::getPropertyValue($filter, 'customerTreeProvider')
+        );
     }
 }

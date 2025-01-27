@@ -15,13 +15,14 @@ use PHPUnit\Framework\TestCase;
 class CustomerHierarchyAwareFilterTest extends TestCase
 {
     private OwnerTreeProviderInterface&MockObject $customerTreeProvider;
-    private OwnerTreeInterface $ownerTree;
+    private OwnerTreeInterface&MockObject $ownerTree;
 
     protected function setUp(): void
     {
         $this->customerTreeProvider = $this->createMock(OwnerTreeProviderInterface::class);
         $this->ownerTree = $this->createMock(OwnerTreeInterface::class);
-        $this->customerTreeProvider
+
+        $this->customerTreeProvider->expects(self::any())
             ->method('getTree')
             ->willReturn($this->ownerTree);
     }
@@ -36,7 +37,7 @@ class CustomerHierarchyAwareFilterTest extends TestCase
 
         $filter->apply($criteria, null);
 
-        static::assertNull($criteria->getWhereExpression());
+        self::assertNull($criteria->getWhereExpression());
     }
 
     public function testApplyWithHierarchyExpansion(): void
@@ -45,7 +46,7 @@ class CustomerHierarchyAwareFilterTest extends TestCase
         $filter->setCustomerTreeProvider($this->customerTreeProvider);
         $filter->setField('customer');
 
-        $this->ownerTree
+        $this->ownerTree->expects(self::once())
             ->method('getSubordinateBusinessUnitIds')
             ->willReturnCallback(function ($customerId) {
                 $hierarchy = [
@@ -62,7 +63,7 @@ class CustomerHierarchyAwareFilterTest extends TestCase
         $filter->apply($criteria, $filterValue);
 
         $expectedExpression = new Comparison('customer', Comparison::IN, [1, 2, 3]);
-        static::assertEquals($expectedExpression, $criteria->getWhereExpression());
+        self::assertEquals($expectedExpression, $criteria->getWhereExpression());
     }
 
     public function testApplyWithoutHierarchy(): void
@@ -71,7 +72,7 @@ class CustomerHierarchyAwareFilterTest extends TestCase
         $filter->setCustomerTreeProvider($this->customerTreeProvider);
         $filter->setField('customer');
 
-        $this->ownerTree
+        $this->ownerTree->expects(self::once())
             ->method('getSubordinateBusinessUnitIds')
             ->willReturn([]);
 
@@ -81,7 +82,7 @@ class CustomerHierarchyAwareFilterTest extends TestCase
         $filter->apply($criteria, $filterValue);
 
         $expectedExpression = new Comparison('customer', Comparison::IN, [5]);
-        static::assertEquals($expectedExpression, $criteria->getWhereExpression());
+        self::assertEquals($expectedExpression, $criteria->getWhereExpression());
     }
 
     public function testApplyWithMultipleCustomerIds(): void
@@ -90,7 +91,7 @@ class CustomerHierarchyAwareFilterTest extends TestCase
         $filter->setCustomerTreeProvider($this->customerTreeProvider);
         $filter->setField('customer');
 
-        $this->ownerTree
+        $this->ownerTree->expects(self::exactly(2))
             ->method('getSubordinateBusinessUnitIds')
             ->willReturnCallback(function ($customerId) {
                 $hierarchy = [
@@ -107,6 +108,6 @@ class CustomerHierarchyAwareFilterTest extends TestCase
         $filter->apply($criteria, $filterValue);
 
         $expectedExpression = new Comparison('customer', Comparison::IN, [1, 2, 3, 4, 5, 6]);
-        static::assertEquals($expectedExpression, $criteria->getWhereExpression());
+        self::assertEquals($expectedExpression, $criteria->getWhereExpression());
     }
 }

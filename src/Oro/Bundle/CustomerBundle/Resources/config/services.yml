@@ -1517,7 +1517,7 @@ services:
             - '%web_backend_prefix%'
             - '@request_stack'
             - '@oro_distribution.handler.application_status'
-            - '@oro_security.token_accessor'
+            - '@security.untracked_token_storage'
 
     oro_customer.event_listener.redirect_after_login_config_listener:
         class: Oro\Bundle\CustomerBundle\EventListener\RedirectAfterLoginConfigListener
