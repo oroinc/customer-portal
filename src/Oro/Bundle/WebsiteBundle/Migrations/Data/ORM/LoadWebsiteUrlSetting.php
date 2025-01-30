@@ -15,7 +15,7 @@ class LoadWebsiteUrlSetting extends AbstractFixture implements ContainerAwareInt
     protected $container;
 
     #[\Override]
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         $this->container = $container;
     }

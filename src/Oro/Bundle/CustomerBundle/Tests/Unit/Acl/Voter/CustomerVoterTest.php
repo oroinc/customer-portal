@@ -467,7 +467,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    private function getObject(int $customerUserId = null, int $customerId = null): CustomerOwnerAwareInterface
+    private function getObject(?int $customerUserId = null, ?int $customerId = null): CustomerOwnerAwareInterface
     {
         $object = $this->createMock(CustomerOwnerAwareInterface::class);
 
@@ -486,7 +486,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
         return $object;
     }
 
-    private function getCustomerUser(int $id, int $customerId = null): CustomerUser
+    private function getCustomerUser(int $id, ?int $customerId = null): CustomerUser
     {
         $user = new CustomerUser();
         ReflectionUtil::setId($user, $id);

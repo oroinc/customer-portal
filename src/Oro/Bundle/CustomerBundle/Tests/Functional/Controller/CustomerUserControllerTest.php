@@ -506,7 +506,7 @@ class CustomerUserControllerTest extends WebTestCase
         array $expectedRoles,
         array $notExpectedRoles,
         string $content,
-        CustomerUser $customerUser = null
+        ?CustomerUser $customerUser = null
     ): void {
         $shouldBeChecked = 0;
         /** @var CustomerUserRole $expectedRole */

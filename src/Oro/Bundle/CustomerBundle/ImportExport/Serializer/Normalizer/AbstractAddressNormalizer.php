@@ -16,7 +16,7 @@ abstract class AbstractAddressNormalizer extends ConfigurableEntityNormalizer
      * @param AbstractTypedAddress $object
      */
     #[\Override]
-    public function normalize($object, string $format = null, array $context = []): array
+    public function normalize($object, ?string $format = null, array $context = []): array
     {
         $result = parent::normalize($object, $format, $context);
 
@@ -50,7 +50,7 @@ abstract class AbstractAddressNormalizer extends ConfigurableEntityNormalizer
     }
 
     #[\Override]
-    public function denormalize($data, string $type, string $format = null, array $context = []): AbstractTypedAddress
+    public function denormalize($data, string $type, ?string $format = null, array $context = []): AbstractTypedAddress
     {
         foreach (['Shipping', 'Default Shipping', 'Billing', 'Default Billing'] as $field) {
             $data[$field] = $this->scalarFieldDenormalizer->denormalize(

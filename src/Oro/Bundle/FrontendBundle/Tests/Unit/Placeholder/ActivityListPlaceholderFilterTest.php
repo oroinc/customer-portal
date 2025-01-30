@@ -31,7 +31,7 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
             ->willReturn(true);
     }
 
-    private function getFilter(Request $currentRequest = null): ActivityListPlaceholderFilter
+    private function getFilter(?Request $currentRequest = null): ActivityListPlaceholderFilter
     {
         $requestStack = new RequestStack();
         if (null !== $currentRequest) {

@@ -111,7 +111,7 @@ class ApiAnonymousCustomerUserAuthenticator implements AuthenticatorInterface
         return null;
     }
 
-    private function shouldBeAuthenticatedAsCustomerVisitor(Request $request, TokenInterface $token = null): bool
+    private function shouldBeAuthenticatedAsCustomerVisitor(Request $request, ?TokenInterface $token = null): bool
     {
         if (null === $token) {
             return $this->apiRequestHelper->isApiRequest($request->getPathInfo())

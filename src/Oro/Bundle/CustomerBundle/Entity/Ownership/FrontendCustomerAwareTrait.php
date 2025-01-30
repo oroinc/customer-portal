@@ -27,7 +27,7 @@ trait FrontendCustomerAwareTrait
      * @param Customer|null $customer
      * @return $this
      */
-    public function setCustomer(Customer $customer = null)
+    public function setCustomer(?Customer $customer = null)
     {
         $this->customer = $customer;
 

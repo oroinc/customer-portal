@@ -185,7 +185,7 @@ class LocaleSettings extends BaseLocaleSettings
     }
 
     #[\Override]
-    public function getCurrencySymbolByCurrency(string $currencyCode = null, string $locale = null)
+    public function getCurrencySymbolByCurrency(?string $currencyCode = null, ?string $locale = null)
     {
         return $this->inner->getCurrencySymbolByCurrency($currencyCode ?: $this->getCurrency(), $locale);
     }

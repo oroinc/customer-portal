@@ -320,7 +320,7 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
      *
      * @codingStandardsIgnoreEnd
      */
-    public function assertHasFilterInManagerInFrontendGrid(string $filter, string $dataGridName = null)
+    public function assertHasFilterInManagerInFrontendGrid(string $filter, ?string $dataGridName = null)
     {
         /** @var FrontendGridFilterManager $filterManager */
         $filterManager = $this->getFilterManager($dataGridName);
@@ -339,7 +339,7 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
      *
      * @codingStandardsIgnoreEnd
      */
-    public function assertHasNoFilterInManagerInFrontendGrid(string $filter, string $dataGridName = null)
+    public function assertHasNoFilterInManagerInFrontendGrid(string $filter, ?string $dataGridName = null)
     {
         /** @var FrontendGridFilterManager $filterManager */
         $filterManager = $this->getFilterManager($dataGridName);

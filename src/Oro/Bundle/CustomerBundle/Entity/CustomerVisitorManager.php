@@ -19,12 +19,12 @@ class CustomerVisitorManager
     ) {
     }
 
-    public function findOrCreate(int $id = null, string $sessionId = null): CustomerVisitor
+    public function findOrCreate(?int $id = null, ?string $sessionId = null): CustomerVisitor
     {
         return $this->find($id, $sessionId) ?: CustomerVisitor::createAnonymous();
     }
 
-    public function find(int $id = null, string $sessionId = null): ?CustomerVisitor
+    public function find(?int $id = null, ?string $sessionId = null): ?CustomerVisitor
     {
         if (null !== $sessionId && CustomerVisitor::isAnonymousSession($sessionId)) {
             return CustomerVisitor::createAnonymous();

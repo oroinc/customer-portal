@@ -76,7 +76,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
      *
      * @return FormView
      */
-    public function getResetPasswordFormView(CustomerUser $customerUser = null)
+    public function getResetPasswordFormView(?CustomerUser $customerUser = null)
     {
         $options['action'] = $this->generateUrl(self::ACCOUNT_USER_PASSWORD_RESET_ROUTE_NAME);
 
@@ -88,7 +88,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
      *
      * @return FormInterface
      */
-    public function getResetPasswordForm(CustomerUser $customerUser = null)
+    public function getResetPasswordForm(?CustomerUser $customerUser = null)
     {
         $options['action'] = $this->generateUrl(self::ACCOUNT_USER_PASSWORD_RESET_ROUTE_NAME);
 

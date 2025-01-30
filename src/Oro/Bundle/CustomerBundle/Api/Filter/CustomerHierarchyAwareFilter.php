@@ -24,7 +24,7 @@ class CustomerHierarchyAwareFilter extends ComparisonFilter
     }
 
     #[\Override]
-    protected function createExpression(FilterValue $value = null): ?Expression
+    protected function createExpression(?FilterValue $value = null): ?Expression
     {
         if (null === $value) {
             return null;

@@ -23,7 +23,7 @@ class CustomerUserAddressDialogAddressFormFactory implements AddressValidationAd
     }
 
     #[\Override]
-    public function createAddressForm(Request $request, AbstractAddress $address = null): FormInterface
+    public function createAddressForm(Request $request, ?AbstractAddress $address = null): FormInterface
     {
         if ($address === null) {
             $address = (new CustomerUserAddress())

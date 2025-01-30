@@ -13,5 +13,5 @@ use Symfony\Component\HttpFoundation\Request;
  */
 interface AddressValidationAddressFormFactoryInterface
 {
-    public function createAddressForm(Request $request, AbstractAddress $address = null): FormInterface;
+    public function createAddressForm(Request $request, ?AbstractAddress $address = null): FormInterface;
 }

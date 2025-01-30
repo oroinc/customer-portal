@@ -53,7 +53,7 @@ abstract class AbstractMenuUpdateFixture extends AbstractFixture implements Cont
     protected ?ItemInterface $menu = null;
 
     #[\Override]
-    public function setContainer(ContainerInterface $container = null): void
+    public function setContainer(?ContainerInterface $container = null): void
     {
         $this->container = $container;
 

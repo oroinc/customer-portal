@@ -123,7 +123,7 @@ class CustomerAddOrReplaceStrategyTest extends WebTestCase
         $this->updateUserSecurityToken($user->getEmail());
     }
 
-    private function createCustomer(User $owner, Customer $parent = null): Customer
+    private function createCustomer(User $owner, ?Customer $parent = null): Customer
     {
         $customer = new Customer();
         $customer->setName('customer');

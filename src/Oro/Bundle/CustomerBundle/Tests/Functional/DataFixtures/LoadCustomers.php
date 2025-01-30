@@ -87,11 +87,11 @@ class LoadCustomers extends AbstractFixture implements DependentFixtureInterface
      * @return Customer
      */
     protected function createCustomer(
-        ObjectManager $manager,
-        $name,
-        User $owner,
-        Customer $parent = null,
-        CustomerGroup $group = null
+        ObjectManager  $manager,
+                       $name,
+        User           $owner,
+        ?Customer      $parent = null,
+        ?CustomerGroup $group = null
     ) {
         $customer = new Customer();
         $customer->setName($name);

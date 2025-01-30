@@ -313,7 +313,7 @@ class CustomerUser extends AbstractUser implements
      * @param Customer|null $customer
      * @return $this
      */
-    public function setCustomer(Customer $customer = null)
+    public function setCustomer(?Customer $customer = null)
     {
         $this->customer = $customer;
 
@@ -532,7 +532,7 @@ class CustomerUser extends AbstractUser implements
      * @param \DateTime|null $birthday
      * @return CustomerUser
      */
-    public function setBirthday(\DateTime $birthday = null)
+    public function setBirthday(?\DateTime $birthday = null)
     {
         $this->birthday = $birthday;
 
@@ -827,7 +827,7 @@ class CustomerUser extends AbstractUser implements
      * @return $this
      */
     #[\Override]
-    public function setWebsite(Website $website = null)
+    public function setWebsite(?Website $website = null)
     {
         $this->website = $website;
 

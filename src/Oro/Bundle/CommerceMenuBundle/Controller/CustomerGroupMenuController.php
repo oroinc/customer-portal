@@ -95,7 +95,7 @@ class CustomerGroupMenuController extends AbstractFrontendMenuController
      */
     #[Route(path: '/{menuName}/update/{key}', name: 'oro_commerce_menu_customer_group_menu_update')]
     #[Template]
-    public function updateAction(Request $request, string $menuName, string $key = null)
+    public function updateAction(Request $request, string $menuName, ?string $key = null)
     {
         $context = $this->getContextFromRequest($request, $this->getAllowedContextKeys());
 

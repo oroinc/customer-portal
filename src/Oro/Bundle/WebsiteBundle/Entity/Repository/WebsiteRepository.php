@@ -21,7 +21,7 @@ class WebsiteRepository extends EntityRepository implements BatchIteratorInterfa
      *
      * @return Website[]
      */
-    public function getAllWebsites(Organization $organization = null)
+    public function getAllWebsites(?Organization $organization = null)
     {
         $qb = $this->createQueryBuilder('website');
         // Join organization to website as it will be immediately accessed during config calls.
@@ -45,7 +45,7 @@ class WebsiteRepository extends EntityRepository implements BatchIteratorInterfa
         return $result;
     }
 
-    public function getWebsitesNotInList(array $skipIds, Organization $organization = null): \Iterator
+    public function getWebsitesNotInList(array $skipIds, ?Organization $organization = null): \Iterator
     {
         $qb = $this->createQueryBuilder('website');
 

@@ -27,7 +27,7 @@ class RoleTranslationPrefixResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getPrefixDataProvider
      */
-    public function testGetPrefix(UserInterface|string|null $loggedUser, string $expectedPrefix = null)
+    public function testGetPrefix(UserInterface|string|null $loggedUser, ?string $expectedPrefix = null)
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')

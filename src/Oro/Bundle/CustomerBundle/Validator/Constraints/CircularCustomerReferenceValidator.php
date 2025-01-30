@@ -78,7 +78,7 @@ class CircularCustomerReferenceValidator extends ConstraintValidator
      * @param Customer|null $parent
      * @return bool
      */
-    protected function isAncestor(Customer $customer, Customer $parent = null)
+    protected function isAncestor(Customer $customer, ?Customer $parent = null)
     {
         if ($this->ownerTreeProvider instanceof CustomerAwareOwnerTreeInterface) {
             $tree = $this->ownerTreeProvider->getTreeByBusinessUnit($parent);

@@ -18,7 +18,7 @@ class AnonymousCustomerUserBadge extends UserBadge
     private $userLoader;
     private $user;
 
-    public function __construct(string $userIdentifier, callable $userLoader = null)
+    public function __construct(string $userIdentifier, ?callable $userLoader = null)
     {
         parent::__construct($userIdentifier, $userLoader);
 

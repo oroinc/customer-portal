@@ -119,7 +119,7 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
         string $name,
         User $owner,
         CustomerGroup $group,
-        Customer $parent = null
+        ?Customer $parent = null
     ): Customer {
         $customer = new Customer();
         $customer->setName($name);

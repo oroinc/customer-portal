@@ -137,7 +137,7 @@ class EntityOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    private function getCustomer(int $id, Customer $parent = null): Customer
+    private function getCustomer(int $id, ?Customer $parent = null): Customer
     {
         $customer = new Customer();
         ReflectionUtil::setId($customer, $id);
@@ -148,7 +148,7 @@ class EntityOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
         return $customer;
     }
 
-    private function getCustomerUser(int $id, Organization $organization, Customer $customer = null): CustomerUser
+    private function getCustomerUser(int $id, Organization $organization, ?Customer $customer = null): CustomerUser
     {
         $customerUser = new CustomerUser();
         ReflectionUtil::setId($customerUser, $id);

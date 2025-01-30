@@ -21,7 +21,7 @@ class FrontendHelperTest extends \PHPUnit\Framework\TestCase
         $this->applicationState = $this->createApplicationState(true);
     }
 
-    private function getRequestStack(Request $currentRequest = null): RequestStack
+    private function getRequestStack(?Request $currentRequest = null): RequestStack
     {
         $requestStack = new RequestStack();
         if (null !== $currentRequest) {

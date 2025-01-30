@@ -66,7 +66,7 @@ class LoginManager
         RequestStack $requestStack,
         UsernamePasswordOrganizationTokenFactoryInterface $tokenFactory,
         EventDispatcherInterface $eventDispatcher,
-        RememberMeHandlerInterface $rememberMeHandler = null
+        ?RememberMeHandlerInterface $rememberMeHandler = null
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->userChecker = $userChecker;
@@ -77,7 +77,7 @@ class LoginManager
         $this->rememberMeHandler = $rememberMeHandler;
     }
 
-    public function logInUser($firewallName, AbstractUser $user, Response $response = null)
+    public function logInUser($firewallName, AbstractUser $user, ?Response $response = null)
     {
         try {
             $this->userChecker->checkPreAuth($user);

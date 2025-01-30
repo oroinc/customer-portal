@@ -30,7 +30,7 @@ class TokenAwareFrontendHelperTest extends TestCase
             ->willReturn(true);
     }
 
-    private function getRequestStack(Request $currentRequest = null): RequestStack
+    private function getRequestStack(?Request $currentRequest = null): RequestStack
     {
         $requestStack = new RequestStack();
         if (null !== $currentRequest) {
@@ -40,7 +40,7 @@ class TokenAwareFrontendHelperTest extends TestCase
         return $requestStack;
     }
 
-    private function getTokenStorage(TokenInterface $currentToken = null): TokenStorageInterface
+    private function getTokenStorage(?TokenInterface $currentToken = null): TokenStorageInterface
     {
         $tokenStorage = new TokenStorage();
         if (null !== $currentToken) {

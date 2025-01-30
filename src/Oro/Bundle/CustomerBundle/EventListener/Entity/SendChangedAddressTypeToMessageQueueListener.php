@@ -260,7 +260,7 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
         AddressType $addressType,
         array &$updates,
         string $action,
-        array $changeSet = null
+        ?array $changeSet = null
     ) {
         $this->ensureOwnerChangeSetRoot($em, $addressType, $updates);
 
@@ -291,7 +291,7 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
         AddressType $addressType,
         array &$updates,
         string $action,
-        array $changeSet = null
+        ?array $changeSet = null
     ) {
         $this->ensureAddressChangeSetRoot($em, $addressType, $updates);
 

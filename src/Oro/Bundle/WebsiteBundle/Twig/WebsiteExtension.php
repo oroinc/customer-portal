@@ -49,7 +49,7 @@ class WebsiteExtension extends AbstractExtension implements ServiceSubscriberInt
      *
      * @return string
      */
-    public function getWebsitePath($route, array $routeParams = [], Website $website = null)
+    public function getWebsitePath($route, array $routeParams = [], ?Website $website = null)
     {
         return $this->getWebsiteUrlResolver()->getWebsitePath($route, $routeParams, $website);
     }
@@ -61,7 +61,7 @@ class WebsiteExtension extends AbstractExtension implements ServiceSubscriberInt
      *
      * @return string
      */
-    public function getWebsiteSecurePath($route, array $routeParams = [], Website $website = null)
+    public function getWebsiteSecurePath($route, array $routeParams = [], ?Website $website = null)
     {
         return $this->getWebsiteUrlResolver()->getWebsiteSecurePath($route, $routeParams, $website);
     }

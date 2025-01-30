@@ -22,12 +22,12 @@ class CustomerUserRelationsProvider
         $this->doctrineHelper = $doctrineHelper;
     }
 
-    public function getCustomer(CustomerUserInterface $customerUser = null): ?Customer
+    public function getCustomer(?CustomerUserInterface $customerUser = null): ?Customer
     {
         return $customerUser?->getCustomer();
     }
 
-    public function getCustomerGroup(CustomerUserInterface $customerUser = null): ?CustomerGroup
+    public function getCustomerGroup(?CustomerUserInterface $customerUser = null): ?CustomerGroup
     {
         if (null === $customerUser) {
             $anonymousGroupId = $this->configManager->get('oro_customer.anonymous_customer_group');
@@ -40,7 +40,7 @@ class CustomerUserRelationsProvider
         return $customerUser->getCustomer()?->getGroup();
     }
 
-    public function getCustomerIncludingEmpty(CustomerUserInterface $customerUser = null): ?Customer
+    public function getCustomerIncludingEmpty(?CustomerUserInterface $customerUser = null): ?Customer
     {
         $customer = $customerUser?->getCustomer();
         if (null === $customer) {

@@ -62,7 +62,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         CustomerUserRole $role,
         CustomerUserRole $expectedRole,
         CustomerUser $customerUser,
-        CustomerUserRole $expectedPredefinedRole = null
+        ?CustomerUserRole $expectedPredefinedRole = null
     ): void {
         $requestStack = $this->createRequestStack('POST');
 

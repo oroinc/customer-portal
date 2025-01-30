@@ -41,7 +41,7 @@ class RedirectListenerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    private function getEvent(bool $isMainRequest, Request $request, Response $response = null): RequestEvent
+    private function getEvent(bool $isMainRequest, Request $request, ?Response $response = null): RequestEvent
     {
         $event = new RequestEvent(
             $this->createMock(HttpKernelInterface::class),

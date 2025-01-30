@@ -284,7 +284,7 @@ class FrontendCustomerUserTypeTest extends FormIntegrationTestCase
     /**
      * @dataProvider onSubmitDataProvider
      */
-    public function testOnSubmit(?int $customerUserId, Website $website = null, Website $expectedWebsite = null): void
+    public function testOnSubmit(?int $customerUserId, ?Website $website = null, ?Website $expectedWebsite = null): void
     {
         $this->authorizationChecker->expects($this->atLeastOnce())
             ->method('isGranted')

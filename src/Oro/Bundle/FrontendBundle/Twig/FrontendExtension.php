@@ -48,7 +48,7 @@ class FrontendExtension extends AbstractExtension implements ServiceSubscriberIn
      *
      * @return array<string,mixed>
      */
-    public function getContent(array $additionalContent = null, array $keys = null): array
+    public function getContent(?array $additionalContent = null, ?array $keys = null): array
     {
         $content = $this->getContentProviderManager()->getContent($keys);
         if ($additionalContent) {

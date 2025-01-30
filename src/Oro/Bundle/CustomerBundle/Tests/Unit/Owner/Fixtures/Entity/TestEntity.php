@@ -43,10 +43,10 @@ class TestEntity
      */
     public function __construct(
         $id = 0,
-        User $owner = null,
-        Organization $organization = null,
-        CustomerUser $customerUser = null,
-        Customer $customer = null
+        ?User $owner = null,
+        ?Organization $organization = null,
+        ?CustomerUser $customerUser = null,
+        ?Customer $customer = null
     ) {
         $this->id = $id;
         $this->owner = $owner;
@@ -71,12 +71,12 @@ class TestEntity
         return $this->owner;
     }
 
-    public function setOwner(User $owner = null)
+    public function setOwner(?User $owner = null)
     {
         $this->owner = $owner;
     }
 
-    public function setOrganization(Organization $organization = null)
+    public function setOrganization(?Organization $organization = null)
     {
         $this->organization = $organization;
     }
@@ -97,7 +97,7 @@ class TestEntity
         return $this->customerUser;
     }
 
-    public function setCustomerUser(CustomerUser $customerUser = null)
+    public function setCustomerUser(?CustomerUser $customerUser = null)
     {
         $this->customerUser = $customerUser;
     }
@@ -110,7 +110,7 @@ class TestEntity
         return $this->customer;
     }
 
-    public function setCustomer(Customer $customer = null)
+    public function setCustomer(?Customer $customer = null)
     {
         $this->customer = $customer;
     }

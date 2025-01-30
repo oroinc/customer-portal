@@ -23,7 +23,7 @@ class AnonymousCustomerUserToken extends AnonymousToken implements
     public function __construct(
         CustomerVisitor $visitor,
         array $roles = [],
-        Organization $organization = null
+        ?Organization $organization = null
     ) {
         parent::__construct('', $visitor, $this->initRoles($roles));
 

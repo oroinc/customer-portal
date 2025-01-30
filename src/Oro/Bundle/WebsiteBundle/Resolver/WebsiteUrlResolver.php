@@ -38,7 +38,7 @@ class WebsiteUrlResolver
      *
      * @return string|null
      */
-    public function getWebsiteUrl(WebsiteInterface $website = null, bool $clearUrl = false)
+    public function getWebsiteUrl(?WebsiteInterface $website = null, bool $clearUrl = false)
     {
         $cacheKey = 'url_' . ($website ? $website->getId() : 0);
 
@@ -58,7 +58,7 @@ class WebsiteUrlResolver
      *
      * @return string|null
      */
-    public function getWebsiteSecureUrl(WebsiteInterface $website = null, bool $clearUrl = false)
+    public function getWebsiteSecureUrl(?WebsiteInterface $website = null, bool $clearUrl = false)
     {
         $cacheKey = 'secure_url_' . ($website ? $website->getId() : 0);
 
@@ -79,7 +79,7 @@ class WebsiteUrlResolver
      *
      * @return string
      */
-    public function getWebsitePath(string $route, array $routeParams, WebsiteInterface $website = null)
+    public function getWebsitePath(string $route, array $routeParams, ?WebsiteInterface $website = null)
     {
         return $this->preparePath($this->getWebsiteUrl($website), $route, $routeParams);
     }
@@ -91,7 +91,7 @@ class WebsiteUrlResolver
      *
      * @return string
      */
-    public function getWebsiteSecurePath(string $route, array $routeParams, WebsiteInterface $website = null)
+    public function getWebsiteSecurePath(string $route, array $routeParams, ?WebsiteInterface $website = null)
     {
         return $this->preparePath($this->getWebsiteSecureUrl($website), $route, $routeParams);
     }
@@ -101,7 +101,7 @@ class WebsiteUrlResolver
      *
      * @return string|null
      */
-    protected function getSecureUrl(WebsiteInterface $website = null)
+    protected function getSecureUrl(?WebsiteInterface $website = null)
     {
         $url = $this->getWebsiteScopeConfigValue(self::CONFIG_SECURE_URL, $website);
         if ($url) {
@@ -135,7 +135,7 @@ class WebsiteUrlResolver
      *
      * @return string|null
      */
-    protected function getWebsiteScopeConfigValue($configKey, WebsiteInterface $website = null)
+    protected function getWebsiteScopeConfigValue($configKey, ?WebsiteInterface $website = null)
     {
         $configValue = $this->configManager->get($configKey, false, true, $website);
         if (!empty($configValue['value']) && empty($configValue['use_parent_scope_value'])) {
@@ -151,7 +151,7 @@ class WebsiteUrlResolver
      *
      * @return string|null
      */
-    protected function getDefaultConfigValue($configKey, WebsiteInterface $website = null)
+    protected function getDefaultConfigValue($configKey, ?WebsiteInterface $website = null)
     {
         return $this->configManager->get($configKey, true, false, $website);
     }

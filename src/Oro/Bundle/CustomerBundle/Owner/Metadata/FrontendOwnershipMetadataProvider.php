@@ -72,7 +72,7 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
     }
 
     #[\Override]
-    public function getMaxAccessLevel(int $accessLevel, string $className = null): int
+    public function getMaxAccessLevel(int $accessLevel, ?string $className = null): int
     {
         $maxLevel = $accessLevel;
         if ($accessLevel > AccessLevel::DEEP_LEVEL) {

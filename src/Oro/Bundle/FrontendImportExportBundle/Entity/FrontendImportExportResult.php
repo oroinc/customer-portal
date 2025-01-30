@@ -99,7 +99,7 @@ class FrontendImportExportResult implements CreatedAtAwareInterface, CustomerOwn
      *
      * @return self
      */
-    public function setFilename(string $filename = null): FrontendImportExportResult
+    public function setFilename(?string $filename = null): FrontendImportExportResult
     {
         $this->filename = $filename;
 

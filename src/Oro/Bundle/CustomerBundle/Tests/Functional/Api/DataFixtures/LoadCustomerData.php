@@ -21,7 +21,7 @@ class LoadCustomerData extends AbstractFixture implements ContainerAwareInterfac
     private $container;
 
     #[\Override]
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         $this->container = $container;
     }

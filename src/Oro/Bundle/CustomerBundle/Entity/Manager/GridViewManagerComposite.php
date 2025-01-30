@@ -47,7 +47,7 @@ class GridViewManagerComposite extends BaseGridViewManager
     }
 
     #[\Override]
-    public function getAllGridViews(AbstractUser $user = null, $gridName = null)
+    public function getAllGridViews(?AbstractUser $user = null, $gridName = null)
     {
         return $this->isFrontend()
             ? $this->frontendGridViewManager->getAllGridViews($user, $gridName)

@@ -231,7 +231,7 @@ class Customer implements DatesAwareInterface, ExtendEntityInterface
      *
      * @return $this
      */
-    public function setParent(Customer $parent = null)
+    public function setParent(?Customer $parent = null)
     {
         $this->parent = $parent;
 
@@ -339,7 +339,7 @@ class Customer implements DatesAwareInterface, ExtendEntityInterface
      *
      * @return $this
      */
-    public function setGroup(CustomerGroup $group = null)
+    public function setGroup(?CustomerGroup $group = null)
     {
         $this->group = $group;
 
@@ -488,7 +488,7 @@ class Customer implements DatesAwareInterface, ExtendEntityInterface
      *
      * @return $this
      */
-    public function setOrganization(Organization $organization = null)
+    public function setOrganization(?Organization $organization = null)
     {
         $this->organization = $organization;
 

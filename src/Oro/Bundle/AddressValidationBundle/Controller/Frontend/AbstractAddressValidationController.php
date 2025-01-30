@@ -57,7 +57,7 @@ abstract class AbstractAddressValidationController extends AbstractController
         return $this->getWidgetEventSuccessResponse($addressForm, $addressValidationResultForm, $request);
     }
 
-    protected function createAddressForm(Request $request, AbstractAddress $address = null): FormInterface
+    protected function createAddressForm(Request $request, ?AbstractAddress $address = null): FormInterface
     {
         return $this->container->get(AddressValidationAddressFormFactoryInterface::class)
             ->createAddressForm($request, $address);

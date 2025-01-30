@@ -160,7 +160,7 @@ class CustomerUserRole extends AbstractRole implements OrganizationAwareInterfac
      * @param Customer|null $customer
      * @return CustomerUserRole
      */
-    public function setCustomer(Customer $customer = null)
+    public function setCustomer(?Customer $customer = null)
     {
         $this->customer = $customer;
 
@@ -174,7 +174,7 @@ class CustomerUserRole extends AbstractRole implements OrganizationAwareInterfac
     }
 
     #[\Override]
-    public function setOrganization(OrganizationInterface $organization = null)
+    public function setOrganization(?OrganizationInterface $organization = null)
     {
         $this->organization = $organization;
 

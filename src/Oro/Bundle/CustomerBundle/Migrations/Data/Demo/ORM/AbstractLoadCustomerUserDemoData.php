@@ -28,7 +28,7 @@ abstract class AbstractLoadCustomerUserDemoData extends AbstractFixture implemen
     public static $customerUsersReferencesNames = [];
 
     #[\Override]
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         $this->container = $container;
     }

@@ -257,7 +257,7 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
             ->willReturn($this->context);
     }
 
-    protected function updateTranslationMock(Website $website = null)
+    protected function updateTranslationMock(?Website $website = null)
     {
         $this->translation->expects(self::any())
             ->method('trans')

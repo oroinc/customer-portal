@@ -61,7 +61,7 @@ class CustomerRepository extends EntityRepository implements BatchIteratorInterf
      * @param AclHelper|null $aclHelper
      * @return array
      */
-    public function getChildrenIds($customerId, AclHelper $aclHelper = null)
+    public function getChildrenIds($customerId, ?AclHelper $aclHelper = null)
     {
         $qb = $this->createQueryBuilder('customer');
         $qb->select('customer.id as customer_id')

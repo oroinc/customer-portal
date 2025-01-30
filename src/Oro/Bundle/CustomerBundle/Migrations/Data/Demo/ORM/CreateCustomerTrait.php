@@ -30,7 +30,7 @@ trait CreateCustomerTrait
         CustomerGroup $customerGroup,
         $internalRating,
         Organization $organization,
-        Customer $parent = null
+        ?Customer $parent = null
     ) {
         $customer = new Customer();
         $customer

@@ -12,7 +12,7 @@ class WebsiteAwareStub implements WebsiteAwareInterface
      */
     private $website;
 
-    public function __construct(Website $website = null)
+    public function __construct(?Website $website = null)
     {
         $this->website = $website;
     }

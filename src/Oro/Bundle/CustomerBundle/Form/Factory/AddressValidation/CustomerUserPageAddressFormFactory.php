@@ -22,7 +22,7 @@ class CustomerUserPageAddressFormFactory implements AddressValidationAddressForm
     }
 
     #[\Override]
-    public function createAddressForm(Request $request, AbstractAddress $address = null): FormInterface
+    public function createAddressForm(Request $request, ?AbstractAddress $address = null): FormInterface
     {
         $form = $this->formFactory->create(CustomerUserType::class, new CustomerUser());
         $addressForm = $form->get('addresses');

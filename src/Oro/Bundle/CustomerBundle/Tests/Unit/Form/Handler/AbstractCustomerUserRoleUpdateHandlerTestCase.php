@@ -219,9 +219,9 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
      */
     protected function createUsersWithRole(
         CustomerUserRole $role,
-        int $numberOfUsers,
-        Customer $customer = null,
-        int $offset = 0
+        int              $numberOfUsers,
+        ?Customer        $customer = null,
+        int              $offset = 0
     ): array {
         /** @var CustomerUser[] $users */
         $users = [];
@@ -237,7 +237,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         return $users;
     }
 
-    protected function createCustomerUserRole(string $role, int $id = null): CustomerUserRole
+    protected function createCustomerUserRole(string $role, ?int $id = null): CustomerUserRole
     {
         $entity = new CustomerUserRole($role);
         ReflectionUtil::setId($entity, $id);

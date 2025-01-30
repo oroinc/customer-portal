@@ -30,7 +30,7 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends ConstraintValidatorTes
         );
     }
 
-    private function getCustomerUser(?string $email, int $id = null): CustomerUser
+    private function getCustomerUser(?string $email, ?int $id = null): CustomerUser
     {
         $customerUser = new CustomerUser();
         $customerUser->setEmail($email);

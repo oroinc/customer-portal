@@ -47,7 +47,7 @@ class CustomerTest extends RestJsonApiTestCase
      *
      * @return Customer
      */
-    private function createCustomer($name, $ratingId = null, Customer $parent = null)
+    private function createCustomer($name, $ratingId = null, ?Customer $parent = null)
     {
         $manager = $this->getEntityManager();
         $owner = $this->getReference('user');
@@ -84,7 +84,7 @@ class CustomerTest extends RestJsonApiTestCase
      *
      * @return CustomerUser
      */
-    private function createCustomerUser($email, Customer $customer = null)
+    private function createCustomerUser($email, ?Customer $customer = null)
     {
         $role = $this->getEntityManager()
             ->getRepository(CustomerUserRole::class)

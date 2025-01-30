@@ -362,7 +362,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    private function getCustomer(int $id = null): Customer
+    private function getCustomer(?int $id = null): Customer
     {
         $entity = new Customer();
         ReflectionUtil::setId($entity, $id);

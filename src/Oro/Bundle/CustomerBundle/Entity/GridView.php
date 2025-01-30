@@ -53,7 +53,7 @@ class GridView extends AbstractGridView
     }
 
     #[\Override]
-    public function setOwner(AbstractUser $owner = null)
+    public function setOwner(?AbstractUser $owner = null)
     {
         $this->customerUserOwner = $owner;
 
@@ -73,7 +73,7 @@ class GridView extends AbstractGridView
      *
      * @return AbstractGridView
      */
-    public function setCustomerUserOwner(CustomerUser $owner = null)
+    public function setCustomerUserOwner(?CustomerUser $owner = null)
     {
         return $this->setOwner($owner);
     }

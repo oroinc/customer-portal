@@ -55,7 +55,7 @@ abstract class AbstractRolesData extends AbstractFixture implements DependentFix
 
     abstract protected function createEntity(string $name, string $label): AbstractRole;
 
-    protected function loadRolesData(array $bundles = null): array
+    protected function loadRolesData(?array $bundles = null): array
     {
         /** @var Kernel $kernel */
         $kernel = $this->container->get('kernel');

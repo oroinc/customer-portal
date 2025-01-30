@@ -23,7 +23,7 @@ class CustomerUserStub extends CustomerUser
         return $this->authStatus;
     }
 
-    public function setAuthStatus(EnumOptionInterface $enum = null)
+    public function setAuthStatus(?EnumOptionInterface $enum = null)
     {
         $this->authStatus = $enum;
 

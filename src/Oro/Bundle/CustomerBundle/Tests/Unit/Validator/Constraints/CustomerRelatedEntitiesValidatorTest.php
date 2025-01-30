@@ -70,7 +70,7 @@ class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
         return $customer;
     }
 
-    private function getCustomerUser(int $id = null, Customer $customer = null): CustomerUser
+    private function getCustomerUser(?int $id = null, ?Customer $customer = null): CustomerUser
     {
         $customerUser = new CustomerUser();
         if (null !== $id) {

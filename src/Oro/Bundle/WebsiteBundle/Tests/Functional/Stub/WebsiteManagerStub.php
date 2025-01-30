@@ -64,7 +64,7 @@ class WebsiteManagerStub extends WebsiteManager
         return $this->websiteManager->getDefaultWebsite();
     }
 
-    public function setCurrentWebsiteStub(Website $currentWebsite = null): void
+    public function setCurrentWebsiteStub(?Website $currentWebsite = null): void
     {
         if (!$this->enabled) {
             $this->enableStub();
@@ -72,7 +72,7 @@ class WebsiteManagerStub extends WebsiteManager
         $this->stubCurrentWebsite = $currentWebsite;
     }
 
-    public function setDefaultWebsiteStub(Website $defaultWebsite = null): void
+    public function setDefaultWebsiteStub(?Website $defaultWebsite = null): void
     {
         if (!$this->enabled) {
             $this->enableStub();

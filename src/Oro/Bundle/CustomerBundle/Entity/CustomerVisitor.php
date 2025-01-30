@@ -88,7 +88,7 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
         $this->sessionId = CustomerVisitorManager::generateSessionId();
     }
 
-    public function setCustomerUser(CustomerUser $customerUser = null): static
+    public function setCustomerUser(?CustomerUser $customerUser = null): static
     {
         $this->customerUser = $customerUser;
 

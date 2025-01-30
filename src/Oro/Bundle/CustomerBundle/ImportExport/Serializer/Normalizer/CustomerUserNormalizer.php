@@ -17,7 +17,7 @@ class CustomerUserNormalizer extends ConfigurableEntityNormalizer
      * @param CustomerUser $object
      */
     #[\Override]
-    public function normalize($object, string $format = null, array $context = [])
+    public function normalize($object, ?string $format = null, array $context = [])
     {
         $result = parent::normalize($object, $format, $context);
 
@@ -34,13 +34,13 @@ class CustomerUserNormalizer extends ConfigurableEntityNormalizer
     }
 
     #[\Override]
-    public function supportsNormalization($data, string $format = null, array $context = []): bool
+    public function supportsNormalization($data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof CustomerUser;
     }
 
     #[\Override]
-    public function supportsDenormalization($data, string $type, string $format = null, array $context = []): bool
+    public function supportsDenormalization($data, string $type, ?string $format = null, array $context = []): bool
     {
         return is_a($type, CustomerUser::class, true) || is_a($type, CustomerUserRole::class, true);
     }

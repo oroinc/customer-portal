@@ -248,7 +248,7 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         }
     }
 
-    private function configureCreateForm(FormInterface $formToCreate = null): void
+    private function configureCreateForm(?FormInterface $formToCreate = null): void
     {
         if (null === $formToCreate) {
             $this->formFactory->expects($this->never())

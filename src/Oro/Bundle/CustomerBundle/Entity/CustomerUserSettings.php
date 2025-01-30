@@ -118,7 +118,7 @@ class CustomerUserSettings implements ExtendEntityInterface
      * @param Localization|null $localization
      * @return $this
      */
-    public function setLocalization(Localization $localization = null)
+    public function setLocalization(?Localization $localization = null)
     {
         $this->localization = $localization;
 

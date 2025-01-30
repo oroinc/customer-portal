@@ -102,7 +102,7 @@ class GuestCustomerUserManager
      *
      * @return CustomerUser
      */
-    public function createFromAddress($userName = null, AbstractAddress $address = null)
+    public function createFromAddress($userName = null, ?AbstractAddress $address = null)
     {
         $properties = [
             'username' => $userName ?? $this->customerUserManager->generatePassword(10)
