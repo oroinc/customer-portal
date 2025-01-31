@@ -6,12 +6,10 @@
 {% endblock %}
 
 {% block _style_book_button_element_types_widget %}
-    <button type="button" class="btn">Primary</button>
-
-    {% apply spaceless %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set button = 'button-'|uniqid %}
-    {% endapply %}<div class="btn-group">
+    <button type="button" class="btn">Primary</button>
+    <div class="btn-group">
         <button type="button" class="btn">Split dropdown</button>
         <button type="button" id="{{ button }}" data-toggle="dropdown" class="btn dropdown-toggle"
                 aria-haspopup="true" aria-expanded="false" aria-label="More actions">{% apply spaceless %}
@@ -46,8 +44,10 @@
     <button type="button" class="btn btn--destructive-outlined">Destructive Outlined</button>
     <button type="button" class="btn btn--destructive-plain">Destructive Text</button>
     <button type="button" class="btn btn--flat btn--destructive-flat">Destructive No paddings</button><br/><br/>
-    <div class="style-book-group-element__item--dark"><div class="style-book-group-element__preview style-book-group-element__preview--inside-as-last">
-        <button type="button" class="btn btn--inverse">Inversed</button>
+    <div class="style-book-group-element__item--dark">
+        <div class="style-book-group-element__preview style-book-group-element__preview--inside-as-last">
+            <button type="button" class="btn btn--inverse">Inversed</button>
+        </div>
     </div>
 {% endblock %}
 
