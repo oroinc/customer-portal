@@ -197,7 +197,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         }
     }
 
-    protected function setRequirementsForHandler(AbstractCustomerUserRoleHandler $handler)
+    protected function setRequirementsForHandler(AbstractCustomerUserRoleHandler $handler): void
     {
         $handler->setAclManager($this->aclManager);
         $handler->setAclPrivilegeRepository($this->privilegeRepository);
@@ -210,18 +210,13 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
     }
 
     /**
-     * @param CustomerUserRole $role
-     * @param int $numberOfUsers
-     * @param Customer|null $customer
-     * @param int $offset
-     *
      * @return CustomerUser[]
      */
     protected function createUsersWithRole(
         CustomerUserRole $role,
-        int              $numberOfUsers,
-        ?Customer        $customer = null,
-        int              $offset = 0
+        int $numberOfUsers,
+        ?Customer $customer = null,
+        int $offset = 0
     ): array {
         /** @var CustomerUser[] $users */
         $users = [];

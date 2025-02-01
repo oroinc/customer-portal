@@ -83,7 +83,7 @@ class CustomerUserController extends AbstractController
     )]
     public function updateAction(CustomerUser $customerUser, Request $request): array|RedirectResponse
     {
-        return  $this->update($customerUser, $request);
+        return $this->update($customerUser, $request);
     }
 
     protected function update(CustomerUser $customerUser, Request $request): array|RedirectResponse

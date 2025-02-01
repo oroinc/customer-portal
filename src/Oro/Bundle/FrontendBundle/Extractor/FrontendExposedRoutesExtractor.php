@@ -18,9 +18,9 @@ class FrontendExposedRoutesExtractor extends ExposedRoutesExtractor
 
     public function __construct(
         RouterInterface $router,
-        array           $routesToExpose,
-        string          $cacheDir,
-        array           $bundles = []
+        array $routesToExpose,
+        string $cacheDir,
+        array $bundles = []
     ) {
         $this->router = $router;
         parent::__construct($router, $routesToExpose, $cacheDir, $bundles);

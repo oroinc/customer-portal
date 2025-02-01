@@ -24,12 +24,12 @@ class FrontendImportExportResultManager
     }
 
     public function saveResult(
-        int          $jobId,
-        string       $type,
-        string       $entity,
+        int $jobId,
+        string $type,
+        string $entity,
         CustomerUser $customerUser,
-        ?string      $fileName = null,
-        array        $options = []
+        ?string $fileName = null,
+        array $options = []
     ): FrontendImportExportResult {
         if ($this->tokenAccessor->getUserId() === $customerUser->getId()) {
             $organization = $this->tokenAccessor->getOrganization() ?? $customerUser->getOrganization();

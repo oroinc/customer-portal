@@ -40,13 +40,13 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function testFinishView(
-        bool          $hasPermissionForm = false,
-        bool          $hasPermissionsForm = false,
-        bool          $hasPrivilegeForm = false,
-        bool          $hasPrivilegesForm = false,
-        bool          $hasRoleForm = false,
+        bool $hasPermissionForm = false,
+        bool $hasPermissionsForm = false,
+        bool $hasPrivilegeForm = false,
+        bool $hasPrivilegesForm = false,
+        bool $hasRoleForm = false,
         ?AbstractType $roleFormType = null,
-        ?string       $expectedPrefix = null
+        ?string $expectedPrefix = null
     ) {
         $this->roleTranslationPrefixResolver->expects($expectedPrefix ? $this->once() : $this->never())
             ->method('getPrefix')

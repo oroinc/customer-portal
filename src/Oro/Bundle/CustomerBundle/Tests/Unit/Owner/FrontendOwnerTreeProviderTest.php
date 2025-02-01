@@ -159,7 +159,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
     public function testNotDirectCyclicRelationshipBetweenBusinessUnits(
         array $src,
         array $expected,
-        array  $criticalMessageArguments
+        array $criticalMessageArguments
     ): void {
         $this->logger->expects(self::exactly(count($criticalMessageArguments)))
             ->method('critical')
