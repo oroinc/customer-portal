@@ -3,6 +3,6 @@
 $copyright-offset: 0 !default;
 $copyright-offset-table-small: spacing('lg') spacing('sm') spacing('sm') !default;
 $copyright-inner-offset: spacing('base') + 7px !default;
-$copyright-color: get-color('text', 'disabled') !default;
+$copyright-color: get-color('text', 'secondary') !default;
 
 $copyright-border-top: 1px solid get-color('neutral', 'grey2') !default;
