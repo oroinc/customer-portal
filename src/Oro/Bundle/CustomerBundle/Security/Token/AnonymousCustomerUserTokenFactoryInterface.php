@@ -6,7 +6,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 
 /**
- * An interface for factories to create anonnymous customer visitor token.
+ * An interface for factories to create anonymous customer visitor token.
  */
 interface AnonymousCustomerUserTokenFactoryInterface
 {

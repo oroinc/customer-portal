@@ -104,8 +104,10 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
             throw new \LogicException('A visitor cookie does not exist');
         }
 
-        $visitorCookieValue = json_decode(base64_decode($visitorCookie->getValue()), false, 2, JSON_THROW_ON_ERROR);
-        $visitor = $this->getEntityManager()->find(CustomerVisitor::class, $visitorCookieValue[0]);
+        $visitorSessionId = json_decode(base64_decode($visitorCookie->getValue()), false, 2, JSON_THROW_ON_ERROR);
+        $visitor = $this->getEntityManager()
+            ->getRepository(CustomerVisitor::class)
+            ->findOneBy(['sessionId' => $visitorSessionId]);
         if (null === $visitor) {
             throw new \LogicException('A visitor does not exist');
         }
@@ -157,7 +159,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         $domain = str_replace('http://', '', Client::LOCAL_URL);
         $customerVisitorCookie = new Cookie(
             AnonymousCustomerUserAuthenticator::COOKIE_NAME,
-            base64_encode(json_encode([$visitor->getId(), $visitor->getSessionId()], JSON_THROW_ON_ERROR))
+            base64_encode(json_encode($visitor->getSessionId(), JSON_THROW_ON_ERROR))
         );
         $this->client->getCookieJar()->set($customerVisitorCookie);
 

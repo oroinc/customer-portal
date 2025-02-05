@@ -8,13 +8,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 
 class LoadCustomerVisitors extends AbstractFixture
 {
-    const CUSTOMER_VISITOR = 'customer_visitor';
-    const CUSTOMER_VISITOR_EXPIRED = 'customer_visitor_expired';
+    public const string CUSTOMER_VISITOR = 'customer_visitor';
+    public const string CUSTOMER_VISITOR_EXPIRED = 'customer_visitor_expired';
 
     #[\Override]
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $this->createCustomerVisitor($manager, self::CUSTOMER_VISITOR);
+        $this->createCustomerVisitor($manager, self::CUSTOMER_VISITOR, null);
 
         $lastVisit = new \DateTime('now', new \DateTimeZone('UTC'));
         $lastVisit->modify('-30 days');
@@ -23,24 +23,13 @@ class LoadCustomerVisitors extends AbstractFixture
         $manager->flush();
     }
 
-    /**
-     * @param ObjectManager $manager
-     * @param string $reference
-     * @param \DateTime|null $lastVisit
-     *
-     * @return CustomerVisitor
-     */
-    private function createCustomerVisitor(ObjectManager $manager, $reference, $lastVisit = null)
+    private function createCustomerVisitor(ObjectManager $manager, string $reference, ?\DateTime $lastVisit): void
     {
         $anonymous = new CustomerVisitor();
         if ($lastVisit) {
             $anonymous->setLastVisit($lastVisit);
         }
-        $anonymous->setSessionId(md5(time()));
-
         $manager->persist($anonymous);
         $this->addReference($reference, $anonymous);
-
-        return $anonymous;
     }
 }

@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Security\Firewall;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
 use Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserAuthenticator;
 use Symfony\Component\HttpFoundation\Cookie;
 
@@ -25,15 +24,14 @@ class CustomerVisitorCookieFactory
 
     public function getCookie(
         string $visitorSessionId,
-        ?int $visitorId,
-        int $lifeTime = Configuration::SECONDS_IN_DAY
+        int $lifeTime = 86400 /* seconds in day */
     ): Cookie {
         $cookieLifetime = $this->configManager->get('oro_customer.customer_visitor_cookie_lifetime_days');
         $cookieLifetime *= $lifeTime;
 
         return new Cookie(
             AnonymousCustomerUserAuthenticator::COOKIE_NAME,
-            base64_encode(json_encode([$visitorId, $visitorSessionId])),
+            base64_encode(json_encode($visitorSessionId, JSON_THROW_ON_ERROR)),
             time() + $cookieLifetime,
             '/',
             null,

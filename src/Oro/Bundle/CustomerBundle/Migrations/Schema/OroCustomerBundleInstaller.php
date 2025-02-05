@@ -40,7 +40,7 @@ class OroCustomerBundleInstaller implements
     #[\Override]
     public function getMigrationVersion(): string
     {
-        return 'v1_35';
+        return 'v1_36';
     }
 
     #[\Override]
@@ -1100,7 +1100,7 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('session_id', 'string', ['length' => 255]);
         $table->addColumn('customer_user_id', 'integer', ['notnull' => false]);
         $table->setPrimaryKey(['id']);
-        $table->addIndex(['id', 'session_id'], 'id_session_id_idx');
+        $table->addIndex(['session_id'], 'idx_oro_customer_visitor_session_id');
     }
 
     /**

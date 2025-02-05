@@ -66,12 +66,10 @@ final class OroCustomerExtensionTest extends TestCase
         self::assertSame([], $container->getParameter('oro_customer_user.login_sources'));
         self::assertSame(86400, $container->getParameter('oro_customer_user.reset.ttl'));
 
-        $customerVisitorCookieFactoryDef = $container->getDefinition(
-            'oro_customer.authentication.customer_visitor_cookie_factory'
-        );
-        self::assertEquals('auto', $customerVisitorCookieFactoryDef->getArgument(0));
-        self::assertTrue($customerVisitorCookieFactoryDef->getArgument(1));
-        self::assertEquals('lax', $customerVisitorCookieFactoryDef->getArgument(3));
+        $cookieFactoryDef = $container->getDefinition('oro_customer.authentication.customer_visitor_cookie_factory');
+        self::assertEquals('auto', $cookieFactoryDef->getArgument(0));
+        self::assertTrue($cookieFactoryDef->getArgument(1));
+        self::assertEquals('lax', $cookieFactoryDef->getArgument(3));
 
         self::assertSame(
             [],

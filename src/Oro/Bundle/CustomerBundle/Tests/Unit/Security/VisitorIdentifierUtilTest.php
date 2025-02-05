@@ -6,34 +6,38 @@ use Oro\Bundle\CustomerBundle\Security\VisitorIdentifierUtil;
 
 class VisitorIdentifierUtilTest extends \PHPUnit\Framework\TestCase
 {
-    public function testIsVisitorIdentifier()
+    public function testIsVisitorIdentifierForValidIdentifier(): void
+    {
+        self::assertTrue(VisitorIdentifierUtil::isVisitorIdentifier('visitor:sessionId654'));
+    }
+
+    public function testIsVisitorIdentifierForInvalidIdentifier(): void
+    {
+        self::assertFalse(VisitorIdentifierUtil::isVisitorIdentifier('256'));
+    }
+
+    public function testIsVisitorIdentifierForOldIdentifier(): void
     {
         self::assertTrue(VisitorIdentifierUtil::isVisitorIdentifier('visitor:256:sessionId654'));
     }
 
-    public function testIsVisitorIdentifierOnSimpleId()
-    {
-        self::assertFalse(VisitorIdentifierUtil::isVisitorIdentifier('654'));
-    }
-
-    public function testIsVisitorIdentifierOnNonDigitIdInString()
+    public function testIsVisitorIdentifierForOldIdentifierOnNonDigitIdInString(): void
     {
         self::assertFalse(VisitorIdentifierUtil::isVisitorIdentifier('visitor:test:sessionId654'));
     }
 
-    public function testEncodeIdentifier()
+    public function testEncodeIdentifier(): void
     {
-        $this->assertEquals(
-            'visitor:256:sessionId654',
-            VisitorIdentifierUtil::encodeIdentifier(256, 'sessionId654')
-        );
+        $this->assertEquals('visitor:sessionId654', VisitorIdentifierUtil::encodeIdentifier('sessionId654'));
     }
 
-    public function testDecodeIdentifier()
+    public function testDecodeIdentifier(): void
     {
-        self::assertSame(
-            [256, 'sessionId654'],
-            VisitorIdentifierUtil::decodeIdentifier('visitor:256:sessionId654')
-        );
+        self::assertSame('sessionId654', VisitorIdentifierUtil::decodeIdentifier('visitor:sessionId654'));
+    }
+
+    public function testDecodeOldIdentifier(): void
+    {
+        self::assertSame('sessionId654', VisitorIdentifierUtil::decodeIdentifier('visitor:256:sessionId654'));
     }
 }

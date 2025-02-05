@@ -14,8 +14,10 @@ class CustomerVisitorUpdateLastVisitListener
 {
     private const string SESSION_LAST_VISIT_TIME_FIELD = '_customer_visitor_%s_last_visit_time';
 
-    public function __construct(private TokenStorageInterface $tokenStorage, private int $updateLatency)
-    {
+    public function __construct(
+        private TokenStorageInterface $tokenStorage,
+        private int $updateLatency
+    ) {
     }
 
     public function onKernelRequest(RequestEvent $event): void
@@ -36,19 +38,17 @@ class CustomerVisitorUpdateLastVisitListener
     private function updateLastVisitTime(RequestEvent $event): void
     {
         $session = $event->getRequest()->getSession();
-        /** @var CustomerVisitor $user */
-        $user = $this->tokenStorage->getToken()->getVisitor();
-        $sessionField = sprintf(self::SESSION_LAST_VISIT_TIME_FIELD, $user->getSessionId());
-
+        /** @var CustomerVisitor $visitor */
+        $visitor = $this->tokenStorage->getToken()->getVisitor();
+        $sessionField = \sprintf(self::SESSION_LAST_VISIT_TIME_FIELD, $visitor->getSessionId());
         if ($session->has($sessionField)) {
             $previousTime = $session->get($sessionField);
             $currentTime = time();
-
             if ($this->updateLatency < $currentTime - $previousTime) {
                 $session->set($sessionField, $currentTime);
             }
         } else {
-            $session->set($sessionField, $user->getLastVisit()->getTimestamp());
+            $session->set($sessionField, $visitor->getLastVisit()->getTimestamp());
         }
     }
 }

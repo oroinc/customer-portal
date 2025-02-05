@@ -13,7 +13,8 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
  */
 class CustomerVisitorManagerTest extends WebTestCase
 {
-    public function setUp(): void
+    #[\Override]
+    protected function setUp(): void
     {
         $this->initClient();
     }
@@ -23,16 +24,27 @@ class CustomerVisitorManagerTest extends WebTestCase
         return self::getContainer()->get('doctrine');
     }
 
-    public function testCreateWithDefaultConnection()
+    private function customerUserLoginRequest(): void
     {
-        $manager = new CustomerVisitorManager($this->getDoctrine());
-        $this->assertInstanceOf(CustomerVisitor::class, $manager->findOrCreate());
+        $this->client->request(
+            'GET',
+            $this->getUrl('oro_customer_customer_user_security_login'),
+            [],
+            [],
+            ['HTTP_X-Requested-With' => 'XMLHttpRequest']
+        );
     }
 
-    public function testCreateWithSessionConnection()
+    public function testCreateWithDefaultConnection(): void
+    {
+        $manager = new CustomerVisitorManager($this->getDoctrine());
+        self::assertInstanceOf(CustomerVisitor::class, $manager->findOrCreate(null));
+    }
+
+    public function testCreateWithSessionConnection(): void
     {
         $manager = new CustomerVisitorManager($this->getDoctrine(), 'session');
-        $this->assertInstanceOf(CustomerVisitor::class, $manager->findOrCreate());
+        self::assertInstanceOf(CustomerVisitor::class, $manager->findOrCreate(null));
     }
 
     public function testAnonymousCustomerVisitorCookies(): void
@@ -44,14 +56,13 @@ class CustomerVisitorManagerTest extends WebTestCase
         foreach ($responseCookies as $cookie) {
             if ($cookie->getName() === AnonymousCustomerUserAuthenticator::COOKIE_NAME) {
                 $cookieValue = $cookie->getValue();
-                [$visitorId, $sessionId] = json_decode(base64_decode($cookieValue));
-
-                $this->assertNull($visitorId);
-                $this->assertTrue(CustomerVisitor::isAnonymousSession($sessionId));
+                $sessionId = json_decode(base64_decode($cookieValue), null, 2, JSON_THROW_ON_ERROR);
+                self::assertIsString($sessionId);
+                self::assertNotEmpty($sessionId);
                 $anonymousVisitorCookieExists = true;
             }
         }
-        $this->assertTrue($anonymousVisitorCookieExists);
+        self::assertTrue($anonymousVisitorCookieExists);
     }
 
     public function testCustomerVisitorInsertion(): void
@@ -61,19 +72,6 @@ class CustomerVisitorManagerTest extends WebTestCase
 
         $this->customerUserLoginRequest();
 
-        $countCustomerVisitorsAfterRequest = $customerVisitorRepository->count([]);
-
-        self::assertEquals($countCustomerVisitors, $countCustomerVisitorsAfterRequest);
-    }
-
-    protected function customerUserLoginRequest(): void
-    {
-        $this->client->request(
-            'GET',
-            $this->getUrl('oro_customer_customer_user_security_login'),
-            [],
-            [],
-            ['HTTP_X-Requested-With' => 'XMLHttpRequest']
-        );
+        self::assertEquals($countCustomerVisitors, $customerVisitorRepository->count([]));
     }
 }
