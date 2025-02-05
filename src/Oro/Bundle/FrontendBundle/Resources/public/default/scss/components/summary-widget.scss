@@ -86,9 +86,11 @@
             flex-wrap: $summary-widget-combined-bottons-wrapper-desktop-big-flex-wrap;
             gap: $summary-widget-combined-bottons-wrapper-desktop-big-gap;
 
-            .checkout-button-separator {
-                display: $summary-widget-combined-bottons-wrapper-divider-desktop-display;
-                padding: $summary-widget-combined-bottons-wrapper-divider-desktop-padding;
+            .summary-widget__order-limit-disabled-checkout-button:not(:last-child) {
+                .checkout-button-separator {
+                    display: $summary-widget-combined-bottons-wrapper-divider-desktop-display;
+                    padding: $summary-widget-combined-bottons-wrapper-divider-desktop-padding;
+                }
             }
         }
     }
