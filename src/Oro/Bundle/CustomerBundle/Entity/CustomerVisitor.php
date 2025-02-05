@@ -83,7 +83,7 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
     }
 
     #[ORM\PrePersist]
-    public function prePersist()
+    public function prePersist(): void
     {
         $this->sessionId = CustomerVisitorManager::generateSessionId();
     }
