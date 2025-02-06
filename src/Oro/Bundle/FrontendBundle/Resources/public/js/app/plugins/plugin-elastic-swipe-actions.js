@@ -161,7 +161,8 @@ define(function(require) {
             delete this.currentSwipedContainer;
             delete this.storedPos;
 
-            return ElasticSwipeActions.__super__.disable.call(this);
+            this.enabled = false;
+            this.trigger('disabled');
         },
 
         /**
