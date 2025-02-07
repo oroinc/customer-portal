@@ -107,7 +107,9 @@
 // Need to refactor after removal less from frontend
 .hide-text {
     font: 0/0 a, sans-serif;
+    color: transparent;
     text-shadow: none;
+    background-color: transparent;
     gap: 0;
 }
 

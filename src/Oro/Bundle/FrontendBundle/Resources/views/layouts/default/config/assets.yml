@@ -16,9 +16,10 @@ critical_css:
         - 'bundles/orofrontend/default/scss/reset.scss'
         - 'bundles/orofrontend/default/scss/base/base.scss'
         - 'bundles/orofrontend/default/scss/components/headings.scss'
-        - 'bundles/orofrontend/default/scss/components/utilites.scss'
         - 'bundles/orofrontend/default/scss/components/uikit/button-base.scss'
         - 'bundles/orofrontend/default/scss/components/uikit/theme-icons.scss'
+        # utilities.scss must be the last in the list to have higher specificity
+        - 'bundles/orofrontend/default/scss/components/utilities.scss'
     output: 'css/critical.css'
     auto_rtl_inputs:
         - 'bundles/oro*/**'
