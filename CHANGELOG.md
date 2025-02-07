@@ -9,6 +9,18 @@ The current file describes significant changes in the code that may affect the u
 
 ### Added
 
+### AddressValidationBundle
+* Added the ability to validate customer and customer user, billing and shipping addresses on quote, order, customer and customer user, checkout, customer address and customer user address pages via third part integrations(FedEx, UPS).
+* Added `oroaddressvalidation/js/app/views/base-address-validated-at-view` to process validatedAt field on forms.
+* Added `oroaddressvalidation/js/app/views/frontend-address-validation-dialog-widget` to configure and submit address validation result modal window on storefront.
+* Added `oroaddressvalidation/js/app/views/address-validation-dialog-widget` to configure and submit address validation result modal window on backoffice.
+* Added `oro_address_validation.address_validation_service` system config option to select integration for address validation process.
+* Added `oro_address_validation.channel` service tag to specify that integration can be used as service for address validation.
+* Added `\Oro\Bundle\AddressValidationBundle\Form\Type\AddressValidatedAtType` form type to render hidden validatedAt field from address entities on address forms on backoffice.
+* Added `\Oro\Bundle\AddressValidationBundle\Form\Type\FrontendAddressValidatedAtType` form type to render hidden validatedAt field from address entities on address forms on storefront.
+* Added `\Oro\Bundle\AddressValidationBundle\Client\AddressValidationClientInterface` interface that address validation aware integration should implements to find suggestions for the entered address.
+* Added `\Oro\Bundle\AddressValidationBundle\Model\AddressValidatedAtAwareInterface` interface that address entities should implement to allow address validation.
+
 #### FrontendBundle
 * Added filter badge hint for show how much values have been applied in filter `orofrontend/default/js/app/views/filter-badge-hint-view`
 * Added `orofrontend/js/datagrid/frontend-action-launcher`
@@ -29,6 +41,21 @@ The current file describes significant changes in the code that may affect the u
 #### CustomerBundle
 * Added `oro_customer.redirect_after_login` and `oro_customer.do_not_leave_checkout` system config options that manage the redirection of customer user after login.
 * Added `Oro\Bundle\CustomerBundle\Provider\RedirectAfterLoginProvider` that provides a redirect target url.
+* Added validatedAt field to `\Oro\Bundle\CustomerBundle\Entity\CustomerAddress` and `\Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress` entities
+* Added `\Oro\Bundle\CustomerBundle\Entity\AddressBookAwareInterface` interface that customer and customer user address aware entities should implement
+* Added `\Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressAwareInterface` interface that customer user address aware entities should implement
+* Added `\Oro\Bundle\CustomerBundle\Entity\CustomerAddressAwareInterface` interface that customer address aware entities should implement
+* Added `validatedAt` field to `\Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressType` form type
+* Added `validatedAt` field to `\Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerTypedAddressType` form type
+* Added `validatedAt` field to export/import for customer and customer user entities
+* Added the following system config options to enable/disabled address validation scenarios on customer and customer user pages on backoffice:
+  - `oro_customer.validate_shipping_addresses__backoffice`
+  - `oro_customer.validate_billing_addresses__backoffice`
+* Added the following system config options to enable/disabled address validation scenarios on customer and customer user address pages on storefront:
+  - `oro_customer.validate_shipping_addresses__my_account`
+  - `oro_customer.validate_billing_addresses__my_account`
+* Added `orocustomer/js/app/views/frontend-customer-address-validated-at-view` that intercepts form submit to validate address via Address Validation feature on storefront customer and customer user address pages
+* Added `orocustomer/js/app/views/customer-address-validated-at-view` that intercepts form submit to validate address via Address Validation feature on backoffice customer and customer user pages
 
 ### Changed
 * Replaced all places in code that used old system configuration options on theme configuration options.

@@ -17,10 +17,10 @@ Feature: Address Validation - Backoffice - Create Customer User - Dialog Not Dis
     And I submit form
     Then I should see "Configuration saved" flash message
     When I fill "Address Validation Configuration Customer Form" with:
-      | Validate Shipping Addresses In Back-Office Use Default | false |
-      | Validate Billing Addresses In Back-Office Use Default  | false |
-      | Validate Shipping Addresses In Back-Office             | true  |
-      | Validate Billing Addresses In Back-Office              | true  |
+      | Validate Shipping Addresses Use Default | false |
+      | Validate Billing Addresses Use Default  | false |
+      | Validate Shipping Addresses             | true  |
+      | Validate Billing Addresses              | true  |
     And I submit form
     Then I should see "Configuration saved" flash message
 
