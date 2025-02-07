@@ -20,7 +20,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
 {
     use WebsiteManagerTrait;
 
-    /** Default WSSE credentials */
+    /** Default API credentials */
     protected const USER_NAME = 'frontend_admin_api@example.com';
     protected const USER_PASSWORD = 'frontend_admin_api_key';
 
@@ -185,10 +185,10 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     }
 
     #[\Override]
-    protected function getWsseAuthHeader(): array
+    protected function getAuthHeader(): array
     {
         /**
-         * WSSE header should be generated only if the customer user (an user with the email
+         * Test Auth header should be generated only if the customer user (an user with the email
          * equal to static::USER_NAME) exists in the database, it means that it must be loaded
          * by a data fixture in your test class, usually in "setUp()" method.
          * The reason for this is that the frontend API can be executed by both
@@ -201,7 +201,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
             return [];
         }
 
-        return parent::getWsseAuthHeader();
+        return parent::getAuthHeader();
     }
 
     #[\Override]

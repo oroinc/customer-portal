@@ -50,7 +50,6 @@ class OroCustomerBundleInstaller implements
         $this->createOroCustomerUserTable($schema);
         $this->createOroCustomerUserRoleTable($schema);
         $this->createOroCustomerUserAccessCustomerUserRoleTable($schema);
-        $this->createOroCustomerUserApiTable($schema);
         $this->createOroCustomerTable($schema);
         $this->createOroCustomerGroupTable($schema);
         $this->createOroCustomerAddressTable($schema);
@@ -78,7 +77,6 @@ class OroCustomerBundleInstaller implements
         $this->addOroCustomerUserForeignKeys($schema);
         $this->addOroCustomerUserAccessCustomerUserRoleForeignKeys($schema);
         $this->addOroCustomerUserRoleForeignKeys($schema);
-        $this->addOroCustomerUserApiForeignKeys($schema);
         $this->addOroCustomerForeignKeys($schema);
         $this->addOroCustomerAddressForeignKeys($schema);
         $this->addOroCustomerAdrAdrTypeForeignKeys($schema);
@@ -315,20 +313,6 @@ class OroCustomerBundleInstaller implements
                 'dataaudit' => ['auditable' => true],
             ]
         );
-    }
-
-    /**
-     * Create oro_customer_user_api table
-     */
-    private function createOroCustomerUserApiTable(Schema $schema): void
-    {
-        $table = $schema->createTable('oro_customer_user_api');
-        $table->addColumn('id', 'integer', ['autoincrement' => true]);
-        $table->addColumn('user_id', 'integer');
-        $table->addColumn('api_key', 'crypted_string', ['length' => 255]);
-        $table->setPrimaryKey(['id']);
-        $table->addUniqueIndex(['api_key'], 'UNIQ_824F80CCC912ED9D');
-        $table->addIndex(['user_id'], 'IDX_824F80CCA76ED395');
     }
 
     /**
@@ -617,20 +601,6 @@ class OroCustomerBundleInstaller implements
             ['customer_id'],
             ['id'],
             ['onDelete' => 'SET NULL', 'onUpdate' => null]
-        );
-    }
-
-    /**
-     * Add oro_customer_user_api foreign keys.
-     */
-    private function addOroCustomerUserApiForeignKeys(Schema $schema): void
-    {
-        $table = $schema->getTable('oro_customer_user_api');
-        $table->addForeignKeyConstraint(
-            $schema->getTable('oro_customer_user'),
-            ['user_id'],
-            ['id'],
-            ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );
     }
 

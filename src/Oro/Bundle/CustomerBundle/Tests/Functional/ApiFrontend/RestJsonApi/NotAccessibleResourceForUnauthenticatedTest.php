@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class NotAccessibleResourceForUnauthenticatedTest extends FrontendRestJsonApiTestCase
 {
-    private const WWW_AUTHENTICATE_HEADER_VALUE = 'WSSE realm="Secured Frontend API", profile="UsernameToken"';
+    private const WWW_AUTHENTICATE_HEADER_VALUE = 'Bearer';
 
     public function testTryToGetOptionsForList(): void
     {

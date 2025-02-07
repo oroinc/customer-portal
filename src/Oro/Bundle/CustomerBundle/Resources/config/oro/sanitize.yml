@@ -32,6 +32,3 @@ oro_sanitize:
                 organization: md5
                 last_name: md5
                 phone: generic_phone
-        oro_customer_user_api:
-            fields:
-                api_key: md5

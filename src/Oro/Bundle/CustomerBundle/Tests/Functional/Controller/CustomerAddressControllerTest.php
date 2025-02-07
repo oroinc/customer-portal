@@ -62,7 +62,7 @@ class CustomerAddressControllerTest extends WebTestCase
             $this->getUrl('oro_api_customer_get_commercecustomer_address_primary', ['entityId' => $customer->getId()]),
             [],
             [],
-            $this->generateWsseAuthHeader()
+            self::generateApiAuthHeader()
         );
 
         $result = $this->getJsonResponseContent($this->client->getResponse(), 200);
@@ -95,7 +95,7 @@ class CustomerAddressControllerTest extends WebTestCase
             $this->getUrl('oro_api_customer_get_commercecustomer_address_primary', ['entityId' => $id]),
             [],
             [],
-            $this->generateWsseAuthHeader()
+            self::generateApiAuthHeader()
         );
 
         $address = $this->getJsonResponseContent($this->client->getResponse(), 200);
@@ -125,7 +125,7 @@ class CustomerAddressControllerTest extends WebTestCase
             $this->getUrl('oro_api_customer_get_commercecustomer_address_primary', ['entityId' => $id]),
             [],
             [],
-            $this->generateWsseAuthHeader()
+            self::generateApiAuthHeader()
         );
 
         $result = $this->getJsonResponseContent($this->client->getResponse(), 200);

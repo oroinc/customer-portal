@@ -22,7 +22,6 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\UserBundle\Security\AdvancedApiUserInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
@@ -72,7 +71,6 @@ class CustomerUser extends AbstractUser implements
     EmailHolderInterface,
     EmailOwnerInterface,
     EmailInterface,
-    AdvancedApiUserInterface,
     \Serializable,
     ExtendEntityInterface
 {
@@ -170,21 +168,6 @@ class CustomerUser extends AbstractUser implements
     protected ?User $owner = null;
 
     /**
-     * @var Collection<int, CustomerUserApi>
-     */
-    #[ORM\OneToMany(
-        mappedBy: 'user',
-        targetEntity: CustomerUserApi::class,
-        cascade: ['persist', 'remove'],
-        fetch: 'EXTRA_LAZY',
-        orphanRemoval: true
-    )]
-    #[ConfigField(
-        defaultValues: ['importexport' => ['excluded' => true], 'email' => ['available_in_template' => false]]
-    )]
-    protected ?Collection $apiKeys = null;
-
-    /**
      * @var Collection<int, User>
      */
     #[ORM\ManyToMany(targetEntity: User::class)]
@@ -249,7 +232,6 @@ class CustomerUser extends AbstractUser implements
         $this->addresses = new ArrayCollection();
         $this->salesRepresentatives = new ArrayCollection();
         $this->settings = new ArrayCollection();
-        $this->apiKeys = new ArrayCollection();
         parent::__construct();
     }
 
@@ -649,45 +631,6 @@ class CustomerUser extends AbstractUser implements
 
         foreach ($this->addresses as $customerUserAddress) {
             $customerUserAddress->setOwner($owner);
-        }
-
-        return $this;
-    }
-
-    #[\Override]
-    public function getApiKeys()
-    {
-        return $this->apiKeys;
-    }
-
-    /**
-     * Adds API key to this customer user.
-     *
-     * @param CustomerUserApi $apiKey
-     *
-     * @return CustomerUser
-     */
-    public function addApiKey(CustomerUserApi $apiKey)
-    {
-        if (!$this->apiKeys->contains($apiKey)) {
-            $this->apiKeys->add($apiKey);
-            $apiKey->setUser($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Removes API key from this customer user.
-     *
-     * @param CustomerUserApi $apiKey
-     *
-     * @return CustomerUser
-     */
-    public function removeApiKey(CustomerUserApi $apiKey)
-    {
-        if ($this->apiKeys->contains($apiKey)) {
-            $this->apiKeys->removeElement($apiKey);
         }
 
         return $this;

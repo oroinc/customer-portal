@@ -4,6 +4,9 @@ The current file describes significant changes in the code that may affect the u
 
 ## UNRELEASED
 
+### Security Changes
+* Security firewall `frontend_api_wsse_secured` renamed to `frontend_api_secured`.
+
 ### Added
 
 #### FrontendBundle

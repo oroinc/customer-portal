@@ -7,7 +7,6 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserApi;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerUserRoles;
 use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser;
 use Oro\Bundle\UserBundle\Entity\User;
@@ -22,7 +21,6 @@ class LoadCustomerUserData extends AbstractFixture implements
     ContainerAwareInterface
 {
     protected const USER_NAME = 'frontend_admin_api@example.com';
-    protected const USER_PASSWORD = 'frontend_admin_api_key';
 
     /** @var ContainerInterface */
     protected $container;
@@ -75,12 +73,6 @@ class LoadCustomerUserData extends AbstractFixture implements
             ->setOwner($owner)
             ->setOrganization($owner->getOrganization())
             ->setCustomer($customer);
-
-        $apiKey = new CustomerUserApi();
-        $apiKey
-            ->setApiKey(static::USER_PASSWORD)
-            ->setUser($customerUser);
-        $customerUser->addApiKey($apiKey);
 
         $this->initializeCustomerUser($customerUser);
 

@@ -1363,13 +1363,6 @@ services:
         tags:
             - { name: monolog.logger, channel: security }
 
-    oro_customer.event_listener.wsse_authentication:
-        class: Oro\Bundle\CustomerBundle\EventListener\WsseAuthenticationListener
-        arguments:
-            - "@oro_customer.logger.customer_user_login_attempt"
-        tags:
-            - { name: kernel.event_listener, event: security.authentication.success, method: onAuthenticationSuccess }
-
     oro_customer.listener.file_listener:
         class: Oro\Bundle\CustomerBundle\EventListener\FileListener
         decorates: 'oro_attachment.listener.file_listener'

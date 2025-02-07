@@ -87,7 +87,7 @@ security:
             security:                       false
 
         # override pattern
-        wsse_secured:
+        old_api_secured:
             pattern:                        '^%web_backend_prefix%/api/rest.*'
 
         # override pattern
