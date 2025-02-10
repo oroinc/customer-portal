@@ -362,6 +362,12 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
             ->with('cu_auth_status')
             ->willReturn(null);
 
+        $this->enumValueProvider->expects(self::once())
+            ->method('getEnumValueByCode')
+            ->willReturnCallback(function ($code, $id) {
+                return new TestEnumValue($id, 'Test', CustomerUserManager::STATUS_ACTIVE, 1);
+            });
+
         $encoder = $this->createMock(PasswordEncoderInterface::class);
         $this->encoderFactory->expects(self::once())
             ->method('getEncoder')
@@ -382,7 +388,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
 
         self::assertNull($user->getPlainPassword());
         self::assertEquals($encodedPassword, $user->getPassword());
-        self::assertNull($user->getAuthStatus());
+        self::assertEquals('Test', $user->getAuthStatus()->getName());
     }
 
     public function testFindUserBy(): void
