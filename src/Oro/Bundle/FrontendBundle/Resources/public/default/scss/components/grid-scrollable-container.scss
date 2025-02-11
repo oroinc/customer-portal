@@ -10,4 +10,10 @@
     .os-padding {
         z-index: initial;
     }
+
+    // Preventing focus visible style from being cut
+    .os-host-overflow > .os-padding,
+    .os-viewport {
+        --focus-visible-outline-offset: -2px;
+    }
 }
