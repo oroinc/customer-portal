@@ -1,12 +1,10 @@
 oro_api:
     api_firewalls:
-        frontend_api_wsse_secured:
+        frontend_api_secured:
             feature_name: frontend_web_api
             feature_firewall_authenticators: # FeatureDependAuthenticatorChecker
-                - Oro\Bundle\WsseAuthenticationBundle\Security\Core\Authentication\WsseAuthenticator
+                - Oro\Bundle\TestFrameworkBundle\Security\Core\Authentication\TestApiAuthenticator
         frontend_api_options:
-            feature_name: frontend_web_api
-        frontend_api_login:
             feature_name: frontend_web_api
     filters:
         customerHierarchyAware:
@@ -35,16 +33,13 @@ security:
             pattern: '^%oro_api.rest.prefix%login'
             security: false
             stateless: true
-        frontend_api_wsse_secured:
+        frontend_api_secured:
             pattern:   '%oro_api.rest.pattern%'
             provider:  commerce_customer_user
             context:   customer_identity
             stateless: true
-            wsse:
-                lifetime: 3600
-                realm:    'Secured Frontend API'
-                profile:  'UsernameToken'
             anonymous_customer_user: true
+            entry_point: oro_api.security.http.entry_point.api
             api_anonymous_customer_user: true
         frontend:
             pattern:                        ^/
@@ -87,9 +82,6 @@ oro_customer:
         impersonation:
             label: oro.user.login_source.impersonation
             code: 10
-        wsse:
-            label: oro.wsse.login_source
-            code: 40
 
 oro_email:
     public_email_owners:
@@ -105,3 +97,7 @@ oro_entity:
         Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
             full: [ label ]
             short: [ label ]
+
+oro_test_framework:
+    test_auth_firewalls:
+        - frontend_api_secured

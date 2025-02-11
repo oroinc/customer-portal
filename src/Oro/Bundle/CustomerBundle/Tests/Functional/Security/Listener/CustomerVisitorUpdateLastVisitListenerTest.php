@@ -19,7 +19,7 @@ class CustomerVisitorUpdateLastVisitListenerTest extends WebTestCase
         $driver->lock();
         $this->client->request('GET', $this->getUrl('oro_frontend_root'));
 
-        $this->assertHtmlResponseStatusCodeEquals(
+        self::assertHtmlResponseStatusCodeEquals(
             $this->client->getResponse(),
             Response::HTTP_SERVICE_UNAVAILABLE
         );

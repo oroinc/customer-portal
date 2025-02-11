@@ -564,10 +564,10 @@ oro_behat_extension:
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
       options:
         mapping:
-          Validate Shipping Addresses In Back-Office: 'address_validation[oro_customer___validate_shipping_addresses__backoffice][value]'
-          Validate Shipping Addresses In Back-Office Use Default: 'address_validation[oro_customer___validate_shipping_addresses__backoffice][use_parent_scope_value]'
-          Validate Billing Addresses in Back-Office: 'address_validation[oro_customer___validate_billing_addresses__backoffice][value]'
-          Validate Billing Addresses in Back-Office Use Default: 'address_validation[oro_customer___validate_billing_addresses__backoffice][use_parent_scope_value]'
+          Validate Shipping Addresses: 'address_validation[oro_customer___validate_shipping_addresses__backoffice][value]'
+          Validate Shipping Addresses Use Default: 'address_validation[oro_customer___validate_shipping_addresses__backoffice][use_parent_scope_value]'
+          Validate Billing Addresses: 'address_validation[oro_customer___validate_billing_addresses__backoffice][value]'
+          Validate Billing Addresses Use Default: 'address_validation[oro_customer___validate_billing_addresses__backoffice][use_parent_scope_value]'
 
           Validate Shipping Addresses In My Account: 'address_validation[oro_customer___validate_shipping_addresses__my_account][value]'
           Validate Shipping Addresses In My Account Use Default: 'address_validation[oro_customer___validate_shipping_addresses__my_account][use_parent_scope_value]'

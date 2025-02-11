@@ -34,10 +34,10 @@ Feature: Address Validation - Backoffice - Edit Customer - Dialog Not Displayed 
     Given I go to System/ Configuration
     And follow "Commerce/Shipping/Address Validation" on configuration sidebar
     When I fill "Address Validation Configuration Customer Form" with:
-      | Validate Shipping Addresses In Back-Office Use Default | false |
-      | Validate Billing Addresses In Back-Office Use Default  | false |
-      | Validate Shipping Addresses In Back-Office             | false |
-      | Validate Billing Addresses In Back-Office              | false |
+      | Validate Shipping Addresses Use Default | false |
+      | Validate Billing Addresses Use Default  | false |
+      | Validate Shipping Addresses             | false |
+      | Validate Billing Addresses              | false |
     And I submit form
     Then I should see "Configuration saved" flash message
 

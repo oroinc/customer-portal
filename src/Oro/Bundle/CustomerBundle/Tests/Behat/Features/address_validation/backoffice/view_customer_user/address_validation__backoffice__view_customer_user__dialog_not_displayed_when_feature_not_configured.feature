@@ -32,10 +32,10 @@ Feature: Address Validation - Backoffice - View Customer User - Dialog Not Displ
     And I go to System/ Configuration
     When follow "Commerce/Shipping/Address Validation" on configuration sidebar
     And I fill "Address Validation Configuration Customer Form" with:
-      | Validate Shipping Addresses In Back-Office Use Default | false |
-      | Validate Billing Addresses In Back-Office Use Default  | false |
-      | Validate Shipping Addresses In Back-Office             | false |
-      | Validate Billing Addresses In Back-Office              | false |
+      | Validate Shipping Addresses Use Default | false |
+      | Validate Billing Addresses Use Default  | false |
+      | Validate Shipping Addresses             | false |
+      | Validate Billing Addresses              | false |
     And I submit form
     Then I should see "Configuration saved" flash message
 

@@ -17,7 +17,7 @@ class CustomerUserAddressControllerTest extends WebTestCase
     #[\Override]
     protected function setUp(): void
     {
-        $this->initClient([], array_merge($this->generateBasicAuthHeader()));
+        $this->initClient([], array_merge(self::generateBasicAuthHeader()));
         $this->loadFixtures([LoadCustomerUserData::class]);
 
         $this->customerUser = $this->getReference(LoadCustomerUserData::EMAIL);
@@ -69,7 +69,7 @@ class CustomerUserAddressControllerTest extends WebTestCase
             ]),
             [],
             [],
-            $this->generateWsseAuthHeader()
+            self::generateApiAuthHeader()
         );
 
         $result = $this->getJsonResponseContent($this->client->getResponse(), 200);
@@ -105,7 +105,7 @@ class CustomerUserAddressControllerTest extends WebTestCase
             ]),
             [],
             [],
-            $this->generateWsseAuthHeader()
+            self::generateApiAuthHeader()
         );
 
         $address = $this->getJsonResponseContent($this->client->getResponse(), 200);
@@ -137,7 +137,7 @@ class CustomerUserAddressControllerTest extends WebTestCase
             ]),
             [],
             [],
-            $this->generateWsseAuthHeader()
+            self::generateApiAuthHeader()
         );
 
         $result = $this->getJsonResponseContent($this->client->getResponse(), 200);

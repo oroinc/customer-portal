@@ -2,39 +2,21 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager;
-use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class CustomerVisitorManagerTest extends \PHPUnit\Framework\TestCase
+class CustomerVisitorManagerTest extends TestCase
 {
-    use EntityTrait;
-
-    private const ENTITY_ID = 45;
     private const SESSION_ID = 'someSessionId';
 
-    /** @var EntityManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $entityManager;
-
-    /** @var EntityRepository|\PHPUnit\Framework\MockObject\MockObject */
-    private $repository;
-
-    /** @var CustomerVisitorManager */
-    private $manager;
-
-    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $doctrine;
-
-    /** @var Connection|\PHPUnit\Framework\MockObject\MockObject */
-    private $defaultConnection;
-
-    /** @var Connection|\PHPUnit\Framework\MockObject\MockObject */
-    private $sessionConnection;
+    private EntityManagerInterface&MockObject $entityManager;
+    private EntityRepository&MockObject $repository;
+    private CustomerVisitorManager $visitorManager;
 
     #[\Override]
     protected function setUp(): void
@@ -42,114 +24,85 @@ class CustomerVisitorManagerTest extends \PHPUnit\Framework\TestCase
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->repository = $this->createMock(EntityRepository::class);
 
-        $this->defaultConnection = $this->createMock(Connection::class);
-        $this->sessionConnection = $this->createMock(Connection::class);
-
-        $this->doctrine = $this->createMock(ManagerRegistry::class);
-        $this->doctrine->expects($this->any())
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $doctrine->expects(self::any())
             ->method('getManagerForClass')
             ->with(CustomerVisitor::class)
             ->willReturn($this->entityManager);
-        $this->doctrine->expects(($this->any()))
-            ->method('getConnectionNames')
-            ->willReturn(['default' => true, 'session' => true]);
-        $this->doctrine->method('getConnection')->willReturnMap([
-            ['default', $this->defaultConnection],
-            ['session', $this->sessionConnection]
-        ]);
-        $this->entityManager->expects($this->any())
+        $doctrine->expects(self::any())
             ->method('getRepository')
             ->with(CustomerVisitor::class)
             ->willReturn($this->repository);
-        $this->entityManager->expects($this->any())
-            ->method('getConnection')
-            ->willReturn($this->defaultConnection);
 
-        $this->manager = new CustomerVisitorManager($this->doctrine);
+        $this->visitorManager = new CustomerVisitorManager($doctrine);
     }
 
-    public function testFindOrCreate()
+    public function testFindOrCreateForExistingVisitor(): void
     {
-        $user = $this->getEntity(CustomerVisitor::class, ['id' => self::ENTITY_ID, 'sessionId' => self::SESSION_ID]);
+        $visitor = new CustomerVisitor();
+        $visitor->setSessionId(self::SESSION_ID);
 
-        $this->repository->expects($this->once())
+        $this->repository->expects(self::once())
             ->method('findOneBy')
-            ->with(['id' => self::ENTITY_ID, 'sessionId' => self::SESSION_ID])
-            ->willReturn($user);
+            ->with(['sessionId' => self::SESSION_ID])
+            ->willReturn($visitor);
 
-        $this->assertEquals($user, $this->manager->findOrCreate(self::ENTITY_ID, self::SESSION_ID));
+        self::assertSame($visitor, $this->visitorManager->findOrCreate(self::SESSION_ID));
     }
 
-    public function testFindOrCreateForNonExistedUser()
+    public function testFindOrCreateForNotExistingVisitor(): void
     {
-        $this->repository->expects($this->once())
+        $this->repository->expects(self::once())
             ->method('findOneBy')
-            ->with(['id' => self::ENTITY_ID, 'sessionId' => self::SESSION_ID])
+            ->with(['sessionId' => self::SESSION_ID])
             ->willReturn(null);
 
-        $this->repository->expects($this->never())
-            ->method('find')
-            ->with(self::ENTITY_ID)
-            ->willReturn($this->getEntity(CustomerVisitor::class, ['id' => self::ENTITY_ID]));
-
-        $this->defaultConnection->expects($this->never())
-            ->method('lastInsertId')
-            ->with('oro_customer_visitor_id_seq')
-            ->willReturn(self::ENTITY_ID);
-
-        $this->defaultConnection->expects($this->never())
-            ->method('insert');
-
-        $this->assertInstanceOf(
-            CustomerVisitor::class,
-            $this->manager->findOrCreate(self::ENTITY_ID, self::SESSION_ID)
-        );
+        self::assertInstanceOf(CustomerVisitor::class, $this->visitorManager->findOrCreate(self::SESSION_ID));
     }
 
-    public function testFindOrCreateWithoutId()
+    public function testFindOrCreateWithEmptySessionId(): void
     {
-        $this->repository->expects($this->never())
-            ->method('findOneBy');
+        $this->repository->expects(self::never())
+            ->method(self::anything());
 
-        $this->repository->expects($this->never())
-            ->method('find')
-            ->with(self::ENTITY_ID)
-            ->willReturn($this->getEntity(CustomerVisitor::class, ['id' => self::ENTITY_ID]));
-
-        $this->defaultConnection->expects($this->never())
-            ->method('lastInsertId')
-            ->with('oro_customer_visitor_id_seq')
-            ->willReturn(self::ENTITY_ID);
-
-        $this->defaultConnection->expects($this->never())
-            ->method('insert');
-
-        $this->assertInstanceOf(CustomerVisitor::class, $this->manager->findOrCreate());
+        self::assertInstanceOf(CustomerVisitor::class, $this->visitorManager->findOrCreate(null));
     }
 
-    public function testFindOrCreateWithoutIdWithWriteConnection()
+    public function testFindForExistingVisitor(): void
     {
-        $this->repository->expects($this->never())
-            ->method('findOneBy');
+        $visitor = new CustomerVisitor();
+        $visitor->setSessionId(self::SESSION_ID);
 
-        $this->repository->expects($this->never())
-            ->method('find')
-            ->with(self::ENTITY_ID)
-            ->willReturn($this->getEntity(CustomerVisitor::class, ['id' => self::ENTITY_ID]));
+        $this->repository->expects(self::once())
+            ->method('findOneBy')
+            ->with(['sessionId' => self::SESSION_ID])
+            ->willReturn($visitor);
 
-        $this->sessionConnection->expects($this->never())
-            ->method('lastInsertId')
-            ->with('oro_customer_visitor_id_seq')
-            ->willReturn(self::ENTITY_ID);
+        self::assertSame($visitor, $this->visitorManager->find(self::SESSION_ID));
+    }
 
-        $this->sessionConnection->expects($this->never())
-            ->method('insert');
+    public function testFindForNotExistingVisitor(): void
+    {
+        $this->repository->expects(self::once())
+            ->method('findOneBy')
+            ->with(['sessionId' => self::SESSION_ID])
+            ->willReturn(null);
 
-        $this->sessionConnection->expects($this->never())
-            ->method('beginTransaction');
+        self::assertNull($this->visitorManager->find(self::SESSION_ID));
+    }
 
-        $manager = new CustomerVisitorManager($this->doctrine, 'session');
+    public function testFindWithEmptySessionId(): void
+    {
+        $this->repository->expects(self::never())
+            ->method(self::anything());
 
-        $this->assertInstanceOf(CustomerVisitor::class, $manager->findOrCreate());
+        self::assertNull($this->visitorManager->find(null));
+    }
+
+    public function testGenerateSessionId(): void
+    {
+        $sessionId = $this->visitorManager->generateSessionId();
+        self::assertNotEmpty($sessionId);
+        self::assertNotEquals($sessionId, $this->visitorManager->generateSessionId());
     }
 }

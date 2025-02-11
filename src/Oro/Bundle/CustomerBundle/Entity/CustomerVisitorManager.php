@@ -2,10 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,65 +10,31 @@ use Doctrine\Persistence\ManagerRegistry;
 class CustomerVisitorManager
 {
     public function __construct(
-        readonly private ManagerRegistry $doctrine,
-        readonly private ?string $writeConnectionName = null
+        readonly private ManagerRegistry $doctrine
     ) {
     }
 
-    public function findOrCreate(?int $id = null, ?string $sessionId = null): CustomerVisitor
+    public function findOrCreate(?string $sessionId): CustomerVisitor
     {
-        return $this->find($id, $sessionId) ?: CustomerVisitor::createAnonymous();
+        $visitor = $this->find($sessionId);
+        if (null === $visitor) {
+            $visitor = new CustomerVisitor();
+            $visitor->setSessionId($sessionId ?: $this->generateSessionId());
+        }
+
+        return $visitor;
     }
 
-    public function find(?int $id = null, ?string $sessionId = null): ?CustomerVisitor
+    public function find(?string $sessionId): ?CustomerVisitor
     {
-        if (null !== $sessionId && CustomerVisitor::isAnonymousSession($sessionId)) {
-            return CustomerVisitor::createAnonymous();
-        }
-        if (null === $id) {
+        if (!$sessionId) {
             return null;
         }
 
-        return $this->getRepository()->findOneBy(['id' => $id, 'sessionId' => $sessionId]);
+        return $this->doctrine->getRepository(CustomerVisitor::class)->findOneBy(['sessionId' => $sessionId]);
     }
 
-    public function createUser(): CustomerVisitor
-    {
-        $connection = $this->getWriteConnection();
-        $connection->insert('oro_customer_visitor', [
-            'last_visit' => new \DateTime('now', new \DateTimeZone('UTC')),
-            'session_id' => self::generateSessionId(),
-        ], [
-            'last_visit' => Types::DATETIME_MUTABLE,
-            'session_id' => Types::STRING,
-        ]);
-        $id = $connection->lastInsertId('oro_customer_visitor_id_seq');
-
-        return $this->getRepository()->find($id);
-    }
-
-    private function getEntityManager(): EntityManagerInterface
-    {
-        return $this->doctrine->getManagerForClass(CustomerVisitor::class);
-    }
-
-    private function getRepository(): EntityRepository
-    {
-        return $this->getEntityManager()->getRepository(CustomerVisitor::class);
-    }
-
-    private function getWriteConnection(): Connection
-    {
-        if ($this->writeConnectionName &&
-            \array_key_exists($this->writeConnectionName, $this->doctrine->getConnectionNames() ?: [])
-        ) {
-            return $this->doctrine->getConnection($this->writeConnectionName);
-        }
-
-        return $this->getEntityManager()->getConnection();
-    }
-
-    public static function generateSessionId(): string
+    public function generateSessionId(): string
     {
         return bin2hex(random_bytes(10));
     }

@@ -200,7 +200,6 @@ oro.customer:
         frontstore_entity_plural_label: 'Users'
         entity_description:          Customer User represents a person who acts on behalf of the company to buy products using OroCommerce storefront.
         id.label:                    'ID'
-        api_keys.label:              API keys
         first_name:
             label:                   'First Name'
             description:             First name of the customer user.
@@ -549,7 +548,7 @@ oro.customer:
             description: Is the login was success.
         source:
             label: Source
-            description: The login type source (default, OAuth, WSSE, impersonation, …).
+            description: The login type source (default, OAuth, impersonation, …).
         username:
             label: Username
             description: The tracked username.

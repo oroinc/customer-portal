@@ -121,3 +121,34 @@ Feature: Reset customer user password
     Then I should see "Nancy Sallee"
     And I click "Account Dropdown"
     And I click "Sign Out"
+
+  Scenario: Update customer password after reset password
+    Given I proceed as the Admin
+    And I go to Customers/Customer Users
+    When I click "Reset password" on row "NancyJSallee@example.org" in grid
+    Then should see "Customer user NancyJSallee@example.org will receive the email to reset password and will be disabled from login." in confirmation dialogue
+    When I click "Reset" in confirmation dialogue
+    Then I should see "Password reset request has been sent to NancyJSallee@example.org." flash message
+    And I remember "Reset Password" link from the email
+    And I should see NancyJSallee@example.org in grid with following data:
+      | Password | Reset |
+    And I click edit NancyJSallee@example.org in grid
+    When fill "Customer User Form" with:
+      | Password                             | NancyJSallee1  |
+      | Confirm Password                     | NancyJSallee1  |
+    And save and close form
+    Then I should see "Customer User has been saved"
+    Then I should see Customer User with:
+      | Password | Active |
+
+  Scenario: Ensure customer user can log in after password reset and set new password
+    Given I proceed as the Unauthorized
+    And I am on the homepage
+    And I click "Log In"
+    And I fill "Customer Login Form" with:
+      | Email    | NancyJSallee@example.org |
+      | Password | NancyJSallee1            |
+    When I click "Log In Button"
+    Then I should see "Nancy Sallee"
+    And I click "Account Dropdown"
+    And I click "Sign Out"

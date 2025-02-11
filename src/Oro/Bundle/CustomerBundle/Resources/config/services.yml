@@ -1,6 +1,5 @@
 parameters:
     oro_customer.anonymous_customer_user.update_latency: 600 # 10 minutes in seconds
-    oro_customer.anonymous_customer_user.write_connection_name: 'session'
     oro_customer.firewall_name: frontend
 
 services:
@@ -259,21 +258,17 @@ services:
             - !tagged_iterator oro_security.login_source_provider.fail
 
     oro_customer.customer_visitor_manager:
-        class: 'Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager'
+        class: Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager
         arguments:
             - '@doctrine'
-            - '%oro_customer.anonymous_customer_user.write_connection_name%'
 
     oro_customer.customer_visitor.credentials_cookie_response_listener:
-        class:  'Oro\Bundle\CustomerBundle\Security\Listener\CustomerVisitorCookieResponseListener'
-        arguments:
-            - '@security.token_storage'
-            - '@oro_customer.authentication.customer_visitor_cookie_factory'
+        class: Oro\Bundle\CustomerBundle\Security\Listener\CustomerVisitorCookieResponseListener
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
     oro_customer.customer_visitor.update_last_visit_request_listener:
-        class:  'Oro\Bundle\CustomerBundle\Security\Listener\CustomerVisitorUpdateLastVisitListener'
+        class: Oro\Bundle\CustomerBundle\Security\Listener\CustomerVisitorUpdateLastVisitListener
         arguments:
             - '@security.token_storage'
             - '%oro_customer.anonymous_customer_user.update_latency%'
@@ -332,6 +327,13 @@ services:
 
     oro_customer.anonymous_customer_user.token.factory:
         class: Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserTokenFactory
+
+    oro_customer.entity_listener.customer_visitor_session_id:
+        class: Oro\Bundle\CustomerBundle\EventListener\CustomerVisitorSessionIdListener
+        arguments:
+            - '@oro_customer.customer_visitor_manager'
+        tags:
+            - { name: doctrine.orm.entity_listener, entity: Oro\Bundle\CustomerBundle\Entity\CustomerVisitor, event: prePersist }
 
     oro_customer.customer_user_menu:
         class: 'Oro\Bundle\CustomerBundle\Menu\CustomerUserMenuBuilder'
@@ -1360,13 +1362,6 @@ services:
             - '%oro_customer_user.login_sources%'
         tags:
             - { name: monolog.logger, channel: security }
-
-    oro_customer.event_listener.wsse_authentication:
-        class: Oro\Bundle\CustomerBundle\EventListener\WsseAuthenticationListener
-        arguments:
-            - "@oro_customer.logger.customer_user_login_attempt"
-        tags:
-            - { name: kernel.event_listener, event: security.authentication.success, method: onAuthenticationSuccess }
 
     oro_customer.listener.file_listener:
         class: Oro\Bundle\CustomerBundle\EventListener\FileListener

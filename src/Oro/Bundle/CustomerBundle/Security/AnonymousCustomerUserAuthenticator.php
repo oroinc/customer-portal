@@ -121,7 +121,7 @@ class AnonymousCustomerUserAuthenticator implements AuthenticatorInterface
         $visitor = $passport->getUser();
         $request->attributes->set(
             self::COOKIE_ATTR_NAME,
-            $this->cookieFactory->getCookie($visitor->getSessionId(), $visitor->getId())
+            $this->cookieFactory->getCookie($visitor->getSessionId())
         );
     }
 
@@ -139,15 +139,17 @@ class AnonymousCustomerUserAuthenticator implements AuthenticatorInterface
 
     public function getVisitor(string $credentials): CustomerVisitor
     {
-        $visitorId = $sessionId = null;
-
+        $sessionId = null;
         if (!empty($credentials)) {
-            $decodedCredentials = json_decode(base64_decode($credentials), false);
-            if (JSON_ERROR_NONE === json_last_error() && null !== $decodedCredentials) {
-                [$visitorId, $sessionId] =  $decodedCredentials;
+            $decodedCredentials = json_decode(base64_decode($credentials));
+            if (\is_array($decodedCredentials) && isset($decodedCredentials[1])) {
+                // BC compatibility (can be removed in v7.0): get sessionId from old format of the cookie value
+                $sessionId = $decodedCredentials[1];
+            } elseif (\is_string($decodedCredentials) && $decodedCredentials) {
+                $sessionId = $decodedCredentials;
             }
         }
 
-        return $this->visitorManager->findOrCreate($visitorId, $sessionId);
+        return $this->visitorManager->findOrCreate($sessionId);
     }
 }

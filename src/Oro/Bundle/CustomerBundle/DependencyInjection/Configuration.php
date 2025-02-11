@@ -21,7 +21,6 @@ class Configuration implements ConfigurationInterface
     public const string USER_MENU_SHOW_ITEMS_ALL_AT_ONCE = 'all_at_once';
     public const string USER_MENU_SHOW_ITEMS_SUBITEMS_IN_POPUP = 'subitems_in_popup';
     /** End Requirement for "Default Theme 50/51" */
-    public const int SECONDS_IN_DAY = 86400;
 
     public const string REDIRECT_AFTER_LOGIN = 'redirect_after_login';
     public const string DO_NOT_LEAVE_CHECKOUT = 'do_not_leave_checkout';

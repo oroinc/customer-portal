@@ -18,14 +18,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 #[ORM\Entity]
 #[ORM\Table(name: 'oro_customer_visitor')]
-#[Index(columns: ['id', 'session_id'], name: 'id_session_id_idx')]
+#[Index(columns: ['session_id'], name: 'idx_oro_customer_visitor_session_id')]
 #[ORM\HasLifecycleCallbacks]
 #[Config]
 class CustomerVisitor implements ExtendEntityInterface, UserInterface
 {
     use ExtendEntityTrait;
-
-    protected const string ANONYMOUS_SESSION_ID = 'anonymous';
 
     #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
@@ -82,12 +80,6 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
         return $this;
     }
 
-    #[ORM\PrePersist]
-    public function prePersist()
-    {
-        $this->sessionId = CustomerVisitorManager::generateSessionId();
-    }
-
     public function setCustomerUser(?CustomerUser $customerUser = null): static
     {
         $this->customerUser = $customerUser;
@@ -114,28 +106,6 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
     #[\Override]
     public function getUserIdentifier(): string
     {
-        if (null === $this->getId()) {
-            return '';
-        }
-
-        return VisitorIdentifierUtil::encodeIdentifier($this->getId(), $this->getSessionId());
-    }
-
-    public static function isAnonymousSession(string $sessionId): bool
-    {
-        return $sessionId === self::ANONYMOUS_SESSION_ID;
-    }
-
-    public static function createAnonymous(): static
-    {
-        $visitor = new self();
-        $visitor->setSessionId(self::ANONYMOUS_SESSION_ID);
-
-        return $visitor;
-    }
-
-    public function isAnonymous(): bool
-    {
-        return $this->getSessionId() === self::ANONYMOUS_SESSION_ID;
+        return VisitorIdentifierUtil::encodeIdentifier($this->getSessionId());
     }
 }

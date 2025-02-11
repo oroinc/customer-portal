@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Provider;
 
-use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
@@ -19,41 +18,38 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 class CustomerVisitorProvider implements UserProviderInterface
 {
     public function __construct(
-        private CustomerVisitorManager $customerVisitorManager,
+        private CustomerVisitorManager $visitorManager,
         private ManagerRegistry $doctrine
     ) {
     }
 
     #[\Override]
-    public function refreshUser(UserInterface $customerVisitor): UserInterface
+    public function refreshUser(UserInterface $user): UserInterface
     {
-        if (!$customerVisitor instanceof CustomerVisitor) {
-            throw new UnsupportedUserException(sprintf(
+        if (!$user instanceof CustomerVisitor) {
+            throw new UnsupportedUserException(\sprintf(
                 'Expected an instance of %s, but got "%s".',
                 CustomerVisitor::class,
-                get_class($customerVisitor)
+                \get_class($user)
             ));
         }
         try {
-            $manager = $this->doctrine->getManagerForClass(ClassUtils::getClass($customerVisitor));
+            $manager = $this->doctrine->getManagerForClass(CustomerVisitor::class);
             // try to reload existing entity to revert it's state to initial
             if (null !== $manager) {
-                $manager->refresh($customerVisitor);
+                $manager->refresh($user);
 
-                return $customerVisitor;
+                return $user;
             }
-        } catch (ORMInvalidArgumentException $exception) {
+        } catch (ORMInvalidArgumentException $e) {
             // if entity is not managed and can not be reloaded - load it by ID from the database
         }
-        $customerVisitor = $this->customerVisitorManager->find(
-            $customerVisitor->getId(),
-            $customerVisitor->getSessionId()
-        );
-        if (null === $customerVisitor) {
+        $user = $this->visitorManager->find($user->getSessionId());
+        if (null === $user) {
             throw new UserNotFoundException('CustomerVisitor can not be loaded.');
         }
 
-        return $customerVisitor;
+        return $user;
     }
 
     #[\Override]
@@ -68,8 +64,7 @@ class CustomerVisitorProvider implements UserProviderInterface
         if (!VisitorIdentifierUtil::isVisitorIdentifier($identifier)) {
             throw new UserNotFoundException('Username can not be used like a visitor identifier.');
         }
-        list($visitorId, $visitorSessionId) = VisitorIdentifierUtil::decodeIdentifier($identifier);
-        $customerVisitor = $this->customerVisitorManager->find($visitorId, $visitorSessionId);
+        $customerVisitor = $this->visitorManager->find(VisitorIdentifierUtil::decodeIdentifier($identifier));
         if (null === $customerVisitor) {
             throw new UserNotFoundException('CustomerVisitor can not be loaded.');
         }
