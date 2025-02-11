@@ -5,7 +5,10 @@ layout:
                 __back_button:
                     blockType: link
                     options:
+                        text: oro.customer.frontend.action.back.label
                         icon: arrow-left
+                        vars:
+                            labelClass: 'sr-only'
                         attr:
                             class: 'btn btn--neutral hide-on-print'
             tree:

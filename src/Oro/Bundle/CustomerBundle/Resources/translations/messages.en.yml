@@ -967,7 +967,7 @@ oro.customer:
 
         customer_user_link.text: '< Back to Customer User List'
         action:
-            back.label: "< Back"
+            back.label: "Back"
             back_to_login.title: "Already have an account?"
             back_to_login.label: "Log In"
             customer_address:
