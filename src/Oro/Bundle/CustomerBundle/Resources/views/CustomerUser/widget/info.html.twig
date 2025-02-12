@@ -46,11 +46,15 @@
             ) }}
 
             {% set auth_status %}
-            {% if entity.auth_status.internalId == 'active' %}
-                {{ UI.badge(entity.auth_status.id|trans_enum, 'enabled', 'fa-unlock') }}
-            {% else %}
-                {{ UI.badge(entity.auth_status.id|trans_enum, 'disabled', 'fa-unlock-alt') }}
-            {% endif %}
+                {% if entity.auth_status is not null %}
+                    {% if entity.auth_status.internalId == 'active' %}
+                        {{ UI.badge(entity.auth_status.id|trans_enum, 'enabled', 'fa-unlock') }}
+                    {% else %}
+                        {{ UI.badge(entity.auth_status.id|trans_enum, 'disabled', 'fa-unlock-alt') }}
+                    {% endif %}
+                {% else %}
+                    {{ 'N/A'|trans }}
+                {% endif %}
             {% endset %}
             {{ UI.renderHtmlProperty('oro.customer.customeruser.auth_status.label'|trans, auth_status) }}
 
