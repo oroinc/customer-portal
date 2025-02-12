@@ -11,6 +11,7 @@ define(function(require) {
     const rtl = _.isRTL();
 
     require('slick');
+    require('jquery-ui/tabbable');
 
     const ContentSliderComponent = EmbeddedListComponent.extend({
         /**
@@ -84,6 +85,7 @@ define(function(require) {
                     slick.options.slidesToShow * slick.options.slidesPerRow
                 );
                 this.limitDots(slick);
+                this.makeFocusableAvailable(slick);
             });
 
             this.$el.addClass(this.options.loadingClass);
@@ -101,6 +103,7 @@ define(function(require) {
             $(this.$el).on(`breakpoint${this.eventNamespace()}`, (event, slick) => {
                 this.addEmbeddedArrowsClass(slick.$slider, slick.options.arrows || false);
                 this.limitDots(slick);
+                this.makeFocusableAvailable(slick);
             });
 
             this.previousSlide = this.$el.slick('slickCurrentSlide');
@@ -166,6 +169,7 @@ define(function(require) {
 
             this.previousSlide = currentSlide;
             this.limitDots(slick);
+            this.makeFocusableAvailable(slick);
             this.trigger('oro:embedded-list:shown', $shownItems);
         },
 
@@ -300,6 +304,24 @@ define(function(require) {
                 width: activeDotWidth,
                 overflow: ''
             }).each((i, el) => $(el).removeAttr('aria-hidden'));
+        },
+
+        /**
+         * @param {object} slick
+         */
+        makeFocusableAvailable(slick) {
+            // Fixing issue: https://github.com/kenwheeler/slick/issues/4235
+            // There is no event after slick is updated its aria attributes
+            requestAnimationFrame(() => {
+                if (this.disposed || !slick?.$slides) {
+                    return;
+                }
+
+                slick.$slides
+                    // Slide contains focusable descendents
+                    .filter((i, el) => $(el).is('[aria-hidden="true"]') && $(el).find(':tabbable').length)
+                    .removeAttr('aria-hidden');
+            });
         },
 
         /**

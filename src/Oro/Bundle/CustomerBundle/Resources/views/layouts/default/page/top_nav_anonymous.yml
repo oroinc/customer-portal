@@ -12,12 +12,16 @@ layout:
                     options:
                         route_name: oro_customer_customer_user_security_login
                         text: oro.customer.customeruser.profile.login
+                        vars:
+                            text_aria_label: oro.customer.customeruser.profile.login_aria_label
                 top_registration_link:
                     blockType: link
                     options:
                         visible: '=data["system_config_provider"].getValue("oro_customer.registration_link_enabled") && data["system_config_provider"].getValue("oro_customer.registration_allowed")'
                         route_name: oro_customer_frontend_customer_user_register
                         text: oro.customer.customeruser.profile.registration
+                        vars:
+                            text_aria_label: oro.customer.customeruser.profile.registration_aria_label
             tree:
                 middle_bar_right_menus:
                     top_authorization_container:

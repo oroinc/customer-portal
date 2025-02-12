@@ -30,7 +30,7 @@
         }) %}
     {% endif %}
 
-    <a {{ block('block_attributes') }}>
+    <a {{ block('block_attributes') }} aria-label="{{ text_aria_label|trans }}">
         {{ renderIcon.icon({name: 'log-in'}) }}
         <span class="hide-label-on-{{ oro_config_value('oro_product.guest_quick_order_form') == true ? 'tablet' : 'mobile-big' }}">
             {{- text|trans -}}
@@ -60,7 +60,7 @@
         }) %}
     {% endif %}
 
-    <a {{ block('block_attributes') }}>
+    <a {{ block('block_attributes') }} aria-label="{{ text_aria_label|trans }}">
         {{ renderIcon.icon({name: 'user'}) }}
         <span class="hide-label-on-{{ oro_config_value('oro_product.guest_quick_order_form') == true ? 'tablet' : 'mobile-big' }}">
             {{- text|trans -}}
