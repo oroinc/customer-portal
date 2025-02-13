@@ -18,7 +18,8 @@
 {% block __collapse_container__collapse_header_widget %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " collapse__header",
+        '~class': "collapse__header",
+        'id': collapseId ~ '-header',
         'href': '#' ~ collapseId,
         'data-toggle': 'collapse',
         'aria-controls': collapseId,
@@ -32,10 +33,19 @@
         }) %}
     {% endif %}
 
-    <a {{ block('block_attributes') }}>
-        {{ block_widget(block) }}
-        {{ renderIcon.icon({name: 'chevron-down', extraClass: 'collapse__toggle-icon'}) }}
-    </a>
+    {% if tooltipLabel is defined %}
+        <div data-toggle="tooltip"
+            data-placement="{{ tooltipPlacement|default('top') }}"
+            title="{{ tooltipLabel|trans }}"
+        >
+    {% endif %}
+        <a {{ block('block_attributes') }}>
+            {{ block_widget(block) }}
+            {{ renderIcon.icon({name: 'chevron-down', extraClass: 'collapse__toggle-icon'}) }}
+        </a>
+    {% if tooltipLabel is defined %}
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block __collapse_container__collapse_toggle_widget %}

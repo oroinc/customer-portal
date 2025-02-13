@@ -32,6 +32,18 @@
         }
     }
 
+    &__trigger-tooltip {
+        position: $summary-collapse-toggle-position;
+        top: $summary-collapse-toggle-top;
+        left: $summary-collapse-toggle-left;
+
+        .summary-collapse__toggle {
+            position: initial;
+            top: 0;
+            left: 0;
+        }
+    }
+
     &-content {
         // Reset to collapse styles
         position: initial;

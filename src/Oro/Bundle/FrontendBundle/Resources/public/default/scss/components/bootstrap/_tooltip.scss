@@ -32,25 +32,25 @@ $tooltip-border-radius: 4px;
     .arrow {
         display: none;
     }
-}
 
-.tooltip-inner {
-    padding: $tooltip-padding;
-    border-radius: $tooltip-border-radius;
-    background-color: $tooltip-background-color;
-    color: $tooltip-color;
-    box-shadow: $tooltip-box-shadow;
-    font-size: $tooltip-font-size;
-    line-height: $tooltip-line-height;
+    &-inner {
+        padding: $tooltip-padding;
+        border-radius: $tooltip-border-radius;
+        background-color: $tooltip-background-color;
+        color: $tooltip-color;
+        box-shadow: $tooltip-box-shadow;
+        font-size: $tooltip-font-size;
+        line-height: $tooltip-line-height;
 
-    &:not(.not-expand) {
-        text-align: left;
+        &:not(.not-expand) {
+            text-align: left;
+        }
+
+        @include base-disabled-style(1);
     }
 
-    @include base-disabled-style(1);
-}
-
-.tooltip-container {
-    position: relative;
-    display: inline-block;
+    &-container {
+        position: relative;
+        display: inline-block;
+    }
 }
