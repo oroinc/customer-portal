@@ -3,7 +3,7 @@
         <% if (images && images.length) { %>
             <% _.each(images, function(image) { %>
                 <div class="popup-gallery-widget__image">
-                    <picture>
+                    <picture<% if (images.length === 1) { %> tabindex="0"<% } %>>
                         <% _.each(image.sources || [], function(source) { %>
                             <% if (source.srcset !== image.src) { %>
                                 <source srcset="<%- source.srcset %>" type="<%- source.type %>">
