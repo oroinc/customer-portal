@@ -49,7 +49,7 @@ layout:
                         visible: '=data["acl"].isGranted("oro_customer_frontend_customer_address_view") or data["acl"].isGranted("oro_customer_frontend_customer_user_address_view")'
                         icon: 'book-open'
                         vars:
-                            labelClass: 'hide-on-mobile-big'
+                            labelClass: 'sr-only-on-mobile-big'
                             currentAddresses: '=data["customer_user_default_address_provider"].getComponentOptions(data["entity"])["currentAddresses"]'
                         attr:
                             class: 'btn btn--flat btn--size-small'
@@ -69,7 +69,7 @@ layout:
                         text: 'oro.customer.address.add'
                         icon: plus
                         vars:
-                            labelClass: 'hide-on-mobile-big'
+                            labelClass: 'sr-only-on-mobile-big'
                         attr:
                             class: 'btn'
                             data-responsive-styler: ''

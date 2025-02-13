@@ -25,6 +25,10 @@ $css-breakpoints: null;
             // stylelint-disable-next-line declaration-no-important
             display: none !important;
         }
+
+        .sr-only-on-#{$key} {
+            @include sr-only();
+        }
     }
 }
 

@@ -6,20 +6,18 @@
     }
 
     &__toggle {
-        background: none;
-        border: none;
+        display: flex;
+        flex-wrap: wrap;
+        flex: 1 0 auto;
+        align-items: center;
 
         font-size: $collapse-toggle-font-size;
         font-weight: font-weight('semi-bold');
         color: $collapse-toggle-color;
         text-align: left;
-        cursor: pointer;
 
         padding: $collapse-toggle-padding;
         min-height: $collapse-toggle-min-height;
-
-        display: block;
-        flex: 1 0 auto;
 
         &-icon {
             transition: transform 230ms ease-in-out;
@@ -29,6 +27,7 @@
 
     &__header {
         background-color: $collapse-header-background-color;
+        color: $collapse-header-color;
 
         border-radius: $collapse-header-border-radius;
 
@@ -36,7 +35,7 @@
         align-items: center;
         gap: spacing('base');
 
-        cursor: pointer;
+        text-decoration: none;
 
         min-height: $collapse-header-min-height;
 
@@ -46,6 +45,8 @@
 
         &:hover {
             background: $collapse-header-background-color-hover;
+            color: $collapse-header-color-hover;
+            text-decoration: none;
         }
     }
 

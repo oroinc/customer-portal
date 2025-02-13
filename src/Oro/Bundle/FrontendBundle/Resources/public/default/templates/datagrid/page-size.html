@@ -1,7 +1,10 @@
 <% if ((collectionState.totalRecords || 0) > Math.min.apply(null, items.map(function(item){return item.size || item}))) { %>
-    <% var labelId = _.uniqueId('datagrid-toolbar-label-') %>
     <div class="action-selectbox-custom-in-pager">
-        <select class="select" data-label="<%- _.__("Per page") %>:" name="action" data-grid-pagesize-selector aria-labelledby="<%- labelId %>">
+        <select class="select"
+                data-label="<%- _.__('oro_frontend.datagrid.pageSize.label') %>"
+                aria-label="<%- _.__('oro_frontend.datagrid.pageSize.aria_label') %>"
+                name="action" data-grid-pagesize-selector
+        >
             <% _.each(items, function (item) { %>
                 <option <% if (item === currentPageSize || (!_.isUndefined(item.size) && item.size === currentPageSize)) { %>selected<% } %>
                         value="<% if (_.isUndefined(item.size)) { %><%- item %><% } else { %><%- item.size %><% } %>"

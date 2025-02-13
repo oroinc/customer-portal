@@ -71,6 +71,8 @@ oro_frontend:
             page_to: 'Page {{ page }}'
         pageSize:
             groupTitle: 'Show per page:'
+            label: 'Per page:'
+            aria_label: 'Per page'
         manage_grid: 'Manage grid'
         requires:
             data: 'Data attribute "data-server-render" must be defined'

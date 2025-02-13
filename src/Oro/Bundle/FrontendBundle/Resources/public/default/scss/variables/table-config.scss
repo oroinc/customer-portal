@@ -34,7 +34,7 @@ $table-styled-thead-th-vertical-align: initial !default;
 $table-styled-thead-th-white-space: nowrap !default;
 $table-styled-thead-th-font-size: $base-font-size--xs !default;
 $table-styled-thead-th-line-height: 1.5 !default;
-$table-styled-thead-th-color: rgba(get-color('text', 'secondary'), .8) !default;
+$table-styled-thead-th-color: get-color('text', 'secondary') !default;
 $table-styled-thead-th-text-transform: uppercase !default;
 $table-styled-thead-th-text-decoration: none !default;
 $table-styled-thead-th-letter-spacing: .5px !default;

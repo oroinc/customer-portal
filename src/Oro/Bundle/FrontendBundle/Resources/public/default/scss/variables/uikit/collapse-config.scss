@@ -1,5 +1,7 @@
 /* @theme: default; */
 
+$collapse-header-color: $body-color !default;
+$collapse-header-color-hover: $body-color !default;
 $collapse-header-background-color: get-color('neutral', 'grey1') !default;
 $collapse-header-background-color-hover: get-color('neutral', 'grey2') !default;
 $collapse-header-border-radius: $border-radius !default;

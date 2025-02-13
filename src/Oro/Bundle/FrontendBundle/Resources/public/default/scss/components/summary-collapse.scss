@@ -13,6 +13,20 @@
 
         box-shadow: $summary-collapse-toggle-box-shadow;
 
+        &:before {
+            content: '';
+
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            border-radius: 50%;
+
+            width: $btn-sizes-default-min-height;
+            height: $btn-sizes-default-min-height;
+        }
+
         &:not(.collapsed) {
             transform: $summary-collapse-toggle-not-collapsed-transform;
         }
