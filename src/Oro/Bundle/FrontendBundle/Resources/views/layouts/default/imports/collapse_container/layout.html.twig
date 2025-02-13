@@ -33,18 +33,22 @@
         }) %}
     {% endif %}
 
+    {% set collapseTrigger %}
+        <a {{ block('block_attributes') }}>
+            {{ block_widget(block) }}
+            {{ renderIcon.icon({name: 'chevron-down', extraClass: 'collapse__toggle-icon'}) }}
+        </a>
+    {% endset %}
+
     {% if tooltipLabel is defined %}
         <div data-toggle="tooltip"
             data-placement="{{ tooltipPlacement|default('top') }}"
             title="{{ tooltipLabel|trans }}"
         >
-    {% endif %}
-        <a {{ block('block_attributes') }}>
-            {{ block_widget(block) }}
-            {{ renderIcon.icon({name: 'chevron-down', extraClass: 'collapse__toggle-icon'}) }}
-        </a>
-    {% if tooltipLabel is defined %}
+            {{ collapseTrigger|raw }}
         </div>
+    {% else %}
+        {{ collapseTrigger|raw }}
     {% endif %}
 {% endblock %}
 
