@@ -281,7 +281,7 @@
                 {% set uniqueId = 'dropdown-'|uniqid %}
 
                 {% for item in tabs %}
-                    <li class="nav-item tab">
+                    <li class="nav-item tab" role="presentation">
                         <a id="{{ item.anchor ~ uniqueId ~ '-tab' }}"
                            href="#{{ item.anchor ~ uniqueId }}"
                            class="nav-link {{ item.active ? ' active' : ''}}"
