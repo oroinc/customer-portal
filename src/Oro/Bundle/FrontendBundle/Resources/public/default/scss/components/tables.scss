@@ -7,9 +7,12 @@
     width: 100%;
 
     &__title {
-        margin-bottom: spacing('xs') + 1px;
+        margin-bottom: spacing('xs');
         font-size: $base-font-size--large;
-        line-height: $base-ui-element-line-height;
+    }
+
+    &__link {
+        padding-bottom: $oro-grid-table-link-offset;
     }
 
     thead {

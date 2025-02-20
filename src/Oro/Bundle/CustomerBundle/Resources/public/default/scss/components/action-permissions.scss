@@ -21,7 +21,7 @@
         @include ellipsis();
 
         &--no-access {
-            opacity: $action-permissions-item-wrapper-no-access-opacity;
+            color: $action-permissions-item-wrapper-no-access-color;
         }
 
         &_changed {

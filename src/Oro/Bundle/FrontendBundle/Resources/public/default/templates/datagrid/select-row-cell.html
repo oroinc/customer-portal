@@ -1,5 +1,5 @@
 <label class="checkbox-label">
-    <input type="checkbox" class="select-row-cell-input" data-role="select-row-cell" <% if (checked) { %> checked="checked"<% } %>>
+    <input type="checkbox" class="select-row-cell-input" data-role="select-row-cell" <% if (checked) { %> checked="checked"<% } %> aria-label="<%- _.__('oro.datagrid.action.select_row') %>">
     <% if (!_.isUndefined(obj.text)) { %>
         <%- text %>
     <% } %>

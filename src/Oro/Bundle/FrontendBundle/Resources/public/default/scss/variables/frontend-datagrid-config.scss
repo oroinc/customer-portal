@@ -43,7 +43,7 @@ $frontend-datagrid-has-swipe-action-cell-mobile-big-inner-offset: 0 8px !default
 
 // Mobile Landscape
 $frontend-datagrid-responsive-row-mobile-landscape-grid-template-columns: none !default;
-$frontend-datagrid-responsive-row-mobile-landscape-gap: 0 !default;
+$frontend-datagrid-responsive-row-mobile-landscape-gap: 0 spacing('sm') !default;
 
 $frontend-datagrid-responsive-action-cell-border: 1px solid get-color('neutral', 'grey2') !default;
 $frontend-datagrid-responsive-action-cell-width: auto !default;
