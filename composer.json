@@ -43,6 +43,6 @@
             "Oro\\Bundle\\WebsiteBundle\\": "src/Oro/Bundle/WebsiteBundle",
             "Oro\\Bundle\\AddressValidationBundle\\": "src/Oro/Bundle/AddressValidationBundle"
         },
-        "exclude-from-classmap": ["/Tests/"]
+        "exclude-from-classmap": ["**/Tests/"]
     }
 }
