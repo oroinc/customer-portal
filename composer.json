@@ -42,6 +42,6 @@
             "Oro\\Bundle\\StyleBookBundle\\": "src/Oro/Bundle/StyleBookBundle",
             "Oro\\Bundle\\WebsiteBundle\\": "src/Oro/Bundle/WebsiteBundle"
         },
-        "exclude-from-classmap": ["/Tests/"]
+        "exclude-from-classmap": ["**/Tests/"]
     }
 }
