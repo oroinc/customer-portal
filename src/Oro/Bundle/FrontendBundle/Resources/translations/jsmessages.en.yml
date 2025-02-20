@@ -97,6 +97,8 @@ oro_frontend:
         resetFilter: 'Revert To Default Set'
         close:
             aria_label: 'Close the Filter Management drop-down'
+        close_sidebar:
+            aria_label: 'Close Filter Settings'
 
     filters:
         apply_all: 'Apply Filters'
