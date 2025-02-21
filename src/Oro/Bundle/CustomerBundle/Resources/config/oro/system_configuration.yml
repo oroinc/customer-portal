@@ -285,6 +285,14 @@ system_configuration:
                                             - oro_product.product_data_export_enabled
                                             - oro_product.product_prices_export_enabled
                                             - oro_product.product_price_tiers_export_enabled
+                    sales:
+                        children:
+                            checkout:
+                                children:
+                                    order_limits:
+                                        children:
+                                            - oro_checkout.minimum_order_amount
+                                            - oro_checkout.maximum_order_amount
 
         customer_group_configuration:
             commerce:
@@ -306,3 +314,11 @@ system_configuration:
                                             - oro_product.product_data_export_enabled
                                             - oro_product.product_prices_export_enabled
                                             - oro_product.product_price_tiers_export_enabled
+                    sales:
+                        children:
+                            checkout:
+                                children:
+                                    order_limits:
+                                        children:
+                                            - oro_checkout.minimum_order_amount
+                                            - oro_checkout.maximum_order_amount

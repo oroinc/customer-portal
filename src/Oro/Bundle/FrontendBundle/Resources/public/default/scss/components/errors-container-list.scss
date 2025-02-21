@@ -1,0 +1,20 @@
+/* @theme: default; */
+
+.errors-container-list {
+    display: grid;
+    gap: $errors-container-list-gap;
+
+    margin-top: $errors-container-list-margin-top;
+    color: $errors-container-list-color;
+    font-size: $base-font-size--s;
+
+    &__item {
+        display: grid;
+        gap: $errors-container-list-item-gap;
+    }
+
+    .alert {
+        font-weight: font-weight('semi-bold');
+        color: $errors-container-list-alert-color;
+    }
+}
