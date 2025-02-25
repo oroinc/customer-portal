@@ -747,18 +747,16 @@
     <div id="{{ parentId }}" class="accordion-group">
         <div class="accordion-group__item">
             {% set itemId1 = 'item-'|uniqid %}
-            <h4>
-                <button class="btn btn--simple-colored collapse-toggle"
-                        type="button"
-                        data-toggle="collapse"
-                        data-target="{{ '#' ~ itemId1 }}"
-                        aria-controls="{{ itemId1 }}"
-                        aria-expanded="false"
-                >
-                    <span data-icon class="trigger-icon">{{ renderIcon.icon({name: 'chevron-up'}) }}</span>
-                    <span class="accordion-group__trigger-text">What is Lorem Ipsum?</span>
-                </button>
-            </h4>
+            <button class="btn btn--simple-colored collapse-toggle"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="{{ '#' ~ itemId1 }}"
+                    aria-controls="{{ itemId1 }}"
+                    aria-expanded="false"
+            >
+                <span data-icon class="trigger-icon">{{ renderIcon.icon({name: 'chevron-up'}) }}</span>
+                <span class="accordion-group__trigger-text">What is Lorem Ipsum?</span>
+            </button>
             <div class="collapse show"
                     id="{{ itemId1 }}"
                     data-parent="{{ '#' ~ parentId }}"
@@ -770,17 +768,15 @@
         </div>
         <div class="accordion-group__item">
             {% set itemId2 = 'item-'|uniqid %}
-            <h4>
-                <button class="btn btn--simple-colored collapse-toggle collapsed"
-                        type="button" data-toggle="collapse"
-                        data-target="{{ '#' ~ itemId2 }}"
-                        aria-expanded="false"
-                        aria-controls="{{ itemId2 }}"
-                >
-                    <span data-icon class="trigger-icon">{{ renderIcon.icon({name: 'chevron-down'}) }}</span>
-                    <span class="accordion-group__trigger-text">Why do we use it?</span>
-                </button>
-            </h4>
+            <button class="btn btn--simple-colored collapse-toggle collapsed"
+                    type="button" data-toggle="collapse"
+                    data-target="{{ '#' ~ itemId2 }}"
+                    aria-expanded="false"
+                    aria-controls="{{ itemId2 }}"
+            >
+                <span data-icon class="trigger-icon">{{ renderIcon.icon({name: 'chevron-down'}) }}</span>
+                <span class="accordion-group__trigger-text">Why do we use it?</span>
+            </button>
             <div class="collapse"
                  id="{{ itemId2 }}"
                  data-parent="{{ '#' ~ parentId }}"
@@ -792,18 +788,16 @@
         </div>
         <div class="accordion-group__item">
             {% set itemId3 = 'item-'|uniqid %}
-            <h4>
-                <button class="btn btn--simple-colored collapse-toggle collapsed"
-                        type="button"
-                        data-toggle="collapse"
-                        data-target="{{ '#' ~ itemId3 }}"
-                        aria-expanded="false"
-                        aria-controls="{{ itemId3 }}"
-                >
-                    <span data-icon class="trigger-icon">{{ renderIcon.icon({name: 'chevron-down'}) }}</span>
-                    <span class="accordion-group__trigger-text">Where can I get some?</span>
-                </button>
-            </h4>
+            <button class="btn btn--simple-colored collapse-toggle collapsed"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="{{ '#' ~ itemId3 }}"
+                    aria-expanded="false"
+                    aria-controls="{{ itemId3 }}"
+            >
+                <span data-icon class="trigger-icon">{{ renderIcon.icon({name: 'chevron-down'}) }}</span>
+                <span class="accordion-group__trigger-text">Where can I get some?</span>
+            </button>
             <div class="collapse"
                  id="{{ itemId3 }}"
                  data-parent="{{ '#' ~ parentId }}"

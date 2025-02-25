@@ -40,7 +40,7 @@
         </a>
     {% endset %}
 
-    {% if tooltipLabel is defined %}
+    {% if not isMobileVersion() and tooltipLabel is defined %}
         <div data-toggle="tooltip"
             data-placement="{{ tooltipPlacement|default('top') }}"
             title="{{ tooltipLabel|trans }}"

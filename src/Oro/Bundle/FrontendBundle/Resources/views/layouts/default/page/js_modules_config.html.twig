@@ -6,6 +6,8 @@
     {% else %}
         {% set routes = asset('media/js/frontend_routes.json', 'routing') %}
     {% endif %}
+    {# Modals are based on CSS Flexbox, so no need to align their height on mobile devices using JS. #}
+    {% set modalFixHeightOnMobile = false %}
     {% import '@OroAsset/Asset.html.twig' as Asset %}
     {{ Asset.js_modules_config({
         'controllers/page-controller': {
@@ -22,7 +24,8 @@
         },
         'oroui/js/modal': {
             defaults: {
-                cancelButtonClass: 'btn btn--outlined'
+                cancelButtonClass: 'btn btn--outlined',
+                fixHeightOnMobile: modalFixHeightOnMobile
             }
         },
         'oroui/js/messenger': {

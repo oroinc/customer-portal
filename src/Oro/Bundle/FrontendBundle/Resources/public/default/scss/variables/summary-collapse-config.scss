@@ -1,5 +1,7 @@
 /* @theme: default; */
 
+@use 'sass:map';
+
 $summary-collapse-position: relative !default;
 
 $summary-collapse-toggle-btn-background: get-color('neutral', 'white-100');
@@ -11,6 +13,8 @@ $summary-collapse-toggle-left: spacing('base') !default;
 $summary-collapse-toggle-box-shadow: $toggler-switcher-box-shadow !default;
 
 $summary-collapse-toggle-not-collapsed-transform: rotate(180deg) !default;
+
+$summary-collapse-tooltip-inset: map.get($btn-general, 'border-width') * -1 !default;
 
 $summary-collapse-content-transition: none !default;
 $summary-collapse-content-not-show-display: block !default;
