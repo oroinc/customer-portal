@@ -94,6 +94,7 @@
     &__vertical &__inner {
         display: grid;
         justify-content: start;
+        position: relative;
         padding: $navigation-menu-vertical-item-inner-offset;
 
         @media (hover: hover) {

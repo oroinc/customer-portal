@@ -1,6 +1,15 @@
 /* @theme: default; */
 
 $main-menu-trigger-left-offset: -#{spacing('md')} !default;
+$main-menu-trigger-indicator-display: none !default;
 
-// desktop-small
+// Desktop-small
 $main-menu-trigger-desktop-small-display: none !default;
+
+// Mobile Landscape
+$main-menu-trigger-position-mobile-landscape: relative;
+
+$main-menu-trigger-indicator-display-mobile-landscape: block;
+$main-menu-trigger-indicator-position-mobile-landscape: absolute;
+$main-menu-trigger-indicator-right-mobile-landscape: 8px;
+$main-menu-trigger-indicator-top-mobile-landscape: 8px;

@@ -16,4 +16,20 @@ $quick-access-menu-item-title-padding: 14px spacing('base') !default;
 $quick-access-menu-item-title-font-size: 12px !default;
 $quick-access-menu-item-title-line-height: 16px !default;
 
-$quick-access-menu-dot-background: #ffc21e;
+$quick-access-label-container-display: flex !default;
+$quick-access-label-container-position: relative !default;
+$quick-access-label-container-line-height: 2.1 !default;
+
+$quick-access-label-container-conversation-badge-display: none !default;
+
+// Tablet
+$quick-access-label-container-indicator-position-tablet: absolute !default;
+$quick-access-label-container-indicator-top-tablet: -12px !default;
+$quick-access-label-container-indicator-left-tablet: -12px !default;
+
+// Mobile Landscape
+$quick-access-label-container-position-mobile-landscape: initial !default;
+$quick-access-label-container-indicator-display-mobile-landscape: none !default;
+$quick-access-label-container-conversation-badge-display-mobile-landscape: flex !default;
+$quick-access-label-container-conversation-badge-position-mobile-landscape: absolute !default;
+$quick-access-label-container-conversation-badge-right-mobile-landscape: 20px !default;

@@ -52,26 +52,13 @@
     }
 }
 
-@include breakpoint('desktop') {
-    .quick-access-dot-container {
-        position: relative;
-        width: 0;
-        height: 0;
+.quick-access-label-container {
+    display: $quick-access-label-container-display;
+    position: $quick-access-label-container-position;
+    line-height: $quick-access-label-container-line-height;
 
-        .quick-access-dot {
-            display: block;
-            background-color: $hamburger-menu-dot-background-color;
-            width: 6px;
-            height: 6px;
-            position: relative;
-            top: -12px;
-            left: -10px;
-            border-radius: 3px;
-        }
-    }
-
-    .quick-access-dot-data {
-        display: none;
+    .conversation-badge {
+        display: $quick-access-label-container-conversation-badge-display;
     }
 }
 
@@ -80,45 +67,12 @@
         height: auto;
     }
 
-    .quick-access-dot-container {
-        position: relative;
-        width: 0;
-        height: 0;
-
-        .quick-access-dot {
-            display: block;
-            background-color: $hamburger-menu-dot-background-color;
-            width: 6px;
-            height: 6px;
-            position: relative;
-            top: -12px;
-            left: -10px;
-            border-radius: 3px;
+    .quick-access-label-container {
+        .indicator {
+            position: $quick-access-label-container-indicator-position-tablet;
+            top: $quick-access-label-container-indicator-top-tablet;
+            left: $quick-access-label-container-indicator-left-tablet;
         }
-    }
-
-    .quick-access-dot-data {
-        display: none;
-    }
-}
-
-@include breakpoint('mobile') {
-    .quick-access-dot-container {
-        display: none;
-    }
-    .quick-access-dot-data {
-        width: 20px;
-        height: 20px;
-        right: 0;
-        border-radius: 10px;
-        margin-left: 3px;
-        background-color: $side-panel-top-menu-container-menu-btn-color;
-        color: $body-bg-color;
-        display: flex;
-        align-items: center;
-        align-self: center;
-        justify-content: center;
-        grid-column: 25;
     }
 }
 
@@ -144,6 +98,22 @@
 
         .quick-access-button-icon {
             right: 0;
+        }
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .quick-access-label-container {
+        position: $quick-access-label-container-position-mobile-landscape;
+
+        .indicator {
+            display: $quick-access-label-container-indicator-display-mobile-landscape;
+        }
+
+        .conversation-badge {
+            display: $quick-access-label-container-conversation-badge-display-mobile-landscape;
+            position: $quick-access-label-container-conversation-badge-position-mobile-landscape;
+            right: $quick-access-label-container-conversation-badge-right-mobile-landscape;
         }
     }
 }

@@ -2,10 +2,27 @@
 
 .main-menu-trigger {
     margin-left: $main-menu-trigger-left-offset;
+
+    .indicator {
+        display: $main-menu-trigger-indicator-display;
+    }
 }
 
 @include breakpoint('desktop-small') {
     .main-menu-trigger.main-menu-standalone {
         display: $main-menu-trigger-desktop-small-display;
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .main-menu-trigger {
+        position: $main-menu-trigger-position-mobile-landscape;
+
+        .indicator {
+            display: $main-menu-trigger-indicator-display-mobile-landscape;
+            position: $main-menu-trigger-indicator-position-mobile-landscape;
+            right: $main-menu-trigger-indicator-right-mobile-landscape;
+            top: $main-menu-trigger-indicator-top-mobile-landscape;
+        }
     }
 }

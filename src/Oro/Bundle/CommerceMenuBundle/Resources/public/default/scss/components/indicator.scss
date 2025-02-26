@@ -1,0 +1,9 @@
+/* @theme: default; */
+
+.indicator {
+    &--warning {
+        @include indicator();
+
+        --indicator-bg-color: #{$indicator-background-color-warning};
+    }
+}

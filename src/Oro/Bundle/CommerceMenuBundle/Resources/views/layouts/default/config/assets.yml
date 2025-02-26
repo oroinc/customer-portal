@@ -14,6 +14,8 @@ styles:
         - 'bundles/orocommercemenu/default/scss/variables/information-nav-config.scss'
         - 'bundles/orocommercemenu/default/scss/variables/featured-menu-config.scss'
         - 'bundles/orocommercemenu/default/scss/variables/header-row-config.scss'
+        - 'bundles/orocommercemenu/default/scss/variables/indicator-config.scss'
+        - 'bundles/orocommercemenu/default/scss/variables/conversation-badge-config.scss'
         - 'bundles/orocommercemenu/default/scss/variables/quick-access-config.scss'
         - 'bundles/orocommercemenu/default/scss/variables/side-panel-config.scss'
 
@@ -33,5 +35,7 @@ styles:
         - 'bundles/orocommercemenu/default/scss/components/information-nav.scss'
         - 'bundles/orocommercemenu/default/scss/components/featured-menu.scss'
         - 'bundles/orocommercemenu/default/scss/components/sales-block.scss'
+        - 'bundles/orocommercemenu/default/scss/components/indicator.scss'
+        - 'bundles/orocommercemenu/default/scss/components/conversation-badge.scss'
         - 'bundles/orocommercemenu/default/scss/components/quick-access.scss'
         - 'bundles/orocommercemenu/default/scss/components/side-panel.scss'
