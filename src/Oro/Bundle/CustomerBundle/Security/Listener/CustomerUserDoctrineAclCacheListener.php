@@ -23,6 +23,7 @@ class CustomerUserDoctrineAclCacheListener
     private OwnerTreeProviderInterface $ownerTreeProvider;
 
     private bool $isCacheOutdated = false;
+    private $ownerTree = null;
 
     /**
      * @var array [className => [fieldName => shouldValueBeCheckedOnBoolean, ...], ...]
@@ -59,22 +60,25 @@ class CustomerUserDoctrineAclCacheListener
         }
 
         $em = $args->getEntityManager();
-        $changedEntities = $this->getChangedEntities($em->getUnitOfWork());
-        $this->isCacheOutdated = count($changedEntities) > 0;
+        $this->ownerTree = null;
+        try {
+            $changedEntities = $this->getChangedEntities($em->getUnitOfWork());
+            $this->isCacheOutdated = count($changedEntities) > 0;
 
-        if ($this->isCacheOutdated) {
-            $this->queryCacheProvider->clearForEntities(Customer::class, $changedEntities);
+            if ($this->isCacheOutdated) {
+                $this->queryCacheProvider->clearForEntities(Customer::class, $changedEntities);
+            }
+        } finally {
+            $this->ownerTree = null;
         }
     }
 
     private function getChangedEntities(UnitOfWork $uow): array
     {
         $customerUsersToBreakTheCache = [];
-        $ownerTree = $this->ownerTreeProvider->getTree();
-
         $customerUsersToBreakTheCache[] = $this->getCustomerUsersShouldBeUpdatedByInsertions($uow);
-        $customerUsersToBreakTheCache[] = $this->getCustomerUsersShouldBeUpdatedByUpdates($uow, $ownerTree);
-        $customerUsersToBreakTheCache[] = $this->getCustomerUsersShouldBeUpdatedByDeletions($uow, $ownerTree);
+        $customerUsersToBreakTheCache[] = $this->getCustomerUsersShouldBeUpdatedByUpdates($uow);
+        $customerUsersToBreakTheCache[] = $this->getCustomerUsersShouldBeUpdatedByDeletions($uow);
         $customerUsersToBreakTheCache[] = $this->getCustomerUsersShouldBeUpdatedByCollectionUpdates($uow);
 
         return array_unique(array_merge(...$customerUsersToBreakTheCache));
@@ -96,7 +100,7 @@ class CustomerUserDoctrineAclCacheListener
         return array_unique(array_merge(...$customersToBreakTheCache));
     }
 
-    private function getCustomerUsersShouldBeUpdatedByDeletions(UnitOfWork $uow, OwnerTreeInterface $ownerTree): array
+    private function getCustomerUsersShouldBeUpdatedByDeletions(UnitOfWork $uow): array
     {
         $customersToBreakTheCache = [];
         $deletedCustomers = $this->getInsertedOrDeletedEntities(
@@ -109,14 +113,14 @@ class CustomerUserDoctrineAclCacheListener
             $customersToBreakTheCache[] = array_merge(
                 $parentCustomers,
                 [$deletedEntity->getId()],
-                $ownerTree->getSubordinateBusinessUnitIds($deletedEntity->getId())
+                $this->getOwnerTree()->getSubordinateBusinessUnitIds($deletedEntity->getId())
             );
         }
 
         return array_unique(array_merge(...$customersToBreakTheCache));
     }
 
-    private function getCustomerUsersShouldBeUpdatedByUpdates(UnitOfWork $uow, OwnerTreeInterface $ownerTree): array
+    private function getCustomerUsersShouldBeUpdatedByUpdates(UnitOfWork $uow): array
     {
         $customersToBreakTheCache = [];
         $updatedEntities = $this->getUpdatedEntities($uow, $this->entitiesShouldBeProcessedByUpdate);
@@ -150,7 +154,7 @@ class CustomerUserDoctrineAclCacheListener
                     $newParents
                 ));
             } elseif ($entity instanceof Organization) {
-                $customersToBreakTheCache[] = $ownerTree->getOrganizationBusinessUnitIds($entity->getId());
+                $customersToBreakTheCache[] = $this->getOwnerTree()->getOrganizationBusinessUnitIds($entity->getId());
             }
         }
 
@@ -243,5 +247,14 @@ class CustomerUserDoctrineAclCacheListener
         if ($customer->getParent()) {
             $this->collectParentCustomerIds($customer->getParent(), $customerIds);
         }
+    }
+
+    private function getOwnerTree(): OwnerTreeInterface
+    {
+        if (null === $this->ownerTree) {
+            $this->ownerTree = $this->ownerTreeProvider->getTree();
+        }
+
+        return $this->ownerTree;
     }
 }
