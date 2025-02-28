@@ -49,15 +49,6 @@ navigation:
             privacy_policy:
                 label: 'oro.commercemenu.frontend.navigation.items.privacy_policy.label'
                 uri: '/privacy-policy'
-            site_map:
-                label: 'oro.commercemenu.frontend.navigation.items.site_map.label'
-                uri: '/sitemap'
-            search_terms:
-                label: 'oro.commercemenu.frontend.navigation.items.search_terms.label'
-                uri: '/search/terms'
-            advanced_search:
-                label: 'oro.commercemenu.frontend.navigation.items.advanced_search.label'
-                uri: '/search/advanced'
             orders_and_returns:
                 label: 'oro.commercemenu.frontend.navigation.items.orders_and_returns.label'
                 uri: '/orders-and-returns'
@@ -150,9 +141,6 @@ navigation:
                             about: ~
                             customer_service: ~
                             privacy_policy: ~
-                            site_map: ~
-                            search_terms: ~
-                            advanced_search: ~
                             orders_and_returns: ~
                     why_buy_from_us:
                         children:

@@ -113,10 +113,7 @@ oro:
                     information.label: 'Information'
                     customer_service.label: 'Customer Service'
                     privacy_policy.label: 'Privacy Policy'
-                    site_map.label: 'Site Map'
-                    search_terms.label: 'Search Terms'
                     search_dropdown.label: Search for a product
-                    advanced_search.label: 'Advanced Search'
                     orders_and_returns.label: 'Orders and Returns'
                     why_buy_from_us.label: 'Why Buy From Us'
                     shipping_and_returns.label: 'Shipping & Returns'
