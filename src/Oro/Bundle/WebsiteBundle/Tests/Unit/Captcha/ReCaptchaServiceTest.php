@@ -126,7 +126,7 @@ class ReCaptchaServiceTest extends TestCase
         $this->urlResolver->expects($this->once())
             ->method('getWebsiteUrl')
             ->with($website)
-            ->willReturn('http://mysite.com');
+            ->willReturn('http://mysite.com/us/');
 
         $this->crypter->expects($this->once())
             ->method('decryptData')
