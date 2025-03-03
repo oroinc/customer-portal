@@ -86,6 +86,14 @@ class ReCaptchaServiceTest extends TestCase
         $this->assertFalse($this->captchaService->isConfigured());
     }
 
+    public function testIsVerifiedInvalid()
+    {
+        $this->reCaptchaClientFactory->expects(self::never())
+            ->method('create');
+
+        self::assertFalse($this->captchaService->isVerified(null));
+    }
+
     /**
      * @dataProvider verificationDataProvider
      */
