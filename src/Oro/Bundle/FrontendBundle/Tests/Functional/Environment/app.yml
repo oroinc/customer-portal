@@ -4,3 +4,27 @@ oro_frontend:
             allow_credentials: true
             allow_origins:
                 - 'https://api.test.com'
+
+oro_api:
+    config_files:
+        test_frontend_empty:
+            file_name: api_test_frontend_empty.yml
+            request_type: ['test_frontend_empty']
+        test_frontend_empty_based_on_frontend_rest_json_api:
+            file_name: api_test_frontend_empty.yml
+            request_type: ['test_frontend_empty_based_on_frontend_rest_json_api']
+
+    api_doc_views:
+        test_frontend_empty_rest_api:
+            label: Test Frontend API without resources
+            headers:
+                Accept: application/vnd.api+json
+                X-Test-Request-Type: test_frontend_empty
+            request_type: ['rest', 'json_api', 'frontend', 'test_frontend_empty']
+        test_frontend_empty_rest_api_based_on_frontend_rest_json_api:
+            label: Test Frontend API without resources (underlying_view = frontend_rest_json_api)
+            underlying_view: frontend_rest_json_api
+            headers:
+                Accept: application/vnd.api+json
+                X-Test-Request-Type: test_frontend_empty
+            request_type: ['rest', 'json_api', 'frontend', 'test_frontend_empty_based_on_frontend_rest_json_api']

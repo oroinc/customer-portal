@@ -51,7 +51,11 @@ class NonAuthenticatedVisitorsDocumentationProvider implements DocumentationProv
     {
         $result = [];
         foreach ($this->apiResources as $entityClass) {
-            $entityType = ValueNormalizerUtil::convertToEntityType($this->valueNormalizer, $entityClass, $requestType);
+            $entityType = ValueNormalizerUtil::tryConvertToEntityType(
+                $this->valueNormalizer,
+                $entityClass,
+                $requestType
+            );
             if ($entityType
                 && $this->resourcesProvider->isResourceEnabled(
                     $entityClass,
