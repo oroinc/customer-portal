@@ -9,6 +9,7 @@ use Oro\Bundle\ApiBundle\Request\RequestType;
 use Oro\Bundle\ApiBundle\Request\ValueNormalizer;
 use Oro\Bundle\ApiBundle\Request\Version;
 use Oro\Bundle\CustomerBundle\Api\ApiDoc\NonAuthenticatedVisitorsDocumentationProvider;
+use Oro\Bundle\EntityBundle\Exception\EntityAliasNotFoundException;
 
 class NonAuthenticatedVisitorsDocumentationProviderTest extends \PHPUnit\Framework\TestCase
 {
@@ -28,11 +29,15 @@ class NonAuthenticatedVisitorsDocumentationProviderTest extends \PHPUnit\Framewo
             ->method('normalizeValue')
             ->with(self::isType('string'), DataType::ENTITY_TYPE)
             ->willReturnCallback(function (mixed $value) {
+                if ('Test\UnknownEntity' === $value) {
+                    throw new EntityAliasNotFoundException($value);
+                }
+
                 return str_replace('Test\\', 'test', $value);
             });
 
         $this->provider = new NonAuthenticatedVisitorsDocumentationProvider(
-            ['Test\Entity3', 'Test\Entity2', 'Test\Entity1'],
+            ['Test\Entity3', 'Test\Entity2', 'Test\Entity1', 'Test\UnknownEntity'],
             $valueNormalizer,
             $this->resourcesProvider
         );
