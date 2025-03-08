@@ -106,6 +106,11 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
     #[\Override]
     public function getUserIdentifier(): string
     {
-        return VisitorIdentifierUtil::encodeIdentifier($this->getSessionId());
+        $sessionId = $this->getSessionId();
+        if (null === $sessionId) {
+            return '';
+        }
+
+        return VisitorIdentifierUtil::encodeIdentifier($sessionId);
     }
 }

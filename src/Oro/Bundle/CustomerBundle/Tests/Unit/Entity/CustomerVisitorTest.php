@@ -10,9 +10,9 @@ class CustomerVisitorTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTestCaseTrait;
 
-    public function testAccessors()
+    public function testAccessors(): void
     {
-        $this->assertPropertyAccessors(
+        self::assertPropertyAccessors(
             new CustomerVisitor(),
             [
                 ['id', 42],
@@ -21,9 +21,9 @@ class CustomerVisitorTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testLastVisitAccessors()
+    public function testLastVisitAccessors(): void
     {
-        $this->assertEqualsWithDelta(
+        self::assertEqualsWithDelta(
             (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp(),
             (new CustomerVisitor())->getLastVisit()->getTimestamp(),
             10
@@ -31,6 +31,15 @@ class CustomerVisitorTest extends \PHPUnit\Framework\TestCase
 
         $now = new \DateTime();
         $customerUser = (new CustomerVisitor())->setLastVisit($now);
-        $this->assertEquals($now, $customerUser->getLastVisit());
+        self::assertEquals($now, $customerUser->getLastVisit());
+    }
+
+    public function testGetUserIdentifier(): void
+    {
+        $customerUser = new CustomerVisitor();
+        self::assertSame('', $customerUser->getUserIdentifier());
+
+        $customerUser->setSessionId('test');
+        self::assertSame('visitor:test', $customerUser->getUserIdentifier());
     }
 }
