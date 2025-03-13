@@ -233,6 +233,8 @@
     &__options-dropdown {
         .dropdown-menu {
             z-index: z('dropdown') + 2;
+            // Fix bug in Safari
+            min-width: max-content;
         }
     }
 

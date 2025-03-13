@@ -7,11 +7,6 @@
         box-shadow: $dropdown-box-shadow;
     }
 
-    &.show {
-        // Fix bug with max-content in Safari
-        display: grid;
-    }
-
     &[x-adjusted-height] {
         overflow-y: auto;
     }
