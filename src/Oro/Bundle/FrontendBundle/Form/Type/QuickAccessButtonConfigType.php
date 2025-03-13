@@ -81,6 +81,9 @@ class QuickAccessButtonConfigType extends AbstractType
                     'oro_frontend.form.quick_access_button.fields.web_catalog_node.tooltip',
                 'attr' => [
                     'data-page-component-module' => 'orosale/js/app/components/dependent-field-component',
+                    'data-page-component-options' => json_encode([
+                        'groupContainerSelector' => '.control-group.control-group-preview'
+                    ]),
                     'data-depend-on' => 'quick_access_button_type',
                     'data-show-if' => QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE,
                 ],
