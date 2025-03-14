@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Utils;
 
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\Mapping\ClassMetadata;
@@ -22,19 +21,20 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 final class AddressCopierTest extends TestCase
 {
     private PropertyAccessorInterface|MockObject $propertyAccessor;
-
+    private EntityManagerInterface|MockObject $entityManager;
     private AddressCopier $addressCopier;
-
-    private EntityManager|MockObject $entityManager;
 
     protected function setUp(): void
     {
-        $doctrine = $this->createMock(ManagerRegistry::class);
         $this->propertyAccessor = $this->createMock(PropertyAccessorInterface::class);
-        $this->addressCopier = new AddressCopier($doctrine, $this->propertyAccessor);
-
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
-        $doctrine->method('getManagerForClass')->willReturn($this->entityManager);
+
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $doctrine->expects(self::any())
+            ->method('getManagerForClass')
+            ->willReturn($this->entityManager);
+
+        $this->addressCopier = new AddressCopier($doctrine, $this->propertyAccessor);
     }
 
     public function testCopyToAddressWithFieldsAndAssociations(): void
@@ -43,17 +43,16 @@ final class AddressCopierTest extends TestCase
         $toAddress = new CustomerUserAddress();
 
         $metadata = $this->createMock(ClassMetadata::class);
-        $metadata
+        $metadata->expects(self::any())
             ->method('getFieldNames')
             ->willReturn(['field1', 'field2']);
-        $metadata
+        $metadata->expects(self::any())
             ->method('getAssociationNames')
             ->willReturn(['association1', 'association2']);
 
         $this->entityManager->method('getClassMetadata')->willReturn($metadata);
 
-        $this->propertyAccessor
-            ->expects(self::exactly(4))
+        $this->propertyAccessor->expects(self::exactly(4))
             ->method('getValue')
             ->willReturnMap([
                 [$fromAddress, 'field1', 'value1'],
@@ -80,15 +79,16 @@ final class AddressCopierTest extends TestCase
         $toAddress = new AddressBookAwareAddressStub();
 
         $metadata = $this->createMock(ClassMetadata::class);
-        $metadata
+        $metadata->expects(self::any())
             ->method('getFieldNames')
             ->willReturn([]);
-
-        $metadata
+        $metadata->expects(self::any())
             ->method('getAssociationNames')
             ->willReturn([]);
 
-        $this->entityManager->method('getClassMetadata')->willReturn($metadata);
+        $this->entityManager->expects(self::any())
+            ->method('getClassMetadata')
+            ->willReturn($metadata);
 
         $this->addressCopier->copyToAddress($fromAddress, $toAddress);
 
@@ -101,15 +101,16 @@ final class AddressCopierTest extends TestCase
         $toAddress = new AddressBookAwareAddressStub();
 
         $metadata = $this->createMock(ClassMetadata::class);
-        $metadata
+        $metadata->expects(self::any())
             ->method('getFieldNames')
             ->willReturn([]);
-
-        $metadata
+        $metadata->expects(self::any())
             ->method('getAssociationNames')
             ->willReturn([]);
 
-        $this->entityManager->method('getClassMetadata')->willReturn($metadata);
+        $this->entityManager->expects(self::any())
+            ->method('getClassMetadata')
+            ->willReturn($metadata);
 
         $this->addressCopier->copyToAddress($fromAddress, $toAddress);
 
@@ -122,20 +123,21 @@ final class AddressCopierTest extends TestCase
         $toAddress = $this->createMock(AbstractAddress::class);
 
         $metadata = $this->createMock(ClassMetadata::class);
-        $metadata
+        $metadata->expects(self::any())
             ->method('getFieldNames')
             ->willReturn([]);
-
-        $metadata
+        $metadata->expects(self::any())
             ->method('getAssociationNames')
             ->willReturn(['emptyCollection']);
 
         $emptyCollection = $this->createMock(Collection::class);
-        $emptyCollection
+        $emptyCollection->expects(self::any())
             ->method('isEmpty')
             ->willReturn(true);
 
-        $this->entityManager->method('getClassMetadata')->willReturn($metadata);
+        $this->entityManager->expects(self::any())
+            ->method('getClassMetadata')
+            ->willReturn($metadata);
 
         $this->propertyAccessor->expects(self::once())
             ->method('getValue')
@@ -155,15 +157,16 @@ final class AddressCopierTest extends TestCase
         $toAddress = $this->createMock(AbstractAddress::class);
 
         $metadata = $this->createMock(ClassMetadata::class);
-        $metadata
+        $metadata->expects(self::any())
             ->method('getFieldNames')
             ->willReturn(['emptyField']);
-
-        $metadata
+        $metadata->expects(self::any())
             ->method('getAssociationNames')
             ->willReturn([]);
 
-        $this->entityManager->method('getClassMetadata')->willReturn($metadata);
+        $this->entityManager->expects(self::any())
+            ->method('getClassMetadata')
+            ->willReturn($metadata);
 
         $this->propertyAccessor->expects(self::once())
             ->method('getValue')
@@ -183,15 +186,16 @@ final class AddressCopierTest extends TestCase
         $toAddress = $this->createMock(AbstractAddress::class);
 
         $metadata = $this->createMock(ClassMetadata::class);
-        $metadata
+        $metadata->expects(self::any())
             ->method('getFieldNames')
             ->willReturn(['id', 'created', 'updated', 'regularField']);
-
-        $metadata
+        $metadata->expects(self::any())
             ->method('getAssociationNames')
             ->willReturn([]);
 
-        $this->entityManager->method('getClassMetadata')->willReturn($metadata);
+        $this->entityManager->expects(self::any())
+            ->method('getClassMetadata')
+            ->willReturn($metadata);
 
         $regularFieldValue = 'sample_value';
         $this->propertyAccessor->expects(self::once())
@@ -212,15 +216,16 @@ final class AddressCopierTest extends TestCase
         $toAddress = $this->createMock(AbstractAddress::class);
 
         $metadata = $this->createMock(ClassMetadata::class);
-        $metadata
+        $metadata->expects(self::any())
             ->method('getFieldNames')
             ->willReturn(['invalidField']);
-
-        $metadata
+        $metadata->expects(self::any())
             ->method('getAssociationNames')
             ->willReturn([]);
 
-        $this->entityManager->method('getClassMetadata')->willReturn($metadata);
+        $this->entityManager->expects(self::any())
+            ->method('getClassMetadata')
+            ->willReturn($metadata);
 
         $this->propertyAccessor->expects(self::once())
             ->method('getValue')

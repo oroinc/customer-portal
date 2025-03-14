@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security\Listener;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\UnitOfWork;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
@@ -37,7 +37,7 @@ class CustomerUserDoctrineAclCacheListenerTest extends TestCase
     public function testOwnerTreeShouldNotBeTriggeredForUpdateNonOrganizationEntity(): void
     {
         $uow = $this->createMock(UnitOfWork::class);
-        $em = $this->createMock(EntityManager::class);
+        $em = $this->createMock(EntityManagerInterface::class);
 
         $entity = new CustomerUser();
 
@@ -48,19 +48,15 @@ class CustomerUserDoctrineAclCacheListenerTest extends TestCase
         $uow->expects(self::once())
             ->method('getScheduledEntityInsertions')
             ->willReturn([]);
-
         $uow->expects(self::once())
             ->method('getScheduledEntityUpdates')
             ->willReturn([$entity]);
-
         $uow->expects(self::once())
             ->method('getScheduledEntityDeletions')
             ->willReturn([]);
-
         $uow->expects(self::once())
             ->method('getScheduledCollectionUpdates')
             ->willReturn([]);
-
         $uow->expects(self::once())
             ->method('getEntityChangeSet')
             ->with($entity)
@@ -75,7 +71,7 @@ class CustomerUserDoctrineAclCacheListenerTest extends TestCase
     public function testOwnerTreeShouldBeTriggeredForUpdateOrganizationEntity(): void
     {
         $uow = $this->createMock(UnitOfWork::class);
-        $em = $this->createMock(EntityManager::class);
+        $em = $this->createMock(EntityManagerInterface::class);
 
         $entity = new Organization();
 
@@ -86,19 +82,15 @@ class CustomerUserDoctrineAclCacheListenerTest extends TestCase
         $uow->expects(self::once())
             ->method('getScheduledEntityInsertions')
             ->willReturn([]);
-
         $uow->expects(self::once())
             ->method('getScheduledEntityUpdates')
             ->willReturn([$entity]);
-
         $uow->expects(self::once())
             ->method('getScheduledEntityDeletions')
             ->willReturn([]);
-
         $uow->expects(self::once())
             ->method('getScheduledCollectionUpdates')
             ->willReturn([]);
-
         $uow->expects(self::once())
             ->method('getEntityChangeSet')
             ->with($entity)
@@ -114,7 +106,7 @@ class CustomerUserDoctrineAclCacheListenerTest extends TestCase
     public function testOwnerTreeShouldNotBeTriggeredForDeleteNonCustomerEntity(): void
     {
         $uow = $this->createMock(UnitOfWork::class);
-        $em = $this->createMock(EntityManager::class);
+        $em = $this->createMock(EntityManagerInterface::class);
 
         $entity = new CustomerUser();
 
@@ -125,15 +117,12 @@ class CustomerUserDoctrineAclCacheListenerTest extends TestCase
         $uow->expects(self::once())
             ->method('getScheduledEntityInsertions')
             ->willReturn([]);
-
         $uow->expects(self::once())
             ->method('getScheduledEntityUpdates')
             ->willReturn([]);
-
         $uow->expects(self::once())
             ->method('getScheduledEntityDeletions')
             ->willReturn([$entity]);
-
         $uow->expects(self::once())
             ->method('getScheduledCollectionUpdates')
             ->willReturn([]);
@@ -147,7 +136,7 @@ class CustomerUserDoctrineAclCacheListenerTest extends TestCase
     public function testOwnerTreeShouldBeTriggeredForDeleteCustomerEntity(): void
     {
         $uow = $this->createMock(UnitOfWork::class);
-        $em = $this->createMock(EntityManager::class);
+        $em = $this->createMock(EntityManagerInterface::class);
 
         $entity = new Customer();
 
@@ -158,15 +147,12 @@ class CustomerUserDoctrineAclCacheListenerTest extends TestCase
         $uow->expects(self::once())
             ->method('getScheduledEntityInsertions')
             ->willReturn([]);
-
         $uow->expects(self::once())
             ->method('getScheduledEntityUpdates')
             ->willReturn([]);
-
         $uow->expects(self::once())
             ->method('getScheduledEntityDeletions')
             ->willReturn([$entity]);
-
         $uow->expects(self::once())
             ->method('getScheduledCollectionUpdates')
             ->willReturn([]);

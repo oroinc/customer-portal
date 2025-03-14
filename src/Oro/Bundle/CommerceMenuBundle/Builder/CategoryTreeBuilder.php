@@ -3,7 +3,7 @@
 namespace Oro\Bundle\CommerceMenuBundle\Builder;
 
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CatalogBundle\Entity\Category;
@@ -34,33 +34,16 @@ class CategoryTreeBuilder implements BuilderInterface
     public const CATEGORY_DATA = 'category_data';
     public const INCLUDE_SUBCATEGORIES = 'include_subcategories';
 
-    private ManagerRegistry $managerRegistry;
-
-    private UrlGeneratorInterface $urlGenerator;
-
-    private MenuCategoriesProviderInterface $menuCategoriesProvider;
-
-    private TokenAccessorInterface $tokenAccessor;
-
-    private LocalizationHelper $localizationHelper;
-
-    /**
-     * @var array<string,MenuUpdateApplierContext> Contexts indexed by menu name.
-     */
+    /** @var array<string,MenuUpdateApplierContext> Contexts indexed by menu name. */
     private array $menuUpdateApplierContexts = [];
 
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        UrlGeneratorInterface $urlGenerator,
-        MenuCategoriesProviderInterface $menuCategoriesProvider,
-        TokenAccessorInterface $tokenAccessor,
-        LocalizationHelper $localizationHelper,
+        private ManagerRegistry $doctrine,
+        private UrlGeneratorInterface $urlGenerator,
+        private MenuCategoriesProviderInterface $menuCategoriesProvider,
+        private TokenAccessorInterface $tokenAccessor,
+        private LocalizationHelper $localizationHelper
     ) {
-        $this->managerRegistry = $managerRegistry;
-        $this->urlGenerator = $urlGenerator;
-        $this->menuCategoriesProvider = $menuCategoriesProvider;
-        $this->tokenAccessor = $tokenAccessor;
-        $this->localizationHelper = $localizationHelper;
     }
 
     #[\Override]
@@ -130,8 +113,8 @@ class CategoryTreeBuilder implements BuilderInterface
 
         $baseCategoryData = array_shift($categories);
 
-        /** @var EntityManager $entityManager */
-        $entityManager = $this->managerRegistry->getManagerForClass(Category::class);
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = $this->doctrine->getManagerForClass(Category::class);
 
         // Explicit passing of localization avoids further unnecessary calls to getCurrentLocalization.
         $localization = $this->localizationHelper->getCurrentLocalization();
@@ -175,7 +158,7 @@ class CategoryTreeBuilder implements BuilderInterface
      *      ],
      *      // ...
      *  ]
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      * @param Localization|null $localization
      * @param bool $includeSubcategories
      * @param string $treeItemNamePrefix
@@ -185,7 +168,7 @@ class CategoryTreeBuilder implements BuilderInterface
      */
     private function addTreeItems(
         iterable $categories,
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         ?Localization $localization,
         bool $includeSubcategories,
         string $treeItemNamePrefix,
@@ -249,7 +232,7 @@ class CategoryTreeBuilder implements BuilderInterface
     private function setMenuItemData(
         ItemInterface $menuItem,
         array $categoryData,
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         ?Localization $localization,
         bool $includeSubcategories
     ): void {

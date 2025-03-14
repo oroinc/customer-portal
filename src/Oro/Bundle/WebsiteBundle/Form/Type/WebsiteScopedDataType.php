@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\WebsiteBundle\Form\Type;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
@@ -21,13 +20,10 @@ class WebsiteScopedDataType extends AbstractType
 {
     public const WEBSITE_OPTION = 'website';
 
-    private ManagerRegistry $doctrine;
-    private AclHelper $aclHelper;
-
-    public function __construct(ManagerRegistry $doctrine, AclHelper $aclHelper)
-    {
-        $this->doctrine = $doctrine;
-        $this->aclHelper = $aclHelper;
+    public function __construct(
+        private ManagerRegistry $doctrine,
+        private AclHelper $aclHelper
+    ) {
     }
 
     #[\Override]
@@ -37,20 +33,17 @@ class WebsiteScopedDataType extends AbstractType
     }
 
     #[\Override]
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired(['type']);
-
-        $resolver->setDefaults(
-            [
-                'preloaded_websites' => [],
-                'options' => null,
-            ]
-        );
+        $resolver->setDefaults([
+            'preloaded_websites' => [],
+            'options' => null
+        ]);
     }
 
     #[\Override]
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $loadedWebsites = !empty($options['preloaded_websites'])
             ? $options['preloaded_websites']
@@ -73,7 +66,7 @@ class WebsiteScopedDataType extends AbstractType
     }
 
     #[\Override]
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['websites'] = $this->getWebsites();
     }
@@ -96,20 +89,13 @@ class WebsiteScopedDataType extends AbstractType
                 continue;
             }
 
-            /** @var EntityManager $em */
             $em = $this->doctrine->getManagerForClass(Website::class);
-            $formOptions['options'][self::WEBSITE_OPTION] = $em->getReference(
-                Website::class,
-                $websiteId
-            );
+            $formOptions['options'][self::WEBSITE_OPTION] = $em->getReference(Website::class, $websiteId);
 
             $form->add($websiteId, $formOptions['type'], $formOptions['options']);
         }
     }
 
-    /**
-     * @throws \Doctrine\ORM\ORMException
-     */
     public function preSetData(FormEvent $event): void
     {
         $form = $event->getForm();
@@ -117,7 +103,6 @@ class WebsiteScopedDataType extends AbstractType
         $formOptions = $form->getConfig()->getOptions();
         $formOptions['options']['ownership_disabled'] = true;
 
-        /** @var EntityManager $em */
         $em = $this->doctrine->getManagerForClass(Website::class);
         foreach ($event->getData() as $websiteId => $value) {
             $formOptions['options']['data'] = [];

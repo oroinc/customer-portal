@@ -3,7 +3,7 @@
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Builder;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CatalogBundle\Entity\Category;
@@ -35,42 +35,41 @@ class CategoryTreeBuilderTest extends TestCase
 {
     use MenuItemTestTrait;
 
-    private ManagerRegistry|MockObject $managerRegistry;
-    private UrlGeneratorInterface|MockObject $urlGenerator;
-    private MenuCategoriesProviderInterface|MockObject $menuCategoriesProvider;
-    private TokenAccessorInterface|MockObject $tokenAccessor;
+    private UrlGeneratorInterface&MockObject $urlGenerator;
+    private MenuCategoriesProviderInterface&MockObject $menuCategoriesProvider;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
     private CategoryTreeBuilder $builder;
 
     #[\Override]
     protected function setUp(): void
     {
-        $managerRegistry = $this->createMock(ManagerRegistry::class);
         $this->urlGenerator = $this->createMock(UrlGeneratorInterface::class);
         $this->menuCategoriesProvider = $this->createMock(MenuCategoriesProviderInterface::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $localizationHelper = $this->createMock(LocalizationHelper::class);
 
+        $entityManager = $this->createMock(EntityManagerInterface::class);
+        $entityManager->expects(self::any())
+            ->method('getReference')
+            ->willReturnCallback(static fn ($class, $id) => new ProxyStub($class, $id));
+
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $doctrine->expects(self::any())
+            ->method('getManagerForClass')
+            ->with(Category::class)
+            ->willReturn($entityManager);
+
+        $localizationHelper->expects(self::any())
+            ->method('getLocalizedValue')
+            ->willReturnCallback(static fn ($collection) => (string) ($collection[0] ?? null));
+
         $this->builder = new CategoryTreeBuilder(
-            $managerRegistry,
+            $doctrine,
             $this->urlGenerator,
             $this->menuCategoriesProvider,
             $this->tokenAccessor,
             $localizationHelper
         );
-
-        $entityManager = $this->createMock(EntityManager::class);
-        $managerRegistry->expects(self::any())
-            ->method('getManagerForClass')
-            ->with(Category::class)
-            ->willReturn($entityManager);
-
-        $entityManager->expects(self::any())
-            ->method('getReference')
-            ->willReturnCallback(static fn ($class, $id) => new ProxyStub($class, $id));
-
-        $localizationHelper->expects(self::any())
-            ->method('getLocalizedValue')
-            ->willReturnCallback(static fn ($collection) => (string) ($collection[0] ?? null));
     }
 
     private function getCategory(int $id): Category
@@ -454,7 +453,7 @@ class CategoryTreeBuilderTest extends TestCase
                     ],
                 ],
             ],
-            $this->normalizeMenuItem($menu),
+            $this->normalizeMenuItem($menu)
         );
     }
 
@@ -636,7 +635,7 @@ class CategoryTreeBuilderTest extends TestCase
                     ],
                 ],
             ],
-            $this->normalizeMenuItem($menu),
+            $this->normalizeMenuItem($menu)
         );
     }
 
@@ -815,7 +814,7 @@ class CategoryTreeBuilderTest extends TestCase
                     ],
                 ],
             ],
-            $this->normalizeMenuItem($menu),
+            $this->normalizeMenuItem($menu)
         );
     }
 
@@ -1020,7 +1019,7 @@ class CategoryTreeBuilderTest extends TestCase
                     ],
                 ],
             ],
-            $this->normalizeMenuItem($menu),
+            $this->normalizeMenuItem($menu)
         );
     }
 

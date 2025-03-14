@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Doctrine;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\CustomerBundle\Doctrine\SoftDeleteableFilter;
 use Oro\Bundle\CustomerBundle\Doctrine\SoftDeleteableInterface;
@@ -17,11 +17,8 @@ use Oro\Component\Testing\QueryTracker;
  */
 class SoftDeletableFilterTest extends WebTestCase
 {
-    /** @var QueryTracker */
-    private $queryTracker;
-
-    /** @var EntityManager */
-    private $em;
+    private QueryTracker $queryTracker;
+    private EntityManagerInterface $em;
 
     #[\Override]
     protected function setUp(): void

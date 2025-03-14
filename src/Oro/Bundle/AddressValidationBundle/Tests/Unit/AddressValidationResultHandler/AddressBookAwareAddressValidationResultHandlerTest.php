@@ -3,7 +3,7 @@
 namespace Oro\Bundle\AddressValidationBundle\Tests\Unit\AddressValidationResultHandler;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
@@ -31,13 +31,9 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
 {
     private AuthorizationCheckerInterface&MockObject $authorizationChecker;
-
     private AddressCopier&MockObject $addressCopier;
-
     private AddressBookAwareAddressValidationResultHandler $handler;
-
-    private EntityManager&MockObject $entityManager;
-
+    private EntityManagerInterface&MockObject $entityManager;
     private AddressType $shippingAddressType;
 
     protected function setUp(): void
@@ -53,13 +49,13 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
             AddressType::TYPE_SHIPPING
         );
 
-        $this->entityManager = $this->createMock(EntityManager::class);
-        $doctrine
+        $this->entityManager = $this->createMock(EntityManagerInterface::class);
+        $doctrine->expects(self::any())
             ->method('getManagerForClass')
             ->willReturn($this->entityManager);
 
         $this->shippingAddressType = new AddressType(AddressType::TYPE_SHIPPING);
-        $this->entityManager
+        $this->entityManager->expects(self::any())
             ->method('getReference')
             ->with(AddressType::class, AddressType::TYPE_SHIPPING)
             ->willReturn($this->shippingAddressType);
@@ -72,7 +68,7 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
         $suggestedAddresses = [];
 
         $formConfig = $this->createMock(FormConfigInterface::class);
-        $formConfig
+        $formConfig->expects(self::any())
             ->method('getOption')
             ->willReturnMap([
                 ['suggested_addresses', null, $suggestedAddresses],
@@ -80,31 +76,23 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
             ]);
 
         $addressValidationResultForm = $this->createMock(FormInterface::class);
-        $addressValidationResultForm
+        $addressValidationResultForm->expects(self::any())
             ->method('getConfig')
             ->willReturn($formConfig);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('submit')
             ->with(['address' => '0']);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isSubmitted')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isValid')
             ->willReturn(false);
 
-        $this->addressCopier
-            ->expects(self::never())
+        $this->addressCopier->expects(self::never())
             ->method(self::anything());
 
-        $this->entityManager
-            ->expects(self::never())
+        $this->entityManager->expects(self::never())
             ->method(self::anything());
 
         $this->handler->handleAddressValidationRequest($addressValidationResultForm, $request);
@@ -117,7 +105,7 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
         $suggestedAddresses = [new OrderAddress()];
 
         $formConfig = $this->createMock(FormConfigInterface::class);
-        $formConfig
+        $formConfig->expects(self::any())
             ->method('getOption')
             ->willReturnMap([
                 ['suggested_addresses', null, $suggestedAddresses],
@@ -125,35 +113,25 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
             ]);
 
         $addressValidationResultForm = $this->createMock(FormInterface::class);
-        $addressValidationResultForm
+        $addressValidationResultForm->expects(self::any())
             ->method('getConfig')
             ->willReturn($formConfig);
-
-        $addressValidationResultForm
-            ->expects(self::never())
+        $addressValidationResultForm->expects(self::never())
             ->method('submit');
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('handleRequest')
             ->with($request);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isSubmitted')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isValid')
             ->willReturn(false);
 
-        $this->addressCopier
-            ->expects(self::never())
+        $this->addressCopier->expects(self::never())
             ->method(self::anything());
 
-        $this->entityManager
-            ->expects(self::never())
+        $this->entityManager->expects(self::never())
             ->method(self::anything());
 
         $this->handler->handleAddressValidationRequest($addressValidationResultForm, $request);
@@ -170,7 +148,7 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
         $suggestedAddresses = [];
 
         $formConfig = $this->createMock(FormConfigInterface::class);
-        $formConfig
+        $formConfig->expects(self::any())
             ->method('getOption')
             ->willReturnMap([
                 ['suggested_addresses', null, $suggestedAddresses],
@@ -178,40 +156,28 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
             ]);
 
         $addressValidationResultForm = $this->createMock(FormInterface::class);
-        $addressValidationResultForm
+        $addressValidationResultForm->expects(self::any())
             ->method('getConfig')
             ->willReturn($formConfig);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('submit')
             ->with(['address' => '0']);
-
-        $addressValidationResultForm
-            ->expects(self::never())
+        $addressValidationResultForm->expects(self::never())
             ->method('handleRequest');
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isSubmitted')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('getData')
             ->willReturn(['address' => $selectedAddress]);
 
-        $this->addressCopier
-            ->expects(self::never())
+        $this->addressCopier->expects(self::never())
             ->method(self::anything());
 
-        $this->entityManager
-            ->expects(self::never())
+        $this->entityManager->expects(self::never())
             ->method(self::anything());
 
         self::assertNull($selectedAddress->getValidatedAt());
@@ -221,14 +187,11 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
         self::assertInstanceOf(\DateTimeInterface::class, $selectedAddress->getValidatedAt());
     }
 
-    public function noAddressBookAddressDataProvider(): \Generator
+    public function noAddressBookAddressDataProvider(): array
     {
-        yield [
-            'originalAddress' => new AddressValidatedAtAwareStub(),
-        ];
-
-        yield [
-            'originalAddress' => new OrderAddress(),
+        return [
+            ['originalAddress' => new AddressValidatedAtAwareStub()],
+            ['originalAddress' => new OrderAddress()]
         ];
     }
 
@@ -246,7 +209,7 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
         $suggestedAddresses = [$selectedAddress];
 
         $formConfig = $this->createMock(FormConfigInterface::class);
-        $formConfig
+        $formConfig->expects(self::any())
             ->method('getOption')
             ->willReturnMap([
                 ['suggested_addresses', null, $suggestedAddresses],
@@ -254,40 +217,28 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
             ]);
 
         $addressValidationResultForm = $this->createMock(FormInterface::class);
-        $addressValidationResultForm
+        $addressValidationResultForm->expects(self::any())
             ->method('getConfig')
             ->willReturn($formConfig);
-
-        $addressValidationResultForm
-            ->expects(self::never())
+        $addressValidationResultForm->expects(self::never())
             ->method('submit');
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('handleRequest')
             ->with($request);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isSubmitted')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('getData')
             ->willReturn(['address' => $selectedAddress]);
 
-        $this->addressCopier
-            ->expects(self::never())
+        $this->addressCopier->expects(self::never())
             ->method(self::anything());
 
-        $this->entityManager
-            ->expects(self::never())
+        $this->entityManager->expects(self::never())
             ->method(self::anything());
 
         self::assertNotNull(AddressBookAddressUtils::getAddressBookAddress($selectedAddress));
@@ -297,27 +248,25 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
         self::assertNull(AddressBookAddressUtils::getAddressBookAddress($selectedAddress));
     }
 
-    public function addressBookAddressDataProvider(): \Generator
+    public function addressBookAddressDataProvider(): array
     {
-        yield [
-            new CustomerUserAddress(),
-        ];
-
-        yield [
-            new CustomerAddress(),
+        return [
+            [new CustomerUserAddress()],
+            [new CustomerAddress()]
         ];
     }
 
     public function testNotUpdatesValidatedAtWhenOriginalAddressSelectedAndUpdateIsNotGranted(): void
     {
         $request = new Request();
-        $originalAddress = $selectedAddress = new OrderAddress();
+        $originalAddress = new OrderAddress();
+        $selectedAddress = $originalAddress;
         $addressBookAddress = new CustomerUserAddress();
         AddressBookAddressUtils::setAddressBookAddress($originalAddress, $addressBookAddress);
         $suggestedAddresses = [];
 
         $formConfig = $this->createMock(FormConfigInterface::class);
-        $formConfig
+        $formConfig->expects(self::any())
             ->method('getOption')
             ->willReturnMap([
                 ['suggested_addresses', null, $suggestedAddresses],
@@ -325,46 +274,33 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
             ]);
 
         $addressValidationResultForm = $this->createMock(FormInterface::class);
-        $addressValidationResultForm
+        $addressValidationResultForm->expects(self::any())
             ->method('getConfig')
             ->willReturn($formConfig);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('submit')
             ->with(['address' => '0']);
-
-        $addressValidationResultForm
-            ->expects(self::never())
+        $addressValidationResultForm->expects(self::never())
             ->method('handleRequest');
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isSubmitted')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('getData')
             ->willReturn(['address' => $selectedAddress]);
 
-        $this->authorizationChecker
-            ->expects(self::once())
+        $this->authorizationChecker->expects(self::once())
             ->method('isGranted')
             ->with(BasicPermission::EDIT, $addressBookAddress)
             ->willReturn(false);
 
-        $this->addressCopier
-            ->expects(self::never())
+        $this->addressCopier->expects(self::never())
             ->method(self::anything());
 
-        $this->entityManager
-            ->expects(self::never())
+        $this->entityManager->expects(self::never())
             ->method(self::anything());
 
         self::assertNull($selectedAddress->getValidatedAt());
@@ -377,13 +313,14 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
     public function testUpdatesValidatedAtWhenOriginalAddressSelectedAndUpdateIsGranted(): void
     {
         $request = new Request();
-        $originalAddress = $selectedAddress = new OrderAddress();
+        $originalAddress = new OrderAddress();
+        $selectedAddress = $originalAddress;
         $addressBookAddress = new CustomerUserAddress();
         AddressBookAddressUtils::setAddressBookAddress($originalAddress, $addressBookAddress);
         $suggestedAddresses = [];
 
         $formConfig = $this->createMock(FormConfigInterface::class);
-        $formConfig
+        $formConfig->expects(self::any())
             ->method('getOption')
             ->willReturnMap([
                 ['suggested_addresses', null, $suggestedAddresses],
@@ -391,46 +328,32 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
             ]);
 
         $addressValidationResultForm = $this->createMock(FormInterface::class);
-        $addressValidationResultForm
+        $addressValidationResultForm->expects(self::any())
             ->method('getConfig')
             ->willReturn($formConfig);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('submit')
             ->with(['address' => '0']);
-
-        $addressValidationResultForm
-            ->expects(self::never())
+        $addressValidationResultForm->expects(self::never())
             ->method('handleRequest');
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isSubmitted')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('getData')
             ->willReturn(['address' => $selectedAddress]);
-
-        $this->authorizationChecker
-            ->expects(self::once())
+        $this->authorizationChecker->expects(self::once())
             ->method('isGranted')
             ->with(BasicPermission::EDIT, $addressBookAddress)
             ->willReturn(true);
 
-        $this->addressCopier
-            ->expects(self::never())
+        $this->addressCopier->expects(self::never())
             ->method(self::anything());
 
-        $this->entityManager
-            ->expects(self::once())
+        $this->entityManager->expects(self::once())
             ->method('flush');
 
         self::assertNull($selectedAddress->getValidatedAt());
@@ -454,7 +377,7 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
         $suggestedAddresses = [$selectedAddress];
 
         $formConfig = $this->createMock(FormConfigInterface::class);
-        $formConfig
+        $formConfig->expects(self::any())
             ->method('getOption')
             ->willReturnMap([
                 ['suggested_addresses', null, $suggestedAddresses],
@@ -462,45 +385,32 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
             ]);
 
         $addressValidationResultForm = $this->createMock(FormInterface::class);
-        $addressValidationResultForm
+        $addressValidationResultForm->expects(self::any())
             ->method('getConfig')
             ->willReturn($formConfig);
-
-        $addressValidationResultForm
-            ->expects(self::never())
+        $addressValidationResultForm->expects(self::never())
             ->method('submit');
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('handleRequest')
             ->with($request);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isSubmitted')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('getData')
             ->willReturn(['address' => $selectedAddress, 'update_address' => true]);
 
-        $this->authorizationChecker
-            ->expects(self::never())
+        $this->authorizationChecker->expects(self::never())
             ->method('isGranted');
 
-        $this->addressCopier
-            ->expects(self::once())
+        $this->addressCopier->expects(self::once())
             ->method('copyToAddress')
             ->with($selectedAddress, $addressBookAddress);
 
-        $this->entityManager
-            ->expects(self::once())
+        $this->entityManager->expects(self::once())
             ->method('flush');
 
         self::assertNull($selectedAddress->getValidatedAt());
@@ -522,7 +432,7 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
         $suggestedAddresses = [$selectedAddress];
 
         $formConfig = $this->createMock(FormConfigInterface::class);
-        $formConfig
+        $formConfig->expects(self::any())
             ->method('getOption')
             ->willReturnMap([
                 ['suggested_addresses', null, $suggestedAddresses],
@@ -530,44 +440,31 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
             ]);
 
         $addressValidationResultForm = $this->createMock(FormInterface::class);
-        $addressValidationResultForm
+        $addressValidationResultForm->expects(self::any())
             ->method('getConfig')
             ->willReturn($formConfig);
-
-        $addressValidationResultForm
-            ->expects(self::never())
+        $addressValidationResultForm->expects(self::never())
             ->method('submit');
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('handleRequest')
             ->with($request);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isSubmitted')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('getData')
             ->willReturn(['address' => $selectedAddress, 'update_address' => false]);
 
-        $this->authorizationChecker
-            ->expects(self::never())
+        $this->authorizationChecker->expects(self::never())
             ->method('isGranted');
 
-        $this->addressCopier
-            ->expects(self::never())
+        $this->addressCopier->expects(self::never())
             ->method('copyToAddress');
 
-        $this->entityManager
-            ->expects(self::never())
+        $this->entityManager->expects(self::never())
             ->method('flush');
 
         self::assertNull($selectedAddress->getValidatedAt());
@@ -591,7 +488,7 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
         $customerUser = new CustomerUser();
 
         $formConfig = $this->createMock(FormConfigInterface::class);
-        $formConfig
+        $formConfig->expects(self::any())
             ->method('getOption')
             ->willReturnMap([
                 ['suggested_addresses', null, $suggestedAddresses],
@@ -602,40 +499,28 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
             ]);
 
         $addressValidationResultForm = $this->createMock(FormInterface::class);
-        $addressValidationResultForm
+        $addressValidationResultForm->expects(self::any())
             ->method('getConfig')
             ->willReturn($formConfig);
-
-        $addressValidationResultForm
-            ->expects(self::never())
+        $addressValidationResultForm->expects(self::never())
             ->method('submit');
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('handleRequest')
             ->with($request);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isSubmitted')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('getData')
             ->willReturn(['address' => $originalAddress, 'update_address' => false, 'create_address' => true]);
 
-        $this->authorizationChecker
-            ->expects(self::never())
+        $this->authorizationChecker->expects(self::never())
             ->method('isGranted');
 
-        $this->addressCopier
-            ->expects(self::once())
+        $this->addressCopier->expects(self::once())
             ->method('copyToAddress')
             ->with(
                 $originalAddress,
@@ -650,8 +535,7 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
                 })
             );
 
-        $this->entityManager
-            ->expects(self::once())
+        $this->entityManager->expects(self::once())
             ->method('flush');
 
         $this->handler->handleAddressValidationRequest($addressValidationResultForm, $request);
@@ -674,7 +558,7 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
         $customerUser = new CustomerUser();
 
         $formConfig = $this->createMock(FormConfigInterface::class);
-        $formConfig
+        $formConfig->expects(self::any())
             ->method('getOption')
             ->willReturnMap([
                 ['suggested_addresses', null, $suggestedAddresses],
@@ -685,40 +569,28 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
             ]);
 
         $addressValidationResultForm = $this->createMock(FormInterface::class);
-        $addressValidationResultForm
+        $addressValidationResultForm->expects(self::any())
             ->method('getConfig')
             ->willReturn($formConfig);
-
-        $addressValidationResultForm
-            ->expects(self::never())
+        $addressValidationResultForm->expects(self::never())
             ->method('submit');
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('handleRequest')
             ->with($request);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isSubmitted')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('getData')
             ->willReturn(['address' => $selectedAddress, 'update_address' => false, 'create_address' => true]);
 
-        $this->authorizationChecker
-            ->expects(self::never())
+        $this->authorizationChecker->expects(self::never())
             ->method('isGranted');
 
-        $this->addressCopier
-            ->expects(self::once())
+        $this->addressCopier->expects(self::once())
             ->method('copyToAddress')
             ->with(
                 $selectedAddress,
@@ -733,8 +605,7 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
                 })
             );
 
-        $this->entityManager
-            ->expects(self::once())
+        $this->entityManager->expects(self::once())
             ->method('flush');
 
         self::assertNull($selectedAddress->getValidatedAt());
@@ -758,7 +629,7 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
         $customer = new Customer();
 
         $formConfig = $this->createMock(FormConfigInterface::class);
-        $formConfig
+        $formConfig->expects(self::any())
             ->method('getOption')
             ->willReturnMap([
                 ['suggested_addresses', null, $suggestedAddresses],
@@ -769,40 +640,28 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
             ]);
 
         $addressValidationResultForm = $this->createMock(FormInterface::class);
-        $addressValidationResultForm
+        $addressValidationResultForm->expects(self::any())
             ->method('getConfig')
             ->willReturn($formConfig);
-
-        $addressValidationResultForm
-            ->expects(self::never())
+        $addressValidationResultForm->expects(self::never())
             ->method('submit');
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('handleRequest')
             ->with($request);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isSubmitted')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('getData')
             ->willReturn(['address' => $selectedAddress, 'update_address' => false, 'create_address' => true]);
 
-        $this->authorizationChecker
-            ->expects(self::never())
+        $this->authorizationChecker->expects(self::never())
             ->method('isGranted');
 
-        $this->addressCopier
-            ->expects(self::once())
+        $this->addressCopier->expects(self::once())
             ->method('copyToAddress')
             ->with(
                 $selectedAddress,
@@ -817,8 +676,7 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
                 })
             );
 
-        $this->entityManager
-            ->expects(self::once())
+        $this->entityManager->expects(self::once())
             ->method('flush');
 
         self::assertNull($selectedAddress->getValidatedAt());
@@ -845,7 +703,7 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
         $customerUser = new CustomerUser();
 
         $formConfig = $this->createMock(FormConfigInterface::class);
-        $formConfig
+        $formConfig->expects(self::any())
             ->method('getOption')
             ->willReturnMap([
                 ['suggested_addresses', null, $suggestedAddresses],
@@ -856,44 +714,31 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
             ]);
 
         $addressValidationResultForm = $this->createMock(FormInterface::class);
-        $addressValidationResultForm
+        $addressValidationResultForm->expects(self::any())
             ->method('getConfig')
             ->willReturn($formConfig);
-
-        $addressValidationResultForm
-            ->expects(self::never())
+        $addressValidationResultForm->expects(self::never())
             ->method('submit');
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('handleRequest')
             ->with($request);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isSubmitted')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
-
-        $addressValidationResultForm
-            ->expects(self::once())
+        $addressValidationResultForm->expects(self::once())
             ->method('getData')
             ->willReturn(['address' => $selectedAddress, 'update_address' => false, 'create_address' => true]);
 
-        $this->authorizationChecker
-            ->expects(self::never())
+        $this->authorizationChecker->expects(self::never())
             ->method('isGranted');
 
-        $this->addressCopier
-            ->expects(self::never())
+        $this->addressCopier->expects(self::never())
             ->method('copyToAddress');
 
-        $this->entityManager
-            ->expects(self::never())
+        $this->entityManager->expects(self::never())
             ->method('flush');
 
         self::assertNull($selectedAddress->getValidatedAt());

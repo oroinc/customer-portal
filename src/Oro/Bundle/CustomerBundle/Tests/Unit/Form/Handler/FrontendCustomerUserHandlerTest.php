@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
@@ -111,7 +111,7 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->request->setMethod('POST');
 
-        $em = $this->createMock(EntityManager::class);
+        $em = $this->createMock(EntityManagerInterface::class);
         $this->doctrineHelper->expects(self::once())
             ->method('getEntityManager')
             ->with($entity)
@@ -163,7 +163,7 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->request->setMethod('POST');
 
-        $em = $this->createMock(EntityManager::class);
+        $em = $this->createMock(EntityManagerInterface::class);
         $this->doctrineHelper->expects(self::once())
             ->method('getEntityManager')
             ->with($entity)
@@ -208,7 +208,7 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->request->setMethod('POST');
 
-        $em = $this->createMock(EntityManager::class);
+        $em = $this->createMock(EntityManagerInterface::class);
         $this->doctrineHelper->expects(self::once())
             ->method('getEntityManager')
             ->with($entity)
@@ -252,7 +252,7 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->request->setMethod('POST');
 
-        $em = $this->createMock(EntityManager::class);
+        $em = $this->createMock(EntityManagerInterface::class);
         $this->doctrineHelper->expects(self::once())
             ->method('getEntityManager')
             ->with($entity)

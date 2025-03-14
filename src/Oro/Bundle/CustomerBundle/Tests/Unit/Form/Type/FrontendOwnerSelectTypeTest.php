@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -75,7 +75,7 @@ class FrontendOwnerSelectTypeTest extends FormIntegrationTestCase
             ->with(Customer::class)
             ->willReturn($customerUserRepository);
 
-        $em = $this->createMock(EntityManager::class);
+        $em = $this->createMock(EntityManagerInterface::class);
         $this->registry->expects(self::once())
             ->method('getManagerForClass')
             ->willReturn($em);
@@ -92,13 +92,13 @@ class FrontendOwnerSelectTypeTest extends FormIntegrationTestCase
         self::assertEquals(Customer::class, $resolved['class']);
         self::assertEquals(
             [
-                'disable'    => false,
+                'disable' => false,
                 'permission' => 'CREATE',
-                'options'    => [
-                    'aclDisable'                      => true,
-                    'availableOwnerEnable'            => true,
-                    'availableOwnerTargetEntityClass' => CustomerUser::class,
-                ],
+                'options' => [
+                    'aclDisable' => true,
+                    'availableOwnerEnable' => true,
+                    'availableOwnerTargetEntityClass' => CustomerUser::class
+                ]
             ],
             $resolved['acl_options']
         );
@@ -125,7 +125,7 @@ class FrontendOwnerSelectTypeTest extends FormIntegrationTestCase
             ->with(CustomerUser::class)
             ->willReturn($config);
 
-        $em = $this->createMock(EntityManager::class);
+        $em = $this->createMock(EntityManagerInterface::class);
         $this->registry->expects(self::once())
             ->method('getManagerForClass')
             ->willReturn($em);
@@ -139,14 +139,14 @@ class FrontendOwnerSelectTypeTest extends FormIntegrationTestCase
 
         self::assertEquals(
             [
-                'disable'    => false,
+                'disable' => false,
                 'permission' => 'ASSIGN',
-                'options'    => [
-                    'aclDisable'                      => true,
-                    'availableOwnerEnable'            => true,
+                'options' => [
+                    'aclDisable' => true,
+                    'availableOwnerEnable' => true,
                     'availableOwnerTargetEntityClass' => CustomerUser::class,
-                    'availableOwnerCurrentOwner'      => 13
-                ],
+                    'availableOwnerCurrentOwner' => 13
+                ]
             ],
             $resolved['acl_options']
         );

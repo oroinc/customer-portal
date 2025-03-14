@@ -3,7 +3,7 @@
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Form\Type;
 
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
@@ -26,7 +26,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
     #[\Override]
     protected function setUp(): void
     {
-        $em = $this->createMock(EntityManager::class);
+        $em = $this->createMock(EntityManagerInterface::class);
         $em->expects($this->any())
             ->method('getReference')
             ->with(Website::class, self::WEBSITE_ID)
@@ -108,12 +108,12 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
                     'type' => StubType::class
                 ],
                 'submittedData' => [
-                    self::WEBSITE_ID => [],
+                    self::WEBSITE_ID => []
                 ],
                 'expectedData'  => [
-                    self::WEBSITE_ID => [],
-                ],
-            ],
+                    self::WEBSITE_ID => []
+                ]
+            ]
         ];
     }
 
@@ -150,7 +150,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
             [
                 'children' => ['1' => 'test', 'not_int' => 'test'],
                 'expected' => ['1' => 'test', 'not_int' => 'test']
-            ],
+            ]
         ];
     }
 }

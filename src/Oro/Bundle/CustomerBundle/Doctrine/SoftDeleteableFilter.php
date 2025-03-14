@@ -2,27 +2,19 @@
 
 namespace Oro\Bundle\CustomerBundle\Doctrine;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;
 
+/**
+ * All "softly" deleted entities should be removed from all queries.
+ */
 class SoftDeleteableFilter extends SQLFilter
 {
-    const FILTER_ID = 'soft_deleteable';
+    public const string FILTER_ID = 'soft_deleteable';
 
-    /**
-     * @var EntityManager
-     */
-    protected $em;
+    private ?EntityManagerInterface $em = null;
 
-    /**
-     * Gets the SQL query part to add to a query.
-     *
-     * @param ClassMetaData $targetEntity
-     * @param string $targetTableAlias
-     *
-     * @return string The constraint SQL if there is available, empty string otherwise.
-     */
     #[\Override]
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
     {
@@ -40,19 +32,12 @@ class SoftDeleteableFilter extends SQLFilter
         return $platform->getIsNullExpression($targetTableAlias . '.' . $column);
     }
 
-    /**
-     * @param EntityManager $em
-     */
-    public function setEm($em)
+    public function setEm(EntityManagerInterface $em): void
     {
         $this->em = $em;
     }
 
-    /**
-     * @return EntityManager
-     * @throws \InvalidArgumentException
-     */
-    public function getEm()
+    public function getEm(): EntityManagerInterface
     {
         if (!$this->em) {
             throw new \InvalidArgumentException('EntityManager injection required.');

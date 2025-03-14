@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\EventListener;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\FilterCollection;
 use Oro\Bundle\DraftBundle\Doctrine\DraftableFilter;
 use Oro\Bundle\DraftBundle\Tests\Unit\Stub\DraftableEntityStub;
@@ -84,7 +84,7 @@ class DraftableFilterListenerTest extends \PHPUnit\Framework\TestCase
             ->with(DraftableFilter::FILTER_ID)
             ->willReturn(false);
 
-        $em = $this->createMock(EntityManager::class);
+        $em = $this->createMock(EntityManagerInterface::class);
         $em->expects(self::once())
             ->method('getFilters')
             ->willReturn($filters);

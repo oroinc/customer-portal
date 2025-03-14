@@ -609,8 +609,8 @@ services:
     oro_customer.doctrine.filters_listener:
         class: 'Oro\Bundle\CustomerBundle\Doctrine\DoctrineFiltersListener'
         arguments:
-            - "@doctrine"
-            - "@oro_frontend.request.frontend_helper"
+            - '@doctrine'
+            - '@oro_frontend.request.frontend_helper'
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onRequest }
 

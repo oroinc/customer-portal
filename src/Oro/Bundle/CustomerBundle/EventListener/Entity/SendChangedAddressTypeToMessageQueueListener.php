@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\EventListener\Entity;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\PersistentCollection;
@@ -80,22 +80,20 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
     }
 
     #[\Override]
-    public function setEnabled($enabled = true)
+    public function setEnabled($enabled = true): void
     {
         $this->enabled = $enabled;
     }
 
     private function isEnabled(): bool
     {
-        return $this->enabled &&
-            $this->applicationState->isInstalled() &&
-            $this->auditConfigProvider->isAuditableField(
-                $this->addressClass,
-                self::ADDRESS_TYPE_FIELD
-            );
+        return
+            $this->enabled
+            && $this->applicationState->isInstalled()
+            && $this->auditConfigProvider->isAuditableField($this->addressClass, self::ADDRESS_TYPE_FIELD);
     }
 
-    public function onFlush(OnFlushEventArgs $eventArgs)
+    public function onFlush(OnFlushEventArgs $eventArgs): void
     {
         if (!$this->isEnabled()) {
             return;
@@ -112,7 +110,7 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
         }
     }
 
-    private function prepareScheduledEntityUpdates(EntityManager $em)
+    private function prepareScheduledEntityUpdates(EntityManagerInterface $em): void
     {
         $uow = $em->getUnitOfWork();
 
@@ -123,7 +121,7 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
         }
     }
 
-    private function prepareScheduledCollectionUpdates(EntityManager $em)
+    private function prepareScheduledCollectionUpdates(EntityManagerInterface $em): void
     {
         $uow = $em->getUnitOfWork();
 
@@ -144,7 +142,7 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
         }
     }
 
-    public function postFlush(PostFlushEventArgs $eventArgs)
+    public function postFlush(PostFlushEventArgs $eventArgs): void
     {
         if (!$this->isEnabled()) {
             return;
@@ -178,7 +176,7 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
         }
     }
 
-    private function addEntityUpdate(EntityManager $em, AddressType $addressType)
+    private function addEntityUpdate(EntityManagerInterface $em, AddressType $addressType): void
     {
         $changeSet = $em->getUnitOfWork()->getEntityChangeSet($addressType);
         $entityName = $addressType->getType()->getName();
@@ -188,12 +186,12 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
         ];
     }
 
-    private function addCollectionInsert(EntityManager $em, AddressType $addressType)
+    private function addCollectionInsert(EntityManagerInterface $em, AddressType $addressType): void
     {
         $this->collectionInserts[$this->getEntityHash($em)][] = $addressType;
     }
 
-    private function addCollectionDeletion(EntityManager $em, AddressType $addressType)
+    private function addCollectionDeletion(EntityManagerInterface $em, AddressType $addressType): void
     {
         $changeSet = [
             self::ADDRESS_TYPE_FIELD => [$addressType->getType()->getName(), null],
@@ -205,12 +203,12 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
         ];
     }
 
-    private function getSecurityToken(EntityManager $em): ?TokenInterface
+    private function getSecurityToken(EntityManagerInterface $em): ?TokenInterface
     {
         return $this->allTokens->contains($em) ? $this->allTokens[$em] : $this->tokenStorage->getToken();
     }
 
-    private function processUpdates(EntityManager $em): array
+    private function processUpdates(EntityManagerInterface $em): array
     {
         /** @var AddressType $addressType */
         $updates = [];
@@ -256,12 +254,12 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
     }
 
     private function addOwnerChangeSet(
-        EntityManager $em,
+        EntityManagerInterface $em,
         AddressType $addressType,
         array &$updates,
         string $action,
         ?array $changeSet = null
-    ) {
+    ): void {
         $this->ensureOwnerChangeSetRoot($em, $addressType, $updates);
 
         $customer = $addressType->getAddress()->getFrontendOwner();
@@ -275,8 +273,11 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
         $updates[$customerId][self::CHANGE_SET][self::CUSTOMER_ADDRESS_FIELD][$actionIndex][$action][] = $changeSet;
     }
 
-    private function ensureOwnerChangeSetRoot(EntityManager $em, AddressType $addressType, array &$updates)
-    {
+    private function ensureOwnerChangeSetRoot(
+        EntityManagerInterface $em,
+        AddressType $addressType,
+        array &$updates
+    ): void {
         $customer = $addressType->getAddress()->getFrontendOwner();
         $customerId = $this->getEntityHash($customer);
 
@@ -287,12 +288,12 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
     }
 
     private function addAddressChangeSet(
-        EntityManager $em,
+        EntityManagerInterface $em,
         AddressType $addressType,
         array &$updates,
         string $action,
         ?array $changeSet = null
-    ) {
+    ): void {
         $this->ensureAddressChangeSetRoot($em, $addressType, $updates);
 
         $actionIndex = self::ACTION_DELETED === $action ? 0 : 1;
@@ -305,8 +306,11 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
         $updates[$addressId][self::CHANGE_SET][self::ADDRESS_TYPE_FIELD][$actionIndex][$action][] = $changeSet;
     }
 
-    private function ensureAddressChangeSetRoot(EntityManager $em, AddressType $addressType, array &$updates)
-    {
+    private function ensureAddressChangeSetRoot(
+        EntityManagerInterface $em,
+        AddressType $addressType,
+        array &$updates
+    ): void {
         $addressId = $this->getEntityHash($addressType->getAddress());
 
         if (!isset($updates[$addressId])) {
@@ -315,8 +319,12 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
         }
     }
 
-    private function convertEntityToArray(EntityManager $em, $entity, array $changeSet, $entityName = null): array
-    {
+    private function convertEntityToArray(
+        EntityManagerInterface $em,
+        $entity,
+        array $changeSet,
+        $entityName = null
+    ): array {
         return $this->entityToArrayConverter->convertNamedEntityToArray($em, $entity, $changeSet, $entityName);
     }
 

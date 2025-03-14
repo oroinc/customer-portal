@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Builder;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
@@ -30,16 +30,14 @@ class ContentNodeTreeBuilder implements BuilderInterface
     public const IS_TREE_ITEM = 'content_node_tree_item';
     public const TREE_ITEM_OPTIONS = 'content_node_tree_item_options';
 
-    /**
-     * @var array<string,MenuUpdateApplierContext> Contexts indexed by menu name.
-     */
+    /** @var array<string,MenuUpdateApplierContext> Contexts indexed by menu name. */
     private array $menuUpdateApplierContexts = [];
 
     public function __construct(
-        private ManagerRegistry $managerRegistry,
+        private ManagerRegistry $doctrine,
         private MenuContentNodesProviderInterface $menuContentNodesProvider,
         private LocalizationHelper $localizationHelper,
-        private SubFolderUriHandler $uriHandler,
+        private SubFolderUriHandler $uriHandler
     ) {
     }
 
@@ -107,8 +105,8 @@ class ContentNodeTreeBuilder implements BuilderInterface
             return;
         }
 
-        /** @var EntityManager $entityManager */
-        $entityManager = $this->managerRegistry->getManagerForClass(ContentNode::class);
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = $this->doctrine->getManagerForClass(ContentNode::class);
 
         // Explicit passing of localization avoids further unnecessary calls to getCurrentLocalization.
         $localization = $this->localizationHelper->getCurrentLocalization();
@@ -136,7 +134,7 @@ class ContentNodeTreeBuilder implements BuilderInterface
     /**
      * @param ItemInterface $parentMenuItem
      * @param iterable<ResolvedContentNode> $resolvedContentNodes
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      * @param Localization|null $localization
      * @param string $treeItemNamePrefix
      * @param array<string,ItemInterface> $menuItemsByName
@@ -146,7 +144,7 @@ class ContentNodeTreeBuilder implements BuilderInterface
     private function addTreeItems(
         ItemInterface $parentMenuItem,
         iterable $resolvedContentNodes,
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         ?Localization $localization,
         string $treeItemNamePrefix,
         array &$menuItemsByName,
@@ -206,7 +204,7 @@ class ContentNodeTreeBuilder implements BuilderInterface
     private function setMenuItemData(
         ItemInterface $menuItem,
         ResolvedContentNode $resolvedNode,
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         ?Localization $localization
     ): void {
         $menuItem->setUri($this->getUri($resolvedNode, $localization));

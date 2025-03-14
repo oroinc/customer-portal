@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Menu\ConditionEvaluator;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\PersistentCollection;
@@ -35,7 +34,7 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
     {
         $this->menuItem = $this->createMock(ItemInterface::class);
         $this->userAgentProvider = $this->createMock(UserAgentProviderInterface::class);
-        $this->entityManager = $this->createMock(EntityManager::class);
+        $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->metadata = $this->createMock(ClassMetadata::class);
 
         $this->userAgentConditionsEvaluator = new UserAgentConditionsEvaluator(

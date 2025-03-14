@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Validator\Constraints;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\UnitOfWork;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
@@ -33,7 +33,7 @@ class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
     /** @var EntityClassNameProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $entityClassNameProvider;
 
-    /** @var EntityManager|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $em;
 
     /** @var UnitOfWork|\PHPUnit\Framework\MockObject\MockObject */
@@ -46,7 +46,7 @@ class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
         $this->customerUserReassignUpdater = $this->createMock(CustomerUserReassignUpdaterInterface::class);
         $this->doctrine = $this->createMock(ManagerRegistry::class);
         $this->entityClassNameProvider = $this->createMock(EntityClassNameProviderInterface::class);
-        $this->em = $this->createMock(EntityManager::class);
+        $this->em = $this->createMock(EntityManagerInterface::class);
         $this->uow = $this->createMock(UnitOfWork::class);
         parent::setUp();
     }

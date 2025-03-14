@@ -3,7 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Autocomplete;
 
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
@@ -20,51 +20,50 @@ use Oro\Bundle\SearchBundle\Query\Query;
 use Oro\Bundle\SearchBundle\Query\Result;
 use Oro\Bundle\SearchBundle\Query\Result\Item;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
+class ParentCustomerSearchHandlerTest extends TestCase
 {
     private const TEST_ENTITY_CLASS = 'TestEntity';
 
-    /** @var ParentCustomerSearchHandler */
-    private $searchHandler;
-
-    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $managerRegistry;
-
-    /** @var EntityManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $entityManager;
-
-    /** @var EntityRepository|\PHPUnit\Framework\MockObject\MockObject */
-    private $entityRepository;
-
-    /** @var Indexer|\PHPUnit\Framework\MockObject\MockObject */
-    private $indexer;
-
-    /** @var AclHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $aclHelper;
+    private EntityRepository&MockObject $entityRepository;
+    private Indexer&MockObject $indexer;
+    private AclHelper&MockObject $aclHelper;
+    private ParentCustomerSearchHandler $searchHandler;
 
     #[\Override]
     protected function setUp(): void
     {
         $this->entityRepository = $this->createMock(CustomerRepository::class);
-        $this->entityManager = $this->createMock(EntityManager::class);
+        $this->indexer = $this->createMock(Indexer::class);
+        $this->aclHelper = $this->createMock(AclHelper::class);
 
-        $metadataFactory = $this->getMetaMocks();
-        $this->entityManager->expects($this->once())
+        $metadata = $this->createMock(ClassMetadata::class);
+        $metadata->expects($this->once())
+            ->method('getSingleIdentifierFieldName')
+            ->willReturn('id');
+
+        $metadataFactory = $this->createMock(ClassMetadataFactory::class);
+        $metadataFactory->expects($this->once())
+            ->method('getMetadataFor')
+            ->with(self::TEST_ENTITY_CLASS)
+            ->willReturn($metadata);
+
+        $entityManager = $this->createMock(EntityManagerInterface::class);
+        $entityManager->expects($this->once())
             ->method('getMetadataFactory')
             ->willReturn($metadataFactory);
-        $this->entityManager->expects($this->once())
+        $entityManager->expects($this->once())
             ->method('getRepository')
             ->with(self::TEST_ENTITY_CLASS)
             ->willReturn($this->entityRepository);
 
-        $this->managerRegistry = $this->createMock(ManagerRegistry::class);
-        $this->managerRegistry->expects($this->once())
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $doctrine->expects($this->once())
             ->method('getManagerForClass')
             ->with(self::TEST_ENTITY_CLASS)
-            ->willReturn($this->entityManager);
-        $this->indexer = $this->createMock(Indexer::class);
-        $this->aclHelper = $this->createMock(AclHelper::class);
+            ->willReturn($entityManager);
 
         $searchMappingProvider = $this->createMock(SearchMappingProvider::class);
         $searchMappingProvider->expects($this->once())
@@ -74,7 +73,7 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->searchHandler = new ParentCustomerSearchHandler(self::TEST_ENTITY_CLASS, ['name']);
         $this->searchHandler->initSearchIndexer($this->indexer, $searchMappingProvider);
-        $this->searchHandler->initDoctrinePropertiesByManagerRegistry($this->managerRegistry);
+        $this->searchHandler->initDoctrinePropertiesByManagerRegistry($doctrine);
         $this->searchHandler->setAclHelper($this->aclHelper);
         $this->searchHandler->setPropertyAccessor(PropertyAccess::createPropertyAccessor());
     }
@@ -235,24 +234,6 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertArrayHasKey('more', $searchResult);
         $this->assertArrayHasKey('results', $searchResult);
         $this->assertSame($expectedResultData, $searchResult['results']);
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
-     */
-    private function getMetaMocks()
-    {
-        $metadata = $this->createMock(ClassMetadata::class);
-        $metadata->expects($this->once())
-            ->method('getSingleIdentifierFieldName')
-            ->willReturn('id');
-        $metadataFactory = $this->createMock(ClassMetadataFactory::class);
-        $metadataFactory->expects($this->once())
-            ->method('getMetadataFor')
-            ->with(self::TEST_ENTITY_CLASS)
-            ->willReturn($metadata);
-
-        return $metadataFactory;
     }
 
     private function getSearchItem(int $id): Item

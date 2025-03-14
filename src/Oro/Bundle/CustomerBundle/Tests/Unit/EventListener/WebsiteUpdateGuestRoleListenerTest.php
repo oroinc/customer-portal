@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\UnitOfWork;
 use Oro\Bundle\CustomerBundle\Acl\Cache\CustomerVisitorAclCache;
@@ -20,7 +20,7 @@ class WebsiteUpdateGuestRoleListenerTest extends \PHPUnit\Framework\TestCase
     /** @var \PHPUnit\Framework\MockObject\MockObject|UnitOfWork */
     private $uow;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|EntityManager */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|EntityManagerInterface */
     private $em;
 
     /** @var WebsiteUpdateGuestRoleListener */
@@ -29,7 +29,7 @@ class WebsiteUpdateGuestRoleListenerTest extends \PHPUnit\Framework\TestCase
     #[\Override]
     protected function setUp(): void
     {
-        $this->em = $this->createMock(EntityManager::class);
+        $this->em = $this->createMock(EntityManagerInterface::class);
         $this->uow = $this->createMock(UnitOfWork::class);
 
         $this->visitorAclCache = $this->createMock(CustomerVisitorAclCache::class);

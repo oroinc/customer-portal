@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\EventListener;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\UnitOfWork;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
@@ -102,7 +102,7 @@ class WebsiteListenerTest extends \PHPUnit\Framework\TestCase
     {
         $args = $this->createMock(OnFlushEventArgs::class);
 
-        $em = $this->createMock(EntityManager::class);
+        $em = $this->createMock(EntityManagerInterface::class);
         $em->expects($this->once())
             ->method('getUnitOfWork')
             ->willReturn($this->uow);

@@ -3,7 +3,7 @@
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Builder;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Builder\ContentNodeTreeBuilder;
@@ -24,12 +24,14 @@ use Oro\Bundle\WebCatalogBundle\Cache\ResolvedData\ResolvedContentVariant;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Bundle\WebCatalogBundle\Menu\MenuContentNodesProviderInterface;
 use Oro\Bundle\WebCatalogBundle\Tests\Unit\Stub\ContentNodeStub;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
+class ContentNodeTreeBuilderTest extends TestCase
 {
     use MenuItemTestTrait;
 
-    private MenuContentNodesProviderInterface $menuContentNodesProvider;
+    private MenuContentNodesProviderInterface&MockObject $menuContentNodesProvider;
     private SubFolderUriHandler $uriHandler;
 
     private ContentNodeTreeBuilder $builder;
@@ -37,32 +39,29 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
     #[\Override]
     protected function setUp(): void
     {
-        $managerRegistry = $this->createMock(ManagerRegistry::class);
+        $doctrine = $this->createMock(ManagerRegistry::class);
         $this->menuContentNodesProvider = $this->createMock(MenuContentNodesProviderInterface::class);
         $localizationHelper = $this->createMock(LocalizationHelper::class);
         $this->uriHandler = $this->createMock(SubFolderUriHandler::class);
 
         $this->builder = new ContentNodeTreeBuilder(
-            $managerRegistry,
+            $doctrine,
             $this->menuContentNodesProvider,
             $localizationHelper,
-            $this->uriHandler,
+            $this->uriHandler
         );
 
-        $entityManager = $this->createMock(EntityManager::class);
-        $managerRegistry
-            ->expects(self::any())
+        $entityManager = $this->createMock(EntityManagerInterface::class);
+        $entityManager->expects(self::any())
+            ->method('getReference')
+            ->willReturnCallback(static fn ($class, $id) => new ProxyStub($class, $id));
+
+        $doctrine->expects(self::any())
             ->method('getManagerForClass')
             ->with(ContentNode::class)
             ->willReturn($entityManager);
 
-        $entityManager
-            ->expects(self::any())
-            ->method('getReference')
-            ->willReturnCallback(static fn ($class, $id) => new ProxyStub($class, $id));
-
-        $localizationHelper
-            ->expects(self::any())
+        $localizationHelper->expects(self::any())
             ->method('getLocalizedValue')
             ->willReturnCallback(static fn ($collection) => (string)($collection[0] ?? null));
     }
@@ -72,8 +71,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
         $menu = $this->createItem('sample_menu');
         $menu->setDisplay(true);
 
-        $this->menuContentNodesProvider
-            ->expects(self::never())
+        $this->menuContentNodesProvider->expects(self::never())
             ->method(self::anything());
 
         $this->builder->build($menu);
@@ -84,8 +82,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
         $menu = $this->createItem('sample_menu');
         $menu->setDisplay(true);
 
-        $this->menuContentNodesProvider
-            ->expects(self::never())
+        $this->menuContentNodesProvider->expects(self::never())
             ->method(self::anything());
 
         $context = new MenuUpdateApplierContext($menu);
@@ -112,8 +109,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this->menuContentNodesProvider
-            ->expects(self::once())
+        $this->menuContentNodesProvider->expects(self::once())
             ->method('getResolvedContentNode')
             ->with($contentNode, ['tree_depth' => $maxTraverseLevel])
             ->willReturn(null);
@@ -157,8 +153,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
             ->setExtra(MenuUpdate::TARGET_CONTENT_NODE, $contentNode);
 
 
-        $this->menuContentNodesProvider
-            ->expects(self::once())
+        $this->menuContentNodesProvider->expects(self::once())
             ->method('getResolvedContentNode')
             ->with($contentNode, ['tree_depth' => 0])
             ->willReturn(null);
@@ -200,8 +195,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
         );
 
         $resolvedContentNode = $this->createResolvedNode(42, 'Root');
-        $this->menuContentNodesProvider
-            ->expects(self::once())
+        $this->menuContentNodesProvider->expects(self::once())
             ->method('getResolvedContentNode')
             ->with($contentNode, ['tree_depth' => $maxTraverseLevel])
             ->willReturn($resolvedContentNode);
@@ -271,8 +265,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this->menuContentNodesProvider
-            ->expects(self::once())
+        $this->menuContentNodesProvider->expects(self::once())
             ->method('getResolvedContentNode')
             ->with($contentNode, ['tree_depth' => $maxTraverseLevel])
             ->willReturn($resolvedContentNode);
@@ -415,8 +408,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this->menuContentNodesProvider
-            ->expects(self::once())
+        $this->menuContentNodesProvider->expects(self::once())
             ->method('getResolvedContentNode')
             ->with($contentNode, ['tree_depth' => $maxNestingLevel - 1])
             ->willReturn($resolvedContentNode);
@@ -552,8 +544,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this->menuContentNodesProvider
-            ->expects(self::once())
+        $this->menuContentNodesProvider->expects(self::once())
             ->method('getResolvedContentNode')
             ->with($contentNode, ['tree_depth' => $maxTraverseLevel])
             ->willReturn($resolvedContentNode);
@@ -690,8 +681,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this->menuContentNodesProvider
-            ->expects(self::exactly(2))
+        $this->menuContentNodesProvider->expects(self::exactly(2))
             ->method('getResolvedContentNode')
             ->withConsecutive(
                 [$contentNode, ['tree_depth' => $maxTraverseLevel]],

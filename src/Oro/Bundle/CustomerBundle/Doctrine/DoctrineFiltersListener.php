@@ -2,52 +2,27 @@
 
 namespace Oro\Bundle\CustomerBundle\Doctrine;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
+/**
+ * Enables {@see SoftDeleteableFilter} for storefront queries.
+ */
 class DoctrineFiltersListener
 {
-    /**
-     * @var ManagerRegistry
-     */
-    protected $registry;
-
-    /**
-     * @var EntityManager
-     */
-    protected $em;
-
-    /**
-     * @var FrontendHelper
-     */
-    protected $frontendHelper;
-
-    public function __construct(ManagerRegistry $registry, FrontendHelper $frontendHelper)
-    {
-        $this->registry = $registry;
-        $this->frontendHelper = $frontendHelper;
+    public function __construct(
+        private ManagerRegistry $doctrine,
+        private FrontendHelper $frontendHelper
+    ) {
     }
 
-    public function onRequest()
+    public function onRequest(): void
     {
         if ($this->frontendHelper->isFrontendRequest()) {
-            $filters = $this->getEntityManager()->getFilters();
+            $em = $this->doctrine->getManager();
             /** @var SoftDeleteableFilter $filter */
-            $filter = $filters->enable(SoftDeleteableFilter::FILTER_ID);
-            $filter->setEm($this->getEntityManager());
+            $filter = $em->getFilters()->enable(SoftDeleteableFilter::FILTER_ID);
+            $filter->setEm($em);
         }
-    }
-
-    /**
-     * @return EntityManager
-     */
-    protected function getEntityManager()
-    {
-        if (!$this->em) {
-            $this->em = $this->registry->getManager();
-        }
-
-        return $this->em;
     }
 }
