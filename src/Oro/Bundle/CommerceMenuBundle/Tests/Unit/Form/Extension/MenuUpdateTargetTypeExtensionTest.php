@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Extension;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CatalogBundle\Entity\Category;
 use Oro\Bundle\CatalogBundle\Form\Type\CategoryTreeType;
@@ -40,6 +39,7 @@ use Oro\Bundle\WebCatalogBundle\Provider\WebCatalogProvider;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -52,8 +52,7 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
 {
     use MenuItemTestTrait;
 
-    /** @var WebCatalogProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $webCatalogProvider;
+    private WebCatalogProvider&MockObject $webCatalogProvider;
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
@@ -63,52 +62,46 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
     {
         $this->webCatalogProvider = $this->createMock(WebCatalogProvider::class);
 
-        $entityManager = $this->createMock(EntityManager::class);
-        $categoryEntityManager = $this->createMock(EntityManager::class);
-
-        $managerRegistry = $this->createMock(ManagerRegistry::class);
-        $managerRegistry->expects(self::any())
-            ->method('getManagerForClass')
-            ->willReturnMap([
-                [ContentNode::class, $entityManager],
-                [Category::class, $categoryEntityManager],
-            ]);
-
-        $metadataFactory = $this->createMock(ClassMetadataFactory::class);
-        $entityManager->expects($this->any())
-            ->method('getMetadataFactory')
-            ->willReturn($metadataFactory);
-        $metadataFactory->expects($this->any())
-            ->method('hasMetadataFor')
-            ->willReturn(true);
-
         $classMetadata = new ClassMetadata(WebCatalog::class);
         $classMetadata->setIdentifier(['id']);
-        $entityManager->expects(self::any())
-            ->method('getClassMetadata')
-            ->willReturn($classMetadata);
 
         $categoryClassMetadata = new ClassMetadata(Category::class);
         $categoryClassMetadata->setIdentifier(['id']);
-        $categoryEntityManager->expects(self::any())
-            ->method('getClassMetadata')
-            ->willReturn($categoryClassMetadata);
 
         $repo = $this->createMock(EntityRepository::class);
         $repo->expects(self::any())
             ->method('find')
             ->willReturn($this->createMock(ContentNode::class));
-        $entityManager->expects(self::any())
-            ->method('getRepository')
-            ->willReturn($repo);
 
         $categoryRepository = $this->createMock(EntityRepository::class);
         $categoryRepository->expects(self::any())
             ->method('find')
             ->willReturn($this->createMock(Category::class));
-        $categoryEntityManager->expects(self::any())
+
+        $entityManager = $this->createMock(EntityManagerInterface::class);
+        $entityManager->expects(self::any())
+            ->method('getClassMetadata')
+            ->willReturnCallback(function ($className) use ($classMetadata, $categoryClassMetadata) {
+                if (Category::class === $className) {
+                    return $categoryClassMetadata;
+                }
+
+                return $classMetadata;
+            });
+
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $doctrine->expects(self::any())
+            ->method('getManagerForClass')
+            ->willReturn($entityManager);
+        $doctrine->expects(self::any())
             ->method('getRepository')
-            ->willReturn($categoryRepository);
+            ->willReturnCallback(function ($className) use ($repo, $categoryRepository) {
+                if (Category::class === $className) {
+                    return $categoryRepository;
+                }
+
+                return $repo;
+            });
 
         $configManager = $this->createMock(ConfigManager::class);
         $configManager->expects($this->any())
@@ -141,16 +134,16 @@ class MenuUpdateTargetTypeExtensionTest extends FormIntegrationTestCase
                         $this->createMock(AuthorizationCheckerInterface::class),
                         $this->createMock(FeatureChecker::class),
                         $configManager,
-                        $entityManager,
+                        $doctrine,
                         $searchRegistry
                     ),
                     new OroJquerySelect2HiddenType(
-                        $entityManager,
+                        $doctrine,
                         $searchRegistry,
                         $this->createMock(ConfigProvider::class)
                     ),
                     new ContentNodeFromWebCatalogSelectType($this->createMock(ContentNodeTreeHandler::class)),
-                    new EntityIdentifierType($managerRegistry),
+                    new EntityIdentifierType($doctrine),
                     RouteChoiceType::class => new RouteChoiceTypeStub(['sample_route' => 'sample_route']),
                     new CategoryTreeType($this->createMock(CategoryTreeHandler::class)),
                     EntityType::class => new EntityTypeStub(),
