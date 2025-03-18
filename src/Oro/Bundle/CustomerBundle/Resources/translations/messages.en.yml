@@ -825,6 +825,8 @@ oro.customer:
                 tooltip: 'Select the option to enable swipe actions for the storefront grids on mobile devices.'
             customer_visitor_cookie_lifetime_days.label: 'Customer visitor cookie lifetime (days)'
             customer_visitor_cookie_lifetime_days.tooltip: 'Set the interval in days to keep the session for a customer visitor (anonymous user) active. Once the period expires, the session is reset.'
+            create_customer_visitor_immediately.label: 'Create Customer Visitors Immediately'
+            create_customer_visitor_immediately.tooltip: 'Disable this option to prevent automatically creating customer visitor accounts for all guest users, only creating accounts for those who perform meaningful actions like adding items to the shopping list or proceeding to checkout.'
             maps_enabled:
                 label: 'Enable Map Preview'
                 tooltip: "Select the option to display addresses on the map in the customer users' storefront accounts."

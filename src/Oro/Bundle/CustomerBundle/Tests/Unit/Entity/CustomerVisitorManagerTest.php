@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager;
 use Oro\Component\Testing\Unit\EntityTrait;
@@ -26,6 +27,8 @@ class CustomerVisitorManagerTest extends \PHPUnit\Framework\TestCase
 
     /** @var CustomerVisitorManager */
     private $manager;
+
+    private ?ConfigManager $configManager = null;
 
     /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
     private $doctrine;
@@ -63,8 +66,12 @@ class CustomerVisitorManagerTest extends \PHPUnit\Framework\TestCase
         $this->entityManager->expects($this->any())
             ->method('getConnection')
             ->willReturn($this->defaultConnection);
-
+        $this->configManager = $this->createMock(ConfigManager::class);
+        $this->configManager->method('get')
+            ->with('oro_customer.create_customer_visitor_immediately')
+            ->willReturn(true);
         $this->manager = new CustomerVisitorManager($this->doctrine);
+        $this->manager->setConfigManager($this->configManager);
     }
 
     public function testFindOrCreate()
@@ -73,7 +80,7 @@ class CustomerVisitorManagerTest extends \PHPUnit\Framework\TestCase
 
         $this->repository->expects($this->once())
             ->method('findOneBy')
-            ->with(['id' => self::ENTITY_ID, 'sessionId' => self::SESSION_ID])
+            ->with(['sessionId' => self::SESSION_ID])
             ->willReturn($user);
 
         $this->assertEquals($user, $this->manager->findOrCreate(self::ENTITY_ID, self::SESSION_ID));
@@ -83,7 +90,7 @@ class CustomerVisitorManagerTest extends \PHPUnit\Framework\TestCase
     {
         $this->repository->expects($this->once())
             ->method('findOneBy')
-            ->with(['id' => self::ENTITY_ID, 'sessionId' => self::SESSION_ID])
+            ->with(['sessionId' => self::SESSION_ID])
             ->willReturn(null);
 
         $this->repository->expects($this->once())
@@ -148,6 +155,7 @@ class CustomerVisitorManagerTest extends \PHPUnit\Framework\TestCase
             ->method('beginTransaction');
 
         $manager = new CustomerVisitorManager($this->doctrine, 'session');
+        $manager->setConfigManager($this->configManager);
 
         $this->assertInstanceOf(CustomerVisitor::class, $manager->findOrCreate());
     }

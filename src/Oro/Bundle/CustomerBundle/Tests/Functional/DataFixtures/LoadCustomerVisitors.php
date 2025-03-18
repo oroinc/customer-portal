@@ -38,8 +38,6 @@ class LoadCustomerVisitors extends AbstractFixture
         if ($lastVisit) {
             $anonymous->setLastVisit($lastVisit);
         }
-        $anonymous->setSessionId(md5(time()));
-
         $manager->persist($anonymous);
         $this->addReference($reference, $anonymous);
 

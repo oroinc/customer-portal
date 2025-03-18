@@ -44,10 +44,7 @@ class CustomerVisitorProvider implements UserProviderInterface
         } catch (ORMInvalidArgumentException $exception) {
             // if entity is not managed and can not be reloaded - load it by ID from the database
         }
-        $customerVisitor = $this->customerVisitorManager->find(
-            $customerVisitor->getId(),
-            $customerVisitor->getSessionId()
-        );
+        $customerVisitor = $this->customerVisitorManager->find(null, $customerVisitor->getSessionId());
         if (null === $customerVisitor) {
             throw new UserNotFoundException('CustomerVisitor can not be loaded.');
         }
@@ -65,8 +62,8 @@ class CustomerVisitorProvider implements UserProviderInterface
         if (!VisitorIdentifierUtil::isVisitorIdentifier($identifier)) {
             throw new UserNotFoundException('Username can not be used like a visitor identifier.');
         }
-        list($visitorId, $visitorSessionId) = VisitorIdentifierUtil::decodeIdentifier($identifier);
-        $customerVisitor = $this->customerVisitorManager->find($visitorId, $visitorSessionId);
+        [, $visitorSessionId] = VisitorIdentifierUtil::decodeIdentifier($identifier);
+        $customerVisitor = $this->customerVisitorManager->find(null, $visitorSessionId);
         if (null === $customerVisitor) {
             throw new UserNotFoundException('CustomerVisitor can not be loaded.');
         }

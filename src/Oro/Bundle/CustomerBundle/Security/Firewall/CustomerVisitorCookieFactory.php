@@ -52,7 +52,7 @@ class CustomerVisitorCookieFactory
 
         return new Cookie(
             AnonymousCustomerUserAuthenticator::COOKIE_NAME,
-            base64_encode(json_encode([$visitorId, $visitorSessionId])),
+            base64_encode(json_encode($visitorSessionId, JSON_THROW_ON_ERROR)),
             time() + $cookieLifetime,
             '/',
             null,

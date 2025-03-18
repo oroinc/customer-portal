@@ -83,6 +83,20 @@ class AnonymousCustomerUserAuthenticatorTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    private function getCustomerVisitorCookieValue(CustomerVisitor $visitor): string
+    {
+        return base64_encode(json_encode([$visitor->getId(), $visitor->getSessionId()], JSON_THROW_ON_ERROR));
+    }
+
+    private function getCustomerVisitor(int $id, string $sessionId): CustomerVisitor
+    {
+        $visitor = new CustomerVisitor();
+        ReflectionUtil::setId($visitor, $id);
+        $visitor->setSessionId($sessionId);
+
+        return $visitor;
+    }
+
     public function testSupportsForAnonymousRequest(): void
     {
         $request = new Request();
@@ -199,7 +213,7 @@ class AnonymousCustomerUserAuthenticatorTest extends \PHPUnit\Framework\TestCase
             ->willReturn($website);
         $this->visitorManager->expects(self::once())
             ->method('findOrCreate')
-            ->with($visitor->getId(), $visitor->getSessionId())
+            ->with(null, $visitor->getSessionId())
             ->willReturn($visitor);
 
         $passport = $this->authenticator->authenticate($request);
@@ -218,10 +232,8 @@ class AnonymousCustomerUserAuthenticatorTest extends \PHPUnit\Framework\TestCase
             AnonymousCustomerUserAuthenticator::COOKIE_NAME,
             $this->getCustomerVisitorCookieValue($visitor)
         );
-        $this->visitorManager
-            ->method('findOrCreate')
-            ->with($visitor->getId(), $visitor->getSessionId())
-            ->willReturn($visitor);
+        $this->visitorManager->expects(self::never())
+            ->method('findOrCreate');
 
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage('The current website cannot be found.');
@@ -233,14 +245,14 @@ class AnonymousCustomerUserAuthenticatorTest extends \PHPUnit\Framework\TestCase
     public function testCreateToken(): void
     {
         $visitor = $this->getCustomerVisitor(5, 'someSessionId2');
-        $credentionals = $this->getCustomerVisitorCookieValue($visitor);
+        $credentials = $this->getCustomerVisitorCookieValue($visitor);
         $passport = new AnonymousSelfValidatingPassport(
-            new AnonymousCustomerUserBadge($credentionals, [$this->authenticator, 'getVisitor']),
+            new AnonymousCustomerUserBadge($credentials, [$this->authenticator, 'getVisitor']),
         );
         $passport->setAttribute('organization', new Organization());
-        $this->visitorManager
+        $this->visitorManager->expects(self::once())
             ->method('findOrCreate')
-            ->with($visitor->getId(), $visitor->getSessionId())
+            ->with(null, $visitor->getSessionId())
             ->willReturn($visitor);
 
         $token = $this->authenticator->createToken($passport, 'test');
@@ -256,7 +268,7 @@ class AnonymousCustomerUserAuthenticatorTest extends \PHPUnit\Framework\TestCase
 
     public function testGetVisitorWithInvalidCredentials(): void
     {
-        $encodedBrokenCredentials = base64_encode(json_encode([])) . 'SomeBroken';
+        $encodedBrokenCredentials = base64_encode(json_encode('test', JSON_THROW_ON_ERROR)) . 'SomeBroken';
         $visitor = $this->getCustomerVisitor(1, 'someSessionId');
 
         $this->visitorManager->expects(self::once())
@@ -273,37 +285,16 @@ class AnonymousCustomerUserAuthenticatorTest extends \PHPUnit\Framework\TestCase
     public function testGetVisitorWithValidCredentials(): void
     {
         $sessionId = 'sessionId';
-        $visitorId = '123';
 
-        $credentials = [
-            $visitorId,
-            $sessionId
-        ];
-
-        $encodedCredentials = base64_encode(json_encode($credentials));
-        $visitor = $this->getCustomerVisitor(123, 'sessionId');
+        $encodedCredentials = base64_encode(json_encode($sessionId, JSON_THROW_ON_ERROR));
+        $visitor = $this->getCustomerVisitor(123, $sessionId);
         $this->visitorManager->expects(self::once())
             ->method('findOrCreate')
-            ->with('123', 'sessionId')
+            ->with(null, $sessionId)
             ->willReturn($visitor);
 
         $foundVisitor = $this->authenticator->getVisitor($encodedCredentials);
 
-        self::assertEquals($visitorId, $foundVisitor->getId());
         self::assertEquals($sessionId, $foundVisitor->getSessionId());
-    }
-
-    private function getCustomerVisitorCookieValue(CustomerVisitor $visitor): string
-    {
-        return base64_encode(json_encode([$visitor->getId(), $visitor->getSessionId()], JSON_THROW_ON_ERROR));
-    }
-
-    private function getCustomerVisitor(int $id, string $sessionId): CustomerVisitor
-    {
-        $visitor = new CustomerVisitor();
-        ReflectionUtil::setId($visitor, $id);
-        $visitor->setSessionId($sessionId);
-
-        return $visitor;
     }
 }

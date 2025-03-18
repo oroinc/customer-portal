@@ -263,6 +263,8 @@ services:
         arguments:
             - '@doctrine'
             - '%oro_customer.anonymous_customer_user.write_connection_name%'
+        calls:
+            - [ setConfigManager, [ '@oro_config.manager' ] ]
 
     oro_customer.customer_visitor.credentials_cookie_response_listener:
         class:  'Oro\Bundle\CustomerBundle\Security\Listener\CustomerVisitorCookieResponseListener'

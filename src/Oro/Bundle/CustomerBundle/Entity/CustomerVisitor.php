@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 #[ORM\Entity]
 #[ORM\Table(name: 'oro_customer_visitor')]
-#[Index(columns: ['id', 'session_id'], name: 'id_session_id_idx')]
+#[Index(columns: ['session_id'], name: 'idx_oro_customer_visitor_session_id')]
 #[ORM\HasLifecycleCallbacks]
 #[Config]
 class CustomerVisitor implements ExtendEntityInterface, UserInterface
@@ -46,9 +46,6 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
     )]
     private ?CustomerUser $customerUser = null;
 
-    /**
-     * {@inheritdoc}
-     */
     public function __construct()
     {
         $this->lastVisit = new \DateTime('now', new \DateTimeZone('UTC'));
@@ -105,7 +102,9 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
     #[ORM\PrePersist]
     public function prePersist()
     {
-        $this->sessionId = CustomerVisitorManager::generateSessionId();
+        if (!$this->sessionId) {
+            $this->sessionId = CustomerVisitorManager::generateSessionId();
+        }
     }
 
     /**
@@ -138,7 +137,7 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
 
     public function getUserIdentifier(): string
     {
-        if (null === $this->getId()) {
+        if (null === $this->getId() || null === $this->getSessionId()) {
             return '';
         }
 

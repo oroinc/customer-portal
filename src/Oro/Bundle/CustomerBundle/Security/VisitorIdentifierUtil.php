@@ -7,15 +7,14 @@ namespace Oro\Bundle\CustomerBundle\Security;
  */
 class VisitorIdentifierUtil
 {
-    private const VISITOR_PREFIX          = 'visitor:';
-    private const VISITOR_IDENTIFIER_EXPR = '/^visitor:\d+:\w+/';
-
     /**
      * Checks whether the given string represents a visitor identifier.
      */
     public static function isVisitorIdentifier(string $identifier): bool
     {
-        return preg_match(self::VISITOR_IDENTIFIER_EXPR, $identifier) === 1;
+        return preg_match('/^visitor:\w+$/', $identifier) === 1
+            // BC compatibility (can be removed in v7.0): old format of the identifier
+            || preg_match('/^visitor:\d+:\w+$/', $identifier) === 1;
     }
 
     /**
@@ -23,7 +22,7 @@ class VisitorIdentifierUtil
      */
     public static function encodeIdentifier(int $visitorId, string $visitorSessionId): string
     {
-        return self::VISITOR_PREFIX . $visitorId . ':' . $visitorSessionId;
+        return 'visitor:' . $visitorSessionId;
     }
 
     /**
@@ -36,7 +35,11 @@ class VisitorIdentifierUtil
     public static function decodeIdentifier(string $identifier): array
     {
         $identifierData = explode(':', $identifier);
+        if (\count($identifierData) > 2) {
+            // BC compatibility (can be removed in v7.0): old format of the identifier
+            return [0, $identifierData[2]];
+        }
 
-        return [(int)$identifierData[1], $identifierData[2]];
+        return [0, $identifierData[1]];
     }
 }

@@ -145,7 +145,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         $domain = str_replace('http://', '', Client::LOCAL_URL);
         $customerVisitorCookie = new Cookie(
             AnonymousCustomerUserAuthenticator::COOKIE_NAME,
-            base64_encode(json_encode([$visitor->getId(), $visitor->getSessionId()], JSON_THROW_ON_ERROR))
+            base64_encode(json_encode($visitor->getSessionId(), JSON_THROW_ON_ERROR))
         );
         $this->client->getCookieJar()->set($customerVisitorCookie);
 
