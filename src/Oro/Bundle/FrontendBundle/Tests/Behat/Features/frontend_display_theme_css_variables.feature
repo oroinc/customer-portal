@@ -53,7 +53,7 @@ Feature: Frontend Display Theme Css Variables
     Then I should see these theme css variables:
       | variable                          | value                    |
       | primary-hover                     | #000000                  |
-      | primary-main                      | #5484ED                  |
+      | primary-main                      | #6D8DD4                  |
       | base-font-size                    | 1em                      |
       | base-line-height                  | 16px                     |
       | footer-background                 | grey                     |

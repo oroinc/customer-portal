@@ -43,6 +43,10 @@
         },
         'orowindows/js/widget/dialog-widget': {
             desktopLoadingBar: true,
+            limitTo: isMobileVersion() ? 'body': '#container'
+        },
+        'orowindows/js/widget/dialog-manager': {
+            limitTo: isMobileVersion() ? 'body': '#container'
         },
         'oroui/js/tools/scroll-helper': {
             scrollableContainerSelector: '#container'

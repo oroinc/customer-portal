@@ -18,7 +18,6 @@ Feature: Customer User Role search
 
   Scenario: Search Customer User Role
     Given I login as "charlie" user
-    And I click "Search"
     And type "admin" in "search"
     When I click "Search Submit"
     Then I should be on Search Result page
