@@ -3,6 +3,7 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Layout\DataProvider;
 
 use Knp\Menu\ItemInterface;
+use Oro\Bundle\CMSBundle\Layout\DataProvider\ContentBlockDataProvider;
 use Oro\Bundle\FrontendBundle\Layout\DataProvider\ThemeHeaderConfigProvider;
 use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
 use Oro\Bundle\FrontendBundle\Provider\QuickAccessButtonDataProvider;
@@ -15,6 +16,7 @@ final class ThemeHeaderConfigProviderTest extends TestCase
 {
     private QuickAccessButtonDataProvider|MockObject $quickAccessButtonDataProvider;
     private ThemeConfigurationProvider|MockObject $themeConfigurationProvider;
+    private ContentBlockDataProvider|MockObject $contentBlockDataProvider;
     private ThemeHeaderConfigProvider $provider;
 
     #[\Override]
@@ -22,10 +24,12 @@ final class ThemeHeaderConfigProviderTest extends TestCase
     {
         $this->quickAccessButtonDataProvider = $this->createMock(QuickAccessButtonDataProvider::class);
         $this->themeConfigurationProvider = $this->createMock(ThemeConfigurationProvider::class);
+        $this->contentBlockDataProvider = $this->createMock(ContentBlockDataProvider::class);
 
         $this->provider = new ThemeHeaderConfigProvider(
             $this->quickAccessButtonDataProvider,
-            $this->themeConfigurationProvider
+            $this->themeConfigurationProvider,
+            $this->contentBlockDataProvider
         );
     }
 
