@@ -139,6 +139,10 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/currency-localization-control-config.scss'
         - 'bundles/orofrontend/default/scss/variables/contact-list-config.scss'
         - 'bundles/orofrontend/default/scss/variables/utilites-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/dashboard/dashboard-page-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/dashboard/dashboard-widget-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/dashboard/dashboard-menu-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/dashboard/dashboard-news-config.scss'
 
         # Components
         # Bootstrap Optional Components
@@ -266,6 +270,10 @@ styles:
         - 'bundles/orofrontend/default/scss/components/summary-collapse.scss'
         - 'bundles/orofrontend/default/scss/components/summary-table.scss'
         - 'bundles/orofrontend/default/scss/components/errors-container-list.scss'
+        - 'bundles/orofrontend/default/scss/components/dashboard/dashboard-page.scss'
+        - 'bundles/orofrontend/default/scss/components/dashboard/dashboard-widget.scss'
+        - 'bundles/orofrontend/default/scss/components/dashboard/dashboard-menu.scss'
+        - 'bundles/orofrontend/default/scss/components/dashboard/dashboard-news.scss'
     output: 'css/styles.css'
     auto_rtl_inputs:
         - 'bundles/oro*/**'

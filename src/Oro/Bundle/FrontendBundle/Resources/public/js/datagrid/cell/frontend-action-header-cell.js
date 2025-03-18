@@ -12,11 +12,18 @@ define(function(require) {
             FrontendActionHeaderCell.__super__.constructor.apply(this, args);
         },
 
+        themeOptions: {
+            optionPrefix: 'actionHeaderCell'
+        },
+
         initialize: function(options) {
             FrontendActionHeaderCell.__super__.initialize.call(this, options);
 
             if (!this.column.get('label')) {
-                this.column.set('label', __('oro_frontend.datagrid.action_column.label'));
+                this.column.set(
+                    'label',
+                    __(options.themeOptions?.label ?? 'oro_frontend.datagrid.action_column.label')
+                );
             }
         },
 

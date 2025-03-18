@@ -18,7 +18,7 @@
 {% block __collapse_container__collapse_header_widget %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': "collapse__header",
+        '~class': " collapse__header",
         'id': collapseId ~ '-header',
         'href': '#' ~ collapseId,
         'data-toggle': 'collapse',
@@ -76,4 +76,12 @@
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
+{% endblock %}
+
+{% block __collapse_container__collapse_header_icon_widget %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+
+    {% if iconName is defined and iconName != null %}
+        {{ renderIcon.icon({name: iconName, extraClass: 'collapse__header-icon'}) }}
+    {% endif %}
 {% endblock %}

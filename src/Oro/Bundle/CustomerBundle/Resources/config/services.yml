@@ -1530,3 +1530,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_config.settings_form_preset, method: formPreSet }
             - { name: kernel.event_listener, event: oro_config.settings_before_save.oro_customer.redirect_after_login, method: beforeSave }
+
+    oro_customer.datagrid.current_customer_user_view_list:
+        class: Oro\Bundle\CustomerBundle\Datagrid\CurrentCustomerUserViewList
+        public: true
+        arguments:
+            - '@translator'
+            - '@oro_security.token_accessor'

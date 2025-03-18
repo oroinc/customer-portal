@@ -4,6 +4,7 @@ layout:
             id: oro_customer_menu
             root: page_sidebar
             namespace: sidebar_customer_menu
+
     actions:
         - '@add':
             id: breadcrumbs

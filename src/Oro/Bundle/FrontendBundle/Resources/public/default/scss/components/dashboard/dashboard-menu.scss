@@ -1,0 +1,76 @@
+/* @theme: default; */
+
+.dashboard-menu {
+    display: $dashboard-menu-display;
+    gap: $dashboard-menu-gap;
+    list-style: $dashboard-menu-list-style;
+    grid-template-columns: $dashboard-menu-grid-template-columns;
+
+    --dashboard-menu-item-count: #{$dashboard-menu-item-count};
+
+    &__item {
+        display: $dashboard-menu-item-display;
+        flex-direction: $dashboard-menu-item-flex-direction;
+    }
+
+    &__link {
+        display: $dashboard-menu-link-display;
+        height: $dashboard-menu-link-height;
+        flex-direction: $dashboard-menu-link-flex-direction;
+        gap: $dashboard-menu-link-gap;
+        padding: $dashboard-menu-link-padding;
+        text-decoration: $dashboard-menu-link-text-decoration;
+        background: $dashboard-menu-link-background;
+
+        &:hover {
+            background: $dashboard-menu-link-background-hover;
+        }
+
+        &:focus {
+            background: $dashboard-menu-link-background-focus;
+        }
+    }
+
+    &__icon {
+        display: $dashboard-menu-icon-display;
+        color: $dashboard-menu-icon-color;
+    }
+
+    &__text {
+        @include line-clamp(5);
+
+        font-size: $dashboard-menu-text-font-size;
+        font-weight: $dashboard-menu-text-font-weight;
+        color: $dashboard-menu-text-color;
+    }
+}
+
+@include breakpoint('desktop-big') {
+    .dashboard-menu {
+        --dashboard-menu-item-count: #{$dashboard-menu-item-count-desktop-big};
+    }
+}
+
+@include breakpoint('desktop') {
+    .dashboard-menu {
+        padding-bottom: $dashboard-menu-offset-bottom-only-desktop;
+    }
+}
+
+@include breakpoint('tablet-big') {
+    .dashboard-menu {
+        --dashboard-menu-item-count: #{$dashboard-menu-item-count-tablet-big};
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .dashboard-menu {
+        --dashboard-menu-item-count: #{$dashboard-menu-item-count-mobile-big};
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .dashboard-menu {
+        --dashboard-menu-item-count: #{$dashboard-menu-item-count-mobile-landscape};
+    }
+}

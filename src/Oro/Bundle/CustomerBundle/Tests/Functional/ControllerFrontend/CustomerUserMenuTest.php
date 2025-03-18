@@ -38,7 +38,7 @@ class CustomerUserMenuTest extends WebTestCase
         $this->assertPageTitleSame('Not Found');
 
         $menu = $crawler->filterXPath('//ul[contains(@class, "customer-menu-list")]/li/a');
-        // Only 3 items as there are no other permissions
-        $this->assertCount(3, $menu);
+        // Only 4 items as there are no other permissions
+        $this->assertCount(4, $menu);
     }
 }

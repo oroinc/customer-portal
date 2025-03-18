@@ -1,0 +1,17 @@
+/* @theme: default; */
+
+$dashboard-news-gap: spacing('xl') !default;
+$dashboard-news-item-text-gap: spacing('xl') !default;
+$dashboard-news-item-text-padding: spacing('lg') !default;
+$dashboard-news-date-color: get-color('text', 'secondary') !default;
+$dashboard-news-description-color: get-color('text', 'secondary') !default;
+
+$dashboard-news-image-placeholder-background: get-color('primary', 'main') !default;
+$dashboard-news-image-placeholder-height: 288px !default;
+$dashboard-news-image-placeholder-img-size: 100% !default;
+
+$dashboard-news-link-color: get-var-color('text', 'primary') !default;
+$dashboard-news-link-text-decoration: none !default;
+
+// Mobile
+$dashboard-news-gap-mobile: spacing('xl') 0 !default;

@@ -1,0 +1,34 @@
+/* @theme: default; */
+
+$dashboard-menu-display: grid !default;
+$dashboard-menu-grid-template-columns: repeat(var(--dashboard-menu-item-count, 1), minmax(0, 1fr)) !default;
+$dashboard-menu-list-style: none !default;
+$dashboard-menu-gap: spacing('base') !default;
+
+$dashboard-menu-item-display: flex !default;
+$dashboard-menu-item-flex-direction: column !default;
+
+$dashboard-menu-link-display: flex !default;
+$dashboard-menu-link-height: 100% !default;
+$dashboard-menu-link-flex-direction: column !default;
+$dashboard-menu-link-gap: spacing('xmd') !default;
+$dashboard-menu-link-padding: spacing('base') !default;
+$dashboard-menu-link-text-decoration: none !default;
+$dashboard-menu-link-background: get-color('primary', 'main') !default;
+$dashboard-menu-link-background-hover: get-color('primary', 'hover') !default;
+$dashboard-menu-link-background-focus: get-color('primary', 'active') !default;
+
+$dashboard-menu-icon-display: flex !default;
+$dashboard-menu-icon-color: get-color('neutral', 'white-50') !default;
+
+$dashboard-menu-text-font-size: 18px !default;
+$dashboard-menu-text-font-weight: font-weight('semi-bold') !default;
+$dashboard-menu-text-color: get-color('neutral', 'white-100') !default;
+
+// Responsive
+$dashboard-menu-offset-bottom-only-desktop: spacing('base') !default;
+$dashboard-menu-item-count-desktop-big: 8 !default;
+$dashboard-menu-item-count: 6 !default;
+$dashboard-menu-item-count-tablet-big: 5 !default;
+$dashboard-menu-item-count-mobile-big: 4 !default;
+$dashboard-menu-item-count-mobile-landscape: 2 !default;

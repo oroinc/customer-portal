@@ -158,7 +158,7 @@ navigation:
             oro_customer_frontend_customer_user_profile:
                 label: 'oro.customer.menu.customer_user_profile.label'
                 route: 'oro_customer_frontend_customer_user_profile'
-                position: -10
+                position: 5
                 display_children: false
 
             oro_customer_frontend_customer_user_profiles_and_addresses:
@@ -170,6 +170,11 @@ navigation:
                 label: 'oro.customer.menu.customer_user_saved.label'
                 position: 200
                 uri: '#'
+
+            oro_customer_frontend_customer_user_dashboard:
+                label: 'oro.customer.menu.customer_user_dashboard.label'
+                route: 'oro_customer_frontend_customer_user_dashboard_index'
+                position: 1
 
             frontend_customer_users:
                 label: 'oro.customer.menu.customer_user.label'
@@ -269,6 +274,13 @@ navigation:
                 label: 'oro.customer.customeruser.profile.edit'
                 route: 'oro_customer_frontend_customer_user_profile_update'
 
+            oro_customer_frontend_dashboard_customer_user_profile:
+                label: 'oro.customer.menu.customer_user_profile.label'
+                route: 'oro_customer_frontend_customer_user_profile'
+                position: 5
+                extras:
+                    icon: fa-user-o
+
         tree:
             application_menu:
                 children:
@@ -299,6 +311,7 @@ navigation:
                 children:
                     oro_customer_menu_customer_user_index:
                         children:
+                            oro_customer_frontend_customer_user_dashboard: ~
                             oro_customer_frontend_customer_user_profile: ~
                             oro_customer_frontend_customer_user_address_index: ~
                             oro_customer_frontend_customer_personal_address_index:
@@ -351,6 +364,7 @@ navigation:
                 children:
                     oro_customer_frontend_customer_user_profiles_and_addresses:
                         children:
+                            oro_customer_frontend_customer_user_dashboard: ~
                             oro_customer_frontend_customer_user_profile:
                                 children:
                                     oro_customer_frontend_customer_user_profile_update: ~
@@ -375,6 +389,11 @@ navigation:
                                     oro_customer_frontend_customer_user_role_update: ~
                                     oro_customer_frontend_customer_user_role_view: ~
                     oro_customer_frontend_customer_user_saved: ~
+
+            oro_customer_dashboard_quick_access_menu:
+                scope_type: menu_frontend_visibility
+                children:
+                    oro_customer_frontend_dashboard_customer_user_profile: ~
 
             shortcuts:
                 children:

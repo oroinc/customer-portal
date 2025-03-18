@@ -1,0 +1,18 @@
+/* @theme: default; */
+
+$dashboard-widget-header-offset: spacing('base') !default;
+$dashboard-widget-segment-content-bg-color: get-var-color('neutral', 'white-100') !default;
+
+$dashboard-widget-inner-gap: spacing('base') !default;
+
+$dashboard-widget-header-grid-template-columns: auto 1fr auto !default;
+$dashboard-widget-header-gap: spacing('base') !default;
+
+$dashboard-widget-collapse-header-gap: 0 spacing('base') !default;
+$dashboard-widget-collapse-toggle-icon-color: get-color('text', 'secondary') !default;
+$dashboard-widget-collapse-header-icon-color: get-color('text', 'secondary') !default;
+$dashboard-widget-collapse-title-font-size: $base-font-size--xlarge !default;
+$dashboard-widget-collapse-body-padding: 0 !default;
+
+// Mobile
+$dashboard-widget-header-mobile-grid-template-columns: 1fr 1fr !default;

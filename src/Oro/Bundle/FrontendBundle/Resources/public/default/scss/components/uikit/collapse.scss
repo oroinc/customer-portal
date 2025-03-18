@@ -13,15 +13,16 @@
 
         font-size: $collapse-toggle-font-size;
         font-weight: font-weight('semi-bold');
-        color: $collapse-toggle-color;
+        color: var(--collapse-toggle-text-color, #{$collapse-toggle-text-color});
         text-align: left;
 
         padding: $collapse-toggle-padding;
         min-height: $collapse-toggle-min-height;
 
         &-icon {
-            transition: transform 230ms ease-in-out;
             margin-inline-end: spacing('base');
+            color: var(--collapse-toggle-icon-color, #{$collapse-toggle-icon-color});
+            transition: transform 230ms ease-in-out;
         }
     }
 
@@ -47,6 +48,10 @@
             background: $collapse-header-background-color-hover;
             color: $collapse-header-color-hover;
             text-decoration: none;
+        }
+
+        &-icon {
+            color: var(--collapse-header-icon-color, #{$collapse-header-icon-color});
         }
     }
 

@@ -65,6 +65,13 @@ oro_customer_acl_permission:
     type: annotation
     prefix: /customer/acl
 
+oro_customer_frontend_customer_user_dashboard:
+    resource:     "@OroCustomerBundle/Controller/Frontend/CustomerUserDashboardController.php"
+    type:         annotation
+    prefix:       /customer/user/dashboard
+    options:
+        frontend: true
+
 oro_customer_frontend_customer_user_profile:
     resource: "@OroCustomerBundle/Controller/Frontend/CustomerUserProfileController.php"
     type: annotation

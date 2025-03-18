@@ -62,6 +62,11 @@ services:
             - { name: container.service_subscriber }
 
     # Frontend controllers
+    Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerUserDashboardController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
 
     Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerUserRoleController:
         calls:

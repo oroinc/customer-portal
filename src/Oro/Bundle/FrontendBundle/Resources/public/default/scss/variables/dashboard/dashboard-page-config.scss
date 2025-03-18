@@ -1,0 +1,31 @@
+/* @theme: default; */
+
+$dashboard-container-gap: spacing('xxxl') !default;
+
+$dashboard-primary-container-gap: spacing('xxxl') !default;
+
+$dashboard-secondary-container-gap: spacing('lg') 0 !default;
+
+$dashboard-secondary-container-content-padding-start: $page-content-with-sidebar-inner-offset-start !default;
+$dashboard-secondary-container-content-padding-end: 28px !default;
+$dashboard-secondary-container-content-padding: (
+    24px 28px spacing('xxxl') $page-content-with-sidebar-inner-offset-start
+) !default;
+
+$dashboard-secondary-container-content-bg-color: get-var-color('neutral', 'grey1') !default;
+
+// Tablet Big
+$dashboard-container-gap-tablet-big: spacing('lg') 0 !default;
+$dashboard-primary-container-gap-tablet-big: spacing('lg') 0 !default;
+
+// Tablet
+$dashboard-secondary-container-content-padding-start-tablet: spacing('base') !default;
+$dashboard-secondary-container-content-padding-end-tablet: spacing('base') !default;
+$dashboard-secondary-container-content-padding-tablet: (
+    24px $dashboard-secondary-container-content-padding-end-tablet
+    24px $dashboard-secondary-container-content-padding-start-tablet
+) !default;
+
+// Mobile
+$dashboard-container-gap-mobile: spacing('xl') 0 !default;
+$dashboard-primary-container-gap-mobile: spacing('base') 0 !default;

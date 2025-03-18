@@ -555,4 +555,3 @@ services:
         class: Oro\Bundle\FrontendBundle\Provider\StorefrontThemeConfigurationTypeProvider
         tags:
             - { name: oro_theme.theme_configuration_type_provider }
-

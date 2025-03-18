@@ -8,6 +8,8 @@ layout:
                     blockType: container
                 __collapse_header:
                     blockType: container
+                __collapse_header_icon:
+                    blockType: block
                 __collapse_toggle:
                     blockType: block
                 __collapse_body:
@@ -16,5 +18,6 @@ layout:
                 __root:
                     __collapse_container:
                         __collapse_header:
+                            __collapse_header_icon: ~
                             __collapse_toggle: ~
                         __collapse_body: ~

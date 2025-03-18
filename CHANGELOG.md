@@ -37,6 +37,7 @@ The current file describes significant changes in the code that may affect the u
 * Added `\Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplatesThemeConfigurationExtension` that gets `product_page_template` theme configuration option values and adds for page_templates.
 * Added `\Oro\Bundle\FrontendBundle\Form\Configuration\AbstractCssConfigBuilder` that should be used for CSS Theme Variables
 * Added option `show_input_control` to `\Oro\Bundle\FormBundle\Form\Type\OroSimpleColorPickerType` that allows to show text input form for manual color value. By default, value for this option is false
+* Added a new `actionHeaderCellLabel` theme option in `grid_render_parameters` for the storefront datagrids, that allows setting label for actions header cell.
 
 #### CustomerBundle
 * Added `oro_customer.redirect_after_login` and `oro_customer.do_not_leave_checkout` system config options that manage the redirection of customer user after login.
@@ -56,6 +57,8 @@ The current file describes significant changes in the code that may affect the u
   - `oro_customer.validate_billing_addresses__my_account`
 * Added `orocustomer/js/app/views/frontend-customer-address-validated-at-view` that intercepts form submit to validate address via Address Validation feature on storefront customer and customer user address pages
 * Added `orocustomer/js/app/views/customer-address-validated-at-view` that intercepts form submit to validate address via Address Validation feature on backoffice customer and customer user pages
+* Added `\Oro\Bundle\CustomerBundle\Datagrid\CurrentCustomerUserViewList` grid view list that filters grid data by the current customer user by default.
+* Added a new `oro_customer_dashboard_quick_access_menu` menu.
 
 ### Changed
 * Replaced all places in code that used old system configuration options on theme configuration options.

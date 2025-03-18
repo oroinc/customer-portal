@@ -63,6 +63,7 @@ oro_frontend:
                     label: Header Settings
                     promotional_content:
                         label: Promotional Content
+                        tooltip: If provided, this content block will be displayed in the page's header.
                     top_navigation_menu:
                         label: Top Navigation Menu
                         placeholder: Choose a top navigation menu

@@ -7,7 +7,10 @@ $collapse-header-background-color-hover: get-color('neutral', 'grey2') !default;
 $collapse-header-border-radius: $border-radius !default;
 $collapse-header-min-height: 55px !default;
 
-$collapse-toggle-color: get-color('text', 'primary') !default;
+$collapse-toggle-text-color: get-color('text', 'primary') !default;
+$collapse-toggle-icon-color: get-color('text', 'primary') !default;
+$collapse-header-icon-color: get-color('text', 'primary') !default;
+
 $collapse-toggle-min-height: 55px !default;
 $collapse-toggle-padding: 0 0 0 spacing('base') !default;
 $collapse-toggle-font-size: 16px !default;

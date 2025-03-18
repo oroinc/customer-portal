@@ -16,6 +16,7 @@ configuration:
                     type: content_block_selector
                     options:
                         required: false
+                        tooltip: 'oro_frontend.theme.default.configuration.header.promotional_content.tooltip'
                     previews:
                         promotional-content: 'bundles/orofrontend/images/previews/promotional-content.png'
                 top_navigation_menu:

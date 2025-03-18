@@ -83,7 +83,7 @@
     {% if content|length %}
         <{{ tagName }} {{ block('block_attributes') }}>
             {% if titleIcon is defined and titleIcon != null %}
-            {{ renderIcon.icon({name: titleIcon, extraClass: 'theme-icon--lg'}) }}
+                {{ renderIcon.icon({name: titleIcon, extraClass: 'theme-icon--lg'}) }}
             {% endif %}
             <span class="page-title__text">{{ content|raw }}</span>
         </{{ tagName }}>
