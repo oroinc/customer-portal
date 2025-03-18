@@ -7,12 +7,13 @@ use Doctrine\ORM\Mapping\Index;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
+use Oro\Bundle\OAuth2ServerBundle\Security\VisitorIdentifierUtil;
 
 /**
  * Represents guest user with related CustomerUser (which is empty by default)
  * @ORM\Table(
  *     name="oro_customer_visitor",
- *     indexes={@Index(name="id_session_id_idx", columns={"id", "session_id"})}
+ *     indexes={@Index(name="idx_oro_customer_visitor_session_id", columns={"session_id"})}
  * )
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
@@ -120,7 +121,9 @@ class CustomerVisitor implements ExtendEntityInterface
      */
     public function prePersist()
     {
-        $this->sessionId = CustomerVisitorManager::generateSessionId();
+        if (!$this->sessionId) {
+            $this->sessionId = CustomerVisitorManager::generateSessionId();
+        }
     }
 
     /**
@@ -140,5 +143,23 @@ class CustomerVisitor implements ExtendEntityInterface
     public function getCustomerUser()
     {
         return $this->customerUser;
+    }
+
+    public function getRoles(): array
+    {
+        return ['ROLE_FRONTEND_ANONYMOUS'];
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getUserIdentifier(): string
+    {
+        if (null === $this->getId() || null === $this->getSessionId()) {
+            return '';
+        }
+
+        return VisitorIdentifierUtil::encodeIdentifier($this->getId(), $this->getSessionId());
     }
 }

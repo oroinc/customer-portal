@@ -89,7 +89,7 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
 
     private function getCustomerVisitorCookieValue(CustomerVisitor $visitor): string
     {
-        return base64_encode(json_encode([$visitor->getId(), $visitor->getSessionId()], JSON_THROW_ON_ERROR));
+        return base64_encode(json_encode($visitor->getSessionId(), JSON_THROW_ON_ERROR));
     }
 
     public function testHandleWhenNoToken(): void
@@ -124,7 +124,7 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
             ->willReturnCallback(function (AnonymousCustomerUserToken $token) use ($authenticatedToken) {
                 self::assertEquals('Anonymous Customer User', $token->getUser());
                 self::assertEquals(['TEST_ANONYMOUS_ROLE'], $token->getRoleNames());
-                self::assertEquals(['visitor_id' => 4 , 'session_id' => 'someSessionId'], $token->getCredentials());
+                self::assertEquals(['visitor_id' => null , 'session_id' => 'someSessionId'], $token->getCredentials());
 
                 return $authenticatedToken;
             });

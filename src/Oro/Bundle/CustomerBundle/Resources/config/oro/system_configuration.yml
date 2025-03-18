@@ -132,6 +132,13 @@ system_configuration:
                     - Type: integer
                     - Range:
                         min: 1
+        oro_customer.create_customer_visitor_immediately:
+            data_type: boolean
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
+            options:
+                label: oro.customer.system_configuration.fields.create_customer_visitor_immediately.label
+                tooltip: oro.customer.system_configuration.fields.create_customer_visitor_immediately.tooltip
+                required: false
         oro_customer.maps_enabled:
             data_type: boolean
             type: Symfony\Component\Form\Extension\Core\Type\ChoiceType
@@ -199,6 +206,7 @@ system_configuration:
                                         priority: 90
                                         children:
                                             - oro_customer.customer_visitor_cookie_lifetime_days
+                                            - oro_customer.create_customer_visitor_immediately
                                     frontend_rest_api:
                                         priority: 50
                                         children:

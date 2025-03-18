@@ -110,7 +110,7 @@ class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit\Framework
 
         $this->visitorManager->expects(self::once())
             ->method('findOrCreate')
-            ->with($entityId, $sessionId)
+            ->with(null, $sessionId)
             ->willReturn($visitor);
 
         self::assertEquals(

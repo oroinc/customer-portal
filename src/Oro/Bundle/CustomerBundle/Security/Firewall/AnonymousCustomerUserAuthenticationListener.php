@@ -101,20 +101,19 @@ class AnonymousCustomerUserAuthenticationListener
 
     private function getCredentials(Request $request): array
     {
-        $visitorId = $sessionId = null;
+        $sessionId = null;
         $value = $request->cookies->get(self::COOKIE_NAME);
-
         if ($value) {
-            $decodedCredentials = json_decode(base64_decode($value), false);
-            if (JSON_ERROR_NONE === json_last_error() && null !== $decodedCredentials) {
-                [$visitorId, $sessionId] =  $decodedCredentials;
+            $decodedValue = json_decode(base64_decode($value));
+            if (\is_array($decodedValue) && isset($decodedValue[1])) {
+                // BC compatibility (can be removed in v7.0): get sessionId from old format of the cookie value
+                $sessionId = $decodedValue[1];
+            } elseif (\is_string($decodedValue) && $decodedValue) {
+                $sessionId = $decodedValue;
             }
         }
 
-        return [
-            'visitor_id' => $visitorId,
-            'session_id' => $sessionId,
-        ];
+        return ['visitor_id' => null, 'session_id' => $sessionId];
     }
 
     private function saveCredentials(Request $request, AnonymousCustomerUserToken $token): void

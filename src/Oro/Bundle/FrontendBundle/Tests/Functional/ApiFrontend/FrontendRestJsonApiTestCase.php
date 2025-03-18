@@ -143,7 +143,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         $cookieJar = $this->client->getCookieJar();
         $cookieJar->set(new Cookie(
             AnonymousCustomerUserAuthenticationListener::COOKIE_NAME,
-            base64_encode(json_encode([$visitor->getId(), $visitor->getSessionId()], JSON_THROW_ON_ERROR))
+            base64_encode(json_encode($visitor->getSessionId(), JSON_THROW_ON_ERROR))
         ));
         // set "_csrf" cookie with domain to be sure it was rewritten after previous request
         $domain = str_replace('http://', '', Client::LOCAL_URL);

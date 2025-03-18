@@ -39,6 +39,7 @@ class OroCustomerExtensionTest extends \PHPUnit\Framework\TestCase
                         'enable_responsive_grids'  => ['value' => true, 'scope' => 'app'],
                         'enable_swipe_actions_grids'  => ['value' => true, 'scope' => 'app'],
                         'customer_visitor_cookie_lifetime_days'  => ['value' => 30, 'scope' => 'app'],
+                        'create_customer_visitor_immediately' => ['value' => true, 'scope' => 'app'],
                         'maps_enabled'  => ['value' => true, 'scope' => 'app'],
                         'non_authenticated_visitors_api'  => ['value' => false, 'scope' => 'app'],
                         'api_key_generation_enabled'  => ['value' => true, 'scope' => 'app'],

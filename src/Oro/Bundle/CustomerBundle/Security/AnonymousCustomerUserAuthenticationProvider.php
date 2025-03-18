@@ -48,7 +48,7 @@ class AnonymousCustomerUserAuthenticationProvider implements AuthenticationProvi
         }
 
         $credentials = $token->getCredentials();
-        $visitor = $this->visitorManager->findOrCreate($credentials['visitor_id'], $credentials['session_id']);
+        $visitor = $this->visitorManager->findOrCreate(null, $credentials['session_id']);
 
         return new AnonymousCustomerUserToken(
             $token->getUser(),
