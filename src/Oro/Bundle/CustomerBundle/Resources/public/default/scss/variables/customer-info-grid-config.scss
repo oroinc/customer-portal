@@ -3,12 +3,12 @@
 $customer-info-grid-width: 604px !default;
 $customer-info-grid-grid-gap: 16px 104px !default;
 
-$customer-info-grid-order-display: grid !default;
-$customer-info-grid-order-grid-template-areas:
+$customer-info-grid-section-display: grid !default;
+$customer-info-grid-section-grid-template-areas:
     'container total'
     'data data' !default;
-$customer-info-grid-order-grid-template-columns: minmax(0, 1fr) 280px !default;
-$customer-info-grid-order-gap: spacing('lg') !default;
+$customer-info-grid-section-grid-template-columns: minmax(0, 1fr) 280px !default;
+$customer-info-grid-section-gap: spacing('lg') !default;
 
 $customer-info-grid-data-grid-area: data !default;
 $customer-info-grid-total-grid-area: total !default;
@@ -33,11 +33,11 @@ $customer-info-grid-view-more-margin: 6px 0 !default;
 $customer-info-grid-table-line-height: 1.1429 !default;
 
 // Mmobile Big
-$customer-info-grid-order-mobile-big-grid-template-areas:
+$customer-info-grid-section-mobile-big-grid-template-areas:
     'container'
     'data'
     'total' !default;
-$customer-info-grid-order-mobile-big-grid-template-columns: minmax(0, 1fr) !default;
+$customer-info-grid-section-mobile-big-grid-template-columns: minmax(0, 1fr) !default;
 
 $customer-info-grid-total-mobile-big-margin-inline: -#{spacing('base')} !default;
 $customer-info-grid-total-mobile-big-position: sticky !default;

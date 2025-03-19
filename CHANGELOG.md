@@ -57,6 +57,8 @@ The current file describes significant changes in the code that may affect the u
   - `oro_customer.validate_billing_addresses__my_account`
 * Added `orocustomer/js/app/views/frontend-customer-address-validated-at-view` that intercepts form submit to validate address via Address Validation feature on storefront customer and customer user address pages
 * Added `orocustomer/js/app/views/customer-address-validated-at-view` that intercepts form submit to validate address via Address Validation feature on backoffice customer and customer user pages
+* Selector `customer-info-grid__order` was renamed to `customer-info-grid__section`
+  As a result, the SCSS variables `$customer-info-grid-order-*` associated with this selector were renamed to `$customer-info-grid-section-*`
 * Added `\Oro\Bundle\CustomerBundle\Datagrid\CurrentCustomerUserViewList` grid view list that filters grid data by the current customer user by default.
 * Added a new `oro_customer_dashboard_quick_access_menu` menu.
 

@@ -5,11 +5,11 @@
 
     --grid-gap: #{$customer-info-grid-grid-gap};
 
-    &__order {
-        display: $customer-info-grid-order-display;
-        grid-template-areas: $customer-info-grid-order-grid-template-areas;
-        grid-template-columns: $customer-info-grid-order-grid-template-columns;
-        gap: $customer-info-grid-order-gap;
+    &__section {
+        display: $customer-info-grid-section-display;
+        grid-template-areas: $customer-info-grid-section-grid-template-areas;
+        grid-template-columns: $customer-info-grid-section-grid-template-columns;
+        gap: $customer-info-grid-section-gap;
     }
 
     &__container {
@@ -76,9 +76,9 @@
 
 @include breakpoint('mobile-big') {
     .customer-info-grid {
-        &__order {
-            grid-template-areas: $customer-info-grid-order-mobile-big-grid-template-areas;
-            grid-template-columns: $customer-info-grid-order-mobile-big-grid-template-columns;
+        &__section {
+            grid-template-areas: $customer-info-grid-section-mobile-big-grid-template-areas;
+            grid-template-columns: $customer-info-grid-section-mobile-big-grid-template-columns;
         }
 
         &__total {
