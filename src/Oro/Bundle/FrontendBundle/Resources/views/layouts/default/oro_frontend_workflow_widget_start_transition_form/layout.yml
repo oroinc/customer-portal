@@ -6,6 +6,10 @@ layout:
             id: transition_form_holder
             parentId: widget_content
             blockType: container
+        - '@setOption':
+            id: form_actions_submit
+            optionName: text
+            optionValue: '=data["translator"].getTrans("oro_frontend.workflow_widget.start_transition_form.submit_button.label")'
     imports:
         -
             id: oro_workflow_start_transition_form
