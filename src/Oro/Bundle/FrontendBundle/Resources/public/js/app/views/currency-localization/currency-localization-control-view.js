@@ -21,7 +21,8 @@ const CurrencyLocalizationControlView = BaseView.extend({
         'sidePanelMode',
         'redirectRoute',
         'redirectRouteParameters',
-        'redirectQueryParameters'
+        'redirectQueryParameters',
+        'triggerClass'
     ]),
 
     template,
@@ -159,7 +160,8 @@ const CurrencyLocalizationControlView = BaseView.extend({
             availableControls,
             iconChevron: this.isMobileBig() ? 'chevron-up' : 'chevron-right',
             icon: currencies.length > 1 ? 'credit-card' : 'globe',
-            name: currencies.length === 2 ? 'currencies' : 'localizations'
+            name: currencies.length === 2 ? 'currencies' : 'localizations',
+            triggerClass: this.triggerClass
         };
     },
 

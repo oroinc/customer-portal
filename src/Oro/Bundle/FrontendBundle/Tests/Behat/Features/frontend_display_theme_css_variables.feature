@@ -11,7 +11,7 @@ Feature: Frontend Display Theme Css Variables
     And I proceed as the Admin
     And I login as administrator
     And I go to System / Theme Configurations
-    And I click Edit "Refreshing Teal" in grid
+    And I click Edit "Golden Carbon" in grid
 
   Scenario Outline: Check inline validation for the all css types
     When I fill "Theme Configuration Form" with:

@@ -12,7 +12,7 @@ critical_css:
         - 'bundles/orofrontend/default/scss/variables/uikit/theme-icons-config.scss'
 
         # Components
-        # reset.scss must be first in list due to that file must have the lowest priority
+        - 'bundles/orofrontend/default/scss/components/theme-colors.scss'
         - 'bundles/orofrontend/default/scss/reset.scss'
         - 'bundles/orofrontend/default/scss/base/base.scss'
         - 'bundles/orofrontend/default/scss/components/headings.scss'

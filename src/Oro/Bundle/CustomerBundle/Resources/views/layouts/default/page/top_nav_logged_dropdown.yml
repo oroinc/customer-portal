@@ -29,6 +29,7 @@ layout:
                     options:
                         vars:
                             popupLabel: '=data["current_user"].getCurrentUser().getFullName()'
+                            triggerClass: 'btn btn--plain-inverse'
                 top_nav_customer_dropdown_sign_out_link:
                     blockType: link
                     options:

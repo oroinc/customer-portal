@@ -58,7 +58,7 @@
                 left: 0;
                 bottom: 0;
                 width: 3px;
-                border-radius: 0 4px 4px 0;
+                border-radius: 0 $base-ui-element-border-radius $base-ui-element-border-radius 0;
                 background-color: $dropdown-link-active-state-color;
             }
         }

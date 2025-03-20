@@ -7,9 +7,17 @@ Feature: Theme Configuration
       | Admin | first_session  |
       | Buyer | second_session |
 
-  Scenario: Create Theme Configuration
+  Scenario: Change default theme to Refreshing Teal
     Given I proceed as the Admin
     And I login as administrator
+    When go to System/ Configuration
+    And follow "Commerce/Design/Theme" on configuration sidebar
+    And fill "Theme Configuration Config" with:
+      | Theme Configuration | Refreshing Teal |
+    And click "Save settings"
+    Then I should see "Configuration saved" flash message
+
+  Scenario: Create Theme Configuration
     When I go to System / Theme Configurations
     Then Page title equals to "All - Theme Configurations - System"
     And I should see "System / Theme Configurations" in breadcrumbs

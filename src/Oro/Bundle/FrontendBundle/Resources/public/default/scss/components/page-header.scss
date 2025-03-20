@@ -170,10 +170,12 @@
     // Generate classes for media queries for page header context
     @include breakpoint($key) {
         .page-header {
-            .hide-block-on-#{$key},
-            .hide-label-on-#{$key} {
+            .hide-block-on-#{$key} {
                 // stylelint-disable-next-line declaration-no-important
                 display: none !important;
+            }
+            .hide-label-on-#{$key} {
+                @include sr-only();
             }
         }
     }

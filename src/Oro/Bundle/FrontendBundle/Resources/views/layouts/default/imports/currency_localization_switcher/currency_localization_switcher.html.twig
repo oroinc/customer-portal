@@ -22,7 +22,8 @@
                 sidePanelMode: sidePanelMode,
                 redirectRoute: currentRoute,
                 redirectRouteParameters: routeParameters|json_encode,
-                redirectQueryParameters: queryParameters|json_encode
+                redirectQueryParameters: queryParameters|json_encode,
+                triggerClass: triggerClass|default('btn')
             }
         }) %}
 
@@ -57,6 +58,9 @@
                 }) %}
             {% endif %}
         {% endif %}
+        {% do block|merge_context({
+            triggerClass: triggerClass
+        }) %}
 
         <div {{ block('block_attributes') }}>
             {{ block_widget(block) }}
@@ -76,7 +80,7 @@
             <button
                 data-toggle="dropdown"
                 type="button"
-                class="btn btn--flat btn--flat-inverse"
+                class="{{ triggerClass|default('btn') }}"
                 data-placement="bottom-end"
             >
                 {{ renderIcon.icon({ name: 'globe' }) }}

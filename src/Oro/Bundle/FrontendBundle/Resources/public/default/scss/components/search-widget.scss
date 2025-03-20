@@ -18,7 +18,6 @@
         background-color: transparent;
         border-color: $search-widget-input-border-color;
         border-radius: $search-widget-input-border-radius;
-        z-index: $zindex-modal;
 
         &:hover {
             border-color: $search-widget-input-border-color;
@@ -82,6 +81,12 @@
     &__reset,
     &__cancel {
         display: none;
+    }
+
+    &:has(.backdrop-view.show) {
+        .search-widget__input-container {
+            z-index: $zindex-modal;
+        }
     }
 }
 

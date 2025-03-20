@@ -10,7 +10,7 @@ use Oro\Bundle\ThemeBundle\Entity\ThemeConfiguration as ThemeConfigurationEntity
 use Oro\Bundle\ThemeBundle\Migrations\Data\AbstractLoadThemeConfiguration;
 
 /**
- * Load Theme Configurations Data For Global level
+ * Load Theme Configurations Data For Global level for active theme: look at "oro_layout.active_theme"
  */
 class LoadGlobalThemeConfigurationData extends AbstractLoadThemeConfiguration
 {
@@ -45,11 +45,18 @@ class LoadGlobalThemeConfigurationData extends AbstractLoadThemeConfiguration
         return !$dataFixture;
     }
 
+    #[\Override]
     protected function createThemeConfiguration(string $frontendTheme, object|null $scope): ThemeConfigurationEntity
     {
         $themeConfiguration = parent::createThemeConfiguration($frontendTheme, $scope);
         $themeConfiguration->setType(StorefrontThemeConfigurationTypeProvider::STOREFRONT);
 
         return $themeConfiguration;
+    }
+
+    #[\Override]
+    protected function getFrontendTheme(ConfigManager $configManager, ?object $scope = null): ?string
+    {
+        return $configManager->get('oro_frontend.frontend_theme', false, false, $scope);
     }
 }

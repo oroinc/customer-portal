@@ -17,4 +17,4 @@ $loader-mask-frame-aspect-ratio: 1 !default;
 
 $loader-mask-loader-shown-display: grid !default;
 $loader-mask-loader-shown-place-items: center !default;
-$loader-mask-loader-url: '#{$global-url}/orofrontend/default/images/loader.svg' !default;
+$loader-mask-loader-url: '#{$global-loader-url}' !default;

@@ -1,0 +1,11 @@
+/* @theme: default; */
+
+@use 'sass:map';
+
+:root {
+    @each $section-name, $section in $color-palette {
+        @each $key, $value in $section {
+            --#{$section-name}-#{$key}: #{$value};
+        }
+    }
+}

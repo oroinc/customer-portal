@@ -67,7 +67,7 @@
 
     {% set attr =  layout_attr_defaults(attr, {
         'type': 'button',
-        '~class': ' btn btn--plain-inverse main-menu-trigger',
+        '~class': ' main-menu-trigger ' ~ triggerClass|default('btn'),
         'aria-label': 'oro.commercemenu.menuupdate.menu.label'|trans,
         'data-page-component-module': 'oroui/js/app/components/viewport-component',
         'data-page-component-options': {

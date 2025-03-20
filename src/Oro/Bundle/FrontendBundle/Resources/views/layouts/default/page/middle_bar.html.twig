@@ -61,7 +61,7 @@
             </div>
 
             {% if searchType == 'integrated' %}
-                <button class="btn btn--plain-inverse search-widget__cancel" type="reset">Cancel</button>
+                <button class="{{ cancelSearchClass|default('btn')}} search-widget__cancel" type="reset">{{ 'oro.website_search.search_submit_btn_cancel'|trans }}</button>
             {% endif %}
         </form>
     </div>

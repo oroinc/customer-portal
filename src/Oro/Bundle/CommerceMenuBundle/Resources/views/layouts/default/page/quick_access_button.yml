@@ -13,6 +13,7 @@ layout:
                           buttonLabel: '=data["theme_header_config"].getQuickAccessButtonLabel()'
                           menu: '=data["theme_header_config"].getQuickAccessButton()'
                           searchType: '=data["theme_configuration"].getThemeConfigurationOption("header__search_on_smaller_screens")'
+                          triggerClass: 'btn btn--plain-inverse'
 
                 quick_access_button_menu:
                     blockType: menu

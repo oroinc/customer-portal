@@ -22,7 +22,7 @@
                 data-toggle="dropdown"
                 data-popper="false"
                 type="button"
-                class="btn btn--outlined-inverse"
+                class="{{ triggerClass|default('btn') }}"
                 aria-haspopup="true"
                 aria-expanded="false"
                 {{ UI.renderPageComponentAttributes({
@@ -46,7 +46,7 @@
             </button>
             <div class="dropdown-menu quick-access-button-menu dropdown-menu-left dropdown-menu-full-width main-menu__inner-container" role="menu" aria-labelledby="{{togglerId}}">{{ block_widget(block) }}</div>
         {% elseif menu.uri != null %}
-            <a href="{{menu.uri}}" class="btn btn--outlined-inverse">
+            <a href="{{menu.uri}}" class="{{ triggerClass|default('btn') }}">
                 <span class="btn-label-ellipses">{{ buttonLabel }}</span>
             </a>
         {% endif %}

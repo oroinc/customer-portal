@@ -9,6 +9,7 @@ layout:
             options:
                 vars:
                     sidePanelMode: true
+                    triggerClass: 'btn btn--flat btn--flat-inverse'
             parentId: __root
 
         - '@add':

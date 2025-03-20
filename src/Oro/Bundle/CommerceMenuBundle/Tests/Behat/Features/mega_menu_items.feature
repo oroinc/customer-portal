@@ -139,7 +139,7 @@ Feature: Mega Menu Items
     Then I move "On Sale" before "Node-1-1-1" in tree "Sidebar Menu Tree"
 
     And I go to System / Theme Configurations
-    When I click Edit "Refreshing Teal" in grid
+    When I click Edit "Golden Carbon" in grid
     And I fill "Theme Configuration Form" with:
       | Standalone Main Menu      | true    |
     And I save and close form

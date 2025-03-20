@@ -30,7 +30,7 @@ Feature: Check new page pagination
     Given I proceed as the Admin
     And login as administrator
     When I go to System/Theme Configurations
-    And I click "Edit" on row "Refreshing Teal" in grid
+    And I click "Edit" on row "Golden Carbon" in grid
     And I fill "Theme Configuration Form" with:
       | Use pagination input if number of pages exceeds | 10 |
     And I save and close form

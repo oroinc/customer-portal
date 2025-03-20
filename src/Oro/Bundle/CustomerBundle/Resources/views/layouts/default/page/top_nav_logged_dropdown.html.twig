@@ -38,7 +38,7 @@
 {% block _top_nav_customer_dropdown_trigger_widget %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " btn btn--plain-inverse customer-menu__trigger",
+        '~class': " customer-menu__trigger " ~ triggerClass|default('btn'),
         'type': 'button',
         'data-toggle': 'dropdown',
         'data-placement': "bottom-end",
