@@ -69,7 +69,8 @@ class WidgetControllerTest extends WebTestCase
             $crawler,
             $workflowItem,
             'data_value_one',
-            [WorkflowAwareEntityType::NAME => ['name' => 'initial_name']]
+            [WorkflowAwareEntityType::NAME => ['name' => 'initial_name']],
+            'Continue'
         );
     }
 
@@ -104,7 +105,8 @@ class WidgetControllerTest extends WebTestCase
             $crawler,
             $workflowItem,
             'data_value_one',
-            [WorkflowAwareEntityType::NAME => ['name' => 'custom_name']]
+            [WorkflowAwareEntityType::NAME => ['name' => 'custom_name']],
+            'Submit'
         );
     }
 
@@ -112,9 +114,10 @@ class WidgetControllerTest extends WebTestCase
         Crawler $crawler,
         WorkflowItem $workflowItem,
         string $dataAttribute,
-        array $data = []
+        array $data = [],
+        string $transitionButtonText = 'Submit'
     ): void {
-        $form = $crawler->selectButton('Submit')->form($data);
+        $form = $crawler->selectButton($transitionButtonText)->form($data);
 
         $this->client->followRedirects(true);
         $this->client->submit($form);
