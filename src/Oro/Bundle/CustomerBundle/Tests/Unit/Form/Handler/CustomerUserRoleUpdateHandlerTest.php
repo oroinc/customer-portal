@@ -9,7 +9,6 @@ use Doctrine\ORM\QueryBuilder;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
-use Oro\Bundle\CustomerBundle\Form\Handler\AbstractCustomerUserRoleHandler;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateHandler;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleType;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
@@ -18,7 +17,6 @@ use Oro\Bundle\SecurityBundle\Model\AclPermission;
 use Oro\Bundle\SecurityBundle\Model\AclPrivilege;
 use Oro\Bundle\SecurityBundle\Model\AclPrivilegeIdentity;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
-use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -30,33 +28,18 @@ use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;
  */
 class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHandlerTestCase
 {
-    use EntityTrait;
-
-    /** @var CustomerUserRoleUpdateHandler */
-    private $handler;
-
     #[\Override]
-    protected function setUp(): void
+    protected function getHandler(): CustomerUserRoleUpdateHandler
     {
-        parent::setUp();
+        $handler = new CustomerUserRoleUpdateHandler(
+            $this->formFactory,
+            $this->aclCache,
+            $this->queryCacheProvider,
+            $this->privilegeConfig
+        );
+        $this->setRequirementsForHandler($handler);
 
-        $this->handler = $this->getHandler();
-        $this->setRequirementsForHandler($this->handler);
-    }
-
-    #[\Override]
-    protected function getHandler(): AbstractCustomerUserRoleHandler
-    {
-        if (!$this->handler) {
-            $this->handler = new CustomerUserRoleUpdateHandler(
-                $this->formFactory,
-                $this->aclCache,
-                $this->queryCacheProvider,
-                $this->privilegeConfig
-            );
-        }
-
-        return $this->handler;
+        return $handler;
     }
 
     public function testCreateForm(): void
@@ -82,7 +65,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             ->with(CustomerUserRoleType::class, $role, ['privilege_config' => $expectedConfig])
             ->willReturn($expectedForm);
 
-        $actualForm = $this->handler->createForm($role);
+        $actualForm = $this->getHandler()->createForm($role);
         self::assertEquals($expectedForm, $actualForm);
     }
 
@@ -177,9 +160,10 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
                 [$secondClass, null, $secondEntityConfig],
             ]);
 
-        $this->handler->setRequestStack($requestStack);
-        $this->handler->createForm($role);
-        $this->handler->process($role);
+        $handler = $this->getHandler();
+        $handler->setRequestStack($requestStack);
+        $handler->createForm($role);
+        $handler->process($role);
     }
 
     /**
@@ -198,7 +182,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
         $role = new CustomerUserRole('TEST');
         $roleSecurityIdentity = new RoleSecurityIdentity($role);
 
-        $customer = $this->getEntity(Customer::class, ['id' => 234]);
+        $customer = $this->createCustomer(234);
         $customerUser = new CustomerUser();
         $customerUser->setCustomer($customer);
         $role->addCustomerUser($customerUser);
@@ -469,8 +453,9 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
     public function testGetCustomerUserRolePrivilegeConfig(): void
     {
         $role = new CustomerUserRole('');
-        self::assertIsArray($this->handler->getCustomerUserRolePrivilegeConfig($role));
-        self::assertEquals($this->privilegeConfig, $this->handler->getCustomerUserRolePrivilegeConfig($role));
+        $handler = $this->getHandler();
+        self::assertIsArray($handler->getCustomerUserRolePrivilegeConfig($role));
+        self::assertEquals($this->privilegeConfig, $handler->getCustomerUserRolePrivilegeConfig($role));
     }
 
     /**

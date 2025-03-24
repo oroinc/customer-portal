@@ -6,12 +6,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
-use Oro\Bundle\CustomerBundle\Form\Handler\AbstractCustomerUserRoleHandler;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateFrontendHandler;
 use Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdentityFactory;
 use Oro\Bundle\SecurityBundle\Model\AclPrivilege;
 use Oro\Bundle\SecurityBundle\Model\AclPrivilegeIdentity;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -23,36 +23,38 @@ use Symfony\Component\Security\Core\User\InMemoryUser;
 
 class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRoleUpdateHandlerTestCase
 {
-    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $tokenStorage;
-
-    /** @var CustomerUserRoleUpdateFrontendHandler */
-    protected $handler;
+    private TokenStorageInterface&MockObject $tokenStorage;
 
     #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->getHandler();
-        $this->setRequirementsForHandler($this->handler);
-
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
     }
 
     #[\Override]
-    protected function getHandler(): AbstractCustomerUserRoleHandler
+    protected function getHandler(): CustomerUserRoleUpdateFrontendHandler
     {
-        if (!$this->handler) {
-            $this->handler = new CustomerUserRoleUpdateFrontendHandler(
-                $this->formFactory,
-                $this->aclCache,
-                $this->queryCacheProvider,
-                $this->privilegeConfig
-            );
-        }
+        $handler = new CustomerUserRoleUpdateFrontendHandler(
+            $this->formFactory,
+            $this->aclCache,
+            $this->queryCacheProvider,
+            $this->privilegeConfig
+        );
+        $this->setRequirementsForHandler($handler);
 
-        return $this->handler;
+        return $handler;
+    }
+
+    private function createRequestStack(string $method): RequestStack
+    {
+        $request = new Request();
+        $request->setMethod($method);
+        $requestStack = $this->createMock(RequestStack::class);
+        $requestStack->method('getCurrentRequest')->willReturn($request);
+
+        return $requestStack;
     }
 
     /**
@@ -109,8 +111,9 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
             )
             ->willReturn($form);
 
-        $this->handler->setRequestStack($requestStack);
-        $this->handler->setTokenStorage($this->tokenStorage);
+        $handler = $this->getHandler();
+        $handler->setRequestStack($requestStack);
+        $handler->setTokenStorage($this->tokenStorage);
 
         $token = $this->createMock(TokenInterface::class);
         $token->expects(self::any())
@@ -120,7 +123,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
             ->method('getToken')
             ->willReturn($token);
 
-        $this->handler->createForm($role);
+        $handler->createForm($role);
     }
 
     public function successDataProvider(): array
@@ -161,8 +164,9 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
             ->willReturn($form);
 
 
-        $this->handler->setRequestStack($requestStack);
-        $this->handler->setTokenStorage($this->tokenStorage);
+        $handler = $this->getHandler();
+        $handler->setRequestStack($requestStack);
+        $handler->setTokenStorage($this->tokenStorage);
 
         $token = $this->createMock(TokenInterface::class);
         $token->expects(self::any())
@@ -172,7 +176,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
             ->method('getToken')
             ->willReturn($token);
 
-        $this->handler->createForm($role);
+        $handler->createForm($role);
 
         $roleSecurityIdentity = new RoleSecurityIdentity($expectedRole);
         $privilegeCollection = new ArrayCollection($existingPrivileges);
@@ -206,7 +210,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
             ->method('getMetadata')
             ->willReturn($metadata);
 
-        $this->handler->process($role);
+        $handler->process($role);
     }
 
     public function successDataPrivilegesProvider(): array
@@ -254,8 +258,9 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         $this->expectException(AccessDeniedException::class);
         $requestStack = $this->createRequestStack('POST');
 
-        $this->handler->setRequestStack($requestStack);
-        $this->handler->setTokenStorage($this->tokenStorage);
+        $handler = $this->getHandler();
+        $handler->setRequestStack($requestStack);
+        $handler->setTokenStorage($this->tokenStorage);
 
         $token = $this->createMock(TokenInterface::class);
         $token->expects(self::any())
@@ -265,7 +270,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
             ->method('getToken')
             ->willReturn($token);
 
-        $this->handler->createForm(new CustomerUserRole(''));
+        $handler->createForm(new CustomerUserRole(''));
     }
 
     #[\Override]
@@ -319,15 +324,5 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
                 'changeCustomerProcessed'  => false,
             ],
         ];
-    }
-
-    protected function createRequestStack(string $method): RequestStack
-    {
-        $request = new Request();
-        $request->setMethod($method);
-        $requestStack = $this->createMock(RequestStack::class);
-        $requestStack->method('getCurrentRequest')->willReturn($request);
-
-        return $requestStack;
     }
 }

@@ -9,13 +9,13 @@ use Oro\Bundle\WorkflowBundle\Tests\Unit\Extension\StartTransitionButtonProvider
 class FrontendStartTransitionButtonProviderExtensionTest extends StartTransitionButtonProviderExtensionTestCase
 {
     #[\Override]
-    protected function getApplication()
+    protected function getApplication(): string
     {
         return FrontendCurrentApplicationProvider::COMMERCE_APPLICATION;
     }
 
     #[\Override]
-    protected function createExtension()
+    protected function createExtension(): FrontendStartTransitionButtonProviderExtension
     {
         return new FrontendStartTransitionButtonProviderExtension(
             $this->workflowRegistry,

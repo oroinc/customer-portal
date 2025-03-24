@@ -18,52 +18,28 @@ use Oro\Bundle\SecurityBundle\Cache\DoctrineAclCacheProvider;
 use Oro\Bundle\SecurityBundle\Filter\AclPrivilegeConfigurableFilter;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainOwnershipMetadataProvider;
 use Oro\Component\Testing\ReflectionUtil;
-use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Acl\Model\AclCacheInterface;
 
-abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Framework\TestCase
+abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends TestCase
 {
-    use EntityTrait;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|FormFactory */
-    protected $formFactory;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|AclManager */
-    protected $aclManager;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|AclPrivilegeRepository */
-    protected $privilegeRepository;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|ChainOwnershipMetadataProvider */
-    protected $chainMetadataProvider;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|ConfigProvider */
-    protected $ownershipConfigProvider;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry */
-    protected $managerRegistry;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|DoctrineHelper */
-    protected $doctrineHelper;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|CustomerUserRoleRepository */
-    protected $roleRepository;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|AclCacheInterface */
-    protected $aclCache;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|AclPrivilegeConfigurableFilter */
-    protected $configurableFilter;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|CustomerVisitorAclCache */
-    protected $visitorAclCache;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|DoctrineAclCacheProvider  */
-    protected $queryCacheProvider;
+    protected FormFactory&MockObject $formFactory;
+    protected AclManager&MockObject $aclManager;
+    protected AclPrivilegeRepository&MockObject $privilegeRepository;
+    protected ChainOwnershipMetadataProvider&MockObject $chainMetadataProvider;
+    protected ConfigProvider&MockObject $ownershipConfigProvider;
+    protected ManagerRegistry&MockObject $managerRegistry;
+    protected DoctrineHelper&MockObject $doctrineHelper;
+    protected CustomerUserRoleRepository&MockObject $roleRepository;
+    protected AclCacheInterface&MockObject $aclCache;
+    protected AclPrivilegeConfigurableFilter&MockObject $configurableFilter;
+    protected CustomerVisitorAclCache&MockObject $visitorAclCache;
+    protected DoctrineAclCacheProvider&MockObject  $queryCacheProvider;
 
     protected array $privilegeConfig = [
         'entity' => ['types' => ['entity'], 'fix_values' => false, 'show_default' => true],
@@ -130,7 +106,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         array $expectedUsersWithRole,
         array $expectedUsersWithoutRole,
         bool $changeCustomerProcessed = true
-    ) {
+    ): void {
         $request = new Request();
         $request->setMethod('POST');
 
@@ -169,7 +145,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
 
         $handlerInstance = $this->getHandler();
 
-        /** @var AbstractCustomerUserRoleHandler|\PHPUnit\Framework\MockObject\MockObject $handler */
+        /** @var AbstractCustomerUserRoleHandler $handler */
         $handler = $this->getMockBuilder(get_class($handlerInstance))
             ->onlyMethods(['processPrivileges'])
             ->setConstructorArgs([
@@ -207,6 +183,14 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         $handler->setDoctrineHelper($this->doctrineHelper);
         $handler->setConfigurableFilter($this->configurableFilter);
         $handler->setVisitorAclCache($this->visitorAclCache);
+    }
+
+    protected function createCustomer(int $id): Customer
+    {
+        $customer = new Customer();
+        ReflectionUtil::setId($customer, $id);
+
+        return $customer;
     }
 
     /**
@@ -292,15 +276,15 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
 
     protected function prepareUsersAndRoles(): array
     {
-        $oldCustomer = $this->getEntity(Customer::class, ['id' => 1]);
-        $newCustomer1 = $this->getEntity(Customer::class, ['id' => 10]);
+        $oldCustomer = $this->createCustomer(1);
+        $newCustomer1 = $this->createCustomer(10);
         $role1 = $this->createCustomerUserRole('test role1', 1);
         $users1 =
             $this->createUsersWithRole($role1, 6, $newCustomer1)
             + $this->createUsersWithRole($role1, 2, $oldCustomer, 6);
 
-        $newCustomer2 = $this->getEntity(Customer::class, ['id' => 20]);
-        $oldAcc2 = $this->getEntity(Customer::class, ['id' => 21]);
+        $newCustomer2 = $this->createCustomer(20);
+        $oldAcc2 = $this->createCustomer(21);
         $role2 = $this->createCustomerUserRole('test role2', 2);
         $role2->setCustomer($oldAcc2);
         $users2 =
@@ -308,17 +292,17 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
             + $this->createUsersWithRole($role2, 2, $oldAcc2, 6);
 
         $role3 = $this->createCustomerUserRole('test role3', 3);
-        $role3->setCustomer($this->getEntity(Customer::class, ['id' => 31]));
+        $role3->setCustomer($this->createCustomer(31));
         $users3 = $this->createUsersWithRole($role3, 6, $role3->getCustomer());
 
-        $newCustomer4 = $this->getEntity(Customer::class, ['id' => 41]);
+        $newCustomer4 = $this->createCustomer(41);
         $role4 = $this->createCustomerUserRole('test role4', 4);
-        $role4->setCustomer($this->getEntity(Customer::class, ['id' => 40]));
+        $role4->setCustomer($this->createCustomer(40));
         $users4 = $this->createUsersWithRole($role4, 6, $newCustomer4);
 
-        $newCustomer5 = $this->getEntity(Customer::class, ['id' => 50]);
+        $newCustomer5 = $this->createCustomer(50);
         $role5 = $this->createCustomerUserRole('test role5');
-        $role5->setCustomer($this->getEntity(Customer::class, ['id' => 51]));
+        $role5->setCustomer($this->createCustomer(51));
         $users5 = $this->createUsersWithRole($role5, 6, $newCustomer5);
 
         return [
