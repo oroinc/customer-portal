@@ -6,6 +6,7 @@ use Oro\Bundle\ApiBundle\Request\RequestType;
 use Oro\Bundle\ApiBundle\Tests\Functional\RestJsonApiTestCase;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
+use Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager;
 use Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserAuthenticator;
 use Oro\Bundle\FrontendTestFrameworkBundle\Test\WebsiteManagerTrait;
 use Oro\Bundle\SecurityBundle\Csrf\CsrfRequestManager;
@@ -25,6 +26,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     protected const USER_PASSWORD = 'frontend_admin_api_key';
 
     private bool $isVisitorEnabled = false;
+    private bool $isAnonymousVisitorEnabled = false;
 
     /**
      * Creates a visitor and prepares it to execute API requests under this visitor.
@@ -51,6 +53,24 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         $this->isVisitorEnabled = false;
     }
 
+    /**
+     * Enables an authorization as an anonymous visitor.
+     */
+    protected function enableAnonymousVisitor(): void
+    {
+        $this->enableVisitor();
+        $this->isAnonymousVisitorEnabled = true;
+    }
+
+    /**
+     * Disables an authorization as an anonymous visitor.
+     */
+    protected function disableAnonymousVisitor(): void
+    {
+        $this->disableVisitor();
+        $this->isAnonymousVisitorEnabled = false;
+    }
+
     #[\Override]
     protected function assertPreConditions(): void
     {
@@ -69,6 +89,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     {
         parent::postFixtureLoad();
         if ($this->isVisitorEnabled
+            && !$this->isAnonymousVisitorEnabled
             && (
                 !$this->hasReference('customer_user')
                 || $this->getReference('customer_user')->getEmail() !== static::USER_NAME
@@ -150,6 +171,15 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         }
     }
 
+    protected function assertAnonymousVisitorEnabled(): void
+    {
+        if (!$this->isAnonymousVisitorEnabled) {
+            throw new \LogicException(
+                'An authorization as an anonymous visitor is disabled. Call enableAnonymousVisitor() method before'
+            );
+        }
+    }
+
     protected function setVisitorCookie(CustomerVisitor $visitor): void
     {
         $this->assertVisitorEnabled();
@@ -182,6 +212,14 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
             $domain
         );
         $this->client->getCookieJar()->set($markerCookie);
+    }
+
+    protected function setAnonymousVisitorCookie(): void
+    {
+        $this->assertAnonymousVisitorEnabled();
+        /** @var CustomerVisitorManager $visitorManager */
+        $visitorManager = self::getContainer()->get('oro_customer.customer_visitor_manager');
+        $this->setVisitorCookie($visitorManager->findOrCreate(null));
     }
 
     #[\Override]
