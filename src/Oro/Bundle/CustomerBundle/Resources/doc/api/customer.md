@@ -294,7 +294,7 @@ Example:
 
 #### get_subresource
 
-Retrieve the record of the organization a specific customer record belongs to.
+Retrieve a record of the organization a specific customer record belongs to.
 
 #### get_relationship
 
@@ -321,7 +321,7 @@ Example:
 
 #### get_subresource
 
-Retrieve the record of the user who is an owner of a specific customer record.
+Retrieve a record of the user who is an owner of a specific customer record.
 
 #### get_relationship
 
@@ -537,7 +537,7 @@ Retrieve a record of payment term assigned to a specific customer record.
 
 #### get_relationship
 
-Retrieve ID of payment term record assigned to a specific customer record.
+Retrieve the ID of payment term record assigned to a specific customer record.
 
 #### update_relationship
 

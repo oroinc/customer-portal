@@ -236,11 +236,11 @@ Example:
 
 #### get_subresource
 
-Retrieve the record of the organization a specific customer user role record belongs to.
+Retrieve a record of the organization a specific customer user role record belongs to.
 
 #### get_relationship
 
-Retrieve the ID of the organization record which a specific customer user role record will belong to.
+Retrieve the ID of the organization record which a specific customer user role record belongs to.
 
 #### update_relationship
 

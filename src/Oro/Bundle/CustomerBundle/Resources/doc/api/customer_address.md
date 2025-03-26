@@ -363,8 +363,8 @@ Retrieve the ID of the region assigned to a specific address record.
 
 #### get_subresource
 
-Retrieve the record of the organization a specific customer address record belongs to.
+Retrieve a record of the organization a specific customer address record belongs to.
 
 #### get_relationship
 
-Retrieve the ID of the organization record which a specific customer address record will belong to.
+Retrieve the ID of the organization record which a specific customer address record belongs to.

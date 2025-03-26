@@ -375,8 +375,8 @@ Retrieve the ID of the region mentioned in a specific customer user address.
 
 #### get_subresource
 
-Retrieve the record of the organization a specific customer user address record belongs to.
+Retrieve a record of the organization a specific customer user address record belongs to.
 
 #### get_relationship
 
-Retrieve the ID of the organization record which a specific customer user address record will belong to.
+Retrieve the ID of the organization record which a specific customer user address record belongs to.

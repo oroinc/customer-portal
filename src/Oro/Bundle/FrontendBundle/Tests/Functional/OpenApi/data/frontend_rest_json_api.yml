@@ -558,7 +558,7 @@ paths:
       tags:
         - regions
       summary: 'Get country'
-      description: '<p>Retrieve the record of the country that the region is a part of.</p>'
+      description: '<p>Retrieve a record of the country that the region is a part of.</p>'
       operationId: regions-id-country-get
       parameters:
         -

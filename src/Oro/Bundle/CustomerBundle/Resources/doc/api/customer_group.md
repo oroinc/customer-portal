@@ -95,7 +95,7 @@ Delete a collection of customer group records.
 
 #### get_subresource
 
-Retrieve the record of the organization a specific customer group record belongs to.
+Retrieve a record of the organization a specific customer group record belongs to.
 
 #### get_relationship
 
@@ -122,7 +122,7 @@ Example:
 
 #### get_subresource
 
-Retrieve the record of the user who is an owner of a specific customer group record.
+Retrieve a record of the user who is an owner of a specific customer group record.
 
 #### get_relationship
 
@@ -153,7 +153,7 @@ Retrieve a record of payment term assigned to a specific customer group record.
 
 #### get_relationship
 
-Retrieve ID of payment term record assigned to a specific customer group record.
+Retrieve the ID of payment term record assigned to a specific customer group record.
 
 #### update_relationship
 
