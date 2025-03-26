@@ -44,7 +44,6 @@
 
     &__input-btn {
         position: $search-widget-input-btn-position;
-        z-index: $zindex-modal;
         top: $search-widget-input-btn-top;
         bottom: $search-widget-input-btn-bottom;
         color: $search-widget-input-icon-color;
@@ -83,10 +82,8 @@
         display: none;
     }
 
-    &:has(.backdrop-view.show) {
-        .search-widget__input-container {
-            z-index: $zindex-modal;
-        }
+    &__input-container:has(.backdrop-view.show) :where(&__input, &__input-btn) {
+        z-index: $zindex-modal;
     }
 }
 
