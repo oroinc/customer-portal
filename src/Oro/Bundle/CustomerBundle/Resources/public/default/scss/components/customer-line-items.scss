@@ -176,6 +176,12 @@
             padding-left: $customer-line-items-notes-offset-inner-left-tablet-small;
         }
 
+        .grid-row:last-child {
+            .customer-line-items__notes {
+                padding-left: $customer-line-items-notes-offset-inner-left-tablet-small;
+            }
+        }
+
         .grid-cell {
             text-align: $customer-line-items-grid-cell-align-tablet-small;
 
