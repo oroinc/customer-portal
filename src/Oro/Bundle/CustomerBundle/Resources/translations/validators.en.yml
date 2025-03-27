@@ -3,6 +3,7 @@
 oro:
     customer:
         message:
+            owner: 'The customer user does not belong to the customer.'
             password_mismatch: 'The password fields must match.'
             circular_customer_reference: 'Circular reference detected. ''{{ parentName }}'' cannot be a parent of ''{{ customerName }}'' because it is its child.'
             circular_child_customer_reference: 'Circular reference detected. ''{{ childName }}'' cannot be a child of ''{{ customerName }}'' because it is its parent.'
