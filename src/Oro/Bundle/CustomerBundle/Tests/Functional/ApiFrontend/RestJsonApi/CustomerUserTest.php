@@ -74,7 +74,6 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
                 'username',
                 'passwordChangedAt',
                 'passwordRequestedAt',
-                'isGuest',
                 'lastLogin',
                 'loginCount'
             ],

@@ -8,6 +8,7 @@ data:
         firstName: Bob
         middleName: null
         lastName: Doo
+        isGuest: false
         birthday: null
     relationships:
         userRoles:

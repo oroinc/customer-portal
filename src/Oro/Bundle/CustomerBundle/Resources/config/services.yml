@@ -873,6 +873,13 @@ services:
         tags:
             - { name: validator.constraint_validator, alias: frontend_owner_validator }
 
+    oro_customer.validator.customer_owner_validator:
+        class: Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerOwnerValidator
+        arguments:
+            - '@security.authorization_checker'
+        tags:
+            - { name: validator.constraint_validator }
+
     oro_customer.validator.customer_without_role:
         class: Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserWithoutRoleValidator
         tags:

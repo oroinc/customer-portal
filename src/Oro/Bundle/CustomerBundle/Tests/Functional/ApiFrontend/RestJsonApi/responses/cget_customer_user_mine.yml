@@ -11,6 +11,7 @@ data:
             middleName: null
             lastName: Doe
             nameSuffix: null
+            isGuest: false
             birthday: null
             createdAt: '@customer_user->createdAt->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer_user->updatedAt->format("Y-m-d\TH:i:s\Z")'

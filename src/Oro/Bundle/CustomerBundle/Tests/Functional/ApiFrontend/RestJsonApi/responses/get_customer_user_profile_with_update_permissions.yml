@@ -6,6 +6,7 @@ data:
         namePrefix: null
         middleName: null
         lastName: 'Doe'
+        isGuest: false
         nameSuffix: null
         birthday: null
     relationships:

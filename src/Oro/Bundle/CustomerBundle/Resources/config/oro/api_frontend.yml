@@ -40,8 +40,6 @@ api:
                     exclude: true
                 emailLowercase:
                     exclude: true
-                isGuest:
-                    exclude: true
                 lastLogin:
                     exclude: true
                 loginCount:

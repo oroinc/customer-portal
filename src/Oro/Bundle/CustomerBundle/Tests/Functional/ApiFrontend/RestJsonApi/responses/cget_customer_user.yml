@@ -11,6 +11,7 @@ data:
             middleName: null
             lastName: Doe
             nameSuffix: null
+            isGuest: false
             birthday: null
             createdAt: '@customer_user->createdAt->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer_user->updatedAt->format("Y-m-d\TH:i:s\Z")'
@@ -38,6 +39,7 @@ data:
             middleName: null
             lastName: 'Last Name 1'
             nameSuffix: null
+            isGuest: false
             birthday: null
             createdAt: '@customer_user1->createdAt->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer_user1->updatedAt->format("Y-m-d\TH:i:s\Z")'
@@ -65,6 +67,7 @@ data:
             middleName: null
             lastName: 'Last Name 2'
             nameSuffix: null
+            isGuest: false
             birthday: null
             createdAt: '@customer_user2->createdAt->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer_user2->updatedAt->format("Y-m-d\TH:i:s\Z")'
