@@ -51,9 +51,9 @@ Feature: Frontend filters
     When I set window size to 992x1024
     And I should see "+5" in the "PastOrdersGrid" element
     Then should see filter hints in "PastOrdersGrid" frontend grid:
-      | Subtotal: equals 900.00 |
-      | Currency: EUR           |
-      | Total: equals 1,000.00  |
+      | Subtotal: equals 900.00         |
+      | Currency: EUR                   |
+      | Payment Status: Pending payment |
     And I click on "Filter Hint Items Toggle" with title "+5" in element "PastOrdersGrid"
     Then should see filter hints in "PastOrdersGrid" frontend grid:
       | Open                                    |
