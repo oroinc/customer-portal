@@ -20,12 +20,11 @@ use Symfony\Component\Yaml\Yaml;
  */
 class OroFrontendExtension extends Extension implements PrependExtensionInterface
 {
-    public const FRONTEND_SESSION_STORAGE_OPTIONS_PARAMETER_NAME = 'oro_frontend.session.storage.options';
-
-    public const API_DOC_VIEWS_PARAMETER_NAME = 'oro_frontend.api_doc.views';
-    public const API_DOC_DEFAULT_VIEW_PARAMETER_NAME = 'oro_frontend.api_doc.default_view';
-
-    private const CORS_SETTINGS_SERVICE_ID = 'oro_frontend.api.rest.cors_settings';
+    public const string FRONTEND_SESSION_STORAGE_OPTIONS_PARAMETER_NAME = 'oro_frontend.session.storage.options';
+    public const string API_DOC_VIEWS_PARAMETER_NAME = 'oro_frontend.api_doc.views';
+    public const string API_DOC_DEFAULT_VIEW_PARAMETER_NAME = 'oro_frontend.api_doc.default_view';
+    private const string CORS_SETTINGS_SERVICE_ID = 'oro_frontend.api.rest.cors_settings';
+    private const string DEFAULT_WEB_BACKEND_PREFIX = '/admin';
 
     #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
@@ -59,7 +58,13 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     #[\Override]
     public function prepend(ContainerBuilder $container): void
     {
+        if (!$container->hasParameter('web_backend_prefix')) {
+            $container->setParameter('web_backend_prefix', self::DEFAULT_WEB_BACKEND_PREFIX);
+        }
+
         if ($container instanceof ExtendedContainerBuilder) {
+            $this->configureSecurityFirewalls($container);
+            $this->configureOroSecurityAccessControl($container);
             $this->validateBackendPrefix($container);
             $this->modifySecurityConfig($container);
             $this->modifyFosRestConfig($container);
@@ -150,6 +155,78 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         }
 
         $container->setExtensionConfig('fos_rest', $configs);
+    }
+
+    private function configureSecurityFirewalls(ExtendedContainerBuilder $container): void
+    {
+        $backendPrefix = $container->getParameter('web_backend_prefix');
+        if (!$backendPrefix) {
+            return;
+        }
+
+        $updatedConfigs = [];
+        $configs = $container->getExtensionConfig('security');
+        foreach ($configs as $config) {
+            if (isset($config['firewalls']['main']['oauth']['resource_owners'])) {
+                $oauthResourceOwners = $config['firewalls']['main']['oauth']['resource_owners'];
+                foreach ($oauthResourceOwners as $name => $path) {
+                    $oauthResourceOwners[$name] = $backendPrefix . $path;
+                }
+                $config['firewalls']['main']['oauth']['resource_owners'] = $oauthResourceOwners;
+            }
+            $updatedConfigs[] = $config;
+        }
+        $container->setExtensionConfig('security', $updatedConfigs);
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    private function configureOroSecurityAccessControl(ExtendedContainerBuilder $container): void
+    {
+        $backendPrefix = $container->getParameter('web_backend_prefix');
+        if (!$backendPrefix) {
+            return;
+        }
+        $pathToModify = [];
+        $configs = $container->getExtensionConfig('oro_security');
+        foreach ($configs as $key => $config) {
+            if (isset($config['access_control'])) {
+                $accessControls = $config['access_control'];
+                foreach ($accessControls as &$accessControl) {
+                    if (!isset($accessControl['options']['frontend'])
+                        || false === $accessControl['options']['frontend']) {
+                        $pathToModify[] = $accessControl['path'];
+                    }
+                    if (in_array($accessControl['path'], $pathToModify, true)) {
+                        $accessControl['path'] = sprintf('^%s%s', $backendPrefix, ltrim($accessControl['path'], '^'));
+                    }
+                }
+                unset($accessControl);
+                $config['access_control'] = $accessControls;
+            }
+
+            $configs[$key] = $config;
+        }
+        $container->setExtensionConfig('oro_security', $configs);
+
+        // update access_control rules for "security"
+        $configs = $container->getExtensionConfig('security');
+        foreach ($configs as $key => $config) {
+            if (isset($config['access_control'])) {
+                $accessControls = $config['access_control'];
+                foreach ($accessControls as &$accessControl) {
+                    if (in_array($accessControl['path'], $pathToModify, true)) {
+                        $accessControl['path'] = sprintf('^%s%s', $backendPrefix, ltrim($accessControl['path'], '^'));
+                    }
+                }
+                unset($accessControl);
+                $config['access_control'] = $accessControls;
+            }
+
+            $configs[$key] = $config;
+        }
+        $container->setExtensionConfig('security', $configs);
     }
 
     private function configureFrontendSession(ContainerBuilder $container, array $config): void

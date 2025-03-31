@@ -74,7 +74,7 @@ twig:
 
 oro_security:
     access_control:
-        - { path: ^/installer, roles: PUBLIC_ACCESS }
+        - { path: ^/installer, roles: PUBLIC_ACCESS, options: { frontend: true } }
 
 security:
     firewalls:
