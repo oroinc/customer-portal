@@ -85,7 +85,11 @@ class CustomerOwnershipConditionDataBuilder implements AclConditionDataBuilderIn
             return [];
         }
 
-        $customerId = $this->getUser()->getCustomer()->getId();
+        $customerId = $this->getUser()?->getCustomer()?->getId();
+        if (!$customerId) {
+            return [];
+        }
+
         $customersIds = $accessLevel === AccessLevel::DEEP_LEVEL
             ? $this->treeProvider->getTree()->getSubordinateBusinessUnitIds($customerId)
             : [];
