@@ -69,11 +69,23 @@ define(function(require) {
         initialize: function(options) {
             this.options = this._processOptions(options);
             this.$el = options._sourceElement;
-
             this.listenTo(mediator, 'layout:reposition', this.updatePosition);
             this.addEmbeddedArrowsClass(this.$el, this.options.arrows || false);
 
             $(this.$el).on('init' + this.eventNamespace(), (event, slick) => {
+                // Fixing issue: https://github.com/kenwheeler/slick/issues/3949
+                // Prevent slides from changing positions when all slides are currently visible.
+                slick.getLeft = _.wrap(slick.getLeft, (func, slideIndex) => {
+                    const targetLeft = func.call(slick, slideIndex);
+
+                    // Avoid slides shifting if not need show hidden slides
+                    if (slick.slideCount <= slick.options.slidesToShow) {
+                        return 0;
+                    }
+
+                    return targetLeft;
+                });
+
                 if (this.options.additionalClass) {
                     this.$el.addClass(this.options.additionalClass);
                 }
