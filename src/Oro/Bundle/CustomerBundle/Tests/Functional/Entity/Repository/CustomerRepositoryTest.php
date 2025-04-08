@@ -6,17 +6,20 @@ use Oro\Bundle\CatalogBundle\Tests\Functional\DataFixtures\LoadCategoryData;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomer;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadDuplicatedCustomer;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\VisibilityBundle\Entity\Visibility\VisibilityInterface;
 
+/**
+ * @dbIsolationPerTest
+ */
 class CustomerRepositoryTest extends WebTestCase
 {
     protected function setUp(): void
     {
         $this->initClient();
-        $this->loadFixtures([LoadDuplicatedCustomer::class]);
     }
 
     private function getRepository(): CustomerRepository
@@ -34,6 +37,8 @@ class CustomerRepositoryTest extends WebTestCase
      */
     public function testGetChildrenIds(string $referenceName, array $expectedReferences, bool $withAclCheck = true)
     {
+        $this->loadFixtures([LoadDuplicatedCustomer::class]);
+
         /** @var Customer $customer */
         $customer = $this->getReference($referenceName);
 
@@ -152,6 +157,8 @@ class CustomerRepositoryTest extends WebTestCase
 
     public function testGetBatchIterator()
     {
+        $this->loadFixtures([LoadDuplicatedCustomer::class]);
+
         /** @var Customer[] $results */
         $results = $this->getRepository()->findAll();
         $customers = [];
@@ -174,6 +181,8 @@ class CustomerRepositoryTest extends WebTestCase
 
     public function testGetIdsByCustomerGroup()
     {
+        $this->loadFixtures([LoadDuplicatedCustomer::class]);
+
         /** @var CustomerGroup $customerGroup */
         $customerGroup = $this->getReference('customer_group.group3');
 
@@ -194,9 +203,26 @@ class CustomerRepositoryTest extends WebTestCase
 
     public function testGetCustomerGroupFirstCustomer(): void
     {
+        $this->loadFixtures([LoadDuplicatedCustomer::class]);
+
         $customerGroup = $this->getReference('customer_group.group1');
         $customer = $this->getReference('customer.level_1');
 
         self::assertEquals($customer, $this->getRepository()->getCustomerGroupFirstCustomer($customerGroup));
+    }
+
+    public function testGetAssignableCustomerIds()
+    {
+        $this->loadFixtures([LoadCustomer::class]);
+
+        $this->assertEqualsCanonicalizing(
+            [
+                $this->getReference('customer')->getId()
+            ],
+            $this->getRepository()->getAssignableCustomerIds(
+                self::getContainer()->get('oro_security.acl_helper'),
+                Customer::class
+            )
+        );
     }
 }

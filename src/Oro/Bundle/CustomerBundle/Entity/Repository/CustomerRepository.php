@@ -8,6 +8,8 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\EntityBundle\ORM\Repository\BatchIteratorInterface;
 use Oro\Bundle\EntityBundle\ORM\Repository\BatchIteratorTrait;
+use Oro\Bundle\SecurityBundle\AccessRule\AclAccessRule;
+use Oro\Bundle\SecurityBundle\AccessRule\AvailableOwnerAccessRule;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
 /**
@@ -89,5 +91,27 @@ class CustomerRepository extends EntityRepository implements BatchIteratorInterf
         }
 
         return $children;
+    }
+
+    public function getAssignableCustomerIds(AclHelper $aclHelper, string $targetEntityClass): array
+    {
+        $qb = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('c.id')
+            ->from(Customer::class, 'c')
+            ->resetDQLPart('select')
+            ->select('c.id');
+
+        $query = $aclHelper->apply(
+            $qb,
+            'ASSIGN',
+            [
+                AclAccessRule::DISABLE_RULE => true,
+                AvailableOwnerAccessRule::ENABLE_RULE => true,
+                AvailableOwnerAccessRule::TARGET_ENTITY_CLASS => $targetEntityClass,
+            ]
+        );
+
+        return array_column($query->getArrayResult(), 'id');
     }
 }
