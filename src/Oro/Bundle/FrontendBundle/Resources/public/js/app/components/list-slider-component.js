@@ -6,13 +6,14 @@ define(function(require) {
     const __ = require('orotranslation/js/translator');
     const tools = require('oroui/js/tools');
     const EmbeddedListComponent = require('orofrontend/js/app/components/embedded-list-component');
+    const componentContainerMixin = require('oroui/js/app/components/base/component-container-mixin');
     const mediator = require('oroui/js/mediator');
     const arrowTpl = require('tpl-loader!orofrontend/templates/slick-arrow-button.html');
     const rtl = _.isRTL();
 
     require('slick');
 
-    const ContentSliderComponent = EmbeddedListComponent.extend({
+    const ContentSliderComponent = EmbeddedListComponent.extend(_.extend({}, componentContainerMixin, {
         /**
          * @property {Object}
          */
@@ -68,6 +69,7 @@ define(function(require) {
         initialize: function(options) {
             this.options = this._processOptions(options);
             this.$el = options._sourceElement;
+            this._deferredInit();
             this.listenTo(mediator, 'layout:reposition', this.updatePosition);
             this.addEmbeddedArrowsClass(this.$el, this.options.arrows || false);
 
@@ -96,6 +98,20 @@ define(function(require) {
                     slick.options.slidesToShow * slick.options.slidesPerRow
                 );
                 this.limitDots(slick);
+
+                if (this.options.infinite && this.hasOwnLayout()) {
+                    /*  Relative for next line
+                        Will cleanup cloned data and events handlers on active element inside cloned
+                        slides for avoid incorrect behaviour after page components initialize.
+                        Source of issue is in slick slider source code,
+                        it always clone slides with data and events handlers */
+                    slick.$slideTrack.find(`.slick-cloned input,select`).removeData().off();
+
+                    // Init page components after slick slider has done init
+                    this.initPageComponents({}).then(() => this._resolveDeferredInit());
+                } else {
+                    this._resolveDeferredInit();
+                }
             });
 
             this.$el.addClass(this.options.loadingClass);
@@ -120,6 +136,10 @@ define(function(require) {
             if (this.options.processClick) {
                 this.$el.on(`click${this.eventNamespace()}`, this.options.processClick, this.toProcessClick.bind(this));
             }
+        },
+
+        getLayoutElement() {
+            return this.$el;
         },
 
         /**
@@ -323,10 +343,11 @@ define(function(require) {
             }
 
             this.$el.off(this.eventNamespace());
+            this.disposePageComponents();
 
             EmbeddedListComponent.__super__.dispose.call(this);
         }
-    });
+    }));
 
     return ContentSliderComponent;
 });
