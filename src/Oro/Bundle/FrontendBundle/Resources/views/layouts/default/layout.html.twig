@@ -154,6 +154,12 @@
                 '~class': ' embedded-list__slider slider-enabled'
             }) %}
 
+            {% if slider_options.infinite is defined and slider_options.infinite %}
+                {% set attr = layout_attr_defaults(attr, {
+                    'data-layout': 'separate'
+                }) %}
+            {% endif %}
+
             {% set item_attr = layout_attr_defaults(item_attr|default({}), {
                 '~class': ' embedded-list__item ' ~ item_extra_class,
                 'data-name': 'embedded-list-item'
