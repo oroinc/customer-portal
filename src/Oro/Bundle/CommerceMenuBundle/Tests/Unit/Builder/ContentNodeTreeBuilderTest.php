@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Builder\ContentNodeTreeBuilder;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
+use Oro\Bundle\CommerceMenuBundle\Handler\ContentNodeSubFolderUriHandler;
 use Oro\Bundle\CommerceMenuBundle\Handler\SubFolderUriHandler;
 use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
@@ -31,6 +32,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
 
     private MenuContentNodesProviderInterface $menuContentNodesProvider;
     private SubFolderUriHandler $uriHandler;
+    private ContentNodeSubFolderUriHandler $contentNodeUriHandler;
 
     private ContentNodeTreeBuilder $builder;
 
@@ -39,6 +41,7 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
         $managerRegistry = $this->createMock(ManagerRegistry::class);
         $this->menuContentNodesProvider = $this->createMock(MenuContentNodesProviderInterface::class);
         $localizationHelper = $this->createMock(LocalizationHelper::class);
+        $this->contentNodeUriHandler = $this->createMock(ContentNodeSubFolderUriHandler::class);
         $this->uriHandler = $this->createMock(SubFolderUriHandler::class);
 
         $this->builder = new ContentNodeTreeBuilder(
@@ -46,7 +49,9 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
             $this->menuContentNodesProvider,
             $localizationHelper,
         );
+
         $this->builder->setSubFolderUriHandler($this->uriHandler);
+        $this->builder->setContentNodeSubFolderUriHandler($this->contentNodeUriHandler);
 
         $entityManager = $this->createMock(EntityManager::class);
         $managerRegistry
@@ -64,6 +69,16 @@ class ContentNodeTreeBuilderTest extends \PHPUnit\Framework\TestCase
             ->expects(self::any())
             ->method('getLocalizedValue')
             ->willReturnCallback(static fn ($collection) => (string)($collection[0] ?? null));
+
+        $this->contentNodeUriHandler->expects(self::any())
+            ->method('handle')
+            ->with(self::isInstanceOf(ResolvedContentNode::class), null)
+            ->willReturnCallback(function (ResolvedContentNode $resolvedContentNode) {
+                return sprintf('node/%s', $resolvedContentNode->getId());
+            });
+
+        $this->uriHandler->expects(self::never())
+            ->method('handle');
     }
 
     public function testBuildWhenNoContentNode(): void
