@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
-use Oro\Bundle\CommerceMenuBundle\Handler\SubFolderUriHandler;
+use Oro\Bundle\CommerceMenuBundle\Handler\ContentNodeSubFolderUriHandler;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\LocaleBundle\Tools\LocalizedFallbackValueHelper;
@@ -37,7 +37,7 @@ class ContentNodeTreeBuilder implements BuilderInterface
         private ManagerRegistry $doctrine,
         private MenuContentNodesProviderInterface $menuContentNodesProvider,
         private LocalizationHelper $localizationHelper,
-        private SubFolderUriHandler $uriHandler
+        private ContentNodeSubFolderUriHandler $uriHandler
     ) {
     }
 
@@ -245,10 +245,7 @@ class ContentNodeTreeBuilder implements BuilderInterface
 
     private function getUri(ResolvedContentNode $resolvedNode, ?Localization $localization): string
     {
-        $uri = (string) $this->localizationHelper
-            ->getLocalizedValue($resolvedNode->getResolvedContentVariant()->getLocalizedUrls(), $localization);
-
-        return $this->uriHandler->hasSubFolder() ? $this->uriHandler->handle($uri) : $uri;
+        return $this->uriHandler->handle($resolvedNode, $localization);
     }
 
     public static function getTreeItemNamePrefix(ItemInterface $menuItem, int $contentNodeId): string

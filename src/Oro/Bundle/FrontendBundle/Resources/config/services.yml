@@ -485,7 +485,7 @@ services:
         arguments:
             - '@oro_web_catalog.menu.content_nodes_provider.storefront'
             - '@oro_locale.helper.localization'
-            - '@oro_commerce_menu.handler.sub_folder_uri'
+            - '@oro_commerce_menu.handler.content_node_sub_folder_uri'
             - '@doctrine'
         tags:
             - { name: oro_menu.builder, alias: quick_access_button_menu }

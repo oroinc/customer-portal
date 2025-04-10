@@ -8,7 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Builder\ContentNodeTreeBuilder;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
-use Oro\Bundle\CommerceMenuBundle\Handler\SubFolderUriHandler;
+use Oro\Bundle\CommerceMenuBundle\Handler\ContentNodeSubFolderUriHandler;
 use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\LocaleBundle\Tools\LocalizedFallbackValueHelper;
@@ -32,7 +32,7 @@ class ContentNodeTreeBuilderTest extends TestCase
     use MenuItemTestTrait;
 
     private MenuContentNodesProviderInterface&MockObject $menuContentNodesProvider;
-    private SubFolderUriHandler $uriHandler;
+    private ContentNodeSubFolderUriHandler $uriHandler;
 
     private ContentNodeTreeBuilder $builder;
 
@@ -42,7 +42,7 @@ class ContentNodeTreeBuilderTest extends TestCase
         $doctrine = $this->createMock(ManagerRegistry::class);
         $this->menuContentNodesProvider = $this->createMock(MenuContentNodesProviderInterface::class);
         $localizationHelper = $this->createMock(LocalizationHelper::class);
-        $this->uriHandler = $this->createMock(SubFolderUriHandler::class);
+        $this->uriHandler = $this->createMock(ContentNodeSubFolderUriHandler::class);
 
         $this->builder = new ContentNodeTreeBuilder(
             $doctrine,
@@ -64,6 +64,13 @@ class ContentNodeTreeBuilderTest extends TestCase
         $localizationHelper->expects(self::any())
             ->method('getLocalizedValue')
             ->willReturnCallback(static fn ($collection) => (string)($collection[0] ?? null));
+
+        $this->uriHandler->expects(self::any())
+            ->method('handle')
+            ->with(self::isInstanceOf(ResolvedContentNode::class), null)
+            ->willReturnCallback(function (ResolvedContentNode $resolvedContentNode) {
+                return sprintf('node/%s', $resolvedContentNode->getId());
+            });
     }
 
     public function testBuildWhenNoContentNode(): void
