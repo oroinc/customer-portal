@@ -476,6 +476,8 @@ services:
             - '@oro_locale.helper.localization'
             - '@oro_commerce_menu.handler.sub_folder_uri'
             - '@doctrine'
+        calls:
+            - ['setContentNodeSubFolderUriHandler', ['@oro_commerce_menu.handler.content_node_sub_folder_uri']]
         tags:
             - { name: oro_menu.builder, alias: quick_access_button_menu }
 
