@@ -6,6 +6,7 @@ namespace Oro\Bundle\FrontendBundle\Menu\Frontend;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
+use Oro\Bundle\CommerceMenuBundle\Handler\ContentNodeSubFolderUriHandler;
 use Oro\Bundle\CommerceMenuBundle\Handler\SubFolderUriHandler;
 use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
@@ -23,6 +24,7 @@ class QuickAccessButtonWebCatalogNodeMenuBuilder implements BuilderInterface
 {
     private MenuContentNodesProviderInterface $menuContentNodesProvider;
     private LocalizationHelper $localizationHelper;
+    private ContentNodeSubFolderUriHandler $contentNodeUriHandler;
     private SubFolderUriHandler $uriHandler;
     private ManagerRegistry $doctrine;
 
@@ -36,6 +38,14 @@ class QuickAccessButtonWebCatalogNodeMenuBuilder implements BuilderInterface
         $this->localizationHelper = $localizationHelper;
         $this->uriHandler = $uriHandler;
         $this->doctrine = $doctrine;
+    }
+
+
+    public function setContentNodeSubFolderUriHandler(ContentNodeSubFolderUriHandler $uriHandler): self
+    {
+        $this->contentNodeUriHandler = $uriHandler;
+
+        return $this;
     }
 
     #[\Override]
@@ -78,9 +88,6 @@ class QuickAccessButtonWebCatalogNodeMenuBuilder implements BuilderInterface
 
     private function getUri(ResolvedContentNode $resolvedNode, ?Localization $localization): string
     {
-        $uri = (string) $this->localizationHelper
-            ->getLocalizedValue($resolvedNode->getResolvedContentVariant()->getLocalizedUrls(), $localization);
-
-        return $this->uriHandler->hasSubFolder() ? $this->uriHandler->handle($uri) : $uri;
+        return $this->contentNodeUriHandler->handle($resolvedNode, $localization);
     }
 }

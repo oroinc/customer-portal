@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
+use Oro\Bundle\CommerceMenuBundle\Handler\ContentNodeSubFolderUriHandler;
 use Oro\Bundle\CommerceMenuBundle\Handler\SubFolderUriHandler;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
@@ -33,12 +34,21 @@ class ContentNodeTreeBuilder implements BuilderInterface
     /** @var array<string,MenuUpdateApplierContext> Contexts indexed by menu name. */
     private array $menuUpdateApplierContexts = [];
 
+    private ContentNodeSubFolderUriHandler $contentNodeUriHandler;
+
     public function __construct(
         private ManagerRegistry $doctrine,
         private MenuContentNodesProviderInterface $menuContentNodesProvider,
         private LocalizationHelper $localizationHelper,
         private SubFolderUriHandler $uriHandler
     ) {
+    }
+
+    public function setContentNodeSubFolderUriHandler(ContentNodeSubFolderUriHandler $uriHandler): self
+    {
+        $this->contentNodeUriHandler = $uriHandler;
+
+        return $this;
     }
 
     #[\Override]
@@ -245,10 +255,7 @@ class ContentNodeTreeBuilder implements BuilderInterface
 
     private function getUri(ResolvedContentNode $resolvedNode, ?Localization $localization): string
     {
-        $uri = (string) $this->localizationHelper
-            ->getLocalizedValue($resolvedNode->getResolvedContentVariant()->getLocalizedUrls(), $localization);
-
-        return $this->uriHandler->hasSubFolder() ? $this->uriHandler->handle($uri) : $uri;
+        return $this->contentNodeUriHandler->handle($resolvedNode, $localization);
     }
 
     public static function getTreeItemNamePrefix(ItemInterface $menuItem, int $contentNodeId): string

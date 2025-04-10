@@ -7,12 +7,12 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Menu\Frontend;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
 use Knp\Menu\ItemInterface;
+use Oro\Bundle\CommerceMenuBundle\Handler\ContentNodeSubFolderUriHandler;
 use Oro\Bundle\CommerceMenuBundle\Handler\SubFolderUriHandler;
 use Oro\Bundle\FrontendBundle\Menu\Frontend\QuickAccessButtonWebCatalogNodeMenuBuilder;
 use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\WebCatalogBundle\Cache\ResolvedData\ResolvedContentNode;
-use Oro\Bundle\WebCatalogBundle\Cache\ResolvedData\ResolvedContentVariant;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Bundle\WebCatalogBundle\Menu\MenuContentNodesProviderInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -32,9 +32,12 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
         $localizationHelper->expects(self::any())->method('getCurrentLocalization')->willReturn(null);
         $localizationHelper->expects(self::any())->method('getLocalizedValue')->willReturn('localizedValue');
 
-        $subFolderUriHandler = $this->createMock(SubFolderUriHandler::class);
-        $subFolderUriHandler->expects(self::any())->method('hasSubFolder')->willReturn(true);
-        $subFolderUriHandler->expects(self::any())->method('handle')->willReturnCallback(fn ($arg) => 'uri_' . $arg);
+        $subFolderUriHandler = $this->createMock(ContentNodeSubFolderUriHandler::class);
+        $subFolderUriHandler->expects(self::any())
+            ->method('handle')
+            ->willReturnCallback(fn ($arg) => 'uri_localizedValue');
+
+        $uriHandler = $this->createMock(SubFolderUriHandler::class);
 
         $this->repository = $this->createMock(ObjectRepository::class);
         $doctrine = $this->createMock(ManagerRegistry::class);
@@ -47,9 +50,10 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
         $this->builder = new QuickAccessButtonWebCatalogNodeMenuBuilder(
             $this->menuContentNodesProvider,
             $localizationHelper,
-            $subFolderUriHandler,
+            $uriHandler,
             $doctrine
         );
+        $this->builder->setContentNodeSubFolderUriHandler($subFolderUriHandler);
     }
 
     public function testBuild(): void
@@ -68,11 +72,6 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
             ->willReturn($node);
 
         $resolvedNode = $this->createMock(ResolvedContentNode::class);
-        $resolvedNode
-            ->expects(self::once())
-            ->method('getResolvedContentVariant')
-            ->willReturn(new ResolvedContentVariant());
-
         $this->menuContentNodesProvider
             ->expects(self::once())
             ->method('getResolvedContentNode')
