@@ -1,0 +1,71 @@
+Oro\Bundle\AddressBundle\Entity\Country:
+    country_xx:
+        __construct: ['XX']
+        iso3Code: 'XXX'
+        name: 'Country X'
+        deleted: false
+    country_yy:
+        __construct: ['YY']
+        iso3Code: 'YYY'
+        name: 'Country Y'
+        deleted: true
+
+Oro\Bundle\AddressBundle\Entity\Region:
+    region_xx:
+        __construct: ['XX-XX']
+        country: '@country_xx'
+        code: 'XX'
+        name: 'Region XX'
+        deleted: false
+    region_xy:
+        __construct: ['XX-XY']
+        country: '@country_xx'
+        code: 'XY'
+        name: 'Region XY'
+        deleted: true
+    region_yy:
+        __construct: [ 'YY-YY' ]
+        country: '@country_yy'
+        code: 'XY'
+        name: 'Region YY'
+        deleted: true
+
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    mrcustomer1:
+        name: 'Customer 1'
+        organization: '@organization'
+        owner: '@admin'
+        __calls:
+            - addAddress: [ '@address1' ]
+    mrcustomer2:
+        name: 'Customer 2'
+        organization: '@organization'
+        owner: '@admin'
+        __calls:
+            - addAddress: [ '@address2' ]
+
+Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
+    address1:
+        label: 'Address 1'
+        street: 'Street 1'
+        street2: 'Street 2'
+        city: 'Los Angeles'
+        postalCode: '90001'
+        country: '@country_xx'
+        region: '@region_xy'
+        organization: '@organization'
+        namePrefix: 'Mr.'
+        nameSuffix: 'M.D.'
+        firstName: 'John'
+        middleName: 'Edgar'
+        lastName: 'Doo'
+    address2:
+        label: 'Address 2'
+        street: 'Street 2'
+        city: 'Los Angeles'
+        postalCode: '90002'
+        country: '@country_yy'
+        region: '@region_yy'
+        firstName: 'John'
+        lastName: 'Smith'
+        organization: '@organization'
