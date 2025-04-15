@@ -925,9 +925,13 @@ components:
           type: string
         attributes:
           required:
+            - deleted
             - iso3Code
             - name
           properties:
+            deleted:
+              description: 'Status of country'
+              type: boolean
             iso3Code:
               description: 'A three letter ISO country code.'
               type: string
@@ -1021,11 +1025,15 @@ components:
         attributes:
           required:
             - code
+            - deleted
             - name
           properties:
             code:
               description: 'The part of after hyphen of an ISO 3166-2 region code.'
               type: string
+            deleted:
+              description: 'Status of region'
+              type: boolean
             name:
               description: 'The name used to refer to a region on the interface.'
               type: string
