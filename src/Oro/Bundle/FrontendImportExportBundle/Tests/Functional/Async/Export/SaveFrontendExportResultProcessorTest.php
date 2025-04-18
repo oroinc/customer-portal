@@ -81,7 +81,7 @@ class SaveFrontendExportResultProcessorTest extends WebTestCase
         $message = new Message();
         $message->setMessageId('abc');
         $message->setBody([
-            'jobId' => PHP_INT_MAX
+            'jobId' => self::BIGINT
         ]);
 
         self::assertEquals(
