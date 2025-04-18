@@ -36,7 +36,7 @@ class BusinessUnitOwnerTreeCacheJobProcessorTest extends WebTestCase
         $message = $this->getBusinessUnitMessageFactory()->createMessage(
             $childJob->getId(),
             Customer::class,
-            PHP_INT_MAX
+            self::BIGINT
         );
         $sentMessage = self::sendMessage(
             CustomerCalculateOwnerTreeCacheByBusinessUnitTopic::getName(),
@@ -54,7 +54,7 @@ class BusinessUnitOwnerTreeCacheJobProcessorTest extends WebTestCase
 
         self::assertTrue(
             self::getLoggerTestHandler()->hasError(
-                sprintf('Business unit entity %s #%s is not found', Customer::class, PHP_INT_MAX)
+                sprintf('Business unit entity %s #%s is not found', Customer::class, self::BIGINT)
             )
         );
     }
