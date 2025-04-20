@@ -186,6 +186,17 @@ class CustomerUserManager extends BaseUserManager
         parent::updateUser($user, $flush);
     }
 
+    public function updatePassword(UserInterface $user): void
+    {
+        $password = $user->getPlainPassword();
+        if ($password !== null && 0 !== strlen($password)) {
+            $encoder = $this->getPasswordEncoder($user);
+            $user->setPassword($encoder->encodePassword($password, $user->getSalt()));
+            $this->setAuthStatus($user, CustomerUserManager::STATUS_ACTIVE);
+            $user->eraseCredentials();
+        }
+    }
+
     private function getEmailProcessor(): Processor
     {
         return $this->emailProcessorLink->getService();
