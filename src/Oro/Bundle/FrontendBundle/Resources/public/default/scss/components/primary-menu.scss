@@ -8,6 +8,12 @@
 
     &-container-inner {
         --sticky-position-top-offset: var(--sticky-page-header-element-offset-top);
+
+        transition: $sticky-panel-transition;
+
+        &.in-sticky.scroll-down {
+            transform: translateY(calc(var(--sticky-page-header-group-offset-y, 0px) * -1));
+        }
     }
 
     &__link {
