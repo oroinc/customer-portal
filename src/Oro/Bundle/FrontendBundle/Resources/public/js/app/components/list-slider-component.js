@@ -323,8 +323,8 @@ define(function(require) {
                 ));
             }
 
-            const activeDotHeight = $activeDot.height();
-            const activeDotWidth = $activeDot.width();
+            const activeDotHeight = $activeDot.find('button').outerHeight();
+            const activeDotWidth = $activeDot.find('button').outerWidth();
 
             $dotsItems.css({
                 height: 0,
