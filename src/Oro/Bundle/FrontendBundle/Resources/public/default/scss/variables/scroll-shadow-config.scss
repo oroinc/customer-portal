@@ -36,7 +36,7 @@ $scroll-shadow-inline-top: 0 !default;
 
 $scroll-shadow-inline-before-background: linear-gradient(
     90deg,
-    get-color('neutral', 'white-100') 0,
+    var(--scroll-shadow-inline-before-background, get-color('neutral', 'white-100')) 0,
     rgba(255, 255, 255, 0) 100%
 ) !default;
 
@@ -44,7 +44,7 @@ $scroll-shadow-inline-before-left: 0 !default;
 
 $scroll-shadow-inline-after-background: linear-gradient(
     -90deg,
-    get-color('neutral', 'white-100') 0, rgba(255, 255, 255, 0) 100%
+    var(--scroll-shadow-inline-after-background, get-color('neutral', 'white-100')) 0, rgba(255, 255, 255, 0) 100%
 ) !default;
 
 $scroll-shadow-inline-after-right: 0 !default;

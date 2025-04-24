@@ -38,6 +38,9 @@ The current file describes significant changes in the code that may affect the u
 * Added `\Oro\Bundle\FrontendBundle\Form\Configuration\AbstractCssConfigBuilder` that should be used for CSS Theme Variables
 * Added option `show_input_control` to `\Oro\Bundle\FormBundle\Form\Type\OroSimpleColorPickerType` that allows to show text input form for manual color value. By default, value for this option is false
 * Added a new `actionHeaderCellLabel` theme option in `grid_render_parameters` for the storefront datagrids, that allows setting label for actions header cell.
+* Added `dashboard_page_top` wrapper for `dashboard_quick_access_menu` and `dashboard_scorecards_container`
+* Removed `$dashboard-menu-offset-bottom-only-desktop` variable as it is no longer used, and that the offset is now provided by the `dashboard_page_top` element.
+
 
 #### CustomerBundle
 * Added `oro_customer.redirect_after_login` and `oro_customer.do_not_leave_checkout` system config options that manage the redirection of customer user after login.

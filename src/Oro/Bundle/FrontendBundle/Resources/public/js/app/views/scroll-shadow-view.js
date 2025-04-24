@@ -141,6 +141,11 @@ const ScrollShadowView = BaseView.extend({
             target?.classList.toggle(blockStartClass, scrollTop > 0);
             target?.classList.toggle(blockEndClass, clientHeight + scrollTop < scrollHeight);
         }
+
+        if (!hasHorizontalScrollbar && !hasVerticalScrollbar) {
+            target?.classList.toggle(blockStartClass, false);
+            target?.classList.toggle(blockEndClass, false);
+        }
     },
 
     removeShadows() {
