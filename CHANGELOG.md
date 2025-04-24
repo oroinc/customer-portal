@@ -2,7 +2,28 @@ The upgrade instructions are available at [Oro documentation website](https://do
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
-## UNRELEASED
+## Changes in the Customer Portal package versions
+
+- [6.1.0](#610-2025-03-31)
+- [6.0.0](#600-2024-03-30)
+- [5.1.0](#510-2023-03-31)
+- [5.0.0](#500-2022-01-26)
+- [4.2.0](#420-2020-01-29)
+- [4.1.0](#410-2020-01-31)
+- [4.0.0](#400-2019-07-31)
+- [3.1.4](#314)
+- [3.1.3](#313-2019-02-19)
+- [3.1.2](#312-2019-02-05)
+- [3.1.0](#310-2019-01-30)
+- [3.0.0](#300-2018-07-27)
+- [2.6.0](#260-2018-01-31)
+- [2.5.0](#250-2017-11-30)
+- [2.4.0](#240-2017-09-29)
+- [2.3.0](#230-2017-07-28)
+- [2.2.0](#220-2017-05-31)
+
+## 6.1.0 (2025-03-31)
+[Show detailed list of changes](incompatibilities-6-1.md)
 
 ### Security Changes
 * Security firewall `frontend_api_wsse_secured` renamed to `frontend_api_secured`.
@@ -26,7 +47,7 @@ The current file describes significant changes in the code that may affect the u
 * Added `orofrontend/js/datagrid/frontend-action-launcher`
 * Added `orofrontend/js/datagrid/frontend-actions-panel`
 * Added `orofrontend/js/datagrid/actions/frontend-reset-collection-action`
-* Added option for reset action storefront datagrids 
+* Added option for reset action storefront datagrids
   - `grid_render_parameters.themeOptions.actionOptions.resetAction.hiddenIfIsNotResettable` {boolean} - Hide reset action button when grid doesn't have changes
   - `grid_render_parameters.themeOptions.actionOptions.{actionName}.launcherOptions.renderInExternalContainer` {boolean} - Render action launcher in provided external container with default selector `[data-group="external-toolbar-${gridName}"]`
 * Added block type `frontend_datagrid_external_toolbar`, required datagrid name
@@ -79,26 +100,6 @@ The current file describes significant changes in the code that may affect the u
 
 #### CustomerBundle
 - Removed `\Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\ConfigureFrontendHelperPass`, made use of decoration instead for `\Oro\Bundle\CustomerBundle\Security\TokenAwareFrontendHelper`.
-
-## Changes in the Customer Portal package versions
-
-- [6.0.0](#600-2024-03-30)
-- [5.1.0](#510-2023-03-31)
-- [5.0.0](#500-2022-01-26)
-- [4.2.0](#420-2020-01-29)
-- [4.1.0](#410-2020-01-31)
-- [4.0.0](#400-2019-07-31)
-- [3.1.4](#314)
-- [3.1.3](#313-2019-02-19)
-- [3.1.2](#312-2019-02-05)
-- [3.1.0](#310-2019-01-30)
-- [3.0.0](#300-2018-07-27)
-- [2.6.0](#260-2018-01-31)
-- [2.5.0](#250-2017-11-30)
-- [2.4.0](#240-2017-09-29)
-- [2.3.0](#230-2017-07-28)
-- [2.2.0](#220-2017-05-31)
-
 
 ## 6.0.0 (2024-03-30)
 [Show detailed list of changes](incompatibilities-6-0.md)
