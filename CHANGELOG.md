@@ -22,6 +22,10 @@ The current file describes significant changes in the code that may affect the u
 - [2.3.0](#230-2017-07-28)
 - [2.2.0](#220-2017-05-31)
 
+## 6.1.1
+* Added `dashboard_page_top` wrapper for `dashboard_quick_access_menu` and `dashboard_scorecards_container`
+* Removed `$dashboard-menu-offset-bottom-only-desktop` variable as it is no longer used, and that the offset is now provided by the `dashboard_page_top` element.
+
 ## 6.1.0 (2025-03-31)
 [Show detailed list of changes](incompatibilities-6-1.md)
 

@@ -51,12 +51,6 @@
     }
 }
 
-@include breakpoint('desktop') {
-    .dashboard-menu {
-        padding-bottom: $dashboard-menu-offset-bottom-only-desktop;
-    }
-}
-
 @include breakpoint('tablet-big') {
     .dashboard-menu {
         --dashboard-menu-item-count: #{$dashboard-menu-item-count-tablet-big};

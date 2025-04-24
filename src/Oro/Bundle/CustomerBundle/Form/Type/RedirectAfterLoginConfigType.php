@@ -127,7 +127,7 @@ class RedirectAfterLoginConfigType extends AbstractType
             'required' => true,
             'label' => false,
             'constraints' => [new NotBlank()],
-             ...$options
+            ...$options
         ]);
     }
 

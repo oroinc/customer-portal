@@ -5,6 +5,10 @@
         --grid-gap: #{$dashboard-container-gap};
     }
 
+    &-page-top {
+        --grid-gap: #{$dashboard-page-top-gap};
+    }
+
     &-primary-container {
         --grid-gap: #{$dashboard-primary-container-gap};
     }
