@@ -77,7 +77,7 @@ define(function(require) {
             this.$customerUserMultiSelect.inputWidget('val', '');
 
             this.updateCustomerUserSelectData({customer_id: this.$customerSelect.val()});
-            this.triggerChangeCustomerUserEvent();
+            this.triggerChangeCustomerUserEvent(true, false);
         },
 
         /**
@@ -90,7 +90,7 @@ define(function(require) {
             const customerUserId = $(e.target).val();
 
             if (customerId || !customerUserId) {
-                this.triggerChangeCustomerUserEvent();
+                this.triggerChangeCustomerUserEvent(false, true);
 
                 return;
             }
@@ -106,7 +106,7 @@ define(function(require) {
                     self.$customerSelect.inputWidget('val', response.customerId || '');
 
                     self.updateCustomerUserSelectData({customer_id: response.customerId});
-                    self.triggerChangeCustomerUserEvent();
+                    self.triggerChangeCustomerUserEvent(false, true);
                 },
                 complete: function() {
                     self.loadingMask.hide();
@@ -123,8 +123,10 @@ define(function(require) {
             this.$customerUserMultiSelect.data('select2_query_additional_params', data);
         },
 
-        triggerChangeCustomerUserEvent: function() {
+        triggerChangeCustomerUserEvent: function(isCustomerChanged = false, isCustomerUserChanged = false) {
             mediator.trigger('customer-customer-user:change', {
+                isCustomerChanged: isCustomerChanged,
+                isCustomerUserChanged: isCustomerUserChanged,
                 customerId: this.$customerSelect.val(),
                 customerUserId: this.$customerUserSelect.val()
             });
