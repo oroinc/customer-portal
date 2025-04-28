@@ -2,6 +2,7 @@ label: Refreshing Teal
 description: 'New 6.1 LTS theme with a fresh look and feel and improved buyers experience. This theme is highly optimized for seamless experience across all modern devices and platforms. It contains a plethora of accessibility features to make it inclusive to all uses, and it also supports Right-to-Left localizations out of the box.'
 groups: [ commerce ]
 icon: bundles/orofrontend/default/images/favicon.ico
+favicons_path: bundles/orofrontend/default/favicons/
 logo: bundles/orofrontend/default/images/logo/demob2b-logo.svg
 logo_small: bundles/orofrontend/default/images/logo/demob2b-logo-small.svg
 rtl_support: true
