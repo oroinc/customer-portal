@@ -32,6 +32,7 @@ define(function(require) {
             maxDotsToShow: 2,
             infinite: false,
             additionalClass: 'embedded-list__slider no-transform',
+            openElements: '[data-toggle], [data-name="prices-hint-trigger"]',
             prevArrow: arrowTpl({
                 ariaLabel: __('Previous'),
                 iconName: 'chevron-left',
@@ -67,7 +68,7 @@ define(function(require) {
          *
          * @param options
          */
-        initialize: function(options) {
+        initialize(options) {
             this.options = this._processOptions(options);
             this.$el = options._sourceElement;
             this._deferredInit();
@@ -121,7 +122,8 @@ define(function(require) {
             $(this.$el).slick(this.options);
 
             if (this.options.relatedComponent) {
-                this.onChange();
+                const currentSlide = this.$el.slick('slickCurrentSlide');
+                this.changeHandler(currentSlide, 'slider:activeImage');
             }
 
             $(this.$el).on(`destroy${this.eventNamespace()}`, (event, slick) => {
@@ -135,6 +137,7 @@ define(function(require) {
             });
 
             this.previousSlide = this.$el.slick('slickCurrentSlide');
+            this.$el.on(`beforeChange${this.eventNamespace()}`, this._slickBeforeChange.bind(this));
             this.$el.on(`afterChange${this.eventNamespace()}`, this._slickAfterChange.bind(this));
             if (this.options.processClick) {
                 this.$el.on(`click${this.eventNamespace()}`, this.options.processClick, this.toProcessClick.bind(this));
@@ -146,7 +149,7 @@ define(function(require) {
         },
 
         /**
-         * Procces options for each breakpoint
+         * Process options for each breakpoint
          * @param {Object} options
          * @returns {*}
          * @private
@@ -182,9 +185,23 @@ define(function(require) {
          * @param {jQuery.Event} event
          * @param {slick} slick
          * @param {Number} currentSlide
+         * @param {Number} nextSlide
          * @private
          */
-        _slickAfterChange: function(event, slick, currentSlide) {
+        _slickBeforeChange(event, slick, currentSlide, nextSlide) {
+            this._closeElements(slick);
+            if (this.options.relatedComponent) {
+                this.changeHandler(nextSlide, 'slider:activeImage');
+            }
+        },
+
+        /**
+         * @param {jQuery.Event} event
+         * @param {slick} slick
+         * @param {Number} currentSlide
+         * @private
+         */
+        _slickAfterChange(event, slick, currentSlide) {
             if (this.previousSlide === currentSlide || !slick.$slides.length) {
                 return;
             }
@@ -205,7 +222,29 @@ define(function(require) {
             this.trigger('oro:embedded-list:shown', $shownItems);
         },
 
-        refreshPositions: function() {
+        /**
+         * @param {slick} slick
+         * @private
+         */
+        _closeElements(slick) {
+            slick.$list.find(this.options.openElements).each((i, el) => {
+                const $el = $(el);
+
+                if ($el.data('bs.dropdown')) {
+                    $el.dropdown('hide');
+                }
+
+                if ($el.data('bs.popover')) {
+                    $el.popover('hide');
+                }
+
+                if ($el.data('bs.tooltip')) {
+                    $el.tooltip('hide');
+                }
+            });
+        },
+
+        refreshPositions() {
             const updatePosition = this.updatePosition.bind(this);
             $(this.$el).on('init', function(event, slick) {
                 // This delay needed for waiting when slick initialized
@@ -213,25 +252,14 @@ define(function(require) {
             });
         },
 
-        onChange: function() {
-            const self = this;
-
-            const currentSlide = $(this.$el).slick('slickCurrentSlide');
-            this.changeHandler(currentSlide, 'slider:activeImage');
-
-            this.$el.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
-                self.changeHandler(nextSlide, 'slider:activeImage');
-            });
-        },
-
-        changeHandler: function(nextSlide, eventName) {
+        changeHandler(nextSlide, eventName) {
             const activeImage = this.$el.find('.slick-slide[data-slick-index=' + nextSlide + '] img').get(0);
             this.$el.find('.slick-slide img')
                 .data(eventName, activeImage)
                 .trigger(eventName, activeImage);
         },
 
-        updatePosition: function() {
+        updatePosition() {
             if (this.disposed) {
                 return;
             }
@@ -239,7 +267,7 @@ define(function(require) {
             this.$el.slick('setPosition');
         },
 
-        addEmbeddedArrowsClass: function(slider, bool) {
+        addEmbeddedArrowsClass(slider, bool) {
             const self = this;
 
             slider.toggleClass(self.options.embeddedArrowsClass, bool);
@@ -248,7 +276,7 @@ define(function(require) {
         /**
          * @param {object} event
          */
-        toProcessClick: function(event) {
+        toProcessClick(event) {
             const selection = window.getSelection();
 
             // Allows to select text from the slide and prevents click on parent link element
@@ -275,7 +303,7 @@ define(function(require) {
         /**
          * @returns {string}
          */
-        eventNamespace: function() {
+        eventNamespace() {
             return '.sliderEvents' + this.cid;
         },
 
@@ -359,7 +387,7 @@ define(function(require) {
         /**
          * @inheritdoc
          */
-        dispose: function() {
+        dispose() {
             if (this.disposed) {
                 return;
             }
