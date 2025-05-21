@@ -34,6 +34,10 @@ img {
     page-break-inside: avoid;
 }
 
+noscript {
+    display: none;
+}
+
 @page {
     margin: 10mm;
 }

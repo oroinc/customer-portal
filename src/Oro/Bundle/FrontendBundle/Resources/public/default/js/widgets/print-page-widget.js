@@ -45,18 +45,22 @@ define(function(require) {
 
         _iFramePrint: function(route) {
             const printFrame = document.createElement('iframe');
+            Object.assign(printFrame.style, {
+                position: 'fixed',
+                insetBlock: '0 auto',
+                insetInline: 'auto 100%'
+            });
             printFrame.src = route;
-            printFrame.onload = () => {
+            printFrame.addEventListener('load', () => {
                 const closePrint = () => {
                     document.body.removeChild(printFrame);
                     this._hideMask();
                 };
 
-                // If close the print window without printing.
-                printFrame.contentWindow.onbeforeunload = closePrint;
-                // After printing the order page.
-                printFrame.contentWindow.onafterprint = closePrint;
-            };
+                window.addEventListener('focus', closePrint, {once: true});
+
+                printFrame.contentWindow.addEventListener('beforeunload', closePrint);
+            });
 
             this._showMask();
             document.body.appendChild(printFrame);
