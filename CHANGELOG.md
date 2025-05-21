@@ -12,6 +12,7 @@ The current file describes significant changes in the code that may affect the u
 * Added theme `configuration` options into `\Oro\Bundle\FrontendBundle\Resources\views\layouts\default\theme.yml`.
 * Added `oro_theme.theme_configuration` system configuration option.
 * Added `\Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplatesThemeConfigurationExtension` that gets `product_page_template` theme configuration option values and adds for page_templates.
+* Added a new `preload_fonts` layout block type that uses Symfony WebLink component and pushes fonts to clients before they even know that they need them.
 
 ### Changed
 * Replaced all places in code that used old system configuration options on theme configuration options.

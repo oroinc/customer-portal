@@ -22,17 +22,12 @@ class StorefrontIconsMappingProvider implements ResetInterface
     }
 
     /**
-     * @param string $themeName
-     *
      * @return array<array<string,string>>
      */
     public function getIconsMappingForTheme(string $themeName): array
     {
-        return $this->cache->get(self::CACHE_KEY . '.theme.' . $themeName, function () use ($themeName) {
-            $themes = $this->themeManager->getThemesHierarchy($themeName);
-
-            return $this->collectIconsMapping($themes);
-        });
+        $icons = $this->themeManager->getThemeConfigOption($themeName, 'icons');
+        return $icons['fa_to_svg'] ?? [];
     }
 
     public function getIconsMappingForAllThemes(array|string|null $themeGroups = null): array
