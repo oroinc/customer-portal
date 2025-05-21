@@ -22,9 +22,9 @@
                     <% _.each(context.items, function(item) { %>
                         <li class="<%- context.name %>-switcher__item <%- context.name %>-switcher__item--<%- item.formattingCode %>">
                             <% if (context.selected.value === item.value) { %>
-                                <span class="dropdown-item text-nowrap dropdown-item--active" dir="auto"><%- _.__(item.title) %></span>
+                                <span class="dropdown-item text-nowrap dropdown-item--active"><%- _.__(item.title) %></span>
                             <% } else { %>
-                                <a class="dropdown-item text-nowrap" href="#" data-<%- context.name %>="<%- item.value %>" dir="auto"><%- _.__(item.title) %></a>
+                                <a class="dropdown-item text-nowrap" href="#" data-<%- context.name %>="<%- item.value %>"><%- _.__(item.title) %></a>
                             <% } %>
                         </li>
                     <% }) %>
@@ -39,9 +39,9 @@
                     <span class="divider" aria-hidden="true"></span>
                 <% } %>
                 <% if (context.selected.value === item.value) { %>
-                    <span class="oro-toolbar__link oro-toolbar__link--active text-nowrap" dir="auto"><%- _.__(item.title) %></span>
+                    <span class="oro-toolbar__link oro-toolbar__link--active text-nowrap"><%- _.__(item.title) %></span>
                 <% } else { %>
-                    <a class="oro-toolbar__link text-nowrap" href="#" data-<%- context.name %>="<%- item.value %>" dir="auto"><%- _.__(item.title) %></a>
+                    <a class="oro-toolbar__link text-nowrap" href="#" data-<%- context.name %>="<%- item.value %>"><%- _.__(item.title) %></a>
                 <% } %>
             <% }) %>
         </div>
