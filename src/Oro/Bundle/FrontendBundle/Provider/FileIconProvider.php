@@ -7,25 +7,20 @@ use Oro\Bundle\AttachmentBundle\Provider\FileIconProvider as BaseFileIconProvide
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Component\Layout\Exception\NotRequestContextRuntimeException;
 use Oro\Component\Layout\Extension\Theme\Model\CurrentThemeProvider;
-use Oro\Component\Layout\Extension\Theme\Model\Theme;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
-use Psr\Cache\CacheItemPoolInterface;
-use Symfony\Contracts\Cache\CacheInterface;
 
 /**
  * Provides file type icon for the given file entity.
  */
 class FileIconProvider extends BaseFileIconProvider
 {
-    private const FALLBACK_ICON = 'add-note';
-    private const CACHE_KEY = 'oro_frontend.provider.file_icons_mapping';
+    private const string FALLBACK_ICON = 'add-note';
 
     public function __construct(
         private BaseFileIconProvider $innerFileIconProvider,
         private FrontendHelper $frontendHelper,
         private CurrentThemeProvider $currentThemeProvider,
-        private ThemeManager $themeManager,
-        private CacheInterface&CacheItemPoolInterface $cache
+        private ThemeManager $themeManager
     ) {
         parent::__construct([]);
     }
@@ -54,29 +49,8 @@ class FileIconProvider extends BaseFileIconProvider
             return [];
         }
 
-        return $this->cache->get(self::CACHE_KEY . '.theme.' . $themeName, function () use ($themeName) {
-            $themes = $this->themeManager->getThemesHierarchy($themeName);
-
-            return $this->collectFileIconsMapping($themes);
-        });
-    }
-
-    /**
-     * @param array<Theme> $themes
-     *
-     * @return array<array<string,string>>
-     */
-    private function collectFileIconsMapping(array $themes): array
-    {
-        $fileIconsMapping = [];
-        foreach ($themes as $theme) {
-            $iconsConfig = $theme->getConfigByKey('icons', []);
-            if (!empty($iconsConfig['file_icons'])) {
-                $fileIconsMapping[] = $iconsConfig['file_icons'];
-            }
-        }
-
-        return array_merge(...$fileIconsMapping);
+        $icons = $this->themeManager->getThemeConfigOption($themeName, 'icons');
+        return $icons['file_icons'] ?? [];
     }
 
     private function getCurrentThemeName(): ?string
@@ -88,10 +62,5 @@ class FileIconProvider extends BaseFileIconProvider
         }
 
         return $currentThemeName;
-    }
-
-    public function reset(): void
-    {
-        $this->cache->clear(self::CACHE_KEY);
     }
 }

@@ -2,6 +2,13 @@ The upgrade instructions are available at [Oro documentation website](https://do
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
+## UNRELEASED
+
+### Added
+
+#### FrontendBundle
+* Added a new `preload_fonts` layout block type that uses Symfony WebLink component and pushes fonts to clients before they even know that they need them.
+
 ## Changes in the Customer Portal package versions
 
 - [6.1.0](#610-2025-03-31)

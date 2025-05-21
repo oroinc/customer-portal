@@ -7,6 +7,40 @@ logo: bundles/orofrontend/default/images/logo/demob2b-logo.svg
 logo_small: bundles/orofrontend/default/images/logo/demob2b-logo-small.svg
 rtl_support: true
 svg_icons_support: true
+fonts:
+    main:
+        preload: true
+        family: 'Plus Jakarta Sans'
+        variants:
+            # A variable font is used for styles and weights, so the 'style' option is omitted.
+            - path: '/bundles/orofrontend/default/fonts/Plus_Jakarta_Sans/PlusJakartaSans-variable'
+              weight: '300 700'
+        formats:
+            - 'woff2'
+    secondary:
+        family: 'Bitter'
+        variants:
+            - path: '/bundles/orofrontend/default/fonts/bitter/Bitter-SemiBold'
+              style: 'normal'
+              weight: '600'
+        formats:
+            - 'woff2'
+    code:
+        family: 'DM Mono'
+        variants:
+            - path: '/bundles/orofrontend/default/fonts/dm-mono/DMMono-Regular'
+              style: 'normal'
+              weight: '400'
+        formats:
+            - 'woff2'
+    only-bullets:
+        family: 'only-bullets'
+        variants:
+            - path: '/bundles/orofrontend/default/fonts/only-bullets/only-bullets-regular'
+              style: 'normal'
+              weight: 'normal'
+        formats:
+            - 'woff2'
 configuration:
     sections:
         header:

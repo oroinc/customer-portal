@@ -12,11 +12,10 @@ use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
-class StorefrontIconsMappingProviderTest extends TestCase
+final class StorefrontIconsMappingProviderTest extends TestCase
 {
-    private ThemeManager|MockObject $themeManager;
-
-    private CacheInterface|CacheItemPoolInterface|MockObject $cache;
+    private ThemeManager&MockObject $themeManager;
+    private CacheInterface&CacheItemPoolInterface&MockObject $cache;
 
     private StorefrontIconsMappingProvider $provider;
 
@@ -55,7 +54,7 @@ class StorefrontIconsMappingProviderTest extends TestCase
 
         $iconsMapping = $this->provider->getIconsMappingForAllThemes();
 
-        self::assertEquals([
+        self::assertSame([
             'fa-first-icon' => 'svg-first-icon',
             'fa-second-icon' => 'svf-second-icon',
             'fa-third-icon' => 'svg-third-icon',
@@ -91,7 +90,7 @@ class StorefrontIconsMappingProviderTest extends TestCase
 
         $iconsMapping = $this->provider->getIconsMappingForAllThemes($themeGroups);
 
-        self::assertEquals([
+        self::assertSame([
             'fa-first-icon' => 'svg-first-icon',
             'fa-second-icon' => 'svf-second-icon',
             'fa-third-icon' => 'svg-third-icon',
@@ -112,7 +111,7 @@ class StorefrontIconsMappingProviderTest extends TestCase
 
         $screens = $this->provider->getIconsMappingForAllThemes();
 
-        self::assertEquals($iconsMapping, $screens);
+        self::assertSame($iconsMapping, $screens);
     }
 
     public function testGetIconsMappingForAllThemesWithSingleGroupFromCache(): void
@@ -130,61 +129,38 @@ class StorefrontIconsMappingProviderTest extends TestCase
 
         $screens = $this->provider->getIconsMappingForAllThemes($themeGroups);
 
-        self::assertEquals($iconsMapping, $screens);
+        self::assertSame($iconsMapping, $screens);
     }
 
-    public function testGetIconsMappingForThemeWhenNoCache(): void
+    public function testGetIconsMappingForTheme(): void
     {
         $themeName = 'sample_theme';
-
-        $this->cache->expects(self::once())
-            ->method('get')
-            ->with('oro_frontend.provider.icons_mapping.theme.' . $themeName)
-            ->willReturnCallback(function ($cacheKey, $callback) {
-                $item = $this->createMock(ItemInterface::class);
-                return $callback($item);
-            });
-
-        $themeHierarchy = [
-            $this->getTheme(
-                ['fa_to_svg' => ['fa-first-icon' => 'svg-first-icon', 'fa-second-icon' => 'svf-second-icon']]
-            ),
-            $this->getTheme([]),
-            $this->getTheme(
-                ['fa_to_svg' => ['fa-first-icon' => 'svg-first-icon', 'fa-third-icon' => 'svg-third-icon']]
-            ),
-        ];
+        $iconsMapping = ['fa_to_svg' => ['fa-sample-icon' => 'svg-sample-icon']];
 
         $this->themeManager
             ->expects(self::once())
-            ->method('getThemesHierarchy')
-            ->willReturn($themeHierarchy);
-
-        $iconsMapping = $this->provider->getIconsMappingForTheme($themeName);
-
-        self::assertEquals([
-            'fa-first-icon' => 'svg-first-icon',
-            'fa-second-icon' => 'svf-second-icon',
-            'fa-third-icon' => 'svg-third-icon',
-        ], $iconsMapping);
-    }
-
-    public function testGetIconsMappingForThemeFromCache(): void
-    {
-        $themeName = 'sample_theme';
-        $iconsMapping = ['fa-sample-icon' => 'svg-sample-icon'];
-        $this->cache->expects(self::once())
-            ->method('get')
-            ->with('oro_frontend.provider.icons_mapping.theme.' . $themeName)
+            ->method('getThemeConfigOption')
+            ->with($themeName, 'icons')
             ->willReturn($iconsMapping);
-
-        $this->themeManager
-            ->expects(self::never())
-            ->method(self::anything());
 
         $screens = $this->provider->getIconsMappingForTheme($themeName);
 
-        self::assertEquals($iconsMapping, $screens);
+        self::assertSame($iconsMapping['fa_to_svg'], $screens);
+    }
+
+    public function testGetIconsMappingForThemeWhenNoConfig(): void
+    {
+        $themeName = 'sample_theme';
+
+        $this->themeManager
+            ->expects(self::once())
+            ->method('getThemeConfigOption')
+            ->with($themeName, 'icons')
+            ->willReturn(null);
+
+        $screens = $this->provider->getIconsMappingForTheme($themeName);
+
+        self::assertSame([], $screens);
     }
 
     private function getTheme(array $iconsConfig): Theme

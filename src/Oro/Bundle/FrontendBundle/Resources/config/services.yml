@@ -537,11 +537,6 @@ services:
             - '@.inner'
             - '@oro_frontend.request.frontend_helper'
 
-    oro_frontend.provider.file_icons_mapping.cache:
-        parent: oro.data.cache
-        tags:
-            - { name: 'cache.pool', namespace: 'oro_frontend_file_icons_mapping' }
-
     oro_frontend.provider.file_icon_provider:
         class: Oro\Bundle\FrontendBundle\Provider\FileIconProvider
         decorates: oro_attachment.provider.file_icon
@@ -550,7 +545,6 @@ services:
             - '@oro_frontend.request.frontend_helper'
             - '@oro_layout.current_theme_provider'
             - '@oro_layout.theme_manager'
-            - '@oro_frontend.provider.file_icons_mapping.cache'
 
     oro_frontend.provider.storefront_theme_configuration_type:
         class: Oro\Bundle\FrontendBundle\Provider\StorefrontThemeConfigurationTypeProvider

@@ -1,3 +1,6 @@
+parameters:
+    oro_frontend.webpack_static_files_path: '/build/_static/'
+
 services:
     oro_frontend.layout.type.exception:
         parent: oro_layout.block_type.abstract_configurable
@@ -188,3 +191,12 @@ services:
             - [ setName, [ 'frontend_datagrid_external_toolbar' ] ]
         tags:
             - { name: layout.block_type, alias: frontend_datagrid_external_toolbar }
+
+    oro_layout.block_type.preload_fonts:
+        class: Oro\Bundle\FrontendBundle\Layout\Block\Type\PreloadFontsType
+        arguments:
+            - '@oro_theme.provider.theme_configuration'
+            - '@oro_layout.theme_manager'
+            - '%oro_frontend.webpack_static_files_path%'
+        tags:
+            - { name: layout.block_type, alias: preload_fonts }
