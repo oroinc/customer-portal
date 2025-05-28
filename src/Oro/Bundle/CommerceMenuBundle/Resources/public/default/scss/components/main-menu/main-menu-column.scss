@@ -65,7 +65,7 @@
         gap: 8px;
         max-width: $main-menu-column-link-max-width;
         white-space: $main-menu-column-link-white-space;
-        word-wrap: $main-menu-column-link-word-wrap;
+        overflow-wrap: $main-menu-column-link-word-wrap;
     }
 
     &__item &__link {

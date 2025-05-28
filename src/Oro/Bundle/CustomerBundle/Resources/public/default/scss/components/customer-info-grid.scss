@@ -46,7 +46,7 @@
 
     &__element-content {
         font-weight: $customer-info-grid-element-content-font-weight;
-        word-wrap: $customer-info-grid-element-content-word-wrap;
+        overflow-wrap: $customer-info-grid-element-content-word-wrap;
         display: block;
 
         ul,

@@ -141,7 +141,7 @@ $dropdown-color: get-var-color('text', 'primary');
 $dropdown-border-color: transparent;
 $dropdown-border-width: 0;
 $dropdown-spacer: spacing('xs');
-$dropdown-box-shadow: 0px 3px 12px 0px rgba(91, 126, 131, .14), 0px 0px 4px 0px rgba(5, 59, 66, .08);
+$dropdown-box-shadow: 0 3px 12px 0 rgba(91, 126, 131, .14), 0 0 4px 0 rgba(5, 59, 66, .08);
 $dropdown-padding-y: spacing('sm');
 
 $dropdown-link-hover-color: get-var-color('text', 'primary');
@@ -239,7 +239,7 @@ $modal-header-gap: spacing('sm');
 
 // Margin between elements in footer, must be lower than or equal to 2 * $modal-inner-padding
 
-$modal-dialog-margin: 0px;
+$modal-dialog-margin: 0;
 $modal-dialog-sm-up-margin-y: 30px;
 $modal-title-padding: 15px;
 $modal-title-line-height: $line-height-base;

@@ -438,7 +438,7 @@
                     transition: $mega-menu-depth-1-inner-mobile-big-transition;
                 }
 
-                @include main-menu-stack-mobile-title('.main-menu', 0px);
+                @include main-menu-stack-mobile-title('.main-menu', 0);
 
                 &__close {
                     --theme-icon-size: 24px;

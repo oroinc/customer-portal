@@ -89,7 +89,7 @@
                     border: $frontend-datagrid-responsive-body-cell-tablet-border;
                     margin: $frontend-datagrid-responsive-body-cell-tablet-offset;
                     padding: $frontend-datagrid-responsive-body-cell-tablet-inner-offset;
-                    word-wrap: $frontend-datagrid-responsive-body-cell-tablet-word-wrap;
+                    overflow-wrap: $frontend-datagrid-responsive-body-cell-tablet-word-wrap;
 
                     &.select-row-cell {
                         position: $frontend-datagrid-responsive-select-row-cell-tablet-position;
