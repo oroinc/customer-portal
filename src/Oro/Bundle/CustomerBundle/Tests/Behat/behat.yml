@@ -75,6 +75,12 @@ oro_behat_extension:
             locator: '//div[contains(@id,"s2id_oro_customer_customer_user_addresses_1_region-uid")]/input'
             type: xpath
 
+    CustomerUserRoleView:
+      selector:
+        type: 'xpath'
+        locator: '//div[contains(@data-page-component-name,"customer-user-role-permission-grid")]/..'
+      class: Oro\Bundle\UserBundle\Tests\Behat\Element\UserRoleViewForm
+
     Customer User Profile Form:
       selector: 'form[name="oro_customer_frontend_customer_user_profile"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
