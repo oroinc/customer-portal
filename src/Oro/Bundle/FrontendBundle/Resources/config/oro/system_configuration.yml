@@ -16,6 +16,7 @@ system_configuration:
             title: oro_frontend.system_configuration.groups.guests.title
         website_access:
             title: oro_frontend.system_configuration.groups.website_access.title
+            icon:  fa-globe
         filter_settings:
             title: oro_frontend.system_configuration.groups.filter_settings.title
 

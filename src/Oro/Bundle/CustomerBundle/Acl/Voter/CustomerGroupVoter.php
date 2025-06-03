@@ -3,7 +3,10 @@
 namespace Oro\Bundle\CustomerBundle\Acl\Voter;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
+use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
 use Oro\Bundle\SecurityBundle\Acl\BasicPermission;
 use Oro\Bundle\SecurityBundle\Acl\Voter\AbstractEntityVoter;
 use Psr\Container\ContainerInterface;
@@ -31,7 +34,7 @@ class CustomerGroupVoter extends AbstractEntityVoter implements ServiceSubscribe
     public static function getSubscribedServices()
     {
         return [
-            'oro_config.global' => ConfigManager::class
+            'oro_config.manager' => ConfigManager::class
         ];
     }
 
@@ -47,11 +50,27 @@ class CustomerGroupVoter extends AbstractEntityVoter implements ServiceSubscribe
 
     private function isAnonymousCustomerGroup(int $identifier): bool
     {
-        return $identifier === (int)$this->getConfigManager()->get('oro_customer.anonymous_customer_group');
+        $organization = $this->getOrganizationByCustomerGroupById($identifier);
+        $customerGroupId = $this->getConfigManager()->get(
+            Configuration::getConfigKeyByName(Configuration::ANONYMOUS_CUSTOMER_GROUP),
+            false,
+            false,
+            $organization
+        );
+
+        return $identifier === (int) $customerGroupId;
     }
 
     private function getConfigManager(): ConfigManager
     {
-        return $this->container->get('oro_config.global');
+        return $this->container->get('oro_config.manager');
+    }
+
+    private function getOrganizationByCustomerGroupById(int $identifier): OrganizationInterface
+    {
+        $repository = $this->doctrineHelper->getEntityRepository(CustomerGroup::class);
+        $customerGroup = $repository->find($identifier);
+
+        return $customerGroup->getOrganization();
     }
 }

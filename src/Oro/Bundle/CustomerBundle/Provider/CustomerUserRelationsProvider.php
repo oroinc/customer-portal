@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Provider;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserInterface;
@@ -35,36 +36,21 @@ class CustomerUserRelationsProvider
      */
     public function getCustomer(CustomerUserInterface $customerUser = null)
     {
-        if ($customerUser) {
-            return $customerUser->getCustomer();
-        }
-
-        return null;
+        return $customerUser?->getCustomer();
     }
 
-    /**
-     * @param CustomerUserInterface|null $customerUser
-     * @return null|CustomerGroup
-     */
-    public function getCustomerGroup(CustomerUserInterface $customerUser = null)
+    public function getCustomerGroup(CustomerUserInterface $customerUser = null): ?CustomerGroup
     {
-        if ($customerUser) {
-            $customer = $this->getCustomer($customerUser);
-            if ($customer) {
-                return $customer->getGroup();
-            }
-        } else {
-            $anonymousGroupId = $this->configManager->get('oro_customer.anonymous_customer_group');
+        if (null === $customerUser) {
+            $anonymousGroupId = $this->configManager->get(
+                Configuration::getConfigKeyByName(Configuration::ANONYMOUS_CUSTOMER_GROUP)
+            );
 
-            if ($anonymousGroupId) {
-                return $this->doctrineHelper->getEntityReference(
-                    'OroCustomerBundle:CustomerGroup',
-                    $anonymousGroupId
-                );
-            }
+            return $anonymousGroupId
+                ? $this->doctrineHelper->getEntityReference(CustomerGroup::class, $anonymousGroupId)
+                : null;
         }
-
-        return null;
+        return $customerUser->getCustomer()?->getGroup();
     }
 
     /**
@@ -73,7 +59,7 @@ class CustomerUserRelationsProvider
      */
     public function getCustomerIncludingEmpty(CustomerUserInterface $customerUser = null)
     {
-        $customer = $this->getCustomer($customerUser);
+        $customer = $customerUser?->getCustomer();
         if (!$customer) {
             $customer = new Customer();
             $customer->setGroup($this->getCustomerGroup($customerUser));

@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\DependencyInjection;
 
 use Oro\Bundle\ConfigBundle\DependencyInjection\SettingsBuilder;
+use Oro\Bundle\ConfigBundle\Utils\TreeUtils;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -23,6 +24,8 @@ class Configuration implements ConfigurationInterface
 
     const SECONDS_IN_DAY = 86400;
 
+    public const ANONYMOUS_CUSTOMER_GROUP = 'anonymous_customer_group';
+
     /**
      * {@inheritdoc}
      */
@@ -35,7 +38,7 @@ class Configuration implements ConfigurationInterface
             $rootNode,
             [
                 'default_customer_owner' => ['type' => 'string', 'value' => 1],
-                'anonymous_customer_group' => ['type' => 'integer', 'value' => null],
+                self::ANONYMOUS_CUSTOMER_GROUP => ['type' => 'integer', 'value' => null],
                 'registration_allowed' => ['type' => 'boolean', 'value' => true],
                 'registration_link_enabled' => ['type' => 'boolean', 'value' => true],
                 'confirmation_required' => ['type' => 'boolean', 'value' => true],
@@ -133,6 +136,11 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end();
+    }
+
+    public static function getConfigKeyByName(string $name): string
+    {
+        return TreeUtils::getConfigKey(static::ROOT_NODE, $name);
     }
 
     private function appendFrontendApiNode(NodeBuilder $node): void

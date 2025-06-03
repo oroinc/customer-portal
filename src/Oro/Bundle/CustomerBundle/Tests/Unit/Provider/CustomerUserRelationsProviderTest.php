@@ -116,7 +116,7 @@ class CustomerUserRelationsProviderTest extends \PHPUnit\Framework\TestCase
             ->willReturn(10);
         $this->doctrineHelper->expects($this->once())
             ->method('getEntityReference')
-            ->with('OroCustomerBundle:CustomerGroup', 10)
+            ->with(CustomerGroup::class, 10)
             ->willReturn($customerGroup);
     }
 }
