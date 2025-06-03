@@ -786,10 +786,16 @@ oro.customer:
             map_settings.title: 'Map Settings'
             responsive_grid_settings.title: 'Grid Settings'
             rest_api.title: 'REST API'
+            anonymous_customer_group_access:
+                title: 'Anonymous Customer Group Access'
+                description: 'Changing the default value will trigger re-indexation of all products, which is a resource-intensive process. The changes will not take effect immediately and may require some time due to the need to complete the full re-indexation.'
         fields:
             default_customer_owner:
                 label: 'Default Customer Owner'
                 tooltip: 'Service information that determines which user has full access to managing and viewing customer information. Applies to the customers created in the back-office as well as to those who register on the OroCommerce website.'
+            anonymous_customer_group:
+                label: 'Non-Authenticated Visitors Customer Group'
+                tooltip: 'This customer group represents non-authenticated storefront visitors (guests) for managing product and catalog visibility, as well as other customer group-dependent functions.'
             registration_allowed:
                 label: 'Registration Allowed'
                 tooltip: 'Select the option to enable registration of new customer users from the OroCommerce storefront. '

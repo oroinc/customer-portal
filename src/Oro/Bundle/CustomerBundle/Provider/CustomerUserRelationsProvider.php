@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Provider;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserInterface;
@@ -30,7 +31,9 @@ class CustomerUserRelationsProvider
     public function getCustomerGroup(CustomerUserInterface $customerUser = null): ?CustomerGroup
     {
         if (null === $customerUser) {
-            $anonymousGroupId = $this->configManager->get('oro_customer.anonymous_customer_group');
+            $anonymousGroupId = $this->configManager->get(
+                Configuration::getConfigKeyByName(Configuration::ANONYMOUS_CUSTOMER_GROUP)
+            );
 
             return $anonymousGroupId
                 ? $this->doctrineHelper->getEntityReference(CustomerGroup::class, $anonymousGroupId)

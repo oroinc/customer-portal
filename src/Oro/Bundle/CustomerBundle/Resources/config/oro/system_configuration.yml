@@ -20,6 +20,10 @@ system_configuration:
             title: oro.customer.system_configuration.groups.responsive_grid_settings.title
         frontend_rest_api:
             title: oro.customer.system_configuration.groups.rest_api.title
+        anonymous_customer_group_access:
+            title: oro.customer.system_configuration.groups.anonymous_customer_group_access.title
+            description: oro.customer.system_configuration.groups.anonymous_customer_group_access.description
+            description_style: warning
     fields:
         oro_customer.default_customer_owner:
             ui_only: true
@@ -192,6 +196,23 @@ system_configuration:
                 tooltip: oro.customer.system_configuration.fields.email_enumeration_protection_enabled.tooltip
                 required: false
 
+        oro_customer.anonymous_customer_group:
+            ui_only: true
+            data_type: integer
+            type: Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupSelectType
+            options:
+                required: true
+                create_enabled: false
+                resettable: false
+                constraints:
+                    - NotBlank: ~
+                configs:
+                    allowClear: false
+                attr:
+                    class: control-subgroup
+                label: oro.customer.system_configuration.fields.anonymous_customer_group.label
+                tooltip: oro.customer.system_configuration.fields.anonymous_customer_group.tooltip
+
     tree:
         system_configuration:
             commerce:
@@ -263,6 +284,15 @@ system_configuration:
                                         children:
                                             - oro_customer.maps_enabled
         organization_configuration:
+            commerce:
+                children:
+                    guests:
+                        children:
+                            website_access:
+                                children:
+                                    anonymous_customer_group_access:
+                                        children:
+                                            - oro_customer.anonymous_customer_group
             platform:
                 children:
                     general_setup:
