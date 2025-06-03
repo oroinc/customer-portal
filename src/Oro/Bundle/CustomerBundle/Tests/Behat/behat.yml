@@ -84,6 +84,16 @@ oro_behat_extension:
             locator: 'input[id^="oro_customer_frontend_customer_user_profile_birthday-uid"]'
             type: css
 
+    Anonymous Customer Group Access Configuration Form:
+      selector: 'form[name="website_access"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Non-Authenticated Visitors Customer Group:
+            type: 'xpath'
+            locator: '//input[@name="website_access[oro_customer___anonymous_customer_group][value]"]'
+            element: Select2Entity
+
     CustomerUserRoleGrid:
       selector: '[id^="grid-customer-user-role-permission-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid

@@ -6,7 +6,9 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Acl\Voter\CustomerGroupVoter;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
+use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerGroupRepository;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\TestContainerBuilder;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -22,21 +24,34 @@ class CustomerGroupVoterTest extends \PHPUnit\Framework\TestCase
     #[\Override]
     protected function setUp(): void
     {
+        $organization = new Organization();
+        $customerGroup = new CustomerGroup();
+        $customerGroup->setOrganization($organization);
+
+        $repository = $this->createMock(CustomerGroupRepository::class);
+        $repository->expects($this->any())
+            ->method('find')
+            ->willReturn($customerGroup);
+
         $doctrineHelper = $this->createMock(DoctrineHelper::class);
         $doctrineHelper->expects($this->any())
             ->method('getSingleEntityIdentifier')
             ->willReturnCallback(function ($group) {
                 return $group instanceof CustomerGroup ? $group->getId() : null;
             });
+        $doctrineHelper->expects($this->any())
+            ->method('getEntityRepository')
+            ->with(CustomerGroup::class)
+            ->willReturn($repository);
 
         $configManager = $this->createMock(ConfigManager::class);
         $configManager->expects($this->any())
             ->method('get')
             ->with('oro_customer.anonymous_customer_group')
-            ->willReturn(self::DEFAULT_GROUP_ID);
+            ->willReturn(self::DEFAULT_GROUP_ID, false, false, $organization);
 
         $container = TestContainerBuilder::create()
-            ->add('oro_config.global', $configManager)
+            ->add('oro_config.manager', $configManager)
             ->getContainer($this);
 
         $this->voter = new CustomerGroupVoter($doctrineHelper, $container);
