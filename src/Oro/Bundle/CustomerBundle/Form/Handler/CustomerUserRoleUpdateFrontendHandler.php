@@ -7,6 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleType;
 use Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdentityFactory;
+use Oro\Bundle\SecurityBundle\Model\AclPrivilege;
 use Oro\Bundle\UserBundle\Entity\AbstractRole;
 use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -51,6 +52,41 @@ class CustomerUserRoleUpdateFrontendHandler extends AbstractCustomerUserRoleHand
         return parent::createForm($role);
     }
 
+    protected function processPrivileges(AbstractRole $role)
+    {
+        if (!$role->isPredefined()) {
+            parent::processPrivileges($role);
+        }
+
+        $currentPrivileges = $this->getHashedRolePrivileges($this->getRolePrivileges($role));
+        $submittedData = json_decode($this->form->get('privileges')->getData(), true);
+        $decodedPrivileges = [];
+
+        foreach ($this->privilegeConfig as $field => $config) {
+            if (!empty($submittedData[$field])) {
+                $decodedPrivileges = array_merge(
+                    $decodedPrivileges,
+                    $this->decodeAclPrivileges($submittedData[$field], $config)
+                );
+            }
+        }
+
+        $this->setFormPrivilegesGroup($decodedPrivileges, $this->getAclGroup());
+
+        $filteredPrivileges = $this->configurableFilter->filter(
+            new ArrayCollection($decodedPrivileges),
+            $this->configurableName
+        );
+
+        $hashedPrivileges = $this->getHashedRolePrivileges($filteredPrivileges);
+        $this->privilegeRepository->savePrivileges(
+            $this->aclManager->getSid($role),
+            new ArrayCollection(array_replace($currentPrivileges, $hashedPrivileges))
+        );
+
+        $this->clearAclCache($role);
+    }
+
     #[\Override]
     protected function createRoleFormInstance(AbstractRole $role, array $privilegeConfig)
     {
@@ -68,7 +104,7 @@ class CustomerUserRoleUpdateFrontendHandler extends AbstractCustomerUserRoleHand
     {
         $sid = $this->aclManager->getSid($this->predefinedRole ?: $role);
 
-        return $this->privilegeRepository->getPrivileges($sid);
+        return $this->privilegeRepository->getSupportedAclPrivileges($sid, checkACLSupport: true);
     }
 
     /**
@@ -87,6 +123,17 @@ class CustomerUserRoleUpdateFrontendHandler extends AbstractCustomerUserRoleHand
             ->setOrganization($customerUser->getOrganization());
 
         return $newRole;
+    }
+
+    private function getHashedRolePrivileges(ArrayCollection $collection): array
+    {
+        $collectionArray = $collection->toArray();
+        $this->setFormPrivilegesGroup($collectionArray, $this->getAclGroup());
+
+        return array_combine(
+            array_map(fn (AclPrivilege $p) => $p->getIdentity()->getId(), $collectionArray),
+            $collectionArray
+        );
     }
 
     /**
@@ -151,5 +198,10 @@ class CustomerUserRoleUpdateFrontendHandler extends AbstractCustomerUserRoleHand
         $this->applyCustomerLimits($entity, $appendUsers, $removeUsers);
 
         parent::onSuccess($entity, $appendUsers, $removeUsers);
+    }
+
+    private function setFormPrivilegesGroup(array $formPrivileges, string $aclGroup): void
+    {
+        array_walk($formPrivileges, static fn (AclPrivilege $privilege) => $privilege->setGroup($aclGroup));
     }
 }

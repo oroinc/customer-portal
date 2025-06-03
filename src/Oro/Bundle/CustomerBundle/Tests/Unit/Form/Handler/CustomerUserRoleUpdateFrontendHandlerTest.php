@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;
+use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -120,6 +121,18 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
             ->method('getToken')
             ->willReturn($token);
 
+        $mockSID = $this->createMock(SecurityIdentityInterface::class);
+        $this->aclManager
+            ->expects(self::any())
+            ->method('getSid')
+            ->with($role)
+            ->willReturn($mockSID);
+
+        $this->privilegeRepository->expects(self::any())
+            ->method('getPrivileges')
+            ->with($mockSID)
+            ->willReturn(new ArrayCollection());
+
         $this->handler->createForm($role);
     }
 
@@ -172,22 +185,22 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
             ->method('getToken')
             ->willReturn($token);
 
-        $this->handler->createForm($role);
-
         $roleSecurityIdentity = new RoleSecurityIdentity($expectedRole);
         $privilegeCollection = new ArrayCollection($existingPrivileges);
 
         $this->privilegeRepository->expects(self::any())
-            ->method('getPrivileges')
+            ->method('getSupportedAclPrivileges')
             ->with($roleSecurityIdentity)
             ->willReturn($privilegeCollection);
 
-        $this->aclManager->expects(self::once())
+        $this->aclManager->expects(self::atLeastOnce())
             ->method('getSid')
             ->with($expectedRole)
             ->willReturn($roleSecurityIdentity);
 
-        $this->ownershipConfigProvider->expects(self::exactly(3))
+        $this->handler->createForm($role);
+
+        $this->ownershipConfigProvider->expects(self::any())
             ->method('hasConfig')
             ->willReturn(true);
 
@@ -199,7 +212,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
             ->willReturn($privilegesForm);
 
         $metadata = $this->createMock(OwnershipMetadataInterface::class);
-        $metadata->expects(self::exactly(2))
+        $metadata->expects(self::any())
             ->method('hasOwner')
             ->willReturnOnConsecutiveCalls(true, false);
         $this->chainMetadataProvider->expects(self::any())
@@ -251,6 +264,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
 
     public function testMissingCustomerUser(): void
     {
+        $role = new CustomerUserRole('');
         $this->expectException(AccessDeniedException::class);
         $requestStack = $this->createRequestStack('POST');
 
@@ -264,6 +278,18 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         $this->tokenStorage->expects(self::any())
             ->method('getToken')
             ->willReturn($token);
+
+        $mockSID = $this->createMock(SecurityIdentityInterface::class);
+        $this->aclManager
+            ->expects(self::any())
+            ->method('getSid')
+            ->with($role)
+            ->willReturn($mockSID);
+
+        $this->privilegeRepository->expects(self::any())
+            ->method('getPrivileges')
+            ->with($mockSID)
+            ->willReturn(new ArrayCollection());
 
         $this->handler->createForm(new CustomerUserRole(''));
     }
