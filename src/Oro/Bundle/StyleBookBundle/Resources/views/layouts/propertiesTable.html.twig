@@ -1,0 +1,44 @@
+{#
+Rendering a table of component properties.
+#}
+{% macro renderTable(props, parameters) -%}
+    {% if props is defined and props|length > 0 %}
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="width:100px;">{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.name'|trans }}</th>
+                <th style="width:50px;">{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.type'|trans }}</th>
+                <th>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.description'|trans }}</th>
+                <th style="width:50px;">{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.default'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for prop in props %}
+            <tr>
+                <td><strong>{{ prop.label }}</strong></td>
+                <td><code class="language-markup">{{ prop.type }}</code></td>
+                <td>{{ prop.description|raw }}</td>
+                <td>
+                {% if prop.lang is defined %}
+                    <pre class="language-{{prop.lang}}" style="max-width: 600px;">
+                        <code class="style-book-group-element__code language-{{prop.lang}}">{{ prop.default }}</code>
+                    </pre>
+                {% else %}
+                    <code class="language-markup">{{ prop.default }}</code>
+                {% endif %}
+
+                {% if prop.example is defined %}
+                    <div class="style-book-group-element__example">
+                        <h5 class="style-book-group-element__example-title">Example:</h5>
+                        <pre class="language-javascript">
+                            <code class="style-book-group-element__code language-javascript">{{ prop.example }}</code>
+                        </pre>
+                    </div>
+                {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+{% endmacro %}

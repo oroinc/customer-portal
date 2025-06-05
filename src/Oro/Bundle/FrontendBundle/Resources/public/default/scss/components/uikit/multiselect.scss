@@ -1,0 +1,49 @@
+/* @theme: default; */
+
+.multiselect {
+    &__list {
+        display: grid;
+        width: 100%;
+        max-height: $datagrid-manager-filters-dropdown-max-height;
+        list-style: none;
+        overflow-y: auto;
+    }
+
+    &--offset {
+        padding-left: spacing('base');
+    }
+
+    &__item-checkbox {
+        min-height: 44px;
+        align-items: center;
+        display: inline-flex;
+    }
+
+    &__dropdown-menu {
+        padding: spacing('base');
+    }
+
+    &__search {
+        position: relative;
+        margin-bottom: spacing('base');
+    }
+
+    &__search-icon {
+        position: absolute;
+        top: 0;
+        left: spacing('md');
+        bottom: 0;
+        margin: auto;
+
+        color: $datagrid-manager-search-color;
+    }
+
+    &__search-input {
+        padding-inline: 40px;
+    }
+
+    &__no-found {
+        margin-top: spacing('xs');
+        text-align: center;
+    }
+}

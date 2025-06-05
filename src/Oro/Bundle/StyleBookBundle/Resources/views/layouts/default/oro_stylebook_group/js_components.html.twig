@@ -153,6 +153,335 @@
     </div>
 {% endblock %}
 
+
+{# Multiselect #}
+
+{% block _style_book_grid_element_multiselect_view_widget %}
+    <div class="grid grid-columns-2 style-book-group-element__preview">
+        <div class="grid-col">
+            <h3 class="heading-bottom-offset">{{ 'oro_stylebook.groups.jscomponent.multiselect_widget.examples.simple.title'|trans }}</h3>
+            <select
+                data-page-component-module="oroui/js/app/components/multiselect-component"
+                data-page-component-options="{{ {
+                    enabledFooter: true
+                }|json_encode }}"
+                multiple
+                class="hidden"
+            >
+                <option value="delta" disabled>Delta</option>
+                <option value="bravo" selected>Bravo</option>
+                <option value="mike">Mike</option>
+                <option value="kilo" disabled selected>Kilo</option>
+                <option value="echo">Echo</option>
+                <option value="romeo" selected>Romeo</option>
+                <option value="tango">Tango</option>
+                <option value="yankee">Yankee</option>
+            </select>
+        </div>
+
+        <div class="grid-col">
+            <pre class="language-html">
+                <code class="style-book-group-element__code language-html">
+                    {{ "<select
+                    data-page-component-module=\"oroui/js/app/components/multiselect-component\"
+                    data-page-component-options=\"{{ {
+                        enabledFooter: true
+                    }|json_encode }}\"
+                    multiple
+                    class=\"hidden\"
+                >
+                    <option value=\"delta\" disabled>Delta</option>
+                    <option value=\"bravo\" selected>Bravo</option>
+                    <option value=\"mike\">Mike</option>
+                    <option value=\"kilo\" disabled selected>Kilo</option>
+                    <option value=\"echo\">Echo</option>
+                    <option value=\"romeo\" selected>Romeo</option>
+                    <option value=\"tango\">Tango</option>
+                    <option value=\"yankee\">Yankee</option>
+                </select>"|escape }}
+                </code>
+            </pre>
+        </div>
+
+        <div class="grid-col">
+            <h3 class="heading-bottom-offset">{{ 'oro_stylebook.groups.jscomponent.multiselect_widget.examples.dropdown.title'|trans }}</h3>
+            <select
+                data-page-component-module="oroui/js/app/components/multiselect-component"
+                data-page-component-options="{{ {
+                    enabledFooter: true,
+                    dropdownMode: true
+                }|json_encode }}"
+                multiple
+                class="hidden"
+            >
+                <option value="delta" disabled>Delta</option>
+                <option value="bravo" selected>Bravo</option>
+                <option value="mike">Mike</option>
+                <option value="kilo" disabled selected>Kilo</option>
+                <option value="echo">Echo</option>
+                <option value="romeo" selected>Romeo</option>
+                <option value="tango">Tango</option>
+                <option value="yankee">Yankee</option>
+            </select>
+        </div>
+
+        <div class="grid-col">
+            <pre class="language-html">
+                <code class="style-book-group-element__code language-html">
+                    {{ "<select
+                    data-page-component-module=\"oroui/js/app/components/multiselect-component\"
+                    data-page-component-options=\"{{ {
+                        enabledFooter: true,
+                        dropdownMode: true
+                    }|json_encode }}\"
+                    multiple
+                    class=\"hidden\"
+                >
+                    <option value=\"delta\" disabled>Delta</option>
+                    <option value=\"bravo\" selected>Bravo</option>
+                    <option value=\"mike\">Mike</option>
+                    <option value=\"kilo\" disabled selected>Kilo</option>
+                    <option value=\"echo\">Echo</option>
+                    <option value=\"romeo\" selected>Romeo</option>
+                    <option value=\"tango\">Tango</option>
+                    <option value=\"yankee\">Yankee</option>
+                </select>"|escape }}
+                </code>
+            </pre>
+        </div>
+
+        <div class="grid-col">
+            <h3 class="heading-bottom-offset">{{ 'oro_stylebook.groups.jscomponent.multiselect_widget.examples.standaloneMode.title'|trans }}</h3>
+            <div
+                data-page-component-module="oroui/js/app/components/multiselect-component"
+                data-page-component-options="{{ {
+                    enabledHeader: false,
+                    enabledSearch: false,
+                    options: [
+                        {value: '1', label: 'Lorem', selected: true},
+                        {value: '2', label: 'Ipsum', disabled: true},
+                        {value: '3', label: 'Dolor'},
+                        {value: '4', label: 'Sit'},
+                        {value: '5', label: 'Amet', disabled: true, selected: true},
+                        {value: '6', label: 'Consectetur'},
+                        {value: '7', label: 'Adipiscing', selected: true},
+                        {value: '8', label: 'Elit'}
+                    ],
+                }|json_encode }}"></div>
+        </div>
+
+        <div class="grid-col">
+            <pre class="language-html">
+                <code class="style-book-group-element__code language-html">
+                    {{ "<div data-page-component-module=\"oroui/js/app/components/multiselect-component\"
+                data-page-component-options=\"{{ {
+                    enabledHeader: false,
+                    enabledSearch: false,
+                    options: [
+                        {value: '1', label: 'Lorem', selected: true},
+                        {value: '2', label: 'Ipsum', disabled: true},
+                        {value: '3', label: 'Dolor'},
+                        {value: '4', label: 'Sit'},
+                        {value: '5', label: 'Amet', disabled: true, selected: true},
+                        {value: '6', label: 'Consectetur'},
+                        {value: '7', label: 'Adipiscing', selected: true},
+                        {value: '8', label: 'Elit'}
+                    ],
+                }|json_encode }}\"></div>"|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_multiselect_view_options_widget %}
+    {% import '@OroStyleBook/layouts/propertiesTable.html.twig' as propertiesTable %}
+    <h3 class="style-book-group-element__title">{{ 'oro_stylebook.groups.jscomponent.multiselect_widget.definition'|trans|raw }}</h3>
+
+    {{ propertiesTable.renderTable([
+        {
+            label: 'options',
+            type: 'Array',
+            default: '[]',
+            description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.options'|trans,
+            example: "
+                options: [
+                    {value: '1', label: 'Option 1'},
+                    {value: '2', label: 'Option 2', selected: true},
+                    {value: '3', label: 'Option 3', disabled: true, selected: true}
+                ]
+            "
+        },
+        {
+            label: 'enabledHeader',
+            type: 'Boolean',
+            default: 'true',
+            description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.enabledHeader'|trans
+        },
+        {
+            label: 'enabledFooter',
+            type: 'Boolean',
+            default: 'false',
+            description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.enabledFooter'|trans
+        },
+        {
+            label: 'enabledSearch',
+            type: 'Boolean',
+            default: 'true',
+            description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.enabledSearch'|trans
+        },
+        {
+            label: 'maxItemsForShowSearchBar',
+            type: 'Number',
+            default: '7',
+            description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.maxItemsForShowSearchBar'|trans
+        },
+        {
+            label: 'dropdownMode',
+            type: 'Boolean',
+            default: 'false',
+            description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.dropdownMode'|trans
+        },
+        {
+            label: 'dropdownToggleLabel',
+            type: 'String',
+            default: 'Open Select',
+            description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.dropdownToggleLabel'|trans
+        },
+        {
+            label: 'dropdownMenuLabel',
+            type: 'String',
+            default: '-',
+            description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.dropdownMenuLabel'|trans
+        },
+        {
+            label: 'dropdownToggleIcon',
+            type: 'String',
+            default: '-',
+            description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.dropdownToggleIcon'|trans
+        },
+        {
+            label: 'cssConfig',
+            type: 'Object',
+            lang: 'javascript',
+            default: '
+{
+    "strategy": "extend",
+    "main":"multiselect-view",
+    "list":"multiselect__list",
+    "listOffset":"multiselect--offset",
+    "item":"multiselect__item",
+    "itemCheckboxLabel":"checkbox-label multiselect__item-checkbox",
+    "header":"multiselect__header",
+    "headerCheckboxLabel":"checkbox-label multiselect__item-checkbox",
+    "headerHidden": "hidden",
+    "footer":"multiselect__footer",
+    "footerResetBtn":"btn btn--flat",
+    "footerHidden":"hidden",
+    "searchMain": "multiselect__search",
+    "searchInput": "input input--full input-with-search multiselect__search-input",
+    "searchResetBtn": "btn btn--simple-colored clear-search-button",
+    "searchResetBtnHide": "hidden",
+    "searchIcon": "multiselect__search-icon",
+    "dropdown":"dropdown",
+    "dropdownToggleBtn":"btn btn--outlined dropdown-toggle",
+    "dropdownMenu":"dropdown-menu multiselect__dropdown-menu",
+    "dropdownMenuLabel":"multiselect__dropdown-menu-title"
+}',
+            description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.cssConfig'|trans
+        }
+    ]) }}
+{% endblock %}
+
+{% block _style_book_grid_element_multiselect_view_playground_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-page-component-playground',
+        'data-page-component-options': {
+            viewConstructor: 'oroui/js/app/components/multiselect-component',
+            viewOptions: {
+                options: [
+                    {value: '1', label: 'Option 1'},
+                    {value: '2', label: 'Option 2', selected: true},
+                    {value: '3', label: 'Option 3'},
+                    {value: '4', label: 'Option 4'},
+                    {value: '5', label: 'Option 5', disabled: true, selected: true}
+                ]
+            },
+            ignoreProps: ['el', 'options'],
+            renderAfter: 'action',
+            props: {
+                enabledHeader: true,
+                enabledFooter: false,
+                enabledSearch: true,
+                dropdownMode: false,
+                maxItemsForShowSearchBar: 7,
+                dropdownToggleLabel: 'Open Select',
+                dropdownMenuLabel: '',
+                dropdownToggleIcon: ''
+            }
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            <div data-example-view data-action="render" style="max-width: 500px;"></div>
+        </div>
+
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_multiselect_view_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props grid" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_multiselect_view_html_widget %}
+    {% set source_code %}
+        <div class="example-container">
+            <select
+                data-page-component-module="oroui/js/app/components/multiselect-component"
+                multiple
+            >
+                <option value="1" disabled>Option 1</option>
+                <option value="2" selected>Option 2</option>
+                <option value="3" selected>Option 3</option>
+                <option value="4">Option 4</option>
+            </select>
+
+            <!-- Use shortcut "data-page-component-multiselect" -->
+            <select data-page-component-multiselect data-skip-input-widgets multiple>
+                <option value="1" disabled>Option 1</option>
+                <option value="2" selected>Option 2</option>
+                <option value="3" selected>Option 3</option>
+                <option value="4">Option 4</option>
+            </select>
+
+            <!-- Use shortcut "data-page-component-multiselect-dropdown" -->
+            <select data-page-component-multiselect-dropdown data-skip-input-widgets multiple>
+                <option value="1" disabled>Option 1</option>
+                <option value="2" selected>Option 2</option>
+                <option value="3" selected>Option 3</option>
+                <option value="4">Option 4</option>
+            </select>
+        </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-markup">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
 {# LoadingMaskView #}
 
 {% block _style_book_grid_element_loading_mask_widget %}
@@ -383,116 +712,107 @@
 {# Collapse Widget #}
 
 {% block _group_element_grid_view_collapse_widgets_options_widget %}
+    {% import '@OroStyleBook/layouts/propertiesTable.html.twig' as propertiesTable %}
     <p>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.definition'|trans|oro_html_sanitize }}</p>
     <h3 class="style-book-group-element__title">{{ 'oro_stylebook.options'|trans }}</h3>
-    <table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-            <th style="width:100px;">{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.name'|trans }}</th>
-            <th style="width:50px;">{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.type'|trans }}</th>
-            <th style="width:50px;">{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.default'|trans }}</th>
-            <th>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.description'|trans }}</th>
-        </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>parent</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.selector'|trans }}</td>
-                <td>-</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.parent'|trans }}</td>
-            </tr>
-            <tr>
-                <td>toggle</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.boolean'|trans }}</td>
-                <td>true</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.toggle'|trans }}</td>
-            </tr>
-            <tr>
-                <td>stateId</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
-                <td>-</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.stateId'|trans }}</td>
-            </tr>
-            <tr>
-                <td>checkOverflow</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.boolean'|trans }}</td>
-                <td>false</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.checkOverflow'|trans|oro_html_sanitize }}</td>
-            </tr>
-            <tr>
-                <td>hideClass</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
-                <td>-</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.hideClass'|trans|oro_html_sanitize }}</td>
-            </tr>
-            <tr>
-                <td>showClass</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
-                <td>-</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.showClass'|trans|oro_html_sanitize }}</td>
-            </tr>
-            <tr>
-                <td>triggerHideClass</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
-                <td>-</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerHideClass'|trans|oro_html_sanitize }}</td>
-            </tr>
-            <tr>
-                <td>triggerShowClass</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
-                <td>-</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerShowClass'|trans|oro_html_sanitize }}</td>
-            </tr>
-            <tr>
-                <td>triggerIconShow</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
-                <td>-</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerIconShow'|trans|oro_html_sanitize }}</td>
-            </tr>
-            <tr>
-                <td>triggerIconHide</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
-                <td>-</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerIconHide'|trans|oro_html_sanitize }}</td>
-            </tr>
-            <tr>
-                <td>collapsedTitle</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
-                <td>-</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.collapsedTitle'|trans|oro_html_sanitize }}</td>
-            </tr>
-            <tr>
-                <td>expandedTitle</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
-                <td>-</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.expandedTitle'|trans|oro_html_sanitize }}</td>
-            </tr>
-            <tr>
-                <td>collapsedAriaLabel</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
-                <td>-</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.collapsedAriaLabel'|trans|oro_html_sanitize }}</td>
-            </tr>
-            <tr>
-                <td>expandedAriaLabel</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
-                <td>-</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.expandedAriaLabel'|trans|oro_html_sanitize }}</td>
-            </tr>
-            <tr>
-                <td>collapsedText</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
-                <td>-</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.collapsedText'|trans|oro_html_sanitize }}</td>
-            </tr>
-            <tr>
-                <td>expandedText</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans }}</td>
-                <td>-</td>
-                <td>{{ 'oro_stylebook.groups.jscomponent.collapse_widgets.options.expandedText'|trans|oro_html_sanitize }}</td>
-            </tr>
-        </tbody>
-    </table>
+    {{ propertiesTable.renderTable([
+        {
+            label: 'parent',
+            type: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.selector'|trans,
+            default: '-',
+            description: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.parent'|trans
+        },
+        {
+            label: 'toggle',
+            type: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.boolean'|trans,
+            default: 'true',
+            description: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.toggle'|trans
+        },
+        {
+            label: 'stateId',
+            type: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans,
+            default: '-',
+            description: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.stateId'|trans
+        },
+        {
+            label: 'checkOverflow',
+            type: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.boolean'|trans,
+            default: 'false',
+            description: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.checkOverflow'|trans|oro_html_sanitize
+        },
+        {
+            label: 'hideClass',
+            type: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans,
+            default: '-',
+            description: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.hideClass'|trans|oro_html_sanitize
+        },
+        {
+            label: 'showClass',
+            type: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans,
+            default: '-',
+            description: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.showClass'|trans|oro_html_sanitize
+        },
+        {
+            label: 'triggerHideClass',
+            type: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans,
+            default: '-',
+            description: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerHideClass'|trans|oro_html_sanitize
+        },
+        {
+            label: 'triggerShowClass',
+            type: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans,
+            default: '-',
+            description: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerShowClass'|trans|oro_html_sanitize
+        },
+        {
+            label: 'triggerIconShow',
+            type: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans,
+            default: '-',
+            description: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerIconShow'|trans|oro_html_sanitize
+        },
+        {
+            label: 'triggerIconHide',
+            type: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans,
+            default: '-',
+            description: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.triggerIconHide'|trans|oro_html_sanitize
+        },
+        {
+            label: 'collapsedTitle',
+            type: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans,
+            default: '-',
+            description: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.collapsedTitle'|trans|oro_html_sanitize
+        },
+        {
+            label: 'expandedTitle',
+            type: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans,
+            default: '-',
+            description: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.expandedTitle'|trans|oro_html_sanitize
+        },
+        {
+            label: 'collapsedAriaLabel',
+            type: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans,
+            default: '-',
+            description: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.collapsedAriaLabel'|trans|oro_html_sanitize
+        },
+        {
+            label: 'expandedAriaLabel',
+            type: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans,
+            default: '-',
+            description: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.expandedAriaLabel'|trans|oro_html_sanitize
+        },
+        {
+            label: 'collapsedText',
+            type: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans,
+            default: '-',
+            description: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.collapsedText'|trans|oro_html_sanitize
+        },
+        {
+            label: 'expandedText',
+            type: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.string'|trans,
+            default: '-',
+            description: 'oro_stylebook.groups.jscomponent.collapse_widgets.options.expandedText'|trans|oro_html_sanitize
+        }
+    ]) }}
 {% endblock %}
 
 {# Simple Collapse Trigger #}

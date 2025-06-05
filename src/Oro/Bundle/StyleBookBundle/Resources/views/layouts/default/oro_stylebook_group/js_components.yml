@@ -67,6 +67,34 @@ layout:
                             - { anchor: 'loading_mask-js', label: oro_stylebook.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_loading_mask_js'}
                             - { anchor: 'loading_mask-mediator', label: oro_stylebook.groups.jscomponent.tabs.howtouse.mediator, active: false, widget: 'style_book_grid_element_loading_mask_mediator'}
 
+                # Multiselect View
+                group_element_grid_multiselect_view:
+                    blockType: group_element
+                    options:
+                        anchor: multiselect
+                        label: oro_stylebook.groups.jscomponent.multiselect_widget.title
+                group_element_item_multiselect_view:
+                    blockType: group_js_element_item
+                    options:
+                        source: false
+                        description: oro_stylebook.groups.jscomponent.multiselect_widget.description
+                style_book_grid_element_multiselect_view:
+                    blockType: block
+
+                style_book_grid_element_multiselect_view_options:
+                    blockType: container
+
+                style_book_grid_element_multiselect_view_playground:
+                    blockType: container
+
+                style_book_grid_element_multiselect_view_tabs:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                            - { anchor: 'config-1', label: oro_stylebook.groups.jscomponent.tabs.howtouse.config, active: true, widget: 'style_book_grid_element_multiselect_view_config'}
+                            - { anchor: 'add-in-html', label: oro_stylebook.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_multiselect_view_html'}
+
+
                 # Zoom Widget View
                 group_element_grid_zoom_widget:
                     blockType: group_element
@@ -560,6 +588,13 @@ layout:
                         group_element_item_dialog_widget:
                             style_book_grid_element_dialog_widget:
                                 group_tabs_dialog_widget: ~
+
+                    group_element_grid_multiselect_view:
+                        group_element_item_multiselect_view:
+                            style_book_grid_element_multiselect_view: ~
+                            style_book_grid_element_multiselect_view_options: ~
+                            style_book_grid_element_multiselect_view_playground:
+                                style_book_grid_element_multiselect_view_tabs: ~
 
                     group_element_grid_view_collapse_widgets:
                         group_element_item_collapse_widgets_description:

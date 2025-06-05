@@ -96,22 +96,22 @@ oro_stylebook:
                     <strong>Destructive:</strong> used for the standalone destructive actions like Remove and Delete. If some delete action is repeated many times in the same context (e.g., in every table row), it should NOT use this style because it would create a lot of unnecessary visual noise and draw too much attention.'
                 icon_button_without_bg_default:
                     title: Without a background in the default state
-                    description: 'Used for secondary actions in cases when: <br> 
-                    1) the background would create a lot of unnecessary visual noise (e.g., when the icon is repeated many times in the same context); <br> 
-                    2) visually there isn’t enough space to include the background.<br><br> 
+                    description: 'Used for secondary actions in cases when: <br>
+                    1) the background would create a lot of unnecessary visual noise (e.g., when the icon is repeated many times in the same context); <br>
+                    2) visually there isn’t enough space to include the background.<br><br>
                     <strong><i>Important: with or without a visible background, the icon button’s container should not be smaller than 44x44 px.</i></strong> <br><br>
-                    Different views:<br> 
-                    On light background <strong>(default)</strong><br> 
-                    On light background <strong>(destructive)</strong><br> 
+                    Different views:<br>
+                    On light background <strong>(default)</strong><br>
+                    On light background <strong>(destructive)</strong><br>
                     On dark background <strong>(inverse)</strong>'
                 icon_button_without_bg_all_states:
                     title: Without a background in ALL states
-                    description: 'Used for secondary actions in cases when: <br> 
-                    1) the background would create a lot of unnecessary visual noise (e.g., when the icon is repeated many times in the same context); <br> 
+                    description: 'Used for secondary actions in cases when: <br>
+                    1) the background would create a lot of unnecessary visual noise (e.g., when the icon is repeated many times in the same context); <br>
                     2) visually there isn’t enough space to include the background.<br>
                     3) if in containers where these icon buttons are used, there are compensatory paddings, and so these buttons would break the visual alignment if they had a visible background even just on hover.<br><br>
-                    Different views:<br> 
-                    On light background <strong>(default)</strong><br> 
+                    Different views:<br>
+                    On light background <strong>(default)</strong><br>
                     On dark background <strong>(inverse)</strong>'
                 icon_button_circle:
                     title: Icon Circle Button
@@ -168,6 +168,28 @@ oro_stylebook:
             dialog_widget:
                 title: 'Dialog Widget'
                 description: 'The dialog widget provides more flexible configuration of the pop-up panel. You can optionally make the dialog modal to restrict interaction with the background page while the dialog is open. You can  control the text shown in the dialog, and the size.'
+            multiselect_widget:
+                title: 'Multiselect View'
+                description: 'A flexible multi-select component for managing the selection of multiple items, supporting both checkbox and dropdown selection modes. Features include a built-in header for select/deselect-all functionality, an optional footer for additional actions, and state management for tracking selected items. The component works with or without an underlying <select> element, offers configurable styling through CSS customization, supports disabled items and default selections, and includes collection management for tracking item states.'
+                definition: 'MultiSelect Page Component Options <code class="language-markup">oroui/js/app/components/multiselect-component</code>'
+                examples:
+                    simple:
+                        title: 'Simple Mode'
+                    dropdown:
+                        title: 'Multiselect Dropdown Mode'
+                    standaloneMode:
+                        title: 'Standalone Mode'
+                options:
+                    options: 'Array of options for multiselect for select Standalone Mode'
+                    enabledHeader: 'Enable header and ability to select all items or diselect all items'
+                    enabledFooter: 'Enable footer in multiselect'
+                    enabledSearch: 'Enable search field in multiselect'
+                    maxItemsForShowSearchBar: 'Set the maximum number of items to show the search bar'
+                    dropdownMode: 'Enable dropdown mode'
+                    dropdownToggleLabel: 'Label for dropdown toggle button'
+                    dropdownMenuLabel: 'Label for dropdown menu'
+                    dropdownToggleIcon: 'Icon for dropdown toggle button'
+                    cssConfig: 'Define dictionary for put css class names to diferent part of multiselect. Add <code class="language-markup">strategy: "override"</code> to fully override particular property.'
             collapse_widgets:
                 title: 'Collapse Widgets'
                 description: 'The collapse widget toggles the content visibility of the content.'
