@@ -18,12 +18,12 @@ use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
  */
 class LoadCustomerUserRoles extends AbstractRolesData
 {
+    public const ROLES_FILE_NAME = 'frontend_roles.yml';
     public const ADMINISTRATOR = 'ADMINISTRATOR';
     public const BUYER = 'BUYER';
     public const WEBSITE_DEFAULT_ROLE = 'website_default_role';
     public const WEBSITE_GUEST_ROLE = 'website_guest_role';
 
-    protected const ROLES_FILE_NAME = 'frontend_roles.yml';
 
     private ?array $websites = null;
 
