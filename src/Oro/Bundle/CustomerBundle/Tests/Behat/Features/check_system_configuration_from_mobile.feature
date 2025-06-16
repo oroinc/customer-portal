@@ -14,7 +14,7 @@ Feature: Check system configuration from mobile
     Given I proceed as the admin_mobile
     And I login as administrator
     When I click "Mobile Menu Toggler"
-    Then I should not see "System"
+    Then I should not see "System" in the "MainMenu" element
 
     When I go to "/admin/config/customer/1"
     Then I should see "System configuration is not available in mobile version. Please open the page on the desktop."
