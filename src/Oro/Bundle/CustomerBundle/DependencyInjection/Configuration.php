@@ -30,6 +30,8 @@ class Configuration implements ConfigurationInterface
     public const string VALIDATE_SHIPPING_ADDRESSES_IN_BACKOFFICE = 'validate_shipping_addresses__backoffice';
     public const string VALIDATE_BILLING_ADDRESSES_IN_BACKOFFICE = 'validate_billing_addresses__backoffice';
 
+    public const string ANONYMOUS_CUSTOMER_GROUP = 'anonymous_customer_group';
+
     #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
@@ -40,7 +42,7 @@ class Configuration implements ConfigurationInterface
             $rootNode,
             [
                 'default_customer_owner' => ['type' => 'string', 'value' => 1],
-                'anonymous_customer_group' => ['type' => 'integer', 'value' => null],
+                self::ANONYMOUS_CUSTOMER_GROUP => ['type' => 'integer', 'value' => null],
                 'registration_allowed' => ['type' => 'boolean', 'value' => true],
                 'registration_link_enabled' => ['type' => 'boolean', 'value' => true],
                 'confirmation_required' => ['type' => 'boolean', 'value' => true],

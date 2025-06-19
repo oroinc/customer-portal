@@ -12,7 +12,7 @@
         transition: $sticky-panel-transition;
 
         &.in-sticky.scroll-down {
-            transform: translateY(calc(var(--sticky-page-header-group-offset-y, 0px) * -1));
+            transform: translateY(calc(var(--sticky-page-header-group-offset-y, 0) * -1));
         }
     }
 

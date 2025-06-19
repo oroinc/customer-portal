@@ -2,7 +2,6 @@
 
 @use 'sass:color';
 
-// Base styles
 $main-menu-display: flex !default;
 $main-menu-flex-grow: 0 !default;
 $main-menu-gap: 0 spacing('xxl') !default;
@@ -89,7 +88,7 @@ $main-menu-item-flex-grow: 0 !default;
 $main-menu-actions-display: grid !default;
 $main-menu-actions-not-only-child-grid-template-columns: 1fr $main-menu-button-arrow-width !default;
 
-$main-menu-divider-border-width: 1px 0 0 0 !default;
+$main-menu-divider-border-width: 1px 0 0 !default;
 $main-menu-divider-border-style: solid !default;
 $main-menu-divider-border-color: get-color('neutral', 'grey1') !default;
 $main-menu-divider-margin: 0 !default;
@@ -117,10 +116,10 @@ $main-menu-sublist-floated-margin-bottom: -#{spacing('md')} !default;
 $main-menu-sublist-container-floated-position: absolute !default;
 $main-menu-sublist-container-floated-right: auto !default;
 
-$main-menu-sublist-container-centered-left: max(var(--main-menu-offset-width, 0) / 2, 0px) !default;
+$main-menu-sublist-container-centered-left: max(var(--main-menu-offset-width, 0) / 2, 0) !default;
 $main-menu-sublist-container-centered-translate:
     translateX(
-        max(0px - var(--main-menu-offset-start, 0) - var(--main-menu-offset-width, 0) / 2, -50%)
+        max(0 - var(--main-menu-offset-start, 0) - var(--main-menu-offset-width, 0) / 2, -50%)
     ) !default;
 $main-menu-sublist-container-centered-translate-rtl:
     translateX(

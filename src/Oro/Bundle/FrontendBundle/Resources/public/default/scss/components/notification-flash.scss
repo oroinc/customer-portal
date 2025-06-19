@@ -43,7 +43,7 @@
         padding: $notification-flash-content-offset;
         flex: 1 1 auto;
 
-        word-break: break-word;
+        overflow-wrap: break-word;
 
         a {
             color: inherit;

@@ -3,7 +3,7 @@
 @use 'sass:list';
 @use 'sass:string';
 
-$css-breakpoints: null;
+$css-breakpoints: ();
 
 @each $key, $value in $breakpoints {
     $css-breakpoints: list.append($css-breakpoints, '"#{$key}":"#{$value}"', $separator: comma);

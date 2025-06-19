@@ -270,7 +270,7 @@
             height: 100%;
             padding: $datagrid-manager-filters-dropdown-content-inner-offset;
 
-            word-break: break-word;
+            overflow-wrap: break-word;
 
             @include hover-focus() {
                 background-color: $datagrid-manager-filters-dropdown-content-hover-bg-color;

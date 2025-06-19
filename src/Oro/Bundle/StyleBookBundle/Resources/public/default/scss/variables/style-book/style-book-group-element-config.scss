@@ -40,7 +40,7 @@ $style-book-group-element-name-background-image:
     linear-gradient(45deg, transparent 75%, #ccc 75%),
     linear-gradient(-45deg, transparent 75%, #ccc 75%) !default;
 $style-book-group-element-name-background-size: 10px 10px !default;
-$style-book-group-element-name-background-position: 0 0, 0 0, 0 5px, 5px -5px, -5px 0px !default;
+$style-book-group-element-name-background-position: 0 0, 0 0, 0 5px, 5px -5px, -5px 0 !default;
 
 $style-book-group-element-typography-color: color.adjust(
     get-color('neutral', 'grey2'),

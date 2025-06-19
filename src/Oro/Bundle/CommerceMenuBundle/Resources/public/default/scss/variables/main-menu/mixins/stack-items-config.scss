@@ -9,7 +9,7 @@ $main-menu-multi-actions-height: 44px !default;
 $main-menu-multi-actions-display: grid !default;
 $main-menu-multi-actions-grid-template-columns: auto auto 1fr 32px 20px !default;
 
-$main-menu-multi-actions-has-sublist-background-color: currentColor !default;
+$main-menu-multi-actions-has-sublist-background-color: currentcolor !default;
 $main-menu-multi-actions-has-sublist-icon: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path fill="%23000" fill-rule="evenodd" d="M8.293 5.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414L13.586 12 8.293 6.707a1 1 0 0 1 0-1.414Z"></path></svg>') !default;
 $main-menu-multi-actions-has-sublist-icon-size: 20px !default;
 $main-menu-multi-actions-has-sublist-display: flex !default;
