@@ -7,6 +7,12 @@
     &__input-container {
         flex-basis: 100%;
         position: relative;
+
+        .backdrop-view.show {
+            background-color: $search-widget-backdrop-view-background-color;
+            background-image: $search-widget-backdrop-view-background-image;
+            background-repeat: $search-widget-backdrop-view-background-repeat;
+        }
     }
 
     &__input {
