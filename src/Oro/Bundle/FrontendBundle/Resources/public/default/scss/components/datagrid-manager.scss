@@ -329,6 +329,21 @@
         // stylelint-disable-next-line declaration-no-important
         display: block !important;
     }
+
+    &--overlay {
+        .dropdown-menu {
+            display: block;
+            position: relative;
+            top: auto;
+            box-shadow: none;
+            padding: 0;
+        }
+
+        .datagrid-manager__title,
+        .sidebar-filter-manager-menu__dropdown-menu-header {
+            display: none;
+        }
+    }
 }
 
 @include breakpoint('mobile-big-min') {

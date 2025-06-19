@@ -26,7 +26,6 @@ configs:
     orofrontend/js/app/components/frontend-datagrid-component: {}
     orofrontend/js/app/datafilter/actions/fullscreen-filters-action: {}
     orofrontend/js/app/datafilter/frontend-collection-filters-manager: {}
-    orofrontend/js/app/datafilter/frontend-manage-filters-decorator: {}
     orofrontend/js/app/datafilter/frontend-multiselect-decorator: {}
     orofrontend/js/app/datafilter/fullscreen-filters: {}
     orofrontend/js/app/datafilter/plugins/frontend-filters-plugin: {}

@@ -65,51 +65,12 @@
         &__footer {
             background-color: $filter-toggle-mode-datagrid-manager-background-color;
         }
-
-        .dropdown-menu {
-            // stylelint-disable-next-line declaration-no-important
-            max-width: 100% !important;
-            box-shadow: none;
-            padding: 0;
-            margin: 0;
-            height: 100%;
-            background: transparent;
-
-            /* rtl:raw:
-            left: auto !important;
-            */
-        }
     }
 
     .filter-container {
         display: grid;
         grid-template-rows: auto 1fr;
         height: 100%;
-
-        .datagrid-manager__header {
-            > div {
-                display: flex;
-                justify-content: space-between;
-                flex-wrap: wrap;
-                align-items: center;
-                background-color: $filter-toggle-mode-datagrid-manager-background-color;
-            }
-        }
-
-        > .datagrid-manager {
-            position: absolute;
-            height: 100%;
-
-            .datagrid-manager__header {
-                margin-top: -46px;
-                padding-right: 14px;
-            }
-
-            .datagrid-manager-search {
-                margin-right: spacing('xmd');
-                margin-top: spacing('base');
-            }
-        }
     }
 
     // Set a maximum width to crop filters with long names
@@ -314,5 +275,22 @@
 
     .filter-update {
         margin-inline-start: auto;
+    }
+}
+
+.sidebar-filter-manager-menu {
+    &__dropdown-menu {
+        inset: 0;
+        padding: 0;
+        box-shadow: none;
+    }
+
+    &__dropdown-menu-header {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: center;
+        padding: 2px spacing('base') - 2px spacing('sm') 0;
+        margin-inline-start: -10px;
     }
 }
