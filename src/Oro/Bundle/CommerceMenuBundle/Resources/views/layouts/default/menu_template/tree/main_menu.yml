@@ -19,7 +19,6 @@ layout:
                             data-scroll: true
                             role: 'menu'
                             data-role: 'sub-menu'
-                            aria-hidden: 'true'
                 menu_item_inner_container:
                     blockType: container
                 menu_second_level_item_head:

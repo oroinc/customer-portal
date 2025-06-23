@@ -27,7 +27,6 @@ layout:
                     options:
                         attr:
                             data-role: 'sub-menu'
-                            aria-hidden: 'true'
                 mega_menu_depth_1_close:
                     blockType: block
                     prepend: false
