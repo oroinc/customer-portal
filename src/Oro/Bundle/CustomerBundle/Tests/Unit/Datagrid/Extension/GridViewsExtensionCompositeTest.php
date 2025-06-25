@@ -4,6 +4,8 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Datagrid\Extension;
 
 use Oro\Bundle\CustomerBundle\Datagrid\Extension\GridViewsExtensionComposite;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\MetadataObject;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
@@ -11,6 +13,7 @@ use Oro\Bundle\DataGridBundle\Extension\GridViews\GridViewsExtension;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
 {
@@ -45,13 +48,19 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
      * @param string|AbstractUser $user
      * @param bool $isFrontend
      */
-    public function testIsApplicable($user, $isFrontend)
+    public function testIsApplicable(string|AbstractUser $user, ?TokenInterface $token, bool $isFrontend)
     {
         $config = DatagridConfiguration::create([]);
 
+        $anonymousToken = (bool) $token;
         $this->tokenAccessor->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
+
+        $this->tokenAccessor->expects($this->exactly((int) !$anonymousToken))
             ->method('getUser')
             ->willReturn($user);
+
         $this->defaultGridViewsExtension->expects($this->exactly((int) !$isFrontend))
             ->method('isApplicable')
             ->with($config)
@@ -70,9 +79,14 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
      * @param string|AbstractUser $user
      * @param bool $isFrontend
      */
-    public function testGetPriority($user, $isFrontend)
+    public function testGetPriority(string|AbstractUser $user, ?TokenInterface $token, bool $isFrontend)
     {
+        $anonymousToken = (bool) $token;
         $this->tokenAccessor->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
+
+        $this->tokenAccessor->expects($this->exactly((int) !$anonymousToken))
             ->method('getUser')
             ->willReturn($user);
         $this->defaultGridViewsExtension->expects($this->exactly((int) !$isFrontend))
@@ -91,12 +105,17 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
      * @param string|AbstractUser $user
      * @param bool $isFrontend
      */
-    public function testVisitMetadata($user, $isFrontend)
+    public function testVisitMetadata(string|AbstractUser $user, ?TokenInterface $token, bool $isFrontend)
     {
         $config = DatagridConfiguration::create([]);
         $data = MetadataObject::create([]);
 
+        $anonymousToken = (bool) $token;
         $this->tokenAccessor->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
+
+        $this->tokenAccessor->expects($this->exactly((int) !$anonymousToken))
             ->method('getUser')
             ->willReturn($user);
         $this->defaultGridViewsExtension->expects($this->exactly((int) !$isFrontend))
@@ -125,11 +144,16 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
      * @param string|AbstractUser $user
      * @param bool $isFrontend
      */
-    public function testSetParameters($user, $isFrontend)
+    public function testSetParameters(string|AbstractUser $user, ?TokenInterface $token, bool $isFrontend)
     {
         $params = new ParameterBag();
 
+        $anonymousToken = (bool) $token;
         $this->tokenAccessor->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
+
+        $this->tokenAccessor->expects($this->exactly((int) !$anonymousToken))
             ->method('getUser')
             ->willReturn($user);
         $this->defaultGridViewsExtension->expects($this->exactly((int) !$isFrontend))
@@ -160,14 +184,17 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
         return [
             'anonymous' => [
                 'user' => 'anonymous',
-                'isFrontend' => false
+                'token' => new AnonymousCustomerUserToken('anon', [], new CustomerVisitor()),
+                'isFrontend' => true
             ],
             'instance of User' => [
                 'user' => new User(),
+                'token' => null,
                 'isFrontend' => false
             ],
             'instance of CustomerUser' => [
                 'user' => new CustomerUser(),
+                'token' => null,
                 'isFrontend' => true
             ]
         ];

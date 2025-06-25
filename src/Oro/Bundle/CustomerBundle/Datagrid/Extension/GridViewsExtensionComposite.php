@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Datagrid\Extension;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserInterface;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\MetadataObject;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
@@ -79,6 +80,11 @@ class GridViewsExtensionComposite extends BaseGridViewsExtension
      */
     protected function isFrontend()
     {
+        $token = $this->tokenAccessor->getToken();
+        if ($token instanceof AnonymousCustomerUserToken) {
+            return (bool) $token->getVisitor();
+        }
+
         return $this->tokenAccessor->getUser() instanceof CustomerUserInterface;
     }
 }
