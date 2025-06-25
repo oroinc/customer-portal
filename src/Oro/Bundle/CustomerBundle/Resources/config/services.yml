@@ -1565,3 +1565,10 @@ services:
         tags:
             - { name: doctrine.orm.entity_listener, entity: Oro\Bundle\OrganizationBundle\Entity\Organization, event: prePersist }
             - { name: doctrine.event_listener, event: postFlush }
+
+    oro_customer.datagrid.extension.abstract:
+        class: Oro\Bundle\CustomerBundle\Datagrid\Extension\AbstractCustomerVisitorExtension
+        abstract: true
+        arguments:
+            - '@oro_security.token_accessor'
+            - '@oro_frontend.request.frontend_helper'
