@@ -7,24 +7,51 @@ use Oro\Bundle\CustomerBundle\Provider\RedirectAfterLoginProvider;
 use Oro\Bundle\SecurityBundle\Util\SameSiteUrlHelper;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Routing\RouterInterface;
 
 final class SignInTargetPathProviderTest extends TestCase
 {
     private RedirectAfterLoginProvider&MockObject $redirectTargetPageProvider;
     private SameSiteUrlHelper&MockObject $sameSiteUrlHelper;
+    private RouterInterface&MockObject $router;
 
     private SignInTargetPathProvider $provider;
 
     #[\Override]
     protected function setUp(): void
     {
-        $this->redirectTargetPageProvider = $this->createMock(RedirectAfterLoginProvider::class);
-        $this->sameSiteUrlHelper = $this->createMock(SameSiteUrlHelper::class);
+        $this->redirectTargetPageProvider = self::createMock(RedirectAfterLoginProvider::class);
+        $this->sameSiteUrlHelper = self::createMock(SameSiteUrlHelper::class);
+        $this->router = self::createMock(RouterInterface::class);
 
         $this->provider = new SignInTargetPathProvider(
             $this->redirectTargetPageProvider,
             $this->sameSiteUrlHelper,
+            $this->router
         );
+    }
+
+    public function testGetRootPath(): void
+    {
+        $this->provider->addExcludedRoute('excluded_route');
+        $this->redirectTargetPageProvider->expects(self::once())
+            ->method('getRedirectTargetUrl')
+            ->willReturn('/excluded/route');
+
+        $this->sameSiteUrlHelper->expects(self::never())
+            ->method('isSameSiteUrl');
+
+        $this->router->expects(self::once())
+            ->method('match')
+            ->with('/excluded/route')
+            ->willReturn(['_route' => 'excluded_route']);
+
+        $this->router->expects(self::once())
+            ->method('generate')
+            ->with('oro_frontend_root')
+            ->willReturn('/root');
+
+        self::assertEquals('/root', $this->provider->getTargetPath());
     }
 
     public function testGetTargetPath(): void

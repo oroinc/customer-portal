@@ -60,14 +60,12 @@ Feature: Reset customer user password
     Then I should see "Password successfully changed"
 
   Scenario: Login with new password
-    Given I proceed as the Unauthorized
-    And I am on the homepage
-    And I click "Log In"
-    And I fill "Customer Login Form" with:
+    Given I fill "Customer Login Form" with:
       | Email    | NancyJSallee@example.org |
       | Password | NancyJSallee@example.org1 |
     When I click "Log In Button"
-    Then I should see "Nancy Sallee"
+    Then I should not see "404 Not Found"
+    And should see "Nancy Sallee"
     And I click "Account Dropdown"
     And I click "Sign Out"
 
