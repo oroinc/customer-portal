@@ -1,6 +1,12 @@
 /* @theme: default; */
 
+@use 'sass:math';
+
 @mixin main-menu-stack-mobile-title($namespace: '&', $offset: 44px) {
+    @if math.unit($offset) == '' {
+        $offset: $offset + 'px';
+    }
+
     #{$namespace}__inner {
         box-shadow: $main-menu-multi-title-container-box-shadow;
         inset-inline: 100% auto;
