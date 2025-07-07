@@ -41,7 +41,8 @@
             "Oro\\Bundle\\FrontendImportExportBundle\\": "src/Oro/Bundle/FrontendImportExportBundle",
             "Oro\\Bundle\\StyleBookBundle\\": "src/Oro/Bundle/StyleBookBundle",
             "Oro\\Bundle\\WebsiteBundle\\": "src/Oro/Bundle/WebsiteBundle",
-            "Oro\\Bundle\\AddressValidationBundle\\": "src/Oro/Bundle/AddressValidationBundle"
+            "Oro\\Bundle\\AddressValidationBundle\\": "src/Oro/Bundle/AddressValidationBundle",
+            "Oro\\Bundle\\FrontendPdfGeneratorBundle\\": "src/Oro/Bundle/FrontendPdfGeneratorBundle"
         },
         "exclude-from-classmap": ["**/Tests/"]
     }

@@ -1,6 +1,5 @@
 @regression
 @feature-BB-21879
-
 Feature: Create customer by quick access button on customer group view page
   In order to simplify access to most used back-office functionality and speed up data entry
   As an administrator

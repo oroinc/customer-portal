@@ -7,6 +7,7 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\Controller\EmailMessageAssertionT
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadUserAndGuestWithSameUsername;
 use Oro\Bundle\MessageQueueBundle\Test\Functional\MessageQueueExtension;
+use Oro\Bundle\TestFrameworkBundle\Mailer\EventListener\MessageLoggerListener;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Mime\Email as SymfonyEmail;
@@ -26,6 +27,14 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $this->loadFixtures([LoadCustomerUserData::class]);
         $this->loadFixtures([LoadUserAndGuestWithSameUsername::class]);
+
+        MessageLoggerListener::instance()->reset();
+    }
+
+    #[\Override]
+    protected function tearDown(): void
+    {
+        MessageLoggerListener::instance()->reset();
     }
 
     /**

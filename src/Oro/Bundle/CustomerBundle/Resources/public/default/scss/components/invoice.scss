@@ -1,0 +1,84 @@
+/* @theme: default; */
+
+.invoice {
+    &__title {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: $invoice-title-gap;
+    }
+
+    &__success,
+    &__error {
+        display: grid;
+        gap: $invoice-gap;
+        text-align: center;
+    }
+
+    &__back_button {
+        margin-top: spacing('md');
+    }
+
+    &__total {
+        .summary-widget__summary {
+            grid-template-columns: auto 1fr;
+        }
+    }
+
+    &__guest-link-container {
+        display: grid;
+        grid-template-columns: $invoice-guest-link-container-grid-columns;
+
+        align-items: center;
+        gap: $invoice-guest-link-container-gap;
+    }
+
+    &__info {
+        --grid-template-columns: #{$invoice-info-grid-columns};
+    }
+}
+
+.invoice-payment {
+    &__section {
+        display: $invoice-payment-section-display;
+        grid-template-columns: $invoice-payment-section-grid-template-columns;
+        gap: $invoice-payment-section-gap;
+
+        &--centered {
+            justify-content: center;
+            align-items: center;
+
+            min-height: $invoice-payment-section-centered-min-height;
+
+            .summary-widget__summary {
+                grid-template-columns: auto auto;
+                justify-content: center;
+            }
+        }
+    }
+
+    &__container {
+        --grid-gap: #{spacing('lg')};
+    }
+}
+
+@include breakpoint('mobile-big') {
+    .invoice {
+        &__total {
+            .summary-widget__summary {
+                grid-template-columns: auto auto;
+                justify-content: center;
+            }
+        }
+
+        &__success,
+        &__error {
+            max-width: $invoice-mobile-big-max-width;
+            margin: auto;
+        }
+
+        &__info {
+            --grid-template-columns: #{$invoice-info-mobile-big-grid-columns};
+        }
+    }
+}

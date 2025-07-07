@@ -1,0 +1,7 @@
+services:
+
+    oro_frontend_pdf_generator.pdf_document.url_generator:
+        class: 'Oro\Bundle\PdfGeneratorBundle\PdfDocument\UrlGenerator\PdfDocumentUrlGenerator'
+        arguments:
+            $urlGenerator: '@router'
+            $routeName: 'oro_frontend_pdf_generator_pdf_document_file'
