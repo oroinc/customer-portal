@@ -2,6 +2,6 @@
 
 .bar-separator {
     &:after {
-        @include bar-separator($bar-separator-width, $bar-separator-color);
+        @include bar-separator($bar-separator-width: $bar-separator-width, $bar-separator-color: $bar-separator-color);
     }
 }

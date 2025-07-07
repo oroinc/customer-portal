@@ -1,0 +1,49 @@
+/* @theme: default; */
+
+.status-tooltip {
+    display: inline-flex;
+    align-items: center;
+    width: $status-tooltip-width;
+    min-height: $status-tooltip-height;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+
+    &::before {
+        content: '';
+        width: $status-tooltip-bullet-size;
+        height: $status-tooltip-bullet-size;
+        border-radius: 50%;
+        display: inline-flex;
+
+        background-color: $status-tooltip-bullet-color;
+    }
+
+    &--success::before {
+        background-color: $status-tooltip-bullet-color-success;
+    }
+
+    &--progress::before {
+        background-color: $status-tooltip-bullet-color-progress;
+    }
+
+    &--warning::before {
+        background-color: $status-tooltip-bullet-color-warning;
+    }
+
+    &--destructive::before {
+        background-color: $status-tooltip-bullet-color-destructive;
+    }
+
+    &--info::before {
+        background-color: $status-tooltip-bullet-color-info;
+    }
+
+    &--new_arrival::before {
+        background-color: $status-tooltip-bullet-color-new-arrival;
+    }
+
+    &--sale::before {
+        background-color: $status-tooltip-bullet-color-sale;
+    }
+}

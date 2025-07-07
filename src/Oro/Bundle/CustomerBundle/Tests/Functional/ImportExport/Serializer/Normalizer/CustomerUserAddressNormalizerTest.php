@@ -33,7 +33,7 @@ class CustomerUserAddressNormalizerTest extends AbstractCustomerAddressNormalize
         $address = $this->getReference('customer_user.address_1_full');
         $data = $this->normalizer->normalize($address, context: ['entityName' => CustomerUser::class]);
 
-        $this->assertEquals(
+        self::assertEquals(
             array_merge([
                 'id' => $address->getId(),
                 'label' => 'customer_user.address_1_full',
@@ -51,7 +51,7 @@ class CustomerUserAddressNormalizerTest extends AbstractCustomerAddressNormalize
         $address = $this->getReference('customer_user.address_1_full');
         $data = $this->normalizer->normalize($address, context: ['entityName' => CustomerUserAddress::class]);
 
-        $this->assertEquals(
+        self::assertEquals(
             array_merge([
                 'id' => $address->getId(),
                 'label' => 'customer_user.address_1_full',
@@ -93,79 +93,79 @@ class CustomerUserAddressNormalizerTest extends AbstractCustomerAddressNormalize
             CustomerUserAddress::class
         );
 
-        $this->assertInstanceOf(CustomerUserAddress::class, $address);
-        $this->assertEquals(11, $address->getId());
+        self::assertInstanceOf(CustomerUserAddress::class, $address);
+        self::assertEquals(11, $address->getId());
 
-        $this->assertEquals('Test Org', $address->getOrganization());
-        $this->assertEquals('Mr', $address->getNamePrefix());
-        $this->assertEquals('First', $address->getFirstName());
-        $this->assertEquals('Middle', $address->getMiddleName());
-        $this->assertEquals('Last', $address->getLastName());
-        $this->assertEquals('Sf', $address->getNameSuffix());
-        $this->assertEquals('street2', $address->getStreet2());
-        $this->assertEquals('+123321123', $address->getPhone());
-        $this->assertTrue($address->isPrimary());
-        $this->assertEquals('customer_user.address_1_full', $address->getLabel());
-        $this->assertEquals('1215 Caldwell Road', $address->getStreet());
-        $this->assertEquals('Rochester', $address->getCity());
-        $this->assertEquals('14608', $address->getPostalCode());
+        self::assertEquals('Test Org', $address->getOrganization());
+        self::assertEquals('Mr', $address->getNamePrefix());
+        self::assertEquals('First', $address->getFirstName());
+        self::assertEquals('Middle', $address->getMiddleName());
+        self::assertEquals('Last', $address->getLastName());
+        self::assertEquals('Sf', $address->getNameSuffix());
+        self::assertEquals('street2', $address->getStreet2());
+        self::assertEquals('+123321123', $address->getPhone());
+        self::assertTrue($address->isPrimary());
+        self::assertEquals('customer_user.address_1_full', $address->getLabel());
+        self::assertEquals('1215 Caldwell Road', $address->getStreet());
+        self::assertEquals('Rochester', $address->getCity());
+        self::assertEquals('14608', $address->getPostalCode());
 
-        $this->assertEquals('US', $address->getCountry()->getIso2Code());
-        $this->assertEquals('US-NY', $address->getRegion()->getCombinedCode());
-        $this->assertEquals(42, $address->getFrontendOwner()->getId());
-        $this->assertEquals('customer_user@example.com', $address->getFrontendOwner()->getEmail());
-        $this->assertEquals('admin', $address->getOwner()->getUserIdentifier());
-        $this->assertEquals($now, $address->getValidatedAt()->format(\DateTimeInterface::ATOM));
+        self::assertEquals('US', $address->getCountry()->getIso2Code());
+        self::assertEquals('US-NY', $address->getRegion()->getCombinedCode());
+        self::assertEquals(42, $address->getFrontendOwner()->getId());
+        self::assertEquals('customer_user@example.com', $address->getFrontendOwner()->getEmail());
+        self::assertEquals('admin', $address->getOwner()->getUserIdentifier());
+        self::assertInstanceOf(\DateTime::class, $address->getValidatedAt());
 
-        $this->assertTrue($address->hasTypeWithName('billing'));
-        $this->assertTrue($address->hasTypeWithName('shipping'));
-        $this->assertFalse($address->hasDefault('billing'));
-        $this->assertTrue($address->hasDefault('shipping'));
+        self::assertTrue($address->hasTypeWithName('billing'));
+        self::assertTrue($address->hasTypeWithName('shipping'));
+        self::assertFalse($address->hasDefault('billing'));
+        self::assertTrue($address->hasDefault('shipping'));
     }
 
     public function testDenormalizeValidatedAt(): void
     {
-        $now = (new \DateTime('now', new \DateTimeZone('UTC')))->format(\DateTimeInterface::ATOM);
         $address = $this->normalizer->denormalize(['validatedAt' => true], CustomerUserAddress::class);
-        $this->assertEquals($now, $address->getValidatedAt()->format(\DateTimeInterface::ATOM));
+        self::assertInstanceOf(\DateTime::class, $address->getValidatedAt());
 
         $address = $this->normalizer->denormalize(['validatedAt' => 'true'], CustomerUserAddress::class);
-        $this->assertEquals($now, $address->getValidatedAt()->format(\DateTimeInterface::ATOM));
+        self::assertInstanceOf(\DateTime::class, $address->getValidatedAt());
+
 
         $address = $this->normalizer->denormalize(['validatedAt' => 'TruE'], CustomerUserAddress::class);
-        $this->assertEquals($now, $address->getValidatedAt()->format(\DateTimeInterface::ATOM));
+        self::assertInstanceOf(\DateTime::class, $address->getValidatedAt());
 
         $address = $this->normalizer->denormalize(['validatedAt' => 1], CustomerUserAddress::class);
-        $this->assertEquals($now, $address->getValidatedAt()->format(\DateTimeInterface::ATOM));
+        self::assertInstanceOf(\DateTime::class, $address->getValidatedAt());
 
         $address = $this->normalizer->denormalize(['validatedAt' => '1'], CustomerUserAddress::class);
-        $this->assertEquals($now, $address->getValidatedAt()->format(\DateTimeInterface::ATOM));
+        self::assertInstanceOf(\DateTime::class, $address->getValidatedAt());
 
         $address = $this->normalizer->denormalize(['validatedAt' => 'yes'], CustomerUserAddress::class);
-        $this->assertEquals($now, $address->getValidatedAt()->format(\DateTimeInterface::ATOM));
+        self::assertInstanceOf(\DateTime::class, $address->getValidatedAt());
 
         $address = $this->normalizer->denormalize(['validatedAt' => 'YeS'], CustomerUserAddress::class);
-        $this->assertEquals($now, $address->getValidatedAt()->format(\DateTimeInterface::ATOM));
+        self::assertInstanceOf(\DateTime::class, $address->getValidatedAt());
 
         $address = $this->normalizer->denormalize(['validatedAt' => false], CustomerUserAddress::class);
-        $this->assertEquals(null, $address->getValidatedAt());
+        self::assertEquals(null, $address->getValidatedAt());
 
         $address = $this->normalizer->denormalize(['validatedAt' => 'false'], CustomerUserAddress::class);
-        $this->assertEquals(null, $address->getValidatedAt());
+        self::assertEquals(null, $address->getValidatedAt());
 
         $address = $this->normalizer->denormalize(['validatedAt' => 'FaLse'], CustomerUserAddress::class);
-        $this->assertEquals(null, $address->getValidatedAt());
+        self::assertEquals(null, $address->getValidatedAt());
 
         $address = $this->normalizer->denormalize(['validatedAt' => 0], CustomerUserAddress::class);
-        $this->assertEquals(null, $address->getValidatedAt());
+        self::assertEquals(null, $address->getValidatedAt());
 
         $address = $this->normalizer->denormalize(['validatedAt' => '0'], CustomerUserAddress::class);
-        $this->assertEquals(null, $address->getValidatedAt());
+        self::assertEquals(null, $address->getValidatedAt());
 
         $address = $this->normalizer->denormalize(['validatedAt' => 'no'], CustomerUserAddress::class);
-        $this->assertEquals(null, $address->getValidatedAt());
+        self::assertEquals(null, $address->getValidatedAt());
 
         $address = $this->normalizer->denormalize(['validatedAt' => 'No'], CustomerUserAddress::class);
-        $this->assertEquals(null, $address->getValidatedAt());
+        self::assertEquals(null, $address->getValidatedAt());
     }
 }

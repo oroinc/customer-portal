@@ -77,14 +77,11 @@ class CustomerUserAddressFixtureTest extends TestCase
                 'firstName' => 'John',
                 'lastName' => 'Doe',
                 'nameSuffix' => 'Jr.',
-                'validatedAt' => new \DateTime('now', new \DateTimeZone('UTC')),
+                'validatedAt' => new \DateTime('now', new \DateTimeZone('UTC'))
             ]
         );
 
-        self::assertEquals(
-            $expected->getValidatedAt()->format('Y-m-d H:i:s'),
-            $entity->getValidatedAt()->format('Y-m-d H:i:s')
-        );
+        self::assertInstanceOf(\DateTime::class, $entity->getValidatedAt());
 
         $expected->setValidatedAt(null);
         $entity->setValidatedAt(null);

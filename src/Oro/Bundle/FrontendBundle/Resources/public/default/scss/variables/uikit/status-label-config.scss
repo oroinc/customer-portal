@@ -2,9 +2,9 @@
 
 $status-label-background-color: get-var-color('neutral', 'grey1') !default;
 $status-label-color: get-var-color('text', 'secondary') !default;
-$status-label-border-radius: 2px !default;
+$status-label-border-radius: $base-ui-element-border-radius !default;
 $status-label-display: inline-block !default;
-$status-label-padding: 0 spacing('xs') !default;
+$status-label-padding: spacing('xs') spacing('sm') !default;
 
 $status-label-success-background-color: get-var-color('success', 'light') !default;
 $status-label-success-color: get-var-color('success', 'dark') !default;
