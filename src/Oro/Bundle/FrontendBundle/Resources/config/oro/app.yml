@@ -51,6 +51,8 @@ oro_api:
             request_type: ['rest', 'json_api', 'frontend']
     api_doc_cache:
         excluded_features: [ frontend_web_api ]
+        resettable_services:
+            - oro_frontend.api.file_field_provider
 
 oro_frontend:
     frontend_api:

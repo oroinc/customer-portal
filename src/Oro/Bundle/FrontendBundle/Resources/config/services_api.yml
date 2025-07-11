@@ -143,6 +143,12 @@ services:
         tags:
             - { name: oro.api.custom_data_type_completer, requestType: frontend }
 
+    oro_frontend.api.file_field_provider:
+        class: Oro\Bundle\FrontendBundle\Api\FileFieldProvider
+        arguments:
+            - '@oro_api.doctrine_helper'
+            - '@oro_entity_config.config_manager'
+
     oro_frontend.api.compute_localized_fallback_values:
         class: Oro\Bundle\LocaleBundle\Api\Processor\ComputeLocalizedFallbackValues
         arguments:
@@ -214,3 +220,28 @@ services:
             - '@oro_frontend.api.rest.cors_settings'
         tags:
             - { name: oro.api.processor, action: options, group: normalize_result, requestType: frontend&rest, priority: -245 }
+
+    oro_frontend.api.get_config.add_file_fields:
+        class: Oro\Bundle\FrontendBundle\Api\Processor\AddFileFields
+        arguments:
+            - '@oro_frontend.api.file_field_provider'
+            - '@oro_api.entity_field_filtering_helper'
+        tags:
+            - { name: oro.api.processor, action: get_config, requestType: frontend, extra: '!identifier_fields_only', priority: -10 }
+
+    oro_frontend.api.get_config.add_file_field_descriptions:
+        class: Oro\Bundle\FrontendBundle\Api\Processor\AddFileFieldDescriptions
+        arguments:
+            - '@oro_frontend.api.file_field_provider'
+            - '@oro_api.complete_descriptions.resource_doc_parser_provider'
+        tags:
+            - { name: oro.api.processor, action: get_config, requestType: frontend, extra: 'descriptions&!identifier_fields_only', priority: -220 }
+
+    oro_frontend.api.compute_file_fields:
+        class: Oro\Bundle\FrontendBundle\Api\Processor\ComputeFileFields
+        arguments:
+            - '@oro_frontend.api.file_field_provider'
+            - '@oro_attachment.manager'
+            - '@oro_api.doctrine_helper'
+        tags:
+            - { name: oro.api.processor, action: customize_loaded_data, requestType: frontend, collection: true }
