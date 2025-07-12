@@ -24,7 +24,7 @@ Retrieve records of addresses assigned to a specific customer record.
 
 #### get_relationship
 
-Retrieve IDs of address records assigned to a specific customer record.
+Retrieve the IDs of address records assigned to a specific customer record.
 
 ### children
 
@@ -34,7 +34,7 @@ Retrieve a set of records of child customers assigned to a specific customer rec
 
 #### get_relationship
 
-Retrieve IDs of child customers records assigned to a specific customer record.
+Retrieve the IDs of child customers records assigned to a specific customer record.
 
 ### group
 

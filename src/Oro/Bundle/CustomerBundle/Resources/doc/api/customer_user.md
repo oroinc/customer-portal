@@ -472,7 +472,7 @@ Retrieve a record of address assigned to a specific customer user record.
 
 #### get_relationship
 
-Retrieve IDs of address records assigned to a specific customer user record.
+Retrieve the IDs of address records assigned to a specific customer user record.
 
 ### auth_status
 
