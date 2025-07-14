@@ -363,7 +363,7 @@ paths:
       tags:
         - countries
       summary: 'Get "regions" relationship'
-      description: '<p>Retrieve IDs of region records assigned to a specific country record.</p>'
+      description: '<p>Retrieve the IDs of region records assigned to a specific country record.</p>'
       operationId: countries-id-relationships-regions-get
       parameters:
         -
