@@ -1,14 +1,43 @@
 /* @theme: default; */
-@use 'sass:selector';
 
-// More about placeholders https://github.com/sass/sass/issues/2808#issuecomment-574413393
-%base-notification-flash,
 .notification-flash {
     position: relative;
     display: flex;
     align-items: center;
     padding: $notification-flash-inner-offset;
     border-radius: $notification-flash-border-radius;
+
+    &--success,
+    &--info,
+    &--notice {
+        background: $notification-flash-success-background;
+        color: $notification-flash-success-color;
+
+        &::before {
+            background-color: $notification-flash-success-before-background;
+        }
+    }
+
+    &--warning,
+    &--warn,
+    &--process,
+    &--alert {
+        background: $notification-flash-warning-background;
+        color: $notification-flash-warning-color;
+
+        &::before {
+            background-color: $notification-flash-warning-before-background;
+        }
+    }
+
+    &--error {
+        background: $notification-flash-error-background;
+        color: $notification-flash-error-color;
+
+        &::before {
+            background-color: $notification-flash-error-before-background;
+        }
+    }
 
     &::before {
         content: '';
@@ -25,12 +54,12 @@
         margin: $notification-flash-offset;
     }
 
-    @at-root #{selector.append(&, '__close')} {
+    &__close {
         flex-shrink: 0;
         align-self: flex-start;
     }
 
-    @at-root #{selector.append(&, '__icon')} {
+    &__icon {
         margin: $notification-flash-icon-offset;
 
         &--small {
@@ -38,7 +67,7 @@
         }
     }
 
-    @at-root #{selector.append(&, '__content')} {
+    &__content {
         display: flex;
         padding: $notification-flash-content-offset;
         flex: 1 1 auto;
@@ -55,47 +84,12 @@
         }
     }
 
-    @at-root #{selector.append(&, '__text')} {
+    &__text {
         font-weight: $notification-flash-text-font-weight;
-    }
-}
 
-.notification {
-    &-flash--success,
-    &-flash--info,
-    &-flash--notice {
-        @extend %base-notification-flash;
-
-        background: $notification-flash-success-background;
-        color: $notification-flash-success-color;
-
-        &::before {
-            background-color: $notification-flash-success-before-background;
-        }
-    }
-
-    &-flash--warning,
-    &-flash--warn,
-    &-flash--process,
-    &-flash--alert {
-        @extend %base-notification-flash;
-
-        background: $notification-flash-warning-background;
-        color: $notification-flash-warning-color;
-
-        &::before {
-            background-color: $notification-flash-warning-before-background;
-        }
-    }
-
-    &-flash--error {
-        @extend %base-notification-flash;
-
-        background: $notification-flash-error-background;
-        color: $notification-flash-error-color;
-
-        &::before {
-            background-color: $notification-flash-error-before-background;
+        ul,
+        ol {
+            list-style-type: none;
         }
     }
 }
