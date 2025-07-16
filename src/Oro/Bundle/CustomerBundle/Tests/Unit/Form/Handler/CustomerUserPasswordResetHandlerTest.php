@@ -6,20 +6,17 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class CustomerUserPasswordResetHandlerTest extends \PHPUnit\Framework\TestCase
+class CustomerUserPasswordResetHandlerTest extends TestCase
 {
-    /** @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $userManager;
-
-    /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $logger;
-
-    /** @var CustomerUserPasswordResetHandler */
-    private $handler;
+    private CustomerUserManager&MockObject $userManager;
+    private LoggerInterface&MockObject $logger;
+    private CustomerUserPasswordResetHandler $handler;
 
     #[\Override]
     protected function setUp(): void

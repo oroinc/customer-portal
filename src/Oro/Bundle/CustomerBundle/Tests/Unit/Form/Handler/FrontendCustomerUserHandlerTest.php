@@ -17,6 +17,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Provider\RequestWebsiteProvider;
 use Oro\Component\Testing\ReflectionUtil;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
@@ -25,33 +26,16 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\ConstraintViolation;
 
-class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
+class FrontendCustomerUserHandlerTest extends TestCase
 {
-    /** @var CustomerUserManager|MockObject */
-    private $userManager;
-
-    /** @var DoctrineHelper|MockObject */
-    private $doctrineHelper;
-
-    /** @var EventDispatcherInterface|MockObject */
-    private $eventDispatcher;
-
-    /** @var RequestWebsiteProvider|MockObject */
-    private $requestWebsiteProvider;
-
-    /** @var Request|MockObject */
-    private $request;
-
-    /** @var FormInterface|MockObject */
-    private $form;
-
-    /**
-     * @var ConfigManager|MockObject
-     */
-    private $configManager;
-
-    /** @var FrontendCustomerUserHandler */
-    private $handler;
+    private CustomerUserManager&MockObject $userManager;
+    private DoctrineHelper&MockObject $doctrineHelper;
+    private EventDispatcherInterface&MockObject $eventDispatcher;
+    private RequestWebsiteProvider&MockObject $requestWebsiteProvider;
+    private Request $request;
+    private FormInterface&MockObject $form;
+    private ConfigManager|MockObject $configManager;
+    private FrontendCustomerUserHandler $handler;
 
     #[\Override]
     protected function setUp(): void

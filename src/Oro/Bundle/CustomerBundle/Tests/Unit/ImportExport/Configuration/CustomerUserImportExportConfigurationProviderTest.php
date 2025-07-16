@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CustomerUserImportExportConfigurationProviderTest extends TestCase
 {
-    public function testGet()
+    public function testGet(): void
     {
         self::assertEquals(
             new ImportExportConfiguration([

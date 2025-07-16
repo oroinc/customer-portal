@@ -7,8 +7,9 @@ use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
 use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Entity\Stub\MenuUpdateStub;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
+use PHPUnit\Framework\TestCase;
 
-class MenuUpdateTest extends \PHPUnit\Framework\TestCase
+class MenuUpdateTest extends TestCase
 {
     use EntityTestCaseTrait;
 

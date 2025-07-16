@@ -6,16 +6,15 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\ImportExport\EventListener\CustomerUserHeadersListener;
 use Oro\Bundle\EntityBundle\Helper\FieldHelper;
 use Oro\Bundle\ImportExportBundle\Event\LoadEntityRulesAndBackendHeadersEvent;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class CustomerUserHeadersListenerTest extends \PHPUnit\Framework\TestCase
+class CustomerUserHeadersListenerTest extends TestCase
 {
     private const DELIMITER = ':';
 
-    /** @var FieldHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $fieldHelper;
-
-    /** @var CustomerUserHeadersListener */
-    private $listener;
+    private FieldHelper&MockObject $fieldHelper;
+    private CustomerUserHeadersListener $listener;
 
     #[\Override]
     protected function setUp(): void
@@ -24,7 +23,7 @@ class CustomerUserHeadersListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener = new CustomerUserHeadersListener($this->fieldHelper);
     }
 
-    public function testAfterLoadEntityRulesAndBackendHeadersWhenNoCustomer()
+    public function testAfterLoadEntityRulesAndBackendHeadersWhenNoCustomer(): void
     {
         $this->fieldHelper->expects($this->never())
             ->method('getConfigValue');
@@ -42,7 +41,7 @@ class CustomerUserHeadersListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($event->getRules());
     }
 
-    public function testAfterLoadEntityRulesAndBackendHeadersWhenNotFull()
+    public function testAfterLoadEntityRulesAndBackendHeadersWhenNotFull(): void
     {
         $this->fieldHelper->expects($this->never())
             ->method('getConfigValue');
@@ -60,7 +59,7 @@ class CustomerUserHeadersListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($event->getRules());
     }
 
-    public function testAfterLoadEntityRulesAndBackendHeadersWhenExist()
+    public function testAfterLoadEntityRulesAndBackendHeadersWhenExist(): void
     {
         $this->fieldHelper->expects($this->exactly(2))
             ->method('getConfigValue')
@@ -97,7 +96,7 @@ class CustomerUserHeadersListenerTest extends \PHPUnit\Framework\TestCase
         array $fieldsConfig,
         array $expectedHeaders,
         array $expectedRules
-    ) {
+    ): void {
         $this->fieldHelper->expects($this->exactly(2))
             ->method('getConfigValue')
             ->willReturnMap($fieldsConfig);

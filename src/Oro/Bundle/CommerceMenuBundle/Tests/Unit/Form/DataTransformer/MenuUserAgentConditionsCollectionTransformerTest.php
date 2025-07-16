@@ -5,8 +5,9 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\DataTransformer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
 use Oro\Bundle\CommerceMenuBundle\Form\DataTransformer\MenuUserAgentConditionsCollectionTransformer;
+use PHPUnit\Framework\TestCase;
 
-class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit\Framework\TestCase
+class MenuUserAgentConditionsCollectionTransformerTest extends TestCase
 {
     private MenuUserAgentConditionsCollectionTransformer $transformer;
 
@@ -19,7 +20,7 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit\Framewor
     /**
      * @dataProvider transformDataProvider
      */
-    public function testTransform(mixed $menuUserAgentConditionsCollection, array $expectedGroupedConditionsArray)
+    public function testTransform(mixed $menuUserAgentConditionsCollection, array $expectedGroupedConditionsArray): void
     {
         $groupedConditionsArray = $this->transformer->transform($menuUserAgentConditionsCollection);
 
@@ -57,7 +58,7 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit\Framewor
         ];
     }
 
-    public function testTransformWithInvalidCollection()
+    public function testTransformWithInvalidCollection(): void
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Conditions collection was expected to contain only MenuUserAgentCondition');
@@ -72,7 +73,7 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit\Framewor
     public function testReverseTransform(
         mixed $groupedConditionsArray,
         array $expectedMenuUserAgentConditions
-    ) {
+    ): void {
         $menuUserAgentConditionsCollection = $this->transformer->reverseTransform($groupedConditionsArray);
 
         self::assertSame($expectedMenuUserAgentConditions, $menuUserAgentConditionsCollection->toArray());
@@ -114,7 +115,7 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit\Framewor
         ];
     }
 
-    public function testReverseTransformWithInvalidConditionsGroup()
+    public function testReverseTransformWithInvalidConditionsGroup(): void
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Conditions group was expected to contain only MenuUserAgentCondition');

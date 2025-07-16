@@ -7,8 +7,10 @@ use Knp\Menu\ItemInterface;
 use Knp\Menu\MenuItem;
 use Oro\Bundle\CommerceMenuBundle\Builder\MenuScreensConditionBuilder;
 use Oro\Bundle\FrontendBundle\Provider\ScreensProviderInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class MenuScreensConditionBuilderTest extends \PHPUnit\Framework\TestCase
+class MenuScreensConditionBuilderTest extends TestCase
 {
     private const SCREEN_NAME = 'desktop';
     private const SCREEN = [
@@ -16,11 +18,8 @@ class MenuScreensConditionBuilderTest extends \PHPUnit\Framework\TestCase
         'hidingCssClass' => 'sample-desktop-class',
     ];
 
-    /** @var ScreensProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $screensProvider;
-
-    /** @var MenuScreensConditionBuilder */
-    private $builder;
+    private ScreensProviderInterface&MockObject $screensProvider;
+    private MenuScreensConditionBuilder $builder;
 
     #[\Override]
     protected function setUp(): void
@@ -33,7 +32,7 @@ class MenuScreensConditionBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider buildDataProvider
      */
-    public function testBuild(?array $screen, array $attributes, array $expectedAttributes)
+    public function testBuild(?array $screen, array $attributes, array $expectedAttributes): void
     {
         $this->screensProvider->expects(self::atLeastOnce())
             ->method('getScreen')
@@ -85,7 +84,7 @@ class MenuScreensConditionBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Ensures that menu is not changed when no screens are found in extras.
      */
-    public function testBuildWhenNoScreensInExtras()
+    public function testBuildWhenNoScreensInExtras(): void
     {
         $this->screensProvider->expects(self::never())
             ->method('getScreen');

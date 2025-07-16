@@ -4,10 +4,11 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Api;
 
 use Oro\Bundle\ApiBundle\Request\RequestType;
 use Oro\Bundle\FrontendBundle\Api\ResourceTypeResolver;
+use PHPUnit\Framework\TestCase;
 
-class ResourceTypeResolverTest extends \PHPUnit\Framework\TestCase
+class ResourceTypeResolverTest extends TestCase
 {
-    public function testResolveTypeWithoutRouteParameters()
+    public function testResolveTypeWithoutRouteParameters(): void
     {
         $resourceType = 'test_type';
 
@@ -18,7 +19,7 @@ class ResourceTypeResolverTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testResolveTypeWithRouteParametersAndAllParametersExist()
+    public function testResolveTypeWithRouteParametersAndAllParametersExist(): void
     {
         $resourceType = 'test_type';
 
@@ -29,7 +30,7 @@ class ResourceTypeResolverTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testResolveTypeWithRouteParametersAndNotAllParametersExist()
+    public function testResolveTypeWithRouteParametersAndNotAllParametersExist(): void
     {
         $resourceType = 'test_type';
 

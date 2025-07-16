@@ -6,12 +6,12 @@ use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\DataAuditEntityMappin
 use Oro\Bundle\CustomerBundle\Entity\Audit;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\DataAuditBundle\Entity\AuditField;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class DataAuditEntityMappingPassTest extends \PHPUnit\Framework\TestCase
+class DataAuditEntityMappingPassTest extends TestCase
 {
-    /** @var DataAuditEntityMappingPass */
-    private $compiler;
+    private DataAuditEntityMappingPass $compiler;
 
     #[\Override]
     protected function setUp(): void
@@ -19,14 +19,14 @@ class DataAuditEntityMappingPassTest extends \PHPUnit\Framework\TestCase
         $this->compiler = new DataAuditEntityMappingPass();
     }
 
-    public function testProcessWithoutDefinition()
+    public function testProcessWithoutDefinition(): void
     {
         $container = new ContainerBuilder();
 
         $this->compiler->process($container);
     }
 
-    public function testProcess()
+    public function testProcess(): void
     {
         $container = new ContainerBuilder();
         $mapperDef = $container->register('oro_dataaudit.loggable.audit_entity_mapper');

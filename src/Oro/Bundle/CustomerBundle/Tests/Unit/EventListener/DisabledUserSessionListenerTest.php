@@ -4,6 +4,8 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener;
 
 use Oro\Bundle\CustomerBundle\EventListener\DisabledUserSessionListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -11,12 +13,10 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Core\Exception\LockedException;
 use Symfony\Component\Security\Http\Logout\LogoutUrlGenerator;
 
-class DisabledUserSessionListenerTest extends \PHPUnit\Framework\TestCase
+class DisabledUserSessionListenerTest extends TestCase
 {
-    private LogoutUrlGenerator|\PHPUnit\Framework\MockObject\MockObject $logoutUrlGenerator;
-
-    private FrontendHelper|\PHPUnit\Framework\MockObject\MockObject $frontendHelper;
-
+    private LogoutUrlGenerator&MockObject $logoutUrlGenerator;
+    private FrontendHelper&MockObject $frontendHelper;
     private DisabledUserSessionListener $listener;
 
     #[\Override]

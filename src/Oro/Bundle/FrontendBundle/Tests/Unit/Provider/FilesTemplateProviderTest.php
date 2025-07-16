@@ -10,8 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class FilesTemplateProviderTest extends TestCase
 {
-    private FrontendHelper|MockObject $frontendHelper;
-
+    private FrontendHelper&MockObject $frontendHelper;
     private FilesTemplateProvider $provider;
 
     #[\Override]

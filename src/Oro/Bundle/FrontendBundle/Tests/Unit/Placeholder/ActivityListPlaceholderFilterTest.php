@@ -7,18 +7,17 @@ use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\FrontendBundle\Placeholder\ActivityListPlaceholderFilter;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\UIBundle\Event\BeforeGroupingChainWidgetEvent;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
+class ActivityListPlaceholderFilterTest extends TestCase
 {
     private const BACKEND_PREFIX = '/admin';
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|PlaceholderFilter */
-    private $basicFilter;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|ApplicationState */
-    private $applicationState;
+    private PlaceholderFilter&MockObject $basicFilter;
+    private ApplicationState&MockObject $applicationState;
 
     #[\Override]
     protected function setUp(): void
@@ -44,7 +43,7 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testIsApplicableNoRequest()
+    public function testIsApplicableNoRequest(): void
     {
         $entity = new \stdClass();
         $pageType = 'view';
@@ -58,7 +57,7 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($filter->isApplicable($entity, $pageType));
     }
 
-    public function testIsApplicableNotFrontend()
+    public function testIsApplicableNotFrontend(): void
     {
         $entity = new \stdClass();
         $pageType = 1;
@@ -72,7 +71,7 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($filter->isApplicable($entity, $pageType));
     }
 
-    public function testIsApplicable()
+    public function testIsApplicable(): void
     {
         $entity = new \stdClass();
         $pageType = 1;
@@ -84,7 +83,7 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($filter->isApplicable($entity, $pageType));
     }
 
-    public function testIsAllowedButtonNotFrontend()
+    public function testIsAllowedButtonNotFrontend(): void
     {
         $event = $this->createMock(BeforeGroupingChainWidgetEvent::class);
 
@@ -96,7 +95,7 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
         $filter->isAllowedButton($event);
     }
 
-    public function testIsAllowedButton()
+    public function testIsAllowedButton(): void
     {
         $event = $this->createMock(BeforeGroupingChainWidgetEvent::class);
         $event->expects($this->once())

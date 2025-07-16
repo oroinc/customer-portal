@@ -7,8 +7,9 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\DataCollector;
 use Oro\Bundle\CommerceMenuBundle\DataCollector\DataCollectorMenuItemLayoutNameProvider;
 use Oro\Bundle\NavigationBundle\Tests\Unit\Entity\Stub\MenuItemStub;
 use Oro\Component\Layout\LayoutContext;
+use PHPUnit\Framework\TestCase;
 
-class DataCollectorMenuItemLayoutNameProviderTest extends \PHPUnit\Framework\TestCase
+class DataCollectorMenuItemLayoutNameProviderTest extends TestCase
 {
     /**
      * @dataProvider getNameByContextDataProvider

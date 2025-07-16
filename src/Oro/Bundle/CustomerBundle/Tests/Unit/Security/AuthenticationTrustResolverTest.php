@@ -5,21 +5,16 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security;
 use Oro\Bundle\CustomerBundle\Security\AuthenticationTrustResolver;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolver as BaseAuthenticationTrustResolver;
 use Symfony\Component\Security\Core\Authentication\Token\RememberMeToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class AuthenticationTrustResolverTest extends \PHPUnit\Framework\TestCase
+class AuthenticationTrustResolverTest extends TestCase
 {
-    /**
-     * @var BaseAuthenticationTrustResolver|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $baseTrustResolver;
-
-    /**
-     * @var AuthenticationTrustResolver
-     */
-    private $resolver;
+    private BaseAuthenticationTrustResolver&MockObject $baseTrustResolver;
+    private AuthenticationTrustResolver $resolver;
 
     #[\Override]
     protected function setUp(): void
@@ -28,7 +23,7 @@ class AuthenticationTrustResolverTest extends \PHPUnit\Framework\TestCase
         $this->resolver = new AuthenticationTrustResolver($this->baseTrustResolver);
     }
 
-    public function testIsAnonymous()
+    public function testIsAnonymous(): void
     {
         $token = $this->getToken();
         $token->expects($this->once())
@@ -44,7 +39,7 @@ class AuthenticationTrustResolverTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->resolver->isAnonymous($this->getAnonymousCustomerUserToken()));
     }
 
-    public function testIsRememberMe()
+    public function testIsRememberMe(): void
     {
         $this->baseTrustResolver->expects($this->once())
             ->method('isRememberMe')
@@ -53,7 +48,7 @@ class AuthenticationTrustResolverTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->resolver->isRememberMe($this->getToken()));
     }
 
-    public function testisFullFledged()
+    public function testisFullFledged(): void
     {
         $this->baseTrustResolver->expects($this->any())
             ->method('isFullFledged')

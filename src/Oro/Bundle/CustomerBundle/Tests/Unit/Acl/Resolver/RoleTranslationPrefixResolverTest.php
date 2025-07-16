@@ -7,14 +7,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Entity\UserInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class RoleTranslationPrefixResolverTest extends \PHPUnit\Framework\TestCase
+class RoleTranslationPrefixResolverTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface */
-    private $tokenAccessor;
-
-    /** @var RoleTranslationPrefixResolver */
-    private $resolver;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private RoleTranslationPrefixResolver $resolver;
 
     #[\Override]
     protected function setUp(): void
@@ -27,7 +26,7 @@ class RoleTranslationPrefixResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getPrefixDataProvider
      */
-    public function testGetPrefix(UserInterface|string|null $loggedUser, ?string $expectedPrefix = null)
+    public function testGetPrefix(UserInterface|string|null $loggedUser, ?string $expectedPrefix = null): void
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')

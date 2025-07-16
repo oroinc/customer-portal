@@ -12,17 +12,16 @@ use Oro\Bundle\FrontendImportExportBundle\Manager\ExportResultNotificationSender
 use Oro\Bundle\NotificationBundle\Model\NotificationSettings;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class ExportResultNotificationSenderTest extends \PHPUnit\Framework\TestCase
+class ExportResultNotificationSenderTest extends TestCase
 {
     private const SENDER_EMAIL = 'John Doe <doe@example.org>';
 
-    private EmailTemplateSender|\PHPUnit\Framework\MockObject\MockObject $emailTemplateSender;
-
-    private FrontendExportResultSummarizer|\PHPUnit\Framework\MockObject\MockObject $exportResultSummarizer;
-
-    private WebsiteManager|\PHPUnit\Framework\MockObject\MockObject $websiteManager;
-
+    private EmailTemplateSender&MockObject $emailTemplateSender;
+    private FrontendExportResultSummarizer&MockObject $exportResultSummarizer;
+    private WebsiteManager&MockObject $websiteManager;
     private ExportResultNotificationSender $sender;
 
     #[\Override]

@@ -3,13 +3,11 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\GuestAccess\Provider;
 
 use Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProvider;
+use PHPUnit\Framework\TestCase;
 
-class GuestAccessAllowedUrlsProviderTest extends \PHPUnit\Framework\TestCase
+class GuestAccessAllowedUrlsProviderTest extends TestCase
 {
-    /**
-     * @var GuestAccessAllowedUrlsProvider
-     */
-    private $guestAccessAllowedUrlsProvider;
+    private GuestAccessAllowedUrlsProvider $guestAccessAllowedUrlsProvider;
 
     #[\Override]
     protected function setUp(): void
@@ -17,7 +15,7 @@ class GuestAccessAllowedUrlsProviderTest extends \PHPUnit\Framework\TestCase
         $this->guestAccessAllowedUrlsProvider = new GuestAccessAllowedUrlsProvider();
     }
 
-    public function testGetAllowedUrlsPatterns()
+    public function testGetAllowedUrlsPatterns(): void
     {
         $allowedUrls = [
             '^/exception/',

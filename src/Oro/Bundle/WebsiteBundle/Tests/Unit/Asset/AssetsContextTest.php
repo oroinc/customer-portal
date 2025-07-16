@@ -4,19 +4,16 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Asset;
 
 use Oro\Bundle\WebsiteBundle\Asset\AssetsContext;
 use Oro\Bundle\WebsiteBundle\Asset\BasePathResolver;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class AssetsContextTest extends \PHPUnit\Framework\TestCase
+class AssetsContextTest extends TestCase
 {
-    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
-    private $requestStack;
-
-    /** @var BasePathResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private $resolver;
-
-    /** @var AssetsContext */
-    private $context;
+    private RequestStack&MockObject $requestStack;
+    private BasePathResolver&MockObject $resolver;
+    private AssetsContext $context;
 
     #[\Override]
     protected function setUp(): void

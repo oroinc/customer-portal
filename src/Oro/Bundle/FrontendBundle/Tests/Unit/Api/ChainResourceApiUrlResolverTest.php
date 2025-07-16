@@ -7,28 +7,19 @@ use Oro\Bundle\ApiBundle\Util\RequestExpressionMatcher;
 use Oro\Bundle\FrontendBundle\Api\ChainResourceApiUrlResolver;
 use Oro\Bundle\FrontendBundle\Api\ResourceApiUrlResolverInterface;
 use Oro\Component\Testing\Unit\TestContainerBuilder;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class ChainResourceApiUrlResolverTest extends \PHPUnit\Framework\TestCase
+class ChainResourceApiUrlResolverTest extends TestCase
 {
     private const TEST_ROUTE = 'test_route';
 
-    /** @var ResourceApiUrlResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $resolver1;
-
-    /** @var ResourceApiUrlResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $resolver2;
-
-    /** @var ResourceApiUrlResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $resolver3;
-
-    /** @var ResourceApiUrlResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $resolver4;
-
-    /** @var ResourceApiUrlResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $resolver5;
-
-    /** @var ChainResourceApiUrlResolver */
-    private $chainResolver;
+    private ResourceApiUrlResolverInterface&MockObject $resolver1;
+    private ResourceApiUrlResolverInterface&MockObject $resolver2;
+    private ResourceApiUrlResolverInterface&MockObject $resolver3;
+    private ResourceApiUrlResolverInterface&MockObject $resolver4;
+    private ResourceApiUrlResolverInterface&MockObject $resolver5;
+    private ChainResourceApiUrlResolver $chainResolver;
 
     #[\Override]
     protected function setUp(): void
@@ -60,7 +51,7 @@ class ChainResourceApiUrlResolverTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testResolveApiUrl()
+    public function testResolveApiUrl(): void
     {
         $routeParameters = ['key' => 'val'];
         $resourceType = 'test_resource';
@@ -88,7 +79,7 @@ class ChainResourceApiUrlResolverTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testResolveApiUrlWhenAllResolversReturnNull()
+    public function testResolveApiUrlWhenAllResolversReturnNull(): void
     {
         $routeParameters = ['key' => 'val'];
         $resourceType = 'test_resource';

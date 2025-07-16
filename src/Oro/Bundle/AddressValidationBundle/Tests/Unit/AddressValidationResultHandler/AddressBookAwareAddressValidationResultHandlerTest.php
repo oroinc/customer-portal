@@ -36,6 +36,7 @@ class AddressBookAwareAddressValidationResultHandlerTest extends TestCase
     private EntityManagerInterface&MockObject $entityManager;
     private AddressType $shippingAddressType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $doctrine = $this->createMock(ManagerRegistry::class);

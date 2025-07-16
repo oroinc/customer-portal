@@ -19,27 +19,18 @@ use Oro\Bundle\SecurityBundle\Model\AclPrivilegeIdentity;
 use Oro\Bundle\UserBundle\Entity\Role;
 use Oro\Bundle\UserBundle\Form\Handler\AclRoleHandler;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
+class RolePermissionDatasourceTest extends TestCase
 {
-    /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $translator;
-
-    /** @var RolePrivilegeCategoryProvider|\PHPUnit\Framework\MockObject\MockObject */
-    protected $categoryProvider;
-
-    /** @var AclRoleHandler|\PHPUnit\Framework\MockObject\MockObject */
-    protected $aclRoleHandler;
-
-    /** @var PermissionManager|\PHPUnit\Framework\MockObject\MockObject */
-    protected $permissionManager;
-
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    protected $configEntityManager;
-
-    /** @var RoleTranslationPrefixResolver|\PHPUnit\Framework\MockObject\MockObject */
-    protected $roleTranslationPrefixResolver;
+    protected TranslatorInterface&MockObject $translator;
+    protected RolePrivilegeCategoryProvider&MockObject $categoryProvider;
+    protected AclRoleHandler&MockObject $aclRoleHandler;
+    protected PermissionManager&MockObject $permissionManager;
+    protected ConfigManager&MockObject $configEntityManager;
+    protected RoleTranslationPrefixResolver&MockObject $roleTranslationPrefixResolver;
 
     #[\Override]
     protected function setUp(): void
@@ -77,7 +68,7 @@ class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
             ->willReturn('prefix.key.');
     }
 
-    public function testGetResults()
+    public function testGetResults(): void
     {
         $datasource = $this->getDatasource();
         $identity = 'entity:Oro\Bundle\CustomerBundle\Entity\Customer';

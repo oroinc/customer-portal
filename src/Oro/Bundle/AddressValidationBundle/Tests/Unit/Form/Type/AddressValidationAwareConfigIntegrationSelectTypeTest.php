@@ -12,6 +12,7 @@ final class AddressValidationAwareConfigIntegrationSelectTypeTest extends TestCa
 {
     private AddressValidationAwareConfigIntegrationSelectType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formType = new AddressValidationAwareConfigIntegrationSelectType(

@@ -16,20 +16,15 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\UserBundle\Entity\User;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class OrmDatasourceAclListenerTest extends \PHPUnit\Framework\TestCase
+class OrmDatasourceAclListenerTest extends TestCase
 {
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var OwnershipMetadataProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $metadataProvider;
-
-    /** @var OrmResultBefore|\PHPUnit\Framework\MockObject\MockObject */
-    private $event;
-
-    /** @var OrmDatasourceAclListener */
-    private $listener;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private OwnershipMetadataProviderInterface&MockObject $metadataProvider;
+    private OrmResultBefore&MockObject $event;
+    private OrmDatasourceAclListener $listener;
 
     #[\Override]
     protected function setUp(): void
@@ -44,7 +39,7 @@ class OrmDatasourceAclListenerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider onResultBeforeDataProvider
      */
-    public function testOnResultBefore(array $entities = [], bool $expectedSkipAclCheck = true)
+    public function testOnResultBefore(array $entities = [], bool $expectedSkipAclCheck = true): void
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')
@@ -150,7 +145,7 @@ class OrmDatasourceAclListenerTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testOnResultBeforeSkipForBackendUser()
+    public function testOnResultBeforeSkipForBackendUser(): void
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')

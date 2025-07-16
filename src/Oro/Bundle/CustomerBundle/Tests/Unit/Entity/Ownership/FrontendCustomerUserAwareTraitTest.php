@@ -5,13 +5,13 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Ownership;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Ownership\FrontendCustomerUserAwareTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class FrontendCustomerUserAwareTraitTest extends \PHPUnit\Framework\TestCase
+class FrontendCustomerUserAwareTraitTest extends TestCase
 {
-    /**
-     * @var FrontendCustomerUserAwareTrait | \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $frontendCustomerUserAwareTrait;
+    /** @var FrontendCustomerUserAwareTrait&MockObject */
+    private $frontendCustomerUserAwareTrait;
 
     #[\Override]
     protected function setUp(): void
@@ -19,7 +19,7 @@ class FrontendCustomerUserAwareTraitTest extends \PHPUnit\Framework\TestCase
         $this->frontendCustomerUserAwareTrait = $this->getMockForTrait(FrontendCustomerUserAwareTrait::class);
     }
 
-    public function testSetCustomerUser()
+    public function testSetCustomerUser(): void
     {
         $customerUser = $this->createMock(CustomerUser::class);
         $this->frontendCustomerUserAwareTrait->setCustomerUser($customerUser);
@@ -27,7 +27,7 @@ class FrontendCustomerUserAwareTraitTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($customerUser, $this->frontendCustomerUserAwareTrait->getCustomerUser());
     }
 
-    public function testSetCustomer()
+    public function testSetCustomer(): void
     {
         $customer = $this->createMock(Customer::class);
         $this->frontendCustomerUserAwareTrait->setCustomer($customer);

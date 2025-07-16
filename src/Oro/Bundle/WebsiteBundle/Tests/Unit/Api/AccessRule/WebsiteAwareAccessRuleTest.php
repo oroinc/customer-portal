@@ -6,10 +6,11 @@ use Oro\Bundle\SecurityBundle\AccessRule\Criteria;
 use Oro\Bundle\SecurityBundle\AccessRule\Expr\Comparison;
 use Oro\Bundle\SecurityBundle\AccessRule\Expr\Path;
 use Oro\Bundle\WebsiteBundle\Acl\AccessRule\WebsiteAwareAccessRule;
+use PHPUnit\Framework\TestCase;
 
-class WebsiteAwareAccessRuleTest extends \PHPUnit\Framework\TestCase
+class WebsiteAwareAccessRuleTest extends TestCase
 {
-    public function testIsApplicableWithoutWebsite()
+    public function testIsApplicableWithoutWebsite(): void
     {
         $criteria = $this->createMock(Criteria::class);
         $criteria->expects($this->once())
@@ -21,7 +22,7 @@ class WebsiteAwareAccessRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($accessRule->isApplicable($criteria));
     }
 
-    public function testIsApplicableWithWebsite()
+    public function testIsApplicableWithWebsite(): void
     {
         $criteria = $this->createMock(Criteria::class);
         $criteria->expects($this->once())
@@ -33,7 +34,7 @@ class WebsiteAwareAccessRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($accessRule->isApplicable($criteria));
     }
 
-    public function testProcess()
+    public function testProcess(): void
     {
         $criteria = $this->createMock(Criteria::class);
         $criteria->expects($this->once())

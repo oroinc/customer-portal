@@ -5,18 +5,17 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\FrontendBundle\Form\Type\ThemeSelectType;
 use Oro\Component\Layout\Extension\Theme\Model\Theme;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ThemeSelectTypeTest extends \PHPUnit\Framework\TestCase
+class ThemeSelectTypeTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|ThemeManager */
-    private $themeManager;
-
-    /** @var ThemeSelectType */
-    private $type;
+    private ThemeManager&MockObject $themeManager;
+    private ThemeSelectType $type;
 
     #[\Override]
     protected function setUp(): void
@@ -26,12 +25,12 @@ class ThemeSelectTypeTest extends \PHPUnit\Framework\TestCase
         $this->type = new ThemeSelectType($this->themeManager);
     }
 
-    public function testGetParent()
+    public function testGetParent(): void
     {
         $this->assertEquals(ChoiceType::class, $this->type->getParent());
     }
 
-    public function testConfigureOptions()
+    public function testConfigureOptions(): void
     {
         $themes = [
             $this->getTheme('theme1', 'label1', 'icon1', 'logo1', 'screenshot1', 'description1'),
@@ -58,7 +57,7 @@ class ThemeSelectTypeTest extends \PHPUnit\Framework\TestCase
         $this->type->configureOptions($resolver);
     }
 
-    public function testFinishView()
+    public function testFinishView(): void
     {
         $themes = [
             $this->getTheme('theme1', 'label1', 'icon1', 'logo1', 'screenshot1', 'description1'),

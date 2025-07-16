@@ -12,7 +12,7 @@ class QuickAccessButtonConfigTest extends TestCase
 {
     use EntityTestCaseTrait;
 
-    public function testAccessors()
+    public function testAccessors(): void
     {
         $properties = [
             ['type', 'test'],
@@ -23,7 +23,7 @@ class QuickAccessButtonConfigTest extends TestCase
         self::assertPropertyAccessors(new QuickAccessButtonConfig(), $properties);
     }
 
-    public function testGetters()
+    public function testGetters(): void
     {
         $config = new QuickAccessButtonConfig();
         // check default values

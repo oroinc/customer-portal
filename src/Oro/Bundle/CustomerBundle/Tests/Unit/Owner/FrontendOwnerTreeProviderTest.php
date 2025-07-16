@@ -18,6 +18,7 @@ use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\ORM\Mocks\ConnectionMock;
 use Oro\Component\Testing\Unit\ORM\Mocks\DriverMock;
 use Oro\Component\Testing\Unit\ORM\OrmTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -25,20 +26,11 @@ use Symfony\Contracts\Cache\CacheInterface;
 
 class FrontendOwnerTreeProviderTest extends OrmTestCase
 {
-    /** @var OwnershipMetadataProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $ownershipMetadataProvider;
-
-    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenStorage;
-
-    /** @var MessageProducer|\PHPUnit\Framework\MockObject\MockObject */
-    private $messageProducer;
-
-    /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $logger;
-
-    /** @var FrontendOwnerTreeProvider */
-    private $treeProvider;
+    private OwnershipMetadataProviderInterface&MockObject $ownershipMetadataProvider;
+    private TokenStorageInterface&MockObject $tokenStorage;
+    private MessageProducer&MockObject $messageProducer;
+    private LoggerInterface&MockObject $logger;
+    private FrontendOwnerTreeProvider $treeProvider;
 
     #[\Override]
     protected function setUp(): void

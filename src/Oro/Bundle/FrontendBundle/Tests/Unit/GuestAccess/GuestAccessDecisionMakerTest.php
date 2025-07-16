@@ -6,8 +6,10 @@ use Oro\Bundle\FrontendBundle\GuestAccess\GuestAccessDecisionMaker;
 use Oro\Bundle\FrontendBundle\GuestAccess\GuestAccessDecisionMakerInterface;
 use Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProviderInterface;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class GuestAccessDecisionMakerTest extends \PHPUnit\Framework\TestCase
+class GuestAccessDecisionMakerTest extends TestCase
 {
     private const ALLOWED_URLS = [
         '^/customer/user/login$',
@@ -16,14 +18,9 @@ class GuestAccessDecisionMakerTest extends \PHPUnit\Framework\TestCase
 
     private const NOT_FRONTEND_URL = '/admin/';
 
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
-
-    /** @var GuestAccessAllowedUrlsProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $guestAccessAllowedUrlsProvider;
-
-    /** @var GuestAccessDecisionMaker */
-    private $guestAccessDecisionMaker;
+    private FrontendHelper&MockObject $frontendHelper;
+    private GuestAccessAllowedUrlsProviderInterface&MockObject $guestAccessAllowedUrlsProvider;
+    private GuestAccessDecisionMaker $guestAccessDecisionMaker;
 
     #[\Override]
     protected function setUp(): void
@@ -40,7 +37,7 @@ class GuestAccessDecisionMakerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider decideDataProvider
      */
-    public function testDecide(string $url, int $expectedDecision)
+    public function testDecide(string $url, int $expectedDecision): void
     {
         $this->guestAccessAllowedUrlsProvider->expects(self::any())
             ->method('getAllowedUrlsPatterns')

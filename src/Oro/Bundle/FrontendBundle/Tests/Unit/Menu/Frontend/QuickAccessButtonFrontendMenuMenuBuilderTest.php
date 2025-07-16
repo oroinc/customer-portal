@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 
 class QuickAccessButtonFrontendMenuMenuBuilderTest extends TestCase
 {
-    private BuilderInterface|MockObject $menuBuilder;
+    private BuilderInterface&MockObject $menuBuilder;
     private QuickAccessButtonFrontendMenuMenuBuilder $builder;
 
     #[\Override]
@@ -34,8 +34,7 @@ class QuickAccessButtonFrontendMenuMenuBuilderTest extends TestCase
         $config = (new QuickAccessButtonConfig())
             ->setType(QuickAccessButtonConfig::TYPE_MENU)
             ->setMenu('test_menu');
-        $this->menuBuilder
-            ->expects(self::once())
+        $this->menuBuilder->expects(self::once())
             ->method('build')
             ->with($menuItem, [
                 'check_access_not_logged_in' => true,
@@ -43,8 +42,12 @@ class QuickAccessButtonFrontendMenuMenuBuilderTest extends TestCase
                 'qab_config' => $config,
             ], 'test_menu');
 
-        $menuItem->expects(self::once())->method('getUri')->willReturn('test_uri');
-        $menuItem->expects(self::once())->method('getChildren')->willReturn([]);
+        $menuItem->expects(self::once())
+            ->method('getUri')
+            ->willReturn('test_uri');
+        $menuItem->expects(self::once())
+            ->method('getChildren')
+            ->willReturn([]);
 
         $this->builder->build($menuItem, [
             'test' => 'test',
@@ -56,8 +59,10 @@ class QuickAccessButtonFrontendMenuMenuBuilderTest extends TestCase
     {
         $menuItem = $this->createMock(ItemInterface::class);
 
-        $this->menuBuilder->expects(self::never())->method(self::anything());
-        $menuItem->expects(self::never())->method(self::anything());
+        $this->menuBuilder->expects(self::never())
+            ->method(self::anything());
+        $menuItem->expects(self::never())
+            ->method(self::anything());
 
         $this->builder->build($menuItem, ['test' => 'test'], 'non_supported');
     }
@@ -69,8 +74,10 @@ class QuickAccessButtonFrontendMenuMenuBuilderTest extends TestCase
             ->setType(QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE)
             ->setMenu('test_menu');
 
-        $this->menuBuilder->expects(self::never())->method(self::anything());
-        $menuItem->expects(self::never())->method(self::anything());
+        $this->menuBuilder->expects(self::never())
+            ->method(self::anything());
+        $menuItem->expects(self::never())
+            ->method(self::anything());
 
         $this->builder->build($menuItem, [
             'test' => 'test',
@@ -85,8 +92,11 @@ class QuickAccessButtonFrontendMenuMenuBuilderTest extends TestCase
         $config = (new QuickAccessButtonConfig())
             ->setType(QuickAccessButtonConfig::TYPE_MENU)
             ->setMenu('quick_access_button_menu');
-        $this->menuBuilder->expects(self::never())->method(self::anything());
-        $menuItem->expects(self::once())->method('setExtra')->with('menu_not_resolved', true);
+        $this->menuBuilder->expects(self::never())
+            ->method(self::anything());
+        $menuItem->expects(self::once())
+            ->method('setExtra')
+            ->with('menu_not_resolved', true);
 
         $this->builder->build($menuItem, [
             'test' => 'test',
@@ -102,8 +112,7 @@ class QuickAccessButtonFrontendMenuMenuBuilderTest extends TestCase
             ->setType(QuickAccessButtonConfig::TYPE_MENU)
             ->setMenu('test_menu');
 
-        $this->menuBuilder
-            ->expects(self::once())
+        $this->menuBuilder->expects(self::once())
             ->method('build')
             ->with($menuItem, [
                 'check_access_not_logged_in' => true,
@@ -111,9 +120,15 @@ class QuickAccessButtonFrontendMenuMenuBuilderTest extends TestCase
                 'qab_config' => $config,
             ], 'test_menu');
 
-        $menuItem->expects(self::once())->method('getUri')->willReturn(null);
-        $menuItem->expects(self::once())->method('getChildren')->willReturn([]);
-        $menuItem->expects(self::once())->method('setExtra')->with('menu_not_resolved', true);
+        $menuItem->expects(self::once())
+            ->method('getUri')
+            ->willReturn(null);
+        $menuItem->expects(self::once())
+            ->method('getChildren')
+            ->willReturn([]);
+        $menuItem->expects(self::once())
+            ->method('setExtra')
+            ->with('menu_not_resolved', true);
 
         $this->builder->build($menuItem, [
             'test' => 'test',
@@ -139,8 +154,7 @@ class QuickAccessButtonFrontendMenuMenuBuilderTest extends TestCase
         $config = (new QuickAccessButtonConfig())
             ->setType(QuickAccessButtonConfig::TYPE_MENU)
             ->setMenu('test_menu');
-        $this->menuBuilder
-            ->expects(self::once())
+        $this->menuBuilder->expects(self::once())
             ->method('build')
             ->with($menuItem, [
                 'check_access_not_logged_in' => true,
@@ -186,8 +200,7 @@ class QuickAccessButtonFrontendMenuMenuBuilderTest extends TestCase
         $config = (new QuickAccessButtonConfig())
             ->setType(QuickAccessButtonConfig::TYPE_MENU)
             ->setMenu('test_menu');
-        $this->menuBuilder
-            ->expects(self::once())
+        $this->menuBuilder->expects(self::once())
             ->method('build')
             ->with($menuItem, [
                 'check_access_not_logged_in' => true,

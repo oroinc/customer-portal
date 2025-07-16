@@ -8,21 +8,18 @@ use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface;
 use Oro\Bundle\DataGridBundle\Event\BuildBefore;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Acl\Exception\InvalidDomainObjectException;
 
-class CustomerDatagridListenerTest extends \PHPUnit\Framework\TestCase
+class CustomerDatagridListenerTest extends TestCase
 {
     private const ENTITY_CLASS = 'TestEntity';
     private const COLUMN_NAME = 'testColumnName';
 
-    /** @var CustomerUserProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $securityProvider;
-
-    /** @var DatagridInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $datagrid;
-
-    /** @var CustomerDatagridListener */
-    private $listener;
+    private CustomerUserProvider&MockObject $securityProvider;
+    private DatagridInterface&MockObject $datagrid;
+    private CustomerDatagridListener $listener;
 
     #[\Override]
     protected function setUp(): void
@@ -33,7 +30,7 @@ class CustomerDatagridListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener = new CustomerDatagridListener($this->securityProvider, [self::COLUMN_NAME]);
     }
 
-    public function testBuildBeforeInvalidDomainObjectException()
+    public function testBuildBeforeInvalidDomainObjectException(): void
     {
         $this->securityProvider->expects($this->any())
             ->method('isGrantedViewCustomerUser')
@@ -55,7 +52,7 @@ class CustomerDatagridListenerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider buildBeforeFrontendQuotesProvider
      */
-    public function testBuildBefore(array $inputData, array $expectedData)
+    public function testBuildBefore(array $inputData, array $expectedData): void
     {
         $this->securityProvider->expects($this->any())
             ->method('isGrantedViewCustomerUser')

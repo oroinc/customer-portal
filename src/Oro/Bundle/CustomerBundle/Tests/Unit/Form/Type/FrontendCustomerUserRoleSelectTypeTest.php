@@ -14,16 +14,14 @@ use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleSelectType;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 {
-    /** @var FrontendCustomerUserRoleSelectType */
-    private $formType;
-
-    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $registry;
+    private FrontendCustomerUserRoleSelectType $formType;
+    private ManagerRegistry&MockObject $registry;
 
     #[\Override]
     protected function setUp(): void
@@ -94,21 +92,19 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         $resolver->expects($this->once())
             ->method('setDefaults')
             ->with($this->isType('array'))
-            ->willReturnCallback(
-                function (array $options) use ($resolver) {
-                    $this->assertArrayHasKey('query_builder', $options);
-                    $this->assertInstanceOf(\Closure::class, $options['query_builder']);
-                    $this->assertArrayHasKey('acl_options', $options);
-                    $this->assertEquals(
-                        [
-                            'permission' => 'VIEW'
-                        ],
-                        $options['acl_options']
-                    );
+            ->willReturnCallback(function (array $options) use ($resolver) {
+                $this->assertArrayHasKey('query_builder', $options);
+                $this->assertInstanceOf(\Closure::class, $options['query_builder']);
+                $this->assertArrayHasKey('acl_options', $options);
+                $this->assertEquals(
+                    [
+                        'permission' => 'VIEW'
+                    ],
+                    $options['acl_options']
+                );
 
-                    return $resolver;
-                }
-            );
+                return $resolver;
+            });
         $this->formType->configureOptions($resolver);
     }
 

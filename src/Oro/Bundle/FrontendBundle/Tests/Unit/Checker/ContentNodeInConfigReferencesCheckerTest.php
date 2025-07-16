@@ -21,7 +21,6 @@ class ContentNodeInConfigReferencesCheckerTest extends TestCase
     private ThemeConfigurationProvider $themeConfigurationProvider;
     private WebsiteProviderInterface $websiteProvider;
     private ContentNode $contentNode;
-
     private ContentNodeInConfigReferencesChecker $checker;
 
     #[\Override]
@@ -32,8 +31,7 @@ class ContentNodeInConfigReferencesCheckerTest extends TestCase
         $this->websiteProvider = $this->createMock(WebsiteProviderInterface::class);
         $this->contentNode = $this->createMock(ContentNode::class);
 
-        $this->contentNode
-            ->expects($this->once())
+        $this->contentNode->expects($this->once())
             ->method('getId')
             ->willReturn(1);
 
@@ -44,26 +42,27 @@ class ContentNodeInConfigReferencesCheckerTest extends TestCase
         );
     }
 
-    public function testWarningMessageParamsPassed()
+    public function testWarningMessageParamsPassed(): void
     {
         $configValue = $this->createMock(QuickAccessButtonConfig::class);
-        $configValue->expects(self::once())->method('getType')->willReturn('web_catalog_node');
-        $configValue->expects(self::once())->method('getWebCatalogNode')->willReturn(1);
+        $configValue->expects(self::once())
+            ->method('getType')
+            ->willReturn('web_catalog_node');
+        $configValue->expects(self::once())
+            ->method('getWebCatalogNode')
+            ->willReturn(1);
         $website = $this->createMock(Website::class);
 
-        $this->websiteProvider
-            ->expects(self::once())
+        $this->websiteProvider->expects(self::once())
             ->method('getWebsites')
             ->willReturn([$website]);
 
-        $this->themeConfigurationProvider
-            ->expects(self::any())
+        $this->themeConfigurationProvider->expects(self::any())
             ->method('getThemeConfigurationOption')
             ->with(ThemeConfiguration::buildOptionKey('header', 'quick_access_button'))
             ->willReturn($configValue);
 
-        $this->translator
-            ->expects($this->once())
+        $this->translator->expects($this->once())
             ->method('trans')
             ->with($this->equalTo('oro.webcatalog.system_configuration.label'));
 
@@ -73,26 +72,27 @@ class ContentNodeInConfigReferencesCheckerTest extends TestCase
         );
     }
 
-    public function testThatEmptyWarningMessageParamsReturns()
+    public function testThatEmptyWarningMessageParamsReturns(): void
     {
         $configValue = $this->createMock(QuickAccessButtonConfig::class);
-        $configValue->expects(self::once())->method('getType')->willReturn('web_catalog_node');
-        $configValue->expects(self::once())->method('getWebCatalogNode')->willReturn(2);
+        $configValue->expects(self::once())
+            ->method('getType')
+            ->willReturn('web_catalog_node');
+        $configValue->expects(self::once())
+            ->method('getWebCatalogNode')
+            ->willReturn(2);
         $website = $this->createMock(Website::class);
 
-        $this->websiteProvider
-            ->expects(self::once())
+        $this->websiteProvider->expects(self::once())
             ->method('getWebsites')
             ->willReturn([$website]);
 
-        $this->themeConfigurationProvider
-            ->expects(self::any())
+        $this->themeConfigurationProvider->expects(self::any())
             ->method('getThemeConfigurationOption')
             ->with(ThemeConfiguration::buildOptionKey('header', 'quick_access_button'))
             ->willReturn($configValue);
 
-        $this->translator
-            ->expects($this->never())
+        $this->translator->expects($this->never())
             ->method('trans');
 
         $this->assertNull($this->checker->check($this->contentNode));

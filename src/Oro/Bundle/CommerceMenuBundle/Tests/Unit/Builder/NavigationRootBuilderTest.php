@@ -19,14 +19,10 @@ class NavigationRootBuilderTest extends TestCase
 {
     use MenuItemTestTrait;
 
-    private WebCatalogProvider|MockObject $webCatalogProvider;
-
-    private BuilderInterface|MockObject $masterCatalogNavigationRootBuilder;
-
-    private BuilderInterface|MockObject $webCatalogNavigationRootBuilder;
-
-    private SystemConfigManager|MockObject $systemConfigManager;
-
+    private WebCatalogProvider&MockObject $webCatalogProvider;
+    private BuilderInterface&MockObject $masterCatalogNavigationRootBuilder;
+    private BuilderInterface&MockObject $webCatalogNavigationRootBuilder;
+    private SystemConfigManager&MockObject $systemConfigManager;
     private NavigationRootBuilder $builder;
 
     #[\Override]
@@ -47,22 +43,18 @@ class NavigationRootBuilderTest extends TestCase
 
     public function testBuildWhenNoMainNavigationMenu(): void
     {
-        $this->systemConfigManager
-            ->expects(self::once())
+        $this->systemConfigManager->expects(self::once())
             ->method('get')
             ->with(Configuration::getConfigKeyByName(Configuration::MAIN_NAVIGATION_MENU))
             ->willReturn('');
 
-        $this->webCatalogProvider
-            ->expects(self::never())
+        $this->webCatalogProvider->expects(self::never())
             ->method(self::anything());
 
-        $this->masterCatalogNavigationRootBuilder
-            ->expects(self::never())
+        $this->masterCatalogNavigationRootBuilder->expects(self::never())
             ->method(self::anything());
 
-        $this->webCatalogNavigationRootBuilder
-            ->expects(self::never())
+        $this->webCatalogNavigationRootBuilder->expects(self::never())
             ->method(self::anything());
 
         $menu = $this->createItem('sample_menu');
@@ -73,22 +65,18 @@ class NavigationRootBuilderTest extends TestCase
 
     public function testBuildWhenTargetMenuNotEquals(): void
     {
-        $this->systemConfigManager
-            ->expects(self::once())
+        $this->systemConfigManager->expects(self::once())
             ->method('get')
             ->with(Configuration::getConfigKeyByName(Configuration::MAIN_NAVIGATION_MENU))
             ->willReturn('sample_menu');
 
-        $this->webCatalogProvider
-            ->expects(self::never())
+        $this->webCatalogProvider->expects(self::never())
             ->method(self::anything());
 
-        $this->masterCatalogNavigationRootBuilder
-            ->expects(self::never())
+        $this->masterCatalogNavigationRootBuilder->expects(self::never())
             ->method(self::anything());
 
-        $this->webCatalogNavigationRootBuilder
-            ->expects(self::never())
+        $this->webCatalogNavigationRootBuilder->expects(self::never())
             ->method(self::anything());
 
         $menu = $this->createItem('another_menu');
@@ -99,20 +87,16 @@ class NavigationRootBuilderTest extends TestCase
 
     public function testBuildWhenNotDisplayed(): void
     {
-        $this->systemConfigManager
-            ->expects(self::never())
+        $this->systemConfigManager->expects(self::never())
             ->method(self::anything());
 
-        $this->webCatalogProvider
-            ->expects(self::never())
+        $this->webCatalogProvider->expects(self::never())
             ->method(self::anything());
 
-        $this->masterCatalogNavigationRootBuilder
-            ->expects(self::never())
+        $this->masterCatalogNavigationRootBuilder->expects(self::never())
             ->method(self::anything());
 
-        $this->webCatalogNavigationRootBuilder
-            ->expects(self::never())
+        $this->webCatalogNavigationRootBuilder->expects(self::never())
             ->method(self::anything());
 
         $menu = $this->createItem('sample_menu');
@@ -127,8 +111,7 @@ class NavigationRootBuilderTest extends TestCase
      */
     public function testBuildWhenHasWebCatalog(array $options, ?Website $expectedWebsite): void
     {
-        $this->systemConfigManager
-            ->expects(self::once())
+        $this->systemConfigManager->expects(self::once())
             ->method('get')
             ->with(Configuration::getConfigKeyByName(Configuration::MAIN_NAVIGATION_MENU))
             ->willReturn('sample_menu');
@@ -141,12 +124,10 @@ class NavigationRootBuilderTest extends TestCase
             ->with($expectedWebsite)
             ->willReturn($webCatalog);
 
-        $this->masterCatalogNavigationRootBuilder
-            ->expects(self::never())
+        $this->masterCatalogNavigationRootBuilder->expects(self::never())
             ->method(self::anything());
 
-        $this->webCatalogNavigationRootBuilder
-            ->expects(self::once())
+        $this->webCatalogNavigationRootBuilder->expects(self::once())
             ->method('build')
             ->with($menu, ['website' => $expectedWebsite] + $options);
 
@@ -190,26 +171,22 @@ class NavigationRootBuilderTest extends TestCase
      */
     public function testBuildWhenNoWebCatalog(array $options, ?Website $expectedWebsite): void
     {
-        $this->systemConfigManager
-            ->expects(self::once())
+        $this->systemConfigManager->expects(self::once())
             ->method('get')
             ->with(Configuration::getConfigKeyByName(Configuration::MAIN_NAVIGATION_MENU))
             ->willReturn('sample_menu');
 
         $menu = $this->createItem('sample_menu');
 
-        $this->webCatalogProvider
-            ->expects(self::once())
+        $this->webCatalogProvider->expects(self::once())
             ->method('getWebCatalog')
             ->willReturn(null);
 
-        $this->masterCatalogNavigationRootBuilder
-            ->expects(self::once())
+        $this->masterCatalogNavigationRootBuilder->expects(self::once())
             ->method('build')
             ->with($menu, ['website' => $expectedWebsite] + $options);
 
-        $this->webCatalogNavigationRootBuilder
-            ->expects(self::never())
+        $this->webCatalogNavigationRootBuilder->expects(self::never())
             ->method(self::anything());
 
         $this->builder->build($menu, $options);

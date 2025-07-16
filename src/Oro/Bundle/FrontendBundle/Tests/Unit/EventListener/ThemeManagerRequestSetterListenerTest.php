@@ -31,7 +31,9 @@ class ThemeManagerRequestSetterListenerTest extends TestCase
             $this->createMock(Response::class)
         );
 
-        $this->currentThemeProvider->expects($this->once())->method('setCurrentRequest')->with($request);
+        $this->currentThemeProvider->expects($this->once())
+            ->method('setCurrentRequest')
+            ->with($request);
 
         $this->themeManagerRequestSetterListener->onKernelTerminate($event);
     }

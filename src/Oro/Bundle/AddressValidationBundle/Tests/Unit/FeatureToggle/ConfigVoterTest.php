@@ -17,13 +17,11 @@ use PHPUnit\Framework\TestCase;
 final class ConfigVoterTest extends TestCase
 {
     private ConfigManager&MockObject $configManager;
-
     private ConfigurationManager&MockObject $featureConfigManager;
-
     private ConfigVoter $voter;
-
     private ObjectRepository&MockObject $channelRepository;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);
@@ -37,7 +35,7 @@ final class ConfigVoterTest extends TestCase
         );
 
         $this->channelRepository = $this->createMock(ObjectRepository::class);
-        $doctrine
+        $doctrine->expects(self::any())
             ->method('getRepository')
             ->with(Channel::class)
             ->willReturn($this->channelRepository);
@@ -53,8 +51,7 @@ final class ConfigVoterTest extends TestCase
 
     public function testVoteAbstainWhenToggleIsMissing(): void
     {
-        $this->featureConfigManager
-            ->expects(self::once())
+        $this->featureConfigManager->expects(self::once())
             ->method('get')
             ->with('oro_address_validation', 'toggle')
             ->willReturn(null);
@@ -66,14 +63,12 @@ final class ConfigVoterTest extends TestCase
 
     public function testVoteDisabledWhenChannelIdIsMissing(): void
     {
-        $this->featureConfigManager
-            ->expects(self::once())
+        $this->featureConfigManager->expects(self::once())
             ->method('get')
             ->with('oro_address_validation', 'toggle')
             ->willReturn('oro_address_validation.address_validation_service');
 
-        $this->configManager
-            ->expects(self::once())
+        $this->configManager->expects(self::once())
             ->method('get')
             ->with('oro_address_validation.address_validation_service', false, false, null)
             ->willReturn(null);
@@ -85,20 +80,17 @@ final class ConfigVoterTest extends TestCase
 
     public function testVoteDisabledWhenChannelNotFound(): void
     {
-        $this->featureConfigManager
-            ->expects(self::once())
+        $this->featureConfigManager->expects(self::once())
             ->method('get')
             ->with('oro_address_validation', 'toggle')
             ->willReturn('oro_address_validation.address_validation_service');
 
-        $this->configManager
-            ->expects(self::once())
+        $this->configManager->expects(self::once())
             ->method('get')
             ->with('oro_address_validation.address_validation_service', false, false, null)
             ->willReturn(123);
 
-        $this->channelRepository
-            ->expects(self::once())
+        $this->channelRepository->expects(self::once())
             ->method('find')
             ->with(123)
             ->willReturn(null);
@@ -110,21 +102,18 @@ final class ConfigVoterTest extends TestCase
 
     public function testVoteEnabledWhenChannelExists(): void
     {
-        $this->featureConfigManager
-            ->expects(self::once())
+        $this->featureConfigManager->expects(self::once())
             ->method('get')
             ->with('oro_address_validation', 'toggle')
             ->willReturn('oro_address_validation.address_validation_service');
 
-        $this->configManager
-            ->expects(self::once())
+        $this->configManager->expects(self::once())
             ->method('get')
             ->with('oro_address_validation.address_validation_service', false, false, null)
             ->willReturn(123);
 
         $channel = $this->createMock(Channel::class);
-        $this->channelRepository
-            ->expects(self::once())
+        $this->channelRepository->expects(self::once())
             ->method('find')
             ->with(123)
             ->willReturn($channel);

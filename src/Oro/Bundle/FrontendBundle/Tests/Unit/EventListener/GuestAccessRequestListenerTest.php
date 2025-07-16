@@ -7,41 +7,28 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\EventListener\GuestAccessRequestListener;
 use Oro\Bundle\FrontendBundle\GuestAccess\GuestAccessDecisionMakerInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Routing\RouterInterface;
 
-class GuestAccessRequestListenerTest extends \PHPUnit\Framework\TestCase
+class GuestAccessRequestListenerTest extends TestCase
 {
     private const REQUEST_URL = '/random-url';
     private const REQUEST_API_URL = '/api/random-url';
     private const REDIRECT_URL = '/customer/user/login';
 
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var ConfigManager */
-    private $configManager;
-
-    /** @var GuestAccessDecisionMakerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $guestAccessDecisionMaker;
-
-    /** @var RouterInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $router;
-
-    /** @var ApiRequestHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $apiRequestHelper;
-
-    /** @var RequestEvent|\PHPUnit\Framework\MockObject\MockObject */
-    private $event;
-
-    /** @var Request|\PHPUnit\Framework\MockObject\MockObject */
-    private $request;
-
-    /** @var GuestAccessRequestListener */
-    private $listener;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private ConfigManager $configManager;
+    private GuestAccessDecisionMakerInterface&MockObject $guestAccessDecisionMaker;
+    private RouterInterface&MockObject $router;
+    private ApiRequestHelper&MockObject $apiRequestHelper;
+    private RequestEvent&MockObject $event;
+    private Request&MockObject $request;
+    private GuestAccessRequestListener $listener;
 
     #[\Override]
     protected function setUp(): void

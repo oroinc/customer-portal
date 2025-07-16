@@ -8,17 +8,14 @@ use Doctrine\ORM\UnitOfWork;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\EventListener\WebsiteListener;
 use Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class WebsiteListenerTest extends \PHPUnit\Framework\TestCase
+class WebsiteListenerTest extends TestCase
 {
-    /** @var CacheableWebsiteProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $cacheableProvider;
-
-    /** @var UnitOfWork|\PHPUnit\Framework\MockObject\MockObject */
-    private $uow;
-
-    /** @var WebsiteListener */
-    private $listener;
+    private CacheableWebsiteProvider&MockObject $cacheableProvider;
+    private UnitOfWork&MockObject $uow;
+    private WebsiteListener $listener;
 
     #[\Override]
     protected function setUp(): void
@@ -29,7 +26,7 @@ class WebsiteListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener = new WebsiteListener($this->cacheableProvider);
     }
 
-    public function testOnFlushWhenNoScheduledWebsite()
+    public function testOnFlushWhenNoScheduledWebsite(): void
     {
         $this->cacheableProvider->expects($this->never())
             ->method('clearCache');
@@ -47,7 +44,7 @@ class WebsiteListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener->onFlush($this->getEventArgs());
     }
 
-    public function testOnFlushWhenHasInsertedWebsite()
+    public function testOnFlushWhenHasInsertedWebsite(): void
     {
         $this->cacheableProvider->expects($this->once())
             ->method('clearCache');
@@ -63,7 +60,7 @@ class WebsiteListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener->onFlush($this->getEventArgs());
     }
 
-    public function testOnFlushWhenHasUpdatedWebsite()
+    public function testOnFlushWhenHasUpdatedWebsite(): void
     {
         $this->cacheableProvider->expects($this->once())
             ->method('clearCache');
@@ -80,7 +77,7 @@ class WebsiteListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener->onFlush($this->getEventArgs());
     }
 
-    public function testOnFlushWhenHasDeletedWebsite()
+    public function testOnFlushWhenHasDeletedWebsite(): void
     {
         $this->cacheableProvider->expects($this->once())
             ->method('clearCache');

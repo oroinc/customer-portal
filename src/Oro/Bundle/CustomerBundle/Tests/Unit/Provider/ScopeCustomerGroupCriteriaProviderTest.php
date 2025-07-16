@@ -6,19 +6,16 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
 use Oro\Bundle\CustomerBundle\Provider\ScopeCustomerGroupCriteriaProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class ScopeCustomerGroupCriteriaProviderTest extends \PHPUnit\Framework\TestCase
+class ScopeCustomerGroupCriteriaProviderTest extends TestCase
 {
-    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenStorage;
-
-    /** @var CustomerUserRelationsProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $customerUserRelationsProvider;
-
-    /** @var ScopeCustomerGroupCriteriaProvider */
-    private $provider;
+    private TokenStorageInterface&MockObject $tokenStorage;
+    private CustomerUserRelationsProvider&MockObject $customerUserRelationsProvider;
+    private ScopeCustomerGroupCriteriaProvider $provider;
 
     #[\Override]
     protected function setUp(): void
@@ -32,12 +29,12 @@ class ScopeCustomerGroupCriteriaProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetCriteriaField()
+    public function testGetCriteriaField(): void
     {
         $this->assertEquals(ScopeCustomerGroupCriteriaProvider::CUSTOMER_GROUP, $this->provider->getCriteriaField());
     }
 
-    public function testGetCriteriaValue()
+    public function testGetCriteriaValue(): void
     {
         $customerUser = new CustomerUser();
 
@@ -59,7 +56,7 @@ class ScopeCustomerGroupCriteriaProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($customerUserGroup, $this->provider->getCriteriaValue());
     }
 
-    public function testGetCriteriaValueWithoutToken()
+    public function testGetCriteriaValueWithoutToken(): void
     {
         $this->tokenStorage->expects($this->once())
             ->method('getToken')
@@ -74,7 +71,7 @@ class ScopeCustomerGroupCriteriaProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($anonymousGroup, $this->provider->getCriteriaValue());
     }
 
-    public function testGetCriteriaValueWithoutUser()
+    public function testGetCriteriaValueWithoutUser(): void
     {
         $token = $this->createMock(TokenInterface::class);
         $token->expects($this->any())
@@ -94,7 +91,7 @@ class ScopeCustomerGroupCriteriaProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($anonymousGroup, $this->provider->getCriteriaValue());
     }
 
-    public function testGetCriteriaValueType()
+    public function testGetCriteriaValueType(): void
     {
         $this->assertEquals(CustomerGroup::class, $this->provider->getCriteriaValueType());
     }

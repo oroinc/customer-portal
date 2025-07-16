@@ -4,17 +4,16 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Unit\EventListener;
 
 use Oro\Bundle\WebsiteBundle\Asset\RequestContext;
 use Oro\Bundle\WebsiteBundle\EventListener\AssetsRequestListener;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class AssetsRequestListenerTest extends \PHPUnit\Framework\TestCase
+class AssetsRequestListenerTest extends TestCase
 {
-    /** @var RequestContext|\PHPUnit\Framework\MockObject\MockObject */
-    private $requestContext;
-
-    /** @var AssetsRequestListener */
-    private $listener;
+    private RequestContext&MockObject $requestContext;
+    private AssetsRequestListener $listener;
 
     #[\Override]
     protected function setUp(): void

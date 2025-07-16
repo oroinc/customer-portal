@@ -11,6 +11,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityExtendBundle\PropertyAccess;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -19,11 +20,8 @@ class SetCustomerTest extends CustomizeFormDataProcessorTestCase
 {
     private const CUSTOMER_FIELD_NAME = 'frontendOwner';
 
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var SetCustomer */
-    private $processor;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private SetCustomer $processor;
 
     #[\Override]
     protected function setUp(): void

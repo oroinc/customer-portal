@@ -15,8 +15,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class AnonymousUserEmailSendListenerTest extends TestCase
 {
-    private TokenStorageInterface|MockObject $tokenStorage;
-    private WebsiteManager|MockObject $websiteManager;
+    private TokenStorageInterface&MockObject $tokenStorage;
+    private WebsiteManager&MockObject $websiteManager;
     private AnonymousUserEmailSendListener $listener;
 
     #[\Override]
@@ -35,13 +35,11 @@ class AnonymousUserEmailSendListenerTest extends TestCase
     {
         $token = new AnonymousCustomerUserToken(new CustomerVisitor());
         $website = new Website();
-        $this->websiteManager
-            ->expects(self::once())
+        $this->websiteManager->expects(self::once())
             ->method('getCurrentWebsite')
             ->willReturn($website);
 
-        $this->tokenStorage
-            ->expects(self::once())
+        $this->tokenStorage->expects(self::once())
             ->method('getToken')
             ->willReturn($token);
         $event = new CustomerUserEmailSendEvent(new CustomerUser(), 'template', []);

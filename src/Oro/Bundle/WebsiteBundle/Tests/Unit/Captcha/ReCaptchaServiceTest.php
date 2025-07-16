@@ -21,15 +21,13 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class ReCaptchaServiceTest extends TestCase
 {
-    private ReCaptchaClientFactory|MockObject $reCaptchaClientFactory;
-    private ConfigManager|MockObject $configManager;
-    private RequestStack|MockObject $requestStack;
-    private SymmetricCrypterInterface|MockObject $crypter;
-
-    private WebsiteUrlResolver|MockObject $urlResolver;
-    private WebsiteManager|MockObject $websiteManager;
-    private FrontendHelper|MockObject $frontendHelper;
-
+    private ReCaptchaClientFactory&MockObject $reCaptchaClientFactory;
+    private ConfigManager&MockObject $configManager;
+    private RequestStack&MockObject $requestStack;
+    private SymmetricCrypterInterface&MockObject $crypter;
+    private WebsiteUrlResolver&MockObject $urlResolver;
+    private WebsiteManager&MockObject $websiteManager;
+    private FrontendHelper&MockObject $frontendHelper;
     private ReCaptchaService $captchaService;
 
     #[\Override]
@@ -55,7 +53,7 @@ class ReCaptchaServiceTest extends TestCase
         $this->captchaService->setFrontendHelper($this->frontendHelper);
     }
 
-    public function testIsConfiguredReturnsTrueWhenKeysArePresent()
+    public function testIsConfiguredReturnsTrueWhenKeysArePresent(): void
     {
         $this->configManager->expects($this->any())
             ->method('get')
@@ -79,7 +77,7 @@ class ReCaptchaServiceTest extends TestCase
         $this->assertTrue($this->captchaService->isConfigured());
     }
 
-    public function testIsConfiguredReturnsFalseWhenKeysAreAbsent()
+    public function testIsConfiguredReturnsFalseWhenKeysAreAbsent(): void
     {
         $this->configManager->expects($this->any())
             ->method('get')
@@ -88,7 +86,7 @@ class ReCaptchaServiceTest extends TestCase
         $this->assertFalse($this->captchaService->isConfigured());
     }
 
-    public function testIsVerifiedInvalid()
+    public function testIsVerifiedInvalid(): void
     {
         $this->reCaptchaClientFactory->expects(self::never())
             ->method('create');
@@ -99,7 +97,7 @@ class ReCaptchaServiceTest extends TestCase
     /**
      * @dataProvider verificationDataProvider
      */
-    public function testIsVerified(bool $isSuccess)
+    public function testIsVerified(bool $isSuccess): void
     {
         $secret = 'captchaResponseValue';
 
@@ -181,7 +179,7 @@ class ReCaptchaServiceTest extends TestCase
     /**
      * @dataProvider verificationDataProvider
      */
-    public function testIsVerifiedNonFrontend(bool $isSuccess)
+    public function testIsVerifiedNonFrontend(bool $isSuccess): void
     {
         $secret = 'captchaResponseValue';
 
@@ -264,7 +262,7 @@ class ReCaptchaServiceTest extends TestCase
         ];
     }
 
-    public function testGetFormTypeReturnsReCaptchaType()
+    public function testGetFormTypeReturnsReCaptchaType(): void
     {
         $this->assertEquals(ReCaptchaType::class, $this->captchaService->getFormType());
     }

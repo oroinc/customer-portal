@@ -16,7 +16,7 @@ use Symfony\Component\Form\FormView;
 final class QuickAccessButtonConfigBuilderTest extends TestCase
 {
     private FormBuilderInterface $formBuilder;
-    private Packages|MockObject $packages;
+    private Packages&MockObject $packages;
     private QuickAccessButtonConfigBuilder $quickAccessButtonConfigBuilder;
 
     #[\Override]
@@ -51,8 +51,7 @@ final class QuickAccessButtonConfigBuilderTest extends TestCase
      */
     public function testThatOptionBuiltCorrectly(array $option, array $expected): void
     {
-        $this->formBuilder
-            ->expects(self::once())
+        $this->formBuilder->expects(self::once())
             ->method('add')
             ->with(
                 $expected['name'],
@@ -80,14 +79,12 @@ final class QuickAccessButtonConfigBuilderTest extends TestCase
             ->willReturn($data);
 
         if ($assets['count'] > 0) {
-            $this->packages
-                ->expects(self::exactly($assets['count']))
+            $this->packages->expects(self::exactly($assets['count']))
                 ->method('getUrl')
                 ->withConsecutive(...$assets['url'])
                 ->willReturnOnConsecutiveCalls(...$assets['fullUrl']);
         } else {
-            $this->packages
-                ->expects(self::never())
+            $this->packages->expects(self::never())
                 ->method('getUrl');
         }
 

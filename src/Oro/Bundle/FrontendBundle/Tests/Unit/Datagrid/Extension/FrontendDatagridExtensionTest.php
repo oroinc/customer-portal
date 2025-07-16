@@ -7,14 +7,13 @@ use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
 use Oro\Bundle\DataGridBundle\Exception\LogicException;
 use Oro\Bundle\FrontendBundle\Datagrid\Extension\FrontendDatagridExtension;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class FrontendDatagridExtensionTest extends \PHPUnit\Framework\TestCase
+class FrontendDatagridExtensionTest extends TestCase
 {
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
-
-    /** @var FrontendDatagridExtension */
-    private $extension;
+    private FrontendHelper&MockObject $frontendHelper;
+    private FrontendDatagridExtension $extension;
 
     #[\Override]
     protected function setUp(): void
@@ -25,35 +24,35 @@ class FrontendDatagridExtensionTest extends \PHPUnit\Framework\TestCase
         $this->extension->setParameters(new ParameterBag());
     }
 
-    public function testShouldBeIsApplicableIfFrontendOptionIsNotSet()
+    public function testShouldBeIsApplicableIfFrontendOptionIsNotSet(): void
     {
         $datagridConfig = DatagridConfiguration::createNamed('test_grid', []);
 
         self::assertTrue($this->extension->isApplicable($datagridConfig));
     }
 
-    public function testShouldBeIsApplicableForBackendGrid()
+    public function testShouldBeIsApplicableForBackendGrid(): void
     {
         $datagridConfig = DatagridConfiguration::createNamed('test_grid', ['options' => ['frontend' => false]]);
 
         self::assertTrue($this->extension->isApplicable($datagridConfig));
     }
 
-    public function testShouldNotBeIsApplicableForFrontendGrid()
+    public function testShouldNotBeIsApplicableForFrontendGrid(): void
     {
         $datagridConfig = DatagridConfiguration::createNamed('test_grid', ['options' => ['frontend' => true]]);
 
         self::assertFalse($this->extension->isApplicable($datagridConfig));
     }
 
-    public function testShouldGrantAccessForFrontendGrid()
+    public function testShouldGrantAccessForFrontendGrid(): void
     {
         $datagridConfig = DatagridConfiguration::createNamed('test_grid', ['options' => ['frontend' => true]]);
 
         $this->extension->processConfigs($datagridConfig);
     }
 
-    public function testShouldGrantAccessForBackendGridForBackendRequest()
+    public function testShouldGrantAccessForBackendGridForBackendRequest(): void
     {
         $datagridConfig = DatagridConfiguration::createNamed('test_grid', []);
 
@@ -64,7 +63,7 @@ class FrontendDatagridExtensionTest extends \PHPUnit\Framework\TestCase
         $this->extension->processConfigs($datagridConfig);
     }
 
-    public function testShouldDenyAccessForBackendGridForFrontendRequest()
+    public function testShouldDenyAccessForBackendGridForFrontendRequest(): void
     {
         $this->expectException(LogicException::class);
         $datagridConfig = DatagridConfiguration::createNamed('test_grid', []);

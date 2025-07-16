@@ -20,10 +20,11 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 final class AddressCopierTest extends TestCase
 {
-    private PropertyAccessorInterface|MockObject $propertyAccessor;
-    private EntityManagerInterface|MockObject $entityManager;
+    private PropertyAccessorInterface&MockObject $propertyAccessor;
+    private EntityManagerInterface&MockObject $entityManager;
     private AddressCopier $addressCopier;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->propertyAccessor = $this->createMock(PropertyAccessorInterface::class);
@@ -50,7 +51,9 @@ final class AddressCopierTest extends TestCase
             ->method('getAssociationNames')
             ->willReturn(['association1', 'association2']);
 
-        $this->entityManager->method('getClassMetadata')->willReturn($metadata);
+        $this->entityManager->expects(self::any())
+            ->method('getClassMetadata')
+            ->willReturn($metadata);
 
         $this->propertyAccessor->expects(self::exactly(4))
             ->method('getValue')

@@ -11,16 +11,16 @@ use Oro\Component\Layout\Layout;
 use Oro\Component\Layout\LayoutBuilderInterface;
 use Oro\Component\Layout\LayoutContext;
 use Oro\Component\Layout\LayoutFactoryInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class MenuItemRendererTest extends \PHPUnit\Framework\TestCase
+class MenuItemRendererTest extends TestCase
 {
     use LoggerAwareTraitTestTrait;
     use MenuItemTestTrait;
 
-    private LayoutManager|\PHPUnit\Framework\MockObject\MockObject $layoutManager;
-
-    private LayoutBuilderInterface|\PHPUnit\Framework\MockObject\MockObject $layoutBuilder;
-
+    private LayoutManager&MockObject $layoutManager;
+    private LayoutBuilderInterface&MockObject $layoutBuilder;
     private MenuItemRenderer $menuItemRenderer;
 
     #[\Override]
@@ -29,14 +29,12 @@ class MenuItemRendererTest extends \PHPUnit\Framework\TestCase
         $this->layoutManager = $this->createMock(LayoutManager::class);
 
         $layoutFactory = $this->createMock(LayoutFactoryInterface::class);
-        $this->layoutManager
-            ->expects(self::any())
+        $this->layoutManager->expects(self::any())
             ->method('getLayoutFactory')
             ->willReturn($layoutFactory);
 
         $this->layoutBuilder = $this->createMock(LayoutBuilderInterface::class);
-        $layoutFactory
-            ->expects(self::any())
+        $layoutFactory->expects(self::any())
             ->method('createLayoutBuilder')
             ->willReturn($this->layoutBuilder);
 
@@ -66,27 +64,23 @@ class MenuItemRendererTest extends \PHPUnit\Framework\TestCase
         );
 
         $layout = $this->createMock(Layout::class);
-        $this->layoutBuilder
-            ->expects(self::once())
+        $this->layoutBuilder->expects(self::once())
             ->method('add')
             ->with('menu_item_root', null, 'container');
 
-        $this->layoutBuilder
-            ->expects(self::once())
+        $this->layoutBuilder->expects(self::once())
             ->method('getLayout')
             ->with($layoutContext)
             ->willReturn($layout);
 
-        $layout
-            ->expects(self::once())
+        $layout->expects(self::once())
             ->method('render')
             ->willThrowException($exception);
 
         $renderer = $this->getRenderer($debug);
         $renderer->setLogger($this->loggerMock);
 
-        $this->loggerMock
-            ->expects(self::once())
+        $this->loggerMock->expects(self::once())
             ->method('error')
             ->with(
                 'Error occurred while rendering menu item "{menu_item_name}": {error}',
@@ -128,25 +122,21 @@ class MenuItemRendererTest extends \PHPUnit\Framework\TestCase
         );
 
         $layout = $this->createMock(Layout::class);
-        $this->layoutBuilder
-            ->expects(self::once())
+        $this->layoutBuilder->expects(self::once())
             ->method('add')
             ->with('menu_item_root', null, 'container');
 
-        $this->layoutBuilder
-            ->expects(self::once())
+        $this->layoutBuilder->expects(self::once())
             ->method('getLayout')
             ->with($layoutContext)
             ->willReturn($layout);
 
         $result = 'sample result';
-        $layout
-            ->expects(self::once())
+        $layout->expects(self::once())
             ->method('render')
             ->willReturn($result);
 
-        $this->loggerMock
-            ->expects(self::never())
+        $this->loggerMock->expects(self::never())
             ->method('error');
 
         self::assertEquals($result, $this->menuItemRenderer->render($menuItem));

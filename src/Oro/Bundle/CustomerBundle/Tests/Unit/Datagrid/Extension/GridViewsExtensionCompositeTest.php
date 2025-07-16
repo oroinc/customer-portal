@@ -13,21 +13,16 @@ use Oro\Bundle\DataGridBundle\Extension\GridViews\GridViewsExtension;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
+class GridViewsExtensionCompositeTest extends TestCase
 {
-    /** @var GridViewsExtension|\PHPUnit\Framework\MockObject\MockObject */
-    private $defaultGridViewsExtension;
-
-    /** @var GridViewsExtension|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendGridViewsExtension;
-
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var GridViewsExtensionComposite */
-    private $extension;
+    private GridViewsExtension&MockObject $defaultGridViewsExtension;
+    private GridViewsExtension&MockObject $frontendGridViewsExtension;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private GridViewsExtensionComposite $extension;
 
     #[\Override]
     protected function setUp(): void
@@ -46,7 +41,7 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testIsApplicable(string|AbstractUser $user, ?TokenInterface $token, bool $isFrontend)
+    public function testIsApplicable(string|AbstractUser $user, ?TokenInterface $token, bool $isFrontend): void
     {
         $config = DatagridConfiguration::create([]);
 
@@ -74,7 +69,7 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testGetPriority(string|AbstractUser $user, ?TokenInterface $token, bool $isFrontend)
+    public function testGetPriority(string|AbstractUser $user, ?TokenInterface $token, bool $isFrontend): void
     {
         $anonymousToken = (bool) $token;
         $this->tokenAccessor->expects($this->once())
@@ -97,7 +92,7 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testVisitMetadata(string|AbstractUser $user, ?TokenInterface $token, bool $isFrontend)
+    public function testVisitMetadata(string|AbstractUser $user, ?TokenInterface $token, bool $isFrontend): void
     {
         $config = DatagridConfiguration::create([]);
         $data = MetadataObject::create([]);
@@ -133,7 +128,7 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testSetParameters(string|AbstractUser $user, ?TokenInterface $token, bool $isFrontend)
+    public function testSetParameters(string|AbstractUser $user, ?TokenInterface $token, bool $isFrontend): void
     {
         $params = new ParameterBag();
 

@@ -8,17 +8,16 @@ use Oro\Bundle\CustomerBundle\Layout\DataProvider\CurrentUserProvider;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class CurrentUserProviderTest extends \PHPUnit\Framework\TestCase
+class CurrentUserProviderTest extends TestCase
 {
-    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenStorage;
-
-    /** @var CurrentUserProvider */
-    private $provider;
+    private TokenStorageInterface&MockObject $tokenStorage;
+    private CurrentUserProvider $provider;
 
     #[\Override]
     protected function setUp(): void
@@ -28,7 +27,7 @@ class CurrentUserProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider = new CurrentUserProvider($this->tokenStorage);
     }
 
-    public function testGetCurrentUserWhenTokenContainsSupportedUser()
+    public function testGetCurrentUserWhenTokenContainsSupportedUser(): void
     {
         $token = $this->createMock(TokenInterface::class);
         $user = $this->createMock(AbstractUser::class);
@@ -43,7 +42,7 @@ class CurrentUserProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($user, $this->provider->getCurrentUser());
     }
 
-    public function testGetCurrentUserWhenTokenContainsNotSupportedUser()
+    public function testGetCurrentUserWhenTokenContainsNotSupportedUser(): void
     {
         $token = $this->createMock(TokenInterface::class);
         $user = $this->createMock(UserInterface::class);
@@ -58,7 +57,7 @@ class CurrentUserProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->provider->getCurrentUser());
     }
 
-    public function testGetCurrentUserWhenTokenDoesNotContainUser()
+    public function testGetCurrentUserWhenTokenDoesNotContainUser(): void
     {
         $token = $this->createMock(TokenInterface::class);
 
@@ -72,7 +71,7 @@ class CurrentUserProviderTest extends \PHPUnit\Framework\TestCase
         self::assertNull($this->provider->getCurrentUser());
     }
 
-    public function testGetCurrentUserWhenTokenDoesNotExist()
+    public function testGetCurrentUserWhenTokenDoesNotExist(): void
     {
         $this->tokenStorage->expects(self::once())
             ->method('getToken')
@@ -81,7 +80,7 @@ class CurrentUserProviderTest extends \PHPUnit\Framework\TestCase
         self::assertNull($this->provider->getCurrentUser());
     }
 
-    public function testIsFrontendRequestForNotAuthenticatedToken()
+    public function testIsFrontendRequestForNotAuthenticatedToken(): void
     {
         $token = $this->createMock(TokenInterface::class);
         $token->expects(self::once())
@@ -94,7 +93,7 @@ class CurrentUserProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->provider->isFrontendRequest());
     }
 
-    public function testIsFrontendRequestForFrontendToken()
+    public function testIsFrontendRequestForFrontendToken(): void
     {
         $token = $this->createMock(TokenInterface::class);
         $token->expects(self::exactly(2))
@@ -108,7 +107,7 @@ class CurrentUserProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->provider->isFrontendRequest());
     }
 
-    public function testIsFrontendRequestFoeAnonymousCustomerUserToken()
+    public function testIsFrontendRequestFoeAnonymousCustomerUserToken(): void
     {
         $token = $this->createMock(AnonymousCustomerUserToken::class);
         // anonymous customer visitor
@@ -123,7 +122,7 @@ class CurrentUserProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->provider->isFrontendRequest());
     }
 
-    public function testIsFrontendRequestForBackendToken()
+    public function testIsFrontendRequestForBackendToken(): void
     {
         $token = $this->createMock(TokenInterface::class);
         $token->expects(self::exactly(2))
@@ -137,7 +136,7 @@ class CurrentUserProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->provider->isFrontendRequest());
     }
 
-    public function testIsFrontendRequestWhenTokenDoesNotExist()
+    public function testIsFrontendRequestWhenTokenDoesNotExist(): void
     {
         $this->tokenStorage->expects(self::once())
             ->method('getToken')

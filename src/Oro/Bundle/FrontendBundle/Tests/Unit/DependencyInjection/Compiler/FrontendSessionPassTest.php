@@ -6,13 +6,13 @@ use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendSessionPass;
 use Oro\Bundle\FrontendBundle\Request\DynamicSessionHttpKernelDecorator;
 use Oro\Bundle\SecurityBundle\DependencyInjection\Compiler\SessionPass;
 use Oro\Bundle\SecurityBundle\Request\SessionHttpKernelDecorator;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class FrontendSessionPassTest extends \PHPUnit\Framework\TestCase
+class FrontendSessionPassTest extends TestCase
 {
     private FrontendSessionPass $compiler;
-
     private ContainerBuilder $container;
 
     #[\Override]

@@ -7,17 +7,16 @@ use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\CustomerBundle\Twig\CustomerExtension;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class CustomerExtensionTest extends \PHPUnit\Framework\TestCase
+class CustomerExtensionTest extends TestCase
 {
     use TwigExtensionTestCaseTrait;
     use EntityTrait;
 
-    /** @var CustomerUserProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $securityProvider;
-
-    /** @var CustomerExtension */
-    private $extension;
+    private CustomerUserProvider&MockObject $securityProvider;
+    private CustomerExtension $extension;
 
     #[\Override]
     protected function setUp(): void
@@ -31,7 +30,7 @@ class CustomerExtensionTest extends \PHPUnit\Framework\TestCase
         $this->extension = new CustomerExtension($container);
     }
 
-    public function testIsGrantedViewCustomerUser()
+    public function testIsGrantedViewCustomerUser(): void
     {
         $object = new \stdClass();
 
@@ -45,7 +44,7 @@ class CustomerExtensionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetCustomerParentParst()
+    public function testGetCustomerParentParst(): void
     {
         $rootParent = $this->getEntity(Customer::class, ['id' => 111, 'name' => 'rootParent']);
         $parent = $this->getEntity(Customer::class, ['id' => 333, 'name' => 'parent', 'parent' => $rootParent]);

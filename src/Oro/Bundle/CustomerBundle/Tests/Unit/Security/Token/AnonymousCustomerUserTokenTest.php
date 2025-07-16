@@ -8,12 +8,13 @@ use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\TestCase;
 
-class AnonymousCustomerUserTokenTest extends \PHPUnit\Framework\TestCase
+class AnonymousCustomerUserTokenTest extends TestCase
 {
     use EntityTrait;
 
-    public function testGetters()
+    public function testGetters(): void
     {
         $visitor = new CustomerVisitor();
         ReflectionUtil::setId($visitor, 1);
@@ -31,7 +32,7 @@ class AnonymousCustomerUserTokenTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($credentials, $token->getCredentials());
     }
 
-    public function testSerialization()
+    public function testSerialization(): void
     {
         $role = new CustomerUserRole();
         ReflectionUtil::setId($role, 2);

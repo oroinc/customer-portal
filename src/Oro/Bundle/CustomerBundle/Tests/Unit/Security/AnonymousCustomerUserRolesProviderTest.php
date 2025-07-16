@@ -11,17 +11,13 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Stub\WebsiteStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Stub\CustomerUserRoleProxyStub;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\Unit\ORM\OrmTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class AnonymousCustomerUserRolesProviderTest extends OrmTestCase
 {
-    /** @var EntityManagerInterface */
-    private $em;
-
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
-
-    /** @var AnonymousCustomerUserRolesProvider */
-    private $rolesProvider;
+    private EntityManagerInterface $em;
+    private WebsiteManager&MockObject $websiteManager;
+    private AnonymousCustomerUserRolesProvider $rolesProvider;
 
     #[\Override]
     protected function setUp(): void

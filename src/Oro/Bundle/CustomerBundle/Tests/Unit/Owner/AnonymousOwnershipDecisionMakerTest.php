@@ -13,15 +13,14 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Owner\EntityOwnerAccessor;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
+class AnonymousOwnershipDecisionMakerTest extends TestCase
 {
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var AnonymousOwnershipDecisionMaker */
-    private $decisionMaker;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private AnonymousOwnershipDecisionMaker $decisionMaker;
 
     #[\Override]
     protected function setUp(): void
@@ -42,7 +41,7 @@ class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider supportsDataProvider
      */
-    public function testSupports(?object $token, bool $expectedResult)
+    public function testSupports(?object $token, bool $expectedResult): void
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getToken')
@@ -58,7 +57,7 @@ class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
         CustomerVisitor $tokenVisitor,
         object $object,
         bool $expectedResult
-    ) {
+    ): void {
         $token = $this->createMock(AnonymousCustomerUserToken::class);
         $token->expects(self::any())
             ->method('getVisitor')
@@ -80,7 +79,7 @@ class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
         CustomerVisitor $tokenVisitor,
         object $object,
         bool $expectedResult
-    ) {
+    ): void {
         $token = $this->createMock(AnonymousCustomerUserToken::class);
         $token->expects(self::any())
             ->method('getVisitor')
@@ -102,7 +101,7 @@ class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
         CustomerVisitor $tokenVisitor,
         object $object,
         bool $expectedResult
-    ) {
+    ): void {
         $token = $this->createMock(AnonymousCustomerUserToken::class);
         $token->expects(self::any())
             ->method('getVisitor')

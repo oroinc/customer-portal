@@ -18,6 +18,8 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\Logger\BufferingLogger;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -26,37 +28,18 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class AnonymousCustomerUserAuthenticatorTest extends \PHPUnit\Framework\TestCase
+class AnonymousCustomerUserAuthenticatorTest extends TestCase
 {
-    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenStorage;
-
-    /** @var CsrfProtectedRequestHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $csrfProtectedRequestHelper;
-
-    /** @var CustomerVisitorCookieFactory|\PHPUnit\Framework\MockObject\MockObject */
-    private $cookieFactory;
-
-    /** @var AnonymousCustomerUserRolesProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $rolesProvider;
-
-    /** @var ApiRequestHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $apiRequestHelper;
-
-    /** @var BufferingLogger */
-    private $logger;
-
-    /** @var CustomerVisitorManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $visitorManager;
-
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
-
-    /** @var AnonymousCustomerUserTokenFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenFactory;
-
-    /** @var AnonymousCustomerUserAuthenticator */
-    private $authenticator;
+    private TokenStorageInterface&MockObject $tokenStorage;
+    private CsrfProtectedRequestHelper&MockObject $csrfProtectedRequestHelper;
+    private CustomerVisitorCookieFactory&MockObject $cookieFactory;
+    private AnonymousCustomerUserRolesProvider&MockObject $rolesProvider;
+    private ApiRequestHelper&MockObject $apiRequestHelper;
+    private BufferingLogger $logger;
+    private CustomerVisitorManager&MockObject $visitorManager;
+    private WebsiteManager&MockObject $websiteManager;
+    private AnonymousCustomerUserTokenFactoryInterface&MockObject $tokenFactory;
+    private AnonymousCustomerUserAuthenticator $authenticator;
 
     #[\Override]
     protected function setUp(): void

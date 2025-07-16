@@ -14,32 +14,23 @@ use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framework\TestCase
+class FrontendCustomerUserRegistrationFormProviderTest extends TestCase
 {
     use EntityTrait;
 
-    /** @var FrontendCustomerUserRegistrationFormProvider */
-    private $dataProvider;
-
-    /** @var FormFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $formFactory;
-
-    /** @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $em;
-
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
-
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
-
-    /** @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $router;
+    private FrontendCustomerUserRegistrationFormProvider $dataProvider;
+    private FormFactoryInterface&MockObject $formFactory;
+    private EntityManagerInterface&MockObject $em;
+    private ConfigManager&MockObject $configManager;
+    private WebsiteManager&MockObject $websiteManager;
+    private UrlGeneratorInterface&MockObject $router;
 
     #[\Override]
     protected function setUp(): void

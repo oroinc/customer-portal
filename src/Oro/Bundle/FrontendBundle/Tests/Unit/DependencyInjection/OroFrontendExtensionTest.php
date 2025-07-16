@@ -6,6 +6,7 @@ use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
 use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
@@ -15,9 +16,9 @@ use Symfony\Component\DependencyInjection\Exception\LogicException;
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
-class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
+class OroFrontendExtensionTest extends TestCase
 {
-    public function testLoad()
+    public function testLoad(): void
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.environment', 'prod');
@@ -55,7 +56,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         self::assertCount(3, $frontendHelperDef->getArguments());
     }
 
-    public function testConfigurationForNotConfiguredFrontendSession()
+    public function testConfigurationForNotConfiguredFrontendSession(): void
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.environment', 'prod');
@@ -67,7 +68,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         self::assertSame([], $container->getParameter('oro_frontend.session.storage.options'));
     }
 
-    public function testConfigurationForFrontendSession()
+    public function testConfigurationForFrontendSession(): void
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.environment', 'prod');
@@ -94,7 +95,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testConfigurationForFrontendSessionWithFalseValues()
+    public function testConfigurationForFrontendSessionWithFalseValues(): void
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.environment', 'prod');
@@ -120,7 +121,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testConfigurationForFrontendApiViews()
+    public function testConfigurationForFrontendApiViews(): void
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.environment', 'prod');
@@ -162,7 +163,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testShouldThrowExceptionIfFrontendApiDocViewIsUnknown()
+    public function testShouldThrowExceptionIfFrontendApiDocViewIsUnknown(): void
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage(
@@ -190,7 +191,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension->load([$config], $container);
     }
 
-    public function testConfigurationForFrontendApiEmptyCors()
+    public function testConfigurationForFrontendApiEmptyCors(): void
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.environment', 'prod');
@@ -207,7 +208,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         self::assertSame([], $corsSettingsDef->getArgument(4));
     }
 
-    public function testConfigurationForFrontendApiCors()
+    public function testConfigurationForFrontendApiCors(): void
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.environment', 'prod');
@@ -251,7 +252,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testPrependSecurity()
+    public function testPrependSecurity(): void
     {
         $configs = [
             [
@@ -299,7 +300,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($expected, $container->getExtensionConfig('security'));
     }
 
-    public function testPrependFosRest()
+    public function testPrependFosRest(): void
     {
         $configs = [
             [
@@ -346,7 +347,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($expected, $container->getExtensionConfig('fos_rest'));
     }
 
-    public function testValidateBackendPrefixWithNullValue()
+    public function testValidateBackendPrefixWithNullValue(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('The "web_backend_prefix" parameter value should not be empty.');
@@ -359,7 +360,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension->prepend($container);
     }
 
-    public function testValidateBackendPrefixWithEmptyValue()
+    public function testValidateBackendPrefixWithEmptyValue(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('The "web_backend_prefix" parameter value should not be empty.');
@@ -372,7 +373,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension->prepend($container);
     }
 
-    public function testValidateBackendPrefixWhenItNotStartsWithSlash()
+    public function testValidateBackendPrefixWhenItNotStartsWithSlash(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('The "web_backend_prefix" parameter should start with a "/" character.');
@@ -385,7 +386,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension->prepend($container);
     }
 
-    public function testValidateBackendPrefixWhenItEndsWithSlash()
+    public function testValidateBackendPrefixWhenItEndsWithSlash(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('The "web_backend_prefix" parameter should not end with a "/" character.');
@@ -398,7 +399,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension->prepend($container);
     }
 
-    public function testValidateBackendPrefixWithValidPrefixValue()
+    public function testValidateBackendPrefixWithValidPrefixValue(): void
     {
         $container = new ExtendedContainerBuilder();
         $container->setParameter('kernel.environment', 'prod');
@@ -408,7 +409,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension->prepend($container);
     }
 
-    public function testAddBackendPrefix()
+    public function testAddBackendPrefix(): void
     {
         $backendPrefix = '/admin';
         $originalConfig = [

@@ -37,7 +37,6 @@ final class FileIconProviderTest extends TestCase
     private FrontendHelper&MockObject $frontendHelper;
     private CurrentThemeProvider&MockObject $currentThemeProvider;
     private ThemeManager&MockObject $themeManager;
-
     private FileIconProvider $provider;
 
     #[\Override]

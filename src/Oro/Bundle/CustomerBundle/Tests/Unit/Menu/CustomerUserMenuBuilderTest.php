@@ -4,11 +4,11 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Menu;
 
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CustomerBundle\Menu\CustomerUserMenuBuilder;
+use PHPUnit\Framework\TestCase;
 
-class CustomerUserMenuBuilderTest extends \PHPUnit\Framework\TestCase
+class CustomerUserMenuBuilderTest extends TestCase
 {
-    /** @var CustomerUserMenuBuilder */
-    private $builder;
+    private CustomerUserMenuBuilder $builder;
 
     #[\Override]
     protected function setUp(): void
@@ -16,7 +16,7 @@ class CustomerUserMenuBuilderTest extends \PHPUnit\Framework\TestCase
         $this->builder = new CustomerUserMenuBuilder();
     }
 
-    public function testBuild()
+    public function testBuild(): void
     {
         $child = $this->createMock(ItemInterface::class);
         $child->expects($this->once())

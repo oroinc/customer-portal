@@ -3,19 +3,16 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Acl\Cache;
 
 use Oro\Bundle\CustomerBundle\Acl\Cache\CustomerVisitorAclCache;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 
-class CustomerVisitorAclCacheTest extends \PHPUnit\Framework\TestCase
+class CustomerVisitorAclCacheTest extends TestCase
 {
-    /** @var CacheItemPoolInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $cache;
-
-    /** @var CacheItemInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $cacheItem;
-
-    /** @var CustomerVisitorAclCache */
-    private $customerVisitorAclCache;
+    private CacheItemPoolInterface&MockObject $cache;
+    private CacheItemInterface&MockObject $cacheItem;
+    private CustomerVisitorAclCache $customerVisitorAclCache;
 
     #[\Override]
     protected function setUp(): void

@@ -16,14 +16,10 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class ThemeListenerTest extends TestCase
 {
-    private FrontendHelper|MockObject $helper;
-
-    private HttpKernelInterface|MockObject $kernel;
-
-    private ConfigManager|MockObject $configManager;
-
-    private ThemeConfigurationProvider|MockObject $themeConfigurationProvider;
-
+    private FrontendHelper&MockObject $helper;
+    private HttpKernelInterface&MockObject $kernel;
+    private ConfigManager&MockObject $configManager;
+    private ThemeConfigurationProvider&MockObject $themeConfigurationProvider;
     private ThemeListener $listener;
 
     #[\Override]

@@ -9,6 +9,7 @@ use Oro\Bundle\WebsiteBundle\Api\Processor\SetWebsite;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\WebsiteBundle\Tests\Unit\Entity\Stub\WebsiteAwareStub;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -17,11 +18,8 @@ class SetWebsiteTest extends CustomizeFormDataProcessorTestCase
 {
     private const WEBSITE_FIELD_NAME = 'website';
 
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
-
-    /** @var SetWebsite */
-    private $processor;
+    private WebsiteManager&MockObject $websiteManager;
+    private SetWebsite $processor;
 
     #[\Override]
     protected function setUp(): void

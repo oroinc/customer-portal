@@ -137,8 +137,7 @@ class TokenAwareFrontendHelperTest extends TestCase
     public function testIsFrontendRequestWhenEmulated(): void
     {
         $tokenStorage = $this->createMock(TokenStorageInterface::class);
-        $tokenStorage
-            ->expects(self::never())
+        $tokenStorage->expects(self::never())
             ->method(self::anything());
 
         $helper = new TokenAwareFrontendHelper(

@@ -11,14 +11,13 @@ use Oro\Bundle\SecurityBundle\AccessRule\Expr\NullComparison;
 use Oro\Bundle\SecurityBundle\AccessRule\Expr\Path;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AccessRuleWalker;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class SelfManagedPublicCustomerUserRoleAccessRuleTest extends \PHPUnit\Framework\TestCase
+class SelfManagedPublicCustomerUserRoleAccessRuleTest extends TestCase
 {
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var SelfManagedPublicCustomerUserRoleAccessRule */
-    private $rule;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private SelfManagedPublicCustomerUserRoleAccessRule $rule;
 
     #[\Override]
     protected function setUp(): void
@@ -27,12 +26,12 @@ class SelfManagedPublicCustomerUserRoleAccessRuleTest extends \PHPUnit\Framework
         $this->rule = new SelfManagedPublicCustomerUserRoleAccessRule($this->tokenAccessor);
     }
 
-    public function testIsApplicable()
+    public function testIsApplicable(): void
     {
         $this->assertTrue($this->rule->isApplicable($this->createMock(Criteria::class)));
     }
 
-    public function testProcessOnEmptyExistingExpression()
+    public function testProcessOnEmptyExistingExpression(): void
     {
         $criteria = new Criteria(AccessRuleWalker::ORM_RULES_TYPE, CustomerUserRole::class, 'e');
 
@@ -50,7 +49,7 @@ class SelfManagedPublicCustomerUserRoleAccessRuleTest extends \PHPUnit\Framework
         );
     }
 
-    public function testProcessOnNotViewPermission()
+    public function testProcessOnNotViewPermission(): void
     {
         $criteria = new Criteria(AccessRuleWalker::ORM_RULES_TYPE, CustomerUserRole::class, 'e', 'EDIT');
         $criteria->andExpression(new Comparison(new Path('id'), Comparison::GT, 0));
@@ -76,7 +75,7 @@ class SelfManagedPublicCustomerUserRoleAccessRuleTest extends \PHPUnit\Framework
         );
     }
 
-    public function testProcessWithExistingExpressionInCriteria()
+    public function testProcessWithExistingExpressionInCriteria(): void
     {
         $criteria = new Criteria(AccessRuleWalker::ORM_RULES_TYPE, CustomerUserRole::class, 'e');
         $criteria->andExpression(new Comparison(new Path('id'), Comparison::GT, 0));
@@ -112,7 +111,7 @@ class SelfManagedPublicCustomerUserRoleAccessRuleTest extends \PHPUnit\Framework
         );
     }
 
-    public function testProcessWithOrganizationId()
+    public function testProcessWithOrganizationId(): void
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getOrganizationId')

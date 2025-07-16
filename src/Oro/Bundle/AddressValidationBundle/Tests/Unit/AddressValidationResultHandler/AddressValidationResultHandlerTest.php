@@ -15,6 +15,7 @@ final class AddressValidationResultHandlerTest extends TestCase
 {
     private AddressValidationResultHandler $handler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->handler = new AddressValidationResultHandler();
@@ -25,37 +26,32 @@ final class AddressValidationResultHandlerTest extends TestCase
         $form = $this->createMock(FormInterface::class);
         $formConfig = $this->createMock(FormConfigInterface::class);
 
-        $form
+        $form->expects(self::any())
             ->method('getConfig')
             ->willReturn($formConfig);
 
         $originalAddress = new AddressValidatedAtAwareStub();
-        $formConfig
+        $formConfig->expects(self::any())
             ->method('getOption')
             ->with('suggested_addresses')
             ->willReturn([]);
 
-        $form
-            ->expects(self::once())
+        $form->expects(self::once())
             ->method('submit')
             ->with(['address' => '0']);
 
-        $form
-            ->expects(self::never())
+        $form->expects(self::never())
             ->method('handleRequest');
 
-        $form
-            ->expects(self::once())
+        $form->expects(self::once())
             ->method('isSubmitted')
             ->willReturn(true);
 
-        $form
-            ->expects(self::once())
+        $form->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
 
-        $form
-            ->expects(self::once())
+        $form->expects(self::once())
             ->method('getData')
             ->willReturn(['address' => $originalAddress]);
 
@@ -71,36 +67,31 @@ final class AddressValidationResultHandlerTest extends TestCase
         $form = $this->createMock(FormInterface::class);
         $formConfig = $this->createMock(FormConfigInterface::class);
 
-        $form
+        $form->expects(self::any())
             ->method('getConfig')
             ->willReturn($formConfig);
 
         $originalAddress = new AddressValidatedAtAwareStub();
         $selectedAddress = new AddressValidatedAtAwareStub();
-        $formConfig
+        $formConfig->expects(self::any())
             ->method('getOption')
             ->with('suggested_addresses')
             ->willReturn([$originalAddress, $selectedAddress]);
 
-        $form
-            ->expects(self::never())
+        $form->expects(self::never())
             ->method('submit');
-        $form
-            ->expects(self::once())
+        $form->expects(self::once())
             ->method('handleRequest');
 
-        $form
-            ->expects(self::once())
+        $form->expects(self::once())
             ->method('isSubmitted')
             ->willReturn(true);
 
-        $form
-            ->expects(self::once())
+        $form->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
 
-        $form
-            ->expects(self::once())
+        $form->expects(self::once())
             ->method('getData')
             ->willReturn(['address' => $selectedAddress]);
 
@@ -117,36 +108,31 @@ final class AddressValidationResultHandlerTest extends TestCase
         $form = $this->createMock(FormInterface::class);
         $formConfig = $this->createMock(FormConfigInterface::class);
 
-        $form
+        $form->expects(self::any())
             ->method('getConfig')
             ->willReturn($formConfig);
 
         $originalAddress = new AddressValidatedAtAwareStub();
         $selectedAddress = new AddressValidatedAtAwareStub();
-        $formConfig
+        $formConfig->expects(self::any())
             ->method('getOption')
             ->with('suggested_addresses')
             ->willReturn([$originalAddress, $selectedAddress]);
 
-        $form
-            ->expects(self::never())
+        $form->expects(self::never())
             ->method('submit');
-        $form
-            ->expects(self::once())
+        $form->expects(self::once())
             ->method('handleRequest');
 
-        $form
-            ->expects(self::once())
+        $form->expects(self::once())
             ->method('isSubmitted')
             ->willReturn(true);
 
-        $form
-            ->expects(self::once())
+        $form->expects(self::once())
             ->method('isValid')
             ->willReturn(false);
 
-        $form
-            ->expects(self::never())
+        $form->expects(self::never())
             ->method('getData');
 
         $request = $this->createMock(Request::class);
@@ -159,34 +145,29 @@ final class AddressValidationResultHandlerTest extends TestCase
         $form = $this->createMock(FormInterface::class);
         $formConfig = $this->createMock(FormConfigInterface::class);
 
-        $form
+        $form->expects(self::any())
             ->method('getConfig')
             ->willReturn($formConfig);
 
         $originalAddress = new AddressValidatedAtAwareStub();
         $selectedAddress = new AddressValidatedAtAwareStub();
-        $formConfig
+        $formConfig->expects(self::any())
             ->method('getOption')
             ->with('suggested_addresses')
             ->willReturn([$originalAddress, $selectedAddress]);
 
-        $form
-            ->expects(self::never())
+        $form->expects(self::never())
             ->method('submit');
-        $form
-            ->expects(self::once())
+        $form->expects(self::once())
             ->method('handleRequest');
 
-        $form
-            ->expects(self::once())
+        $form->expects(self::once())
             ->method('isSubmitted')
             ->willReturn(false);
 
-        $form
-            ->expects(self::never())
+        $form->expects(self::never())
             ->method('isValid');
-        $form
-            ->expects(self::never())
+        $form->expects(self::never())
             ->method('getData');
 
         $request = $this->createMock(Request::class);

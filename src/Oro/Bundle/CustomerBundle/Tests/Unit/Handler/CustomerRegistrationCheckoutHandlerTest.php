@@ -13,9 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CustomerRegistrationCheckoutHandlerTest extends TestCase
 {
-    private CustomerRegistrationHandlerInterface|MockObject $registrationHandler;
-    private CheckoutHandlerInterface|MockObject $checkoutGetHandler;
-
+    private CustomerRegistrationHandlerInterface&MockObject $registrationHandler;
+    private CheckoutHandlerInterface&MockObject $checkoutGetHandler;
     private CustomerRegistrationCheckoutHandler $handler;
 
     #[\Override]

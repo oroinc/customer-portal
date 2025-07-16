@@ -4,16 +4,15 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\FrontendBundle\Form\OptionsConfigurator\RuleEditorOptionsConfigurator;
 use Oro\Bundle\FrontendBundle\Form\Type\RuleEditorTextareaType;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RuleEditorTextareaTypeTest extends \PHPUnit\Framework\TestCase
+class RuleEditorTextareaTypeTest extends TestCase
 {
-    /** @var RuleEditorOptionsConfigurator|\PHPUnit\Framework\MockObject\MockObject */
-    private $optionsConfigurator;
-
-    /** @var RuleEditorTextareaType */
-    private $type;
+    private RuleEditorOptionsConfigurator&MockObject $optionsConfigurator;
+    private RuleEditorTextareaType $type;
 
     #[\Override]
     protected function setUp(): void
@@ -23,17 +22,17 @@ class RuleEditorTextareaTypeTest extends \PHPUnit\Framework\TestCase
         $this->type = new RuleEditorTextareaType($this->optionsConfigurator);
     }
 
-    public function testGetBlockPrefix()
+    public function testGetBlockPrefix(): void
     {
         $this->assertEquals(RuleEditorTextareaType::NAME, $this->type->getBlockPrefix());
     }
 
-    public function testGetParent()
+    public function testGetParent(): void
     {
         $this->assertEquals(TextareaType::class, $this->type->getParent());
     }
 
-    public function testConfigureOptions()
+    public function testConfigureOptions(): void
     {
         $resolver = new OptionsResolver();
 

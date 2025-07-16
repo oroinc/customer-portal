@@ -8,12 +8,12 @@ use Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReference;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReferenceValidator;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProviderInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
 {
-    /** @var OwnerTreeInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $ownerTree;
+    private OwnerTreeInterface&MockObject $ownerTree;
 
     #[\Override]
     protected function setUp(): void

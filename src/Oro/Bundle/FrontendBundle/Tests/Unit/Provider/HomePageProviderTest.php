@@ -3,8 +3,9 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Provider;
 
 use Oro\Bundle\FrontendBundle\Provider\HomePageProvider;
+use PHPUnit\Framework\TestCase;
 
-class HomePageProviderTest extends \PHPUnit\Framework\TestCase
+class HomePageProviderTest extends TestCase
 {
     private HomePageProvider $provider;
 

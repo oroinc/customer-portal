@@ -6,12 +6,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\GridView;
 use Oro\Bundle\CustomerBundle\Entity\GridViewUser;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
+use PHPUnit\Framework\TestCase;
 
-class GridViewTest extends \PHPUnit\Framework\TestCase
+class GridViewTest extends TestCase
 {
     use EntityTestCaseTrait;
 
-    public function testAccessors()
+    public function testAccessors(): void
     {
         $gridView = new GridView();
         $user1 = new CustomerUser();

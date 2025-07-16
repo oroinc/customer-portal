@@ -6,17 +6,14 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\EventListener\CustomerUserReassignEventListener;
 use Oro\Bundle\CustomerBundle\Handler\CustomerUserReassignUpdaterInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class CustomerUserReassignEventListenerTest extends \PHPUnit\Framework\TestCase
+class CustomerUserReassignEventListenerTest extends TestCase
 {
-    /** @var CustomerUserReassignEventListener */
-    private $listener;
-
-    /** @var CustomerUserReassignUpdaterInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $customerUserReassignUpdater;
-
-    /** @var PreUpdateEventArgs|\PHPUnit\Framework\MockObject\MockObject */
-    private $event;
+    private CustomerUserReassignEventListener $listener;
+    private CustomerUserReassignUpdaterInterface&MockObject $customerUserReassignUpdater;
+    private PreUpdateEventArgs&MockObject $event;
 
     #[\Override]
     protected function setUp(): void
@@ -26,7 +23,7 @@ class CustomerUserReassignEventListenerTest extends \PHPUnit\Framework\TestCase
         $this->event = $this->createMock(PreUpdateEventArgs::class);
     }
 
-    public function testPreUpdate()
+    public function testPreUpdate(): void
     {
         $customerUser = new CustomerUser();
 
@@ -42,7 +39,7 @@ class CustomerUserReassignEventListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener->preUpdate($customerUser, $this->event);
     }
 
-    public function testPreUpdateCustomerFieldNotChanged()
+    public function testPreUpdateCustomerFieldNotChanged(): void
     {
         $customerUser = new CustomerUser();
 

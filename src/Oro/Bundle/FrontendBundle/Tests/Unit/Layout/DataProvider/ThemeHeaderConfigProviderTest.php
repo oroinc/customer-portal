@@ -14,9 +14,9 @@ use PHPUnit\Framework\TestCase;
 
 final class ThemeHeaderConfigProviderTest extends TestCase
 {
-    private QuickAccessButtonDataProvider|MockObject $quickAccessButtonDataProvider;
-    private ThemeConfigurationProvider|MockObject $themeConfigurationProvider;
-    private ContentBlockDataProvider|MockObject $contentBlockDataProvider;
+    private QuickAccessButtonDataProvider&MockObject $quickAccessButtonDataProvider;
+    private ThemeConfigurationProvider&MockObject $themeConfigurationProvider;
+    private ContentBlockDataProvider&MockObject $contentBlockDataProvider;
     private ThemeHeaderConfigProvider $provider;
 
     #[\Override]

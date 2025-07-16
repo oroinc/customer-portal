@@ -18,7 +18,7 @@ use Symfony\Component\Routing\RequestContext;
 
 class SubFolderMenuUpdatesApplyAfterListenerTest extends TestCase
 {
-    private RequestStack|MockObject $requestStack;
+    private RequestStack&MockObject $requestStack;
     private SubFolderUriHandler $uriHandler;
     private SubFolderMenuUpdatesApplyAfterListener $listener;
     private RequestContext $requestContext;

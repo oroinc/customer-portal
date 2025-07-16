@@ -7,25 +7,20 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\EventListener\RedirectListener;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class RedirectListenerTest extends \PHPUnit\Framework\TestCase
+class RedirectListenerTest extends TestCase
 {
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
-
-    /** @var WebsiteUrlResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private $urlResolver;
-
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
-
-    /** @var RedirectListener */
-    private $listener;
+    private WebsiteManager&MockObject $websiteManager;
+    private WebsiteUrlResolver&MockObject $urlResolver;
+    private FrontendHelper&MockObject $frontendHelper;
+    private RedirectListener $listener;
 
     #[\Override]
     protected function setUp(): void

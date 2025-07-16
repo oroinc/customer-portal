@@ -13,15 +13,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 abstract class AbstractCssConfigBuilderTest extends FormIntegrationTestCase
 {
     protected AbstractCssConfigBuilder $configBuilder;
-
     protected TranslatorInterface&MockObject $translator;
 
     #[\Override]
     protected function setUp(): void
     {
         $this->translator = $this->createMock(TranslatorInterface::class);
-        $this->translator
-            ->expects(self::any())
+        $this->translator->expects(self::any())
             ->method('trans')
             ->willReturn('Invalid message');
 

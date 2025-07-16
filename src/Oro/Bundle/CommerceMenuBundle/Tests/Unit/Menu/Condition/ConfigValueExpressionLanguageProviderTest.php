@@ -4,15 +4,14 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Menu\Condition;
 
 use Oro\Bundle\CommerceMenuBundle\Menu\Condition\ConfigValueExpressionLanguageProvider;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 
-class ConfigValueExpressionLanguageProviderTest extends \PHPUnit\Framework\TestCase
+class ConfigValueExpressionLanguageProviderTest extends TestCase
 {
-    /** @var ConfigValueExpressionLanguageProvider */
-    private $provider;
-
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
+    private ConfigValueExpressionLanguageProvider $provider;
+    private ConfigManager&MockObject $configManager;
 
     #[\Override]
     protected function setUp(): void
@@ -22,7 +21,7 @@ class ConfigValueExpressionLanguageProviderTest extends \PHPUnit\Framework\TestC
         $this->provider = new ConfigValueExpressionLanguageProvider($this->configManager);
     }
 
-    public function testGetFunctions()
+    public function testGetFunctions(): void
     {
         $functions = $this->provider->getFunctions();
         $this->assertCount(1, $functions);

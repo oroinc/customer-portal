@@ -3,10 +3,11 @@
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\DependencyInjection\CompilerPass;
 
 use Oro\Bundle\WebsiteBundle\DependencyInjection\CompilerPass\AssetsRouterPass;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class AssetsRouterPassTest extends \PHPUnit\Framework\TestCase
+class AssetsRouterPassTest extends TestCase
 {
     public function testProcess(): void
     {

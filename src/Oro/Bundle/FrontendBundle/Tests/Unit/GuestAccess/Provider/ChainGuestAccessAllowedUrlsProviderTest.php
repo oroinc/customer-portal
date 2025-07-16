@@ -4,8 +4,9 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\GuestAccess\Provider;
 
 use Oro\Bundle\FrontendBundle\GuestAccess\Provider\ChainGuestAccessAllowedUrlsProvider;
 use Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProviderInterface;
+use PHPUnit\Framework\TestCase;
 
-class ChainGuestAccessAllowedUrlsProviderTest extends \PHPUnit\Framework\TestCase
+class ChainGuestAccessAllowedUrlsProviderTest extends TestCase
 {
     public function testGetAllowedUrlsPatternsWithoutRegisteredProviders(): void
     {

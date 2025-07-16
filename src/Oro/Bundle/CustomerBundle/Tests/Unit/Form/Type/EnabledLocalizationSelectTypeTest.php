@@ -9,8 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EnabledLocalizationSelectTypeTest extends FormIntegrationTestCase
 {
-    /** @var EnabledLocalizationSelectType */
-    private $formType;
+    private EnabledLocalizationSelectType $formType;
 
     #[\Override]
     protected function setUp(): void

@@ -12,17 +12,15 @@ use Oro\Bundle\FrontendBundle\Form\Extension\DynamicFieldsExtension;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\FrontendBundle\Tests\Unit\Form\Extension\Stub\TestFormTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 
 class DynamicFieldsExtensionTest extends FormIntegrationTestCase
 {
-    private FrontendHelper|\PHPUnit\Framework\MockObject\MockObject $frontendHelper;
-
-    private ConfigProvider|\PHPUnit\Framework\MockObject\MockObject $extendConfigProvider;
-
-    private ConfigProvider|\PHPUnit\Framework\MockObject\MockObject $frontendConfigProvider;
-
+    private FrontendHelper&MockObject $frontendHelper;
+    private ConfigProvider&MockObject $extendConfigProvider;
+    private ConfigProvider&MockObject $frontendConfigProvider;
     private DynamicFieldsExtension $extension;
 
     #[\Override]

@@ -12,22 +12,17 @@ use Oro\Bundle\LocaleBundle\DependencyInjection\Configuration;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormInterface;
 
-class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework\TestCase
+class PreferredLocalizationCustomerUserSubscriberTest extends TestCase
 {
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
-
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
-
-    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $registry;
-
-    /** @var PreferredLocalizationCustomerUserSubscriber */
-    private $subscriber;
+    private WebsiteManager&MockObject $websiteManager;
+    private ConfigManager&MockObject $configManager;
+    private ManagerRegistry&MockObject $registry;
+    private PreferredLocalizationCustomerUserSubscriber $subscriber;
 
     #[\Override]
     protected function setUp(): void

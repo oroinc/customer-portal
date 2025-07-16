@@ -8,14 +8,13 @@ use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class CustomerUserExtensionTest extends \PHPUnit\Framework\TestCase
+class CustomerUserExtensionTest extends TestCase
 {
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var CustomerUserExtension */
-    private $extension;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private CustomerUserExtension $extension;
 
     #[\Override]
     protected function setUp(): void
@@ -29,7 +28,7 @@ class CustomerUserExtensionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider applicableDataProvider
      */
-    public function testIsApplicable(?object $user, bool $expected)
+    public function testIsApplicable(?object $user, bool $expected): void
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')
@@ -38,7 +37,7 @@ class CustomerUserExtensionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $this->extension->isApplicable(DatagridConfiguration::create([])));
     }
 
-    public function testProcessConfigs()
+    public function testProcessConfigs(): void
     {
         $config = DatagridConfiguration::create([]);
         $this->extension->processConfigs($config);

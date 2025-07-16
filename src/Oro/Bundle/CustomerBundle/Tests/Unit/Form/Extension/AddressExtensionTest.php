@@ -5,15 +5,14 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Extension;
 use Oro\Bundle\AddressBundle\Form\Type\AddressType;
 use Oro\Bundle\CustomerBundle\Form\Extension\AddressExtension;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AddressExtensionTest extends \PHPUnit\Framework\TestCase
+class AddressExtensionTest extends TestCase
 {
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
-
-    /** @var AddressExtension */
-    private $extension;
+    private FrontendHelper&MockObject $frontendHelper;
+    private AddressExtension $extension;
 
     #[\Override]
     protected function setUp(): void
@@ -23,12 +22,12 @@ class AddressExtensionTest extends \PHPUnit\Framework\TestCase
         $this->extension = new AddressExtension($this->frontendHelper);
     }
 
-    public function testGetExtendedTypes()
+    public function testGetExtendedTypes(): void
     {
         $this->assertEquals([AddressType::class], AddressExtension::getExtendedTypes());
     }
 
-    public function testConfigureOptionsForBackend()
+    public function testConfigureOptionsForBackend(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -41,7 +40,7 @@ class AddressExtensionTest extends \PHPUnit\Framework\TestCase
         $this->extension->configureOptions($resolver);
     }
 
-    public function testConfigureOptionsForFrontend()
+    public function testConfigureOptionsForFrontend(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')

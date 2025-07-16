@@ -20,7 +20,6 @@ final class PreloadFontsTypeTest extends BaseBlockTypeTestCase
 {
     private ThemeConfigurationProvider&MockObject $themeConfigurationProvider;
     private ThemeManagerInterface&MockObject $themeManager;
-
     private BlockTypeInterface $type;
 
     #[\Override]

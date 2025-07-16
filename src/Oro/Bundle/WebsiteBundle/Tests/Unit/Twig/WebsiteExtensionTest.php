@@ -7,19 +7,16 @@ use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
 use Oro\Bundle\WebsiteBundle\Twig\WebsiteExtension;
 use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class WebsiteExtensionTest extends \PHPUnit\Framework\TestCase
+class WebsiteExtensionTest extends TestCase
 {
     use TwigExtensionTestCaseTrait;
 
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
-
-    /** @var WebsiteUrlResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteUrlResolver;
-
-    /** @var WebsiteExtension */
-    private $extension;
+    private WebsiteManager&MockObject $websiteManager;
+    private WebsiteUrlResolver&MockObject $websiteUrlResolver;
+    private WebsiteExtension $extension;
 
     #[\Override]
     protected function setUp(): void
@@ -38,7 +35,7 @@ class WebsiteExtensionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getCurrentWebsiteDataProvider
      */
-    public function testGetCurrentWebsite(?Website $website)
+    public function testGetCurrentWebsite(?Website $website): void
     {
         $this->websiteManager->expects(self::once())
             ->method('getCurrentWebsite')
@@ -58,7 +55,7 @@ class WebsiteExtensionTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testGetWebsitePath()
+    public function testGetWebsitePath(): void
     {
         $route = 'test_route';
         $routeParams = ['key' => 'value'];
@@ -76,7 +73,7 @@ class WebsiteExtensionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetWebsitePathWhenNoWebsite()
+    public function testGetWebsitePathWhenNoWebsite(): void
     {
         $route = 'test_route';
         $routeParams = ['key' => 'value'];
@@ -93,7 +90,7 @@ class WebsiteExtensionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetWebsitePathWhenNoRouteParams()
+    public function testGetWebsitePathWhenNoRouteParams(): void
     {
         $route = 'test_route';
         $websitePath = 'test_path';
@@ -109,7 +106,7 @@ class WebsiteExtensionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetWebsiteSecurePath()
+    public function testGetWebsiteSecurePath(): void
     {
         $route = 'test_route';
         $routeParams = ['key' => 'value'];
@@ -127,7 +124,7 @@ class WebsiteExtensionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetWebsiteSecurePathWhenNoWebsite()
+    public function testGetWebsiteSecurePathWhenNoWebsite(): void
     {
         $route = 'test_route';
         $routeParams = ['key' => 'value'];
@@ -144,7 +141,7 @@ class WebsiteExtensionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetWebsiteSecurePathWhenNoRouteParams()
+    public function testGetWebsiteSecurePathWhenNoRouteParams(): void
     {
         $route = 'test_route';
         $websiteSecurePath = 'test_path';

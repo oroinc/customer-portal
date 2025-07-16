@@ -15,6 +15,8 @@ use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\SecurityBundle\Authentication\Token\AnonymousToken;
 use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\TestContainerBuilder;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -24,25 +26,14 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class CustomerVoterTest extends \PHPUnit\Framework\TestCase
+class CustomerVoterTest extends TestCase
 {
-    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $doctrineHelper;
-
-    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $authorizationChecker;
-
-    /** @var AuthenticationTrustResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $trustResolver;
-
-    /** @var CustomerUserProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $securityProvider;
-
-    /** @var CustomerUserRelationsProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $relationsProvider;
-
-    /** @var CustomerVoter */
-    private $voter;
+    private DoctrineHelper&MockObject $doctrineHelper;
+    private AuthorizationCheckerInterface&MockObject $authorizationChecker;
+    private AuthenticationTrustResolverInterface&MockObject $trustResolver;
+    private CustomerUserProvider&MockObject $securityProvider;
+    private CustomerUserRelationsProvider&MockObject $relationsProvider;
+    private CustomerVoter $voter;
 
     #[\Override]
     protected function setUp(): void
@@ -66,7 +57,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testNotManageableEntityException()
+    public function testNotManageableEntityException(): void
     {
         $object = new \stdClass();
         $class = get_class($object);
@@ -89,7 +80,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider voteProvider
      */
-    public function testVote(array $inputData, int $expectedResult)
+    public function testVote(array $inputData, int $expectedResult): void
     {
         $object = $inputData['object'];
         if (null === $object && is_array($inputData['initObjectParams'])) {
@@ -509,7 +500,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider voteAnonymousAbstainProvider
      */
-    public function testVoteAnonymousAbstain(mixed $object)
+    public function testVoteAnonymousAbstain(mixed $object): void
     {
         $this->authorizationChecker->expects($this->never())
             ->method('isGranted');
@@ -545,7 +536,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
         string $permissionAttribute,
         bool $isGranted,
         int $expectedResult
-    ) {
+    ): void {
         $this->authorizationChecker->expects($this->once())
             ->method('isGranted')
             ->with($permissionAttribute, $this->getDescriptor())

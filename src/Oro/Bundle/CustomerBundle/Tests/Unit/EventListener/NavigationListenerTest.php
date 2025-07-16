@@ -6,15 +6,14 @@ use Knp\Menu\MenuFactory;
 use Knp\Menu\MenuItem;
 use Oro\Bundle\CustomerBundle\EventListener\NavigationListener;
 use Oro\Bundle\NavigationBundle\Event\ConfigureMenuEvent;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class NavigationListenerTest extends \PHPUnit\Framework\TestCase
+class NavigationListenerTest extends TestCase
 {
-    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $authorizationChecker;
-
-    /** @var NavigationListener */
-    private $listener;
+    private AuthorizationCheckerInterface&MockObject $authorizationChecker;
+    private NavigationListener $listener;
 
     #[\Override]
     protected function setUp(): void
@@ -31,7 +30,7 @@ class NavigationListenerTest extends \PHPUnit\Framework\TestCase
         bool $isGrantedCustomerAddress,
         bool $isGrantedCustomerUserAddress,
         bool $expectedIsDisplayed
-    ) {
+    ): void {
         $this->authorizationChecker->expects($this->atLeastOnce())
             ->method('isGranted')
             ->willReturnMap([

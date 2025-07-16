@@ -13,25 +13,20 @@ use Oro\Bundle\ApiBundle\Request\ErrorCompleterRegistry;
 use Oro\Bundle\ApiBundle\Request\Rest\RestRoutes;
 use Oro\Bundle\CustomerBundle\Security\Firewall\ApiAnonymousCustomerUserAuthenticationDecisionMaker;
 use Oro\Component\ChainProcessor\ActionProcessorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ApiAnonymousCustomerUserAuthenticationDecisionMakerTest extends \PHPUnit\Framework\TestCase
+class ApiAnonymousCustomerUserAuthenticationDecisionMakerTest extends TestCase
 {
-    /** @var ActionProcessorBagInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $actionProcessorBag;
-
-    /** @var ErrorCompleterRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $errorCompleterRegistry;
-
-    /** @var ApiAnonymousCustomerUserAuthenticationDecisionMaker */
-    private $decisionMaker;
+    private ActionProcessorBagInterface&MockObject $actionProcessorBag;
+    private ErrorCompleterRegistry&MockObject $errorCompleterRegistry;
+    private ApiAnonymousCustomerUserAuthenticationDecisionMaker $decisionMaker;
 
     #[\Override]
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->actionProcessorBag = $this->createMock(ActionProcessorBagInterface::class);
         $this->errorCompleterRegistry = $this->createMock(ErrorCompleterRegistry::class);
 

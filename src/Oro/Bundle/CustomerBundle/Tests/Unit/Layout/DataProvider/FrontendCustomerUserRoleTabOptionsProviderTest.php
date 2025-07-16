@@ -9,9 +9,11 @@ use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRoleTabOpt
 use Oro\Bundle\SecurityBundle\Model\AclPrivilege;
 use Oro\Bundle\UserBundle\Model\PrivilegeCategory;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class FrontendCustomerUserRoleTabOptionsProviderTest extends \PHPUnit\Framework\TestCase
+class FrontendCustomerUserRoleTabOptionsProviderTest extends TestCase
 {
     private const CATEGORY1_ID       = '1';
     private const CATEGORY1_LABEL    = 'Category 1';
@@ -25,14 +27,9 @@ class FrontendCustomerUserRoleTabOptionsProviderTest extends \PHPUnit\Framework\
     private const DEFAULT_CATEGORY_LABEL    = 'default';
     private const DEFAULT_CATEGORY_PRIORITY = 10;
 
-    /** @var RolePrivilegeCategoryProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $categoryProvider;
-
-    /** @var AbstractCustomerUserRoleHandler|\PHPUnit\Framework\MockObject\MockObject */
-    private $aclRoleHandler;
-
-    /** @var FrontendCustomerUserRoleTabOptionsProvider */
-    private $provider;
+    private RolePrivilegeCategoryProvider&MockObject $categoryProvider;
+    private AbstractCustomerUserRoleHandler&MockObject $aclRoleHandler;
+    private FrontendCustomerUserRoleTabOptionsProvider $provider;
 
     #[\Override]
     protected function setUp(): void
@@ -61,7 +58,7 @@ class FrontendCustomerUserRoleTabOptionsProviderTest extends \PHPUnit\Framework\
         return $privilege;
     }
 
-    public function testGetTabOptions()
+    public function testGetTabOptions(): void
     {
         $role = new CustomerUserRole('');
         $privileges = [

@@ -8,25 +8,20 @@ use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\FrontendBundle\EventListener\UnhandledApiErrorExceptionListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Component\Testing\Unit\TestContainerBuilder;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class UnhandledApiErrorExceptionListenerTest extends \PHPUnit\Framework\TestCase
+class UnhandledApiErrorExceptionListenerTest extends TestCase
 {
-    /** @var RequestActionHandler|\PHPUnit\Framework\MockObject\MockObject */
-    private $backendHandler;
-
-    /** @var RequestActionHandler|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHandler;
-
-    /** @var ApiRequestHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $apiRequestHelper;
-
-    /** @var UnhandledApiErrorExceptionListener */
-    private $listener;
+    private RequestActionHandler&MockObject $backendHandler;
+    private RequestActionHandler&MockObject $frontendHandler;
+    private ApiRequestHelper&MockObject $apiRequestHelper;
+    private UnhandledApiErrorExceptionListener $listener;
 
     #[\Override]
     protected function setUp(): void

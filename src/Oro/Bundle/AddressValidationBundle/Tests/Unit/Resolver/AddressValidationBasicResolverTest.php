@@ -19,15 +19,12 @@ use PHPUnit\Framework\TestCase;
 final class AddressValidationBasicResolverTest extends TestCase
 {
     private AddressValidationRequestFactoryInterface&MockObject $addressValidationRequestFactory;
-
     private AddressValidationClientInterface&MockObject $addressValidationClient;
-
     private ResolvedAddressFactoryInterface&MockObject $resolvedAddressFactory;
-
     private Transport&MockObject $transport;
-
     private AddressValidationBasicResolver $resolver;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->addressValidationRequestFactory = $this->createMock(AddressValidationRequestFactoryInterface::class);
@@ -55,25 +52,21 @@ final class AddressValidationBasicResolverTest extends TestCase
         $resolvedAddress1 = (new ResolvedAddress($address))->setCity('New York');
         $resolvedAddress2 = (new ResolvedAddress($address))->setCity('Los Angeles');
 
-        $this->addressValidationRequestFactory
-            ->expects(self::once())
+        $this->addressValidationRequestFactory->expects(self::once())
             ->method('create')
             ->with($address)
             ->willReturn($request);
 
-        $this->addressValidationClient
-            ->expects(self::once())
+        $this->addressValidationClient->expects(self::once())
             ->method('send')
             ->with($request, $this->transport)
             ->willReturn($response);
 
-        $response
-            ->expects(self::once())
+        $response->expects(self::once())
             ->method('getResolvedAddresses')
             ->willReturn([$rawAddress1, $rawAddress2]);
 
-        $this->resolvedAddressFactory
-            ->expects(self::exactly(2))
+        $this->resolvedAddressFactory->expects(self::exactly(2))
             ->method('createResolvedAddress')
             ->withConsecutive([$rawAddress1, $address], [$rawAddress2, $address])
             ->willReturnOnConsecutiveCalls($resolvedAddress1, $resolvedAddress2);
@@ -92,25 +85,21 @@ final class AddressValidationBasicResolverTest extends TestCase
         $rawAddress1 = ['country' => 'US', 'city' => 'New York'];
         $rawAddress2 = ['country' => 'US', 'city' => 'San Francisco'];
 
-        $this->addressValidationRequestFactory
-            ->expects(self::once())
+        $this->addressValidationRequestFactory->expects(self::once())
             ->method('create')
             ->with($address)
             ->willReturn($request);
 
-        $this->addressValidationClient
-            ->expects(self::once())
+        $this->addressValidationClient->expects(self::once())
             ->method('send')
             ->with($request, $this->transport)
             ->willReturn($response);
 
-        $response
-            ->expects(self::once())
+        $response->expects(self::once())
             ->method('getResolvedAddresses')
             ->willReturn([$rawAddress1, $rawAddress2]);
 
-        $this->resolvedAddressFactory
-            ->expects(self::exactly(2))
+        $this->resolvedAddressFactory->expects(self::exactly(2))
             ->method('createResolvedAddress')
             ->withConsecutive([$rawAddress1, $address], [$rawAddress2, $address])
             ->willReturnOnConsecutiveCalls(null, null);
@@ -126,20 +115,17 @@ final class AddressValidationBasicResolverTest extends TestCase
         $request = $this->createMock(AddressValidationRequestInterface::class);
         $response = $this->createMock(AddressValidationResponseInterface::class);
 
-        $this->addressValidationRequestFactory
-            ->expects(self::once())
+        $this->addressValidationRequestFactory->expects(self::once())
             ->method('create')
             ->with($address)
             ->willReturn($request);
 
-        $this->addressValidationClient
-            ->expects(self::once())
+        $this->addressValidationClient->expects(self::once())
             ->method('send')
             ->with($request, $this->transport)
             ->willReturn($response);
 
-        $response
-            ->expects(self::once())
+        $response->expects(self::once())
             ->method('getResolvedAddresses')
             ->willReturn([]);
 

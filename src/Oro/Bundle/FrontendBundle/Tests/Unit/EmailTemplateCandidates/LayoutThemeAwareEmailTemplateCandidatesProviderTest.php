@@ -12,8 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class LayoutThemeAwareEmailTemplateCandidatesProviderTest extends TestCase
 {
-    private ThemeConfigurationProvider|MockObject $themeConfigurationProvider;
-
+    private ThemeConfigurationProvider&MockObject $themeConfigurationProvider;
     private LayoutThemeAwareEmailTemplateCandidatesProvider $provider;
 
     #[\Override]
@@ -33,8 +32,7 @@ class LayoutThemeAwareEmailTemplateCandidatesProviderTest extends TestCase
 
     public function testShouldReturnEmptyArrayWhenNoThemeName(): void
     {
-        $this->themeConfigurationProvider
-            ->expects(self::once())
+        $this->themeConfigurationProvider->expects(self::once())
             ->method('getThemeName')
             ->willReturn(null);
 
@@ -44,8 +42,7 @@ class LayoutThemeAwareEmailTemplateCandidatesProviderTest extends TestCase
     public function testWhenHasThemeName(): void
     {
         $themeName = 'sample_theme';
-        $this->themeConfigurationProvider
-            ->expects(self::once())
+        $this->themeConfigurationProvider->expects(self::once())
             ->method('getThemeName')
             ->willReturn($themeName);
 

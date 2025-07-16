@@ -13,10 +13,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EmailTemplateSystemVariablesProviderTest extends TestCase
 {
-    private WebsiteManager|MockObject $websiteManager;
-
-    private WebsiteUrlResolver|MockObject $websiteUrlResolver;
-
+    private WebsiteManager&MockObject $websiteManager;
+    private WebsiteUrlResolver&MockObject $websiteUrlResolver;
     private EmailTemplateSystemVariablesProvider $provider;
 
     #[\Override]
@@ -25,7 +23,7 @@ class EmailTemplateSystemVariablesProviderTest extends TestCase
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->websiteUrlResolver = $this->createMock(WebsiteUrlResolver::class);
         $translator = $this->createMock(TranslatorInterface::class);
-        $translator
+        $translator->expects(self::any())
             ->method('trans')
             ->willReturnCallback(static fn (string $key) => $key . '.translated');
 
@@ -59,14 +57,12 @@ class EmailTemplateSystemVariablesProviderTest extends TestCase
 
     public function testGetVariableValuesWhenNoWebsite(): void
     {
-        $this->websiteManager
-            ->expects(self::once())
+        $this->websiteManager->expects(self::once())
             ->method('getCurrentWebsite')
             ->willReturn(null);
 
         $websiteUrl = 'https://example.com/';
-        $this->websiteUrlResolver
-            ->expects(self::once())
+        $this->websiteUrlResolver->expects(self::once())
             ->method('getWebsiteSecurePath')
             ->with('oro_frontend_root', [], null)
             ->willReturn($websiteUrl);
@@ -85,14 +81,12 @@ class EmailTemplateSystemVariablesProviderTest extends TestCase
     {
         $website = (new WebsiteStub(42))
             ->setName('Sample website');
-        $this->websiteManager
-            ->expects(self::once())
+        $this->websiteManager->expects(self::once())
             ->method('getCurrentWebsite')
             ->willReturn($website);
 
         $websiteUrl = 'https://example.com/';
-        $this->websiteUrlResolver
-            ->expects(self::once())
+        $this->websiteUrlResolver->expects(self::once())
             ->method('getWebsiteSecurePath')
             ->with('oro_frontend_root', [], $website)
             ->willReturn($websiteUrl);
@@ -114,14 +108,12 @@ class EmailTemplateSystemVariablesProviderTest extends TestCase
         $website = (new WebsiteStub(42))
             ->setName('Sample website')
             ->setOrganization($organization);
-        $this->websiteManager
-            ->expects(self::once())
+        $this->websiteManager->expects(self::once())
             ->method('getCurrentWebsite')
             ->willReturn($website);
 
         $websiteUrl = 'https://example.com/';
-        $this->websiteUrlResolver
-            ->expects(self::once())
+        $this->websiteUrlResolver->expects(self::once())
             ->method('getWebsiteSecurePath')
             ->with('oro_frontend_root', [], $website)
             ->willReturn($websiteUrl);

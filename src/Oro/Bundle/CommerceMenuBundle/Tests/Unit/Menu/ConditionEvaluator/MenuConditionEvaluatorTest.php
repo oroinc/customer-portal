@@ -4,20 +4,17 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Menu\ConditionEvaluator;
 
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Menu\ConditionEvaluator\MenuConditionEvaluator;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\ExpressionLanguage\SyntaxError;
 
-class MenuConditionEvaluatorTest extends \PHPUnit\Framework\TestCase
+class MenuConditionEvaluatorTest extends TestCase
 {
-    /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $logger;
-
-    /** @var ExpressionLanguage|\PHPUnit\Framework\MockObject\MockObject */
-    private $expressionLanguage;
-
-    /** @var MenuConditionEvaluator */
-    private $menuConditionEvaluator;
+    private LoggerInterface&MockObject $logger;
+    private ExpressionLanguage&MockObject $expressionLanguage;
+    private MenuConditionEvaluator $menuConditionEvaluator;
 
     #[\Override]
     protected function setUp(): void
@@ -31,7 +28,7 @@ class MenuConditionEvaluatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider evaluateDataProvider
      */
-    public function testEvaluate(string $conditionString, string $evaluationResult, bool $expectedResult)
+    public function testEvaluate(string $conditionString, string $evaluationResult, bool $expectedResult): void
     {
         $childMenu1 = $this->getMenuItem($conditionString);
 
@@ -68,7 +65,7 @@ class MenuConditionEvaluatorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testEvaluateWhenConditionIsEmpty()
+    public function testEvaluateWhenConditionIsEmpty(): void
     {
         $childMenu1 = $this->getMenuItem('');
 
@@ -82,7 +79,7 @@ class MenuConditionEvaluatorTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($actualResult);
     }
 
-    public function testEvaluateWhenConditionIsInvalid()
+    public function testEvaluateWhenConditionIsInvalid(): void
     {
         $conditionString = 'invalid_condition';
         $childMenu1 = $this->getMenuItem($conditionString);

@@ -4,15 +4,16 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\EventListener;
 
 use Oro\Bundle\DistributionBundle\Event\RouteCollectionEvent;
 use Oro\Bundle\FrontendBundle\EventListener\FrontendRouteCollectionListener;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
-class FrontendRouteCollectionListenerTest extends \PHPUnit\Framework\TestCase
+class FrontendRouteCollectionListenerTest extends TestCase
 {
     /**
      * @dataProvider dataProvider
      */
-    public function testOnCollectionAutoload(RouteCollection $collection, array $expected)
+    public function testOnCollectionAutoload(RouteCollection $collection, array $expected): void
     {
         $listener = new FrontendRouteCollectionListener(['route_should_be_frontend']);
 

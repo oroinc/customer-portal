@@ -6,14 +6,14 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Form\Type\ParentCustomerSelectType;
 use Oro\Bundle\FormBundle\Form\Type\OroJquerySelect2HiddenType;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ParentCustomerSelectTypeTest extends \PHPUnit\Framework\TestCase
+class ParentCustomerSelectTypeTest extends TestCase
 {
-    /** @var ParentCustomerSelectType */
-    private $type;
+    private ParentCustomerSelectType $type;
 
     #[\Override]
     protected function setUp(): void
@@ -21,33 +21,31 @@ class ParentCustomerSelectTypeTest extends \PHPUnit\Framework\TestCase
         $this->type = new ParentCustomerSelectType();
     }
 
-    public function testGetParent()
+    public function testGetParent(): void
     {
         $this->assertEquals(OroJquerySelect2HiddenType::class, $this->type->getParent());
     }
 
-    public function testConfigureOptions()
+    public function testConfigureOptions(): void
     {
         $resolver = $this->createMock(OptionsResolver::class);
         $resolver->expects($this->once())
             ->method('setDefaults')
             ->with($this->isType('array'))
-            ->willReturnCallback(
-                function (array $options) use ($resolver) {
-                    $this->assertArrayHasKey('autocomplete_alias', $options);
-                    $this->assertArrayHasKey('configs', $options);
-                    $this->assertEquals('oro_customer_parent', $options['autocomplete_alias']);
-                    $this->assertEquals(
-                        [
-                            'component' => 'autocomplete-entity-parent',
-                            'placeholder' => 'oro.customer.customer.form.choose_parent'
-                        ],
-                        $options['configs']
-                    );
+            ->willReturnCallback(function (array $options) use ($resolver) {
+                $this->assertArrayHasKey('autocomplete_alias', $options);
+                $this->assertArrayHasKey('configs', $options);
+                $this->assertEquals('oro_customer_parent', $options['autocomplete_alias']);
+                $this->assertEquals(
+                    [
+                        'component' => 'autocomplete-entity-parent',
+                        'placeholder' => 'oro.customer.customer.form.choose_parent'
+                    ],
+                    $options['configs']
+                );
 
-                    return $resolver;
-                }
-            );
+                return $resolver;
+            });
 
         $this->type->configureOptions($resolver);
     }
@@ -55,7 +53,7 @@ class ParentCustomerSelectTypeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider buildViewDataProvider
      */
-    public function testBuildView(?object $parentData, ?int $expectedParentId)
+    public function testBuildView(?object $parentData, ?int $expectedParentId): void
     {
         $parentForm = $this->createMock(FormInterface::class);
         $parentForm->expects($this->any())

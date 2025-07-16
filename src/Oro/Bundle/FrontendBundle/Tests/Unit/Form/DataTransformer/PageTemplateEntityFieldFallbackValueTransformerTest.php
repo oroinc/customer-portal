@@ -4,11 +4,11 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\DataTransformer;
 
 use Oro\Bundle\EntityBundle\Entity\EntityFieldFallbackValue;
 use Oro\Bundle\FrontendBundle\Form\DataTransformer\PageTemplateEntityFieldFallbackValueTransformer;
+use PHPUnit\Framework\TestCase;
 
-class PageTemplateEntityFieldFallbackValueTransformerTest extends \PHPUnit\Framework\TestCase
+class PageTemplateEntityFieldFallbackValueTransformerTest extends TestCase
 {
-    /** @var PageTemplateEntityFieldFallbackValueTransformer */
-    private $transformer;
+    private PageTemplateEntityFieldFallbackValueTransformer $transformer;
 
     #[\Override]
     protected function setUp(): void
@@ -16,7 +16,7 @@ class PageTemplateEntityFieldFallbackValueTransformerTest extends \PHPUnit\Frame
         $this->transformer = new PageTemplateEntityFieldFallbackValueTransformer('route_name');
     }
 
-    public function testTransform()
+    public function testTransform(): void
     {
         $value = new EntityFieldFallbackValue();
         $value->setArrayValue(['route_name' => 'Some value']);
@@ -24,13 +24,13 @@ class PageTemplateEntityFieldFallbackValueTransformerTest extends \PHPUnit\Frame
         $this->assertEquals('Some value', $value->getScalarValue());
     }
 
-    public function testReverseTransform()
+    public function testReverseTransform(): void
     {
         $value = 'value';
         $this->assertEquals($value, $this->transformer->reverseTransform($value));
     }
 
-    public function testReverseTransformEntityFieldFallbackValue()
+    public function testReverseTransformEntityFieldFallbackValue(): void
     {
         $value = new EntityFieldFallbackValue();
         $value->setScalarValue('value');
@@ -41,7 +41,7 @@ class PageTemplateEntityFieldFallbackValueTransformerTest extends \PHPUnit\Frame
         $this->assertNull($value->getScalarValue());
     }
 
-    public function testReverseTransformEntityFieldFallbackValueWhenScalarValueIsNull()
+    public function testReverseTransformEntityFieldFallbackValueWhenScalarValueIsNull(): void
     {
         $value = new EntityFieldFallbackValue();
 

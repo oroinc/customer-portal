@@ -7,20 +7,17 @@ use Oro\Bundle\CustomerBundle\Api\CustomerUserProfileResolver;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class CustomerUserProfileResolverTest extends \PHPUnit\Framework\TestCase
+class CustomerUserProfileResolverTest extends TestCase
 {
     use EntityTrait;
 
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $authorizationChecker;
-
-    /** @var CustomerUserProfileResolver */
-    private $resolver;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private AuthorizationCheckerInterface&MockObject $authorizationChecker;
+    private CustomerUserProfileResolver $resolver;
 
     #[\Override]
     protected function setUp(): void
@@ -28,8 +25,6 @@ class CustomerUserProfileResolverTest extends \PHPUnit\Framework\TestCase
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->resolver = new CustomerUserProfileResolver($this->tokenAccessor, $this->authorizationChecker);
-
-        parent::setUp();
     }
 
     public function testProfileWithoutCustomerUser(): void
@@ -76,12 +71,7 @@ class CustomerUserProfileResolverTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->resolver->hasProfilePermission($this->getContext(), $customerUser->getId()));
     }
 
-    /**
-     * @param string $className
-     *
-     * @return Context|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function getContext(string $className = CustomerUser::class)
+    private function getContext(string $className = CustomerUser::class): Context&MockObject
     {
         $context = $this->createMock(Context::class);
         $context->expects($this->once())

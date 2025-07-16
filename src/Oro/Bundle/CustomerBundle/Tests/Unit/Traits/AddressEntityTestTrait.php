@@ -7,6 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
+use PHPUnit\Framework\Assert;
 
 trait AddressEntityTestTrait
 {
@@ -35,7 +36,7 @@ trait AddressEntityTestTrait
         }
 
         $actualAddress = $customer->getAddressByTypeName($searchName);
-        \PHPUnit\Framework\Assert::assertEquals($expectedAddress, $actualAddress);
+        Assert::assertEquals($expectedAddress, $actualAddress);
     }
 
     public function getAddressByTypeNameProvider(): array
@@ -87,7 +88,7 @@ trait AddressEntityTestTrait
             $customer->addAddress($address);
         }
 
-        \PHPUnit\Framework\Assert::assertEquals($expectedAddress, $customer->getPrimaryAddress());
+        Assert::assertEquals($expectedAddress, $customer->getPrimaryAddress());
     }
 
     public function getPrimaryAddressProvider(): array

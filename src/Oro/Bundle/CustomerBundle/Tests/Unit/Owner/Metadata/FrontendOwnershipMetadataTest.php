@@ -4,11 +4,12 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Owner\Metadata;
 
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class FrontendOwnershipMetadataTest extends \PHPUnit\Framework\TestCase
+class FrontendOwnershipMetadataTest extends TestCase
 {
     public function testConstructWithoutParameters(): void
     {

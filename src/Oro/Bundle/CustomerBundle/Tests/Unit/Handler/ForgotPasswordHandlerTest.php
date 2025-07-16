@@ -15,30 +15,11 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class ForgotPasswordHandlerTest extends TestCase
 {
-    /**
-     * @var CustomerUserPasswordRequestHandler|MockObject
-     */
-    private $passwordRequestHandler;
-
-    /**
-     * @var FrontendCustomerUserFormProvider|MockObject
-     */
-    private $customerUserFormProvider;
-
-    /**
-     * @var Session|MockObject
-     */
-    private $session;
-
-    /**
-     * @var RequestStack|MockObject
-     */
-    private $requestStack;
-
-    /**
-     * @var ForgotPasswordHandler
-     */
-    private $forgotPasswordHandler;
+    private CustomerUserPasswordRequestHandler&MockObject $passwordRequestHandler;
+    private FrontendCustomerUserFormProvider&MockObject $customerUserFormProvider;
+    private Session&MockObject $session;
+    private RequestStack&MockObject $requestStack;
+    private ForgotPasswordHandler $forgotPasswordHandler;
 
     #[\Override]
     protected function setUp(): void
@@ -57,7 +38,7 @@ class ForgotPasswordHandlerTest extends TestCase
         );
     }
 
-    public function testHandleWithGetMethod()
+    public function testHandleWithGetMethod(): void
     {
         $request = new Request();
         $workflowItem = $this->createMock(WorkflowItem::class);
@@ -69,7 +50,7 @@ class ForgotPasswordHandlerTest extends TestCase
         $this->forgotPasswordHandler->handle($workflowItem, $request);
     }
 
-    public function testHandleWithoutParameter()
+    public function testHandleWithoutParameter(): void
     {
         $request = new Request();
         $workflowItem = $this->createMock(WorkflowItem::class);
@@ -80,7 +61,7 @@ class ForgotPasswordHandlerTest extends TestCase
         $this->forgotPasswordHandler->handle($workflowItem, $request);
     }
 
-    public function testHandleWithoutUser()
+    public function testHandleWithoutUser(): void
     {
         $request = new Request();
         $workflowItem = $this->createMock(WorkflowItem::class);
@@ -103,7 +84,7 @@ class ForgotPasswordHandlerTest extends TestCase
         $this->forgotPasswordHandler->handle($workflowItem, $request);
     }
 
-    public function testHandleProcess()
+    public function testHandleProcess(): void
     {
         $request = new Request();
         $workflowItem = $this->createMock(WorkflowItem::class);

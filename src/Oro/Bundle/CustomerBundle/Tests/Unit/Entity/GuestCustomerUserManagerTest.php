@@ -15,23 +15,16 @@ use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Provider\DefaultUserProvider;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class GuestCustomerUserManagerTest extends \PHPUnit\Framework\TestCase
+class GuestCustomerUserManagerTest extends TestCase
 {
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
-
-    /** @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $customerUserManager;
-
-    /** @var CustomerUserRelationsProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $relationsProvider;
-
-    /** @var DefaultUserProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $defaultUserProvider;
-
-    /** @var GuestCustomerUserManager */
-    private $guestCustomerUserManager;
+    private WebsiteManager&MockObject $websiteManager;
+    private CustomerUserManager&MockObject $customerUserManager;
+    private CustomerUserRelationsProvider&MockObject $relationsProvider;
+    private DefaultUserProvider&MockObject $defaultUserProvider;
+    private GuestCustomerUserManager $guestCustomerUserManager;
 
     #[\Override]
     protected function setUp(): void

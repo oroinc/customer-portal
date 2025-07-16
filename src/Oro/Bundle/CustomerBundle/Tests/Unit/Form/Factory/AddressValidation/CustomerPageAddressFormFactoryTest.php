@@ -15,10 +15,10 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class CustomerPageAddressFormFactoryTest extends TestCase
 {
-    private FormFactoryInterface|MockObject $formFactory;
-
+    private FormFactoryInterface&MockObject $formFactory;
     private CustomerPageAddressFormFactory $addressFormFactory;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formFactory = $this->createMock(FormFactoryInterface::class);
@@ -41,7 +41,7 @@ final class CustomerPageAddressFormFactoryTest extends TestCase
             ->with('addresses')
             ->willReturn($addressForm);
 
-        $form
+        $form->expects(self::any())
             ->method('getName')
             ->willReturn('oro_customer');
 
@@ -81,7 +81,7 @@ final class CustomerPageAddressFormFactoryTest extends TestCase
             ->with('addresses')
             ->willReturn($addressForm);
 
-        $form
+        $form->expects(self::any())
             ->method('getName')
             ->willReturn('oro_customer');
 
@@ -116,7 +116,7 @@ final class CustomerPageAddressFormFactoryTest extends TestCase
             ->with('addresses')
             ->willReturn($addressForm);
 
-        $form
+        $form->expects(self::any())
             ->method('getName')
             ->willReturn('oro_customer');
 
@@ -151,7 +151,7 @@ final class CustomerPageAddressFormFactoryTest extends TestCase
             ->with('addresses')
             ->willReturn($addressForm);
 
-        $form
+        $form->expects(self::any())
             ->method('getName')
             ->willReturn('oro_customer');
 

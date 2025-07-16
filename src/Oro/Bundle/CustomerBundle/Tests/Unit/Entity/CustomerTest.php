@@ -9,15 +9,16 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Traits\AddressEntityTestTrait;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
+use PHPUnit\Framework\TestCase;
 
-class CustomerTest extends \PHPUnit\Framework\TestCase
+class CustomerTest extends TestCase
 {
     use AddressEntityTestTrait;
 
     /**
      * Test setters getters
      */
-    public function testAccessors()
+    public function testAccessors(): void
     {
         $this->assertPropertyAccessors($this->createCustomerEntity(), [
             ['id', 42],
@@ -35,7 +36,7 @@ class CustomerTest extends \PHPUnit\Framework\TestCase
     /**
      * Test children
      */
-    public function testChildrenCollection()
+    public function testChildrenCollection(): void
     {
         $parentCustomer = $this->createCustomerEntity();
 
@@ -45,7 +46,7 @@ class CustomerTest extends \PHPUnit\Framework\TestCase
         $customer = $this->createCustomerEntity();
 
         $this->assertInstanceOf(
-            'Oro\Bundle\CustomerBundle\Entity\Customer',
+            Customer::class,
             $parentCustomer->addChild($customer)
         );
 

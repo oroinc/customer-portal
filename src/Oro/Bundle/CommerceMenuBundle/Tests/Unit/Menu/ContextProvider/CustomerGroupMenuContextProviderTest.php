@@ -7,12 +7,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\TestCase;
 
-class CustomerGroupMenuContextProviderTest extends \PHPUnit\Framework\TestCase
+class CustomerGroupMenuContextProviderTest extends TestCase
 {
     use EntityTrait;
 
-    public function testGetContexts()
+    public function testGetContexts(): void
     {
         $website = $this->getEntity(Website::class, ['id' => 1]);
         $websiteManager = $this->createMock(WebsiteManager::class);

@@ -16,11 +16,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuUserAgentConditionsCollectionTypeTest extends FormIntegrationTestCase
 {
-    /** @var MenuUserAgentConditionType */
-    private $formType;
-
-    /** @var MenuUserAgentConditionsCollectionTransformer */
-    private $transformer;
+    private MenuUserAgentConditionsCollectionTransformer $transformer;
+    private MenuUserAgentConditionsCollectionType $formType;
 
     #[\Override]
     protected function setUp(): void

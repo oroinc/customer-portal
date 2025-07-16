@@ -7,12 +7,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
+use PHPUnit\Framework\TestCase;
 
-class CustomerUserRoleTest extends \PHPUnit\Framework\TestCase
+class CustomerUserRoleTest extends TestCase
 {
     use EntityTestCaseTrait;
 
-    public function testRole()
+    public function testRole(): void
     {
         $name = 'test role#$%';
         $role = new CustomerUserRole('');
@@ -45,7 +46,7 @@ class CustomerUserRoleTest extends \PHPUnit\Framework\TestCase
     /**
      * Test CustomerUserRole relations
      */
-    public function testRelations()
+    public function testRelations(): void
     {
         self::assertPropertyCollections(new CustomerUserRole(''), [
             ['customerUsers', new CustomerUser()],
@@ -57,14 +58,14 @@ class CustomerUserRoleTest extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    public function testNotEmptyRole()
+    public function testNotEmptyRole(): void
     {
         $name = 'another test role';
         $role = new CustomerUserRole($name);
         $this->assertEquals(CustomerUserRole::PREFIX_ROLE . 'ANOTHER_TEST_ROLE', $role->getRole());
     }
 
-    public function testSelfManaged()
+    public function testSelfManaged(): void
     {
         $role = new CustomerUserRole('test');
 
@@ -75,7 +76,7 @@ class CustomerUserRoleTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($role->isSelfManaged());
     }
 
-    public function testIsPredefined()
+    public function testIsPredefined(): void
     {
         $name = 'Predefined role';
 

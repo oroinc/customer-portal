@@ -14,7 +14,6 @@ final class SignInTargetPathProviderTest extends TestCase
     private RedirectAfterLoginProvider&MockObject $redirectTargetPageProvider;
     private SameSiteUrlHelper&MockObject $sameSiteUrlHelper;
     private RouterInterface&MockObject $router;
-
     private SignInTargetPathProvider $provider;
 
     #[\Override]

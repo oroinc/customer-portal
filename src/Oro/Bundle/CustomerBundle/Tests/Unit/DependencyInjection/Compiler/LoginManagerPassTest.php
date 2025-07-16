@@ -3,13 +3,13 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\DependencyInjection\Compiler;
 
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\LoginManagerPass;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class LoginManagerPassTest extends \PHPUnit\Framework\TestCase
+class LoginManagerPassTest extends TestCase
 {
-    /** @var LoginManagerPass */
-    private $compiler;
+    private LoginManagerPass $compiler;
 
     #[\Override]
     protected function setUp(): void
@@ -17,7 +17,7 @@ class LoginManagerPassTest extends \PHPUnit\Framework\TestCase
         $this->compiler = new LoginManagerPass();
     }
 
-    public function testProcess()
+    public function testProcess(): void
     {
         $container = new ContainerBuilder();
         $loginManagerDef = $container->register('oro_customer.security.login_manager')

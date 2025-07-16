@@ -9,22 +9,17 @@ use Oro\Bundle\CustomerBundle\Acl\Cache\CustomerVisitorAclCache;
 use Oro\Bundle\CustomerBundle\EventListener\WebsiteUpdateGuestRoleListener;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class WebsiteUpdateGuestRoleListenerTest extends \PHPUnit\Framework\TestCase
+class WebsiteUpdateGuestRoleListenerTest extends TestCase
 {
     use EntityTrait;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|CustomerVisitorAclCache */
-    private $visitorAclCache;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|UnitOfWork */
-    private $uow;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|EntityManagerInterface */
-    private $em;
-
-    /** @var WebsiteUpdateGuestRoleListener */
-    private $listener;
+    private CustomerVisitorAclCache&MockObject $visitorAclCache;
+    private UnitOfWork&MockObject $uow;
+    private EntityManagerInterface&MockObject $em;
+    private WebsiteUpdateGuestRoleListener $listener;
 
     #[\Override]
     protected function setUp(): void

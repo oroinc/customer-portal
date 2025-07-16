@@ -4,14 +4,12 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupSelectType;
 use Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CustomerGroupSelectTypeTest extends \PHPUnit\Framework\TestCase
+class CustomerGroupSelectTypeTest extends TestCase
 {
-    /**
-     * @var CustomerGroupSelectType
-     */
-    protected $type;
+    private CustomerGroupSelectType $type;
 
     #[\Override]
     protected function setUp(): void
@@ -19,12 +17,12 @@ class CustomerGroupSelectTypeTest extends \PHPUnit\Framework\TestCase
         $this->type = new CustomerGroupSelectType();
     }
 
-    public function testGetParent()
+    public function testGetParent(): void
     {
         $this->assertEquals(OroEntitySelectOrCreateInlineType::class, $this->type->getParent());
     }
 
-    public function testConfigureOptions()
+    public function testConfigureOptions(): void
     {
         $resolver = $this->createMock(OptionsResolver::class);
         $resolver->expects($this->once())

@@ -6,18 +6,17 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Extractor;
 
 use Oro\Bundle\FrontendBundle\Extractor\FrontendExposedRoutesExtractor;
 use Oro\Component\Testing\TempDirExtension;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 
-class FrontendExposedRoutesExtractorTest extends \PHPUnit\Framework\TestCase
+class FrontendExposedRoutesExtractorTest extends TestCase
 {
     use TempDirExtension;
 
     private string $cacheDir;
-
-    /** @var FrontendExposedRoutesExtractor */
-    private $extractor;
+    private FrontendExposedRoutesExtractor $extractor;
 
     #[\Override]
     protected function setUp(): void

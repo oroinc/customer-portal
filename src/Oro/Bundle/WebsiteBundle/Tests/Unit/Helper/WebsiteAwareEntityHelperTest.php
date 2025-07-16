@@ -6,14 +6,13 @@ use Oro\Bundle\EntityConfigBundle\Config\Config;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityConfigBundle\Config\Id\EntityConfigId;
 use Oro\Bundle\WebsiteBundle\Helper\WebsiteAwareEntityHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class WebsiteAwareEntityHelperTest extends \PHPUnit\Framework\TestCase
+class WebsiteAwareEntityHelperTest extends TestCase
 {
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
-
-    /** @var WebsiteAwareEntityHelper */
-    private $helper;
+    private ConfigManager&MockObject $configManager;
+    private WebsiteAwareEntityHelper $helper;
 
     #[\Override]
     protected function setUp(): void

@@ -9,9 +9,9 @@ use PHPUnit\Framework\TestCase;
 final class AddressValidationModelTest extends TestCase
 {
     private AddressValidationModel $addressValidation;
-
     private Address $address;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->address = new Address();

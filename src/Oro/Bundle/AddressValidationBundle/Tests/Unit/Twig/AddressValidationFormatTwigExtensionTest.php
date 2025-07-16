@@ -20,11 +20,8 @@ class AddressValidationFormatTwigExtensionTest extends TestCase
     use TwigExtensionTestCaseTrait;
 
     private AddressFormatter&MockObject $addressFormatter;
-
     private FormattedAddressRenderer&MockObject $formattedAddressRenderer;
-
     private ResolvedAddressFormatter&MockObject $resolvedAddressFormatter;
-
     private AddressValidationFormatTwigExtension $extension;
 
     #[\Override]
@@ -52,8 +49,7 @@ class AddressValidationFormatTwigExtensionTest extends TestCase
         $newLineSeparator = '<br/>';
         $expectedResult = 'expected result';
 
-        $this->resolvedAddressFormatter
-            ->expects(self::once())
+        $this->resolvedAddressFormatter->expects(self::once())
             ->method('formatResolvedAddress')
             ->with($address, $country, $newLineSeparator)
             ->willReturn($expectedResult);
@@ -90,8 +86,7 @@ class AddressValidationFormatTwigExtensionTest extends TestCase
             ->willReturn($resolvedAddressParts);
 
         $expectedResult = 'rendered resolved address';
-        $this->formattedAddressRenderer
-            ->expects(self::once())
+        $this->formattedAddressRenderer->expects(self::once())
             ->method('renderAddress')
             ->with($resolvedAddressParts, $addressFormat, $newLineSeparator)
             ->willReturn($expectedResult);
@@ -129,8 +124,7 @@ class AddressValidationFormatTwigExtensionTest extends TestCase
             ->willReturn($resolvedAddressParts);
 
         $expectedResult = 'rendered resolved address';
-        $this->formattedAddressRenderer
-            ->expects(self::once())
+        $this->formattedAddressRenderer->expects(self::once())
             ->method('renderAddress')
             ->with($resolvedAddressParts, $addressFormat, $newLineSeparator)
             ->willReturn($expectedResult);
@@ -174,8 +168,7 @@ class AddressValidationFormatTwigExtensionTest extends TestCase
             ->willReturn($addressParts);
 
         $expectedResult = 'rendered resolved address';
-        $this->formattedAddressRenderer
-            ->expects(self::once())
+        $this->formattedAddressRenderer->expects(self::once())
             ->method('renderAddress')
             ->with($addressParts, $addressFormat, $newLineSeparator)
             ->willReturn($expectedResult);

@@ -19,6 +19,7 @@ class ContentNodeSubFolderUriHandlerTest extends TestCase
     private RequestContext&MockObject $requestContext;
     private ContentNodeSubFolderUriHandler $handler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->localizationHelper = $this->createMock(LocalizationHelper::class);

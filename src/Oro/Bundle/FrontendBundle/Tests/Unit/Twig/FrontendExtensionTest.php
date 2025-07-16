@@ -15,16 +15,11 @@ class FrontendExtensionTest extends TestCase
 {
     use TwigExtensionTestCaseTrait;
 
-    private Environment|MockObject $environment;
-
-    private FrontendHelper|MockObject $frontendHelper;
-
-    private RouterInterface|MockObject $router;
-
-    private ContentProviderManager|MockObject $contentProviderManager;
-
-    private ContentProviderManager|MockObject $frontendContentProviderManager;
-
+    private Environment&MockObject $environment;
+    private FrontendHelper&MockObject $frontendHelper;
+    private RouterInterface&MockObject $router;
+    private ContentProviderManager&MockObject $contentProviderManager;
+    private ContentProviderManager&MockObject $frontendContentProviderManager;
     private FrontendExtension $extension;
 
     #[\Override]
@@ -86,17 +81,14 @@ class FrontendExtensionTest extends TestCase
         ?array $keys,
         array $expected
     ): void {
-        $this->frontendHelper
-            ->expects(self::once())
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        $this->contentProviderManager
-            ->expects(self::never())
+        $this->contentProviderManager->expects(self::never())
             ->method(self::anything());
 
-        $this->frontendContentProviderManager
-            ->expects(self::once())
+        $this->frontendContentProviderManager->expects(self::once())
             ->method('getContent')
             ->with($keys)
             ->willReturn($content);
@@ -116,17 +108,14 @@ class FrontendExtensionTest extends TestCase
         ?array $keys,
         array $expected
     ): void {
-        $this->frontendHelper
-            ->expects(self::once())
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(false);
 
-        $this->frontendContentProviderManager
-            ->expects(self::never())
+        $this->frontendContentProviderManager->expects(self::never())
             ->method(self::anything());
 
-        $this->contentProviderManager
-            ->expects(self::once())
+        $this->contentProviderManager->expects(self::once())
             ->method('getContent')
             ->with($keys)
             ->willReturn($content);

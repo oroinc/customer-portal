@@ -12,8 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class CustomerUserAwareEntityPreferredLocalizationProviderTest extends TestCase
 {
-    private PreferredLocalizationProviderInterface|MockObject $customerUserPreferredLocalizationProvider;
-
+    private PreferredLocalizationProviderInterface&MockObject $customerUserPreferredLocalizationProvider;
     private CustomerUserAwareEntityPreferredLocalizationProvider $provider;
 
     #[\Override]
@@ -66,8 +65,7 @@ class CustomerUserAwareEntityPreferredLocalizationProviderTest extends TestCase
             ->setCustomerUser($customerUser);
         $localization = new Localization();
 
-        $this->customerUserPreferredLocalizationProvider
-            ->expects(self::once())
+        $this->customerUserPreferredLocalizationProvider->expects(self::once())
             ->method('getPreferredLocalization')
             ->with($customerUser)
             ->willReturn($localization);

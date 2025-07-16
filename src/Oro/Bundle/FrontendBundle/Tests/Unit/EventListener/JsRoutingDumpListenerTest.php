@@ -4,16 +4,16 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\EventListener;
 
 use Oro\Bundle\FrontendBundle\Command\FrontendJsRoutingDumpCommand;
 use Oro\Bundle\FrontendBundle\EventListener\JsRoutingDumpListener;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class JsRoutingDumpListenerTest extends \PHPUnit\Framework\TestCase
+class JsRoutingDumpListenerTest extends TestCase
 {
-    /** @var JsRoutingDumpListener */
-    private $listener;
+    private JsRoutingDumpListener $listener;
 
     #[\Override]
     protected function setUp(): void

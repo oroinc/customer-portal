@@ -8,19 +8,18 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Component\ConfigExpression\ContextAccessor;
 use Oro\Component\ConfigExpression\Tests\Unit\Fixtures\ItemStub;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\PropertyAccess\PropertyPath;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class GetActiveUserOrNullTest extends \PHPUnit\Framework\TestCase
+class GetActiveUserOrNullTest extends TestCase
 {
     private const ATTRIBUTE_NAME = 'some_attribute';
 
-    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenStorage;
-
-    /** @var GetActiveUserOrNull */
-    private $action;
+    private TokenStorageInterface&MockObject $tokenStorage;
+    private GetActiveUserOrNull $action;
 
     #[\Override]
     protected function setUp(): void
@@ -31,7 +30,7 @@ class GetActiveUserOrNullTest extends \PHPUnit\Framework\TestCase
         $this->action->setDispatcher($this->createMock(EventDispatcher::class));
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $customerUser = new CustomerUser();
         $customerVisitor = new CustomerVisitor();
@@ -54,7 +53,7 @@ class GetActiveUserOrNullTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($customerUser, $context->{$attributeName});
     }
 
-    public function testExecuteNull()
+    public function testExecuteNull(): void
     {
         $token = $this->createMock(AnonymousCustomerUserToken::class);
         $token->expects($this->once())

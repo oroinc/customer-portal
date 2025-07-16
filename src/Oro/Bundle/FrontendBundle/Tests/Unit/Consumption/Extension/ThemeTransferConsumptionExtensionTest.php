@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ThemeTransferConsumptionExtensionTest extends TestCase
 {
-    private CurrentThemeProvider|MockObject $currentThemeProvider;
+    private CurrentThemeProvider&MockObject $currentThemeProvider;
     private ThemeTransferConsumptionExtension $themeTransferConsumptionExtension;
 
     #[\Override]
@@ -26,12 +26,11 @@ class ThemeTransferConsumptionExtensionTest extends TestCase
     public function testOnPreReceivedWithoutThemeId(): void
     {
         $context = $this->createMock(Context::class);
-        $context
+        $context->expects(self::any())
             ->method('getMessage')
             ->willReturn($this->createMock(MessageInterface::class));
 
-        $this->currentThemeProvider
-            ->expects($this->never())
+        $this->currentThemeProvider->expects($this->never())
             ->method('getCurrentRequest');
 
         $this->themeTransferConsumptionExtension->onPreReceived($context);
@@ -43,11 +42,10 @@ class ThemeTransferConsumptionExtensionTest extends TestCase
 
         $request = $this->createMock(Request::class);
         $request->attributes = $this->createMock(ParameterBag::class);
-        $request->attributes
-            ->expects(self::once())
+        $request->attributes->expects(self::once())
             ->method('set')
             ->with('_theme', 'testTheme');
-        $this->currentThemeProvider
+        $this->currentThemeProvider->expects(self::any())
             ->method('getCurrentRequest')
             ->willReturn($request);
 
@@ -58,19 +56,16 @@ class ThemeTransferConsumptionExtensionTest extends TestCase
     {
         $context = $this->prepareContext();
 
-        $this->currentThemeProvider
+        $this->currentThemeProvider->expects(self::any())
             ->method('getCurrentRequest')
             ->willReturn(null);
         $called = false;
-        $this->currentThemeProvider
-            ->expects(self::once())
+        $this->currentThemeProvider->expects(self::once())
             ->method('setCurrentRequest')
-            ->willReturnCallback(
-                function (Request $request) use (&$called) {
-                    $called = true;
-                    $this->assertEquals('testTheme', $request->attributes->get('_theme'));
-                }
-            );
+            ->willReturnCallback(function (Request $request) use (&$called) {
+                $called = true;
+                $this->assertEquals('testTheme', $request->attributes->get('_theme'));
+            });
 
         $this->themeTransferConsumptionExtension->onPreReceived($context);
         $this->assertTrue($called);
@@ -80,8 +75,7 @@ class ThemeTransferConsumptionExtensionTest extends TestCase
     {
         $context = $this->createMock(Context::class);
 
-        $this->currentThemeProvider
-            ->expects($this->never())
+        $this->currentThemeProvider->expects($this->never())
             ->method('setCurrentRequest');
 
         $this->themeTransferConsumptionExtension->onPostReceived($context);
@@ -93,18 +87,16 @@ class ThemeTransferConsumptionExtensionTest extends TestCase
 
         $request = $this->createMock(Request::class);
         $request->attributes = $this->createMock(ParameterBag::class);
-        $request->attributes
-            ->expects(self::once())
+        $request->attributes->expects(self::once())
             ->method('get')
             ->willReturn('originalThemeId');
-        $this->currentThemeProvider
+        $this->currentThemeProvider->expects(self::any())
             ->method('getCurrentRequest')
             ->willReturn($request);
 
         $this->themeTransferConsumptionExtension->onPreReceived($context);
 
-        $request->attributes
-            ->expects(self::once())
+        $request->attributes->expects(self::once())
             ->method('set')
             ->with('_theme', 'originalThemeId');
 
@@ -115,23 +107,20 @@ class ThemeTransferConsumptionExtensionTest extends TestCase
     {
         $context = $this->prepareContext();
 
-        $this->currentThemeProvider
+        $this->currentThemeProvider->expects(self::any())
             ->method('getCurrentRequest')
             ->willReturn(null);
         $callNr = 0;
-        $this->currentThemeProvider
-            ->expects(self::exactly(2))
+        $this->currentThemeProvider->expects(self::exactly(2))
             ->method('setCurrentRequest')
-            ->willReturnCallback(
-                function (?Request $request) use (&$callNr) {
-                    $callNr++;
-                    if ($callNr === 1) {
-                        $this->assertInstanceOf(Request::class, $request);
-                    } else {
-                        $this->assertNull($request);
-                    }
+            ->willReturnCallback(function (?Request $request) use (&$callNr) {
+                $callNr++;
+                if ($callNr === 1) {
+                    $this->assertInstanceOf(Request::class, $request);
+                } else {
+                    $this->assertNull($request);
                 }
-            );
+            });
         $this->themeTransferConsumptionExtension->onPreReceived($context);
         $this->themeTransferConsumptionExtension->onPostReceived($context);
         $this->assertEquals(2, $callNr, 'SetCurrentRequest should be called twice');
@@ -141,10 +130,10 @@ class ThemeTransferConsumptionExtensionTest extends TestCase
     {
         $context = $this->createMock(Context::class);
         $message = $this->createMock(MessageInterface::class);
-        $message
+        $message->expects(self::any())
             ->method('getProperty')
             ->willReturn('testTheme');
-        $context
+        $context->expects(self::any())
             ->method('getMessage')
             ->willReturn($message);
 

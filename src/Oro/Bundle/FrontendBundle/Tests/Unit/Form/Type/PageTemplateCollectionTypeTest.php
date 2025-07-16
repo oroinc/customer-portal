@@ -8,15 +8,13 @@ use Oro\Bundle\FrontendBundle\Form\Type\PageTemplateType;
 use Oro\Component\Layout\Extension\Theme\Manager\PageTemplatesManager;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 
 class PageTemplateCollectionTypeTest extends FormIntegrationTestCase
 {
-    /** @var PageTemplatesManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $pageTemplatesManagerMock;
-
-    /** @var PageTemplateCollectionType */
-    private $formType;
+    private PageTemplatesManager&MockObject $pageTemplatesManagerMock;
+    private PageTemplateCollectionType $formType;
 
     #[\Override]
     protected function setUp(): void

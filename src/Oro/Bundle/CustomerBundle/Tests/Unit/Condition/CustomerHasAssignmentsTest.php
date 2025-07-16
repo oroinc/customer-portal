@@ -7,17 +7,16 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Handler\CustomerAssignHelper;
 use Oro\Component\ConfigExpression\Exception\InvalidArgumentException;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\PropertyAccess\PropertyPathInterface;
 
-class CustomerHasAssignmentsTest extends \PHPUnit\Framework\TestCase
+class CustomerHasAssignmentsTest extends TestCase
 {
     use EntityTrait;
 
-    /** @var CustomerAssignHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $helper;
-
-    /** @var CustomerHasAssignments */
-    private $condition;
+    private CustomerAssignHelper&MockObject $helper;
+    private CustomerHasAssignments $condition;
 
     #[\Override]
     protected function setUp(): void
@@ -27,7 +26,7 @@ class CustomerHasAssignmentsTest extends \PHPUnit\Framework\TestCase
         $this->condition = new CustomerHasAssignments($this->helper);
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertEquals(CustomerHasAssignments::NAME, $this->condition->getName());
     }
@@ -35,7 +34,7 @@ class CustomerHasAssignmentsTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider evaluateDataProvider
      */
-    public function testEvaluateCustomerWithId(bool $hasAssignments, bool $expected)
+    public function testEvaluateCustomerWithId(bool $hasAssignments, bool $expected): void
     {
         $customer = $this->getEntity(Customer::class, ['id' => 42]);
 
@@ -56,7 +55,7 @@ class CustomerHasAssignmentsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testEvaluateCustomerWithoutId()
+    public function testEvaluateCustomerWithoutId(): void
     {
         $this->helper->expects($this->never())
             ->method($this->anything());
@@ -68,7 +67,7 @@ class CustomerHasAssignmentsTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider initializeExceptionProvider
      */
-    public function testInitializeException(array $options, string $exception, string $exceptionMessage)
+    public function testInitializeException(array $options, string $exception, string $exceptionMessage): void
     {
         $this->expectException($exception);
         $this->expectExceptionMessage($exceptionMessage);

@@ -5,14 +5,13 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Provider;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\WebsiteBundle\Provider\ScopeCriteriaProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class ScopeCriteriaProviderTest extends \PHPUnit\Framework\TestCase
+class ScopeCriteriaProviderTest extends TestCase
 {
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
-
-    /** @var ScopeCriteriaProvider */
-    private $provider;
+    private WebsiteManager&MockObject $websiteManager;
+    private ScopeCriteriaProvider $provider;
 
     #[\Override]
     protected function setUp(): void
@@ -22,12 +21,12 @@ class ScopeCriteriaProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider = new ScopeCriteriaProvider($this->websiteManager);
     }
 
-    public function testGetCriteriaField()
+    public function testGetCriteriaField(): void
     {
         $this->assertEquals(ScopeCriteriaProvider::WEBSITE, $this->provider->getCriteriaField());
     }
 
-    public function testGetCriteriaValue()
+    public function testGetCriteriaValue(): void
     {
         $website = new Website();
 
@@ -38,7 +37,7 @@ class ScopeCriteriaProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($website, $this->provider->getCriteriaValue());
     }
 
-    public function testGetCriteriaValueType()
+    public function testGetCriteriaValueType(): void
     {
         $this->assertEquals(Website::class, $this->provider->getCriteriaValueType());
     }

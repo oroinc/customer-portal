@@ -13,16 +13,17 @@ use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Bundle\WebCatalogBundle\Entity\WebCatalog;
 use Oro\Bundle\WebCatalogBundle\Provider\WebCatalogProvider;
 use Oro\Component\Website\WebsiteInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class WebCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
+class WebCatalogNavigationRootBuilderTest extends TestCase
 {
     use LoggerAwareTraitTestTrait;
     use MenuItemTestTrait;
 
     private const MENU_TEMPLATE = 'template1';
 
-    private WebCatalogProvider|\PHPUnit\Framework\MockObject\MockObject $webCatalogProvider;
-
+    private WebCatalogProvider&MockObject $webCatalogProvider;
     private WebCatalogNavigationRootBuilder $builder;
 
     #[\Override]
@@ -37,8 +38,7 @@ class WebCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->setUpLoggerMock($this->builder);
-        $menuTemplatesProvider
-            ->expects(self::any())
+        $menuTemplatesProvider->expects(self::any())
             ->method('getMenuTemplates')
             ->willReturn([
                 self::MENU_TEMPLATE => ['label' => 'Template 1'],
@@ -48,8 +48,7 @@ class WebCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
 
     public function testBuildWhenNotDisplayed(): void
     {
-        $this->webCatalogProvider
-            ->expects(self::never())
+        $this->webCatalogProvider->expects(self::never())
             ->method(self::anything());
 
         $menu = $this->createItem('sample_menu');
@@ -61,13 +60,11 @@ class WebCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
 
     public function testBuildWhenInvalidWebsite(): void
     {
-        $this->webCatalogProvider
-            ->expects(self::never())
+        $this->webCatalogProvider->expects(self::never())
             ->method(self::anything());
 
         $website = new \stdClass();
-        $this->loggerMock
-            ->expects(self::once())
+        $this->loggerMock->expects(self::once())
             ->method('error')
             ->with(
                 'Option "website" with value {actual_type} is expected to be {expected_type}',
@@ -82,8 +79,7 @@ class WebCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
 
     public function testBuildWhenNoRootContentNode(): void
     {
-        $this->webCatalogProvider
-            ->expects(self::once())
+        $this->webCatalogProvider->expects(self::once())
             ->method('getNavigationRootWithCatalogRootFallback')
             ->willReturn(null);
 
@@ -97,8 +93,7 @@ class WebCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
     {
         $rootContentNode = (new ContentNode())
             ->setWebCatalog((new WebCatalog())->setName('Sample Catalog'));
-        $this->webCatalogProvider
-            ->expects(self::once())
+        $this->webCatalogProvider->expects(self::once())
             ->method('getNavigationRootWithCatalogRootFallback')
             ->willReturn($rootContentNode);
 
@@ -118,8 +113,7 @@ class WebCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
     {
         $rootContentNode = (new ContentNode())
             ->setWebCatalog((new WebCatalog())->setName('Sample Catalog'));
-        $this->webCatalogProvider
-            ->expects(self::once())
+        $this->webCatalogProvider->expects(self::once())
             ->method('getNavigationRootWithCatalogRootFallback')
             ->willReturn($rootContentNode);
 
@@ -139,8 +133,7 @@ class WebCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
     {
         $rootContentNode = (new ContentNode())
             ->setWebCatalog((new WebCatalog())->setName('Sample Catalog'));
-        $this->webCatalogProvider
-            ->expects(self::once())
+        $this->webCatalogProvider->expects(self::once())
             ->method('getNavigationRootWithCatalogRootFallback')
             ->willReturn($rootContentNode);
 

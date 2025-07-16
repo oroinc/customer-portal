@@ -13,10 +13,11 @@ use Oro\Bundle\ScopeBundle\Model\ScopeCriteria;
 use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class CustomerUserScopeCacheKeyBuilderTest extends \PHPUnit\Framework\TestCase
+class CustomerUserScopeCacheKeyBuilderTest extends TestCase
 {
     private function getInnerBuilder(ScopeCriteria $criteria, ?string $cacheKey): ScopeCacheKeyBuilderInterface
     {
@@ -29,7 +30,7 @@ class CustomerUserScopeCacheKeyBuilderTest extends \PHPUnit\Framework\TestCase
         return $innerBuilder;
     }
 
-    public function testGetCacheKeyForNotFrontendRequest()
+    public function testGetCacheKeyForNotFrontendRequest(): void
     {
         $criteria = $this->createMock(ScopeCriteria::class);
 
@@ -47,7 +48,7 @@ class CustomerUserScopeCacheKeyBuilderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('data', $builder->getCacheKey($criteria));
     }
 
-    public function testGetCacheKeyWhenNoToken()
+    public function testGetCacheKeyWhenNoToken(): void
     {
         $criteria = $this->createMock(ScopeCriteria::class);
 
@@ -70,7 +71,7 @@ class CustomerUserScopeCacheKeyBuilderTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($builder->getCacheKey($criteria));
     }
 
-    public function testGetCacheKeyForUnsupportedUserType()
+    public function testGetCacheKeyForUnsupportedUserType(): void
     {
         $criteria = $this->createMock(ScopeCriteria::class);
 
@@ -98,7 +99,7 @@ class CustomerUserScopeCacheKeyBuilderTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($builder->getCacheKey($criteria));
     }
 
-    public function testGetCacheKeyForVisitor()
+    public function testGetCacheKeyForVisitor(): void
     {
         $criteria = $this->createMock(ScopeCriteria::class);
 
@@ -135,7 +136,7 @@ class CustomerUserScopeCacheKeyBuilderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('data;customerUser=anonymous;website=100', $builder->getCacheKey($criteria));
     }
 
-    public function testGetCacheKeyForCustomerUser()
+    public function testGetCacheKeyForCustomerUser(): void
     {
         $criteria = $this->createMock(ScopeCriteria::class);
 
@@ -178,7 +179,7 @@ class CustomerUserScopeCacheKeyBuilderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('data;customerUser=1;website=100', $builder->getCacheKey($criteria));
     }
 
-    public function testGetCacheKeyForCustomerUserWithoutCurrentWebsite()
+    public function testGetCacheKeyForCustomerUserWithoutCurrentWebsite(): void
     {
         $criteria = $this->createMock(ScopeCriteria::class);
 

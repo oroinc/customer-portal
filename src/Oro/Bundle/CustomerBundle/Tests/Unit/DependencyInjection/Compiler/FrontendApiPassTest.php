@@ -3,11 +3,12 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\DependencyInjection\Compiler;
 
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\FrontendApiPass;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
-class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
+class FrontendApiPassTest extends TestCase
 {
     private const PROCESSORS = [
         'oro_organization.api.config.add_owner_validator'

@@ -10,13 +10,14 @@ use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendApiPass;
 use Oro\Bundle\FrontendBundle\EventListener\UnauthorizedApiRequestListener;
 use Oro\Bundle\FrontendBundle\EventListener\UnhandledApiErrorExceptionListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\DependencyInjection\Reference;
 
-class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
+class FrontendApiPassTest extends TestCase
 {
     private const PROCESSORS = [
         'oro_api.collect_resources.load_dictionaries',

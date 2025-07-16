@@ -18,46 +18,21 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerChecker;
 use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
+class ImportCustomerUserListenerTest extends TestCase
 {
-    /**
-     * @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $registry;
-
-    /**
-     * @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $customerUserManager;
-
-    /**
-     * @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $translation;
-
-    /**
-     * @var ImportStrategyHelper|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $strategyHelper;
-
-    /**
-     * @var WebsiteRepository|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $websiteRepository;
-
-    /**
-     * @var StrategyEvent|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $event;
-
-    /**
-     * @var ContextInterface
-     */
-    protected $context;
+    protected ManagerRegistry&MockObject $registry;
+    protected CustomerUserManager&MockObject $customerUserManager;
+    protected TranslatorInterface&MockObject $translation;
+    protected ImportStrategyHelper $strategyHelper;
+    protected WebsiteRepository&MockObject $websiteRepository;
+    protected StrategyEvent&MockObject $event;
+    protected ContextInterface $context;
 
     #[\Override]
     protected function setUp(): void
@@ -89,7 +64,7 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         $this->context = new Context([]);
     }
 
-    public function testWebsiteAndRoleExist()
+    public function testWebsiteAndRoleExist(): void
     {
         $websiteName = 'WebsiteTest';
         $website = new WebsiteStub();
@@ -128,7 +103,7 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($password, $customerUser->getPassword());
     }
 
-    public function testWebsiteOrWebsiteAndRoleDoesNotExist()
+    public function testWebsiteOrWebsiteAndRoleDoesNotExist(): void
     {
         $customerUser = new CustomerUser();
         $this->updateEventMock($customerUser);
@@ -161,7 +136,7 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($password, $customerUser->getPassword());
     }
 
-    public function testRoleDoesNotExists()
+    public function testRoleDoesNotExists(): void
     {
         $websiteName = 'WebsiteTest';
         $website = new WebsiteStub();
@@ -199,7 +174,7 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($password, $customerUser->getPassword());
     }
 
-    public function testUpdateEntity()
+    public function testUpdateEntity(): void
     {
         $websiteBeforeName = 'WebsiteBefore';
         $websiteBefore = new Website();

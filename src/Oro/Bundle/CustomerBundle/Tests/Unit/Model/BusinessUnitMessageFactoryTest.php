@@ -6,17 +6,16 @@ use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Model\BusinessUnitMessageFactory;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class BusinessUnitMessageFactoryTest extends \PHPUnit\Framework\TestCase
+class BusinessUnitMessageFactoryTest extends TestCase
 {
     private const JOB_ID = 7;
     private const ENTITY_CLASS = 'EntityClass';
 
-    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $doctrineHelper;
-
-    /** @var BusinessUnitMessageFactory */
-    private $messageFactory;
+    private DoctrineHelper&MockObject $doctrineHelper;
+    private BusinessUnitMessageFactory $messageFactory;
 
     #[\Override]
     protected function setUp(): void

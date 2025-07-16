@@ -7,24 +7,19 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\AddressProvider;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class AddressProviderTest extends \PHPUnit\Framework\TestCase
+class AddressProviderTest extends TestCase
 {
     use EntityTrait;
 
-    /** @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $router;
-
-    /** @var FragmentHandler|\PHPUnit\Framework\MockObject\MockObject */
-    protected $fragmentHandler;
-
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    protected $configManager;
-
-    /** @var AddressProvider */
-    protected $provider;
+    protected UrlGeneratorInterface&MockObject $router;
+    protected FragmentHandler&MockObject $fragmentHandler;
+    protected ConfigManager&MockObject $configManager;
+    protected AddressProvider $provider;
 
     #[\Override]
     protected function setUp(): void
@@ -36,7 +31,7 @@ class AddressProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider = new AddressProvider($this->router, $this->fragmentHandler, $this->configManager);
     }
 
-    public function testGetComponentOptions()
+    public function testGetComponentOptions(): void
     {
         $this->provider->setEntityClass(Customer::class);
         $this->provider->setListRouteName('oro_api_customer_frontend_get_customer_addresses');
@@ -44,7 +39,6 @@ class AddressProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider->setUpdateRouteName('oro_customer_frontend_customer_address_update');
         $this->provider->setDeleteRouteName('oro_api_customer_frontend_delete_customer_address');
 
-        /** @var Customer $entity */
         $entity = $this->getEntity(Customer::class, ['id' => 40]);
 
         $this->router->expects($this->exactly(2))
@@ -90,7 +84,7 @@ class AddressProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetComponentOptionsForDefaultAddresses()
+    public function testGetComponentOptionsForDefaultAddresses(): void
     {
         $this->provider->setEntityClass(Customer::class);
         $this->provider->setListRouteName('oro_api_customer_frontend_get_customer_addresses', true);
@@ -98,7 +92,6 @@ class AddressProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider->setUpdateRouteName('oro_customer_frontend_customer_address_update');
         $this->provider->setDeleteRouteName('oro_api_customer_frontend_delete_customer_address');
 
-        /** @var Customer $entity */
         $entity = $this->getEntity(Customer::class, ['id' => 40]);
 
         $this->router->expects($this->exactly(2))
@@ -141,27 +134,27 @@ class AddressProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetComponentOptionsWithoutRouteName()
+    public function testGetComponentOptionsWithoutRouteName(): void
     {
         $this->expectException(\UnexpectedValueException::class);
-        /** @var Customer $entity */
+
         $entity = $this->getEntity(Customer::class);
 
         $this->provider->setListRouteName('');
         $this->provider->getComponentOptions($entity);
     }
 
-    public function testGetComponentOptionsWithWrongEntityClass()
+    public function testGetComponentOptionsWithWrongEntityClass(): void
     {
         $this->expectException(\UnexpectedValueException::class);
-        /** @var Customer $entity */
+
         $entity = $this->getEntity(Customer::class);
 
         $this->provider->setEntityClass(CustomerUser::class);
         $this->provider->getComponentOptions($entity);
     }
 
-    public function testGetComponentOptionsWithMapsDisabled()
+    public function testGetComponentOptionsWithMapsDisabled(): void
     {
         $this->provider->setEntityClass(Customer::class);
         $this->provider->setListRouteName('oro_api_customer_frontend_get_customer_addresses');
@@ -169,7 +162,6 @@ class AddressProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider->setUpdateRouteName('oro_customer_frontend_customer_address_update');
         $this->provider->setDeleteRouteName('oro_api_customer_frontend_delete_customer_address');
 
-        /** @var Customer $entity */
         $entity = $this->getEntity(Customer::class, ['id' => 40]);
 
         $this->router->expects($this->exactly(2))

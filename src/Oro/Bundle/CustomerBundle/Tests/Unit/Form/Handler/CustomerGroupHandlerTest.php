@@ -8,30 +8,21 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Event\CustomerGroupEvent;
 use Oro\Bundle\CustomerBundle\Event\CustomerMassEvent;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerGroupHandler;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class CustomerGroupHandlerTest extends \PHPUnit\Framework\TestCase
+class CustomerGroupHandlerTest extends TestCase
 {
-    /** @var Request */
-    private $request;
-
-    /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $form;
-
-    /** @var CustomerGroupHandler */
-    private $handler;
-
-    /** @var ObjectManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $manager;
-
-    /** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $dispatcher;
-
-    /** @var CustomerGroup */
-    private $entity;
+    private Request $request;
+    private FormInterface&MockObject $form;
+    private CustomerGroupHandler $handler;
+    private ObjectManager&MockObject $manager;
+    private EventDispatcherInterface&MockObject $dispatcher;
+    private CustomerGroup $entity;
 
     #[\Override]
     protected function setUp(): void

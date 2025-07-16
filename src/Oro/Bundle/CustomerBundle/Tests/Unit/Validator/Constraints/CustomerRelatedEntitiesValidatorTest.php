@@ -14,6 +14,7 @@ use Oro\Bundle\EntityBundle\Provider\EntityClassNameProviderInterface;
 use Oro\Bundle\SaleBundle\Entity\Quote;
 use Oro\Bundle\ShoppingListBundle\Entity\ShoppingList;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Constraint;
@@ -21,23 +22,12 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
 {
-    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $authorizationChecker;
-
-    /** @var CustomerUserReassignUpdaterInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $customerUserReassignUpdater;
-
-    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $doctrine;
-
-    /** @var EntityClassNameProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $entityClassNameProvider;
-
-    /** @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $em;
-
-    /** @var UnitOfWork|\PHPUnit\Framework\MockObject\MockObject */
-    private $uow;
+    private AuthorizationCheckerInterface&MockObject $authorizationChecker;
+    private CustomerUserReassignUpdaterInterface&MockObject $customerUserReassignUpdater;
+    private ManagerRegistry&MockObject $doctrine;
+    private EntityClassNameProviderInterface&MockObject $entityClassNameProvider;
+    private EntityManagerInterface&MockObject $em;
+    private UnitOfWork&MockObject $uow;
 
     #[\Override]
     protected function setUp(): void

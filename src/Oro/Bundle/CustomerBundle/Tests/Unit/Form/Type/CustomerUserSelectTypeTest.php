@@ -10,10 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerUserSelectTypeTest extends FormIntegrationTestCase
 {
-    /**
-     * @var CustomerUserSelectType
-     */
-    protected $formType;
+    private CustomerUserSelectType $formType;
 
     #[\Override]
     protected function setUp(): void
@@ -32,24 +29,22 @@ class CustomerUserSelectTypeTest extends FormIntegrationTestCase
         $resolver->expects($this->once())
             ->method('setDefaults')
             ->with($this->isType('array'))
-            ->willReturnCallback(
-                function (array $options) use ($resolver) {
-                    $this->assertArrayHasKey('autocomplete_alias', $options);
-                    $this->assertArrayHasKey('create_form_route', $options);
-                    $this->assertArrayHasKey('configs', $options);
-                    $this->assertEquals(CustomerUserType::class, $options['autocomplete_alias']);
-                    $this->assertEquals('oro_customer_customer_user_create', $options['create_form_route']);
-                    $this->assertEquals(
-                        [
-                            'component' => 'autocomplete-customeruser',
-                            'placeholder' => 'oro.customer.customeruser.form.choose',
-                        ],
-                        $options['configs']
-                    );
+            ->willReturnCallback(function (array $options) use ($resolver) {
+                $this->assertArrayHasKey('autocomplete_alias', $options);
+                $this->assertArrayHasKey('create_form_route', $options);
+                $this->assertArrayHasKey('configs', $options);
+                $this->assertEquals(CustomerUserType::class, $options['autocomplete_alias']);
+                $this->assertEquals('oro_customer_customer_user_create', $options['create_form_route']);
+                $this->assertEquals(
+                    [
+                        'component' => 'autocomplete-customeruser',
+                        'placeholder' => 'oro.customer.customeruser.form.choose',
+                    ],
+                    $options['configs']
+                );
 
-                    return $resolver;
-                }
-            );
+                return $resolver;
+            });
 
         $this->formType->configureOptions($resolver);
     }

@@ -3,12 +3,12 @@
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\DependencyInjection\Compiler;
 
 use Oro\Bundle\CommerceMenuBundle\DependencyInjection\Compiler\AddFrontendClassMigrationPass;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class AddFrontendClassMigrationPassTest extends \PHPUnit\Framework\TestCase
+class AddFrontendClassMigrationPassTest extends TestCase
 {
-    /** @var AddFrontendClassMigrationPass */
-    private $compiler;
+    private AddFrontendClassMigrationPass $compiler;
 
     #[\Override]
     protected function setUp(): void
@@ -16,7 +16,7 @@ class AddFrontendClassMigrationPassTest extends \PHPUnit\Framework\TestCase
         $this->compiler = new AddFrontendClassMigrationPass();
     }
 
-    public function testProcess()
+    public function testProcess(): void
     {
         $container = new ContainerBuilder();
         $migrationServiceDef = $container->register('oro_frontend.class_migration');
@@ -32,7 +32,7 @@ class AddFrontendClassMigrationPassTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testProcessNoMigrationService()
+    public function testProcessNoMigrationService(): void
     {
         $container = new ContainerBuilder();
 

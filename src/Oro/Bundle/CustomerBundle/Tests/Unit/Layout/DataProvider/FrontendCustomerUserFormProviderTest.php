@@ -8,6 +8,8 @@ use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserPasswordResetType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendOwnerSelectType;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
@@ -17,18 +19,13 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
  */
-class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
+class FrontendCustomerUserFormProviderTest extends TestCase
 {
     use EntityTrait;
 
-    /** @var FormFactory|\PHPUnit\Framework\MockObject\MockObject */
-    private $formFactory;
-
-    /** @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $router;
-
-    /** @var FrontendCustomerUserFormProvider */
-    private $provider;
+    private FormFactory&MockObject $formFactory;
+    private UrlGeneratorInterface&MockObject $router;
+    private FrontendCustomerUserFormProvider $provider;
 
     #[\Override]
     protected function setUp(): void
@@ -42,8 +39,11 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getCustomerUserFormProvider
      */
-    public function testGetCustomerUserFormView(CustomerUser $customerUser, string $route, array $routeParameters = [])
-    {
+    public function testGetCustomerUserFormView(
+        CustomerUser $customerUser,
+        string $route,
+        array $routeParameters = []
+    ): void {
         $this->router->expects($this->exactly(2))
             ->method('generate')
             ->with($route, $routeParameters);
@@ -61,8 +61,11 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getCustomerUserFormProvider
      */
-    public function testGetCustomerUserForm(CustomerUser $customerUser, string $route, array $routeParameters = [])
-    {
+    public function testGetCustomerUserForm(
+        CustomerUser $customerUser,
+        string $route,
+        array $routeParameters = []
+    ): void {
         $this->router->expects($this->exactly(2))
             ->method('generate')
             ->with($route, $routeParameters);
@@ -77,7 +80,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($actual, $this->provider->getCustomerUserForm($customerUser));
     }
 
-    public function testGetForgotPasswordFormView()
+    public function testGetForgotPasswordFormView(): void
     {
         $formView = $this->createMock(FormView::class);
 
@@ -100,7 +103,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(FormView::class, $data);
     }
 
-    public function testGetForgotPasswordForm()
+    public function testGetForgotPasswordForm(): void
     {
         $expectedForm = $this->createMock(\Symfony\Component\Form\Test\FormInterface::class);
 
@@ -118,7 +121,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(FormInterface::class, $data);
     }
 
-    public function testGetResetPasswordFormView()
+    public function testGetResetPasswordFormView(): void
     {
         $formView = $this->createMock(FormView::class);
 
@@ -141,7 +144,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(FormView::class, $data);
     }
 
-    public function testGetResetPasswordForm()
+    public function testGetResetPasswordForm(): void
     {
         $expectedForm = $this->createMock(\Symfony\Component\Form\Test\FormInterface::class);
 
@@ -159,7 +162,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(FormInterface::class, $data);
     }
 
-    public function testGetCustomerUserSelectFormView()
+    public function testGetCustomerUserSelectFormView(): void
     {
         $form = $this->createMock(FormInterface::class);
         $view = $this->createMock(FormView::class);
@@ -180,8 +183,11 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getProfileFormProvider
      */
-    public function testGetProfileFormView(CustomerUser $customerUser, string $route, array $routeParameters = [])
-    {
+    public function testGetProfileFormView(
+        CustomerUser $customerUser,
+        string $route,
+        array $routeParameters = []
+    ): void {
         $this->router->expects($this->exactly(2))
             ->method('generate')
             ->with($route, $routeParameters);
@@ -199,8 +205,11 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getProfileFormProvider
      */
-    public function testGetProfileForm(CustomerUser $customerUser, string $route, array $routeParameters = [])
-    {
+    public function testGetProfileForm(
+        CustomerUser $customerUser,
+        string $route,
+        array $routeParameters = []
+    ): void {
         $this->router->expects($this->exactly(2))
             ->method('generate')
             ->with($route, $routeParameters);

@@ -4,12 +4,13 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security\Firewall;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Security\Firewall\CustomerVisitorCookieFactory;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Cookie;
 
-class CustomerVisitorCookieFactoryTest extends \PHPUnit\Framework\TestCase
+class CustomerVisitorCookieFactoryTest extends TestCase
 {
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
+    private ConfigManager&MockObject $configManager;
 
     #[\Override]
     protected function setUp(): void

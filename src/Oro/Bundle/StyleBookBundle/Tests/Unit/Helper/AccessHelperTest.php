@@ -3,14 +3,15 @@
 namespace Oro\Bundle\StyleBookBundle\Tests\Unit\Helper;
 
 use Oro\Bundle\StyleBookBundle\Helper\AccessHelper;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class AccessHelperTest extends \PHPUnit\Framework\TestCase
+class AccessHelperTest extends TestCase
 {
     /**
      * @dataProvider isAllowStyleBookProvider
      */
-    public function testIsAllowStyleBook(bool|int $debug, bool $expected)
+    public function testIsAllowStyleBook(bool|int $debug, bool $expected): void
     {
         $container = $this->createMock(ContainerInterface::class);
         $container->expects($this->once())

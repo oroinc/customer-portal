@@ -16,7 +16,6 @@ final class StorefrontIconsMappingProviderTest extends TestCase
 {
     private ThemeManager&MockObject $themeManager;
     private CacheInterface&CacheItemPoolInterface&MockObject $cache;
-
     private StorefrontIconsMappingProvider $provider;
 
     #[\Override]
@@ -47,8 +46,7 @@ final class StorefrontIconsMappingProviderTest extends TestCase
                 ['fa_to_svg' => ['fa-first-icon' => 'svg-first-icon', 'fa-third-icon' => 'svg-third-icon']]
             ),
         ];
-        $this->themeManager
-            ->expects(self::once())
+        $this->themeManager->expects(self::once())
             ->method('getAllThemes')
             ->willReturn($allThemes);
 
@@ -82,8 +80,7 @@ final class StorefrontIconsMappingProviderTest extends TestCase
         ];
 
         $themeGroups = ['sample_group1', 'sample_group2'];
-        $this->themeManager
-            ->expects(self::once())
+        $this->themeManager->expects(self::once())
             ->method('getAllThemes')
             ->with($themeGroups)
             ->willReturn($allThemes);
@@ -105,8 +102,7 @@ final class StorefrontIconsMappingProviderTest extends TestCase
             ->with('oro_frontend.provider.icons_mapping')
             ->willReturn($iconsMapping);
 
-        $this->themeManager
-            ->expects(self::never())
+        $this->themeManager->expects(self::never())
             ->method(self::anything());
 
         $screens = $this->provider->getIconsMappingForAllThemes();
@@ -123,8 +119,7 @@ final class StorefrontIconsMappingProviderTest extends TestCase
             ->with('oro_frontend.provider.icons_mapping.all.' . $themeGroups)
             ->willReturn($iconsMapping);
 
-        $this->themeManager
-            ->expects(self::never())
+        $this->themeManager->expects(self::never())
             ->method(self::anything());
 
         $screens = $this->provider->getIconsMappingForAllThemes($themeGroups);
@@ -137,8 +132,7 @@ final class StorefrontIconsMappingProviderTest extends TestCase
         $themeName = 'sample_theme';
         $iconsMapping = ['fa_to_svg' => ['fa-sample-icon' => 'svg-sample-icon']];
 
-        $this->themeManager
-            ->expects(self::once())
+        $this->themeManager->expects(self::once())
             ->method('getThemeConfigOption')
             ->with($themeName, 'icons')
             ->willReturn($iconsMapping);
@@ -152,8 +146,7 @@ final class StorefrontIconsMappingProviderTest extends TestCase
     {
         $themeName = 'sample_theme';
 
-        $this->themeManager
-            ->expects(self::once())
+        $this->themeManager->expects(self::once())
             ->method('getThemeConfigOption')
             ->with($themeName, 'icons')
             ->willReturn(null);

@@ -14,9 +14,9 @@ use PHPUnit\Framework\TestCase;
 final class ResolvedAddressAcceptingTransformerTest extends TestCase
 {
     private ResolvedAddressAcceptorInterface&MockObject $resolvedAddressAcceptor;
-
     private ResolvedAddressAcceptingTransformer $transformer;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->resolvedAddressAcceptor = $this->createMock(ResolvedAddressAcceptorInterface::class);
@@ -48,8 +48,7 @@ final class ResolvedAddressAcceptingTransformerTest extends TestCase
         $resolvedAddress = new ResolvedAddress($originalAddress);
         $acceptedAddress = $this->createMock(AbstractAddress::class);
 
-        $this->resolvedAddressAcceptor
-            ->expects(self::once())
+        $this->resolvedAddressAcceptor->expects(self::once())
             ->method('acceptResolvedAddress')
             ->with($resolvedAddress)
             ->willReturn($acceptedAddress);

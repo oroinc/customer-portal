@@ -6,17 +6,14 @@ use Oro\Bundle\DataGridBundle\Event\BuildAfter;
 use Oro\Bundle\FrontendBundle\Datagrid\EventListener\DatagridContentTagsListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\SyncBundle\Content\DataGridTagListener;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class DatagridContentTagsListenerTest extends \PHPUnit\Framework\TestCase
+class DatagridContentTagsListenerTest extends TestCase
 {
-    /** @var DataGridTagListener|\PHPUnit\Framework\MockObject\MockObject */
-    private $dataGridTagListener;
-
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
-
-    /** @var DatagridContentTagsListener */
-    private $listener;
+    private DataGridTagListener&MockObject $dataGridTagListener;
+    private FrontendHelper&MockObject $frontendHelper;
+    private DatagridContentTagsListener $listener;
 
     #[\Override]
     protected function setUp(): void

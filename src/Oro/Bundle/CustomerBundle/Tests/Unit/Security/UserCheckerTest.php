@@ -9,18 +9,17 @@ use Oro\Bundle\CustomerBundle\Exception\GuestCustomerUserLoginException;
 use Oro\Bundle\CustomerBundle\Security\UserChecker;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Exception\EmptyOwnerException;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\DisabledException;
 use Symfony\Component\Security\Core\Exception\LockedException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserCheckerTest extends \PHPUnit\Framework\TestCase
+class UserCheckerTest extends TestCase
 {
-    /** @var UserCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $innerUserChecker;
-
-    /** @var UserChecker */
-    private $userChecker;
+    private UserCheckerInterface&MockObject $innerUserChecker;
+    private UserChecker $userChecker;
 
     #[\Override]
     protected function setUp(): void
@@ -30,7 +29,7 @@ class UserCheckerTest extends \PHPUnit\Framework\TestCase
         $this->userChecker = new UserChecker($this->innerUserChecker);
     }
 
-    public function testCheckPostAuthForNotCustomerUser()
+    public function testCheckPostAuthForNotCustomerUser(): void
     {
         $user = $this->createMock(UserInterface::class);
 
@@ -41,7 +40,7 @@ class UserCheckerTest extends \PHPUnit\Framework\TestCase
         $this->userChecker->checkPostAuth($user);
     }
 
-    public function testCheckPostAuthForCustomerUser()
+    public function testCheckPostAuthForCustomerUser(): void
     {
         $user = new CustomerUser();
         $user->setCustomer(new Customer());
@@ -54,7 +53,7 @@ class UserCheckerTest extends \PHPUnit\Framework\TestCase
         $this->userChecker->checkPostAuth($user);
     }
 
-    public function testCheckPostAuthForDisabledCustomerUser()
+    public function testCheckPostAuthForDisabledCustomerUser(): void
     {
         $this->expectException(DisabledException::class);
 
@@ -68,7 +67,7 @@ class UserCheckerTest extends \PHPUnit\Framework\TestCase
         $this->userChecker->checkPostAuth($user);
     }
 
-    public function testCheckPostAuthForNotConfirmedCustomerUser()
+    public function testCheckPostAuthForNotConfirmedCustomerUser(): void
     {
         $this->expectException(LockedException::class);
 
@@ -82,7 +81,7 @@ class UserCheckerTest extends \PHPUnit\Framework\TestCase
         $this->userChecker->checkPostAuth($user);
     }
 
-    public function testCheckPostAuthForCustomerUserWithoutCustomer()
+    public function testCheckPostAuthForCustomerUserWithoutCustomer(): void
     {
         $this->expectException(EmptyCustomerException::class);
 
@@ -96,7 +95,7 @@ class UserCheckerTest extends \PHPUnit\Framework\TestCase
         $this->userChecker->checkPostAuth($user);
     }
 
-    public function testCheckPostAuthForCustomerUserWithoutOwner()
+    public function testCheckPostAuthForCustomerUserWithoutOwner(): void
     {
         $this->expectException(EmptyOwnerException::class);
 
@@ -110,7 +109,7 @@ class UserCheckerTest extends \PHPUnit\Framework\TestCase
         $this->userChecker->checkPostAuth($user);
     }
 
-    public function testCheckPreAuthForNotCustomerUser()
+    public function testCheckPreAuthForNotCustomerUser(): void
     {
         $user = $this->createMock(UserInterface::class);
 
@@ -121,7 +120,7 @@ class UserCheckerTest extends \PHPUnit\Framework\TestCase
         $this->userChecker->checkPreAuth($user);
     }
 
-    public function testCheckPreAuthForCustomerUser()
+    public function testCheckPreAuthForCustomerUser(): void
     {
         $user = new CustomerUser();
 
@@ -132,7 +131,7 @@ class UserCheckerTest extends \PHPUnit\Framework\TestCase
         $this->userChecker->checkPreAuth($user);
     }
 
-    public function testCheckPreAuthForGuestCustomerUser()
+    public function testCheckPreAuthForGuestCustomerUser(): void
     {
         $this->expectException(GuestCustomerUserLoginException::class);
 

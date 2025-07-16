@@ -10,19 +10,18 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
 use Oro\Component\MessageQueue\Job\Job;
 use Oro\Component\MessageQueue\Job\JobProcessor;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class FrontendExportResultSummarizerTest extends \PHPUnit\Framework\TestCase
+class FrontendExportResultSummarizerTest extends TestCase
 {
     private const JOB_ID = 142;
     private const ROOT_JOB_ID = 42;
     private const ROOT_JOB_NAME = 'sample.root_job.name';
     private const REFERER_URL = 'sample/url';
 
-    /** @var WebsiteUrlResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteUrlResolver;
-
-    /** @var FrontendExportResultSummarizer */
-    private $resultSummarizer;
+    private WebsiteUrlResolver&MockObject $websiteUrlResolver;
+    private FrontendExportResultSummarizer $resultSummarizer;
 
     #[\Override]
     protected function setUp(): void
@@ -75,22 +74,20 @@ class FrontendExportResultSummarizerTest extends \PHPUnit\Framework\TestCase
     ): void {
         $this->websiteUrlResolver->expects(self::any())
             ->method('getWebsiteSecurePath')
-            ->willReturnMap(
+            ->willReturnMap([
                 [
-                    [
-                        'oro_frontend_importexport_export_download',
-                        ['jobId' => self::ROOT_JOB_ID],
-                        $importExportResult->getCustomerUser()?->getWebsite(),
-                        'https://example.org/download/' . self::ROOT_JOB_ID,
-                    ],
-                    [
-                        'oro_frontend_root',
-                        [],
-                        $importExportResult->getCustomerUser()?->getWebsite(),
-                        'https://example.org/',
-                    ],
-                ]
-            );
+                    'oro_frontend_importexport_export_download',
+                    ['jobId' => self::ROOT_JOB_ID],
+                    $importExportResult->getCustomerUser()?->getWebsite(),
+                    'https://example.org/download/' . self::ROOT_JOB_ID,
+                ],
+                [
+                    'oro_frontend_root',
+                    [],
+                    $importExportResult->getCustomerUser()?->getWebsite(),
+                    'https://example.org/',
+                ],
+            ]);
 
         $this->websiteUrlResolver->expects(self::any())
             ->method('getWebsiteUrl')

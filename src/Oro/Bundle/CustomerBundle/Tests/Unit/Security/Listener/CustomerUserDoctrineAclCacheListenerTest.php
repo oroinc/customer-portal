@@ -17,11 +17,11 @@ use PHPUnit\Framework\TestCase;
 
 class CustomerUserDoctrineAclCacheListenerTest extends TestCase
 {
-    private DoctrineAclCacheProvider|MockObject $queryCacheProvider;
-    private OwnerTreeProviderInterface|MockObject $ownerTreeProvider;
-
+    private DoctrineAclCacheProvider&MockObject $queryCacheProvider;
+    private OwnerTreeProviderInterface&MockObject $ownerTreeProvider;
     private CustomerUserDoctrineAclCacheListener $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->queryCacheProvider = $this->createMock(DoctrineAclCacheProvider::class);

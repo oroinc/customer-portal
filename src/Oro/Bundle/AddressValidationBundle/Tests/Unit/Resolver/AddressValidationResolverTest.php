@@ -18,13 +18,11 @@ use PHPUnit\Framework\TestCase;
 final class AddressValidationResolverTest extends TestCase
 {
     private AddressValidationTransportProvider&MockObject $addressValidationTransportProvider;
-
     private AddressValidationResolverFactoryInterface&MockObject $addressValidationResolverFactory;
-
     private FeatureChecker&MockObject $featureChecker;
-
     private AddressValidationResolver $resolver;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->addressValidationTransportProvider = $this->createMock(AddressValidationTransportProvider::class);
@@ -42,22 +40,18 @@ final class AddressValidationResolverTest extends TestCase
 
     public function testResolveWhenFeatureIsDisabled(): void
     {
-        $this->featureChecker
-            ->expects(self::once())
+        $this->featureChecker->expects(self::once())
             ->method('isFeatureEnabled')
             ->with('oro_address_validation')
             ->willReturn(false);
 
         $address = $this->createMock(AbstractAddress::class);
 
-        $this->addressValidationTransportProvider
-            ->expects(self::never())
+        $this->addressValidationTransportProvider->expects(self::never())
             ->method('getAddressValidationTransport');
-        $this->addressValidationResolverFactory
-            ->expects(self::never())
+        $this->addressValidationResolverFactory->expects(self::never())
             ->method('isSupported');
-        $this->addressValidationResolverFactory
-            ->expects(self::never())
+        $this->addressValidationResolverFactory->expects(self::never())
             ->method('createForTransport');
 
         $result = $this->resolver->resolve($address);
@@ -67,24 +61,20 @@ final class AddressValidationResolverTest extends TestCase
 
     public function testResolveWhenTransportIsNull(): void
     {
-        $this->featureChecker
-            ->expects(self::once())
+        $this->featureChecker->expects(self::once())
             ->method('isFeatureEnabled')
             ->with('oro_address_validation')
             ->willReturn(true);
 
-        $this->addressValidationTransportProvider
-            ->expects(self::once())
+        $this->addressValidationTransportProvider->expects(self::once())
             ->method('getAddressValidationTransport')
             ->willReturn(null);
 
         $address = $this->createMock(AbstractAddress::class);
 
-        $this->addressValidationResolverFactory
-            ->expects(self::never())
+        $this->addressValidationResolverFactory->expects(self::never())
             ->method('isSupported');
-        $this->addressValidationResolverFactory
-            ->expects(self::never())
+        $this->addressValidationResolverFactory->expects(self::never())
             ->method('createForTransport');
 
         $result = $this->resolver->resolve($address);
@@ -94,29 +84,25 @@ final class AddressValidationResolverTest extends TestCase
 
     public function testResolveWhenTransportIsNotSupported(): void
     {
-        $this->featureChecker
-            ->expects(self::once())
+        $this->featureChecker->expects(self::once())
             ->method('isFeatureEnabled')
             ->with('oro_address_validation')
             ->willReturn(true);
 
         $transport = $this->createMock(Transport::class);
 
-        $this->addressValidationTransportProvider
-            ->expects(self::once())
+        $this->addressValidationTransportProvider->expects(self::once())
             ->method('getAddressValidationTransport')
             ->willReturn($transport);
 
-        $this->addressValidationResolverFactory
-            ->expects(self::once())
+        $this->addressValidationResolverFactory->expects(self::once())
             ->method('isSupported')
             ->with($transport)
             ->willReturn(false);
 
         $address = $this->createMock(AbstractAddress::class);
 
-        $this->addressValidationResolverFactory
-            ->expects(self::never())
+        $this->addressValidationResolverFactory->expects(self::never())
             ->method('createForTransport');
 
         $result = $this->resolver->resolve($address);
@@ -126,29 +112,25 @@ final class AddressValidationResolverTest extends TestCase
 
     public function testResolveWhenTransportIsSupported(): void
     {
-        $this->featureChecker
-            ->expects(self::once())
+        $this->featureChecker->expects(self::once())
             ->method('isFeatureEnabled')
             ->with('oro_address_validation')
             ->willReturn(true);
 
         $transport = $this->createMock(Transport::class);
 
-        $this->addressValidationTransportProvider
-            ->expects(self::once())
+        $this->addressValidationTransportProvider->expects(self::once())
             ->method('getAddressValidationTransport')
             ->willReturn($transport);
 
-        $this->addressValidationResolverFactory
-            ->expects(self::once())
+        $this->addressValidationResolverFactory->expects(self::once())
             ->method('isSupported')
             ->with($transport)
             ->willReturn(true);
 
         $innerResolver = $this->createMock(AddressValidationResolverInterface::class);
 
-        $this->addressValidationResolverFactory
-            ->expects(self::once())
+        $this->addressValidationResolverFactory->expects(self::once())
             ->method('createForTransport')
             ->with($transport)
             ->willReturn($innerResolver);
@@ -157,8 +139,7 @@ final class AddressValidationResolverTest extends TestCase
 
         $resolvedAddress1 = new ResolvedAddress($address);
         $resolvedAddress2 = new ResolvedAddress($address);
-        $innerResolver
-            ->expects(self::once())
+        $innerResolver->expects(self::once())
             ->method('resolve')
             ->with($address)
             ->willReturn([$resolvedAddress1, $resolvedAddress2]);

@@ -5,17 +5,16 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Provider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserLoggingInfoProvider;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\ServerBag;
 
-class CustomerUserLoggingInfoProviderTest extends \PHPUnit\Framework\TestCase
+class CustomerUserLoggingInfoProviderTest extends TestCase
 {
-    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
-    private $requestStack;
-
-    /** @var CustomerUserLoggingInfoProvider */
-    private $provider;
+    private RequestStack&MockObject $requestStack;
+    private CustomerUserLoggingInfoProvider $provider;
 
     #[\Override]
     protected function setUp(): void
@@ -72,7 +71,7 @@ class CustomerUserLoggingInfoProviderTest extends \PHPUnit\Framework\TestCase
         self::assertArrayHasKey('customer_user', $result);
     }
 
-    public function testSetUserInfoForString()
+    public function testSetUserInfoForString(): void
     {
         self::assertSame(
             ['customer_user_email' => 'some username'],

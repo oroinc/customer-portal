@@ -17,19 +17,17 @@ use Oro\Component\MessageQueue\Job\Job;
 use Oro\Component\MessageQueue\Job\JobProcessor;
 use Oro\Component\MessageQueue\Transport\Message;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class SaveFrontendImportExportResultProcessorTest extends \PHPUnit\Framework\TestCase
+class SaveFrontendImportExportResultProcessorTest extends TestCase
 {
     use LoggerAwareTraitTestTrait;
 
-    private FrontendImportExportResultManager|\PHPUnit\Framework\MockObject\MockObject $importExportResultManager;
-
-    private JobProcessor|\PHPUnit\Framework\MockObject\MockObject $jobProcessor;
-
-    private ExportResultNotificationSender|\PHPUnit\Framework\MockObject\MockObject $exportResultNotificationSender;
-
-    private ObjectManager|\PHPUnit\Framework\MockObject\MockObject $entityManager;
-
+    private FrontendImportExportResultManager&MockObject $importExportResultManager;
+    private JobProcessor&MockObject $jobProcessor;
+    private ExportResultNotificationSender&MockObject $exportResultNotificationSender;
+    private ObjectManager&MockObject $entityManager;
     private SaveFrontendExportResultProcessor $saveExportResultProcessor;
 
     #[\Override]

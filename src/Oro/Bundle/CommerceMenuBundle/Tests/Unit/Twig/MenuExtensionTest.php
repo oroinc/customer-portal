@@ -8,19 +8,18 @@ use Oro\Bundle\CommerceMenuBundle\Layout\MenuItemRenderer;
 use Oro\Bundle\CommerceMenuBundle\Twig\MenuExtension;
 use Oro\Bundle\NavigationBundle\Tests\Unit\Entity\Stub\MenuItemStub;
 use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class MenuExtensionTest extends \PHPUnit\Framework\TestCase
+class MenuExtensionTest extends TestCase
 {
     use TwigExtensionTestCaseTrait;
 
-    private MatcherInterface|\PHPUnit\Framework\MockObject\MockObject $matcher;
-
-    private RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack;
-
-    private MenuItemRenderer|\PHPUnit\Framework\MockObject\MockObject $menuItemRenderer;
-
+    private MatcherInterface&MockObject $matcher;
+    private RequestStack&MockObject $requestStack;
+    private MenuItemRenderer&MockObject $menuItemRenderer;
     private MenuExtension $extension;
 
     #[\Override]
@@ -194,8 +193,7 @@ class MenuExtensionTest extends \PHPUnit\Framework\TestCase
     {
         $result = 'sample result';
         $menuItem = new MenuItemStub();
-        $this->menuItemRenderer
-            ->expects(self::once())
+        $this->menuItemRenderer->expects(self::once())
             ->method('render')
             ->with($menuItem)
             ->willReturn($result);

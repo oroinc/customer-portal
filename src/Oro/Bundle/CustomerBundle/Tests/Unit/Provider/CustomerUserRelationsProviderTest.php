@@ -8,17 +8,14 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class CustomerUserRelationsProviderTest extends \PHPUnit\Framework\TestCase
+class CustomerUserRelationsProviderTest extends TestCase
 {
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
-
-    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $doctrineHelper;
-
-    /** @var CustomerUserRelationsProvider */
-    private $provider;
+    private ConfigManager&MockObject $configManager;
+    private DoctrineHelper&MockObject $doctrineHelper;
+    private CustomerUserRelationsProvider $provider;
 
     #[\Override]
     protected function setUp(): void

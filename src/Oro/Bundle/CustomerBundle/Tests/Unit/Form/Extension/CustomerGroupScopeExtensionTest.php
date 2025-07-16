@@ -9,17 +9,15 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Extension\Stub\CustomerGroupSelect
 use Oro\Bundle\ScopeBundle\Form\Type\ScopeType;
 use Oro\Bundle\ScopeBundle\Manager\ScopeManager;
 use Oro\Component\Testing\Unit\PreloadedExtension;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Validator\Validation;
 
 class CustomerGroupScopeExtensionTest extends FormIntegrationTestCase
 {
-    /** @var CustomerGroupScopeExtension */
-    protected $customerGroupScopeExtension;
-
-    /** @var ScopeManager|\PHPUnit\Framework\MockObject\MockObject */
-    protected $scopeManager;
+    protected CustomerGroupScopeExtension $customerGroupScopeExtension;
+    protected ScopeManager&MockObject $scopeManager;
 
     #[\Override]
     protected function setUp(): void

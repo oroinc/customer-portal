@@ -10,23 +10,19 @@ use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerAddressRepository;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserAddressRepository;
 use Oro\Bundle\CustomerBundle\Provider\FrontendAddressProvider;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class FrontendAddressProviderTest extends \PHPUnit\Framework\TestCase
+class FrontendAddressProviderTest extends TestCase
 {
-    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $registry;
+    private ManagerRegistry&MockObject $registry;
+    private AclHelper&MockObject $aclHelper;
 
-    /** @var AclHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $aclHelper;
+    private string $customerAddressClass = 'customerAddressClass';
 
-    /** @var string */
-    private $customerAddressClass = 'customerAddressClass';
+    private string $customerUserAddressClass = 'customerUserAddressClass';
 
-    /** @var string */
-    private $customerUserAddressClass = 'customerUserAddressClass';
-
-    /** @var FrontendAddressProvider */
-    private $provider;
+    private FrontendAddressProvider $provider;
 
     #[\Override]
     protected function setUp(): void
@@ -42,7 +38,7 @@ class FrontendAddressProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetCurrentCustomerAddresses()
+    public function testGetCurrentCustomerAddresses(): void
     {
         $addresses = $this->prepareCustomerAddresses();
 
@@ -52,7 +48,7 @@ class FrontendAddressProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($addresses, $this->provider->getCurrentCustomerAddresses());
     }
 
-    public function testGetCurrentCustomerUserAddresses()
+    public function testGetCurrentCustomerUserAddresses(): void
     {
         $addresses = $this->prepareCustomerUserAddresses();
 

@@ -12,6 +12,8 @@ use Oro\Bundle\SecurityBundle\Acl\Extension\EntityMaskBuilder;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Model\Role;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Acl\Domain\Entry;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Model\AclInterface;
@@ -22,19 +24,12 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
+class CustomerUserProviderTest extends TestCase
 {
-    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $authChecker;
-
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var AclManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $aclManager;
-
-    /** @var CustomerUserProvider */
-    private $provider;
+    private AuthorizationCheckerInterface&MockObject $authChecker;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private AclManager&MockObject $aclManager;
+    private CustomerUserProvider $provider;
 
     #[\Override]
     protected function setUp(): void
@@ -50,7 +45,7 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetLoggedUserIncludingGuest()
+    public function testGetLoggedUserIncludingGuest(): void
     {
         $token = $this->createMock(AnonymousCustomerUserToken::class);
         $token->expects(self::once())
@@ -74,7 +69,7 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
         self::assertSame($guestUser, $this->provider->getLoggedUser(true));
     }
 
-    public function testIsGrantedOidMaskAcesFilteredOrNotPresent()
+    public function testIsGrantedOidMaskAcesFilteredOrNotPresent(): void
     {
         $extension = $this->expectsSelectAclExtension();
 
@@ -123,7 +118,7 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider->isGrantedEditBasic(\stdClass::class);
     }
 
-    public function testIsGrantedOidMaskAcesFilteredByServiceBits()
+    public function testIsGrantedOidMaskAcesFilteredByServiceBits(): void
     {
         $extension = $this->expectsSelectAclExtension();
 
@@ -180,7 +175,7 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider->isGrantedEditBasic(\stdClass::class);
     }
 
-    public function testIsGrantedOidMaskAcesFilteredByIdentityIdentifier()
+    public function testIsGrantedOidMaskAcesFilteredByIdentityIdentifier(): void
     {
         $extension = $this->expectsSelectAclExtension();
 
@@ -246,7 +241,7 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider->isGrantedEditBasic(\stdClass::class);
     }
 
-    public function testIsGrantedOidMaskByEqualityAcesNotFiltered()
+    public function testIsGrantedOidMaskByEqualityAcesNotFiltered(): void
     {
         $extension = $this->expectsSelectAclExtension();
 
@@ -312,10 +307,7 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($this->provider->isGrantedEditBasic(\stdClass::class));
     }
 
-    /**
-     * @return AclInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function getAcl(string $identifier)
+    private function getAcl(string $identifier): AclInterface&MockObject
     {
         $acl = $this->createMock(AclInterface::class);
         $identity = new ObjectIdentity($identifier, 'any');
@@ -326,10 +318,7 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
         return $acl;
     }
 
-    /**
-     * @return EntityAclExtension|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function expectsSelectAclExtension()
+    private function expectsSelectAclExtension(): EntityAclExtension&MockObject
     {
         $extensionSelector = $this->createMock(AclExtensionSelector::class);
 
@@ -345,10 +334,7 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
         return $extension;
     }
 
-    /**
-     * @return CustomerUser|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function expectsGetUser()
+    private function expectsGetUser(): CustomerUser&MockObject
     {
         $user = $this->createMock(CustomerUser::class);
 

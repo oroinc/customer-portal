@@ -5,11 +5,11 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\EventListener;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ConfigBundle\Event\ConfigSettingsFormOptionsEvent;
 use Oro\Bundle\FrontendBundle\EventListener\ThemeSystemConfigFormOptionsListener;
+use PHPUnit\Framework\TestCase;
 
-class ThemeSystemConfigFormOptionsListenerTest extends \PHPUnit\Framework\TestCase
+class ThemeSystemConfigFormOptionsListenerTest extends TestCase
 {
-    /** @var ThemeSystemConfigFormOptionsListener */
-    private $listener;
+    private ThemeSystemConfigFormOptionsListener $listener;
 
     #[\Override]
     protected function setUp(): void

@@ -19,20 +19,17 @@ final class AddRoutePrefixExcludingOptionCompilerPassTest extends TestCase
         $containerBuilder = $this->createMock(ContainerBuilder::class);
         $definition = $this->createMock(Definition::class);
 
-        $containerBuilder
-            ->expects(self::once())
+        $containerBuilder->expects(self::once())
             ->method('hasDefinition')
             ->with('oro_frontend.listener.route_collection')
             ->willReturn(true);
 
-        $containerBuilder
-            ->expects(self::once())
+        $containerBuilder->expects(self::once())
             ->method('getDefinition')
             ->with('oro_frontend.listener.route_collection')
             ->willReturn($definition);
 
-        $definition
-            ->expects(self::once())
+        $definition->expects(self::once())
             ->method('addMethodCall')
             ->with('addExcludingOption', [$excludingOption]);
 
@@ -46,14 +43,12 @@ final class AddRoutePrefixExcludingOptionCompilerPassTest extends TestCase
 
         $containerBuilder = $this->createMock(ContainerBuilder::class);
 
-        $containerBuilder
-            ->expects(self::once())
+        $containerBuilder->expects(self::once())
             ->method('hasDefinition')
             ->with('oro_frontend.listener.route_collection')
             ->willReturn(false);
 
-        $containerBuilder
-            ->expects(self::never())
+        $containerBuilder->expects(self::never())
             ->method('getDefinition');
 
         $compilerPass->process($containerBuilder);

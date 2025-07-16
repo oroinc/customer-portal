@@ -19,6 +19,8 @@ use Oro\Bundle\UserBundle\Security\UserLoaderInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\DependencyInjection\ServiceLink;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
@@ -26,37 +28,18 @@ use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
+class CustomerUserManagerTest extends TestCase
 {
-    /** @var PasswordHasherFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $passwordHasherFactory;
-
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
-
-    /** @var Processor|\PHPUnit\Framework\MockObject\MockObject */
-    private $emailProcessor;
-
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
-
-    /** @var LocalizationHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $localizationHelper;
-
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
-
-    /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $logger;
-
-    /** @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $em;
-
-    /** @var EnumOptionsProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $enumOptionsProvider;
-
-    /** @var CustomerUserManager */
-    private $userManager;
+    private PasswordHasherFactoryInterface&MockObject $passwordHasherFactory;
+    private ConfigManager&MockObject $configManager;
+    private Processor&MockObject $emailProcessor;
+    private FrontendHelper&MockObject $frontendHelper;
+    private LocalizationHelper&MockObject $localizationHelper;
+    private WebsiteManager&MockObject $websiteManager;
+    private LoggerInterface&MockObject $logger;
+    private EntityManagerInterface&MockObject $em;
+    private EnumOptionsProvider&MockObject $enumOptionsProvider;
+    private CustomerUserManager $userManager;
 
     #[\Override]
     protected function setUp(): void

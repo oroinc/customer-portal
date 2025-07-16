@@ -11,20 +11,15 @@ use Oro\Bundle\DataGridBundle\Datasource\Orm\OrmDatasource;
 use Oro\Bundle\DataGridBundle\Event\BuildAfter;
 use Oro\Bundle\LocaleBundle\DependencyInjection\Configuration;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class EnabledLocalizationsGridListenerTest extends \PHPUnit\Framework\TestCase
+class EnabledLocalizationsGridListenerTest extends TestCase
 {
     use EntityTrait;
 
-    /**
-     * @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $configManager;
-
-    /**
-     * @var EnabledLocalizationsGridListener
-     */
-    private $listener;
+    private ConfigManager&MockObject $configManager;
+    private EnabledLocalizationsGridListener $listener;
 
     #[\Override]
     protected function setUp(): void
