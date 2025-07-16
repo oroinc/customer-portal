@@ -57,6 +57,11 @@
 
     @at-root #{selector.append(&, '__text')} {
         font-weight: $notification-flash-text-font-weight;
+
+        ul,
+        ol {
+            list-style-type: none;
+        }
     }
 }
 
