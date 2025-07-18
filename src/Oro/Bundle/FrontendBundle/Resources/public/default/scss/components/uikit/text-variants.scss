@@ -1,0 +1,11 @@
+/* @theme: default; */
+
+.text {
+    &-success {
+        color: $text-variant-success-color;
+    }
+
+    &-error {
+        color: $text-variant-error-color;
+    }
+}

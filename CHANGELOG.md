@@ -92,6 +92,8 @@ The current file describes significant changes in the code that may affect the u
   As a result, the SCSS variables `$customer-info-grid-order-*` associated with this selector were renamed to `$customer-info-grid-section-*`
 * Added `\Oro\Bundle\CustomerBundle\Datagrid\CurrentCustomerUserViewList` grid view list that filters grid data by the current customer user by default.
 * Added a new `oro_customer_dashboard_quick_access_menu` menu.
+* Selector `customer-info-grid__order` was renamed to `customer-info-grid__section`
+  As a result, the SCSS variables `$customer-info-grid-order-*` associated with this selector were renamed to `$customer-info-grid-section-*`
 
 ### Changed
 * Replaced all places in code that used old system configuration options on theme configuration options.

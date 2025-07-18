@@ -5,6 +5,7 @@ icon: bundles/orofrontend/default/images/favicon.ico
 favicons_path: bundles/orofrontend/default/favicons/
 logo: bundles/orofrontend/default/images/logo/demob2b-logo.svg
 logo_small: bundles/orofrontend/default/images/logo/demob2b-logo-small.svg
+logo_high_res: bundles/orofrontend/images/oro-commerce-logo.svg
 rtl_support: true
 svg_icons_support: true
 fonts:

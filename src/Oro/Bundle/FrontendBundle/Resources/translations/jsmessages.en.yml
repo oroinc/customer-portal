@@ -39,6 +39,7 @@ oro_frontend:
             totalRecords:
                 quotePageInfo: "{1}{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} quote|]1,Inf[{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} quotes"
                 rfqPageInfo: "{1}{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} order|]1,Inf[{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} orders"
+                invoicesPageInfo: "{1}{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} invoice|]1,Inf[{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} invoices"
                 usersPageInfo: "{1}{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} user|]1,Inf[{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} users"
                 rolesPageInfo: "{1}{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} role|]1,Inf[{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} roles"
                 shoppingListPageInfo: "{1}{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} shopping list|]1,Inf[{{ minRangeThreshold }}-{{ maxRangeThreshold }} of {{ totalRecords }} shopping lists"
@@ -64,6 +65,7 @@ oro_frontend:
                 rfqPlural: "{1}request for quote|]1,Inf[requests for quote"
                 ordersPlural: "{1}order|]1,Inf[orders"
                 quotesPlural: "{1}quote|]1,Inf[quotes"
+                invoicesPlural: "{1}invoice|]1,Inf[invoices"
                 shoppingListsPlural: "{1}shopping List|]1,Inf[shopping Lists"
                 shoppingListLineItemsPlural: "{1}item|]1,Inf[items"
                 totalOfSelected: '{0}{{ totalRecords }}|]0,Inf[{{ selectedRecords }} Of {{ totalRecords }}'
