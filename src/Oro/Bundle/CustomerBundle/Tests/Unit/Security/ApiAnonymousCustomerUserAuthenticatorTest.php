@@ -16,27 +16,20 @@ use Oro\Bundle\CustomerBundle\Security\Token\ApiAnonymousCustomerUserToken;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
-class ApiAnonymousCustomerUserAuthenticatorTest extends \PHPUnit\Framework\TestCase
+class ApiAnonymousCustomerUserAuthenticatorTest extends TestCase
 {
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
-
-    /** @var ApiAnonymousCustomerUserAuthenticationDecisionMaker|\PHPUnit\Framework\MockObject\MockObject */
-    private $decisionMaker;
-
-    /** @var ApiRequestHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $apiRequestHelper;
-
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
-
-    /** @var ApiAnonymousCustomerUserAuthenticator */
-    private $authenticator;
+    private WebsiteManager&MockObject $websiteManager;
+    private ApiAnonymousCustomerUserAuthenticationDecisionMaker&MockObject $decisionMaker;
+    private ApiRequestHelper&MockObject $apiRequestHelper;
+    private ConfigManager&MockObject $configManager;
+    private ApiAnonymousCustomerUserAuthenticator $authenticator;
 
     #[\Override]
     protected function setUp(): void

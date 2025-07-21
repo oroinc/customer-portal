@@ -10,13 +10,14 @@ use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendApiPass;
 use Oro\Bundle\FrontendBundle\EventListener\UnauthorizedApiRequestListener;
 use Oro\Bundle\FrontendBundle\EventListener\UnhandledApiErrorExceptionListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\DependencyInjection\Reference;
 
-class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
+class FrontendApiPassTest extends TestCase
 {
     private const PROCESSORS = [
         'oro_api.collect_resources.load_dictionaries',
@@ -34,6 +35,11 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
         'oro_attachment.api.get_config.add_attachment_associations',
         'oro_attachment.api.get_config.add_attachment_association_descriptions',
         'oro_attachment.api.collect_subresources.exclude_change_attachment_subresources',
+        'oro_attachment.api.collect_subresources.exclude_change_file_subresources',
+        'oro_attachment.api.get_config.add_multi_file_associations',
+        'oro_attachment.api.get_config.add_multi_file_association_descriptions',
+        'oro_attachment.api.compute_multi_file_associations',
+        'oro_attachment.api.build_multi_file_subresource_query',
         'oro_comment.api.get_config.add_comment_associations',
         'oro_comment.api.get_config.add_comment_association_descriptions',
         'oro_comment.api.collect_subresources.exclude_change_comment_subresources',

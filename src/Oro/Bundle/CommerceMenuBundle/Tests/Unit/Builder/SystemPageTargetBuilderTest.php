@@ -6,20 +6,17 @@ use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Builder\SystemPageTargetBuilder;
 use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\TestFrameworkBundle\Test\Logger\LoggerAwareTraitTestTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\RouterInterface;
 
-class SystemPageTargetBuilderTest extends \PHPUnit\Framework\TestCase
+class SystemPageTargetBuilderTest extends TestCase
 {
     use LoggerAwareTraitTestTrait;
 
-    /** @var RouterInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $router;
-
-    /** @var FeatureChecker|\PHPUnit\Framework\MockObject\MockObject */
-    private $featureChecker;
-
-    /** @var SystemPageTargetBuilder */
-    private $builder;
+    private RouterInterface&MockObject $router;
+    private FeatureChecker&MockObject $featureChecker;
+    private SystemPageTargetBuilder $builder;
 
     #[\Override]
     protected function setUp(): void

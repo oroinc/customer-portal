@@ -10,6 +10,7 @@ use Oro\Bundle\CustomerBundle\Validator\Constraints\EmailCaseInsensitiveOptionVa
 use Oro\Bundle\DataGridBundle\Tools\DatagridRouteHelper;
 use Oro\Bundle\FilterBundle\Form\Type\Filter\TextFilterType;
 use Oro\Bundle\FilterBundle\Grid\Extension\AbstractFilterExtension;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
@@ -17,14 +18,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EmailCaseInsensitiveOptionValidatorTest extends ConstraintValidatorTestCase
 {
-    /** @var CustomerUserRepository|\PHPUnit\Framework\MockObject\MockObject */
-    private $userRepository;
-
-    /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $translator;
-
-    /** @var DatagridRouteHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $datagridRouteHelper;
+    private CustomerUserRepository&MockObject $userRepository;
+    private TranslatorInterface&MockObject $translator;
+    private DatagridRouteHelper&MockObject $datagridRouteHelper;
 
     #[\Override]
     protected function setUp(): void

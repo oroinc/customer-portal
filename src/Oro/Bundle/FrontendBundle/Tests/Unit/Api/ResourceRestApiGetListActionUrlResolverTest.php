@@ -8,11 +8,12 @@ use Oro\Bundle\ApiBundle\Request\Rest\RestRoutes;
 use Oro\Bundle\ApiBundle\Request\Rest\RestRoutesRegistry;
 use Oro\Bundle\ApiBundle\Request\ValueNormalizer;
 use Oro\Bundle\FrontendBundle\Api\ResourceRestApiGetListActionUrlResolver;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class ResourceRestApiGetListActionUrlResolverTest extends \PHPUnit\Framework\TestCase
+class ResourceRestApiGetListActionUrlResolverTest extends TestCase
 {
-    public function testResolveApiUrl()
+    public function testResolveApiUrl(): void
     {
         $routeName = 'test_route';
         $requestType = new RequestType(['test']);

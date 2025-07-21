@@ -12,14 +12,13 @@ use Oro\Bundle\CommerceMenuBundle\EventListener\LoadMenuImagesListener;
 use Oro\Bundle\NavigationBundle\Event\MenuUpdatesApplyAfterEvent;
 use Oro\Bundle\NavigationBundle\MenuUpdate\Applier\Model\MenuUpdateApplierContext;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class LoadMenuImagesListenerTest extends \PHPUnit\Framework\TestCase
+class LoadMenuImagesListenerTest extends TestCase
 {
-    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $doctrine;
-
-    /** @var LoadMenuImagesListener */
-    private $listener;
+    private ManagerRegistry&MockObject $doctrine;
+    private LoadMenuImagesListener $listener;
 
     #[\Override]
     protected function setUp(): void

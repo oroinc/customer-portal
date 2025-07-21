@@ -19,6 +19,7 @@ styles:
         - 'bundles/orocustomer/default/scss/variables/customer-user-form-config.scss'
         - 'bundles/orocustomer/default/scss/variables/form-buttons-config.scss'
         - 'bundles/orocustomer/default/scss/variables/form-row-height-normalize-config.scss'
+        - 'bundles/orocustomer/default/scss/variables/invoice-config.scss'
 
         - 'bundles/orocustomer/default/scss/components/single-form-page.scss'
         - 'bundles/orocustomer/default/scss/components/customer-profile.scss'
@@ -41,6 +42,7 @@ styles:
         - 'bundles/orocustomer/default/scss/components/action-permissions.scss'
         - 'bundles/orocustomer/default/scss/components/style.scss'
         - 'bundles/orocustomer/default/scss/components/map-popover.scss'
+        - 'bundles/orocustomer/default/scss/components/invoice.scss'
 
 print_styles:
     inputs:

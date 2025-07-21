@@ -15,11 +15,12 @@ use Oro\Bundle\WebCatalogBundle\Cache\ResolvedData\ResolvedContentNode;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Bundle\WebCatalogBundle\Menu\MenuContentNodesProviderInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\TestCase
+class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends TestCase
 {
-    private MenuContentNodesProviderInterface|MockObject $menuContentNodesProvider;
-    private ObjectRepository|MockObject $repository;
+    private MenuContentNodesProviderInterface&MockObject $menuContentNodesProvider;
+    private ObjectRepository&MockObject $repository;
     private QuickAccessButtonWebCatalogNodeMenuBuilder $builder;
 
     #[\Override]
@@ -28,8 +29,12 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
         $this->menuContentNodesProvider = $this->createMock(MenuContentNodesProviderInterface::class);
 
         $localizationHelper = $this->createMock(LocalizationHelper::class);
-        $localizationHelper->expects(self::any())->method('getCurrentLocalization')->willReturn(null);
-        $localizationHelper->expects(self::any())->method('getLocalizedValue')->willReturn('localizedValue');
+        $localizationHelper->expects(self::any())
+            ->method('getCurrentLocalization')
+            ->willReturn(null);
+        $localizationHelper->expects(self::any())
+            ->method('getLocalizedValue')
+            ->willReturn('localizedValue');
 
         $subFolderUriHandler = $this->createMock(ContentNodeSubFolderUriHandler::class);
         $subFolderUriHandler->expects(self::any())
@@ -38,8 +43,7 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
 
         $this->repository = $this->createMock(ObjectRepository::class);
         $doctrine = $this->createMock(ManagerRegistry::class);
-        $doctrine
-            ->expects(self::any())
+        $doctrine->expects(self::any())
             ->method('getRepository')
             ->with(ContentNode::class)
             ->willReturn($this->repository);
@@ -61,23 +65,25 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
             ->setWebCatalogNode(1);
 
         $node = $this->createMock(ContentNode::class);
-        $this->repository
-            ->expects(self::once())
+        $this->repository->expects(self::once())
             ->method('find')
             ->with(1)
             ->willReturn($node);
 
         $resolvedNode = $this->createMock(ResolvedContentNode::class);
-        $this->menuContentNodesProvider
-            ->expects(self::once())
+        $this->menuContentNodesProvider->expects(self::once())
             ->method('getResolvedContentNode')
             ->with($node, [
                 'tree_depth' => 0,
             ])
             ->willReturn($resolvedNode);
 
-        $menuItem->expects(self::once())->method('setUri')->with('uri_localizedValue');
-        $menuItem->expects(self::once())->method('setExtra')->with('translate_disabled', true);
+        $menuItem->expects(self::once())
+            ->method('setUri')
+            ->with('uri_localizedValue');
+        $menuItem->expects(self::once())
+            ->method('setExtra')
+            ->with('translate_disabled', true);
 
         $this->builder->build($menuItem, [
             'test' => 'test',
@@ -89,9 +95,12 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
     {
         $menuItem = $this->createMock(ItemInterface::class);
 
-        $this->menuContentNodesProvider->expects(self::never())->method(self::anything());
-        $this->repository->expects(self::never())->method(self::anything());
-        $menuItem->expects(self::never())->method(self::anything());
+        $this->menuContentNodesProvider->expects(self::never())
+            ->method(self::anything());
+        $this->repository->expects(self::never())
+            ->method(self::anything());
+        $menuItem->expects(self::never())
+            ->method(self::anything());
 
         $this->builder->build($menuItem, ['test' => 'test'], 'non_supported');
     }
@@ -104,9 +113,12 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
             ->setType(QuickAccessButtonConfig::TYPE_MENU)
             ->setMenu('test_menu');
 
-        $this->menuContentNodesProvider->expects(self::never())->method(self::anything());
-        $this->repository->expects(self::never())->method(self::anything());
-        $menuItem->expects(self::never())->method(self::anything());
+        $this->menuContentNodesProvider->expects(self::never())
+            ->method(self::anything());
+        $this->repository->expects(self::never())
+            ->method(self::anything());
+        $menuItem->expects(self::never())
+            ->method(self::anything());
 
         $this->builder->build($menuItem, [
             'test' => 'test',
@@ -122,15 +134,17 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
             ->setType(QuickAccessButtonConfig::TYPE_WEB_CATALOG_NODE)
             ->setWebCatalogNode(1);
 
-        $this->repository
-            ->expects(self::once())
+        $this->repository->expects(self::once())
             ->method('find')
             ->with(1)
             ->willReturn(null);
 
-        $this->menuContentNodesProvider->expects(self::never())->method(self::anything());
+        $this->menuContentNodesProvider->expects(self::never())
+            ->method(self::anything());
 
-        $menuItem->expects(self::once())->method('setExtra')->with('menu_not_resolved', true);
+        $menuItem->expects(self::once())
+            ->method('setExtra')
+            ->with('menu_not_resolved', true);
 
         $this->builder->build($menuItem, [
             'test' => 'test',
@@ -147,21 +161,21 @@ class QuickAccessButtonWebCatalogNodeMenuBuilderTest extends \PHPUnit\Framework\
             ->setWebCatalogNode(1);
 
         $node = $this->createMock(ContentNode::class);
-        $this->repository
-            ->expects(self::once())
+        $this->repository->expects(self::once())
             ->method('find')
             ->with(1)
             ->willReturn($node);
 
-        $this->menuContentNodesProvider
-            ->expects(self::once())
+        $this->menuContentNodesProvider->expects(self::once())
             ->method('getResolvedContentNode')
             ->with($node, [
                 'tree_depth' => 0,
             ])
             ->willReturn(null);
 
-        $menuItem->expects(self::once())->method('setExtra')->with('menu_not_resolved', true);
+        $menuItem->expects(self::once())
+            ->method('setExtra')
+            ->with('menu_not_resolved', true);
 
         $this->builder->build($menuItem, [
             'test' => 'test',

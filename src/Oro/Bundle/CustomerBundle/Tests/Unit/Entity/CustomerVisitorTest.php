@@ -5,8 +5,9 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
+use PHPUnit\Framework\TestCase;
 
-class CustomerVisitorTest extends \PHPUnit\Framework\TestCase
+class CustomerVisitorTest extends TestCase
 {
     use EntityTestCaseTrait;
 

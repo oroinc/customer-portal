@@ -10,20 +10,15 @@ use Oro\Bundle\DataGridBundle\Extension\GridViews\ViewInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class GridViewManagerCompositeTest extends \PHPUnit\Framework\TestCase
+class GridViewManagerCompositeTest extends TestCase
 {
-    /** @var GridViewManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $defaultGridViewManager;
-
-    /** @var GridViewManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendGridViewManager;
-
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var GridViewManagerComposite */
-    private $manager;
+    private GridViewManager&MockObject $defaultGridViewManager;
+    private GridViewManager&MockObject $frontendGridViewManager;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private GridViewManagerComposite $manager;
 
     #[\Override]
     protected function setUp(): void
@@ -42,7 +37,7 @@ class GridViewManagerCompositeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testSetDefaultGridView(AbstractUser|string $user, bool $isFrontend)
+    public function testSetDefaultGridView(AbstractUser|string $user, bool $isFrontend): void
     {
         $view = new View('test');
         $customUser = new User();
@@ -77,7 +72,7 @@ class GridViewManagerCompositeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testGetSystemViews(AbstractUser|string $user, bool $isFrontend)
+    public function testGetSystemViews(AbstractUser|string $user, bool $isFrontend): void
     {
         $gridName = 'test';
 
@@ -99,7 +94,7 @@ class GridViewManagerCompositeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testGetAllGridViews(AbstractUser|string $user, bool $isFrontend)
+    public function testGetAllGridViews(AbstractUser|string $user, bool $isFrontend): void
     {
         $customUser = new User();
         $gridName = 'test';
@@ -125,7 +120,7 @@ class GridViewManagerCompositeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testGetDefaultView(AbstractUser|string $user, bool $isFrontend)
+    public function testGetDefaultView(AbstractUser|string $user, bool $isFrontend): void
     {
         $customUser = new User();
         $gridName = 'test';
@@ -151,7 +146,7 @@ class GridViewManagerCompositeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testGetView(AbstractUser|string $user, bool $isFrontend)
+    public function testGetView(AbstractUser|string $user, bool $isFrontend): void
     {
         $id = 'id';
         $default = true;

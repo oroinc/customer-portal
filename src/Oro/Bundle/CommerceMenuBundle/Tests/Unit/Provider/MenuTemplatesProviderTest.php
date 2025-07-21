@@ -5,13 +5,15 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Provider;
 use Oro\Bundle\CommerceMenuBundle\Provider\MenuTemplatesProvider;
 use Oro\Component\Layout\Extension\Theme\Model\Theme;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
-class MenuTemplatesProviderTest extends \PHPUnit\Framework\TestCase
+class MenuTemplatesProviderTest extends TestCase
 {
-    private ThemeManager|\PHPUnit\Framework\MockObject\MockObject $themeManager;
-    private CacheInterface|\PHPUnit\Framework\MockObject\MockObject $cache;
+    private ThemeManager&MockObject $themeManager;
+    private CacheInterface&MockObject $cache;
     private MenuTemplatesProvider $provider;
 
     #[\Override]

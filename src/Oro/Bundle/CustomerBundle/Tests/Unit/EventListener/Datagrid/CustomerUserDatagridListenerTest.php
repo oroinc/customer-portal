@@ -6,11 +6,11 @@ use Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerUserDatagridListene
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
 use Oro\Bundle\DataGridBundle\Event\PreBuild;
+use PHPUnit\Framework\TestCase;
 
-class CustomerUserDatagridListenerTest extends \PHPUnit\Framework\TestCase
+class CustomerUserDatagridListenerTest extends TestCase
 {
-    /** @var CustomerUserDatagridListener */
-    private $listener;
+    private CustomerUserDatagridListener $listener;
 
     #[\Override]
     protected function setUp(): void
@@ -21,7 +21,7 @@ class CustomerUserDatagridListenerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testCustomerLimitations(ParameterBag $parameters, DatagridConfiguration $expectedConfig)
+    public function testCustomerLimitations(ParameterBag $parameters, DatagridConfiguration $expectedConfig): void
     {
         $event = new PreBuild(DatagridConfiguration::create([]), $parameters);
 

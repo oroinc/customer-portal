@@ -8,8 +8,9 @@ use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
+use PHPUnit\Framework\TestCase;
 
-abstract class AbstractAddressTest extends \PHPUnit\Framework\TestCase
+abstract class AbstractAddressTest extends TestCase
 {
     use EntityTestCaseTrait;
 

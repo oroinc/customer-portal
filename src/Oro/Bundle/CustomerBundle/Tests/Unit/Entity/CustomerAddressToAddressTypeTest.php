@@ -6,8 +6,9 @@ use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
+use PHPUnit\Framework\TestCase;
 
-class CustomerAddressToAddressTypeTest extends \PHPUnit\Framework\TestCase
+class CustomerAddressToAddressTypeTest extends TestCase
 {
     use EntityTestCaseTrait;
 

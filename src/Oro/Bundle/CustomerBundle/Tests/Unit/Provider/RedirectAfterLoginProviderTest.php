@@ -33,7 +33,6 @@ final class RedirectAfterLoginProviderTest extends TestCase
     private RouterInterface&MockObject $router;
     private LocalizationHelper&MockObject $localizationHelper;
     private MenuContentNodesProviderInterface&MockObject $menuContentNodesProvider;
-
     private RedirectAfterLoginProvider $provider;
 
     #[\Override]

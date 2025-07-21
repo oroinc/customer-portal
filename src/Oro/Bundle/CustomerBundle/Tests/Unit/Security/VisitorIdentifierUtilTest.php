@@ -3,8 +3,9 @@
 namespace Oro\Bundle\OAuth2ServerBundle\Tests\Unit\Security;
 
 use Oro\Bundle\CustomerBundle\Security\VisitorIdentifierUtil;
+use PHPUnit\Framework\TestCase;
 
-class VisitorIdentifierUtilTest extends \PHPUnit\Framework\TestCase
+class VisitorIdentifierUtilTest extends TestCase
 {
     public function testIsVisitorIdentifierForValidIdentifier(): void
     {

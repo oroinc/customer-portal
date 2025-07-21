@@ -11,23 +11,16 @@ use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
+class WebsiteManagerTest extends TestCase
 {
-    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $doctrine;
-
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
-
-    /** @var MaintenanceModeState|\PHPUnit\Framework\MockObject\MockObject */
-    private $maintenanceModeState;
-
-    /** @var MaintenanceRestrictionsChecker|\PHPUnit\Framework\MockObject\MockObject */
-    private $maintenanceRestrictionsChecker;
-
-    /** @var WebsiteManager */
-    private $websiteManager;
+    private ManagerRegistry&MockObject $doctrine;
+    private FrontendHelper&MockObject $frontendHelper;
+    private MaintenanceModeState&MockObject $maintenanceModeState;
+    private MaintenanceRestrictionsChecker&MockObject $maintenanceRestrictionsChecker;
+    private WebsiteManager $websiteManager;
 
     #[\Override]
     protected function setUp(): void

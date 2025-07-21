@@ -12,21 +12,18 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Owner\Fixtures\Entity\TestEntity;
 use Oro\Bundle\EntityConfigBundle\Config\Config;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityConfigBundle\Config\Id\EntityConfigId;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
+class RecordOwnerDataListenerTest extends TestCase
 {
-    /** @var CustomerUserProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $customerUserProvider;
-
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
-
-    /** @var RecordOwnerDataListener */
-    private $listener;
+    private CustomerUserProvider&MockObject $customerUserProvider;
+    private ConfigManager&MockObject $configManager;
+    private RecordOwnerDataListener $listener;
 
     #[\Override]
     protected function setUp(): void

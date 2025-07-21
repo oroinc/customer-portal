@@ -14,6 +14,7 @@ use Oro\Component\Layout\Extension\Theme\Model\Theme;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
 use Oro\Component\Layout\LayoutContextStack;
 use Oro\Component\Layout\Tests\Unit\Stubs\LayoutContextStub;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,16 +23,11 @@ use PHPUnit\Framework\TestCase;
  */
 class LocaleSettingsTest extends TestCase
 {
-    private BaseLocaleSettings|\PHPUnit\Framework\MockObject\MockObject $inner;
-
-    private FrontendHelper|\PHPUnit\Framework\MockObject\MockObject $frontendHelper;
-
-    private LocalizationProviderInterface|\PHPUnit\Framework\MockObject\MockObject $localizationProvider;
-
-    private LayoutContextStack|\PHPUnit\Framework\MockObject\MockObject $layoutContextStack;
-
-    private ThemeManager|\PHPUnit\Framework\MockObject\MockObject $themeManager;
-
+    private BaseLocaleSettings&MockObject $inner;
+    private FrontendHelper&MockObject $frontendHelper;
+    private LocalizationProviderInterface&MockObject $localizationProvider;
+    private LayoutContextStack&MockObject $layoutContextStack;
+    private ThemeManager&MockObject $themeManager;
     private LocaleSettings $localeSettings;
 
     #[\Override]

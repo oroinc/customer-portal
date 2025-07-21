@@ -14,18 +14,17 @@ use Oro\Component\MessageQueue\Job\JobManagerInterface;
 use Oro\Component\MessageQueue\Job\JobProcessor;
 use Oro\Component\MessageQueue\Transport\Message as TransportMessage;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class PostExportMessageProcessorTest extends \PHPUnit\Framework\TestCase
+class PostExportMessageProcessorTest extends TestCase
 {
     use LoggerAwareTraitTestTrait;
     use MessageQueueAssertTrait;
 
-    private ExportHandler|\PHPUnit\Framework\MockObject\MockObject $exportHandler;
-
-    private JobProcessor|\PHPUnit\Framework\MockObject\MockObject $jobProcessor;
-
-    private JobManagerInterface|\PHPUnit\Framework\MockObject\MockObject $jobManager;
-
+    private ExportHandler&MockObject $exportHandler;
+    private JobProcessor&MockObject $jobProcessor;
+    private JobManagerInterface&MockObject $jobManager;
     private PostExportMessageProcessor $postExportMessageProcessor;
 
     #[\Override]

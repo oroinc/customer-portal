@@ -15,33 +15,22 @@ use Oro\Component\MessageQueue\Client\Message;
 use Oro\Component\MessageQueue\Client\MessagePriority;
 use Oro\Component\MessageQueue\Client\MessageProducerInterface;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
+class CustomerUserReassignEntityUpdaterTest extends TestCase
 {
     private const ENTITY_CLASS = 'Test\Entity';
 
-    /** @var EntityToEntityChangeArrayConverter|\PHPUnit\Framework\MockObject\MockObject */
-    private $entityToArrayConverter;
-
-    /** @var AuditMessageBodyProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $auditMessageBodyProvider;
-
-    /** @var MessageProducerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $messageProducer;
-
-    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenStorage;
-
-    /** @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $em;
-
-    /** @var ResettableCustomerUserRepositoryStub|\PHPUnit\Framework\MockObject\MockObject */
-    private $repository;
-
-    /** @var CustomerUserReassignEntityUpdater */
-    private $updater;
+    private EntityToEntityChangeArrayConverter&MockObject $entityToArrayConverter;
+    private AuditMessageBodyProvider&MockObject $auditMessageBodyProvider;
+    private MessageProducerInterface&MockObject $messageProducer;
+    private TokenStorageInterface&MockObject $tokenStorage;
+    private EntityManagerInterface&MockObject $em;
+    private ResettableCustomerUserRepositoryStub&MockObject $repository;
+    private CustomerUserReassignEntityUpdater $updater;
 
     #[\Override]
     protected function setUp(): void
@@ -89,7 +78,7 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
         return $user;
     }
 
-    public function testUpdateEmptyUpdatedEntities()
+    public function testUpdateEmptyUpdatedEntities(): void
     {
         $customerUser = $this->getCustomerUser(35);
 
@@ -119,7 +108,7 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function testUpdateWithBatches()
+    public function testUpdateWithBatches(): void
     {
         $customerUser = $this->getCustomerUser(35);
 
@@ -274,7 +263,7 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
         $this->updater->update($customerUser);
     }
 
-    public function testHasEntitiesToUpdateTrue()
+    public function testHasEntitiesToUpdateTrue(): void
     {
         $customerUser = $this->getCustomerUser(35);
 
@@ -286,7 +275,7 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(true, $this->updater->hasEntitiesToUpdate($customerUser));
     }
 
-    public function testHasEntitiesToUpdateFalse()
+    public function testHasEntitiesToUpdateFalse(): void
     {
         $customerUser = $this->getCustomerUser(35);
 
@@ -298,7 +287,7 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(false, $this->updater->hasEntitiesToUpdate($customerUser));
     }
 
-    public function testGetEntityClass()
+    public function testGetEntityClass(): void
     {
         self::assertEquals(self::ENTITY_CLASS, $this->updater->getEntityClass());
     }

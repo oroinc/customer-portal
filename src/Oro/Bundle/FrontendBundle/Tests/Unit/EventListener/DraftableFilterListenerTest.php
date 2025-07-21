@@ -10,20 +10,17 @@ use Oro\Bundle\DraftBundle\Tests\Unit\Stub\StubController;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\FrontendBundle\EventListener\DraftableFilterListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class DraftableFilterListenerTest extends \PHPUnit\Framework\TestCase
+class DraftableFilterListenerTest extends TestCase
 {
-    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $doctrineHelper;
-
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
-
-    /** @var DraftableFilterListener */
-    private $listener;
+    private DoctrineHelper&MockObject $doctrineHelper;
+    private FrontendHelper&MockObject $frontendHelper;
+    private DraftableFilterListener $listener;
 
     #[\Override]
     protected function setUp(): void

@@ -6,20 +6,15 @@ use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Event\BuildBefore;
 use Oro\Bundle\FrontendBundle\EventListener\DatagridBottomToolbarListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class DatagridBottomToolbarListenerTest extends \PHPUnit\Framework\TestCase
+class DatagridBottomToolbarListenerTest extends TestCase
 {
-    /** @var DatagridConfiguration|\PHPUnit\Framework\MockObject\MockObject */
-    private $datagridConfig;
-
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
-
-    /** @var BuildBefore|\PHPUnit\Framework\MockObject\MockObject */
-    private $event;
-
-    /** @var DatagridBottomToolbarListener */
-    private $listener;
+    private DatagridConfiguration&MockObject $datagridConfig;
+    private FrontendHelper&MockObject $frontendHelper;
+    private BuildBefore&MockObject $event;
+    private DatagridBottomToolbarListener $listener;
 
     #[\Override]
     protected function setUp(): void
@@ -35,7 +30,7 @@ class DatagridBottomToolbarListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener = new DatagridBottomToolbarListener($this->frontendHelper);
     }
 
-    public function testIsNotApplicableNotFrontendRequest()
+    public function testIsNotApplicableNotFrontendRequest(): void
     {
         $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')
@@ -45,7 +40,7 @@ class DatagridBottomToolbarListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener->onBuildBefore($this->event);
     }
 
-    public function testIsNotApplicableAlreadySet()
+    public function testIsNotApplicableAlreadySet(): void
     {
         $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')
@@ -59,7 +54,7 @@ class DatagridBottomToolbarListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener->onBuildBefore($this->event);
     }
 
-    public function testOnBuildBefore()
+    public function testOnBuildBefore(): void
     {
         $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')

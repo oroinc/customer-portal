@@ -5,12 +5,13 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Entity;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
+use PHPUnit\Framework\TestCase;
 
-class MenuUserAgentConditionTest extends \PHPUnit\Framework\TestCase
+class MenuUserAgentConditionTest extends TestCase
 {
     use EntityTestCaseTrait;
 
-    public function testGetExtras()
+    public function testGetExtras(): void
     {
         $properties = [
             ['id', 123],

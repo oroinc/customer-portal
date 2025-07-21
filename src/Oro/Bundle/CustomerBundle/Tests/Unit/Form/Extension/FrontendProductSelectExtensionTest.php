@@ -5,15 +5,14 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Extension;
 use Oro\Bundle\CustomerBundle\Form\Extension\FrontendProductSelectExtension;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\ProductBundle\Form\Type\ProductSelectType;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FrontendProductSelectExtensionTest extends \PHPUnit\Framework\TestCase
+class FrontendProductSelectExtensionTest extends TestCase
 {
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
-
-    /** @var FrontendProductSelectExtension */
-    private $extension;
+    private FrontendHelper&MockObject $frontendHelper;
+    private FrontendProductSelectExtension $extension;
 
     #[\Override]
     protected function setUp(): void
@@ -23,12 +22,12 @@ class FrontendProductSelectExtensionTest extends \PHPUnit\Framework\TestCase
         $this->extension = new FrontendProductSelectExtension($this->frontendHelper);
     }
 
-    public function testGetExtendedTypes()
+    public function testGetExtendedTypes(): void
     {
         $this->assertEquals([ProductSelectType::class], FrontendProductSelectExtension::getExtendedTypes());
     }
 
-    public function testConfigureOptionsForBackend()
+    public function testConfigureOptionsForBackend(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -41,7 +40,7 @@ class FrontendProductSelectExtensionTest extends \PHPUnit\Framework\TestCase
         $this->extension->configureOptions($resolver);
     }
 
-    public function testConfigureOptionsForFrontend()
+    public function testConfigureOptionsForFrontend(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')

@@ -9,8 +9,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class MenuUpdateExpressionValidatorTest extends ConstraintValidatorTestCase
 {
-    /** @var ExpressionLanguage|\PHPUnit\Framework\MockObject\MockObject */
-    private $expressionLanguage;
+    private ExpressionLanguage $expressionLanguage;
 
     #[\Override]
     protected function setUp(): void

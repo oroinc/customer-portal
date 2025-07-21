@@ -13,10 +13,8 @@ use PHPUnit\Framework\TestCase;
 
 class PageTemplateContextConfiguratorTest extends TestCase
 {
-    private ConfigManager|MockObject $configManager;
-
-    private ThemeConfigurationProvider|MockObject $themeConfigurationProvider;
-
+    private ConfigManager&MockObject $configManager;
+    private ThemeConfigurationProvider&MockObject $themeConfigurationProvider;
     private PageTemplateContextConfigurator $pageTemplateContextConfigurator;
 
     #[\Override]

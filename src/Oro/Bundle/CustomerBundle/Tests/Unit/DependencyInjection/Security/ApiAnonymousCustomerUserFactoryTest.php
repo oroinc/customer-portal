@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\DependencyInjection\Security;
 
 use Oro\Bundle\CustomerBundle\DependencyInjection\Security\ApiAnonymousCustomerUserFactory;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class ApiAnonymousCustomerUserFactoryTest extends \PHPUnit\Framework\TestCase
+class ApiAnonymousCustomerUserFactoryTest extends TestCase
 {
     private ApiAnonymousCustomerUserFactory $factory;
 

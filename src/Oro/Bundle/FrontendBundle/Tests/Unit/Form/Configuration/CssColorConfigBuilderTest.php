@@ -13,7 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 final class CssColorConfigBuilderTest extends AbstractCssConfigBuilderTest
 {
     private OroSimpleColorPickerType $simpleColorPickerType;
-
     private ConfigManager&MockObject $configManager;
 
     #[\Override]

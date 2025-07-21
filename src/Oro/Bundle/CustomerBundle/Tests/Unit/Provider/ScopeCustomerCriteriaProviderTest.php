@@ -6,16 +6,15 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Provider\ScopeCustomerCriteriaProvider;
 use Oro\Bundle\UserBundle\Entity\User;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class ScopeCustomerCriteriaProviderTest extends \PHPUnit\Framework\TestCase
+class ScopeCustomerCriteriaProviderTest extends TestCase
 {
-    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenStorage;
-
-    /** @var ScopeCustomerCriteriaProvider */
-    private $provider;
+    private TokenStorageInterface&MockObject $tokenStorage;
+    private ScopeCustomerCriteriaProvider $provider;
 
     #[\Override]
     protected function setUp(): void
@@ -25,12 +24,12 @@ class ScopeCustomerCriteriaProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider = new ScopeCustomerCriteriaProvider($this->tokenStorage);
     }
 
-    public function testGetCriteriaField()
+    public function testGetCriteriaField(): void
     {
         $this->assertEquals(ScopeCustomerCriteriaProvider::CUSTOMER, $this->provider->getCriteriaField());
     }
 
-    public function testGetCriteriaValue()
+    public function testGetCriteriaValue(): void
     {
         $customer = new Customer();
         $customerUser = new CustomerUser();
@@ -48,7 +47,7 @@ class ScopeCustomerCriteriaProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($customer, $this->provider->getCriteriaValue());
     }
 
-    public function testGetCriteriaValueForNotSupportedUser()
+    public function testGetCriteriaValueForNotSupportedUser(): void
     {
         $user = new User();
 
@@ -64,7 +63,7 @@ class ScopeCustomerCriteriaProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->provider->getCriteriaValue());
     }
 
-    public function testGetCriteriaValueWithoutToken()
+    public function testGetCriteriaValueWithoutToken(): void
     {
         $this->tokenStorage->expects($this->once())
             ->method('getToken')
@@ -73,7 +72,7 @@ class ScopeCustomerCriteriaProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->provider->getCriteriaValue());
     }
 
-    public function testGetCriteriaValueWithoutUser()
+    public function testGetCriteriaValueWithoutUser(): void
     {
         $token = $this->createMock(TokenInterface::class);
         $token->expects($this->once())
@@ -87,7 +86,7 @@ class ScopeCustomerCriteriaProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->provider->getCriteriaValue());
     }
 
-    public function testGetCriteriaValueType()
+    public function testGetCriteriaValueType(): void
     {
         $this->assertEquals(Customer::class, $this->provider->getCriteriaValueType());
     }

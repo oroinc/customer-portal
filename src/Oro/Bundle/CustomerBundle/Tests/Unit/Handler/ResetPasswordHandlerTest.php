@@ -8,21 +8,16 @@ use Oro\Bundle\CustomerBundle\Handler\ResetPasswordHandler;
 use Oro\Bundle\EmailBundle\Model\EmailTemplateCriteria;
 use Oro\Bundle\NotificationBundle\Manager\EmailNotificationManager;
 use Oro\Bundle\NotificationBundle\Model\TemplateEmailNotification;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-class ResetPasswordHandlerTest extends \PHPUnit\Framework\TestCase
+class ResetPasswordHandlerTest extends TestCase
 {
-    /** @var EmailNotificationManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $emailNotificationManager;
-
-    /** @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $customerUserManager;
-
-    /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $logger;
-
-    /** @var ResetPasswordHandler */
-    private $handler;
+    private EmailNotificationManager&MockObject $emailNotificationManager;
+    private CustomerUserManager&MockObject $customerUserManager;
+    private LoggerInterface&MockObject $logger;
+    private ResetPasswordHandler $handler;
 
     #[\Override]
     protected function setUp(): void
@@ -38,7 +33,7 @@ class ResetPasswordHandlerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testResetPasswordAndNotifyIfUserDisabled()
+    public function testResetPasswordAndNotifyIfUserDisabled(): void
     {
         $customerUser = new CustomerUser();
         $customerUser->setEnabled(false);
@@ -53,7 +48,7 @@ class ResetPasswordHandlerTest extends \PHPUnit\Framework\TestCase
         self::assertFalse($result);
     }
 
-    public function testResetPasswordAndNotifyIfThrowsException()
+    public function testResetPasswordAndNotifyIfThrowsException(): void
     {
         $email = 'example@test.com';
         $customerUser = new CustomerUser();
@@ -79,7 +74,7 @@ class ResetPasswordHandlerTest extends \PHPUnit\Framework\TestCase
         self::assertFalse($result);
     }
 
-    public function testResetPasswordAndNotifyWhenNoConfirmationToken()
+    public function testResetPasswordAndNotifyWhenNoConfirmationToken(): void
     {
         $email = 'example@test.com';
         $customerUser = new CustomerUser();
@@ -92,17 +87,15 @@ class ResetPasswordHandlerTest extends \PHPUnit\Framework\TestCase
             ->with($customerUser);
         $this->emailNotificationManager->expects(self::once())
             ->method('processSingle')
-            ->willReturnCallback(
-                function (TemplateEmailNotification $notification) use ($customerUser) {
-                    self::assertSame($customerUser, $notification->getEntity());
-                    self::assertInstanceOf(TemplateEmailNotification::class, $notification);
-                    self::assertEquals(
-                        new EmailTemplateCriteria('customer_user_force_reset_password', CustomerUser::class),
-                        $notification->getTemplateCriteria()
-                    );
-                    self::assertEquals([$customerUser], $notification->getRecipients());
-                }
-            );
+            ->willReturnCallback(function (TemplateEmailNotification $notification) use ($customerUser) {
+                self::assertSame($customerUser, $notification->getEntity());
+                self::assertInstanceOf(TemplateEmailNotification::class, $notification);
+                self::assertEquals(
+                    new EmailTemplateCriteria('customer_user_force_reset_password', CustomerUser::class),
+                    $notification->getTemplateCriteria()
+                );
+                self::assertEquals([$customerUser], $notification->getRecipients());
+            });
 
         $this->assertEmpty($customerUser->getConfirmationToken());
         $result = $this->handler->resetPasswordAndNotify($customerUser);
@@ -110,7 +103,7 @@ class ResetPasswordHandlerTest extends \PHPUnit\Framework\TestCase
         self::assertNotEmpty($customerUser->getConfirmationToken());
     }
 
-    public function testResetPasswordAndNotify()
+    public function testResetPasswordAndNotify(): void
     {
         $email = 'example@test.com';
         $token = 'sometoken';

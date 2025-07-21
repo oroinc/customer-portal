@@ -17,11 +17,10 @@ use Twig\Loader\ArrayLoader;
 class ResolvedAddressFormatterTest extends TestCase
 {
     private LocaleAddressFormatter&MockObject $addressFormatter;
-
     private TextHighlighter&MockObject $textHighlighter;
-
     private ResolvedAddressFormatter $formatter;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->addressFormatter = $this->createMock(LocaleAddressFormatter::class);
@@ -46,8 +45,7 @@ class ResolvedAddressFormatterTest extends TestCase
             ->willReturn($countryIso2);
 
         $addressFormat = "%name%\n%street%\n%city%, %region% %postal_code%\n%country%";
-        $this->addressFormatter
-            ->expects(self::once())
+        $this->addressFormatter->expects(self::once())
             ->method('getAddressFormat')
             ->with($countryIso2)
             ->willReturn($addressFormat);
@@ -70,7 +68,7 @@ class ResolvedAddressFormatterTest extends TestCase
             '%country%' => 'US',
         ];
 
-        $this->addressFormatter
+        $this->addressFormatter->expects(self::any())
             ->method('getAddressParts')
             ->withConsecutive(
                 [$resolvedAddress, $addressFormat, $countryIso2],
@@ -78,7 +76,7 @@ class ResolvedAddressFormatterTest extends TestCase
             )
             ->willReturnOnConsecutiveCalls($resolvedAddressParts, $originalAddressParts);
 
-        $this->textHighlighter
+        $this->textHighlighter->expects(self::any())
             ->method('highlightDifferences')
             ->withConsecutive(
                 ['123 Elm St', '123 Elm Street', '<u class="highlight-text">%s</u>'],

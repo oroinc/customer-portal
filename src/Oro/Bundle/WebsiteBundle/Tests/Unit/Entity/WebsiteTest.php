@@ -6,12 +6,13 @@ use Oro\Bundle\OrganizationBundle\Entity\BusinessUnit;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
+use PHPUnit\Framework\TestCase;
 
-class WebsiteTest extends \PHPUnit\Framework\TestCase
+class WebsiteTest extends TestCase
 {
     use EntityTestCaseTrait;
 
-    public function testProperties()
+    public function testProperties(): void
     {
         $now = new \DateTime('now');
         $properties = [
@@ -27,7 +28,7 @@ class WebsiteTest extends \PHPUnit\Framework\TestCase
         $this->assertPropertyAccessors(new Website(), $properties);
     }
 
-    public function testWebsiteRelationships()
+    public function testWebsiteRelationships(): void
     {
         // Create websites
         $firstWebsite = new Website();
@@ -76,7 +77,7 @@ class WebsiteTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($thirdWebsite->getRelatedWebsites()->toArray());
     }
 
-    public function testPrePersist()
+    public function testPrePersist(): void
     {
         $website = new Website();
         $website->prePersist();
@@ -84,7 +85,7 @@ class WebsiteTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\DateTime', $website->getUpdatedAt());
     }
 
-    public function testPreUpdate()
+    public function testPreUpdate(): void
     {
         $website = new Website();
         $website->preUpdate();

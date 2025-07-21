@@ -14,6 +14,8 @@ use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityConfigBundle\Config\Id\EntityConfigId;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -22,22 +24,13 @@ use Symfony\Contracts\Cache\ItemInterface;
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
+class FrontendOwnershipMetadataProviderTest extends TestCase
 {
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
-
-    /** @var EntityClassResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private $entityClassResolver;
-
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var CacheInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $cache;
-
-    /** @var FrontendOwnershipMetadataProvider */
-    private $provider;
+    private ConfigManager&MockObject $configManager;
+    private EntityClassResolver&MockObject $entityClassResolver;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private CacheInterface&MockObject $cache;
+    private FrontendOwnershipMetadataProvider $provider;
 
     #[\Override]
     protected function setUp(): void

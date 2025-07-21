@@ -8,36 +8,25 @@ use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
+class CustomerUserHandlerTest extends TestCase
 {
     private const FORM_DATA = ['field' => 'value'];
 
-    /** @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $userManager;
-
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $form;
-
-    /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $passwordGenerateForm;
-
-    /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $sendEmailForm;
-
-    /** @var CustomerUser */
-    private $entity;
-
-    /** @var CustomerUserHandler */
-    private $handler;
+    private CustomerUserManager&MockObject $userManager;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private FormInterface&MockObject $form;
+    private FormInterface&MockObject $passwordGenerateForm;
+    private FormInterface&MockObject $sendEmailForm;
+    private CustomerUser $entity;
+    private CustomerUserHandler $handler;
 
     #[\Override]
     protected function setUp(): void

@@ -8,19 +8,18 @@ use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleType;
 use Oro\Bundle\SecurityBundle\Form\Type\AclAccessLevelSelectorType;
 use Oro\Component\Testing\Unit\Form\Type\Stub\FormStub;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\ResolvedFormTypeInterface;
 
-class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
+class AclAccessLevelSelectorExtensionTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|RoleTranslationPrefixResolver */
-    private $roleTranslationPrefixResolver;
-
-    /** @var AclAccessLevelSelectorExtension */
-    private $extension;
+    private RoleTranslationPrefixResolver&MockObject $roleTranslationPrefixResolver;
+    private AclAccessLevelSelectorExtension $extension;
 
     #[\Override]
     protected function setUp(): void
@@ -30,7 +29,7 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
         $this->extension = new AclAccessLevelSelectorExtension($this->roleTranslationPrefixResolver);
     }
 
-    public function testGetExtendedTypes()
+    public function testGetExtendedTypes(): void
     {
         $this->assertEquals([AclAccessLevelSelectorType::class], AclAccessLevelSelectorExtension::getExtendedTypes());
     }
@@ -47,7 +46,7 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
         bool $hasRoleForm = false,
         ?AbstractType $roleFormType = null,
         ?string $expectedPrefix = null
-    ) {
+    ): void {
         $this->roleTranslationPrefixResolver->expects($expectedPrefix ? $this->once() : $this->never())
             ->method('getPrefix')
             ->willReturn($expectedPrefix);

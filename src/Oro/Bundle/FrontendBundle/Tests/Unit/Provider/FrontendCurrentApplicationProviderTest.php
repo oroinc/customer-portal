@@ -5,19 +5,16 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Provider;
 use Oro\Bundle\FrontendBundle\Provider\FrontendCurrentApplicationProvider;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\UserBundle\Entity\User;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class FrontendCurrentApplicationProviderTest extends \PHPUnit\Framework\TestCase
+class FrontendCurrentApplicationProviderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|TokenStorageInterface */
-    private $tokenStorage;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|FrontendHelper */
-    private $frontendHelper;
-
-    /** @var FrontendCurrentApplicationProvider */
-    private $provider;
+    private TokenStorageInterface&MockObject $tokenStorage;
+    private FrontendHelper&MockObject $frontendHelper;
+    private FrontendCurrentApplicationProvider $provider;
 
     #[\Override]
     protected function setUp(): void
@@ -31,12 +28,12 @@ class FrontendCurrentApplicationProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testIsApplicationsValidForEmptyApplications()
+    public function testIsApplicationsValidForEmptyApplications(): void
     {
         $this->assertTrue($this->provider->isApplicationsValid([]));
     }
 
-    public function testIsApplicationsValidForFrontendRequestAndApplicationsHasValidApplication()
+    public function testIsApplicationsValidForFrontendRequestAndApplicationsHasValidApplication(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -53,7 +50,7 @@ class FrontendCurrentApplicationProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testIsApplicationsValidForFrontendRequestWithoutTokenAndApplicationsHasValidApplication()
+    public function testIsApplicationsValidForFrontendRequestWithoutTokenAndApplicationsHasValidApplication(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -70,7 +67,7 @@ class FrontendCurrentApplicationProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testIsApplicationsValidForFrontendRequestAndApplicationsDoesNotHaveValidApplication()
+    public function testIsApplicationsValidForFrontendRequestAndApplicationsDoesNotHaveValidApplication(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -86,7 +83,7 @@ class FrontendCurrentApplicationProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testIsApplicationsValidForFrontendRequestWithoutTokenAndApplicationsDoesNotHaveValidApplication()
+    public function testIsApplicationsValidForFrontendRequestWithoutTokenAndApplicationsDoesNotHaveValidApp(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -102,7 +99,7 @@ class FrontendCurrentApplicationProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testIsApplicationsValidForBackendRequestAndApplicationsHasValidApplication()
+    public function testIsApplicationsValidForBackendRequestAndApplicationsHasValidApplication(): void
     {
         $token = $this->createMock(TokenInterface::class);
         $token->expects(self::once())
@@ -124,7 +121,7 @@ class FrontendCurrentApplicationProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testIsApplicationsValidForBackendRequestAndApplicationsDoesNotHaveValidApplication()
+    public function testIsApplicationsValidForBackendRequestAndApplicationsDoesNotHaveValidApplication(): void
     {
         $token = $this->createMock(TokenInterface::class);
         $token->expects(self::once())
@@ -145,7 +142,7 @@ class FrontendCurrentApplicationProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetCurrentApplicationForFrontendRequest()
+    public function testGetCurrentApplicationForFrontendRequest(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -160,7 +157,7 @@ class FrontendCurrentApplicationProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetCurrentApplicationForFrontendRequestWithoutToken()
+    public function testGetCurrentApplicationForFrontendRequestWithoutToken(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -174,7 +171,7 @@ class FrontendCurrentApplicationProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetCurrentApplicationForBackendRequest()
+    public function testGetCurrentApplicationForBackendRequest(): void
     {
         $token = $this->createMock(TokenInterface::class);
         $token->expects(self::once())

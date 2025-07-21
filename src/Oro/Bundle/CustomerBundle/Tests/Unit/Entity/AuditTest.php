@@ -7,12 +7,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\DataAuditBundle\Entity\AuditField;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
+use PHPUnit\Framework\TestCase;
 
-class AuditTest extends \PHPUnit\Framework\TestCase
+class AuditTest extends TestCase
 {
     use EntityTestCaseTrait;
 
-    public function testUser()
+    public function testUser(): void
     {
         $user = new CustomerUser();
         $audit = new Audit();
@@ -20,7 +21,7 @@ class AuditTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($user, $audit->getUser());
     }
 
-    public function testAccessors()
+    public function testAccessors(): void
     {
         $customerUser = new CustomerUser();
         $customerUser->setUserIdentifier('test');
@@ -36,14 +37,14 @@ class AuditTest extends \PHPUnit\Framework\TestCase
         self::assertPropertyAccessors(new Audit(), $properties);
     }
 
-    public function testLoggedAt()
+    public function testLoggedAt(): void
     {
         $audit = new Audit();
         $audit->setLoggedAt();
         $this->assertInstanceOf('\DateTime', $audit->getLoggedAt());
     }
 
-    public function testFields()
+    public function testFields(): void
     {
         $audit = new Audit();
         $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $audit->getFields());

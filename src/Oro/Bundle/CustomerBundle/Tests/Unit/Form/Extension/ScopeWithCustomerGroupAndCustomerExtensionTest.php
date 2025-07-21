@@ -4,9 +4,10 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Extension;
 
 use Oro\Bundle\CustomerBundle\Form\Extension\ScopeWithCustomerGroupAndCustomerExtension;
 use Oro\Bundle\ScopeBundle\Form\Type\ScopeCollectionType;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class ScopeWithCustomerGroupAndCustomerExtensionTest extends \PHPUnit\Framework\TestCase
+class ScopeWithCustomerGroupAndCustomerExtensionTest extends TestCase
 {
     private ScopeWithCustomerGroupAndCustomerExtension $extension;
 
@@ -27,8 +28,7 @@ class ScopeWithCustomerGroupAndCustomerExtensionTest extends \PHPUnit\Framework\
     public function testBuildForm(): void
     {
         $builder = $this->createMock(FormBuilderInterface::class);
-        $builder
-            ->expects($this->once())
+        $builder->expects($this->once())
             ->method('addEventListener');
 
         $this->extension->buildForm($builder, []);

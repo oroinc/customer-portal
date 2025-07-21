@@ -8,8 +8,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 
 class CustomerTypedAddress extends CustomerAddress
 {
-    /** @var TypedAddressOwner */
-    protected $frontendOwner;
+    protected TypedAddressOwner $frontendOwner;
 
     /**
      * @return TypedAddressOwner

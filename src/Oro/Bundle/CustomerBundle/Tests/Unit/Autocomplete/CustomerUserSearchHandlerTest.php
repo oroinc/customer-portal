@@ -19,9 +19,12 @@ use Oro\Bundle\SearchBundle\Provider\SearchMappingProvider;
 use Oro\Bundle\SearchBundle\Query\Criteria\Criteria;
 use Oro\Bundle\SearchBundle\Query\Query as SearchQuery;
 use Oro\Bundle\SearchBundle\Query\Result;
+use Oro\Bundle\SearchBundle\Query\Result\Item;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
+class CustomerUserSearchHandlerTest extends TestCase
 {
     private const DELIMITER = ';';
     private const TEST_ENTITY_CLASS = 'TestCustomerUserEntity';
@@ -29,17 +32,10 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
     private const PAGE = 1;
     private const PER_PAGE = 5;
 
-    /** @var EntityRepository|\PHPUnit\Framework\MockObject\MockObject */
-    private $entityRepository;
-
-    /** @var Indexer|\PHPUnit\Framework\MockObject\MockObject */
-    private $indexer;
-
-    /** @var AclHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $aclHelper;
-
-    /** @var CustomerUserSearchHandler */
-    private $searchHandler;
+    private EntityRepository&MockObject $entityRepository;
+    private Indexer&MockObject $indexer;
+    private AclHelper&MockObject $aclHelper;
+    private CustomerUserSearchHandler $searchHandler;
 
     #[\Override]
     protected function setUp(): void
@@ -258,9 +254,9 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    private function getResultItem(int $id): Result\Item
+    private function getResultItem(int $id): Item
     {
-        $element = $this->createMock(Result\Item::class);
+        $element = $this->createMock(Item::class);
         $element->expects(self::once())
             ->method('getRecordId')
             ->willReturn($id);
@@ -277,7 +273,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
         return $result;
     }
 
-    public function testFindById()
+    public function testFindById(): void
     {
         $customerId = 1;
         $search = 'test';

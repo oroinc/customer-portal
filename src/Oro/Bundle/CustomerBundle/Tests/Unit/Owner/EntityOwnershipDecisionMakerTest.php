@@ -21,31 +21,26 @@ use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProvider;
 use Oro\Bundle\SecurityBundle\Tests\Unit\Acl\Domain\Fixtures\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Tests\Unit\Stub\OwnershipMetadataProviderStub;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class EntityOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
+class EntityOwnershipDecisionMakerTest extends TestCase
 {
     private const ORG_ID = 10;
     private const CUSTOMER_ID = 100;
     private const CUSTOMER_USER_ID = 10000;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|EntityOwnershipDecisionMaker */
-    private $decisionMaker;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface */
-    private $tokenAccessor;
-
+    private EntityOwnershipDecisionMaker $decisionMaker;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
     private OwnerTree $tree;
-
     private OwnershipMetadataProviderStub $metadataProvider;
-
     private Organization $org1;
     private Organization $org2;
     private Organization $org3;
     private Organization $org4;
-
     private Customer $cust1;
     private Customer $cust2;
     private Customer $cust3;
@@ -53,7 +48,6 @@ class EntityOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
     private Customer $cust4;
     private Customer $cust41;
     private Customer $cust411;
-
     private CustomerUser $custUsr1;
     private CustomerUser $custUsr2;
     private CustomerUser $custUsr3;
@@ -100,19 +94,17 @@ class EntityOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
         $repository = $this->createMock(CustomerRepository::class);
         $repository->expects($this->any())
             ->method('getChildrenIds')
-            ->willReturnMap(
-                [
-                    [self::CUSTOMER_ID + 1, null, []],
-                    [self::CUSTOMER_ID + 2, null, []],
-                    [self::CUSTOMER_ID + 3, null, [self::CUSTOMER_ID + 31]],
-                    [self::CUSTOMER_ID + 31, null, []],
-                    [self::CUSTOMER_ID + 32, null, [self::CUSTOMER_ID + 321]],
-                    [self::CUSTOMER_ID + 321, null, []],
-                    [self::CUSTOMER_ID + 4, null, [self::CUSTOMER_ID + 41, self::CUSTOMER_ID + 411]],
-                    [self::CUSTOMER_ID + 41, null, [self::CUSTOMER_ID + 411]],
-                    [self::CUSTOMER_ID + 411, null, []],
-                ]
-            );
+            ->willReturnMap([
+                [self::CUSTOMER_ID + 1, null, []],
+                [self::CUSTOMER_ID + 2, null, []],
+                [self::CUSTOMER_ID + 3, null, [self::CUSTOMER_ID + 31]],
+                [self::CUSTOMER_ID + 31, null, []],
+                [self::CUSTOMER_ID + 32, null, [self::CUSTOMER_ID + 321]],
+                [self::CUSTOMER_ID + 321, null, []],
+                [self::CUSTOMER_ID + 4, null, [self::CUSTOMER_ID + 41, self::CUSTOMER_ID + 411]],
+                [self::CUSTOMER_ID + 41, null, [self::CUSTOMER_ID + 411]],
+                [self::CUSTOMER_ID + 411, null, []],
+            ]);
 
         $manager = $this->createMock(ObjectManager::class);
         $manager->expects($this->any())
@@ -233,7 +225,7 @@ class EntityOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider supportsDataProvider
      */
-    public function testSupports(?object $user, bool $expectedResult)
+    public function testSupports(?object $user, bool $expectedResult): void
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')
@@ -269,7 +261,7 @@ class EntityOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
         string $customerUser,
         bool $deep,
         bool $isAssociated
-    ) {
+    ): void {
         $this->buildTestTree();
         $this->configureMetadataProvider();
 
@@ -332,7 +324,7 @@ class EntityOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function testIsAssociatedWithBusinessUnit()
+    public function testIsAssociatedWithBusinessUnit(): void
     {
         $this->buildTestTree();
         $this->configureMetadataProvider();

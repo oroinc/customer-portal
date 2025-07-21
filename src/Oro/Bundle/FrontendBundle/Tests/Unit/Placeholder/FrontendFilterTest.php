@@ -5,10 +5,11 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Placeholder;
 use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\FrontendBundle\Placeholder\FrontendFilter;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class FrontendFilterTest extends \PHPUnit\Framework\TestCase
+class FrontendFilterTest extends TestCase
 {
     private const BACKEND_PREFIX = '/admin';
 
@@ -26,7 +27,7 @@ class FrontendFilterTest extends \PHPUnit\Framework\TestCase
         return new FrontendFilter(new FrontendHelper(self::BACKEND_PREFIX, $requestStack, $applicationState));
     }
 
-    public function testNoRequestBehaviour()
+    public function testNoRequestBehaviour(): void
     {
         $filter = $this->getFilter();
         $this->assertTrue($filter->isBackendRoute());
@@ -36,7 +37,7 @@ class FrontendFilterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider isBackendIsFrontendDataProvider
      */
-    public function testIsBackendIsFrontend(string $path, bool $isFrontend)
+    public function testIsBackendIsFrontend(string $path, bool $isFrontend): void
     {
         $request = Request::create($path);
 

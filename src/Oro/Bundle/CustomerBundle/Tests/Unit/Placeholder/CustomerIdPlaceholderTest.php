@@ -6,16 +6,15 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Placeholder\CustomerIdPlaceholder;
 use Oro\Bundle\UserBundle\Entity\User;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class CustomerIdPlaceholderTest extends \PHPUnit\Framework\TestCase
+class CustomerIdPlaceholderTest extends TestCase
 {
-    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenStorage;
-
-    /** @var CustomerIdPlaceholder */
-    private $placeholder;
+    private TokenStorageInterface&MockObject $tokenStorage;
+    private CustomerIdPlaceholder $placeholder;
 
     #[\Override]
     protected function setUp(): void
@@ -25,13 +24,13 @@ class CustomerIdPlaceholderTest extends \PHPUnit\Framework\TestCase
         $this->placeholder = new CustomerIdPlaceholder($this->tokenStorage);
     }
 
-    public function testGetPlaceholder()
+    public function testGetPlaceholder(): void
     {
         $this->assertIsString($this->placeholder->getPlaceholder());
         $this->assertEquals('CUSTOMER_ID', $this->placeholder->getPlaceholder());
     }
 
-    public function testGetValueWhenTokenIsNull()
+    public function testGetValueWhenTokenIsNull(): void
     {
         $this->tokenStorage->expects($this->once())
             ->method('getToken')
@@ -40,7 +39,7 @@ class CustomerIdPlaceholderTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->placeholder->getDefaultValue());
     }
 
-    public function testGetValueWhenCustomerUserIsNotCustomerUser()
+    public function testGetValueWhenCustomerUserIsNotCustomerUser(): void
     {
         $token = $this->createMock(TokenInterface::class);
         $token->expects($this->once())
@@ -54,7 +53,7 @@ class CustomerIdPlaceholderTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->placeholder->getDefaultValue());
     }
 
-    public function testGetValueWithNoCustomer()
+    public function testGetValueWithNoCustomer(): void
     {
         $customerUser = $this->createMock(CustomerUser::class);
         $customerUser->expects($this->once())
@@ -73,7 +72,7 @@ class CustomerIdPlaceholderTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->placeholder->getDefaultValue());
     }
 
-    public function testGetValueWithValidCustomer()
+    public function testGetValueWithValidCustomer(): void
     {
         $customerId = 5;
 
@@ -99,7 +98,7 @@ class CustomerIdPlaceholderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($customerId, $this->placeholder->getDefaultValue());
     }
 
-    public function testReplace()
+    public function testReplace(): void
     {
         $this->assertEquals(
             'test_field_1',

@@ -7,21 +7,18 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Event\FilterCustomerUserResponseEvent;
 use Oro\Bundle\CustomerBundle\EventListener\AuthenticationListener;
 use Oro\Bundle\CustomerBundle\Security\LoginManager;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
+class AuthenticationListenerTest extends TestCase
 {
     private const FIREWALL_NAME = 'test_firewall';
 
-    /** @var LoginManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $loginManager;
-
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
-
-    /** @var AuthenticationListener */
-    private $listener;
+    private LoginManager&MockObject $loginManager;
+    private ConfigManager&MockObject $configManager;
+    private AuthenticationListener $listener;
 
     #[\Override]
     protected function setUp(): void

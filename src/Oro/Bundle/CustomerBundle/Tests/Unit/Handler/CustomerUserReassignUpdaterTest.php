@@ -5,10 +5,11 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Handler;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Handler\CustomerUserReassignEntityUpdater;
 use Oro\Bundle\CustomerBundle\Handler\CustomerUserReassignUpdater;
+use PHPUnit\Framework\TestCase;
 
-class CustomerUserReassignUpdaterTest extends \PHPUnit\Framework\TestCase
+class CustomerUserReassignUpdaterTest extends TestCase
 {
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $customerUser = new CustomerUser();
 
@@ -26,7 +27,7 @@ class CustomerUserReassignUpdaterTest extends \PHPUnit\Framework\TestCase
         $updater->update($customerUser);
     }
 
-    public function testGetClassNamesToUpdate()
+    public function testGetClassNamesToUpdate(): void
     {
         $customerUser = new CustomerUser();
 

@@ -67,17 +67,14 @@ class PageTargetValidatorTest extends ConstraintValidatorTestCase
         $constraint = new PageTarget();
         $this->root = $this->createMock(FormInterface::class);
         $targetTypeForm = $this->createMock(FormInterface::class);
-        $targetTypeForm
-            ->expects(self::once())
+        $targetTypeForm->expects(self::once())
             ->method('getData')
             ->willReturn(MenuUpdate::TARGET_NONE);
-        $this->root
-            ->expects(self::once())
+        $this->root->expects(self::once())
             ->method('has')
             ->with('targetType')
             ->willReturn(true);
-        $this->root
-            ->expects(self::once())
+        $this->root->expects(self::once())
             ->method('get')
             ->with('targetType')
             ->willReturn($targetTypeForm);
@@ -94,17 +91,14 @@ class PageTargetValidatorTest extends ConstraintValidatorTestCase
         $constraint = new PageTarget();
         $this->root = $this->createMock(FormInterface::class);
         $targetTypeForm = $this->createMock(FormInterface::class);
-        $targetTypeForm
-            ->expects(self::once())
+        $targetTypeForm->expects(self::once())
             ->method('getData')
             ->willReturn(MenuUpdate::TARGET_CONTENT_NODE);
-        $this->root
-            ->expects(self::once())
+        $this->root->expects(self::once())
             ->method('has')
             ->with('targetType')
             ->willReturn(true);
-        $this->root
-            ->expects(self::once())
+        $this->root->expects(self::once())
             ->method('get')
             ->with('targetType')
             ->willReturn($targetTypeForm);
@@ -124,17 +118,14 @@ class PageTargetValidatorTest extends ConstraintValidatorTestCase
         $constraint = new PageTarget();
         $this->root = $this->createMock(FormInterface::class);
         $targetTypeForm = $this->createMock(FormInterface::class);
-        $targetTypeForm
-            ->expects(self::once())
+        $targetTypeForm->expects(self::once())
             ->method('getData')
             ->willReturn(MenuUpdate::TARGET_CATEGORY);
-        $this->root
-            ->expects(self::once())
+        $this->root->expects(self::once())
             ->method('has')
             ->with('targetType')
             ->willReturn(true);
-        $this->root
-            ->expects(self::once())
+        $this->root->expects(self::once())
             ->method('get')
             ->with('targetType')
             ->willReturn($targetTypeForm);
@@ -154,17 +145,14 @@ class PageTargetValidatorTest extends ConstraintValidatorTestCase
         $constraint = new PageTarget();
         $this->root = $this->createMock(FormInterface::class);
         $targetTypeForm = $this->createMock(FormInterface::class);
-        $targetTypeForm
-            ->expects(self::once())
+        $targetTypeForm->expects(self::once())
             ->method('getData')
             ->willReturn(MenuUpdate::TARGET_SYSTEM_PAGE);
-        $this->root
-            ->expects(self::once())
+        $this->root->expects(self::once())
             ->method('has')
             ->with('targetType')
             ->willReturn(true);
-        $this->root
-            ->expects(self::once())
+        $this->root->expects(self::once())
             ->method('get')
             ->with('targetType')
             ->willReturn($targetTypeForm);
@@ -184,17 +172,14 @@ class PageTargetValidatorTest extends ConstraintValidatorTestCase
         $constraint = new PageTarget();
         $this->root = $this->createMock(FormInterface::class);
         $targetTypeForm = $this->createMock(FormInterface::class);
-        $targetTypeForm
-            ->expects(self::once())
+        $targetTypeForm->expects(self::once())
             ->method('getData')
             ->willReturn(MenuUpdate::TARGET_URI);
-        $this->root
-            ->expects(self::once())
+        $this->root->expects(self::once())
             ->method('has')
             ->with('targetType')
             ->willReturn(true);
-        $this->root
-            ->expects(self::once())
+        $this->root->expects(self::once())
             ->method('get')
             ->with('targetType')
             ->willReturn($targetTypeForm);
@@ -217,17 +202,14 @@ class PageTargetValidatorTest extends ConstraintValidatorTestCase
         $constraint = new PageTarget();
         $this->root = $this->createMock(FormInterface::class);
         $targetTypeForm = $this->createMock(FormInterface::class);
-        $targetTypeForm
-            ->expects(self::once())
+        $targetTypeForm->expects(self::once())
             ->method('getData')
             ->willReturn($targetType);
-        $this->root
-            ->expects(self::once())
+        $this->root->expects(self::once())
             ->method('has')
             ->with('targetType')
             ->willReturn(true);
-        $this->root
-            ->expects(self::once())
+        $this->root->expects(self::once())
             ->method('get')
             ->with('targetType')
             ->willReturn($targetTypeForm);

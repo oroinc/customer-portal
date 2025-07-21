@@ -10,26 +10,19 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Entity\WebsiteAwareInterface;
 use Oro\Bundle\WebsiteBundle\Twig\EntityDateTimeExtension;
 use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 
-class EntityDateTimeExtensionTest extends \PHPUnit\Framework\TestCase
+class EntityDateTimeExtensionTest extends TestCase
 {
     use TwigExtensionTestCaseTrait;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|Environment */
-    private $env;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|DateTimeExtension */
-    private $dateTimeExtension;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|ConfigManager */
-    private $configManager;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|ConfigManager */
-    private $globalConfigManager;
-
-    /** @var EntityDateTimeExtension */
-    private $extension;
+    private Environment&MockObject $env;
+    private DateTimeExtension&MockObject $dateTimeExtension;
+    private ConfigManager&MockObject $configManager;
+    private ConfigManager&MockObject $globalConfigManager;
+    private EntityDateTimeExtension $extension;
 
     #[\Override]
     protected function setUp(): void
@@ -52,7 +45,7 @@ class EntityDateTimeExtensionTest extends \PHPUnit\Framework\TestCase
         $this->extension = new EntityDateTimeExtension($container);
     }
 
-    public function testFormatByEntityByTimezoneFromWebsite()
+    public function testFormatByEntityByTimezoneFromWebsite(): void
     {
         $organization = new Organization();
         $website = new Website();

@@ -6,17 +6,14 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRoleCapabilitySetOptionsProvider;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCapabilityProvider;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class FrontendCustomerUserRoleCapabilitySetOptionsProviderTest extends \PHPUnit\Framework\TestCase
+class FrontendCustomerUserRoleCapabilitySetOptionsProviderTest extends TestCase
 {
-    /** @var RolePrivilegeCapabilityProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $capabilityProvider;
-
-    /** @var RolePrivilegeCategoryProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $categoryProvider;
-
-    /** @var FrontendCustomerUserRoleCapabilitySetOptionsProvider */
-    private $provider;
+    private RolePrivilegeCapabilityProvider&MockObject $capabilityProvider;
+    private RolePrivilegeCategoryProvider&MockObject $categoryProvider;
+    private FrontendCustomerUserRoleCapabilitySetOptionsProvider $provider;
 
     #[\Override]
     protected function setUp(): void
@@ -30,7 +27,7 @@ class FrontendCustomerUserRoleCapabilitySetOptionsProviderTest extends \PHPUnit\
         );
     }
 
-    public function testGetCapabilitySetOptions()
+    public function testGetCapabilitySetOptions(): void
     {
         $role = $this->createMock(CustomerUserRole::class);
         $capabilities = ['capabilities_data'];

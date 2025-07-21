@@ -13,7 +13,7 @@
 <% if (style === 'validation') { %>
     <span class="validation-<%- type %>"><%- message %></span>
 <% } else { %>
-    <div class="notification-flash--<%- type %> alert fade show" role="alert">
+    <div class="notification-flash notification-flash--<%- type %> alert fade show" role="alert">
         <div class="notification-flash__content">
             <% if (obj.showIcon) { %>
                 <%= oroui.renderIcon({

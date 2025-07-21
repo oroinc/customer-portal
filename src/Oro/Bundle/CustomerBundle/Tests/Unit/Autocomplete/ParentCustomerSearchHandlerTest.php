@@ -81,7 +81,7 @@ class ParentCustomerSearchHandlerTest extends TestCase
     /**
      * @dataProvider queryWithoutSeparatorDataProvider
      */
-    public function testSearchNoSeparator(string $query)
+    public function testSearchNoSeparator(string $query): void
     {
         $this->indexer->expects($this->never())
             ->method($this->anything());
@@ -104,7 +104,7 @@ class ParentCustomerSearchHandlerTest extends TestCase
     /**
      * @dataProvider queryWithoutSeparatorDataProvider
      */
-    public function testSearchNewCustomer(string $search)
+    public function testSearchNewCustomer(string $search): void
     {
         $page = 1;
         $perPage = 15;
@@ -148,7 +148,7 @@ class ParentCustomerSearchHandlerTest extends TestCase
     /**
      * @dataProvider queryWithoutSeparatorDataProvider
      */
-    public function testSearchExistingCustomer(string $search)
+    public function testSearchExistingCustomer(string $search): void
     {
         $page = 1;
         $perPage = 15;
@@ -194,7 +194,7 @@ class ParentCustomerSearchHandlerTest extends TestCase
     /**
      * @dataProvider queryWithoutSeparatorDataProvider
      */
-    public function testSearchExistingCustomerWithChildren(string $search)
+    public function testSearchExistingCustomerWithChildren(string $search): void
     {
         $page = 1;
         $perPage = 15;

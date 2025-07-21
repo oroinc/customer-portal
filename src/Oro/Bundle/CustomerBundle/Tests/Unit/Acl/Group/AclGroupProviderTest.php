@@ -5,14 +5,13 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Acl\Group;
 use Oro\Bundle\CustomerBundle\Acl\Group\AclGroupProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class AclGroupProviderTest extends \PHPUnit\Framework\TestCase
+class AclGroupProviderTest extends TestCase
 {
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
-
-    /** @var AclGroupProvider */
-    private $provider;
+    private FrontendHelper&MockObject $frontendHelper;
+    private AclGroupProvider $provider;
 
     #[\Override]
     protected function setUp(): void
@@ -22,7 +21,7 @@ class AclGroupProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider = new AclGroupProvider($this->frontendHelper);
     }
 
-    public function testSupportsForFrontend()
+    public function testSupportsForFrontend(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -31,7 +30,7 @@ class AclGroupProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->provider->supports());
     }
 
-    public function testSupportsForBackend()
+    public function testSupportsForBackend(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -40,7 +39,7 @@ class AclGroupProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->provider->supports());
     }
 
-    public function testGetGroup()
+    public function testGetGroup(): void
     {
         $this->assertEquals(CustomerUser::SECURITY_GROUP, $this->provider->getGroup());
     }

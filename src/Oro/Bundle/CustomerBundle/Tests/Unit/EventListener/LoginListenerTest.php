@@ -5,19 +5,19 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\EventListener\LoginListener;
 use Oro\Bundle\UserBundle\Entity\User;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
-class LoginListenerTest extends \PHPUnit\Framework\TestCase
+class LoginListenerTest extends TestCase
 {
     private const TEST_URL = 'http://test_url/';
 
     private Request $request;
-
-    private TokenInterface|\PHPUnit\Framework\MockObject\MockObject $token;
-
+    private TokenInterface&MockObject $token;
     private LoginListener $listener;
 
     #[\Override]

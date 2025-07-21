@@ -4,17 +4,18 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\DependencyInjection;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Configuration;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 
-class ConfigurationTest extends \PHPUnit\Framework\TestCase
+class ConfigurationTest extends TestCase
 {
     private function processConfiguration(array $config): array
     {
         return (new Processor())->processConfiguration(new Configuration(), $config);
     }
 
-    public function testProcessEmptyConfiguration()
+    public function testProcessEmptyConfiguration(): void
     {
         $expected = [
             'routes_to_expose' => [],
@@ -36,7 +37,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $processedConfig);
     }
 
-    public function testProcessWithEmptyFrontendSessionName()
+    public function testProcessWithEmptyFrontendSessionName(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage(
@@ -46,7 +47,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         $this->processConfiguration([['session' => ['name' => '']]]);
     }
 
-    public function testProcessWithInvalidFrontendSessionName()
+    public function testProcessWithInvalidFrontendSessionName(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage(
@@ -57,7 +58,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         $this->processConfiguration([['session' => ['name' => 'a+b']]]);
     }
 
-    public function testProcessSessionConfiguration()
+    public function testProcessSessionConfiguration(): void
     {
         $configs = [
             [
@@ -81,7 +82,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testGetConfigKeyByName(string $expected, string $key, string $separator)
+    public function testGetConfigKeyByName(string $expected, string $key, string $separator): void
     {
         self::assertSame($expected, Configuration::getConfigKeyByName($key, $separator));
     }

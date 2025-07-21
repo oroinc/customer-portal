@@ -27,7 +27,6 @@ class CustomerAddressFixtureTest extends TestCase
     {
         $this->templateEntityRegistry = $this->createMock(TemplateEntityRegistry::class);
 
-        /** @var TemplateManager&MockObject $templateManager */
         $templateManager = $this->createMock(TemplateManager::class);
         $templateManager->expects(self::any())
             ->method('getEntityRegistry')
@@ -105,11 +104,9 @@ class CustomerAddressFixtureTest extends TestCase
         $this->templateEntityRegistry->expects(self::once())
             ->method('getData')
             ->with(self::isInstanceOf(TemplateManager::class), CustomerAddress::class, $key)
-            ->willReturnCallback(
-                function () use (&$entity) {
-                    return [$entity];
-                }
-            );
+            ->willReturnCallback(function () use (&$entity) {
+                return [$entity];
+            });
         $actual = $this->fixture->getData();
 
         self::assertEquals([$this->getEntity(CustomerAddress::class, ['id' => 1])], $actual);

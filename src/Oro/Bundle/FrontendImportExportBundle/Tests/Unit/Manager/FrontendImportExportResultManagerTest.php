@@ -12,17 +12,15 @@ use Oro\Bundle\FrontendImportExportBundle\Manager\FrontendImportExportResultMana
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class FrontendImportExportResultManagerTest extends TestCase
 {
     private const TOKEN_USER_ID = 42;
 
-    /** @var ObjectManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $entityManager;
-
-    /** @var FrontendImportExportResultManager */
-    private $manager;
+    private ObjectManager&MockObject $entityManager;
+    private FrontendImportExportResultManager $manager;
 
     #[\Override]
     protected function setUp(): void

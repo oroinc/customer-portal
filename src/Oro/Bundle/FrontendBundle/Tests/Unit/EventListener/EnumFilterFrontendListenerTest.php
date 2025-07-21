@@ -10,26 +10,19 @@ use Oro\Bundle\FilterBundle\Filter\MultiEnumFilter;
 use Oro\Bundle\FilterBundle\Grid\Extension\Configuration;
 use Oro\Bundle\FrontendBundle\EventListener\EnumFilterFrontendListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class EnumFilterFrontendListenerTest extends \PHPUnit\Framework\TestCase
+class EnumFilterFrontendListenerTest extends TestCase
 {
-    /** @var DatagridConfiguration */
-    private $datagridConfig;
-
-    /** @var BuildBefore|\PHPUnit\Framework\MockObject\MockObject */
-    private $event;
-
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
-
-    /** @var EnumFilterFrontendListener */
-    private $listener;
+    private DatagridConfiguration $datagridConfig;
+    private BuildBefore&MockObject $event;
+    private FrontendHelper&MockObject $frontendHelper;
+    private EnumFilterFrontendListener $listener;
 
     #[\Override]
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->datagridConfig = DatagridConfiguration::create([]);
         $this->event = $this->createMock(BuildBefore::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
@@ -37,7 +30,7 @@ class EnumFilterFrontendListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener = new EnumFilterFrontendListener($this->frontendHelper);
     }
 
-    public function testOnBuildBeforeWhenNotFrontendRequest()
+    public function testOnBuildBeforeWhenNotFrontendRequest(): void
     {
         $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')
@@ -52,7 +45,7 @@ class EnumFilterFrontendListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($this->datagridConfig->toArray());
     }
 
-    public function testOnBuildBeforeWhenFrontendRequest()
+    public function testOnBuildBeforeWhenFrontendRequest(): void
     {
         $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')

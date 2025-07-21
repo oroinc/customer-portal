@@ -12,8 +12,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class UniqueCustomerUserNameAndEmailValidatorTest extends ConstraintValidatorTestCase
 {
-    /** @var  */
-    private CustomerUserManager|MockObject $customerUserManager;
+    private CustomerUserManager&MockObject $customerUserManager;
 
     #[\Override]
     protected function setUp(): void

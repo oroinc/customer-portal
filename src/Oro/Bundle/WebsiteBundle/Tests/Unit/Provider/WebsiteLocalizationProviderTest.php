@@ -11,23 +11,16 @@ use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Provider\WebsiteLocalizationProvider;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class WebsiteLocalizationProviderTest extends \PHPUnit\Framework\TestCase
+class WebsiteLocalizationProviderTest extends TestCase
 {
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
-
-    /** @var LocalizationManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $localizationManager;
-
-    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $doctrineHelper;
-
-    /** @var WebsiteRepository|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteRepository;
-
-    /** @var WebsiteLocalizationProvider */
-    private $provider;
+    private ConfigManager&MockObject $configManager;
+    private LocalizationManager&MockObject $localizationManager;
+    private DoctrineHelper&MockObject $doctrineHelper;
+    private WebsiteRepository&MockObject $websiteRepository;
+    private WebsiteLocalizationProvider $provider;
 
     #[\Override]
     protected function setUp(): void
@@ -60,7 +53,7 @@ class WebsiteLocalizationProviderTest extends \PHPUnit\Framework\TestCase
         return $localization;
     }
 
-    public function testGetLocalizations()
+    public function testGetLocalizations(): void
     {
         $websiteId = 42;
         $ids = [100, 200];
@@ -83,7 +76,7 @@ class WebsiteLocalizationProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($localizations, $this->provider->getLocalizations($this->getWebsite($websiteId)));
     }
 
-    public function testGetLocalizationsByWebsiteId()
+    public function testGetLocalizationsByWebsiteId(): void
     {
         $this->doctrineHelper->expects($this->once())
             ->method('getEntityRepositoryForClass')
@@ -101,7 +94,7 @@ class WebsiteLocalizationProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider->getLocalizationsByWebsiteId(42);
     }
 
-    public function testGetLocalizationsByWebsiteIdEmptyId()
+    public function testGetLocalizationsByWebsiteIdEmptyId(): void
     {
         $this->doctrineHelper->expects($this->once())
             ->method('getEntityRepositoryForClass')
@@ -118,7 +111,7 @@ class WebsiteLocalizationProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider->getLocalizationsByWebsiteId();
     }
 
-    public function testGetLocalizationsByWebsiteIdNonExistentId()
+    public function testGetLocalizationsByWebsiteIdNonExistentId(): void
     {
         $this->doctrineHelper->expects($this->once())
             ->method('getEntityRepositoryForClass')
@@ -137,7 +130,7 @@ class WebsiteLocalizationProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider->getLocalizationsByWebsiteId(123);
     }
 
-    public function testGetLocalizationsByWebsiteIdNonIntegerId()
+    public function testGetLocalizationsByWebsiteIdNonIntegerId(): void
     {
         $this->doctrineHelper->expects($this->once())
             ->method('getEntityRepositoryForClass')

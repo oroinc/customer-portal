@@ -16,6 +16,8 @@ oro_behat_extension:
         - Oro\Bundle\CustomerBundle\Tests\Behat\Context\CustomerVisitorContext
         - Oro\Bundle\FrontendBundle\Tests\Behat\Context\CssVariablesContext
         - Oro\Bundle\UIBundle\Tests\Behat\Context\BreadcrumbContext
+        - Oro\Bundle\UserBundle\Tests\Behat\Context\UserAttachmentContext
+        - Oro\Bundle\AttachmentBundle\Tests\Behat\Context\AttachmentImageContext
       paths:
         - '@OroFrontendBundle/Tests/Behat/Features'
   elements:

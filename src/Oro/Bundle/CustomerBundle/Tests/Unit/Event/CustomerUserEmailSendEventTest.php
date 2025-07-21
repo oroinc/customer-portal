@@ -5,23 +5,13 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Event;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Event\CustomerUserEmailSendEvent;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use PHPUnit\Framework\TestCase;
 
-class CustomerUserEmailSendEventTest extends \PHPUnit\Framework\TestCase
+class CustomerUserEmailSendEventTest extends TestCase
 {
-    /**
-     * @var CustomerUserEmailSendEvent
-     */
-    private $event;
-
-    /**
-     * @var CustomerUser
-     */
-    private $customerUser;
-
-    /**
-     * @var Website
-     */
-    private $website;
+    private CustomerUserEmailSendEvent $event;
+    private CustomerUser $customerUser;
+    private Website $website;
 
     #[\Override]
     protected function setUp(): void
@@ -35,7 +25,7 @@ class CustomerUserEmailSendEventTest extends \PHPUnit\Framework\TestCase
     /**
      * Test setters getters
      */
-    public function testAccessors()
+    public function testAccessors(): void
     {
         $this->event->setEmailTemplate('new_template');
         $this->event->setEmailTemplateParams(['foo' => 'bar']);

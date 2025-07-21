@@ -15,11 +15,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class AddressValidationCachedClientTest extends TestCase
 {
-    private AddressValidationClientInterface|MockObject $client;
-    private AddressValidationResponseCacheInterface|MockObject $cache;
-
+    private AddressValidationClientInterface&MockObject $client;
+    private AddressValidationResponseCacheInterface&MockObject $cache;
     private AddressValidationCachedClient $cachedClient;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->client = $this->createMock(AddressValidationClientInterface::class);

@@ -10,6 +10,13 @@
         grid-template-areas: $customer-info-grid-section-grid-template-areas;
         grid-template-columns: $customer-info-grid-section-grid-template-columns;
         gap: $customer-info-grid-section-gap;
+
+        &--centered {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
     }
 
     &__container {

@@ -5,17 +5,16 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Extension;
 use Oro\Bundle\CustomerBundle\Form\Extension\OroEntitySelectOrCreateInlineExtension;
 use Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class OroEntitySelectOrCreateInlineExtensionTest extends \PHPUnit\Framework\TestCase
+class OroEntitySelectOrCreateInlineExtensionTest extends TestCase
 {
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
-
-    /** @var OroEntitySelectOrCreateInlineExtension */
-    private $extension;
+    private FrontendHelper&MockObject $frontendHelper;
+    private OroEntitySelectOrCreateInlineExtension $extension;
 
     #[\Override]
     protected function setUp(): void
@@ -25,7 +24,7 @@ class OroEntitySelectOrCreateInlineExtensionTest extends \PHPUnit\Framework\Test
         $this->extension = new OroEntitySelectOrCreateInlineExtension($this->frontendHelper);
     }
 
-    public function testGetExtendedTypes()
+    public function testGetExtendedTypes(): void
     {
         $this->assertEquals(
             [OroEntitySelectOrCreateInlineType::class],
@@ -33,7 +32,7 @@ class OroEntitySelectOrCreateInlineExtensionTest extends \PHPUnit\Framework\Test
         );
     }
 
-    public function testConfigureOptionsForBackend()
+    public function testConfigureOptionsForBackend(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -46,7 +45,7 @@ class OroEntitySelectOrCreateInlineExtensionTest extends \PHPUnit\Framework\Test
         $this->extension->configureOptions($resolver);
     }
 
-    public function testConfigureOptionsForFrontend()
+    public function testConfigureOptionsForFrontend(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -63,7 +62,7 @@ class OroEntitySelectOrCreateInlineExtensionTest extends \PHPUnit\Framework\Test
     /**
      * @dataProvider viewDataProvider
      */
-    public function testBuildView(bool $isFrontendRequest, string $route, string $expectedRoute)
+    public function testBuildView(bool $isFrontendRequest, string $route, string $expectedRoute): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')

@@ -8,25 +8,20 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider;
 use Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub\ReturnCallback;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
-class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
+class CacheableWebsiteProviderTest extends TestCase
 {
-    /** @var WebsiteProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteProvider;
-
-    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenStorage;
-
-    /** @var CacheInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $cacheProvider;
-
-    /** @var CacheableWebsiteProvider */
-    private $cacheableProvider;
+    private WebsiteProviderInterface&MockObject $websiteProvider;
+    private TokenStorageInterface&MockObject $tokenStorage;
+    private CacheInterface&MockObject $cacheProvider;
+    private CacheableWebsiteProvider $cacheableProvider;
 
     #[\Override]
     protected function setUp(): void

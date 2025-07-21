@@ -6,19 +6,17 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\EventListener\CustomerRolePageListener;
 use Oro\Bundle\UIBundle\Event\BeforeFormRenderEvent;
 use Oro\Bundle\UIBundle\Event\BeforeViewRenderEvent;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
-class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
+class CustomerRolePageListenerTest extends TestCase
 {
-    /** @var CustomerRolePageListener */
-    private $listener;
-
-    /** @var RequestStack */
-    private $requestStack;
+    private CustomerRolePageListener $listener;
+    private RequestStack $requestStack;
 
     #[\Override]
     protected function setUp(): void
@@ -34,7 +32,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener = new CustomerRolePageListener($translator, $this->requestStack);
     }
 
-    public function testOnUpdatePageRenderWithoutRequest()
+    public function testOnUpdatePageRenderWithoutRequest(): void
     {
         $event = new BeforeFormRenderEvent(
             $this->createMock(FormView::class),
@@ -48,7 +46,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $event->getFormData());
     }
 
-    public function testOnUpdatePageRenderOnWrongPage()
+    public function testOnUpdatePageRenderOnWrongPage(): void
     {
         $event = new BeforeFormRenderEvent(
             $this->createMock(FormView::class),
@@ -64,7 +62,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $event->getFormData());
     }
 
-    public function testOnUpdatePageRenderOnNonCloneRolePage()
+    public function testOnUpdatePageRenderOnNonCloneRolePage(): void
     {
         $event = new BeforeFormRenderEvent(
             $this->createMock(FormView::class),
@@ -89,7 +87,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider onUpdatePageRenderRoutesProvider
      */
-    public function testOnUpdatePageRender(string $routeName)
+    public function testOnUpdatePageRender(string $routeName): void
     {
         $entity = new CustomerUserRole('');
         $form = new FormView();
@@ -145,7 +143,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testOnViewPageRenderWithoutRequest()
+    public function testOnViewPageRenderWithoutRequest(): void
     {
         $event = new BeforeViewRenderEvent(
             $this->createMock(Environment::class),
@@ -158,7 +156,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $event->getData());
     }
 
-    public function testOnViewPageRenderOnNonUpdateRolePage()
+    public function testOnViewPageRenderOnNonUpdateRolePage(): void
     {
         $event = new BeforeViewRenderEvent(
             $this->createMock(Environment::class),
@@ -173,7 +171,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $event->getData());
     }
 
-    public function testOnViewPageRender()
+    public function testOnViewPageRender(): void
     {
         $entity = new CustomerUserRole('');
         $twig = $this->createMock(Environment::class);

@@ -7,23 +7,18 @@ use Oro\Bundle\CustomerBundle\Event\CustomerUserEmailSendEvent;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
 use Oro\Bundle\UserBundle\Mailer\UserTemplateEmailSender;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class ProcessorTest extends \PHPUnit\Framework\TestCase
+class ProcessorTest extends TestCase
 {
     private const PASSWORD = '123456';
 
-    /** @var CustomerUser */
-    private $user;
-
-    /** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $eventDispatcher;
-
-    /** @var UserTemplateEmailSender|\PHPUnit\Framework\MockObject\MockObject */
-    private $userTemplateEmailSender;
-
-    /** @var Processor */
-    private $mailProcessor;
+    private CustomerUser $user;
+    private EventDispatcherInterface&MockObject $eventDispatcher;
+    private UserTemplateEmailSender&MockObject $userTemplateEmailSender;
+    private Processor $mailProcessor;
 
     #[\Override]
     protected function setUp(): void

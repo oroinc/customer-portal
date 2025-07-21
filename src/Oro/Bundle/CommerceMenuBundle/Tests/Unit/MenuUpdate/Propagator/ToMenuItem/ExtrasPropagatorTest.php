@@ -15,8 +15,9 @@ use Oro\Bundle\NavigationBundle\MenuUpdate\Propagator\ToMenuItem\MenuUpdateToMen
 use Oro\Bundle\NavigationBundle\MenuUpdate\Propagator\ToMenuUpdate\MenuItemToMenuUpdatePropagatorInterface;
 use Oro\Bundle\NavigationBundle\Tests\Unit\MenuItemTestTrait;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
+use PHPUnit\Framework\TestCase;
 
-class ExtrasPropagatorTest extends \PHPUnit\Framework\TestCase
+class ExtrasPropagatorTest extends TestCase
 {
     use MenuItemTestTrait;
 
@@ -77,8 +78,7 @@ class ExtrasPropagatorTest extends \PHPUnit\Framework\TestCase
     {
         $menuUpdate = $this->createMock(MenuUpdateInterface::class);
 
-        $menuUpdate
-            ->expects(self::never())
+        $menuUpdate->expects(self::never())
             ->method(self::anything());
 
         $this->propagator->propagateFromMenuUpdate(

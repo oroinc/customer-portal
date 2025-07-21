@@ -8,11 +8,12 @@ use Oro\Bundle\ApiBundle\Request\Rest\RestRoutes;
 use Oro\Bundle\ApiBundle\Request\Rest\RestRoutesRegistry;
 use Oro\Bundle\ApiBundle\Request\ValueNormalizer;
 use Oro\Bundle\FrontendBundle\Api\ResourceRestApiGetActionUrlResolver;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class ResourceRestApiGetActionUrlResolverTest extends \PHPUnit\Framework\TestCase
+class ResourceRestApiGetActionUrlResolverTest extends TestCase
 {
-    public function testResolveApiUrl()
+    public function testResolveApiUrl(): void
     {
         $routeName = 'test_route';
         $requestType = new RequestType(['test']);
@@ -58,7 +59,7 @@ class ResourceRestApiGetActionUrlResolverTest extends \PHPUnit\Framework\TestCas
     /**
      * @dataProvider resolveApiUrlForDefaultEntityIdDataProvider
      */
-    public function testResolveApiUrlForDefaultEntityId(array $routeParameters)
+    public function testResolveApiUrlForDefaultEntityId(array $routeParameters): void
     {
         $routeName = 'test_route';
         $requestType = new RequestType(['test']);
@@ -110,7 +111,7 @@ class ResourceRestApiGetActionUrlResolverTest extends \PHPUnit\Framework\TestCas
         ];
     }
 
-    public function testResolveApiUrlWithDefaultEntityIdButEntityIdExistsInRouteParameters()
+    public function testResolveApiUrlWithDefaultEntityIdButEntityIdExistsInRouteParameters(): void
     {
         $routeName = 'test_route';
         $requestType = new RequestType(['test']);

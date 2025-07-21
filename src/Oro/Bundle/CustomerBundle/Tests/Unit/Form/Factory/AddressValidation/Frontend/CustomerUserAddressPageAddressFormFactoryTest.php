@@ -17,11 +17,10 @@ use Symfony\Component\HttpFoundation\Request;
 final class CustomerUserAddressPageAddressFormFactoryTest extends TestCase
 {
     private FormFactoryInterface&MockObject $formFactory;
-
     private CustomerUserAddressPageAddressFormFactory $addressFormFactory;
-
     private Request $request;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formFactory = $this->createMock(FormFactoryInterface::class);
@@ -33,8 +32,7 @@ final class CustomerUserAddressPageAddressFormFactoryTest extends TestCase
     {
         $form = $this->createMock(FormInterface::class);
 
-        $this->formFactory
-            ->expects(self::once())
+        $this->formFactory->expects(self::once())
             ->method('create')
             ->with(
                 FrontendCustomerUserTypedAddressType::class,
@@ -58,8 +56,7 @@ final class CustomerUserAddressPageAddressFormFactoryTest extends TestCase
             ->setFrontendOwner(new CustomerUser());
         $form = $this->createMock(FormInterface::class);
 
-        $this->formFactory
-            ->expects(self::once())
+        $this->formFactory->expects(self::once())
             ->method('create')
             ->with(FrontendCustomerUserTypedAddressType::class, $address)
             ->willReturn($form);

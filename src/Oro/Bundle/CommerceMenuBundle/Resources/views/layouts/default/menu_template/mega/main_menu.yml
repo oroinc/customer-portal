@@ -20,7 +20,6 @@ layout:
                             data-scroll: true
                             role: 'menu'
                             data-role: 'sub-menu'
-                            aria-hidden: 'true'
                 menu_item_multi_container:
                     blockType: container
                     options:

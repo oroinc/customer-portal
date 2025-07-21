@@ -16,11 +16,10 @@ use PHPUnit\Framework\TestCase;
 final class AddressValidationResolverChainFactoryTest extends TestCase
 {
     private AddressValidationResolverFactoryInterface&MockObject $innerFactory1;
-
     private AddressValidationResolverFactoryInterface&MockObject $innerFactory2;
-
     private AddressValidationResolverChainFactory $factory;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->innerFactory1 = $this->createMock(AddressValidationResolverFactoryInterface::class);
@@ -37,20 +36,17 @@ final class AddressValidationResolverChainFactoryTest extends TestCase
         $transport = $this->createMock(Transport::class);
         $resolver = $this->createMock(AddressValidationResolverInterface::class);
 
-        $this->innerFactory1
-            ->expects(self::once())
+        $this->innerFactory1->expects(self::once())
             ->method('isSupported')
             ->with($transport)
             ->willReturn(true);
 
-        $this->innerFactory1
-            ->expects(self::once())
+        $this->innerFactory1->expects(self::once())
             ->method('createForTransport')
             ->with($transport)
             ->willReturn($resolver);
 
-        $this->innerFactory2
-            ->expects(self::never())
+        $this->innerFactory2->expects(self::never())
             ->method('isSupported');
 
         self::assertSame($resolver, $this->factory->createForTransport($transport));
@@ -61,20 +57,17 @@ final class AddressValidationResolverChainFactoryTest extends TestCase
         $transport = $this->createMock(Transport::class);
         $resolver = $this->createMock(AddressValidationResolverInterface::class);
 
-        $this->innerFactory1
-            ->expects(self::once())
+        $this->innerFactory1->expects(self::once())
             ->method('isSupported')
             ->with($transport)
             ->willReturn(false);
 
-        $this->innerFactory2
-            ->expects(self::once())
+        $this->innerFactory2->expects(self::once())
             ->method('isSupported')
             ->with($transport)
             ->willReturn(true);
 
-        $this->innerFactory2
-            ->expects(self::once())
+        $this->innerFactory2->expects(self::once())
             ->method('createForTransport')
             ->with($transport)
             ->willReturn($resolver);
@@ -86,14 +79,12 @@ final class AddressValidationResolverChainFactoryTest extends TestCase
     {
         $transport = $this->createMock(Transport::class);
 
-        $this->innerFactory1
-            ->expects(self::once())
+        $this->innerFactory1->expects(self::once())
             ->method('isSupported')
             ->with($transport)
             ->willReturn(false);
 
-        $this->innerFactory2
-            ->expects(self::once())
+        $this->innerFactory2->expects(self::once())
             ->method('isSupported')
             ->with($transport)
             ->willReturn(false);
@@ -115,14 +106,12 @@ final class AddressValidationResolverChainFactoryTest extends TestCase
     {
         $transport = $this->createMock(Transport::class);
 
-        $this->innerFactory1
-            ->expects(self::once())
+        $this->innerFactory1->expects(self::once())
             ->method('isSupported')
             ->with($transport)
             ->willReturn(true);
 
-        $this->innerFactory2
-            ->expects(self::never())
+        $this->innerFactory2->expects(self::never())
             ->method('isSupported');
 
         self::assertTrue($this->factory->isSupported($transport));
@@ -132,14 +121,12 @@ final class AddressValidationResolverChainFactoryTest extends TestCase
     {
         $transport = $this->createMock(Transport::class);
 
-        $this->innerFactory1
-            ->expects(self::once())
+        $this->innerFactory1->expects(self::once())
             ->method('isSupported')
             ->with($transport)
             ->willReturn(false);
 
-        $this->innerFactory2
-            ->expects(self::once())
+        $this->innerFactory2->expects(self::once())
             ->method('isSupported')
             ->with($transport)
             ->willReturn(true);
@@ -151,14 +138,12 @@ final class AddressValidationResolverChainFactoryTest extends TestCase
     {
         $transport = $this->createMock(Transport::class);
 
-        $this->innerFactory1
-            ->expects(self::once())
+        $this->innerFactory1->expects(self::once())
             ->method('isSupported')
             ->with($transport)
             ->willReturn(false);
 
-        $this->innerFactory2
-            ->expects(self::once())
+        $this->innerFactory2->expects(self::once())
             ->method('isSupported')
             ->with($transport)
             ->willReturn(false);

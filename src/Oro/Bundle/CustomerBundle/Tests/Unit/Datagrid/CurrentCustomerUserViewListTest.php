@@ -19,7 +19,6 @@ final class CurrentCustomerUserViewListTest extends TestCase
 {
     private TranslatorInterface&MockObject $translator;
     private TokenAccessorInterface&MockObject $tokenAccessor;
-
     private CurrentCustomerUserViewList $viewList;
 
     #[\Override]

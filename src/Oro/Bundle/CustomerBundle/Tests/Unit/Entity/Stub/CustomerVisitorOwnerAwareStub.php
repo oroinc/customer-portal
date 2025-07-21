@@ -7,8 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerVisitorOwnerAwareInterface;
 
 class CustomerVisitorOwnerAwareStub implements CustomerVisitorOwnerAwareInterface
 {
-    /** @var CustomerVisitor */
-    private $visitor;
+    private CustomerVisitor $visitor;
 
     public function __construct(CustomerVisitor $visitor)
     {

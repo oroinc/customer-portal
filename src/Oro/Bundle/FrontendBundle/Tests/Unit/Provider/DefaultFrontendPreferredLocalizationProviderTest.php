@@ -12,10 +12,8 @@ use PHPUnit\Framework\TestCase;
 
 class DefaultFrontendPreferredLocalizationProviderTest extends TestCase
 {
-    private LocalizationProviderInterface|MockObject $localizationProvider;
-
-    private FrontendHelper|MockObject $frontendHelper;
-
+    private LocalizationProviderInterface&MockObject $localizationProvider;
+    private FrontendHelper&MockObject $frontendHelper;
     private DefaultFrontendPreferredLocalizationProvider $provider;
 
     #[\Override]

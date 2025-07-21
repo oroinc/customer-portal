@@ -5,19 +5,16 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Provider;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\WebsiteBundle\Provider\RequestWebsiteProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class RequestWebsiteProviderTest extends \PHPUnit\Framework\TestCase
+class RequestWebsiteProviderTest extends TestCase
 {
-    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
-    private $requestStack;
-
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
-
-    /** @var RequestWebsiteProvider */
-    private $provider;
+    private RequestStack&MockObject $requestStack;
+    private WebsiteManager&MockObject $websiteManager;
+    private RequestWebsiteProvider $provider;
 
     #[\Override]
     protected function setUp(): void

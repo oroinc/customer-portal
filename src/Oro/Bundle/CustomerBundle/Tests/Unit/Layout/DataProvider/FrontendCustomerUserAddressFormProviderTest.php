@@ -7,23 +7,20 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserTypedAddressType;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserAddressFormProvider;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\Test\FormInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\TestCase
+class FrontendCustomerUserAddressFormProviderTest extends TestCase
 {
     use EntityTrait;
 
-    /** @var FrontendCustomerUserAddressFormProvider */
-    private $provider;
-
-    /** @var FormFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $formFactory;
-
-    /** @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $router;
+    private FrontendCustomerUserAddressFormProvider $provider;
+    private FormFactoryInterface&MockObject $formFactory;
+    private UrlGeneratorInterface&MockObject $router;
 
     #[\Override]
     protected function setUp(): void
@@ -34,7 +31,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\Tes
         $this->provider = new FrontendCustomerUserAddressFormProvider($this->formFactory, $this->router);
     }
 
-    public function testGetAddressFormViewWhileUpdate()
+    public function testGetAddressFormViewWhileUpdate(): void
     {
         $action = 'form_action';
 
@@ -69,7 +66,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\Tes
         $this->assertSame($result, $resultSecondCall);
     }
 
-    public function testGetAddressFormWhileUpdate()
+    public function testGetAddressFormWhileUpdate(): void
     {
         $action = 'form_action';
 
@@ -99,7 +96,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\Tes
         $this->assertSame($result, $resultSecondCall);
     }
 
-    public function testGetAddressFormViewWhileCreate()
+    public function testGetAddressFormViewWhileCreate(): void
     {
         $action = 'form_action';
 
@@ -134,7 +131,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\Tes
         $this->assertSame($result, $resultSecondCall);
     }
 
-    public function testGetAddressFormWhileCreate()
+    public function testGetAddressFormWhileCreate(): void
     {
         $action = 'form_action';
 

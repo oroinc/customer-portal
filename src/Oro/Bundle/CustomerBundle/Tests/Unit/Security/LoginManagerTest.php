@@ -8,6 +8,8 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\Token\UsernamePasswordOrganizationTokenFactoryInterface;
 use Oro\Bundle\SecurityBundle\Model\Role;
 use Oro\Bundle\UserBundle\Entity\UserInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -19,34 +21,17 @@ use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Http\RememberMe\RememberMeHandlerInterface;
 use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategyInterface;
 
-class LoginManagerTest extends \PHPUnit\Framework\TestCase
+class LoginManagerTest extends TestCase
 {
-    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenStorage;
-
-    /** @var UserCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $userChecker;
-
-    /** @var SessionAuthenticationStrategyInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $sessionStrategy;
-
-    /** @var Request|\PHPUnit\Framework\MockObject\MockObject */
-    private $request;
-
-    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
-    private $requestStack;
-
-    /** @var RememberMeHandlerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $rememberMe;
-
-    /** @var UsernamePasswordOrganizationTokenFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenFactory;
-
-    /** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $eventDispatcher;
-
-    /** @var LoginManager */
-    private $loginManager;
+    private TokenStorageInterface&MockObject $tokenStorage;
+    private UserCheckerInterface&MockObject $userChecker;
+    private SessionAuthenticationStrategyInterface&MockObject $sessionStrategy;
+    private Request&MockObject $request;
+    private RequestStack&MockObject $requestStack;
+    private RememberMeHandlerInterface&MockObject $rememberMe;
+    private UsernamePasswordOrganizationTokenFactoryInterface&MockObject $tokenFactory;
+    private EventDispatcherInterface&MockObject $eventDispatcher;
+    private LoginManager $loginManager;
 
     #[\Override]
     protected function setUp(): void
@@ -77,7 +62,7 @@ class LoginManagerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testLogInUserWithRequest()
+    public function testLogInUserWithRequest(): void
     {
         $roles = [new Role('SAMPLE_ROLE_1')];
 
@@ -112,7 +97,7 @@ class LoginManagerTest extends \PHPUnit\Framework\TestCase
         $this->loginManager->logInUser('main', $user);
     }
 
-    public function testLogInUserWithRememberMeAndRequest()
+    public function testLogInUserWithRememberMeAndRequest(): void
     {
         $response = $this->createMock(Response::class);
 

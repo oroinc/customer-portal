@@ -11,23 +11,16 @@ use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
 use Oro\Bundle\CommerceMenuBundle\Menu\ConditionEvaluator\UserAgentConditionsEvaluator;
 use Oro\Bundle\UIBundle\Provider\UserAgentInterface;
 use Oro\Bundle\UIBundle\Provider\UserAgentProviderInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
+class UserAgentConditionsEvaluatorTest extends TestCase
 {
-    /** @var UserAgentProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $userAgentProvider;
-
-    /** @var ItemInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $menuItem;
-
-    /** @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $entityManager;
-
-    /** @var ClassMetadata|\PHPUnit\Framework\MockObject\MockObject */
-    private $metadata;
-
-    /** @var UserAgentConditionsEvaluator */
-    private $userAgentConditionsEvaluator;
+    private UserAgentProviderInterface&MockObject $userAgentProvider;
+    private ItemInterface&MockObject $menuItem;
+    private EntityManagerInterface&MockObject $entityManager;
+    private ClassMetadata&MockObject $metadata;
+    private UserAgentConditionsEvaluator $userAgentConditionsEvaluator;
 
     #[\Override]
     protected function setUp(): void
@@ -42,7 +35,7 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testEvaluateWithoutExtras()
+    public function testEvaluateWithoutExtras(): void
     {
         $this->menuItem->expects(self::once())
             ->method('getExtra')
@@ -54,7 +47,7 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($this->userAgentConditionsEvaluator->evaluate($this->menuItem, []));
     }
 
-    public function testEvaluateWithEmptyExtra()
+    public function testEvaluateWithEmptyExtra(): void
     {
         $collection = new PersistentCollection(
             $this->entityManager,
@@ -71,7 +64,7 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getEvaluateDataProvider
      */
-    public function testEvaluate(string $operation, string $value, bool $expectedData)
+    public function testEvaluate(string $operation, string $value, bool $expectedData): void
     {
         $menuUserAgentCondition = $this->createMock(MenuUserAgentCondition::class);
         $menuUserAgentCondition->expects(self::once())
@@ -106,7 +99,7 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($expectedData, $this->userAgentConditionsEvaluator->evaluate($this->menuItem, []));
     }
 
-    public function testExceptionWhenAnotherCollection()
+    public function testExceptionWhenAnotherCollection(): void
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Conditions collection was expected to contain only MenuUserAgentCondition');

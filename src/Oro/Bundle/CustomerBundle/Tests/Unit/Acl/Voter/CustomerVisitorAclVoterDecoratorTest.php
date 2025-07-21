@@ -13,26 +13,21 @@ use Oro\Bundle\SecurityBundle\Acl\Voter\AclVoterInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Provider\RequestWebsiteProvider;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Voter\FieldVote;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class CustomerVisitorAclVoterDecoratorTest extends \PHPUnit\Framework\TestCase
+class CustomerVisitorAclVoterDecoratorTest extends TestCase
 {
     use EntityTrait;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|AclVoterInterface */
-    private $innerVoter;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|CustomerVisitorAclCache */
-    private $visitorAclCache;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|RequestWebsiteProvider */
-    private $websiteProvider;
-
-    /** @var CustomerVisitorAclVoterDecorator */
-    private $aclVoterDecorator;
+    private AclVoterInterface&MockObject $innerVoter;
+    private CustomerVisitorAclCache&MockObject $visitorAclCache;
+    private RequestWebsiteProvider&MockObject $websiteProvider;
+    private CustomerVisitorAclVoterDecorator $aclVoterDecorator;
 
     #[\Override]
     protected function setUp(): void

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class ThemeTransferJobMiddlewareTest extends TestCase
 {
-    private CurrentThemeProvider|MockObject $currentThemeProvider;
+    private CurrentThemeProvider&MockObject $currentThemeProvider;
     private ThemeTransferJobMiddleware $themeTransferJobMiddleware;
 
     #[\Override]
@@ -26,7 +26,8 @@ class ThemeTransferJobMiddlewareTest extends TestCase
         $message = new Message();
         $message->setProperty(ThemeTransferJobMiddleware::QUEUE_MESSAGE_THEME_ID, 'testTheme');
 
-        $this->currentThemeProvider->expects($this->never())->method('getCurrentThemeId');
+        $this->currentThemeProvider->expects($this->never())
+            ->method('getCurrentThemeId');
 
         $this->themeTransferJobMiddleware->handle($message);
     }
@@ -35,9 +36,9 @@ class ThemeTransferJobMiddlewareTest extends TestCase
     {
         $message = new Message();
 
-        $this->currentThemeProvider->method('getCurrentThemeId')->willThrowException(
-            new NotRequestContextRuntimeException()
-        );
+        $this->currentThemeProvider->expects(self::any())
+            ->method('getCurrentThemeId')
+            ->willThrowException(new NotRequestContextRuntimeException());
 
         $this->themeTransferJobMiddleware->handle($message);
 
@@ -48,7 +49,9 @@ class ThemeTransferJobMiddlewareTest extends TestCase
     {
         $message = new Message();
 
-        $this->currentThemeProvider->method('getCurrentThemeId')->willReturn('testTheme');
+        $this->currentThemeProvider->expects(self::any())
+            ->method('getCurrentThemeId')
+            ->willReturn('testTheme');
 
         $this->themeTransferJobMiddleware->handle($message);
 

@@ -27,6 +27,7 @@ use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\ORM\Mocks\EntityManagerMock;
 use Oro\Component\Testing\Unit\ORM\Mocks\UnitOfWorkMock;
 use Oro\Component\Testing\Unit\ORM\OrmTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -34,23 +35,12 @@ class SendChangedCustomerAddressTypeToMessageQueueListenerTest extends OrmTestCa
 {
     use MessageQueueExtension;
 
-    /** @var EntityManagerMock */
-    private $em;
-
-    /** @var UnitOfWorkMock */
-    private $uow;
-
-    /** @var AuditConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $auditConfigProvider;
-
-    /** @var EntityToEntityChangeArrayConverter|\PHPUnit\Framework\MockObject\MockObject */
-    private $entityToArrayConverter;
-
-    /** @var AuditMessageBodyProvider */
-    private $auditMessageBodyProvider;
-
-    /** @var SendChangedAddressTypeToMessageQueueListener */
-    private $listener;
+    private EntityManagerMock $em;
+    private UnitOfWorkMock $uow;
+    private AuditConfigProvider&MockObject $auditConfigProvider;
+    private EntityToEntityChangeArrayConverter&MockObject $entityToArrayConverter;
+    private AuditMessageBodyProvider $auditMessageBodyProvider;
+    private SendChangedAddressTypeToMessageQueueListener $listener;
 
     #[\Override]
     protected function setUp(): void

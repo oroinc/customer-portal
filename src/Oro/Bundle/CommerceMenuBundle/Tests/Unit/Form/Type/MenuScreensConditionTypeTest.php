@@ -6,6 +6,7 @@ use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuScreensConditionType;
 use Oro\Bundle\FrontendBundle\Provider\ScreensProviderInterface;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuScreensConditionTypeTest extends FormIntegrationTestCase
@@ -25,11 +26,8 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
         'Sample mobile label' => 'mobile',
     ];
 
-    /** @var ScreensProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $screensProvider;
-
-    /** @var MenuScreensConditionType */
-    private $formType;
+    private ScreensProviderInterface&MockObject $screensProvider;
+    private MenuScreensConditionType $formType;
 
     #[\Override]
     protected function setUp(): void

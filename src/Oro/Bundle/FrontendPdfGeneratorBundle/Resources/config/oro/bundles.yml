@@ -1,0 +1,5 @@
+bundles:
+    -   name: Oro\Bundle\FrontendPdfGeneratorBundle\OroFrontendPdfGeneratorBundle
+        # Must be loaded after OroPdfGeneratorBundle
+        priority: 10
+

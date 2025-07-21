@@ -6,12 +6,13 @@ use Oro\Bundle\CustomerBundle\Entity\Audit;
 use Oro\Bundle\DataAuditBundle\Entity\AuditField;
 use Oro\Bundle\DataAuditBundle\Exception\UnsupportedDataTypeException;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
+use PHPUnit\Framework\TestCase;
 
-class AuditFieldTest extends \PHPUnit\Framework\TestCase
+class AuditFieldTest extends TestCase
 {
     use EntityTestCaseTrait;
 
-    public function testAccessors()
+    public function testAccessors(): void
     {
         $properties = [
             ['id', 2],
@@ -21,7 +22,7 @@ class AuditFieldTest extends \PHPUnit\Framework\TestCase
         self::assertPropertyAccessors(new AuditField('field1', 'string', 'value', 'oldValue'), $properties);
     }
 
-    public function testGetters()
+    public function testGetters(): void
     {
         $audit = new Audit();
         $auditField = new AuditField('field1', 'string', 'value', 'oldValue');
@@ -36,7 +37,7 @@ class AuditFieldTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('message', $auditField->getTranslationDomain());
     }
 
-    public function testUnsupportedType()
+    public function testUnsupportedType(): void
     {
         $this->expectException(UnsupportedDataTypeException::class);
         $this->expectExceptionMessage('Unsupported audit data type "string1"');

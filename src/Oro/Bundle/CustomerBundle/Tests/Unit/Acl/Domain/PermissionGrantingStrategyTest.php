@@ -21,20 +21,11 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class PermissionGrantingStrategyTest extends TestCase
 {
-    /** @var PermissionGrantingStrategy */
-    private $strategy;
-
-    /** @var MockObject */
-    private $innerStrategy;
-
-    /** @var MockObject */
-    private $securityToken;
-
-    /** @var MockObject */
-    private $aclExtension;
-
-    /** @var MockObject */
-    private $context;
+    private PermissionGrantingStrategy $strategy;
+    private MockObject $innerStrategy;
+    private MockObject $securityToken;
+    private MockObject $aclExtension;
+    private MockObject $context;
 
     #[\Override]
     protected function setUp(): void
@@ -58,7 +49,7 @@ class PermissionGrantingStrategyTest extends TestCase
         $this->strategy = new PermissionGrantingStrategy($this->innerStrategy);
     }
 
-    public function testIsGrantedWithNotCustomerUserInToken()
+    public function testIsGrantedWithNotCustomerUserInToken(): void
     {
         $innerStrategyResult = false;
 
@@ -76,7 +67,7 @@ class PermissionGrantingStrategyTest extends TestCase
         );
     }
 
-    public function testIsGrantedWithNotSupportedObject()
+    public function testIsGrantedWithNotSupportedObject(): void
     {
         $innerStrategyResult = false;
 
@@ -98,7 +89,7 @@ class PermissionGrantingStrategyTest extends TestCase
         );
     }
 
-    public function testIsGrantedWithRoleWithCustomer()
+    public function testIsGrantedWithRoleWithCustomer(): void
     {
         $innerStrategyResult = false;
 
@@ -123,7 +114,7 @@ class PermissionGrantingStrategyTest extends TestCase
         );
     }
 
-    public function testIsGrantedWithNotSupportedPermission()
+    public function testIsGrantedWithNotSupportedPermission(): void
     {
         $innerStrategyResult = false;
 
@@ -156,7 +147,7 @@ class PermissionGrantingStrategyTest extends TestCase
         );
     }
 
-    public function testIsGrantedWithNotSelfManagedRole()
+    public function testIsGrantedWithNotSelfManagedRole(): void
     {
         $innerStrategyResult = false;
 
@@ -190,7 +181,7 @@ class PermissionGrantingStrategyTest extends TestCase
         );
     }
 
-    public function testIsGrantedWithNotPublicRole()
+    public function testIsGrantedWithNotPublicRole(): void
     {
         $innerStrategyResult = false;
 
@@ -225,7 +216,7 @@ class PermissionGrantingStrategyTest extends TestCase
         );
     }
 
-    public function testIsGrantedWithRoleFromAnotherOrganization()
+    public function testIsGrantedWithRoleFromAnotherOrganization(): void
     {
         $innerStrategyResult = false;
 
@@ -266,7 +257,7 @@ class PermissionGrantingStrategyTest extends TestCase
         );
     }
 
-    public function testIsGrantedWhenSecurityTokenDoesNotHaveOrganization()
+    public function testIsGrantedWhenSecurityTokenDoesNotHaveOrganization(): void
     {
         $innerStrategy = $this->createMock(InnerStrategy::class);
         $securityToken = $this->createMock(TokenInterface::class);
@@ -312,7 +303,7 @@ class PermissionGrantingStrategyTest extends TestCase
         );
     }
 
-    public function testIsGranted()
+    public function testIsGranted(): void
     {
         $organization = new Organization();
         $organization->setId(2);
@@ -347,7 +338,7 @@ class PermissionGrantingStrategyTest extends TestCase
         );
     }
 
-    public function testIsGrantedWithDomainObjectWrapper()
+    public function testIsGrantedWithDomainObjectWrapper(): void
     {
         $organization = new Organization();
         $organization->setId(2);

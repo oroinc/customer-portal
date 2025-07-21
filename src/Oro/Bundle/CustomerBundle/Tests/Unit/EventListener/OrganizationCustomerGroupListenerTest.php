@@ -19,9 +19,10 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class OrganizationCustomerGroupListenerTest extends TestCase
 {
     private TokenAccessorInterface&MockObject $tokenAccessor;
-    private ConfigManager|MockObject $configManager;
+    private ConfigManager&MockObject $configManager;
     private OrganizationCustomerGroupListener $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->tokenAccessor = self::createMock(TokenAccessorInterface::class);

@@ -18,23 +18,21 @@ use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class CustomerTypeTest extends FormIntegrationTestCase
 {
-    /** @var CustomerType */
-    private $formType;
+    private CustomerType $formType;
 
     /** @var CustomerAddress[] */
     private static $addresses;
 
     /** @var User[] */
     private static $users;
-
-    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $authorizationChecker;
+    private AuthorizationCheckerInterface&MockObject $authorizationChecker;
 
     #[\Override]
     protected function setUp(): void

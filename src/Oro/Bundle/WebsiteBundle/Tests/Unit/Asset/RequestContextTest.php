@@ -4,11 +4,12 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Asset;
 
 use Oro\Bundle\WebsiteBundle\Asset\BasePathResolver;
 use Oro\Bundle\WebsiteBundle\Asset\RequestContext;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class RequestContextTest extends \PHPUnit\Framework\TestCase
+class RequestContextTest extends TestCase
 {
-    /** @var BasePathResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private $resolver;
+    private BasePathResolver&MockObject $resolver;
 
     #[\Override]
     protected function setUp(): void

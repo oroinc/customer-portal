@@ -53,7 +53,9 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         $request = new Request();
         $request->setMethod($method);
         $requestStack = $this->createMock(RequestStack::class);
-        $requestStack->method('getCurrentRequest')->willReturn($request);
+        $requestStack->expects(self::any())
+            ->method('getCurrentRequest')
+            ->willReturn($request);
 
         return $requestStack;
     }
@@ -125,8 +127,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
             ->willReturn($token);
 
         $mockSID = $this->createMock(SecurityIdentityInterface::class);
-        $this->aclManager
-            ->expects(self::any())
+        $this->aclManager->expects(self::any())
             ->method('getSid')
             ->with($role)
             ->willReturn($mockSID);
@@ -285,8 +286,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
             ->willReturn($token);
 
         $mockSID = $this->createMock(SecurityIdentityInterface::class);
-        $this->aclManager
-            ->expects(self::any())
+        $this->aclManager->expects(self::any())
             ->method('getSid')
             ->with($role)
             ->willReturn($mockSID);

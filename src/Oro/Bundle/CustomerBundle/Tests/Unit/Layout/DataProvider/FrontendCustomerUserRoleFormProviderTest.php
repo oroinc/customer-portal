@@ -6,24 +6,21 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateFrontendHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRoleFormProvider;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class FrontendCustomerUserRoleFormProviderTest extends \PHPUnit\Framework\TestCase
+class FrontendCustomerUserRoleFormProviderTest extends TestCase
 {
     use EntityTrait;
 
-    /** @var CustomerUserRoleUpdateFrontendHandler|\PHPUnit\Framework\MockObject\MockObject */
-    private $handler;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|UrlGeneratorInterface */
-    private $router;
-
-    /** @var FrontendCustomerUserRoleFormProvider */
-    private $provider;
+    private CustomerUserRoleUpdateFrontendHandler&MockObject $handler;
+    private UrlGeneratorInterface&MockObject $router;
+    private FrontendCustomerUserRoleFormProvider $provider;
 
     #[\Override]
     protected function setUp(): void
@@ -38,7 +35,7 @@ class FrontendCustomerUserRoleFormProviderTest extends \PHPUnit\Framework\TestCa
     /**
      * @dataProvider getDataProvider
      */
-    public function testGetRoleFormView(CustomerUserRole $role, string $route, array $routeParameters = [])
+    public function testGetRoleFormView(CustomerUserRole $role, string $route, array $routeParameters = []): void
     {
         $form = $this->assertCustomerUserRoleFormHandlerCalled($role);
 
@@ -58,7 +55,7 @@ class FrontendCustomerUserRoleFormProviderTest extends \PHPUnit\Framework\TestCa
     /**
      * @dataProvider getDataProvider
      */
-    public function testGetRoleForm(CustomerUserRole $role, string $route, array $routeParameters = [])
+    public function testGetRoleForm(CustomerUserRole $role, string $route, array $routeParameters = []): void
     {
         $form = $this->assertCustomerUserRoleFormHandlerCalled($role);
 

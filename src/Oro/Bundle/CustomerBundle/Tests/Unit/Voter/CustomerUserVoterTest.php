@@ -6,14 +6,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Voter\CustomerUserVoter;
 use Oro\Bundle\FeatureToggleBundle\Checker\Voter\VoterInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class CustomerUserVoterTest extends \PHPUnit\Framework\TestCase
+class CustomerUserVoterTest extends TestCase
 {
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var CustomerUserVoter */
-    private $voter;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private CustomerUserVoter $voter;
 
     #[\Override]
     protected function setUp(): void
@@ -23,7 +22,7 @@ class CustomerUserVoterTest extends \PHPUnit\Framework\TestCase
         $this->voter = new CustomerUserVoter($this->tokenAccessor);
     }
 
-    public function testVoteAbstainForAnotherFeature()
+    public function testVoteAbstainForAnotherFeature(): void
     {
         $vote = $this->voter->vote('some_feature');
         $this->assertEquals(VoterInterface::FEATURE_ABSTAIN, $vote);
@@ -32,7 +31,7 @@ class CustomerUserVoterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getUser
      */
-    public function testVote(?object $user, int $expectedResult)
+    public function testVote(?object $user, int $expectedResult): void
     {
         $featureName = 'feature_name';
 

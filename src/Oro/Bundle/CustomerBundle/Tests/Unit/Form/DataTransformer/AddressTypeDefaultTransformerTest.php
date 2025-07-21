@@ -6,17 +6,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Form\DataTransformer\AddressTypeDefaultTransformer;
+use PHPUnit\Framework\TestCase;
 
-class AddressTypeDefaultTransformerTest extends \PHPUnit\Framework\TestCase
+class AddressTypeDefaultTransformerTest extends TestCase
 {
-    /** @var AddressTypeDefaultTransformer */
-    private $transformer;
-
-    /** @var AddressType */
-    private $billingAddressType;
-
-    /** @var AddressType */
-    private $shippingAddressType;
+    private AddressTypeDefaultTransformer $transformer;
+    private AddressType $billingAddressType;
+    private AddressType $shippingAddressType;
 
     public function __construct(?string $name = null, array $data = [], string $dataName = '')
     {
@@ -62,7 +58,7 @@ class AddressTypeDefaultTransformerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider transformerProvider
      */
-    public function testTransform(?array $parameters, array $expected)
+    public function testTransform(?array $parameters, array $expected): void
     {
         $this->assertEquals($expected, $this->transformer->transform($parameters));
     }
@@ -84,7 +80,7 @@ class AddressTypeDefaultTransformerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider reverseTransformerProvider
      */
-    public function testReverseTransform(array $parameters, array $expected)
+    public function testReverseTransform(array $parameters, array $expected): void
     {
         $this->assertEquals($expected, $this->transformer->reverseTransform($parameters));
     }

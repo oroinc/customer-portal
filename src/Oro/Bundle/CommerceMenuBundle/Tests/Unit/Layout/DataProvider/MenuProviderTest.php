@@ -5,14 +5,13 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Layout\DataProvider;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
 use Oro\Bundle\CommerceMenuBundle\Layout\DataProvider\MenuProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class MenuProviderTest extends \PHPUnit\Framework\TestCase
+class MenuProviderTest extends TestCase
 {
-    /** @var MenuProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $builderChainProvider;
-
-    /** @var MenuProvider */
-    private $provider;
+    private MenuProviderInterface&MockObject $builderChainProvider;
+    private MenuProvider $provider;
 
     #[\Override]
     protected function setUp(): void
@@ -21,7 +20,7 @@ class MenuProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider = new MenuProvider($this->builderChainProvider);
     }
 
-    public function testGetMenu()
+    public function testGetMenu(): void
     {
         $menuName = 'menuName';
         $options = ['option1', 'option2'];
@@ -36,7 +35,7 @@ class MenuProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($item, $this->provider->getMenu($menuName, $options));
     }
 
-    public function testGetMenuWithDefaultOptions()
+    public function testGetMenuWithDefaultOptions(): void
     {
         $menuName = 'menuName';
         $options = ['check_access_not_logged_in' => true];

@@ -7,18 +7,15 @@ use Knp\Menu\MenuItem;
 use Oro\Bundle\CommerceMenuBundle\EventListener\MenuListFrontendItemNavigationListener;
 use Oro\Bundle\NavigationBundle\Event\ConfigureMenuEvent;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class MenuListFrontendItemNavigationListenerTest extends \PHPUnit\Framework\TestCase
+class MenuListFrontendItemNavigationListenerTest extends TestCase
 {
-    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $authorizationChecker;
-
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var MenuListFrontendItemNavigationListener */
-    private $listener;
+    private AuthorizationCheckerInterface&MockObject $authorizationChecker;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private MenuListFrontendItemNavigationListener $listener;
 
     #[\Override]
     protected function setUp(): void
@@ -32,7 +29,7 @@ class MenuListFrontendItemNavigationListenerTest extends \PHPUnit\Framework\Test
         );
     }
 
-    public function testOnNavigationConfigureWithoutToken()
+    public function testOnNavigationConfigureWithoutToken(): void
     {
         $this->tokenAccessor->expects($this->once())
             ->method('hasUser')
@@ -51,7 +48,7 @@ class MenuListFrontendItemNavigationListenerTest extends \PHPUnit\Framework\Test
         $this->assertTrue($menuListFrontendItem->isDisplayed());
     }
 
-    public function testOnNavigationConfigureWithoutMenuListFrontendItem()
+    public function testOnNavigationConfigureWithoutMenuListFrontendItem(): void
     {
         $this->tokenAccessor->expects($this->once())
             ->method('hasUser')
@@ -66,7 +63,7 @@ class MenuListFrontendItemNavigationListenerTest extends \PHPUnit\Framework\Test
         $this->listener->onNavigationConfigure(new ConfigureMenuEvent($factory, $menu));
     }
 
-    public function testOnNavigationConfigureWhenOroConfigSystemIsNotGnanted()
+    public function testOnNavigationConfigureWhenOroConfigSystemIsNotGnanted(): void
     {
         $this->tokenAccessor->expects($this->once())
             ->method('hasUser')
@@ -89,7 +86,7 @@ class MenuListFrontendItemNavigationListenerTest extends \PHPUnit\Framework\Test
         $this->assertFalse($menuListFrontendItem->isDisplayed());
     }
 
-    public function testOnNavigationConfigureWhenOroNavigationManageMenusIsNotGranted()
+    public function testOnNavigationConfigureWhenOroNavigationManageMenusIsNotGranted(): void
     {
         $this->tokenAccessor->expects($this->once())
             ->method('hasUser')
@@ -112,7 +109,7 @@ class MenuListFrontendItemNavigationListenerTest extends \PHPUnit\Framework\Test
         $this->assertFalse($menuListFrontendItem->isDisplayed());
     }
 
-    public function testOnNavigationConfigureWhenAccessIsGranted()
+    public function testOnNavigationConfigureWhenAccessIsGranted(): void
     {
         $this->tokenAccessor->expects($this->once())
             ->method('hasUser')

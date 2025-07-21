@@ -6,14 +6,13 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ConfigBundle\Config\GlobalScopeManager;
 use Oro\Bundle\ConfigBundle\Event\ConfigSettingsFormOptionsEvent;
 use Oro\Bundle\WebsiteBundle\EventListener\RoutingSystemConfigFormOptionsListener;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class RoutingSystemConfigFormOptionsListenerTest extends \PHPUnit\Framework\TestCase
+class RoutingSystemConfigFormOptionsListenerTest extends TestCase
 {
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
-
-    /** @var RoutingSystemConfigFormOptionsListener */
-    private $listener;
+    private ConfigManager&MockObject $configManager;
+    private RoutingSystemConfigFormOptionsListener $listener;
 
     #[\Override]
     protected function setUp(): void

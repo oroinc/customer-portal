@@ -23,6 +23,7 @@ use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
@@ -32,15 +33,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FrontendCustomerUserTypeTest extends FormIntegrationTestCase
 {
-    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $authorizationChecker;
-
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
-
+    private AuthorizationCheckerInterface&MockObject $authorizationChecker;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private WebsiteManager&MockObject $websiteManager;
     private Customer $customer1;
     private Customer $customer2;
     private CustomerUserAddress $customerUserAddress1;
@@ -61,8 +56,8 @@ class FrontendCustomerUserTypeTest extends FormIntegrationTestCase
         );
         $this->formType->setCustomerUserClass(CustomerUser::class);
 
-        $this->customer1 = $this->getCustomer(1, 'first');
-        $this->customer2 = $this->getCustomer(2, 'second');
+        $this->customer1 = self::getCustomer(1, 'first');
+        $this->customer2 = self::getCustomer(2, 'second');
         $this->customerUserAddress1 = $this->getCustomerUserAddress(1);
         $this->customerUserAddress2 = $this->getCustomerUserAddress(2);
 

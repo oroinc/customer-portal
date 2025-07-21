@@ -17,11 +17,10 @@ use PHPUnit\Framework\TestCase;
 final class AddressValidationTransportProviderTest extends TestCase
 {
     private ConfigManager&MockObject $configManager;
-
     private AddressValidationTransportProvider $provider;
-
     private ObjectRepository&MockObject $channelRepository;
 
+    #[\Override]
     protected function setUp(): void
     {
         $doctrine = $this->createMock(ManagerRegistry::class);
@@ -29,7 +28,7 @@ final class AddressValidationTransportProviderTest extends TestCase
         $this->provider = new AddressValidationTransportProvider($doctrine, $this->configManager);
 
         $this->channelRepository = $this->createMock(ObjectRepository::class);
-        $doctrine
+        $doctrine->expects(self::any())
             ->method('getRepository')
             ->with(Channel::class)
             ->willReturn($this->channelRepository);
@@ -37,8 +36,7 @@ final class AddressValidationTransportProviderTest extends TestCase
 
     public function testGetAddressValidationTransportReturnsNullWhenNoChannelIdConfigured(): void
     {
-        $this->configManager
-            ->expects(self::once())
+        $this->configManager->expects(self::once())
             ->method('get')
             ->with(Configuration::getConfigKeyByName(Configuration::ADDRESS_VALIDATION_SERVICE), false, false, null)
             ->willReturn(null);
@@ -52,14 +50,12 @@ final class AddressValidationTransportProviderTest extends TestCase
     {
         $channelId = 42;
 
-        $this->configManager
-            ->expects(self::once())
+        $this->configManager->expects(self::once())
             ->method('get')
             ->with(Configuration::getConfigKeyByName(Configuration::ADDRESS_VALIDATION_SERVICE), false, false, null)
             ->willReturn($channelId);
 
-        $this->channelRepository
-            ->expects(self::once())
+        $this->channelRepository->expects(self::once())
             ->method('find')
             ->with($channelId)
             ->willReturn(null);
@@ -74,14 +70,12 @@ final class AddressValidationTransportProviderTest extends TestCase
         $channelId = 42;
         $channel = new Channel();
 
-        $this->configManager
-            ->expects(self::once())
+        $this->configManager->expects(self::once())
             ->method('get')
             ->with(Configuration::getConfigKeyByName(Configuration::ADDRESS_VALIDATION_SERVICE), false, false, null)
             ->willReturn($channelId);
 
-        $this->channelRepository
-            ->expects(self::once())
+        $this->channelRepository->expects(self::once())
             ->method('find')
             ->with($channelId)
             ->willReturn($channel);
@@ -98,14 +92,12 @@ final class AddressValidationTransportProviderTest extends TestCase
         $channel = (new Channel())
             ->setTransport($transport);
 
-        $this->configManager
-            ->expects(self::once())
+        $this->configManager->expects(self::once())
             ->method('get')
             ->with(Configuration::getConfigKeyByName(Configuration::ADDRESS_VALIDATION_SERVICE), false, false, null)
             ->willReturn($channelId);
 
-        $this->channelRepository
-            ->expects(self::once())
+        $this->channelRepository->expects(self::once())
             ->method('find')
             ->with($channelId)
             ->willReturn($channel);

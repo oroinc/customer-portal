@@ -6,21 +6,18 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerTypedAddressType;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerAddressFormProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class FrontendCustomerAddressFormProviderTest extends \PHPUnit\Framework\TestCase
+class FrontendCustomerAddressFormProviderTest extends TestCase
 {
-    /** @var FrontendCustomerAddressFormProvider */
-    private $provider;
-
-    /** @var FormFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $formFactory;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|UrlGeneratorInterface */
-    private $router;
+    private FrontendCustomerAddressFormProvider $provider;
+    private FormFactoryInterface&MockObject $formFactory;
+    private UrlGeneratorInterface&MockObject $router;
 
     #[\Override]
     protected function setUp(): void
@@ -31,12 +28,12 @@ class FrontendCustomerAddressFormProviderTest extends \PHPUnit\Framework\TestCas
         $this->provider = new FrontendCustomerAddressFormProvider($this->formFactory, $this->router);
     }
 
-    public function testGetAddressFormViewWhileUpdate()
+    public function testGetAddressFormViewWhileUpdate(): void
     {
         $this->actionTestWithId(1);
     }
 
-    public function testGetAddressFormViewWhileCreate()
+    public function testGetAddressFormViewWhileCreate(): void
     {
         $this->actionTestWithId();
     }

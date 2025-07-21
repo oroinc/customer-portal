@@ -11,35 +11,22 @@ use Oro\Bundle\DataGridBundle\Entity\Manager\GridViewManager;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Component\DependencyInjection\ServiceLink;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class GridViewsExtensionTest extends \PHPUnit\Framework\TestCase
+class GridViewsExtensionTest extends TestCase
 {
-    /** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $eventDispatcher;
-
-    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $authorizationChecker;
-
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $translator;
-
-    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $registry;
-
-    /** @var AclHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $aclHelper;
-
-    /** @var GridViewManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $gridViewManager;
-
-    /** @var GridViewsExtension */
-    private $extension;
+    private EventDispatcherInterface&MockObject $eventDispatcher;
+    private AuthorizationCheckerInterface&MockObject $authorizationChecker;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private TranslatorInterface&MockObject $translator;
+    private ManagerRegistry&MockObject $registry;
+    private AclHelper&MockObject $aclHelper;
+    private GridViewManager&MockObject $gridViewManager;
+    private GridViewsExtension $extension;
 
     #[\Override]
     protected function setUp(): void
@@ -69,7 +56,7 @@ class GridViewsExtensionTest extends \PHPUnit\Framework\TestCase
         $this->extension->setParameters(new ParameterBag());
     }
 
-    public function testVisitMetadataPermissions()
+    public function testVisitMetadataPermissions(): void
     {
         $data = MetadataObject::create([]);
         $config = DatagridConfiguration::create([DatagridConfiguration::NAME_KEY => 'grid']);

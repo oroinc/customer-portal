@@ -5,30 +5,21 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\EventListener;
 use Oro\Bundle\FrontendBundle\EventListener\FrontendLoginListenerDecorator;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\MessageQueueBundle\EventListener\LoginListener;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
-class FrontendLoginListenerDecoratorTest extends \PHPUnit\Framework\TestCase
+class FrontendLoginListenerDecoratorTest extends TestCase
 {
-    /** @var KernelInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $kernel;
-
-    /** @var LoginListener|\PHPUnit\Framework\MockObject\MockObject */
-    private $baseLoginListener;
-
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
-
-    /** @var Request */
-    private $request;
-
-    /** @var InteractiveLoginEvent */
-    private $event;
-
-    /** @var FrontendLoginListenerDecorator */
-    private $loginListener;
+    private KernelInterface&MockObject $kernel;
+    private LoginListener&MockObject $baseLoginListener;
+    private FrontendHelper&MockObject $frontendHelper;
+    private Request $request;
+    private InteractiveLoginEvent $event;
+    private FrontendLoginListenerDecorator $loginListener;
 
     #[\Override]
     protected function setUp(): void
@@ -49,7 +40,7 @@ class FrontendLoginListenerDecoratorTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider onLoginProvider
      */
-    public function testOnLogin(bool $frontend, string $env, bool $expected)
+    public function testOnLogin(bool $frontend, string $env, bool $expected): void
     {
         $this->kernel->expects(self::any())
             ->method('getEnvironment')

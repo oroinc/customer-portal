@@ -6,6 +6,8 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\SignInProvider;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\SignInTargetPathProviderInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -19,30 +21,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class SignInProviderTest extends \PHPUnit\Framework\TestCase
+class SignInProviderTest extends TestCase
 {
+    private RequestStack&MockObject $requestStack;
+    private Request&MockObject $request;
+    private ParameterBag&MockObject $parameterBag;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private CsrfTokenManagerInterface&MockObject $csrfTokenManager;
+    private SignInTargetPathProviderInterface&MockObject $targetPathProvider;
+    private TranslatorInterface&MockObject $translator;
     private SignInProvider $dataProvider;
-
-    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
-    private RequestStack $requestStack;
-
-    /** @var Request|\PHPUnit\Framework\MockObject\MockObject */
-    private Request $request;
-
-    /** @var ParameterBag|\PHPUnit\Framework\MockObject\MockObject */
-    private ParameterBag $parameterBag;
-
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private TokenAccessorInterface $tokenAccessor;
-
-    /** @var CsrfTokenManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private CsrfTokenManagerInterface $csrfTokenManager;
-
-    /** @var SignInTargetPathProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private SignInTargetPathProviderInterface $targetPathProvider;
-
-    /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private TranslatorInterface $translator;
 
     #[\Override]
     protected function setUp(): void

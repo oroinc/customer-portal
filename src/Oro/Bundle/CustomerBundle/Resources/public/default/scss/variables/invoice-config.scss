@@ -1,0 +1,19 @@
+/* @theme: default; */
+
+$invoice-payment-section-display: grid !default;
+$invoice-payment-section-grid-template-columns: minmax(0, 456px) !default;
+$invoice-payment-section-gap: spacing('lg') !default;
+
+$invoice-payment-section-centered-min-height: 500px !default;
+
+$invoice-gap: spacing('lg') !default;
+$invoice-title-gap: spacing('md') !default;
+
+$invoice-guest-link-container-grid-columns: 1fr auto !default;
+$invoice-guest-link-container-gap: spacing('sm') !default;
+
+$invoice-info-grid-columns: max-content auto !default;
+
+// Mobile big
+$invoice-mobile-big-max-width: 350px !default;
+$invoice-info-mobile-big-grid-columns: auto !default;

@@ -15,20 +15,16 @@ use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\TranslationBundle\Form\Type\Select2TranslatableEntityType;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FrontendOwnerSelectTypeTest extends FormIntegrationTestCase
 {
     use EntityTrait;
 
-    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $registry;
-
-    /** @var ConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $configProvider;
-
-    /** @var FrontendOwnerSelectType */
-    private $formType;
+    private ManagerRegistry&MockObject $registry;
+    private ConfigProvider&MockObject $configProvider;
+    private FrontendOwnerSelectType $formType;
 
     #[\Override]
     protected function setUp(): void

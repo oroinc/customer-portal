@@ -30,12 +30,11 @@ final class StorefrontSessionHttpKernelDecoratorTest extends TestCase
         'cookie_path' => '/',
     ];
 
-    private HttpKernel|MockObject $kernel;
+    private HttpKernel&MockObject $kernel;
 
     private ContainerStub|ContainerInterface $container;
 
-    private FrontendHelper|MockObject $frontendHelper;
-
+    private FrontendHelper&MockObject $frontendHelper;
     private SessionHttpKernelDecorator $sessionHttpKernelDecorator;
 
     #[\Override]
@@ -192,10 +191,10 @@ final class StorefrontSessionHttpKernelDecoratorTest extends TestCase
     public function testHandleForFrontendRequestForApplicationInSubDir(): void
     {
         $request = $this->createMock(Request::class);
-        $request
+        $request->expects(self::any())
             ->method('getPathInfo')
             ->willReturn('/subDir');
-        $request
+        $request->expects(self::any())
             ->method('getBasePath')
             ->willReturn('/subDir');
         $type = HttpKernelInterface::MAIN_REQUEST;

@@ -3,15 +3,14 @@
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\EventListener;
 
 use Oro\Bundle\CommerceMenuBundle\EventListener\ContentNodeDeleteListener;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
 
-class ContentNodeDeleteListenerTest extends \PHPUnit\Framework\TestCase
+class ContentNodeDeleteListenerTest extends TestCase
 {
-    /** @var AbstractAdapter|\PHPUnit\Framework\MockObject\MockObject */
-    private $cacheProvider;
-
-    /** @var ContentNodeDeleteListener */
-    private $listener;
+    private AbstractAdapter&MockObject $cacheProvider;
+    private ContentNodeDeleteListener $listener;
 
     #[\Override]
     protected function setUp(): void

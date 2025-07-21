@@ -7,28 +7,19 @@ use Oro\Bundle\ApiBundle\Util\RequestExpressionMatcher;
 use Oro\Bundle\FrontendBundle\Api\ChainResourceTypeResolver;
 use Oro\Bundle\FrontendBundle\Api\ResourceTypeResolverInterface;
 use Oro\Component\Testing\Unit\TestContainerBuilder;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class ChainResourceTypeResolverTest extends \PHPUnit\Framework\TestCase
+class ChainResourceTypeResolverTest extends TestCase
 {
     private const TEST_ROUTE = 'test_route';
 
-    /** @var ResourceTypeResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $resolver1;
-
-    /** @var ResourceTypeResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $resolver2;
-
-    /** @var ResourceTypeResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $resolver3;
-
-    /** @var ResourceTypeResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $resolver4;
-
-    /** @var ResourceTypeResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $resolver5;
-
-    /** @var ChainResourceTypeResolver */
-    private $chainResolver;
+    private ResourceTypeResolverInterface&MockObject $resolver1;
+    private ResourceTypeResolverInterface&MockObject $resolver2;
+    private ResourceTypeResolverInterface&MockObject $resolver3;
+    private ResourceTypeResolverInterface&MockObject $resolver4;
+    private ResourceTypeResolverInterface&MockObject $resolver5;
+    private ChainResourceTypeResolver $chainResolver;
 
     #[\Override]
     protected function setUp(): void
@@ -60,7 +51,7 @@ class ChainResourceTypeResolverTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testResolveType()
+    public function testResolveType(): void
     {
         $routeParameters = ['key' => 'val'];
         $requestType = new RequestType(['test']);
@@ -87,7 +78,7 @@ class ChainResourceTypeResolverTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testResolveTypeWhenAllResolversReturnNull()
+    public function testResolveTypeWhenAllResolversReturnNull(): void
     {
         $routeParameters = ['key' => 'val'];
         $requestType = new RequestType(['test']);

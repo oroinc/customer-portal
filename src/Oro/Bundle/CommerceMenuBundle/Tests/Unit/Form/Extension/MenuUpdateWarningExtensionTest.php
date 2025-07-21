@@ -14,23 +14,29 @@ use Symfony\Component\Form\FormView;
 
 class MenuUpdateWarningExtensionTest extends TestCase
 {
-    public function testGetExtendedTypes()
+    public function testGetExtendedTypes(): void
     {
         static::assertContains(MenuUpdateType::class, MenuUpdateWarningExtension::getExtendedTypes());
     }
 
-    public function testBuildViewForMenuWithoutWarning()
+    public function testBuildViewForMenuWithoutWarning(): void
     {
         $extension = new MenuUpdateWarningExtension();
 
         $menu = $this->createMock(ItemInterface::class);
-        $menu->method('getExtra')->willReturn(null);
+        $menu->expects(self::any())
+            ->method('getExtra')
+            ->willReturn(null);
 
         $formConfig = $this->createMock(FormConfigInterface::class);
-        $formConfig->method('getOption')->willReturn($menu);
+        $formConfig->expects(self::any())
+            ->method('getOption')
+            ->willReturn($menu);
 
         $form = $this->createMock(Form::class);
-        $form->method('getConfig')->willReturn($formConfig);
+        $form->expects(self::any())
+            ->method('getConfig')
+            ->willReturn($formConfig);
 
         $formView = new FormView();
 
@@ -38,20 +44,26 @@ class MenuUpdateWarningExtensionTest extends TestCase
         static::assertArrayNotHasKey('warning', $formView->vars);
     }
 
-    public function testBuildViewForMenuWithWarning()
+    public function testBuildViewForMenuWithWarning(): void
     {
         $extension = new MenuUpdateWarningExtension();
 
         $warningText = 'Test Warning';
 
         $menu = $this->createMock(ItemInterface::class);
-        $menu->method('getExtra')->willReturn($warningText);
+        $menu->expects(self::any())
+            ->method('getExtra')
+            ->willReturn($warningText);
 
         $formConfig = $this->createMock(FormConfigInterface::class);
-        $formConfig->method('getOption')->willReturn($menu);
+        $formConfig->expects(self::any())
+            ->method('getOption')
+            ->willReturn($menu);
 
         $form = $this->createMock(Form::class);
-        $form->method('getConfig')->willReturn($formConfig);
+        $form->expects(self::any())
+            ->method('getConfig')
+            ->willReturn($formConfig);
 
         $formView = new FormView();
 

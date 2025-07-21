@@ -18,13 +18,11 @@ use PHPUnit\Framework\TestCase;
 final class AddressValidationResolverBasicFactoryTest extends TestCase
 {
     private AddressValidationRequestFactoryInterface&MockObject $addressValidationRequestFactory;
-
     private AddressValidationClientInterface&MockObject $addressValidationClient;
-
     private ResolvedAddressFactoryInterface&MockObject $resolvedAddressFactory;
-
     private AddressValidationResolverBasicFactory $factory;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->addressValidationRequestFactory = $this->createMock(AddressValidationRequestFactoryInterface::class);

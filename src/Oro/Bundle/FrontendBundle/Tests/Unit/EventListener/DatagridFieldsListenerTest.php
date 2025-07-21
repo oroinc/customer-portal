@@ -7,20 +7,15 @@ use Oro\Bundle\DataGridBundle\Event\BuildBefore;
 use Oro\Bundle\EntityExtendBundle\Grid\AdditionalFieldsExtension;
 use Oro\Bundle\FrontendBundle\EventListener\DatagridFieldsListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class DatagridFieldsListenerTest extends \PHPUnit\Framework\TestCase
+class DatagridFieldsListenerTest extends TestCase
 {
-    /** @var DatagridConfiguration|\PHPUnit\Framework\MockObject\MockObject */
-    private $datagridConfig;
-
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
-
-    /** @var BuildBefore|\PHPUnit\Framework\MockObject\MockObject */
-    private $event;
-
-    /** @var DatagridFieldsListener */
-    private $listener;
+    private DatagridConfiguration&MockObject $datagridConfig;
+    private FrontendHelper&MockObject $frontendHelper;
+    private BuildBefore&MockObject $event;
+    private DatagridFieldsListener $listener;
 
     #[\Override]
     protected function setUp(): void
@@ -36,7 +31,7 @@ class DatagridFieldsListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener = new DatagridFieldsListener($this->frontendHelper);
     }
 
-    public function testIsNotApplicable()
+    public function testIsNotApplicable(): void
     {
         $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')
@@ -46,7 +41,7 @@ class DatagridFieldsListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener->onBuildBefore($this->event);
     }
 
-    public function testOnBuildBefore()
+    public function testOnBuildBefore(): void
     {
         $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')

@@ -5,8 +5,10 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Provider;
 use Oro\Bundle\ActionBundle\Provider\RouteProvider as DefaultRouteProvider;
 use Oro\Bundle\FrontendBundle\Provider\RouteProvider;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class RouteProviderTest extends \PHPUnit\Framework\TestCase
+class RouteProviderTest extends TestCase
 {
     private const DEFAULT_ROUTES = [
         'dialog'    => 'oro_action_widget_form',
@@ -22,11 +24,8 @@ class RouteProviderTest extends \PHPUnit\Framework\TestCase
         'widget'    => 'oro_frontend_action_widget_buttons'
     ];
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|FrontendHelper */
-    private $frontendHelper;
-
-    /** @var RouteProvider */
-    private $provider;
+    private FrontendHelper&MockObject $frontendHelper;
+    private RouteProvider $provider;
 
     #[\Override]
     protected function setUp(): void
@@ -51,7 +50,7 @@ class RouteProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider applicationRoutesProvider
      */
-    public function testGetWidgetRoute(bool $isFrontendRequest, array $expectedRoutes = [])
+    public function testGetWidgetRoute(bool $isFrontendRequest, array $expectedRoutes = []): void
     {
         $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')
@@ -63,7 +62,7 @@ class RouteProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider applicationRoutesProvider
      */
-    public function testGetDialogRoute(bool $isFrontendRequest, array $expectedRoutes = [])
+    public function testGetDialogRoute(bool $isFrontendRequest, array $expectedRoutes = []): void
     {
         $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')
@@ -75,7 +74,7 @@ class RouteProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider applicationRoutesProvider
      */
-    public function testGetPageRoute(bool $isFrontendRequest, array $expectedRoutes = [])
+    public function testGetPageRoute(bool $isFrontendRequest, array $expectedRoutes = []): void
     {
         $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')
@@ -87,7 +86,7 @@ class RouteProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider applicationRoutesProvider
      */
-    public function testGetExecutionRoute(bool $isFrontendRequest, array $expectedRoutes = [])
+    public function testGetExecutionRoute(bool $isFrontendRequest, array $expectedRoutes = []): void
     {
         $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')

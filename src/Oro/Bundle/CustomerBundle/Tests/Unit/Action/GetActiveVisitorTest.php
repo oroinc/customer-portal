@@ -8,17 +8,16 @@ use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Component\Action\Exception\ActionException;
 use Oro\Component\ConfigExpression\ContextAccessor;
 use Oro\Component\ConfigExpression\Tests\Unit\Fixtures\ItemStub;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\PropertyAccess\PropertyPath;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class GetActiveVisitorTest extends \PHPUnit\Framework\TestCase
+class GetActiveVisitorTest extends TestCase
 {
-    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenStorage;
-
-    /** @var GetActiveVisitor */
-    private $action;
+    private TokenStorageInterface&MockObject $tokenStorage;
+    private GetActiveVisitor $action;
 
     #[\Override]
     protected function setUp(): void
@@ -29,7 +28,7 @@ class GetActiveVisitorTest extends \PHPUnit\Framework\TestCase
         $this->action->setDispatcher($this->createMock(EventDispatcher::class));
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $customerVisitor = new CustomerVisitor();
 
@@ -50,7 +49,7 @@ class GetActiveVisitorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($customerVisitor, $context->{$attributeName});
     }
 
-    public function testExecuteInvalidToken()
+    public function testExecuteInvalidToken(): void
     {
         $this->expectException(ActionException::class);
         $this->expectExceptionMessage("Can't extract active visitor");
@@ -67,7 +66,7 @@ class GetActiveVisitorTest extends \PHPUnit\Framework\TestCase
         $this->action->execute(new ItemStub());
     }
 
-    public function testExecuteEmptyVisitor()
+    public function testExecuteEmptyVisitor(): void
     {
         $this->expectException(ActionException::class);
         $this->expectExceptionMessage("Can't extract active visitor");

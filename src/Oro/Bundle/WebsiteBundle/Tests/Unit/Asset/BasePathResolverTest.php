@@ -3,17 +3,16 @@
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Asset;
 
 use Oro\Bundle\WebsiteBundle\Asset\BasePathResolver;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class BasePathResolverTest extends \PHPUnit\Framework\TestCase
+class BasePathResolverTest extends TestCase
 {
-    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
-    private $requestStack;
-
-    /** @var BasePathResolver */
-    private $resolver;
+    private RequestStack&MockObject $requestStack;
+    private BasePathResolver $resolver;
 
     #[\Override]
     protected function setUp(): void

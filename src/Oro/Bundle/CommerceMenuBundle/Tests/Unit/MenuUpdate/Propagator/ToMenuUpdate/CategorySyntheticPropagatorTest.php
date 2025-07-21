@@ -12,8 +12,9 @@ use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Oro\Bundle\NavigationBundle\MenuUpdate\Propagator\ToMenuUpdate\MenuItemToMenuUpdatePropagatorInterface;
 use Oro\Bundle\NavigationBundle\Tests\Unit\MenuItemTestTrait;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\TestCase;
 
-class CategorySyntheticPropagatorTest extends \PHPUnit\Framework\TestCase
+class CategorySyntheticPropagatorTest extends TestCase
 {
     use MenuItemTestTrait;
 

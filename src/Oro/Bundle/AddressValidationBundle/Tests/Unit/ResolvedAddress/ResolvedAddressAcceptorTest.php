@@ -16,6 +16,7 @@ final class ResolvedAddressAcceptorTest extends TestCase
 {
     private ResolvedAddressAcceptor $resolvedAddressAcceptor;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->resolvedAddressAcceptor = new ResolvedAddressAcceptor(

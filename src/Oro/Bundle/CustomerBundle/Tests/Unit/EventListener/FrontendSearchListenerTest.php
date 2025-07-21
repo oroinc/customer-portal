@@ -12,14 +12,13 @@ use Oro\Bundle\SearchBundle\Event\PrepareEntityMapEvent;
 use Oro\Bundle\SearchBundle\Event\SearchMappingCollectEvent;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class FrontendSearchListenerTest extends \PHPUnit\Framework\TestCase
+class FrontendSearchListenerTest extends TestCase
 {
-    /** @var OwnershipMetadataProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $metadataProvider;
-
-    /** @var FrontendSearchListener */
-    private $listener;
+    private OwnershipMetadataProviderInterface&MockObject $metadataProvider;
+    private FrontendSearchListener $listener;
 
     #[\Override]
     protected function setUp(): void
@@ -45,7 +44,7 @@ class FrontendSearchListenerTest extends \PHPUnit\Framework\TestCase
         return $customerUser;
     }
 
-    public function testCollectEntityMapEvent()
+    public function testCollectEntityMapEvent(): void
     {
         $metadata = new FrontendOwnershipMetadata('FRONTEND_CUSTOMER', 'frontend_owner', 'frontend_owner_id');
         $this->metadataProvider->expects($this->once())
@@ -77,7 +76,7 @@ class FrontendSearchListenerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testPrepareEntityMapEventWithCustomer()
+    public function testPrepareEntityMapEventWithCustomer(): void
     {
         $entity = new CustomerAddress();
         $entity->setFrontendOwner($this->getCustomer(10));
@@ -94,7 +93,7 @@ class FrontendSearchListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(10, $resultData['integer']['customer_address_frontend_owner']);
     }
 
-    public function testPrepareEntityMapEventWithCustomerUser()
+    public function testPrepareEntityMapEventWithCustomerUser(): void
     {
         $entity = new CustomerUserAddress();
         $entity->setFrontendOwner($this->getCustomerUser(15));
@@ -111,7 +110,7 @@ class FrontendSearchListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(15, $resultData['integer']['customer_user_address_frontend_owner']);
     }
 
-    public function testPrepareEntityMapEventWithoutOwner()
+    public function testPrepareEntityMapEventWithoutOwner(): void
     {
         $entity = new CustomerUserAddress();
         $entity->setFrontendOwner($this->getCustomerUser(20));
@@ -128,7 +127,7 @@ class FrontendSearchListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $resultData);
     }
 
-    public function testPrepareEntityMapEventWithoutOwnerId()
+    public function testPrepareEntityMapEventWithoutOwnerId(): void
     {
         $entity = new CustomerUserAddress();
 

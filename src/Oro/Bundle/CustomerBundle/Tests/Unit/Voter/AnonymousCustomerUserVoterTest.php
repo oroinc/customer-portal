@@ -5,25 +5,16 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Voter;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\CustomerBundle\Voter\AnonymousCustomerUserVoter;
 use Oro\Bundle\FeatureToggleBundle\Checker\Voter\VoterInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class AnonymousCustomerUserVoterTest extends \PHPUnit\Framework\TestCase
+class AnonymousCustomerUserVoterTest extends TestCase
 {
-    /**
-     * @var VoterInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $configVoter;
-
-    /**
-     * @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $tokenStorage;
-
-    /**
-     * @var AnonymousCustomerUserVoter
-     */
-    private $voter;
+    private VoterInterface&MockObject $configVoter;
+    private TokenStorageInterface&MockObject $tokenStorage;
+    private AnonymousCustomerUserVoter $voter;
 
     #[\Override]
     protected function setUp(): void
@@ -33,13 +24,13 @@ class AnonymousCustomerUserVoterTest extends \PHPUnit\Framework\TestCase
         $this->voter = new AnonymousCustomerUserVoter($this->configVoter, $this->tokenStorage);
     }
 
-    public function testVoteAbstainForAnotherFeature()
+    public function testVoteAbstainForAnotherFeature(): void
     {
         $vote = $this->voter->vote('some_feature');
         $this->assertEquals(VoterInterface::FEATURE_ABSTAIN, $vote);
     }
 
-    public function testVoteAbstainForNotAnonymousUser()
+    public function testVoteAbstainForNotAnonymousUser(): void
     {
         $featureName = 'feature_name';
 
@@ -59,7 +50,7 @@ class AnonymousCustomerUserVoterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(VoterInterface::FEATURE_ABSTAIN, $vote);
     }
 
-    public function testVoteEnabled()
+    public function testVoteEnabled(): void
     {
         $featureName = 'feature_name';
 
@@ -79,7 +70,7 @@ class AnonymousCustomerUserVoterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(VoterInterface::FEATURE_ENABLED, $vote);
     }
 
-    public function testVoteDisabled()
+    public function testVoteDisabled(): void
     {
         $featureName = 'feature_name';
 

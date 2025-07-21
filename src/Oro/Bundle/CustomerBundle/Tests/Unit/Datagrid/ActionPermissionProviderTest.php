@@ -7,23 +7,18 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class ActionPermissionProviderTest extends \PHPUnit\Framework\TestCase
+class ActionPermissionProviderTest extends TestCase
 {
     private array $customerUserRoleActionList = ['view', 'update'];
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|ResultRecordInterface */
-    private $record;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|AuthorizationCheckerInterface */
-    private $authorizationChecker;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface */
-    private $tokenAccessor;
-
-    /** @var ActionPermissionProvider */
-    private $actionPermissionProvider;
+    private ResultRecordInterface&MockObject $record;
+    private AuthorizationCheckerInterface&MockObject $authorizationChecker;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private ActionPermissionProvider $actionPermissionProvider;
 
     #[\Override]
     protected function setUp(): void
@@ -69,7 +64,7 @@ class ActionPermissionProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getCustomerUserRolePermissionProvider
      */
-    public function testGetCustomerUserRolePermission(bool $isRolePredefined, bool $isGranted, array $expected)
+    public function testGetCustomerUserRolePermission(bool $isRolePredefined, bool $isGranted, array $expected): void
     {
         $this->record->expects($this->any())
             ->method('getValue')

@@ -6,8 +6,9 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserLoginAttempt;
 use Oro\Bundle\SecurityBundle\Tools\UUIDGenerator;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
+use PHPUnit\Framework\TestCase;
 
-class CustomerUserLoginAttemptTest extends \PHPUnit\Framework\TestCase
+class CustomerUserLoginAttemptTest extends TestCase
 {
     use EntityTestCaseTrait;
 

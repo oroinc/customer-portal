@@ -10,14 +10,13 @@ use Oro\Bundle\ApiBundle\Request\ValueNormalizer;
 use Oro\Bundle\ApiBundle\Request\Version;
 use Oro\Bundle\CustomerBundle\Api\ApiDoc\NonAuthenticatedVisitorsDocumentationProvider;
 use Oro\Bundle\EntityBundle\Exception\EntityAliasNotFoundException;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class NonAuthenticatedVisitorsDocumentationProviderTest extends \PHPUnit\Framework\TestCase
+class NonAuthenticatedVisitorsDocumentationProviderTest extends TestCase
 {
-    /** @var ResourcesProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $resourcesProvider;
-
-    /** @var NonAuthenticatedVisitorsDocumentationProvider */
-    private $provider;
+    private ResourcesProvider&MockObject $resourcesProvider;
+    private NonAuthenticatedVisitorsDocumentationProvider $provider;
 
     #[\Override]
     protected function setUp(): void

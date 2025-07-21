@@ -7,15 +7,13 @@ use Oro\Bundle\ApiBundle\Tests\Unit\Processor\CustomizeFormData\CustomizeFormDat
 use Oro\Bundle\CustomerBundle\Api\Processor\UpdateNewCustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Form\FormInterface;
 
 class UpdateNewCustomerUserTest extends CustomizeFormDataProcessorTestCase
 {
-    /** @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $userManager;
-
-    /** @var UpdateNewCustomerUser */
-    private $processor;
+    private CustomerUserManager&MockObject $userManager;
+    private UpdateNewCustomerUser $processor;
 
     #[\Override]
     protected function setUp(): void
@@ -32,7 +30,7 @@ class UpdateNewCustomerUserTest extends CustomizeFormDataProcessorTestCase
 
     public function testProcessWhenFormIsNotValid()
     {
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
+        /** @var FormInterface&MockObject $form */
         $form = $this->context->getForm();
         $form->expects(self::once())
             ->method('isSubmitted')
@@ -54,7 +52,7 @@ class UpdateNewCustomerUserTest extends CustomizeFormDataProcessorTestCase
         $user = $this->createMock(CustomerUser::class);
         $plainPassword = 'some_password';
 
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
+        /** @var FormInterface&MockObject $form */
         $form = $this->context->getForm();
         $form->expects(self::once())
             ->method('isSubmitted')
@@ -87,7 +85,7 @@ class UpdateNewCustomerUserTest extends CustomizeFormDataProcessorTestCase
     {
         $user = $this->createMock(CustomerUser::class);
 
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
+        /** @var FormInterface&MockObject $form */
         $form = $this->context->getForm();
         $form->expects(self::once())
             ->method('isSubmitted')

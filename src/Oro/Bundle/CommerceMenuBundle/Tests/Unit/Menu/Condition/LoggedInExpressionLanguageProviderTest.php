@@ -4,15 +4,14 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Menu\Condition;
 
 use Oro\Bundle\CommerceMenuBundle\Menu\Condition\LoggedInExpressionLanguageProvider;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 
-class LoggedInExpressionLanguageProviderTest extends \PHPUnit\Framework\TestCase
+class LoggedInExpressionLanguageProviderTest extends TestCase
 {
-    /** @var LoggedInExpressionLanguageProvider */
-    private $provider;
-
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
+    private LoggedInExpressionLanguageProvider $provider;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
 
     #[\Override]
     protected function setUp(): void
@@ -25,7 +24,7 @@ class LoggedInExpressionLanguageProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getFunctionsDataProvider
      */
-    public function testGetFunctions(bool $isLoggedUser, bool $expectedData)
+    public function testGetFunctions(bool $isLoggedUser, bool $expectedData): void
     {
         $functions = $this->provider->getFunctions();
         $this->assertCount(1, $functions);

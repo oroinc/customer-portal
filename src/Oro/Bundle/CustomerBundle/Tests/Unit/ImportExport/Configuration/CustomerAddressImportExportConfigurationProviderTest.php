@@ -5,15 +5,14 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\ImportExport\Configuration;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\ImportExport\Configuration\CustomerAddressImportExportConfigurationProvider;
 use Oro\Bundle\ImportExportBundle\Configuration\ImportExportConfiguration;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CustomerAddressImportExportConfigurationProviderTest extends \PHPUnit\Framework\TestCase
+class CustomerAddressImportExportConfigurationProviderTest extends TestCase
 {
-    /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $translator;
-
-    /** @var CustomerAddressImportExportConfigurationProvider */
-    private $provider;
+    private TranslatorInterface&MockObject $translator;
+    private CustomerAddressImportExportConfigurationProvider $provider;
 
     #[\Override]
     protected function setUp(): void

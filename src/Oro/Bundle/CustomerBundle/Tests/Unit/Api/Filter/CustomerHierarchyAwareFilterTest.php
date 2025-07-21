@@ -17,6 +17,7 @@ class CustomerHierarchyAwareFilterTest extends TestCase
     private OwnerTreeProviderInterface&MockObject $customerTreeProvider;
     private OwnerTreeInterface&MockObject $ownerTree;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->customerTreeProvider = $this->createMock(OwnerTreeProviderInterface::class);

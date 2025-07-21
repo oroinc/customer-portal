@@ -3,12 +3,13 @@
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\DependencyInjection\Compiler;
 
 use Oro\Bundle\CommerceMenuBundle\DependencyInjection\Compiler\ConditionExpressionLanguageProvidersCompilerPass;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class ConditionExpressionLanguageProvidersCompilerPassTest extends \PHPUnit\Framework\TestCase
+class ConditionExpressionLanguageProvidersCompilerPassTest extends TestCase
 {
-    public function testProcess()
+    public function testProcess(): void
     {
         $container = new ContainerBuilder();
         $expressionLanguageDef = $container->register('oro_commerce_menu.expression_language');

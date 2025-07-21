@@ -10,20 +10,15 @@ use Oro\Bundle\UIBundle\Event\BeforeListRenderEvent;
 use Oro\Bundle\UIBundle\View\ScrollData;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormView;
 use Twig\Environment;
 
-class PreferredLocalizationFormViewListenerTest extends \PHPUnit\Framework\TestCase
+class PreferredLocalizationFormViewListenerTest extends TestCase
 {
-    /**
-     * @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $websiteManager;
-
-    /**
-     * @var PreferredLocalizationFormViewListener
-     */
-    private $listener;
+    private WebsiteManager&MockObject $websiteManager;
+    private PreferredLocalizationFormViewListener $listener;
 
     #[\Override]
     protected function setUp(): void
@@ -32,7 +27,7 @@ class PreferredLocalizationFormViewListenerTest extends \PHPUnit\Framework\TestC
         $this->listener = new PreferredLocalizationFormViewListener($this->websiteManager);
     }
 
-    public function testOnEntityEdit()
+    public function testOnEntityEdit(): void
     {
         $template = '<div>Some template</div>';
         $formView = new FormView();
@@ -64,7 +59,7 @@ class PreferredLocalizationFormViewListenerTest extends \PHPUnit\Framework\TestC
         self::assertEquals($expectedScrollData, $scrollData->getData());
     }
 
-    public function testOnEntityViewWhenNoCustomerUserSettings()
+    public function testOnEntityViewWhenNoCustomerUserSettings(): void
     {
         $this->websiteManager->expects($this->once())
             ->method('getDefaultWebsite')
@@ -79,7 +74,7 @@ class PreferredLocalizationFormViewListenerTest extends \PHPUnit\Framework\TestC
         self::assertEquals(['dataBlocks' => [0 => ['subblocks' => [0 => []]]]], $scrollData->getData());
     }
 
-    public function testOnEntityViewWhenNoLocalizationInCustomerUserSettings()
+    public function testOnEntityViewWhenNoLocalizationInCustomerUserSettings(): void
     {
         $defaultWebsite = new Website();
         $customerUser = new CustomerUser();
@@ -97,7 +92,7 @@ class PreferredLocalizationFormViewListenerTest extends \PHPUnit\Framework\TestC
         self::assertEquals(['dataBlocks' => [0 => ['subblocks' => [0 => []]]]], $scrollData->getData());
     }
 
-    public function testOnEntityView()
+    public function testOnEntityView(): void
     {
         $localization = new Localization();
         $defaultWebsite = new Website();

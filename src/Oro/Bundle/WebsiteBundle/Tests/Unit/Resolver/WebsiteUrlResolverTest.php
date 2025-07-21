@@ -7,28 +7,23 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.TooManyMethods)
  */
-class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
+class WebsiteUrlResolverTest extends TestCase
 {
     private const CONFIG_URL = 'oro_website.url';
     private const CONFIG_SECURE_URL = 'oro_website.secure_url';
 
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
-
-    /** @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $urlGenerator;
-
-    /** @var MemoryCacheProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $memoryCacheProvider;
-
-    /** @var WebsiteUrlResolver */
-    private $websiteUrlResolver;
+    private ConfigManager&MockObject $configManager;
+    private UrlGeneratorInterface&MockObject $urlGenerator;
+    private MemoryCacheProviderInterface&MockObject $memoryCacheProvider;
+    private WebsiteUrlResolver $websiteUrlResolver;
 
     #[\Override]
     protected function setUp(): void

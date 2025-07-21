@@ -19,11 +19,13 @@ use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTree;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProviderInterface;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestCase
+class CustomerOwnershipConditionDataBuilderTest extends TestCase
 {
     use EntityTrait;
 
@@ -38,23 +40,12 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
     private const CUSTOMER_321 = 5321;
     private const ORGANIZATION_3 = 303;
 
-    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $authorizationChecker;
-
-    /** @var OwnershipMetadataProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $metadataProvider;
-
-    /** @var OwnerTree */
-    private $tree;
-
-    /** @var AclVoter|\PHPUnit\Framework\MockObject\MockObject */
-    private $aclVoter;
-
-    /** @var AclConditionDataBuilderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $ownerConditionBuilder;
-
-    /** @var CustomerOwnershipConditionDataBuilder */
-    private $builder;
+    private AuthorizationCheckerInterface&MockObject $authorizationChecker;
+    private OwnershipMetadataProviderInterface&MockObject $metadataProvider;
+    private OwnerTree $tree;
+    private AclVoter&MockObject $aclVoter;
+    private AclConditionDataBuilderInterface&MockObject $ownerConditionBuilder;
+    private CustomerOwnershipConditionDataBuilder $builder;
 
     #[\Override]
     protected function setUp(): void
@@ -128,11 +119,9 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
         $this->aclVoter->expects($this->any())
             ->method('addOneShotIsGrantedObserver')
             ->with($this->isInstanceOf(OneShotIsGrantedObserver::class))
-            ->willReturnCallback(
-                function (OneShotIsGrantedObserver $observer) use ($accessLevel) {
-                    $observer->setAccessLevel($accessLevel);
-                }
-            );
+            ->willReturnCallback(function (OneShotIsGrantedObserver $observer) use ($accessLevel) {
+                $observer->setAccessLevel($accessLevel);
+            });
 
         $this->authorizationChecker->expects($this->any())
             ->method('isGranted')

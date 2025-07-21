@@ -3,13 +3,14 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\OptionsConfigurator;
 
 use Oro\Bundle\FrontendBundle\Form\OptionsConfigurator\RuleEditorOptionsConfigurator;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
+class RuleEditorOptionsConfiguratorTest extends TestCase
 {
-    public function testConfigureOptionsNoRequired()
+    public function testConfigureOptionsNoRequired(): void
     {
         $resolver = new OptionsResolver();
         $configurator = new RuleEditorOptionsConfigurator();
@@ -24,7 +25,7 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider invalidOptionsDataProvider
      */
-    public function testConfigureOptionsInvalid(array $options)
+    public function testConfigureOptionsInvalid(array $options): void
     {
         $resolver = new OptionsResolver();
         $configurator = new RuleEditorOptionsConfigurator();
@@ -45,7 +46,7 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testConfigureOptionsMinimal()
+    public function testConfigureOptionsMinimal(): void
     {
         $options = [
             'supportedNames' => []
@@ -64,7 +65,7 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $resolver->resolve($options));
     }
 
-    public function testConfigureOptionsFull()
+    public function testConfigureOptionsFull(): void
     {
         $options = [
             'supportedNames' => ['App\Entity\PriceList' => 'price_list'],

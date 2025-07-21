@@ -7,29 +7,20 @@ use Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler;
 use Oro\Bundle\CustomerBundle\Handler\CustomerRegistrationHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRegistrationFormProvider;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CustomerRegistrationHandlerTest extends \PHPUnit\Framework\TestCase
+class CustomerRegistrationHandlerTest extends TestCase
 {
-    /** @var CustomerRegistrationHandler */
-    private $customerRegistrationHandler;
-
-    /** @var FrontendCustomerUserRegistrationFormProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $registrationFormProvider;
-
-    /** @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $customerUserManager;
-
-    /** @var FrontendCustomerUserHandler|\PHPUnit\Framework\MockObject\MockObject */
-    private $customerUserHandler;
-
-    /** @var UpdateHandlerFacade|\PHPUnit\Framework\MockObject\MockObject */
-    private $updateHandlerFacade;
-
-    /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $translator;
+    private CustomerRegistrationHandler $customerRegistrationHandler;
+    private FrontendCustomerUserRegistrationFormProvider&MockObject $registrationFormProvider;
+    private CustomerUserManager&MockObject $customerUserManager;
+    private FrontendCustomerUserHandler&MockObject $customerUserHandler;
+    private UpdateHandlerFacade&MockObject $updateHandlerFacade;
+    private TranslatorInterface&MockObject $translator;
 
     #[\Override]
     protected function setUp(): void
@@ -52,7 +43,7 @@ class CustomerRegistrationHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider handleIsRegistrationDataProvider
      */
-    public function testHandleIsRegistrationRequest(Request $request, bool $expectedResult)
+    public function testHandleIsRegistrationRequest(Request $request, bool $expectedResult): void
     {
         $this->assertEquals($expectedResult, $this->customerRegistrationHandler->isRegistrationRequest($request));
     }
@@ -80,7 +71,7 @@ class CustomerRegistrationHandlerTest extends \PHPUnit\Framework\TestCase
     public function testHandleRegistrationUpdate(
         bool $isConfirmationRequired,
         string $registrationMessage
-    ) {
+    ): void {
         $request = new Request();
         $request->query->add(['isRegistration' => true]);
 

@@ -33,7 +33,6 @@ class ContentNodeTreeBuilderTest extends TestCase
 
     private MenuContentNodesProviderInterface&MockObject $menuContentNodesProvider;
     private ContentNodeSubFolderUriHandler $uriHandler;
-
     private ContentNodeTreeBuilder $builder;
 
     #[\Override]

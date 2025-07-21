@@ -7,25 +7,20 @@ use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\SecurityBundle\Authentication\Authenticator\UsernamePasswordOrganizationAuthenticator;
 use Oro\Bundle\UserBundle\Security\LoginAttemptsHandlerInterface;
 use Oro\Component\Testing\Unit\TestContainerBuilder;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\Event\LoginFailureEvent;
 
-class CustomerUserLoginAttemptsLogListenerTest extends \PHPUnit\Framework\TestCase
+class CustomerUserLoginAttemptsLogListenerTest extends TestCase
 {
-    /** @var LoginAttemptsHandlerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $handler;
-
-    /** @var LoginAttemptsHandlerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHandler;
-
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
-
-    /** @var CustomerUserLoginAttemptsLogListener */
-    private $listener;
+    private LoginAttemptsHandlerInterface&MockObject $handler;
+    private LoginAttemptsHandlerInterface&MockObject $frontendHandler;
+    private FrontendHelper&MockObject $frontendHelper;
+    private CustomerUserLoginAttemptsLogListener $listener;
 
     #[\Override]
     protected function setUp(): void
@@ -97,7 +92,7 @@ class CustomerUserLoginAttemptsLogListenerTest extends \PHPUnit\Framework\TestCa
     {
         $event = new LoginFailureEvent(
             new BadCredentialsException(),
-            $this->getAuthenticatorMock('test'),
+            $this->getAuthenticatorMock(),
             new Request(),
             null,
             'main'
@@ -120,7 +115,7 @@ class CustomerUserLoginAttemptsLogListenerTest extends \PHPUnit\Framework\TestCa
     {
         $event = new LoginFailureEvent(
             new BadCredentialsException(),
-            $this->getAuthenticatorMock('test'),
+            $this->getAuthenticatorMock(),
             new Request(),
             null,
             'main'

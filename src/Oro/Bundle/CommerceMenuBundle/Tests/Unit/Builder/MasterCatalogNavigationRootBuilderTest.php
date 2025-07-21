@@ -10,15 +10,16 @@ use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\CommerceMenuBundle\Provider\MenuTemplatesProvider;
 use Oro\Bundle\NavigationBundle\Menu\ConfigurationBuilder;
 use Oro\Bundle\NavigationBundle\Tests\Unit\MenuItemTestTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class MasterCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
+class MasterCatalogNavigationRootBuilderTest extends TestCase
 {
     use MenuItemTestTrait;
 
     private const MENU_TEMPLATE = 'template1';
 
-    private MasterCatalogRootProviderInterface|\PHPUnit\Framework\MockObject\MockObject $masterCatalogRootProvider;
-
+    private MasterCatalogRootProviderInterface&MockObject $masterCatalogRootProvider;
     private MasterCatalogNavigationRootBuilder $builder;
 
     #[\Override]
@@ -32,8 +33,7 @@ class MasterCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
             $menuTemplatesProvider
         );
 
-        $menuTemplatesProvider
-            ->expects(self::any())
+        $menuTemplatesProvider->expects(self::any())
             ->method('getMenuTemplates')
             ->willReturn([
                 self::MENU_TEMPLATE => ['label' => 'Template 1'],
@@ -43,8 +43,7 @@ class MasterCatalogNavigationRootBuilderTest extends \PHPUnit\Framework\TestCase
 
     public function testBuildWhenNotDisplayed(): void
     {
-        $this->masterCatalogRootProvider
-            ->expects(self::never())
+        $this->masterCatalogRootProvider->expects(self::never())
             ->method(self::anything());
 
         $menu = $this->createItem('sample_menu');

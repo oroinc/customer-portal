@@ -126,7 +126,9 @@ oro_behat_extension:
     Customer Company User Addresses Grid View List:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"] .grid-views'
     Enable Customer User checkbox:
-      selector: 'form[name="oro_customer_frontend_customer_user"] label[for*="oro_customer_frontend_customer_user_enabled"]'
+      selector:
+        type: xpath
+        locator: '//form[@name="oro_customer_frontend_customer_user"]//label[input[contains(@id, "oro_customer_frontend_customer_user_enabled")]]'
     Customer New Company Address Button:
       selector: '[id^="grid-frontend-customer-customer-address-grid"] .grid-views .grid-views__aditional .btn'
     Customer Company Address Button:
@@ -373,7 +375,9 @@ oro_behat_extension:
       selector: '#address-form'
 
     Is Primary Address Checkbox:
-      selector: 'label[for*="oro_customer_frontend_typed_address_primary"]'
+      selector:
+        type: xpath
+        locator: '//label[input[contains(@id, "oro_customer_frontend_typed_address_primary")]]'
 
     Create Address Form:
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form

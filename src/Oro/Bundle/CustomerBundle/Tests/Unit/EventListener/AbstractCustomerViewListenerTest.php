@@ -8,34 +8,24 @@ use Oro\Bundle\CustomerBundle\EventListener\AbstractCustomerViewListener;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\UIBundle\Event\BeforeListRenderEvent;
 use Oro\Bundle\UIBundle\View\ScrollData;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
-abstract class AbstractCustomerViewListenerTest extends \PHPUnit\Framework\TestCase
+abstract class AbstractCustomerViewListenerTest extends TestCase
 {
     protected const RENDER_HTML = 'render_html';
     protected const TRANSLATED_TEXT = 'translated_text';
 
-    /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $translator;
-
-    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
-    protected $doctrineHelper;
-
-    /** @var Environment|\PHPUnit\Framework\MockObject\MockObject */
-    protected $env;
-
-    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
-    protected $requestStack;
-
-    /** @var Request|\PHPUnit\Framework\MockObject\MockObject */
-    protected $request;
-
-    /** @var BeforeListRenderEvent|\PHPUnit\Framework\MockObject\MockObject */
-    protected $event;
-
+    protected TranslatorInterface&MockObject $translator;
+    protected DoctrineHelper&MockObject $doctrineHelper;
+    protected Environment&MockObject $env;
+    protected RequestStack&MockObject $requestStack;
+    protected Request&MockObject $request;
+    protected BeforeListRenderEvent $event;
     /** @var AbstractCustomerViewListener */
     protected $customerViewListener;
 
@@ -68,7 +58,7 @@ abstract class AbstractCustomerViewListenerTest extends \PHPUnit\Framework\TestC
         $this->customerViewListener = $this->createListenerToTest();
     }
 
-    public function testOnCustomerViewGetsIgnoredIfNoRequest()
+    public function testOnCustomerViewGetsIgnoredIfNoRequest(): void
     {
         $this->requestStack->expects($this->any())
             ->method('getCurrentRequest')
@@ -77,12 +67,12 @@ abstract class AbstractCustomerViewListenerTest extends \PHPUnit\Framework\TestC
         $this->customerViewListener->onCustomerView($this->event);
     }
 
-    public function testOnCustomerViewGetsIgnoredIfNoRequestId()
+    public function testOnCustomerViewGetsIgnoredIfNoRequestId(): void
     {
         $this->customerViewListener->onCustomerView($this->event);
     }
 
-    public function testOnCustomerViewGetsIgnoredIfNoEntityFound()
+    public function testOnCustomerViewGetsIgnoredIfNoEntityFound(): void
     {
         $this->request->expects($this->once())
             ->method('get')
@@ -95,7 +85,7 @@ abstract class AbstractCustomerViewListenerTest extends \PHPUnit\Framework\TestC
         $this->customerViewListener->onCustomerView($this->event);
     }
 
-    public function testOnCustomerViewCreatesScrollBlock()
+    public function testOnCustomerViewCreatesScrollBlock(): void
     {
         $this->request->expects($this->once())
             ->method('get')
@@ -116,7 +106,7 @@ abstract class AbstractCustomerViewListenerTest extends \PHPUnit\Framework\TestC
         $this->customerViewListener->onCustomerView($this->event);
     }
 
-    public function testOnCustomerUserViewCreatesScrollBlock()
+    public function testOnCustomerUserViewCreatesScrollBlock(): void
     {
         $this->request->expects($this->once())
             ->method('get')

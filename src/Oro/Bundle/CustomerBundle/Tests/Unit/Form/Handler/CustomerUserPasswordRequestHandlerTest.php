@@ -5,31 +5,22 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CustomerUserPasswordRequestHandlerTest extends \PHPUnit\Framework\TestCase
+class CustomerUserPasswordRequestHandlerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|CustomerUserManager */
-    private $userManager;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface */
-    private $translator;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface */
-    private $logger;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|FormInterface */
-    private $form;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|Request */
-    private $request;
-
-    /** @var CustomerUserPasswordRequestHandler */
-    private $handler;
+    private CustomerUserManager&MockObject $userManager;
+    private TranslatorInterface&MockObject $translator;
+    private LoggerInterface&MockObject $logger;
+    private FormInterface&MockObject $form;
+    private Request&MockObject $request;
+    private CustomerUserPasswordRequestHandler $handler;
 
     #[\Override]
     protected function setUp(): void
@@ -48,7 +39,7 @@ class CustomerUserPasswordRequestHandlerTest extends \PHPUnit\Framework\TestCase
         $this->request = $this->createMock(Request::class);
     }
 
-    public function testProcessInvalidUser()
+    public function testProcessInvalidUser(): void
     {
         $email = 'test@test.com';
 
@@ -67,7 +58,7 @@ class CustomerUserPasswordRequestHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($email, $this->handler->process($this->form, $this->request));
     }
 
-    public function testProcessEmailSendFail()
+    public function testProcessEmailSendFail(): void
     {
         $email = 'test@test.com';
         $exception = new \Exception();
@@ -100,7 +91,7 @@ class CustomerUserPasswordRequestHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->handler->process($this->form, $this->request));
     }
 
-    public function testProcess()
+    public function testProcess(): void
     {
         $email = 'test@test.com';
 
@@ -124,11 +115,7 @@ class CustomerUserPasswordRequestHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($email, $this->handler->process($this->form, $this->request));
     }
 
-    /**
-     * @param \PHPUnit\Framework\MockObject\MockObject|FormInterface $form
-     * @param string $message
-     */
-    public function assertFormErrorAdded($form, $message)
+    public function assertFormErrorAdded(FormInterface&MockObject $form, string $message): void
     {
         $this->translator->expects($this->once())
             ->method('trans')
@@ -140,10 +127,7 @@ class CustomerUserPasswordRequestHandlerTest extends \PHPUnit\Framework\TestCase
             ->with(new FormError($message));
     }
 
-    /**
-     * @param string $email
-     */
-    private function assertValidFormCall($email)
+    private function assertValidFormCall(string $email): void
     {
         $this->request->expects($this->once())
             ->method('isMethod')
@@ -169,7 +153,5 @@ class CustomerUserPasswordRequestHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('get')
             ->with('email')
             ->willReturn($emailSubform);
-
-        return $emailSubform;
     }
 }

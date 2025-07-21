@@ -6,13 +6,13 @@ use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Form\EventListener\FixCustomerAddressesDefaultSubscriber;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
-class FixCustomerAddressesDefaultSubscriberTest extends \PHPUnit\Framework\TestCase
+class FixCustomerAddressesDefaultSubscriberTest extends TestCase
 {
-    /** @var FixCustomerAddressesDefaultSubscriber */
-    private $subscriber;
+    private FixCustomerAddressesDefaultSubscriber $subscriber;
 
     #[\Override]
     protected function setUp(): void
@@ -20,7 +20,7 @@ class FixCustomerAddressesDefaultSubscriberTest extends \PHPUnit\Framework\TestC
         $this->subscriber = new FixCustomerAddressesDefaultSubscriber('frontendOwner.addresses');
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         $this->assertEquals(
             [FormEvents::POST_SUBMIT => 'postSubmit'],
@@ -31,7 +31,7 @@ class FixCustomerAddressesDefaultSubscriberTest extends \PHPUnit\Framework\TestC
     /**
      * @dataProvider postSubmitDataProvider
      */
-    public function testPostSubmit(array $allAddresses, string $formAddressKey, array $expectedAddressesData)
+    public function testPostSubmit(array $allAddresses, string $formAddressKey, array $expectedAddressesData): void
     {
         // Set owner for all addresses
         $customer = new Customer();

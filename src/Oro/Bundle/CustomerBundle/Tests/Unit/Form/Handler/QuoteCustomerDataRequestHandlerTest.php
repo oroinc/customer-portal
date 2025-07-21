@@ -15,12 +15,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 final class QuoteCustomerDataRequestHandlerTest extends TestCase
 {
     private RequestStack&MockObject $requestStack;
-
     private QuoteRequestHandler&MockObject $quoteRequestHandler;
-
     private QuoteCustomerDataRequestHandler $quoteCustomerDataRequestHandler;
 
-
+    #[\Override]
     protected function setUp(): void
     {
         $this->requestStack = $this->createMock(RequestStack::class);
@@ -39,12 +37,20 @@ final class QuoteCustomerDataRequestHandlerTest extends TestCase
         $quote = new Quote();
 
         $request = $this->createMock(Request::class);
-        $request->expects($this->once())->method('getMethod')->willReturn('POST');
+        $request->expects($this->once())
+            ->method('getMethod')
+            ->willReturn('POST');
 
-        $this->requestStack->expects(self::any())->method('getCurrentRequest')->willReturn($request);
+        $this->requestStack->expects(self::any())
+            ->method('getCurrentRequest')
+            ->willReturn($request);
 
-        $this->quoteRequestHandler->expects(self::any())->method('getCustomer')->willReturn($customer);
-        $this->quoteRequestHandler->expects(self::any())->method('getCustomerUser')->willReturn($customerUser);
+        $this->quoteRequestHandler->expects(self::any())
+            ->method('getCustomer')
+            ->willReturn($customer);
+        $this->quoteRequestHandler->expects(self::any())
+            ->method('getCustomerUser')
+            ->willReturn($customerUser);
 
         $this->quoteCustomerDataRequestHandler->handle($quote);
 
@@ -57,12 +63,18 @@ final class QuoteCustomerDataRequestHandlerTest extends TestCase
         $quote = new Quote();
 
         $request = $this->createMock(Request::class);
-        $request->expects(self::any())->method('getMethod')->willReturn('GET');
+        $request->expects(self::any())
+            ->method('getMethod')
+            ->willReturn('GET');
 
-        $this->requestStack->expects(self::any())->method('getCurrentRequest')->willReturn($request);
+        $this->requestStack->expects(self::any())
+            ->method('getCurrentRequest')
+            ->willReturn($request);
 
-        $this->quoteRequestHandler->expects(self::never())->method('getCustomer');
-        $this->quoteRequestHandler->expects(self::never())->method('getCustomerUser');
+        $this->quoteRequestHandler->expects(self::never())
+            ->method('getCustomer');
+        $this->quoteRequestHandler->expects(self::never())
+            ->method('getCustomerUser');
 
         $this->quoteCustomerDataRequestHandler->handle($quote);
     }

@@ -5,15 +5,15 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Request;
 use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class FrontendHelperTest extends \PHPUnit\Framework\TestCase
+class FrontendHelperTest extends TestCase
 {
     private const BACKEND_PREFIX = '/admin';
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|ApplicationState */
-    private $applicationState;
+    private ApplicationState&MockObject $applicationState;
 
     #[\Override]
     protected function setUp(): void
@@ -34,7 +34,7 @@ class FrontendHelperTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider isFrontendRequestDataProvider
      */
-    public function testIsFrontendRequest(string $path, bool $isFrontend)
+    public function testIsFrontendRequest(string $path, bool $isFrontend): void
     {
         $request = Request::create($path);
 
@@ -72,25 +72,25 @@ class FrontendHelperTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testIsFrontendRequestWithoutPath()
+    public function testIsFrontendRequestWithoutPath(): void
     {
         $helper = new FrontendHelper(self::BACKEND_PREFIX, $this->getRequestStack(), $this->applicationState);
         $this->assertFalse($helper->isFrontendRequest());
     }
 
-    public function testIsFrontendUrlForBackendUrl()
+    public function testIsFrontendUrlForBackendUrl(): void
     {
         $helper = new FrontendHelper(self::BACKEND_PREFIX, $this->getRequestStack(), $this->applicationState);
         $this->assertFalse($helper->isFrontendUrl(self::BACKEND_PREFIX . '/test'));
     }
 
-    public function testIsFrontendUrl()
+    public function testIsFrontendUrl(): void
     {
         $helper = new FrontendHelper(self::BACKEND_PREFIX, $this->getRequestStack(), $this->applicationState);
         $this->assertTrue($helper->isFrontendUrl('/test'));
     }
 
-    public function testEmulateFrontendRequest()
+    public function testEmulateFrontendRequest(): void
     {
         $request = Request::create(self::BACKEND_PREFIX . '/backend');
 
@@ -102,7 +102,7 @@ class FrontendHelperTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($helper->isFrontendRequest());
     }
 
-    public function testEmulateBackendRequest()
+    public function testEmulateBackendRequest(): void
     {
         $request = Request::create('/frontend');
 
@@ -129,7 +129,7 @@ class FrontendHelperTest extends \PHPUnit\Framework\TestCase
     private function createApplicationState(bool $isInstalled): ApplicationState|MockObject
     {
         $applicationState = $this->createMock(ApplicationState::class);
-        $applicationState
+        $applicationState->expects(self::any())
             ->method('isInstalled')
             ->willReturn($isInstalled);
 

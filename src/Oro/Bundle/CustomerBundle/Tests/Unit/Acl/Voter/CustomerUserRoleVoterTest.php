@@ -9,6 +9,8 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
@@ -17,16 +19,11 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
+class CustomerUserRoleVoterTest extends TestCase
 {
-    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $doctrineHelper;
-
-    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $authorizationChecker;
-
-    /** @var CustomerUserRoleVoter */
-    private $voter;
+    private DoctrineHelper&MockObject $doctrineHelper;
+    private AuthorizationCheckerInterface&MockObject $authorizationChecker;
+    private CustomerUserRoleVoter $voter;
 
     #[\Override]
     protected function setUp(): void
@@ -40,8 +37,12 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider attributesDataProvider
      */
-    public function testVoteAttribute(string $attribute, bool $isCustomerGranted, bool $withCustomer, int $expected)
-    {
+    public function testVoteAttribute(
+        string $attribute,
+        bool $isCustomerGranted,
+        bool $withCustomer,
+        int $expected
+    ): void {
         $token = $this->createMock(TokenInterface::class);
 
         $object = new CustomerUserRole('');
@@ -137,7 +138,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
         bool $isCustomerGranted,
         bool $withCustomer,
         int $expected
-    ) {
+    ): void {
         $token = $this->createMock(TokenInterface::class);
 
         $object = new CustomerUserRole('');
@@ -228,7 +229,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
         int $loggedUserCustomerId,
         int $expected,
         bool $failCustomerUserRole = false
-    ) {
+    ): void {
         $token = $this->createMock(TokenInterface::class);
 
         $roleCustomer = $this->getCustomer($customerId);
@@ -281,7 +282,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
         int $loggedUserCustomerId,
         int $expected,
         bool $failCustomerUserRole = false
-    ) {
+    ): void {
         $token = $this->createMock(TokenInterface::class);
 
         $roleCustomer = $this->getCustomer($customerId);

@@ -3,9 +3,10 @@
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\DependencyInjection;
 
 use Oro\Bundle\CommerceMenuBundle\DependencyInjection\OroCommerceMenuExtension;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class OroCommerceMenuExtensionTest extends \PHPUnit\Framework\TestCase
+class OroCommerceMenuExtensionTest extends TestCase
 {
     public function testLoad(): void
     {

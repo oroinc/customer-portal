@@ -7,7 +7,9 @@
            data-sources="{{ pictureSources.sources|default([])|json_encode }}"
            class="no-hash" title="{{ title }}">
     {% endif %}
+        {% if additional['showIcon'] is not defined or additional['showIcon'] %}
         {{ renderIcon.icon({name: iconClass}) }}
+        {% endif %}
         {{ oro_format_filename(fileName) }}
     {% if url %}
         </a>

@@ -8,16 +8,15 @@ use Oro\Bundle\CustomerBundle\Datagrid\Extension\CustomerUserByCustomerExtension
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
 use Oro\Bundle\DataGridBundle\Datasource\Orm\OrmDatasource;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class CustomerUserByAccountExtensionTest extends \PHPUnit\Framework\TestCase
+class CustomerUserByAccountExtensionTest extends TestCase
 {
-    /** @var CustomerUserByCustomerExtension */
-    private $extension;
-
-    /** @var Request|\PHPUnit\Framework\MockObject\MockObject */
-    private $request;
+    private CustomerUserByCustomerExtension $extension;
+    private Request&MockObject $request;
 
     #[\Override]
     protected function setUp(): void
@@ -37,7 +36,7 @@ class CustomerUserByAccountExtensionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider isApplicableDataProvider
      */
-    public function testIsApplicable(string $name, string|int|null $customerId, bool $expected)
+    public function testIsApplicable(string $name, string|int|null $customerId, bool $expected): void
     {
         $this->request->expects($this->any())
             ->method('get')
@@ -62,7 +61,7 @@ class CustomerUserByAccountExtensionTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testVisitDatasource()
+    public function testVisitDatasource(): void
     {
         $config = $this->createMock(DatagridConfiguration::class);
         $config->expects($this->any())

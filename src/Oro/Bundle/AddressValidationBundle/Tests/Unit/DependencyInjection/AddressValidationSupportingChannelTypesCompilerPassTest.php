@@ -15,17 +15,14 @@ final class AddressValidationSupportingChannelTypesCompilerPassTest extends Test
     public function testProcessWithNoServiceDefinition(): void
     {
         $container = $this->createMock(ContainerBuilder::class);
-        $container
-            ->expects(self::once())
+        $container->expects(self::once())
             ->method('hasDefinition')
             ->with('oro_address_validation.provider.supported_channel_types')
             ->willReturn(false);
 
-        $container
-            ->expects(self::never())
+        $container->expects(self::never())
             ->method('findTaggedServiceIds');
-        $container
-            ->expects(self::never())
+        $container->expects(self::never())
             ->method('getDefinition');
 
         $compilerPass = new AddressValidationSupportingChannelTypesCompilerPass();
@@ -35,20 +32,17 @@ final class AddressValidationSupportingChannelTypesCompilerPassTest extends Test
     public function testProcessWithNoTaggedServices(): void
     {
         $container = $this->createMock(ContainerBuilder::class);
-        $container
-            ->expects(self::once())
+        $container->expects(self::once())
             ->method('hasDefinition')
             ->with('oro_address_validation.provider.supported_channel_types')
             ->willReturn(true);
 
-        $container
-            ->expects(self::once())
+        $container->expects(self::once())
             ->method('findTaggedServiceIds')
             ->with('oro_address_validation.channel')
             ->willReturn([]);
 
-        $container
-            ->expects(self::never())
+        $container->expects(self::never())
             ->method('getDefinition');
 
         $compilerPass = new AddressValidationSupportingChannelTypesCompilerPass();
@@ -58,8 +52,7 @@ final class AddressValidationSupportingChannelTypesCompilerPassTest extends Test
     public function testProcessWithTaggedServices(): void
     {
         $container = $this->createMock(ContainerBuilder::class);
-        $container
-            ->expects(self::once())
+        $container->expects(self::once())
             ->method('hasDefinition')
             ->with('oro_address_validation.provider.supported_channel_types')
             ->willReturn(true);
@@ -69,20 +62,17 @@ final class AddressValidationSupportingChannelTypesCompilerPassTest extends Test
             'service2' => [['type' => 'channel_type2']],
         ];
 
-        $container
-            ->expects(self::once())
+        $container->expects(self::once())
             ->method('findTaggedServiceIds')
             ->with('oro_address_validation.channel')
             ->willReturn($taggedServices);
 
         $definition = $this->createMock(Definition::class);
-        $definition
-            ->expects(self::once())
+        $definition->expects(self::once())
             ->method('setArgument')
             ->with('$channelTypes', ['channel_type1', 'channel_type2']);
 
-        $container
-            ->expects(self::once())
+        $container->expects(self::once())
             ->method('getDefinition')
             ->with('oro_address_validation.provider.supported_channel_types')
             ->willReturn($definition);
@@ -99,8 +89,7 @@ final class AddressValidationSupportingChannelTypesCompilerPassTest extends Test
         );
 
         $container = $this->createMock(ContainerBuilder::class);
-        $container
-            ->expects(self::once())
+        $container->expects(self::once())
             ->method('hasDefinition')
             ->with('oro_address_validation.provider.supported_channel_types')
             ->willReturn(true);
@@ -109,8 +98,7 @@ final class AddressValidationSupportingChannelTypesCompilerPassTest extends Test
             'service1' => [['some_other_attribute' => 'value']],
         ];
 
-        $container
-            ->expects(self::once())
+        $container->expects(self::once())
             ->method('findTaggedServiceIds')
             ->with('oro_address_validation.channel')
             ->willReturn($taggedServices);

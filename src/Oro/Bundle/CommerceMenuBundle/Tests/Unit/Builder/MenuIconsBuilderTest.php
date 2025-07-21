@@ -14,12 +14,9 @@ use PHPUnit\Framework\TestCase;
 
 class MenuIconsBuilderTest extends TestCase
 {
-    private StorefrontIconsMappingProvider|MockObject $storefrontIconsMappingProvider;
-
-    private CurrentThemeProvider|MockObject $currentThemeProvider;
-
-    private FrontendHelper|MockObject $frontendHelper;
-
+    private StorefrontIconsMappingProvider&MockObject $storefrontIconsMappingProvider;
+    private CurrentThemeProvider&MockObject $currentThemeProvider;
+    private FrontendHelper&MockObject $frontendHelper;
     private MenuIconsBuilder $builder;
 
     #[\Override]
@@ -38,17 +35,14 @@ class MenuIconsBuilderTest extends TestCase
 
     public function testBuildWhenNotFrontendRequest(): void
     {
-        $this->frontendHelper
-            ->expects(self::once())
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(false);
 
-        $this->currentThemeProvider
-            ->expects(self::never())
+        $this->currentThemeProvider->expects(self::never())
             ->method(self::anything());
 
-        $this->storefrontIconsMappingProvider
-            ->expects(self::never())
+        $this->storefrontIconsMappingProvider->expects(self::never())
             ->method(self::anything());
 
         $this->builder->build($this->getMenuItem('sample_menu', [], [
@@ -58,18 +52,15 @@ class MenuIconsBuilderTest extends TestCase
 
     public function testBuildWhenNoCurrentTheme(): void
     {
-        $this->frontendHelper
-            ->expects(self::once())
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        $this->currentThemeProvider
-            ->expects(self::once())
+        $this->currentThemeProvider->expects(self::once())
             ->method('getCurrentThemeId')
             ->willReturn(null);
 
-        $this->storefrontIconsMappingProvider
-            ->expects(self::never())
+        $this->storefrontIconsMappingProvider->expects(self::never())
             ->method(self::anything());
 
         $this->builder->build($this->getMenuItem('sample_menu', [], [
@@ -79,19 +70,16 @@ class MenuIconsBuilderTest extends TestCase
 
     public function testBuildWhenNotDisplayed(): void
     {
-        $this->frontendHelper
-            ->expects(self::once())
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
         $currentThemeName = 'sample_theme';
-        $this->currentThemeProvider
-            ->expects(self::once())
+        $this->currentThemeProvider->expects(self::once())
             ->method('getCurrentThemeId')
             ->willReturn($currentThemeName);
 
-        $this->storefrontIconsMappingProvider
-            ->expects(self::once())
+        $this->storefrontIconsMappingProvider->expects(self::once())
             ->method('getIconsMappingForTheme')
             ->with($currentThemeName)
             ->willReturn(['fa-sample-icon' => 'svg-sample-icon']);
@@ -103,19 +91,16 @@ class MenuIconsBuilderTest extends TestCase
 
     public function testBuildWhenNoIcon(): void
     {
-        $this->frontendHelper
-            ->expects(self::once())
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
         $currentThemeName = 'sample_theme';
-        $this->currentThemeProvider
-            ->expects(self::once())
+        $this->currentThemeProvider->expects(self::once())
             ->method('getCurrentThemeId')
             ->willReturn($currentThemeName);
 
-        $this->storefrontIconsMappingProvider
-            ->expects(self::once())
+        $this->storefrontIconsMappingProvider->expects(self::once())
             ->method('getIconsMappingForTheme')
             ->with($currentThemeName)
             ->willReturn(['fa-sample-icon' => 'svg-sample-icon']);
@@ -131,20 +116,17 @@ class MenuIconsBuilderTest extends TestCase
 
     public function testBuildWhenHasIcon(): void
     {
-        $this->frontendHelper
-            ->expects(self::once())
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
         $currentThemeName = 'sample_theme';
-        $this->currentThemeProvider
-            ->expects(self::once())
+        $this->currentThemeProvider->expects(self::once())
             ->method('getCurrentThemeId')
             ->willReturn($currentThemeName);
 
         $mapping = ['fa-sample-icon' => 'svg-sample-icon'];
-        $this->storefrontIconsMappingProvider
-            ->expects(self::once())
+        $this->storefrontIconsMappingProvider->expects(self::once())
             ->method('getIconsMappingForTheme')
             ->with($currentThemeName)
             ->willReturn($mapping);
@@ -160,20 +142,17 @@ class MenuIconsBuilderTest extends TestCase
 
     public function testBuildWhenHasMissingIconWithoutFallbackIcon(): void
     {
-        $this->frontendHelper
-            ->expects(self::once())
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
         $currentThemeName = 'sample_theme';
-        $this->currentThemeProvider
-            ->expects(self::once())
+        $this->currentThemeProvider->expects(self::once())
             ->method('getCurrentThemeId')
             ->willReturn($currentThemeName);
 
         $mapping = ['fa-sample-icon' => 'svg-sample-icon'];
-        $this->storefrontIconsMappingProvider
-            ->expects(self::once())
+        $this->storefrontIconsMappingProvider->expects(self::once())
             ->method('getIconsMappingForTheme')
             ->with($currentThemeName)
             ->willReturn($mapping);
@@ -189,20 +168,17 @@ class MenuIconsBuilderTest extends TestCase
 
     public function testBuildWhenHasMissingIconWithFallbackIcon(): void
     {
-        $this->frontendHelper
-            ->expects(self::once())
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
         $currentThemeName = 'sample_theme';
-        $this->currentThemeProvider
-            ->expects(self::once())
+        $this->currentThemeProvider->expects(self::once())
             ->method('getCurrentThemeId')
             ->willReturn($currentThemeName);
 
         $mapping = ['fa-sample-icon' => 'svg-sample-icon'];
-        $this->storefrontIconsMappingProvider
-            ->expects(self::once())
+        $this->storefrontIconsMappingProvider->expects(self::once())
             ->method('getIconsMappingForTheme')
             ->with($currentThemeName)
             ->willReturn($mapping);

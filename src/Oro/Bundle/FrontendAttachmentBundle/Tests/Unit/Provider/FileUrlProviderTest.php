@@ -12,12 +12,13 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendAttachmentBundle\Provider\FileUrlProvider;
 use Oro\Bundle\FrontendBundle\Provider\FrontendCurrentApplicationProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
+class FileUrlProviderTest extends TestCase
 {
     private const FILENAME = 'sample-filename';
     private const FILE_ID = 1;
@@ -29,20 +30,13 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
     private const WIDTH = 10;
     private const HEIGHT = 20;
 
-    private FileUrlProviderInterface|MockObject $innerFileUrlProvider;
-
-    private UrlGeneratorInterface|MockObject $urlGenerator;
-
-    private FileApplicationsProvider|MockObject $fileApplicationsProvider;
-
-    private CurrentApplicationProviderInterface|MockObject $currentApplicationProvider;
-
-    private FileAccessControlChecker|MockObject $fileAccessControlChecker;
-
-    private ConfigManager|MockObject $configManager;
-
-    private FileNameProviderInterface|MockObject $filenameProvider;
-
+    private FileUrlProviderInterface&MockObject $innerFileUrlProvider;
+    private UrlGeneratorInterface&MockObject $urlGenerator;
+    private FileApplicationsProvider&MockObject $fileApplicationsProvider;
+    private CurrentApplicationProviderInterface&MockObject $currentApplicationProvider;
+    private FileAccessControlChecker&MockObject $fileAccessControlChecker;
+    private ConfigManager&MockObject $configManager;
+    private FileNameProviderInterface&MockObject $filenameProvider;
     private FileUrlProvider $provider;
 
     #[\Override]
@@ -85,7 +79,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
     private function mockGuestAccessMode(bool $enabled): void
     {
-        $this->configManager
+        $this->configManager->expects(self::any())
             ->method('get')
             ->with('oro_frontend.guest_access_enabled')
             ->willReturn($enabled);
@@ -93,7 +87,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
     private function mockCoveredByAcl(File $file, bool $isCoveredByAcl): void
     {
-        $this->fileAccessControlChecker
+        $this->fileAccessControlChecker->expects(self::any())
             ->method('isCoveredByAcl')
             ->with($file)
             ->willReturn($isCoveredByAcl);
@@ -105,11 +99,11 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
      */
     private function mockApplications(array $appNames, ?string $currentApplication): void
     {
-        $this->fileApplicationsProvider
+        $this->fileApplicationsProvider->expects(self::any())
             ->method('getFileApplications')
             ->willReturn($appNames);
 
-        $this->currentApplicationProvider
+        $this->currentApplicationProvider->expects(self::any())
             ->method('getCurrentApplication')
             ->willReturn($currentApplication);
     }
@@ -189,7 +183,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
             ->with($file)
             ->willReturn(self::FILENAME);
 
-        $this->urlGenerator
+        $this->urlGenerator->expects(self::any())
             ->method('generate')
             ->with(
                 'oro_frontend_attachment_get_file',
@@ -211,11 +205,10 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
     private function getFile(?int $id = null, string $filename = ''): File
     {
         $file = $this->createMock(File::class);
-        $file
+        $file->expects(self::any())
             ->method('getId')
             ->willReturn($id);
-
-        $file
+        $file->expects(self::any())
             ->method('getFilename')
             ->willReturn($filename);
 
@@ -340,7 +333,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
             ->with($file, self::WIDTH, self::HEIGHT, self::FORMAT)
             ->willReturn(self::FILENAME);
 
-        $this->urlGenerator
+        $this->urlGenerator->expects(self::any())
             ->method('generate')
             ->with(
                 'oro_frontend_attachment_resize_image',
@@ -362,7 +355,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
             ->with($file, self::FILTER, self::FORMAT)
             ->willReturn(self::FILENAME);
 
-        $this->urlGenerator
+        $this->urlGenerator->expects(self::any())
             ->method('generate')
             ->with(
                 'oro_frontend_attachment_filter_image',

@@ -11,19 +11,18 @@ use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
 use Oro\Component\MessageQueue\Test\JobRunner;
 use Oro\Component\MessageQueue\Transport\Message;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class BusinessUnitOwnerTreeCacheJobProcessorTest extends \PHPUnit\Framework\TestCase
+class BusinessUnitOwnerTreeCacheJobProcessorTest extends TestCase
 {
     use LoggerAwareTraitTestTrait;
 
     private const JOB_ID = 5;
 
-    private BusinessUnitMessageFactory|\PHPUnit\Framework\MockObject\MockObject $messageFactory;
-
-    private FrontendOwnerTreeProvider|\PHPUnit\Framework\MockObject\MockObject $frontendOwnerTreeProvider;
-
+    private BusinessUnitMessageFactory&MockObject $messageFactory;
+    private FrontendOwnerTreeProvider&MockObject $frontendOwnerTreeProvider;
     private BusinessUnitOwnerTreeCacheJobProcessor $processor;
-
     private JobRunner $jobRunner;
 
     #[\Override]

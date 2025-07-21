@@ -11,19 +11,17 @@ use Oro\Bundle\SecurityBundle\Cache\DoctrineAclCacheProvider;
 use Oro\Bundle\SecurityBundle\Cache\DoctrineAclCacheUserInfoProvider;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\CacheItem;
 
-class DoctrineAclCacheProviderTest extends \PHPUnit\Framework\TestCase
+class DoctrineAclCacheProviderTest extends TestCase
 {
     use EntityTrait;
 
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var CacheInstantiatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $cacheInstantiator;
-
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private CacheInstantiatorInterface&MockObject $cacheInstantiator;
     protected DoctrineAclCacheProvider $aclCacheProvider;
 
     #[\Override]

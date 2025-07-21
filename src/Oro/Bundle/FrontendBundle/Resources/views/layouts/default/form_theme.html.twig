@@ -127,7 +127,7 @@
         {% set label = id|humanize %}
     {%- endif -%}
 
-    <label for="{{ id }}" class="checkbox-label">
+    <label class="checkbox-label">
         {{- parent() -}}
         {{- label|block_text(translation_domain) -}}
     </label>
@@ -138,8 +138,7 @@
 
     {% set label_attr = layout_attr_defaults(label_attr, {
         '~class': ' checkbox-label',
-        'data-radio': true,
-        'for': id
+        'data-radio': true
     }) %}
 
     {% if form.vars.checked %}
@@ -184,7 +183,7 @@
                 id: id,
                 name: id,
                 'data-validation': dateValidation,
-                class: 'datepicker-input ' ~ (attribute(attr, 'class') is defined ? attr['class'] : ''),
+                class: "#{attribute(attr, 'class') is defined ? attr['class']} input input--full",
                 'aria-live': 'assertive',
                 autocomplete: 'off'
             },
@@ -200,7 +199,6 @@
                 minDate: (attribute(datePickerOptions, 'minDate') is defined ? datePickerOptions['minDate'] : minDate)
             }
         } %}
-        {% set id = 'hidden_' ~ id %}
         {% set attr = attr|merge({
             'data-page-component-module': 'oroui/js/app/components/viewport-component',
             'data-page-component-options': options|json_encode(constant('JSON_FORCE_OBJECT'))

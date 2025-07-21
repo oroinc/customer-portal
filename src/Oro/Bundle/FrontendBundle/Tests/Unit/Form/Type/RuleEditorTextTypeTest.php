@@ -4,16 +4,15 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\FrontendBundle\Form\OptionsConfigurator\RuleEditorOptionsConfigurator;
 use Oro\Bundle\FrontendBundle\Form\Type\RuleEditorTextType;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RuleEditorTextTypeTest extends \PHPUnit\Framework\TestCase
+class RuleEditorTextTypeTest extends TestCase
 {
-    /** @var RuleEditorOptionsConfigurator|\PHPUnit\Framework\MockObject\MockObject */
-    private $optionsConfigurator;
-
-    /** @var RuleEditorTextType */
-    private $type;
+    private RuleEditorOptionsConfigurator&MockObject $optionsConfigurator;
+    private RuleEditorTextType $type;
 
     #[\Override]
     protected function setUp(): void
@@ -23,17 +22,17 @@ class RuleEditorTextTypeTest extends \PHPUnit\Framework\TestCase
         $this->type = new RuleEditorTextType($this->optionsConfigurator);
     }
 
-    public function testGetBlockPrefix()
+    public function testGetBlockPrefix(): void
     {
         $this->assertEquals(RuleEditorTextType::NAME, $this->type->getBlockPrefix());
     }
 
-    public function testGetParent()
+    public function testGetParent(): void
     {
         $this->assertEquals(TextType::class, $this->type->getParent());
     }
 
-    public function testConfigureOptions()
+    public function testConfigureOptions(): void
     {
         $resolver = new OptionsResolver();
 
