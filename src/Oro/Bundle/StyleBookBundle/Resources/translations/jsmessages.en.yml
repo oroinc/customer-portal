@@ -288,6 +288,7 @@ oro_stylebook:
         secondary-c3: 'Decorative elements'
         secondary-c4: 'Decorative elements'
         secondary-c5: 'Decorative elements'
+        secondary-c6: 'Color for in stock status'
         secondary-sale: 'Color for a sale badge and a price'
         neutral-white-100: 'Default page background'
         neutral-white-50: 'Hover backgrounds for elements like toggles (segmented buttons); Dividers;'

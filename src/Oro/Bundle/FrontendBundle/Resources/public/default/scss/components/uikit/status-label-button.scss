@@ -1,0 +1,15 @@
+/* @theme: default; */
+
+.btn {
+    &.in-stock-status {
+        color: $status-button-in-stock-color;
+    }
+
+    &.out-of-stock-status {
+        color: $status-button-out-of-stock-status-color;
+    }
+
+    &.discontinued-status {
+        color: $status-button-discontinued-status-color;
+    }
+}
