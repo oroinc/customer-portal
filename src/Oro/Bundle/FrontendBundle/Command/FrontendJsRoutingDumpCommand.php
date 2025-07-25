@@ -5,24 +5,24 @@ declare(strict_types=1);
 namespace Oro\Bundle\FrontendBundle\Command;
 
 use Oro\Bundle\NavigationBundle\Command\JsRoutingDumpCommand;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Dumps exposed storefront routes into a file.
  */
+#[AsCommand(
+    name: 'oro:frontend:js-routing:dump',
+    description: 'Dumps exposed storefront routes into a file.',
+    hidden: true
+)]
 class FrontendJsRoutingDumpCommand extends JsRoutingDumpCommand
 {
-    /** @var string */
-    protected static $defaultName = 'oro:frontend:js-routing:dump';
-
     private const FRONTEND_FILENAME_PREFIX = 'frontend_';
 
     #[\Override]
     protected function configure()
     {
         parent::configure();
-
-        $this->setHidden(true);
-        $this->setDescription('Dumps exposed storefront routes into a file.');
         $this->getDefinition()->getOption('target')->setDefault(
             $this->fileManager->getFilePath(self::FRONTEND_FILENAME_PREFIX . 'routes.json')
         );

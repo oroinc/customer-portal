@@ -5,7 +5,7 @@ namespace Oro\Bundle\FrontendBundle\Controller;
 use Oro\Bundle\FrontendBundle\Provider\HomePageProviderInterface;
 use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Default storefront controller.

@@ -1,143 +1,143 @@
 oro_customer:
     resource:     "@OroCustomerBundle/Controller/CustomerController.php"
-    type:         annotation
+    type:         attribute
     prefix:       /customer
 
 oro_customer_address:
     resource:     "@OroCustomerBundle/Controller/CustomerAddressController.php"
-    type:         annotation
+    type:         attribute
     prefix:       /customer/address
 
 oro_customer_address_validation_customer:
     resource: "@OroCustomerBundle/Controller/AddressValidation/CustomerPageAddressValidationController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/address-validation
 
 oro_customer_address_validation_customer_user:
     resource: "@OroCustomerBundle/Controller/AddressValidation/CustomerUserPageAddressValidationController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/user/address-validation
 
 oro_customer_address_validation_customer_address:
     resource: "@OroCustomerBundle/Controller/AddressValidation/CustomerAddressDialogAddressValidationController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/address/address-validation
 
 oro_customer_address_validation_customer_user_address:
     resource: "@OroCustomerBundle/Controller/AddressValidation/CustomerUserAddressDialogAddressValidationController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/user/address/address-validation
 
 oro_customer_customer_user_address:
     resource:     "@OroCustomerBundle/Controller/CustomerUserAddressController.php"
-    type:         annotation
+    type:         attribute
     prefix:       /customer/user/address
 
 oro_customer_group:
     resource:     "@OroCustomerBundle/Controller/CustomerGroupController.php"
-    type:         annotation
+    type:         attribute
     prefix:       /customer/group
 
 oro_customer_customer_user:
     resource: "@OroCustomerBundle/Controller/CustomerUserController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/user
 
 oro_customer_customer_user_ajax:
     resource: "@OroCustomerBundle/Controller/AjaxCustomerUserController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/user
 
 oro_customer_frontend_customer_user_ajax:
     resource: "@OroCustomerBundle/Controller/Frontend/AjaxCustomerUserController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/user
     options:
         frontend: true
 
 oro_customer_customer_user_role:
     resource: "@OroCustomerBundle/Controller/CustomerUserRoleController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/user/role
 
 oro_customer_acl_permission:
     resource: "@OroCustomerBundle/Controller/AclPermissionController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/acl
 
 oro_customer_frontend_customer_user_dashboard:
     resource:     "@OroCustomerBundle/Controller/Frontend/CustomerUserDashboardController.php"
-    type:         annotation
+    type:         attribute
     prefix:       /customer/user/dashboard
     options:
         frontend: true
 
 oro_customer_frontend_customer_user_profile:
     resource: "@OroCustomerBundle/Controller/Frontend/CustomerUserProfileController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/profile
     options:
         frontend: true
 
 oro_customer_frontend_customer_user_register:
     resource: "@OroCustomerBundle/Controller/Frontend/CustomerUserRegisterController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/user
     options:
         frontend: true
 
 oro_customer_frontend_customer_user:
     resource: "@OroCustomerBundle/Controller/Frontend/CustomerUserController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/user
     options:
         frontend: true
 
 oro_customer_frontend_customer_user_address:
     resource: "@OroCustomerBundle/Controller/Frontend/CustomerUserAddressController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/user/address
     options:
         frontend: true
 
 oro_customer_frontend_customer_address:
     resource: "@OroCustomerBundle/Controller/Frontend/CustomerAddressController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/user/address/customer/
     options:
         frontend: true
 
 oro_customer_frontend_address_validation_customer_address:
     resource: "@OroCustomerBundle/Controller/Frontend/AddressValidation/CustomerAddressPageAddressValidationController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/address-validation
     options:
         frontend: true
 
 oro_customer_frontend_address_validation_customer_user_address:
     resource: "@OroCustomerBundle/Controller/Frontend/AddressValidation/CustomerUserAddressPageAddressValidationController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/user/address-validation
     options:
         frontend: true
 
 oro_customer_user_security:
     resource: "@OroCustomerBundle/Controller/SecurityController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/user
     options:
         frontend: true
 
 oro_customer_user_password_reset:
     resource: "@OroCustomerBundle/Controller/Frontend/ResetController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/user
     options:
         frontend: true
 
 oro_customer_frontend_customer_user_role:
     resource: "@OroCustomerBundle/Controller/Frontend/CustomerUserRoleController.php"
-    type:     annotation
+    type:     attribute
     prefix:   /customer/roles
     options:
         frontend: true
@@ -184,18 +184,18 @@ oro_customer_frontend_entity_pagination_last:
 
 oro_customer_config:
     resource:     "@OroCustomerBundle/Controller/CustomerConfigurationController.php"
-    type:         annotation
+    type:         attribute
     prefix:       /config
 
 oro_customer_group_config:
     resource:     "@OroCustomerBundle/Controller/CustomerGroupConfigurationController.php"
-    type:         annotation
+    type:         attribute
     prefix:       /config
 
 # Disabled as per BAP-9497.
 #oro_customer_audit:
 #    resource:     "@OroCustomerBundle/Controller/AuditController.php"
-#    type:         annotation
+#    type:         attribute
 #    options:
 #        frontend: true
 

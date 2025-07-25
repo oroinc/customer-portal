@@ -1,6 +1,6 @@
 oro_stylebook:
     resource:     "@OroStyleBookBundle/Controller/StyleBookController.php"
     prefix:       /style-book
-    type:         annotation
+    type:         attribute
     options:
         frontend: true

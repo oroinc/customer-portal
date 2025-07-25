@@ -5,7 +5,7 @@ namespace Oro\Bundle\CommerceMenuBundle\Controller;
 use Oro\Bundle\NavigationBundle\Controller\AbstractAjaxMenuController;
 use Oro\Bundle\SecurityBundle\Attribute\CsrfProtection;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Ajax Commerce Global Menu Controller

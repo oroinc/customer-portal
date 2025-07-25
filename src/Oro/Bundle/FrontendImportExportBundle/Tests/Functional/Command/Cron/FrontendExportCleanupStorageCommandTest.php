@@ -3,7 +3,6 @@
 namespace Oro\Bundle\FrontendImportExportBundle\Tests\Functional\Command\Cron;
 
 use Gaufrette\File;
-use Oro\Bundle\FrontendImportExportBundle\Command\Cron\FrontendExportCleanupStorageCommand;
 use Oro\Bundle\ImportExportBundle\File\FileManager;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
@@ -31,7 +30,7 @@ class FrontendExportCleanupStorageCommandTest extends WebTestCase
             ->method('getFilesByPeriod')
             ->willReturn([]);
 
-        $result = self::runCommand(FrontendExportCleanupStorageCommand::getDefaultName());
+        $result = self::runCommand('oro:cron:frontend-importexport:clean-up-storage');
 
         self::assertEquals('Were removed "0" files.', $result);
     }
@@ -49,7 +48,7 @@ class FrontendExportCleanupStorageCommandTest extends WebTestCase
             ->method('deleteFile')
             ->withConsecutive([$firstFile], [$secondFile]);
 
-        $result = self::runCommand(FrontendExportCleanupStorageCommand::getDefaultName());
+        $result = self::runCommand('oro:cron:frontend-importexport:clean-up-storage');
 
         self::assertEquals('Were removed "2" files.', $result);
     }

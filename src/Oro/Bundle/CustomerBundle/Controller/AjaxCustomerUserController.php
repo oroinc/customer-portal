@@ -4,7 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Controller;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * AJAX action for Customer User.

@@ -8,16 +8,18 @@ use Gaufrette\File;
 use Oro\Bundle\FrontendImportExportBundle\Manager\FrontendImportExportResultManager;
 use Oro\Bundle\ImportExportBundle\Command\Cron\CleanupStorageCommandAbstract;
 use Oro\Bundle\ImportExportBundle\File\FileManager;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Deletes storefront old temporary import/export files.
  */
+#[AsCommand(
+    name: 'oro:cron:frontend-importexport:clean-up-storage',
+    description: 'Deletes old storefront import/export files.'
+)]
 class FrontendExportCleanupStorageCommand extends CleanupStorageCommandAbstract
 {
-    /** @var string */
-    protected static $defaultName = 'oro:cron:frontend-importexport:clean-up-storage';
-
     private FileManager $fileManager;
     private FrontendImportExportResultManager $importExportResultManager;
 
@@ -48,7 +50,6 @@ class FrontendExportCleanupStorageCommand extends CleanupStorageCommandAbstract
                 ' Will be removed files older than today-interval.',
                 static::DEFAULT_PERIOD
             )
-            ->setDescription('Deletes old storefront import/export files.')
             ->setHelp(
                 <<<'HELP'
 The <info>%command.name%</info> command deletes old storefront import/export files.

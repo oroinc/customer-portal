@@ -10,7 +10,7 @@ use Oro\Bundle\OrganizationBundle\Provider\ScopeOrganizationCriteriaProvider;
 use Oro\Bundle\SecurityBundle\Attribute\CsrfProtection;
 use Oro\Bundle\WebsiteBundle\Provider\ScopeCriteriaProvider;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * The AJAX controller for the customer menu.

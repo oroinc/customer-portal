@@ -1,6 +1,6 @@
 oro_workflow_frontend_bundle:
     resource:     "@OroFrontendBundle/Controller/Workflow"
-    type:         annotation
+    type:         attribute
     options:
         frontend: true
 
