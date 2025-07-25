@@ -16,6 +16,8 @@ layout:
                         description: oro_stylebook.groups.ui_elements.status_label.description
                 style_book_components_status_label:
                     blockType: block
+                style_book_components_status_tooltip:
+                    blockType: block
                 style_book_components_product_sticker_new:
                     blockType: block
                 style_book_components_product_sticker_sale:
@@ -25,6 +27,7 @@ layout:
                     group_element_components_status_label_view:
                         group_element_components_status_label:
                             style_book_components_status_label: ~
+                            style_book_components_status_tooltip: ~
                             style_book_components_product_sticker_new: ~
                             style_book_components_product_sticker_sale: ~
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Oro\Bundle\FrontendBundle\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,11 +14,12 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * Displays storefront routes list
  */
+#[AsCommand(
+    name: 'oro:debug:storefront-routes',
+    description: 'Lists storefront routes'
+)]
 class DebugStorefrontRoutesCommand extends Command
 {
-    /** @var string */
-    protected static $defaultName = 'oro:debug:storefront-routes';
-
     private RouterInterface $router;
 
     public function __construct(
@@ -32,7 +34,6 @@ class DebugStorefrontRoutesCommand extends Command
     public function configure()
     {
         $this
-            ->setDescription('Lists storefront routes')
             ->setHelp(
                 <<<'HELP'
 The <info>%command.name%</info> command list of routes used in the storefront

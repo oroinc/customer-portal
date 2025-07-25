@@ -1,0 +1,14 @@
+/* @theme: default; */
+
+$status-tooltip-width: 20px !default;
+$status-tooltip-height: 16px !default;
+$status-tooltip-bullet-size: 8px !default;
+
+$status-tooltip-bullet-color: get-var-color('text', 'secondary') !default;
+$status-tooltip-bullet-color-success: get-var-color('secondary', 'c6') !default;
+$status-tooltip-bullet-color-progress: get-var-color('primary', 'active') !default;
+$status-tooltip-bullet-color-warning: get-var-color('warning', 'base') !default;
+$status-tooltip-bullet-color-destructive: get-var-color('destructive', 'dark') !default;
+$status-tooltip-bullet-color-info: get-var-color('info', 'dark') !default;
+$status-tooltip-bullet-color-new-arrival: get-var-color('text', 'primary') !default;
+$status-tooltip-bullet-color-sale: get-var-color('secondary', 'sale') !default;

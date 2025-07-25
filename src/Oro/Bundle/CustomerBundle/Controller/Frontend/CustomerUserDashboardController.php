@@ -4,7 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
 use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Frontend controller for handling customer user dashboard actions.

@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\FrontendBundle\EventListener;
 
-use Oro\Bundle\AssetBundle\Command\OroAssetsBuildCommand;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -16,7 +15,7 @@ class AssetBuildCommandListener
     public function onConsoleCommand(ConsoleCommandEvent $event)
     {
         $command = $event->getCommand();
-        if (!$command || OroAssetsBuildCommand::getDefaultName() !== $command->getName()) {
+        if (!$command || 'oro:assets:build' !== $command->getName()) {
             return;
         }
 

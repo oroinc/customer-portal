@@ -13,8 +13,8 @@ $caption-3-font-size: 12px !default;
 $caption-3-line-height: 1.3333 !default;
 $caption-3-font-weight: font-weight('semi-bold') !default;
 
-$label-placeholder-font-size: 12px !default;
-$label-placeholder-line-height: 1.5 !default;
+$label-placeholder-font-size: $base-font-size--s !default;
+$label-placeholder-line-height: $base-line-height !default;
 $label-placeholder-font-weight: font-weight('medium') !default;
-$label-placeholder-text-transform: uppercase !default;
-$label-placeholder-letter-spacing: .2px !default;
+$label-placeholder-text-transform: null !default;
+$label-placeholder-letter-spacing: 0 !default;

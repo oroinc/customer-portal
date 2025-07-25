@@ -72,6 +72,8 @@ const ScrollShadowView = BaseView.extend({
                 this.el.classList.remove('start-scroll-from-end');
             }, 0);
         }
+
+        this.el.classList.add('scroll-shadow-initialized');
     },
 
     update() {
@@ -184,6 +186,7 @@ const ScrollShadowView = BaseView.extend({
         this.removeShadows();
         delete this.scrollTargets;
         delete this._resizeObserver;
+        this.el.classList.remove('scroll-shadow-initialized');
 
         return ScrollShadowView.__super__.dispose.call(this);
     }

@@ -1,0 +1,5 @@
+/* @theme: default; */
+
+$status-button-in-stock-color: get-color('secondary', 'c6') !default;
+$status-button-out-of-stock-status-color: get-color('destructive', 'main') !default;
+$status-button-discontinued-status-color: get-color('text', 'disabled') !default;

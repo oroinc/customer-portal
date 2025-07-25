@@ -153,6 +153,11 @@
     width: 100%;
 }
 
+.no-min-width {
+    // stylelint-disable-next-line declaration-no-important
+    min-width: initial !important;
+}
+
 .cover-img {
     object-fit: cover;
     object-position: center;

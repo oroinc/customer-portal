@@ -6,7 +6,7 @@ use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Oro\Bundle\StyleBookBundle\Helper\AccessHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Provides actions to show style book pages on frontend
