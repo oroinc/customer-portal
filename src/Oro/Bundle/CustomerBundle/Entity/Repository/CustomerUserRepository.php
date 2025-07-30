@@ -128,6 +128,11 @@ class CustomerUserRepository extends AbstractUserRepository implements EmailAwar
         return $qb;
     }
 
+    /**
+     * Returns assignable customer user ids for FRONTEND_USER owned entities without frontend_customer_field_name
+     * available in the ownership metadata.
+     * When frontend_customer_field_name is set use CustomerRepository::getAssignableCustomerIds
+     */
     public function getAssignableCustomerUserIds(AclHelper $aclHelper, string $targetEntityClass): array
     {
         $qb = $this->createQueryBuilder('cu')
