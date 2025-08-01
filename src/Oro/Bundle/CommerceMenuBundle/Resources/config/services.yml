@@ -270,7 +270,6 @@ services:
             - { name: oro_scope.provider, scopeType: menu_frontend_visibility, priority: 20 }
 
     oro_commerce_menu.expression_language.cache:
-        public: false
         parent: oro.data.cache
         tags:
             - { name: 'cache.pool', namespace: 'oro_commerce_menu_expression_language' }
@@ -361,7 +360,7 @@ services:
     oro_commerce_menu.menu_templates_cache:
         parent: oro.data.cache
         tags:
-            - { name: 'cache.pool', namespace: 'oro_commerce_menu_templates_cache' }
+            - { name: 'cache.pool', namespace: 'oro_commerce_menu_templates' }
 
     oro_commerce_menu.provider.menu_templates_provider:
         class: Oro\Bundle\CommerceMenuBundle\Provider\MenuTemplatesProvider
