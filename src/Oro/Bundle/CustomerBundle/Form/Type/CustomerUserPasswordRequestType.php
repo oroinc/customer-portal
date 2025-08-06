@@ -8,6 +8,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+/**
+ * Represents a form type for requesting a customer user password reset
+ */
 class CustomerUserPasswordRequestType extends AbstractType
 {
     const NAME = 'oro_customer_customer_user_password_request';
@@ -25,7 +28,7 @@ class CustomerUserPasswordRequestType extends AbstractType
                 'label' => 'oro.customer.customeruser.email.label',
                 'constraints' => [
                     new NotBlank(),
-                    new Email()
+                    new Email(['mode' => Email::VALIDATION_MODE_STRICT])
                 ],
                 'attr' => [
                     'placeholder' => 'oro.customer.customeruser.placeholder.email'
