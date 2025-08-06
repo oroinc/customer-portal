@@ -27,17 +27,24 @@ class CustomerUserPasswordRequestTypeTest extends FormIntegrationTestCase
         mixed $defaultData,
         mixed $viewData,
         mixed $submittedData,
-        mixed $expectedData
+        mixed $expectedData,
+        bool $isValid,
+        ?string $errorMessage = null
     ) {
         $form = $this->factory->create(CustomerUserPasswordRequestType::class, $defaultData, $options);
 
-        $this->assertEquals($defaultData, $form->getData());
-        $this->assertEquals($viewData, $form->getViewData());
+        self::assertEquals($defaultData, $form->getData());
+        self::assertEquals($viewData, $form->getViewData());
 
         $form->submit($submittedData);
-        $this->assertTrue($form->isValid());
-        $this->assertTrue($form->isSynchronized());
-        $this->assertEquals($expectedData, $form->getData());
+        self::assertEquals($isValid, $form->isValid());
+        self::assertTrue($form->isSynchronized());
+        self::assertEquals($expectedData, $form->getData());
+
+        if (!$isValid) {
+            self::assertEquals(1, $form->getErrors(true)->count());
+            self::assertEquals($errorMessage, $form->getErrors(true)->current()->getMessage());
+        }
     }
 
     public function submitDataProvider(): array
@@ -52,7 +59,22 @@ class CustomerUserPasswordRequestTypeTest extends FormIntegrationTestCase
                 ],
                 'expectedData' => [
                     'email' => 'test@test.com'
-                ]
+                ],
+                'isValid' => true,
+                'errorMessage' => null
+            ],
+            'invalid data' => [
+                'options' => [],
+                'defaultData' => [],
+                'viewData' => [],
+                'submittedData' => [
+                    'email' => 't e s t@test.com'
+                ],
+                'expectedData' => [
+                    'email' => 't e s t@test.com'
+                ],
+                'isValid' => false,
+                'errorMessage' => 'This value is not a valid email address.'
             ]
         ];
     }

@@ -43,17 +43,17 @@ class CustomerVisitorEmailAddressType extends EmailAddressType
     {
         parent::configureOptions($resolver);
 
+        $emailConstaraint = new Email(['mode' => Email::VALIDATION_MODE_STRICT ]);
+
+        $resolver->setDefault('multiple', false);
+
         if ($this->isGuest()) {
             $resolver->setDefaults([
                 'required' => true,
-                'multiple' => false,
-                'constraints' => [new NotBlank(), new Email()]
+                'constraints' => [new NotBlank(), $emailConstaraint]
             ]);
         } else {
-            $resolver->setDefaults([
-               'multiple' => false,
-               'constraints' => [new Email()]
-            ]);
+            $resolver->setDefault('constraints', [$emailConstaraint]);
         }
     }
 

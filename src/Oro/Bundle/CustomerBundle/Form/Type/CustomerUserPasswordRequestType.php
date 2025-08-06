@@ -28,7 +28,7 @@ class CustomerUserPasswordRequestType extends AbstractType
                 'label' => 'oro.customer.customeruser.email.label_short',
                 'constraints' => [
                     new NotBlank(),
-                    new Email()
+                    new Email(['mode' => Email::VALIDATION_MODE_STRICT])
                 ],
                 'attr' => [
                     'placeholder' => 'oro.customer.customeruser.placeholder.email'

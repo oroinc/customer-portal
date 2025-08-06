@@ -102,6 +102,10 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
                 'submittedData' => 'email',
                 'expectedError' => 'This value is not a valid email address'
             ],
+            'invalid email string containing space' => [
+                'submittedData' => 'email test@gmail.com',
+                'expectedError' => 'This value is not a valid email address'
+            ],
         ];
     }
 
