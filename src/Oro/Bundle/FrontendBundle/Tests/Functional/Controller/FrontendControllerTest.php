@@ -10,36 +10,42 @@ class FrontendControllerTest extends WebTestCase
 {
     use ConfigManagerAwareTestTrait;
 
-    private const FRONTEND_THEME_CONFIG_KEY = 'oro_frontend.frontend_theme';
+    private ?string $initialTheme;
 
     #[\Override]
     protected function setUp(): void
     {
         $this->initClient();
-        $this->setDefaultTheme();
-
         $this->loadFixtures([LoadProductData::class]);
+
+        $this->initialTheme = self::getConfigManager()->get('oro_frontend.frontend_theme');
     }
 
     #[\Override]
     protected function tearDown(): void
     {
-        $this->setDefaultTheme();
+        $configManager = self::getConfigManager();
+        $configManager->set('oro_frontend.frontend_theme', $this->initialTheme);
+        $configManager->flush();
     }
 
-    public function testIndexPage()
+    public function testIndexPage(): void
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_frontend_root'));
-        self::assertStringNotContainsString($this->getBackendPrefix(), $crawler->html());
+        self::assertStringNotContainsString(
+            self::getContainer()->getParameter('web_backend_prefix'),
+            $crawler->html()
+        );
         $result = $this->client->getResponse();
         self::assertHtmlResponseStatusCodeEquals($result, 200);
     }
 
-    public function testThemeSwitch()
+    public function testThemeSwitch(): void
     {
         // Switch to layout theme
-        $layoutTheme = 'default';
-        $this->setTheme($layoutTheme);
+        $configManager = self::getConfigManager();
+        $configManager->set('oro_frontend.frontend_theme', 'default');
+        $configManager->flush();
 
         $this->client->request('GET', $this->getUrl('oro_frontend_root'));
         $result = $this->client->getResponse();
@@ -51,34 +57,16 @@ class FrontendControllerTest extends WebTestCase
             $this->getUrl('oro_user_security_login'),
             [],
             [],
-            $this->generateNoHashNavigationHeader()
+            self::generateNoHashNavigationHeader()
         );
-        $this->assertEquals('Login', $crawler->filter('h2.title')->html());
+        self::assertEquals('Login', $crawler->filter('h2.title')->html());
 
         // Check that after selecting of layout there is an ability to switch to oro theme
-        $this->setDefaultTheme();
+        $configManager->set('oro_frontend.frontend_theme', $this->initialTheme);
+        $configManager->flush();
 
         $this->client->request('GET', $this->getUrl('oro_frontend_root'));
         $result = $this->client->getResponse();
         self::assertHtmlResponseStatusCodeEquals($result, 200);
-    }
-
-    private function getBackendPrefix(): string
-    {
-        return self::getContainer()->getParameter('web_backend_prefix');
-    }
-
-    private function setTheme(string $theme): void
-    {
-        $configManager = self::getConfigManager();
-        $configManager->set(self::FRONTEND_THEME_CONFIG_KEY, $theme);
-        $configManager->flush();
-    }
-
-    private function setDefaultTheme(): void
-    {
-        $configManager = self::getConfigManager();
-        $configManager->reset(self::FRONTEND_THEME_CONFIG_KEY);
-        $configManager->flush();
     }
 }

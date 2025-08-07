@@ -31,9 +31,7 @@ trait EmailMessageAssertionTrait
         self::assertEmailAddressContains(
             $welcomeMessage,
             'from',
-            self::getConfigManager(null)->get(
-                'oro_notification.email_notification_sender_email'
-            )
+            self::getConfigManager(null)->get('oro_notification.email_notification_sender_email')
         );
         self::assertStringStartsWith('Welcome:', $welcomeMessage->getSubject());
         self::assertStringContainsString($user->getFirstName(), $welcomeMessage->getSubject());
@@ -45,9 +43,7 @@ trait EmailMessageAssertionTrait
 
         $resetUrl = $this->getUrl(
             'oro_customer_frontend_customer_user_password_reset',
-            [
-                'token' => $user->getConfirmationToken(),
-            ]
+            ['token' => $user->getConfirmationToken()]
         );
         self::assertEmailHtmlBodyContains($welcomeMessage, htmlentities($resetUrl));
     }

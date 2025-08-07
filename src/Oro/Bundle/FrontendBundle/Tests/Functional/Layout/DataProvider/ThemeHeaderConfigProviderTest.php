@@ -14,7 +14,6 @@ use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-use Oro\Bundle\ThemeBundle\DependencyInjection\Configuration;
 use Oro\Bundle\ThemeBundle\Entity\ThemeConfiguration as ThemeConfigurationEntity;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Bundle\WebCatalogBundle\Tests\Functional\DataFixtures\LoadContentNodesData;
@@ -31,6 +30,7 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
 {
     use ConfigManagerAwareTestTrait;
 
+    private ?int $initialThemeConfig;
     private ThemeHeaderConfigProvider $provider;
 
     #[\Override]
@@ -43,22 +43,28 @@ class ThemeHeaderConfigProviderTest extends WebTestCase
             LoadContentNodesData::class,
             LoadWebCatalogScopes::class,
         ]);
+
+        $this->initialThemeConfig = self::getConfigManager()->get('oro_theme.theme_configuration');
+
         $this->provider = self::getContainer()->get('oro_frontend.layout.data_provider.theme_header_config');
     }
 
     #[\Override]
     protected function tearDown(): void
     {
+        $configManager = self::getConfigManager();
+        $configManager->set('oro_theme.theme_configuration', $this->initialThemeConfig);
+        $configManager->flush();
+
         self::getContainer()->get('security.token_storage')->setToken(null);
         self::getContainer()->get(FrontendHelper::class)->resetRequestEmulation();
-        parent::tearDown();
     }
 
     private function getThemeConfiguration(): ThemeConfigurationEntity
     {
         return $this->getThemeConfigurationEntityManager()->find(
             ThemeConfigurationEntity::class,
-            self::getConfigManager()->get(Configuration::getConfigKeyByName(Configuration::THEME_CONFIGURATION))
+            self::getConfigManager()->get('oro_theme.theme_configuration')
         );
     }
 

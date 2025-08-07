@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Oro\Bundle\FrontendBundle\Tests\Functional\Form\Type;
 
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\FrontendBundle\Form\Type\QuickAccessButtonConfigType;
 use Oro\Bundle\FrontendBundle\Model\QuickAccessButtonConfig;
@@ -22,36 +21,39 @@ class QuickAccessButtonConfigTypeTest extends WebTestCase
 {
     use ConfigManagerAwareTestTrait;
 
+    private ?int $initialWebCatalogId;
     private FormFactoryInterface $formFactory;
-    private ConfigManager $configManager;
 
     #[\Override]
     protected function setUp(): void
     {
         $this->initClient();
-
-        $this->formFactory = self::getContainer()->get('form.factory');
         $this->loadFixtures([
             LoadUser::class,
-            LoadWebCatalogWithContentNodes::class,
+            LoadWebCatalogWithContentNodes::class
         ]);
 
-        $this->configManager = self::getConfigManager('global');
+        $this->initialWebCatalogId = self::getConfigManager()->get('oro_web_catalog.web_catalog');
+
+        $this->formFactory = self::getContainer()->get('form.factory');
     }
 
     #[\Override]
     protected function tearDown(): void
     {
-        $config = self::getConfigManager();
-        $config->reset('oro_web_catalog.web_catalog');
-        parent::tearDown();
+        if (false !== $this->initialWebCatalogId) {
+            $configManager = self::getConfigManager();
+            $configManager->set('oro_web_catalog.web_catalog', $this->initialWebCatalogId);
+            $configManager->flush();
+        }
     }
 
     public function testSubmitIfMenuSelected(): void
     {
         $webCatalog = $this->getReference(LoadWebCatalogWithContentNodes::WEB_CATALOG_NAME);
-        $this->configManager->set('oro_web_catalog.web_catalog', $webCatalog->getId());
-        $this->configManager->flush();
+        $configManager = self::getConfigManager();
+        $configManager->set('oro_web_catalog.web_catalog', $webCatalog->getId());
+        $configManager->flush();
 
         $localizations = $this->getClientContainer()
             ->get('doctrine')
@@ -97,8 +99,9 @@ class QuickAccessButtonConfigTypeTest extends WebTestCase
     public function testSubmitIfTypeWebCatalogSelected(): void
     {
         $webCatalog = $this->getReference(LoadWebCatalogWithContentNodes::WEB_CATALOG_NAME);
-        $this->configManager->set('oro_web_catalog.web_catalog', $webCatalog->getId());
-        $this->configManager->flush();
+        $configManager = self::getConfigManager();
+        $configManager->set('oro_web_catalog.web_catalog', $webCatalog->getId());
+        $configManager->flush();
 
         $localizations = $this->getClientContainer()
             ->get('doctrine')
@@ -144,8 +147,9 @@ class QuickAccessButtonConfigTypeTest extends WebTestCase
     public function testSubmitIfTypeNoneSelected(): void
     {
         $webCatalog = $this->getReference(LoadWebCatalogWithContentNodes::WEB_CATALOG_NAME);
-        $this->configManager->set('oro_web_catalog.web_catalog', $webCatalog->getId());
-        $this->configManager->flush();
+        $configManager = self::getConfigManager();
+        $configManager->set('oro_web_catalog.web_catalog', $webCatalog->getId());
+        $configManager->flush();
 
         $nodeId = $this->getReference(LoadWebCatalogWithContentNodes::CONTENT_NODE_1)->getId();
         $submitData = [

@@ -23,6 +23,7 @@ class QuickAccessButtonDataProviderTest extends WebTestCase
 {
     use ConfigManagerAwareTestTrait;
 
+    private ?int $initialWebCatalogId;
     private QuickAccessButtonDataProvider $provider;
 
     #[\Override]
@@ -35,15 +36,23 @@ class QuickAccessButtonDataProviderTest extends WebTestCase
             LoadContentNodesData::class,
             LoadWebCatalogScopes::class,
         ]);
+
+        $this->initialWebCatalogId = self::getConfigManager()->get('oro_web_catalog.web_catalog');
+
         $this->provider = $this->getClientContainer()->get('oro_frontend.provider.quick_access_button_data');
     }
 
     #[\Override]
     protected function tearDown(): void
     {
+        if (false !== $this->initialWebCatalogId) {
+            $configManager = self::getConfigManager();
+            $configManager->set('oro_web_catalog.web_catalog', $this->initialWebCatalogId);
+            $configManager->flush();
+        }
+
         self::getContainer()->get('security.token_storage')->setToken(null);
         $this->getClientContainer()->get(FrontendHelper::class)->resetRequestEmulation();
-        parent::tearDown();
     }
 
     public function testGetLabel(): void
@@ -111,8 +120,12 @@ class QuickAccessButtonDataProviderTest extends WebTestCase
 
     private function setupRequestStackAndWebCatalog(): void
     {
-        $webCatalog = $this->getReference(LoadWebCatalogData::CATALOG_1);
-        self::getConfigManager()->set('oro_web_catalog.web_catalog', $webCatalog->getId());
+        $configManager = self::getConfigManager();
+        $configManager->set(
+            'oro_web_catalog.web_catalog',
+            $this->getReference(LoadWebCatalogData::CATALOG_1)->getId()
+        );
+        $configManager->flush();
 
         $this->getClientContainer()->get(FrontendHelper::class)->emulateFrontendRequest();
         $request = Request::create('/');

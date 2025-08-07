@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\RestJsonApi;
 
 use Oro\Bundle\ApiBundle\Tests\Functional\RestJsonApiTestCase;
-use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerUserData;
@@ -14,8 +13,6 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerUser
  */
 class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
 {
-    use ConfigManagerAwareTestTrait;
-
     #[\Override]
     protected function setUp(): void
     {
@@ -84,7 +81,7 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
         return $user;
     }
 
-    public function testCreateAndUpdateCaseSensitive()
+    public function testCreateAndUpdateCaseSensitive(): void
     {
         if ($this->getCustomerUserRepository()->isCaseInsensitiveCollation()) {
             self::markTestSkipped('Case insensitive email option cannot be disabled.');
@@ -104,7 +101,7 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
         $this->assertRequestSuccess($data);
     }
 
-    public function testCreateAndUpdateCaseInsensitive()
+    public function testCreateAndUpdateCaseInsensitive(): void
     {
         $this->setCaseInsensitiveEmailAddresses(true);
 
@@ -137,7 +134,7 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
         $this->assertRequestSuccess($data);
     }
 
-    public function testFindCustomerUserByEmail()
+    public function testFindCustomerUserByEmail(): void
     {
         $this->setCaseInsensitiveEmailAddresses(true);
         $response = $this->cget(['entity' => 'customerusers'], [
