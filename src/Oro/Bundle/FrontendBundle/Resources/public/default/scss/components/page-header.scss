@@ -16,10 +16,6 @@
         z-index: $sticky-panel-z-index + 2;
     }
 
-    .alert-impersonate + .sticky-placeholder + & {
-        z-index: $sticky-panel-z-index - 1;
-    }
-
     &.in-sticky {
         z-index: $sticky-panel-z-index + 2;
 
