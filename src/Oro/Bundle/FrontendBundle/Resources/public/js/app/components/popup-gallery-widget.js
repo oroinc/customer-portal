@@ -230,8 +230,8 @@ define(function(require) {
             const dependentSlider = this.options.bindWithSlider;
             let slideIndex = 0;
 
-            if (dependentSlider && $(dependentSlider).find('.slick-slide').length) {
-                slideIndex = $(dependentSlider).slick('slickCurrentSlide');
+            if (dependentSlider && this.$el.find(`${dependentSlider} .slick-slide`).length) {
+                slideIndex = this.$el.find(dependentSlider).slick('slickCurrentSlide');
             } else if (typeof this.options.initialSlide === 'number') {
                 slideIndex = this.options.initialSlide;
             }
