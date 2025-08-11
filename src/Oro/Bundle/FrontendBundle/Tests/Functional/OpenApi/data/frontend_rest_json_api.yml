@@ -188,7 +188,7 @@ paths:
         -
           $ref: '#/components/parameters/pageSize'
         -
-          $ref: '#/components/parameters/sort'
+          $ref: '#/components/parameters/sort1'
       responses:
         '200':
           $ref: '#/components/responses/countriesCollectionModel'
@@ -334,7 +334,7 @@ paths:
         -
           $ref: '#/components/parameters/pageSize'
         -
-          $ref: '#/components/parameters/sort'
+          $ref: '#/components/parameters/sort2'
       responses:
         '200':
           $ref: '#/components/responses/regionsCollectionModel'
@@ -478,7 +478,7 @@ paths:
         -
           $ref: '#/components/parameters/pageSize'
         -
-          $ref: '#/components/parameters/sort'
+          $ref: '#/components/parameters/sort2'
       responses:
         '200':
           $ref: '#/components/responses/regionsCollectionModel'
@@ -1406,7 +1406,19 @@ components:
     sort:
       name: sort
       in: query
-      description: "Result sorting. Comma-separated fields, e.g. 'field1,-field2'."
+      description: "Result sorting. Comma-separated fields, e.g. 'field1,-field2'. Allowed fields: id, label."
+      schema:
+        $ref: '#/components/schemas/orderBy_id'
+    sort1:
+      name: sort
+      in: query
+      description: "Result sorting. Comma-separated fields, e.g. 'field1,-field2'. Allowed fields: id, name, regions."
+      schema:
+        $ref: '#/components/schemas/orderBy_id'
+    sort2:
+      name: sort
+      in: query
+      description: "Result sorting. Comma-separated fields, e.g. 'field1,-field2'. Allowed fields: country, id, name."
       schema:
         $ref: '#/components/schemas/orderBy_id'
     id:
