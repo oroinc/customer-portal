@@ -13,18 +13,32 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerUser
  */
 class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
 {
+    private ?bool $initialCaseInsensitiveEmail;
+
     #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
         $this->loadFixtures([LoadCustomerUserData::class]);
+
+        $this->initialCaseInsensitiveEmail = self::getConfigManager()
+            ->get('oro_customer.case_insensitive_email_addresses_enabled');
     }
 
-    private function setCaseInsensitiveEmailAddresses(bool $value): void
+    #[\Override]
+    protected function tearDown(): void
+    {
+        $this->setCaseInsensitiveEmailAddresses($this->initialCaseInsensitiveEmail);
+        parent::tearDown();
+    }
+
+    private function setCaseInsensitiveEmailAddresses(?bool $value): void
     {
         $configManager = self::getConfigManager();
-        $configManager->set('oro_customer.case_insensitive_email_addresses_enabled', $value);
-        $configManager->flush();
+        if ($configManager->get('oro_customer.case_insensitive_email_addresses_enabled') !== $value) {
+            $configManager->set('oro_customer.case_insensitive_email_addresses_enabled', $value);
+            $configManager->flush();
+        }
     }
 
     private function getCustomerUserRepository(): CustomerUserRepository
@@ -141,16 +155,16 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
             'filter[email]' => 'Test@test.com'
         ]);
         $content = self::jsonToArray($response->getContent());
-        $this->assertNotEmpty($content);
-        $this->assertArrayHasKey('data', $content);
-        $this->assertIsArray($content['data']);
-        $this->assertCount(1, $content['data']);
-        $this->assertEquals('test@test.com', $content['data'][0]['attributes']['email']);
+        self::assertNotEmpty($content);
+        self::assertArrayHasKey('data', $content);
+        self::assertIsArray($content['data']);
+        self::assertCount(1, $content['data']);
+        self::assertEquals('test@test.com', $content['data'][0]['attributes']['email']);
 
         $this->setCaseInsensitiveEmailAddresses(false);
         $response = $this->cget(['entity' => 'customerusers'], [
             'filter[email]' => 'Test@test.com'
         ]);
-        $this->assertResponseCount(0, $response);
+        self::assertResponseCount(0, $response);
     }
 }
