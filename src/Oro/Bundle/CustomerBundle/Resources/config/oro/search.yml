@@ -23,6 +23,48 @@ search:
                         name:           name
                         target_type:    text
                         target_fields:  [group]
+            -
+                name:                   parent
+                relation_type:          many-to-one
+                relation_fields:
+                    -
+                        name:                   name
+                        target_type:            text
+                        target_fields:          [parentName]
+            -
+                name: addresses
+                relation_type: one-to-many
+                relation_fields:
+                    -   name: street
+                        target_type: text
+                        target_fields: [addressStreet, address]
+                    -   name: street2
+                        target_type: text
+                        target_fields: [addressStreet2, address]
+                    -   name: city
+                        target_type: text
+                        target_fields: [addressCity, address]
+                    -   name: country
+                        relation_type: many-to-one
+                        relation_fields:
+                            -   name: iso2Code
+                                target_type: text
+                                target_fields: [addressCountry, address]
+                    -   name: region
+                        relation_type: many-to-one
+                        relation_fields:
+                            -   name: name
+                                target_type: text
+                                target_fields: [addressRegion, address]
+                    -   name: postalCode
+                        target_type: text
+                        target_fields: [addressPostalCode, address]
+                    -   name: firstName
+                        target_type: text
+                        target_fields: [addressFirstName, address]
+                    -   name: lastName
+                        target_type: text
+                        target_fields: [addressLastName, address]
 
     Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
         alias:                          oro_customer_group
@@ -70,6 +112,41 @@ search:
                         name: name
                         target_type: text
                         target_fields: [customer]
+            -
+                name: addresses
+                relation_type: one-to-many
+                relation_fields:
+                    -   name: street
+                        target_type: text
+                        target_fields: [addressStreet, address]
+                    -   name: street2
+                        target_type: text
+                        target_fields: [addressStreet2, address]
+                    -   name: city
+                        target_type: text
+                        target_fields: [addressCity, address]
+                    -   name: country
+                        relation_type: many-to-one
+                        relation_fields:
+                            -   name: iso2Code
+                                target_type: text
+                                target_fields: [addressCountry, address]
+                    -   name: region
+                        relation_type: many-to-one
+                        relation_fields:
+                            -   name: name
+                                target_type: text
+                                target_fields: [addressRegion, address]
+                    -   name: postalCode
+                        target_type: text
+                        target_fields: [addressPostalCode, address]
+                    -   name: firstName
+                        target_type: text
+                        target_fields: [addressFirstName, address]
+                    -   name: lastName
+                        target_type: text
+                        target_fields: [addressLastName, address]
+
 
     Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
         alias: oro_customer_customer_user_role

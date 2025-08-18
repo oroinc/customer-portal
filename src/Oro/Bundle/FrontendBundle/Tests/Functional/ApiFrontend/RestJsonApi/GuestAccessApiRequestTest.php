@@ -12,7 +12,7 @@ class GuestAccessApiRequestTest extends FrontendRestJsonApiTestCase
 {
     private const GUEST_ACCESS_ENABLED_CONFIG_NAME = 'oro_frontend.guest_access_enabled';
 
-    private bool $originalGuestAccessEnabled;
+    private ?bool $initialGuestAccessEnabled;
 
     #[\Override]
     protected function setUp(): void
@@ -25,7 +25,7 @@ class GuestAccessApiRequestTest extends FrontendRestJsonApiTestCase
     protected function tearDown(): void
     {
         $configManager = self::getConfigManager();
-        $configManager->set(self::GUEST_ACCESS_ENABLED_CONFIG_NAME, $this->originalGuestAccessEnabled);
+        $configManager->set(self::GUEST_ACCESS_ENABLED_CONFIG_NAME, $this->initialGuestAccessEnabled);
         $configManager->flush();
         parent::tearDown();
     }
@@ -33,7 +33,7 @@ class GuestAccessApiRequestTest extends FrontendRestJsonApiTestCase
     private function setGuestAccess(bool $guestAccessEnabled): void
     {
         $configManager = self::getConfigManager();
-        $this->originalGuestAccessEnabled = $configManager->get(self::GUEST_ACCESS_ENABLED_CONFIG_NAME);
+        $this->initialGuestAccessEnabled = $configManager->get(self::GUEST_ACCESS_ENABLED_CONFIG_NAME);
         $configManager->set(self::GUEST_ACCESS_ENABLED_CONFIG_NAME, $guestAccessEnabled);
         $configManager->flush();
     }

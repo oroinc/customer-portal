@@ -20,6 +20,8 @@ class CustomerUserControllerRegisterTest extends WebTestCase
     private const EMAIL = 'john.doe@example.com';
     private const PASSWORD = '123456';
 
+    private ?bool $initialConfirmationRequired;
+
     #[\Override]
     protected function setUp(): void
     {
@@ -28,12 +30,18 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $this->loadFixtures([LoadCustomerUserData::class]);
         $this->loadFixtures([LoadUserAndGuestWithSameUsername::class]);
 
+        $this->initialConfirmationRequired = self::getConfigManager()->get('oro_customer.confirmation_required');
+
         MessageLoggerListener::instance()->reset();
     }
 
     #[\Override]
     protected function tearDown(): void
     {
+        $configManager = self::getConfigManager();
+        $configManager->set('oro_customer.confirmation_required', $this->initialConfirmationRequired);
+        $configManager->flush();
+
         MessageLoggerListener::instance()->reset();
     }
 

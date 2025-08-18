@@ -12,10 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 class StorefrontSessionHttpKernelDecoratorTest extends WebTestCase
 {
     private StorefrontSessionHttpKernelDecorator $storefrontSessionHttpKernelDecorator;
-
     private string $frontendSessionName = 'TESTSFID';
-
-    private array $originalOptions;
+    private array $initialOptions;
 
     protected function setUp(): void
     {
@@ -24,7 +22,7 @@ class StorefrontSessionHttpKernelDecoratorTest extends WebTestCase
         $this->storefrontSessionHttpKernelDecorator = self::getContainer()
             ->get('oro_frontend.security.http_kernel.session_path');
 
-        $this->originalOptions = ReflectionUtil::getPropertyValue(
+        $this->initialOptions = ReflectionUtil::getPropertyValue(
             $this->storefrontSessionHttpKernelDecorator,
             'storefrontSessionOptions'
         );
@@ -42,7 +40,7 @@ class StorefrontSessionHttpKernelDecoratorTest extends WebTestCase
         ReflectionUtil::setPropertyValue(
             $this->storefrontSessionHttpKernelDecorator,
             'storefrontSessionOptions',
-            ['name' => $this->originalOptions]
+            ['name' => $this->initialOptions]
         );
     }
 
@@ -53,9 +51,9 @@ class StorefrontSessionHttpKernelDecoratorTest extends WebTestCase
         $this->storefrontSessionHttpKernelDecorator->handle($request);
 
         $sessionOptions = self::getContainer()->getParameter('session.storage.options');
-        $originalSessionOptions = self::getContainer()->getParameter('oro_security.session.storage.options');
+        $initialSessionOptions = self::getContainer()->getParameter('oro_security.session.storage.options');
 
-        self::assertEquals($originalSessionOptions['name'], $sessionOptions['name']);
+        self::assertEquals($initialSessionOptions['name'], $sessionOptions['name']);
     }
 
     public function testSessionOptionsForFrontendRequest(): void

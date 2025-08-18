@@ -21,7 +21,6 @@ services:
 
     oro_customer.owner.frontend_ownership_metadata_provider.cache:
         parent: oro.data.cache
-        public: false
         tags:
             - { name: 'cache.pool', namespace: 'oro_acl_entity_ownership_frontend' }
 
@@ -77,7 +76,6 @@ services:
 
     oro_customer.owner.frontend_ownership_tree_provider.cache:
         parent: oro.data.cache
-        public: true
         tags:
             - { name: 'cache.pool', namespace: 'oro_acl_owner_tree_frontend' }
 

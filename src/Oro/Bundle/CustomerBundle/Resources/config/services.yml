@@ -1448,13 +1448,11 @@ services:
             - { name: kernel.cache_warmer, priority: -250 }
 
     oro_customer.security.acl.visitor.cache.doctrine.cache_impl:
-        public: false
         parent: oro.data.cache
         tags:
             - { name: 'cache.pool', namespace: 'oro_acl_visitor' }
 
     oro_customer.security.acl.visitor.cache:
-        public: false
         class: Oro\Bundle\CustomerBundle\Acl\Cache\CustomerVisitorAclCache
         arguments:
             - '@oro_customer.security.acl.visitor.cache.doctrine.cache_impl'

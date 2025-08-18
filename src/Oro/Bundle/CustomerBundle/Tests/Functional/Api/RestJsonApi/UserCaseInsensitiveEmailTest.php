@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\RestJsonApi;
 
 use Oro\Bundle\ApiBundle\Tests\Functional\RestJsonApiTestCase;
-use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerUserData;
@@ -14,20 +13,32 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerUser
  */
 class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
 {
-    use ConfigManagerAwareTestTrait;
+    private ?bool $initialCaseInsensitiveEmail;
 
     #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
         $this->loadFixtures([LoadCustomerUserData::class]);
+
+        $this->initialCaseInsensitiveEmail = self::getConfigManager()
+            ->get('oro_customer.case_insensitive_email_addresses_enabled');
     }
 
-    private function setCaseInsensitiveEmailAddresses(bool $value): void
+    #[\Override]
+    protected function tearDown(): void
+    {
+        $this->setCaseInsensitiveEmailAddresses($this->initialCaseInsensitiveEmail);
+        parent::tearDown();
+    }
+
+    private function setCaseInsensitiveEmailAddresses(?bool $value): void
     {
         $configManager = self::getConfigManager();
-        $configManager->set('oro_customer.case_insensitive_email_addresses_enabled', $value);
-        $configManager->flush();
+        if ($configManager->get('oro_customer.case_insensitive_email_addresses_enabled') !== $value) {
+            $configManager->set('oro_customer.case_insensitive_email_addresses_enabled', $value);
+            $configManager->flush();
+        }
     }
 
     private function getCustomerUserRepository(): CustomerUserRepository
@@ -84,7 +95,7 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
         return $user;
     }
 
-    public function testCreateAndUpdateCaseSensitive()
+    public function testCreateAndUpdateCaseSensitive(): void
     {
         if ($this->getCustomerUserRepository()->isCaseInsensitiveCollation()) {
             self::markTestSkipped('Case insensitive email option cannot be disabled.');
@@ -104,7 +115,7 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
         $this->assertRequestSuccess($data);
     }
 
-    public function testCreateAndUpdateCaseInsensitive()
+    public function testCreateAndUpdateCaseInsensitive(): void
     {
         $this->setCaseInsensitiveEmailAddresses(true);
 
@@ -137,23 +148,23 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
         $this->assertRequestSuccess($data);
     }
 
-    public function testFindCustomerUserByEmail()
+    public function testFindCustomerUserByEmail(): void
     {
         $this->setCaseInsensitiveEmailAddresses(true);
         $response = $this->cget(['entity' => 'customerusers'], [
             'filter[email]' => 'Test@test.com'
         ]);
         $content = self::jsonToArray($response->getContent());
-        $this->assertNotEmpty($content);
-        $this->assertArrayHasKey('data', $content);
-        $this->assertIsArray($content['data']);
-        $this->assertCount(1, $content['data']);
-        $this->assertEquals('test@test.com', $content['data'][0]['attributes']['email']);
+        self::assertNotEmpty($content);
+        self::assertArrayHasKey('data', $content);
+        self::assertIsArray($content['data']);
+        self::assertCount(1, $content['data']);
+        self::assertEquals('test@test.com', $content['data'][0]['attributes']['email']);
 
         $this->setCaseInsensitiveEmailAddresses(false);
         $response = $this->cget(['entity' => 'customerusers'], [
             'filter[email]' => 'Test@test.com'
         ]);
-        $this->assertResponseCount(0, $response);
+        self::assertResponseCount(0, $response);
     }
 }

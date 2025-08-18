@@ -15,21 +15,22 @@ class SvgIconsSupportContextConfiguratorTest extends WebTestCase
 {
     use ConfigManagerAwareTestTrait;
 
-    private int $originalThemeConfig;
+    private ?int $initialThemeConfig;
 
     #[\Override]
     protected function setUp(): void
     {
         $this->initClient();
 
-        $this->originalThemeConfig = self::getConfigManager()->get('oro_theme.theme_configuration');
+        $this->initialThemeConfig = self::getConfigManager()->get('oro_theme.theme_configuration');
     }
 
     #[\Override]
     protected function tearDown(): void
     {
-        self::getConfigManager()->set('oro_theme.theme_configuration', $this->originalThemeConfig);
-        self::getConfigManager()->flush();
+        $configManager = self::getConfigManager();
+        $configManager->set('oro_theme.theme_configuration', $this->initialThemeConfig);
+        $configManager->flush();
     }
 
     private function getThemeConfigurationEntityManager(): EntityManagerInterface
@@ -56,8 +57,9 @@ class SvgIconsSupportContextConfiguratorTest extends WebTestCase
         $entityManager->persist($themeConfig);
         $entityManager->flush();
 
-        self::getConfigManager()->set('oro_theme.theme_configuration', $themeConfig->getId());
-        self::getConfigManager()->flush();
+        $configManager = self::getConfigManager();
+        $configManager->set('oro_theme.theme_configuration', $themeConfig->getId());
+        $configManager->flush();
 
         /** @var EventDispatcherInterface $eventDispatcher */
         $eventDispatcher = self::getContainer()->get('event_dispatcher');
@@ -88,8 +90,9 @@ class SvgIconsSupportContextConfiguratorTest extends WebTestCase
         $entityManager->persist($themeConfig);
         $entityManager->flush();
 
-        self::getConfigManager()->set('oro_theme.theme_configuration', $themeConfig->getId());
-        self::getConfigManager()->flush();
+        $configManager = self::getConfigManager();
+        $configManager->set('oro_theme.theme_configuration', $themeConfig->getId());
+        $configManager->flush();
 
         /** @var EventDispatcherInterface $eventDispatcher */
         $eventDispatcher = self::getContainer()->get('event_dispatcher');

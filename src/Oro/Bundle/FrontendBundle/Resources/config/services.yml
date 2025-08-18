@@ -267,7 +267,6 @@ services:
             - '%kernel.bundles%'
 
     oro_frontend.screens.cache:
-        public: false
         parent: oro.data.cache
         tags:
             - { name: 'cache.pool', namespace: 'oro_frontend_screens' }
