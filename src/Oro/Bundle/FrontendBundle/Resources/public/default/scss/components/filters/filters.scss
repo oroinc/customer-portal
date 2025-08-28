@@ -315,6 +315,13 @@
         margin-top: $filter-action-row-offset-top;
     }
 
+    .multiselect-filter,
+    .select-filter {
+        + .filter-action-row {
+            margin-top: 0;
+        }
+    }
+
     .dropdown-menu-calendar {
         min-width: $filter-dropdown-menu-calendar-max-width;
     }
@@ -338,10 +345,6 @@
             $arrow-box-shadow: $filter-box-apply-arrow-box-shadow,
             $arrow-placeholder: $filter-box-apply-arrow-placeholder
         );
-    }
-
-    .ui-multiselect-checkboxes {
-        list-style: none;
     }
 }
 

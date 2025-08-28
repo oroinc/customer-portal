@@ -16,6 +16,12 @@ const StyleBookPageComponentPlayground = StyleBookPlayground.extend({
         StyleBookPageComponentPlayground.__super__.disposeView.call(this);
 
         this.$(this.subviewContainer).empty();
+    },
+
+    createView(View) {
+        StyleBookPageComponentPlayground.__super__.createView.call(this, View);
+
+        this.$(this.subviewContainer).removeClass('hide');
     }
 });
 

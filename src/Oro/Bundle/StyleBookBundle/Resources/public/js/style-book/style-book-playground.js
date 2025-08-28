@@ -119,7 +119,7 @@ define(function(require) {
                 if (this.$el.find(this.subviewContainer).length) {
                     _.extend(this.viewOptions, {
                         _sourceElement: this.$el.find(this.subviewContainer),
-                        el: this.$el.find(this.subviewContainer).get()
+                        el: this.$el.find(this.subviewContainer).get(0)
                     });
                 }
 

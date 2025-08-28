@@ -179,8 +179,11 @@ oro_stylebook:
                         title: 'Multiselect Dropdown Mode'
                     standaloneMode:
                         title: 'Standalone Mode'
+                    radioMode:
+                        title: 'Radio buttons mode'
                 options:
                     options: 'Array of options for multiselect for select Standalone Mode'
+                    multiple: 'Set select as radio button mode'
                     defaultOptions: 'Array of default state options for multiselect'
                     enabledHeader: 'Enable header and ability to select all items or diselect all items'
                     enabledFooter: 'Enable footer in multiselect'
@@ -192,6 +195,7 @@ oro_stylebook:
                     dropdownToggleIcon: 'Icon for dropdown toggle button'
                     dropdownPlacement: 'Set up dropdown placement value'
                     dropdownAriaLabel: 'Set up aria label attribute for toggle button'
+                    showSelectedInLabel: 'Enable update toggle button label depend on selected items'
                     tooltipPlacement: 'Set up tooltip placement'
                     tooltipTitle: 'Define tooltip text'
                     cssConfig: 'Define dictionary for put css class names to diferent part of multiselect. Add <code class="language-markup">strategy: "override"</code> to fully override particular property.'

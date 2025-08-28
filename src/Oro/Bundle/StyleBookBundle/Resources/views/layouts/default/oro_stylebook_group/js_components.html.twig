@@ -168,6 +168,71 @@
                 multiple
                 class="hidden"
             >
+                <option value="delta1" disabled>Delta</option>
+                <option value="bravo1" selected>Bravo</option>
+
+                <optgroup label="First Group">
+                    <option value="delta" disabled>Delta</option>
+                    <option value="bravo" selected>Bravo</option>
+                    <option value="mike">Mike</option>
+                    <option value="kilo" disabled selected>Kilo</option>
+                </optgroup>
+
+                <option value="delta1" disabled>Delta</option>
+                <option value="bravo1" selected>Bravo</option>
+                <option value="mike2">Mike</option>
+                <option value="kilo3" disabled selected>Kilo</option>
+
+                <optgroup label="Second Group">
+                    <option value="echo">Echo</option>
+                    <option value="romeo" selected>Romeo</option>
+                    <option value="tango">Tango</option>
+                    <option value="yankee">Yankee</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div class="grid-col">
+            <pre class="language-html">
+                <code class="style-book-group-element__code language-html">
+                    {{ "<select
+                    data-page-component-module=\"oroui/js/app/components/multiselect-component\"
+                    data-page-component-options=\"{{ {
+                        enabledFooter: true
+                    }|json_encode }}\"
+                    multiple
+                    class=\"hidden\"
+                >
+                    <optgroup label=\"First Group\">
+                        <option value=\"delta\" disabled>Delta</option>
+                        <option value=\"bravo\" selected>Bravo</option>
+                        <option value=\"mike\">Mike</option>
+                        <option value=\"kilo\" disabled selected>Kilo</option>
+                    </optgroup>
+
+                    <optgroup label=\"Second Group\">
+                        <option value=\"echo\">Echo</option>
+                        <option value=\"romeo\" selected>Romeo</option>
+                        <option value=\"tango\">Tango</option>
+                        <option value=\"yankee\">Yankee</option>
+                    </optgroup>
+                </select>"|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+
+    <div class="grid grid-columns-2 style-book-group-element__preview">
+        <div class="grid-col">
+            <h3 class="heading-bottom-offset">{{ 'oro_stylebook.groups.jscomponent.multiselect_widget.examples.simple.title'|trans }}</h3>
+            <select
+                data-page-component-module="oroui/js/app/components/multiselect-component"
+                data-page-component-options="{{ {
+                    enabledFooter: true
+                }|json_encode }}"
+                multiple
+                class="hidden"
+            >
                 <option value="delta" disabled>Delta</option>
                 <option value="bravo" selected>Bravo</option>
                 <option value="mike">Mike</option>
@@ -202,7 +267,8 @@
                 </code>
             </pre>
         </div>
-
+    </div>
+    <div class="grid grid-columns-2 style-book-group-element__preview">
         <div class="grid-col">
             <h3 class="heading-bottom-offset">{{ 'oro_stylebook.groups.jscomponent.multiselect_widget.examples.dropdown.title'|trans }}</h3>
             <select
@@ -249,7 +315,8 @@
                 </code>
             </pre>
         </div>
-
+    </div>
+    <div class="grid grid-columns-2 style-book-group-element__preview">
         <div class="grid-col">
             <h3 class="heading-bottom-offset">{{ 'oro_stylebook.groups.jscomponent.multiselect_widget.examples.standaloneMode.title'|trans }}</h3>
             <div
@@ -292,6 +359,51 @@
             </pre>
         </div>
     </div>
+    <div class="grid grid-columns-2 style-book-group-element__preview">
+        <div class="grid-col">
+            <h3 class="heading-bottom-offset">{{ 'oro_stylebook.groups.jscomponent.multiselect_widget.examples.radioMode.title'|trans }}</h3>
+            <div
+                data-page-component-module="oroui/js/app/components/multiselect-component"
+                data-page-component-options="{{ {
+                    enabledHeader: false,
+                    enabledSearch: false,
+                    multiple: false,
+                    options: [
+                        {value: '1', label: 'Lorem', selected: true},
+                        {value: '2', label: 'Ipsum', disabled: true},
+                        {value: '3', label: 'Dolor'},
+                        {value: '4', label: 'Sit'},
+                        {value: '5', label: 'Amet', disabled: true},
+                        {value: '6', label: 'Consectetur'},
+                        {value: '7', label: 'Adipiscing'},
+                        {value: '8', label: 'Elit'}
+                    ],
+                }|json_encode }}"></div>
+        </div>
+
+        <div class="grid-col">
+            <pre class="language-html">
+                <code class="style-book-group-element__code language-html">
+                    {{ "<div data-page-component-module=\"oroui/js/app/components/multiselect-component\"
+                data-page-component-options=\"{{ {
+                    enabledHeader: false,
+                    enabledSearch: false,
+                    multiple: false,
+                    options: [
+                        {value: '1', label: 'Lorem', selected: true},
+                        {value: '2', label: 'Ipsum', disabled: true},
+                        {value: '3', label: 'Dolor'},
+                        {value: '4', label: 'Sit'},
+                        {value: '5', label: 'Amet', disabled: true},
+                        {value: '6', label: 'Consectetur'},
+                        {value: '7', label: 'Adipiscing'},
+                        {value: '8', label: 'Elit'}
+                    ],
+                }|json_encode }}\"></div>"|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
 {% endblock %}
 
 {% block _style_book_grid_element_multiselect_view_options_widget %}
@@ -311,6 +423,12 @@
                     {value: '3', label: 'Option 3', disabled: true, selected: true}
                 ]
             "
+        },
+        {
+            label: 'multiple',
+            type: 'Boolean',
+            default: 'true',
+            description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.multiple'|trans,
         },
         {
             label: 'defaultOptions',
@@ -379,6 +497,12 @@
             description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.dropdownAriaLabel'|trans
         },
         {
+            label: 'showSelectedInLabel',
+            type: 'Boolean',
+            default: 'true',
+            description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.dropdownAriaLabel'|trans
+        },
+        {
             label: 'tooltipPlacement',
             type: 'String',
             default: 'top-center',
@@ -402,6 +526,7 @@
     "listOffset":"multiselect--offset",
     "item":"multiselect__item",
     "itemCheckboxLabel":"checkbox-label multiselect__item-checkbox",
+    "itemCheckbox":"",
     "header":"multiselect__header",
     "headerCheckboxLabel":"checkbox-label multiselect__item-checkbox",
     "headerHidden": "hidden",
@@ -445,6 +570,7 @@
                 enabledFooter: false,
                 enabledSearch: true,
                 dropdownMode: false,
+                multiple: true,
                 maxItemsForShowSearchBar: 7,
                 dropdownToggleLabel: 'Open Select',
                 dropdownMenuLabel: '',
@@ -455,7 +581,8 @@
 
     <div {{ block('block_attributes') }}>
         <div class="style-book-group-element__preview">
-            <div data-example-view data-action="render" style="max-width: 500px;"></div>
+            <div data-example-view data-action="render" style="max-width: 500px;">
+            </div>
         </div>
 
         {{ block_widget(block) }}

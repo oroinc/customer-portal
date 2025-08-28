@@ -4,9 +4,12 @@
     &__list {
         display: grid;
         width: 100%;
-        max-height: $datagrid-manager-filters-dropdown-max-height;
+        max-height: $multiselect-max-height;
         list-style: none;
         overflow-y: auto;
+
+        margin-inline: -#{spacing('xs')};
+        padding-inline: spacing('xs');
     }
 
     &--offset {
@@ -35,7 +38,7 @@
         bottom: 0;
         margin: auto;
 
-        color: $datagrid-manager-search-color;
+        color: $multiselect-search-color;
     }
 
     &__search-input {
@@ -45,5 +48,22 @@
     &__no-found {
         margin-top: spacing('xs');
         text-align: center;
+    }
+
+    &__optgroup {
+        &-label {
+            font-weight: font-weight('semi-bold');
+            cursor: pointer;
+
+            position: sticky;
+            top: 0;
+
+            background-color: $multiselect-optgroup-label-background-color;
+            z-index: z();
+        }
+
+        &-options {
+            padding-inline-start: spacing('sm');
+        }
     }
 }

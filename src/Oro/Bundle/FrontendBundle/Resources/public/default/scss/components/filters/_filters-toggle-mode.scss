@@ -7,40 +7,6 @@
         margin-block-start: 0;
     }
 
-    .ui-multiselect-menu {
-        /* stylelint-disable declaration-no-important */
-        // Break inline styles
-        position: static !important;
-        // Break inline styles
-        max-width: 100% !important;
-        // Break inline styles
-        width: 100% !important;
-        display: block !important;
-        /* stylelint-enable declaration-no-important */
-
-        .ui-multiselect-header {
-            display: none;
-        }
-
-        .ui-multiselect-checkboxes {
-            /* stylelint-disable declaration-no-important */
-            overflow: visible !important;
-            height: auto !important;
-            max-height: none !important;
-            /* stylelint-enable declaration-no-important */
-            margin-bottom: 0;
-
-            &.filters-dropdown {
-                margin-bottom: spacing('sm');
-            }
-        }
-
-        .datagrid-manager-search {
-            margin-top: $filter-toggle-mode-datagrid-manager-search-offset-top;
-            margin-bottom: $filter-toggle-mode-datagrid-manager-search-offset-bottom;
-        }
-    }
-
     .datagrid-manager {
         &__title {
             text-align: center;
@@ -101,6 +67,13 @@
     .filter-action-row {
         display: flex;
         justify-content: end;
+    }
+
+    .multiselect-filter,
+    .select-filter {
+        + .filter-action-row {
+            justify-content: start;
+        }
     }
 
     .filter-criteria-selector {
