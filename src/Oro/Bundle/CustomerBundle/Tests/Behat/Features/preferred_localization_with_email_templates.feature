@@ -24,10 +24,12 @@ Feature: Preferred localization with email templates
     And click "edit" on first row in grid
     And click "Zulu"
     When I fill "Email Template Form" with:
-      | Subject Fallback | false        |
-      | Content Fallback | false        |
-      | Subject          | Zulu Subject |
-      | Content          | Zulu Body    |
+      | Subject Fallback | false |
+      | Content Fallback | false |
+    And I clear "Content" textarea in form "Email Template Form"
+    When I fill "Email Template Form" with:
+      | Subject | Zulu Subject |
+      | Content | Zulu Body    |
     And save and close form
     Then I should see "Template saved" flash message
 
