@@ -30,15 +30,18 @@ Feature: Localized email notification for customer user on storefront
     Given I go to System / Emails / Templates
     When I filter Template Name as is equal to "customer_user_welcome_email_registered_by_admin"
     And click "edit" on first row in grid
+    And I clear "Content" textarea in form "Email Template Form"
     And fill "Email Template Form" with:
       | Subject | English Customer User Welcome By Admin Subject |
       | Content | English Customer User Welcome By Admin Body    |
     And click "German"
     And fill "Email Template Form" with:
-      | Subject Fallback | false                                         |
-      | Content Fallback | false                                         |
-      | Subject          | German Customer User Welcome By Admin Subject |
-      | Content          | German Customer User Welcome By Admin Body    |
+      | Subject Fallback | false |
+      | Content Fallback | false |
+    And I clear "Content" textarea in form "Email Template Form"
+    And I clear "Content" textarea in form "Email Template Form"
+      | Subject | German Customer User Welcome By Admin Subject |
+      | Content | German Customer User Welcome By Admin Body    |
     And submit form
     Then I should see "Template saved" flash message
 
