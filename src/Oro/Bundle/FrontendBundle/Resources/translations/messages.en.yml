@@ -429,7 +429,7 @@ oro_frontend:
                     tooltip: 'Defines whether the field is visible or hidden'
                 is_editable:
                     label: Show on form
-                    tooltip: 'Defines whether the field is enabled in the front store forms'
+                    tooltip: 'Defines whether the field is enabled in the storefront forms'
 
     switcher:
         info:

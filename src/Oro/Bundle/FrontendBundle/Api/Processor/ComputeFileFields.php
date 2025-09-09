@@ -16,7 +16,7 @@ use Oro\Component\ChainProcessor\ContextInterface;
 use Oro\Component\ChainProcessor\ProcessorInterface;
 
 /**
- * Computes values for File entity related fields.
+ * Computes values of File entity related fields.
  */
 class ComputeFileFields implements ProcessorInterface
 {
