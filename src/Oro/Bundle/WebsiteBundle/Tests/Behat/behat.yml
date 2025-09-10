@@ -6,6 +6,7 @@ oro_behat_extension:
         - Oro\Bundle\ConfigBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\FormBundle\Tests\Behat\Context\FormContext
         - Oro\Bundle\WebsiteBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\DataGridBundle\Tests\Behat\Context\GridContext
       paths:
         - '@OroWebsiteBundle/Tests/Behat/Features'
   elements:
@@ -27,3 +28,7 @@ oro_behat_extension:
             type: 'css'
             locator: 'input[id^="routing_oro_cms___home_page_value-uid"]'
             element: Select2Entity
+    Captcha Protect User Reset Password Form Checkbox:
+        selector: 'input[id^="captcha_settings_oro_form___captcha_protected_forms_value"][value="oro_user_password_request"]'
+    Captcha Protect User Login Form Checkbox:
+        selector: 'input[id^="captcha_settings_oro_form___captcha_protected_forms_value"][value="oro_user_form_login"]'
