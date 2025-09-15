@@ -33,6 +33,7 @@ define(function(require) {
             infinite: false,
             additionalClass: 'embedded-list__slider no-transform',
             openElements: '[data-toggle], [data-name="prices-hint-trigger"]',
+            openComponents: ['dropdown', 'popover', 'tooltip'],
             prevArrow: arrowTpl({
                 ariaLabel: __('Previous'),
                 iconName: 'chevron-left',
@@ -139,9 +140,34 @@ define(function(require) {
             this.previousSlide = this.$el.slick('slickCurrentSlide');
             this.$el.on(`beforeChange${this.eventNamespace()}`, this._slickBeforeChange.bind(this));
             this.$el.on(`afterChange${this.eventNamespace()}`, this._slickAfterChange.bind(this));
+
+            if (tools.isTouchDevice()) {
+                this.handleTouches();
+            }
             if (this.options.processClick) {
                 this.$el.on(`click${this.eventNamespace()}`, this.options.processClick, this.toProcessClick.bind(this));
             }
+        },
+
+        /**
+         * Handle touch move event to close opened bootstrap components (dropdown, popover, tooltip)
+         */
+        handleTouches() {
+            this.options.openComponents.forEach(component => {
+                this.$el.on(`show.bs.${component}${this.eventNamespace()}`, () => {
+                    this.$el.one(`touchmove${this.eventNamespace()}`,
+                        event => {
+                            if (event.target.closest('.show')) {
+                                return;
+                            }
+                            this._closeElements(this.$el.slick('getSlick'));
+                        });
+
+                    this.$el.one(`hide.bs.${component}${this.eventNamespace()}`, () =>
+                        this.$el.off(`touchmove${this.eventNamespace()}`)
+                    );
+                });
+            });
         },
 
         getLayoutElement() {
