@@ -23,6 +23,8 @@ define(function(require) {
             dots: false,
             infinite: false,
             additionalClass: 'embedded-list__slider no-transform',
+            openElements: '[data-toggle], [data-name="prices-hint-trigger"]',
+            openComponents: ['dropdown', 'popover', 'tooltip'],
             embeddedArrowsClass: 'embedded-arrows',
             loadingClass: 'loading',
             itemLinkSelector: null,
@@ -89,7 +91,8 @@ define(function(require) {
             }
 
             if (this.options.relatedComponent) {
-                this.onChange();
+                const currentSlide = this.$el.slick('slickCurrentSlide');
+                this.changeHandler(currentSlide, 'slider:activeImage');
             }
 
             $(this.$el).on(`destroy${this.eventNamespace()}`, function(event, slick) {
@@ -101,9 +104,49 @@ define(function(require) {
             });
 
             this.previousSlide = this.$el.slick('slickCurrentSlide');
+            this.$el.on(`beforeChange${this.eventNamespace()}`, this._slickBeforeChange.bind(this));
             this.$el.on(`afterChange${this.eventNamespace()}`, this._slickAfterChange.bind(this));
+
+            if (tools.isTouchDevice()) {
+                this.handleTouches();
+            }
             if (this.options.processClick) {
                 this.$el.on(`click${this.eventNamespace()}`, this.options.processClick, this.toProcessClick.bind(this));
+            }
+        },
+
+        /**
+         * Handle touch move event to close opened bootstrap components (dropdown, popover, tooltip)
+         */
+        handleTouches() {
+            this.options.openComponents.forEach(component => {
+                this.$el.on(`show.bs.${component}${this.eventNamespace()}`, () => {
+                    this.$el.one(`touchmove${this.eventNamespace()}`,
+                        event => {
+                            if (event.target.closest('.show')) {
+                                return;
+                            }
+                            this._closeElements(this.$el.slick('getSlick'));
+                        });
+
+                    this.$el.one(`hide.bs.${component}${this.eventNamespace()}`, () =>
+                        this.$el.off(`touchmove${this.eventNamespace()}`)
+                    );
+                });
+            });
+        },
+
+        /**
+         * @param {jQuery.Event} event
+         * @param {slick} slick
+         * @param {Number} currentSlide
+         * @param {Number} nextSlide
+         * @private
+         */
+        _slickBeforeChange(event, slick, currentSlide, nextSlide) {
+            this._closeElements(slick);
+            if (this.options.relatedComponent) {
+                this.changeHandler(nextSlide, 'slider:activeImage');
             }
         },
 
@@ -133,22 +176,33 @@ define(function(require) {
             this.trigger('oro:embedded-list:shown', $shownItems);
         },
 
+        /**
+         * @param {slick} slick
+         * @private
+         */
+        _closeElements(slick) {
+            slick.$list.find(this.options.openElements).each((i, el) => {
+                const $el = $(el);
+
+                if ($el.data('bs.dropdown')) {
+                    $el.dropdown('hide');
+                }
+
+                if ($el.data('bs.popover')) {
+                    $el.popover('hide');
+                }
+
+                if ($el.data('bs.tooltip')) {
+                    $el.tooltip('hide');
+                }
+            });
+        },
+
         refreshPositions: function() {
             const updatePosition = this.updatePosition.bind(this);
             $(this.$el).on('init', function(event, slick) {
                 // This delay needed for waiting when slick initialized
                 setTimeout(updatePosition, 100);
-            });
-        },
-
-        onChange: function() {
-            const self = this;
-
-            const currentSlide = $(this.$el).slick('slickCurrentSlide');
-            this.changeHandler(currentSlide, 'slider:activeImage');
-
-            this.$el.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
-                self.changeHandler(nextSlide, 'slider:activeImage');
             });
         },
 
