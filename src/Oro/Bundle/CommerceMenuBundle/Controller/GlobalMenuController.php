@@ -4,7 +4,7 @@ namespace Oro\Bundle\CommerceMenuBundle\Controller;
 
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -20,7 +20,7 @@ class GlobalMenuController extends AbstractFrontendMenuController
      * @return array
      */
     #[Route(path: '/', name: 'oro_commerce_menu_global_menu_index')]
-    #[Template]
+    #[Template('@OroCommerceMenu/GlobalMenu/index.html.twig')]
     public function indexAction()
     {
         $this->denyAccessUnlessGranted('oro_navigation_manage_menus');
@@ -60,7 +60,7 @@ class GlobalMenuController extends AbstractFrontendMenuController
      * @return array|RedirectResponse
      */
     #[Route(path: '/{menuName}/update/{key}', name: 'oro_commerce_menu_global_menu_update')]
-    #[Template]
+    #[Template('@OroCommerceMenu/GlobalMenu/update.html.twig')]
     public function updateAction(string $menuName, ?string $key = null)
     {
         return parent::update($menuName, $key);

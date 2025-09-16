@@ -11,7 +11,7 @@ use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Oro\Bundle\SecurityBundle\Util\SameSiteUrlHelper;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -32,10 +32,12 @@ class CustomerAddressController extends AbstractController
         requirements: ['entityId' => '\d+']
     )]
     #[Layout]
-    #[ParamConverter('customer', options: ['id' => 'entityId'])]
     #[AclAncestor('oro_customer_frontend_customer_address_create')]
-    public function createAction(Customer $customer, Request $request): array|RedirectResponse
-    {
+    public function createAction(
+        #[MapEntity(id: 'entityId')]
+        Customer $customer,
+        Request $request
+    ): array|RedirectResponse {
         return $this->update($customer, new CustomerAddress(), $request);
     }
 
@@ -45,11 +47,11 @@ class CustomerAddressController extends AbstractController
         requirements: ['entityId' => '\d+', 'id' => '\d+']
     )]
     #[Layout]
-    #[ParamConverter('customer', options: ['id' => 'entityId'])]
-    #[ParamConverter('customerAddress', options: ['id' => 'id'])]
     #[AclAncestor('oro_customer_frontend_customer_address_update')]
     public function updateAction(
+        #[MapEntity(id: 'entityId')]
         Customer $customer,
+        #[MapEntity(id: 'id')]
         CustomerAddress $customerAddress,
         Request $request
     ): array|RedirectResponse {

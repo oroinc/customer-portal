@@ -7,7 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Oro\Bundle\SecurityBundle\Attribute\CsrfProtection;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -22,21 +22,19 @@ class CustomerUserAddressPageAddressValidationController extends AbstractAddress
 
     #[CsrfProtection]
     #[Layout]
-    #[ParamConverter('customerUser', class: CustomerUser::class, options: ['id' => 'customer_user_id'])]
-    #[ParamConverter(
-        data: 'customerUserAddress',
-        class: CustomerUserAddress::class,
-        options: ['id' => 'id'],
-        isOptional: true
-    )]
     #[Route(
         path: '/{customer_user_id<\d+>}/{id<\d+>}',
         name: 'oro_customer_frontend_address_validation_customer_user_address',
         methods: ['POST']
     )]
     #[\Override]
-    public function addressValidationAction(Request $request): Response|array
-    {
+    public function addressValidationAction(
+        Request $request,
+        #[MapEntity(id: 'customer_user_id')]
+        CustomerUser|null $customerUser = null,
+        #[MapEntity(id: 'id')]
+        CustomerUserAddress|null $customerUserAddress = null
+    ): Response|array {
         $this->denyAccessUnlessGranted(
             $request->attributes->get('customerUserAddress') ? self::ACL_UPDATE : self::ACL_CREATE
         );

@@ -10,7 +10,7 @@ use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupType;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\SecurityBundle\Attribute\Acl;
 use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -24,7 +24,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class CustomerGroupController extends AbstractController
 {
     #[Route(path: '/', name: 'oro_customer_customer_group_index')]
-    #[Template]
+    #[Template('@OroCustomer/CustomerGroup/index.html.twig')]
     #[AclAncestor('oro_customer_customer_group_view')]
     public function indexAction(): array
     {
@@ -34,7 +34,7 @@ class CustomerGroupController extends AbstractController
     }
 
     #[Route(path: '/view/{id}', name: 'oro_customer_customer_group_view', requirements: ['id' => '\d+'])]
-    #[Template]
+    #[Template('@OroCustomer/CustomerGroup/view.html.twig')]
     #[Acl(id: 'oro_customer_customer_group_view', type: 'entity', class: CustomerGroup::class, permission: 'VIEW')]
     public function viewAction(CustomerGroup $group): array
     {
@@ -52,7 +52,7 @@ class CustomerGroupController extends AbstractController
     }
 
     #[Route(path: '/update/{id}', name: 'oro_customer_customer_group_update', requirements: ['id' => '\d+'])]
-    #[Template]
+    #[Template('@OroCustomer/CustomerGroup/update.html.twig')]
     #[Acl(id: 'oro_customer_customer_group_update', type: 'entity', class: CustomerGroup::class, permission: 'EDIT')]
     public function updateAction(Request $request, CustomerGroup $group): array|RedirectResponse
     {
