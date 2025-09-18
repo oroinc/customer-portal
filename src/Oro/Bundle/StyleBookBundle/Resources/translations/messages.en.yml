@@ -181,6 +181,10 @@ oro_stylebook:
                         title: 'Standalone Mode'
                     radioMode:
                         title: 'Radio buttons mode'
+                    importModule:
+                        title: 'Import multiselect into JS module'
+                    dropdownImportModule:
+                        title: 'Import alterative dropdown view'
                 options:
                     options: 'Array of options for multiselect for select Standalone Mode'
                     multiple: 'Set select as radio button mode'
@@ -188,6 +192,7 @@ oro_stylebook:
                     enabledHeader: 'Enable header and ability to select all items or diselect all items'
                     enabledFooter: 'Enable footer in multiselect'
                     enabledSearch: 'Enable search field in multiselect'
+                    hideResetButton: 'When is true reset button in search field will not appear'
                     maxItemsForShowSearchBar: 'Set the maximum number of items to show the search bar'
                     dropdownMode: 'Enable dropdown mode'
                     dropdownToggleLabel: 'Label for dropdown toggle button'

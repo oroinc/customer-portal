@@ -84,9 +84,6 @@ layout:
                 style_book_grid_element_multiselect_view_options:
                     blockType: container
 
-                style_book_grid_element_multiselect_view_playground:
-                    blockType: container
-
                 style_book_grid_element_multiselect_view_tabs:
                     blockType: group_tabs
                     options:
@@ -593,8 +590,6 @@ layout:
                         group_element_item_multiselect_view:
                             style_book_grid_element_multiselect_view: ~
                             style_book_grid_element_multiselect_view_options: ~
-                            style_book_grid_element_multiselect_view_playground:
-                                style_book_grid_element_multiselect_view_tabs: ~
 
                     group_element_grid_view_collapse_widgets:
                         group_element_item_collapse_widgets_description:

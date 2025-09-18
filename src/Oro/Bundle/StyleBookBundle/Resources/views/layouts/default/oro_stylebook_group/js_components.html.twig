@@ -404,6 +404,50 @@
             </pre>
         </div>
     </div>
+
+    <div class="grid grid-columns-2 style-book-group-element__preview">
+        <div class="grid-col">
+            <h3 class="heading-bottom-offset">{{ 'oro_stylebook.groups.jscomponent.multiselect_widget.examples.importModule.title'|trans }}</h3>
+            <pre class="language-html">
+                <code class="style-book-group-element__code language-js">
+                    {{ "
+                        import {Multiselect} from 'oroui/js/app/views/multiselect';
+                        
+                        const moduleSubview = new Multiselect({
+                            autoRender: true,
+                            // Pass DOM select element
+                            selectElement: container.querySelector('select'),
+                            // or pass options array
+                            options: [{...}],
+                            constainer: $('container') || HTMLElement // Pass a DOM element or jQuery element as container
+                            ...properties
+                        });
+                    "|escape }}
+                </code>
+            </pre>
+        </div>
+
+        <div class="grid-col">
+            <h3 class="heading-bottom-offset">{{ 'oro_stylebook.groups.jscomponent.multiselect_widget.examples.dropdownImportModule.title'|trans }}</h3>
+            <pre class="language-html">
+                <code class="style-book-group-element__code language-js">
+                    {{ "
+                        import {MultiselectDropdown} from 'oroui/js/app/views/multiselect';
+                        
+                        const moduleSubview = new MultiselectDropdown({
+                            autoRender: true,
+                            // Pass DOM select element
+                            selectElement: container.querySelector('select'),
+                            // or pass options array
+                            options: [{...}],
+                            constainer: $('container') || HTMLElement // Pass a DOM element or jQuery element as container
+                            ...properties
+                        });
+                    "|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
 {% endblock %}
 
 {% block _style_book_grid_element_multiselect_view_options_widget %}
@@ -455,6 +499,12 @@
             description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.enabledSearch'|trans
         },
         {
+            label: 'hideResetButton',
+            type: 'Boolean',
+            default: 'false',
+            description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.hideResetButton'|trans
+        },
+        {
             label: 'maxItemsForShowSearchBar',
             type: 'Number',
             default: '7',
@@ -500,7 +550,7 @@
             label: 'showSelectedInLabel',
             type: 'Boolean',
             default: 'true',
-            description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.dropdownAriaLabel'|trans
+            description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.showSelectedInLabel'|trans
         },
         {
             label: 'tooltipPlacement',
@@ -546,47 +596,6 @@
             description: 'oro_stylebook.groups.jscomponent.multiselect_widget.options.cssConfig'|trans
         }
     ]) }}
-{% endblock %}
-
-{% block _style_book_grid_element_multiselect_view_playground_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' js-component-container',
-        'data-page-component-view': 'orostylebook/js/style-book/style-book-page-component-playground',
-        'data-page-component-options': {
-            viewConstructor: 'oroui/js/app/components/multiselect-component',
-            viewOptions: {
-                options: [
-                    {value: '1', label: 'Option 1'},
-                    {value: '2', label: 'Option 2', selected: true},
-                    {value: '3', label: 'Option 3'},
-                    {value: '4', label: 'Option 4'},
-                    {value: '5', label: 'Option 5', disabled: true, selected: true}
-                ]
-            },
-            ignoreProps: ['el', 'options'],
-            renderAfter: 'action',
-            props: {
-                enabledHeader: true,
-                enabledFooter: false,
-                enabledSearch: true,
-                dropdownMode: false,
-                multiple: true,
-                maxItemsForShowSearchBar: 7,
-                dropdownToggleLabel: 'Open Select',
-                dropdownMenuLabel: '',
-                dropdownToggleIcon: ''
-            }
-        }
-    }) %}
-
-    <div {{ block('block_attributes') }}>
-        <div class="style-book-group-element__preview">
-            <div data-example-view data-action="render" style="max-width: 500px;">
-            </div>
-        </div>
-
-        {{ block_widget(block) }}
-    </div>
 {% endblock %}
 
 {% block _style_book_grid_element_multiselect_view_config_widget %}

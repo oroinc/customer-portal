@@ -112,7 +112,6 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/ui/jquery-ui-config.scss'
         - 'bundles/orofrontend/default/scss/variables/ui/dialog-config.scss'
         - 'bundles/orofrontend/default/scss/variables/ui/datepicker-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/ui/extend/ui-multiselect-menu-config.scss'
         - 'bundles/orofrontend/default/scss/variables/badge-config.scss'
         - 'bundles/orofrontend/default/scss/variables/bar-separator-config.scss'
         - 'bundles/orofrontend/default/scss/variables/search-container-config.scss'
