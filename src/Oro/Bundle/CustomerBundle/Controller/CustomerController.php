@@ -11,7 +11,7 @@ use Oro\Bundle\FormBundle\Provider\FormTemplateDataProviderInterface;
 use Oro\Bundle\FormBundle\Provider\SaveAndReturnActionFormTemplateDataProvider;
 use Oro\Bundle\SecurityBundle\Attribute\Acl;
 use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Attribute\Route;
@@ -23,7 +23,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class CustomerController extends AbstractController
 {
     #[Route(path: '/', name: 'oro_customer_customer_index')]
-    #[Template]
+    #[Template('@OroCustomer/Customer/index.html.twig')]
     #[AclAncestor('oro_customer_customer_view')]
     public function indexAction(): array
     {
@@ -33,7 +33,7 @@ class CustomerController extends AbstractController
     }
 
     #[Route(path: '/view/{id}', name: 'oro_customer_customer_view', requirements: ['id' => '\d+'])]
-    #[Template]
+    #[Template('@OroCustomer/Customer/view.html.twig')]
     #[Acl(id: 'oro_customer_customer_view', type: 'entity', class: Customer::class, permission: 'VIEW')]
     public function viewAction(Customer $customer): array
     {
@@ -123,7 +123,7 @@ class CustomerController extends AbstractController
     }
 
     #[Route(path: '/update/{id}', name: 'oro_customer_customer_update', requirements: ['id' => '\d+'])]
-    #[Template]
+    #[Template('@OroCustomer/Customer/update.html.twig')]
     #[Acl(id: 'oro_customer_customer_update', type: 'entity', class: Customer::class, permission: 'EDIT')]
     public function updateAction(Customer $customer): array|RedirectResponse
     {

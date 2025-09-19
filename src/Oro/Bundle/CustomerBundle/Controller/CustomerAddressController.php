@@ -8,8 +8,8 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressType;
 use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -38,10 +38,12 @@ class CustomerAddressController extends AbstractController
         requirements: ['entityId' => '\d+']
     )]
     #[Template('@OroCustomer/Address/widget/update.html.twig')]
-    #[ParamConverter('customer', options: ['id' => 'entityId'])]
     #[AclAncestor('oro_customer_customer_address_create')]
-    public function createAction(Request $request, Customer $customer): array
-    {
+    public function createAction(
+        Request $request,
+        #[MapEntity(id: 'entityId')]
+        Customer $customer
+    ): array {
         return $this->update($request, $customer, new CustomerAddress());
     }
 
@@ -52,10 +54,13 @@ class CustomerAddressController extends AbstractController
         defaults: ['id' => 0]
     )]
     #[Template('@OroCustomer/Address/widget/update.html.twig')]
-    #[ParamConverter('customer', options: ['id' => 'entityId'])]
     #[AclAncestor('oro_customer_customer_address_update')]
-    public function updateAction(Request $request, Customer $customer, CustomerAddress $address): array
-    {
+    public function updateAction(
+        Request $request,
+        #[MapEntity(id: 'entityId')]
+        Customer $customer,
+        CustomerAddress $address
+    ): array {
         return $this->update($request, $customer, $address);
     }
 

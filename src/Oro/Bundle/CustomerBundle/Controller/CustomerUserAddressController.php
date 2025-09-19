@@ -8,8 +8,8 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserTypedAddressType;
 use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -42,10 +42,12 @@ class CustomerUserAddressController extends AbstractController
         requirements: ['customerUserId' => '\d+']
     )]
     #[Template('@OroCustomer/Address/widget/update.html.twig')]
-    #[ParamConverter('customerUser', options: ['id' => 'entityId'])]
     #[AclAncestor('oro_customer_customer_user_address_create')]
-    public function createAction(Request $request, CustomerUser $customerUser): array
-    {
+    public function createAction(
+        Request $request,
+        #[MapEntity(id: 'entityId')]
+        CustomerUser $customerUser
+    ): array {
         return $this->update($request, $customerUser, new CustomerUserAddress());
     }
 
@@ -56,10 +58,13 @@ class CustomerUserAddressController extends AbstractController
         defaults: ['id' => 0]
     )]
     #[Template('@OroCustomer/Address/widget/update.html.twig')]
-    #[ParamConverter('customerUser', options: ['id' => 'entityId'])]
     #[AclAncestor('oro_customer_customer_user_address_update')]
-    public function updateAction(Request $request, CustomerUser $customerUser, CustomerUserAddress $address): array
-    {
+    public function updateAction(
+        Request $request,
+        #[MapEntity(id: 'entityId')]
+        CustomerUser $customerUser,
+        CustomerUserAddress $address
+    ): array {
         return $this->update($request, $customerUser, $address);
     }
 

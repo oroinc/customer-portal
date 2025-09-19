@@ -11,7 +11,7 @@ use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Oro\Bundle\SyncBundle\Content\DataUpdateTopicSender;
 use Oro\Bundle\SyncBundle\Content\TagGeneratorInterface;
 use Psr\Container\ContainerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
@@ -35,7 +35,7 @@ class CustomerGroupConfigurationController implements ServiceSubscriberInterface
         requirements: ['id' => '\d+'],
         defaults: ['activeGroup' => null, 'activeSubGroup' => null]
     )]
-    #[Template]
+    #[Template('@OroCustomer/CustomerGroupConfiguration/customerGroupConfig.html.twig')]
     #[AclAncestor('oro_customer_customer_group_update')]
     public function customerGroupConfigAction(
         Request $request,

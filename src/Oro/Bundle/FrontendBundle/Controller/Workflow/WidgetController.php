@@ -7,7 +7,7 @@ use Oro\Bundle\WorkflowBundle\Entity\WorkflowItem;
 use Oro\Bundle\WorkflowBundle\Processor\Context\LayoutDialogResultType;
 use Oro\Bundle\WorkflowBundle\Processor\Context\TransitionContext;
 use Oro\Bundle\WorkflowBundle\Processor\TransitActionProcessor;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,9 +61,12 @@ class WidgetController extends AbstractController
         name: 'oro_frontend_workflow_widget_transition_form'
     )]
     #[Layout]
-    #[ParamConverter('workflowItem', options: ['id' => 'workflowItemId'])]
-    public function transitionFormAction($transitionName, WorkflowItem $workflowItem, Request $request)
-    {
+    public function transitionFormAction(
+        $transitionName,
+        #[MapEntity(id: 'workflowItemId')]
+        WorkflowItem $workflowItem,
+        Request $request
+    ) {
         $processor = $this->container->get(TransitActionProcessor::class);
 
         $context = $this->createProcessorContext(

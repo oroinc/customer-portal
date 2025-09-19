@@ -9,7 +9,7 @@ use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Oro\Bundle\UIBundle\Route\Router;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCapabilityProvider;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +26,7 @@ class CustomerUserRoleController extends AbstractController
      * @return array
      */
     #[Route(path: '/', name: 'oro_customer_customer_user_role_index')]
-    #[Template]
+    #[Template('@OroCustomer/CustomerUserRole/index.html.twig')]
     #[AclAncestor('oro_customer_customer_user_role_view')]
     public function indexAction()
     {
@@ -40,7 +40,7 @@ class CustomerUserRoleController extends AbstractController
      * @return array
      */
     #[Route(path: '/view/{id}', name: 'oro_customer_customer_user_role_view', requirements: ['id' => '\d+'])]
-    #[Template]
+    #[Template('@OroCustomer/CustomerUserRole/view.html.twig')]
     #[Acl(
         id: 'oro_customer_customer_user_role_view',
         type: 'entity',
@@ -86,7 +86,7 @@ class CustomerUserRoleController extends AbstractController
      * @return array
      */
     #[Route(path: '/update/{id}', name: 'oro_customer_customer_user_role_update', requirements: ['id' => '\d+'])]
-    #[Template]
+    #[Template('@OroCustomer/CustomerUserRole/update.html.twig')]
     #[Acl(
         id: 'oro_customer_customer_user_role_update',
         type: 'entity',

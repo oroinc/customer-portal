@@ -9,7 +9,7 @@ use Oro\Bundle\CustomerBundle\Provider\ScopeCustomerCriteriaProvider;
 use Oro\Bundle\CustomerBundle\Provider\ScopeCustomerGroupCriteriaProvider;
 use Oro\Bundle\OrganizationBundle\Provider\ScopeOrganizationCriteriaProvider;
 use Oro\Bundle\WebsiteBundle\Provider\ScopeCriteriaProvider;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -29,7 +29,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
         name: 'oro_commerce_menu_customer_menu_index',
         requirements: ['id' => '\d+']
     )]
-    #[Template]
+    #[Template('@OroCommerceMenu/CustomerMenu/index.html.twig')]
     public function indexAction(Customer $customer)
     {
         $this->denyAccessUnlessGranted('oro_navigation_manage_menus');
@@ -92,7 +92,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
      * @return array|RedirectResponse
      */
     #[Route(path: '/{menuName}/update/{key}', name: 'oro_commerce_menu_customer_menu_update')]
-    #[Template]
+    #[Template('@OroCommerceMenu/CustomerMenu/update.html.twig')]
     public function updateAction(Request $request, string $menuName, ?string $key = null)
     {
         $context = $this->getContextFromRequest($request, $this->getAllowedContextKeys());
