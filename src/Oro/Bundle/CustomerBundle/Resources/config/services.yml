@@ -1230,6 +1230,8 @@ services:
         class: Oro\Bundle\CustomerBundle\Provider\CustomerUserAwareEntityPreferredLocalizationProvider
         arguments:
             - '@oro_customer.provider.customer_user_preferred_localization_provider'
+        calls:
+            - [ 'setUserLocalizationManager', [ '@oro_frontend_localization.manager.user_localization' ] ]
         tags:
             - { name: oro_locale.preferred_localization_provider }
 

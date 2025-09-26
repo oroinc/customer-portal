@@ -3,6 +3,8 @@
 namespace Oro\Bundle\CustomerBundle\Provider;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerOwnerAwareInterface;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManagerInterface;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\LocaleBundle\Provider\AbstractPreferredLocalizationProvider;
 use Oro\Bundle\LocaleBundle\Provider\PreferredLocalizationProviderInterface;
@@ -14,9 +16,16 @@ class CustomerUserAwareEntityPreferredLocalizationProvider extends AbstractPrefe
 {
     private PreferredLocalizationProviderInterface $customerUserPreferredLocalizationProvider;
 
+    private ?UserLocalizationManagerInterface $userLocalizationManager = null;
+
     public function __construct(PreferredLocalizationProviderInterface $customerUserPreferredLocalizationProvider)
     {
         $this->customerUserPreferredLocalizationProvider = $customerUserPreferredLocalizationProvider;
+    }
+
+    public function setUserLocalizationManager(?UserLocalizationManagerInterface $userLocalizationManager): void
+    {
+        $this->userLocalizationManager = $userLocalizationManager;
     }
 
     #[\Override]
@@ -35,6 +44,32 @@ class CustomerUserAwareEntityPreferredLocalizationProvider extends AbstractPrefe
     #[\Override]
     protected function getPreferredLocalizationForEntity($entity): ?Localization
     {
-        return $this->customerUserPreferredLocalizationProvider->getPreferredLocalization($entity->getCustomerUser());
+        // BC layer.
+        if (!$this->userLocalizationManager) {
+            return $this->customerUserPreferredLocalizationProvider
+                ->getPreferredLocalization($entity->getCustomerUser());
+        }
+
+        $customerUser = $entity->getCustomerUser();
+
+        return $this->getLocalizationByCurrentWebsite($customerUser) ??
+            $this->getLocalizationByPrimaryWebsite($customerUser);
+    }
+
+    private function getLocalizationByCurrentWebsite(CustomerUser $entity): ?Localization
+    {
+        return $this->userLocalizationManager->getCurrentLocalizationByCustomerUser($entity);
+    }
+
+    private function getLocalizationByPrimaryWebsite(CustomerUser $customerUser): ?Localization
+    {
+        if (!$customerUser->getWebsite()) {
+            return null;
+        }
+
+        return $this->userLocalizationManager->getCurrentLocalizationByCustomerUser(
+            $customerUser,
+            $customerUser->getWebsite()
+        );
     }
 }
