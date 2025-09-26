@@ -1,0 +1,45 @@
+invoice_pdf:
+    inputs:
+        # Settings
+        - 'bundles/oroui/default/scss/settings/global-settings.scss'
+
+        - 'bundles/oropdfgenerator/css/scss/components/pdf/reset.scss'
+        - 'bundles/oropdfgenerator/css/scss/components/pdf/utilities.scss'
+    output: 'css/invoice-print.css'
+    auto_rtl_inputs:
+        - 'bundles/oro*/**'
+
+invoice_footer_pdf:
+    inputs:
+        # Settings
+        - 'bundles/oroui/default/scss/settings/global-settings.scss'
+
+        - 'bundles/oropdfgenerator/css/scss/components/pdf/reset.scss'
+        - 'bundles/oropdfgenerator/css/scss/components/pdf/utilities.scss'
+
+    output: 'css/invoice-footer-pdf.css'
+    auto_rtl_inputs:
+        - 'bundles/oro*/**'
+
+order_pdf:
+    inputs:
+        # Settings
+        - 'bundles/oroui/default/scss/settings/global-settings.scss'
+
+        - 'bundles/oropdfgenerator/css/scss/components/pdf/reset.scss'
+        - 'bundles/oropdfgenerator/css/scss/components/pdf/utilities.scss'
+    output: 'css/order-print.css'
+    auto_rtl_inputs:
+        - 'bundles/oro*/**'
+
+order_footer_pdf:
+    inputs:
+        # Settings
+        - 'bundles/oroui/default/scss/settings/global-settings.scss'
+
+        - 'bundles/oropdfgenerator/css/scss/components/pdf/reset.scss'
+        - 'bundles/oropdfgenerator/css/scss/components/pdf/utilities.scss'
+
+    output: 'css/order-footer-pdf.css'
+    auto_rtl_inputs:
+        - 'bundles/oro*/**'
