@@ -32,23 +32,23 @@ class CustomerAddressTest extends RestJsonApiTestCase
     use AddressTypeTestTrait;
     use RolePermissionExtension;
 
-    protected const ENTITY_CLASS                   = CustomerAddress::class;
-    protected const ENTITY_TYPE                    = 'customeraddresses';
-    private const OWNER_ENTITY_TYPE                = 'customers';
-    private const OWNER_RELATIONSHIP               = 'customer';
-    private const CREATE_REQUEST_DATA              = 'create_customer_address.yml';
-    private const CREATE_MIN_REQUEST_DATA          = 'create_customer_address_min.yml';
-    private const OWNER_CREATE_MIN_REQUEST_DATA    = 'create_customer_min.yml';
-    private const IS_REGION_REQUIRED               = true;
-    private const COUNTRY_REGION_ADDRESS_REF       = 'customer.level_1.1.address_1';
-    private const PRIMARY_ADDRESS_REF              = 'customer.level_1.1.address_1';
-    private const DEFAULT_ADDRESS_REF              = 'customer.level_1.1.address_1';
-    private const BILLING_ADDRESS_REF              = 'customer.level_1.address_2';
+    protected const ENTITY_CLASS = CustomerAddress::class;
+    protected const ENTITY_TYPE = 'customeraddresses';
+    private const OWNER_ENTITY_TYPE = 'customers';
+    private const OWNER_RELATIONSHIP = 'customer';
+    private const CREATE_REQUEST_DATA = 'create_customer_address.yml';
+    private const CREATE_MIN_REQUEST_DATA = 'create_customer_address_min.yml';
+    private const OWNER_CREATE_MIN_REQUEST_DATA = 'create_customer_min.yml';
+    private const IS_REGION_REQUIRED = true;
+    private const COUNTRY_REGION_ADDRESS_REF = 'customer.level_1.1.address_1';
+    private const PRIMARY_ADDRESS_REF = 'customer.level_1.1.address_1';
+    private const DEFAULT_ADDRESS_REF = 'customer.level_1.1.address_1';
+    private const BILLING_ADDRESS_REF = 'customer.level_1.address_2';
     private const BILLING_AND_SHIPPING_ADDRESS_REF = 'customer.level_1.address_1';
-    private const UNCHANGEABLE_ADDRESS_REF         = 'customer.level_1.address_1';
-    private const OWNER_REF                        = 'customer.level_1';
-    private const ANOTHER_OWNER_REF                = 'customer.level_1.1';
-    private const ANOTHER_OWNER_ADDRESS_2_REF      = 'customer.level_1.1.address_2';
+    private const UNCHANGEABLE_ADDRESS_REF = 'customer.level_1.address_1';
+    private const OWNER_REF = 'customer.level_1';
+    private const ANOTHER_OWNER_REF = 'customer.level_1.1';
+    private const ANOTHER_OWNER_ADDRESS_2_REF = 'customer.level_1.1.address_2';
     private const CREATE_WITH_SYSTEM_ORGANIZATION_DATA = 'create_customer_address_with_system_organization.yml';
 
     #[\Override]
@@ -86,6 +86,43 @@ class CustomerAddressTest extends RestJsonApiTestCase
         );
 
         $this->assertResponseContains('cget_customer_address.yml', $response);
+    }
+
+    public function testGetListFilterByCountry(): void
+    {
+        $response = $this->cget(
+            ['entity' => self::ENTITY_TYPE],
+            ['filter' => ['country' => ['neq' => '<toString(@country.US->iso2Code)>']]]
+        );
+
+        $this->assertResponseContains(['data' => []], $response);
+    }
+
+    public function testGetListFilterByRegion(): void
+    {
+        $response = $this->cget(
+            ['entity' => self::ENTITY_TYPE],
+            ['filter' => ['region' => '<toString(@region.US-NY->combinedCode)>']]
+        );
+
+        $this->assertResponseContains(
+            [
+                'data' => [
+                    ['type' => self::ENTITY_TYPE, 'id' => '<toString(@customer.level_1.address_1->id)>']
+                ]
+            ],
+            $response
+        );
+    }
+
+    public function testGetListFilterByCustomRegion(): void
+    {
+        $response = $this->cget(
+            ['entity' => self::ENTITY_TYPE],
+            ['filter' => ['customRegion' => ['exists' => true]]]
+        );
+
+        $this->assertResponseContains(['data' => []], $response);
     }
 
     public function testGetListFilterByAddressType(): void
