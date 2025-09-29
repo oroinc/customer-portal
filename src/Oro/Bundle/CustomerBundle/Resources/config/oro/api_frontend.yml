@@ -145,6 +145,8 @@ api:
                         allow_array: true
                     region:
                         allow_array: true
+                    customRegion:
+                        exclude: false
                     addressType:
                         data_type: string
                         property_path: types.type
@@ -209,6 +211,8 @@ api:
                         allow_array: true
                     region:
                         allow_array: true
+                    customRegion:
+                        exclude: false
                     addressType:
                         data_type: string
                         property_path: types.type

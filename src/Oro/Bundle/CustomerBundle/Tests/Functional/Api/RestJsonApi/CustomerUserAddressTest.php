@@ -30,23 +30,23 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
     use AddressTypeTestTrait;
     use RolePermissionExtension;
 
-    protected const ENTITY_CLASS                   = CustomerUserAddress::class;
-    protected const ENTITY_TYPE                    = 'customeruseraddresses';
-    private const OWNER_ENTITY_TYPE                = 'customerusers';
-    private const OWNER_RELATIONSHIP               = 'customerUser';
-    private const CREATE_REQUEST_DATA              = 'create_customer_user_address.yml';
-    private const CREATE_MIN_REQUEST_DATA          = 'create_customer_user_address_min.yml';
-    private const OWNER_CREATE_MIN_REQUEST_DATA    = 'create_customer_user_min.yml';
-    private const IS_REGION_REQUIRED               = true;
-    private const COUNTRY_REGION_ADDRESS_REF       = 'other.user@test.com.address_1';
-    private const PRIMARY_ADDRESS_REF              = 'other.user@test.com.address_1';
-    private const DEFAULT_ADDRESS_REF              = 'other.user@test.com.address_1';
-    private const BILLING_ADDRESS_REF              = 'grzegorz.brzeczyszczykiewicz@example.com.address_2';
+    protected const ENTITY_CLASS = CustomerUserAddress::class;
+    protected const ENTITY_TYPE = 'customeruseraddresses';
+    private const OWNER_ENTITY_TYPE = 'customerusers';
+    private const OWNER_RELATIONSHIP = 'customerUser';
+    private const CREATE_REQUEST_DATA = 'create_customer_user_address.yml';
+    private const CREATE_MIN_REQUEST_DATA = 'create_customer_user_address_min.yml';
+    private const OWNER_CREATE_MIN_REQUEST_DATA = 'create_customer_user_min.yml';
+    private const IS_REGION_REQUIRED = true;
+    private const COUNTRY_REGION_ADDRESS_REF = 'other.user@test.com.address_1';
+    private const PRIMARY_ADDRESS_REF = 'other.user@test.com.address_1';
+    private const DEFAULT_ADDRESS_REF = 'other.user@test.com.address_1';
+    private const BILLING_ADDRESS_REF = 'grzegorz.brzeczyszczykiewicz@example.com.address_2';
     private const BILLING_AND_SHIPPING_ADDRESS_REF = 'grzegorz.brzeczyszczykiewicz@example.com.address_1';
-    private const UNCHANGEABLE_ADDRESS_REF         = 'grzegorz.brzeczyszczykiewicz@example.com.address_1';
-    private const OWNER_REF                        = 'grzegorz.brzeczyszczykiewicz@example.com';
-    private const ANOTHER_OWNER_REF                = 'other.user@test.com';
-    private const ANOTHER_OWNER_ADDRESS_2_REF      = 'other.user@test.com.address_2';
+    private const UNCHANGEABLE_ADDRESS_REF = 'grzegorz.brzeczyszczykiewicz@example.com.address_1';
+    private const OWNER_REF = 'grzegorz.brzeczyszczykiewicz@example.com';
+    private const ANOTHER_OWNER_REF = 'other.user@test.com';
+    private const ANOTHER_OWNER_ADDRESS_2_REF = 'other.user@test.com.address_2';
 
     protected function setUp(): void
     {
@@ -87,6 +87,46 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         );
 
         $this->assertResponseContains('cget_customer_user_address.yml', $response);
+    }
+
+    public function testGetListFilterByCountry(): void
+    {
+        $response = $this->cget(
+            ['entity' => self::ENTITY_TYPE],
+            ['filter' => ['country' => ['neq' => '<toString(@country.US->iso2Code)>']]]
+        );
+
+        $this->assertResponseContains(['data' => []], $response);
+    }
+
+    public function testGetListFilterByRegion(): void
+    {
+        $response = $this->cget(
+            ['entity' => self::ENTITY_TYPE],
+            ['filter' => ['region' => '<toString(@region.US-NY->combinedCode)>']]
+        );
+
+        $this->assertResponseContains(
+            [
+                'data' => [
+                    [
+                        'type' => self::ENTITY_TYPE,
+                        'id' => '<toString(@grzegorz.brzeczyszczykiewicz@example.com.address_1->id)>'
+                    ]
+                ]
+            ],
+            $response
+        );
+    }
+
+    public function testGetListFilterByCustomRegion(): void
+    {
+        $response = $this->cget(
+            ['entity' => self::ENTITY_TYPE],
+            ['filter' => ['customRegion' => ['exists' => true]]]
+        );
+
+        $this->assertResponseContains(['data' => []], $response);
     }
 
     public function testGetListFilterByAddressType()
