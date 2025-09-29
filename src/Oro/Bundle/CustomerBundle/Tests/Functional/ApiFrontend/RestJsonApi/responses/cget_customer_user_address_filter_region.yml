@@ -1,0 +1,38 @@
+data:
+    -
+        type: customeruseraddresses
+        id: '<toString(@customer_user_address3->id)>'
+        attributes:
+            phone: null
+            primary: false
+            label: 'Address 3'
+            street: 'Street 3'
+            street2: null
+            city: 'Tel Aviv'
+            postalCode: '90003'
+            organization: null
+            customRegion: null
+            namePrefix: null
+            firstName: John
+            middleName: null
+            lastName: Smith
+            nameSuffix: null
+            createdAt: '@customer_user_address3->created->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@customer_user_address3->updated->format("Y-m-d\TH:i:s\Z")'
+            types:
+                -
+                    default: true
+                    addressType: billing
+        relationships:
+            customerUser:
+                data:
+                    type: customerusers
+                    id: '<toString(@customer_user1->id)>'
+            country:
+                data:
+                    type: countries
+                    id: '<toString(@country_israel->iso2Code)>'
+            region:
+                data:
+                    type: regions
+                    id: '<toString(@region_israel_telaviv->combinedCode)>'

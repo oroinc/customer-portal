@@ -26,22 +26,22 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
     use UnchangeableAddressOwnerTestTrait;
     use AddressTypeTestTrait;
 
-    private const ENTITY_CLASS                     = CustomerUserAddress::class;
-    private const ENTITY_TYPE                      = 'customeruseraddresses';
-    private const OWNER_ENTITY_TYPE                = 'customerusers';
-    private const OWNER_RELATIONSHIP               = 'customerUser';
-    private const CREATE_MIN_REQUEST_DATA          = 'create_customer_user_address_min.yml';
-    private const OWNER_CREATE_MIN_REQUEST_DATA    = 'create_customer_user_min.yml';
-    private const IS_REGION_REQUIRED               = true;
-    private const COUNTRY_REGION_ADDRESS_REF       = 'another_customer_user_address1';
-    private const PRIMARY_ADDRESS_REF              = 'another_customer_user_address1';
-    private const DEFAULT_ADDRESS_REF              = 'customer_user_address1';
-    private const BILLING_ADDRESS_REF              = 'customer_user_address3';
+    private const ENTITY_CLASS = CustomerUserAddress::class;
+    private const ENTITY_TYPE = 'customeruseraddresses';
+    private const OWNER_ENTITY_TYPE = 'customerusers';
+    private const OWNER_RELATIONSHIP = 'customerUser';
+    private const CREATE_MIN_REQUEST_DATA = 'create_customer_user_address_min.yml';
+    private const OWNER_CREATE_MIN_REQUEST_DATA = 'create_customer_user_min.yml';
+    private const IS_REGION_REQUIRED = true;
+    private const COUNTRY_REGION_ADDRESS_REF = 'another_customer_user_address1';
+    private const PRIMARY_ADDRESS_REF = 'another_customer_user_address1';
+    private const DEFAULT_ADDRESS_REF = 'customer_user_address1';
+    private const BILLING_ADDRESS_REF = 'customer_user_address3';
     private const BILLING_AND_SHIPPING_ADDRESS_REF = 'customer_user_address1';
-    private const UNCHANGEABLE_ADDRESS_REF         = 'customer_user_address1';
-    private const OWNER_REF                        = 'customer_user1';
-    private const ANOTHER_OWNER_REF                = 'another_customer_user';
-    private const ANOTHER_OWNER_ADDRESS_2_REF      = 'another_customer_user_address2';
+    private const UNCHANGEABLE_ADDRESS_REF = 'customer_user_address1';
+    private const OWNER_REF = 'customer_user1';
+    private const ANOTHER_OWNER_REF = 'another_customer_user';
+    private const ANOTHER_OWNER_ADDRESS_2_REF = 'another_customer_user_address2';
 
     #[\Override]
     protected function setUp(): void
@@ -60,17 +60,45 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
 
     public function testGetList(): void
     {
-        $response = $this->cget(
-            ['entity' => 'customeruseraddresses']
-        );
+        $response = $this->cget(['entity' => self::ENTITY_TYPE]);
 
         $this->assertResponseContains('cget_customer_user_address.yml', $response);
+    }
+
+    public function testGetListFilterByCountry(): void
+    {
+        $response = $this->cget(
+            ['entity' => self::ENTITY_TYPE],
+            ['filter' => ['country' => '<toString(@country_israel->iso2Code)>']]
+        );
+
+        $this->assertResponseContains('cget_customer_user_address_filter_country.yml', $response);
+    }
+
+    public function testGetListFilterByRegion(): void
+    {
+        $response = $this->cget(
+            ['entity' => self::ENTITY_TYPE],
+            ['filter' => ['region' => '<toString(@region_israel_telaviv->combinedCode)>']]
+        );
+
+        $this->assertResponseContains('cget_customer_user_address_filter_region.yml', $response);
+    }
+
+    public function testGetListFilterByCustomRegion(): void
+    {
+        $response = $this->cget(
+            ['entity' => self::ENTITY_TYPE],
+            ['filter' => ['customRegion' => ['exists' => true]]]
+        );
+
+        $this->assertResponseContains(['data' => []], $response);
     }
 
     public function testGetListFilterByAddressType(): void
     {
         $response = $this->cget(
-            ['entity' => 'customeruseraddresses'],
+            ['entity' => self::ENTITY_TYPE],
             ['filter' => ['addressType' => 'billing']]
         );
 
@@ -79,11 +107,11 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
                 'data' => [
                     [
                         'type' => self::ENTITY_TYPE,
-                        'id'   => '<toString(@customer_user_address1->id)>'
+                        'id' => '<toString(@customer_user_address1->id)>'
                     ],
                     [
                         'type' => self::ENTITY_TYPE,
-                        'id'   => '<toString(@customer_user_address3->id)>'
+                        'id' => '<toString(@customer_user_address3->id)>'
                     ]
                 ]
             ],
@@ -94,7 +122,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
     public function testTryToGetListFilterByTypes(): void
     {
         $response = $this->cget(
-            ['entity' => 'customeruseraddresses'],
+            ['entity' => self::ENTITY_TYPE],
             ['filter' => ['types' => 'billing']],
             [],
             false
@@ -102,7 +130,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
 
         $this->assertResponseValidationError(
             [
-                'title'  => 'filter constraint',
+                'title' => 'filter constraint',
                 'detail' => 'The filter is not supported.',
                 'source' => ['parameter' => 'filter[types]']
             ],
@@ -113,7 +141,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
     public function testGet(): void
     {
         $response = $this->get(
-            ['entity' => 'customeruseraddresses', 'id' => '<toString(@another_customer_user_address1->id)>']
+            ['entity' => self::ENTITY_TYPE, 'id' => '<toString(@another_customer_user_address1->id)>']
         );
 
         $this->assertResponseContains('get_customer_user_address.yml', $response);
@@ -129,7 +157,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
         $regionId = $this->getReference('region_usa_california')->getCombinedCode();
 
         $response = $this->post(
-            ['entity' => 'customeruseraddresses'],
+            ['entity' => self::ENTITY_TYPE],
             'create_customer_user_address.yml'
         );
 
@@ -176,7 +204,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
         $data = $this->getRequestData(self::CREATE_MIN_REQUEST_DATA);
         unset($data['data']['attributes']['organization']);
         $response = $this->post(
-            ['entity' => 'customeruseraddresses'],
+            ['entity' => self::ENTITY_TYPE],
             $data,
             [],
             false
@@ -185,17 +213,17 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
         $this->assertResponseValidationErrors(
             [
                 [
-                    'title'  => 'name or organization constraint',
+                    'title' => 'name or organization constraint',
                     'detail' => 'Organization or First Name and Last Name should not be blank.',
                     'source' => ['pointer' => '/data/attributes/organization']
                 ],
                 [
-                    'title'  => 'name or organization constraint',
+                    'title' => 'name or organization constraint',
                     'detail' => 'First Name and Last Name or Organization should not be blank.',
                     'source' => ['pointer' => '/data/attributes/firstName']
                 ],
                 [
-                    'title'  => 'name or organization constraint',
+                    'title' => 'name or organization constraint',
                     'detail' => 'Last Name and First Name or Organization should not be blank.',
                     'source' => ['pointer' => '/data/attributes/lastName']
                 ]
@@ -215,7 +243,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
 
         $data = $this->getRequestData(self::CREATE_MIN_REQUEST_DATA);
         $response = $this->post(
-            ['entity' => 'customeruseraddresses'],
+            ['entity' => self::ENTITY_TYPE],
             $data
         );
 
@@ -234,7 +262,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
         $responseContent['data']['attributes']['types'] = [];
         $responseContent['data']['relationships']['customerUser']['data'] = [
             'type' => 'customerusers',
-            'id'   => (string)$customerUserId
+            'id' => (string)$customerUserId
         ];
         $this->assertResponseContains($responseContent, $response);
 
@@ -278,7 +306,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
         $data['data']['attributes']['firstName'] = 'John';
         $data['data']['attributes']['lastName'] = 'Doo';
         $response = $this->post(
-            ['entity' => 'customeruseraddresses'],
+            ['entity' => self::ENTITY_TYPE],
             $data
         );
 
@@ -296,7 +324,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
         $responseContent['data']['attributes']['types'] = [];
         $responseContent['data']['relationships']['customerUser']['data'] = [
             'type' => 'customerusers',
-            'id'   => (string)$customerUserId
+            'id' => (string)$customerUserId
         ];
         $this->assertResponseContains($responseContent, $response);
 
@@ -331,7 +359,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
         $data = $this->getRequestData(self::CREATE_MIN_REQUEST_DATA);
         $data['data']['relationships']['customerUser']['data'] = null;
         $response = $this->post(
-            ['entity' => 'customeruseraddresses'],
+            ['entity' => self::ENTITY_TYPE],
             $data,
             [],
             false
@@ -339,7 +367,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
 
         $this->assertResponseValidationError(
             [
-                'title'  => 'not blank constraint',
+                'title' => 'not blank constraint',
                 'detail' => 'This value should not be blank.',
                 'source' => ['pointer' => '/data/relationships/customerUser/data']
             ],
@@ -350,7 +378,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
     public function testUpdate(): void
     {
         $response = $this->patch(
-            ['entity' => 'customeruseraddresses', 'id' => '<toString(@another_customer_user_address1->id)>'],
+            ['entity' => self::ENTITY_TYPE, 'id' => '<toString(@another_customer_user_address1->id)>'],
             'update_customer_user_address.yml'
         );
 
@@ -379,7 +407,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
         $addressId = $this->getReference('another_customer_user_address1')->getId();
 
         $this->delete(
-            ['entity' => 'customeruseraddresses', 'id' => $addressId]
+            ['entity' => self::ENTITY_TYPE, 'id' => $addressId]
         );
 
         $address = $this->getEntityManager()
@@ -392,7 +420,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
         $addressId = $this->getReference('another_customer_user_address1')->getId();
 
         $this->cdelete(
-            ['entity' => 'customeruseraddresses'],
+            ['entity' => self::ENTITY_TYPE],
             ['filter' => ['id' => (string)$addressId]]
         );
 
@@ -406,8 +434,8 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
         $addressId = $this->getReference('another_customer_user_address1')->getId();
         $data = [
             'data' => [
-                'type'          => 'customeruseraddresses',
-                'id'            => (string)$addressId,
+                'type' => self::ENTITY_TYPE,
+                'id' => (string)$addressId,
                 'relationships' => [
                     'country' => [
                         'data' => null
@@ -416,7 +444,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
             ]
         ];
         $response = $this->patch(
-            ['entity' => 'customeruseraddresses', 'id' => (string)$addressId],
+            ['entity' => self::ENTITY_TYPE, 'id' => (string)$addressId],
             $data,
             [],
             false
@@ -424,7 +452,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
 
         $this->assertResponseValidationError(
             [
-                'title'  => 'not blank constraint',
+                'title' => 'not blank constraint',
                 'detail' => 'This value should not be blank.',
                 'source' => ['pointer' => '/data/relationships/country/data']
             ],
@@ -440,16 +468,16 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
         $customerUserId = $address->getFrontendOwner()->getId();
 
         $response = $this->patch(
-            ['entity' => 'customeruseraddresses', 'id' => (string)$addressId],
+            ['entity' => self::ENTITY_TYPE, 'id' => (string)$addressId],
             [
                 'data' => [
-                    'type'          => 'customeruseraddresses',
-                    'id'            => (string)$addressId,
+                    'type' => self::ENTITY_TYPE,
+                    'id' => (string)$addressId,
                     'relationships' => [
                         'customerUser' => [
                             'data' => [
                                 'type' => 'customerusers',
-                                'id'   => '<toString(@customer_user1->id)>'
+                                'id' => '<toString(@customer_user1->id)>'
                             ]
                         ]
                     ]
@@ -471,12 +499,12 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
         $data = [
             'data' => [
                 'type' => 'customerusers',
-                'id'   => '<toString(@another_customer_user->id)>'
+                'id' => '<toString(@another_customer_user->id)>'
             ]
         ];
 
         $response = $this->patchRelationship(
-            ['entity' => 'customeruseraddresses', 'id' => (string)$addressId, 'association' => 'customerUser'],
+            ['entity' => self::ENTITY_TYPE, 'id' => (string)$addressId, 'association' => 'customerUser'],
             $data,
             [],
             false
@@ -490,16 +518,16 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
         $addressId = $this->getReference('another_customer_user_address1')->getId();
 
         $response = $this->patch(
-            ['entity' => 'customeruseraddresses', 'id' => (string)$addressId],
+            ['entity' => self::ENTITY_TYPE, 'id' => (string)$addressId],
             [
                 'data' => [
-                    'type'          => 'customeruseraddresses',
-                    'id'            => (string)$addressId,
+                    'type' => self::ENTITY_TYPE,
+                    'id' => (string)$addressId,
                     'relationships' => [
                         'systemOrganization' => [
                             'data' => [
                                 'type' => 'organizations',
-                                'id'   => '<toString(@organization->id)>'
+                                'id' => '<toString(@organization->id)>'
                             ]
                         ]
                     ]
@@ -511,7 +539,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
 
         $this->assertResponseValidationError(
             [
-                'title'  => 'extra fields constraint',
+                'title' => 'extra fields constraint',
                 'detail' => 'This form should not contain extra fields: "systemOrganization".'
             ],
             $response
@@ -523,7 +551,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
         $addressId = $this->getReference('another_customer_user_address1')->getId();
 
         $response = $this->patchRelationship(
-            ['entity' => 'customeruseraddresses', 'id' => (string)$addressId, 'association' => 'systemOrganization'],
+            ['entity' => self::ENTITY_TYPE, 'id' => (string)$addressId, 'association' => 'systemOrganization'],
             [],
             [],
             false
