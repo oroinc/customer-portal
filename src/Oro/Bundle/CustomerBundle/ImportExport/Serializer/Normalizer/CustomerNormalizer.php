@@ -5,14 +5,20 @@ namespace Oro\Bundle\CustomerBundle\ImportExport\Serializer\Normalizer;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\ImportExportBundle\Serializer\Normalizer\ConfigurableEntityNormalizer;
 
+/**
+ * Customizes Customer entity serialization for import/export by filtering out sensitive relationship data
+ */
 class CustomerNormalizer extends ConfigurableEntityNormalizer
 {
     /**
      * @param Customer $object
      */
     #[\Override]
-    public function normalize($object, ?string $format = null, array $context = [])
-    {
+    public function normalize(
+        mixed $object,
+        ?string $format = null,
+        array $context = []
+    ): float|int|bool|\ArrayObject|array|string|null {
         $result = parent::normalize($object, $format, $context);
 
         if (isset($result['owner']) && $object->getOwner()) {
