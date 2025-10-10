@@ -246,7 +246,8 @@
         display: block !important;
     }
 
-    &--overlay {
+    &--overlay,
+    &--inside-fullscreen {
         .dropdown-menu {
             display: block;
             width: 100%;

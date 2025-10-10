@@ -128,7 +128,10 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
     },
 
     getSelectWidgetOptions() {
-        const selectWidgetOptions = this.managerPopupOptions;
+        const selectWidgetOptions = {
+            ...this.managerPopupOptions,
+            dialogClass: 'datagrid-manager--inside-fullscreen',
+        }
 
         if (this.datagrid.$el.closest('.ui-dialog').length) {
             Object.assign(selectWidgetOptions, {
