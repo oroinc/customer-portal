@@ -17,6 +17,8 @@ define(function(require, exports, module) {
         enableMultiselectWidget: true,
         filterManagerMenuParams: {
             enabledFooter: true,
+            maxItemsForShowSearchBar: 15,
+            showSelectedInLabel: false,
             dropdownMenuLabel: __('oro_frontend.filter_manager.label'),
             dropdownAriaLabel: __('oro_frontend.filter_manager.button_aria_label'),
             checkAllText: __('oro_frontend.filter_manager.checkAll'),
@@ -25,6 +27,7 @@ define(function(require, exports, module) {
             resetButtonLabel: __('oro_frontend.filter_manager.resetFilter'),
             dropdownToggleIcon: 'settings',
             dropdownToggleLabel: '',
+            dropdownDisablePopper: true,
             dropdownPlacement: 'bottom-end',
             cssConfig: {
                 strategy: 'override',

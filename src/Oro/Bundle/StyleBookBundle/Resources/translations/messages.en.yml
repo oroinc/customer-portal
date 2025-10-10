@@ -199,6 +199,7 @@ oro_stylebook:
                     dropdownMenuLabel: 'Label for dropdown menu'
                     dropdownToggleIcon: 'Icon for dropdown toggle button'
                     dropdownPlacement: 'Set up dropdown placement value'
+                    dropdownDisablePopper: 'Disable Popper.js for dropdown positioning'
                     dropdownAriaLabel: 'Set up aria label attribute for toggle button'
                     showSelectedInLabel: 'Enable update toggle button label depend on selected items'
                     tooltipPlacement: 'Set up tooltip placement'
