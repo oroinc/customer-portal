@@ -4,26 +4,25 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Provider;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserAwareEntityPreferredLocalizationProvider;
+use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManagerInterface;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
-use Oro\Bundle\LocaleBundle\Provider\PreferredLocalizationProviderInterface;
 use Oro\Bundle\OrderBundle\Entity\Order;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class CustomerUserAwareEntityPreferredLocalizationProviderTest extends TestCase
+final class CustomerUserAwareEntityPreferredLocalizationProviderTest extends TestCase
 {
-    private PreferredLocalizationProviderInterface&MockObject $customerUserPreferredLocalizationProvider;
+    private UserLocalizationManagerInterface&MockObject $userLocalizationManager;
     private CustomerUserAwareEntityPreferredLocalizationProvider $provider;
 
     #[\Override]
     protected function setUp(): void
     {
-        $this->customerUserPreferredLocalizationProvider = $this->createMock(
-            PreferredLocalizationProviderInterface::class
-        );
+        $this->userLocalizationManager = $this->createMock(UserLocalizationManagerInterface::class);
 
         $this->provider = new CustomerUserAwareEntityPreferredLocalizationProvider(
-            $this->customerUserPreferredLocalizationProvider
+            $this->userLocalizationManager
         );
     }
 
@@ -58,18 +57,69 @@ class CustomerUserAwareEntityPreferredLocalizationProviderTest extends TestCase
         self::assertTrue($this->provider->supports($entity));
     }
 
-    public function testGetPreferredLocalization(): void
+    public function testGetPreferredLocalizationFromCurrentWebsite(): void
     {
         $customerUser = new CustomerUser();
         $entity = (new Order())
             ->setCustomerUser($customerUser);
         $localization = new Localization();
 
-        $this->customerUserPreferredLocalizationProvider->expects(self::once())
-            ->method('getPreferredLocalization')
+        $this->userLocalizationManager->expects(self::once())
+            ->method('getCurrentLocalizationByCustomerUser')
             ->with($customerUser)
             ->willReturn($localization);
 
         self::assertSame($localization, $this->provider->getPreferredLocalization($entity));
+    }
+
+    public function testGetPreferredLocalizationFromPrimaryWebsiteWhenCurrentIsNull(): void
+    {
+        $website = new Website();
+        $customerUser = (new CustomerUser())
+            ->setWebsite($website);
+        $entity = (new Order())
+            ->setCustomerUser($customerUser);
+        $localization = new Localization();
+
+        $this->userLocalizationManager->expects(self::exactly(2))
+            ->method('getCurrentLocalizationByCustomerUser')
+            ->willReturnMap([
+                [$customerUser, null, null],
+                [$customerUser, $website, $localization]
+            ]);
+
+        self::assertSame($localization, $this->provider->getPreferredLocalization($entity));
+    }
+
+    public function testGetPreferredLocalizationReturnsNullWhenNoWebsite(): void
+    {
+        $customerUser = new CustomerUser();
+        $entity = (new Order())
+            ->setCustomerUser($customerUser);
+
+        $this->userLocalizationManager->expects(self::once())
+            ->method('getCurrentLocalizationByCustomerUser')
+            ->with($customerUser)
+            ->willReturn(null);
+
+        self::assertNull($this->provider->getPreferredLocalization($entity));
+    }
+
+    public function testGetPreferredLocalizationReturnsNullWhenBothWebsitesReturnNull(): void
+    {
+        $website = new Website();
+        $customerUser = (new CustomerUser())
+            ->setWebsite($website);
+        $entity = (new Order())
+            ->setCustomerUser($customerUser);
+
+        $this->userLocalizationManager->expects(self::exactly(2))
+            ->method('getCurrentLocalizationByCustomerUser')
+            ->willReturnMap([
+                [$customerUser, null, null],
+                [$customerUser, $website, null]
+            ]);
+
+        self::assertNull($this->provider->getPreferredLocalization($entity));
     }
 }
