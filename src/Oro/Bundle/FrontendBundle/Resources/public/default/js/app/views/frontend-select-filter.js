@@ -112,21 +112,9 @@ define(function(require, exports, module) {
             return this.filterTemplateData(templateData);
         },
 
-        /**
-         * @inheritdoc
-         * @return {jQuery}
-         */
-        _appendToContainer: function() {
-            return this.isToggleMode() ? this.$el.find('.filter-criteria') : this.dropdownContainer;
-        },
-
         _onClickClearFilter() {
             this.reset();
             this.toggleVisibilityClearFilterButton();
-        },
-
-        isToggleMode: function() {
-            return this.renderMode === 'toggle-mode';
         },
 
         _showCriteria() {
