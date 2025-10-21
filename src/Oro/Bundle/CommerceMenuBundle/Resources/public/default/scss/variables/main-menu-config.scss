@@ -185,7 +185,8 @@ $main-menu-button-arrow-fullscreen-text-align: right !default;
 
 // Stack mode
 $main-menu-stack-mode-actions-height: 60px !default;
-$main-menu-stack-mode-actions-margin-inline: spacing('lg') !default;
-$main-menu-stack-mode-button-inset: 0 -#{spacing('lg')} !default;
+$main-menu-stack-mode-actions-margin-inline-start: spacing('base') !default;
+$main-menu-stack-mode-actions-margin-inline-end: spacing('base') !default;
+$main-menu-stack-mode-button-inset: 0 -#{spacing('base')} !default;
 
 $hamburger-menu-dot-background-color: #ffc21e;

@@ -27,6 +27,8 @@ $ui-dialog-dialog-icon-padding: spacing('sm') spacing('md') !default;
 
 // Fullscreen mode
 $ui-dialog-titlebar-fullscreen-offset: $fullscreen-popup-header-offset !default;
+$ui-dialog-titlebar-fullscreen-padding-inline-start: $fullscreen-popup-header-only-label-padding-inline-start !default;
+$ui-dialog-titlebar-fullscreen-padding-inline-end: $fullscreen-popup-header-only-label-padding-inline-end !default;
 $ui-dialog-titlebar-fullscreen-background: $fullscreen-popup-header-bg !default;
 
 $ui-dialog-content-fullscreen-messages-offset: spacing('md') spacing('base') !default;

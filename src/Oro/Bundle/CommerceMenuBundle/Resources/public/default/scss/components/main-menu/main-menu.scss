@@ -277,7 +277,13 @@
 
             &__actions {
                 height: $main-menu-stack-mode-actions-height;
-                margin-inline: $main-menu-stack-mode-actions-margin-inline;
+
+                @include safe-area-property-left(
+                    margin-inline-start,
+                    $main-menu-stack-mode-actions-margin-inline-start
+                );
+
+                margin-inline-end: $main-menu-stack-mode-actions-margin-inline-end;
             }
 
             &__button {

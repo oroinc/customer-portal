@@ -62,7 +62,13 @@
 
             &__container-title {
                 margin: 0;
-                padding-inline: spacing('lg') + spacing('base') spacing('lg');
+
+                @include safe-area-property-left(
+                    padding-inline-start,
+                    spacing('lg') + spacing('base')
+                );
+
+                padding-inline-end: spacing('lg');
 
                 display: flex;
                 height: 44px;
