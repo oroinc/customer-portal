@@ -41,7 +41,14 @@
             flex-direction: column;
 
             &__title {
-                padding: 0 0 0 40px;
+                padding-block: 0;
+
+                @include safe-area-property-left(
+                    padding-inline-start,
+                    spacing('lg')
+                );
+
+                padding-inline-end: 0;
                 margin-bottom: 0;
 
                 @media (hover: hover) {

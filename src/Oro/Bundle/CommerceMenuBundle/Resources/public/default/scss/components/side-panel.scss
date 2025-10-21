@@ -2,10 +2,6 @@
 
 .sidebar-main-menu {
     .fullscreen-popup {
-        &__header {
-            padding: $side-panel-header-padding;
-        }
-
         &__content {
             // Preventing focus visible style from being cut
             --focus-visible-outline-offset: -2px;
@@ -47,16 +43,11 @@
 @include breakpoint('mobile-big') {
     .sidebar-main-menu {
         .fullscreen-popup {
-            &__header {
-                padding: spacing('base') spacing('base') 0;
-            }
-
             &__label {
                 transition: $side-panel-label-transition;
             }
 
             &__icon {
-                padding: 0;
                 transition: $side-panel-icon-transition;
             }
         }
@@ -71,12 +62,6 @@
                 transform: translateX(-24px);
                 opacity: 0;
             }
-        }
-
-        .close-dialog {
-            padding: 0;
-            min-width: 44px;
-            justify-content: end;
         }
 
         &__container {

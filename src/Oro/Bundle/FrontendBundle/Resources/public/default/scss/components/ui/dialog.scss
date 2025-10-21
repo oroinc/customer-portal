@@ -148,6 +148,20 @@
             @include safe-area-offset(padding, $ui-dialog-titlebar-fullscreen-offset);
 
             background: $ui-dialog-titlebar-fullscreen-background;
+
+            &:has(.ui-dialog-title:first-child) {
+                @include safe-area-property-left(
+                    padding-inline-start,
+                    $ui-dialog-titlebar-fullscreen-padding-inline-start
+                );
+            }
+
+            &:has(.ui-dialog-title:last-child) {
+                @include safe-area-property-right(
+                    padding-inline-end,
+                    $ui-dialog-titlebar-fullscreen-padding-inline-end
+                );
+            }
         }
 
         .ui-dialog-messages {

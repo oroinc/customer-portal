@@ -90,7 +90,14 @@
                 min-height: 44px;
                 display: grid;
                 align-items: center;
-                padding: 0 0 0 40px;
+                padding-block: 0;
+
+                @include safe-area-property-left(
+                    padding-inline-start,
+                    spacing('lg')
+                );
+
+                padding-inline-end: 0;
             }
 
             &__item {
@@ -98,7 +105,14 @@
                 padding: 0;
 
                 &--image {
-                    padding: 0 spacing('lg');
+                    padding-block: 0;
+
+                    @include safe-area-property-left(
+                        padding-inline-start,
+                        spacing('lg')
+                    );
+
+                    padding-inline-end: spacing('lg');
                 }
             }
 
@@ -136,7 +150,14 @@
     .main-menu-stack-mode {
         .main-menu-column {
             &__link {
-                padding: 0 0 0 40px;
+                padding-block: 0;
+
+                @include safe-area-property-left(
+                    padding-inline-start,
+                    spacing('lg')
+                );
+
+                padding-inline-end: 0;
             }
         }
     }

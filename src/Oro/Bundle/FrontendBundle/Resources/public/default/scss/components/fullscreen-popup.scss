@@ -8,10 +8,8 @@
     position: $fullscreen-popup-position;
     z-index: $fullscreen-popup-z-index;
 
-    top: $fullscreen-popup-top;
-    right: $fullscreen-popup-right;
-    bottom: $fullscreen-popup-bottom;
-    left: $fullscreen-popup-left;
+    inset-block: $fullscreen-popup-inset-block;
+    inset-inline: $fullscreen-popup-inset-inline;
 
     height: $fullscreen-popup-height;
     margin-left: $fullscreen-popup-margin-left;
@@ -24,6 +22,7 @@
     }
 
     &__header {
+        background: $fullscreen-popup-header-bg;
         display: $fullscreen-popup-header-display;
         align-items: $fullscreen-popup-header-align-items;
         flex-shrink: $fullscreen-popup-header-flex-shrink;
@@ -33,9 +32,30 @@
 
         z-index: $fullscreen-popup-header-z-index;
 
-        @include safe-area-offset(padding, $fullscreen-popup-header-offset);
+        padding-block: $fullscreen-popup-header-padding-block;
 
-        background: $fullscreen-popup-header-bg;
+        @include safe-area-property-left(
+            padding-inline-start,
+            $fullscreen-popup-header-padding-inline-start
+        );
+        @include safe-area-property-right(
+            padding-inline-end,
+            $fullscreen-popup-header-padding-inline-end
+        );
+    }
+
+    &__header:has(&__label:first-child) {
+        @include safe-area-property-left(
+            padding-inline-start,
+            $fullscreen-popup-header-only-label-padding-inline-start
+        );
+    }
+
+    &__header:has(&__label:last-child) {
+        @include safe-area-property-right(
+            padding-inline-end,
+            $fullscreen-popup-header-only-label-padding-inline-end
+        );
     }
 
     &__icon {
@@ -58,16 +78,19 @@
         cursor: $fullscreen-popup-label-cursor;
     }
 
-    &__icon ~ &__label {
-        padding-inline-start: 0;
-    }
-
     &__content {
         height: $fullscreen-popup-content-height;
-
         overflow: $fullscreen-popup-content-overflow;
+        padding-block: $fullscreen-popup-content-padding-block;
 
-        @include safe-area-offset(padding, $fullscreen-popup-content-offset);
+        @include safe-area-property-left(
+            padding-inline-start,
+            $fullscreen-popup-content-padding-inline-start
+        );
+        @include safe-area-property-right(
+            padding-inline-end,
+            $fullscreen-popup-content-padding-inline-end
+        );
 
         .alert {
             margin: $fullscreen-popup-content-alert-offset-height;
@@ -90,7 +113,16 @@
         left: $fullscreen-popup-footer-left;
         bottom: $fullscreen-popup-footer-bottom;
 
-        @include safe-area-offset(padding, $fullscreen-popup-footer-offset);
+        padding-block: $fullscreen-popup-footer-padding-block;
+
+        @include safe-area-property-left(
+            padding-inline-start,
+            $fullscreen-popup-footer-padding-inline-start
+        );
+        @include safe-area-property-right(
+            padding-inline-end,
+            $fullscreen-popup-footer-padding-inline-end
+        );
 
         background: $fullscreen-popup-footer-bg;
         border-top: $fullscreen-popup-footer-border-top;
@@ -164,12 +196,28 @@
 @include breakpoint('mobile-big-min') {
     .fullscreen-popup {
         &--align-left {
-            right: auto;
+            inset-inline-end: auto;
 
             &:not(.show) {
                 opacity: 1;
                 transform: translateX(-100%);
             }
+        }
+
+        &--align-left &__header {
+            padding-inline-end: $fullscreen-popup-header-padding-inline-end;
+        }
+
+        &--align-left &__header:has(&__label:last-child) {
+            padding-inline-end: $fullscreen-popup-header-only-label-padding-inline-end;
+        }
+
+        &--align-left &__content {
+            padding-inline-end: $fullscreen-popup-content-padding-inline-end;
+        }
+
+        &--align-left &__footer {
+            padding-inline-end: $fullscreen-popup-footer-padding-inline-end;
         }
     }
 }
