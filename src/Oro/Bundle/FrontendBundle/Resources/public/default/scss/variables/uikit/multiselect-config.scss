@@ -1,0 +1,7 @@
+/* @theme: default; */
+
+@use 'sass:color';
+
+$multiselect-max-height: calc(44px * 8) !default;
+$multiselect-search-color: get-color('text', 'secondary') !default;
+$multiselect-optgroup-label-background-color: get-color('neutral', 'white-100') !default;

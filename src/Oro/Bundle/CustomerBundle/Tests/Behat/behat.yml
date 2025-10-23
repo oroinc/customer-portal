@@ -277,14 +277,14 @@ oro_behat_extension:
       selector: 'label.checkbox-label'
 
     Frontend Grid Filter Dropdown:
-      selector: 'div.filter-container div.datagrid-manager div.filter-default.dropdown-menu'
+      selector: '.filter-item .dropdown-menu .multiselect-filter'
 
     FrontendGridViewsDropdown:
       selector: '.grid-views__dropdown.dropdown-menu'
 
     FrontendGridFilterManager:
       selector:
-        locator: '//div[contains(concat(" ", normalize-space(@class), " "), " filter-container ")]/div[contains(concat(" ", normalize-space(@class), " "), " datagrid-manager ")]/div[contains(concat(" ", normalize-space(@class), " "), " default ")]'
+        locator: '//div[contains(concat(" ", normalize-space(@class), " "), " filter-container ")]//div[contains(concat(" ", normalize-space(@class), " "), " datagrid-manager__menu ")]'
         type: xpath
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\FrontendGridFilterManager
 
@@ -292,10 +292,10 @@ oro_behat_extension:
       selector: 'button.filters-manager-trigger'
 
     FrontendGridFilterManagerButtonNone:
-      selector: '.ui-multiselect-all'
+      selector: '.multiselect__select-none'
 
     FrontendGridFilterManagerButtonAll:
-      selector: '.ui-multiselect-none'
+      selector: '.multiselect__select-all'
 
     Customer User Form Admin:
       selector: '[id^="oro_customer_customer_user-uid"]'

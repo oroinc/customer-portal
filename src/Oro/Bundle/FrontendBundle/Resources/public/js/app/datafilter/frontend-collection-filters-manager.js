@@ -5,53 +5,62 @@ define(function(require, exports, module) {
     const _ = require('underscore');
     const __ = require('orotranslation/js/translator');
     const CollectionFiltersManager = require('orofilter/js/collection-filters-manager');
-    const MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-manage-filters-decorator');
     const FrontendCollapsableHintsView = require('./frontend-collapsable-hints-view').default;
     const ScrollShadowView = require('orofrontend/js/app/views/scroll-shadow-view').default;
+    const {MultiselectDropdown} = require('oroui/js/app/views/multiselect');
 
     let config = require('module-config').default(module.id);
     config = _.extend({
         templateData: {
             attributes: ''
         },
-        enableMultiselectWidget: true
+        enableMultiselectWidget: true,
+        filterManagerMenuParams: {
+            enabledFooter: true,
+            maxItemsForShowSearchBar: 15,
+            showSelectedInLabel: false,
+            dropdownMenuLabel: __('oro_frontend.filter_manager.label'),
+            dropdownAriaLabel: __('oro_frontend.filter_manager.button_aria_label'),
+            checkAllText: __('oro_frontend.filter_manager.checkAll'),
+            uncheckAllText: __('oro_frontend.filter_manager.unCheckAll'),
+            listAriaLabel: __('oro_frontend.filter_manager.listAriaLabel'),
+            resetButtonLabel: __('oro_frontend.filter_manager.resetFilter'),
+            dropdownToggleIcon: 'settings',
+            dropdownToggleLabel: '',
+            dropdownDisablePopper: true,
+            dropdownPlacement: 'bottom-end',
+            cssConfig: {
+                strategy: 'override',
+                main: 'datagrid-manager',
+                item: 'multiselect__item datagrid-manager__list-item',
+                dropdownMenu: 'default datagrid-manager__menu dropdown-menu multiselect__dropdown-menu',
+                dropdownToggleBtn: 'btn btn--neutral dropdown-toggle filters-manager-trigger select-filter-widget',
+                dropdownMenuLabel: 'datagrid-manager__title'
+            }
+        }
     }, config);
 
     const FrontendCollectionFiltersManager = CollectionFiltersManager.extend({
         /**
-         * Select widget object
+         * Define view constructor for filter manager menu
          *
-         * @property
+         * @property {MultiSelectView}
          */
-        MultiselectDecorator: MultiselectDecorator,
+        FilterManagerMenu: MultiselectDropdown,
 
         /**
          * @inheritdoc
          */
         enableMultiselectWidget: true,
 
-        multiselectResetButtonLabel: __('oro_frontend.filter_manager.resetFilter'),
-
         enableScrollContainerShadow: false,
 
         /**
-         * @inheritdoc
+         * Filter manager menu params difinition
+         *
+         * @property {object}
          */
-        multiselectParameters: {
-            classes: 'select-filter-widget',
-            checkAllText: __('oro_frontend.filter_manager.checkAll'),
-            uncheckAllText: __('oro_frontend.filter_manager.unCheckAll'),
-            height: 'auto',
-            menuWidth: 312,
-            selectedText: __('oro_frontend.filter_manager.button_label'),
-            noneSelectedText: __('oro_frontend.filter_manager.button_label'),
-            listAriaLabel: __('oro_frontend.filter_manager.listAriaLabel')
-        },
-
-        /** @property */
-        events: {
-            'click [data-role="close"]': '_onClose'
-        },
+        filterManagerMenuParams: config.filterManagerMenuParams,
 
         /**
          * @inheritdoc
@@ -60,7 +69,8 @@ define(function(require, exports, module) {
 
         optionNames: CollectionFiltersManager.prototype.optionNames.concat([
             'fullscreenTemplate', 'filtersStateElement', 'filterEnableValueBadge', 'allowClearButtonInFilter',
-            'hintsToggledStatus', 'enableScrollContainerShadow', 'closeFilterManagerOnOutClick'
+            'hintsToggledStatus', 'enableScrollContainerShadow',
+            'enableMultiselectWidget', 'filterManagerMenuParams', 'FilterManagerMenu'
         ]),
 
         hintsExpanded: false,
@@ -69,15 +79,21 @@ define(function(require, exports, module) {
          * @inheritdoc
          */
         constructor: function FrontendCollectionFiltersManager(options) {
-            FrontendCollectionFiltersManager.__super__.constructor.call(this, options);
-        },
+            // If filterManagerMenuParams is provided as an object in options,
+            // merge its cssConfig property with the default cssConfig, giving precedence to provided values.
+            // Then, merge the entire filterManagerMenuParams object with the default one,
+            // ensuring any missing properties are filled from the defaults.
 
-        initialize(options) {
-            if (this.closeFilterManagerOnOutClick !== void 0) {
-                this.multiselectParameters.closeOnOutOfClick = this.closeFilterManagerOnOutClick;
+            if (typeof options.filterManagerMenuParams === 'object') {
+                if (options.filterManagerMenuParams.cssConfig) {
+                    options.filterManagerMenuParams.cssConfig =
+                        _.defaults(options.filterManagerMenuParams.cssConfig, this.filterManagerMenuParams.cssConfig);
+                }
+                options.filterManagerMenuParams =
+                    _.defaults(options.filterManagerMenuParams, this.filterManagerMenuParams);
             }
 
-            FrontendCollectionFiltersManager.__super__.initialize.call(this, options);
+            FrontendCollectionFiltersManager.__super__.constructor.call(this, options);
         },
 
         /**
@@ -92,52 +108,6 @@ define(function(require, exports, module) {
 
             this.finallyOfRender();
             return this;
-        },
-
-        /**
-         * Set design for filter manager button
-         *
-         * @protected
-         */
-        _setButtonDesign: function($button) {
-            $button
-                .attr({
-                    'class': `btn btn--neutral ${$button.attr('class')} filters-manager-trigger`,
-                    'title': __('oro_frontend.filter_manager.label'),
-                    'aria-label': __('oro_frontend.filter_manager.button_aria_label')
-                })
-                .prepend(_.macros('oroui::renderIcon')({
-                    name: 'settings'
-                }))
-                .tooltip();
-        },
-
-        /**
-         *  Create html node
-         *
-         * @returns {*|jQuery|HTMLElement}
-         * @private
-         */
-        _createButtonReset: function() {
-            // Use link to keep focus even on disabled state
-            const icon = _.macros('oroui::renderIcon')({
-                name: 'undo'
-            });
-
-            return $(`
-                <div class="datagrid-manager__footer">
-                    <a href="#" role="button" class="btn"
-                        data-role="reset-filters">
-                        ${icon}${this.multiselectResetButtonLabel}
-                    </a>
-                </div>
-            `);
-        },
-
-        _onClose: function() {
-            if (this.selectWidget) {
-                this.selectWidget.multiselect('instance').button.trigger('click');
-            }
         },
 
         /**
@@ -173,9 +143,53 @@ define(function(require, exports, module) {
             this.subview('collapsableHints') && this.subview('collapsableHints').update();
         },
 
+        getFiltersCollectionAsSelectableList({asDefault = false} = {}) {
+            return Object.values(this.filters).map(filter => ({
+                value: filter.name,
+                label: filter.label,
+                selected: asDefault ? filter.renderableByDefault : filter.renderable,
+                hidden: !filter.visible
+            }));
+        },
+
+        _onReset(event) {
+            FrontendCollectionFiltersManager.__super__._onReset.call(this, event);
+
+            this.updateFiltersManagerMultiselectState();
+        },
+
+        _processFilterStatus(activeFilters) {
+            FrontendCollectionFiltersManager.__super__._processFilterStatus.call(this, activeFilters);
+
+            this.updateFiltersManagerMultiselectState();
+        },
+
+        checkFiltersVisibility() {
+            FrontendCollectionFiltersManager.__super__.checkFiltersVisibility.call(this);
+
+            this.updateFiltersManagerMultiselectState();
+        },
+
+        updateFiltersManagerMultiselectState() {
+            this.subview('filter-manager-menu') &&
+                this.subview('filter-manager-menu').setState(this.getFiltersCollectionAsSelectableList());
+        },
+
         finallyOfRender: function() {
             if (this.$el.data('layout') === 'separate') {
                 this.initLayout();
+            }
+
+            if (this.enableMultiselectWidget) {
+                this.subview('filter-manager-menu', new this.FilterManagerMenu({
+                    container: this.$('[data-role="filter-actions"]'),
+                    options: this.getFiltersCollectionAsSelectableList(),
+                    defaultOptions: this.getFiltersCollectionAsSelectableList({asDefault: true}),
+                    autoRender: true,
+                    ...this.filterManagerMenuParams
+                }));
+
+                this.listenTo(this.subview('filter-manager-menu'), 'change:selected', this._onChangeFilterSelect);
             }
 
             this.subview('collapsableHints', new FrontendCollapsableHintsView({

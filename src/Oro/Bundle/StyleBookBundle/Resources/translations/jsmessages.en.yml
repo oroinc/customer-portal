@@ -214,6 +214,8 @@ oro_stylebook:
                 title: 'Loading Mask'
             dialog_widget:
                 title: 'Dialog Widget'
+            multiselect_widget:
+                title: 'Multiselect Widget'
             collapse_widgets:
                 title: 'Collapse Widgets'
                 simple:

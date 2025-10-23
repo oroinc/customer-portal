@@ -128,12 +128,15 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
     },
 
     getSelectWidgetOptions() {
-        const selectWidgetOptions = this.managerPopupOptions;
+        const selectWidgetOptions = {
+            ...this.managerPopupOptions,
+            dialogClass: 'datagrid-manager--inside-fullscreen'
+        };
 
         if (this.datagrid.$el.closest('.ui-dialog').length) {
             Object.assign(selectWidgetOptions, {
                 container: this.datagrid.$el.closest('.ui-dialog'),
-                dialogClass: 'fullscreen-popup--inside-dialog',
+                dialogClass: 'fullscreen-popup--inside-dialog datagrid-manager--inside-overlay',
                 disableBackDrop: true,
                 disableBodyTouchScroll: false
             });
@@ -142,6 +145,7 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
                 disableBodyTouchScroll: false,
                 disableBackDrop: true,
                 dialogClass: [
+                    'datagrid-manager--inside-overlay',
                     'datagrid-manager--overlay',
                     'fullscreen-popup--transition',
                     'fullscreen-popup--align-left',
@@ -154,53 +158,21 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
     },
 
     transformSelectWidget() {
-        const selectWidget = this.filterManager.selectWidget;
-
-        if (!selectWidget) {
-            return;
-        }
-
-        const $content = selectWidget.multiselect('getMenu');
-        const $selectWidgetBtn = selectWidget.multiselect('getButton');
-        const multiselect = selectWidget.multiselect('instance');
-
-        $content
-            .removeClass('dropdown-menu')
-            .addClass('datagrid-manager ui-widget-fullscreen');
-
+        const filterManagerMenu = this.filterManager.subview('filter-manager-menu');
         const PopupView = this.getPopupConstructor();
-        const fullscreenSelectWidgetOptions = this.getSelectWidgetOptions();
-
-        Object.assign(fullscreenSelectWidgetOptions, {
-            contentElement: $content
+        const fullscreenFilterManagerMenu = new PopupView({
+            ...this.getSelectWidgetOptions(),
+            contentElement: filterManagerMenu.getRootElement()
         });
 
-        const fullscreenSelectWidget = new PopupView(fullscreenSelectWidgetOptions);
-
-        fullscreenSelectWidget.on('show', () => {
-            fullscreenSelectWidget.$popup.on(
-                `click${fullscreenSelectWidget.eventNamespace()}`,
-                '[data-role="reset-filters"]', e => this.filterManager._onReset(e)
-            );
-        });
-        fullscreenSelectWidget.on('beforeclose', () => {
-            fullscreenSelectWidget.$popup.off(fullscreenSelectWidget.eventNamespace());
-        });
-        // Disable JS positioning
-        // https://stackoverflow.com/questions/16047795/disable-js-positioning-of-jquery-ui-dialog
-        multiselect.position = $.noop;
-        multiselect.options.menuWidth = '100%';
-        multiselect.options.minWidth = '100%';
-        // Don't close filter before open Filter Manager
-        multiselect.options.beforeopen = () => selectWidget.onBeforeOpenDropdown();
-        multiselect.element.on('multiselectopened', () => $content.attr('style', null));
-        selectWidget.multiselect('close');
-
-        $selectWidgetBtn.add($selectWidgetBtn.find('span'))
-            .on('click.multiselectfullscreen', () => fullscreenSelectWidget.show());
-
-        fullscreenSelectWidget.on('close', () => selectWidget.multiselect('close'));
-        this.fullScreenPopup.subview('fullscreen:select-widget', fullscreenSelectWidget);
+        filterManagerMenu
+            .buttonTooltipEnabled(false)
+            .getToogleButton()
+            .on(`click${fullscreenFilterManagerMenu.eventNamespace()}`, event => {
+                event.preventDefault();
+                fullscreenFilterManagerMenu.show();
+            });
+        this.fullScreenPopup.subview('fullscreen:select-widget', fullscreenFilterManagerMenu);
     },
 
     transformFilters() {
@@ -234,7 +206,7 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
         this.filterManager.render();
         this.filterManager.$el.addClass('fullscreen');
         this.fullScreenPopup.header.$el.find('.close-dialog').before(
-            this.filterManager.selectWidget.multiselect('getButton')
+            this.filterManager.subview('filter-manager-menu').$el
         );
 
         const datetimeFilters = pick(this.filterManager.filters, filter => filter.type === 'datetime');

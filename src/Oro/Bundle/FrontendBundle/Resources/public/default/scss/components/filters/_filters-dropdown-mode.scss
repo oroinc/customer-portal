@@ -1,34 +1,6 @@
 /* @theme: default; */
 
 .dropdown-mode {
-    .ui-multiselect-menu {
-        position: absolute;
-        z-index: $filter-dropdown-mode-ui-multiselect-menu-z-ndex;
-
-        // Break inline styles
-        // stylelint-disable-next-line declaration-no-important
-        max-width: $filter-dropdown-mode-ui-multiselect-menu-max-width !important;
-        // Break inline styles
-        // stylelint-disable-next-line declaration-no-important
-        width: $filter-dropdown-mode-ui-multiselect-menu-max-width !important;
-        margin-top: 0;
-
-        text-align: left;
-
-        background: $filter-dropdown-mode-ui-multiselect-menu-bg;
-
-        .ui-helper-reset,
-        .ui-multiselect-checkboxes {
-            padding: $filter-dropdown-mode-ui-multiselect-menu-helper-reset-offset-inner;
-        }
-
-        .ui-multiselect-header {
-            div {
-                padding: $filter-dropdown-mode-ui-multiselect-menu-header-div-offset-inner;
-            }
-        }
-    }
-
     .filter-container {
         display: flex;
         flex-wrap: wrap;
@@ -175,10 +147,6 @@
         }
     }
 
-    .ui-multiselect {
-        align-self: flex-start;
-    }
-
     .timepicker-input {
         max-width: $filter-dropdown-mode-timepicker-input-max-width;
     }
@@ -195,6 +163,9 @@
         max-height: $filter-dropdown-select-wrapper-max-height;
 
         margin-bottom: spacing('sm');
+
+        margin-inline: -#{spacing('xs')};
+        padding-inline: spacing('xs');
 
         .ui-dialog-content & {
             max-height: $filter-dropdown-select-wrapper-in-dialog-max-height;

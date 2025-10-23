@@ -1,11 +1,5 @@
 /* @theme: default; */
 
-$filter-dropdown-mode-ui-multiselect-menu-z-ndex: z('popup') !default;
-$filter-dropdown-mode-ui-multiselect-menu-max-width: 320px !default;
-$filter-dropdown-mode-ui-multiselect-menu-bg: get-color('neutral', 'white-100') !default;
-$filter-dropdown-mode-ui-multiselect-menu-helper-reset-offset-inner: 0 20px !default;
-$filter-dropdown-mode-ui-multiselect-menu-header-div-offset-inner: 13px 20px spacing('sm') !default;
-
 $filter-dropdown-mode-criteria-min-width: 270px !default;
 $filter-dropdown-mode-criteria-offset-inner: 16px !default;
 $filter-dropdown-mode-criteria-offset-top: spacing('xs') !default;

@@ -66,7 +66,7 @@
         display: $filter-container-header-display;
         flex-wrap: wrap;
         align-items: start;
-        padding: spacing('sm') spacing('lg') spacing('sm') 0;
+        padding: 6px spacing('lg') 6px 0;
 
         position: sticky;
         top: var(--sticky-position-top-offset, 0);
@@ -99,6 +99,10 @@
         gap: $filter-actions-gap;
         align-self: $filter-actions-align-self;
         align-items: $filter-actions-align-items;
+
+        .multiselect__dropdown-menu {
+            width: 270px;
+        }
     }
 
     .filter-criteria-hint-item-toggle {
@@ -311,6 +315,13 @@
         margin-top: $filter-action-row-offset-top;
     }
 
+    .multiselect-filter,
+    .select-filter {
+        + .filter-action-row {
+            margin-top: 0;
+        }
+    }
+
     .dropdown-menu-calendar {
         min-width: $filter-dropdown-menu-calendar-max-width;
     }
@@ -334,10 +345,6 @@
             $arrow-box-shadow: $filter-box-apply-arrow-box-shadow,
             $arrow-placeholder: $filter-box-apply-arrow-placeholder
         );
-    }
-
-    .ui-multiselect-checkboxes {
-        list-style: none;
     }
 }
 

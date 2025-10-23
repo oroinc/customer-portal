@@ -16,7 +16,7 @@ define(function(require) {
          * @property {Array}
          */
         optionNames: BaseView.prototype.optionNames.concat(
-            ['props', 'viewConstructor', 'viewOptions', 'renderAfter', 'widget']
+            ['props', 'viewConstructor', 'viewOptions', 'renderAfter', 'widget', 'ignoreProps']
         ),
 
         /**
@@ -83,6 +83,7 @@ define(function(require) {
          * @returns {*}
          */
         constructor: function StyleBookPlayground(options) {
+            this.ignoreProps = ['el'];
             return StyleBookPlayground.__super__.constructor.call(this, options);
         },
 
@@ -118,7 +119,7 @@ define(function(require) {
                 if (this.$el.find(this.subviewContainer).length) {
                     _.extend(this.viewOptions, {
                         _sourceElement: this.$el.find(this.subviewContainer),
-                        el: this.$el.find(this.subviewContainer).get()
+                        el: this.$el.find(this.subviewContainer).get(0)
                     });
                 }
 
@@ -175,9 +176,14 @@ define(function(require) {
         updateConfigPreview: function() {
             const content = JSON.stringify(this.viewOptions, (key, value) => {
                 // Discard keys that are null or HTML elements due to avoid circular references
-                if (value === null || value instanceof $ || value instanceof HTMLElement) {
+                if (value === null ||
+                    value instanceof $ ||
+                    value instanceof HTMLElement ||
+                    this.ignoreProps.includes(key)
+                ) {
                     return void 0;
                 }
+
                 return value;
             }, '\t');
             this.configPreview.text(content);

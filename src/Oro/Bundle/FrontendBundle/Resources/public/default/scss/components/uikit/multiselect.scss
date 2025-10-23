@@ -1,0 +1,72 @@
+/* @theme: default; */
+
+.multiselect {
+    &__list {
+        display: grid;
+        width: 100%;
+        list-style: none;
+
+        margin-inline: -#{spacing('xs')};
+        padding-inline: spacing('xs');
+
+        &:not(.no-list-scroll) {
+            overflow-y: auto;
+            max-height: $multiselect-max-height;
+        }
+    }
+
+    &--offset {
+        padding-left: spacing('base');
+    }
+
+    &__item-checkbox {
+        min-height: 44px;
+        align-items: center;
+        display: inline-flex;
+    }
+
+    &__dropdown-menu {
+        padding: spacing('base');
+    }
+
+    &__search {
+        position: relative;
+        margin-bottom: spacing('base');
+    }
+
+    &__search-icon {
+        position: absolute;
+        top: 0;
+        left: spacing('md');
+        bottom: 0;
+        margin: auto;
+
+        color: $multiselect-search-color;
+    }
+
+    &__search-input {
+        padding-inline: 40px;
+    }
+
+    &__no-found {
+        margin-top: spacing('xs');
+        text-align: center;
+    }
+
+    &__optgroup {
+        &-label {
+            font-weight: font-weight('semi-bold');
+            cursor: pointer;
+
+            position: sticky;
+            top: 0;
+
+            background-color: $multiselect-optgroup-label-background-color;
+            z-index: z();
+        }
+
+        &-options {
+            padding-inline-start: spacing('sm');
+        }
+    }
+}

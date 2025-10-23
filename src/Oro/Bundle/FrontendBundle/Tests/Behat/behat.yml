@@ -203,9 +203,9 @@ oro_behat_extension:
     Opened Filter Dropdown:
       selector: '.filter-criteria.dropdown-menu.criteria-visible'
     Filter Checkboxes:
-      selector: ".datagrid-manager .filter-default .ui-multiselect-checkboxes .datagrid-manager__list-item"
+      selector: ".multiselect-filter .multiselect__list .multiselect__item-checkbox"
     Filter Checkboxes All At Once:
-      selector: ".datagrid-manager .ui-multiselect-checkboxes .filters-dropdown__items"
+      selector: ".multiselect-filter .filters-dropdown .filters-dropdown__items"
     Filters Dropdown:
       selector: '[id^="grid-frontend-requests-grid"] a.action[title="Filter Toggle"]'
     Requests For Quote Grid:

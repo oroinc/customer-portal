@@ -2,15 +2,15 @@ define(function(require, exports, module) {
     'use strict';
 
     const _ = require('underscore');
-    const __ = require('orotranslation/js/translator');
     const SelectFilter = require('oro/filter/select-filter');
-    const MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-multiselect-decorator');
     const FilterBadgeHintView = require('orofrontend/default/js/app/views/filter-badge-hint-view').default;
     const FilterCountHelper = require('orofrontend/js/app/filter-count-helper');
     const tools = require('oroui/js/tools');
     let config = require('module-config').default(module.id);
 
     config = _.extend({
+        hideHeader: false,
+        themeName: 'filter-default',
         closeAfterChose: true,
         minimumResultsForSearch: 7
     }, config);
@@ -22,23 +22,18 @@ define(function(require, exports, module) {
         closeAfterChose: config.closeAfterChose,
 
         /**
-         * @property
-         */
-        minimumResultsForSearch: config.minimumResultsForSearch,
-
-        /**
-         * @property
-         */
-        MultiselectDecorator: MultiselectDecorator,
-
-        /**
          * Select widget options
          *
          * @property
          */
         widgetOptions: {
             multiple: false,
-            classes: 'select-filter-widget'
+            maxItemsForShowSearchBar: config.minimumResultsForSearch,
+            enabledHeader: config.hideHeader,
+            cssConfig: {
+                strategy: 'override',
+                searchResetBtn: 'btn btn--simple-colored clear-search-button'
+            }
         },
 
         /**
@@ -65,12 +60,32 @@ define(function(require, exports, module) {
             'change': 'onChangeFilter'
         },
 
+        events() {
+            return {
+                [`click ${this.clearFilterSelector}`]: '_onClickClearFilter'
+            };
+        },
+
         /**
          * @inheritdoc
          */
         constructor: function FrontendSelectFilter(options) {
             this.onChangeFilter = _.debounce(this.onChangeFilter.bind(this));
             FrontendSelectFilter.__super__.constructor.call(this, options);
+        },
+
+        initialize(options) {
+            if (config.themeName === 'all-at-once') {
+                this.widgetOptions.cssConfig = {
+                    ...this.widgetOptions.cssConfig,
+                    item: 'filters-dropdown__items filters-dropdown__items--pallet',
+                    list: 'filters-dropdown',
+                    itemCheckboxLabel: 'filters-dropdown__labels',
+                    itemCheckbox: 'filters-dropdown__inputs'
+                };
+            }
+
+            FrontendSelectFilter.__super__.initialize.call(this, options);
         },
 
         rendered() {
@@ -97,94 +112,19 @@ define(function(require, exports, module) {
             return this.filterTemplateData(templateData);
         },
 
-        /**
-         * @inheritdoc
-         * @return {jQuery}
-         */
-        _appendToContainer: function() {
-            return this.isToggleMode() ? this.$el.find('.filter-criteria') : this.dropdownContainer;
-        },
-
-        /**
-         * @inheritdoc
-         */
-        _initializeSelectWidget() {
-            this.widgetOptions = Object.assign({}, this.widgetOptions, {
-                additionalClass: !this.isToggleMode(),
-                resetButton: this.allowClearButtonInFilter ? {
-                    label: __('oro.filter.clearFilterButton.text'),
-                    attr: {
-                        'class': 'btn btn--flat filter-clear hidden',
-                        'aria-label': __('oro.filter.clearFilterButton.aria_label', {
-                            label: `${__('oro.filter.by')} ${this.label}`}
-                        )
-                    },
-                    onClick: this.onClickSelectWidgetResetButton.bind(this)
-                } : null
-            });
-            this.contextSearch = Array.isArray(this.choices) && this.choices.length > this.minimumResultsForSearch;
-
-            return FrontendSelectFilter.__super__._initializeSelectWidget.call(this);
-        },
-
-        /**
-         * Handle click on criteria selector
-         *
-         * @param {Event} e
-         * @protected
-         */
-        _onClickFilterArea: function(e) {
-            e.stopPropagation();
-
-            if (this.isToggleMode()) {
-                this.toggleFilter();
-            } else {
-                FrontendSelectFilter.__super__._onClickFilterArea.call(this, e);
-            }
-
+        _onClickClearFilter() {
+            this.reset();
             this.toggleVisibilityClearFilterButton();
         },
 
-        toggleFilter: function() {
-            if (!this.selectDropdownOpened) {
-                this._setButtonPressed(this.$(this.criteriaSelector), true);
-                if (this.selectWidget) {
-                    this.selectWidget.multiselect('open');
-                }
-                this.trigger('showCriteria', this);
-                this.selectDropdownOpened = true;
-            } else {
-                this._setButtonPressed(this.$(this.criteriaSelector), false);
-                this.selectDropdownOpened = false;
-                this.trigger('hideCriteria', this);
-            }
+        _showCriteria() {
+            FrontendSelectFilter.__super__._showCriteria.call(this);
+            this.toggleVisibilityClearFilterButton();
         },
 
-        /**
-         * @inheritdoc
-         */
-        reset: function() {
-            FrontendSelectFilter.__super__.reset.call(this);
-
-            if (this.isToggleMode() && this.autoClose !== false) {
-                this.selectDropdownOpened = true;
-                this.toggleFilter();
-            }
-        },
-
-        /**
-         * @inheritdoc
-         */
-        _getSelectWidgetPosition: function() {
-            const position = FrontendSelectFilter.__super__._getSelectWidgetPosition.call(this);
-
-            return _.extend({}, position, {
-                my: `${_.isRTL() ? 'right' : 'left'} top`
-            });
-        },
-
-        isToggleMode: function() {
-            return this.renderMode === 'toggle-mode';
+        _onValueChanged() {
+            FrontendSelectFilter.__super__._onValueChanged.call(this);
+            this.toggleVisibilityClearFilterButton();
         },
 
         onClickSelectWidgetResetButton() {
@@ -201,7 +141,8 @@ define(function(require, exports, module) {
                 hidden = tools.isEqualsLoosely(this.getValue(), this.emptyValue);
             }
 
-            this.selectWidget && this.selectWidget.toggleVisibilityResetButton(hidden);
+            const clearFilterButton = this.$(this.clearFilterSelector);
+            clearFilterButton.toggleClass('hidden', hidden);
         }
     }));
 

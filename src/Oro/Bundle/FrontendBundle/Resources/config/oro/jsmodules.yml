@@ -2,7 +2,6 @@ aliases:
     orofrontend/theme-configuration-preview-quick-access-button-view$: orofrontend/js/app/views/theme-configuration/theme-configuration-preview-quick-access-button-view
 configs:
     orofrontend/js/app/datafilter/frontend-collection-filters-manager: {}
-    orofrontend/js/app/datafilter/frontend-multiselect-decorator: {}
     orofrontend/js/app/datafilter/plugins/frontend-filters-plugin: {}
     orofrontend/js/app/plugins/frontend-datagrid-settings-plugin: {}
     orofrontend/js/datagrid/cell/frontend-action-cell: {}

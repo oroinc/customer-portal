@@ -31,3 +31,14 @@ ComponentShortcutsManager.add('proxy-focus', {
         view: 'orofrontend/default/js/app/views/proxy-focus-view'
     }
 });
+
+ComponentShortcutsManager.add('multiselect', {
+    moduleName: 'oroui/js/app/components/multiselect-component'
+});
+
+ComponentShortcutsManager.add('multiselect-dropdown', {
+    moduleName: 'oroui/js/app/components/multiselect-component',
+    options: {
+        dropdownMode: true
+    }
+});
