@@ -136,7 +136,7 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
         if (this.datagrid.$el.closest('.ui-dialog').length) {
             Object.assign(selectWidgetOptions, {
                 container: this.datagrid.$el.closest('.ui-dialog'),
-                dialogClass: 'fullscreen-popup--inside-dialog datagrid-manager--overlay',
+                dialogClass: 'fullscreen-popup--inside-dialog datagrid-manager--inside-overlay',
                 disableBackDrop: true,
                 disableBodyTouchScroll: false
             });
@@ -145,6 +145,7 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
                 disableBodyTouchScroll: false,
                 disableBackDrop: true,
                 dialogClass: [
+                    'datagrid-manager--inside-overlay',
                     'datagrid-manager--overlay',
                     'fullscreen-popup--transition',
                     'fullscreen-popup--align-left',
