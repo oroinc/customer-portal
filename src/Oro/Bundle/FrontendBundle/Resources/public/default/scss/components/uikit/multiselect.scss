@@ -4,12 +4,15 @@
     &__list {
         display: grid;
         width: 100%;
-        max-height: $multiselect-max-height;
         list-style: none;
-        overflow-y: auto;
 
         margin-inline: -#{spacing('xs')};
         padding-inline: spacing('xs');
+
+        &:not(.no-list-scroll) {
+            overflow-y: auto;
+            max-height: $multiselect-max-height;
+        }
     }
 
     &--offset {
