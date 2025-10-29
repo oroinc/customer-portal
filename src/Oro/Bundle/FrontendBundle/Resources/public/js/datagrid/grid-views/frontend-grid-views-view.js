@@ -7,7 +7,7 @@ define(function(require) {
     const tools = require('oroui/js/tools');
     const errorHandler = require('oroui/js/error');
     const manageFocus = require('oroui/js/tools/manage-focus').default;
-    const GridViewsView = require('orodatagrid/js/datagrid/grid-views/view');
+    const GridViewsView = require('orodatagrid/js/datagrid/grid-views/view').default;
     const DeleteConfirmation = require('oroui/js/delete-confirmation');
     const FrontendGridViewsInlineRenameView = require('./frontend-grid-views-inline-rename-view').default;
     const errorTemplate = require('tpl-loader!orofrontend/templates/datagrid/view-name-error-modal.html');

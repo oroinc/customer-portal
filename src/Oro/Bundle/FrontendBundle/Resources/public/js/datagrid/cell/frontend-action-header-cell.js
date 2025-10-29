@@ -2,10 +2,10 @@ define(function(require) {
     'use strict';
 
     const __ = require('orotranslation/js/translator');
-    const ActionHeaderCell = require('orodatagrid/js/datagrid/header-cell/action-header-cell');
+    const ActionHeaderCell = require('orodatagrid/js/datagrid/header-cell/action-header-cell').default;
     const actionHeaderCellLabel = require('!tpl-loader!orofrontend/templates/datagrid/action-header-cell-label.html');
     const textUtil = require('oroui/js/tools/text-util');
-    const util = require('orodatagrid/js/datagrid/util');
+    const util = require('orodatagrid/js/datagrid/util').default;
 
     const FrontendActionHeaderCell = ActionHeaderCell.extend({
         constructor: function FrontendActionHeaderCell(...args) {

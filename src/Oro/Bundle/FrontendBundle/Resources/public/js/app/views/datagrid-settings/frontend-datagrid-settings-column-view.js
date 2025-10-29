@@ -3,7 +3,8 @@ define(function(require, exports, module) {
 
     const $ = require('jquery');
     const _ = require('underscore');
-    const DatagridSettingsListView = require('orodatagrid/js/app/views/datagrid-settings-list/datagrid-settings-list-view');
+    const DatagridSettingsListView =
+        require('orodatagrid/js/app/views/datagrid-settings-list/datagrid-settings-list-view').default;
     const FullScreenPopupView = require('orofrontend/default/js/app/views/fullscreen-popup-view');
     const viewportManager = require('oroui/js/viewport-manager').default;
     let config = require('module-config').default(module.id);

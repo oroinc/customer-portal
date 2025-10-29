@@ -1,5 +1,5 @@
 define(function(require) {
-    const ActionsPanel = require('orodatagrid/js/datagrid/actions-panel-mass');
+    const ActionsPanel = require('orodatagrid/js/datagrid/actions-panel-mass').default;
 
     const FrontendActionsPanelMass = ActionsPanel.extend({
         listen: {

@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    const ActionLauncher = require('orodatagrid/js/datagrid/action-launcher');
+    const ActionLauncher = require('orodatagrid/js/datagrid/action-launcher').default;
 
     /**
      * Frontend action launcher variant

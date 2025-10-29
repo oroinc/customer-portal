@@ -3,7 +3,8 @@ define(function(require) {
 
     const _ = require('underscore');
     const mediator = require('oroui/js/mediator');
-    const ActionLauncher = require('orodatagrid/js/datagrid/action-launcher');
+    const ActionLauncherModule = require('orodatagrid/js/datagrid/action-launcher');
+    const ActionLauncher = ActionLauncherModule.default ?? ActionLauncherModule;
 
     /**
      * @class ToolbarMassActionLauncher

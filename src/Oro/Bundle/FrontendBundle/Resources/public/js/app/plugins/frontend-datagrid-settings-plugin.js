@@ -4,9 +4,9 @@ define(function(require, exports, module) {
     const $ = require('jquery');
     const _ = require('underscore');
     const __ = require('orotranslation/js/translator');
-    const ShowComponentAction = require('oro/datagrid/action/show-component-action');
-    const DatagridSettingsPlugin = require('orodatagrid/js/app/plugins/grid/datagrid-settings-plugin');
-    const DatagridSettingView = require('orodatagrid/js/app/views/grid/datagrid-settings-view');
+    const ShowComponentAction = require('oro/datagrid/action/show-component-action').default;
+    const DatagridSettingsPlugin = require('orodatagrid/js/app/plugins/grid/datagrid-settings-plugin').default;
+    const DatagridSettingView = require('orodatagrid/js/app/views/grid/datagrid-settings-view').default;
 
     let config = require('module-config').default(module.id);
     config = $.extend(true, {

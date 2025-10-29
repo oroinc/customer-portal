@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    const Grid = require('orodatagrid/js/datagrid/grid');
+    const Grid = require('orodatagrid/js/datagrid/grid').default;
     const FrontendToolbar = require('orofrontend/js/datagrid/frontend-toolbar').default;
     const __ = require('orotranslation/js/translator');
 

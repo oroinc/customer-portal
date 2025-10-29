@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     'use strict';
 
-    const ActionCell = require('oro/datagrid/cell/action-cell');
+    const ActionCell = require('oro/datagrid/cell/action-cell').default;
     const _ = require('underscore');
     const config = require('module-config').default(module.id);
 

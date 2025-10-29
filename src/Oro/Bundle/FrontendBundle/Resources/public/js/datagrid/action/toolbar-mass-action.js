@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    const AbstractAction = require('oro/datagrid/action/abstract-action');
+    const AbstractAction = require('oro/datagrid/action/abstract-action').default;
     const toolbarMassActionLauncher = require('orofrontend/js/datagrid/toolbar-mass-action-launcher');
 
     const ToolbarMassAction = AbstractAction.extend({

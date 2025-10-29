@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     'use strict';
 
-    const DataGridComponent = require('orodatagrid/js/app/components/datagrid-component');
+    const DataGridComponent = require('orodatagrid/js/app/components/datagrid-component').default;
     const ElasticSwipeActionsPlugin = require('orofrontend/js/app/plugins/plugin-elastic-swipe-actions');
     const _ = require('underscore');
 

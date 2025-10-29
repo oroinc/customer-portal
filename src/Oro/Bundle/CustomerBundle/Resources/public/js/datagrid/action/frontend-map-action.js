@@ -1,7 +1,8 @@
 define(function(require) {
     'use strict';
 
-    const MapAction = require('oro/datagrid/action/map-action');
+    const MapActionModule = require('oro/datagrid/action/map-action');
+    const MapAction = MapActionModule.default ?? MapActionModule;
     const viewportManager = require('oroui/js/viewport-manager').default;
     const Popover = require('bootstrap-popover');
     const FullscreenPopupView = require('orofrontend/default/js/app/views/fullscreen-popup-view');

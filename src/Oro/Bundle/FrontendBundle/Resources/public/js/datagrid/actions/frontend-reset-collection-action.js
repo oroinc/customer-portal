@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    const ResetCollectionAction = require('oro/datagrid/action/reset-collection-action');
+    const ResetCollectionAction = require('oro/datagrid/action/reset-collection-action').default;
 
     const FrontendResetCollectionAction = ResetCollectionAction.extend({
         optionNames: ResetCollectionAction.prototype.optionNames.concat(['hiddenIfIsNotResettable']),
@@ -46,4 +46,3 @@ define(function(require) {
 
     return FrontendResetCollectionAction;
 });
-

@@ -4,7 +4,7 @@ define(function(require, exports, module) {
     const _ = require('underscore');
     const BasePlugin = require('oroui/js/app/plugins/base/plugin');
     const ShowComponentAction = require('orofrontend/js/datagrid/action/toolbar-mass-action');
-    const ToolbarMassActionComponent = require('orodatagrid/js/app/components/toolbar-mass-action-component');
+    const ToolbarMassActionComponent = require('orodatagrid/js/app/components/toolbar-mass-action-component').default;
 
     let config = require('module-config').default(module.id);
 

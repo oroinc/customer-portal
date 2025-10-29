@@ -1,9 +1,10 @@
 define(function(require) {
     'use strict';
 
-    const DatagridSettingsView = require('orodatagrid/js/app/views/grid/datagrid-settings-view');
-    const FrontendDatagridSettingsColumnView = require('orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-column-view');
-    const DatagridManageColumnView = require('orodatagrid/js/app/views/grid/datagrid-manage-column-view');
+    const DatagridSettingsView = require('orodatagrid/js/app/views/grid/datagrid-settings-view').default;
+    const FrontendDatagridSettingsColumnView =
+        require('orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-column-view');
+    const DatagridManageColumnView = require('orodatagrid/js/app/views/grid/datagrid-manage-column-view').default;
 
     /**
      * @class FrontendDatagridSettingsColumnView
