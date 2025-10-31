@@ -67,6 +67,7 @@ The current file describes significant changes in the code that may affect the u
 * Added option `show_input_control` to `\Oro\Bundle\FormBundle\Form\Type\OroSimpleColorPickerType` that allows to show text input form for manual color value. By default, value for this option is false
 * Added a new `actionHeaderCellLabel` theme option in `grid_render_parameters` for the storefront datagrids, that allows setting label for actions header cell.
 * Added `dashboard_page_top` wrapper for `dashboard_quick_access_menu` and `dashboard_scorecards_container`
+* Added css class `alert` for situations when template comes from back-office
 * Removed `$dashboard-menu-offset-bottom-only-desktop` variable as it is no longer used, and that the offset is now provided by the `dashboard_page_top` element.
 
 

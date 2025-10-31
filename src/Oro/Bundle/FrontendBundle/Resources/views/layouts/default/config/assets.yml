@@ -205,6 +205,7 @@ styles:
         - 'bundles/orofrontend/default/scss/components/grid-scrollable-container.scss'
         - 'bundles/orofrontend/default/scss/components/editable.scss'
         - 'bundles/orofrontend/default/scss/components/primary-menu.scss'
+        - 'bundles/orofrontend/default/scss/components/alert.scss'
         - 'bundles/orofrontend/default/scss/components/notification.scss'
         - 'bundles/orofrontend/default/scss/components/notification-flash-container.scss'
         - 'bundles/orofrontend/default/scss/components/notification-flash.scss'
