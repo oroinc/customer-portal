@@ -214,6 +214,10 @@
     }
 }
 
+.ui-widget-form:not(:first-child) {
+    margin-block-start: spacing('md');
+}
+
 @include breakpoint('mobile-landscape') {
     .ui-dialog {
         .ui-dialog-buttonpane {

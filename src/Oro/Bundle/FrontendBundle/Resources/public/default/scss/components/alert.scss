@@ -1,0 +1,61 @@
+/* @theme: default; */
+
+.alert {
+    font-weight: $notification-flash-text-font-weight;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-block: spacing('sm');
+    padding-inline: spacing('md') 0;
+    border-radius: $notification-flash-border-radius;
+
+    &::before {
+        content: '';
+
+        position: absolute;
+        inset-block: 0;
+        inset-inline: 0 auto;
+        width: 3px;
+        border-radius: 0 $base-ui-element-border-radius $base-ui-element-border-radius 0;
+    }
+
+    :is(ul, ol) {
+        list-style-type: none;
+    }
+
+    &:not(:first-child) {
+        margin: $notification-flash-offset;
+    }
+
+    &-success,
+    &-info,
+    &-notice {
+        background: $notification-flash-success-background;
+        color: $notification-flash-success-color;
+
+        &::before {
+            background-color: $notification-flash-success-before-background;
+        }
+    }
+
+    &-warning,
+    &-warn,
+    &-process,
+    &-alert {
+        background: $notification-flash-warning-background;
+        color: $notification-flash-warning-color;
+
+        &::before {
+            background-color: $notification-flash-warning-before-background;
+        }
+    }
+
+    &-error {
+        background: $notification-flash-error-background;
+        color: $notification-flash-error-color;
+
+        &::before {
+            background-color: $notification-flash-error-before-background;
+        }
+    }
+}
