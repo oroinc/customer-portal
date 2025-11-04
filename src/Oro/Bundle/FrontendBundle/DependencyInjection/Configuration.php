@@ -47,7 +47,34 @@ class Configuration implements ConfigurationInterface
                     })
                 ->end()
                 ->prototype('scalar')->end()
-            ->end();
+            ->end()
+            ->arrayNode('storefront_entity_routes')
+                ->info(
+                    "The list of entity routes ('index', 'view', or both, as well as any additional routes)"
+                    . " that are available on the storefront."
+                )
+                ->example(
+                    [
+                        'Oro\Bundle\OrderBundle\Entity\Order' => [
+                            'index' => 'oro_order_frontend_index',
+                            'view' => 'oro_order_frontend_view',
+                            'update' => 'oro_order_frontend_update',
+                            'create' => 'oro_order_frontend_create',
+                        ]
+                    ]
+                )
+                ->useAttributeAsKey('fqcn')
+                ->arrayPrototype()
+                    ->scalarPrototype()->end()
+                    ->validate()
+                        ->ifTrue(static fn ($v) => empty($v['index']) && empty($v['view']))
+                        ->thenInvalid("Either 'index' or 'view' route, or both, must be specified.")
+                    ->end()
+                ->end()
+                ->defaultValue([])
+            ->end()
+        ;
+
         $this->appendSessionNode($rootNodeChildren);
         $frontendApiChildren = $rootNodeChildren
             ->arrayNode('frontend_api')
