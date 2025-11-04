@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\DependencyInjection;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
@@ -7,6 +9,9 @@ use Oro\Bundle\FrontendBundle\DependencyInjection\Configuration;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
     private function processConfiguration(array $config): array
@@ -28,7 +33,8 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
                     'allow_headers' => [],
                     'expose_headers' => []
                 ]
-            ]
+            ],
+            'storefront_entity_routes' => []
         ];
 
         $processedConfig = $this->processConfiguration([]);
@@ -103,5 +109,179 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
             'key' => 'key',
             'separator' => '||'
         ];
+    }
+
+    public function testProcessStorefrontEntityRoutesWithOnlyIndexRoute()
+    {
+        $configs = [
+            [
+                'storefront_entity_routes' => [
+                    'App\Entity\Product' => [
+                        'index' => 'oro_product_frontend_index',
+                    ]
+                ]
+            ]
+        ];
+
+        $processedConfig = $this->processConfiguration($configs);
+
+        $this->assertEquals(
+            [
+                'index' => 'oro_product_frontend_index',
+            ],
+            $processedConfig['storefront_entity_routes']['App\Entity\Product']
+        );
+        $this->assertArrayNotHasKey('view', $processedConfig['storefront_entity_routes']['App\Entity\Product']);
+    }
+
+    public function testProcessStorefrontEntityRoutesWithOnlyViewRoute()
+    {
+        $configs = [
+            [
+                'storefront_entity_routes' => [
+                    'App\Entity\Product' => [
+                        'view' => 'oro_product_frontend_view',
+                    ]
+                ]
+            ]
+        ];
+
+        $processedConfig = $this->processConfiguration($configs);
+
+        $this->assertEquals(
+            [
+                'view' => 'oro_product_frontend_view',
+            ],
+            $processedConfig['storefront_entity_routes']['App\Entity\Product']
+        );
+        $this->assertArrayNotHasKey('index', $processedConfig['storefront_entity_routes']['App\Entity\Product']);
+    }
+
+    public function testProcessStorefrontEntityRoutesWithBothIndexAndView()
+    {
+        $configs = [
+            [
+                'storefront_entity_routes' => [
+                    'App\Entity\Order' => [
+                        'index' => 'oro_order_frontend_index',
+                        'view' => 'oro_order_frontend_view',
+                    ]
+                ]
+            ]
+        ];
+
+        $processedConfig = $this->processConfiguration($configs);
+
+        $this->assertEquals(
+            [
+                'index' => 'oro_order_frontend_index',
+                'view' => 'oro_order_frontend_view',
+            ],
+            $processedConfig['storefront_entity_routes']['App\Entity\Order']
+        );
+    }
+
+    public function testProcessStorefrontEntityRoutesWithAdditionalRoutes()
+    {
+        $configs = [
+            [
+                'storefront_entity_routes' => [
+                    'App\Entity\Order' => [
+                        'index' => 'oro_order_frontend_index',
+                        'view' => 'oro_order_frontend_view',
+                        'update' => 'oro_order_frontend_update',
+                        'create' => 'oro_order_frontend_create',
+                    ]
+                ]
+            ]
+        ];
+
+        $processedConfig = $this->processConfiguration($configs);
+
+        $this->assertEquals(
+            [
+                'index' => 'oro_order_frontend_index',
+                'view' => 'oro_order_frontend_view',
+                'update' => 'oro_order_frontend_update',
+                'create' => 'oro_order_frontend_create',
+            ],
+            $processedConfig['storefront_entity_routes']['App\Entity\Order']
+        );
+    }
+
+    public function testProcessStorefrontEntityRoutesWithMultipleEntities()
+    {
+        $configs = [
+            [
+                'storefront_entity_routes' => [
+                    'App\Entity\Order' => [
+                        'index' => 'oro_order_frontend_index',
+                        'view' => 'oro_order_frontend_view',
+                    ],
+                    'App\Entity\Product' => [
+                        'index' => 'oro_product_frontend_index',
+                    ]
+                ]
+            ]
+        ];
+
+        $processedConfig = $this->processConfiguration($configs);
+
+        $this->assertCount(2, $processedConfig['storefront_entity_routes']);
+        $this->assertArrayHasKey('App\Entity\Order', $processedConfig['storefront_entity_routes']);
+        $this->assertArrayHasKey('App\Entity\Product', $processedConfig['storefront_entity_routes']);
+    }
+
+    public function testProcessStorefrontEntityRoutesFailsWithNeitherIndexNorView()
+    {
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage(
+            "Either 'index' or 'view' route, or both, must be specified."
+        );
+
+        $this->processConfiguration([
+            [
+                'storefront_entity_routes' => [
+                    'App\Entity\Product' => [
+                        'update' => 'oro_product_frontend_update',
+                    ]
+                ]
+            ]
+        ]);
+    }
+
+    public function testProcessStorefrontEntityRoutesFailsWithEmptyArray()
+    {
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage(
+            "Either 'index' or 'view' route, or both, must be specified."
+        );
+
+        $this->processConfiguration([
+            [
+                'storefront_entity_routes' => [
+                    'App\Entity\Product' => []
+                ]
+            ]
+        ]);
+    }
+
+    public function testProcessStorefrontEntityRoutesFailsWithBothRoutesNull()
+    {
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage(
+            "Either 'index' or 'view' route, or both, must be specified."
+        );
+
+        $this->processConfiguration([
+            [
+                'storefront_entity_routes' => [
+                    'App\Entity\Product' => [
+                        'index' => null,
+                        'view' => null,
+                    ]
+                ]
+            ]
+        ]);
     }
 }
