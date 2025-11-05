@@ -3,7 +3,7 @@ define(function(require) {
 
     const BaseComponent = require('oroui/js/app/components/base/component');
     const routing = require('routing');
-    const AddressBook = require('oroaddress/js/address-book');
+    const AddressBook = require('oroaddress/js/address-book').default;
     const widgetManager = require('oroui/js/widget-manager');
 
     const CustomerAddressBook = BaseComponent.extend({

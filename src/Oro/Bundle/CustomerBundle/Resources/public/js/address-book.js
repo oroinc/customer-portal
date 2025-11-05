@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    const BaseAddressBook = require('oroaddress/js/address-book');
+    const BaseAddressBook = require('oroaddress/js/address-book').default;
     const $ = require('jquery');
     const _ = require('underscore');
     const mediator = require('oroui/js/mediator');
