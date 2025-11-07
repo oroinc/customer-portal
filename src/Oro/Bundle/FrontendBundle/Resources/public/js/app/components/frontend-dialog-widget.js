@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    const DialogWidget = require('oro/dialog-widget');
+    const DialogWidget = require('oro/dialog-widget').default;
     const actionsTemplate = require('tpl-loader!orofrontend/templates/frontend-dialog/dialog-actions.html');
     const viewportManager = require('oroui/js/viewport-manager').default;
     const _ = require('underscore');
