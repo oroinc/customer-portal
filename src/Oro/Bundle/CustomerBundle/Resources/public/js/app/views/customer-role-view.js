@@ -1,10 +1,9 @@
-define([
-    'jquery',
-    'underscore',
-    'oroui/js/mediator',
-    'orouser/js/views/role-view'
-], function($, _, mediator, RoleView) {
+define(function(require) {
     'use strict';
+
+    const $ = require('jquery');
+    const _ = require('underscore');
+    const RoleView = require('orouser/js/views/role-view').default;
 
     /**
      * @export orocustomer/js/app/views/customer-role-view

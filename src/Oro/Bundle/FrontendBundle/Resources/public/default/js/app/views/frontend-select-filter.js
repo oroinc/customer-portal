@@ -2,7 +2,7 @@ define(function(require, exports, module) {
     'use strict';
 
     const _ = require('underscore');
-    const SelectFilter = require('oro/filter/select-filter');
+    const SelectFilter = require('oro/filter/select-filter').default;
     const FilterBadgeHintView = require('orofrontend/default/js/app/views/filter-badge-hint-view').default;
     const FilterCountHelper = require('orofrontend/js/app/filter-count-helper');
     const tools = require('oroui/js/tools');

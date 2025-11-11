@@ -3,8 +3,8 @@ define(function(require, exports, module) {
 
     const _ = require('underscore');
     const mediator = require('oroui/js/mediator');
-    const ToggleFiltersAction = require('orofilter/js/actions/toggle-filters-action');
-    const FiltersManager = require('orofilter/js/filters-manager');
+    const ToggleFiltersAction = require('orofilter/js/actions/toggle-filters-action').default;
+    const FiltersManager = require('orofilter/js/filters-manager').default;
     const CounterBadgeView = require('orofrontend/js/app/views/counter-badge-view');
     const filterSettings = require('oro/filter-settings').default;
     let config = require('module-config').default(module.id);

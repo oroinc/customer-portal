@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    const FilterHint = require('orofilter/js/filter-hint');
+    const FilterHint = require('orofilter/js/filter-hint').default;
 
     const FrontendFilterHint = FilterHint.extend({
         constructor: function FrontendFilterHint(...args) {

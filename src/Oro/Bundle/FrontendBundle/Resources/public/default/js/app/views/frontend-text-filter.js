@@ -2,7 +2,7 @@ define(function(require) {
     'use strict';
 
     const tools = require('oroui/js/tools');
-    const TextFilter = require('oro/filter/text-filter');
+    const TextFilter = require('oro/filter/text-filter').default;
     const FilterBadgeHintView = require('orofrontend/default/js/app/views/filter-badge-hint-view').default;
 
     const FrontendTextFilter = TextFilter.extend({

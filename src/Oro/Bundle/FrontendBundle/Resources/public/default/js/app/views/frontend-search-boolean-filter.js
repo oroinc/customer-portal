@@ -2,7 +2,8 @@ define(function(require) {
     'use strict';
 
     const _ = require('underscore');
-    const MultiSelectFilter = require('oro/filter/multiselect-filter');
+    const MultiSelectFilterModule = require('oro/filter/multiselect-filter');
+    const MultiSelectFilter = MultiSelectFilterModule.default ?? MultiSelectFilterModule;
     const FilterCountHelper = require('orofrontend/js/app/filter-count-helper');
 
     const FrontendSearchBooleanFilter = MultiSelectFilter.extend(_.extend({}, FilterCountHelper, {

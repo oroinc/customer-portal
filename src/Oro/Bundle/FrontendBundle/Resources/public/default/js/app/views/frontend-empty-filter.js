@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    const EmptyFilter = require('oro/filter/empty-filter');
+    const EmptyFilter = require('oro/filter/empty-filter').default;
 
     const FrontendEmptyFilter = EmptyFilter.extend({
         constructor: function FrontendEmptyFilter(...args) {

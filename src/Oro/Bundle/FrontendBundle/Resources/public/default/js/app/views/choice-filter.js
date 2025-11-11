@@ -2,7 +2,7 @@ define(function(require) {
     'use strict';
 
     const _ = require('underscore');
-    const BaseChoiceFilter = require('oro/filter/choice-filter');
+    const BaseChoiceFilter = require('oro/filter/choice-filter').default;
 
     const ChoiceFilter = BaseChoiceFilter.extend({
         /**

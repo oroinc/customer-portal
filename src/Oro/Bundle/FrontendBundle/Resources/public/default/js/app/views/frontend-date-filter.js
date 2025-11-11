@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    const DateFilter = require('oro/filter/date-filter');
+    const DateFilter = require('oro/filter/date-filter').default;
 
     const FrontendDateFilter = DateFilter.extend({
         criteriaValueSelectors: {

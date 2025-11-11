@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    const MultiSelectFilter = require('oro/filter/multiselect-filter');
+    const MultiSelectFilter = require('oro/filter/multiselect-filter').default;
     const MultiValueFilterHintView = require('./multi-value-filter-hint-view').default;
 
     const FrontendMultiSelectFilter = MultiSelectFilter.extend({

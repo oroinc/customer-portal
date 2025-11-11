@@ -4,7 +4,7 @@ define(function(require, exports, module) {
     const _ = require('underscore');
     const __ = require('orotranslation/js/translator');
     const FullScreenFiltersAction = require('orofrontend/js/app/datafilter/actions/fullscreen-filters-action');
-    const FiltersTogglePlugin = require('orofilter/js/plugins/filters-toggle-plugin');
+    const FiltersTogglePlugin = require('orofilter/js/plugins/filters-toggle-plugin').default;
     const FullscreenFilters = require('orofrontend/js/app/datafilter/fullscreen-filters').default;
     const config = require('module-config').default(module.id);
     const launcherOptions = _.extend({

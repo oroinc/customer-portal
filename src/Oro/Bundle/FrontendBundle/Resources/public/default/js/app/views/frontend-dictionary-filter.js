@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    const DictionaryFilter = require('oro/filter/dictionary-filter');
+    const DictionaryFilter = require('oro/filter/dictionary-filter').default;
 
     const FrontendDictionaryFilter = DictionaryFilter.extend({
         criteriaValueSelectors: {

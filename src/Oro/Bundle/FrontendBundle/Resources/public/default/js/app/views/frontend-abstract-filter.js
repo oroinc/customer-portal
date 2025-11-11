@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 
     const _ = require('underscore');
     const __ = require('orotranslation/js/translator');
-    const AbstractFilter = require('oro/filter/abstract-filter');
+    const AbstractFilter = require('oro/filter/abstract-filter').default;
 
     let config = require('module-config').default(module.id);
 

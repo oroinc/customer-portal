@@ -4,7 +4,7 @@ define(function(require, exports, module) {
     const $ = require('jquery');
     const _ = require('underscore');
     const __ = require('orotranslation/js/translator');
-    const CollectionFiltersManager = require('orofilter/js/collection-filters-manager');
+    const CollectionFiltersManager = require('orofilter/js/collection-filters-manager').default;
     const FrontendCollapsableHintsView = require('./frontend-collapsable-hints-view').default;
     const ScrollShadowView = require('orofrontend/js/app/views/scroll-shadow-view').default;
     const {MultiselectDropdown} = require('oroui/js/app/views/multiselect');
